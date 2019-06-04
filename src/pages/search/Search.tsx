@@ -82,15 +82,17 @@ function collection_resources(collection) {
       summary={resource.summary}
       url={resource.url}
       coreIntegrationURL={
-        moodle_core_download_url +
-        `&sourceurl=` +
-        encodeURIComponent(resource.url) +
-        `&moodleneturl=` +
-        encodeURIComponent(collection.id) +
-        `&name=` +
-        encodeURIComponent(resource.name) +
-        `&description=` +
-        encodeURIComponent(resource.summary)
+        moodle_core_download_url
+          ? moodle_core_download_url +
+            `&sourceurl=` +
+            encodeURIComponent(resource.url) +
+            `&moodleneturl=` +
+            encodeURIComponent(collection.id) +
+            `&name=` +
+            encodeURIComponent(resource.name) +
+            `&description=` +
+            encodeURIComponent(resource.summary)
+          : null
       }
       // localId={resource.localId}
     />
