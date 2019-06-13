@@ -16,6 +16,8 @@ import Profile from '../../pages/Profile';
 import User from '../../pages/User';
 import Settings from '../../pages/settings';
 import media from 'styled-media-query';
+import Reset from '../../pages/Reset';
+import CreateNewPassword from '../../pages/CreateNewPassword';
 
 const AppInner = styled.div`
   display: flex;
@@ -59,7 +61,8 @@ export default compose(withState('sidebar', 'onSidebar', false))(p => (
   <Router>
     <AppInner>
       <Switch>
-        <Route exact path="/readme" component={Home} />
+        <Route exact path="/reset" component={Reset} />
+        <Route exact path="/reset/token/:token" component={CreateNewPassword} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/search" component={Search} />
         <ProtectedRoute

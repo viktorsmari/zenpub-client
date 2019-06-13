@@ -20,6 +20,7 @@ import { clearFix } from 'polished';
 // const { setUserMutation } = require('../../graphql/setUser.client.graphql');
 const { loginMutation } = require('../../graphql/login.graphql');
 import SignupModal from '../../components/elements/SignupModal';
+import Link from '../../components/elements/Link/Link';
 
 const tt = {
   with: {
@@ -375,7 +376,9 @@ class Login extends React.Component<LoginProps, LoginState> {
                   authenticating={this.state.authenticating}
                 />
                 <ResetPass>
-                  <Trans>Trouble logging in?</Trans>
+                  <Link to="/reset">
+                    <Trans>Trouble logging in?</Trans>
+                  </Link>
                 </ResetPass>
               </Form>
               <Or>
