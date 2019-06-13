@@ -9,10 +9,11 @@ import { compose } from 'react-apollo';
 import { withFormik, FormikProps, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import Alert from '../../elements/Alert';
-import { graphql, OperationOption } from 'react-apollo';
+import { graphql, OperationOption, ApolloConsumer } from 'react-apollo';
 const { createUserMutation } = require('../../../graphql/createUser.graphql');
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
+const checkUsername = require('../../../graphql/checkUsername.graphql');
 
 let tt = {
   login: i18nMark('Sign in'),
@@ -36,12 +37,30 @@ interface FormValues {
   name: string;
   email: string;
   password: string;
+  username: string;
   passwordConfirm: string;
 }
 
 interface MyFormProps {
   createUser: any;
   toggleModal: any;
+}
+
+async function validateUsername(value, client) {
+  let error;
+  if (value.length < 3) {
+    error = 'Choose a username longer than 3 characters';
+    return error;
+  } else {
+    const { data } = await client.query({
+      query: checkUsername,
+      variables: { username: value }
+    });
+    if (!data.usernameAvailable) {
+      error = 'the username is already choosed!';
+      return error;
+    }
+  }
 }
 
 const withCreateUser = graphql<{}>(createUserMutation, {
@@ -52,110 +71,139 @@ const withCreateUser = graphql<{}>(createUserMutation, {
 const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
   const { toggleModal, modalIsOpen, errors, touched, isSubmitting } = props;
   return (
-    <Modal isOpen={modalIsOpen} toggleModal={toggleModal}>
-      <Container>
-        <Header>
-          <H5>
-            <Trans>Create a new account</Trans>
-          </H5>
-        </Header>
-        <Form>
-          <Row>
-            <label>
-              <Trans>Email</Trans>
-            </label>
-            <ContainerForm>
-              <Field
-                name="email"
-                render={({ field }) => (
-                  <Text
-                    placeholder={tt.placeholders.email}
-                    name={field.name}
-                    value={field.value}
-                    onChange={field.onChange}
+    <ApolloConsumer>
+      {client => (
+        <Modal isOpen={modalIsOpen} toggleModal={toggleModal}>
+          <Container>
+            <Header>
+              <H5>
+                <Trans>Create a new account</Trans>
+              </H5>
+            </Header>
+            <Form>
+              <Row>
+                <label>
+                  <Trans>Email</Trans>
+                </label>
+                <ContainerForm>
+                  <Field
+                    name="email"
+                    render={({ field }) => (
+                      <Text
+                        placeholder={tt.placeholders.email}
+                        name={field.name}
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
+                    )}
                   />
-                )}
-              />
-              {errors.email && touched.email && <Alert>{errors.email}</Alert>}
-            </ContainerForm>
-          </Row>
-          <Row>
-            <label>
-              <Trans>Display Name</Trans>
-            </label>
-            <ContainerForm>
-              <Field
-                name="name"
-                render={({ field }) => (
-                  <Text
-                    placeholder={tt.placeholders.name}
-                    name={field.name}
-                    value={field.value}
-                    onChange={field.onChange}
+                  {errors.email &&
+                    touched.email && <Alert>{errors.email}</Alert>}
+                </ContainerForm>
+              </Row>
+              <Row>
+                <label>
+                  <Trans>Display Name</Trans>
+                </label>
+                <ContainerForm>
+                  <Field
+                    name="name"
+                    render={({ field }) => (
+                      <Text
+                        placeholder={tt.placeholders.name}
+                        name={field.name}
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
+                    )}
                   />
-                )}
-              />
-            </ContainerForm>
-          </Row>
-          <Row>
-            <label>
-              <Trans>Password</Trans>
-            </label>
-            <ContainerForm>
-              <Field
-                name="password"
-                render={({ field }) => (
-                  <Text
-                    placeholder={tt.placeholders.password}
-                    type="password"
-                    name={field.name}
-                    value={field.value}
-                    onChange={field.onChange}
+                </ContainerForm>
+              </Row>
+              <Row>
+                <label>
+                  <Trans>Preferred username</Trans>
+                </label>
+                <ContainerForm>
+                  <Field
+                    name="username"
+                    validate={val => validateUsername(val, client)}
+                    render={({ field }) => (
+                      <>
+                        <Text
+                          // placeholder="The name of the community..."
+                          name={field.name}
+                          value={field.value}
+                          onChange={field.onChange}
+                        />
+                      </>
+                    )}
                   />
-                )}
-              />
-              {errors.password &&
-                touched.password && <Alert>{errors.password}</Alert>}
-            </ContainerForm>
-          </Row>
-          <Row>
-            <label>
-              <Trans>Confirm password</Trans>
-            </label>
-            <ContainerForm>
-              <Field
-                name="passwordConfirm"
-                render={({ field }) => (
-                  <Text
-                    placeholder={tt.placeholders.passwordConfirm}
-                    type="password"
-                    name={field.name}
-                    value={field.value}
-                    onChange={field.onChange}
+                  {/* {errors.username &&
+            touched.username && <Alert>{errors.username}</Alert>} */}
+                  {errors.username && <Alert>{errors.username}</Alert>}
+                </ContainerForm>
+              </Row>
+              <Row>
+                <label>
+                  <Trans>Password</Trans>
+                </label>
+                <ContainerForm>
+                  <Field
+                    name="password"
+                    render={({ field }) => (
+                      <Text
+                        placeholder={tt.placeholders.password}
+                        type="password"
+                        name={field.name}
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
+                    )}
                   />
-                )}
-              />
-              {errors.passwordConfirm &&
-                touched.passwordConfirm && (
-                  <Alert>{errors.passwordConfirm}</Alert>
-                )}
-            </ContainerForm>
-          </Row>
-          <Actions>
-            <Button
-              disabled={isSubmitting}
-              type="submit"
-              style={{ marginLeft: '10px' }}
-            >
-              <Trans>Sign Up</Trans>
-            </Button>
-            <Button onClick={toggleModal} secondary>
-              <Trans>Cancel</Trans>
-            </Button>
-          </Actions>
-        </Form>
-      </Container>
-    </Modal>
+                  {errors.password &&
+                    touched.password && <Alert>{errors.password}</Alert>}
+                </ContainerForm>
+              </Row>
+              <Row>
+                <label>
+                  <Trans>Confirm password</Trans>
+                </label>
+                <ContainerForm>
+                  <Field
+                    name="passwordConfirm"
+                    render={({ field }) => (
+                      <Text
+                        placeholder={tt.placeholders.passwordConfirm}
+                        type="password"
+                        name={field.name}
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
+                    )}
+                  />
+                  {errors.passwordConfirm &&
+                    touched.passwordConfirm && (
+                      <Alert>{errors.passwordConfirm}</Alert>
+                    )}
+                </ContainerForm>
+              </Row>
+              <Actions>
+                <Button
+                  disabled={isSubmitting}
+                  type="submit"
+                  style={{ marginLeft: '10px' }}
+                >
+                  <Trans>Sign Up</Trans>
+                </Button>
+                <Button onClick={toggleModal} secondary>
+                  <Trans>Cancel</Trans>
+                </Button>
+              </Actions>
+            </Form>
+          </Container>
+        </Modal>
+      )}
+    </ApolloConsumer>
   );
 };
 
@@ -163,6 +211,7 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
   mapPropsToValues: props => ({
     name: '',
     email: '',
+    username: '',
     password: '',
     passwordConfirm: ''
   }),
@@ -184,7 +233,7 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
         email: values.email,
         name: values.name,
         password: values.password,
-        preferredUsername: values.name.split(' ').join('_')
+        preferredUsername: values.username
       }
     };
     return props

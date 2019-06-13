@@ -35,6 +35,7 @@ interface Data extends GraphqlQueryControls {
     summary;
     id;
     location;
+    image;
     preferredUsername;
     localId;
     outbox: {

@@ -15,6 +15,7 @@ query getAgentQuery(
         location
         summary
         icon
+        image
         outbox (limit: $limitTimeline, after:$endTimeline) {
           pageInfo {
             startCursor

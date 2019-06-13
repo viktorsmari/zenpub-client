@@ -8,6 +8,7 @@ interface Props {
   user: {
     name: string;
     summary: string;
+    image: string;
     icon: string;
     preferredUsername: string;
     location: string;
@@ -20,7 +21,7 @@ const HeroComp: SFC<Props> = ({ user }) => (
       <title>MoodleNet > Profile > {user.name}</title>
     </Helmet>
     <Hero>
-      <HeroBg />
+      <HeroBg src={user.image} />
       <WrapperHero>
         <Img
           style={{
@@ -29,7 +30,7 @@ const HeroComp: SFC<Props> = ({ user }) => (
         />
         <HeroInfo>
           <H2>{user.name}</H2>
-          {/* <PreferredUsername>@{user.preferredUsername}</PreferredUsername> */}
+          <PreferredUsername>@{user.preferredUsername}</PreferredUsername>
         </HeroInfo>
       </WrapperHero>
       <P>{user.summary}</P>
@@ -47,11 +48,11 @@ const HeroComp: SFC<Props> = ({ user }) => (
 
 export default HeroComp;
 
-// const PreferredUsername = styled.div`
-//   color: #fff;
-//   opacity: 0.6;
-//   font-weight: 600;
-// `;
+const PreferredUsername = styled.div`
+  color: #fff;
+  opacity: 0.6;
+  font-weight: 600;
+`;
 
 const Location = styled.div`
   color: ${props => props.theme.styles.colour.heroIcon};
@@ -77,12 +78,15 @@ const Location = styled.div`
   }
 `;
 
-const HeroBg = styled.div`
+const HeroBg = styled.div<{ src: string }>`
   height: 250px;
   background: #333;
   border-top-right-radius: 6px;
   border-top-left-radius: 6px;
-  background-image: url(https://images.unsplash.com/photo-1557943978-bea7e84f0e87?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60);
+  background-image: url(${props =>
+    props.src
+      ? props.src
+      : 'https://images.unsplash.com/photo-1557943978-bea7e84f0e87?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60'});
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
