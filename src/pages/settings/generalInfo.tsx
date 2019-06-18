@@ -52,7 +52,6 @@ interface MyFormProps {
 
 async function validateUsername(value, client, username) {
   let error;
-  console.log('calling');
   if (value.length < 3) {
     error = 'Choose a username longer than 3 characters';
     return error;
@@ -65,7 +64,7 @@ async function validateUsername(value, client, username) {
       variables: { username: value }
     });
     if (!data.usernameAvailable) {
-      error = 'the username is already choosed!';
+      error = 'that username has been taken!';
       return error;
     }
   }
