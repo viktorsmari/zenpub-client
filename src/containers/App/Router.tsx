@@ -62,7 +62,7 @@ export default compose(withState('sidebar', 'onSidebar', false))(p => (
     <AppInner>
       <Switch>
         <Route exact path="/reset" component={Reset} />
-        <Route exact path="/reset/token/:token" component={CreateNewPassword} />
+        <Route exact path="/reset/:token" component={CreateNewPassword} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/search" component={Search} />
         <ProtectedRoute
