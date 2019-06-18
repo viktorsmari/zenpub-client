@@ -75,9 +75,6 @@ const Background = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   height: 490px;
-  ${media.lessThan('medium')`
-  display: none;
-  `};
 `;
 const Tagline = styled.h5`
   font-size: 16px;
@@ -106,6 +103,11 @@ const LoginWrapper = styled.div`
   grid-column-gap: 16px;
   grid-template-columns: 1fr 1fr;
   grid-template-areas: 'header header' 'form image' 'footer footer';
+  ${media.lessThan('medium')`
+    grid-template-columns: 1fr;
+    grid-template-areas: 'header' 'form' 'footer';
+    padding: 16px
+  `};
 `;
 
 const Container = styled.div`
@@ -139,6 +141,9 @@ background: #fff;
   height: inherit;
   border: 1px solid #dddfe2;
   text-align: left;
+  ${media.lessThan('medium')`
+  display: none;
+  `};
 `;
 
 const Footer = styled.div`
