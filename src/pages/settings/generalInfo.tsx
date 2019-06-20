@@ -54,8 +54,13 @@ interface MyFormProps {
 
 async function validateUsername(value, client, username) {
   let error;
+  const format = /[!@#$%^&*()+\=\[\]{};':"\\|,.<>\/?]+/;
   if (value.length < 3) {
     error = 'Choose a username longer than 3 characters';
+    return error;
+  }
+  if (format.test(value)) {
+    error = 'Special characters are not allowed';
     return error;
   }
   if (value === username) {
