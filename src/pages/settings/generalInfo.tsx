@@ -66,7 +66,7 @@ async function validateUsername(value, client, username) {
       variables: { username: value }
     });
     if (!data.usernameAvailable) {
-      error = 'that username has been taken!';
+      error = 'That username has been taken!';
       return error;
     }
   }
