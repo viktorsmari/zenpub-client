@@ -34,6 +34,7 @@ interface Props {
   touched: any;
   isSubmitting: boolean;
   profile: any;
+  history: any;
 }
 
 interface FormValues {
@@ -48,6 +49,7 @@ interface FormValues {
 interface MyFormProps {
   updateProfile: any;
   profile: any;
+  history: any;
 }
 
 async function validateUsername(value, client, username) {
@@ -262,8 +264,10 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
       })
       .then(res => {
         setSubmitting(false);
+        props.history.push('/profile');
+        // alert("New settings are saved"); //TODO: nicer display of errors
       })
-      .catch(err => console.log(err));
+      .catch(err => alert(err));
   }
 })(Component);
 

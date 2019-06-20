@@ -17,6 +17,7 @@ interface Props {
   data: any;
   switch: string;
   onSwitch(string): string;
+  history: any;
 }
 
 const withGetSettings = graphql<
@@ -68,7 +69,7 @@ const Component = (props: Props) => {
       </Sidebar>
       <Container>
         {props.switch === 'general' ? (
-          <GeneralInfo profile={data.me} />
+          <GeneralInfo profile={data.me} history={props.history} />
         ) : (
           <GenWrapper>
             <Row>
