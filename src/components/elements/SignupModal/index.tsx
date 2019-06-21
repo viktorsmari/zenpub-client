@@ -47,9 +47,19 @@ interface MyFormProps {
 }
 
 async function validateUsername(value, client) {
+  // TODO use the same function in signup & edit profile
   let error;
+  const format = /[^0-9a-zA-Z]/;
   if (value.length < 3) {
     error = 'Choose a username longer than 3 characters';
+    return error;
+  }
+  if (value.length > 16) {
+    error = 'Choose a username shorter than 16 characters';
+    return error;
+  }
+  if (format.test(value)) {
+    error = 'Only letters and numbers are allowed in a username';
     return error;
   } else {
     const { data } = await client.query({
@@ -57,7 +67,7 @@ async function validateUsername(value, client) {
       variables: { username: value }
     });
     if (!data.usernameAvailable) {
-      error = 'That username has been taken!';
+      error = 'That username has already been taken';
       return error;
     }
   }
@@ -117,6 +127,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                       />
                     )}
                   />
+                  {errors.name && touched.name && <Alert>{errors.name}</Alert>}
                 </ContainerForm>
               </Row>
               <Row>
@@ -216,16 +227,16 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
     passwordConfirm: ''
   }),
   validationSchema: Yup.object().shape({
-    name: Yup.string().required(),
+    name: Yup.string().required('Please enter your name or nickname'),
     email: Yup.string()
       .email()
-      .required(),
+      .required('Please enter your email'),
     password: Yup.string()
       .min(6)
       .required('Password is required'),
     passwordConfirm: Yup.string()
       .oneOf([Yup.ref('password'), null], 'Passwords must match')
-      .required('Password confirm is required')
+      .required('Password confirmation is required')
   }),
   handleSubmit: (values, { props, setSubmitting }) => {
     const variables = {

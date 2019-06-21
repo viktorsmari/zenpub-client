@@ -53,14 +53,19 @@ interface MyFormProps {
 }
 
 async function validateUsername(value, client, username) {
+  // TODO use the same function in signup & edit profile
   let error;
-  const format = /[!@#$%^&*()+\=\[\]{};':"\\|,.<>\/?]+/;
+  const format = /[^0-9a-zA-Z]/;
   if (value.length < 3) {
     error = 'Choose a username longer than 3 characters';
     return error;
   }
+  if (value.length > 16) {
+    error = 'Choose a username shorter than 16 characters';
+    return error;
+  }
   if (format.test(value)) {
-    error = 'Special characters are not allowed';
+    error = 'Only letters and numbers are allowed in a username';
     return error;
   }
   if (value === username) {
@@ -71,7 +76,7 @@ async function validateUsername(value, client, username) {
       variables: { username: value }
     });
     if (!data.usernameAvailable) {
-      error = 'That username has been taken!';
+      error = 'That username has already been taken';
       return error;
     }
   }
@@ -109,29 +114,33 @@ const Component = (props: Props & FormikProps<FormValues>) => {
               <Trans>Preferred username</Trans>
             </label>
             <ContainerForm>
-              <Field
-                name="username"
-                validate={val =>
-                  validateUsername(
-                    val,
-                    client,
-                    props.profile.user.preferredUsername
-                  )
-                }
-                render={({ field }) => (
-                  <>
-                    <Text
-                      // placeholder="The name of the community..."
-                      name={field.name}
-                      value={field.value}
-                      onChange={field.onChange}
-                    />
-                  </>
-                )}
-              />
-              {/* {errors.username &&
-            touched.username && <Alert>{errors.username}</Alert>} */}
-              {errors.username && <Alert>{errors.username}</Alert>}
+              {props.profile.user.preferredUsername ? (
+                <label>{props.profile.user.preferredUsername}</label>
+              ) : (
+                <>
+                  <Field
+                    name="username"
+                    validate={val =>
+                      validateUsername(
+                        val,
+                        client,
+                        props.profile.user.preferredUsername
+                      )
+                    }
+                    render={({ field }) => (
+                      <>
+                        <Text
+                          // placeholder="The name of the community..."
+                          name={field.name}
+                          value={field.value}
+                          onChange={field.onChange}
+                        />
+                      </>
+                    )}
+                  />
+                  {errors.username && <Alert>{errors.username}</Alert>}
+                </>
+              )}
             </ContainerForm>
           </Row>
           <Row>
