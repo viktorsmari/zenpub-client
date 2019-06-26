@@ -10,7 +10,7 @@ variables:
   GIT_SUBMODULE_STRATEGY: recursive
   AWS_DEFAULT_REGION: eu-west-1 # The region of our S3 bucket
 
-develop: # build and deploy develop branch to staging
+staging: # build and deploy develop branch to staging
   script:
     - npm install # Install all JS dependencies
     - npm run add-locale en_GB
@@ -33,9 +33,9 @@ develop: # build and deploy develop branch to staging
     paths:
     - public # The built files for Gitlab Pages to serve
   only:
-    - develop # Only run on staging branch
+    - master # Only run on staging branch
 
-master: # build and deploy master branch to production
+production: # build and deploy master branch to production
   script:
     - npm install # Install all JS dependencies
     - npm run extract # extract latest strings from source into English PO file 
