@@ -32,6 +32,7 @@ interface Data extends GraphqlQueryControls {
     user: {
       name: string;
       icon: string;
+      image: string;
       location: string;
       summary: string;
       preferredUsername: string;

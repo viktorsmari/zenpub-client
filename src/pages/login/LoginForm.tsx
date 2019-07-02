@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Col, Row } from '@zendeskgarden/react-grid';
-import { Label, Message, TextField } from '@zendeskgarden/react-textfields';
+import { Message, TextField } from '@zendeskgarden/react-textfields';
 
 import styled from '../../themes/styled';
 import TextInput from '../../components/inputs/Text/Text';
@@ -8,7 +8,7 @@ import TextInput from '../../components/inputs/Text/Text';
 import { LoaderButton } from '../../components/elements/Button/Button';
 import { ValidationField, ValidationObject, ValidationType } from './types';
 
-import { Trans } from '@lingui/macro';
+// import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 
 const tt = {
@@ -24,15 +24,24 @@ type SubmitColProps = {
 };
 
 const LoginForm = styled.form`
-  margin: 15px 0;
+  margin: 0;
+  margin-bottom: 16px;
 `;
 
 const SubmitCol = styled(Col)`
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 0px 16px !important;
   justify-content: ${(props: SubmitColProps) =>
     props.alignRight ? 'flex-end' : 'flex-start'};
+  button {
+    width: 100%;
+    color: #fff !important;
+    text-transform: uppercase
+      &:hover {
+      background: #d67218 !important;
+    }
+  }
 `;
 
 const Spacer = styled.div`
@@ -102,12 +111,12 @@ export default class extends React.Component<LoginFormProps, LoginFormState> {
           onSubmit(this.state);
         }}
       >
-        <Row>
+        <Row style={{ padding: '16px' }}>
           <Col>
             <TextField>
-              <Label>
+              {/* <Label>
                 <Trans>Email address</Trans>:
-              </Label>
+              </Label> */}
               <TextInput
                 placeholder={tt.placeholders.email}
                 value={this.state.email}
@@ -125,9 +134,9 @@ export default class extends React.Component<LoginFormProps, LoginFormState> {
             </TextField>
             <Spacer />
             <TextField>
-              <Label>
+              {/* <Label>
                 <Trans>Password</Trans>:
-              </Label>
+              </Label> */}
               <TextInput
                 type="password"
                 placeholder={tt.placeholders.password}
@@ -160,16 +169,14 @@ export default class extends React.Component<LoginFormProps, LoginFormState> {
             </Col>
           </Row>
         ) : null}
-        <Row>
-          {/* <SubmitCol>
+        {/* <SubmitCol>
             <Link to="/reset-password">
               <Trans>Forgotten your password?</Trans>
             </Link>
           </SubmitCol> */}
-          <SubmitCol alignRight>
-            <LoaderButton loading={authenticating} text={tt.login} />
-          </SubmitCol>
-        </Row>
+        <SubmitCol alignRight>
+          <LoaderButton loading={authenticating} text={tt.login} />
+        </SubmitCol>
       </LoginForm>
     );
   }
