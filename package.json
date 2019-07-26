@@ -33,8 +33,6 @@
     "extends": "react-app"
   },
   "dependencies": {
-    "lodash": "^4.17.4",
-    "minimal.css": "^1.0.1",
     "@absinthe/socket": "0.1.10",
     "@absinthe/socket-apollo-link": "0.1.11",
     "@babel/core": "7.1.6",
@@ -113,8 +111,10 @@
     "husky": "0.14.3",
     "interpolate-html-plugin": "3.0.0",
     "lint-staged": "7.3.0",
+    "lodash": "4.17.15",
     "markdown-to-jsx": "6.9.0",
     "mini-css-extract-plugin": "0.4.3",
+    "minimal.css": "^1.0.1",
     "moment": "2.24.0",
     "moment-timezone": "0.5.23",
     "object-assign": "4.1.1",
