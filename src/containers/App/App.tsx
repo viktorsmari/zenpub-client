@@ -67,21 +67,6 @@ export default class App extends React.Component<{}, State> {
       en_GB: require(process.env.NODE_ENV === 'development'
         ? '../../locales/en_GB/messages.po'
         : '../../locales/en_GB/messages.js')
-      // en_US: require(process.env.NODE_ENV === 'development'
-      //   ? '../../locales/en_US/messages.po'
-      //   : '../../locales/en_US/messages.js'),
-      // es_ES: require(process.env.NODE_ENV === 'development'
-      //   ? '../../locales/es_ES/messages.po'
-      //   : '../../locales/es_ES/messages.js'),
-      // es_MX: require(process.env.NODE_ENV === 'development'
-      //   ? '../../locales/es_MX/messages.po'
-      //   : '../../locales/es_MX/messages.js'),
-      // fr_FR: require(process.env.NODE_ENV === 'development'
-      //   ? '../../locales/fr_FR/messages.po'
-      //   : '../../locales/fr_FR/messages.js'),
-      // eu: require(process.env.NODE_ENV === 'development'
-      //   ? '../../locales/eu/messages.po'
-      //   : '../../locales/eu/messages.js')
     },
     locale: locale_default,
     setLocale: this.setLocale.bind(this)
