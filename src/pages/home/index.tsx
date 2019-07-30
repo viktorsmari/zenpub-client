@@ -1,20 +1,20 @@
-import React from 'react';
-import { compose } from 'recompose';
-import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
-import { WrapperCont, Wrapper } from '../communities.all/CommunitiesAll';
-import Main from '../../components/chrome/Main/Main';
 import { Trans } from '@lingui/macro';
-import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
-import { Tabs, TabPanel } from 'react-tabs';
-import { User } from '../../components/elements/Icons';
-const getMeInboxQuery = require('../../graphql/getMeInbox.graphql');
-import Loader from '../../components/elements/Loader/Loader';
-import TimelineItem from '../../components/elements/TimelineItem';
-import LoadMoreTimeline from '../../components/elements/Loadmore/timelineUser';
+import React from 'react';
+import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
 import { Helmet } from 'react-helmet';
+import { TabPanel, Tabs } from 'react-tabs';
+import { compose } from 'recompose';
+import Main from '../../components/chrome/Main/Main';
+import { User } from '../../components/elements/Icons';
+import Loader from '../../components/elements/Loader/Loader';
+import LoadMoreTimeline from '../../components/elements/Loadmore/timelineUser';
+import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
+import TimelineItem from '../../components/elements/TimelineItem';
 import FeaturedCollections from '../../components/featuredCollections';
 import FeaturedCommunities from '../../components/featuredCommunities';
 import styled from '../../themes/styled';
+import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
+const getMeInboxQuery = require('../../graphql/getMeInbox.graphql');
 
 interface Data extends GraphqlQueryControls {
   me: {
@@ -33,7 +33,7 @@ interface Props {
   data: Data;
 }
 
-const Home: React.SFC<Props> = props => {
+const Home: React.FC<Props> = props => {
   return (
     <Main>
       <WrapperCont>

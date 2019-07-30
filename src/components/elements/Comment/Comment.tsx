@@ -1,15 +1,13 @@
+import { Trans } from '@lingui/macro';
+import Markdown from 'markdown-to-jsx';
+import moment from 'moment-timezone';
+import { clearFix } from 'polished';
 import * as React from 'react';
 import styled from '../../../themes/styled';
 import { Reply } from '../../elements/Icons';
-import { clearFix } from 'polished';
-
-import moment from 'moment-timezone';
-moment.tz.setDefault('UTC');
-
-import Markdown from 'markdown-to-jsx';
-
-import { Trans } from '@lingui/macro';
 import Link from '../Link/Link';
+
+moment.tz.setDefault('UTC');
 
 interface EventProps {
   noAuthor?: boolean;
@@ -25,7 +23,7 @@ interface EventProps {
   selectThread(number): number;
 }
 
-const Event: React.SFC<EventProps> = ({
+const Event: React.FC<EventProps> = ({
   author,
   thread,
   comment,

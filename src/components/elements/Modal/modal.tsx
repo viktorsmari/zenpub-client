@@ -1,7 +1,7 @@
+import { clearFix } from 'polished';
 import React from 'react';
 // import Icons from '../../atoms/icons.tsx'
 import styled from 'styled-components';
-import { clearFix } from 'polished';
 import media from 'styled-media-query';
 import { Cross } from '../Icons';
 const Background = styled.div`
@@ -127,7 +127,7 @@ interface Props {
   collectionId: string;
 }
 
-const Modal: React.SFC<Props> = ({ isOpen, toggleModal, children }) => {
+const Modal: React.FC<Props> = ({ isOpen, toggleModal, children }) => {
   return isOpen ? (
     <div>
       <Background onClick={toggleModal} />

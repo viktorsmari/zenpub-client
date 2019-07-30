@@ -1,14 +1,14 @@
+import { Trans } from '@lingui/macro';
 import * as React from 'react';
-import CommentPreview from './CommentPreview';
-import Talk from '../../elements/Talk/Thread';
-import TalkCollection from '../../elements/Talk/ThreadCollection';
 import { compose, withState } from 'recompose';
-import { Send } from '../../elements/Icons';
 import {
   Actions,
   Create
 } from '../../../pages/communities.community/CommunitiesCommunity';
-import { Trans } from '@lingui/macro';
+import { Send } from '../../elements/Icons';
+import Talk from '../../elements/Talk/Thread';
+import TalkCollection from '../../elements/Talk/ThreadCollection';
+import CommentPreview from './CommentPreview';
 
 interface Props {
   threads: any;
@@ -21,7 +21,7 @@ interface Props {
   onSelectedThread(any): number;
 }
 
-const CommunitiesFeatured: React.SFC<Props> = props => {
+const CommunitiesFeatured: React.FC<Props> = props => {
   return (
     <div>
       {props.selectedThread === null ? (

@@ -1,15 +1,15 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
+import media from 'styled-media-query';
 import styled from '../../../themes/styled';
 import Collection from '../../../types/Collection';
-import { Link } from 'react-router-dom';
 import H5 from '../../typography/H5/H5';
-import media from 'styled-media-query';
 const PlaceholderImg = require('../Icons/collectionPlaceholder.png');
 
 interface CollectionProps {
   collection: Collection;
 }
-const Collection: React.SFC<CollectionProps> = ({ collection }) => {
+const Collection: React.FC<CollectionProps> = ({ collection }) => {
   return (
     <Wrapper>
       <Link to={`/collections/${collection.localId}`}>

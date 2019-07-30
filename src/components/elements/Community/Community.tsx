@@ -1,11 +1,11 @@
+import { clearFix } from 'polished';
 import React from 'react';
+// import Join from './Join';
+import { Link } from 'react-router-dom';
 import styled from '../../../themes/styled';
 import H5 from '../../typography/H5/H5';
 import P from '../../typography/P/P';
-import { Users, Collection, Message } from '../Icons';
-// import Join from './Join';
-import { Link } from 'react-router-dom';
-import { clearFix } from 'polished';
+import { Collection, Message, Users } from '../Icons';
 const PlaceholderImg = require('../Icons/communityPlaceholder.png');
 
 interface Props {
@@ -20,7 +20,7 @@ interface Props {
   threadsCount: number;
 }
 
-const Community: React.SFC<Props> = ({
+const Community: React.FC<Props> = ({
   title,
   id,
   icon,
