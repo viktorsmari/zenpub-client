@@ -1,13 +1,12 @@
-import * as React from 'react';
 import {
-  SelectField as ZenSelectField,
+  Item,
   Select,
-  Item
+  SelectField as ZenSelectField
 } from '@zendeskgarden/react-select';
-
-import styled, { StyledThemeInterface } from '../../../themes/styled';
+import * as React from 'react';
 // import Flag from '../../elements/Flag/Flag';
 import { LocaleContext, locale_default } from '../../../containers/App/App';
+import styled, { StyledThemeInterface } from '../../../themes/styled';
 
 type LanguageSelectState = {
   selectedKey?: string;
