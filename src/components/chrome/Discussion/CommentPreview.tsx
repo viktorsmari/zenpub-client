@@ -7,6 +7,7 @@
  * @param props {Object} avatar props
  */
 
+import { DateTime } from 'luxon';
 import moment from 'moment-timezone';
 import { clearFix } from 'polished';
 import * as React from 'react';
@@ -26,7 +27,7 @@ interface EventProps {
   comment: {
     id: string;
     body: string;
-    date: number;
+    date: string; // number; TODO: wrong type?
   };
   thread?: boolean;
   totalReplies?: string;
@@ -86,7 +87,7 @@ const Event: React.FC<EventProps> = ({
           {noAction ? null : (
             <Sub>
               <Actions>
-                <Date>{moment(comment.date).fromNow()}</Date>
+                <Date>{DateTime.fromISO(comment.date).toRelative()}</Date>
               </Actions>
             </Sub>
           )}

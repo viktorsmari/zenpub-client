@@ -112,6 +112,7 @@
     "interpolate-html-plugin": "3.0.0",
     "lint-staged": "7.3.0",
     "lodash": "4.17.15",
+    "luxon": "1.17.2",
     "markdown-to-jsx": "6.9.0",
     "mini-css-extract-plugin": "0.4.3",
     "minimal.css": "^1.0.1",
@@ -160,6 +161,7 @@
   },
   "devDependencies": {
     "@lingui/loader": "2.7.4",
+    "@types/luxon": "1.15.2",
     "html-webpack-plugin": "3.2.0"
   }
 }

@@ -14,6 +14,7 @@ import '@zendeskgarden/react-tabs/dist/styles.css';
 import '@zendeskgarden/react-tags/dist/styles.css';
 import '@zendeskgarden/react-textfields/dist/styles.css';
 import '@zendeskgarden/react-tooltips/dist/styles.css';
+import { Settings } from 'luxon';
 import * as React from 'react';
 import { ThemeProvider } from '../../styleguide/Wrapper';
 import '../../styles/flag-icons.css';
@@ -112,9 +113,19 @@ export default class App extends React.Component<{}, State> {
       catalogs
     });
 
+    const [language] = locale.split('_');
+
+    Settings.defaultLocale = language;
+    Settings.defaultZoneName = 'UTC';
+
     // Persist the locale to local-storage.
     localStorage.setItem(LocalStorageLocaleKey, locale);
   }
+
+  public componentDidMount = () => {
+    // This is a temp fix.
+    this.setLocale(this.state.locale);
+  };
 
   render() {
     // console.log(this.state)
