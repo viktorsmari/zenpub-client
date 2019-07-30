@@ -8,15 +8,12 @@
  */
 
 import { DateTime } from 'luxon';
-import moment from 'moment-timezone';
 import { clearFix } from 'polished';
 import * as React from 'react';
 import removeMd from 'remove-markdown';
 import styled from '../../../themes/styled';
 import { Message } from '../../elements/Icons';
 import Link from '../../elements/Link/Link';
-
-moment.tz.setDefault('UTC');
 
 interface EventProps {
   author: {
