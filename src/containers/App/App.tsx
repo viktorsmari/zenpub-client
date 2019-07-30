@@ -1,4 +1,4 @@
-import { Catalogs } from '@lingui/core';
+import { Catalogs, setupI18n } from '@lingui/core';
 import { Trans } from '@lingui/macro';
 import { I18nProvider } from '@lingui/react';
 import '@zendeskgarden/react-avatars/dist/styles.css';
@@ -31,6 +31,8 @@ const LocalStorageLocaleKey = 'locale';
 //     font-family: ${props => props.theme.styles.fontFamily};
 //   }
 // `;
+
+export const i18n = setupI18n();
 
 export const locale_default =
   localStorage.getItem(LocalStorageLocaleKey) || 'en_GB';
@@ -138,6 +140,7 @@ export default class App extends React.Component<{}, State> {
       <ThemeProvider>
         <LocaleContext.Provider value={this.state}>
           <I18nProvider
+            i18n={i18n}
             language={this.state.locale}
             catalogs={this.state.catalogs}
           >
