@@ -116,6 +116,11 @@ export default class App extends React.Component<{}, State> {
     localStorage.setItem(LocalStorageLocaleKey, locale);
   }
 
+  public componentDidMount = () => {
+    // This is a temp fix.
+    this.setLocale(this.state.locale);
+  };
+
   render() {
     // console.log(this.state)
 
