@@ -1,22 +1,20 @@
-import * as React from 'react';
-
-import styled, { withTheme } from '../../../themes/styled';
-
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
+import * as React from 'react';
+import { withRouter } from 'react-router';
+import { i18n } from '../../../containers/App/App';
+import styled, { withTheme } from '../../../themes/styled';
+import Button from '../../elements/Button/Button';
+import Link from '../../elements/Link/Link';
+import Tag from '../../elements/Tag/Tag';
+import Text from '../../inputs/Text/Text';
+import H6 from '../../typography/H6/H6';
 
 const tt = {
   placeholders: {
     search: i18nMark('e.g. russian revolution 1917')
   }
 };
-
-import Text from '../../inputs/Text/Text';
-import H6 from '../../typography/H6/H6';
-import Button from '../../elements/Button/Button';
-import Tag from '../../elements/Tag/Tag';
-import Link from '../../elements/Link/Link';
-import { withRouter } from 'react-router';
 
 const SearchHeading = styled(H6)`
   margin-block-start: 0.5em;
@@ -74,7 +72,7 @@ export default withRouter(withTheme(({ closeMenu, history, theme }: any) => {
         <Text
           name="q"
           id="searchInput"
-          placeholder={tt.placeholders.search}
+          placeholder={i18n._(tt.placeholders.search)}
           button={
             <Button type="submit">
               <Trans>Search</Trans>

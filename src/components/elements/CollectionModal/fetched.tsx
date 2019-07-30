@@ -1,21 +1,21 @@
 // Add a resource to collection - step 2
 
-import * as React from 'react';
-import Textarea from '../../inputs/TextArea/Textarea';
-import { withFormik, FormikProps, Form, Field } from 'formik';
-import * as Yup from 'yup';
-import styled from '../../../themes/styled';
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
-import Alert from '../Alert';
-import Text from '../../inputs/Text/Text';
-import Button from '../Button/Button';
-import { LoaderButton } from '../Button/Button';
-import ResourceCard from '../Resource/Resource';
-import { compose } from 'recompose';
+import { Field, Form, FormikProps, withFormik } from 'formik';
 import gql from 'graphql-tag';
+import * as React from 'react';
 import { graphql, OperationOption } from 'react-apollo';
-import { Row, Actions, CounterChars, ContainerForm } from '../Modal/modal';
+import { compose } from 'recompose';
+import * as Yup from 'yup';
+import { i18n } from '../../../containers/App/App';
+import styled from '../../../themes/styled';
+import Text from '../../inputs/Text/Text';
+import Textarea from '../../inputs/TextArea/Textarea';
+import Alert from '../Alert';
+import Button, { LoaderButton } from '../Button/Button';
+import { Actions, ContainerForm, CounterChars, Row } from '../Modal/modal';
+import ResourceCard from '../Resource/Resource';
 
 const {
   createResourceMutation
@@ -94,7 +94,7 @@ const Fetched = (props: Props & FormikProps<FormValues>) => (
             name="url"
             render={({ field }) => (
               <Text
-                placeholder={tt.placeholders.url}
+                placeholder={i18n._(tt.placeholders.url)}
                 name={field.name}
                 value={field.value}
                 onChange={field.onChange}
@@ -115,7 +115,7 @@ const Fetched = (props: Props & FormikProps<FormValues>) => (
             render={({ field }) => (
               <>
                 <Text
-                  placeholder={tt.placeholders.name}
+                  placeholder={i18n._(tt.placeholders.name)}
                   name={field.name}
                   value={field.value}
                   onChange={field.onChange}
@@ -138,7 +138,7 @@ const Fetched = (props: Props & FormikProps<FormValues>) => (
             render={({ field }) => (
               <>
                 <Textarea
-                  placeholder={tt.placeholders.summary}
+                  placeholder={i18n._(tt.placeholders.summary)}
                   name={field.name}
                   value={field.value}
                   onChange={field.onChange}
@@ -158,7 +158,7 @@ const Fetched = (props: Props & FormikProps<FormValues>) => (
             name="image"
             render={({ field }) => (
               <Text
-                placeholder={tt.placeholders.image}
+                placeholder={i18n._(tt.placeholders.image)}
                 name={field.name}
                 value={field.value}
                 onChange={field.onChange}
@@ -173,7 +173,7 @@ const Fetched = (props: Props & FormikProps<FormValues>) => (
         <LoaderButton
           loading={props.isSubmitting}
           disabled={props.isSubmitting}
-          text={tt.placeholders.submit}
+          text={i18n._(tt.placeholders.submit)}
           type="submit"
           style={{ marginLeft: '10px' }}
         />

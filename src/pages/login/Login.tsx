@@ -1,41 +1,35 @@
-import * as React from 'react';
-import { compose, withHandlers, withState } from 'recompose';
-import { graphql, OperationOption } from 'react-apollo';
-import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
+import { Trans } from '@lingui/macro';
+import { i18nMark } from '@lingui/react';
 // import { Col, Row } from '@zendeskgarden/react-grid';
 import { withTheme } from '@zendeskgarden/react-theming';
+import { clearFix } from 'polished';
+import * as React from 'react';
+import { graphql, OperationOption } from 'react-apollo';
+import { Helmet } from 'react-helmet';
+import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
+import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
-import { i18nMark } from '@lingui/react';
-import { Trans } from '@lingui/macro';
+import Button from '../../components/elements/Button/Button';
+import Link from '../../components/elements/Link/Link';
+import SignupModal from '../../components/elements/SignupModal';
+import { i18n } from '../../containers/App/App';
 import styled, { ThemeInterface } from '../../themes/styled';
 // import Logo from '../../components/brand/Logo/Logo';
 // import LanguageSelect from '../../components/inputs/LanguageSelect/LanguageSelect';
 // import H6 from '../../components/typography/H6/H6';
 import LoginForm from './LoginForm';
 import { ValidationField, ValidationObject, ValidationType } from './types';
-import { Helmet } from 'react-helmet';
-import Button from '../../components/elements/Button/Button';
-import { clearFix } from 'polished';
 // const { getUserQuery } = require('../../graphql/getUser.client.graphql');
 // const { setUserMutation } = require('../../graphql/setUser.client.graphql');
 const { loginMutation } = require('../../graphql/login.graphql');
-import SignupModal from '../../components/elements/SignupModal';
-import Link from '../../components/elements/Link/Link';
 
-const tt = {
-  with: {
-    fb: i18nMark('Sign in with Facebook'),
-    g: i18nMark('Sign in with Google'),
-    tw: i18nMark('Sign in with Twitter')
-  },
-  validation: {
-    email: i18nMark('The email field cannot be empty'),
-    password: i18nMark('The password field cannot be empty'),
-    credentials: i18nMark(
-      'Could not log in. Please check your credentials or use the link below to reset your password.'
-    )
-  }
-};
+// const tt = {
+//   with: {
+//     fb: i18nMark('Sign in with Facebook'),
+//     g: i18nMark('Sign in with Google'),
+//     tw: i18nMark('Sign in with Twitter')
+//   },
+// };
 
 const Signup = styled(Button)`
   margin-top: 24px !important;
@@ -278,14 +272,14 @@ class Login extends React.Component<LoginProps, LoginState> {
       validation.push({
         field: ValidationField.email,
         type: ValidationType.error,
-        message: tt.validation.email
+        message: i18n._(i18nMark('The email field cannot be empty'))
       } as ValidationObject);
     }
     if (!credentials.password.length) {
       validation.push({
         field: ValidationField.password,
         type: ValidationType.error,
-        message: tt.validation.password
+        message: i18n._(i18nMark('The password field cannot be empty'))
       } as ValidationObject);
     }
 
@@ -326,7 +320,11 @@ class Login extends React.Component<LoginProps, LoginState> {
           {
             field: null,
             type: ValidationType.warning,
-            message: tt.validation.credentials
+            message: i18n._(
+              i18nMark(
+                'Could not log in. Please check your credentials or use the link below to reset your password.'
+              )
+            )
           } as ValidationObject
         ]
       });

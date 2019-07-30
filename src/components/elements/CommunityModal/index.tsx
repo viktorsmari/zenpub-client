@@ -1,17 +1,31 @@
 // create a new collection
 
-import * as React from 'react';
-import Modal from '../Modal';
-import {
-  Row,
-  Container,
-  Actions,
-  CounterChars,
-  ContainerForm,
-  Header
-} from '../Modal/modal';
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
+import { Field, Form, FormikProps, withFormik } from 'formik';
+import * as React from 'react';
+import { compose, graphql, OperationOption } from 'react-apollo';
+import * as Yup from 'yup';
+import { i18n } from '../../../containers/App/App';
+import Alert from '../../elements/Alert';
+import Text from '../../inputs/Text/Text';
+import Textarea from '../../inputs/TextArea/Textarea';
+import H5 from '../../typography/H5/H5';
+import Button from '../Button/Button';
+import Modal from '../Modal';
+import {
+  Actions,
+  Container,
+  ContainerForm,
+  CounterChars,
+  Header,
+  Row
+} from '../Modal/modal';
+
+const {
+  createCollectionMutation
+} = require('../../../graphql/createCollection.graphql');
+const { getCommunityQuery } = require('../../../graphql/getCommunity.graphql');
 
 const tt = {
   placeholders: {
@@ -22,19 +36,6 @@ const tt = {
     image: i18nMark('Enter the URL of an image to represent the collection')
   }
 };
-import H5 from '../../typography/H5/H5';
-import Text from '../../inputs/Text/Text';
-import Textarea from '../../inputs/TextArea/Textarea';
-import Button from '../Button/Button';
-import { compose } from 'react-apollo';
-import { withFormik, FormikProps, Form, Field } from 'formik';
-import * as Yup from 'yup';
-import Alert from '../../elements/Alert';
-import { graphql, OperationOption } from 'react-apollo';
-const {
-  createCollectionMutation
-} = require('../../../graphql/createCollection.graphql');
-const { getCommunityQuery } = require('../../../graphql/getCommunity.graphql');
 
 interface Props {
   toggleModal?: any;
@@ -85,7 +86,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                 render={({ field }) => (
                   <>
                     <Text
-                      placeholder={tt.placeholders.name}
+                      placeholder={i18n._(tt.placeholders.name)}
                       name={field.name}
                       value={field.value}
                       onChange={field.onChange}
@@ -107,7 +108,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                 render={({ field }) => (
                   <>
                     <Textarea
-                      placeholder={tt.placeholders.summary}
+                      placeholder={i18n._(tt.placeholders.summary)}
                       name={field.name}
                       value={field.value}
                       onChange={field.onChange}
@@ -125,7 +126,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                 name="image"
                 render={({ field }) => (
                   <Text
-                    placeholder={tt.placeholders.image}
+                    placeholder={i18n._(tt.placeholders.image)}
                     name={field.name}
                     value={field.value}
                     onChange={field.onChange}

@@ -1,23 +1,12 @@
-import * as React from 'react';
+import { i18nMark } from '@lingui/react';
 import { Col, Row } from '@zendeskgarden/react-grid';
 import { Message, TextField } from '@zendeskgarden/react-textfields';
-
-import styled from '../../themes/styled';
-import TextInput from '../../components/inputs/Text/Text';
-// import Link from '../../components/elements/Link/Link';
+import * as React from 'react';
 import { LoaderButton } from '../../components/elements/Button/Button';
+import TextInput from '../../components/inputs/Text/Text';
+import { i18n } from '../../containers/App/App';
+import styled from '../../themes/styled';
 import { ValidationField, ValidationObject, ValidationType } from './types';
-
-// import { Trans } from '@lingui/macro';
-import { i18nMark } from '@lingui/react';
-
-const tt = {
-  login: i18nMark('Sign in'),
-  placeholders: {
-    email: i18nMark('Enter your email'),
-    password: i18nMark('Enter your password')
-  }
-};
 
 type SubmitColProps = {
   alignRight?: boolean;
@@ -118,7 +107,7 @@ export default class extends React.Component<LoginFormProps, LoginFormState> {
                 <Trans>Email address</Trans>:
               </Label> */}
               <TextInput
-                placeholder={tt.placeholders.email}
+                placeholder={i18n._(i18nMark('Enter your email'))}
                 value={this.state.email}
                 validation={this.getValidation(ValidationField.email)}
                 onChange={(evt: any) => {
@@ -139,7 +128,7 @@ export default class extends React.Component<LoginFormProps, LoginFormState> {
               </Label> */}
               <TextInput
                 type="password"
-                placeholder={tt.placeholders.password}
+                placeholder={i18n._(i18nMark('Enter your password'))}
                 value={this.state.password}
                 validation={this.getValidation(ValidationField.password)}
                 onChange={(evt: any) => {
@@ -175,7 +164,10 @@ export default class extends React.Component<LoginFormProps, LoginFormState> {
             </Link>
           </SubmitCol> */}
         <SubmitCol alignRight>
-          <LoaderButton loading={authenticating} text={tt.login} />
+          <LoaderButton
+            loading={authenticating}
+            text={i18n._(i18nMark('Sign in'))}
+          />
         </SubmitCol>
       </LoginForm>
     );
