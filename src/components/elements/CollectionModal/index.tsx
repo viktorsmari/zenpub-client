@@ -1,14 +1,24 @@
 // Add a resource to collection - step 1
 
-import * as React from 'react';
-import Modal from '../Modal';
-import styled from '../../../themes/styled';
 import { Trans } from '@lingui/macro';
+import { i18nMark } from '@lingui/react';
+import { Field, Form, FormikProps, withFormik } from 'formik';
+import { clearFix } from 'polished';
+import * as React from 'react';
+import { graphql, OperationOption } from 'react-apollo';
+// import { LoaderButton } from '../Button/Button';
+import { compose, withState } from 'recompose';
+import * as Yup from 'yup';
+import { i18n } from '../../../containers/App/App';
+import styled from '../../../themes/styled';
+import Text from '../../inputs/Text/Text';
+import H5 from '../../typography/H5/H5';
 import { Search } from '../Icons';
 import Loader from '../Loader/Loader';
-import { i18nMark } from '@lingui/react';
-import Fetched from './fetched';
+import Modal from '../Modal';
 import { Row } from '../Modal/modal';
+import Fetched from './fetched';
+
 const tt = {
   placeholders: {
     url: i18nMark('Enter the URL of the resource'),
@@ -20,15 +30,6 @@ const tt = {
     image: i18nMark('Enter the URL of an image to represent the resource')
   }
 };
-
-import { clearFix } from 'polished';
-import H5 from '../../typography/H5/H5';
-import Text from '../../inputs/Text/Text';
-// import { LoaderButton } from '../Button/Button';
-import { compose, withState } from 'recompose';
-import { withFormik, FormikProps, Form, Field } from 'formik';
-import * as Yup from 'yup';
-import { graphql, OperationOption } from 'react-apollo';
 
 const FETCH_RESOURCE = require('../../../graphql/fetchResource.graphql');
 
@@ -96,7 +97,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                 name="fetchUrl"
                 render={({ field }) => (
                   <Text
-                    placeholder={tt.placeholders.url}
+                    placeholder={i18n._(tt.placeholders.url)}
                     onChange={field.onChange}
                     name={field.name}
                     value={field.value}
@@ -106,7 +107,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
               <Span disabled={props.isSubmitting} type="submit">
                 <Search width={18} height={18} strokeWidth={2} color={'#333'} />
               </Span>
-              {/* <LoaderButton loading={props.isSubmitting}  text={tt.placeholders.submit}  /> */}
+              {/* <LoaderButton loading={props.isSubmitting}  text={i18n._(tt.placeholders.submit)}  /> */}
             </Form>
           </ContainerForm>
         </Row>
