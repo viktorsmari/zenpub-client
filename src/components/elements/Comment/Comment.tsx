@@ -1,13 +1,11 @@
 import { Trans } from '@lingui/macro';
+import { DateTime } from 'luxon';
 import Markdown from 'markdown-to-jsx';
-import moment from 'moment-timezone';
 import { clearFix } from 'polished';
 import * as React from 'react';
 import styled from '../../../themes/styled';
 import { Reply } from '../../elements/Icons';
 import Link from '../Link/Link';
-
-moment.tz.setDefault('UTC');
 
 interface EventProps {
   noAuthor?: boolean;
@@ -47,7 +45,7 @@ const Event: React.FC<EventProps> = ({
                 <b>{author.name}</b>
               )}
             </h3>
-            <Date>{moment(comment.date).fromNow()}</Date>
+            <Date>{DateTime.fromMillis(comment.date).toRelative()}</Date>
           </MemberInfo>
         </Member>
       )}

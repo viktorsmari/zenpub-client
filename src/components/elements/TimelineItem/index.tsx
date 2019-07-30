@@ -1,13 +1,11 @@
-import Link from '../Link/Link';
-import styled from '../../../themes/styled';
+import { Trans } from '@lingui/react';
+import { DateTime } from 'luxon';
+import { clearFix } from 'polished';
 import * as React from 'react';
 import { SFC } from 'react';
-import { clearFix } from 'polished';
-import { Trans } from '@lingui/react';
 import removeMd from 'remove-markdown';
-
-import moment from 'moment-timezone';
-moment.tz.setDefault('UTC');
+import styled from '../../../themes/styled';
+import Link from '../Link/Link';
 
 interface Props {
   userpage?: boolean;
@@ -140,7 +138,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => (
             </Link>
           </span>
         ) : null}
-        <Date>{moment(node.published).fromNow()}</Date>
+        <Date>{DateTime.fromJSDate(node.published).toRelative()}</Date>
       </FeedItemContents>
     </Member>
   </FeedItem>

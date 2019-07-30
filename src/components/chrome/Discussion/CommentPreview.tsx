@@ -7,15 +7,13 @@
  * @param props {Object} avatar props
  */
 
-import moment from 'moment-timezone';
+import { DateTime } from 'luxon';
 import { clearFix } from 'polished';
 import * as React from 'react';
 import removeMd from 'remove-markdown';
 import styled from '../../../themes/styled';
 import { Message } from '../../elements/Icons';
 import Link from '../../elements/Link/Link';
-
-moment.tz.setDefault('UTC');
 
 interface EventProps {
   author: {
@@ -26,7 +24,7 @@ interface EventProps {
   comment: {
     id: string;
     body: string;
-    date: number;
+    date: string; // number; TODO: wrong type?
   };
   thread?: boolean;
   totalReplies?: string;
@@ -86,7 +84,7 @@ const Event: React.FC<EventProps> = ({
           {noAction ? null : (
             <Sub>
               <Actions>
-                <Date>{moment(comment.date).fromNow()}</Date>
+                <Date>{DateTime.fromISO(comment.date).toRelative()}</Date>
               </Actions>
             </Sub>
           )}
