@@ -1,16 +1,16 @@
+import { Trans } from '@lingui/macro';
+import gql from 'graphql-tag';
 import React from 'react';
-import styled from '../../themes/styled';
-import { Plus, Minus } from '../../components/elements/Icons';
-import { compose } from 'recompose';
 import { graphql, OperationOption } from 'react-apollo';
+import { compose } from 'recompose';
+import { Minus, Plus } from '../../components/elements/Icons';
+import styled from '../../themes/styled';
 const {
   joinCommunityMutation
 } = require('../../graphql/joinCommunity.graphql');
 const {
   undoJoinCommunityMutation
 } = require('../../graphql/undoJoinCommunity.graphql');
-import gql from 'graphql-tag';
-import { Trans } from '@lingui/macro';
 
 interface Props {
   joinCommunity: any;
@@ -30,7 +30,7 @@ const withLeaveCommunity = graphql<{}>(undoJoinCommunityMutation, {
   // TODO enforce proper types for OperationOption
 } as OperationOption<{}, {}>);
 
-const Join: React.SFC<Props> = ({
+const Join: React.FC<Props> = ({
   joinCommunity,
   id,
   leaveCommunity,

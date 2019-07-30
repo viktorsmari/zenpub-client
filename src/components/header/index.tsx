@@ -1,25 +1,25 @@
-import React from 'react';
-import styled from '../../themes/styled';
-import {
-  Community,
-  Collection,
-  User,
-  Settings,
-  Power,
-  Shield,
-  Card,
-  Validate
-} from '../elements/Icons';
 import { Trans } from '@lingui/macro';
-import OutsideClickHandler from 'react-outside-click-handler';
-import Logo from '../brand/Logo/Logo';
-const { getUserQuery } = require('../../graphql/getUserBasic.graphql');
-import { graphql, OperationOption } from 'react-apollo';
 import { clearFix } from 'polished';
+import React from 'react';
+import { graphql, OperationOption } from 'react-apollo';
+import OutsideClickHandler from 'react-outside-click-handler';
+import { NavLink } from 'react-router-dom';
 import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
-import { NavLink } from 'react-router-dom';
 import Loader from '../../components/elements/Loader/Loader';
+import styled from '../../themes/styled';
+import Logo from '../brand/Logo/Logo';
+import {
+  Card,
+  Collection,
+  Community,
+  Power,
+  Settings,
+  Shield,
+  User,
+  Validate
+} from '../elements/Icons';
+const { getUserQuery } = require('../../graphql/getUserBasic.graphql');
 
 interface Props {
   handleOpen(): boolean;
@@ -35,7 +35,7 @@ interface Props {
   onSidebar(boolean): boolean;
 }
 
-const Header: React.SFC<Props> = props => {
+const Header: React.FC<Props> = props => {
   return (
     <Wrapper>
       {props.data.error ? (

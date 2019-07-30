@@ -11,15 +11,15 @@
 
  */
 
-import * as React from 'react';
-import styled from '../../../themes/styled';
 import { Trans } from '@lingui/macro';
-import media from 'styled-media-query';
 import { ellipsis } from 'polished';
+import * as React from 'react';
+import { compose, withHandlers, withState } from 'recompose';
+import media from 'styled-media-query';
+import styled from '../../../themes/styled';
 import H5 from '../../typography/H5/H5';
 import P from '../../typography/P/P';
 import Button from '../Button/Button';
-import { compose, withState, withHandlers } from 'recompose';
 import EditResourceModal from '../EditResourceModal';
 const PlaceholderImg = require('../Icons/resourcePlaceholder.png');
 
@@ -36,7 +36,7 @@ interface Props {
   coreIntegrationURL?: string;
 }
 
-const Resource: React.SFC<Props> = props => {
+const Resource: React.FC<Props> = props => {
   return (
     <Wrapper>
       <UrlLink target="blank" href={props.url}>

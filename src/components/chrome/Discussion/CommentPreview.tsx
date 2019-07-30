@@ -7,16 +7,15 @@
  * @param props {Object} avatar props
  */
 
+import moment from 'moment-timezone';
+import { clearFix } from 'polished';
 import * as React from 'react';
+import removeMd from 'remove-markdown';
 import styled from '../../../themes/styled';
 import { Message } from '../../elements/Icons';
-import { clearFix } from 'polished';
-
-import moment from 'moment-timezone';
-moment.tz.setDefault('UTC');
-
 import Link from '../../elements/Link/Link';
-import removeMd from 'remove-markdown';
+
+moment.tz.setDefault('UTC');
 
 interface EventProps {
   author: {
@@ -38,7 +37,7 @@ interface EventProps {
   communityId: string;
 }
 
-const Event: React.SFC<EventProps> = ({
+const Event: React.FC<EventProps> = ({
   author,
   comment,
   noAction,

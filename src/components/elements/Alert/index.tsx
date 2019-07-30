@@ -11,6 +11,6 @@ const Wrapper = styled.div`
   font-size: 14px;
   margin-top: 2px;
 `;
-const Alert: React.SFC<{}> = ({ children }) => <Wrapper>{children}</Wrapper>;
+const Alert: React.FC<{}> = ({ children }) => <Wrapper>{children}</Wrapper>;
 
 export default Alert;
