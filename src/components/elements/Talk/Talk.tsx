@@ -12,12 +12,6 @@ import { Type } from '../Icons';
 import MarkdownModal from '../MarkdownModal';
 import Preview from './Preview';
 
-const tt = {
-  placeholders: {
-    message: i18nMark('Write a public message')
-  }
-};
-
 interface Props {
   onToggle(boolean): boolean;
   toggle: boolean;
@@ -55,7 +49,7 @@ const Component = (props: Props & FormikProps<FormValues>) => {
                   full={props.full}
                   expanded={props.toggle}
                   onClick={() => props.onToggle(true)}
-                  placeholder={i18n._(tt.placeholders.message)}
+                  placeholder={i18n._(i18nMark('Write a public message'))}
                   onChange={field.onChange}
                   name={field.name}
                   value={field.value}
