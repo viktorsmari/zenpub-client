@@ -4,16 +4,14 @@ import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
 import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
 import { compose } from 'recompose';
-import Main from '../../components/chrome/Main/Main';
 import { User } from '../../components/elements/Icons';
 import Loader from '../../components/elements/Loader/Loader';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timelineUser';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem';
-import FeaturedCollections from '../../components/featuredCollections';
-import FeaturedCommunities from '../../components/featuredCommunities';
 import styled from '../../themes/styled';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
+import {Box, Text, Flex} from 'rebass'
 const getMeInboxQuery = require('../../graphql/getMeInbox.graphql');
 
 interface Data extends GraphqlQueryControls {
@@ -35,14 +33,8 @@ interface Props {
 
 const Home: React.FC<Props> = props => {
   return (
-    <Main>
+    <Flex style={{overflowY: "overlay"}}>
       <WrapperCont>
-        <WrapperFeatured>
-          <FeaturedCollections />
-        </WrapperFeatured>
-        <WrapperFeatured>
-          <FeaturedCommunities />
-        </WrapperFeatured>
         <Wrapper>
           <Tabs>
             <SuperTabList>
@@ -56,9 +48,9 @@ const Home: React.FC<Props> = props => {
                   />
                 </span>
                 <h5>
-                  <Trans>My feed</Trans>
+                  <Trans>My MoodleNet timeline</Trans>
                   <Helmet>
-                    <title>My MoodleNet feed</title>
+                    <title>My MoodleNet timeline</title>
                   </Helmet>
                 </h5>
               </SuperTab>
@@ -66,7 +58,7 @@ const Home: React.FC<Props> = props => {
             <TabPanel>
               {props.data.error ? (
                 <span>
-                  <Trans>Error loading user timeline</Trans>
+                  <Trans>Error loading moodlenet timeline</Trans>
                 </span>
               ) : props.data.loading ? (
                 <Loader />
@@ -87,19 +79,45 @@ const Home: React.FC<Props> = props => {
           </Tabs>
         </Wrapper>
       </WrapperCont>
-    </Main>
+      <WrapperPanel>
+      <Panel>
+        <PanelTitle fontSize={0} fontWeight={"bold"}><Trans>Browse Home instance</Trans></PanelTitle>
+        <Nav>
+          <NavItem mb={3} fontSize={2} fontWeight={"bold"}><Trans>My communities</Trans></NavItem>
+          <NavItem fontSize={2} fontWeight={"bold"}><Trans>My collections</Trans></NavItem>
+        </Nav>
+      </Panel>
+
+      </WrapperPanel>
+    </Flex>
   );
 };
 
-const WrapperFeatured = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  margin-bottom: 24px;
-  background: ${props => props.theme.styles.colour.secondaryBg};
-  border-radius: 6px;
+const WrapperPanel = styled(Box)`
   margin-top: 16px;
-`;
+  margin-left:16px;
+  width: 300px;
+`
+
+const Panel = styled(Box)`
+  background: white;
+  border-radius: 4px;
+  max-width: 300px;
+  margin-bottom: 16px;
+`
+
+const PanelTitle = styled(Text)`
+  text-transform: uppercase;
+  border-bottom: 4px solid ${props => props.theme.styles.colors.lighter};
+  padding: 16px;
+`
+
+const Nav = styled(Box)`
+padding: 16px;
+`
+
+const NavItem = styled(Text)``
+
 
 const withGetInbox = graphql<
   {},
