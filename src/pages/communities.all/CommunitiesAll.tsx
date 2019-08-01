@@ -178,7 +178,7 @@ const AddNewCommunity = styled.div`
 `;
 
 export const WrapperCont = styled.div`
-  max-width: 1040px;
+  max-width: 600px;
   margin: 0 auto;
   width: 100%;
   height: 100%;
