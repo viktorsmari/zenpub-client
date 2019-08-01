@@ -1,19 +1,20 @@
-import * as React from 'react';
-import compose from 'recompose/compose';
-import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
 import { Trans } from '@lingui/macro';
-import { WrapperCont, Wrapper } from '../communities.all/CommunitiesAll';
-import Main from '../../components/chrome/Main/Main';
-import CollectionType from '../../types/Collection';
-import Loader from '../../components/elements/Loader/Loader';
-import CollectionCard from '../../components/elements/Collection/Collection';
-import CollectionsLoadMore from '../../components/elements/Loadmore/collections';
-import { Collection, Eye } from '../../components/elements/Icons';
-import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
-import { Tabs, TabPanel } from 'react-tabs';
-import styled from '../../themes/styled';
-import CollectionsFollowed from '../collections.followed';
+import * as React from 'react';
+import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
 import { Helmet } from 'react-helmet';
+import { TabPanel, Tabs } from 'react-tabs';
+import compose from 'recompose/compose';
+import Main from '../../components/chrome/Main/Main';
+import CollectionCard from '../../components/elements/Collection/Collection';
+import { Collection, Eye } from '../../components/elements/Icons';
+import Loader from '../../components/elements/Loader/Loader';
+import CollectionsLoadMore from '../../components/elements/Loadmore/collections';
+import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
+import { APP_NAME } from '../../constants';
+import styled from '../../themes/styled';
+import CollectionType from '../../types/Collection';
+import CollectionsFollowed from '../collections.followed';
+import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 
 const { getCollectionsQuery } = require('../../graphql/getCollections.graphql');
 
@@ -77,7 +78,7 @@ class CommunitiesYours extends React.Component<Props> {
                   ) : (
                     <>
                       <Helmet>
-                        <title>MoodleNet > All collections</title>
+                        <title>{APP_NAME} > All collections</title>
                       </Helmet>
                       <List>
                         {this.props.data.collections.nodes.map((coll, i) => (

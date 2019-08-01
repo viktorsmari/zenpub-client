@@ -1,10 +1,9 @@
-import * as React from 'react';
-
 import { Trans } from '@lingui/macro';
-
-import styled from '../../themes/styled';
-import H3 from '../../components/typography/H3/H3';
+import * as React from 'react';
 import { Helmet } from 'react-helmet';
+import H3 from '../../components/typography/H3/H3';
+import { APP_NAME } from '../../constants';
+import styled from '../../themes/styled';
 
 const NotFound = styled.div`
   width: 100%;
@@ -19,7 +18,7 @@ export default () => {
   return (
     <NotFound>
       <Helmet>
-        <title>MoodleNet > Not found</title>
+        <title>{APP_NAME} > Not found</title>
       </Helmet>
       <H3>
         <Trans>Page not found</Trans>
