@@ -1,17 +1,18 @@
-import * as React from 'react';
-import styled from '../../themes/styled';
-import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
-const getThread = require('../../graphql/getThread.graphql');
-import CommentType from '../../types/Comment';
-import { compose, withHandlers } from 'recompose';
-import Loader from '../../components/elements/Loader/Loader';
-import Comment from '../../components/elements/Comment/Comment';
-import Talk from '../../components/elements/Talk/Reply';
 import { Trans } from '@lingui/macro';
-import Link from '../../components/elements/Link/Link';
-import { Left } from '../../components/elements/Icons';
 import { clearFix } from 'polished';
+import * as React from 'react';
+import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
 import { Helmet } from 'react-helmet';
+import { compose, withHandlers } from 'recompose';
+import Comment from '../../components/elements/Comment/Comment';
+import { Left } from '../../components/elements/Icons';
+import Link from '../../components/elements/Link/Link';
+import Loader from '../../components/elements/Loader/Loader';
+import Talk from '../../components/elements/Talk/Reply';
+import { APP_NAME } from '../../constants';
+import styled from '../../themes/styled';
+import CommentType from '../../types/Comment';
+const getThread = require('../../graphql/getThread.graphql');
 
 interface Data extends GraphqlQueryControls {
   comment: CommentType;
@@ -61,7 +62,7 @@ const Component = ({ data, id, selectThread, match, type, history }) => {
   return (
     <Container>
       <Helmet>
-        <title>MoodleNet > Discussion Thread</title>
+        <title>{APP_NAME} > Discussion Thread</title>
       </Helmet>
       <Wrapper>
         <Header>
