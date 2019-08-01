@@ -2,6 +2,35 @@ import * as styledComponents from 'styled-components';
 import { ThemedStyledComponentsModule } from 'styled-components';
 
 export interface MoodleThemeInterface {
+  // rebass
+  buttons: {
+    primary: {
+      backgroundColor: string;
+      color: string;
+      borderRadius: string;
+    };
+    outline: {
+      color: string;
+      borderColor: string;
+      backgroundColor: string;
+      borderRadius: string;
+    };
+  };
+  breakpoints: string[];
+  fontSizes: number[];
+  colors: {
+    orange: string;
+    black: string;
+    gray: string;
+    lightgray: string;
+    lighter: string
+    darkgray: string
+  };
+  space: number[];
+  fonts: {
+    sans: string;
+  };
+
   colour: {
     background: string;
     secondaryBg: string;
@@ -107,12 +136,12 @@ export interface StyledThemeInterface {
 const {
   default: styled,
   css,
-  injectGlobal,
+  createGlobalStyle,
   keyframes,
   ThemeProvider,
   withTheme
 } = styledComponents as ThemedStyledComponentsModule<ThemeInterface>;
 
-export { css, injectGlobal, keyframes, ThemeProvider, withTheme };
+export { css, createGlobalStyle, keyframes, ThemeProvider, withTheme };
 
 export default styled;
