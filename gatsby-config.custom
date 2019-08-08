@@ -1,0 +1,9 @@
+{
+  resolve: 'gatsby-plugin-alias-imports',
+  options: {
+      alias: {
+        'docz': path.resolve(__dirname, 'docz-proxy.js'),
+        '@docz': require.resolve('docz')
+      }
+  }
+}
