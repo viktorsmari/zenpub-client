@@ -4,9 +4,7 @@ import * as React from 'react';
 import { compose } from 'recompose';
 
 import { Trans } from '@lingui/macro';
-import { Grid } from '@zendeskgarden/react-grid';
 import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
-import Main from '../../components/chrome/Main/Main';
 import Loader from '../../components/elements/Loader/Loader';
 import { Tabs, TabPanel } from 'react-tabs';
 import CollectionCard from '../../components/elements/Collection/Collection';
@@ -21,7 +19,8 @@ import { WrapperTab, OverlayTab } from '../communities.community/Community';
 import { List, ListCollections } from '../Profile';
 import TimelineItem from '../../components/elements/TimelineItem';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timelineoutbox';
-import { WrapperCont } from '../communities.all/CommunitiesAll';
+import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
+import { Flex } from 'rebass';
 
 enum TabsEnum {
   Overview = 'Overview',
@@ -81,148 +80,139 @@ class CommunitiesFeatured extends React.Component<Props, State> {
   };
   render() {
     return (
-      <>
-        <Main>
-          <Grid>
-            {this.props.data.error ? (
-              <span>
-                <Trans>Error loading user</Trans>
-              </span>
-            ) : this.props.data.loading ? (
-              <Loader />
-            ) : (
-              <WrapperCont>
-                <HeroComp user={this.props.data.user} />
+      <Flex>
+        <WrapperCont>
+          {this.props.data.error ? (
+            <span>
+              <Trans>Error loading user</Trans>
+            </span>
+          ) : this.props.data.loading ? (
+            <Loader />
+          ) : (
+            <Wrapper>
+              <HeroComp user={this.props.data.user} />
 
-                <WrapperTab>
-                  <OverlayTab>
-                    <Tabs>
-                      <SuperTabList>
-                        <SuperTab>
-                          <span>
-                            <Eye
-                              width={20}
-                              height={20}
-                              strokeWidth={2}
-                              color={'#a0a2a5'}
-                            />
-                          </span>
-                          <h5>
-                            <Trans>Recent activities</Trans>
-                          </h5>
-                        </SuperTab>
-                        <SuperTab>
-                          <span>
-                            <Collection
-                              width={20}
-                              height={20}
-                              strokeWidth={2}
-                              color={'#a0a2a5'}
-                            />
-                          </span>
-                          <h5>
-                            <Trans>Followed Collections</Trans>
-                          </h5>
-                        </SuperTab>
-                        <SuperTab>
-                          <span>
-                            <Community
-                              width={20}
-                              height={20}
-                              strokeWidth={2}
-                              color={'#a0a2a5'}
-                            />
-                          </span>{' '}
-                          <h5>
-                            <Trans>Joined Communities</Trans>
-                          </h5>
-                        </SuperTab>
-                      </SuperTabList>
-                      <TabPanel>
-                        <div>
-                          {this.props.data.user.outbox.edges.map((t, i) => (
-                            <TimelineItem
-                              node={t.node}
-                              user={t.node.user}
-                              key={i}
-                            />
-                          ))}
-                          <div style={{ padding: '8px' }}>
-                            <LoadMoreTimeline
-                              fetchMore={this.props.data.fetchMore}
-                              community={this.props.data.user}
-                            />
-                          </div>
+              <WrapperTab>
+                <OverlayTab>
+                  <Tabs>
+                    <SuperTabList>
+                      <SuperTab>
+                        <span>
+                          <Eye
+                            width={20}
+                            height={20}
+                            strokeWidth={2}
+                            color={'#a0a2a5'}
+                          />
+                        </span>
+                        <h5>
+                          <Trans>Recent activities</Trans>
+                        </h5>
+                      </SuperTab>
+                      <SuperTab>
+                        <span>
+                          <Collection
+                            width={20}
+                            height={20}
+                            strokeWidth={2}
+                            color={'#a0a2a5'}
+                          />
+                        </span>
+                        <h5>
+                          <Trans>Followed Collections</Trans>
+                        </h5>
+                      </SuperTab>
+                      <SuperTab>
+                        <span>
+                          <Community
+                            width={20}
+                            height={20}
+                            strokeWidth={2}
+                            color={'#a0a2a5'}
+                          />
+                        </span>{' '}
+                        <h5>
+                          <Trans>Joined Communities</Trans>
+                        </h5>
+                      </SuperTab>
+                    </SuperTabList>
+                    <TabPanel>
+                      <div>
+                        {this.props.data.user.outbox.edges.map((t, i) => (
+                          <TimelineItem
+                            node={t.node}
+                            user={t.node.user}
+                            key={i}
+                          />
+                        ))}
+                        <div style={{ padding: '8px' }}>
+                          <LoadMoreTimeline
+                            fetchMore={this.props.data.fetchMore}
+                            community={this.props.data.user}
+                          />
                         </div>
-                      </TabPanel>
-                      <TabPanel>
-                        <>
-                          <ListCollections>
-                            {this.props.data.user.followingCollections.edges.map(
-                              (comm, i) => (
-                                <CollectionCard
-                                  key={i}
-                                  collection={comm.node}
-                                />
-                              )
-                            )}
-                          </ListCollections>
-                          <div style={{ padding: '8px' }}>
-                            <FollowingCollectionsLoadMore
-                              collections={
-                                this.props.data.user.followingCollections
-                              }
-                              fetchMore={this.props.data.fetchMore}
-                            />
-                          </div>
-                        </>
-                      </TabPanel>
-                      <TabPanel
-                        label={`${TabsEnum.Communities}`}
-                        key={TabsEnum.Communities}
-                        style={{ height: '100%' }}
-                      >
-                        <>
-                          <List>
-                            {this.props.data.user.joinedCommunities.edges.map(
-                              (community, i) => (
-                                <CommunityCard
-                                  key={i}
-                                  summary={community.node.summary}
-                                  title={community.node.name}
-                                  collectionsCount={
-                                    community.node.collectionsCount
-                                  }
-                                  threadsCount={
-                                    community.node.threads.totalCount
-                                  }
-                                  icon={community.node.icon || ''}
-                                  followed={community.node.followed}
-                                  id={community.node.localId}
-                                  externalId={community.node.id}
-                                  followersCount={community.node.followersCount}
-                                />
-                              )
-                            )}
-                          </List>
-                          <div style={{ padding: '8px' }}>
-                            <JoinedCommunitiesLoadMore
-                              communities={
-                                this.props.data.user.joinedCommunities
-                              }
-                              fetchMore={this.props.data.fetchMore}
-                            />
-                          </div>
-                        </>
-                      </TabPanel>
-                    </Tabs>
-                  </OverlayTab>
-                </WrapperTab>
-              </WrapperCont>
-            )}
-          </Grid>
-        </Main>
-      </>
+                      </div>
+                    </TabPanel>
+                    <TabPanel>
+                      <>
+                        <ListCollections>
+                          {this.props.data.user.followingCollections.edges.map(
+                            (comm, i) => (
+                              <CollectionCard key={i} collection={comm.node} />
+                            )
+                          )}
+                        </ListCollections>
+                        <div style={{ padding: '8px' }}>
+                          <FollowingCollectionsLoadMore
+                            collections={
+                              this.props.data.user.followingCollections
+                            }
+                            fetchMore={this.props.data.fetchMore}
+                          />
+                        </div>
+                      </>
+                    </TabPanel>
+                    <TabPanel
+                      label={`${TabsEnum.Communities}`}
+                      key={TabsEnum.Communities}
+                      style={{ height: '100%' }}
+                    >
+                      <>
+                        <List>
+                          {this.props.data.user.joinedCommunities.edges.map(
+                            (community, i) => (
+                              <CommunityCard
+                                key={i}
+                                summary={community.node.summary}
+                                title={community.node.name}
+                                collectionsCount={
+                                  community.node.collectionsCount
+                                }
+                                threadsCount={community.node.threads.totalCount}
+                                icon={community.node.icon || ''}
+                                followed={community.node.followed}
+                                id={community.node.localId}
+                                externalId={community.node.id}
+                                followersCount={community.node.followersCount}
+                              />
+                            )
+                          )}
+                        </List>
+                        <div style={{ padding: '8px' }}>
+                          <JoinedCommunitiesLoadMore
+                            communities={this.props.data.user.joinedCommunities}
+                            fetchMore={this.props.data.fetchMore}
+                          />
+                        </div>
+                      </>
+                    </TabPanel>
+                  </Tabs>
+                </OverlayTab>
+              </WrapperTab>
+            </Wrapper>
+          )}
+        </WrapperCont>
+      </Flex>
     );
   }
 }
