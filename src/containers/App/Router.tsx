@@ -16,15 +16,11 @@ import Discover from '../../pages/discover';
 import Profile from '../../pages/Profile';
 import User from '../../pages/User';
 import Settings from '../../pages/settings';
-// import media from 'styled-media-query';
 import Reset from '../../pages/Reset';
 import CreateNewPassword from '../../pages/CreateNewPassword';
 
-
-import {Flex} from 'rebass'
-import Sidebar from '../../sections/sidebar/sidebarHOC'
-
-
+import { Flex } from 'rebass';
+import Sidebar from '../../sections/sidebar/sidebarHOC';
 
 const AppInner = styled.div`
   display: flex;
@@ -33,38 +29,7 @@ const AppInner = styled.div`
   height: 100%;
   justify-content: center;
 `;
-// const Main = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   width: 100%;
-//   height: 100%;
-//   flex: 1;
-// `;
 
-// const Overlay = styled.div`
-//   position: absolute;
-//   left: 240px;
-//   right: 0;
-//   top: 0;
-//   bottom: 0;
-//   background: rgba(0, 0, 0, 0.3);
-//   z-index: 99999;
-//   cursor: pointer;
-
-//   ${media.greaterThan('medium')`
-//   display: none;
-//   `} &:hover {
-//     background: rgba(0, 0, 0, 0.35);
-//   }
-// `;
-
-/**
- * The application routes definition.
- *
- * Note that all routes requiring the user to be authenticated are within
- * the ProtectedRoute component, which then delegates further routing to a
- * Switch route component.
- */
 export default compose(withState('sidebar', 'onSidebar', false))(p => (
   <Router>
     <AppInner>
@@ -77,7 +42,7 @@ export default compose(withState('sidebar', 'onSidebar', false))(p => (
           path="/"
           component={props => (
             <>
-              <Flex justifyContent={"center"}>
+              <Flex justifyContent={'center'}>
                 <Sidebar />
                 <Switch>
                   <Route exact path="/" component={Home} />

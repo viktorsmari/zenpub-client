@@ -137,13 +137,27 @@ class MultipleItems extends React.Component<Props> {
           <Loader />
         ) : (
           <Slider ref={c => (this.slider = c)} {...settings}>
-            <CommunitySmall collection={this.props.data.one} />
-            <CommunitySmall collection={this.props.data.two} />
-            <CommunitySmall collection={this.props.data.three} />
-            <CommunitySmall collection={this.props.data.four} />
-            <CommunitySmall collection={this.props.data.five} />
-            <CommunitySmall collection={this.props.data.six} />
-            <CommunitySmall collection={this.props.data.seven} />
+            {this.props.data.one ? (
+              <CommunitySmall collection={this.props.data.one} />
+            ) : null}
+            {this.props.data.two ? (
+              <CommunitySmall collection={this.props.data.two} />
+            ) : null}
+            {this.props.data.three ? (
+              <CommunitySmall collection={this.props.data.three} />
+            ) : null}
+            {this.props.data.four ? (
+              <CommunitySmall collection={this.props.data.four} />
+            ) : null}
+            {this.props.data.five ? (
+              <CommunitySmall collection={this.props.data.five} />
+            ) : null}
+            {this.props.data.six ? (
+              <CommunitySmall collection={this.props.data.six} />
+            ) : null}
+            {this.props.data.seven ? (
+              <CommunitySmall collection={this.props.data.seven} />
+            ) : null}
           </Slider>
         )}
       </>

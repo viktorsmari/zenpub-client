@@ -13,7 +13,7 @@ import FeaturedCollections from '../../components/featuredCollections';
 import FeaturedCommunities from '../../components/featuredCommunities';
 import styled from '../../themes/styled';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-import {Box, Text, Flex} from 'rebass'
+import { Box, Text, Flex } from 'rebass';
 const localActivities = require('../../graphql/localActivities.graphql');
 
 interface Data extends GraphqlQueryControls {
@@ -27,7 +27,7 @@ interface Data extends GraphqlQueryControls {
   //     inbox: any;
   //   };
   // };
-  localActivities: any
+  localActivities: any;
 }
 
 interface Props {
@@ -36,7 +36,7 @@ interface Props {
 
 const Home: React.FC<Props> = props => {
   return (
-    <Flex style={{overflowY: "overlay"}}>
+    <Flex>
       <WrapperCont>
         <WrapperFeatured>
           <FeaturedCollections />
@@ -89,15 +89,21 @@ const Home: React.FC<Props> = props => {
         </Wrapper>
       </WrapperCont>
       <WrapperPanel>
-      <Panel>
-        <PanelTitle fontSize={0} fontWeight={"bold"}><Trans>Browse Home instance</Trans></PanelTitle>
-        <Nav>
-          <NavItem mb={3} fontSize={2} fontWeight={"bold"}><Trans>All communities</Trans></NavItem>
-          <NavItem fontSize={2} fontWeight={"bold"}><Trans>All collections</Trans></NavItem>
-        </Nav>
-      </Panel>
+        <Panel>
+          <PanelTitle fontSize={0} fontWeight={'bold'}>
+            <Trans>Browse Home instance</Trans>
+          </PanelTitle>
+          <Nav>
+            <NavItem mb={3} fontSize={2} fontWeight={'bold'}>
+              <Trans>All communities</Trans>
+            </NavItem>
+            <NavItem fontSize={2} fontWeight={'bold'}>
+              <Trans>All collections</Trans>
+            </NavItem>
+          </Nav>
+        </Panel>
 
-      {/* <Panel>
+        {/* <Panel>
         <PanelTitle fontSize={0} fontWeight={"bold"}><Trans>Popular hashtags: Whole network</Trans></PanelTitle>
         <Nav>
           <NavItem><Trans>All communities</Trans></NavItem>
@@ -119,28 +125,28 @@ const Home: React.FC<Props> = props => {
 
 const WrapperPanel = styled(Box)`
   margin-top: 16px;
-  margin-left:16px;
+  margin-left: 16px;
   width: 300px;
-`
+`;
 
 const Panel = styled(Box)`
   background: white;
   border-radius: 4px;
   max-width: 300px;
   margin-bottom: 16px;
-`
+`;
 
 const PanelTitle = styled(Text)`
   text-transform: uppercase;
   border-bottom: 4px solid ${props => props.theme.styles.colors.lighter};
   padding: 16px;
-`
+`;
 
 const Nav = styled(Box)`
-padding: 16px;
-`
+  padding: 16px;
+`;
 
-const NavItem = styled(Text)``
+const NavItem = styled(Text)``;
 
 const WrapperFeatured = styled.div`
   display: flex;

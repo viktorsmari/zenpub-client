@@ -13,6 +13,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<object> {
   danger?: boolean;
   focused?: boolean;
   hovered?: boolean;
+  type?: 'button' | 'reset' | 'submit' | undefined;
   link?: boolean;
   muted?: boolean;
   pill?: boolean;
@@ -23,7 +24,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<object> {
 }
 
 export const LoaderButton = ({ text, loading, type = 'submit', ...props }) => (
-  <Button disabled={loading} type={type} {...props}>
+  <Button disabled={loading} type="submit" {...props}>
     {loading ? <Loader /> : text}
   </Button>
 );
