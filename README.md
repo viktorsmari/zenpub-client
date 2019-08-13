@@ -10,11 +10,11 @@ removed from the README, however this notice is left here just in case it can be
     - [High level folder structure](#high-level-folder-structure)
     - [Application source folder structure](#application-source-folder-structure)
 - [Scripts](#scripts)
-    - [`npm start`](#npm-start)
-    - [`npm add-locale`](#npm-add-locale)
-    - [`npm extract`](#npm-extract)
-    - [`npm compile`](#npm-compile)
-    - [`npm build`](#npm-build)
+    - [`yarn start`](#yarn-start)
+    - [`yarn add-locale`](#yarn-add-locale)
+    - [`yarn extract`](#yarn-extract)
+    - [`yarn compile`](#yarn-compile)
+    - [`yarn build`](#yarn-build)
 - [Libraries](#libraries)
 - [Theme](#theme)
     - [Theme structure](#theme-structure)
@@ -42,7 +42,7 @@ removed from the README, however this notice is left here just in case it can be
 | `/build` | the output directory containing static assets & application files |
 | `/config` | contains all configuration for the build tooling, i.e. webpack |
 | `/public` | files that will be copied into the `build` folder |
-| `/scripts` | "run" files should be invoked via their respective `npm run` command |
+| `/scripts` | "run" files should be invoked via their respective `yarn run` command |
 | `/src` | the application source | 
 
 ### Application source folder structure:
@@ -66,7 +66,7 @@ removed from the README, however this notice is left here just in case it can be
 
 In the project directory, you can run:
 
-### `npm start`
+### `yarn start`
 
 Runs the app in the development mode.
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -74,19 +74,19 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.
 You will also see any lint errors in the console.
 
-### `npm add-locale`
+### `yarn add-locale`
 
 Adds a locale for localisation, with [lingui library](https://lingui.js.org/ref/react.html).<br>
 
-### `npm extract`
+### `yarn extract`
 
 Extracts new/updated strings from the codebase into JSON files for localisation (they need to be encapsulated with [lingui library](https://lingui.js.org/ref/react.html)'s <Trans>).<br>
 
-### `npm compile`
+### `yarn compile`
 
 Compiles localisation files for production.<br>
 
-### `npm build`
+### `yarn build`
 
 Builds the app for production to the `build` folder.<br>
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -384,7 +384,7 @@ be committed alongside other changes.
 |X| `babel-plugin-macros` | allows us to use Babel macros, such as the one included with `linguijs` that pulls out language data to create the locales
 |X| `case-sensitive-paths-webpack-plugin` | see `webpack.config.dev.js` |
 |X| `chalk` | used to create colour in terminal logs using ascii escape codes |
-|X| `cross-env` | allows us to apply environment variables in npm scripts that run across all platforms |
+|X| `cross-env` | allows us to apply environment variables in yarn scripts that run across all platforms |
 |X| `css-loader` | allows webpack to process CSS files |
 | | `dotenv` | loads and processes `.env` files and applies contents to the environment (`process.env`) |
 | | `dotenv-expand`  | allows interpolation of environment variables within the `.env` files themselves |
