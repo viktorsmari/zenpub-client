@@ -37,6 +37,7 @@
     "@absinthe/socket": "0.1.10",
     "@absinthe/socket-apollo-link": "0.1.11",
     "@babel/core": "7.1.6",
+    "@babel/plugin-syntax-object-rest-spread": "7.2.0",
     "@babel/runtime": "7.1.5",
     "@fortawesome/fontawesome-svg-core": "1.2.6",
     "@fortawesome/free-solid-svg-icons": "5.4.1",
