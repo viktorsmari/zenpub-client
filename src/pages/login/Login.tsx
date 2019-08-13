@@ -12,6 +12,7 @@ import media from 'styled-media-query';
 import Button from '../../components/elements/Button/Button';
 import Link from '../../components/elements/Link/Link';
 import SignupModal from '../../components/elements/SignupModal';
+import { APP_NAME } from '../../constants';
 import { i18n } from '../../containers/App/App';
 import styled, { ThemeInterface } from '../../themes/styled';
 // import Logo from '../../components/brand/Logo/Logo';
@@ -362,7 +363,7 @@ class Login extends React.Component<LoginProps, LoginState> {
     return (
       <>
         <Helmet>
-          <title>MoodleNet - Share. Curate. Discuss.</title>
+          <title>{APP_NAME} - Share. Curate. Discuss.</title>
         </Helmet>
         <Container>
           <LoginWrapper>

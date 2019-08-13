@@ -1,9 +1,11 @@
 import React, { SFC } from 'react';
-import styled from '../../themes/styled';
-import P from '../../components/typography/P/P';
-import H2 from '../../components/typography/H2/H2';
 import { Helmet } from 'react-helmet';
 import { Globe } from '../../components/elements/Icons';
+import H2 from '../../components/typography/H2/H2';
+import P from '../../components/typography/P/P';
+import { APP_NAME } from '../../constants';
+import styled from '../../themes/styled';
+
 interface Props {
   user: {
     name: string;
@@ -18,7 +20,9 @@ interface Props {
 const HeroComp: SFC<Props> = ({ user }) => (
   <HeroCont>
     <Helmet>
-      <title>MoodleNet > Profile > {user.name}</title>
+      <title>
+        {APP_NAME} > Profile > {user.name}
+      </title>
     </Helmet>
     <Hero>
       <HeroBg src={user.image} />
