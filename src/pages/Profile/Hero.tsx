@@ -1,5 +1,7 @@
 import React, { SFC } from 'react';
+import styled from '../../themes/styled';
 import { Helmet } from 'react-helmet';
+import { Box, Text, Flex } from 'rebass';
 import { Globe } from '../../components/elements/Icons';
 import H2 from '../../components/typography/H2/H2';
 import P from '../../components/typography/P/P';
@@ -18,7 +20,7 @@ interface Props {
 }
 
 const HeroComp: SFC<Props> = ({ user }) => (
-  <HeroCont>
+  <Box p={1} mb={2}>
     <Helmet>
       <title>
         {APP_NAME} > Profile > {user.name}
@@ -26,57 +28,59 @@ const HeroComp: SFC<Props> = ({ user }) => (
     </Helmet>
     <Hero>
       <HeroBg src={user.image} />
-      <WrapperHero>
-        <Img
-          style={{
-            backgroundImage: `url(${user.icon})`
-          }}
-        />
+      <Flex>
+        <WrapperHero>
+          <Img
+            style={{
+              backgroundImage: `url(${user.icon})`
+            }}
+          />
+        </WrapperHero>
         <HeroInfo>
-          <H2>{user.name}</H2>
-          <PreferredUsername>@{user.preferredUsername}</PreferredUsername>
+          <Title fontSize={5} mt={1} fontWeight={'bold'}>
+            {user.name}
+          </Title>
+          <Username fontSize={2}>@{user.preferredUsername}</Username>
+          <Description mt={2} fontSize={2}>
+            {user.summary}
+          </Description>
+          {user.location ? (
+            <Location mt={2}>
+              <span>
+                <Globe width={20} height={20} strokeWidth={1} color={'#333'} />
+              </span>
+              {user.location}
+            </Location>
+          ) : null}
         </HeroInfo>
-      </WrapperHero>
-      <P>{user.summary}</P>
-      {user.location ? (
-        <Location>
-          <span>
-            <Globe width={20} height={20} strokeWidth={1} color={'#333'} />
-          </span>
-          {user.location}
-        </Location>
-      ) : null}
+      </Flex>
     </Hero>
-  </HeroCont>
+  </Box>
 );
 
 export default HeroComp;
 
-const PreferredUsername = styled.div`
-  color: #fff;
-  opacity: 0.6;
-  font-weight: 600;
+const Title = styled(Text)`
+  color: ${props => props.theme.styles.colors.darkgray};
+`;
+const Username = styled(Text)`
+  color: ${props => props.theme.styles.colors.gray};
+  font-weight: 500;
+`;
+const Description = styled(Text)`
+  color: ${props => props.theme.styles.colors.darkgray};
 `;
 
-const Location = styled.div`
-  color: ${props => props.theme.styles.colour.heroIcon};
-  opacity: 0.6;
-  font-weight: 600;
-  padding: 0 24px;
-  padding-bottom: 0px;
-  margin-left: 120px;
-  margin: 0;
-  margin-top: 0px;
-  margin-left: 0px;
-  margin-left: 136px;
+const Location = styled(Text)`
+  color: ${props => props.theme.styles.colors.gray};
+  font-weight: 500;
   line-height: 26px;
   font-size: 16px;
-  padding-bottom: 16px;
   span {
     display: inline-block;
     margin-right: 8px;
     & svg {
-      color: ${props => props.theme.styles.colour.heroIcon};
+      color: ${props => props.theme.styles.colors.gray};
       vertical-align: text-bottom;
     }
   }
@@ -84,13 +88,10 @@ const Location = styled.div`
 
 const HeroBg = styled.div<{ src: string }>`
   height: 250px;
-  background: #333;
   border-top-right-radius: 6px;
   border-top-left-radius: 6px;
-  background-image: url(${props =>
-    props.src
-      ? props.src
-      : 'https://images.unsplash.com/photo-1557943978-bea7e84f0e87?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60'});
+  background: #333;
+  background-image: url(${props => (props.src ? props.src : '#333')});
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -117,7 +118,7 @@ const WrapperHero = styled.div`
   padding-top: 0;
   z-index: 9999;
   position: relative;
-  margin-top: -80px;
+  margin-top: -60px;
   padding-bottom: 0;
 `;
 
@@ -126,7 +127,7 @@ const Img = styled.div`
   height: 120px;
   border-radius: 100px;
   background: ${props => props.theme.styles.colour.secondary};
-  border: 5px solid white;
+  border: 3px solid white;
   margin-bottom: 10px;
   background-size: cover;
   background-position: center center;
@@ -136,18 +137,10 @@ const Img = styled.div`
   margin-right: 16px;
 `;
 
-const HeroCont = styled.div`
-  margin-bottom: 16px;
-  box-sizing: border-box;
-  margin-top: 24px;
-`;
-
 const Hero = styled.div`
   width: 100%;
   position: relative;
   border-radius: 6px;
-
-  background: ${props => props.theme.styles.colour.hero};
   & p {
     color: ${props => props.theme.styles.colour.heroNote};
     padding: 0 24px;
@@ -162,15 +155,6 @@ const Hero = styled.div`
 `;
 
 const HeroInfo = styled.div`
-  display: inline-block;
-  & h2 {
-    margin: 0;
-    font-size: 24px !important;
-    line-height: 40px !important;
-    margin-bottom: 0px;
-    text-shadow: 0 1px #0005;
-    color: #fff;
-  }
   & button {
     span {
       vertical-align: sub;

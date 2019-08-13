@@ -18,9 +18,10 @@ import FollowingCollectionsLoadMore from '../../components/elements/Loadmore/fol
 import JoinedCommunitiesLoadMore from '../../components/elements/Loadmore/joinedCommunities';
 import HeroComp from '../Profile/Hero';
 import { WrapperTab, OverlayTab } from '../communities.community/Community';
-import { List, ListCollections, WrapperCont } from '../Profile';
+import { List, ListCollections } from '../Profile';
 import TimelineItem from '../../components/elements/TimelineItem';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timelineoutbox';
+import { WrapperCont } from '../communities.all/CommunitiesAll';
 
 enum TabsEnum {
   Overview = 'Overview',
@@ -107,7 +108,7 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                             />
                           </span>
                           <h5>
-                            <Trans>Timeline</Trans>
+                            <Trans>Recent activities</Trans>
                           </h5>
                         </SuperTab>
                         <SuperTab>

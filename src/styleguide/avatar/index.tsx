@@ -5,12 +5,20 @@ interface Props {
   name?: string;
   src: string;
   rest?: any;
+  onClick?: any;
 }
 
 const Avatar: React.SFC<Props> = ({ name, src, ...rest }) =>
   name ? (
     <Flex alignItems="center">
-      <Image src={src} width={48} height={48} borderRadius={9999} {...rest} />
+      <Image
+        backgroundColor={'#333'}
+        src={src}
+        width={48}
+        height={48}
+        borderRadius={9999}
+        {...rest}
+      />
       <Text ml={3} fontSize={[2, 3]} fontWeight={600} {...rest}>
         {name}
       </Text>

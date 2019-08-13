@@ -43,7 +43,7 @@ export default compose(withState('sidebar', 'onSidebar', false))(p => (
           component={props => (
             <>
               <Flex justifyContent={'center'}>
-                <Sidebar />
+                <Sidebar history={props.history} />
                 <Switch>
                   <Route exact path="/" component={Home} />
                   <Route exact path="/discover" component={Discover} />
