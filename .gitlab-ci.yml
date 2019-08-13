@@ -2,9 +2,9 @@
 image: node:alpine
 
 # Cache node modules - speeds up future builds
-cache:
-  paths:
-  - node_modules
+# cache:
+  # paths:
+  # - node_modules
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
@@ -12,7 +12,7 @@ variables:
 
 default:
   before_script:
-    - rm -rf node_modules
+    # - rm -rf node_modules
     - apk add --update py-pip # install python & pip
     - pip install awscli 
     - yarn # Install all JS dependencies
