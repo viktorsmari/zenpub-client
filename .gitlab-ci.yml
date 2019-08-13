@@ -12,6 +12,7 @@ variables:
 
 default:
   before_script:
+    - rm -rf node_modules
     - apk add --update py-pip # install python & pip
     - pip install awscli 
     - yarn # Install all JS dependencies
