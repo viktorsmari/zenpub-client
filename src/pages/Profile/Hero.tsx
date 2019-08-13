@@ -1,10 +1,7 @@
 import React, { SFC } from 'react';
-import styled from '../../themes/styled';
 import { Helmet } from 'react-helmet';
 import { Box, Text, Flex } from 'rebass';
 import { Globe } from '../../components/elements/Icons';
-import H2 from '../../components/typography/H2/H2';
-import P from '../../components/typography/P/P';
 import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
 
