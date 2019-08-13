@@ -42,7 +42,7 @@ removed from the README, however this notice is left here just in case it can be
 | `/build` | the output directory containing static assets & application files |
 | `/config` | contains all configuration for the build tooling, i.e. webpack |
 | `/public` | files that will be copied into the `build` folder |
-| `/scripts` | "run" files should be invoked via their respective `yarn run` command |
+| `/scripts` | "run" files should be invoked via their respective `yarn` command |
 | `/src` | the application source | 
 
 ### Application source folder structure:
