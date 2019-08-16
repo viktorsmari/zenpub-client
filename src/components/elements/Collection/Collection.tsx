@@ -2,7 +2,6 @@ import * as React from 'react';
 import styled from '../../../themes/styled';
 import CollectionType from '../../../types/Collection';
 import { Link } from 'react-router-dom';
-import Join from './Join';
 import H5 from '../../typography/H5/H5';
 import P from '../../typography/P/P';
 import { Resource, Eye, Message } from '../Icons';
@@ -71,28 +70,9 @@ export default ({ collection }: CollectionProps) => {
           </Actions>
         </Infos>
       </Link>
-      <Right>
-        <Join
-          followed={collection.followed}
-          id={collection.localId}
-          externalId={collection.id}
-        />
-      </Right>
     </Wrapper>
   );
 };
-
-const Right = styled.div`
-  width: 38px;
-  margin-left: 16px;
-  ${media.lessThan('medium')`
-  margin-top: 8px;
-  background: #f7f8f9;
-  border-radius: 6px;
-  display: inline-block;
-  margin-left: 8px;
-`};
-`;
 
 const Actions = styled.div`
   margin-top: 10px;
