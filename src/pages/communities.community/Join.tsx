@@ -3,8 +3,8 @@ import gql from 'graphql-tag';
 import React from 'react';
 import { graphql, OperationOption } from 'react-apollo';
 import { compose } from 'recompose';
-import { Minus, Plus } from '../../components/elements/Icons';
 import styled from '../../themes/styled';
+import { Button } from 'rebass';
 const {
   joinCommunityMutation
 } = require('../../graphql/joinCommunity.graphql');
@@ -39,45 +39,42 @@ const Join: React.FC<Props> = ({
 }) => {
   if (followed) {
     return (
-      <MinusBg>
-        <Span
-          onClick={() =>
-            leaveCommunity({
-              variables: { communityId: id },
-              update: (proxy, { data: { undoJoinCommunity } }) => {
-                const fragment = gql`
-                  fragment Res on Community {
-                    followed
-                  }
-                `;
-                let collection = proxy.readFragment({
-                  id: `Community:${externalId}`,
-                  fragment: fragment,
-                  fragmentName: 'Res'
-                });
-                collection.followed = !collection.followed;
-                proxy.writeFragment({
-                  id: `Community:${externalId}`,
-                  fragment: fragment,
-                  fragmentName: 'Res',
-                  data: collection
-                });
-              }
+      <Span
+        onClick={() =>
+          leaveCommunity({
+            variables: { communityId: id },
+            update: (proxy, { data: { undoJoinCommunity } }) => {
+              const fragment = gql`
+                fragment Res on Community {
+                  followed
+                }
+              `;
+              let collection = proxy.readFragment({
+                id: `Community:${externalId}`,
+                fragment: fragment,
+                fragmentName: 'Res'
+              });
+              collection.followed = !collection.followed;
+              proxy.writeFragment({
+                id: `Community:${externalId}`,
+                fragment: fragment,
+                fragmentName: 'Res',
+                data: collection
+              });
+            }
+          })
+            .then(res => {
+              console.log(res);
             })
-              .then(res => {
-                console.log(res);
-              })
-              .catch(err => console.log(err))
-          }
-        >
-          <Minus width={16} height={16} strokeWidth={3} color={'#f98012'} />
-          <Trans>Leave</Trans>
-        </Span>
-      </MinusBg>
+            .catch(err => console.log(err))
+        }
+      >
+        <Trans>Leave</Trans>
+      </Span>
     );
   } else {
     return (
-      <Span
+      <Button
         onClick={() =>
           joinCommunity({
             variables: { communityId: id },
@@ -107,22 +104,11 @@ const Join: React.FC<Props> = ({
             .catch(err => console.log(err))
         }
       >
-        <Plus width={16} height={16} strokeWidth={2} color={'#f98012'} />
         <Trans>Join</Trans>
-      </Span>
+      </Button>
     );
   }
 };
-
-const MinusBg = styled.div`
-  & svg {
-    color: #fff !important;
-  }
-  & div {
-    background: ${props => props.theme.styles.colour.primary} !important;
-    color: white !important;
-  }
-`;
 
 const Span = styled.div`
   color: ${props => props.theme.styles.colour.base2};
@@ -131,30 +117,21 @@ const Span = styled.div`
   border-radius: 3px;
   margin-left: 8px;
   box-sizing: border-box;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.07);
   display: inline-block;
-  padding: 0 10px;
+  padding: 4px 32px;
   min-width: 0;
-  height: 32px;
   font-size: 16px;
   border-radius: 4px;
-  line-height: 32px;
-  position: absolute;
-  top: 0px;
-  right: 0;
-  border: 2px solid ${props => props.theme.styles.colour.primary};
+  border: 1px solid ${props => props.theme.styles.colors.orange};
   font-size: 14px;
   line-height: 29px;
-  color: ${props => props.theme.styles.colour.primary};
+  color: ${props => props.theme.styles.colors.darkgray};
   font-weight: 600;
   letter-spacing: 1px;
-  &:hover {
-    background: ${props => props.theme.styles.colour.newcommunityBgHover};
-  }
   & svg {
     margin-right: 4px;
     vertical-align: text-top;
-    color: ${props => props.theme.styles.colour.primary};
+    color: ${props => props.theme.styles.colors.orange};
   }
 `;
 

@@ -6,7 +6,6 @@ import Discussion from '../../components/chrome/Discussion/Discussion';
 import styled from '../../themes/styled';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem';
-import { Collection, Message, Eye } from '../../components/elements/Icons';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
 
 interface Props {
@@ -29,35 +28,16 @@ const CommunityPage: SFC<Props> = ({
       <Tabs defaultIndex={1}>
         <SuperTabList>
           <SuperTab>
-            <span>
-              <Eye width={20} height={20} strokeWidth={2} color={'#a0a2a5'} />
-            </span>
             <h5>
-              <Trans>Timeline</Trans>
+              <Trans>Recent activities</Trans>
             </h5>
           </SuperTab>
           <SuperTab>
-            <span>
-              <Collection
-                width={20}
-                height={20}
-                strokeWidth={2}
-                color={'#a0a2a5'}
-              />
-            </span>
             <h5>
               <Trans>Collections</Trans>
             </h5>
           </SuperTab>
           <SuperTab>
-            <span>
-              <Message
-                width={20}
-                height={20}
-                strokeWidth={2}
-                color={'#a0a2a5'}
-              />
-            </span>{' '}
             <h5>
               <Trans>Discussions</Trans>
             </h5>
