@@ -20,8 +20,7 @@ import { List, ListCollections } from '../Profile';
 import TimelineItem from '../../components/elements/TimelineItem';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timelineoutbox';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-import { Flex } from 'rebass';
-import { WrapperPanel, Panel, PanelTitle, Nav } from '../Profile';
+import { HomeBox, WrapperPanel, Panel, PanelTitle, Nav } from '../Profile';
 enum TabsEnum {
   Overview = 'Overview',
   Communities = 'Joined communities',
@@ -80,7 +79,7 @@ class CommunitiesFeatured extends React.Component<Props, State> {
   };
   render() {
     return (
-      <Flex>
+      <HomeBox>
         {this.props.data.error ? (
           <span>
             <Trans>Error loading user</Trans>
@@ -229,7 +228,7 @@ class CommunitiesFeatured extends React.Component<Props, State> {
             </WrapperPanel>
           </>
         )}
-      </Flex>
+      </HomeBox>
     );
   }
 }

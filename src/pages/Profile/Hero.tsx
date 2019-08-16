@@ -17,7 +17,7 @@ interface Props {
 }
 
 const HeroComp: SFC<Props> = ({ user }) => (
-  <Box p={1} mb={2}>
+  <ProfileBox p={1} mb={2}>
     <Helmet>
       <title>
         {APP_NAME} > Profile > {user.name}
@@ -52,10 +52,14 @@ const HeroComp: SFC<Props> = ({ user }) => (
         </HeroInfo>
       </Flex>
     </Hero>
-  </Box>
+  </ProfileBox>
 );
 
 export default HeroComp;
+
+const ProfileBox = styled(Box)`
+  overflow-y: overlay;
+`;
 
 const Title = styled(Text)`
   color: ${props => props.theme.styles.colors.darkgray};

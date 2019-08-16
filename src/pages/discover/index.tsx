@@ -36,7 +36,7 @@ interface Props {
 
 const Home: React.FC<Props> = props => {
   return (
-    <Flex>
+    <HomeBox>
       <WrapperCont>
         <WrapperFeatured>
           <FeaturedCollections />
@@ -119,9 +119,13 @@ const Home: React.FC<Props> = props => {
         </Nav>
       </Panel> */}
       </WrapperPanel>
-    </Flex>
+    </HomeBox>
   );
 };
+
+const HomeBox = styled(Flex)`
+  overflow-y: overlay;
+`;
 
 const WrapperPanel = styled(Box)`
   margin-top: 16px;

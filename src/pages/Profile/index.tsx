@@ -10,7 +10,6 @@ import CommunityCard from '../../components/elements/Community/Community';
 import media from 'styled-media-query';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import { Tabs, TabPanel } from 'react-tabs';
-import { Collection, Community, Eye } from '../../components/elements/Icons';
 const getUserQuery = require('../../graphql/getUser.graphql');
 import FollowingCollectionsLoadMore from '../../components/elements/Loadmore/followingCollections';
 import JoinedCommunitiesLoadMore from '../../components/elements/Loadmore/joinedCommunities';
@@ -80,13 +79,21 @@ class CommunitiesFeatured extends React.Component<Props, State> {
   };
   render() {
     return (
-      <Flex>
+      <HomeBox>
         {this.props.data.error ? (
-          <span>
-            <Trans>Error loading user</Trans>
-          </span>
+          <WrapperCont>
+            <Wrapper>
+              <span>
+                <Trans>Error loading user</Trans>
+              </span>
+            </Wrapper>
+          </WrapperCont>
         ) : this.props.data.loading ? (
-          <Loader />
+          <WrapperCont>
+            <Wrapper>
+              <Loader />
+            </Wrapper>
+          </WrapperCont>
         ) : (
           <>
             <WrapperCont>
@@ -97,40 +104,16 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                     <Tabs>
                       <SuperTabList>
                         <SuperTab>
-                          <span>
-                            <Eye
-                              width={20}
-                              height={20}
-                              strokeWidth={2}
-                              color={'#a0a2a5'}
-                            />
-                          </span>
                           <h5>
                             <Trans>Timeline</Trans>
                           </h5>
                         </SuperTab>
                         <SuperTab>
-                          <span>
-                            <Collection
-                              width={20}
-                              height={20}
-                              strokeWidth={2}
-                              color={'#a0a2a5'}
-                            />
-                          </span>
                           <h5>
                             <Trans>Followed Collections</Trans>
                           </h5>
                         </SuperTab>
                         <SuperTab>
-                          <span>
-                            <Community
-                              width={20}
-                              height={20}
-                              strokeWidth={2}
-                              color={'#a0a2a5'}
-                            />
-                          </span>{' '}
                           <h5>
                             <Trans>Joined Communities</Trans>
                           </h5>
@@ -226,11 +209,14 @@ class CommunitiesFeatured extends React.Component<Props, State> {
             </WrapperPanel>
           </>
         )}
-      </Flex>
+      </HomeBox>
     );
   }
 }
 
+export const HomeBox = styled(Flex)`
+  overflow-y: overlay;
+`;
 export const WrapperPanel = styled(Box)`
   margin-top: 16px;
   margin-left: 16px;
@@ -256,7 +242,7 @@ export const Nav = styled(Box)`
 
 export const List = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   grid-column-gap: 16px;
   grid-row-gap: 16px;
   padding: 16px;
