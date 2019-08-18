@@ -27,7 +27,7 @@ const config = {
         open: false,
         'open-browser': false,
         root: '/home/Code/MoodleNet/moodlenet-client-react/.docz',
-        base: '/docs/ui/',
+        base: '/docs/client/ui/',
         source: './',
         src: './',
         files: '**/*.{md,markdown,mdx}',
