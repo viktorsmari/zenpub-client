@@ -18,8 +18,16 @@ import CommunityModal from '../../components/elements/CommunityModal';
 import EditCommunityModal from '../../components/elements/EditCommunityModal';
 import UsersModal from '../../components/elements/UsersModal';
 import CommunityPage from './Community';
-import { Flex } from 'rebass';
+import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
+import {
+  WrapperPanel,
+  Panel,
+  PanelTitle,
+  Nav,
+  NavItem
+} from '../../sections/panel';
+import { Box } from 'rebass';
 const { getCommunityQuery } = require('../../graphql/getCommunity.graphql');
 enum TabsEnum {
   // Overview = 'Overview',
@@ -74,8 +82,7 @@ class CommunitiesFeatured extends React.Component<Props, State> {
 
       if (this.props.data.community.collections.totalCount) {
         collections = (
-          <Wrapper>
-            {/* {community.followed ? (
+          /* {community.followed ? (
               <Header>
                 <Actions>
                   <Create onClick={this.props.handleNewCollection}>
@@ -97,14 +104,13 @@ class CommunitiesFeatured extends React.Component<Props, State> {
               <Footer>
                 <Trans>Join the community to create a collection</Trans>
               </Footer>
-            )} */}
+            )} */
 
-            <CollectionList>
-              {this.props.data.community.collections.edges.map((e, i) => (
-                <CollectionCard key={i} collection={e.node} />
-              ))}
-            </CollectionList>
-          </Wrapper>
+          <Box m={2}>
+            {this.props.data.community.collections.edges.map((e, i) => (
+              <CollectionCard key={i} collection={e.node} />
+            ))}
+          </Box>
         );
       } else {
         collections = (
@@ -164,54 +170,104 @@ class CommunitiesFeatured extends React.Component<Props, State> {
     }
 
     return (
-      <CommunityBox>
-        <WrapperCont>
-          <Wrapper>
-            <Hero
-              community={community}
-              showUsers={this.props.showUsers}
-              editCommunity={this.props.editCommunity}
-            />
-            <Switch>
-              <Route
-                path={`/communities/${community.localId}/thread/:id`}
-                component={Thread}
+      <MainContainer>
+        <HomeBox>
+          <WrapperCont>
+            <Wrapper>
+              <Hero
+                community={community}
+                showUsers={this.props.showUsers}
+                editCommunity={this.props.editCommunity}
               />
-              <Route
-                path={this.props.match.url}
-                exact
-                render={props => (
-                  <CommunityPage
-                    {...props}
-                    collections={collections}
-                    community={community}
-                    fetchMore={this.props.data.fetchMore}
-                    type={'community'}
-                  />
-                )}
-              />
-            </Switch>
-          </Wrapper>
-        </WrapperCont>
-        <CommunityModal
-          toggleModal={this.props.handleNewCollection}
-          modalIsOpen={this.props.isOpen}
-          communityId={community.localId}
-          communityExternalId={community.id}
-        />
-        <EditCommunityModal
-          toggleModal={this.props.editCommunity}
-          modalIsOpen={this.props.isEditCommunityOpen}
-          communityId={community.localId}
-          communityExternalId={community.id}
-          community={community}
-        />
-        <UsersModal
-          toggleModal={this.props.showUsers}
-          modalIsOpen={this.props.isUsersOpen}
-          members={community.members.edges}
-        />
-      </CommunityBox>
+              <Switch>
+                <Route
+                  path={`/communities/${community.localId}/thread/:id`}
+                  component={Thread}
+                />
+                <Route
+                  path={this.props.match.url}
+                  exact
+                  render={props => (
+                    <CommunityPage
+                      {...props}
+                      collections={collections}
+                      community={community}
+                      fetchMore={this.props.data.fetchMore}
+                      type={'community'}
+                    />
+                  )}
+                />
+              </Switch>
+            </Wrapper>
+          </WrapperCont>
+
+          <CommunityModal
+            toggleModal={this.props.handleNewCollection}
+            modalIsOpen={this.props.isOpen}
+            communityId={community.localId}
+            communityExternalId={community.id}
+          />
+          <EditCommunityModal
+            toggleModal={this.props.editCommunity}
+            modalIsOpen={this.props.isEditCommunityOpen}
+            communityId={community.localId}
+            communityExternalId={community.id}
+            community={community}
+          />
+          <UsersModal
+            toggleModal={this.props.showUsers}
+            modalIsOpen={this.props.isUsersOpen}
+            members={community.members.edges}
+          />
+        </HomeBox>
+        <WrapperPanel>
+          <Panel>
+            <PanelTitle fontSize={0} fontWeight={'bold'}>
+              <Trans>Popular hashtags</Trans>
+            </PanelTitle>
+            <Nav>
+              <NavItem mb={3} fontSize={1}>
+                <Trans>#learningdesign</Trans>
+              </NavItem>
+              <NavItem mb={3} fontSize={1}>
+                <Trans>#MPI</Trans>
+              </NavItem>
+              <NavItem mb={3} fontSize={1}>
+                <Trans>#Youtube</Trans>
+              </NavItem>
+              <NavItem mb={3} fontSize={1}>
+                <Trans>#models</Trans>
+              </NavItem>
+              <NavItem mb={3} fontSize={1}>
+                <Trans>#ADDIE</Trans>
+              </NavItem>
+            </Nav>
+          </Panel>
+
+          <Panel>
+            <PanelTitle fontSize={0} fontWeight={'bold'}>
+              <Trans>Popular categories</Trans>
+            </PanelTitle>
+            <Nav>
+              <NavItem mb={3} fontSize={1}>
+                <Trans>Humanities</Trans>
+              </NavItem>
+              <NavItem mb={3} fontSize={1}>
+                <Trans>Behavioural science</Trans>
+              </NavItem>
+              <NavItem mb={3} fontSize={1}>
+                <Trans>English</Trans>
+              </NavItem>
+              <NavItem mb={3} fontSize={1}>
+                <Trans>Romana</Trans>
+              </NavItem>
+              <NavItem mb={3} fontSize={1}>
+                <Trans>Postgraduate</Trans>
+              </NavItem>
+            </Nav>
+          </Panel>
+        </WrapperPanel>
+      </MainContainer>
     );
   }
 }
@@ -223,10 +279,6 @@ class CommunitiesFeatured extends React.Component<Props, State> {
 export const Actions = styled.div`
   ${clearFix()};
   display: flex;
-`;
-
-const CommunityBox = styled(Flex)`
-  overflow-y: overlay;
 `;
 
 export const Create = styled.div`
@@ -275,10 +327,6 @@ export const Create = styled.div`
 //   border-bottom: 1px solid ${props => props.theme.styles.colour.divider};
 //   color: #544f46;
 // `;
-
-const CollectionList = styled.div`
-  flex: 1;
-`;
 
 const OverviewCollection = styled.div`
   padding-top: 8px;

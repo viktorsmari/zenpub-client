@@ -54,7 +54,7 @@ const CommunityPage: SFC<Props> = ({
           </div>
         </TabPanel>
         <TabPanel>
-          <div style={{ display: 'flex' }}>{collections}</div>
+          <div>{collections}</div>
         </TabPanel>
         <TabPanel>
           {community.followed ? (

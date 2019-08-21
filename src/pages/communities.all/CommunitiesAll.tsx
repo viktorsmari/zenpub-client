@@ -178,9 +178,22 @@ const AddNewCommunity = styled.div`
 `;
 
 export const WrapperCont = styled.div`
-  width: 600px;
+  width: 100%;
   margin: 0 auto;
   height: 100%;
+  align-items: stretch;
+  border: 0 solid black;
+  box-sizing: border-box;
+  display: flex;
+  flex-basis: auto;
+  flex-direction: column;
+  flex-shrink: 0;
+  margin: 0px;
+  min-height: 0px;
+  min-width: 0px;
+  padding: 0px;
+  position: relative;
+  z-index: 0;
 `;
 
 export const Wrapper = styled.div`
@@ -188,8 +201,9 @@ export const Wrapper = styled.div`
   flex-direction: column;
   flex: 1;
   margin-bottom: 24px;
-  background: ${props => props.theme.styles.colour.secondaryBg};
-  border-radius: 6px;
+  background: white;
+  border-radius: 3px;
+  border: 1px solid ${props => props.theme.styles.colors.lightgray};
   margin-top: 16px;
   & ul {
     display: block !important;
