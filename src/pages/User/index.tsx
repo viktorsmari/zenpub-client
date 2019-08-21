@@ -1,7 +1,7 @@
 // View a Community (with list of collections)
 
 import * as React from 'react';
-import { compose } from 'recompose';
+import { compose, withState, withHandlers } from 'recompose';
 
 import { Trans } from '@lingui/macro';
 import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
@@ -69,6 +69,7 @@ interface Data extends GraphqlQueryControls {
 interface Props {
   data: Data;
   match: any;
+  handleCollection: any;
 }
 
 type State = {
@@ -164,6 +165,7 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                                   <CollectionCard
                                     key={i}
                                     collection={comm.node}
+                                    openModal={this.props.handleCollection}
                                   />
                                 )
                               )}
@@ -258,4 +260,11 @@ const withGetCollections = graphql<
   })
 }) as OperationOption<{}, {}>;
 
-export default compose(withGetCollections)(CommunitiesFeatured);
+export default compose(
+  withGetCollections,
+  withState('isOpenCollection', 'onOpenCollection', false),
+  withHandlers({
+    handleCollection: props => () =>
+      props.onOpenCollection(!props.isOpenCollection)
+  })
+)(CommunitiesFeatured);

@@ -14,6 +14,8 @@ import Search from '../../pages/search/Search';
 import Home from '../../pages/home';
 import Discover from '../../pages/discover';
 import Profile from '../../pages/Profile';
+import MyCommunities from '../../pages/communities.all/communitiesJoined';
+import MyCollections from '../../pages/collections.all/collectionsFollowed';
 import User from '../../pages/User';
 import Settings from '../../pages/settings';
 import Reset from '../../pages/Reset';
@@ -123,6 +125,16 @@ export default compose(withState('sidebar', 'onSidebar', false))(p => (
                             exact
                             path="/communities"
                             component={CommunitiesAll}
+                          />
+                          <Route
+                            exact
+                            path="/mycommunities"
+                            component={MyCommunities}
+                          />
+                          <Route
+                            exact
+                            path="/mycollections"
+                            component={MyCollections}
                           />
                           <Route
                             path="/communities/:community"

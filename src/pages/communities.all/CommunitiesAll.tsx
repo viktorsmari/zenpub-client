@@ -5,19 +5,16 @@ import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
 import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
-// import H4 from '../../components/typography/H4/H4';
-import Main from '../../components/chrome/Main/Main';
 import CommunityCard from '../../components/elements/Community/Community';
 import NewCommunityModal from '../../components/elements/CreateCommunityModal';
-import { Community, Eye } from '../../components/elements/Icons';
 import Loader from '../../components/elements/Loader/Loader';
 import CommunitiesLoadMore from '../../components/elements/Loadmore/community';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
 import CommunityType from '../../types/Community';
-import CommunitiesJoined from '../communities.joined';
-
+import { HomeBox, MainContainer } from '../../sections/layoutUtils';
+import { WrapperPanel, Panel, Nav, NavItem } from '../../sections/panel';
 const { getCommunitiesQuery } = require('../../graphql/getCommunities.graphql');
 
 interface Data extends GraphqlQueryControls {
@@ -39,143 +36,86 @@ interface Props {
 class CommunitiesYours extends React.Component<Props> {
   render() {
     return (
-      <Main>
-        <WrapperCont>
-          <Wrapper>
-            <Tabs>
-              <SuperTabList>
-                <SuperTab>
-                  <span>
-                    <Community
-                      width={20}
-                      height={20}
-                      strokeWidth={2}
-                      color={'#a0a2a5'}
-                    />
-                  </span>
-                  <h5>
-                    <Trans>All communities</Trans>
-                  </h5>
-                </SuperTab>
-                <SuperTab>
-                  <span>
-                    <Eye
-                      width={20}
-                      height={20}
-                      strokeWidth={2}
-                      color={'#a0a2a5'}
-                    />
-                  </span>
-                  <h5>
-                    <Trans>Joined communities</Trans>
-                  </h5>
-                </SuperTab>
-              </SuperTabList>
-              <TabPanel>
-                {this.props.data.error ? (
-                  <span>
-                    <Trans>Error loading communities</Trans>
-                  </span>
-                ) : this.props.data.loading ? (
-                  <Loader />
-                ) : (
-                  <>
-                    <Helmet>
-                      <title>{APP_NAME} > All communities</title>
-                    </Helmet>
-                    <List>
-                      <AddNewCommunity onClick={this.props.handleNewCommunity}>
-                        <Action>
-                          <span>
-                            <Community
-                              width={30}
-                              height={30}
-                              color={'#f98011'}
-                              strokeWidth={1}
-                            />
-                          </span>
-                          <Title>
-                            <Trans>Create a new community</Trans>
-                          </Title>
-                        </Action>
-                      </AddNewCommunity>
-                      {this.props.data.communities.nodes.map((community, i) => {
-                        return (
-                          <CommunityCard
-                            key={i}
-                            summary={community.summary}
-                            title={community.name}
-                            icon={community.icon || ''}
-                            id={community.localId}
-                            followed={community.followed}
-                            followersCount={community.members.totalCount}
-                            collectionsCount={community.collections.totalCount}
-                            externalId={community.id}
-                            threadsCount={community.threads.totalCount}
-                          />
-                        );
-                      })}
-                    </List>
-                    <div style={{ padding: '8px' }}>
-                      <CommunitiesLoadMore
-                        fetchMore={this.props.data.fetchMore}
-                        communities={this.props.data.communities}
-                      />
-                    </div>
-                  </>
-                )}
-              </TabPanel>
-              <TabPanel>
-                <CommunitiesJoined />
-              </TabPanel>
-            </Tabs>
-          </Wrapper>
-        </WrapperCont>
+      <MainContainer>
+        <HomeBox>
+          <WrapperCont>
+            <Wrapper>
+              <Tabs>
+                <SuperTabList>
+                  <SuperTab>
+                    <h5>
+                      <Trans>All communities</Trans>
+                    </h5>
+                  </SuperTab>
+                </SuperTabList>
+                <TabPanel>
+                  {this.props.data.error ? (
+                    <span>
+                      <Trans>Error loading communities</Trans>
+                    </span>
+                  ) : this.props.data.loading ? (
+                    <Loader />
+                  ) : (
+                    <>
+                      <Helmet>
+                        <title>{APP_NAME} > All communities</title>
+                      </Helmet>
+                      <List>
+                        {this.props.data.communities.nodes.map(
+                          (community, i) => {
+                            return (
+                              <CommunityCard
+                                key={i}
+                                summary={community.summary}
+                                title={community.name}
+                                icon={community.icon || ''}
+                                id={community.localId}
+                                followed={community.followed}
+                                followersCount={community.members.totalCount}
+                                collectionsCount={
+                                  community.collections.totalCount
+                                }
+                                externalId={community.id}
+                                threadsCount={community.threads.totalCount}
+                              />
+                            );
+                          }
+                        )}
+                      </List>
+                      <div style={{ padding: '8px' }}>
+                        <CommunitiesLoadMore
+                          fetchMore={this.props.data.fetchMore}
+                          communities={this.props.data.communities}
+                        />
+                      </div>
+                    </>
+                  )}
+                </TabPanel>
+              </Tabs>
+            </Wrapper>
+          </WrapperCont>
+        </HomeBox>
+        <WrapperPanel>
+          <Panel>
+            <Nav>
+              <NavItem
+                onClick={this.props.handleNewCommunity}
+                fontSize={1}
+                fontWeight={'bold'}
+              >
+                <Trans>Create a new community</Trans>
+              </NavItem>
+            </Nav>
+          </Panel>
+        </WrapperPanel>
         <NewCommunityModal
           toggleModal={this.props.handleNewCommunity}
           modalIsOpen={this.props.isOpenCommunity}
         />
-      </Main>
+      </MainContainer>
     );
   }
 }
-const Action = styled.div`
-  text-align: center;
-  margin: 0 auto;
-`;
-const Title = styled.h5``;
-
-const AddNewCommunity = styled.div`
-  padding: 8px;
-  position: relative;
-  max-height: 560px;
-  background: ${props => props.theme.styles.colour.newcommunityBg};
-  border-radius: 6px;
-  overflow: hidden;
-  z-index: 9;
-  border: 1px dashed #f98011;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  &:hover {
-    background: ${props => props.theme.styles.colour.newcommunityBgHover};
-  }
-  & h5 {
-    margin: 0;
-    font-size: 14px !important;
-    line-height: 24px !important;
-    word-break: break-word;
-    font-weight: 500;
-    color: #f98011;
-  }
-  & a {
-    color: inherit;
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-`;
 
 export const WrapperCont = styled.div`
   width: 100%;
@@ -228,7 +168,7 @@ export const Wrapper = styled.div`
 `;
 export const List = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   grid-column-gap: 16px;
   grid-row-gap: 16px;
   padding-top: 0;

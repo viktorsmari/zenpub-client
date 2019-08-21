@@ -71,4 +71,10 @@ export const Nav = styled(Box)`
   padding: 16px;
 `;
 
-export const NavItem = styled(Text)``;
+export const NavItem = styled(Text)`
+color: ${props => props.theme.styles.colors.darkgray}
+a {
+  color: ${props => props.theme.styles.colors.darkgray}
+  text-decoration: none;
+}
+  `;

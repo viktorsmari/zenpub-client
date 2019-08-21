@@ -3,17 +3,15 @@ import * as React from 'react';
 import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
 import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
-import compose from 'recompose/compose';
+import { compose, withState, withHandlers } from 'recompose';
 import Main from '../../components/chrome/Main/Main';
 import CollectionCard from '../../components/elements/Collection/Collection';
-import { Collection, Eye } from '../../components/elements/Icons';
 import Loader from '../../components/elements/Loader/Loader';
 import CollectionsLoadMore from '../../components/elements/Loadmore/collections';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
 import CollectionType from '../../types/Collection';
-import CollectionsFollowed from '../collections.followed';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 
 const { getCollectionsQuery } = require('../../graphql/getCollections.graphql');
@@ -30,6 +28,7 @@ interface Data extends GraphqlQueryControls {
 
 interface Props {
   data: Data;
+  handleCollection: any;
 }
 
 class CommunitiesYours extends React.Component<Props> {
@@ -41,29 +40,8 @@ class CommunitiesYours extends React.Component<Props> {
             <Tabs>
               <SuperTabList>
                 <SuperTab>
-                  <span>
-                    <Collection
-                      width={20}
-                      height={20}
-                      strokeWidth={2}
-                      color={'#a0a2a5'}
-                    />
-                  </span>
                   <h5>
                     <Trans>All collections</Trans>
-                  </h5>
-                </SuperTab>
-                <SuperTab>
-                  <span>
-                    <Eye
-                      width={20}
-                      height={20}
-                      strokeWidth={2}
-                      color={'#a0a2a5'}
-                    />
-                  </span>
-                  <h5>
-                    <Trans>Followed collections</Trans>
                   </h5>
                 </SuperTab>
               </SuperTabList>
@@ -82,7 +60,11 @@ class CommunitiesYours extends React.Component<Props> {
                       </Helmet>
                       <List>
                         {this.props.data.collections.nodes.map((coll, i) => (
-                          <CollectionCard key={i} collection={coll} />
+                          <CollectionCard
+                            key={i}
+                            collection={coll}
+                            openModal={this.props.handleCollection}
+                          />
                         ))}
                       </List>
                       <CollectionsLoadMore
@@ -92,9 +74,6 @@ class CommunitiesYours extends React.Component<Props> {
                     </>
                   )}
                 </div>
-              </TabPanel>
-              <TabPanel>
-                <CollectionsFollowed />
               </TabPanel>
             </Tabs>
           </Wrapper>
@@ -125,4 +104,11 @@ const withGetCommunities = graphql<
   })
 }) as OperationOption<{}, {}>;
 
-export default compose(withGetCommunities)(CommunitiesYours);
+export default compose(
+  withGetCommunities,
+  withState('isOpenCollection', 'onOpenCollection', false),
+  withHandlers({
+    handleCollection: props => () =>
+      props.onOpenCollection(!props.isOpenCollection)
+  })
+)(CommunitiesYours);

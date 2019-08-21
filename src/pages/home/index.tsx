@@ -19,6 +19,7 @@ import {
   Nav,
   NavItem
 } from '../../sections/panel';
+import { NavLink } from 'react-router-dom';
 
 interface Data extends GraphqlQueryControls {
   me: {
@@ -86,11 +87,15 @@ const Home: React.FC<Props> = props => {
               <Trans>Browse Home instance</Trans>
             </PanelTitle>
             <Nav>
-              <NavItem mb={3} fontSize={2} fontWeight={'bold'}>
-                <Trans>My communities</Trans>
+              <NavItem mb={4} fontSize={1} fontWeight={'bold'}>
+                <NavLink to="/mycommunities">
+                  <Trans>My communities</Trans>
+                </NavLink>
               </NavItem>
-              <NavItem fontSize={2} fontWeight={'bold'}>
-                <Trans>My collections</Trans>
+              <NavItem fontSize={1} fontWeight={'bold'}>
+                <NavLink to="/mycollections">
+                  <Trans>My collections</Trans>
+                </NavLink>
               </NavItem>
             </Nav>
           </Panel>
