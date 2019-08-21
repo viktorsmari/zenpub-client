@@ -3,15 +3,15 @@ import { Link } from 'react-router-dom';
 import media from 'styled-media-query';
 import styled from '../../../themes/styled';
 import Collection from '../../../types/Collection';
-import H5 from '../../typography/H5/H5';
 const PlaceholderImg = require('../Icons/collectionPlaceholder.png');
+import { Text, Box } from 'rebass';
 
 interface CollectionProps {
   collection: Collection;
 }
 const Collection: React.FC<CollectionProps> = ({ collection }) => {
   return (
-    <Wrapper>
+    <Wrapper py={1} mb={1} ml={3}>
       <Link to={`/collections/${collection.localId}`}>
         <Img
           style={{
@@ -19,7 +19,7 @@ const Collection: React.FC<CollectionProps> = ({ collection }) => {
           }}
         />
         <Infos>
-          <Title>
+          <Title fontSize={1} my={1} fontWeight={600}>
             {collection.name.length > 80
               ? collection.name.replace(/^(.{76}[^\s]*).*/, '$1...')
               : collection.name}
@@ -30,11 +30,9 @@ const Collection: React.FC<CollectionProps> = ({ collection }) => {
   );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled(Box)`
   cursor: pointer;
-  padding: 8px 0;
   position: relative;
-  margin-bottom: 8px;
   ${media.lessThan('medium')`
   display: block;
 `} & a {
@@ -52,14 +50,9 @@ const Img = styled.div`
   margin: 0 auto;
 `;
 const Infos = styled.div``;
-const Title = styled(H5)`
-  font-size: 13px !important;
-  margin: 8px 0 8px 0 !important;
-  line-height: 13px !important;
-  letter-spacing: 0.8px;
-  font-weight: 500 !important;
+const Title = styled(Text)`
+  color: ${props => props.theme.styles.colors.darkgray};
   text-align: center;
-  color: ${props => props.theme.styles.colour.base1};
 `;
 
 export default Collection;
