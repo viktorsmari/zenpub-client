@@ -4,7 +4,6 @@ import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
 import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
 import { compose } from 'recompose';
-import { User } from '../../components/elements/Icons';
 import Loader from '../../components/elements/Loader/Loader';
 import LoadMoreTimeline from '../../components/elements/Loadmore/localInstance';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
@@ -13,7 +12,14 @@ import FeaturedCollections from '../../components/featuredCollections';
 import FeaturedCommunities from '../../components/featuredCommunities';
 import styled from '../../themes/styled';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-import { Box, Text, Flex } from 'rebass';
+import { HomeBox, MainContainer } from '../../sections/layoutUtils';
+import {
+  WrapperPanel,
+  Panel,
+  PanelTitle,
+  Nav,
+  NavItem
+} from '../../sections/panel';
 const localActivities = require('../../graphql/localActivities.graphql');
 
 interface Data extends GraphqlQueryControls {
@@ -36,128 +42,122 @@ interface Props {
 
 const Home: React.FC<Props> = props => {
   return (
-    <HomeBox>
-      <WrapperCont>
-        <WrapperFeatured>
-          <FeaturedCollections />
-        </WrapperFeatured>
-        <WrapperFeatured>
-          <FeaturedCommunities />
-        </WrapperFeatured>
-        <Wrapper>
-          <Tabs>
-            <SuperTabList>
-              <SuperTab>
-                <span>
-                  <User
-                    width={20}
-                    height={20}
-                    strokeWidth={2}
-                    color={'#a0a2a5'}
-                  />
-                </span>
-                <h5>
-                  <Trans>Instance timeline</Trans>
-                  <Helmet>
-                    <title>Instance timeline</title>
-                  </Helmet>
-                </h5>
-              </SuperTab>
-            </SuperTabList>
-            <TabPanel>
-              {props.data.error ? (
-                <span>
-                  <Trans>Error loading instance timeline</Trans>
-                </span>
-              ) : props.data.loading ? (
-                <Loader />
-              ) : (
-                <div>
-                  {props.data.localActivities.nodes.map((t, i) => (
-                    <TimelineItem node={t} user={t.user} key={i} />
-                  ))}
-                  <div style={{ padding: '8px' }}>
-                    <LoadMoreTimeline
-                      fetchMore={props.data.fetchMore}
-                      localInstance={props.data.localActivities}
-                    />
+    <MainContainer>
+      <HomeBox>
+        <WrapperCont>
+          <WrapperFeatured>
+            <FeaturedCollections />
+          </WrapperFeatured>
+          <WrapperFeatured>
+            <FeaturedCommunities />
+          </WrapperFeatured>
+          <Wrapper>
+            <Tabs>
+              <SuperTabList>
+                <SuperTab>
+                  <h5>
+                    <Trans>Instance timeline</Trans>
+                    <Helmet>
+                      <title>Instance timeline</title>
+                    </Helmet>
+                  </h5>
+                </SuperTab>
+              </SuperTabList>
+              <TabPanel>
+                {props.data.error ? (
+                  <span>
+                    <Trans>Error loading instance timeline</Trans>
+                  </span>
+                ) : props.data.loading ? (
+                  <Loader />
+                ) : (
+                  <div>
+                    {props.data.localActivities.nodes.map((t, i) => (
+                      <TimelineItem node={t} user={t.user} key={i} />
+                    ))}
+                    <div style={{ padding: '8px' }}>
+                      <LoadMoreTimeline
+                        fetchMore={props.data.fetchMore}
+                        localInstance={props.data.localActivities}
+                      />
+                    </div>
                   </div>
-                </div>
-              )}
-            </TabPanel>
-          </Tabs>
-        </Wrapper>
-      </WrapperCont>
+                )}
+              </TabPanel>
+            </Tabs>
+          </Wrapper>
+        </WrapperCont>
+      </HomeBox>
       <WrapperPanel>
         <Panel>
           <PanelTitle fontSize={0} fontWeight={'bold'}>
             <Trans>Browse Home instance</Trans>
           </PanelTitle>
           <Nav>
-            <NavItem mb={3} fontSize={2} fontWeight={'bold'}>
+            <NavItem mb={4} fontSize={1} fontWeight={'bold'}>
               <Trans>All communities</Trans>
             </NavItem>
-            <NavItem fontSize={2} fontWeight={'bold'}>
+            <NavItem fontSize={1} fontWeight={'bold'}>
               <Trans>All collections</Trans>
             </NavItem>
           </Nav>
         </Panel>
 
-        {/* <Panel>
-        <PanelTitle fontSize={0} fontWeight={"bold"}><Trans>Popular hashtags: Whole network</Trans></PanelTitle>
-        <Nav>
-          <NavItem><Trans>All communities</Trans></NavItem>
-          <NavItem><Trans>All collections</Trans></NavItem>
-        </Nav>
-      </Panel>
+        <Panel>
+          <PanelTitle fontSize={0} fontWeight={'bold'}>
+            <Trans>Popular hashtags: network</Trans>
+          </PanelTitle>
+          <Nav>
+            <NavItem mb={3} fontSize={1}>
+              <Trans>#learningdesign</Trans>
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              <Trans>#MPI</Trans>
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              <Trans>#Youtube</Trans>
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              <Trans>#models</Trans>
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              <Trans>#ADDIE</Trans>
+            </NavItem>
+          </Nav>
+        </Panel>
 
-      <Panel>
-        <PanelTitle fontSize={0} fontWeight={"bold"}><Trans>Popular hashtags: Home instance</Trans></PanelTitle>
-        <Nav>
-          <NavItem><Trans>All communities</Trans></NavItem>
-          <NavItem><Trans>All collections</Trans></NavItem>
-        </Nav>
-      </Panel> */}
+        <Panel>
+          <PanelTitle fontSize={0} fontWeight={'bold'}>
+            <Trans>Popular hashtags: local instance</Trans>
+          </PanelTitle>
+          <Nav>
+            <NavItem mb={3} fontSize={1}>
+              <Trans>#learningdesign</Trans>
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              <Trans>#MPI</Trans>
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              <Trans>#Youtube</Trans>
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              <Trans>#models</Trans>
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              <Trans>#ADDIE</Trans>
+            </NavItem>
+          </Nav>
+        </Panel>
       </WrapperPanel>
-    </HomeBox>
+    </MainContainer>
   );
 };
-
-const HomeBox = styled(Flex)`
-  overflow-y: overlay;
-`;
-
-const WrapperPanel = styled(Box)`
-  margin-top: 16px;
-  margin-left: 16px;
-  width: 300px;
-`;
-
-const Panel = styled(Box)`
-  background: white;
-  border-radius: 4px;
-  max-width: 300px;
-  margin-bottom: 16px;
-`;
-
-const PanelTitle = styled(Text)`
-  text-transform: uppercase;
-  border-bottom: 4px solid ${props => props.theme.styles.colors.lighter};
-  padding: 16px;
-`;
-
-const Nav = styled(Box)`
-  padding: 16px;
-`;
-
-const NavItem = styled(Text)``;
 
 const WrapperFeatured = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  margin-bottom: 24px;
-  background: ${props => props.theme.styles.colour.secondaryBg};
+  background: white;
   border-radius: 6px;
   margin-top: 16px;
 `;
