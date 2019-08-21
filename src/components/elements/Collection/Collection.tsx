@@ -2,10 +2,8 @@ import * as React from 'react';
 import styled from '../../../themes/styled';
 import CollectionType from '../../../types/Collection';
 import { Link } from 'react-router-dom';
-import H5 from '../../typography/H5/H5';
-import P from '../../typography/P/P';
 import { Resource, Eye, Message } from '../Icons';
-import media from 'styled-media-query';
+import { Flex, Text, Heading } from 'rebass';
 const PlaceholderImg = require('../Icons/collectionPlaceholder.png');
 
 interface CollectionProps {
@@ -17,7 +15,7 @@ interface CollectionProps {
 
 export default ({ collection }: CollectionProps) => {
   return (
-    <Wrapper>
+    <Wrapper mb={2} p={2}>
       <Link
         to={
           collection.localId
@@ -36,7 +34,7 @@ export default ({ collection }: CollectionProps) => {
               ? collection.name.replace(/^(.{76}[^\s]*).*/, '$1...')
               : collection.name}
           </Title>
-          <Desc>
+          <Desc mb={2}>
             {collection.summary.length > 320
               ? collection.summary.replace(
                   /^([\s\S]{316}[^\s]*)[\s\S]*/,
@@ -90,15 +88,11 @@ const ActionItem = styled.div`
   }
 `;
 
-const Wrapper = styled.div`
-  display: flex;
+const Wrapper = styled(Flex)`
   cursor: pointer;
   position: relative;
-  padding: 20px;
-  border-bottom: 1px solid ${props => props.theme.styles.colour.divider};
-  ${media.lessThan('medium')`
-  display: block;
-`} & a {
+  border-bottom: 4px solid ${props => props.theme.styles.colors.lighter};
+  & a {
     display: flex;
     color: inherit;
     text-decoration: none;
@@ -106,7 +100,8 @@ const Wrapper = styled.div`
     flex: 1;
   }
   &:hover {
-    background: ${props => props.theme.styles.colour.collectionHover};
+    border-radius: 4px;
+    background: ${props => props.theme.styles.colors.lighter};
   }
 `;
 const Img = styled.div`
@@ -116,25 +111,17 @@ const Img = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   margin-right: 8px;
-  margin-left: 8px;
 `;
 const Infos = styled.div`
   flex: 1;
   margin-left: 8px;
 `;
-const Title = styled(H5)`
-  font-size: 16px !important;
-  margin: 0 0 8px 0 !important;
-  line-height: 20px !important;
-  letter-spacing: 0.8px;
-  font-weight: 600;
-  color: ${props => props.theme.styles.colour.collectionTitle};
+const Title = styled(Heading)`
+  color: ${props => props.theme.styles.colors.darkgray};
+  font-size: 20px;
 `;
-const Desc = styled(P)`
-  margin: 0 !important;
-  font-size: 14px !important;
-  color: ${props => props.theme.styles.colour.collectionNote};
-  font-size: 48px;
+const Desc = styled(Text)`
+  color: ${props => props.theme.styles.colors.gray};
   line-height: 20px;
 `;
 

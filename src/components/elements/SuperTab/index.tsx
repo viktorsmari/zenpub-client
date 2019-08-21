@@ -28,13 +28,11 @@ export const SuperTab = styled(Tab)`
   & h5 {
     display: inline-block;
     color: #a0a2a5;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 12px !important;
+    font-weight: 600 !important;
     line-height: 40px;
+    text-transform: uppercase;
     margin: 0;
-    ${media.lessThan('medium')`
-display: none;
-`};
   }
 
   & span {
