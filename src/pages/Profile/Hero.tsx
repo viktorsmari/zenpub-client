@@ -58,7 +58,7 @@ const HeroComp: SFC<Props> = ({ user }) => (
 export default HeroComp;
 
 const ProfileBox = styled(Box)`
-  overflow-y: overlay;
+  // overflow-y: overlay;
 `;
 
 const Title = styled(Text)`
