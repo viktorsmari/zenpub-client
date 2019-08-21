@@ -6,14 +6,12 @@ import { TabPanel, Tabs } from 'react-tabs';
 import compose from 'recompose/compose';
 import Main from '../../components/chrome/Main/Main';
 import CollectionCard from '../../components/elements/Collection/Collection';
-import { Collection, Eye } from '../../components/elements/Icons';
 import Loader from '../../components/elements/Loader/Loader';
 import CollectionsLoadMore from '../../components/elements/Loadmore/collections';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
 import CollectionType from '../../types/Collection';
-import CollectionsFollowed from '../collections.followed';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 
 const { getCollectionsQuery } = require('../../graphql/getCollections.graphql');
@@ -41,29 +39,8 @@ class CommunitiesYours extends React.Component<Props> {
             <Tabs>
               <SuperTabList>
                 <SuperTab>
-                  <span>
-                    <Collection
-                      width={20}
-                      height={20}
-                      strokeWidth={2}
-                      color={'#a0a2a5'}
-                    />
-                  </span>
                   <h5>
                     <Trans>All collections</Trans>
-                  </h5>
-                </SuperTab>
-                <SuperTab>
-                  <span>
-                    <Eye
-                      width={20}
-                      height={20}
-                      strokeWidth={2}
-                      color={'#a0a2a5'}
-                    />
-                  </span>
-                  <h5>
-                    <Trans>Followed collections</Trans>
                   </h5>
                 </SuperTab>
               </SuperTabList>
@@ -92,9 +69,6 @@ class CommunitiesYours extends React.Component<Props> {
                     </>
                   )}
                 </div>
-              </TabPanel>
-              <TabPanel>
-                <CollectionsFollowed />
               </TabPanel>
             </Tabs>
           </Wrapper>

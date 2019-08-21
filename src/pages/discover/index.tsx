@@ -20,6 +20,8 @@ import {
   Nav,
   NavItem
 } from '../../sections/panel';
+import { NavLink } from 'react-router-dom';
+
 const localActivities = require('../../graphql/localActivities.graphql');
 
 interface Data extends GraphqlQueryControls {
@@ -95,10 +97,14 @@ const Home: React.FC<Props> = props => {
           </PanelTitle>
           <Nav>
             <NavItem mb={4} fontSize={1} fontWeight={'bold'}>
-              <Trans>All communities</Trans>
+              <NavLink to="/communities">
+                <Trans>All communities</Trans>
+              </NavLink>
             </NavItem>
             <NavItem fontSize={1} fontWeight={'bold'}>
-              <Trans>All collections</Trans>
+              <NavLink to="/collections">
+                <Trans>All collections</Trans>
+              </NavLink>
             </NavItem>
           </Nav>
         </Panel>
