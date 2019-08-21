@@ -1,17 +1,18 @@
-import * as React from 'react';
-import styled from '../../themes/styled';
-import { graphql, OperationOption } from 'react-apollo';
-const getSettings = require('../../graphql/me.graphql');
-import CommentType from '../../types/Comment';
-import { compose, withState } from 'recompose';
-import Loader from '../../components/elements/Loader/Loader';
 import { Trans } from '@lingui/macro';
+import * as React from 'react';
+import { graphql, OperationOption } from 'react-apollo';
 import { Helmet } from 'react-helmet';
-import LanguageSelect from '../../components/inputs/LanguageSelect/LanguageSelect';
-import { useTheme } from '../../styleguide/Wrapper';
-import { Row, ContainerForm } from '../../components/elements/Modal/modal';
-import GeneralInfo from './generalInfo';
+import { compose, withState } from 'recompose';
 import media from 'styled-media-query';
+import Loader from '../../components/elements/Loader/Loader';
+import { ContainerForm, Row } from '../../components/elements/Modal/modal';
+import LanguageSelect from '../../components/inputs/LanguageSelect/LanguageSelect';
+import { APP_NAME } from '../../constants';
+import { useTheme } from '../../styleguide/Wrapper';
+import styled from '../../themes/styled';
+import CommentType from '../../types/Comment';
+import GeneralInfo from './generalInfo';
+const getSettings = require('../../graphql/me.graphql');
 
 interface Props {
   data: any;
@@ -40,7 +41,7 @@ const Component = (props: Props) => {
   return (
     <Wrapper>
       <Helmet>
-        <title>MoodleNet > Settings</title>
+        <title>{APP_NAME} > Settings</title>
       </Helmet>
       <Sidebar>
         <SidebarHeader>

@@ -1,14 +1,10 @@
+import { Trans } from '@lingui/macro';
+import { DateTime } from 'luxon';
+import Markdown from 'markdown-to-jsx';
+import { clearFix } from 'polished';
 import * as React from 'react';
 import styled from '../../../themes/styled';
 import { Reply } from '../../elements/Icons';
-import { clearFix } from 'polished';
-
-import moment from 'moment-timezone';
-moment.tz.setDefault('UTC');
-
-import Markdown from 'markdown-to-jsx';
-
-import { Trans } from '@lingui/macro';
 import Link from '../Link/Link';
 
 interface EventProps {
@@ -25,7 +21,7 @@ interface EventProps {
   selectThread(number): number;
 }
 
-const Event: React.SFC<EventProps> = ({
+const Event: React.FC<EventProps> = ({
   author,
   thread,
   comment,
@@ -49,7 +45,7 @@ const Event: React.SFC<EventProps> = ({
                 <b>{author.name}</b>
               )}
             </h3>
-            <Date>{moment(comment.date).fromNow()}</Date>
+            <Date>{DateTime.fromMillis(comment.date).toRelative()}</Date>
           </MemberInfo>
         </Member>
       )}

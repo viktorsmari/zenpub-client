@@ -1,0 +1,38 @@
+query getSidebarQuery(
+  $limitComm: Int, 
+  $endComm: Int
+  )  {
+  me {
+    user {
+      id
+      name
+      preferredUsername
+      icon
+      joinedCommunities(limit: $limitComm, after:$endComm) {
+        pageInfo {
+          startCursor
+          endCursor
+        }
+        edges {
+          node {
+            id
+            localId
+            preferredUsername
+            name
+            summary
+            icon
+            collections {
+            totalCount
+            }
+          threads {totalCount}
+          members {
+            totalCount
+          }
+          followed
+        }
+      }
+    }
+    }
+  }
+}
+

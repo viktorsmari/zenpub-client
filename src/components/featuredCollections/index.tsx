@@ -46,13 +46,13 @@ class MultipleItems extends React.Component<Props> {
       infinite: true,
       autoplay: false,
       speed: 500,
-      slidesToShow: 5,
+      slidesToShow: 3,
       slidesToScroll: 1,
       responsive: [
         {
           breakpoint: 1024,
           settings: {
-            slidesToShow: 5,
+            slidesToShow: 3,
             slidesToScroll: 1
           }
         },
@@ -100,13 +100,27 @@ class MultipleItems extends React.Component<Props> {
           <Loader />
         ) : (
           <Slider ref={c => (this.slider = c)} {...settings}>
-            <CollectionSmall collection={this.props.data.one} />
-            <CollectionSmall collection={this.props.data.two} />
-            <CollectionSmall collection={this.props.data.three} />
-            <CollectionSmall collection={this.props.data.four} />
-            <CollectionSmall collection={this.props.data.five} />
-            <CollectionSmall collection={this.props.data.six} />
-            <CollectionSmall collection={this.props.data.seven} />
+            {this.props.data.one ? (
+              <CollectionSmall collection={this.props.data.one} />
+            ) : null}
+            {this.props.data.two ? (
+              <CollectionSmall collection={this.props.data.two} />
+            ) : null}
+            {this.props.data.three ? (
+              <CollectionSmall collection={this.props.data.three} />
+            ) : null}
+            {this.props.data.four ? (
+              <CollectionSmall collection={this.props.data.four} />
+            ) : null}
+            {this.props.data.five ? (
+              <CollectionSmall collection={this.props.data.five} />
+            ) : null}
+            {this.props.data.six ? (
+              <CollectionSmall collection={this.props.data.six} />
+            ) : null}
+            {this.props.data.seven ? (
+              <CollectionSmall collection={this.props.data.seven} />
+            ) : null}
           </Slider>
         )}
       </>

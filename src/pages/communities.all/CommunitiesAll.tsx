@@ -1,23 +1,23 @@
-import * as React from 'react';
-import { compose, withState, withHandlers } from 'recompose';
-import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
-import styled from '../../themes/styled';
-
 import { Trans } from '@lingui/macro';
-
+import * as React from 'react';
+import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
+import { Helmet } from 'react-helmet';
+import { TabPanel, Tabs } from 'react-tabs';
+import { compose, withHandlers, withState } from 'recompose';
+import media from 'styled-media-query';
 // import H4 from '../../components/typography/H4/H4';
 import Main from '../../components/chrome/Main/Main';
-import CommunityType from '../../types/Community';
-import Loader from '../../components/elements/Loader/Loader';
 import CommunityCard from '../../components/elements/Community/Community';
-import media from 'styled-media-query';
-import CommunitiesLoadMore from '../../components/elements/Loadmore/community';
-import { Community, Eye } from '../../components/elements/Icons';
-import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
-import { Tabs, TabPanel } from 'react-tabs';
-import CommunitiesJoined from '../communities.joined';
-import { Helmet } from 'react-helmet';
 import NewCommunityModal from '../../components/elements/CreateCommunityModal';
+import { Community, Eye } from '../../components/elements/Icons';
+import Loader from '../../components/elements/Loader/Loader';
+import CommunitiesLoadMore from '../../components/elements/Loadmore/community';
+import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
+import { APP_NAME } from '../../constants';
+import styled from '../../themes/styled';
+import CommunityType from '../../types/Community';
+import CommunitiesJoined from '../communities.joined';
+
 const { getCommunitiesQuery } = require('../../graphql/getCommunities.graphql');
 
 interface Data extends GraphqlQueryControls {
@@ -81,7 +81,7 @@ class CommunitiesYours extends React.Component<Props> {
                 ) : (
                   <>
                     <Helmet>
-                      <title>MoodleNet > All communities</title>
+                      <title>{APP_NAME} > All communities</title>
                     </Helmet>
                     <List>
                       <AddNewCommunity onClick={this.props.handleNewCommunity}>
@@ -178,10 +178,22 @@ const AddNewCommunity = styled.div`
 `;
 
 export const WrapperCont = styled.div`
-  max-width: 1040px;
-  margin: 0 auto;
   width: 100%;
+  margin: 0 auto;
   height: 100%;
+  align-items: stretch;
+  border: 0 solid black;
+  box-sizing: border-box;
+  display: flex;
+  flex-basis: auto;
+  flex-direction: column;
+  flex-shrink: 0;
+  margin: 0px;
+  min-height: 0px;
+  min-width: 0px;
+  padding: 0px;
+  position: relative;
+  z-index: 0;
 `;
 
 export const Wrapper = styled.div`
@@ -189,8 +201,9 @@ export const Wrapper = styled.div`
   flex-direction: column;
   flex: 1;
   margin-bottom: 24px;
-  background: ${props => props.theme.styles.colour.secondaryBg};
-  border-radius: 6px;
+  background: white;
+  border-radius: 3px;
+  border: 1px solid ${props => props.theme.styles.colors.lightgray};
   margin-top: 16px;
   & ul {
     display: block !important;

@@ -1,21 +1,16 @@
-import * as React from 'react';
-import styled, { css } from '../../../themes/styled';
-import { clearFix } from 'polished';
-import Textarea from '../../inputs/TextArea/Textarea';
-import Button from '../Button/Button';
-import { FormikProps, Field } from 'formik';
-import { compose, withState } from 'recompose';
-import Preview from './Preview';
-import MarkdownModal from '../MarkdownModal';
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
+import { Field, FormikProps } from 'formik';
+import { clearFix } from 'polished';
+import * as React from 'react';
+import { compose, withState } from 'recompose';
+import { i18n } from '../../../containers/App/App';
+import styled, { css } from '../../../themes/styled';
+import Textarea from '../../inputs/TextArea/Textarea';
+import Button from '../Button/Button';
 import { Type } from '../Icons';
-
-const tt = {
-  placeholders: {
-    message: i18nMark('Write a public message')
-  }
-};
+import MarkdownModal from '../MarkdownModal';
+import Preview from './Preview';
 
 interface Props {
   onToggle(boolean): boolean;
@@ -54,7 +49,7 @@ const Component = (props: Props & FormikProps<FormValues>) => {
                   full={props.full}
                   expanded={props.toggle}
                   onClick={() => props.onToggle(true)}
-                  placeholder={tt.placeholders.message}
+                  placeholder={i18n._(i18nMark('Write a public message'))}
                   onChange={field.onChange}
                   name={field.name}
                   value={field.value}

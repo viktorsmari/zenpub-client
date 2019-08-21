@@ -1,13 +1,14 @@
-import * as React from 'react';
-import compose from 'recompose/compose';
-import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
 import { Trans } from '@lingui/macro';
-import media from 'styled-media-query';
-import styled from '../../themes/styled';
-import Loader from '../../components/elements/Loader/Loader';
-import CommunityCard from '../../components/elements/Community/Community';
-import CommunitiesLoadMore from '../../components/elements/Loadmore/joinedCommunities';
+import * as React from 'react';
+import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
 import { Helmet } from 'react-helmet';
+import compose from 'recompose/compose';
+import media from 'styled-media-query';
+import CommunityCard from '../../components/elements/Community/Community';
+import Loader from '../../components/elements/Loader/Loader';
+import CommunitiesLoadMore from '../../components/elements/Loadmore/joinedCommunities';
+import { APP_NAME } from '../../constants';
+import styled from '../../themes/styled';
 
 const {
   getJoinedCommunitiesQuery
@@ -42,7 +43,7 @@ class CommunitiesJoined extends React.Component<Props> {
     ) : (
       <>
         <Helmet>
-          <title>MoodleNet > Joined communities</title>
+          <title>{APP_NAME} > Joined communities</title>
         </Helmet>
         <ListWrapper>
           <List>

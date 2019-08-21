@@ -1,14 +1,14 @@
+// import { Trans } from '@lingui/macro';
 import * as React from 'react';
-import CommentPreview from './CommentPreview';
+import { compose, withState } from 'recompose';
+// import {
+//   Actions,
+//   Create
+// } from '../../../pages/communities.community/CommunitiesCommunity';
+// import { Send } from '../../elements/Icons';
 import Talk from '../../elements/Talk/Thread';
 import TalkCollection from '../../elements/Talk/ThreadCollection';
-import { compose, withState } from 'recompose';
-import { Send } from '../../elements/Icons';
-import {
-  Actions,
-  Create
-} from '../../../pages/communities.community/CommunitiesCommunity';
-import { Trans } from '@lingui/macro';
+import CommentPreview from './CommentPreview';
 
 interface Props {
   threads: any;
@@ -21,12 +21,12 @@ interface Props {
   onSelectedThread(any): number;
 }
 
-const CommunitiesFeatured: React.SFC<Props> = props => {
+const CommunitiesFeatured: React.FC<Props> = props => {
   return (
     <div>
       {props.selectedThread === null ? (
         <>
-          {props.followed ? (
+          {/* {props.followed ? (
             <Actions>
               <Create onClick={() => props.onSelectedThread('thread')}>
                 <span>
@@ -40,7 +40,7 @@ const CommunitiesFeatured: React.SFC<Props> = props => {
                 <Trans>Start a new thread</Trans>
               </Create>
             </Actions>
-          ) : null}
+          ) : null} */}
 
           {props.threads ? (
             props.threads.edges.map((comment, i) => {

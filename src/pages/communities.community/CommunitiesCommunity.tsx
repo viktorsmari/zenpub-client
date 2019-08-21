@@ -4,26 +4,30 @@ import * as React from 'react';
 import { compose, withState, withHandlers } from 'recompose';
 import media from 'styled-media-query';
 import { Trans } from '@lingui/macro';
-import { Grid } from '@zendeskgarden/react-grid';
 import { RouteComponentProps } from 'react-router';
 import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
 import styled from '../../themes/styled';
-import Main from '../../components/chrome/Main/Main';
 import Community from '../../types/Community';
 import Loader from '../../components/elements/Loader/Loader';
 import '../../containers/App/basic.css';
-import Breadcrumb from './breadcrumb';
 import { clearFix } from 'polished';
 import CollectionCard from '../../components/elements/Collection/Collection';
 import P from '../../components/typography/P/P';
-import H2 from '../../components/typography/H2/H2';
-// import Button from "../../components/elements/Button/Button";
+import Hero from './hero';
 import CommunityModal from '../../components/elements/CommunityModal';
 import EditCommunityModal from '../../components/elements/EditCommunityModal';
 import UsersModal from '../../components/elements/UsersModal';
-import Join from './Join';
 import CommunityPage from './Community';
-import { Settings, Collection } from '../../components/elements/Icons';
+import { HomeBox, MainContainer } from '../../sections/layoutUtils';
+import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
+import {
+  WrapperPanel,
+  Panel,
+  PanelTitle,
+  Nav,
+  NavItem
+} from '../../sections/panel';
+import { Box } from 'rebass';
 const { getCommunityQuery } = require('../../graphql/getCommunity.graphql');
 enum TabsEnum {
   // Overview = 'Overview',
@@ -78,8 +82,7 @@ class CommunitiesFeatured extends React.Component<Props, State> {
 
       if (this.props.data.community.collections.totalCount) {
         collections = (
-          <Wrapper>
-            {community.followed ? (
+          /* {community.followed ? (
               <Header>
                 <Actions>
                   <Create onClick={this.props.handleNewCollection}>
@@ -101,14 +104,13 @@ class CommunitiesFeatured extends React.Component<Props, State> {
               <Footer>
                 <Trans>Join the community to create a collection</Trans>
               </Footer>
-            )}
+            )} */
 
-            <CollectionList>
-              {this.props.data.community.collections.edges.map((e, i) => (
-                <CollectionCard key={i} collection={e.node} />
-              ))}
-            </CollectionList>
-          </Wrapper>
+          <Box m={2}>
+            {this.props.data.community.collections.edges.map((e, i) => (
+              <CollectionCard key={i} collection={e.node} />
+            ))}
+          </Box>
         );
       } else {
         collections = (
@@ -116,7 +118,7 @@ class CommunitiesFeatured extends React.Component<Props, State> {
             <P>
               <Trans>This community has no collections.</Trans>
             </P>
-            {community.followed ? (
+            {/* {community.followed ? (
               <Header style={{ marginBottom: '8px' }}>
                 <Actions>
                   <Create onClick={this.props.handleNewCollection}>
@@ -138,7 +140,7 @@ class CommunitiesFeatured extends React.Component<Props, State> {
               <Footer>
                 <Trans>Join the community to create a collection</Trans>
               </Footer>
-            )}
+            )} */}
           </OverviewCollection>
         );
       }
@@ -146,77 +148,37 @@ class CommunitiesFeatured extends React.Component<Props, State> {
 
     if (!community) {
       if (this.props.data.loading) {
-        return <Loader />;
+        return (
+          <WrapperCont>
+            <Wrapper>
+              <Loader />
+            </Wrapper>
+          </WrapperCont>
+        );
       } else {
         // TODO better handling of no community
         return (
-          <span>
-            <Trans>Could not load the community.</Trans>
-          </span>
+          <WrapperCont>
+            <Wrapper>
+              <span>
+                <Trans>Could not load the community.</Trans>
+              </span>
+            </Wrapper>
+          </WrapperCont>
         );
       }
     }
 
     return (
-      <>
-        <Main>
-          <Grid>
-            <WrapperCont>
-              <HeroCont>
-                <Breadcrumb name={community.name} />
-
-                <Hero>
-                  <Background
-                    id="header"
-                    style={{ backgroundImage: `url(${community.icon})` }}
-                  />
-
-                  <HeroInfo>
-                    <H2>{community.name}</H2>
-                    <P>{community.summary}</P>
-                    <HeroActions>
-                      <MembersTot onClick={() => this.props.showUsers(true)}>
-                        {community.members.edges.slice(0, 3).map((a, i) => {
-                          return (
-                            <ImgTot
-                              key={i}
-                              style={{
-                                backgroundImage: `url(${a.node.icon ||
-                                  `https://www.gravatar.com/avatar/${
-                                    a.node.localId
-                                  }?f=y&d=identicon`})`
-                              }}
-                            />
-                          );
-                        })}{' '}
-                        <Tot>
-                          {community.members.totalCount - 3 > 0
-                            ? `+ ${community.members.totalCount - 3} More`
-                            : ``}
-                        </Tot>
-                      </MembersTot>
-                      <Join
-                        id={community.localId}
-                        followed={community.followed}
-                        externalId={community.id}
-                      />
-                      {community.localId === 7 ||
-                      community.localId === 15 ||
-                      community.followed == false ? null : (
-                        <EditButton onClick={this.props.editCommunity}>
-                          <Settings
-                            width={18}
-                            height={18}
-                            strokeWidth={2}
-                            color={'#fff'}
-                          />
-                        </EditButton>
-                      )}
-                    </HeroActions>
-                  </HeroInfo>
-                </Hero>
-              </HeroCont>
-
+      <MainContainer>
+        <HomeBox>
+          <WrapperCont>
+            <Wrapper>
+              <Hero
+                community={community}
+                showUsers={this.props.showUsers}
+                editCommunity={this.props.editCommunity}
+              />
               <Switch>
                 <Route
                   path={`/communities/${community.localId}/thread/:id`}
@@ -236,8 +198,9 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                   )}
                 />
               </Switch>
-            </WrapperCont>
-          </Grid>
+            </Wrapper>
+          </WrapperCont>
+
           <CommunityModal
             toggleModal={this.props.handleNewCollection}
             modalIsOpen={this.props.isOpen}
@@ -256,16 +219,63 @@ class CommunitiesFeatured extends React.Component<Props, State> {
             modalIsOpen={this.props.isUsersOpen}
             members={community.members.edges}
           />
-        </Main>
-      </>
+        </HomeBox>
+        <WrapperPanel>
+          <Panel>
+            <PanelTitle fontSize={0} fontWeight={'bold'}>
+              <Trans>Popular hashtags</Trans>
+            </PanelTitle>
+            <Nav>
+              <NavItem mb={3} fontSize={1}>
+                <Trans>#learningdesign</Trans>
+              </NavItem>
+              <NavItem mb={3} fontSize={1}>
+                <Trans>#MPI</Trans>
+              </NavItem>
+              <NavItem mb={3} fontSize={1}>
+                <Trans>#Youtube</Trans>
+              </NavItem>
+              <NavItem mb={3} fontSize={1}>
+                <Trans>#models</Trans>
+              </NavItem>
+              <NavItem mb={3} fontSize={1}>
+                <Trans>#ADDIE</Trans>
+              </NavItem>
+            </Nav>
+          </Panel>
+
+          <Panel>
+            <PanelTitle fontSize={0} fontWeight={'bold'}>
+              <Trans>Popular categories</Trans>
+            </PanelTitle>
+            <Nav>
+              <NavItem mb={3} fontSize={1}>
+                <Trans>Humanities</Trans>
+              </NavItem>
+              <NavItem mb={3} fontSize={1}>
+                <Trans>Behavioural science</Trans>
+              </NavItem>
+              <NavItem mb={3} fontSize={1}>
+                <Trans>English</Trans>
+              </NavItem>
+              <NavItem mb={3} fontSize={1}>
+                <Trans>Romana</Trans>
+              </NavItem>
+              <NavItem mb={3} fontSize={1}>
+                <Trans>Postgraduate</Trans>
+              </NavItem>
+            </Nav>
+          </Panel>
+        </WrapperPanel>
+      </MainContainer>
     );
   }
 }
 
-const WrapperAction = styled.div`
-  text-align: center;
-  flex: 1;
-`;
+// const WrapperAction = styled.div`
+//   text-align: center;
+//   flex: 1;
+// `;
 export const Actions = styled.div`
   ${clearFix()};
   display: flex;
@@ -303,111 +313,20 @@ export const Create = styled.div`
   }
 `;
 
-const Header = styled.div`
-  ${clearFix()};
-`;
-const HeroActions = styled.div`
-  position: relative;
-`;
+// const Header = styled.div`
+//   ${clearFix()};
+// `;
 
-const HeroCont = styled.div`
-  margin-bottom: 16px;
-  border-radius: 6px;
-  box-sizing: border-box;
-  background: ${props => props.theme.styles.colour.communityBg};
-`;
-
-const Tot = styled.div`
-  float: left;
-  height: 24px;
-  line-height: 24px;
-  vertical-align: middle;
-  margin-left: 8px;
-  line-height: 32px;
-  height: 32px;
-  font-size: 13px;
-  color: #cacaca;
-  font-weight: 600;
-`;
-
-const MembersTot = styled.div`
-  margin-top: 0px;
-  font-size: 12px;
-  cursor: pointer;
-  display: inline-block;
-  cursor: pointer;
-  ${clearFix()} & span {
-    margin-right: 8px;
-    float: left;
-    height: 32px;
-    line-height: 32px;
-    & svg {
-      vertical-align: middle;
-    }
-  }
-`;
-
-const ImgTot = styled.div`
-  width: 32px;
-  height: 32px;
-  border-radius: 50px;
-  float: left;
-  margin-left: -4px;
-  background-size: cover;
-  border: 2px solid white;
-`;
-
-const EditButton = styled.span`
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  vertical-align: bottom;
-  margin-left: 8px;
-  border-radius: 40px;
-  text-align: center;
-  cursor: pointer;
-  position: absolute;
-  right: 100px;
-  top: 0;
-  &:hover {
-    svg {
-      color: ${props => props.theme.styles.colour.primary};
-    }
-  }
-  & svg {
-    margin-top: 8px;
-    text-align: center;
-    color: ${props => props.theme.styles.colour.base1};
-  }
-`;
-
-const Footer = styled.div`
-  height: 30px;
-  line-height: 30px;
-  font-weight: 600;
-  text-align: center;
-  background: #ffefd9;
-  font-size: 13px;
-  border-bottom: 1px solid ${props => props.theme.styles.colour.divider};
-  color: #544f46;
-`;
-
-const WrapperCont = styled.div`
-  max-width: 1040px;
-  margin: 0 auto;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-`;
-
-const Wrapper = styled.div`
-  flex: 1;
-`;
-
-const CollectionList = styled.div`
-  flex: 1;
-`;
+// const Footer = styled.div`
+//   height: 30px;
+//   line-height: 30px;
+//   font-weight: 600;
+//   text-align: center;
+//   background: #ffefd9;
+//   font-size: 13px;
+//   border-bottom: 1px solid ${props => props.theme.styles.colour.divider};
+//   color: #544f46;
+// `;
 
 const OverviewCollection = styled.div`
   padding-top: 8px;
@@ -420,45 +339,6 @@ const OverviewCollection = styled.div`
   & p {
     margin-top: 0 !important;
     padding: 8px;
-  }
-`;
-
-const Hero = styled.div`
-  width: 100%;
-  position: relative;
-`;
-
-const Background = styled.div`
-  margin-top: 24px;
-  height: 250px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-color: #e6e6e6;
-  position: relative;
-  margin: 0 auto;
-  background-position: center center;
-`;
-
-const HeroInfo = styled.div`
-  padding: 16px;
-  & h2 {
-    margin: 0;
-    font-size: 24px !important;
-    line-height: 40px !important;
-    margin-bottom: 0px;
-    color: ${props => props.theme.styles.colour.communityTitle};
-  }
-  & p {
-    margin-top: 8px;
-    color: ${props => props.theme.styles.colour.communityNote};
-  }
-  & button {
-    span {
-      vertical-align: sub;
-      display: inline-block;
-      height: 30px;
-      margin-right: 4px;
-    }
   }
 `;
 

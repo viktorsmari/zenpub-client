@@ -1,18 +1,23 @@
-import * as React from 'react';
-import Modal from '../Modal';
-import styled from '../../../themes/styled';
-import { clearFix } from 'polished';
-import H5 from '../../typography/H5/H5';
-import Text from '../../inputs/Text/Text';
-import Button from '../Button/Button';
-import { compose } from 'react-apollo';
-import { withFormik, FormikProps, Form, Field } from 'formik';
-import * as Yup from 'yup';
-import Alert from '../../elements/Alert';
-import { graphql, OperationOption, ApolloConsumer } from 'react-apollo';
-const { createUserMutation } = require('../../../graphql/createUser.graphql');
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
+import { Field, Form, FormikProps, withFormik } from 'formik';
+import { clearFix } from 'polished';
+import * as React from 'react';
+import {
+  ApolloConsumer,
+  compose,
+  graphql,
+  OperationOption
+} from 'react-apollo';
+import * as Yup from 'yup';
+import { i18n } from '../../../containers/App/App';
+import styled from '../../../themes/styled';
+import Alert from '../../elements/Alert';
+import Text from '../../inputs/Text/Text';
+import H5 from '../../typography/H5/H5';
+import Button from '../Button/Button';
+import Modal from '../Modal';
+const { createUserMutation } = require('../../../graphql/createUser.graphql');
 const checkUsername = require('../../../graphql/checkUsername.graphql');
 
 let tt = {
@@ -100,7 +105,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                     name="email"
                     render={({ field }) => (
                       <Text
-                        placeholder={tt.placeholders.email}
+                        placeholder={i18n._(tt.placeholders.email)}
                         name={field.name}
                         value={field.value}
                         onChange={field.onChange}
@@ -120,7 +125,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                     name="name"
                     render={({ field }) => (
                       <Text
-                        placeholder={tt.placeholders.name}
+                        placeholder={i18n._(tt.placeholders.name)}
                         name={field.name}
                         value={field.value}
                         onChange={field.onChange}
@@ -163,7 +168,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                     name="password"
                     render={({ field }) => (
                       <Text
-                        placeholder={tt.placeholders.password}
+                        placeholder={i18n._(tt.placeholders.password)}
                         type="password"
                         name={field.name}
                         value={field.value}
@@ -184,7 +189,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                     name="passwordConfirm"
                     render={({ field }) => (
                       <Text
-                        placeholder={tt.placeholders.passwordConfirm}
+                        placeholder={i18n._(tt.placeholders.passwordConfirm)}
                         type="password"
                         name={field.name}
                         value={field.value}

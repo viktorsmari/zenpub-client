@@ -1,16 +1,28 @@
-import * as React from 'react';
-import Modal from '../Modal';
-import { withRouter } from 'react-router';
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
+import { Field, Form, FormikProps, withFormik } from 'formik';
+import * as React from 'react';
+import { compose, graphql, OperationOption } from 'react-apollo';
+import { withRouter } from 'react-router';
+import * as Yup from 'yup';
+import { i18n } from '../../../containers/App/App';
+import Alert from '../../elements/Alert';
+import Text from '../../inputs/Text/Text';
+import Textarea from '../../inputs/TextArea/Textarea';
+import H5 from '../../typography/H5/H5';
+import Button from '../Button/Button';
+import Modal from '../Modal';
 import {
-  Row,
-  Container,
   Actions,
-  CounterChars,
+  Container,
   ContainerForm,
-  Header
+  CounterChars,
+  Header,
+  Row
 } from '../Modal/modal';
+const {
+  createCommunityMutation
+} = require('../../../graphql/createCommunity.graphql');
 
 const tt = {
   placeholders: {
@@ -22,18 +34,6 @@ const tt = {
   }
 };
 
-import H5 from '../../typography/H5/H5';
-import Text from '../../inputs/Text/Text';
-import Textarea from '../../inputs/TextArea/Textarea';
-import Button from '../Button/Button';
-import { compose } from 'react-apollo';
-import { withFormik, FormikProps, Form, Field } from 'formik';
-import * as Yup from 'yup';
-import Alert from '../../elements/Alert';
-import { graphql, OperationOption } from 'react-apollo';
-const {
-  createCommunityMutation
-} = require('../../../graphql/createCommunity.graphql');
 interface Props {
   toggleModal?: any;
   modalIsOpen?: boolean;
@@ -81,7 +81,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                 render={({ field }) => (
                   <>
                     <Text
-                      placeholder={tt.placeholders.name}
+                      placeholder={i18n._(tt.placeholders.name)}
                       name={field.name}
                       value={field.value}
                       onChange={field.onChange}
@@ -103,7 +103,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                 render={({ field }) => (
                   <>
                     <Textarea
-                      placeholder={tt.placeholders.summary}
+                      placeholder={i18n._(tt.placeholders.summary)}
                       name={field.name}
                       value={field.value}
                       onChange={field.onChange}
@@ -123,7 +123,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                 name="image"
                 render={({ field }) => (
                   <Text
-                    placeholder={tt.placeholders.image}
+                    placeholder={i18n._(tt.placeholders.image)}
                     name={field.name}
                     value={field.value}
                     onChange={field.onChange}

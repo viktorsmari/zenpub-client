@@ -8,7 +8,7 @@ interface IconProps {
 }
 
 // ACTIVITIES
-export const Activity: React.SFC<IconProps> = ({
+export const Activity: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -32,7 +32,7 @@ export const Activity: React.SFC<IconProps> = ({
 );
 
 // SIDEBAR
-export const Sidebar: React.SFC<IconProps> = ({
+export const Sidebar: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -74,7 +74,7 @@ export const Sidebar: React.SFC<IconProps> = ({
 );
 
 // GRID
-export const Grid: React.SFC<IconProps> = ({
+export const Grid: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -118,7 +118,7 @@ export const Grid: React.SFC<IconProps> = ({
 );
 
 // SIDEBAR
-export const Diary: React.SFC<IconProps> = ({
+export const Diary: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -143,7 +143,7 @@ export const Diary: React.SFC<IconProps> = ({
 );
 
 // SIDEBAR
-export const Collection: React.SFC<IconProps> = ({
+export const Collection: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -169,7 +169,7 @@ export const Collection: React.SFC<IconProps> = ({
 );
 
 // CALENDAR
-export const Calendar: React.SFC<IconProps> = ({
+export const Calendar: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -196,7 +196,7 @@ export const Calendar: React.SFC<IconProps> = ({
 );
 
 // LINK
-export const Link: React.SFC<IconProps> = ({
+export const Link: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -221,7 +221,7 @@ export const Link: React.SFC<IconProps> = ({
 );
 
 // EYE
-export const Eye: React.SFC<IconProps> = ({
+export const Eye: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -246,7 +246,7 @@ export const Eye: React.SFC<IconProps> = ({
 );
 
 // INVENTORY
-export const Inventory: React.SFC<IconProps> = ({
+export const Inventory: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -271,7 +271,7 @@ export const Inventory: React.SFC<IconProps> = ({
 );
 
 // GLOBE
-export const Globe: React.SFC<IconProps> = ({
+export const Globe: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -297,7 +297,7 @@ export const Globe: React.SFC<IconProps> = ({
 );
 
 // HOME
-export const Home: React.SFC<IconProps> = ({
+export const Home: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -322,7 +322,7 @@ export const Home: React.SFC<IconProps> = ({
 );
 
 // WORK
-export const Work: React.SFC<IconProps> = ({
+export const Work: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -348,7 +348,7 @@ export const Work: React.SFC<IconProps> = ({
 );
 
 // Search
-export const Search: React.SFC<IconProps> = ({
+export const Search: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -373,7 +373,7 @@ export const Search: React.SFC<IconProps> = ({
 );
 
 // VALIDATE
-export const Validate: React.SFC<IconProps> = ({
+export const Validate: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -400,7 +400,7 @@ export const Validate: React.SFC<IconProps> = ({
 );
 
 // BELL
-export const Bell: React.SFC<IconProps> = ({
+export const Bell: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -424,7 +424,7 @@ export const Bell: React.SFC<IconProps> = ({
 );
 
 // User
-export const User: React.SFC<IconProps> = ({
+export const User: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -448,7 +448,7 @@ export const User: React.SFC<IconProps> = ({
   </svg>
 );
 // Settings
-export const Settings: React.SFC<IconProps> = ({
+export const Settings: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -479,7 +479,7 @@ export const Settings: React.SFC<IconProps> = ({
   </svg>
 );
 // Power
-export const Power: React.SFC<IconProps> = ({
+export const Power: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -503,7 +503,7 @@ export const Power: React.SFC<IconProps> = ({
   </svg>
 );
 // Preferites
-export const Preferites: React.SFC<IconProps> = ({
+export const Preferites: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -527,7 +527,7 @@ export const Preferites: React.SFC<IconProps> = ({
 );
 
 // MENU
-export const Menu: React.SFC<IconProps> = ({
+export const Menu: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -553,7 +553,7 @@ export const Menu: React.SFC<IconProps> = ({
 );
 
 // CARD
-export const Card: React.SFC<IconProps> = ({
+export const Card: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -578,7 +578,7 @@ export const Card: React.SFC<IconProps> = ({
 );
 
 // CARD
-export const ChevronLeft: React.SFC<IconProps> = ({
+export const ChevronLeft: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -602,7 +602,7 @@ export const ChevronLeft: React.SFC<IconProps> = ({
 );
 
 // LEFT
-export const Left: React.SFC<IconProps> = ({
+export const Left: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -626,7 +626,7 @@ export const Left: React.SFC<IconProps> = ({
   </svg>
 );
 // ArrowUP
-export const Arrowup: React.SFC<IconProps> = ({
+export const Arrowup: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -651,7 +651,7 @@ export const Arrowup: React.SFC<IconProps> = ({
 );
 
 // RIGHT
-export const ArrowRight: React.SFC<IconProps> = ({
+export const ArrowRight: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -676,7 +676,7 @@ export const ArrowRight: React.SFC<IconProps> = ({
 );
 
 // CLOCK
-export const Clock: React.SFC<IconProps> = ({
+export const Clock: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -701,7 +701,7 @@ export const Clock: React.SFC<IconProps> = ({
 );
 
 // TEXT
-export const Text: React.SFC<IconProps> = ({
+export const Text: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -728,7 +728,7 @@ export const Text: React.SFC<IconProps> = ({
 );
 
 // MESSAGE
-export const Message: React.SFC<IconProps> = ({
+export const Message: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -752,7 +752,7 @@ export const Message: React.SFC<IconProps> = ({
 );
 
 // CROSS
-export const Cross: React.SFC<IconProps> = ({
+export const Cross: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -777,7 +777,7 @@ export const Cross: React.SFC<IconProps> = ({
 );
 
 // USERS
-export const Users: React.SFC<IconProps> = ({
+export const Users: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -804,7 +804,7 @@ export const Users: React.SFC<IconProps> = ({
 );
 
 // CHECK
-export const Check: React.SFC<IconProps> = ({
+export const Check: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -828,7 +828,7 @@ export const Check: React.SFC<IconProps> = ({
 );
 
 // SHIELD
-export const Shield: React.SFC<IconProps> = ({
+export const Shield: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -852,7 +852,7 @@ export const Shield: React.SFC<IconProps> = ({
 );
 
 // PLUS
-export const Plus: React.SFC<IconProps> = ({
+export const Plus: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -877,7 +877,7 @@ export const Plus: React.SFC<IconProps> = ({
 );
 
 // Inbox
-export const Inbox: React.SFC<IconProps> = ({
+export const Inbox: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -902,7 +902,7 @@ export const Inbox: React.SFC<IconProps> = ({
 );
 
 // MORE
-export const More: React.SFC<IconProps> = ({
+export const More: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -928,7 +928,7 @@ export const More: React.SFC<IconProps> = ({
 );
 
 // EDIT
-export const Edit: React.SFC<IconProps> = ({
+export const Edit: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -952,7 +952,7 @@ export const Edit: React.SFC<IconProps> = ({
 );
 
 // SEND
-export const Send: React.SFC<IconProps> = ({
+export const Send: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -977,7 +977,7 @@ export const Send: React.SFC<IconProps> = ({
 );
 
 // Reply
-export const Reply: React.SFC<IconProps> = ({
+export const Reply: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -1002,7 +1002,7 @@ export const Reply: React.SFC<IconProps> = ({
 );
 
 // Reply
-export const Right: React.SFC<IconProps> = ({
+export const Right: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -1026,7 +1026,7 @@ export const Right: React.SFC<IconProps> = ({
 );
 
 // Down
-export const Down: React.SFC<IconProps> = ({
+export const Down: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -1050,7 +1050,7 @@ export const Down: React.SFC<IconProps> = ({
 );
 
 // Share
-export const Share: React.SFC<IconProps> = ({
+export const Share: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -1077,7 +1077,7 @@ export const Share: React.SFC<IconProps> = ({
 );
 
 // Share
-export const UpRight: React.SFC<IconProps> = ({
+export const UpRight: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -1102,7 +1102,7 @@ export const UpRight: React.SFC<IconProps> = ({
 );
 
 // Share
-export const UpLeft: React.SFC<IconProps> = ({
+export const UpLeft: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -1127,7 +1127,7 @@ export const UpLeft: React.SFC<IconProps> = ({
 );
 
 // EDIT-2
-export const Edit2: React.SFC<IconProps> = ({
+export const Edit2: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -1152,7 +1152,7 @@ export const Edit2: React.SFC<IconProps> = ({
 );
 
 // TRASH
-export const Trash: React.SFC<IconProps> = ({
+export const Trash: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -1179,7 +1179,7 @@ export const Trash: React.SFC<IconProps> = ({
 );
 
 // FOLDER
-export const Folder: React.SFC<IconProps> = ({
+export const Folder: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -1202,7 +1202,7 @@ export const Folder: React.SFC<IconProps> = ({
   </svg>
 );
 // UP
-export const Up: React.SFC<IconProps> = ({
+export const Up: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -1226,7 +1226,7 @@ export const Up: React.SFC<IconProps> = ({
 );
 
 // NEWFILE
-export const NewFile: React.SFC<IconProps> = ({
+export const NewFile: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -1253,7 +1253,7 @@ export const NewFile: React.SFC<IconProps> = ({
 );
 
 // STAR
-export const Star: React.SFC<IconProps> = ({
+export const Star: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -1277,7 +1277,7 @@ export const Star: React.SFC<IconProps> = ({
 );
 
 // TYPE
-export const Type: React.SFC<IconProps> = ({
+export const Type: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -1303,7 +1303,7 @@ export const Type: React.SFC<IconProps> = ({
 );
 
 // Dollar
-export const Dollar: React.SFC<IconProps> = ({
+export const Dollar: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -1328,7 +1328,7 @@ export const Dollar: React.SFC<IconProps> = ({
 );
 
 // LOCK
-export const Lock: React.SFC<IconProps> = ({
+export const Lock: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -1353,7 +1353,7 @@ export const Lock: React.SFC<IconProps> = ({
 );
 
 // COPY
-export const Copy: React.SFC<IconProps> = ({
+export const Copy: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -1378,7 +1378,7 @@ export const Copy: React.SFC<IconProps> = ({
 );
 
 // COPY
-export const Resource: React.SFC<IconProps> = ({
+export const Resource: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -1406,7 +1406,7 @@ export const Resource: React.SFC<IconProps> = ({
 );
 
 // // COPY
-// export const Community: React.SFC<IconProps> = ({
+// export const Community: React.FC<IconProps> = ({
 //   width = 24,
 //   height = 24,
 //   strokeWidth = 2,
@@ -1434,7 +1434,7 @@ export const Resource: React.SFC<IconProps> = ({
 // );
 
 // COPY
-export const Community: React.SFC<IconProps> = ({
+export const Community: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -1461,7 +1461,7 @@ export const Community: React.SFC<IconProps> = ({
 );
 
 // COPY
-export const Unfollow: React.SFC<IconProps> = ({
+export const Unfollow: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -1486,7 +1486,7 @@ export const Unfollow: React.SFC<IconProps> = ({
 );
 
 // Minus
-export const Minus: React.SFC<IconProps> = ({
+export const Minus: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,
@@ -1510,7 +1510,7 @@ export const Minus: React.SFC<IconProps> = ({
 );
 
 // LOADING
-export const Loading: React.SFC<IconProps> = ({
+export const Loading: React.FC<IconProps> = ({
   width = 24,
   height = 24,
   strokeWidth = 2,

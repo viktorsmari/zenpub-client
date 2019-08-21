@@ -1,12 +1,13 @@
-import * as React from 'react';
-import compose from 'recompose/compose';
-import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
 import { Trans } from '@lingui/macro';
-import styled from '../../themes/styled';
-import Loader from '../../components/elements/Loader/Loader';
-import CollectionCard from '../../components/elements/Collection/Collection';
-import CollectionsLoadMore from '../../components/elements/Loadmore/followingCollections';
+import * as React from 'react';
+import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
 import { Helmet } from 'react-helmet';
+import compose from 'recompose/compose';
+import CollectionCard from '../../components/elements/Collection/Collection';
+import Loader from '../../components/elements/Loader/Loader';
+import CollectionsLoadMore from '../../components/elements/Loadmore/followingCollections';
+import { APP_NAME } from '../../constants';
+import styled from '../../themes/styled';
 
 const {
   getFollowedCollections
@@ -41,7 +42,7 @@ class FollowingCollectionsComponent extends React.Component<Props> {
     ) : (
       <>
         <Helmet>
-          <title>MoodleNet > Followed collections</title>
+          <title>{APP_NAME} > Followed collections</title>
         </Helmet>
         <ListWrapper>
           <List>

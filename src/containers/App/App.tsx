@@ -1,30 +1,19 @@
-import * as React from 'react';
-import { Catalogs } from '@lingui/core';
-
-// import styled from '../../themes/styled';
-import Router from './Router';
-import { Chrome } from '@zendeskgarden/react-chrome';
-
-import { I18nProvider } from '@lingui/react';
+import { Catalogs, setupI18n } from '@lingui/core';
 import { Trans } from '@lingui/macro';
-
-import '@zendeskgarden/react-chrome/dist/styles.css';
-import '@zendeskgarden/react-grid/dist/styles.css';
-import '@zendeskgarden/react-buttons/dist/styles.css';
-import '@zendeskgarden/react-menus/dist/styles.css';
-import '@zendeskgarden/react-avatars/dist/styles.css';
-import '@zendeskgarden/react-textfields/dist/styles.css';
-import '@zendeskgarden/react-tags/dist/styles.css';
-import '@zendeskgarden/react-select/dist/styles.css';
+import { I18nProvider } from '@lingui/react';
 import '@zendeskgarden/react-checkboxes/dist/styles.css';
-import '@zendeskgarden/react-pagination/dist/styles.css';
+import '@zendeskgarden/react-select/dist/styles.css';
 import '@zendeskgarden/react-tabs/dist/styles.css';
-import '@zendeskgarden/react-tooltips/dist/styles.css';
-
-import '../../styles/social-icons.css';
-import '../../styles/flag-icons.css';
-import '../../styles/loader.css';
+import '@zendeskgarden/react-textfields/dist/styles.css';
+import { Settings } from 'luxon';
+import * as React from 'react';
 import { ThemeProvider } from '../../styleguide/Wrapper';
+import '../../styles/loader.css';
+import '../../styles/social-icons.css';
+import Router from './Router';
+
+const LocalStorageLocaleKey = 'locale';
+
 // export const AppStyles = styled.div`
 //   font-family: ${props => props.theme.styles.fontFamily};
 
@@ -33,19 +22,22 @@ import { ThemeProvider } from '../../styleguide/Wrapper';
 //   }
 // `;
 
-export const locale_default = 'en_GB';
+export const i18n = setupI18n();
+
+export const locale_default =
+  localStorage.getItem(LocalStorageLocaleKey) || 'en_GB';
 
 export const LocaleContext = React.createContext({
   catalogs: {},
   locale: locale_default,
-  setLocale: locale => {}
+  setLocale: (locale: string) => {}
 });
 
-type AppState = {
+interface State {
   catalogs: Catalogs;
   locale: string;
-  setLocale: (locale) => void;
-};
+  setLocale: (locale: string) => void;
+}
 
 /**
  * App container.
@@ -61,12 +53,27 @@ type AppState = {
  *
  *  - I18nProvider: used to enable localisation throughout the app
  */
-export default class App extends React.Component<{}, AppState> {
+export default class App extends React.Component<{}, State> {
   state = {
     catalogs: {
       en_GB: require(process.env.NODE_ENV === 'development'
         ? '../../locales/en_GB/messages.po'
-        : '../../locales/en_GB/messages.js')
+        : '../../locales/en_GB/messages.js'),
+      en_US: require(process.env.NODE_ENV === 'development'
+        ? '../../locales/en_US/messages.po'
+        : '../../locales/en_US/messages.js'),
+      es_ES: require(process.env.NODE_ENV === 'development'
+        ? '../../locales/es_ES/messages.po'
+        : '../../locales/es_ES/messages.js'),
+      es_MX: require(process.env.NODE_ENV === 'development'
+        ? '../../locales/es_MX/messages.po'
+        : '../../locales/es_MX/messages.js'),
+      fr_FR: require(process.env.NODE_ENV === 'development'
+        ? '../../locales/fr_FR/messages.po'
+        : '../../locales/fr_FR/messages.js'),
+      eu: require(process.env.NODE_ENV === 'development'
+        ? '../../locales/eu/messages.po'
+        : '../../locales/eu/messages.js')
     },
     locale: locale_default,
     setLocale: this.setLocale.bind(this)
@@ -96,7 +103,20 @@ export default class App extends React.Component<{}, AppState> {
       locale,
       catalogs
     });
+
+    const [language] = locale.split('_');
+
+    Settings.defaultLocale = language;
+    Settings.defaultZoneName = 'UTC';
+
+    // Persist the locale to local-storage.
+    localStorage.setItem(LocalStorageLocaleKey, locale);
   }
+
+  public componentDidMount = () => {
+    // This is a temp fix.
+    this.setLocale(this.state.locale);
+  };
 
   render() {
     // console.log(this.state)
@@ -115,13 +135,12 @@ export default class App extends React.Component<{}, AppState> {
       <ThemeProvider>
         <LocaleContext.Provider value={this.state}>
           <I18nProvider
+            i18n={i18n}
             language={this.state.locale}
             catalogs={this.state.catalogs}
           >
             {/* <AppStyles> */}
-            <Chrome>
-              <Router />
-            </Chrome>
+            <Router />
             {/* </AppStyles> */}
           </I18nProvider>
         </LocaleContext.Provider>
