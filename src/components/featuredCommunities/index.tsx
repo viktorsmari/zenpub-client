@@ -15,17 +15,19 @@ export const Title = styled.div`
   font-size: 15px;
   font-weight: 700;
   padding: 8px;
-  border-bottom: 1px solid ${props => props.theme.styles.colour.divider};
+  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
   margin: 0;
   margin-bottom: 8px;
-  color: ${props => props.theme.styles.colour.base1};
+  color: ${props => props.theme.styles.colors.darkgray};
   & h5 {
     margin: 0;
-    color: ${props => props.theme.styles.colour.base1};
+    color: ${props => props.theme.styles.colors.darkgray};
     display: inline-block;
     padding: 0;
-    font-size: 16px;
+    font-size: 12px;
+    text-transform: uppercase;
     height: 30px;
+    font-weight: 500;
     line-height: 30px;
   }
 `;
@@ -36,13 +38,13 @@ export const RightContext = styled.div`
     display: inline-block;
     height: 30px;
     & svg {
-      color: ${props => props.theme.styles.colour.base1} !important;
+      color: ${props => props.theme.styles.colors.darkgray} !important;
       vertical-align: middle;
       height: 30px;
     }
     &:hover {
       & svg {
-        color: ${props => props.theme.styles.colour.base1} !important;
+        color: ${props => props.theme.styles.colors.darkgray} !important;
       }
     }
   }
@@ -138,25 +140,25 @@ class MultipleItems extends React.Component<Props> {
         ) : (
           <Slider ref={c => (this.slider = c)} {...settings}>
             {this.props.data.one ? (
-              <CommunitySmall collection={this.props.data.one} />
+              <CommunitySmall community={this.props.data.one} />
             ) : null}
             {this.props.data.two ? (
-              <CommunitySmall collection={this.props.data.two} />
+              <CommunitySmall community={this.props.data.two} />
             ) : null}
             {this.props.data.three ? (
-              <CommunitySmall collection={this.props.data.three} />
+              <CommunitySmall community={this.props.data.three} />
             ) : null}
             {this.props.data.four ? (
-              <CommunitySmall collection={this.props.data.four} />
+              <CommunitySmall community={this.props.data.four} />
             ) : null}
             {this.props.data.five ? (
-              <CommunitySmall collection={this.props.data.five} />
+              <CommunitySmall community={this.props.data.five} />
             ) : null}
             {this.props.data.six ? (
-              <CommunitySmall collection={this.props.data.six} />
+              <CommunitySmall community={this.props.data.six} />
             ) : null}
             {this.props.data.seven ? (
-              <CommunitySmall collection={this.props.data.seven} />
+              <CommunitySmall community={this.props.data.seven} />
             ) : null}
           </Slider>
         )}
