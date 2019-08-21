@@ -1,26 +1,15 @@
 import { Catalogs, setupI18n } from '@lingui/core';
 import { Trans } from '@lingui/macro';
 import { I18nProvider } from '@lingui/react';
-import '@zendeskgarden/react-avatars/dist/styles.css';
-import '@zendeskgarden/react-buttons/dist/styles.css';
 import '@zendeskgarden/react-checkboxes/dist/styles.css';
-import { Chrome } from '@zendeskgarden/react-chrome';
-import '@zendeskgarden/react-chrome/dist/styles.css';
-import '@zendeskgarden/react-grid/dist/styles.css';
-import '@zendeskgarden/react-menus/dist/styles.css';
-import '@zendeskgarden/react-pagination/dist/styles.css';
 import '@zendeskgarden/react-select/dist/styles.css';
 import '@zendeskgarden/react-tabs/dist/styles.css';
-import '@zendeskgarden/react-tags/dist/styles.css';
 import '@zendeskgarden/react-textfields/dist/styles.css';
-import '@zendeskgarden/react-tooltips/dist/styles.css';
 import { Settings } from 'luxon';
 import * as React from 'react';
 import { ThemeProvider } from '../../styleguide/Wrapper';
-import '../../styles/flag-icons.css';
 import '../../styles/loader.css';
 import '../../styles/social-icons.css';
-// import styled from '../../themes/styled';
 import Router from './Router';
 
 const LocalStorageLocaleKey = 'locale';
@@ -151,9 +140,7 @@ export default class App extends React.Component<{}, State> {
             catalogs={this.state.catalogs}
           >
             {/* <AppStyles> */}
-            <Chrome>
-              <Router />
-            </Chrome>
+            <Router />
             {/* </AppStyles> */}
           </I18nProvider>
         </LocaleContext.Provider>

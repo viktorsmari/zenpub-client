@@ -24,6 +24,12 @@ async function run() {
       * {
         box-sizing: border-box;
       }
+
+      body {
+      background: rgb(245,246,247);
+      overflow-y: scroll;
+      overscroll-behavior-y: none;
+      }
   `;
 
   const ApolloApp = () => (
