@@ -5,6 +5,8 @@ image: node:alpine
 cache:
   paths:
   - node_modules
+  - .docz/node_modules
+  - .docz/.cache
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
@@ -12,28 +14,29 @@ variables:
 
 default:
   before_script:
+    # - rm -rf node_modules
     - apk add --update py-pip # install python & pip
     - pip install awscli 
-    - npm install # Install all JS dependencies
-    - npm run add-locale en_GB # make sure we have default language
-    - npm run extract # extract latest strings from source into English PO file for localisation
+    - yarn # Install all JS dependencies
+    - yarn add-locale en_GB # make sure we have default language
+    - yarn extract # extract latest strings from source into English PO file for localisation
 
 deploy-next: # build and deploy develop branch to staging
   only:
     - develop # Only run on staging branch
   script:
     - if [ ! -z "$TX_TOKEN" ]; then pip install transifex-client && tx push --source --no-interactive && tx pull --force --no-interactive ; else echo "Skipping..."; fi # install transifex cli, then push latest English PO file to transifex for translators, and finally pull all the latest localised PO files from transifex to be used by frontend
-    - npm run compile # compile localisation PO files into .js files 
-    - REACT_APP_GRAPHQL_ENDPOINT=https://home.next.moodle.net/api/graphql CI=false npm run build --prod # Build for prod, need to specify URL of backend API, and CI=false to avoid failing on warnings
-    - npm run docz:build # generate new styleguide
+    - yarn compile # compile localisation PO files into .js files 
+    - REACT_APP_GRAPHQL_ENDPOINT=https://home.next.moodle.net/api/graphql CI=false yarn build --prod # Build for prod, need to specify URL of backend API, and CI=false to avoid failing on warnings
     - rm -rf public # CRA and gitlab pages both use the public folder. Only do this in a build pipeline.
     - mv build public # Move build files to public dir for Gitlab Pages
     - cp public/index.html public/404.html # Not necessary, but helps with https://medium.com/@pshrmn/demystifying-single-page-applications-3068d0555d46
-    # Next install the AWS SDK and push files to S3
-    - if [ ! -z "$STAGING_BUCKET" ]; then aws s3 sync public/ s3://${STAGING_BUCKET} --delete --exclude .git --exclude README.md --acl public-read ; else echo "Skipping..."; fi # deploy frontend to staging
+    - if [ ! -z "$STAGING_BUCKET" ]; then aws s3 sync public/ s3://${STAGING_BUCKET} --delete --exclude .git --exclude README.md --acl public-read ; else echo "Skipping..."; fi # deploy frontend to staging's S3 bucket
     - if [ ! -z "$STAGING_DISTRIBUTION_ID" ]; then aws cloudfront create-invalidation --distribution-id ${STAGING_DISTRIBUTION_ID} --paths '/*' ; else echo "Skipping..."; fi # invalidate CloudFront's cache to serve the new version
-    - aws s3 sync .docz/dist/ s3://${DOCS_STAGING_BUCKET}/docs/ui/ --delete --exclude .git --acl public-read # also copy docs to (a different) S3-served website
-    - aws cloudfront create-invalidation --distribution-id ${DOCS_STAGING_DISTRIBUTION_ID} --paths '/docs/ui/*' # invalidate the docs CloudFront's cache to serve the new version
+    - mkdir docs && yarn docs # generate TypeDocs
+    - cd .docz && yarn && cd .. && CI=false yarn docz:build && mv .docz/dist docs/ui # prepare Docz dependencies & generate new styleguide
+    - if [ ! -z "$DOCS_STAGING_BUCKET" ]; then aws s3 sync docs/ s3://${DOCS_STAGING_BUCKET}/docs/client/ --delete --exclude .git --acl public-read ; else echo "Skipping..."; fi # also copy docs to (a different) S3-served website
+    - if [ ! -z "$DOCS_STAGING_DISTRIBUTION_ID" ]; then aws cloudfront create-invalidation --distribution-id ${DOCS_STAGING_DISTRIBUTION_ID} --paths '/docs/client/*' ; else echo "Skipping..."; fi # invalidate the docs CloudFront's cache to serve the new version
   artifacts:
     paths:
     - public # The built files for Gitlab Pages to serve
@@ -44,8 +47,8 @@ deploy-prod: # build and deploy master branch to production
     - master # Only run on production branch
   script:
     - if [ ! -z "$TX_TOKEN" ]; then pip install transifex-client && tx pull --force --no-interactive ; else echo "Skipping..."; fi # install transifex cli, then pull all the latest localised PO files from transifex 
-    - npm run compile # compile localisation PO files into .js files 
-    - REACT_APP_GRAPHQL_ENDPOINT=https://home.moodle.net/api/graphql CI=false npm run build --prod # Build for prod, need to specify URL of backend API, and CI=false to avoid failing on warnings
+    - yarn compile # compile localisation PO files into .js files 
+    - REACT_APP_GRAPHQL_ENDPOINT=https://home.moodle.net/api/graphql CI=false yarn build --prod # Build for prod, need to specify URL of backend API, and CI=false to avoid failing on warnings
     - rm -rf public # CRA and gitlab pages both use the public folder. Only do this in a build pipeline.
     - mv build public # Move build files to public dir for Gitlab Pages
     - cp public/index.html public/404.html # Not necessary, but helps with https://medium.com/@pshrmn/demystifying-single-page-applications-3068d0555d46
@@ -61,8 +64,8 @@ deploy-team: # build and deploy master branch to production
     - develop # Only run on staging branch
   script:
     - if [ ! -z "$TX_TOKEN" ]; then pip install transifex-client && tx pull --force --no-interactive ; else echo "Skipping..."; fi # install transifex cli, then pull all the latest localised PO files from transifex 
-    - npm run compile # compile localisation PO files into .js files 
-    - REACT_APP_GRAPHQL_ENDPOINT=https://team.moodle.net/api/graphql CI=false npm run build --prod # Build for prod, need to specify URL of backend API, and CI=false to avoid failing on warnings
+    - yarn compile # compile localisation PO files into .js files 
+    - REACT_APP_GRAPHQL_ENDPOINT=https://team.moodle.net/api/graphql CI=false yarn build --prod # Build for prod, need to specify URL of backend API, and CI=false to avoid failing on warnings
     - rm -rf public # CRA and gitlab pages both use the public folder. Only do this in a build pipeline.
     - mv build public # Move build files to public dir for Gitlab Pages
     - cp public/index.html public/404.html # Not necessary, but helps with https://medium.com/@pshrmn/demystifying-single-page-applications-3068d0555d46
