@@ -3,7 +3,7 @@ import * as React from 'react';
 import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
 import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
-import compose from 'recompose/compose';
+import { compose, withState, withHandlers } from 'recompose';
 import Main from '../../components/chrome/Main/Main';
 import CollectionCard from '../../components/elements/Collection/Collection';
 import Loader from '../../components/elements/Loader/Loader';
@@ -28,6 +28,7 @@ interface Data extends GraphqlQueryControls {
 
 interface Props {
   data: Data;
+  handleCollection: any;
 }
 
 class CommunitiesYours extends React.Component<Props> {
@@ -59,7 +60,11 @@ class CommunitiesYours extends React.Component<Props> {
                       </Helmet>
                       <List>
                         {this.props.data.collections.nodes.map((coll, i) => (
-                          <CollectionCard key={i} collection={coll} />
+                          <CollectionCard
+                            key={i}
+                            collection={coll}
+                            openModal={this.props.handleCollection}
+                          />
                         ))}
                       </List>
                       <CollectionsLoadMore
@@ -99,4 +104,11 @@ const withGetCommunities = graphql<
   })
 }) as OperationOption<{}, {}>;
 
-export default compose(withGetCommunities)(CommunitiesYours);
+export default compose(
+  withGetCommunities,
+  withState('isOpenCollection', 'onOpenCollection', false),
+  withHandlers({
+    handleCollection: props => () =>
+      props.onOpenCollection(!props.isOpenCollection)
+  })
+)(CommunitiesYours);

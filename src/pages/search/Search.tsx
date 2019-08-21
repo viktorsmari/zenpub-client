@@ -10,7 +10,7 @@ import { Grid, Row, Col } from '@zendeskgarden/react-grid';
 import Main from '../../components/chrome/Main/Main';
 
 import CommunityCard from '../../components/elements/Community/Community';
-import CollectionCard from '../../components/elements/Collection/Collection';
+// import CollectionCard from '../../components/elements/Collection/Collection';
 import ResourceCard from '../../components/elements/Resource/Resource';
 
 // import Logo from '../../components/brand/Logo/Logo';
@@ -59,7 +59,7 @@ function Hit(props) {
         {community.collections.map((collection, i_col) => (
           <Row>
             <Col>
-              <CollectionCard key={i_col} collection={collection} />
+              {/* <CollectionCard key={i_col} collection={collection} /> */}
             </Col>
             <Col>{collection_resources(collection)}</Col>
           </Row>

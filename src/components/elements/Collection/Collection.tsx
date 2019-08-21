@@ -1,73 +1,66 @@
 import * as React from 'react';
 import styled from '../../../themes/styled';
 import CollectionType from '../../../types/Collection';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { Resource, Eye, Message } from '../Icons';
 import { Flex, Text, Heading } from 'rebass';
 const PlaceholderImg = require('../Icons/collectionPlaceholder.png');
 
 interface CollectionProps {
   collection: CollectionType;
+  openModal: any;
 }
 /**
  * Collection component.
  */
 
-export default ({ collection }: CollectionProps) => {
+export default ({ collection, openModal }: CollectionProps) => {
   return (
-    <Wrapper mb={2} p={2}>
-      <Link
+    <Wrapper mb={2} p={2} onClick={() => openModal(collection.localId)}>
+      {/* <Link
         to={
           collection.localId
             ? `/collections/${collection.localId}`
             : `/collections/federate?url=${encodeURI(collection.id)}`
         }
-      >
-        <Img
-          style={{
-            backgroundImage: `url(${collection.icon || PlaceholderImg})`
-          }}
-        />
-        <Infos>
-          <Title>
-            {collection.name.length > 80
-              ? collection.name.replace(/^(.{76}[^\s]*).*/, '$1...')
-              : collection.name}
-          </Title>
-          <Desc mb={2}>
-            {collection.summary.length > 320
-              ? collection.summary.replace(
-                  /^([\s\S]{316}[^\s]*)[\s\S]*/,
-                  '$1...'
-                )
-              : collection.summary}
-          </Desc>
-          <Actions>
-            <ActionItem>
-              {(collection.resources && collection.resources.totalCount) || 0}{' '}
-              <Resource
-                width={18}
-                height={18}
-                strokeWidth={2}
-                color={'#8b98a2'}
-              />
-            </ActionItem>
-            <ActionItem>
-              {(collection.followers && collection.followers.totalCount) || 0}{' '}
-              <Eye width={18} height={18} strokeWidth={2} color={'#8b98a2'} />
-            </ActionItem>
-            <ActionItem>
-              {(collection.threads && collection.threads.totalCount) || 0}{' '}
-              <Message
-                width={18}
-                height={18}
-                strokeWidth={2}
-                color={'#8b98a2'}
-              />
-            </ActionItem>
-          </Actions>
-        </Infos>
-      </Link>
+      > */}
+      <Img
+        style={{
+          backgroundImage: `url(${collection.icon || PlaceholderImg})`
+        }}
+      />
+      <Infos>
+        <Title>
+          {collection.name.length > 80
+            ? collection.name.replace(/^(.{76}[^\s]*).*/, '$1...')
+            : collection.name}
+        </Title>
+        <Desc mb={2}>
+          {collection.summary.length > 320
+            ? collection.summary.replace(/^([\s\S]{316}[^\s]*)[\s\S]*/, '$1...')
+            : collection.summary}
+        </Desc>
+        <Actions>
+          <ActionItem>
+            {(collection.resources && collection.resources.totalCount) || 0}{' '}
+            <Resource
+              width={18}
+              height={18}
+              strokeWidth={2}
+              color={'#8b98a2'}
+            />
+          </ActionItem>
+          <ActionItem>
+            {(collection.followers && collection.followers.totalCount) || 0}{' '}
+            <Eye width={18} height={18} strokeWidth={2} color={'#8b98a2'} />
+          </ActionItem>
+          <ActionItem>
+            {(collection.threads && collection.threads.totalCount) || 0}{' '}
+            <Message width={18} height={18} strokeWidth={2} color={'#8b98a2'} />
+          </ActionItem>
+        </Actions>
+      </Infos>
+      {/* </Link> */}
     </Wrapper>
   );
 };

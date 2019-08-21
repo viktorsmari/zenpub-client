@@ -2,7 +2,7 @@ import { Trans } from '@lingui/macro';
 import * as React from 'react';
 import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
 import { Helmet } from 'react-helmet';
-import compose from 'recompose/compose';
+import { compose, withState, withHandlers } from 'recompose';
 import CollectionCard from '../../components/elements/Collection/Collection';
 import Loader from '../../components/elements/Loader/Loader';
 import CollectionsLoadMore from '../../components/elements/Loadmore/followingCollections';
@@ -29,6 +29,7 @@ interface Data extends GraphqlQueryControls {
 
 interface Props {
   data: Data;
+  handleCollection: any;
 }
 
 class FollowingCollectionsComponent extends React.Component<Props> {
@@ -48,7 +49,11 @@ class FollowingCollectionsComponent extends React.Component<Props> {
           <List>
             {this.props.data.me.user.followingCollections.edges.map(
               (comm, i) => (
-                <CollectionCard key={i} collection={comm.node} />
+                <CollectionCard
+                  key={i}
+                  collection={comm.node}
+                  openModal={this.props.handleCollection}
+                />
               )
             )}
           </List>
@@ -87,6 +92,11 @@ const withGetFollowingCollections = graphql<
   })
 }) as OperationOption<{}, {}>;
 
-export default compose(withGetFollowingCollections)(
-  FollowingCollectionsComponent
-);
+export default compose(
+  withGetFollowingCollections,
+  withState('isOpenCollection', 'onOpenCollection', false),
+  withHandlers({
+    handleCollection: props => () =>
+      props.onOpenCollection(!props.isOpenCollection)
+  })
+)(FollowingCollectionsComponent);

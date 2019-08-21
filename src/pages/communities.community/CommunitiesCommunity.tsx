@@ -17,6 +17,7 @@ import Hero from './hero';
 import CommunityModal from '../../components/elements/CommunityModal';
 import EditCommunityModal from '../../components/elements/EditCommunityModal';
 import UsersModal from '../../components/elements/UsersModal';
+import CollectionModal from '../../components/elements/CollectionViewModal';
 import CommunityPage from './Community';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
@@ -51,6 +52,8 @@ interface Props
     }> {
   data: Data;
   handleNewCollection: any;
+  handleCollection: any;
+  isOpenCollection: boolean;
   isOpen: boolean;
   editCommunity(): boolean;
   isEditCommunityOpen: boolean;
@@ -108,7 +111,11 @@ class CommunitiesFeatured extends React.Component<Props, State> {
 
           <Box m={2}>
             {this.props.data.community.collections.edges.map((e, i) => (
-              <CollectionCard key={i} collection={e.node} />
+              <CollectionCard
+                key={i}
+                collection={e.node}
+                openModal={this.props.handleCollection}
+              />
             ))}
           </Box>
         );
@@ -200,7 +207,10 @@ class CommunitiesFeatured extends React.Component<Props, State> {
               </Switch>
             </Wrapper>
           </WrapperCont>
-
+          <CollectionModal
+            toggleModal={this.props.handleCollection}
+            modalIsOpen={this.props.isOpenCollection}
+          />
           <CommunityModal
             toggleModal={this.props.handleNewCollection}
             modalIsOpen={this.props.isOpen}
@@ -361,10 +371,13 @@ const withGetCollections = graphql<
 export default compose(
   withGetCollections,
   withState('isOpen', 'onOpen', false),
+  withState('isOpenCollection', 'onOpenCollection', false),
   withState('isEditCommunityOpen', 'onEditCommunityOpen', false),
   withState('isUsersOpen', 'showUsers', false),
   withState('stacked', 'onStacked', false),
   withHandlers({
+    handleCollection: props => () =>
+      props.onOpenCollection(!props.isOpenCollection),
     handleNewCollection: props => () => props.onOpen(!props.isOpen),
     editCommunity: props => () =>
       props.onEditCommunityOpen(!props.isEditCommunityOpen)
