@@ -4,7 +4,6 @@ import media from 'styled-media-query';
 import styled from '../../../themes/styled';
 import Collection from '../../../types/Collection';
 import H5 from '../../typography/H5/H5';
-import P from '../../typography/P/P';
 const PlaceholderImg = require('../Icons/collectionPlaceholder.png');
 
 interface CollectionProps {
@@ -25,28 +24,11 @@ const Collection: React.FC<CollectionProps> = ({ collection }) => {
               ? collection.name.replace(/^(.{76}[^\s]*).*/, '$1...')
               : collection.name}
           </Title>
-          <Summary>
-            {collection.summary.length > 80
-              ? collection.summary.replace(
-                  /^([\s\S]{80}[^\s]*)[\s\S]*/,
-                  '$1...'
-                )
-              : collection.summary}
-          </Summary>
         </Infos>
       </Link>
     </Wrapper>
   );
 };
-
-const Summary = styled(P)`
-  margin: 0;
-  font-size: 14px;
-  color: ${props => props.theme.styles.colour.base3};
-  word-break: break-word;
-  z-index: 99;
-  position: relative;
-`;
 
 const Wrapper = styled.div`
   cursor: pointer;
