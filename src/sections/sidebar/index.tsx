@@ -6,9 +6,11 @@ import { Trans } from '@lingui/macro';
 import { NavLink } from 'react-router-dom';
 import { Globe } from 'react-feather';
 import OutsideClickHandler from 'react-outside-click-handler';
-import { Settings, User, Power } from 'react-feather';
+import Input from '../../components/inputs/Text/Text';
 import media from 'styled-media-query';
 import { ellipsis } from 'polished';
+import Dropdown from './dropdown';
+
 const MnetLogo = require('./moodle-logo.png');
 const SidebarComponent = styled(Flex)`
   flex-grow: 1;
@@ -52,10 +54,14 @@ const SidebarOverflow = styled(Box)`
 `;
 
 const Header = styled(Flex)`
-  position: relative;
   cursor: pointer;
   input {
-    margin-left: 8px !important;
+    margin: 0 8px !important;
+    border-radius: 100px;
+    border-width: 1px;
+    ${media.lessThan('1280px')`
+      display: none;
+    `};
   }
 `;
 const Nav = styled(Box)`
@@ -128,18 +134,6 @@ const ItemTitle = styled(Text)`
 `};
 `;
 
-const WrapperMenu = styled.div`
-  box-sizing: border-box;
-  width: 250px;
-  padding: 5px;
-  border-radius: 0.25em;
-  background-color: rgb(232, 232, 232);
-  position: absolute;
-  top: 50px;
-  left: 0px;
-  z-index: 999999999999;
-`;
-
 const Layer = styled.div`
   position: absolute;
   left: 0;
@@ -148,37 +142,6 @@ const Layer = styled.div`
   height: 50px;
   z-index: 1;
   display: block;
-`;
-
-const ProfileMenu = styled.div`
-  background: #fff;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-`;
-const List = styled.div<{ lined?: boolean }>`
-  padding: 8px;
-  border-bottom: ${props => (props.lined ? '1px solid #dadada' : null)};
-`;
-const Item = styled.div`
-  font-size: 14px;
-  line-height: 30px;
-  height: 30px;
-  cursor: pointer;
-  font-weight: 600;
-  color: ${props => props.theme.styles.colour.base3};
-  & span {
-    display: inline-block;
-    margin-right: 8px;
-    & svg {
-      vertical-align: sub;
-    }
-  }
-  & a {
-    color: inherit !important;
-    text-decoration: none;
-  }
-  &:hover {
-    color: rgba(0, 0, 0, 0.9);
-  }
 `;
 
 const Sidebar = props => {
@@ -193,72 +156,11 @@ const Sidebar = props => {
                 src={props.data.me.user.icon}
                 // name={props.data.me.user.name}
               />
+              <Input placeholder="Search" />
               {props.isOpen ? (
                 <>
                   <OutsideClickHandler onOutsideClick={props.closeMenu}>
-                    <WrapperMenu>
-                      <ProfileMenu>
-                        <List lined>
-                          <Item
-                            onClick={() => props.navigateToPage('/profile')}
-                          >
-                            <span>
-                              <User size={18} color={'#333'} />
-                            </span>
-                            <Trans>Profile</Trans>
-                          </Item>
-                          <Item
-                            onClick={() => props.navigateToPage('/settings')}
-                          >
-                            <span>
-                              <Settings size={18} color={'#333'} />
-                            </span>
-                            <Trans>Settings</Trans>
-                          </Item>
-                        </List>
-                        <List lined>
-                          <Item>
-                            <a
-                              href="https://docs.moodle.org/dev/MoodleNet/Code_of_Conduct"
-                              target="blank"
-                            >
-                              <Trans>Code of Conduct</Trans>
-                            </a>
-                          </Item>
-
-                          <Item>
-                            <a
-                              href="https://changemap.co/moodle/moodlenet/"
-                              target="blank"
-                            >
-                              <Trans>Feedback &amp; Suggestions</Trans>
-                            </a>
-                          </Item>
-
-                          <Item>
-                            <a
-                              href="https://blog.moodle.net/category/versions/"
-                              target="blank"
-                            >
-                              v0.9.4 alpha <Trans>Changelog</Trans>
-                            </a>
-                          </Item>
-                        </List>
-                        <List>
-                          <Item onClick={props.logout}>
-                            <span>
-                              <Power
-                                width={18}
-                                height={18}
-                                strokeWidth={1}
-                                color={'#333'}
-                              />
-                            </span>
-                            <Trans>Sign out</Trans>
-                          </Item>
-                        </List>
-                      </ProfileMenu>
-                    </WrapperMenu>
+                    <Dropdown />
                   </OutsideClickHandler>
                   <Layer />
                 </>
