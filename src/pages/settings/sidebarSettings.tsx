@@ -14,7 +14,7 @@ const SidebarComponent = styled(Flex)`
   flex-shrink: 0;
   margin: 0px;
   min-height: 0px;
-  height: 100%;
+  height: 100vh;
   min-width: 0px;
   padding: 0px;
   position: relative;

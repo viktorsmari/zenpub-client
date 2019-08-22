@@ -1,26 +1,27 @@
 // create a new collection
 
-import { Trans } from '@lingui/macro';
 import * as React from 'react';
-import H5 from '../../typography/H5/H5';
 import Modal from '../Modal';
-import { Container, Header } from '../Modal/modal';
+import { Container } from '../Modal/modal';
+import Collection from '../../../pages/collections.collection/CollectionsCollection';
 
 interface Props {
   toggleModal?: any;
   modalIsOpen?: boolean;
+  history: any;
+  match: any;
 }
 
 const CollectionViewModal = (props: Props) => {
-  const { toggleModal, modalIsOpen } = props;
   return (
-    <Modal isOpen={modalIsOpen} toggleModal={toggleModal}>
+    <Modal
+      isOpen={true}
+      toggleModal={() =>
+        props.history.push('/communities/' + props.match.params.community)
+      }
+    >
       <Container>
-        <Header>
-          <H5>
-            <Trans>Sample collection view</Trans>
-          </H5>
-        </Header>
+        <Collection match={props.match} />
       </Container>
     </Modal>
   );
