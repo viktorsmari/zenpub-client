@@ -1,12 +1,6 @@
-import {
-  Item,
-  Select,
-  SelectField as ZenSelectField
-} from '@zendeskgarden/react-select';
 import * as React from 'react';
-// import Flag from '../../elements/Flag/Flag';
 import { LocaleContext, locale_default } from '../../../containers/App/App';
-import styled, { StyledThemeInterface } from '../../../themes/styled';
+import Select from 'react-select';
 
 type LanguageSelectState = {
   selectedKey?: string;
@@ -15,13 +9,6 @@ type LanguageSelectState = {
 type LanguageSelectProps = {
   fullWidth?: boolean;
 } & React.SelectHTMLAttributes<object>;
-
-type StyledProps = StyledThemeInterface & LanguageSelectProps;
-
-const SelectField = styled(ZenSelectField)`
-  max-width: ${(props: StyledProps) => (props.fullWidth ? 'none' : '300px')};
-  width: ${(props: StyledProps) => (props.fullWidth ? '100%' : 'auto')};
-`;
 
 export const languageNames = {
   en_GB: 'English, British',
@@ -32,16 +19,11 @@ export const languageNames = {
   eu: 'Euskara'
 };
 
-let options: Item[] = [];
+let options: any[] = [];
 
 Object.keys(languageNames).forEach(key => {
-  // console.log(languageNames[key]);
-  options.push(
-    <Item key={key}>
-      {/* <Flag flag={key.substr(-2).toLowerCase()} /> */}
-      &nbsp; {languageNames[key]}
-    </Item>
-  );
+  console.log(languageNames[key]);
+  options.push({ value: languageNames[key], label: languageNames[key] });
 });
 
 /**
@@ -64,22 +46,14 @@ export default class LanguageSelect extends React.Component<
     return (
       <LocaleContext.Consumer>
         {({ setLocale, locale }) => (
-          <SelectField {...this.props}>
-            <Select
-              selectedKey={locale}
-              zIndex={99999999999}
-              onChange={selectedKey => {
-                setLocale(selectedKey);
-                this.setState({ selectedKey });
-              }}
-              options={options}
-              // style={{ backgroundColor: '#151b26', color: '#ccc' }}
-            >
-              {/* <Flag flag={locale.substr(-2).toLowerCase()} /> */}
-              &nbsp;&nbsp;
-              {languageNames[locale]}
-            </Select>
-          </SelectField>
+          <Select
+            defaultValue={locale}
+            onChange={selectedKey => {
+              setLocale(selectedKey);
+              this.setState({ selectedKey });
+            }}
+            options={options}
+          />
         )}
       </LocaleContext.Consumer>
     );
