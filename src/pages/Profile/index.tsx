@@ -20,6 +20,7 @@ import LoadMoreTimeline from '../../components/elements/Loadmore/timelineoutbox'
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { WrapperPanel, Panel, PanelTitle, Nav } from '../../sections/panel';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
+import { NavLink } from 'react-router-dom';
 
 enum TabsEnum {
   Overview = 'Overview',
@@ -215,6 +216,9 @@ class CommunitiesFeatured extends React.Component<Props, State> {
         </HomeBox>
         <WrapperPanel>
           <Panel>
+            <Settings to="/settings">Settings</Settings>
+          </Panel>
+          <Panel>
             <PanelTitle fontSize={0} fontWeight={'bold'}>
               <Trans>Links</Trans>
             </PanelTitle>
@@ -225,6 +229,22 @@ class CommunitiesFeatured extends React.Component<Props, State> {
     );
   }
 }
+
+const Settings = styled(NavLink)`
+  color: ${props => props.theme.styles.colors.orange};
+  display: block;
+  width: 100%;
+  background: ${props => props.theme.styles.colors.lighter};
+  border: 2px solid ${props => props.theme.styles.colors.orange};
+  cursor: pointer;
+  height: 40px;
+  text-align: center;
+  line-height: 36px;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 14px;
+  border-radius: 2px;
+`;
 
 export const List = styled.div`
   display: grid;

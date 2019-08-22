@@ -20,8 +20,11 @@ import User from '../../pages/User';
 import Settings from '../../pages/settings';
 import Reset from '../../pages/Reset';
 import CreateNewPassword from '../../pages/CreateNewPassword';
-import media from 'styled-media-query';
-
+import {
+  MainWrapper,
+  WrapperDimension,
+  Inner
+} from '../../sections/layoutUtils';
 import { Flex } from 'rebass';
 import Sidebar from '../../sections/sidebar/sidebarHOC';
 
@@ -55,47 +58,6 @@ const PageContainer = styled(Flex)`
   height: 100%;
   width: 100%;
   ponter-events: auto;
-  flex-direction: row;
-`;
-
-const MainWrapper = styled(Flex)`
-  align-items: flex-start;
-  flex-shrink: 1;
-  flex-grow: 1;
-  flex-basis: auto;
-  flex-direction: column;
-  margin: 0px;
-  min-height: 0px;
-  min-width: 0px;
-  padding: 0px;
-  position: relative;
-  z-index: 0;
-`;
-
-const WrapperDimension = styled(Flex)`
-  align-items: stretch;
-  flex-shrink: 1;
-  flex-grow: 1;
-  flex-basis: auto;
-  flex-direction: column;
-  width: 990px;
-  ${media.lessThan('1095px')`
-  width: 920px;
-`};
-  ${media.lessThan('1005px')`
-  width: 600px;
-`};
-  ${media.lessThan('medium')`
-  width: auto;
-`};
-`;
-
-const Inner = styled(Flex)`
-  flex-grow: 1;
-  justify-content: space-between;
-  align-items: stretch;
-  min-height: 100%;
-  width: 100%;
   flex-direction: row;
 `;
 

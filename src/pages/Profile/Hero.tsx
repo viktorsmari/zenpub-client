@@ -76,7 +76,12 @@ const Location = styled(Text)`
   color: ${props => props.theme.styles.colors.gray};
   font-weight: 500;
   line-height: 26px;
-  font-size: 16px;
+  font-size: 14px;
+  border-radius: 100px;
+  margin-top: 16px;
+  padding: 0 8px;
+  display: inline-block;
+  background: ${props => props.theme.styles.colors.lighter};
   span {
     display: inline-block;
     margin-right: 8px;
@@ -97,21 +102,6 @@ const HeroBg = styled.div<{ src: string }>`
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
-  &:before {
-    position: absolute;
-    content: '';
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 150px;
-    display: block;
-    background: rgb(0, 0, 0);
-    background: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 1) 100%
-    );
-  }
 `;
 
 const WrapperHero = styled.div`

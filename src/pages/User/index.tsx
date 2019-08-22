@@ -11,7 +11,6 @@ import CollectionCard from '../../components/elements/Collection/Collection';
 import CommunityCard from '../../components/elements/Community/Community';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 const getUserQuery = require('../../graphql/getAgent.graphql');
-import { Collection, Community, Eye } from '../../components/elements/Icons';
 import FollowingCollectionsLoadMore from '../../components/elements/Loadmore/followingCollections';
 import JoinedCommunitiesLoadMore from '../../components/elements/Loadmore/joinedCommunities';
 import HeroComp from '../Profile/Hero';
@@ -22,6 +21,17 @@ import LoadMoreTimeline from '../../components/elements/Loadmore/timelineoutbox'
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel, Panel, PanelTitle, Nav } from '../../sections/panel';
+import { Button } from 'rebass';
+import styled from '../../themes/styled';
+
+const Follow = styled(Button)`
+  color: ${props => props.theme.styles.colors.orange};
+  display: block;
+  width: 100%;
+  background: ${props => props.theme.styles.colors.lighter};
+  border: 2px solid ${props => props.theme.styles.colors.orange};
+  cursor: pointer;
+`;
 
 enum TabsEnum {
   Overview = 'Overview',
@@ -101,40 +111,16 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                       <Tabs>
                         <SuperTabList>
                           <SuperTab>
-                            <span>
-                              <Eye
-                                width={20}
-                                height={20}
-                                strokeWidth={2}
-                                color={'#a0a2a5'}
-                              />
-                            </span>
                             <h5>
                               <Trans>Recent activities</Trans>
                             </h5>
                           </SuperTab>
                           <SuperTab>
-                            <span>
-                              <Collection
-                                width={20}
-                                height={20}
-                                strokeWidth={2}
-                                color={'#a0a2a5'}
-                              />
-                            </span>
                             <h5>
                               <Trans>Followed Collections</Trans>
                             </h5>
                           </SuperTab>
                           <SuperTab>
-                            <span>
-                              <Community
-                                width={20}
-                                height={20}
-                                strokeWidth={2}
-                                color={'#a0a2a5'}
-                              />
-                            </span>{' '}
                             <h5>
                               <Trans>Joined Communities</Trans>
                             </h5>
@@ -229,6 +215,9 @@ class CommunitiesFeatured extends React.Component<Props, State> {
           )}
         </HomeBox>
         <WrapperPanel>
+          <Panel>
+            <Follow variant={'outline'}>Follow</Follow>
+          </Panel>
           <Panel>
             <PanelTitle fontSize={0} fontWeight={'bold'}>
               <Trans>Links</Trans>
