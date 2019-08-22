@@ -119,6 +119,10 @@ query getAgentQuery(
                 localId
                 preferredUsername
                 name
+                community {
+                  localId
+                  id
+                }
                 summary
                 icon
                 followed

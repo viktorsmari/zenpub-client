@@ -53,7 +53,7 @@ class FollowingCollectionsComponent extends React.Component<Props> {
                   key={i}
                   collection={comm.node}
                   openModal={this.props.handleCollection}
-                  communityId={comm.community.localId}
+                  communityId={comm.node.community.localId}
                 />
               )
             )}

@@ -17,6 +17,10 @@ query getFollowedCollections($limit: Int, $endColl: Int) {
                 name
                 summary
                 icon
+                community {
+                  localId
+                  id
+                }
                 followed
                 followers {
                   totalCount

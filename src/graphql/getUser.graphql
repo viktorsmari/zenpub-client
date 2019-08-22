@@ -118,6 +118,10 @@ query meQuery(
           name
           summary
           icon
+          community {
+            localId
+            id
+          }
           followed
           followers {
             totalCount
