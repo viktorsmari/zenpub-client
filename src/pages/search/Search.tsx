@@ -1,21 +1,22 @@
 import * as React from 'react';
+// import CommunityCard from '../../components/elements/Community/Community';
 import ResourceCard from '../../components/elements/Resource/Resource';
 import { Box, Flex, Text } from 'rebass';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
+// import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import styled from '../../themes/styled';
 
 import { Hits, Pagination, Configure } from 'react-instantsearch-dom';
-import { Trans } from '@lingui/macro';
 
 const CommunityWrapper = styled(Box)`
-  background: #f9f0e8;
-  border-radius: 4px;
+  border: 1px solid ${props => props.theme.styles.colors.lighter};
+  background: white;
+  border-radius: 3px;
 `;
 
 const Community = styled(Flex)`
   align-items: center;
-  border-bottom: 3px solid white;
-  background: #f1e5db;
+  border-bottom: 3px solid ${props => props.theme.styles.colors.lighter};
 `;
 const CommunityImage = styled(Box)`
   width: 100px;
@@ -28,30 +29,16 @@ const CommunityText = styled(Text)`
   font-weight: 800;
 `;
 
-const SubText = styled(Text)`
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  color: ${props => props.theme.styles.colors.darkgray};
-  background: #f1e5db;
-`;
-
 function Hit(props) {
   var community = props.hit;
 
   return (
-    <CommunityWrapper m={2} mb={4}>
-      <Community>
-        <CommunityImage
-          m={3}
-          style={{ backgroundImage: `url(${community.icon})` }}
-        />
-        <CommunityText ml={1}>{community.name}</CommunityText>
+    <CommunityWrapper m={2} p={2}>
+      <Community pb={2}>
+        <CommunityImage style={{ backgroundImage: `url(${community.icon})` }} />
+        <CommunityText ml={3}>{community.name}</CommunityText>
       </Community>
       <Box>
-        <SubText p={2}>
-          <Trans>Resources list</Trans>
-        </SubText>
         {community.collections.map((collection, i_col) =>
           collection_resources(collection)
         )}

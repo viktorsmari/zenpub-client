@@ -168,9 +168,7 @@ const Sidebar = props => {
                 src={props.data.me.user.icon}
                 // name={props.data.me.user.name}
               />
-              <Sbox>
-                <SearchBox />
-              </Sbox>
+              <SearchBox />
               {/* <Input placeholder="Search" /> */}
               {props.isOpen ? (
                 <>
