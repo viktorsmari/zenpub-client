@@ -41,6 +41,7 @@ query localActivities($limit: Int, $end: Int) {
               summary
               icon
               community {
+                id
                 localId
               }
               }
@@ -55,6 +56,7 @@ query localActivities($limit: Int, $end: Int) {
                   name
                   localId
                   community {
+                    id
                     localId
                   }
               }

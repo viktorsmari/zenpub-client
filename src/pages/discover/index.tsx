@@ -43,6 +43,7 @@ interface Props {
 }
 
 const Home: React.FC<Props> = props => {
+  console.log(props.data.error);
   return (
     <MainContainer>
       <HomeBox>
@@ -68,7 +69,7 @@ const Home: React.FC<Props> = props => {
               <TabPanel>
                 {props.data.error ? (
                   <span>
-                    <Trans>Error loading instance timeline</Trans>
+                    <Trans>{props.data.error}</Trans>
                   </span>
                 ) : props.data.loading ? (
                   <Loader />

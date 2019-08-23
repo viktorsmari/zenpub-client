@@ -13,13 +13,9 @@ interface Props {
 }
 
 const CollectionViewModal = (props: Props) => {
+  console.log(props);
   return (
-    <Modal
-      isOpen={true}
-      toggleModal={() =>
-        props.history.push('/communities/' + props.match.params.community)
-      }
-    >
+    <Modal isOpen={true} toggleModal={() => props.history.goBack()}>
       <Container>
         <Collection match={props.match} />
       </Container>

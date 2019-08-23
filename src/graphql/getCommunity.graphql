@@ -39,6 +39,7 @@ query getCommunityQuery(
                         summary
                         icon
                         community {
+                            id
                             localId
                         }
                         }

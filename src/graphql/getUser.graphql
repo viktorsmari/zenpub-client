@@ -82,6 +82,7 @@ query meQuery(
               summary
               icon
               community {
+                id
                 localId
               }
               }
