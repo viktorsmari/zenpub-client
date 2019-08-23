@@ -79,6 +79,8 @@ query meQuery(
               id
               name
               localId
+              summary
+              icon
               community {
                 localId
               }
@@ -87,6 +89,9 @@ query meQuery(
               id
               name
               localId
+              summary
+              icon
+              url
               collection {
                   name
                   localId

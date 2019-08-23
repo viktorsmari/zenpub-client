@@ -6,6 +6,10 @@ import { SFC } from 'react';
 import removeMd from 'remove-markdown';
 import styled from '../../../themes/styled';
 import Link from '../Link/Link';
+import { Box, Flex, Text } from 'rebass';
+import Resource from '../Resource/Resource';
+import Collection from '../Collection/CollectionSmall';
+import CommunitySmall from '../Community/CommunitySmall';
 
 interface Props {
   userpage?: boolean;
@@ -19,52 +23,37 @@ const Item: SFC<Props> = ({ user, node, userpage }) => (
       <MemberItem>
         <Img src={user ? user.icon : ''} />
       </MemberItem>
-      <FeedItemContents>
+      <MemberInfo>
         {userpage ? (
           <b>{user ? user.name : <Trans>Deleted user</Trans>}</b>
         ) : user ? (
-          <Link to={'/user/' + user.localId}>
-            <Name>{user.name}</Name>
-          </Link>
+          <Name>
+            <Link to={'/user/' + user.localId}>
+              {user.name}{' '}
+              {user.preferredUsername ? (
+                <Username>@{user.preferredUsername}</Username>
+              ) : null}
+            </Link>
+            <Spacer>·</Spacer>{' '}
+            <Date>{DateTime.fromISO(node.published).toRelative()}</Date>
+          </Name>
         ) : (
           <Name>
             <Trans>Deleted user</Trans>
           </Name>
         )}
-
-        {node.activityType === 'CreateCollection' ? (
-          <span>
-            <Trans>created the collection</Trans>{' '}
-            <Link to={`/collections/` + node.object.localId}>
-              {node.object.name}
-            </Link>{' '}
-          </span>
-        ) : node.activityType === 'UpdateCommunity' ? (
-          <span>
-            <Trans>updated the community</Trans>{' '}
+        {node.activityType === 'JoinCommunity' ? (
+          <SubText>
+            <Trans>joined</Trans>{' '}
             <Link to={`/communities/${node.object.localId}`}>
-              {node.object.name}
+              @{node.object.name}
             </Link>
-          </span>
-        ) : node.activityType === 'UpdateCollection' ? (
-          <span>
-            <Trans>updated the collection</Trans>{' '}
-            <Link to={`/collections/` + node.object.localId}>
-              {node.object.name}
-            </Link>
-          </span>
-        ) : node.activityType === 'JoinCommunity' ? (
-          <span>
-            <Trans>joined the community</Trans>{' '}
-            <Link to={`/communities/${node.object.localId}`}>
-              {node.object.name}
-            </Link>
-          </span>
+          </SubText>
         ) : node.activityType === 'CreateComment' ? (
           <>
-            <span>
+            <SubcommentText>
               {node.object.inReplyTo !== null ? (
-                <Trans>replied to</Trans>
+                <Trans>replied to a</Trans>
               ) : (
                 <Trans>started</Trans>
               )}{' '}
@@ -79,25 +68,34 @@ const Item: SFC<Props> = ({ user, node, userpage }) => (
                       }`
                 }
               >
-                <Trans>a discussion</Trans>
+                <Trans>a thread</Trans>
               </Link>{' '}
-              <Trans>in the</Trans>{' '}
-              {node.object.context.__typename === 'Community' ? (
-                <Trans>community</Trans>
-              ) : (
-                <Trans>collection</Trans>
-              )}{' '}
+              <Trans>in </Trans>{' '}
               <Link
+                style={
+                  node.object.context.__typename === 'Community'
+                    ? {
+                        textDecoration: 'none',
+                        fontWeight: 800,
+                        color: '#3C3C3C !important'
+                      }
+                    : {
+                        textDecoration: 'none',
+                        fontWeight: 600,
+                        color: '#f98012'
+                      }
+                }
                 to={
                   node.object.context.__typename === 'Community'
                     ? `/communities/${node.object.context.localId}`
                     : `/collections/${node.object.context.localId}`
                 }
               >
+                {node.object.context.__typename === 'Community' ? '@' : '+'}
                 {node.object.context.name}
               </Link>
               :
-            </span>
+            </SubcommentText>
             <Comment>
               <Link
                 to={
@@ -119,110 +117,216 @@ const Item: SFC<Props> = ({ user, node, userpage }) => (
               </Link>
             </Comment>
           </>
-        ) : node.activityType === 'CreateResource' ? (
-          <span>
-            <Trans>added the resource</Trans>{' '}
-            <Link to={`/collections/` + node.object.collection.localId}>
-              {node.object.name}
-            </Link>{' '}
-            <Trans>in the collection</Trans>{' '}
-            <Link to={`/collections/` + node.object.collection.localId}>
-              {node.object.collection.name}
-            </Link>{' '}
-          </span>
-        ) : node.activityType === 'FollowCollection' ? (
-          <span>
-            <Trans>is following the collection</Trans>{' '}
-            <Link to={`/collections/` + node.object.localId}>
-              {node.object.name}
+        ) : node.activityType === 'UpdateCommunity' ? (
+          <SubText>
+            <Trans>updated</Trans>{' '}
+            <Link to={`/communities/${node.object.localId}`}>
+              @{node.object.name}
             </Link>
-          </span>
+          </SubText>
+        ) : node.activityType === 'UpdateCollection' ? (
+          <SubCollText>
+            <Trans>updated</Trans>{' '}
+            <Link
+              to={
+                `/communities/${node.object.community.localId}/collections/` +
+                node.object.localId
+              }
+            >
+              +{node.object.name}
+            </Link>
+          </SubCollText>
+        ) : node.activityType === 'FollowCollection' ? (
+          <SubCollText>
+            <Trans>followed</Trans>{' '}
+            <Link
+              to={
+                `/communities/${node.object.community.localId}/collections/` +
+                node.object.localId
+              }
+            >
+              +{node.object.name}
+            </Link>
+          </SubCollText>
+        ) : node.activityType === 'CreateResource' ? (
+          <SubResourceText>
+            <Trans>added a new resource</Trans> <Trans>in</Trans>{' '}
+            <Link
+              to={
+                `/communities/${
+                  node.object.collection.community.localId
+                }/collections/` + node.object.collection.localId
+              }
+            >
+              +{node.object.collection.name}
+            </Link>{' '}
+            <ResourcePreview mt={2}>
+              <Resource
+                icon={node.object.icon}
+                title={node.object.name}
+                summary={node.object.summary}
+                url={node.object.url}
+                localId={node.object.localId}
+              />
+            </ResourcePreview>
+          </SubResourceText>
+        ) : node.activityType === 'CreateCollection' ? (
+          <SubResourceText>
+            <Trans>created</Trans>{' '}
+            <Link
+              to={
+                `/communities/${node.object.community.localId}/collections/` +
+                node.object.localId
+              }
+            >
+              +{node.object.name}
+            </Link>{' '}
+            <ResourcePreview mt={2}>
+              <Collection collection={node.object} />
+            </ResourcePreview>
+          </SubResourceText>
+        ) : node.activityType === 'CreateCommunity' ? (
+          <SubResourceText>
+            <Trans>created</Trans>{' '}
+            <Link to={`/communities/${node.object.localId}`}>
+              @{node.object.name}
+            </Link>{' '}
+            <ResourcePreview mt={2}>
+              <CommunitySmall community={node.object} />
+            </ResourcePreview>
+          </SubResourceText>
         ) : null}
-        <Date>{DateTime.fromJSDate(node.published).toRelative()}</Date>
-      </FeedItemContents>
+      </MemberInfo>
     </Member>
   </FeedItem>
 );
-const Name = styled.span`
+
+const ResourcePreview = styled(Box)`
+  background: ${props => props.theme.styles.colors.lighter};
+  border-radius: 4px;
+  > div {
+    padding: 16px;
+    margin: 0;
+  }
+`;
+
+const Username = styled(Text)`
+  color: ${props => props.theme.styles.colors.gray};
+  margin: 0 8px;
+  font-weight: 500;
+`;
+
+const Spacer = styled(Text)`
+  color: ${props => props.theme.styles.colors.gray};
+  margin-right: 8px;
+  font-weight: 500;
+`;
+
+const Date = styled(Text)`
+  color: ${props => props.theme.styles.colors.gray};
+  font-weight: 500;
+`;
+
+const SubText = styled(Text)`
+font-size: 14px;
+a {
+  text-decoration: none;
+  font-weight: 800
+  color: ${props => props.theme.styles.colors.darkgray} !important;
+}
+`;
+
+const SubcommentText = styled(Text)`
+font-size: 14px;
+a {
+  text-decoration: none;
+  font-weight: 600
+  color: ${props => props.theme.styles.colors.orange};
+}
+`;
+
+const SubResourceText = styled(Text)`
+font-size: 14px;
+a {
+  text-decoration: none;
+  font-weight: 600
+  color: ${props => props.theme.styles.colors.orange};
+}
+`;
+
+const SubCollText = styled(Text)`
+font-size: 14px;
+a {
+  text-decoration: none;
+  font-weight: 600
+  color: ${props => props.theme.styles.colors.orange};
+}
+`;
+
+const Name = styled(Text)`
   font-weight: 600;
-  color: ${props => props.theme.styles.colour.feedText};
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-const Member = styled.div`
-  vertical-align: top;
+  color: ${props => props.theme.styles.colors.darkgray};
+  text-decoration: none;
   display: flex;
-  ${clearFix()};
+  align-items: center;
+  font-size: 14px;
+  margin-bottom: 2px;
+  a {
+    font-weight: 800;
+    display: flex;
+    text-decoration: none;
+    align-items: center;
+    color: ${props => props.theme.styles.colors.darkgray} !important;
+  }
 `;
 
-const FeedItemContents = styled.div`
-  margin-left: 40px;
-  font-size: 14px;
-  margin: 0;
-  flex: 1;
-  color: ${props => props.theme.styles.colour.feedText};
-  font-weight: 400;
-  & span {
-    margin-right: 3px;
-  }
-  & a {
-    text-decoration: none;
-    font-weight: 600;
-    color: ${props => props.theme.styles.colour.feedText} !important;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
+const Member = styled(Flex)`
+  align-items: stretch;
+`;
+
+const MemberInfo = styled(Box)`
+  margin-top: 4px;
 `;
 
 const Comment = styled.div`
   margin-top: 6px;
   & a {
-    color: ${props => props.theme.styles.colour.feedText} !important;
+    color: ${props => props.theme.styles.colors.darkgray} !important;
     font-weight: 400 !important;
+    font-size: 14px;
+    text-decoration: none;
+    line-height: 20px;
   }
 `;
 
-const MemberItem = styled.span`
+const MemberItem = styled(Box)`
   background-color: #d6dadc;
   border-radius: 50px;
-  height: 32px;
+  height: 48px;
   overflow: hidden;
   position: relative;
-  width: 32px;
+  width: 48px;
   user-select: none;
   z-index: 0;
   vertical-align: inherit;
   margin-right: 8px;
-  float: left;
+  min-width: 48px;
 `;
 
 const Img = styled.img`
-  width: 32px;
-  height: 32px;
+  width: 48px;
+  height: 48px;
   display: block;
   -webkit-appearance: none;
-  line-height: 32px;
+  line-height: 48px;
   text-indent: 4px;
   font-size: 13px;
   overflow: hidden;
-  max-width: 32px;
-  max-height: 32px;
+  max-width: 48px;
+  max-height: 48px;
   text-overflow: ellipsis;
   vertical-align: text-top;
   margin-right: 8px;
-`;
-
-const Date = styled.div`
-  font-size: 12px;
-  line-height: 32px;
-  height: 20px;
-  margin: 0;
-  color: ${props => props.theme.styles.colour.base4};
-  margin-top: 0px;
-  font-weight: 500;
 `;
 
 const FeedItem = styled.div`

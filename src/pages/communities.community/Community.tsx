@@ -2,7 +2,7 @@ import * as React from 'react';
 import { SFC } from 'react';
 import { Trans } from '@lingui/macro';
 import { Tabs, TabPanel } from 'react-tabs';
-import Discussion from '../../components/chrome/Discussion/Discussion';
+// import Discussion from '../../components/chrome/Discussion/Discussion';
 import styled from '../../themes/styled';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem';
@@ -37,11 +37,11 @@ const CommunityPage: SFC<Props> = ({
               <Trans>Collections</Trans>
             </h5>
           </SuperTab>
-          <SuperTab>
+          {/* <SuperTab>
             <h5>
               <Trans>Discussions</Trans>
             </h5>
-          </SuperTab>
+          </SuperTab> */}
         </SuperTabList>
         <TabPanel>
           <div>
@@ -56,7 +56,7 @@ const CommunityPage: SFC<Props> = ({
         <TabPanel>
           <div>{collections}</div>
         </TabPanel>
-        <TabPanel>
+        {/* <TabPanel>
           {community.followed ? (
             <Discussion
               localId={community.localId}
@@ -79,7 +79,7 @@ const CommunityPage: SFC<Props> = ({
               </Footer>
             </>
           )}
-        </TabPanel>
+        </TabPanel> */}
       </Tabs>
     </OverlayTab>
   </WrapperTab>
