@@ -37,7 +37,7 @@ enum TabsEnum {
   Collections = 'Collections',
   Discussion = 'Discussion'
 }
-import Thread from '../thread';
+// import Thread from '../thread';
 
 interface Data extends GraphqlQueryControls {
   community: Community;
@@ -164,19 +164,18 @@ class CommunitiesFeatured extends React.Component<Props, State> {
             </Wrapper>
           </WrapperCont>
         );
+      } else {
+        // TODO better handling of no community
+        return (
+          <WrapperCont>
+            <Wrapper>
+              <span>
+                <Trans>{this.props.data.error}</Trans>
+              </span>
+            </Wrapper>
+          </WrapperCont>
+        );
       }
-      // else {
-      //   // TODO better handling of no community
-      //   return (
-      //     <WrapperCont>
-      //       <Wrapper>
-      //         <span>
-      //           <Trans>Could not load the community.</Trans>
-      //         </span>
-      //       </Wrapper>
-      //     </WrapperCont>
-      //   );
-      // }
     }
 
     return (
@@ -190,10 +189,10 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                 editCommunity={this.props.editCommunity}
               />
               <Switch>
-                <Route
+                {/* <Route
                   path={`/communities/${community.localId}/thread/:id`}
                   component={Thread}
-                />
+                /> */}
                 <Route
                   path={this.props.match.url}
                   exact

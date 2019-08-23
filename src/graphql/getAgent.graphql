@@ -59,6 +59,7 @@ query getAgentQuery(
                   summary
                   icon
                   community {
+                    id
                     localId
                   }
                   }
