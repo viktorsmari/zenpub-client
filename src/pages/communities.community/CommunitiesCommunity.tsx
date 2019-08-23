@@ -164,18 +164,19 @@ class CommunitiesFeatured extends React.Component<Props, State> {
             </Wrapper>
           </WrapperCont>
         );
-      } else {
-        // TODO better handling of no community
-        return (
-          <WrapperCont>
-            <Wrapper>
-              <span>
-                <Trans>Could not load the community.</Trans>
-              </span>
-            </Wrapper>
-          </WrapperCont>
-        );
       }
+      // else {
+      //   // TODO better handling of no community
+      //   return (
+      //     <WrapperCont>
+      //       <Wrapper>
+      //         <span>
+      //           <Trans>Could not load the community.</Trans>
+      //         </span>
+      //       </Wrapper>
+      //     </WrapperCont>
+      //   );
+      // }
     }
 
     return (
