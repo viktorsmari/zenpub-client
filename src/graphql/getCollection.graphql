@@ -1,6 +1,6 @@
 #import "./fragments/basicComment.graphql"
 
-query getCollection($id: Int!, $limit: Int, $end: Int) {
+query getCollection($id: Int!) {
   collection(localId: $id) {
     id
     localId
@@ -18,90 +18,6 @@ query getCollection($id: Int!, $limit: Int, $end: Int) {
       name
       followed
     }
-    inbox (limit: $limit, after:$end) {
-            pageInfo {
-                startCursor
-                endCursor
-            }
-            edges {
-                node {
-                    id
-                    activityType
-                    type
-                    published
-                    object {
-                        __typename
-                        ... on Community {
-                        id
-                        name
-                        localId
-                        }
-                         ... on Comment {
-                        id
-                        localId
-                        content
-                        inReplyTo {
-                            localId
-                        }
-                          context {
-                             __typename
-                             ... on Community {
-                               id
-                               name
-                               localId
-                             }
-                             ... on Collection {
-                               id
-                               name
-                               localId
-                             }
-                           }
-                        }
-                        ... on Collection {
-                        id
-                        name
-                        localId
-                        }
-                         ... on Resource {
-                        id
-                        name
-                        localId
-                        collection {
-                            name
-                            localId
-                        }
-                        }
-                    }
-                    user {
-                        name
-                        id
-                        localId
-                        icon
-                    }
-                }
-            }
-        }
-    threads {
-             edges {
-                node {
-                     localId
-                    content
-                    id
-                    published
-                    author {
-                        name
-                        id
-                        icon
-                    }
-                    replies {
-                        totalCount
-                    }
-
-                }
-            }
-            
-            totalCount
-        }
     resources {
       totalCount
       edges {

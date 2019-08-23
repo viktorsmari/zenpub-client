@@ -29,11 +29,18 @@ query getCommunityQuery(
                         id
                         name
                         localId
+                        summary
+                        icon
                         }
                         ... on Collection {
                         id
                         name
                         localId
+                        summary
+                        icon
+                        community {
+                            localId
+                        }
                         }
                         ... on Comment {
                         id
@@ -60,9 +67,15 @@ query getCommunityQuery(
                         id
                         name
                         localId
+                        summary
+                        icon
+                        url
                         collection {
-                            name
+                          name
+                          localId
+                          community {
                             localId
+                          }
                         }
                         }
                      }
@@ -70,6 +83,7 @@ query getCommunityQuery(
                         name
                         id
                         localId
+                        preferredUsername
                         icon
                     }
                     

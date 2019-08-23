@@ -160,7 +160,10 @@ const Sidebar = props => {
               {props.isOpen ? (
                 <>
                   <OutsideClickHandler onOutsideClick={props.closeMenu}>
-                    <Dropdown />
+                    <Dropdown
+                      navigateToPage={props.navigateToPage}
+                      logout={props.logout}
+                    />
                   </OutsideClickHandler>
                   <Layer />
                 </>

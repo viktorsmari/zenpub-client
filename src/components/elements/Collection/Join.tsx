@@ -3,7 +3,7 @@ import React from 'react';
 import { graphql, OperationOption } from 'react-apollo';
 import { compose, withState } from 'recompose';
 import styled from '../../../themes/styled';
-import { Eye, Unfollow } from '../Icons';
+import { Text, Box } from 'rebass';
 import Loader from '../Loader/Loader';
 const {
   joinCollectionMutation
@@ -79,12 +79,7 @@ const Join: React.FC<Props> = ({
           <Loader />
         ) : (
           <>
-            <Unfollow
-              width={18}
-              height={18}
-              strokeWidth={2}
-              color={'#1e1f2480'}
-            />
+            <Text>Unfollow</Text>
           </>
         )}
       </Span>
@@ -122,31 +117,24 @@ const Join: React.FC<Props> = ({
             .catch(err => console.log(err));
         }}
       >
-        {isSubmitting ? (
-          <Loader />
-        ) : (
-          <>
-            <span>
-              <Eye width={18} height={18} strokeWidth={2} color={'#f98012'} />
-            </span>
-          </>
-        )}
+        {isSubmitting ? <Loader /> : <Text>Follow</Text>}
       </Span>
     );
   }
 };
 
-const Span = styled.div<{ unfollow?: boolean }>`
+const Span = styled(Box)<{ unfollow?: boolean }>`
   color: ${props =>
     props.unfollow ? '#fff' : props.theme.styles.colour.primary};
   background: ${props =>
     props.unfollow ? props.theme.styles.colour.primary : 'transparent'};
   cursor: pointer;
-  height: 38px;
-  line-height: 38px;
+  height: 40px;
+  width: 140px;
+  line-height: 40px;
   border-radius: 3px;
   text-align: center;
-  border: 2px solid
+  border: 1px solid
     ${props =>
       props.unfollow
         ? props => props.theme.styles.colour.primary
@@ -158,15 +146,6 @@ const Span = styled.div<{ unfollow?: boolean }>`
       props.unfollow
         ? props.theme.styles.colour.primary
         : props.theme.styles.colour.newcommunityBgHover};
-  }
-  & span {
-    display: block;
-    vertical-align: middle;
-    text-align: center;
-  }
-  & svg {
-    vertical-align: sub;
-    color: inherit !important;
   }
 `;
 

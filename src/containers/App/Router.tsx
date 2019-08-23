@@ -5,8 +5,6 @@ import { compose, withState } from 'recompose';
 import CommunitiesAll from '../../pages/communities.all/CommunitiesAll';
 import CollectionsAll from '../../pages/collections.all';
 import CommunitiesCommunity from '../../pages/communities.community/CommunitiesCommunity';
-import CollectionsCollection from '../../pages/collections.collection/CollectionsCollection';
-// import Header from '../../components/header';
 import Login from '../../pages/login/Login';
 import NotFound from '../../pages/not-found/NotFound';
 import ProtectedRoute from './ProtectedRoute';
@@ -27,6 +25,7 @@ import {
 } from '../../sections/layoutUtils';
 import { Flex } from 'rebass';
 import Sidebar from '../../sections/sidebar/sidebarHOC';
+import CollectionViewModal from '../../components/elements/CollectionViewModal';
 
 const Main = styled(Flex)`
   background: rgb(245, 246, 247);
@@ -99,17 +98,19 @@ export default compose(withState('sidebar', 'onSidebar', false))(p => (
                             component={MyCollections}
                           />
                           <Route
+                            exact
                             path="/communities/:community"
                             component={CommunitiesCommunity}
                           />
                           <Route
                             exact
-                            path="/collections"
-                            component={CollectionsAll}
+                            path="/communities/:community/collections/:collection"
+                            component={CollectionViewModal}
                           />
                           <Route
-                            path="/collections/:collection"
-                            component={CollectionsCollection}
+                            exact
+                            path="/collections"
+                            component={CollectionsAll}
                           />
                           <Route exact path="/profile" component={Profile} />
                           <Route exact path="/user/:id" component={User} />

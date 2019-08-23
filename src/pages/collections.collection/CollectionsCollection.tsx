@@ -5,7 +5,6 @@ import * as React from 'react';
 import { Trans } from '@lingui/macro';
 import { clearFix } from 'polished';
 import { Grid } from '@zendeskgarden/react-grid';
-import P from '../../components/typography/P/P';
 import styled from '../../themes/styled';
 import Main from '../../components/chrome/Main/Main';
 import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
@@ -13,17 +12,14 @@ import Collection from '../../types/Collection';
 import { compose, withState, withHandlers } from 'recompose';
 import { RouteComponentProps } from 'react-router';
 import Loader from '../../components/elements/Loader/Loader';
-import Breadcrumb from './breadcrumb';
 import CollectionModal from '../../components/elements/CollectionModal';
 import EditCollectionModal from '../../components/elements/EditCollectionModal';
 const getCollection = require('../../graphql/getCollection.graphql');
-import H2 from '../../components/typography/H2/H2';
 import { Route, Switch } from 'react-router-dom';
-import Thread from '../thread';
 import CollectionPage from './collection';
 import Join from '../../components/elements/Collection/Join';
 import { Settings } from '../../components/elements/Icons';
-
+import { Text, Flex } from 'rebass';
 import media from 'styled-media-query';
 
 enum TabsEnum {
@@ -83,20 +79,20 @@ class CollectionComponent extends React.Component<Props> {
           <Grid>
             <WrapperCont>
               <HeroCont>
-                <Breadcrumb
-                  community={{
-                    id: collection.community.localId,
-                    name: collection.community.name
-                  }}
-                  collectionName={collection.name}
-                />
                 <Hero>
                   <Background
                     style={{ backgroundImage: `url(${collection.icon})` }}
                   />
                   <HeroInfo>
-                    <H2>{collection.name}</H2>
-                    <P>
+                    <Title fontSize={5} mt={1} fontWeight={'bold'}>
+                      {collection.name}
+                    </Title>
+                    {collection.preferredUsername ? (
+                      <Username fontSize={2}>
+                        +{collection.preferredUsername}
+                      </Username>
+                    ) : null}
+                    <Description>
                       {collection.summary.split('\n').map(function(item, key) {
                         return (
                           <span key={key}>
@@ -105,35 +101,28 @@ class CollectionComponent extends React.Component<Props> {
                           </span>
                         );
                       })}
-                    </P>
-                    <ActionsHero>
-                      <HeroJoin>
-                        {collection.community.followed ? (
-                          <EditButton onClick={this.props.editCollection}>
-                            <Settings
-                              width={18}
-                              height={18}
-                              strokeWidth={2}
-                              color={'#f98012'}
-                            />
-                          </EditButton>
-                        ) : null}
-                        <Join
-                          followed={collection.followed}
-                          id={collection.localId}
-                          externalId={collection.id}
-                        />
-                      </HeroJoin>
+                    </Description>
+                    <ActionsHero mt={4} alignItems={'center'}>
+                      {collection.community.followed ? (
+                        <EditButton onClick={this.props.editCollection}>
+                          <Settings
+                            width={18}
+                            height={18}
+                            strokeWidth={2}
+                            color={'#f98012'}
+                          />
+                        </EditButton>
+                      ) : null}
+                      <Join
+                        followed={collection.followed}
+                        id={collection.localId}
+                        externalId={collection.id}
+                      />
                     </ActionsHero>
                   </HeroInfo>
                 </Hero>
-                <Actions />
               </HeroCont>
               <Switch>
-                <Route
-                  path={`/collections/${collection.localId}/thread/:id`}
-                  component={Thread}
-                />
                 <Route
                   path={this.props.match.url}
                   exact
@@ -171,24 +160,20 @@ class CollectionComponent extends React.Component<Props> {
   }
 }
 
-const ActionsHero = styled.div`
-  margin-top: 8px;
-  ${clearFix()};
-  & div {
-    &:hover {
-      background: transparent;
-    }
-  }
-`;
-const HeroJoin = styled.div`
-  width: 38px;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  text-align: center;
+const Title = styled(Text)`
+  color: ${props => props.theme.styles.colors.darkgray};
 `;
 
-const Actions = styled.div``;
+const Description = styled(Text)`
+  color: ${props => props.theme.styles.colors.gray};
+`;
+
+const Username = styled(Text)`
+  color: ${props => props.theme.styles.colors.gray};
+  font-weight: 500;
+`;
+
+const ActionsHero = styled(Flex)``;
 
 const WrapperCont = styled.div`
   max-width: 1040px;
@@ -215,9 +200,6 @@ const EditButton = styled.span`
   border-radius: 40px;
   text-align: center;
   cursor: pointer;
-  position: absolute;
-  right: 40px;
-  top: 0;
   & svg {
     margin-top: 8px;
     text-align: center;
