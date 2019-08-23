@@ -6,11 +6,11 @@ import { Trans } from '@lingui/macro';
 import { NavLink } from 'react-router-dom';
 import { Globe } from 'react-feather';
 import OutsideClickHandler from 'react-outside-click-handler';
-import Input from '../../components/inputs/Text/Text';
+// import Input from '../../components/inputs/Text/Text';
 import media from 'styled-media-query';
 import { ellipsis } from 'polished';
 import Dropdown from './dropdown';
-
+import { SearchBox } from 'react-instantsearch-dom';
 const MnetLogo = require('./moodle-logo.png');
 const SidebarComponent = styled(Flex)`
   flex-grow: 1;
@@ -156,7 +156,8 @@ const Sidebar = props => {
                 src={props.data.me.user.icon}
                 // name={props.data.me.user.name}
               />
-              <Input placeholder="Search" />
+              <SearchBox />
+              {/* <Input placeholder="Search" /> */}
               {props.isOpen ? (
                 <>
                   <OutsideClickHandler onOutsideClick={props.closeMenu}>
