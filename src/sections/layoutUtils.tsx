@@ -40,6 +40,7 @@ export const MainWrapper = styled(Flex)`
   z-index: 0;
   border-left: 1px solid ${props => props.theme.styles.colors.lightgray};
   margin-left: 0px;
+  padding-left: 16px;
   ${media.lessThan('medium')`
   width: 100%;
 `};
