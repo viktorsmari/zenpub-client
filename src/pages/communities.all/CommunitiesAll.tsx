@@ -143,7 +143,7 @@ export const Wrapper = styled.div`
   margin-bottom: 24px;
   background: white;
   border-radius: 3px;
-  border: 1px solid ${props => props.theme.styles.colors.lightgray};
+  // border: 1px solid ${props => props.theme.styles.colors.lightgray};
   margin-top: 16px;
   & ul {
     display: block !important;

@@ -1,14 +1,13 @@
 import * as React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import styled from '../../themes/styled';
-import { compose, withState } from 'recompose';
 import CommunitiesAll from '../../pages/communities.all/CommunitiesAll';
 import CollectionsAll from '../../pages/collections.all';
 import CommunitiesCommunity from '../../pages/communities.community/CommunitiesCommunity';
 import Login from '../../pages/login/Login';
 import NotFound from '../../pages/not-found/NotFound';
 import ProtectedRoute from './ProtectedRoute';
-import Search from '../../pages/search/Search';
+import SearchComp from '../../pages/search/Search';
 import Home from '../../pages/home';
 import Discover from '../../pages/discover';
 import Profile from '../../pages/Profile';
@@ -18,6 +17,8 @@ import User from '../../pages/User';
 import Settings from '../../pages/settings';
 import Reset from '../../pages/Reset';
 import CreateNewPassword from '../../pages/CreateNewPassword';
+import qs from 'qs';
+
 import {
   MainWrapper,
   WrapperDimension,
@@ -30,13 +31,8 @@ import algoliasearch from 'algoliasearch/lite';
 
 import { InstantSearch, connectStateResults } from 'react-instantsearch-dom';
 
-const searchClient = algoliasearch(
-  'KVG4RFL0JJ',
-  '2b7ba2703d3f4bac126ea5765c2764eb'
-);
-
 const Main = styled(Flex)`
-  background: rgb(245, 246, 247);
+  // background: rgb(245, 246, 247);
   height: 100%;
   font-family: 'Open Sans', sans-serif;
 `;
@@ -68,10 +64,27 @@ const PageContainer = styled(Flex)`
   flex-direction: row;
 `;
 
-export default compose(withState('sidebar', 'onSidebar', false))(p => {
-  const Results = connectStateResults(({ searchState }) => {
-    return searchState && searchState.query && searchState.query.length > 2 ? (
-      <Search />
+const createURL = state => `?${qs.stringify(state)}`;
+
+const searchStateToUrl = (props, searchState) => {
+  if (searchState.query) {
+    return `/search/${createURL(searchState)}`;
+  } else if (
+    !props.location.pathname.includes('search') &&
+    !searchState.query
+  ) {
+    return props.location.pathname;
+  } else if (props.location.pathname.includes('search') && !searchState.query) {
+    return '/';
+  }
+};
+
+const Content = connectStateResults(
+  ({ searchState }) =>
+    searchState && searchState.query ? (
+      <Switch>
+        <Route path="/search" component={SearchComp} />
+      </Switch>
     ) : (
       <Switch>
         <Route exact path="/" component={Home} />
@@ -93,52 +106,95 @@ export default compose(withState('sidebar', 'onSidebar', false))(p => {
         <Route exact path="/collections" component={CollectionsAll} />
         <Route exact path="/profile" component={Profile} />
         <Route exact path="/user/:id" component={User} />
+        <Route path="/search" component={SearchComp} />
+
         <Route component={NotFound} />
       </Switch>
+    )
+);
+
+const urlToSearchState = ({ search }) => qs.parse(search.slice(1));
+
+const DEBOUNCE_TIME = 100;
+
+const searchClient = algoliasearch(
+  'KVG4RFL0JJ',
+  '2b7ba2703d3f4bac126ea5765c2764eb'
+);
+
+class App extends React.Component<any> {
+  state = {
+    searchState: urlToSearchState(this.props.location),
+    lastLocation: this.props.location
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.location !== state.lastLocation) {
+      return {
+        searchState: urlToSearchState(props.location),
+        lastLocation: props.location
+      };
+    }
+
+    return null;
+  }
+
+  onSearchStateChange = searchState => {
+    clearTimeout(this['debouncedSetState']);
+
+    this['debouncedSetState'] = setTimeout(() => {
+      this.props.history.push(
+        searchStateToUrl(this.props, searchState),
+        searchState
+      );
+    }, DEBOUNCE_TIME);
+
+    this.setState({ searchState });
+  };
+
+  render() {
+    return (
+      <Flex alignItems={'center'}>
+        <InstantSearch
+          searchState={this.state.searchState}
+          onSearchStateChange={this.onSearchStateChange}
+          createURL={createURL}
+          searchClient={searchClient}
+          indexName="next_moodlenet"
+        >
+          <PageContainer>
+            <Sidebar history={history} />
+            <MainWrapper>
+              <WrapperDimension>
+                <Inner>
+                  <Content />
+                </Inner>
+              </WrapperDimension>
+            </MainWrapper>
+          </PageContainer>
+        </InstantSearch>
+      </Flex>
     );
-  });
-  return (
-    <Main>
-      <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.1.1/themes/reset-min.css"
-      />
-      <Router>
-        <AppInner>
-          <Switch>
-            <Route exact path="/reset" component={Reset} />
-            <Route exact path="/reset/:token" component={CreateNewPassword} />
-            <Route exact path="/login" component={Login} />
+  }
+}
 
-            <ProtectedRoute
-              path="/"
-              component={props => (
-                <InstantSearch
-                  // onSearchStateChange={searchState => {if (searchState.query && searchState.query.length > 2) {
-                  //     return p.onShowSearchPage(true)
-                  //   }}
+export default p => (
+  <Main>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.1.1/themes/reset-min.css"
+    />
+    <Router>
+      <AppInner>
+        <Switch>
+          <Route exact path="/reset" component={Reset} />
+          <Route exact path="/reset/:token" component={CreateNewPassword} />
+          <Route exact path="/login" component={Login} />
 
-                  // }
-                  searchClient={searchClient}
-                  indexName="next_moodlenet"
-                >
-                  <PageContainer>
-                    <Sidebar history={props.history} />
-                    <MainWrapper>
-                      <WrapperDimension>
-                        <Inner>
-                          <Results />
-                        </Inner>
-                      </WrapperDimension>
-                    </MainWrapper>
-                  </PageContainer>
-                </InstantSearch>
-              )}
-            />
-            <Route component={NotFound} />
-          </Switch>
-        </AppInner>
-      </Router>
-    </Main>
-  );
-});
+          <ProtectedRoute path="/" component={props => <App {...props} />} />
+          <Route component={NotFound} />
+        </Switch>
+      </AppInner>
+    </Router>
+  </Main>
+);
