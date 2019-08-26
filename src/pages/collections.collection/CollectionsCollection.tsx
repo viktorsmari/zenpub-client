@@ -4,9 +4,7 @@ import * as React from 'react';
 
 import { Trans } from '@lingui/macro';
 import { clearFix } from 'polished';
-import { Grid } from '@zendeskgarden/react-grid';
 import styled from '../../themes/styled';
-import Main from '../../components/chrome/Main/Main';
 import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
 import Collection from '../../types/Collection';
 import { compose, withState, withHandlers } from 'recompose';
@@ -75,86 +73,83 @@ class CollectionComponent extends React.Component<Props> {
 
     return (
       <>
-        <Main>
-          <Grid>
-            <WrapperCont>
-              <HeroCont>
-                <Hero>
-                  <Background
-                    style={{ backgroundImage: `url(${collection.icon})` }}
-                  />
-                  <HeroInfo>
-                    <Title fontSize={5} mt={1} fontWeight={'bold'}>
-                      {collection.name}
-                    </Title>
-                    {collection.preferredUsername ? (
-                      <Username fontSize={2}>
-                        +{collection.preferredUsername}
-                      </Username>
-                    ) : null}
-                    <Description>
-                      {collection.summary.split('\n').map(function(item, key) {
-                        return (
-                          <span key={key}>
-                            {item}
-                            <br />
-                          </span>
-                        );
-                      })}
-                    </Description>
-                    <ActionsHero mt={4} alignItems={'center'}>
-                      {collection.community.followed ? (
-                        <EditButton onClick={this.props.editCollection}>
-                          <Settings
-                            width={18}
-                            height={18}
-                            strokeWidth={2}
-                            color={'#f98012'}
-                          />
-                        </EditButton>
-                      ) : null}
-                      <Join
-                        followed={collection.followed}
-                        id={collection.localId}
-                        externalId={collection.id}
+        <WrapperCont>
+          <HeroCont>
+            <Hero>
+              <Background
+                style={{ backgroundImage: `url(${collection.icon})` }}
+              />
+              <HeroInfo>
+                <Title fontSize={5} mt={1} fontWeight={'bold'}>
+                  {collection.name}
+                </Title>
+                {collection.preferredUsername ? (
+                  <Username fontSize={2}>
+                    +{collection.preferredUsername}
+                  </Username>
+                ) : null}
+                <Description>
+                  {collection.summary.split('\n').map(function(item, key) {
+                    return (
+                      <span key={key}>
+                        {item}
+                        <br />
+                      </span>
+                    );
+                  })}
+                </Description>
+                <ActionsHero mt={4} alignItems={'center'}>
+                  {collection.community.followed ? (
+                    <EditButton onClick={this.props.editCollection}>
+                      <Settings
+                        width={18}
+                        height={18}
+                        strokeWidth={2}
+                        color={'#f98012'}
                       />
-                    </ActionsHero>
-                  </HeroInfo>
-                </Hero>
-              </HeroCont>
-              <Switch>
-                <Route
-                  path={this.props.match.url}
-                  exact
-                  render={props => (
-                    <CollectionPage
-                      {...props}
-                      collection={collection}
-                      community_name={community_name}
-                      resources={resources}
-                      addNewResource={this.props.addNewResource}
-                      fetchMore={this.props.data.fetchMore}
-                      type={'collection'}
-                    />
-                  )}
+                    </EditButton>
+                  ) : null}
+                  <Join
+                    followed={collection.followed}
+                    id={collection.localId}
+                    externalId={collection.id}
+                  />
+                </ActionsHero>
+              </HeroInfo>
+            </Hero>
+          </HeroCont>
+          <Switch>
+            <Route
+              path={this.props.match.url}
+              exact
+              render={props => (
+                <CollectionPage
+                  {...props}
+                  collection={collection}
+                  community_name={community_name}
+                  resources={resources}
+                  addNewResource={this.props.addNewResource}
+                  fetchMore={this.props.data.fetchMore}
+                  type={'collection'}
                 />
-              </Switch>
-            </WrapperCont>
-          </Grid>
-          <CollectionModal
-            toggleModal={this.props.addNewResource}
-            modalIsOpen={this.props.isOpen}
-            collectionId={collection.localId}
-            collectionExternalId={collection.id}
-          />
-          <EditCollectionModal
-            toggleModal={this.props.editCollection}
-            modalIsOpen={this.props.isEditCollectionOpen}
-            collectionId={collection.localId}
-            collectionExternalId={collection.id}
-            collection={collection}
-          />
-        </Main>
+              )}
+            />
+          </Switch>
+        </WrapperCont>
+
+        <CollectionModal
+          toggleModal={this.props.addNewResource}
+          modalIsOpen={this.props.isOpen}
+          collectionId={collection.localId}
+          collectionExternalId={collection.id}
+        />
+        <EditCollectionModal
+          toggleModal={this.props.editCollection}
+          modalIsOpen={this.props.isEditCollectionOpen}
+          collectionId={collection.localId}
+          collectionExternalId={collection.id}
+          collection={collection}
+        />
       </>
     );
   }
