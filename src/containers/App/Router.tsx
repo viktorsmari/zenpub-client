@@ -16,6 +16,7 @@ import MyCollections from '../../pages/collections.all/collectionsFollowed';
 import User from '../../pages/User';
 import Settings from '../../pages/settings';
 import Reset from '../../pages/Reset';
+import Thread from '../../pages/thread';
 import CreateNewPassword from '../../pages/CreateNewPassword';
 import qs from 'qs';
 
@@ -102,6 +103,11 @@ const Content = connectStateResults(
           exact
           path="/communities/:community/collections/:collection"
           component={CollectionViewModal}
+        />
+        <Route
+          exact
+          path="/communities/:community/thread/:threadId"
+          component={Thread}
         />
         <Route exact path="/collections" component={CollectionsAll} />
         <Route exact path="/profile" component={Profile} />

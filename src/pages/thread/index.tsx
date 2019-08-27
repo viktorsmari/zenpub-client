@@ -36,7 +36,7 @@ const withGetThread = graphql<
 >(getThread, {
   options: (props: Props) => ({
     variables: {
-      id: Number(props.match.params.id)
+      id: Number(props.match.params.threadId)
     }
   })
 }) as OperationOption<{}, {}>;

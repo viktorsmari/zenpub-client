@@ -133,6 +133,8 @@ export const WrapperCont = styled.div`
   min-width: 0px;
   padding: 0px;
   position: relative;
+  border-right: 1px solid ${props => props.theme.styles.colors.lightgray};
+  background: white;
   z-index: 0;
 `;
 
@@ -140,11 +142,6 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  margin-bottom: 24px;
-  background: white;
-  border-radius: 3px;
-  // border: 1px solid ${props => props.theme.styles.colors.lightgray};
-  margin-top: 16px;
   & ul {
     display: block !important;
 
@@ -154,7 +151,6 @@ export const Wrapper = styled.div`
       & h5 {
         font-size: 13px;
         font-weight: 500;
-        color: ${props => props.theme.styles.colour.base3};
       }
     }
   }
