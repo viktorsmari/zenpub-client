@@ -33,7 +33,6 @@ import algoliasearch from 'algoliasearch/lite';
 import { InstantSearch, connectStateResults } from 'react-instantsearch-dom';
 
 const Main = styled(Flex)`
-  // background: rgb(245, 246, 247);
   height: 100%;
   font-family: 'Open Sans', sans-serif;
 `;
@@ -94,6 +93,7 @@ const Content = connectStateResults(
         <Route exact path="/communities" component={CommunitiesAll} />
         <Route exact path="/mycommunities" component={MyCommunities} />
         <Route exact path="/mycollections" component={MyCollections} />
+        <Route exact path="/thread/:id" components={Thread} />
         <Route
           exact
           path="/communities/:community"
