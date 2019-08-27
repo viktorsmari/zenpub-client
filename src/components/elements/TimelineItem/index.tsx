@@ -161,24 +161,26 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
           // </BoxLink>
           // :
           null}
-          <Actions mt={2}>
-            <Items>
-              <ActionItem>
-                <NavLink to={`/thread/${node.object.localId}`}>
+          {node.activityType === 'CreateComment' ? (
+            <Actions mt={2}>
+              <Items>
+                <ActionItem>
+                  <NavLink to={`/thread/${node.object.localId}`}>
+                    <ActionIcon>
+                      <MessageCircle color="rgba(0,0,0,.4)" size="16" />
+                    </ActionIcon>
+                    <Text ml={2}>0</Text>
+                  </NavLink>
+                </ActionItem>
+                <ActionItem>
                   <ActionIcon>
-                    <MessageCircle color="rgba(0,0,0,.4)" size="16" />
+                    <Star color="rgba(0,0,0,.4)" size="16" />
                   </ActionIcon>
                   <Text ml={2}>0</Text>
-                </NavLink>
-              </ActionItem>
-              <ActionItem>
-                <ActionIcon>
-                  <Star color="rgba(0,0,0,.4)" size="16" />
-                </ActionIcon>
-                <Text ml={2}>0</Text>
-              </ActionItem>
-            </Items>
-          </Actions>
+                </ActionItem>
+              </Items>
+            </Actions>
+          ) : null}
         </MemberInfo>
       </Member>
     </FeedItem>
