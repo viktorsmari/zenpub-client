@@ -1,5 +1,5 @@
 import { Trans } from '@lingui/macro';
-import { DateTime } from 'luxon';
+// import { DateTime } from 'luxon';
 import Markdown from 'markdown-to-jsx';
 import { clearFix } from 'polished';
 import * as React from 'react';
@@ -45,7 +45,7 @@ const Event: React.FC<EventProps> = ({
                 <b>{author.name}</b>
               )}
             </h3>
-            <Date>{DateTime.fromMillis(comment.date).toRelative()}</Date>
+            <Date>comment.date</Date>
           </MemberInfo>
         </Member>
       )}

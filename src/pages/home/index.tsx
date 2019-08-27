@@ -6,7 +6,7 @@ import { TabPanel, Tabs } from 'react-tabs';
 import { compose } from 'recompose';
 import Loader from '../../components/elements/Loader/Loader';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timelineUser';
-import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
+import { StickyTabList, SuperTab } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
@@ -45,7 +45,7 @@ const Home: React.FC<Props> = props => {
         <WrapperCont>
           <Wrapper>
             <Tabs>
-              <SuperTabList>
+              <StickyTabList>
                 <SuperTab>
                   <h5>
                     <Trans>My MoodleNet timeline</Trans>
@@ -54,7 +54,7 @@ const Home: React.FC<Props> = props => {
                     </Helmet>
                   </h5>
                 </SuperTab>
-              </SuperTabList>
+              </StickyTabList>
               <TabPanel>
                 {props.data.error ? (
                   <span>

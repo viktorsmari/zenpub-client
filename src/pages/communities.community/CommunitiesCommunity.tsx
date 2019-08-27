@@ -37,7 +37,7 @@ enum TabsEnum {
   Collections = 'Collections',
   Discussion = 'Discussion'
 }
-// import Thread from '../thread';
+import Thread from '../thread';
 
 interface Data extends GraphqlQueryControls {
   community: Community;
@@ -211,6 +211,10 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                     community.localId
                   }/collection/:collection`}
                   component={CollectionModal}
+                />
+                <Route
+                  path={`/communities/${community.localId}/thread/:threadId`}
+                  component={Thread}
                 />
               </Switch>
             </Wrapper>

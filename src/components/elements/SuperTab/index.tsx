@@ -45,3 +45,25 @@ export const SuperTab = styled(Tab)`
     }
   }
 `;
+
+export const StickyTabList = styled(SuperTabList)`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid ${props => props.theme.styles.colour.divider};
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-column-gap: 32px;
+  height: 50px;
+  position: sticky;
+  top: 0;
+  z-index: 9999999;
+  background: white;
+  & li {
+    height: 50px;
+    line-height: 45px;
+  }
+  ${media.lessThan('medium')`
+    grid-template-columns: 1fr 1fr 1fr
+  `};
+`;
