@@ -142,11 +142,6 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  margin-bottom: 24px;
-  background: white;
-  border-radius: 3px;
-  // border: 1px solid ${props => props.theme.styles.colors.lightgray};
-  margin-top: 16px;
   & ul {
     display: block !important;
 

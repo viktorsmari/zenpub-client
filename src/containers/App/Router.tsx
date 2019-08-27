@@ -104,6 +104,11 @@ const Content = connectStateResults(
           path="/communities/:community/collections/:collection"
           component={CollectionViewModal}
         />
+        <Route
+          exact
+          path="/communities/:community/thread/:threadId"
+          component={Thread}
+        />
         <Route exact path="/collections" component={CollectionsAll} />
         <Route exact path="/profile" component={Profile} />
         <Route exact path="/user/:id" component={User} />
