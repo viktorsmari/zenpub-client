@@ -6,11 +6,11 @@ import { Trans } from '@lingui/macro';
 import { NavLink } from 'react-router-dom';
 import { Globe } from 'react-feather';
 import OutsideClickHandler from 'react-outside-click-handler';
-import Input from '../../components/inputs/Text/Text';
+// import Input from '../../components/inputs/Text/Text';
 import media from 'styled-media-query';
 import { ellipsis } from 'polished';
 import Dropdown from './dropdown';
-
+import { SearchBox } from 'react-instantsearch-dom';
 const MnetLogo = require('./moodle-logo.png');
 const SidebarComponent = styled(Flex)`
   flex-grow: 1;
@@ -55,6 +55,11 @@ const SidebarOverflow = styled(Box)`
 
 const Header = styled(Flex)`
   cursor: pointer;
+  padding-left: 8px;
+  img {
+    width: 36px;
+    height: 36px;
+  }
   input {
     margin: 0 8px !important;
     border-radius: 100px;
@@ -65,7 +70,7 @@ const Header = styled(Flex)`
   }
 `;
 const Nav = styled(Box)`
-  border-top: 4px solid ${props => props.theme.styles.colors.lightgray};
+  // border-top: 4px solid ${props => props.theme.styles.colors.lightgray};
   a {
     text-decoration: none;
   }
@@ -119,13 +124,13 @@ const NavItem = styled(Flex)`
   }
 `};
 `;
-const SupText = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
-  text-transform: uppercase;
-  ${media.lessThan('1280px')`
-  display: none;
-`};
-`;
+// const SupText = styled(Text)`
+//   color: ${props => props.theme.styles.colors.gray};
+//   text-transform: uppercase;
+//   ${media.lessThan('1280px')`
+//   display: none;
+// `};
+// `;
 
 const ItemTitle = styled(Text)`
   color: ${props => props.theme.styles.colors.darkgray};
@@ -144,6 +149,13 @@ const Layer = styled.div`
   display: block;
 `;
 
+const Sbox = styled(Box)`
+  width: 100%;
+  ${media.lessThan('1280px')`
+ display: none;
+`};
+`;
+
 const Sidebar = props => {
   return (
     <SidebarComponent>
@@ -156,18 +168,24 @@ const Sidebar = props => {
                 src={props.data.me.user.icon}
                 // name={props.data.me.user.name}
               />
-              <Input placeholder="Search" />
+              <Sbox>
+                <SearchBox />
+              </Sbox>
+              {/* <Input placeholder="Search" /> */}
               {props.isOpen ? (
                 <>
                   <OutsideClickHandler onOutsideClick={props.closeMenu}>
-                    <Dropdown />
+                    <Dropdown
+                      navigateToPage={props.navigateToPage}
+                      logout={props.logout}
+                    />
                   </OutsideClickHandler>
                   <Layer />
                 </>
               ) : null}
               {/* <Input placeholder={"Search here"} /> */}
             </Header>
-            <Nav mt={3} pt={3}>
+            <Nav pt={3}>
               <SidebarLink exact to={'/discover'}>
                 <NavItem mb={3} alignItems={'center'}>
                   <Globe size={36} />
@@ -191,10 +209,7 @@ const Sidebar = props => {
                 </NavItem>
               </SidebarLink>
             </Nav>
-            <Nav mt={3} pt={3} mb={2}>
-              <SupText mb={3} fontSize={1}>
-                Communities
-              </SupText>
+            <Nav>
               {props.data.me.user.joinedCommunities.edges.map((c, i) => (
                 <CommunityLink key={i} to={'/communities/' + c.node.localId}>
                   <NavItem alignItems={'center'} mb={2}>

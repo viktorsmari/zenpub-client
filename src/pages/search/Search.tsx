@@ -1,71 +1,62 @@
 import * as React from 'react';
+import ResourceCard from '../../components/elements/Resource/Resource';
+import { Box, Flex, Text } from 'rebass';
+import { HomeBox, MainContainer } from '../../sections/layoutUtils';
+import styled from '../../themes/styled';
 
+import { Hits, Pagination, Configure } from 'react-instantsearch-dom';
 import { Trans } from '@lingui/macro';
 
-import { Grid, Row, Col } from '@zendeskgarden/react-grid';
-// import { Redirect } from 'react-router';
-// import { Tabs, TabPanel } from '../../components/chrome/Tabs/Tabs';
+const CommunityWrapper = styled(Box)`
+  background: #f9f0e8;
+  border-radius: 4px;
+`;
 
-// import styled from '../../themes/styled';
-import Main from '../../components/chrome/Main/Main';
+const Community = styled(Flex)`
+  align-items: center;
+  border-bottom: 3px solid white;
+  background: #f1e5db;
+`;
+const CommunityImage = styled(Box)`
+  width: 100px;
+  height: 100px;
+  border-radius: 6px;
+  background-size: cover;
+`;
+const CommunityText = styled(Text)`
+  font-size: 16px;
+  font-weight: 800;
+`;
 
-import CommunityCard from '../../components/elements/Community/Community';
-// import CollectionCard from '../../components/elements/Collection/Collection';
-import ResourceCard from '../../components/elements/Resource/Resource';
-
-// import Logo from '../../components/brand/Logo/Logo';
-// import P from '../../components/typography/P/P';
-// import media from 'styled-media-query';
-
-import algoliasearch from 'algoliasearch/lite';
-import {
-  InstantSearch,
-  Hits,
-  SearchBox,
-  Pagination,
-  // Highlight,
-  ClearRefinements,
-  RefinementList,
-  Configure
-} from 'react-instantsearch-dom';
-
-const searchClient = algoliasearch(
-  'KVG4RFL0JJ',
-  '2b7ba2703d3f4bac126ea5765c2764eb'
-);
-
-console.log('search WIP!');
+const SubText = styled(Text)`
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: ${props => props.theme.styles.colors.darkgray};
+  background: #f1e5db;
+`;
 
 function Hit(props) {
   var community = props.hit;
 
   return (
-    <Row>
-      <Col md={4}>
-        <CommunityCard
-          // key={i}
-          summary={community.summary}
-          title={community.name}
-          icon={community.icon || ''}
-          id={''}
-          followed={community.followed}
-          followersCount={0}
-          collectionsCount={community.collections.length}
-          externalId={community.id}
-          threadsCount={0}
+    <CommunityWrapper m={2} mb={4}>
+      <Community>
+        <CommunityImage
+          m={3}
+          style={{ backgroundImage: `url(${community.icon})` }}
         />
-      </Col>
-      <Col md={8}>
-        {community.collections.map((collection, i_col) => (
-          <Row>
-            <Col>
-              {/* <CollectionCard key={i_col} collection={collection} /> */}
-            </Col>
-            <Col>{collection_resources(collection)}</Col>
-          </Row>
-        ))}
-      </Col>
-    </Row>
+        <CommunityText ml={1}>{community.name}</CommunityText>
+      </Community>
+      <Box>
+        <SubText p={2}>
+          <Trans>Resources list</Trans>
+        </SubText>
+        {community.collections.map((collection, i_col) =>
+          collection_resources(collection)
+        )}
+      </Box>
+    </CommunityWrapper>
   );
 }
 
@@ -94,60 +85,26 @@ function collection_resources(collection) {
             encodeURIComponent(resource.summary)
           : null
       }
-      // localId={resource.localId}
     />
   ));
 }
 
-// const List = styled.div`
-//   display: grid;
-//   grid-template-columns: 1fr 1fr 1fr;
-//   grid-column-gap: 16px;
-//   grid-row-gap: 16px;
-//   // padding: 16px;
-//   // background: white;
-//   padding-top: 0;
-//   ${media.lessThan('medium')`
-//   grid-template-columns: 1fr;
-//   `};
-// `;
-
 export default class extends React.Component {
-  // ={'test'}
-
   render() {
-    //TODO support maybe not good enough? e.g. no ie 11 (https://caniuse.com/#feat=urlsearchparams)
-    //TODO this is not SSR friendly, accessing window.location!! does react router give query params?
-
-    // const urlParams = new URLSearchParams(window.location.search);
-    // // const query = urlParams.get('q');
-    // const moodle_core_download_url = urlParams.get('moodle_core_download_url');
-
-    // if (!query) {
-    //   return <Redirect to="/" />;
-    // }
-
     return (
-      <Main>
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.1.1/themes/reset-min.css"
-        />
-
-        <InstantSearch searchClient={searchClient} indexName="next_moodlenet">
-          <SearchBox />
-          <h2>
-            <Trans>Filter</Trans>
-          </h2>
-          <RefinementList attribute="isAccessibleForFree" />
-          <ClearRefinements />
+      <MainContainer>
+        <HomeBox>
+          {/* <Wrapper>
+          <WrapperCont> */}
           <Configure hitsPerPage={8} />
-          <Grid>
+          <Box>
             <Hits hitComponent={Hit} />
-          </Grid>
+          </Box>
           <Pagination />
-        </InstantSearch>
-      </Main>
+          {/* </WrapperCont>
+        </Wrapper> */}
+        </HomeBox>
+      </MainContainer>
     );
   }
 }

@@ -38,7 +38,10 @@ query localActivities($limit: Int, $end: Int) {
               id
               name
               localId
+              summary
+              icon
               community {
+                id
                 localId
               }
               }
@@ -46,10 +49,14 @@ query localActivities($limit: Int, $end: Int) {
               id
               name
               localId
+              summary
+              icon
+              url
               collection {
                   name
                   localId
                   community {
+                    id
                     localId
                   }
               }

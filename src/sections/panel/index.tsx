@@ -44,7 +44,7 @@ export const PanelInner = styled(Flex)`
 `;
 
 export const Panel = styled(Box)`
-  background: white;
+  background: #f9f0e8!important
   border-radius: 4px;
   align-items: stretch;
   border: 0 solid black;
@@ -63,7 +63,7 @@ export const Panel = styled(Box)`
 
 export const PanelTitle = styled(Text)`
   text-transform: uppercase;
-  border-bottom: 4px solid ${props => props.theme.styles.colors.lighter};
+  border-bottom: 4px solid white;
   padding: 16px;
 `;
 

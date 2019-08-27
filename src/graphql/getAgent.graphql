@@ -56,7 +56,10 @@ query getAgentQuery(
                   id
                   name
                   localId
+                  summary
+                  icon
                   community {
+                    id
                     localId
                   }
                   }
@@ -64,6 +67,9 @@ query getAgentQuery(
                   id
                   name
                   localId
+                  summary
+                  icon
+                  url
                   collection {
                       name
                       localId
@@ -75,6 +81,7 @@ query getAgentQuery(
                 }
                 user {
                   name
+                  preferredUsername
                   id
                   localId
                   icon
@@ -119,6 +126,10 @@ query getAgentQuery(
                 localId
                 preferredUsername
                 name
+                community {
+                  localId
+                  id
+                }
                 summary
                 icon
                 followed

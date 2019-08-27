@@ -160,13 +160,13 @@ const Hero = styled.div`
 const Background = styled.div`
   margin-top: 24px;
   height: 250px;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
+  // border-radius: 4px;
   background-size: cover;
   background-repeat: no-repeat;
   background-color: #e6e6e6;
   position: relative;
   margin: 0 auto;
+  margin: -4px;
   background-position: center center;
 `;
 

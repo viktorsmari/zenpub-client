@@ -151,6 +151,7 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                                   key={i}
                                   collection={comm.node}
                                   openModal={this.props.handleCollection}
+                                  communityId={comm.node.community.localId}
                                 />
                               )
                             )}

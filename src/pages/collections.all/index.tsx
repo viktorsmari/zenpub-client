@@ -64,6 +64,7 @@ class CommunitiesYours extends React.Component<Props> {
                             key={i}
                             collection={coll}
                             openModal={this.props.handleCollection}
+                            communityId={coll.community.localId}
                           />
                         ))}
                       </List>

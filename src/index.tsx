@@ -26,9 +26,27 @@ async function run() {
       }
 
       body {
-      background: rgb(245,246,247);
+      background: #fbfbf9;
       overflow-y: scroll;
       overscroll-behavior-y: none;
+      .ais-SearchBox {
+        height: 40px;
+        display: flex;
+        flex-grow: 1;
+        background: #f9f0e8;
+        border-radius: 100px;
+        margin: 0 8px;
+        text-indent: 8px;
+        input {
+          height: 100%;
+          border: none;
+          background: #f9f0e8;
+          margin: 0 !important; 
+        }
+      }
+      .ais-InstantSearch__root { 
+        display: flex;
+      width: 100%; }
       }
   `;
 

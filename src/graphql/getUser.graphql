@@ -79,7 +79,10 @@ query meQuery(
               id
               name
               localId
+              summary
+              icon
               community {
+                id
                 localId
               }
               }
@@ -87,6 +90,9 @@ query meQuery(
               id
               name
               localId
+              summary
+              icon
+              url
               collection {
                   name
                   localId
@@ -118,6 +124,10 @@ query meQuery(
           name
           summary
           icon
+          community {
+            localId
+            id
+          }
           followed
           followers {
             totalCount

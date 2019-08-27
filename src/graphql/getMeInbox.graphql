@@ -24,6 +24,8 @@ query meQuery
             id
             name
             localId
+            summary
+            icon
             }
             ... on Comment {
             id
@@ -50,7 +52,10 @@ query meQuery
             id
             name
             localId
+            summary
+            icon
             community {
+              id
               localId
             }
             }
@@ -58,6 +63,9 @@ query meQuery
             id
             name
             localId
+            url
+            summary
+            icon
             collection {
                 name
                 localId
@@ -70,6 +78,7 @@ query meQuery
           user {
             name
             id
+            preferredUsername
             localId
             icon
           }

@@ -19,6 +19,8 @@ import EditCommunityModal from '../../components/elements/EditCommunityModal';
 import UsersModal from '../../components/elements/UsersModal';
 import CollectionModal from '../../components/elements/CollectionViewModal';
 import CommunityPage from './Community';
+import { Switch, Route } from 'react-router-dom';
+
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import {
@@ -35,7 +37,6 @@ enum TabsEnum {
   Collections = 'Collections',
   Discussion = 'Discussion'
 }
-import { Route, Switch } from 'react-router-dom';
 import Thread from '../thread';
 
 interface Data extends GraphqlQueryControls {
@@ -115,6 +116,7 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                 key={i}
                 collection={e.node}
                 openModal={this.props.handleCollection}
+                communityId={this.props.data.community.localId}
               />
             ))}
           </Box>
@@ -168,7 +170,7 @@ class CommunitiesFeatured extends React.Component<Props, State> {
           <WrapperCont>
             <Wrapper>
               <span>
-                <Trans>Could not load the community.</Trans>
+                <Trans>{this.props.data.error}</Trans>
               </span>
             </Wrapper>
           </WrapperCont>
@@ -187,10 +189,10 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                 editCommunity={this.props.editCommunity}
               />
               <Switch>
-                <Route
+                {/* <Route
                   path={`/communities/${community.localId}/thread/:id`}
                   component={Thread}
-                />
+                /> */}
                 <Route
                   path={this.props.match.url}
                   exact
@@ -204,13 +206,19 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                     />
                   )}
                 />
+                <Route
+                  path={`/communities/${
+                    community.localId
+                  }/collection/:collection`}
+                  component={CollectionModal}
+                />
+                <Route
+                  path={`/communities/${community.localId}/thread/:threadId`}
+                  component={Thread}
+                />
               </Switch>
             </Wrapper>
           </WrapperCont>
-          <CollectionModal
-            toggleModal={this.props.handleCollection}
-            modalIsOpen={this.props.isOpenCollection}
-          />
           <CommunityModal
             toggleModal={this.props.handleNewCollection}
             modalIsOpen={this.props.isOpen}
@@ -378,7 +386,11 @@ export default compose(
   withHandlers({
     handleCollection: props => () =>
       props.onOpenCollection(!props.isOpenCollection),
-    handleNewCollection: props => () => props.onOpen(!props.isOpen),
+    handleNewCollection: props => coll => {
+      props.history.push(
+        '/communities/' + props.match.params.community + '/collections/' + coll
+      );
+    },
     editCommunity: props => () =>
       props.onEditCommunityOpen(!props.isEditCommunityOpen)
   })

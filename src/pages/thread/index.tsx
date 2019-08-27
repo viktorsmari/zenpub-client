@@ -47,7 +47,7 @@ const Component = ({ data, id, selectThread, match, type, history }) => {
   } else if (data.loading) {
     return <Loader />;
   }
-
+  console.log(data);
   let author = {
     localId: data.comment.author ? data.comment.author.localId : null,
     name: data.comment.author ? data.comment.author.name : 'Deleted User',
