@@ -166,7 +166,7 @@ class App extends React.Component<any> {
           onSearchStateChange={this.onSearchStateChange}
           createURL={createURL}
           searchClient={searchClient}
-          indexName="next_moodlenet"
+          indexName="next_moodlenet_all"
         >
           <PageContainer>
             <Sidebar history={history} />

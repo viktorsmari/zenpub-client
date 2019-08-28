@@ -12,7 +12,7 @@ const moodle_core_download_url = decodeURI(
   urlParams.get('moodle_core_download_url') || ''
 );
 
-const CommunityWrapper = styled(Box)`
+const ResultWrapper = styled(Box)`
   border-radius: 4px;
 `;
 
@@ -32,12 +32,7 @@ const CommunityText = styled(Text)`
   font-weight: 800;
 `;
 
-const Collections = styled(Box)`
-  margin-left: 10px;
-`;
-
 const Collection = styled(Flex)`
-  align-items: center;
   border-bottom: 3px solid white;
   background: #f1e5db;
 `;
@@ -48,7 +43,19 @@ const CollectionImage = styled(Box)`
   background-size: cover;
 `;
 
+const CollectionText = styled(Text)`
+  font-size: 16px;
+  font-weight: 800;
+`;
+
+
 const UrlLink = styled.a`
+  text-decoration: none;
+  width: 100%;
+  display: block;
+`;
+
+const UrlBlock = styled(UrlLink)`
   text-decoration: none;
   width: 100%;
   display: block;
@@ -67,83 +74,79 @@ const SubText = styled(Text)`
   background: #f1e5db;
 `;
 
-function ResultCommunity(props) {
-  var community = props.hit;
+function Result(props) {
+  var hit = props.hit;
 
   return (
-    <CommunityWrapper m={2} mb={4}>
-      {!community.collections.length ? (
-      <Community>
-        <UrlLink href={community.id}>
-        <CommunityImage
-          m={3}
-          style={{ backgroundImage: `url(${community.image || community.icon})` }}
-        >
-          <CommunityText ml={1}>{community.name}</CommunityText>
-        </CommunityImage>
-        </UrlLink>
-      </Community>
+    <ResultWrapper m={2} mb={4}>
+      {hit.collection ? (
+        <SubText p={2}>
+          <a href={hit.collection.community.id}>{hit.collection.community.name}</a> > <a href={hit.collection.id}>{hit.collection.name}</a>
+        </SubText>
       ) : (
-      <>
-      <SubText p={2}>
-        {community.name}
-      </SubText>
-      <Collections>
-        {community.collections.map((collection, i_col) =>
-          ResultCollection(collection)
-        )}
-      </Collections>
-      </>
+        hit.community ? (
+          <SubText p={2}>
+          <a href={hit.community.id}>{hit.community.name}</a>
+          </SubText>
+        ) : (
+          <span/>
+        )
       )}
-    </CommunityWrapper>
+      {
+        hit.index_type=='Resource' ?
+        (
+          <Resource>
+            <ResourceCard
+              key={hit.id}
+              icon={hit.icon}
+              title={hit.name}
+              summary={hit.summary}
+              url={hit.url}
+              coreIntegrationURL={
+                moodle_core_download_url
+                ? moodle_core_download_url +
+                  `&sourceurl=` +
+                  encodeURIComponent(hit.url) +
+                  `&moodleneturl=` +
+                  encodeURIComponent(hit.id) +
+                  `&name=` +
+                  encodeURIComponent(hit.name) +
+                  `&description=` +
+                  encodeURIComponent(hit.summary)
+                : null
+              }
+            />
+          </Resource>
+        ) : (
+          hit.index_type=='Collection' ? (
+            <Collection>
+              <UrlBlock href={hit.id}>
+              <CollectionImage
+                m={3}
+                style={{ backgroundImage: `url(${hit.icon || hit.image})` }}
+              >
+              </CollectionImage>
+              <CollectionText ml={1}>{hit.name}</CollectionText>
+              </UrlBlock>
+              <div>{hit.summary}</div>
+            </Collection>
+          ) : (
+            <Community>
+              <UrlBlock href={hit.id}>
+              <CommunityImage
+                m={3}
+                style={{ backgroundImage: `url(${hit.image || hit.icon})` }}
+              >
+                <CommunityText ml={1}>{hit.name}</CommunityText>
+              </CommunityImage>
+              </UrlBlock>
+              <div>{hit.summary}</div>
+            </Community>
+          )
+        )
+      }
+    </ResultWrapper>
   );
-}
-
-function ResultCollection(collection) {
-  return (
-    !collection.resources.length ? (
-      <Collection>
-        <UrlLink href={collection.id}>
-        <CollectionImage
-          m={3}
-          style={{ backgroundImage: `url(${collection.icon || collection.image})` }}
-        >
-        </CollectionImage>
-        <CommunityText ml={1}>{collection.name}</CommunityText>
-        </UrlLink>
-      </Collection>
-    ) : (
-    <>
-    <SubText p={2}>
-        {collection.name}
-    </SubText>
-    {collection.resources.map((resource, i_res) => (
-    <Resource>
-      <ResourceCard
-        key={i_res}
-        icon={resource.icon}
-        title={resource.name}
-        summary={resource.summary}
-        url={resource.url}
-        coreIntegrationURL={
-          moodle_core_download_url
-          ? moodle_core_download_url +
-            `&sourceurl=` +
-            encodeURIComponent(resource.url) +
-            `&moodleneturl=` +
-            encodeURIComponent(collection.id) +
-            `&name=` +
-            encodeURIComponent(resource.name) +
-            `&description=` +
-            encodeURIComponent(resource.summary)
-          : null
-        }
-      />
-    </Resource>
-  ))}
-  </>
-  )
-  )
 }
 
 
@@ -156,7 +159,7 @@ export default class extends React.Component {
           <WrapperCont> */}
           <Configure hitsPerPage={8} />
           <Box>
-            <Hits hitComponent={ResultCommunity} />
+            <Hits hitComponent={Result} />
           </Box>
           <Pagination />
           {/* </WrapperCont>
