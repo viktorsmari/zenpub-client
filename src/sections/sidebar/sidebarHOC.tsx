@@ -28,7 +28,7 @@ const withSidebarData = graphql<
 >(getSidebar, {
   options: props => ({
     variables: {
-      limitComm: 15
+      limitComm: 10
     }
   })
 }) as OperationOption<{}, {}>;
