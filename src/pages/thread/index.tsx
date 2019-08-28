@@ -1,18 +1,20 @@
 import { Trans } from '@lingui/macro';
-import { clearFix } from 'polished';
 import * as React from 'react';
 import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
 import { Helmet } from 'react-helmet';
-import { compose, withHandlers } from 'recompose';
+import { compose } from 'recompose';
 import Comment from '../../components/elements/Comment/Comment';
-import { Left } from '../../components/elements/Icons';
 import Link from '../../components/elements/Link/Link';
 import Loader from '../../components/elements/Loader/Loader';
 import Talk from '../../components/elements/Talk/Reply';
 import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
+import { Flex, Text } from 'rebass';
 import CommentType from '../../types/Comment';
 const getThread = require('../../graphql/getThread.graphql');
+import { HomeBox, MainContainer } from '../../sections/layoutUtils';
+import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
+import { ChevronLeft } from 'react-feather';
 
 interface Data extends GraphqlQueryControls {
   comment: CommentType;
@@ -42,12 +44,12 @@ const withGetThread = graphql<
 }) as OperationOption<{}, {}>;
 
 const Component = ({ data, id, selectThread, match, type, history }) => {
+  console.log(data);
   if (data.error) {
     return 'error...';
   } else if (data.loading) {
     return <Loader />;
   }
-  console.log(data);
   let author = {
     localId: data.comment.author ? data.comment.author.localId : null,
     name: data.comment.author ? data.comment.author.name : 'Deleted User',
@@ -60,117 +62,98 @@ const Component = ({ data, id, selectThread, match, type, history }) => {
     id: data.comment.localId
   };
   return (
-    <Container>
-      <Helmet>
-        <title>{APP_NAME} > Discussion Thread</title>
-      </Helmet>
-      <Wrapper>
-        <Header>
-          <Link
-            to={
-              data.comment.context.__typename === 'Community'
-                ? `/communities/${data.comment.context.localId}`
-                : `/collections/${data.comment.context.localId}`
-            }
-          >
-            <LeftArr>
-              <Left width={24} height={24} strokeWidth={2} color={'#68737d'} />
-            </LeftArr>
-          </Link>
-        </Header>
-      </Wrapper>
-      <Wrapper>
-        {data.comment.inReplyTo ? (
-          <InReplyTo
-            onClick={() => selectThread(data.comment.inReplyTo.localId)}
-          >
-            <Trans>Back to top-level thread</Trans>
-          </InReplyTo>
-        ) : null}
-        <Comment
-          selectThread={selectThread}
-          noAction
-          thread
-          author={author}
-          comment={message}
-        />
-        {data.comment.replies.edges.reverse().map((comment, i) => {
-          console.log(comment);
-          let author = {
-            localId: comment.node.author ? comment.node.author.localId : null,
-            name: comment.node.author
-              ? comment.node.author.name
-              : 'Deleted User',
-            icon: comment.node.author ? comment.node.author.icon : ''
-          };
-          let message = {
-            body: comment.node.content,
-            date: comment.node.published,
-            id: comment.node.localId
-          };
-          return (
+    <MainContainer>
+      <HomeBox>
+        <WrapperCont>
+          <Wrapper>
+            <Helmet>
+              <title>{APP_NAME} > Discussion Thread</title>
+            </Helmet>
+            <Header>
+              <Link
+                to={
+                  data.comment.context.__typename === 'Community'
+                    ? `/communities/${data.comment.context.localId}`
+                    : `/collections/${data.comment.context.localId}`
+                }
+              >
+                {/* <LeftArr> */}
+                <ChevronLeft size="24" />
+                {/* </LeftArr> */}
+                <Text>
+                  <Trans>Back</Trans>
+                </Text>
+              </Link>
+            </Header>
+            {data.comment.inReplyTo ? (
+              <InReplyTo
+                onClick={() => selectThread(data.comment.inReplyTo.localId)}
+              >
+                <Trans>Back to top-level thread</Trans>
+              </InReplyTo>
+            ) : null}
             <Comment
-              key={i}
-              author={author}
-              totalReplies={comment.node.replies.totalCount}
-              comment={message}
               selectThread={selectThread}
               noAction
+              thread
+              author={author}
+              comment={message}
             />
-          );
-        })}
-      </Wrapper>
-      <WrapperTalk>
-        <Talk id={Number(match.params.id)} externalId={data.comment.id} full />
-      </WrapperTalk>
-    </Container>
+            {data.comment.replies.edges.reverse().map((comment, i) => {
+              let author = {
+                localId: comment.node.author
+                  ? comment.node.author.localId
+                  : null,
+                name: comment.node.author
+                  ? comment.node.author.name
+                  : 'Deleted User',
+                icon: comment.node.author ? comment.node.author.icon : ''
+              };
+              let message = {
+                body: comment.node.content,
+                date: comment.node.published,
+                id: comment.node.localId
+              };
+              return (
+                <Comment
+                  key={i}
+                  author={author}
+                  totalReplies={comment.node.replies.totalCount}
+                  comment={message}
+                  selectThread={selectThread}
+                  noAction
+                />
+              );
+            })}
+            <WrapperTalk>
+              <Talk
+                id={Number(match.params.id)}
+                externalId={data.comment.id}
+                full
+              />
+            </WrapperTalk>
+          </Wrapper>
+        </WrapperCont>
+      </HomeBox>
+    </MainContainer>
   );
 };
 
-const Container = styled.div`
-  border-radius: 6px;
-  box-sizing: border-box;
-  border: 5px solid #e2e5ea;
-`;
-
-const Header = styled.div`
-  border-bottom: 1px solid #edf0f2;
-  ${clearFix()};
-`;
-
-const LeftArr = styled.span`
-  display: inline-block;
-  margin-bottom: 0;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  white-space: nowrap;
-  line-height: 20px;
-  border-radius: 4px;
-  user-select: none;
-  color: #667d99;
-  background-color: rgb(231, 237, 243);
-  border: 0;
-  width: 36px;
-  text-align: center;
-  padding: 5px;
-  z-index: 3 !important;
-  border-radius: 4px !important;
-  transition: border-radius 0.2s;
-  max-width: 150px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-left: 8px;
-  padding-right: 8px;
-  position: relative;
-  background-color: #d7dfea;
-  margin: 8px;
-  margin-right: 0;
-  float: left;
-  & svg {
-    vertical-align: middle;
+const Header = styled(Flex)`
+  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
+  height: 50px;
+  align-items: center;
+  padding: 0 8px;
+  a {
+    display: flex;
+    flex: 1;
+    text-decoration: none;
   }
 `;
+
+// const LeftArr = styled.span`
+
+// `;
 
 const WrapperTalk = styled.div``;
 
@@ -189,21 +172,14 @@ const InReplyTo = styled.div`
   }
 `;
 
-const Wrapper = styled.div`
-  background: white;
-  & a {
-    text-decoration: none;
-  }
-`;
-
 export default compose(
-  withGetThread,
-  withHandlers({
-    selectThread: props => link =>
-      props.history.push(
-        props.data.comment.context.__typename === 'Community'
-          ? `/communities/${props.data.comment.context.localId}/thread/${link}`
-          : `/collections/${props.data.comment.context.localId}/${link}`
-      )
-  })
+  withGetThread
+  // withHandlers({
+  //   selectThread: props => link =>
+  //     props.history.push(
+  //       props.data.comment.context.__typename === 'Community'
+  //         ? `/communities/${props.data.comment.context.localId}/thread/${link}`
+  //         : `/collections/${props.data.comment.context.localId}/${link}`
+  //     )
+  // })
 )(Component);

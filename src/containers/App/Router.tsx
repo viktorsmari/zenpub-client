@@ -93,7 +93,7 @@ const Content = connectStateResults(
         <Route exact path="/communities" component={CommunitiesAll} />
         <Route exact path="/mycommunities" component={MyCommunities} />
         <Route exact path="/mycollections" component={MyCollections} />
-        <Route exact path="/thread/:id" components={Thread} />
+        <Route exact path="/thread/:id" component={Thread} />
         <Route
           exact
           path="/communities/:community"
@@ -103,11 +103,6 @@ const Content = connectStateResults(
           exact
           path="/communities/:community/collections/:collection"
           component={CollectionViewModal}
-        />
-        <Route
-          exact
-          path="/communities/:community/thread/:threadId"
-          component={Thread}
         />
         <Route exact path="/collections" component={CollectionsAll} />
         <Route exact path="/profile" component={Profile} />
