@@ -143,24 +143,11 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
               </ResourcePreview>
             </SubText>
           ) : null}
-          {node.activityType === 'CreateComment' ? (
+          {/* {node.activityType === 'CreateComment' ? (
             <BoxLink to={`/communities/${node.object.context.localId}`}>
               @{node.object.context.name}
             </BoxLink>
-          ) : // : node.activityType === "JoinCommunity" || node.activityType === "CreateCommunity" || node.activityType === "UpdateCommunity" ?
-          // <BoxLink to={`/communities/${node.object.localId}`}>
-          //   @{node.object.name}
-          // </BoxLink>
-          // : node.activityType === "FollowCollection" || node.activityType === "UpdateCollection" || node.activityType === "CreateCollection"  ?
-          // <BoxLink to={`/communities/${node.object.community.localId}/collections/${node.object.localId}` }>
-          // +{node.object.name}
-          // </BoxLink>
-          // : node.activityType === "CreateResource" ?
-          // <BoxLink to={`/communities/${node.object.collection.community.localId}/collections/${node.object.collection.localId}` }>
-          // +{node.object.collection.name}
-          // </BoxLink>
-          // :
-          null}
+          ) : null} */}
           {node.activityType === 'CreateComment' ? (
             <Actions mt={2}>
               <Items>
@@ -191,14 +178,14 @@ const Items = styled(Flex)`
   flex: 1;
 `;
 
-const BoxLink = styled(NavLink)`
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 30px;
-  display: inline-block;
-  color: ${props => props.theme.styles.colors.orange} !important;
-  margin-top: 8px;
-`;
+// const BoxLink = styled(NavLink)`
+//   font-size: 14px;
+//   font-weight: 600;
+//   line-height: 30px;
+//   display: inline-block;
+//   color: ${props => props.theme.styles.colors.orange} !important;
+//   margin-top: 8px;
+// `;
 const Actions = styled(Flex)``;
 
 const ActionItem = styled(Flex)`
