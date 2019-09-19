@@ -6,7 +6,6 @@ import { compose } from 'recompose';
 import Comment from '../../components/elements/Comment/Comment';
 import Link from '../../components/elements/Link/Link';
 import Loader from '../../components/elements/Loader/Loader';
-import Talk from '../../components/elements/Talk/Reply';
 import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
 import { Flex, Text } from 'rebass';
@@ -15,7 +14,8 @@ const getThread = require('../../graphql/getThread.graphql');
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { ChevronLeft } from 'react-feather';
-
+import Thread from '../../components/elements/thread';
+import CommentEditor from '../../components/elements/Comment';
 interface Data extends GraphqlQueryControls {
   comment: CommentType;
 }
@@ -44,7 +44,6 @@ const withGetThread = graphql<
 }) as OperationOption<{}, {}>;
 
 const Component = ({ data, id, selectThread, match, type, history }) => {
-  console.log(data);
   if (data.error) {
     return 'error...';
   } else if (data.loading) {
@@ -53,7 +52,8 @@ const Component = ({ data, id, selectThread, match, type, history }) => {
   let author = {
     localId: data.comment.author ? data.comment.author.localId : null,
     name: data.comment.author ? data.comment.author.name : 'Deleted User',
-    icon: data.comment.author ? data.comment.author.icon : ''
+    image: data.comment.author ? data.comment.author.icon : '',
+    username: data.comment.author ? data.comment.author.preferredUsername : null
   };
 
   let message = {
@@ -92,12 +92,13 @@ const Component = ({ data, id, selectThread, match, type, history }) => {
                 <Trans>Back to top-level thread</Trans>
               </InReplyTo>
             ) : null}
-            <Comment
-              selectThread={selectThread}
-              noAction
-              thread
-              author={author}
-              comment={message}
+            <Thread
+              content={message.body}
+              user={author}
+              date={message.date}
+              replies={data.comment.replies.length}
+              likes={0}
+              retweets={0}
             />
             {data.comment.replies.edges.reverse().map((comment, i) => {
               let author = {
@@ -126,11 +127,7 @@ const Component = ({ data, id, selectThread, match, type, history }) => {
               );
             })}
             <WrapperTalk>
-              <Talk
-                id={Number(match.params.id)}
-                externalId={data.comment.id}
-                full
-              />
+              <CommentEditor />
             </WrapperTalk>
           </Wrapper>
         </WrapperCont>
