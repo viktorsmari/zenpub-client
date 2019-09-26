@@ -1,14 +1,37 @@
 fragment BasicComment on Comment {
-   localId
-    content
-    id
-    published
+  localId
+  content
+  id
+  published
+  author {
+      name
+      id
+      icon
+  }
+  replies {
+      totalCount
+  }
+  inReplyTo {
+    localId
     author {
-        name
-        id
-        icon
+      id
+      icon
+      name
+      localId
+      preferredUsername
     }
-    replies {
-        totalCount
+  }
+  context {
+    __typename
+    ... on Community {
+      id
+      name
+      localId
     }
+      ... on Collection {
+      id
+      name
+      localId
+    }
+  }
 }

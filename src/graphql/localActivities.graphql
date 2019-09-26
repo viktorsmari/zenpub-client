@@ -1,3 +1,8 @@
+#import "./fragments/basicComment.graphql"
+#import "./fragments/basicCollection.graphql"
+#import "./fragments/basicResource.graphql"
+#import "./fragments/basicCommunity.graphql"
+#import "./fragments/basicUser.graphql"
 query localActivities($limit: Int, $end: Int) {
     localActivities(limit: $limit, after:$end) {
         pageInfo {
@@ -9,65 +14,24 @@ query localActivities($limit: Int, $end: Int) {
             activityType
             published
             type
-            object {
-              __typename
-              ... on Community {
-              id
-              name
-              localId
+            user {
+                ...BasicUser
               }
-              ... on Comment {
-              id
-              localId
-              context {
+              object {
                 __typename
                 ... on Community {
-                  id
-                  name
-                  localId
+                  ...BasicCommunity
+                }
+                ... on Comment {
+                  ...BasicComment
                 }
                 ... on Collection {
-                  id
-                  name
-                  localId
+                  ...BasicCollection
+                }
+                  ... on Resource {
+                  ...BasicResource
                 }
               }
-              localId
-              }
-              ... on Collection {
-              id
-              name
-              localId
-              summary
-              icon
-              community {
-                id
-                localId
-              }
-              }
-                ... on Resource {
-              id
-              name
-              localId
-              summary
-              icon
-              url
-              collection {
-                  name
-                  localId
-                  community {
-                    id
-                    localId
-                  }
-              }
-              }
-            }
-            user {
-              name
-              id
-              localId
-              icon
-            }
         }
     }
 }

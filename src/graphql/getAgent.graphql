@@ -1,3 +1,8 @@
+#import "./fragments/basicComment.graphql"
+#import "./fragments/basicCollection.graphql"
+#import "./fragments/basicResource.graphql"
+#import "./fragments/basicCommunity.graphql"
+#import "./fragments/basicUser.graphql"
 query getAgentQuery(
   $id: Int!, 
   $limitComm: Int, 
@@ -21,101 +26,60 @@ query getAgentQuery(
             startCursor
             endCursor
           }
-            edges {
-              node {
-                id
-                activityType
-                type
-                published
-                object {
-                  __typename
-                  ... on Community {
-                  id
-                  name
-                  localId
-                  }
-                ... on Comment {
-                  id
-                  localId
-                  context {
-                    __typename
-                    ... on Community {
-                      id
-                      name
-                      localId
-                    }
-                    ... on Collection {
-                      id
-                      name
-                      localId
-                    }
-                  }
-                  localId
-                  }
-                  ... on Collection {
-                  id
-                  name
-                  localId
-                  summary
-                  icon
-                  community {
-                    id
-                    localId
-                  }
-                  }
-                    ... on Resource {
-                  id
-                  name
-                  localId
-                  summary
-                  icon
-                  url
-                  collection {
-                      name
-                      localId
-                      community {
-                        localId
-                      }
-                  }
-                  }
+          edges {
+            node {
+              id
+              activityType
+              type
+              published
+              user {
+                ...BasicUser
+              }
+              object {
+                __typename
+                ... on Community {
+                  ...BasicCommunity
                 }
-                user {
-                  name
-                  preferredUsername
-                  id
-                  localId
-                  icon
+                ... on Comment {
+                  ...BasicComment
+                }
+                ... on Collection {
+                  ...BasicCollection
+                }
+                  ... on Resource {
+                  ...BasicResource
                 }
               }
             }
           }
-            joinedCommunities(limit: $limitComm, after:$endComm) {
-            pageInfo {
-              startCursor
-              endCursor
-            }
+        }
+        joinedCommunities(limit: $limitComm, after:$endComm) {
+          pageInfo {
+            startCursor
+            endCursor
+          }
           edges {
-              node {
-                id
-                localId
-                preferredUsername
-                name
-                summary
-                icon
-                collections {
-                  totalCount
-                }
-                members {
-                  totalCount
-                }
-                threads {
-                  totalCount
-                }
-                followed
-
+            node {
+              id
+              name
+              localId
+              summary
+              icon
+              preferredUsername
+              followed
+              collections {
+                totalCount
               }
-          }}
-            followingCollections(limit: $limitColl, after:$endColl) {
+              members {
+                totalCount
+              }
+              threads {
+                totalCount
+              }
+            }
+          }
+        }
+        followingCollections(limit: $limitColl, after:$endColl) {
             pageInfo {
               startCursor
               endCursor
@@ -148,6 +112,6 @@ query getAgentQuery(
               }
           }
         }
-        }
+  }
 }
 

@@ -12,16 +12,19 @@ query getCollectionsQuery($limit: Int, $end: Int) {
             summary
             icon
             followed
+            community {
+            id
+            localId
+            name
+            followed
+            }
             followers {
                 totalCount
-            }
-            community {
-                localId
             }
             resources {
                 totalCount
             }
-            threads {
+            inbox {
                 totalCount
             }
         }

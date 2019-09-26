@@ -1,13 +1,10 @@
+#import "./fragments/basicUser.graphql"
+
 query getUserQuery {
     me {
         email
     user {
-            id
-            name
-            preferredUsername
-            location
-            icon
-            summary
+            ...BasicUser
     }
   }
 }

@@ -1,0 +1,9 @@
+fragment BasicCommunity on Community {
+    id
+    name
+    localId
+    summary
+    icon
+    preferredUsername
+    followed
+}

@@ -1,0 +1,18 @@
+fragment NodeCommunity on Node {
+    id
+    name
+    localId
+    summary
+    icon
+    preferredUsername
+    followed
+    collections {
+    totalCount
+    }
+    members {
+    totalCount
+    }
+    threads {
+    totalCount
+    }
+}

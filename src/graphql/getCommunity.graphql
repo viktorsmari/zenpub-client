@@ -1,161 +1,95 @@
+#import "./fragments/basicComment.graphql"
+#import "./fragments/basicCollection.graphql"
+#import "./fragments/basicResource.graphql"
+#import "./fragments/basicCommunity.graphql"
+#import "./fragments/basicUser.graphql"
 
 query getCommunityQuery(
  $context: Int!,
  $limit: Int, 
  $end: Int
  ) {
-    community(local_id: $context) {
-        id
-        localId
-        preferredUsername
-        name
-        summary
-        icon
-        followed
-        inbox (limit: $limit, after:$end) {
-            pageInfo {
-                startCursor
-                endCursor
+  community(local_id: $context) {
+    id
+    localId
+    preferredUsername
+    name
+    summary
+    icon
+    followed
+    inbox (limit: $limit, after:$end) {
+      pageInfo {
+        startCursor
+        endCursor
+      }
+      edges {
+        node {
+          id
+          activityType
+          type
+          published
+          user {
+            ...BasicUser
+          }
+          object {
+            __typename
+            ... on Community {
+              ...BasicCommunity
             }
-            edges {
-                node {
-                    id
-                    activityType
-                    type
-                    published
-                    object {
-                        
-                        ... on Community {
-                        id
-                        name
-                        localId
-                        summary
-                        icon
-                        }
-                        ... on Collection {
-                        id
-                        name
-                        localId
-                        summary
-                        icon
-                        community {
-                            id
-                            localId
-                        }
-                        }
-                        ... on Comment {
-                        id
-                        localId
-                        content
-                        inReplyTo {
-                            localId
-                        }
-                        context {
-                         __typename
-                         ... on Community {
-                           id
-                           name
-                           localId
-                         }
-                         ... on Collection {
-                           id
-                           name
-                           localId
-                          }
-                         }
-                        }
-                         ... on Resource {
-                        id
-                        name
-                        localId
-                        summary
-                        icon
-                        url
-                        collection {
-                          name
-                          localId
-                          community {
-                            localId
-                          }
-                        }
-                        }
-                     }
-                    user {
-                        name
-                        id
-                        localId
-                        preferredUsername
-                        icon
-                    }
-                    
-                }
+            ... on Comment {
+              ...BasicComment
             }
+            ... on Collection {
+              ...BasicCollection
+            }
+              ... on Resource {
+              ...BasicResource
+            }
+          }    
         }
-        members {
-            edges {
-                node {
-                     id
-                    localId
-                    name
-                    icon
-
-                }
-            }
-            
-            totalCount
-            
+      }
+    }
+    members {
+      edges {
+        node {
+          id
+          localId
+          name
+          icon
         }
-        threads {
-             edges {
-                node {
-                    localId
-                    content
-                    id
-                    published
-                    author {
-                        name
-                        id
-                        icon
-                    }
-                    replies {
-                        totalCount
-                    }
-
-                }
-            }
-            
-            totalCount
+      }
+      totalCount
+    }
+    collections {
+      totalCount
+      edges {
+        node {    
+          id
+          localId
+          preferredUsername
+          name
+          summary
+          icon
+          followed
+          followers {
+              totalCount
+          }
+          resources {
+              totalCount
+          }
+          threads {
+              totalCount
+          }
+          inbox {
+              totalCount
+          }
         }
-        collections {
-            totalCount
-            edges {
-                node {    
-                    id
-                    localId
-                    preferredUsername
-                    name
-                    summary
-                    icon
-                    followed
-                    followers {
-                        totalCount
-                    }
-                    resources {
-                        totalCount
-                    }
-                    threads {
-                        totalCount
-                    }
-                    inbox {
-                        totalCount
-                    }
-                }
-            }
-          totalCount
-           pageInfo {
-                startCursor
-                endCursor
-            }
+      }
+      totalCount
+        pageInfo {
+            startCursor
+            endCursor
         }
     }
+  }
 }

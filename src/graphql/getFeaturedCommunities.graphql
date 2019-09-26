@@ -1,3 +1,4 @@
+#import "./fragments/basicCommunity.graphql"
 query getFeaturedCommunities(
   $one: Int!
   $two: Int!
@@ -8,101 +9,24 @@ query getFeaturedCommunities(
   $seven: Int!
   ) {
   one: community(localId:$one) {
-    id
-    localId
-    preferredUsername
-    name
-    summary
-    icon
-    members {totalCount}
-    collections {totalCount}
-    threads {
-                totalCount
-            }
-    followed
+    ...BasicCommunity
   }
    two: community(localId:$two) {
-    id
-    localId
-    preferredUsername
-    name
-    summary
-    icon
-    members {totalCount}
-    threads {
-                totalCount
-            }
-    collections {totalCount}
-    followed
+    ...BasicCommunity
   }
    three: community(localId:$three) {
-    id
-    localId
-    preferredUsername
-    name
-    summary
-    icon
-    members {totalCount}
-    threads {
-                totalCount
-            }
-    collections {totalCount}
-    followed
+    ...BasicCommunity
   }
    four: community(localId:$four) {
-    id
-    localId
-    preferredUsername
-    name
-    summary
-    icon
-    members {totalCount}
-    threads {
-                totalCount
-            }
-    collections {totalCount}
-    followed
+    ...BasicCommunity
   }
    five: community(localId:$five) {
-    id
-    localId
-    preferredUsername
-    name
-    summary
-    icon
-    members {totalCount}
-    threads {
-                totalCount
-            }
-    collections {totalCount}
-    followed
+    ...BasicCommunity
   }
    six: community(localId:$six) {
-    id
-    localId
-    preferredUsername
-    name
-    summary
-    icon
-    members {totalCount}
-    threads {
-                totalCount
-            }
-    collections {totalCount}
-    followed
+    ...BasicCommunity
   }
    seven: community(localId:$seven) {
-    id
-    localId
-    preferredUsername
-    name
-    summary
-    icon
-    members {totalCount}
-    threads {
-                totalCount
-            }
-    collections {totalCount}
-    followed
+    ...BasicCommunity
   }
 }

@@ -1,90 +1,49 @@
-query meQuery
-(
+#import "./fragments/basicComment.graphql"
+#import "./fragments/basicCollection.graphql"
+#import "./fragments/basicResource.graphql"
+#import "./fragments/basicCommunity.graphql"
+#import "./fragments/basicUser.graphql"
+
+query meQuery (
   $limit: Int, 
   $end: Int
-  )
-    {
+)
+ {
   me {
     user {
       id
-    inbox (limit: $limit, after:$end) {
-      pageInfo {
+      inbox (limit: $limit, after:$end) {
+        pageInfo {
           startCursor
           endCursor
-      }
-      edges {
-        node {
-          id
-          activityType
-          type
-          published
-          object {
-            __typename
-            ... on Community {
+        }
+        edges {
+          node {
             id
-            name
-            localId
-            summary
-            icon
+            activityType
+            type
+            published
+            user {
+              ...BasicUser
             }
-            ... on Comment {
-            id
-            localId
-            content
-            inReplyTo {
-              localId
-            }
-             context {
+            object {
               __typename
               ... on Community {
-                id
-                name
-                localId
+                ...BasicCommunity
+              }
+              ... on Comment {
+                ...BasicComment
               }
               ... on Collection {
-                id
-                name
-                localId
+                ...BasicCollection
               }
-             }
-            }
-            ... on Collection {
-            id
-            name
-            localId
-            summary
-            icon
-            community {
-              id
-              localId
-            }
-            }
-              ... on Resource {
-            id
-            name
-            localId
-            url
-            summary
-            icon
-            collection {
-                name
-                localId
-                community {
-                  localId
-                }
-            }
+                ... on Resource {
+                ...BasicResource
+              }
             }
           }
-          user {
-            name
-            id
-            preferredUsername
-            localId
-            icon
-          }
+        }
       }
-    }
-  }
     }
   }
 }

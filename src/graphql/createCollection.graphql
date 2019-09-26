@@ -1,3 +1,5 @@
+#import "./fragments/basicCollection.graphql"
+
 input CollectionInput {
     name: String!
     summary: String!
@@ -12,19 +14,7 @@ input CollectionInput {
       communityLocalId: $communityId,
       collection: $collection
     ) {
-        id
-        localId
-        name
-        summary
-        preferredUsername
-        icon
-        followed
-        resources {
-          totalCount
-        }
-        inbox {
-          totalCount
-        }
+        ...BasicCollection
       }
 
 }

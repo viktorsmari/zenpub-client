@@ -1,3 +1,8 @@
+#import "./fragments/basicComment.graphql"
+#import "./fragments/basicCollection.graphql"
+#import "./fragments/basicResource.graphql"
+#import "./fragments/basicCommunity.graphql"
+#import "./fragments/basicUser.graphql"
 query meQuery(
   $limitComm: Int, 
   $endComm: Int, 
@@ -44,72 +49,32 @@ query meQuery(
             startCursor
             endCursor
         }
-        edges {
-          node {
-            id
-            activityType
-            published
-            type
-            object {
-              __typename
-              ... on Community {
+         edges {
+            node {
               id
-              name
-              localId
+              activityType
+              type
+              published
+              user {
+                ...BasicUser
               }
-              ... on Comment {
-              id
-              localId
-              context {
+              object {
                 __typename
                 ... on Community {
-                  id
-                  name
-                  localId
+                  ...BasicCommunity
+                }
+                ... on Comment {
+                  ...BasicComment
                 }
                 ... on Collection {
-                  id
-                  name
-                  localId
+                  ...BasicCollection
+                }
+                  ... on Resource {
+                  ...BasicResource
                 }
               }
-              localId
-              }
-              ... on Collection {
-              id
-              name
-              localId
-              summary
-              icon
-              community {
-                id
-                localId
-              }
-              }
-                ... on Resource {
-              id
-              name
-              localId
-              summary
-              icon
-              url
-              collection {
-                  name
-                  localId
-                  community {
-                    localId
-                  }
-              }
-              }
             }
-            user {
-              name
-              id
-              localId
-              icon
-            }
-        }
-      }
+          }
     }
     followingCollections(limit: $limitColl, after:$endColl) {
       pageInfo {

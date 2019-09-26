@@ -1,22 +1,8 @@
+#import "./fragments/basicComment.graphql"
+
 query getThread($id: Int!) {
   comment(localId: $id) {
-     context {
-        __typename
-        ... on Community {
-          id
-          name
-          localId
-        }
-        ... on Collection {
-          id
-          name
-          localId
-        }
-      }
-
-     inReplyTo {
-        localId
-      }
+     ...BasicComment
     replies {
       totalCount
       edges {
@@ -25,6 +11,16 @@ query getThread($id: Int!) {
           localId
           content
           published
+          inReplyTo {
+            localId
+            author {
+            id
+            icon
+            name
+            localId
+            preferredUsername
+          }
+          }
           replies {
             totalCount
             edges {
@@ -40,14 +36,5 @@ query getThread($id: Int!) {
         }
       }
     }
-    id
-    content
-    published
-     author {
-         id
-         icon
-         name
-         localId
-       }
   }
 }
