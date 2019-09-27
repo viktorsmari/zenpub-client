@@ -128,9 +128,9 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
               >
                 +{node.object.name}
               </NavLink>
-              <ResourcePreview mt={2}>
+              <CommunityPreview mt={2}>
                 <Collection collection={node.object} />
-              </ResourcePreview>
+              </CommunityPreview>
             </SubText>
           ) : node.activityType === 'CreateCommunity' ? (
             <SubText>
@@ -138,16 +138,12 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
               <NavLink to={`/communities/${node.object.localId}`}>
                 @{node.object.name}
               </NavLink>
-              <ResourcePreview mt={2}>
+              <CommunityPreview mt={2}>
                 <CommunitySmall community={node.object} />
-              </ResourcePreview>
+              </CommunityPreview>
             </SubText>
           ) : null}
-          {/* {node.activityType === 'CreateComment' ? (
-            <BoxLink to={`/communities/${node.object.context.localId}`}>
-              @{node.object.context.name}
-            </BoxLink>
-          ) : null} */}
+
           {node.activityType === 'CreateComment' ? (
             <Actions mt={2}>
               <Items>
@@ -156,7 +152,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
                     <ActionIcon>
                       <MessageCircle color="rgba(0,0,0,.4)" size="16" />
                     </ActionIcon>
-                    <Text ml={2}>0</Text>
+                    <Text ml={2}>{node.object.replies.totalCount}</Text>
                   </NavLink>
                 </ActionItem>
                 <ActionItem>
@@ -227,8 +223,21 @@ const ActionIcon = styled(Box)`
 const ResourcePreview = styled(Box)`
   border: 1px solid ${props => props.theme.styles.colors.lightgray};
   border-radius: 2px;
+  max-height: 200px;
+  overflow-y: hidden;
   > div {
-    padding: 16px;
+    padding: 8px;
+    margin: 0;
+  }
+`;
+
+const CommunityPreview = styled(Box)`
+  border: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-radius: 2px;
+  max-width: 200px;
+  overflow-y: hidden;
+  > div {
+    padding: 8px;
     margin: 0;
   }
 `;

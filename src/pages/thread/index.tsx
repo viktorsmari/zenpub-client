@@ -14,8 +14,9 @@ const getThread = require('../../graphql/getThread.graphql');
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { ChevronLeft } from 'react-feather';
+
 import Thread from '../../components/elements/thread';
-import CommentEditor from '../../components/elements/Comment';
+// import CommentEditor from '../../components/elements/Comment';
 interface Data extends GraphqlQueryControls {
   comment: CommentType;
 }
@@ -96,7 +97,7 @@ const Component = ({ data, id, selectThread, match, type, history }) => {
               content={message.body}
               user={author}
               date={message.date}
-              replies={data.comment.replies.length}
+              replies={data.comment.replies.totalCount}
               likes={0}
               retweets={0}
             />
@@ -110,25 +111,24 @@ const Component = ({ data, id, selectThread, match, type, history }) => {
                   : 'Deleted User',
                 icon: comment.node.author ? comment.node.author.icon : ''
               };
-              let message = {
-                body: comment.node.content,
-                date: comment.node.published,
-                id: comment.node.localId
-              };
+              // let message = {
+              //   body: comment.node.content,
+              //   date: comment.node.published,
+              //   id: comment.node.localId
+              // };
               return (
                 <Comment
                   key={i}
-                  author={author}
+                  user={author}
                   totalReplies={comment.node.replies.totalCount}
-                  comment={message}
+                  comment={comment.node}
                   selectThread={selectThread}
-                  noAction
                 />
               );
             })}
-            <WrapperTalk>
+            {/* <WrapperTalk>
               <CommentEditor />
-            </WrapperTalk>
+            </WrapperTalk> */}
           </Wrapper>
         </WrapperCont>
       </HomeBox>
@@ -152,7 +152,7 @@ const Header = styled(Flex)`
 
 // `;
 
-const WrapperTalk = styled.div``;
+// const WrapperTalk = styled.div``;
 
 const InReplyTo = styled.div`
   display: block;

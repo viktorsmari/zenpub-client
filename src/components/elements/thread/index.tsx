@@ -4,8 +4,10 @@ import { SFC } from 'react';
 import { Text, Box, Flex, Image } from 'rebass';
 import * as Feather from 'react-feather';
 import { DateTime } from 'luxon';
+import Talk from '../TalkModal';
+import { compose, withState } from 'recompose';
 
-const Icon = styled(Box)`
+const Icon = styled(Flex)`
   cursor: pointer;
   &:hover {
     svg {
@@ -48,10 +50,16 @@ const Date = styled(Text)`
   font-weight: 500;
 `;
 
+const Message = styled(Text)`
+  line-height: 30px;
+`;
+
 interface Props {
   content: string;
   url?: string;
   date: string;
+  onOpen: any;
+  isOpen: boolean;
   replies: number;
   likes: number;
   retweets?: number;
@@ -66,50 +74,31 @@ interface Props {
 const Thread: SFC<Props> = ({
   content,
   user,
-  url,
+  onOpen,
   date,
-  replies,
-  likes,
+  isOpen,
   retweets
 }) => {
   return (
     <Wrapper style={{ borderBottom: '1px solid #efefef' }} px={3} py={3}>
       <Flex alignItems="center">
         <Avatar src={user.image} />
-        <Text mx={2} fontSize={3}>
+        <Text mx={2} fontSize={2}>
           {user.name}
         </Text>
         {user.username ? <Username>@{user.username}</Username> : null}
         <Spacer>·</Spacer>{' '}
         <Date fontSize={2}>{DateTime.fromISO(date).toRelative()}</Date>
       </Flex>
-      <Text mt={2} fontSize={[4]}>
+      <Message mt={2} fontSize={[3]}>
         {content}
-      </Text>
-      <Flex mt={3}>
-        <Icon
-          mr={2}
-          className="tooltip"
-          data-tooltip="Lorem ipsum dolor sit amet"
-        >
+      </Message>
+      <Flex alignItems="center" mt={3}>
+        <Icon mr={4} className="tooltip" onClick={() => onOpen(true)}>
           <Feather.MessageSquare color={'#555555'} size="20" />
-          <Text
-            ml={1}
-            mr={3}
-            style={{ display: 'inline-block', verticalAlign: 'super' }}
-          >
-            {replies}
-          </Text>
         </Icon>
         <Icon mr={2}>
           <Feather.Heart color={'#555555'} size="20" />
-          <Text
-            ml={1}
-            mr={3}
-            style={{ display: 'inline-block', verticalAlign: 'super' }}
-          >
-            {likes}
-          </Text>
         </Icon>
         {retweets ? (
           <Icon>
@@ -124,8 +113,9 @@ const Thread: SFC<Props> = ({
           </Icon>
         ) : null}
       </Flex>
+      <Talk toggleModal={onOpen} modalIsOpen={isOpen} />
     </Wrapper>
   );
 };
 
-export default Thread;
+export default compose(withState('isOpen', 'onOpen', false))(Thread);

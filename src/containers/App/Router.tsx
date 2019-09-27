@@ -164,7 +164,7 @@ class App extends React.Component<any> {
           indexName="next_moodlenet"
         >
           <PageContainer>
-            <Sidebar history={history} />
+            <Sidebar history={this.props.history} />
             <MainWrapper>
               <WrapperDimension>
                 <Inner>

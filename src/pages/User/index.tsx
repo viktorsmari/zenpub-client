@@ -91,6 +91,7 @@ class CommunitiesFeatured extends React.Component<Props, State> {
     tab: TabsEnum.Collections
   };
   render() {
+    console.log(this.props.data);
     return (
       <MainContainer>
         <HomeBox>
