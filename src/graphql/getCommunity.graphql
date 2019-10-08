@@ -4,12 +4,8 @@
 #import "./fragments/basicCommunity.graphql"
 #import "./fragments/basicUser.graphql"
 
-query getCommunityQuery(
- $context: Int!,
- $limit: Int, 
- $end: Int
- ) {
-  community(local_id: $context) {
+query getCommunityQuery($context: Int!, $limit: Int, $end: Int) {
+  community(localId: $context) {
     id
     localId
     preferredUsername
@@ -17,7 +13,7 @@ query getCommunityQuery(
     summary
     icon
     followed
-    inbox (limit: $limit, after:$end) {
+    inbox(limit: $limit, after: $end) {
       pageInfo {
         startCursor
         endCursor
@@ -42,10 +38,10 @@ query getCommunityQuery(
             ... on Collection {
               ...BasicCollection
             }
-              ... on Resource {
+            ... on Resource {
               ...BasicResource
             }
-          }    
+          }
         }
       }
     }
@@ -63,7 +59,7 @@ query getCommunityQuery(
     collections {
       totalCount
       edges {
-        node {    
+        node {
           id
           localId
           preferredUsername
@@ -72,24 +68,24 @@ query getCommunityQuery(
           icon
           followed
           followers {
-              totalCount
+            totalCount
           }
           resources {
-              totalCount
+            totalCount
           }
           threads {
-              totalCount
+            totalCount
           }
           inbox {
-              totalCount
+            totalCount
           }
         }
       }
       totalCount
-        pageInfo {
-            startCursor
-            endCursor
-        }
+      pageInfo {
+        startCursor
+        endCursor
+      }
     }
   }
 }

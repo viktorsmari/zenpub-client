@@ -4,15 +4,11 @@
 #import "./fragments/basicCommunity.graphql"
 #import "./fragments/basicUser.graphql"
 
-query meQuery (
-  $limit: Int, 
-  $end: Int
-)
- {
+query getMeInbox($limit: Int, $end: Int) {
   me {
     user {
       id
-      inbox (limit: $limit, after:$end) {
+      inbox(limit: $limit, after: $end) {
         pageInfo {
           startCursor
           endCursor
@@ -37,7 +33,7 @@ query meQuery (
               ... on Collection {
                 ...BasicCollection
               }
-                ... on Resource {
+              ... on Resource {
                 ...BasicResource
               }
             }
@@ -47,4 +43,3 @@ query meQuery (
     }
   }
 }
-

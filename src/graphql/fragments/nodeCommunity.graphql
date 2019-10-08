@@ -1,18 +1,18 @@
-fragment NodeCommunity on Node {
-    id
-    name
-    localId
-    summary
-    icon
-    preferredUsername
-    followed
-    collections {
+fragment NodeCommunity on Community {
+  id
+  name
+  localId
+  summary
+  icon
+  preferredUsername
+  followed
+  collections {
     totalCount
-    }
-    members {
+  }
+  members {
     totalCount
-    }
-    threads {
+  }
+  threads {
     totalCount
-    }
+  }
 }

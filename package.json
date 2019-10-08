@@ -12,7 +12,8 @@
     "compile": "lingui compile",
     "docs": "typedoc --out docs src",
     "docz:dev": "docz dev --typescript",
-    "docz:build": "docz build --typescript"
+    "docz:build": "docz build --typescript",
+    "gqlcode": "graphql-codegen --config codegen.yml"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,md}": [
@@ -36,6 +37,9 @@
   "dependencies": {
     "@absinthe/socket": "0.1.10",
     "@absinthe/socket-apollo-link": "0.1.11",
+    "@apollo/react-common": "3.1.2",
+    "@apollo/react-components": "3.1.2",
+    "@apollo/react-hoc": "3.1.2",
     "@babel/core": "7.1.6",
     "@babel/plugin-syntax-object-rest-spread": "7.2.0",
     "@babel/runtime": "7.1.5",
@@ -49,6 +53,7 @@
     "@lingui/macro": "2.7",
     "@lingui/react": "2.7",
     "@types/draft-js": "0.10.35",
+    "@types/graphql": "14.5.0",
     "@types/lingui__core": "2.7.0",
     "@types/lingui__macro": "2.7",
     "@types/lingui__react": "2.5",
@@ -58,6 +63,7 @@
     "@types/react-router-dom": "4.3.1",
     "@types/react-select": "3.0.2",
     "@types/rebass": "3.0.4",
+    "@types/recompose": "0.30.7",
     "@types/styled-components": "4.0.0",
     "@zendeskgarden/css-avatars": "3.0.8",
     "@zendeskgarden/react-avatars": "3.0.14",
@@ -174,6 +180,11 @@
     "@emotion/cache": "^10.0.14",
     "@emotion/core": "^10.0.14",
     "@emotion/styled": "^10.0.14",
+    "@graphql-codegen/cli": "1.8.1",
+    "@graphql-codegen/introspection": "1.8.1",
+    "@graphql-codegen/typescript": "1.8.1",
+    "@graphql-codegen/typescript-operations": "1.8.1",
+    "@graphql-codegen/typescript-react-apollo": "1.8.1",
     "@lingui/loader": "2.7.4",
     "@types/luxon": "1.15.2",
     "emotion-theming": "^10.0.14",

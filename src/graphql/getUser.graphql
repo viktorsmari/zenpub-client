@@ -3,14 +3,7 @@
 #import "./fragments/basicResource.graphql"
 #import "./fragments/basicCommunity.graphql"
 #import "./fragments/basicUser.graphql"
-query meQuery(
-  $limitComm: Int, 
-  $endComm: Int, 
-  $limitColl: Int, 
-  $endColl: Int, 
-  $limitTimeline:Int, 
-  $endTimeline:Int
-  )  {
+query getUser($limitComm: Int, $endComm: Int, $limitColl: Int, $endColl: Int, $limitTimeline: Int, $endTimeline: Int) {
   me {
     user {
       id
@@ -20,7 +13,7 @@ query meQuery(
       summary
       icon
       image
-      joinedCommunities(limit: $limitComm, after:$endComm) {
+      joinedCommunities(limit: $limitComm, after: $endComm) {
         pageInfo {
           startCursor
           endCursor
@@ -34,80 +27,80 @@ query meQuery(
             summary
             icon
             collections {
-            totalCount
+              totalCount
             }
-          threads {totalCount}
-          members {
-            totalCount
-          }
-          followed
-        }
-      }
-    }
-      outbox (limit: $limitTimeline, after:$endTimeline) {
-        pageInfo {
-            startCursor
-            endCursor
-        }
-         edges {
-            node {
-              id
-              activityType
-              type
-              published
-              user {
-                ...BasicUser
-              }
-              object {
-                __typename
-                ... on Community {
-                  ...BasicCommunity
-                }
-                ... on Comment {
-                  ...BasicComment
-                }
-                ... on Collection {
-                  ...BasicCollection
-                }
-                  ... on Resource {
-                  ...BasicResource
-                }
-              }
-            }
-          }
-    }
-    followingCollections(limit: $limitColl, after:$endColl) {
-      pageInfo {
-        startCursor
-        endCursor
-      }
-      edges {
-        node {
-          id
-          localId
-          preferredUsername
-          name
-          summary
-          icon
-          community {
-            localId
-            id
-          }
-          followed
-          followers {
-            totalCount
-          }
-          resources {
-            totalCount
-          }
             threads {
-            totalCount
+              totalCount
+            }
+            members {
+              totalCount
+            }
+            followed
           }
         }
-    }
-  }
-
+      }
+      outbox(limit: $limitTimeline, after: $endTimeline) {
+        pageInfo {
+          startCursor
+          endCursor
+        }
+        edges {
+          node {
+            id
+            activityType
+            type
+            published
+            user {
+              ...BasicUser
+            }
+            object {
+              __typename
+              ... on Community {
+                ...BasicCommunity
+              }
+              ... on Comment {
+                ...BasicComment
+              }
+              ... on Collection {
+                ...BasicCollection
+              }
+              ... on Resource {
+                ...BasicResource
+              }
+            }
+          }
+        }
+      }
+      followingCollections(limit: $limitColl, after: $endColl) {
+        pageInfo {
+          startCursor
+          endCursor
+        }
+        edges {
+          node {
+            id
+            localId
+            preferredUsername
+            name
+            summary
+            icon
+            community {
+              localId
+              id
+            }
+            followed
+            followers {
+              totalCount
+            }
+            resources {
+              totalCount
+            }
+            threads {
+              totalCount
+            }
+          }
+        }
+      }
     }
   }
 }
-
