@@ -14,7 +14,7 @@ import Button from '../Button/Button';
 import Modal from '../Modal';
 import { MentionsInput, Mention } from 'react-mentions';
 import { Box } from 'rebass';
-import emojiExampleStyle from './emoji';
+// import emojiExampleStyle from './emoji';
 import { Actions, Container, ContainerForm, Header, Row } from '../Modal/modal';
 import styled from '../../../themes/styled';
 
@@ -88,18 +88,6 @@ interface MyFormProps {
   communityExternalId: string;
   createCollection: any;
   toggleModal: any;
-}
-
-function fetchUsers(query, callback) {
-  if (!query) return;
-  fetch(`https://api.github.com/search/users?q=${query}`, { json: true })
-    .then(res => res.json())
-
-    // Transform the users to what react-mentions expects
-    .then(res =>
-      res.items.map(user => ({ display: user.login, id: user.login }))
-    )
-    .then(callback);
 }
 
 const withCreateCollection = graphql<{}>(createCollectionMutation, {
