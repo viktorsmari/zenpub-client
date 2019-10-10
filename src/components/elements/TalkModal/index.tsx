@@ -12,7 +12,7 @@ import Alert from '../../elements/Alert';
 import Textarea from '../../inputs/TextArea/Textarea';
 import Button from '../Button/Button';
 import Modal from '../Modal';
-import { MentionsInput, Mention } from 'react-mentions';
+// import { MentionsInput, Mention } from 'react-mentions';
 import { Box } from 'rebass';
 // import emojiExampleStyle from './emoji';
 import { Actions, Container, ContainerForm, Header, Row } from '../Modal/modal';
@@ -96,15 +96,7 @@ const withCreateCollection = graphql<{}>(createCollectionMutation, {
 } as OperationOption<{}, {}>);
 
 const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
-  const {
-    toggleModal,
-    onChange,
-    values,
-    modalIsOpen,
-    errors,
-    touched,
-    isSubmitting
-  } = props;
+  const { toggleModal, modalIsOpen, errors, touched, isSubmitting } = props;
   return (
     <Modal isOpen={modalIsOpen} toggleModal={() => toggleModal(false)}>
       <Container>
@@ -117,7 +109,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
           <Row>
             <TextWrapper>
               <Avatar />
-              <MentionsInput
+              {/* <MentionsInput
                 value={value}
                 onChange={onChange}
                 style={defaultStyle}
@@ -128,8 +120,8 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                   trigger="@"
                   data={fetchUsers}
                   style={defaultMentionStyle}
-                />
-              </MentionsInput>
+                /> */}
+              {/* </MentionsInput> */}
               <Field
                 name="text"
                 render={({ field }) => (
@@ -166,88 +158,7 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
   validationSchema: Yup.object().shape({
     text: Yup.string().required()
   }),
-  handleSubmit: (values, { props, setSubmitting }) => {
-    // const variables = {
-    //   communityId: Number(props.communityId),
-    //   collection: {
-    //     text: values.text,
-    //     summary: values.summary,
-    //     icon: values.image,
-    //     content: values.summary,
-    //     preferredUsername: values.name.split(' ').join('_')
-    //   }
-    // };
-    // return props
-    //   .createCollection({
-    //     variables: variables,
-    //     update: (store, { data }) => {
-    //       const community = store.readQuery({
-    //         query: getCommunityQuery,
-    //         variables: {
-    //           context: props.communityId,
-    //           limit: 15
-    //         }
-    //       });
-    //       const newCollection = {
-    //         node: {
-    //           __typename: 'Collection',
-    //           id: data.createCollection.id,
-    //           localId: data.createCollection.localId,
-    //           name: data.createCollection.name,
-    //           summary: data.createCollection.summary,
-    //           preferredUsername: data.createCollection.preferredUsername,
-    //           icon: data.createCollection.icon,
-    //           followed: data.createCollection.followed,
-    //           followers: {
-    //             totalCount: 1,
-    //             __typename: 'CollectionFollowersConnection'
-    //           },
-    //           inbox: {
-    //             totalCount: 0,
-    //             edges: {
-    //               node: {
-    //                 id: 1011,
-    //                 __typename: 'Activity'
-    //               },
-    //               __typename: 'CollectionActivitiesEdge'
-    //             },
-    //             __typename: 'CollectionInboxConnection'
-    //           },
-    //           resources: {
-    //             totalCount: 0,
-    //             edges: {
-    //               node: {
-    //                 id: 1010,
-    //                 __typename: 'Resource'
-    //               },
-    //               __typename: 'CollectionResourcesEdge'
-    //             },
-    //             __typename: 'CollectionResourcesConnection'
-    //           },
-    //           threads: {
-    //             totalCount: 0,
-    //             __typename: 'CollectionThreadsConnection'
-    //           }
-    //         },
-    //         __typename: 'CommunityCollectionsEdge'
-    //       };
-    //       community.community.collections.edges.unshift(newCollection);
-    //       community.community.collections.totalCount++;
-    //       store.writeQuery({
-    //         query: getCommunityQuery,
-    //         variables: {
-    //           context: props.communityId
-    //         },
-    //         data: community
-    //       });
-    //     }
-    //   })
-    //   .then(res => {
-    //     props.toggleModal();
-    //     setSubmitting(false);
-    //   })
-    //   .catch(err => console.log(err));
-  }
+  handleSubmit: (values, { props, setSubmitting }) => {}
 })(CreateCommunityModal);
 
 export default compose(withCreateCollection)(ModalWithFormik);
