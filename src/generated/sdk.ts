@@ -1,10 +1,7 @@
+import { GraphQLClient } from 'graphql-request';
+import { print } from 'graphql';
 import gql from 'graphql-tag';
-import * as React from 'react';
-import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 export type Maybe<T> = T | null;
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -2659,56 +2656,6 @@ export const UsernameAvailableDocument = gql`
     usernameAvailable(username: $username)
   }
 `;
-export type UsernameAvailableComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<
-    UsernameAvailableQuery,
-    UsernameAvailableQueryVariables
-  >,
-  'query'
-> &
-  (
-    | { variables: UsernameAvailableQueryVariables; skip?: boolean }
-    | { skip: boolean });
-
-export const UsernameAvailableComponent = (
-  props: UsernameAvailableComponentProps
-) => (
-  <ApolloReactComponents.Query<
-    UsernameAvailableQuery,
-    UsernameAvailableQueryVariables
-  >
-    query={UsernameAvailableDocument}
-    {...props}
-  />
-);
-
-export type UsernameAvailableProps<TChildProps = {}> = ApolloReactHoc.DataProps<
-  UsernameAvailableQuery,
-  UsernameAvailableQueryVariables
-> &
-  TChildProps;
-export function withUsernameAvailable<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    UsernameAvailableQuery,
-    UsernameAvailableQueryVariables,
-    UsernameAvailableProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    UsernameAvailableQuery,
-    UsernameAvailableQueryVariables,
-    UsernameAvailableProps<TChildProps>
-  >(UsernameAvailableDocument, {
-    alias: 'usernameAvailable',
-    ...operationOptions
-  });
-}
-export type UsernameAvailableQueryResult = ApolloReactCommon.QueryResult<
-  UsernameAvailableQuery,
-  UsernameAvailableQueryVariables
->;
 export const CreateCollectionMutationDocument = gql`
   mutation createCollectionMutation(
     $communityId: Int!
@@ -2720,62 +2667,6 @@ export const CreateCollectionMutationDocument = gql`
   }
   ${BasicCollectionFragmentDoc}
 `;
-export type CreateCollectionMutationMutationFn = ApolloReactCommon.MutationFunction<
-  CreateCollectionMutationMutation,
-  CreateCollectionMutationMutationVariables
->;
-export type CreateCollectionMutationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    CreateCollectionMutationMutation,
-    CreateCollectionMutationMutationVariables
-  >,
-  'mutation'
->;
-
-export const CreateCollectionMutationComponent = (
-  props: CreateCollectionMutationComponentProps
-) => (
-  <ApolloReactComponents.Mutation<
-    CreateCollectionMutationMutation,
-    CreateCollectionMutationMutationVariables
-  >
-    mutation={CreateCollectionMutationDocument}
-    {...props}
-  />
-);
-
-export type CreateCollectionMutationProps<
-  TChildProps = {}
-> = ApolloReactHoc.MutateProps<
-  CreateCollectionMutationMutation,
-  CreateCollectionMutationMutationVariables
-> &
-  TChildProps;
-export function withCreateCollectionMutation<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    CreateCollectionMutationMutation,
-    CreateCollectionMutationMutationVariables,
-    CreateCollectionMutationProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    CreateCollectionMutationMutation,
-    CreateCollectionMutationMutationVariables,
-    CreateCollectionMutationProps<TChildProps>
-  >(CreateCollectionMutationDocument, {
-    alias: 'createCollectionMutation',
-    ...operationOptions
-  });
-}
-export type CreateCollectionMutationMutationResult = ApolloReactCommon.MutationResult<
-  CreateCollectionMutationMutation
->;
-export type CreateCollectionMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  CreateCollectionMutationMutation,
-  CreateCollectionMutationMutationVariables
->;
 export const CreateCommunityMutationDocument = gql`
   mutation createCommunityMutation($community: CommunityInput!) {
     createCommunity(community: $community) {
@@ -2784,62 +2675,6 @@ export const CreateCommunityMutationDocument = gql`
   }
   ${BasicCommunityFragmentDoc}
 `;
-export type CreateCommunityMutationMutationFn = ApolloReactCommon.MutationFunction<
-  CreateCommunityMutationMutation,
-  CreateCommunityMutationMutationVariables
->;
-export type CreateCommunityMutationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    CreateCommunityMutationMutation,
-    CreateCommunityMutationMutationVariables
-  >,
-  'mutation'
->;
-
-export const CreateCommunityMutationComponent = (
-  props: CreateCommunityMutationComponentProps
-) => (
-  <ApolloReactComponents.Mutation<
-    CreateCommunityMutationMutation,
-    CreateCommunityMutationMutationVariables
-  >
-    mutation={CreateCommunityMutationDocument}
-    {...props}
-  />
-);
-
-export type CreateCommunityMutationProps<
-  TChildProps = {}
-> = ApolloReactHoc.MutateProps<
-  CreateCommunityMutationMutation,
-  CreateCommunityMutationMutationVariables
-> &
-  TChildProps;
-export function withCreateCommunityMutation<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    CreateCommunityMutationMutation,
-    CreateCommunityMutationMutationVariables,
-    CreateCommunityMutationProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    CreateCommunityMutationMutation,
-    CreateCommunityMutationMutationVariables,
-    CreateCommunityMutationProps<TChildProps>
-  >(CreateCommunityMutationDocument, {
-    alias: 'createCommunityMutation',
-    ...operationOptions
-  });
-}
-export type CreateCommunityMutationMutationResult = ApolloReactCommon.MutationResult<
-  CreateCommunityMutationMutation
->;
-export type CreateCommunityMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  CreateCommunityMutationMutation,
-  CreateCommunityMutationMutationVariables
->;
 export const CreateReplyMutationDocument = gql`
   mutation createReplyMutation($id: Int!, $comment: CommentInput!) {
     createReply(inReplyToLocalId: $id, comment: $comment) {
@@ -2864,62 +2699,6 @@ export const CreateReplyMutationDocument = gql`
     }
   }
 `;
-export type CreateReplyMutationMutationFn = ApolloReactCommon.MutationFunction<
-  CreateReplyMutationMutation,
-  CreateReplyMutationMutationVariables
->;
-export type CreateReplyMutationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    CreateReplyMutationMutation,
-    CreateReplyMutationMutationVariables
-  >,
-  'mutation'
->;
-
-export const CreateReplyMutationComponent = (
-  props: CreateReplyMutationComponentProps
-) => (
-  <ApolloReactComponents.Mutation<
-    CreateReplyMutationMutation,
-    CreateReplyMutationMutationVariables
-  >
-    mutation={CreateReplyMutationDocument}
-    {...props}
-  />
-);
-
-export type CreateReplyMutationProps<
-  TChildProps = {}
-> = ApolloReactHoc.MutateProps<
-  CreateReplyMutationMutation,
-  CreateReplyMutationMutationVariables
-> &
-  TChildProps;
-export function withCreateReplyMutation<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    CreateReplyMutationMutation,
-    CreateReplyMutationMutationVariables,
-    CreateReplyMutationProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    CreateReplyMutationMutation,
-    CreateReplyMutationMutationVariables,
-    CreateReplyMutationProps<TChildProps>
-  >(CreateReplyMutationDocument, {
-    alias: 'createReplyMutation',
-    ...operationOptions
-  });
-}
-export type CreateReplyMutationMutationResult = ApolloReactCommon.MutationResult<
-  CreateReplyMutationMutation
->;
-export type CreateReplyMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  CreateReplyMutationMutation,
-  CreateReplyMutationMutationVariables
->;
 export const CreateResourceMutationDocument = gql`
   mutation createResourceMutation(
     $resourceId: Int!
@@ -2931,62 +2710,6 @@ export const CreateResourceMutationDocument = gql`
   }
   ${BasicResourceFragmentDoc}
 `;
-export type CreateResourceMutationMutationFn = ApolloReactCommon.MutationFunction<
-  CreateResourceMutationMutation,
-  CreateResourceMutationMutationVariables
->;
-export type CreateResourceMutationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    CreateResourceMutationMutation,
-    CreateResourceMutationMutationVariables
-  >,
-  'mutation'
->;
-
-export const CreateResourceMutationComponent = (
-  props: CreateResourceMutationComponentProps
-) => (
-  <ApolloReactComponents.Mutation<
-    CreateResourceMutationMutation,
-    CreateResourceMutationMutationVariables
-  >
-    mutation={CreateResourceMutationDocument}
-    {...props}
-  />
-);
-
-export type CreateResourceMutationProps<
-  TChildProps = {}
-> = ApolloReactHoc.MutateProps<
-  CreateResourceMutationMutation,
-  CreateResourceMutationMutationVariables
-> &
-  TChildProps;
-export function withCreateResourceMutation<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    CreateResourceMutationMutation,
-    CreateResourceMutationMutationVariables,
-    CreateResourceMutationProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    CreateResourceMutationMutation,
-    CreateResourceMutationMutationVariables,
-    CreateResourceMutationProps<TChildProps>
-  >(CreateResourceMutationDocument, {
-    alias: 'createResourceMutation',
-    ...operationOptions
-  });
-}
-export type CreateResourceMutationMutationResult = ApolloReactCommon.MutationResult<
-  CreateResourceMutationMutation
->;
-export type CreateResourceMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  CreateResourceMutationMutation,
-  CreateResourceMutationMutationVariables
->;
 export const CreateThreadMutationDocument = gql`
   mutation createThreadMutation($id: Int!, $comment: CommentInput!) {
     createThread(contextLocalId: $id, comment: $comment) {
@@ -3003,62 +2726,6 @@ export const CreateThreadMutationDocument = gql`
     }
   }
 `;
-export type CreateThreadMutationMutationFn = ApolloReactCommon.MutationFunction<
-  CreateThreadMutationMutation,
-  CreateThreadMutationMutationVariables
->;
-export type CreateThreadMutationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    CreateThreadMutationMutation,
-    CreateThreadMutationMutationVariables
-  >,
-  'mutation'
->;
-
-export const CreateThreadMutationComponent = (
-  props: CreateThreadMutationComponentProps
-) => (
-  <ApolloReactComponents.Mutation<
-    CreateThreadMutationMutation,
-    CreateThreadMutationMutationVariables
-  >
-    mutation={CreateThreadMutationDocument}
-    {...props}
-  />
-);
-
-export type CreateThreadMutationProps<
-  TChildProps = {}
-> = ApolloReactHoc.MutateProps<
-  CreateThreadMutationMutation,
-  CreateThreadMutationMutationVariables
-> &
-  TChildProps;
-export function withCreateThreadMutation<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    CreateThreadMutationMutation,
-    CreateThreadMutationMutationVariables,
-    CreateThreadMutationProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    CreateThreadMutationMutation,
-    CreateThreadMutationMutationVariables,
-    CreateThreadMutationProps<TChildProps>
-  >(CreateThreadMutationDocument, {
-    alias: 'createThreadMutation',
-    ...operationOptions
-  });
-}
-export type CreateThreadMutationMutationResult = ApolloReactCommon.MutationResult<
-  CreateThreadMutationMutation
->;
-export type CreateThreadMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  CreateThreadMutationMutation,
-  CreateThreadMutationMutationVariables
->;
 export const CreateUserMutationDocument = gql`
   mutation createUserMutation($user: RegistrationInput!) {
     createUser(user: $user) {
@@ -3076,62 +2743,6 @@ export const CreateUserMutationDocument = gql`
     }
   }
 `;
-export type CreateUserMutationMutationFn = ApolloReactCommon.MutationFunction<
-  CreateUserMutationMutation,
-  CreateUserMutationMutationVariables
->;
-export type CreateUserMutationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    CreateUserMutationMutation,
-    CreateUserMutationMutationVariables
-  >,
-  'mutation'
->;
-
-export const CreateUserMutationComponent = (
-  props: CreateUserMutationComponentProps
-) => (
-  <ApolloReactComponents.Mutation<
-    CreateUserMutationMutation,
-    CreateUserMutationMutationVariables
-  >
-    mutation={CreateUserMutationDocument}
-    {...props}
-  />
-);
-
-export type CreateUserMutationProps<
-  TChildProps = {}
-> = ApolloReactHoc.MutateProps<
-  CreateUserMutationMutation,
-  CreateUserMutationMutationVariables
-> &
-  TChildProps;
-export function withCreateUserMutation<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    CreateUserMutationMutation,
-    CreateUserMutationMutationVariables,
-    CreateUserMutationProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    CreateUserMutationMutation,
-    CreateUserMutationMutationVariables,
-    CreateUserMutationProps<TChildProps>
-  >(CreateUserMutationDocument, {
-    alias: 'createUserMutation',
-    ...operationOptions
-  });
-}
-export type CreateUserMutationMutationResult = ApolloReactCommon.MutationResult<
-  CreateUserMutationMutation
->;
-export type CreateUserMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  CreateUserMutationMutation,
-  CreateUserMutationMutationVariables
->;
 export const FetchResourceDocument = gql`
   mutation fetchResource($url: String!) {
     fetchWebMetadata(url: $url) {
@@ -3146,58 +2757,6 @@ export const FetchResourceDocument = gql`
     }
   }
 `;
-export type FetchResourceMutationFn = ApolloReactCommon.MutationFunction<
-  FetchResourceMutation,
-  FetchResourceMutationVariables
->;
-export type FetchResourceComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    FetchResourceMutation,
-    FetchResourceMutationVariables
-  >,
-  'mutation'
->;
-
-export const FetchResourceComponent = (props: FetchResourceComponentProps) => (
-  <ApolloReactComponents.Mutation<
-    FetchResourceMutation,
-    FetchResourceMutationVariables
-  >
-    mutation={FetchResourceDocument}
-    {...props}
-  />
-);
-
-export type FetchResourceProps<TChildProps = {}> = ApolloReactHoc.MutateProps<
-  FetchResourceMutation,
-  FetchResourceMutationVariables
-> &
-  TChildProps;
-export function withFetchResource<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    FetchResourceMutation,
-    FetchResourceMutationVariables,
-    FetchResourceProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    FetchResourceMutation,
-    FetchResourceMutationVariables,
-    FetchResourceProps<TChildProps>
-  >(FetchResourceDocument, {
-    alias: 'fetchResource',
-    ...operationOptions
-  });
-}
-export type FetchResourceMutationResult = ApolloReactCommon.MutationResult<
-  FetchResourceMutation
->;
-export type FetchResourceMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  FetchResourceMutation,
-  FetchResourceMutationVariables
->;
 export const GetAgentQueryDocument = gql`
   query getAgentQuery(
     $id: Int!
@@ -3313,51 +2872,6 @@ export const GetAgentQueryDocument = gql`
   ${BasicCollectionFragmentDoc}
   ${BasicResourceFragmentDoc}
 `;
-export type GetAgentQueryComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<
-    GetAgentQueryQuery,
-    GetAgentQueryQueryVariables
-  >,
-  'query'
-> &
-  (
-    | { variables: GetAgentQueryQueryVariables; skip?: boolean }
-    | { skip: boolean });
-
-export const GetAgentQueryComponent = (props: GetAgentQueryComponentProps) => (
-  <ApolloReactComponents.Query<GetAgentQueryQuery, GetAgentQueryQueryVariables>
-    query={GetAgentQueryDocument}
-    {...props}
-  />
-);
-
-export type GetAgentQueryProps<TChildProps = {}> = ApolloReactHoc.DataProps<
-  GetAgentQueryQuery,
-  GetAgentQueryQueryVariables
-> &
-  TChildProps;
-export function withGetAgentQuery<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetAgentQueryQuery,
-    GetAgentQueryQueryVariables,
-    GetAgentQueryProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetAgentQueryQuery,
-    GetAgentQueryQueryVariables,
-    GetAgentQueryProps<TChildProps>
-  >(GetAgentQueryDocument, {
-    alias: 'getAgentQuery',
-    ...operationOptions
-  });
-}
-export type GetAgentQueryQueryResult = ApolloReactCommon.QueryResult<
-  GetAgentQueryQuery,
-  GetAgentQueryQueryVariables
->;
 export const GetCollectionDocument = gql`
   query getCollection($id: Int!) {
     collection(localId: $id) {
@@ -3379,51 +2893,6 @@ export const GetCollectionDocument = gql`
   }
   ${BasicCollectionFragmentDoc}
 `;
-export type GetCollectionComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<
-    GetCollectionQuery,
-    GetCollectionQueryVariables
-  >,
-  'query'
-> &
-  (
-    | { variables: GetCollectionQueryVariables; skip?: boolean }
-    | { skip: boolean });
-
-export const GetCollectionComponent = (props: GetCollectionComponentProps) => (
-  <ApolloReactComponents.Query<GetCollectionQuery, GetCollectionQueryVariables>
-    query={GetCollectionDocument}
-    {...props}
-  />
-);
-
-export type GetCollectionProps<TChildProps = {}> = ApolloReactHoc.DataProps<
-  GetCollectionQuery,
-  GetCollectionQueryVariables
-> &
-  TChildProps;
-export function withGetCollection<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetCollectionQuery,
-    GetCollectionQueryVariables,
-    GetCollectionProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetCollectionQuery,
-    GetCollectionQueryVariables,
-    GetCollectionProps<TChildProps>
-  >(GetCollectionDocument, {
-    alias: 'getCollection',
-    ...operationOptions
-  });
-}
-export type GetCollectionQueryResult = ApolloReactCommon.QueryResult<
-  GetCollectionQuery,
-  GetCollectionQueryVariables
->;
 export const GetCollectionsQueryDocument = gql`
   query getCollectionsQuery($limit: Int, $end: Int) {
     collections(limit: $limit, after: $end) {
@@ -3458,55 +2927,6 @@ export const GetCollectionsQueryDocument = gql`
     }
   }
 `;
-export type GetCollectionsQueryComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<
-    GetCollectionsQueryQuery,
-    GetCollectionsQueryQueryVariables
-  >,
-  'query'
->;
-
-export const GetCollectionsQueryComponent = (
-  props: GetCollectionsQueryComponentProps
-) => (
-  <ApolloReactComponents.Query<
-    GetCollectionsQueryQuery,
-    GetCollectionsQueryQueryVariables
-  >
-    query={GetCollectionsQueryDocument}
-    {...props}
-  />
-);
-
-export type GetCollectionsQueryProps<
-  TChildProps = {}
-> = ApolloReactHoc.DataProps<
-  GetCollectionsQueryQuery,
-  GetCollectionsQueryQueryVariables
-> &
-  TChildProps;
-export function withGetCollectionsQuery<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetCollectionsQueryQuery,
-    GetCollectionsQueryQueryVariables,
-    GetCollectionsQueryProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetCollectionsQueryQuery,
-    GetCollectionsQueryQueryVariables,
-    GetCollectionsQueryProps<TChildProps>
-  >(GetCollectionsQueryDocument, {
-    alias: 'getCollectionsQuery',
-    ...operationOptions
-  });
-}
-export type GetCollectionsQueryQueryResult = ApolloReactCommon.QueryResult<
-  GetCollectionsQueryQuery,
-  GetCollectionsQueryQueryVariables
->;
 export const GetCommunitiesQueryDocument = gql`
   query getCommunitiesQuery($limit: Int, $end: Int) {
     communities(limit: $limit, after: $end) {
@@ -3535,55 +2955,6 @@ export const GetCommunitiesQueryDocument = gql`
     }
   }
 `;
-export type GetCommunitiesQueryComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<
-    GetCommunitiesQueryQuery,
-    GetCommunitiesQueryQueryVariables
-  >,
-  'query'
->;
-
-export const GetCommunitiesQueryComponent = (
-  props: GetCommunitiesQueryComponentProps
-) => (
-  <ApolloReactComponents.Query<
-    GetCommunitiesQueryQuery,
-    GetCommunitiesQueryQueryVariables
-  >
-    query={GetCommunitiesQueryDocument}
-    {...props}
-  />
-);
-
-export type GetCommunitiesQueryProps<
-  TChildProps = {}
-> = ApolloReactHoc.DataProps<
-  GetCommunitiesQueryQuery,
-  GetCommunitiesQueryQueryVariables
-> &
-  TChildProps;
-export function withGetCommunitiesQuery<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetCommunitiesQueryQuery,
-    GetCommunitiesQueryQueryVariables,
-    GetCommunitiesQueryProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetCommunitiesQueryQuery,
-    GetCommunitiesQueryQueryVariables,
-    GetCommunitiesQueryProps<TChildProps>
-  >(GetCommunitiesQueryDocument, {
-    alias: 'getCommunitiesQuery',
-    ...operationOptions
-  });
-}
-export type GetCommunitiesQueryQueryResult = ApolloReactCommon.QueryResult<
-  GetCommunitiesQueryQuery,
-  GetCommunitiesQueryQueryVariables
->;
 export const GetCommunityQueryDocument = gql`
   query getCommunityQuery($context: Int!, $limit: Int, $end: Int) {
     community(localId: $context) {
@@ -3676,56 +3047,6 @@ export const GetCommunityQueryDocument = gql`
   ${BasicCollectionFragmentDoc}
   ${BasicResourceFragmentDoc}
 `;
-export type GetCommunityQueryComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<
-    GetCommunityQueryQuery,
-    GetCommunityQueryQueryVariables
-  >,
-  'query'
-> &
-  (
-    | { variables: GetCommunityQueryQueryVariables; skip?: boolean }
-    | { skip: boolean });
-
-export const GetCommunityQueryComponent = (
-  props: GetCommunityQueryComponentProps
-) => (
-  <ApolloReactComponents.Query<
-    GetCommunityQueryQuery,
-    GetCommunityQueryQueryVariables
-  >
-    query={GetCommunityQueryDocument}
-    {...props}
-  />
-);
-
-export type GetCommunityQueryProps<TChildProps = {}> = ApolloReactHoc.DataProps<
-  GetCommunityQueryQuery,
-  GetCommunityQueryQueryVariables
-> &
-  TChildProps;
-export function withGetCommunityQuery<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetCommunityQueryQuery,
-    GetCommunityQueryQueryVariables,
-    GetCommunityQueryProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetCommunityQueryQuery,
-    GetCommunityQueryQueryVariables,
-    GetCommunityQueryProps<TChildProps>
-  >(GetCommunityQueryDocument, {
-    alias: 'getCommunityQuery',
-    ...operationOptions
-  });
-}
-export type GetCommunityQueryQueryResult = ApolloReactCommon.QueryResult<
-  GetCommunityQueryQuery,
-  GetCommunityQueryQueryVariables
->;
 export const GetFeaturedCollectionsDocument = gql`
   query getFeaturedCollections(
     $one: Int!
@@ -3760,58 +3081,6 @@ export const GetFeaturedCollectionsDocument = gql`
   }
   ${BasicCollectionFragmentDoc}
 `;
-export type GetFeaturedCollectionsComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<
-    GetFeaturedCollectionsQuery,
-    GetFeaturedCollectionsQueryVariables
-  >,
-  'query'
-> &
-  (
-    | { variables: GetFeaturedCollectionsQueryVariables; skip?: boolean }
-    | { skip: boolean });
-
-export const GetFeaturedCollectionsComponent = (
-  props: GetFeaturedCollectionsComponentProps
-) => (
-  <ApolloReactComponents.Query<
-    GetFeaturedCollectionsQuery,
-    GetFeaturedCollectionsQueryVariables
-  >
-    query={GetFeaturedCollectionsDocument}
-    {...props}
-  />
-);
-
-export type GetFeaturedCollectionsProps<
-  TChildProps = {}
-> = ApolloReactHoc.DataProps<
-  GetFeaturedCollectionsQuery,
-  GetFeaturedCollectionsQueryVariables
-> &
-  TChildProps;
-export function withGetFeaturedCollections<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetFeaturedCollectionsQuery,
-    GetFeaturedCollectionsQueryVariables,
-    GetFeaturedCollectionsProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetFeaturedCollectionsQuery,
-    GetFeaturedCollectionsQueryVariables,
-    GetFeaturedCollectionsProps<TChildProps>
-  >(GetFeaturedCollectionsDocument, {
-    alias: 'getFeaturedCollections',
-    ...operationOptions
-  });
-}
-export type GetFeaturedCollectionsQueryResult = ApolloReactCommon.QueryResult<
-  GetFeaturedCollectionsQuery,
-  GetFeaturedCollectionsQueryVariables
->;
 export const GetFeaturedCommunitiesDocument = gql`
   query getFeaturedCommunities(
     $one: Int!
@@ -3846,58 +3115,6 @@ export const GetFeaturedCommunitiesDocument = gql`
   }
   ${BasicCommunityFragmentDoc}
 `;
-export type GetFeaturedCommunitiesComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<
-    GetFeaturedCommunitiesQuery,
-    GetFeaturedCommunitiesQueryVariables
-  >,
-  'query'
-> &
-  (
-    | { variables: GetFeaturedCommunitiesQueryVariables; skip?: boolean }
-    | { skip: boolean });
-
-export const GetFeaturedCommunitiesComponent = (
-  props: GetFeaturedCommunitiesComponentProps
-) => (
-  <ApolloReactComponents.Query<
-    GetFeaturedCommunitiesQuery,
-    GetFeaturedCommunitiesQueryVariables
-  >
-    query={GetFeaturedCommunitiesDocument}
-    {...props}
-  />
-);
-
-export type GetFeaturedCommunitiesProps<
-  TChildProps = {}
-> = ApolloReactHoc.DataProps<
-  GetFeaturedCommunitiesQuery,
-  GetFeaturedCommunitiesQueryVariables
-> &
-  TChildProps;
-export function withGetFeaturedCommunities<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetFeaturedCommunitiesQuery,
-    GetFeaturedCommunitiesQueryVariables,
-    GetFeaturedCommunitiesProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetFeaturedCommunitiesQuery,
-    GetFeaturedCommunitiesQueryVariables,
-    GetFeaturedCommunitiesProps<TChildProps>
-  >(GetFeaturedCommunitiesDocument, {
-    alias: 'getFeaturedCommunities',
-    ...operationOptions
-  });
-}
-export type GetFeaturedCommunitiesQueryResult = ApolloReactCommon.QueryResult<
-  GetFeaturedCommunitiesQuery,
-  GetFeaturedCommunitiesQueryVariables
->;
 export const GetFollowedCollectionsDocument = gql`
   query getFollowedCollections($limit: Int, $endColl: Int) {
     me {
@@ -3937,55 +3154,6 @@ export const GetFollowedCollectionsDocument = gql`
     }
   }
 `;
-export type GetFollowedCollectionsComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<
-    GetFollowedCollectionsQuery,
-    GetFollowedCollectionsQueryVariables
-  >,
-  'query'
->;
-
-export const GetFollowedCollectionsComponent = (
-  props: GetFollowedCollectionsComponentProps
-) => (
-  <ApolloReactComponents.Query<
-    GetFollowedCollectionsQuery,
-    GetFollowedCollectionsQueryVariables
-  >
-    query={GetFollowedCollectionsDocument}
-    {...props}
-  />
-);
-
-export type GetFollowedCollectionsProps<
-  TChildProps = {}
-> = ApolloReactHoc.DataProps<
-  GetFollowedCollectionsQuery,
-  GetFollowedCollectionsQueryVariables
-> &
-  TChildProps;
-export function withGetFollowedCollections<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetFollowedCollectionsQuery,
-    GetFollowedCollectionsQueryVariables,
-    GetFollowedCollectionsProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetFollowedCollectionsQuery,
-    GetFollowedCollectionsQueryVariables,
-    GetFollowedCollectionsProps<TChildProps>
-  >(GetFollowedCollectionsDocument, {
-    alias: 'getFollowedCollections',
-    ...operationOptions
-  });
-}
-export type GetFollowedCollectionsQueryResult = ApolloReactCommon.QueryResult<
-  GetFollowedCollectionsQuery,
-  GetFollowedCollectionsQueryVariables
->;
 export const GetJoinedCommunitiesQueryDocument = gql`
   query getJoinedCommunitiesQuery($limit: Int, $endComm: Int) {
     me {
@@ -4021,55 +3189,6 @@ export const GetJoinedCommunitiesQueryDocument = gql`
     }
   }
 `;
-export type GetJoinedCommunitiesQueryComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<
-    GetJoinedCommunitiesQueryQuery,
-    GetJoinedCommunitiesQueryQueryVariables
-  >,
-  'query'
->;
-
-export const GetJoinedCommunitiesQueryComponent = (
-  props: GetJoinedCommunitiesQueryComponentProps
-) => (
-  <ApolloReactComponents.Query<
-    GetJoinedCommunitiesQueryQuery,
-    GetJoinedCommunitiesQueryQueryVariables
-  >
-    query={GetJoinedCommunitiesQueryDocument}
-    {...props}
-  />
-);
-
-export type GetJoinedCommunitiesQueryProps<
-  TChildProps = {}
-> = ApolloReactHoc.DataProps<
-  GetJoinedCommunitiesQueryQuery,
-  GetJoinedCommunitiesQueryQueryVariables
-> &
-  TChildProps;
-export function withGetJoinedCommunitiesQuery<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetJoinedCommunitiesQueryQuery,
-    GetJoinedCommunitiesQueryQueryVariables,
-    GetJoinedCommunitiesQueryProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetJoinedCommunitiesQueryQuery,
-    GetJoinedCommunitiesQueryQueryVariables,
-    GetJoinedCommunitiesQueryProps<TChildProps>
-  >(GetJoinedCommunitiesQueryDocument, {
-    alias: 'getJoinedCommunitiesQuery',
-    ...operationOptions
-  });
-}
-export type GetJoinedCommunitiesQueryQueryResult = ApolloReactCommon.QueryResult<
-  GetJoinedCommunitiesQueryQuery,
-  GetJoinedCommunitiesQueryQueryVariables
->;
 export const GetMeInboxDocument = gql`
   query getMeInbox($limit: Int, $end: Int) {
     me {
@@ -4116,48 +3235,6 @@ export const GetMeInboxDocument = gql`
   ${BasicCollectionFragmentDoc}
   ${BasicResourceFragmentDoc}
 `;
-export type GetMeInboxComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<
-    GetMeInboxQuery,
-    GetMeInboxQueryVariables
-  >,
-  'query'
->;
-
-export const GetMeInboxComponent = (props: GetMeInboxComponentProps) => (
-  <ApolloReactComponents.Query<GetMeInboxQuery, GetMeInboxQueryVariables>
-    query={GetMeInboxDocument}
-    {...props}
-  />
-);
-
-export type GetMeInboxProps<TChildProps = {}> = ApolloReactHoc.DataProps<
-  GetMeInboxQuery,
-  GetMeInboxQueryVariables
-> &
-  TChildProps;
-export function withGetMeInbox<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetMeInboxQuery,
-    GetMeInboxQueryVariables,
-    GetMeInboxProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetMeInboxQuery,
-    GetMeInboxQueryVariables,
-    GetMeInboxProps<TChildProps>
-  >(GetMeInboxDocument, {
-    alias: 'getMeInbox',
-    ...operationOptions
-  });
-}
-export type GetMeInboxQueryResult = ApolloReactCommon.QueryResult<
-  GetMeInboxQuery,
-  GetMeInboxQueryVariables
->;
 export const GetSidebarQueryDocument = gql`
   query getSidebarQuery($limitComm: Int, $endComm: Int) {
     me {
@@ -4196,53 +3273,6 @@ export const GetSidebarQueryDocument = gql`
     }
   }
 `;
-export type GetSidebarQueryComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<
-    GetSidebarQueryQuery,
-    GetSidebarQueryQueryVariables
-  >,
-  'query'
->;
-
-export const GetSidebarQueryComponent = (
-  props: GetSidebarQueryComponentProps
-) => (
-  <ApolloReactComponents.Query<
-    GetSidebarQueryQuery,
-    GetSidebarQueryQueryVariables
-  >
-    query={GetSidebarQueryDocument}
-    {...props}
-  />
-);
-
-export type GetSidebarQueryProps<TChildProps = {}> = ApolloReactHoc.DataProps<
-  GetSidebarQueryQuery,
-  GetSidebarQueryQueryVariables
-> &
-  TChildProps;
-export function withGetSidebarQuery<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetSidebarQueryQuery,
-    GetSidebarQueryQueryVariables,
-    GetSidebarQueryProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetSidebarQueryQuery,
-    GetSidebarQueryQueryVariables,
-    GetSidebarQueryProps<TChildProps>
-  >(GetSidebarQueryDocument, {
-    alias: 'getSidebarQuery',
-    ...operationOptions
-  });
-}
-export type GetSidebarQueryQueryResult = ApolloReactCommon.QueryResult<
-  GetSidebarQueryQuery,
-  GetSidebarQueryQueryVariables
->;
 export const GetThreadDocument = gql`
   query getThread($id: Int!) {
     comment(localId: $id) {
@@ -4286,49 +3316,6 @@ export const GetThreadDocument = gql`
   }
   ${BasicCommentFragmentDoc}
 `;
-export type GetThreadComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<
-    GetThreadQuery,
-    GetThreadQueryVariables
-  >,
-  'query'
-> &
-  ({ variables: GetThreadQueryVariables; skip?: boolean } | { skip: boolean });
-
-export const GetThreadComponent = (props: GetThreadComponentProps) => (
-  <ApolloReactComponents.Query<GetThreadQuery, GetThreadQueryVariables>
-    query={GetThreadDocument}
-    {...props}
-  />
-);
-
-export type GetThreadProps<TChildProps = {}> = ApolloReactHoc.DataProps<
-  GetThreadQuery,
-  GetThreadQueryVariables
-> &
-  TChildProps;
-export function withGetThread<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetThreadQuery,
-    GetThreadQueryVariables,
-    GetThreadProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetThreadQuery,
-    GetThreadQueryVariables,
-    GetThreadProps<TChildProps>
-  >(GetThreadDocument, {
-    alias: 'getThread',
-    ...operationOptions
-  });
-}
-export type GetThreadQueryResult = ApolloReactCommon.QueryResult<
-  GetThreadQuery,
-  GetThreadQueryVariables
->;
 export const GetUserDocument = gql`
   query getUser(
     $limitComm: Int
@@ -4444,48 +3431,6 @@ export const GetUserDocument = gql`
   ${BasicCollectionFragmentDoc}
   ${BasicResourceFragmentDoc}
 `;
-export type GetUserComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<
-    GetUserQuery,
-    GetUserQueryVariables
-  >,
-  'query'
->;
-
-export const GetUserComponent = (props: GetUserComponentProps) => (
-  <ApolloReactComponents.Query<GetUserQuery, GetUserQueryVariables>
-    query={GetUserDocument}
-    {...props}
-  />
-);
-
-export type GetUserProps<TChildProps = {}> = ApolloReactHoc.DataProps<
-  GetUserQuery,
-  GetUserQueryVariables
-> &
-  TChildProps;
-export function withGetUser<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetUserQuery,
-    GetUserQueryVariables,
-    GetUserProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetUserQuery,
-    GetUserQueryVariables,
-    GetUserProps<TChildProps>
-  >(GetUserDocument, {
-    alias: 'getUser',
-    ...operationOptions
-  });
-}
-export type GetUserQueryResult = ApolloReactCommon.QueryResult<
-  GetUserQuery,
-  GetUserQueryVariables
->;
 export const GetUserBasicDocument = gql`
   query getUserBasic {
     me {
@@ -4497,170 +3442,16 @@ export const GetUserBasicDocument = gql`
   }
   ${BasicUserFragmentDoc}
 `;
-export type GetUserBasicComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<
-    GetUserBasicQuery,
-    GetUserBasicQueryVariables
-  >,
-  'query'
->;
-
-export const GetUserBasicComponent = (props: GetUserBasicComponentProps) => (
-  <ApolloReactComponents.Query<GetUserBasicQuery, GetUserBasicQueryVariables>
-    query={GetUserBasicDocument}
-    {...props}
-  />
-);
-
-export type GetUserBasicProps<TChildProps = {}> = ApolloReactHoc.DataProps<
-  GetUserBasicQuery,
-  GetUserBasicQueryVariables
-> &
-  TChildProps;
-export function withGetUserBasic<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetUserBasicQuery,
-    GetUserBasicQueryVariables,
-    GetUserBasicProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetUserBasicQuery,
-    GetUserBasicQueryVariables,
-    GetUserBasicProps<TChildProps>
-  >(GetUserBasicDocument, {
-    alias: 'getUserBasic',
-    ...operationOptions
-  });
-}
-export type GetUserBasicQueryResult = ApolloReactCommon.QueryResult<
-  GetUserBasicQuery,
-  GetUserBasicQueryVariables
->;
 export const JoinCollectionMutationDocument = gql`
   mutation joinCollectionMutation($collectionId: Int!) {
     followCollection(collectionLocalId: $collectionId)
   }
 `;
-export type JoinCollectionMutationMutationFn = ApolloReactCommon.MutationFunction<
-  JoinCollectionMutationMutation,
-  JoinCollectionMutationMutationVariables
->;
-export type JoinCollectionMutationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    JoinCollectionMutationMutation,
-    JoinCollectionMutationMutationVariables
-  >,
-  'mutation'
->;
-
-export const JoinCollectionMutationComponent = (
-  props: JoinCollectionMutationComponentProps
-) => (
-  <ApolloReactComponents.Mutation<
-    JoinCollectionMutationMutation,
-    JoinCollectionMutationMutationVariables
-  >
-    mutation={JoinCollectionMutationDocument}
-    {...props}
-  />
-);
-
-export type JoinCollectionMutationProps<
-  TChildProps = {}
-> = ApolloReactHoc.MutateProps<
-  JoinCollectionMutationMutation,
-  JoinCollectionMutationMutationVariables
-> &
-  TChildProps;
-export function withJoinCollectionMutation<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    JoinCollectionMutationMutation,
-    JoinCollectionMutationMutationVariables,
-    JoinCollectionMutationProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    JoinCollectionMutationMutation,
-    JoinCollectionMutationMutationVariables,
-    JoinCollectionMutationProps<TChildProps>
-  >(JoinCollectionMutationDocument, {
-    alias: 'joinCollectionMutation',
-    ...operationOptions
-  });
-}
-export type JoinCollectionMutationMutationResult = ApolloReactCommon.MutationResult<
-  JoinCollectionMutationMutation
->;
-export type JoinCollectionMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  JoinCollectionMutationMutation,
-  JoinCollectionMutationMutationVariables
->;
 export const JoinCommunityMutationDocument = gql`
   mutation joinCommunityMutation($communityId: Int!) {
     joinCommunity(communityLocalId: $communityId)
   }
 `;
-export type JoinCommunityMutationMutationFn = ApolloReactCommon.MutationFunction<
-  JoinCommunityMutationMutation,
-  JoinCommunityMutationMutationVariables
->;
-export type JoinCommunityMutationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    JoinCommunityMutationMutation,
-    JoinCommunityMutationMutationVariables
-  >,
-  'mutation'
->;
-
-export const JoinCommunityMutationComponent = (
-  props: JoinCommunityMutationComponentProps
-) => (
-  <ApolloReactComponents.Mutation<
-    JoinCommunityMutationMutation,
-    JoinCommunityMutationMutationVariables
-  >
-    mutation={JoinCommunityMutationDocument}
-    {...props}
-  />
-);
-
-export type JoinCommunityMutationProps<
-  TChildProps = {}
-> = ApolloReactHoc.MutateProps<
-  JoinCommunityMutationMutation,
-  JoinCommunityMutationMutationVariables
-> &
-  TChildProps;
-export function withJoinCommunityMutation<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    JoinCommunityMutationMutation,
-    JoinCommunityMutationMutationVariables,
-    JoinCommunityMutationProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    JoinCommunityMutationMutation,
-    JoinCommunityMutationMutationVariables,
-    JoinCommunityMutationProps<TChildProps>
-  >(JoinCommunityMutationDocument, {
-    alias: 'joinCommunityMutation',
-    ...operationOptions
-  });
-}
-export type JoinCommunityMutationMutationResult = ApolloReactCommon.MutationResult<
-  JoinCommunityMutationMutation
->;
-export type JoinCommunityMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  JoinCommunityMutationMutation,
-  JoinCommunityMutationMutationVariables
->;
 export const LocalActivitiesDocument = gql`
   query localActivities($limit: Int, $end: Int) {
     localActivities(limit: $limit, after: $end) {
@@ -4700,53 +3491,6 @@ export const LocalActivitiesDocument = gql`
   ${BasicCollectionFragmentDoc}
   ${BasicResourceFragmentDoc}
 `;
-export type LocalActivitiesComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<
-    LocalActivitiesQuery,
-    LocalActivitiesQueryVariables
-  >,
-  'query'
->;
-
-export const LocalActivitiesComponent = (
-  props: LocalActivitiesComponentProps
-) => (
-  <ApolloReactComponents.Query<
-    LocalActivitiesQuery,
-    LocalActivitiesQueryVariables
-  >
-    query={LocalActivitiesDocument}
-    {...props}
-  />
-);
-
-export type LocalActivitiesProps<TChildProps = {}> = ApolloReactHoc.DataProps<
-  LocalActivitiesQuery,
-  LocalActivitiesQueryVariables
-> &
-  TChildProps;
-export function withLocalActivities<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    LocalActivitiesQuery,
-    LocalActivitiesQueryVariables,
-    LocalActivitiesProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    LocalActivitiesQuery,
-    LocalActivitiesQueryVariables,
-    LocalActivitiesProps<TChildProps>
-  >(LocalActivitiesDocument, {
-    alias: 'localActivities',
-    ...operationOptions
-  });
-}
-export type LocalActivitiesQueryResult = ApolloReactCommon.QueryResult<
-  LocalActivitiesQuery,
-  LocalActivitiesQueryVariables
->;
 export const LoginMutationDocument = gql`
   mutation loginMutation($email: String!, $password: String!) {
     createSession(email: $email, password: $password) {
@@ -4765,58 +3509,6 @@ export const LoginMutationDocument = gql`
     }
   }
 `;
-export type LoginMutationMutationFn = ApolloReactCommon.MutationFunction<
-  LoginMutationMutation,
-  LoginMutationMutationVariables
->;
-export type LoginMutationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    LoginMutationMutation,
-    LoginMutationMutationVariables
-  >,
-  'mutation'
->;
-
-export const LoginMutationComponent = (props: LoginMutationComponentProps) => (
-  <ApolloReactComponents.Mutation<
-    LoginMutationMutation,
-    LoginMutationMutationVariables
-  >
-    mutation={LoginMutationDocument}
-    {...props}
-  />
-);
-
-export type LoginMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<
-  LoginMutationMutation,
-  LoginMutationMutationVariables
-> &
-  TChildProps;
-export function withLoginMutation<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    LoginMutationMutation,
-    LoginMutationMutationVariables,
-    LoginMutationProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    LoginMutationMutation,
-    LoginMutationMutationVariables,
-    LoginMutationProps<TChildProps>
-  >(LoginMutationDocument, {
-    alias: 'loginMutation',
-    ...operationOptions
-  });
-}
-export type LoginMutationMutationResult = ApolloReactCommon.MutationResult<
-  LoginMutationMutation
->;
-export type LoginMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  LoginMutationMutation,
-  LoginMutationMutationVariables
->;
 export const MeQueryDocument = gql`
   query meQuery {
     me {
@@ -4833,288 +3525,26 @@ export const MeQueryDocument = gql`
     }
   }
 `;
-export type MeQueryComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<
-    MeQueryQuery,
-    MeQueryQueryVariables
-  >,
-  'query'
->;
-
-export const MeQueryComponent = (props: MeQueryComponentProps) => (
-  <ApolloReactComponents.Query<MeQueryQuery, MeQueryQueryVariables>
-    query={MeQueryDocument}
-    {...props}
-  />
-);
-
-export type MeQueryProps<TChildProps = {}> = ApolloReactHoc.DataProps<
-  MeQueryQuery,
-  MeQueryQueryVariables
-> &
-  TChildProps;
-export function withMeQuery<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    MeQueryQuery,
-    MeQueryQueryVariables,
-    MeQueryProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    MeQueryQuery,
-    MeQueryQueryVariables,
-    MeQueryProps<TChildProps>
-  >(MeQueryDocument, {
-    alias: 'meQuery',
-    ...operationOptions
-  });
-}
-export type MeQueryQueryResult = ApolloReactCommon.QueryResult<
-  MeQueryQuery,
-  MeQueryQueryVariables
->;
 export const ResetPasswordDocument = gql`
   mutation resetPassword($password: String!, $token: String!) {
     resetPassword(password: $password, token: $token)
   }
 `;
-export type ResetPasswordMutationFn = ApolloReactCommon.MutationFunction<
-  ResetPasswordMutation,
-  ResetPasswordMutationVariables
->;
-export type ResetPasswordComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    ResetPasswordMutation,
-    ResetPasswordMutationVariables
-  >,
-  'mutation'
->;
-
-export const ResetPasswordComponent = (props: ResetPasswordComponentProps) => (
-  <ApolloReactComponents.Mutation<
-    ResetPasswordMutation,
-    ResetPasswordMutationVariables
-  >
-    mutation={ResetPasswordDocument}
-    {...props}
-  />
-);
-
-export type ResetPasswordProps<TChildProps = {}> = ApolloReactHoc.MutateProps<
-  ResetPasswordMutation,
-  ResetPasswordMutationVariables
-> &
-  TChildProps;
-export function withResetPassword<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    ResetPasswordMutation,
-    ResetPasswordMutationVariables,
-    ResetPasswordProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    ResetPasswordMutation,
-    ResetPasswordMutationVariables,
-    ResetPasswordProps<TChildProps>
-  >(ResetPasswordDocument, {
-    alias: 'resetPassword',
-    ...operationOptions
-  });
-}
-export type ResetPasswordMutationResult = ApolloReactCommon.MutationResult<
-  ResetPasswordMutation
->;
-export type ResetPasswordMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  ResetPasswordMutation,
-  ResetPasswordMutationVariables
->;
 export const ResetPasswordRequestDocument = gql`
   mutation resetPasswordRequest($email: String!) {
     resetPasswordRequest(email: $email)
   }
 `;
-export type ResetPasswordRequestMutationFn = ApolloReactCommon.MutationFunction<
-  ResetPasswordRequestMutation,
-  ResetPasswordRequestMutationVariables
->;
-export type ResetPasswordRequestComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    ResetPasswordRequestMutation,
-    ResetPasswordRequestMutationVariables
-  >,
-  'mutation'
->;
-
-export const ResetPasswordRequestComponent = (
-  props: ResetPasswordRequestComponentProps
-) => (
-  <ApolloReactComponents.Mutation<
-    ResetPasswordRequestMutation,
-    ResetPasswordRequestMutationVariables
-  >
-    mutation={ResetPasswordRequestDocument}
-    {...props}
-  />
-);
-
-export type ResetPasswordRequestProps<
-  TChildProps = {}
-> = ApolloReactHoc.MutateProps<
-  ResetPasswordRequestMutation,
-  ResetPasswordRequestMutationVariables
-> &
-  TChildProps;
-export function withResetPasswordRequest<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    ResetPasswordRequestMutation,
-    ResetPasswordRequestMutationVariables,
-    ResetPasswordRequestProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    ResetPasswordRequestMutation,
-    ResetPasswordRequestMutationVariables,
-    ResetPasswordRequestProps<TChildProps>
-  >(ResetPasswordRequestDocument, {
-    alias: 'resetPasswordRequest',
-    ...operationOptions
-  });
-}
-export type ResetPasswordRequestMutationResult = ApolloReactCommon.MutationResult<
-  ResetPasswordRequestMutation
->;
-export type ResetPasswordRequestMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  ResetPasswordRequestMutation,
-  ResetPasswordRequestMutationVariables
->;
 export const UndoJoinCollectionMutationDocument = gql`
   mutation undoJoinCollectionMutation($collectionId: Int!) {
     undoFollowCollection(collectionLocalId: $collectionId)
   }
 `;
-export type UndoJoinCollectionMutationMutationFn = ApolloReactCommon.MutationFunction<
-  UndoJoinCollectionMutationMutation,
-  UndoJoinCollectionMutationMutationVariables
->;
-export type UndoJoinCollectionMutationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    UndoJoinCollectionMutationMutation,
-    UndoJoinCollectionMutationMutationVariables
-  >,
-  'mutation'
->;
-
-export const UndoJoinCollectionMutationComponent = (
-  props: UndoJoinCollectionMutationComponentProps
-) => (
-  <ApolloReactComponents.Mutation<
-    UndoJoinCollectionMutationMutation,
-    UndoJoinCollectionMutationMutationVariables
-  >
-    mutation={UndoJoinCollectionMutationDocument}
-    {...props}
-  />
-);
-
-export type UndoJoinCollectionMutationProps<
-  TChildProps = {}
-> = ApolloReactHoc.MutateProps<
-  UndoJoinCollectionMutationMutation,
-  UndoJoinCollectionMutationMutationVariables
-> &
-  TChildProps;
-export function withUndoJoinCollectionMutation<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    UndoJoinCollectionMutationMutation,
-    UndoJoinCollectionMutationMutationVariables,
-    UndoJoinCollectionMutationProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    UndoJoinCollectionMutationMutation,
-    UndoJoinCollectionMutationMutationVariables,
-    UndoJoinCollectionMutationProps<TChildProps>
-  >(UndoJoinCollectionMutationDocument, {
-    alias: 'undoJoinCollectionMutation',
-    ...operationOptions
-  });
-}
-export type UndoJoinCollectionMutationMutationResult = ApolloReactCommon.MutationResult<
-  UndoJoinCollectionMutationMutation
->;
-export type UndoJoinCollectionMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  UndoJoinCollectionMutationMutation,
-  UndoJoinCollectionMutationMutationVariables
->;
 export const UndoJoinCommunityMutationDocument = gql`
   mutation undoJoinCommunityMutation($communityId: Int!) {
     undoJoinCommunity(communityLocalId: $communityId)
   }
 `;
-export type UndoJoinCommunityMutationMutationFn = ApolloReactCommon.MutationFunction<
-  UndoJoinCommunityMutationMutation,
-  UndoJoinCommunityMutationMutationVariables
->;
-export type UndoJoinCommunityMutationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    UndoJoinCommunityMutationMutation,
-    UndoJoinCommunityMutationMutationVariables
-  >,
-  'mutation'
->;
-
-export const UndoJoinCommunityMutationComponent = (
-  props: UndoJoinCommunityMutationComponentProps
-) => (
-  <ApolloReactComponents.Mutation<
-    UndoJoinCommunityMutationMutation,
-    UndoJoinCommunityMutationMutationVariables
-  >
-    mutation={UndoJoinCommunityMutationDocument}
-    {...props}
-  />
-);
-
-export type UndoJoinCommunityMutationProps<
-  TChildProps = {}
-> = ApolloReactHoc.MutateProps<
-  UndoJoinCommunityMutationMutation,
-  UndoJoinCommunityMutationMutationVariables
-> &
-  TChildProps;
-export function withUndoJoinCommunityMutation<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    UndoJoinCommunityMutationMutation,
-    UndoJoinCommunityMutationMutationVariables,
-    UndoJoinCommunityMutationProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    UndoJoinCommunityMutationMutation,
-    UndoJoinCommunityMutationMutationVariables,
-    UndoJoinCommunityMutationProps<TChildProps>
-  >(UndoJoinCommunityMutationDocument, {
-    alias: 'undoJoinCommunityMutation',
-    ...operationOptions
-  });
-}
-export type UndoJoinCommunityMutationMutationResult = ApolloReactCommon.MutationResult<
-  UndoJoinCommunityMutationMutation
->;
-export type UndoJoinCommunityMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  UndoJoinCommunityMutationMutation,
-  UndoJoinCommunityMutationMutationVariables
->;
 export const UpdateCollectionMutationDocument = gql`
   mutation updateCollectionMutation(
     $collectionId: Int!
@@ -5140,62 +3570,6 @@ export const UpdateCollectionMutationDocument = gql`
     }
   }
 `;
-export type UpdateCollectionMutationMutationFn = ApolloReactCommon.MutationFunction<
-  UpdateCollectionMutationMutation,
-  UpdateCollectionMutationMutationVariables
->;
-export type UpdateCollectionMutationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    UpdateCollectionMutationMutation,
-    UpdateCollectionMutationMutationVariables
-  >,
-  'mutation'
->;
-
-export const UpdateCollectionMutationComponent = (
-  props: UpdateCollectionMutationComponentProps
-) => (
-  <ApolloReactComponents.Mutation<
-    UpdateCollectionMutationMutation,
-    UpdateCollectionMutationMutationVariables
-  >
-    mutation={UpdateCollectionMutationDocument}
-    {...props}
-  />
-);
-
-export type UpdateCollectionMutationProps<
-  TChildProps = {}
-> = ApolloReactHoc.MutateProps<
-  UpdateCollectionMutationMutation,
-  UpdateCollectionMutationMutationVariables
-> &
-  TChildProps;
-export function withUpdateCollectionMutation<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    UpdateCollectionMutationMutation,
-    UpdateCollectionMutationMutationVariables,
-    UpdateCollectionMutationProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    UpdateCollectionMutationMutation,
-    UpdateCollectionMutationMutationVariables,
-    UpdateCollectionMutationProps<TChildProps>
-  >(UpdateCollectionMutationDocument, {
-    alias: 'updateCollectionMutation',
-    ...operationOptions
-  });
-}
-export type UpdateCollectionMutationMutationResult = ApolloReactCommon.MutationResult<
-  UpdateCollectionMutationMutation
->;
-export type UpdateCollectionMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  UpdateCollectionMutationMutation,
-  UpdateCollectionMutationMutationVariables
->;
 export const UpdateCommunityMutationDocument = gql`
   mutation updateCommunityMutation(
     $community: CommunityInput!
@@ -5215,62 +3589,6 @@ export const UpdateCommunityMutationDocument = gql`
     }
   }
 `;
-export type UpdateCommunityMutationMutationFn = ApolloReactCommon.MutationFunction<
-  UpdateCommunityMutationMutation,
-  UpdateCommunityMutationMutationVariables
->;
-export type UpdateCommunityMutationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    UpdateCommunityMutationMutation,
-    UpdateCommunityMutationMutationVariables
-  >,
-  'mutation'
->;
-
-export const UpdateCommunityMutationComponent = (
-  props: UpdateCommunityMutationComponentProps
-) => (
-  <ApolloReactComponents.Mutation<
-    UpdateCommunityMutationMutation,
-    UpdateCommunityMutationMutationVariables
-  >
-    mutation={UpdateCommunityMutationDocument}
-    {...props}
-  />
-);
-
-export type UpdateCommunityMutationProps<
-  TChildProps = {}
-> = ApolloReactHoc.MutateProps<
-  UpdateCommunityMutationMutation,
-  UpdateCommunityMutationMutationVariables
-> &
-  TChildProps;
-export function withUpdateCommunityMutation<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    UpdateCommunityMutationMutation,
-    UpdateCommunityMutationMutationVariables,
-    UpdateCommunityMutationProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    UpdateCommunityMutationMutation,
-    UpdateCommunityMutationMutationVariables,
-    UpdateCommunityMutationProps<TChildProps>
-  >(UpdateCommunityMutationDocument, {
-    alias: 'updateCommunityMutation',
-    ...operationOptions
-  });
-}
-export type UpdateCommunityMutationMutationResult = ApolloReactCommon.MutationResult<
-  UpdateCommunityMutationMutation
->;
-export type UpdateCommunityMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  UpdateCommunityMutationMutation,
-  UpdateCommunityMutationMutationVariables
->;
 export const UpdateProfileMutationDocument = gql`
   mutation updateProfileMutation($profile: UpdateProfileInput!) {
     updateProfile(profile: $profile) {
@@ -5286,62 +3604,6 @@ export const UpdateProfileMutationDocument = gql`
     }
   }
 `;
-export type UpdateProfileMutationMutationFn = ApolloReactCommon.MutationFunction<
-  UpdateProfileMutationMutation,
-  UpdateProfileMutationMutationVariables
->;
-export type UpdateProfileMutationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    UpdateProfileMutationMutation,
-    UpdateProfileMutationMutationVariables
-  >,
-  'mutation'
->;
-
-export const UpdateProfileMutationComponent = (
-  props: UpdateProfileMutationComponentProps
-) => (
-  <ApolloReactComponents.Mutation<
-    UpdateProfileMutationMutation,
-    UpdateProfileMutationMutationVariables
-  >
-    mutation={UpdateProfileMutationDocument}
-    {...props}
-  />
-);
-
-export type UpdateProfileMutationProps<
-  TChildProps = {}
-> = ApolloReactHoc.MutateProps<
-  UpdateProfileMutationMutation,
-  UpdateProfileMutationMutationVariables
-> &
-  TChildProps;
-export function withUpdateProfileMutation<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    UpdateProfileMutationMutation,
-    UpdateProfileMutationMutationVariables,
-    UpdateProfileMutationProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    UpdateProfileMutationMutation,
-    UpdateProfileMutationMutationVariables,
-    UpdateProfileMutationProps<TChildProps>
-  >(UpdateProfileMutationDocument, {
-    alias: 'updateProfileMutation',
-    ...operationOptions
-  });
-}
-export type UpdateProfileMutationMutationResult = ApolloReactCommon.MutationResult<
-  UpdateProfileMutationMutation
->;
-export type UpdateProfileMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  UpdateProfileMutationMutation,
-  UpdateProfileMutationMutationVariables
->;
 export const UpdateResourceMutationDocument = gql`
   mutation updateResourceMutation(
     $resourceId: Int!
@@ -5361,59 +3623,273 @@ export const UpdateResourceMutationDocument = gql`
     }
   }
 `;
-export type UpdateResourceMutationMutationFn = ApolloReactCommon.MutationFunction<
-  UpdateResourceMutationMutation,
-  UpdateResourceMutationMutationVariables
->;
-export type UpdateResourceMutationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    UpdateResourceMutationMutation,
-    UpdateResourceMutationMutationVariables
-  >,
-  'mutation'
->;
-
-export const UpdateResourceMutationComponent = (
-  props: UpdateResourceMutationComponentProps
-) => (
-  <ApolloReactComponents.Mutation<
-    UpdateResourceMutationMutation,
-    UpdateResourceMutationMutationVariables
-  >
-    mutation={UpdateResourceMutationDocument}
-    {...props}
-  />
-);
-
-export type UpdateResourceMutationProps<
-  TChildProps = {}
-> = ApolloReactHoc.MutateProps<
-  UpdateResourceMutationMutation,
-  UpdateResourceMutationMutationVariables
-> &
-  TChildProps;
-export function withUpdateResourceMutation<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    UpdateResourceMutationMutation,
-    UpdateResourceMutationMutationVariables,
-    UpdateResourceMutationProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    UpdateResourceMutationMutation,
-    UpdateResourceMutationMutationVariables,
-    UpdateResourceMutationProps<TChildProps>
-  >(UpdateResourceMutationDocument, {
-    alias: 'updateResourceMutation',
-    ...operationOptions
-  });
+export function getSdk(client: GraphQLClient) {
+  return {
+    usernameAvailable(
+      variables: UsernameAvailableQueryVariables
+    ): Promise<UsernameAvailableQuery> {
+      return client.request<UsernameAvailableQuery>(
+        print(UsernameAvailableDocument),
+        variables
+      );
+    },
+    createCollectionMutation(
+      variables: CreateCollectionMutationMutationVariables
+    ): Promise<CreateCollectionMutationMutation> {
+      return client.request<CreateCollectionMutationMutation>(
+        print(CreateCollectionMutationDocument),
+        variables
+      );
+    },
+    createCommunityMutation(
+      variables: CreateCommunityMutationMutationVariables
+    ): Promise<CreateCommunityMutationMutation> {
+      return client.request<CreateCommunityMutationMutation>(
+        print(CreateCommunityMutationDocument),
+        variables
+      );
+    },
+    createReplyMutation(
+      variables: CreateReplyMutationMutationVariables
+    ): Promise<CreateReplyMutationMutation> {
+      return client.request<CreateReplyMutationMutation>(
+        print(CreateReplyMutationDocument),
+        variables
+      );
+    },
+    createResourceMutation(
+      variables: CreateResourceMutationMutationVariables
+    ): Promise<CreateResourceMutationMutation> {
+      return client.request<CreateResourceMutationMutation>(
+        print(CreateResourceMutationDocument),
+        variables
+      );
+    },
+    createThreadMutation(
+      variables: CreateThreadMutationMutationVariables
+    ): Promise<CreateThreadMutationMutation> {
+      return client.request<CreateThreadMutationMutation>(
+        print(CreateThreadMutationDocument),
+        variables
+      );
+    },
+    createUserMutation(
+      variables: CreateUserMutationMutationVariables
+    ): Promise<CreateUserMutationMutation> {
+      return client.request<CreateUserMutationMutation>(
+        print(CreateUserMutationDocument),
+        variables
+      );
+    },
+    fetchResource(
+      variables: FetchResourceMutationVariables
+    ): Promise<FetchResourceMutation> {
+      return client.request<FetchResourceMutation>(
+        print(FetchResourceDocument),
+        variables
+      );
+    },
+    getAgentQuery(
+      variables: GetAgentQueryQueryVariables
+    ): Promise<GetAgentQueryQuery> {
+      return client.request<GetAgentQueryQuery>(
+        print(GetAgentQueryDocument),
+        variables
+      );
+    },
+    getCollection(
+      variables: GetCollectionQueryVariables
+    ): Promise<GetCollectionQuery> {
+      return client.request<GetCollectionQuery>(
+        print(GetCollectionDocument),
+        variables
+      );
+    },
+    getCollectionsQuery(
+      variables?: GetCollectionsQueryQueryVariables
+    ): Promise<GetCollectionsQueryQuery> {
+      return client.request<GetCollectionsQueryQuery>(
+        print(GetCollectionsQueryDocument),
+        variables
+      );
+    },
+    getCommunitiesQuery(
+      variables?: GetCommunitiesQueryQueryVariables
+    ): Promise<GetCommunitiesQueryQuery> {
+      return client.request<GetCommunitiesQueryQuery>(
+        print(GetCommunitiesQueryDocument),
+        variables
+      );
+    },
+    getCommunityQuery(
+      variables: GetCommunityQueryQueryVariables
+    ): Promise<GetCommunityQueryQuery> {
+      return client.request<GetCommunityQueryQuery>(
+        print(GetCommunityQueryDocument),
+        variables
+      );
+    },
+    getFeaturedCollections(
+      variables: GetFeaturedCollectionsQueryVariables
+    ): Promise<GetFeaturedCollectionsQuery> {
+      return client.request<GetFeaturedCollectionsQuery>(
+        print(GetFeaturedCollectionsDocument),
+        variables
+      );
+    },
+    getFeaturedCommunities(
+      variables: GetFeaturedCommunitiesQueryVariables
+    ): Promise<GetFeaturedCommunitiesQuery> {
+      return client.request<GetFeaturedCommunitiesQuery>(
+        print(GetFeaturedCommunitiesDocument),
+        variables
+      );
+    },
+    getFollowedCollections(
+      variables?: GetFollowedCollectionsQueryVariables
+    ): Promise<GetFollowedCollectionsQuery> {
+      return client.request<GetFollowedCollectionsQuery>(
+        print(GetFollowedCollectionsDocument),
+        variables
+      );
+    },
+    getJoinedCommunitiesQuery(
+      variables?: GetJoinedCommunitiesQueryQueryVariables
+    ): Promise<GetJoinedCommunitiesQueryQuery> {
+      return client.request<GetJoinedCommunitiesQueryQuery>(
+        print(GetJoinedCommunitiesQueryDocument),
+        variables
+      );
+    },
+    getMeInbox(variables?: GetMeInboxQueryVariables): Promise<GetMeInboxQuery> {
+      return client.request<GetMeInboxQuery>(
+        print(GetMeInboxDocument),
+        variables
+      );
+    },
+    getSidebarQuery(
+      variables?: GetSidebarQueryQueryVariables
+    ): Promise<GetSidebarQueryQuery> {
+      return client.request<GetSidebarQueryQuery>(
+        print(GetSidebarQueryDocument),
+        variables
+      );
+    },
+    getThread(variables: GetThreadQueryVariables): Promise<GetThreadQuery> {
+      return client.request<GetThreadQuery>(
+        print(GetThreadDocument),
+        variables
+      );
+    },
+    getUser(variables?: GetUserQueryVariables): Promise<GetUserQuery> {
+      return client.request<GetUserQuery>(print(GetUserDocument), variables);
+    },
+    getUserBasic(
+      variables?: GetUserBasicQueryVariables
+    ): Promise<GetUserBasicQuery> {
+      return client.request<GetUserBasicQuery>(
+        print(GetUserBasicDocument),
+        variables
+      );
+    },
+    joinCollectionMutation(
+      variables: JoinCollectionMutationMutationVariables
+    ): Promise<JoinCollectionMutationMutation> {
+      return client.request<JoinCollectionMutationMutation>(
+        print(JoinCollectionMutationDocument),
+        variables
+      );
+    },
+    joinCommunityMutation(
+      variables: JoinCommunityMutationMutationVariables
+    ): Promise<JoinCommunityMutationMutation> {
+      return client.request<JoinCommunityMutationMutation>(
+        print(JoinCommunityMutationDocument),
+        variables
+      );
+    },
+    localActivities(
+      variables?: LocalActivitiesQueryVariables
+    ): Promise<LocalActivitiesQuery> {
+      return client.request<LocalActivitiesQuery>(
+        print(LocalActivitiesDocument),
+        variables
+      );
+    },
+    loginMutation(
+      variables: LoginMutationMutationVariables
+    ): Promise<LoginMutationMutation> {
+      return client.request<LoginMutationMutation>(
+        print(LoginMutationDocument),
+        variables
+      );
+    },
+    meQuery(variables?: MeQueryQueryVariables): Promise<MeQueryQuery> {
+      return client.request<MeQueryQuery>(print(MeQueryDocument), variables);
+    },
+    resetPassword(
+      variables: ResetPasswordMutationVariables
+    ): Promise<ResetPasswordMutation> {
+      return client.request<ResetPasswordMutation>(
+        print(ResetPasswordDocument),
+        variables
+      );
+    },
+    resetPasswordRequest(
+      variables: ResetPasswordRequestMutationVariables
+    ): Promise<ResetPasswordRequestMutation> {
+      return client.request<ResetPasswordRequestMutation>(
+        print(ResetPasswordRequestDocument),
+        variables
+      );
+    },
+    undoJoinCollectionMutation(
+      variables: UndoJoinCollectionMutationMutationVariables
+    ): Promise<UndoJoinCollectionMutationMutation> {
+      return client.request<UndoJoinCollectionMutationMutation>(
+        print(UndoJoinCollectionMutationDocument),
+        variables
+      );
+    },
+    undoJoinCommunityMutation(
+      variables: UndoJoinCommunityMutationMutationVariables
+    ): Promise<UndoJoinCommunityMutationMutation> {
+      return client.request<UndoJoinCommunityMutationMutation>(
+        print(UndoJoinCommunityMutationDocument),
+        variables
+      );
+    },
+    updateCollectionMutation(
+      variables: UpdateCollectionMutationMutationVariables
+    ): Promise<UpdateCollectionMutationMutation> {
+      return client.request<UpdateCollectionMutationMutation>(
+        print(UpdateCollectionMutationDocument),
+        variables
+      );
+    },
+    updateCommunityMutation(
+      variables: UpdateCommunityMutationMutationVariables
+    ): Promise<UpdateCommunityMutationMutation> {
+      return client.request<UpdateCommunityMutationMutation>(
+        print(UpdateCommunityMutationDocument),
+        variables
+      );
+    },
+    updateProfileMutation(
+      variables: UpdateProfileMutationMutationVariables
+    ): Promise<UpdateProfileMutationMutation> {
+      return client.request<UpdateProfileMutationMutation>(
+        print(UpdateProfileMutationDocument),
+        variables
+      );
+    },
+    updateResourceMutation(
+      variables: UpdateResourceMutationMutationVariables
+    ): Promise<UpdateResourceMutationMutation> {
+      return client.request<UpdateResourceMutationMutation>(
+        print(UpdateResourceMutationDocument),
+        variables
+      );
+    }
+  };
 }
-export type UpdateResourceMutationMutationResult = ApolloReactCommon.MutationResult<
-  UpdateResourceMutationMutation
->;
-export type UpdateResourceMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  UpdateResourceMutationMutation,
-  UpdateResourceMutationMutationVariables
->;

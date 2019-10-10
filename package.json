@@ -181,6 +181,7 @@
     "@graphql-codegen/cli": "1.8.1",
     "@graphql-codegen/introspection": "1.8.1",
     "@graphql-codegen/typescript": "1.8.1",
+    "@graphql-codegen/typescript-graphql-request": "1.8.1",
     "@graphql-codegen/typescript-operations": "1.8.1",
     "@graphql-codegen/typescript-react-apollo": "1.8.1",
     "@lingui/loader": "2.7.4",

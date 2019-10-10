@@ -1384,6 +1384,15 @@
     import-from "3.0.0"
     tslib "1.10.0"
 
+"@graphql-codegen/typescript-graphql-request@1.8.1":
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-graphql-request/-/typescript-graphql-request-1.8.1.tgz#0532c111b854c136a821543b27588ff668c3143d"
+  integrity sha512-+dWPyzOCXZi6fVpmf7W2KvGFT8BuSLt1kiFo/wmCHaceaFGzXhi+O4UP3tgscdGIcGsOXdUSRrl/NVjDlQ5ziQ==
+  dependencies:
+    "@graphql-codegen/plugin-helpers" "1.8.1"
+    "@graphql-codegen/visitor-plugin-common" "1.8.1"
+    tslib "1.10.0"
+
 "@graphql-codegen/typescript-operations@1.8.1":
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-operations/-/typescript-operations-1.8.1.tgz#1eeb720b875670c0a02af1607d1bdcf0e1440ddf"
@@ -1748,13 +1757,6 @@
     "@types/events" "*"
     "@types/minimatch" "*"
     "@types/node" "*"
-
-"@types/graphql@14.5.0":
-  version "14.5.0"
-  resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-14.5.0.tgz#a545fb3bc8013a3547cf2f07f5e13a33642b75d6"
-  integrity sha512-MOkzsEp1Jk5bXuAsHsUi6BVv0zCO+7/2PTiZMXWDSsMXvNU6w/PLMQT2vHn8hy2i0JqojPz1Sz6rsFjHtsU0lA==
-  dependencies:
-    graphql "*"
 
 "@types/handlebars@^4.0.38":
   version "4.1.0"
@@ -7417,13 +7419,6 @@ graphql-tools@4.0.5:
 graphql-type-json@^0.2.4:
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/graphql-type-json/-/graphql-type-json-0.2.4.tgz#545af27903e40c061edd30840a272ea0a49992f9"
-
-graphql@*:
-  version "14.5.8"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-14.5.8.tgz#504f3d3114cb9a0a3f359bbbcf38d9e5bf6a6b3c"
-  integrity sha512-MMwmi0zlVLQKLdGiMfWkgQD7dY/TUKt4L+zgJ/aR0Howebod3aNgP5JkgvAULiR2HPVZaP2VEElqtdidHweLkg==
-  dependencies:
-    iterall "^1.2.2"
 
 graphql@0.11.7:
   version "0.11.7"

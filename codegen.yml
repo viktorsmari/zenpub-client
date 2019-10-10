@@ -1,12 +1,12 @@
 overwrite: true
 schema: "https://home.next.moodle.net/api/graphql"
-documents: "src/**/*.graphql"
+documents: "src/**/!(*.client).graphql"
 generates:
-  src/generated/graphql.tsx:
+  src/generated/sdk.ts:
     plugins:
       - "typescript"
       - "typescript-operations"
-      - "typescript-react-apollo"
+      - "typescript-graphql-request"
   ./graphql.schema.json:
     plugins:
       - "introspection"
