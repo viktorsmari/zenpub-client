@@ -1,49 +1,20 @@
 import * as React from 'react';
-import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
 import { Helmet } from 'react-helmet';
 import { compose } from 'recompose';
 import Comment from '../../components/elements/Comment/Comment';
 import Loader from '../../components/elements/Loader/Loader';
 import { APP_NAME } from '../../constants';
-import CommentType from '../../types/Comment';
-const getThread = require('../../graphql/getThread.graphql');
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-
+import { Props } from './types';
 import Thread from '../../components/elements/thread';
 import Header from './header';
 
-interface Data extends GraphqlQueryControls {
-  comment: CommentType;
-}
-interface Props {
-  data: Data;
-  id: string;
-  match: any;
-  history: any;
-  type: string;
-}
-
-const withGetThread = graphql<
-  {},
-  {
-    data: {
-      comment: CommentType;
-    };
-  }
->(getThread, {
-  options: (props: Props) => ({
-    variables: {
-      id: Number(props.match.params.id)
-    }
-  })
-}) as OperationOption<{}, {}>;
-
-const Component = ({ data, history }) => {
-  if (data.error) {
-    return 'error...';
-  } else if (data.loading) {
+const Component: React.FC<Props> = ({ data }) => {
+  if (data.loading) {
     return <Loader />;
+  } else if (data.error) {
+    return 'error...';
   }
   let author = {
     localId: data.comment.author ? data.comment.author.localId : null,

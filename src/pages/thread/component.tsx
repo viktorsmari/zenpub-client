@@ -3,6 +3,7 @@ import { StoreCtx } from '../../redux/storeProvider';
 import * as C from './';
 import { gqlRequest } from '../../gql/actions';
 import { GET_THREAD_REPLY } from './types';
+import Stateless from './stateless';
 export interface Props {
   id: number;
 }
@@ -30,9 +31,7 @@ export const Thread: React.FC<Props> = ({ id }) => {
     [id]
   );
 
-  return <Fake {...{ data, selectThread }} />;
+  return <Stateless {...{ data, selectThread }} />;
 };
-const Fake: React.FC<C.Props> = props => (
-  <pre>{JSON.stringify(props, null, 2)}</pre>
-);
+
 export default Thread;
