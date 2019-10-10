@@ -10,9 +10,8 @@ import { Box, Flex, Text } from 'rebass';
 import Resource from '../Resource/Resource';
 import Collection from '../Collection/CollectionSmall';
 import CommunitySmall from '../Community/CommunitySmall';
-import { MessageCircle, Star } from 'react-feather';
 import { NavLink } from 'react-router-dom';
-
+import Actions from './Actions';
 interface Props {
   userpage?: boolean;
   user: any;
@@ -22,6 +21,7 @@ interface Props {
 const Item: SFC<Props> = ({ user, node, userpage }) => {
   return (
     <FeedItem>
+      <NavigateToThread to={`/thread/${node.object.localId}`} />
       <Member>
         <MemberItem>
           <Img src={user ? user.icon : ''} />
@@ -57,7 +57,12 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
             <>
               <SubText>
                 {node.object.inReplyTo !== null ? (
-                  <Trans>in reply</Trans>
+                  <InReply my={2} fontSize={1}>
+                    <Trans>in reply to</Trans>{' '}
+                    <Link to={`/user/${node.object.inReplyTo.author.localId}`}>
+                      {node.object.inReplyTo.author.name}
+                    </Link>
+                  </InReply>
                 ) : null}
               </SubText>
               <Comment>
@@ -145,24 +150,10 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
           ) : null}
 
           {node.activityType === 'CreateComment' ? (
-            <Actions mt={2}>
-              <Items>
-                <ActionItem>
-                  <NavLink to={`/thread/${node.object.localId}`}>
-                    <ActionIcon>
-                      <MessageCircle color="rgba(0,0,0,.4)" size="16" />
-                    </ActionIcon>
-                    <Text ml={2}>{node.object.replies.totalCount}</Text>
-                  </NavLink>
-                </ActionItem>
-                <ActionItem>
-                  <ActionIcon>
-                    <Star color="rgba(0,0,0,.4)" size="16" />
-                  </ActionIcon>
-                  <Text ml={2}>0</Text>
-                </ActionItem>
-              </Items>
-            </Actions>
+            <Actions
+              totalReplies={node.object.replies.totalCount}
+              totalLikes={0}
+            />
           ) : null}
         </MemberInfo>
       </Member>
@@ -170,53 +161,20 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
   );
 };
 
-const Items = styled(Flex)`
-  flex: 1;
+const NavigateToThread = styled(Link)`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
 `;
 
-// const BoxLink = styled(NavLink)`
-//   font-size: 14px;
-//   font-weight: 600;
-//   line-height: 30px;
-//   display: inline-block;
-//   color: ${props => props.theme.styles.colors.orange} !important;
-//   margin-top: 8px;
-// `;
-const Actions = styled(Flex)``;
-
-const ActionItem = styled(Flex)`
-  margin-right: 32px;
-  align-items: center;
+const InReply = styled(Text)`
   color: ${props => props.theme.styles.colors.gray};
-  cursor: pointer;
   a {
-    display: flex;
-    align-items: center;
-  }
-  &:hover {
-    div:first-of-type {
-      background: #fffbf8;
-      svg {
-        color: ${props => props.theme.styles.colors.orange};
-      }
-    }
-    div:last-of-type {
-      color: ${props => props.theme.styles.colors.orange};
-    }
-  }
-`;
-
-const ActionIcon = styled(Box)`
-  width: 30px;
-  height: 30px;
-  border-radius: 99999px;
-  display: inline-flex;
-  align-items: center;
-  align-content: center;
-  text-align: center;
-  margin-left: -8px;
-  svg {
-    margin: 0 auto;
+    color: ${props => props.theme.styles.colors.black} !important;
+    font-weight: 700;
   }
 `;
 
@@ -262,6 +220,8 @@ const Date = styled(Text)`
 const SubText = styled(Text)`
 font-size: 14px;
 > a {
+  position: relative;
+  z-index: 9;
   text-decoration: none;
   font-weight: 800
   color: ${props => props.theme.styles.colors.darkgray} !important;
@@ -284,6 +244,8 @@ const Name = styled(Text)`
     display: flex;
     text-decoration: none;
     align-items: center;
+    position: relative;
+    z-index: 9;
     color: ${props => props.theme.styles.colors.darkgray} !important;
   }
 `;
@@ -352,10 +314,17 @@ const FeedItem = styled.div`
   position: relative;
   background: #ffffff;
   position: relative;
+  cursor: pointer;
+  &:hover {
+    background: ${props => props.theme.styles.colors.lighter};
+  }
   border-bottom: 1px solid  ${props => props.theme.styles.colors.lightgray};
   a {
     text-decoration: none;
-    color: inherit;
+    color: inherit !important;
+    &:hover {
+      text-decoration: underline
+    }
   }
 
 `;

@@ -6,6 +6,8 @@ import * as Feather from 'react-feather';
 import { DateTime } from 'luxon';
 import Talk from '../TalkModal';
 import { compose, withState } from 'recompose';
+import Link from '../Link/Link';
+import { Trans } from '@lingui/react';
 
 const Icon = styled(Flex)`
   cursor: pointer;
@@ -22,7 +24,10 @@ const Icon = styled(Flex)`
 const Wrapper = styled(Box)`
   a {
     text-decoration: none;
-    color: inherit;
+    color: inherit !important;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;
 
@@ -54,6 +59,19 @@ const Message = styled(Text)`
   line-height: 30px;
 `;
 
+const InReply = styled(Text)`
+  color: ${props => props.theme.styles.colors.gray};
+  a {
+    color: ${props => props.theme.styles.colors.black} !important;
+    font-weight: 700;
+  }
+`;
+
+const Actions = styled(Flex)`
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+`;
+
 interface Props {
   content: string;
   url?: string;
@@ -63,6 +81,7 @@ interface Props {
   replies: number;
   likes: number;
   retweets?: number;
+  inReplyTo: any;
   user: {
     image: string;
     name: string;
@@ -77,32 +96,51 @@ const Thread: SFC<Props> = ({
   onOpen,
   date,
   isOpen,
-  retweets
+  retweets,
+  inReplyTo
 }) => {
   return (
-    <Wrapper style={{ borderBottom: '1px solid #efefef' }} px={3} py={3}>
+    <Wrapper px={3} py={3}>
       <Flex alignItems="center">
         <Avatar src={user.image} />
-        <Text mx={2} fontSize={2}>
-          {user.name}
-        </Text>
-        {user.username ? <Username>@{user.username}</Username> : null}
-        <Spacer>·</Spacer>{' '}
-        <Date fontSize={2}>{DateTime.fromISO(date).toRelative()}</Date>
+        <Flex flexDirection="column">
+          <Flex>
+            <Link to={'/user/' + user.localId}>
+              <Text fontWeight={800} mx={2} fontSize={1}>
+                {user.name}
+              </Text>
+            </Link>
+            <Spacer>·</Spacer>{' '}
+            <Date fontSize={1}>{DateTime.fromISO(date).toRelative()}</Date>
+          </Flex>
+          <Link to={'/user/' + user.localId}>
+            <Username mt={1} fontSize={1} mx={2}>
+              @{user.username}
+            </Username>
+          </Link>
+        </Flex>
       </Flex>
+      {inReplyTo !== null ? (
+        <InReply my={2} fontSize={1}>
+          <Trans>in reply to</Trans>{' '}
+          <Link to={`/user/${inReplyTo.author.localId}`}>
+            {inReplyTo.author.name}
+          </Link>
+        </InReply>
+      ) : null}
       <Message mt={2} fontSize={[3]}>
         {content}
       </Message>
-      <Flex alignItems="center" mt={3}>
-        <Icon mr={4} className="tooltip" onClick={() => onOpen(true)}>
-          <Feather.MessageSquare color={'#555555'} size="20" />
+      <Actions alignItems="center" mt={3} py={3}>
+        <Icon mr={5} className="tooltip" onClick={() => onOpen(true)}>
+          <Feather.MessageSquare color={'rgba(0,0,0,.4)'} size="20" />
         </Icon>
-        <Icon mr={2}>
-          <Feather.Heart color={'#555555'} size="20" />
+        <Icon mr={5}>
+          <Feather.Heart color={'rgba(0,0,0,.4)'} size="20" />
         </Icon>
         {retweets ? (
           <Icon>
-            <Feather.Repeat color={'#555555'} size="20" />
+            <Feather.Repeat color={'rgba(0,0,0,.4)'} size="20" />
             <Text
               ml={1}
               mr={3}
@@ -112,7 +150,7 @@ const Thread: SFC<Props> = ({
             </Text>
           </Icon>
         ) : null}
-      </Flex>
+      </Actions>
       <Talk toggleModal={onOpen} modalIsOpen={isOpen} />
     </Wrapper>
   );

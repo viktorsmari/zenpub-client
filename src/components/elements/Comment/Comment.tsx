@@ -4,10 +4,11 @@ import * as React from 'react';
 import styled from '../../../themes/styled';
 import Link from '../Link/Link';
 import { MessageCircle, Star } from 'react-feather';
-import { NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass';
 import removeMd from 'remove-markdown';
 import { DateTime } from 'luxon';
+import Talk from '../TalkModal';
+import { compose, withState } from 'recompose';
 
 interface EventProps {
   userpage?: boolean;
@@ -23,20 +24,21 @@ interface EventProps {
   thread?: boolean;
   totalReplies?: string;
   noAction?: boolean;
-  selectThread(number): number;
+  onOpen(boolean): unknown;
+  isOpen: boolean;
 }
 
-const Event: React.FC<EventProps> = ({
+const CommentWrapper: React.FC<EventProps> = ({
   user,
   userpage,
   comment,
   noAction,
-  totalReplies,
-  selectThread
+  onOpen,
+  isOpen
 }) => {
-  console.log(comment);
   return (
     <FeedItem>
+      <NavigateToThread to={`/thread/${comment.localId}`} />
       <Member>
         <MemberItem>
           <Img src={user ? user.icon : ''} />
@@ -62,7 +64,7 @@ const Event: React.FC<EventProps> = ({
           )}
           <>
             {comment.inReplyTo !== null ? (
-              <SubText>
+              <SubText my={1}>
                 <Trans>in reply to</Trans>{' '}
                 <Link to={`/user/${comment.inReplyTo.author.localId}`}>
                   {comment.inReplyTo.author.name}
@@ -78,73 +80,41 @@ const Event: React.FC<EventProps> = ({
                 : removeMd(comment.content)}
             </Comment>
           </>
-          <Actions mt={2}>
-            <Items>
-              <ActionItem>
-                <NavLink to={`/thread/${comment.localId}`}>
-                  <ActionIcon>
+          {noAction ? null : (
+            <Actions mt={2}>
+              <Items>
+                <ActionItem>
+                  <ActionIcon onClick={() => onOpen(true)}>
                     <MessageCircle color="rgba(0,0,0,.4)" size="16" />
                   </ActionIcon>
                   <Text ml={2}>{comment.replies.totalCount}</Text>
-                </NavLink>
-              </ActionItem>
-              <ActionItem>
-                <ActionIcon>
-                  <Star color="rgba(0,0,0,.4)" size="16" />
-                </ActionIcon>
-                <Text ml={2}>0</Text>
-              </ActionItem>
-            </Items>
-          </Actions>
+                </ActionItem>
+                <ActionItem>
+                  <ActionIcon>
+                    <Star color="rgba(0,0,0,.4)" size="16" />
+                  </ActionIcon>
+                  <Text ml={2}>0</Text>
+                </ActionItem>
+              </Items>
+            </Actions>
+          )}
         </MemberInfo>
       </Member>
+      <Talk toggleModal={onOpen} modalIsOpen={isOpen} />
     </FeedItem>
-
-    // <FeedItem>
-    //   {noAuthor ? null : (
-    //     <Member>
-    //       <MemberItem>
-    //         <Img alt="user" src={author.icon} />
-    //       </MemberItem>
-    //       <MemberInfo>
-    //         <h3>
-    //           {author.localId ? (
-    //             <Link to={'/user/' + author.localId}>{author.name}</Link>
-    //           ) : (
-    //             <b>{author.name}</b>
-    //           )}
-    //         </h3>
-    //         <Date>{comment.date}</Date>
-    //       </MemberInfo>
-    //     </Member>
-    //   )}
-    //   <Desc>
-    //     <Primary>
-    //       <Markdown children={comment.body} />
-    //     </Primary>
-    //     {noAction ? null : (
-    //       <Sub>
-    //         <Actions>
-    //           {thread ? null : (
-    //             <Button onClick={() => selectThread(comment.id)}>
-    //               <Reply
-    //                 width={16}
-    //                 height={16}
-    //                 strokeWidth={2}
-    //                 color={'#667d99'}
-    //               />
-    //               <Trans>Reply</Trans> ({totalReplies})
-    //             </Button>
-    //           )}
-    //         </Actions>
-    //       </Sub>
-    //     )}
-    //   </Desc>
-    // </FeedItem>
   );
 };
 
-export default Event;
+export default compose(withState('isOpen', 'onOpen', false))(CommentWrapper);
+
+const NavigateToThread = styled(Link)`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+`;
 
 const Date = styled(Text)`
   color: ${props => props.theme.styles.colors.gray};
@@ -155,7 +125,10 @@ const Items = styled(Flex)`
   flex: 1;
 `;
 
-const Actions = styled(Flex)``;
+const Actions = styled(Flex)`
+  z-index: 9;
+  position: relative;
+`;
 
 const ActionItem = styled(Flex)`
   margin-right: 32px;
@@ -207,11 +180,14 @@ const Spacer = styled(Text)`
 
 const SubText = styled(Text)`
 font-size: 14px;
-color: dimgrey;
+color:  ${props => props.theme.styles.colors.gray};
 > a {
   text-decoration: none;
   font-weight: 600
-  // color: ${props => props.theme.styles.colors.darkgray} !important;
+  color: ${props => props.theme.styles.colors.black} !important;
+  z-index: 9;
+  position: relative;
+
   &:hover {
     text-decoration: underline;
   }
@@ -232,6 +208,12 @@ const Name = styled(Text)`
     text-decoration: none;
     align-items: center;
     color: ${props => props.theme.styles.colors.darkgray} !important;
+    z-index: 9;
+    position: relative;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;
 
@@ -252,6 +234,8 @@ const Comment = styled.div`
     font-size: 14px;
     text-decoration: none;
     line-height: 20px;
+    z-index: 9;
+    position: relative;
   }
 `;
 
@@ -303,6 +287,9 @@ const FeedItem = styled.div`
   a {
     text-decoration: none;
     color: inherit;
+  }
+  &:hover {
+    background: ${props => props.theme.styles.colors.lighter};
   }
 
 `;

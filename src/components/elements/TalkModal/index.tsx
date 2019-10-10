@@ -1,5 +1,3 @@
-// create a new collection
-
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Field, Form, FormikProps, withFormik } from 'formik';
@@ -12,14 +10,13 @@ import Alert from '../../elements/Alert';
 import Textarea from '../../inputs/TextArea/Textarea';
 import Button from '../Button/Button';
 import Modal from '../Modal';
-// import { MentionsInput, Mention } from 'react-mentions';
-import { Box } from 'rebass';
-// import emojiExampleStyle from './emoji';
-import { Actions, Container, ContainerForm, Header, Row } from '../Modal/modal';
+import { Box, Flex } from 'rebass';
+import { Actions, Container } from '../Modal/modal';
 import styled from '../../../themes/styled';
+import Comment from '../Comment/Comment';
 
-const TextWrapper = styled(ContainerForm)`
-  display: flex;
+const TextWrapper = styled(Flex)`
+  padding: 16px;
 `;
 
 const TalkEditor = styled(Textarea)`
@@ -47,9 +44,9 @@ const Publish = styled(Button)`
 `;
 
 const Avatar = styled(Box)`
-  width: 60px;
-  height: 60px;
-  border-radius: 60px;
+  width: 48px;
+  height: 48px;
+  border-radius: 48px;
   background: red;
   margin-right: 8px;
 `;
@@ -57,7 +54,6 @@ const Avatar = styled(Box)`
 const {
   createCollectionMutation
 } = require('../../../graphql/createCollection.graphql');
-// const { getCommunityQuery } = require('../../../graphql/getCommunity.graphql');
 
 const tt = {
   placeholders: {
@@ -95,47 +91,44 @@ const withCreateCollection = graphql<{}>(createCollectionMutation, {
   // TODO enforce proper types for OperationOption
 } as OperationOption<{}, {}>);
 
+let author = {
+  icon:
+    'https://home.next.moodle.net/media/ZVnBBCYKbG42IonFQKi_n56Hyrc/aHR0cHM6Ly9pbWFnZXMudW5zcGxhc2guY29tL3Bob3RvLTE1NjE5NjYxMzEtMjQ3YjgxMTFlOTdlP2l4bGliPXJiLTEuMi4xJmF1dG89Zm9ybWF0JmZpdD1jcm9wJnc9MTI4NSZxPTgw/photo-1561966131-247b8111e97e',
+  name: 'Bernini',
+  localId: '35',
+  preferredUsername: 'bernini'
+};
+
+let comment = {
+  id: '35',
+  content: 'This is a sample message',
+  published: '',
+  inReplyTo: null,
+  localId: '35'
+};
+
 const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
   const { toggleModal, modalIsOpen, errors, touched, isSubmitting } = props;
   return (
     <Modal isOpen={modalIsOpen} toggleModal={() => toggleModal(false)}>
       <Container>
-        <Header>
-          {/* <H5>
-            <Trans>Create a new collection</Trans>
-          </H5> */}
-        </Header>
         <Form>
-          <Row>
-            <TextWrapper>
-              <Avatar />
-              {/* <MentionsInput
-                value={value}
-                onChange={onChange}
-                style={defaultStyle}
-                placeholder="Mention any Github user by typing `@` followed by at least one char"
-              >
-                <Mention
-                  displayTransform={login => `@${login}`}
-                  trigger="@"
-                  data={fetchUsers}
-                  style={defaultMentionStyle}
-                /> */}
-              {/* </MentionsInput> */}
-              <Field
-                name="text"
-                render={({ field }) => (
-                  <TalkEditor
-                    placeholder={i18n._(tt.placeholders.name)}
-                    name={field.name}
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
-                )}
-              />
-              {errors.text && touched.text && <Alert>{errors.text}</Alert>}
-            </TextWrapper>
-          </Row>
+          <Comment user={author} comment={comment} noAction />
+          <TextWrapper>
+            <Avatar />
+            <Field
+              name="text"
+              render={({ field }) => (
+                <TalkEditor
+                  placeholder={i18n._(tt.placeholders.name)}
+                  name={field.name}
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              )}
+            />
+            {errors.text && touched.text && <Alert>{errors.text}</Alert>}
+          </TextWrapper>
           <Actions>
             <Publish
               disabled={isSubmitting}
