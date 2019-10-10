@@ -1853,6 +1853,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-mentions@3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@types/react-mentions/-/react-mentions-3.0.2.tgz#198330caf0e33346e84960c58ccd30dd10c8f768"
+  integrity sha512-BRQrfmD3kHtP+oY2zzWyNlsI+kPZSFoSHd70DAW6XMerloNZtScZWqaXEbip7qlYtnfAKEzJRnQEv6op9iHdFg==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-native@*":
   version "0.60.19"
   resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.60.19.tgz#4d58516f9e981c3f477ad48727331e31a0792aae"
