@@ -16,7 +16,7 @@ import MyCollections from '../../pages/collections.all/collectionsFollowed';
 import User from '../../pages/User';
 import Settings from '../../pages/settings';
 import Reset from '../../pages/Reset';
-import Thread from '../../pages/thread';
+import Thread from '../../pages/thread/stateless';
 import CreateNewPassword from '../../pages/CreateNewPassword';
 import qs from 'qs';
 
