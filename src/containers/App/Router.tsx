@@ -16,7 +16,7 @@ import MyCollections from '../../pages/collections.all/collectionsFollowed';
 import User from '../../pages/User';
 import Settings from '../../pages/settings';
 import Reset from '../../pages/Reset';
-import Thread from '../../pages/thread/stateless';
+import Thread from '../../pages/thread/component';
 import CreateNewPassword from '../../pages/CreateNewPassword';
 import qs from 'qs';
 
@@ -93,7 +93,14 @@ const Content = connectStateResults(
         <Route exact path="/communities" component={CommunitiesAll} />
         <Route exact path="/mycommunities" component={MyCommunities} />
         <Route exact path="/mycollections" component={MyCollections} />
-        <Route exact path="/thread/:id" component={Thread} />
+        <Route
+          exact
+          path="/thread/:id"
+          render={route => {
+            const id = Number(route.match.params.id);
+            return <Thread id={id} />;
+          }}
+        />
         <Route
           exact
           path="/communities/:community"

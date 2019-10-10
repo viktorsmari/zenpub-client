@@ -1,21 +1,25 @@
-import { GetThreadQuery } from 'src/generated/sdk';
+import { GetThreadQuery } from '../../gql/sdk';
 
 interface DataLoading {
   loading: true;
 }
 interface DataError {
   loading: false;
-  comment: void;
-  error: string;
+  error: true;
+  msg: string;
+  data?: undefined;
 }
 interface DataOk {
-  error: void;
   loading: false;
-  comment: GetThreadQuery;
+  error: false;
+  msg?: undefined;
+  data: GetThreadQuery;
 }
-type Data = DataLoading | DataError | DataOk;
+export type Data = DataLoading | DataError | DataOk;
 
 export interface Props {
   data: Data;
   selectThread(number): unknown;
 }
+
+export const GET_THREAD_REPLY = `pages.thread.getThread`;
