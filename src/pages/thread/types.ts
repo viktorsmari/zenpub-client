@@ -7,18 +7,18 @@ interface DataError {
   loading: false;
   error: true;
   msg: string;
-  response?: undefined;
+  data?: undefined;
 }
 interface DataOk {
   loading: false;
   error: false;
   msg?: undefined;
-  response: GetThreadQuery;
+  data: GetThreadQuery;
 }
 export type Data = DataLoading | DataError | DataOk;
 
 export interface Props {
-  data: Data;
+  thread: Data;
   selectThread(number): unknown;
 }
 

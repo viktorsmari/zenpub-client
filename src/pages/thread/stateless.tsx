@@ -9,13 +9,13 @@ import { Props } from './types';
 import Thread from '../../components/elements/thread';
 import Header from './header';
 
-const Component: React.FC<Props> = ({ data }) => {
-  if (data.loading) {
+const Component: React.FC<Props> = ({ thread }) => {
+  if (thread.loading) {
     return <Loader />;
-  } else if (data.error) {
+  } else if (thread.error) {
     return <>error...</>;
   }
-  let comment = data.response!.comment!;
+  let comment = thread.data!.comment!;
   let author = {
     localId: comment.author ? comment.author.localId : null,
     name: comment.author ? comment.author.name : 'Deleted User',

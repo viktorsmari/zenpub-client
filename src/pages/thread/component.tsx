@@ -12,7 +12,7 @@ export const Thread: React.FC<Props> = ({ id }) => {
 
   const {
     pages: {
-      thread: { data }
+      thread: { data: thread }
     }
   } = state;
   const selectThread = useCallback(
@@ -31,7 +31,7 @@ export const Thread: React.FC<Props> = ({ id }) => {
     [id]
   );
 
-  return <Stateless {...{ data, selectThread }} />;
+  return <Stateless {...{ thread, selectThread }} />;
 };
 
 export default Thread;
