@@ -1,11 +1,10 @@
 import styled from '../../../themes/styled';
-import * as React from 'react';
+import React, { useState } from 'react';
 import { SFC } from 'react';
 import { Text, Box, Flex, Image } from 'rebass';
 import * as Feather from 'react-feather';
 import { DateTime } from 'luxon';
 import Talk from '../TalkModal';
-import { compose, withState } from 'recompose';
 import Link from '../Link/Link';
 import { Trans } from '@lingui/react';
 
@@ -76,8 +75,6 @@ interface Props {
   content: string;
   url?: string;
   date: string;
-  onOpen: any;
-  isOpen: boolean;
   replies: number;
   likes: number;
   retweets?: number;
@@ -90,15 +87,8 @@ interface Props {
   };
 }
 
-const Thread: SFC<Props> = ({
-  content,
-  user,
-  onOpen,
-  date,
-  isOpen,
-  retweets,
-  inReplyTo
-}) => {
+const Thread: SFC<Props> = ({ content, user, date, retweets, inReplyTo }) => {
+  const [isOpen, onOpen] = useState(false);
   return (
     <Wrapper px={3} py={3}>
       <Flex alignItems="center">
@@ -156,4 +146,4 @@ const Thread: SFC<Props> = ({
   );
 };
 
-export default compose(withState('isOpen', 'onOpen', false))(Thread);
+export default Thread;
