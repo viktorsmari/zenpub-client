@@ -1158,7 +1158,12 @@ export type BasicCommentFragment = { __typename?: 'Comment' } & Pick<
   Comment,
   'localId' | 'content' | 'id' | 'published'
 > & {
-    author: Maybe<{ __typename?: 'User' } & Pick<User, 'name' | 'id' | 'icon'>>;
+    author: Maybe<
+      { __typename?: 'User' } & Pick<
+        User,
+        'name' | 'id' | 'icon' | 'preferredUsername' | 'localId'
+      >
+    >;
     replies: Maybe<
       { __typename?: 'CommentRepliesConnection' } & Pick<
         CommentRepliesConnection,
@@ -2562,6 +2567,8 @@ export const BasicCommentFragmentDoc = gql`
       name
       id
       icon
+      preferredUsername
+      localId
     }
     replies {
       totalCount

@@ -2,7 +2,7 @@ overwrite: true
 schema: "https://home.next.moodle.net/api/graphql"
 documents: "src/**/!(*.client).graphql"
 generates:
-  src/generated/sdk.ts:
+  src/gql/sdk.ts:
     plugins:
       - "typescript"
       - "typescript-operations"

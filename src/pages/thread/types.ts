@@ -7,13 +7,13 @@ interface DataError {
   loading: false;
   error: true;
   msg: string;
-  data?: undefined;
+  response?: undefined;
 }
 interface DataOk {
   loading: false;
   error: false;
   msg?: undefined;
-  data: GetThreadQuery;
+  response: GetThreadQuery;
 }
 export type Data = DataLoading | DataError | DataOk;
 

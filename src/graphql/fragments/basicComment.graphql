@@ -7,6 +7,8 @@ fragment BasicComment on Comment {
       name
       id
       icon
+      preferredUsername
+      localId
   }
   replies {
       totalCount
