@@ -12,11 +12,11 @@ export const Thread: React.FC<Props> = ({ id }) => {
 
   const {
     pages: {
-      thread: { data: thread }
+      thread: { thread }
     }
   } = state;
-  const selectThread = useCallback(
-    (n: number) => dispatch(C.selectThread.create({ thing: n })),
+  const replyThread = useCallback(
+    (text: string) => dispatch(C.replyThread.create({ text: text })),
     [dispatch]
   );
   useEffect(
@@ -31,7 +31,7 @@ export const Thread: React.FC<Props> = ({ id }) => {
     [id]
   );
 
-  return <Stateless {...{ thread, selectThread }} />;
+  return <Stateless {...{ thread, replyThread }} />;
 };
 
 export default Thread;

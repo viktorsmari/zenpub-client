@@ -19,7 +19,8 @@ export type Data = DataLoading | DataError | DataOk;
 
 export interface Props {
   thread: Data;
-  selectThread(number): unknown;
+  replyThread(text: string): unknown;
 }
 
 export const GET_THREAD_REPLY = `pages.thread.getThread`;
+export const REPLY_THREAD_REPLY = `pages.thread.replyThread`;
