@@ -4,7 +4,9 @@ import { GET_THREAD_REPLY, Data } from './types';
 
 const initialState: State = {
   thread: {
-    loading: true
+    loading: true,
+    error: false,
+    data: null
   }
 };
 export const reducer: Reducer<State> = (old = initialState, action) => {
@@ -16,10 +18,7 @@ export const reducer: Reducer<State> = (old = initialState, action) => {
     const resp = action.payload.resp.getThread;
     const next: State = {
       ...old,
-      thread: {
-        ...resp,
-        loading: false
-      }
+      thread: resp
     };
     return next;
   }

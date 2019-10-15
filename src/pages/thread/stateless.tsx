@@ -1,14 +1,17 @@
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
+import { SdkRespObj } from 'src/gql/actions';
 import Comment from '../../components/elements/Comment/Comment';
 import Loader from '../../components/elements/Loader/Loader';
+import Thread from '../../components/elements/thread';
 import { APP_NAME } from '../../constants';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-import { Props } from './types';
-import Thread from '../../components/elements/thread';
 import Header from './header';
 
+export interface Props {
+  thread: SdkRespObj['getThread'];
+}
 const Component: React.FC<Props> = ({ thread }) => {
   if (thread.loading) {
     return <Loader />;
@@ -17,7 +20,10 @@ const Component: React.FC<Props> = ({ thread }) => {
   }
   let comment = thread.data!.comment!;
   let author = {
-    localId: comment.author ? `${comment.author.localId || ''}` : '',
+    localId:
+      comment.author && comment.author.localId
+        ? `${comment.author.localId}`
+        : '',
     name: comment.author ? comment.author.name || '' : 'Deleted User',
     image: comment.author ? comment.author.icon || '' : '',
     username: comment.author ? comment.author.preferredUsername || '' : ''
@@ -39,12 +45,13 @@ const Component: React.FC<Props> = ({ thread }) => {
             <Header history={history} id={comment.context!.localId} />
             <Thread
               content={message.body}
-              user={author}
+              author={author}
               inReplyTo={comment.inReplyTo}
               date={message.date}
               replies={comment.replies!.totalCount}
               likes={0}
               retweets={0}
+              comment={comment}
             />
             {comment.replies!.edges!.reverse().map((c, i) => {
               let author = {

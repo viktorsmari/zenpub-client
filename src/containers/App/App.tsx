@@ -11,7 +11,7 @@ import { ThemeProvider } from '../../styleguide/Wrapper';
 import '../../styles/loader.css';
 import '../../styles/social-icons.css';
 import Router from './Router';
-import { ProvideStore } from '../../redux/storeProvider';
+import { ProvideContexts } from '../../_context';
 import { ProvideGqlSdk } from './ProvideGqlSdk';
 
 const LocalStorageLocaleKey = 'locale';
@@ -134,7 +134,7 @@ export default class App extends React.Component<{}, State> {
     }
 
     return (
-      <ProvideStore>
+      <ProvideContexts>
         <ProvideGqlSdk>
           <ThemeProvider>
             <LocaleContext.Provider value={this.state}>
@@ -150,7 +150,7 @@ export default class App extends React.Component<{}, State> {
             </LocaleContext.Provider>
           </ThemeProvider>
         </ProvideGqlSdk>
-      </ProvideStore>
+      </ProvideContexts>
     );
   }
 }

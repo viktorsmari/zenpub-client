@@ -20,6 +20,8 @@ import styled, { ThemeInterface } from '../../themes/styled';
 // import H6 from '../../components/typography/H6/H6';
 import LoginForm from './LoginForm';
 import { ValidationField, ValidationObject, ValidationType } from './types';
+import { login } from '../../_redux/session';
+import { GlobCtx } from '../../_context/GLOB';
 // const { getUserQuery } = require('../../graphql/getUser.client.graphql');
 // const { setUserMutation } = require('../../graphql/setUser.client.graphql');
 const { loginMutation } = require('../../graphql/login.graphql');
@@ -260,6 +262,8 @@ type CredentialsObject = {
 // };
 
 class Login extends React.Component<LoginProps, LoginState> {
+  static contextType = GlobCtx;
+  context!: React.ContextType<typeof GlobCtx>;
   state = {
     redirectTo: null,
     authenticating: false,
@@ -337,6 +341,7 @@ class Login extends React.Component<LoginProps, LoginState> {
     const userData = result.data.createSession;
 
     // TODO pull key out into constant
+    this.context.action.dispatch(login.create(userData));
     process.env.REACT_APP_GRAPHQL_ENDPOINT ===
     'https://home.moodle.net/api/graphql'
       ? localStorage.setItem('user_access_token', userData.token)

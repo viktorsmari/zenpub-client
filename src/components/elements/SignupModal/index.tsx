@@ -9,6 +9,8 @@ import {
   graphql,
   OperationOption
 } from 'react-apollo';
+import { getGlob } from '../../../_context/GLOB';
+import { login } from '../../../_redux/session';
 import * as Yup from 'yup';
 import { i18n } from '../../../containers/App/App';
 import styled from '../../../themes/styled';
@@ -257,6 +259,7 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
         variables: variables
       })
       .then(res => {
+        getGlob().action.dispatch(login.create(res.data.createUser));
         process.env.REACT_APP_GRAPHQL_ENDPOINT ===
         'https://home.moodle.net/api/graphql'
           ? localStorage.setItem('user_access_token', res.data.createUser.token)
