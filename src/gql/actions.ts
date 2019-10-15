@@ -49,3 +49,5 @@ export const gqlResponse = actionCtx<
   'mw.gql.gqlResponse',
   SdkRespActionPayload<SdkKey>
 >('mw.gql.gqlResponse');
+
+export const setToken = actionCtx<'mw.gql.setToken', string>('mw.gql.setToken');

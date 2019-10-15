@@ -8,7 +8,8 @@ import {
   SdkRespActionPayload,
   SdkRespErr,
   SdkRespLoading,
-  SdkRespOk
+  SdkRespOk,
+  setToken
 } from './actions';
 
 export type Sdk = ReturnType<typeof getSdk>;
@@ -25,7 +26,9 @@ export const GqlSdkMiddleware = (): Middleware => {
   const sdk = getSdk(client);
 
   return _store => next => action => {
-    if (gqlRequest.is(action)) {
+    if (setToken.is(action)) {
+      client.setHeader('authorization', `Bearer ${action.payload}`);
+    } else if (gqlRequest.is(action)) {
       Object.keys(action.payload.op).forEach((opName: SdkKey) => {
         next(gqlResponse.create(responseActionLoading(opName, action.payload)));
         (sdk[opName].apply(sdk, action.payload.op[opName]) as Promise<RespType>)

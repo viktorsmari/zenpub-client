@@ -167,7 +167,7 @@ const CreateCommunityModal = (
         })
       );
     },
-    [error]
+    [error, text]
   );
   return (
     <Modal isOpen={modalIsOpen} toggleModal={() => toggleModal(false)}>
