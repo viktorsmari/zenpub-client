@@ -3,7 +3,7 @@ import { StoreCtx } from '../../redux/storeProvider';
 import * as C from './';
 import { gqlRequest } from '../../gql/actions';
 import { GET_THREAD_REPLY } from './types';
-import Stateless from './stateless';
+import Stateless from './stateless_ok';
 export interface Props {
   id: number;
 }

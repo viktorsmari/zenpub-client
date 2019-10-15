@@ -17,7 +17,7 @@ const Component: React.FC<Props> = ({ thread }) => {
   }
   let comment = thread.data!.comment!;
   let author = {
-    localId: comment.author ? `${comment.author.localId || ''}` : '',
+    localId: comment.author ? `${comment.author.localId! || ''}` : '',
     name: comment.author ? comment.author.name || '' : 'Deleted User',
     image: comment.author ? comment.author.icon || '' : '',
     username: comment.author ? comment.author.preferredUsername || '' : ''

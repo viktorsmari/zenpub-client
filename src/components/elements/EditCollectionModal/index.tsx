@@ -10,9 +10,10 @@ import {
   Header
 } from '../Modal/modal';
 import H5 from '../../typography/H5/H5';
-import Text from '../../inputs/Text/Text';
-import Textarea from '../../inputs/TextArea/Textarea';
-import Button from '../Button/Button';
+// import Text from '../../inputs/Text/Text';
+import { Input, Textarea } from '@rebass/forms';
+// import Textarea from '../../inputs/TextArea/Textarea';
+import { Button } from 'rebass';
 import { compose } from 'react-apollo';
 import { withFormik, FormikProps, Form, Field } from 'formik';
 import * as Yup from 'yup';
@@ -73,7 +74,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                 name="name"
                 render={({ field }) => (
                   <>
-                    <Text
+                    <Input
                       // placeholder="The name of the collection..."
                       name={field.name}
                       value={field.value}
@@ -115,7 +116,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
               <Field
                 name="image"
                 render={({ field }) => (
-                  <Text
+                  <Input
                     // placeholder="Type a url of a background image..."
                     name={field.name}
                     value={field.value}
@@ -127,14 +128,10 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
             </ContainerForm>
           </Row>
           <Actions>
-            <Button
-              disabled={isSubmitting}
-              type="submit"
-              style={{ marginLeft: '10px' }}
-            >
+            <Button disabled={isSubmitting} type="submit" ml={2}>
               <Trans>Save</Trans>
             </Button>
-            <Button onClick={toggleModal} secondary>
+            <Button variant="outline" onClick={toggleModal}>
               <Trans>Cancel</Trans>
             </Button>
           </Actions>
