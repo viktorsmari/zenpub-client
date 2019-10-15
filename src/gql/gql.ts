@@ -5,7 +5,10 @@ import {
   gqlResponse,
   gqlRequest,
   SdkReqActionPayload,
-  SdkRespActionPayload
+  SdkRespActionPayload,
+  SdkRespErr,
+  SdkRespLoading,
+  SdkRespOk
 } from './actions';
 
 export type Sdk = ReturnType<typeof getSdk>;
@@ -24,6 +27,7 @@ export const GqlSdkMiddleware = (): Middleware => {
   return _store => next => action => {
     if (gqlRequest.is(action)) {
       Object.keys(action.payload.op).forEach((opName: SdkKey) => {
+        next(gqlResponse.create(responseActionLoading(opName, action.payload)));
         (sdk[opName].apply(sdk, action.payload.op[opName]) as Promise<RespType>)
           .then(
             responseActionOk(opName, action.payload),
@@ -35,27 +39,57 @@ export const GqlSdkMiddleware = (): Middleware => {
     return next(action);
   };
 };
-const responseActionOk = (opName: SdkKey, reqAction: SdkReqActionPayload) => (
-  resp: RespType
-): SdkRespActionPayload => ({
-  replyTo: reqAction.replyTo,
-  opName,
-  resp: {
+const responseActionLoading = <K extends SdkKey>(
+  opName: K,
+  req: SdkReqActionPayload
+): SdkRespActionPayload<K> => {
+  const resp = ({
     [opName]: {
       error: false,
-      data: resp
+      data: null,
+      loading: true
+      // req
     }
-  }
-});
-const responseActionKo = (opName: SdkKey, reqAction: SdkReqActionPayload) => (
-  err: any
-): SdkRespActionPayload => ({
-  replyTo: reqAction.replyTo,
-  opName,
-  resp: {
+  } as unknown) as SdkRespLoading;
+  return {
+    replyTo: req.replyTo,
+    opName,
+    resp
+  };
+};
+const responseActionOk = <K extends SdkKey>(
+  opName: K,
+  req: SdkReqActionPayload
+) => (data: RespType): SdkRespActionPayload<K> => {
+  const resp = ({
+    [opName]: {
+      error: false,
+      data,
+      loading: false
+      // req
+    }
+  } as unknown) as SdkRespOk;
+  return {
+    replyTo: req.replyTo,
+    opName,
+    resp
+  };
+};
+const responseActionKo = <K extends SdkKey>(
+  opName: K,
+  req: SdkReqActionPayload
+) => (err: any): SdkRespActionPayload<K> => {
+  const resp = ({
     [opName]: {
       error: true,
-      msg: String(err)
+      msg: String(err),
+      loading: false
+      //req
     }
-  }
-});
+  } as unknown) as SdkRespErr;
+  return {
+    replyTo: req.replyTo,
+    opName,
+    resp
+  };
+};

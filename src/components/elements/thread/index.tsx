@@ -7,6 +7,7 @@ import { DateTime } from 'luxon';
 import Talk from '../TalkModal';
 import Link from '../Link/Link';
 import { Trans } from '@lingui/react';
+import { SdkData } from 'src/gql/actions';
 
 const Icon = styled(Flex)`
   cursor: pointer;
@@ -79,33 +80,35 @@ interface Props {
   likes: number;
   retweets?: number;
   inReplyTo: any;
-  user: {
+  author: {
     image: string;
     name: string;
     username: string;
     localId: string;
   };
+  comment: SdkData<'getThread'>['comment'];
 }
 
-const Thread: SFC<Props> = ({ content, user, date, retweets, inReplyTo }) => {
+const Thread: SFC<Props> = props => {
+  const { content, author, date, retweets, inReplyTo } = props;
   const [isOpen, onOpen] = useState(false);
   return (
     <Wrapper px={3} py={3}>
       <Flex alignItems="center">
-        <Avatar src={user.image} />
+        <Avatar src={author.image} />
         <Flex flexDirection="column">
           <Flex>
-            <Link to={'/user/' + user.localId}>
+            <Link to={'/user/' + author.localId}>
               <Text fontWeight={800} mx={2} fontSize={1}>
-                {user.name}
+                {author.name}
               </Text>
             </Link>
             <Spacer>·</Spacer>{' '}
             <Date fontSize={1}>{DateTime.fromISO(date).toRelative()}</Date>
           </Flex>
-          <Link to={'/user/' + user.localId}>
+          <Link to={'/user/' + author.localId}>
             <Username mt={1} fontSize={1} mx={2}>
-              @{user.username}
+              @{author.username}
             </Username>
           </Link>
         </Flex>
@@ -141,7 +144,13 @@ const Thread: SFC<Props> = ({ content, user, date, retweets, inReplyTo }) => {
           </Icon>
         ) : null}
       </Actions>
-      <Talk toggleModal={onOpen} modalIsOpen={isOpen} />
+      <Talk
+        toggleModal={onOpen}
+        author={author}
+        modalIsOpen={isOpen}
+        id={props.comment!.id!}
+        comment={props.comment!}
+      />
     </Wrapper>
   );
 };

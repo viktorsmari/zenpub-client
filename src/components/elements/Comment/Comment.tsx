@@ -9,18 +9,12 @@ import removeMd from 'remove-markdown';
 import { DateTime } from 'luxon';
 import Talk from '../TalkModal';
 import { compose, withState } from 'recompose';
+import { Comment } from 'src/gql/sdk';
 
 interface EventProps {
   userpage?: boolean;
   user?: any;
-  comment: {
-    id: string;
-    content: string;
-    published: string;
-    inReplyTo: any;
-    localId: string;
-    replies: any;
-  };
+  comment: Comment;
   thread?: boolean;
   totalReplies?: string;
   noAction?: boolean;
@@ -38,7 +32,7 @@ const CommentWrapper: React.FC<EventProps> = ({
 }) => {
   return (
     <FeedItem>
-      <NavigateToThread to={`/thread/${comment.localId}`} />
+      <NavigateToThread to={`/thread/${comment!.localId}`} />
       <Member>
         <MemberItem>
           <Img src={user ? user.icon : ''} />
@@ -55,7 +49,7 @@ const CommentWrapper: React.FC<EventProps> = ({
                 ) : null}
               </Link>
               <Spacer>·</Spacer>{' '}
-              <Date>{DateTime.fromISO(comment.published).toRelative()}</Date>
+              <Date>{DateTime.fromISO(comment!.published!).toRelative()}</Date>
             </Name>
           ) : (
             <Name>
@@ -63,21 +57,21 @@ const CommentWrapper: React.FC<EventProps> = ({
             </Name>
           )}
           <>
-            {comment.inReplyTo !== null ? (
+            {comment!.inReplyTo !== null ? (
               <SubText my={1}>
                 <Trans>in reply to</Trans>{' '}
-                <Link to={`/user/${comment.inReplyTo.author.localId}`}>
-                  {comment.inReplyTo.author.name}
+                <Link to={`/user/${comment!.inReplyTo!.author!.localId}`}>
+                  {comment!.inReplyTo!.author!.name}
                 </Link>
               </SubText>
             ) : null}
             <Comment>
-              {comment.content && comment.content.length > 320
-                ? removeMd(comment.content).replace(
+              {comment!.content && comment!.content!.length > 320
+                ? removeMd(comment!.content).replace(
                     /^([\s\S]{316}[^\s]*)[\s\S]*/,
                     '$1...'
                   )
-                : removeMd(comment.content)}
+                : removeMd(comment!.content)}
             </Comment>
           </>
           {noAction ? null : (
@@ -87,7 +81,7 @@ const CommentWrapper: React.FC<EventProps> = ({
                   <ActionIcon onClick={() => onOpen(true)}>
                     <MessageCircle color="rgba(0,0,0,.4)" size="16" />
                   </ActionIcon>
-                  <Text ml={2}>{comment.replies.totalCount}</Text>
+                  <Text ml={2}>{comment!.replies!.totalCount}</Text>
                 </ActionItem>
                 <ActionItem>
                   <ActionIcon>
@@ -100,7 +94,13 @@ const CommentWrapper: React.FC<EventProps> = ({
           )}
         </MemberInfo>
       </Member>
-      <Talk toggleModal={onOpen} modalIsOpen={isOpen} />
+      <Talk
+        toggleModal={onOpen}
+        modalIsOpen={isOpen}
+        comment={comment}
+        author={user}
+        id={comment!.id!}
+      />
     </FeedItem>
   );
 };

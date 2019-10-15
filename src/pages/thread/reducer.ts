@@ -3,8 +3,10 @@ import { gqlResponse } from '../../gql/actions';
 import { GET_THREAD_REPLY, Data } from './types';
 
 const initialState: State = {
-  data: {
-    loading: true
+  thread: {
+    loading: true,
+    error: false,
+    data: null
   }
 };
 export const reducer: Reducer<State> = (old = initialState, action) => {
@@ -14,17 +16,15 @@ export const reducer: Reducer<State> = (old = initialState, action) => {
     action.payload.resp.getThread
   ) {
     const resp = action.payload.resp.getThread;
-    return {
+    const next: State = {
       ...old,
-      data: {
-        ...resp,
-        loading: false
-      }
+      thread: resp
     };
+    return next;
   }
   return old;
 };
 
 export interface State {
-  data: Data;
+  thread: Data;
 }

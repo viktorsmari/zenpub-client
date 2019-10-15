@@ -66,6 +66,7 @@
     "@types/react-select": "3.0.2",
     "@types/rebass": "3.0.4",
     "@types/styled-components": "4.0.0",
+    "@types/yup": "0.26.24",
     "@zendeskgarden/css-avatars": "3.0.8",
     "@zendeskgarden/react-avatars": "3.0.14",
     "@zendeskgarden/react-buttons": "3.6.2",

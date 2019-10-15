@@ -1,24 +1,19 @@
-import React, { useContext, useCallback, useEffect } from 'react';
-import { StoreCtx } from '../../redux/storeProvider';
-import * as C from './';
+import React, { useContext, useEffect } from 'react';
+import { StateContext } from '../../_context/stateCtx';
+import { ActionContext } from '../../_context/actionCtx';
 import { gqlRequest } from '../../gql/actions';
 import { GET_THREAD_REPLY } from './types';
-import Stateless from './stateless_ok';
+import Stateless from './stateless';
 export interface Props {
   id: number;
 }
 export const Thread: React.FC<Props> = ({ id }) => {
-  const { state, dispatch } = useContext(StoreCtx);
-
   const {
     pages: {
-      thread: { data: thread }
+      thread: { thread }
     }
-  } = state;
-  const selectThread = useCallback(
-    (n: number) => dispatch(C.selectThread.create({ thing: n })),
-    [dispatch]
-  );
+  } = useContext(StateContext);
+  const { dispatch } = useContext(ActionContext);
   useEffect(
     () => {
       dispatch(
@@ -31,7 +26,7 @@ export const Thread: React.FC<Props> = ({ id }) => {
     [id]
   );
 
-  return <Stateless {...{ thread, selectThread }} />;
+  return <Stateless {...{ thread }} />;
 };
 
 export default Thread;
