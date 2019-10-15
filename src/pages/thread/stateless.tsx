@@ -8,6 +8,7 @@ import { APP_NAME } from '../../constants';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import Header from './header';
+import { REPLY_THREAD_REPLY } from './types';
 
 export interface Props {
   thread: SdkRespObj['getThread'];
@@ -52,6 +53,7 @@ const Component: React.FC<Props> = ({ thread }) => {
               likes={0}
               retweets={0}
               comment={comment}
+              replyTo={REPLY_THREAD_REPLY}
             />
             {comment.replies!.edges!.reverse().map((c, i) => {
               let author = {

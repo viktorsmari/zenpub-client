@@ -79,6 +79,7 @@ interface Props {
   id: string;
   author: Author;
   comment: CommentData;
+  replyTo: any;
 }
 
 // interface FormValues {
@@ -163,7 +164,7 @@ const CreateCommunityModal = (
       dispatch(
         gqlRequest.create({
           op: { createReplyMutation: [vars] },
-          replyTo: null
+          replyTo: props.replyTo
         })
       );
     },

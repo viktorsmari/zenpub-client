@@ -8,6 +8,7 @@ import Talk from '../TalkModal';
 import Link from '../Link/Link';
 import { Trans } from '@lingui/react';
 import { SdkData } from 'src/gql/actions';
+// import { Comment } from 'src/gql/sdk';
 
 const Icon = styled(Flex)`
   cursor: pointer;
@@ -87,10 +88,11 @@ interface Props {
     localId: string;
   };
   comment: SdkData<'getThread'>['comment'];
+  replyTo: any;
 }
 
 const Thread: SFC<Props> = props => {
-  const { content, author, date, retweets, inReplyTo } = props;
+  const { replyTo, content, author, date, retweets, inReplyTo } = props;
   const [isOpen, onOpen] = useState(false);
   return (
     <Wrapper px={3} py={3}>
@@ -150,6 +152,7 @@ const Thread: SFC<Props> = props => {
         modalIsOpen={isOpen}
         id={props.comment!.id!}
         comment={props.comment!}
+        replyTo={replyTo}
       />
     </Wrapper>
   );
