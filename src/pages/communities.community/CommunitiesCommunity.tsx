@@ -14,7 +14,6 @@ import { clearFix } from 'polished';
 import CollectionCard from '../../components/elements/Collection/Collection';
 import P from '../../components/typography/P/P';
 import Hero from './hero';
-import CommunityModal from '../../components/elements/CommunityModal';
 import EditCommunityModal from '../../components/elements/EditCommunityModal';
 import UsersModal from '../../components/elements/UsersModal';
 import CollectionModal from '../../components/elements/CollectionViewModal';
@@ -84,30 +83,6 @@ class CommunitiesFeatured extends React.Component<Props, State> {
 
       if (this.props.data.community.collections.totalCount) {
         collections = (
-          /* {community.followed ? (
-              <Header>
-                <Actions>
-                  <Create onClick={this.props.handleNewCollection}>
-                    <WrapperAction>
-                      <span>
-                        <Collection
-                          width={40}
-                          height={40}
-                          strokeWidth={1}
-                          color={'#f98012'}
-                        />
-                      </span>
-                      <Trans>Create a collection</Trans>
-                    </WrapperAction>
-                  </Create>
-                </Actions>
-              </Header>
-            ) : (
-              <Footer>
-                <Trans>Join the community to create a collection</Trans>
-              </Footer>
-            )} */
-
           <Box m={2}>
             {this.props.data.community.collections.edges.map((e, i) => (
               <CollectionCard
@@ -125,29 +100,6 @@ class CommunitiesFeatured extends React.Component<Props, State> {
             <P>
               <Trans>This community has no collections.</Trans>
             </P>
-            {/* {community.followed ? (
-              <Header style={{ marginBottom: '8px' }}>
-                <Actions>
-                  <Create onClick={this.props.handleNewCollection}>
-                    <WrapperAction>
-                      <span>
-                        <Collection
-                          width={40}
-                          height={40}
-                          strokeWidth={1}
-                          color={'#282828'}
-                        />
-                      </span>
-                      <Trans>Create a collection</Trans>
-                    </WrapperAction>
-                  </Create>
-                </Actions>
-              </Header>
-            ) : (
-              <Footer>
-                <Trans>Join the community to create a collection</Trans>
-              </Footer>
-            )} */}
           </OverviewCollection>
         );
       }
@@ -187,10 +139,6 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                 editCommunity={this.props.editCommunity}
               />
               <Switch>
-                {/* <Route
-                  path={`/communities/${community.localId}/thread/:id`}
-                  component={Thread}
-                /> */}
                 <Route
                   path={this.props.match.url}
                   exact
@@ -213,12 +161,6 @@ class CommunitiesFeatured extends React.Component<Props, State> {
               </Switch>
             </Wrapper>
           </WrapperCont>
-          <CommunityModal
-            toggleModal={this.props.handleNewCollection}
-            modalIsOpen={this.props.isOpen}
-            communityId={community.localId}
-            communityExternalId={community.id}
-          />
           <EditCommunityModal
             toggleModal={this.props.editCommunity}
             modalIsOpen={this.props.isEditCommunityOpen}
@@ -324,21 +266,6 @@ export const Create = styled.div`
     background: ${props => props.theme.styles.colour.newcommunityBgHover};
   }
 `;
-
-// const Header = styled.div`
-//   ${clearFix()};
-// `;
-
-// const Footer = styled.div`
-//   height: 30px;
-//   line-height: 30px;
-//   font-weight: 600;
-//   text-align: center;
-//   background: #ffefd9;
-//   font-size: 13px;
-//   border-bottom: 1px solid ${props => props.theme.styles.colour.divider};
-//   color: #544f46;
-// `;
 
 const OverviewCollection = styled.div`
   padding-top: 8px;

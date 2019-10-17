@@ -8,11 +8,10 @@ import { compose, graphql, OperationOption } from 'react-apollo';
 import * as Yup from 'yup';
 import { i18n } from '../../../containers/App/App';
 import Alert from '../../elements/Alert';
-import Text from '../../inputs/Text/Text';
-import Textarea from '../../inputs/TextArea/Textarea';
 import H5 from '../../typography/H5/H5';
-import Button from '../Button/Button';
+import { Button } from 'rebass';
 import Modal from '../Modal';
+import { Input, Textarea } from '@rebass/forms';
 import {
   Actions,
   Container,
@@ -85,7 +84,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                 name="name"
                 render={({ field }) => (
                   <>
-                    <Text
+                    <Input
                       placeholder={i18n._(tt.placeholders.name)}
                       name={field.name}
                       value={field.value}
@@ -125,7 +124,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
               <Field
                 name="image"
                 render={({ field }) => (
-                  <Text
+                  <Input
                     placeholder={i18n._(tt.placeholders.image)}
                     name={field.name}
                     value={field.value}
@@ -137,14 +136,10 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
             </ContainerForm>
           </Row>
           <Actions>
-            <Button
-              disabled={isSubmitting}
-              type="submit"
-              style={{ marginLeft: '10px' }}
-            >
+            <Button disabled={isSubmitting} type="submit" ml={2}>
               <Trans>Create</Trans>
             </Button>
-            <Button onClick={toggleModal} secondary>
+            <Button onClick={toggleModal}>
               <Trans>Cancel</Trans>
             </Button>
           </Actions>

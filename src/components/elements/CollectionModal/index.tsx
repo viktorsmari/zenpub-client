@@ -1,6 +1,5 @@
 // Add a resource to collection - step 1
 
-import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Field, Form, FormikProps, withFormik } from 'formik';
 import { clearFix } from 'polished';
@@ -11,14 +10,11 @@ import { compose, withState } from 'recompose';
 import * as Yup from 'yup';
 import { i18n } from '../../../containers/App/App';
 import styled from '../../../themes/styled';
-import Text from '../../inputs/Text/Text';
-import H5 from '../../typography/H5/H5';
 import { Search } from '../Icons';
 import Loader from '../Loader/Loader';
-import Modal from '../Modal';
 import { Row } from '../Modal/modal';
 import Fetched from './fetched';
-
+import { Input } from '@rebass/forms';
 const tt = {
   placeholders: {
     url: i18nMark('Enter the URL of the resource'),
@@ -81,56 +77,48 @@ const withFetchResource = graphql<{}>(FETCH_RESOURCE, {
 } as OperationOption<{}, {}>);
 
 const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
-  const { toggleModal, modalIsOpen } = props;
   return (
-    <Modal isOpen={modalIsOpen} toggleModal={toggleModal}>
-      <Container>
-        <Header>
-          <H5>
-            <Trans>Add a new resource</Trans>
-          </H5>
-        </Header>
-        <Row>
-          <ContainerForm>
-            <Form>
-              <Field
-                name="fetchUrl"
-                render={({ field }) => (
-                  <Text
-                    placeholder={i18n._(tt.placeholders.url)}
-                    onChange={field.onChange}
-                    name={field.name}
-                    value={field.value}
-                  />
-                )}
-              />
-              <Span disabled={props.isSubmitting} type="submit">
-                <Search width={18} height={18} strokeWidth={2} color={'#333'} />
-              </Span>
-              {/* <LoaderButton loading={props.isSubmitting}  text={i18n._(tt.placeholders.submit)}  /> */}
-            </Form>
-          </ContainerForm>
-        </Row>
-        {props.isSubmitting ? (
-          <WrapperLoader>
-            <Loader />
-          </WrapperLoader>
-        ) : null}
-        {props.fetched ? (
-          <Fetched
-            url={props.url}
-            name={props.name}
-            image={props.image}
-            summary={props.summary}
-            collectionId={props.collectionId}
-            toggleModal={props.toggleModal}
-            collectionExternalId={props.collectionExternalId}
-            isFetched={props.isFetched}
-            onUrl={props.onUrl}
-          />
-        ) : null}
-      </Container>
-    </Modal>
+    <div>
+      <Row>
+        <ContainerForm>
+          <Form>
+            <Field
+              name="fetchUrl"
+              render={({ field }) => (
+                <Input
+                  placeholder={i18n._(tt.placeholders.url)}
+                  onChange={field.onChange}
+                  name={field.name}
+                  value={field.value}
+                />
+              )}
+            />
+            <Span disabled={props.isSubmitting} type="submit">
+              <Search width={18} height={18} strokeWidth={2} color={'#333'} />
+            </Span>
+            {/* <LoaderButton loading={props.isSubmitting}  text={i18n._(tt.placeholders.submit)}  /> */}
+          </Form>
+        </ContainerForm>
+      </Row>
+      {props.isSubmitting ? (
+        <WrapperLoader>
+          <Loader />
+        </WrapperLoader>
+      ) : null}
+      {props.fetched ? (
+        <Fetched
+          url={props.url}
+          name={props.name}
+          image={props.image}
+          summary={props.summary}
+          collectionId={props.collectionId}
+          toggleModal={props.toggleModal}
+          collectionExternalId={props.collectionExternalId}
+          isFetched={props.isFetched}
+          onUrl={props.onUrl}
+        />
+      ) : null}
+    </div>
   );
 };
 
@@ -198,42 +186,11 @@ const Span = styled.button`
   }
 `;
 
-const Container = styled.div`
-  font-family: ${props => props.theme.styles.fontFamily};
-  & form {
-  }
-`;
-
-// const Row = styled.div<{ big?: boolean }>`
-//   ${clearFix()};
-//   border-bottom: 1px solid rgba(151, 151, 151, 0.2);
-//   height: ${props => (props.big ? '180px' : 'auto')};
-//   display: flex;
-//   padding: 20px;
-//   & textarea {
-//     height: 120px;
-//   }
-//   & label {
-//     width: 200px;
-//     line-height: 40px;
-//   }
-// `;
-
 const ContainerForm = styled.div`
   flex: 1;
   ${clearFix()};
   position: relative;
   & form {
     width: 100%;
-  }
-`;
-
-const Header = styled.div`
-  height: 60px;
-  border-bottom: 1px solid rgba(151, 151, 151, 0.2);
-  & h5 {
-    text-align: center !important;
-    line-height: 60px !important;
-    margin: 0 !important;
   }
 `;

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { SFC } from 'react';
 import { Trans } from '@lingui/macro';
 import { Tabs, TabPanel } from 'react-tabs';
@@ -8,12 +8,13 @@ import ResourceCard from '../../components/elements/Resource/Resource';
 // import { Resource } from '../../components/elements/Icons';
 import Link from '../../components/elements/Link/Link';
 import media from 'styled-media-query';
-
+import { Button, Flex } from 'rebass';
 import {
   Footer,
   WrapperTab,
   OverlayTab
 } from '../communities.community/Community';
+import CollectionModal from '../../components/elements/CollectionModal';
 // import CollectionsLoadMore from 'src/components/elements/Loadmore/followingCollections';
 
 interface Props {
@@ -29,11 +30,10 @@ interface Props {
 const CommunityPage: SFC<Props> = ({
   collection,
   community_name,
-  resources,
-  fetchMore,
-  addNewResource,
-  type
+  resources
 }) => {
+  const [isOpen, onOpen] = useState(false);
+  console.log(isOpen);
   return (
     <WrapperTab>
       <OverlayTab>
@@ -66,22 +66,29 @@ const CommunityPage: SFC<Props> = ({
                   </Footer>
                 )}
                 <CollectionList>
-                  {/* {collection.community.followed &&
-                  resources.totalCount < 10 ? (
-                    <>
-                      <Create onClick={addNewResource}>
-                        <span>
-                          <Resource
-                            width={40}
-                            height={40}
-                            strokeWidth={1}
-                            color={'#f98012'}
-                          />
-                        </span>
-                        <Trans>Add a new resource</Trans>
-                      </Create>
-                    </>
-                  ) : null} */}
+                  {collection.community.followed ? (
+                    isOpen === true ? (
+                      <ButtonWrapper>
+                        <Button m={3} onClick={() => onOpen(false)}>
+                          <Trans>Cancel</Trans>
+                        </Button>
+                      </ButtonWrapper>
+                    ) : (
+                      <ButtonWrapper>
+                        <Button m={3} onClick={() => onOpen(true)}>
+                          <Trans>Share a link</Trans>
+                        </Button>
+                      </ButtonWrapper>
+                    )
+                  ) : null}
+                  {isOpen === true ? (
+                    <CollectionModal
+                      modalIsOpen={isOpen}
+                      collectionId={collection.localId}
+                      collectionExternalId={collection.id}
+                    />
+                  ) : null}
+
                   {resources.edges.map((edge, i) => (
                     <ResourceCard
                       key={i}
@@ -101,42 +108,17 @@ const CommunityPage: SFC<Props> = ({
     </WrapperTab>
   );
 };
-
-// const Create = styled.div`
-//   background: ${props => props.theme.styles.colour.resourceBg};
-//   padding: 20px;
-//   margin-bottom: 8px;
-//   border-radius: 3px;
-//   border: 2px dashed #f98012;
-//   cursor: pointer;
-//   text-align: center;
-//   max-height: 120px;
-//   color: #f98012;
-//   display: flex;
-//   align-items: center;
-//   flex-direction: column;
-//   & span {
-//     display: block;
-//     text-align: center;
-//     // margin-top: 60px;
-//     margin-bottom: 8px;
-//   }
-//   ${media.lessThan('medium')`
-//   display: block;
-//   padding: 0;
-//   padding: 20px;
-//   & span {
-//     margin-top: 10px;
-//   }
-//   & a {
-//     text-decoration: none;
-//   }
-// &:last-of-type {
-//   margin-bottom: 0;
-//   border-bottom: 0px;
-// }
-// `};
-// `;
+const ButtonWrapper = styled(Flex)`
+  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
+  button {
+    flex: 1;
+    border: 2px solid ${props => props.theme.styles.colors.orange} !important;
+    background: none;
+    font-weight: 600;
+    color: ${props => props.theme.styles.colors.darkgray} !important;
+    cursor: pointer;
+  }
+`;
 const Wrapper = styled.div`
   flex: 1;
 `;

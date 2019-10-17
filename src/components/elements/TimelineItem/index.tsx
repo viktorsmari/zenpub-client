@@ -23,7 +23,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
     <FeedItem>
       <NavigateToThread to={`/thread/${node.object.localId}`} />
       <Member>
-        <MemberItem>
+        <MemberItem mr={2}>
           <Img src={user ? user.icon : ''} />
         </MemberItem>
         <MemberInfo>
@@ -281,7 +281,7 @@ const MemberItem = styled(Box)`
   z-index: 0;
   vertical-align: inherit;
   margin-right: 8px;
-  min-width: 48px;
+  min-width: 48px !important;
 `;
 
 const Img = styled.img`

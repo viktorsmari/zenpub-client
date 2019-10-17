@@ -17,9 +17,6 @@ import Button from '../Button/Button';
 import Comment from '../Comment/Comment';
 import Modal from '../Modal';
 import { Actions, Container } from '../Modal/modal';
-// import { SdkData } from 'src/gql/actions';
-// import { getGlob } from 'src/_context/GLOB';
-// import { /* gqlRequest,  */SdkData } from 'src/gql/actions';
 
 const TextWrapper = styled(Flex)`
   padding: 16px;
@@ -57,10 +54,6 @@ const Avatar = styled(Box)`
   margin-right: 8px;
 `;
 
-// const {
-//   createCollectionMutation
-// } = require('../../../graphql/createCollection.graphql');
-
 const tt = {
   placeholders: {
     name: i18nMark('Post a reply'),
@@ -82,53 +75,12 @@ interface Props {
   replyTo: any;
 }
 
-// interface FormValues {
-//   text: string;
-// }
-
-// interface MyFormProps {
-//   communityId: string;
-//   communityExternalId: string;
-//   createCollection: any;
-//   toggleModal: any;
-// }
-
-// const withCreateCollection = graphql<{}>(createCollectionMutation, {
-//   name: 'createCollection'
-//   // TODO enforce proper types for OperationOption
-// } as OperationOption<{}, {}>);
-
 interface Author {
   image: string;
   name: string;
   username: string;
   localId: string;
 }
-
-// interface _Comment  {
-//   id: string;
-//   content: string;
-//   published: string;
-//   inReplyTo: any;
-//   localId: string;
-//   replies: any;
-// }
-
-// let author = {
-//   icon:
-//     'https://home.next.moodle.net/media/ZVnBBCYKbG42IonFQKi_n56Hyrc/aHR0cHM6Ly9pbWFnZXMudW5zcGxhc2guY29tL3Bob3RvLTE1NjE5NjYxMzEtMjQ3YjgxMTFlOTdlP2l4bGliPXJiLTEuMi4xJmF1dG89Zm9ybWF0JmZpdD1jcm9wJnc9MTI4NSZxPTgw/photo-1561966131-247b8111e97e',
-//   name: 'Bernini',
-//   localId: '35',
-//   preferredUsername: 'bernini'
-// };
-
-// let comment = {
-//   id: '35',
-//   content: 'This is a sample message',
-//   published: '',
-//   inReplyTo: null,
-//   localId: '35'
-// };
 
 const CreateCommunityModal = (
   props: Props /*  & FormikProps<FormValues> */
@@ -200,19 +152,5 @@ const CreateCommunityModal = (
     </Modal>
   );
 };
-
-// const ModalWithFormik = withFormik<Props & MyFormProps, FormValues>({
-//   mapPropsToValues: props => ({
-//     ...props,
-//     text: ''
-//   }),
-//   validationSchema: Yup.object().shape({
-//     text: Yup.string().required()
-//   }),
-//   handleSubmit: (values, { props, setSubmitting } ) => {
-//     // getGlob().action.dispatch(gqlRequest.create({op:{createReplyMutation:[{comment:values.text,id:values.}]}}))
-//     console.log(values, props)
-//   }
-// })(CreateCommunityModal);
 
 export default CreateCommunityModal; // compose(withCreateCollection)(ModalWithFormik);
