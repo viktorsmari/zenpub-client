@@ -7,7 +7,7 @@ import { DateTime } from 'luxon';
 import Talk from '../TalkModal';
 import Link from '../Link/Link';
 import { Trans } from '@lingui/react';
-import { SdkData } from 'src/gql/actions';
+import { SdkData } from '../../../gql/actions';
 // import { Comment } from 'src/gql/sdk';
 
 const Icon = styled(Flex)`

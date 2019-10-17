@@ -5,7 +5,7 @@ import { Box, Flex } from 'rebass';
 import {
   Comment as CommentData,
   CreateReplyMutationMutationVariables
-} from 'src/gql/sdk';
+} from '../../../gql/sdk';
 import { string } from 'yup';
 import { i18n } from '../../../containers/App/App';
 import { gqlRequest } from '../../../gql/actions';

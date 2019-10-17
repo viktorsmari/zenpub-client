@@ -9,7 +9,7 @@ import removeMd from 'remove-markdown';
 import { DateTime } from 'luxon';
 import Talk from '../TalkModal';
 import { compose, withState } from 'recompose';
-import { Comment } from 'src/gql/sdk';
+import { Comment } from '../../../gql/sdk';
 
 interface EventProps {
   userpage?: boolean;

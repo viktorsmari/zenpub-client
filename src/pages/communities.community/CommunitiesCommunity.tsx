@@ -201,6 +201,7 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                       community={community}
                       fetchMore={this.props.data.fetchMore}
                       type={'community'}
+                      refetch={() => this.props.data.refetch()}
                     />
                   )}
                 />

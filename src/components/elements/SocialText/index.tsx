@@ -1,10 +1,18 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, {
+  useRef,
+  useState,
+  useCallback,
+  MutableRefObject,
+  useEffect
+} from 'react';
 import { dropEmoji, getEmoji } from '../../../util/emoji';
 import EmojiPicker from 'emoji-picker-react';
 import styled from 'styled-components';
 
 export interface Props
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  reference: MutableRefObject<HTMLTextAreaElement | undefined>;
+}
 export const SocialText: React.FC<Props> = props => {
   const ref = useRef<any>();
   const [isOpen, setOpen] = useState(false);
@@ -20,7 +28,12 @@ export const SocialText: React.FC<Props> = props => {
     },
     [ref.current]
   );
-
+  useEffect(
+    () => {
+      props.reference.current = ref.current;
+    },
+    [ref.current]
+  );
   return (
     <Wrapper>
       {isOpen ? (

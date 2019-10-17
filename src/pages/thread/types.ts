@@ -1,4 +1,4 @@
-import { SdkRespObj } from 'src/gql/actions';
+import { SdkRespObj } from '../../gql/actions';
 
 export type Data = SdkRespObj['getThread'];
 

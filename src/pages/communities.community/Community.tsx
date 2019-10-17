@@ -2,12 +2,11 @@ import { Trans } from '@lingui/macro';
 import * as React from 'react';
 import { SFC } from 'react';
 import { TabPanel, Tabs } from 'react-tabs';
-import { gqlRequest } from '../../gql/actions';
-import { ActionContext } from '../../_context/actionCtx';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
 import { SocialText } from '../../components/elements/SocialText';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem';
+import { GqlSdkCtx } from '../../containers/App/ProvideGqlSdk';
 // import Discussion from '../../components/chrome/Discussion/Discussion';
 import styled from '../../themes/styled';
 
@@ -17,6 +16,7 @@ interface Props {
   fetchMore: any;
   type: string;
   match: any;
+  refetch: () => unknown;
 }
 
 const CommunityPage: SFC<Props> = ({
@@ -24,25 +24,38 @@ const CommunityPage: SFC<Props> = ({
   community,
   fetchMore,
   match,
-  type
+  type,
+  refetch
 }) => {
-  const { dispatch } = React.useContext(ActionContext);
+  // const { dispatch } = React.useContext(ActionContext);
+  // const history = useHistory();
+  const sdk = React.useContext(GqlSdkCtx);
   const [newThreadText, setNewThreadText] = React.useState('');
   const addNewThread = React.useCallback(
     () => {
-      dispatch(
-        gqlRequest.create({
-          op: {
-            createThreadMutation: [
-              { comment: { content: newThreadText }, id: community.localId }
-            ]
-          },
-          replyTo: null
+      // dispatch(
+      //   gqlRequest.create({
+      //     op: {
+      //       createThreadMutation: [
+      //         { comment: { content: newThreadText }, id: community.localId }
+      //       ]
+      //     },
+      //     replyTo: null
+      //   })
+      // );
+      sdk
+        .createThreadMutation({
+          comment: { content: newThreadText },
+          id: community.localId
         })
-      );
+        .then(() => {
+          socialTextRef.current && (socialTextRef.current.value = '');
+          refetch();
+        });
     },
     [newThreadText, community.localId]
   );
+  const socialTextRef = React.useRef<HTMLTextAreaElement>();
   const setNewThreadTextInput = React.useCallback(
     (ev: React.FormEvent<HTMLTextAreaElement>) => {
       setNewThreadText(ev.currentTarget.value);
@@ -71,7 +84,10 @@ const CommunityPage: SFC<Props> = ({
           </SuperTab> */}
           </SuperTabList>
           <TabPanel>
-            <SocialText onInput={setNewThreadTextInput} />
+            <SocialText
+              onInput={setNewThreadTextInput}
+              reference={socialTextRef}
+            />
             <button onClick={addNewThread} disabled={!newThreadText.length}>
               send
             </button>
