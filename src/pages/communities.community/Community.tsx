@@ -1,12 +1,15 @@
+import { Trans } from '@lingui/macro';
 import * as React from 'react';
 import { SFC } from 'react';
-import { Trans } from '@lingui/macro';
-import { Tabs, TabPanel } from 'react-tabs';
-// import Discussion from '../../components/chrome/Discussion/Discussion';
-import styled from '../../themes/styled';
+import { TabPanel, Tabs } from 'react-tabs';
+import { gqlRequest } from '../../gql/actions';
+import { ActionContext } from '../../_context/actionCtx';
+import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
+import { SocialText } from '../../components/elements/SocialText';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem';
-import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
+// import Discussion from '../../components/chrome/Discussion/Discussion';
+import styled from '../../themes/styled';
 
 interface Props {
   collections: any;
@@ -22,41 +25,69 @@ const CommunityPage: SFC<Props> = ({
   fetchMore,
   match,
   type
-}) => (
-  <WrapperTab>
-    <OverlayTab>
-      <Tabs defaultIndex={1}>
-        <SuperTabList>
-          <SuperTab>
-            <h5>
-              <Trans>Recent activities</Trans>
-            </h5>
-          </SuperTab>
-          <SuperTab>
-            <h5>
-              <Trans>Collections</Trans>
-            </h5>
-          </SuperTab>
-          {/* <SuperTab>
+}) => {
+  const { dispatch } = React.useContext(ActionContext);
+  const [newThreadText, setNewThreadText] = React.useState('');
+  const addNewThread = React.useCallback(
+    () => {
+      dispatch(
+        gqlRequest.create({
+          op: {
+            createThreadMutation: [
+              { comment: { content: newThreadText }, id: community.localId }
+            ]
+          },
+          replyTo: null
+        })
+      );
+    },
+    [newThreadText, community.localId]
+  );
+  const setNewThreadTextInput = React.useCallback(
+    (ev: React.FormEvent<HTMLTextAreaElement>) => {
+      setNewThreadText(ev.currentTarget.value);
+    },
+    []
+  );
+  return (
+    <WrapperTab>
+      <OverlayTab>
+        <Tabs defaultIndex={1}>
+          <SuperTabList>
+            <SuperTab>
+              <h5>
+                <Trans>Recent activities</Trans>
+              </h5>
+            </SuperTab>
+            <SuperTab>
+              <h5>
+                <Trans>Collections</Trans>
+              </h5>
+            </SuperTab>
+            {/* <SuperTab>
             <h5>
               <Trans>Discussions</Trans>
             </h5>
           </SuperTab> */}
-        </SuperTabList>
-        <TabPanel>
-          <div>
-            {community.inbox.edges.map((t, i) => (
-              <TimelineItem node={t.node} user={t.node.user} key={i} />
-            ))}
-            <div style={{ padding: '8px' }}>
-              <LoadMoreTimeline fetchMore={fetchMore} community={community} />
+          </SuperTabList>
+          <TabPanel>
+            <SocialText onInput={setNewThreadTextInput} />
+            <button onClick={addNewThread} disabled={!newThreadText.length}>
+              send
+            </button>
+            <div>
+              {community.inbox.edges.map((t, i) => (
+                <TimelineItem node={t.node} user={t.node.user} key={i} />
+              ))}
+              <div style={{ padding: '8px' }}>
+                <LoadMoreTimeline fetchMore={fetchMore} community={community} />
+              </div>
             </div>
-          </div>
-        </TabPanel>
-        <TabPanel>
-          <div>{collections}</div>
-        </TabPanel>
-        {/* <TabPanel>
+          </TabPanel>
+          <TabPanel>
+            <div>{collections}</div>
+          </TabPanel>
+          {/* <TabPanel>
           {community.followed ? (
             <Discussion
               localId={community.localId}
@@ -80,11 +111,11 @@ const CommunityPage: SFC<Props> = ({
             </>
           )}
         </TabPanel> */}
-      </Tabs>
-    </OverlayTab>
-  </WrapperTab>
-);
-
+        </Tabs>
+      </OverlayTab>
+    </WrapperTab>
+  );
+};
 export const Footer = styled.div`
   height: 30px;
   line-height: 30px;
