@@ -9,49 +9,6 @@ import { dropEmoji, getEmoji } from '../../../util/emoji';
 import EmojiPicker from 'emoji-picker-react';
 import styled from 'styled-components';
 
-export interface Props
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  reference: MutableRefObject<HTMLTextAreaElement | undefined>;
-}
-export const SocialText: React.FC<Props> = props => {
-  const ref = useRef<any>();
-  const [isOpen, setOpen] = useState(false);
-  const toggle = useCallback(() => setOpen(!isOpen), [isOpen]);
-  const addEmoji = React.useCallback(
-    (code, obj) => {
-      console.log(code, obj);
-      if (!ref.current) {
-        return;
-      }
-      const textarea = ref.current as HTMLTextAreaElement;
-      dropEmoji(textarea, obj.name);
-    },
-    [ref.current]
-  );
-  useEffect(
-    () => {
-      props.reference.current = ref.current;
-    },
-    [ref.current]
-  );
-  return (
-    <Wrapper>
-      {isOpen ? (
-        <PickerWrap>
-          <EmojiPicker preload onEmojiClick={addEmoji} />
-        </PickerWrap>
-      ) : null}
-      <SocialTextDiv>
-        <SocialTextArea ref={ref} {...props} />
-        <SocialTextTrigger onClick={toggle}>
-          {getEmoji('slightly_smiling_face')}
-        </SocialTextTrigger>
-      </SocialTextDiv>
-    </Wrapper>
-  );
-};
-export default SocialText;
-
 const PickerWrap = styled.div`
   width: 100%;
 `;
@@ -80,3 +37,46 @@ const SocialTextArea = styled.textarea`
     height: 160px;
   }
 `;
+
+export interface Props
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  reference?: MutableRefObject<HTMLTextAreaElement | undefined>;
+}
+export const SocialText: React.FC<Props> = props => {
+  const ref = useRef<any>();
+  const [isOpen, setOpen] = useState(false);
+  const toggle = useCallback(() => setOpen(!isOpen), [isOpen]);
+  const addEmoji = React.useCallback(
+    (code, obj) => {
+      console.log(code, obj);
+      if (!ref.current) {
+        return;
+      }
+      const textarea = ref.current as HTMLTextAreaElement;
+      dropEmoji(textarea, obj.name);
+    },
+    [ref.current]
+  );
+  useEffect(
+    () => {
+      props.reference && (props.reference.current = ref.current);
+    },
+    [ref.current]
+  );
+  return (
+    <Wrapper>
+      {isOpen ? (
+        <PickerWrap>
+          <EmojiPicker preload onEmojiClick={addEmoji} />
+        </PickerWrap>
+      ) : null}
+      <SocialTextDiv>
+        <SocialTextArea ref={ref} {...props} />
+        <SocialTextTrigger onClick={toggle}>
+          {getEmoji('slightly_smiling_face')}
+        </SocialTextTrigger>
+      </SocialTextDiv>
+    </Wrapper>
+  );
+};
+export default SocialText;

@@ -63,7 +63,7 @@ export const getEmoji = (emojiName: string) =>
 export const dropEmoji = (
   elem: HTMLTextAreaElement | HTMLInputElement,
   emojiName: string
-) => (elem.value = getWithNewTextAtCursor(elem, getEmoji(emojiName)));
+) => setNativeValue(elem, getWithNewTextAtCursor(elem, getEmoji(emojiName)));
 
 export const getWithNewTextAtCursor = (
   elem: HTMLTextAreaElement | HTMLInputElement,
@@ -79,3 +79,25 @@ export const getWithNewTextAtCursor = (
 
   return `${textBefore}${text}${textAfter}`;
 };
+
+/**
+ *
+ *  https://github.com/facebook/react/issues/10135#issuecomment-314441175
+ *
+ */
+function setNativeValue(element: any, value: any) {
+  const valueSetter = Object.getOwnPropertyDescriptor(element, 'value')!.set;
+  const prototype = Object.getPrototypeOf(element);
+  const prototypeValueSetter = Object.getOwnPropertyDescriptor(
+    prototype,
+    'value'
+  )!.set;
+
+  if (valueSetter && valueSetter !== prototypeValueSetter) {
+    prototypeValueSetter!.call(element, value);
+  } else {
+    valueSetter!.call(element, value);
+  }
+  element.dispatchEvent(new Event('input', { bubbles: true }));
+  element.dispatchEvent(new Event('change', { bubbles: true }));
+}
