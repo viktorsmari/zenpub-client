@@ -16,17 +16,24 @@ export const Thread: React.FC<Props> = ({ id }) => {
   const { dispatch } = useContext(ActionContext);
   useEffect(
     () => {
-      dispatch(
-        gqlRequest.create({
-          replyTo: GET_THREAD_REPLY,
-          op: { getThread: [{ id }] }
-        })
-      );
+      if (
+        !thread ||
+        ('data' in thread &&
+          thread.data &&
+          thread.data.comment!.localId! !== id)
+      ) {
+        dispatch(
+          gqlRequest.create({
+            replyTo: GET_THREAD_REPLY,
+            op: { getThread: [{ id }] }
+          })
+        );
+      }
     },
-    [id]
+    [id, thread]
   );
 
-  return <Stateless {...{ thread }} />;
+  return thread && <Stateless {...{ thread }} />;
 };
 
 export default Thread;

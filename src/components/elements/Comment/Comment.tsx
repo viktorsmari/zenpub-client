@@ -100,6 +100,7 @@ const CommentWrapper: React.FC<EventProps> = ({
         comment={comment}
         author={user}
         id={comment!.id!}
+        replyTo={null}
       />
     </FeedItem>
   );

@@ -1,13 +1,9 @@
 import { Reducer } from 'redux';
 import { gqlResponse } from '../../gql/actions';
-import { GET_THREAD_REPLY, Data } from './types';
+import { GET_THREAD_REPLY, Data, REPLY_THREAD_REPLY } from './types';
 
 const initialState: State = {
-  thread: {
-    loading: true,
-    error: false,
-    data: null
-  }
+  thread: null
 };
 export const reducer: Reducer<State> = (old = initialState, action) => {
   if (
@@ -21,10 +17,18 @@ export const reducer: Reducer<State> = (old = initialState, action) => {
       thread: resp
     };
     return next;
+  } else if (
+    gqlResponse.is(action) &&
+    action.payload.replyTo === REPLY_THREAD_REPLY &&
+    action.payload.resp.createReplyMutation &&
+    !action.payload.resp.createReplyMutation.loading
+  ) {
+    const next: State = initialState;
+    return next;
   }
   return old;
 };
 
 export interface State {
-  thread: Data;
+  thread: Data | null;
 }

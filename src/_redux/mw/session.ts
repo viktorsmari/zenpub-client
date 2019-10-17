@@ -1,17 +1,23 @@
 import { Middleware } from 'redux';
 import * as Sess from '../session';
+import { setToken } from '../../gql/actions';
 
 const LOCAL_STORAGE_SESSION_KEY = 'MOO_LOCAL_STORAGE_SESSION';
 export const createSessionMW = (): Middleware => store => next => {
-  const obj = parse(localStorage.getItem(LOCAL_STORAGE_SESSION_KEY));
-  if (obj) {
-    next(Sess.login.create(obj));
-  }
+  let obj = parse(localStorage.getItem(LOCAL_STORAGE_SESSION_KEY));
   return action => {
-    if (Sess.login.is(action))
+    if (obj) {
+      let _ = obj;
+      obj = null;
+      store.dispatch(Sess.login.create(_));
+    }
+    if (Sess.login.is(action)) {
       localStorage.setItem(LOCAL_STORAGE_SESSION_KEY, strng(action.payload));
-    else if (Sess.logout.is(action))
+      store.dispatch(setToken.create(action.payload!.token!));
+    } else if (Sess.logout.is(action)) {
       localStorage.removeItem(LOCAL_STORAGE_SESSION_KEY);
+      store.dispatch(setToken.create(''));
+    }
     return next(action);
   };
 };
