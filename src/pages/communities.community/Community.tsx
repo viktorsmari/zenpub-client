@@ -1,12 +1,14 @@
-import { SFC } from 'react';
 import { Trans } from '@lingui/macro';
-import { Tabs, TabPanel } from 'react-tabs';
-import styled from '../../themes/styled';
+import React, { useState } from 'react';
+import { SFC } from 'react';
+import { TabPanel, Tabs } from 'react-tabs';
+import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
+import { SocialText } from '../../components/elements/SocialText';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem';
-import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
-import { Button, Flex } from 'rebass';
-import React, { useState } from 'react';
+import { GqlSdkCtx } from '../../containers/App/ProvideGqlSdk';
+import styled from '../../themes/styled';
+import { Flex, Button } from 'rebass';
 import CommunityModal from '../../components/elements/CommunityModal';
 
 interface Props {
@@ -15,11 +17,53 @@ interface Props {
   fetchMore: any;
   type: string;
   match: any;
+  refetch: () => unknown;
 }
 
-const CommunityPage: SFC<Props> = ({ collections, community, fetchMore }) => {
+const CommunityPage: SFC<Props> = ({
+  collections,
+  community,
+  fetchMore,
+  match,
+  type,
+  refetch
+}) => {
+  // const { dispatch } = React.useContext(ActionContext);
+  // const history = useHistory();
+  const sdk = React.useContext(GqlSdkCtx);
   const [isOpen, onOpen] = useState(false);
-  console.log(community);
+  const [newThreadText, setNewThreadText] = React.useState('');
+  const addNewThread = React.useCallback(
+    () => {
+      // dispatch(
+      //   gqlRequest.create({
+      //     op: {
+      //       createThreadMutation: [
+      //         { comment: { content: newThreadText }, id: community.localId }
+      //       ]
+      //     },
+      //     replyTo: null
+      //   })
+      // );
+      sdk
+        .createThreadMutation({
+          comment: { content: newThreadText },
+          id: community.localId
+        })
+        .then(() => {
+          socialTextRef.current && (socialTextRef.current.value = '');
+          refetch();
+        });
+    },
+    [newThreadText, community.localId]
+  );
+  const socialTextRef = React.useRef<HTMLTextAreaElement>();
+  const setNewThreadTextInput = React.useCallback(
+    (ev: React.FormEvent<HTMLTextAreaElement>) => {
+      setNewThreadText(ev.currentTarget.value);
+    },
+    []
+  );
   return (
     <WrapperTab>
       <OverlayTab>
@@ -35,8 +79,20 @@ const CommunityPage: SFC<Props> = ({ collections, community, fetchMore }) => {
                 <Trans>Collections</Trans>
               </h5>
             </SuperTab>
+            {/* <SuperTab>
+            <h5>
+              <Trans>Discussions</Trans>
+            </h5>
+          </SuperTab> */}
           </SuperTabList>
           <TabPanel>
+            <SocialText
+              onInput={setNewThreadTextInput}
+              reference={socialTextRef}
+            />
+            <button onClick={addNewThread} disabled={!newThreadText.length}>
+              send
+            </button>
             <div>
               {community.inbox.edges.map((t, i) => (
                 <TimelineItem node={t.node} user={t.node.user} key={i} />
@@ -67,9 +123,6 @@ const CommunityPage: SFC<Props> = ({ collections, community, fetchMore }) => {
   );
 };
 
-const ButtonWrapper = styled(Flex)`
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
-`;
 export const Footer = styled.div`
   height: 30px;
   line-height: 30px;
@@ -79,6 +132,10 @@ export const Footer = styled.div`
   font-size: 13px;
   border-bottom: 1px solid ${props => props.theme.styles.colour.divider};
   color: #544f46;
+`;
+
+const ButtonWrapper = styled(Flex)`
+  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
 `;
 
 const CreateCollection = styled(Button)`
