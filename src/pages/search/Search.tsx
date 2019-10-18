@@ -5,9 +5,14 @@ import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import styled from '../../themes/styled';
 
 import { Hits, Pagination, Configure } from 'react-instantsearch-dom';
-import { Trans } from '@lingui/macro';
+// import { Trans } from '@lingui/macro';
 
-const CommunityWrapper = styled(Box)`
+const urlParams = new URLSearchParams(window.location.search);
+const moodle_core_download_url = decodeURI(
+  urlParams.get('moodle_core_download_url') || ''
+);
+
+const ResultWrapper = styled(Box)`
   border-radius: 4px;
   background: #ffffff;
   border-radius: 4px;
@@ -21,7 +26,7 @@ const Community = styled(Flex)`
   border-bottom: 3px solid #f9f9f9;
 `;
 const CommunityImage = styled(Box)`
-  width: 100px;
+  width: 100%;
   height: 100px;
   border-radius: 6px;
   background-size: cover;
@@ -31,6 +36,39 @@ const CommunityText = styled(Text)`
   font-weight: 800;
 `;
 
+const Collection = styled(Flex)`
+  border-bottom: 3px solid white;
+  background: #f1e5db;
+`;
+const CollectionImage = styled(Box)`
+  width: 100px;
+  height: 100px;
+  border-radius: 6px;
+  background-size: cover;
+`;
+
+const CollectionText = styled(Text)`
+  font-size: 16px;
+  font-weight: 800;
+`;
+
+const UrlLink = styled.a`
+  text-decoration: none;
+  width: 100%;
+  display: block;
+`;
+
+const UrlBlock = styled(UrlLink)`
+  text-decoration: none;
+  width: 100%;
+  display: block;
+`;
+
+const Resource = styled.div`
+  margin-left: 15px;
+  background-color: #f9f0e8;
+`;
+
 const SubText = styled(Text)`
   font-size: 11px;
   font-weight: 800;
@@ -38,115 +76,74 @@ const SubText = styled(Text)`
   color: ${props => props.theme.styles.colors.darkgray};
 `;
 
-const BoxResource = styled(Box)`
-  > div {
-    border-bottom: 1px solid #efefef;
-  }
-`;
-const PaginationWrapper = styled(Box)`
-  display: flex;
-  flex: 1;
-  width: 100%;
-  margin: 24px 0;
-  .ais-Pagination {
-    margin: 0 auto;
-    margin-bottom: 16px;
-  }
-  .ais-Pagination-item--disabled {
-    background: #eaeaea !important;
-    border: 1px solid #dadada;
-  }
-
-  .ais-Pagination-item {
-    width: 30px;
-    height: 30px;
-    background: #f5801f;
-    margin-right: 4px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    flex: 1;
-    &.ais-Pagination-item--selected {
-      background: #c7600b;
-      a,
-      span {
-        color: white;
-      }
-    }
-    a {
-      flex: 1;
-      color: black;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 13px;
-      width: 100%;
-      height: 100%;
-      line-height: 30px;
-    }
-    span {
-      flex: 1;
-      color: black;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 13px;
-      width: 100%;
-      height: 100%;
-      line-height: 30px;
-    }
-  }
-`;
-
-function Hit(props) {
-  var community = props.hit;
+function Result(props) {
+  var hit = props.hit;
 
   return (
-    <CommunityWrapper m={2} mb={3}>
-      <Community>
-        <CommunityImage
-          m={3}
-          style={{ backgroundImage: `url(${community.icon})` }}
-        />
-        <CommunityText ml={1}>{community.name}</CommunityText>
-      </Community>
-      <BoxResource>
+    <ResultWrapper m={2} mb={4}>
+      {hit.collection ? (
         <SubText p={2}>
-          <Trans>Resources list</Trans>
+          <a href={hit.collection.community.id}>
+            {hit.collection.community.name}
+          </a>{' '}
+          > <a href={hit.collection.id}>{hit.collection.name}</a>
         </SubText>
-        {community.collections.map((collection, i_col) =>
-          collection_resources(collection)
-        )}
-      </BoxResource>
-    </CommunityWrapper>
+      ) : hit.community ? (
+        <SubText p={2}>
+          <a href={hit.community.id}>{hit.community.name}</a>
+        </SubText>
+      ) : (
+        <span />
+      )}
+      {hit.index_type == 'Resource' ? (
+        <Resource>
+          <ResourceCard
+            key={hit.id}
+            icon={hit.icon}
+            title={hit.name}
+            summary={hit.summary}
+            url={hit.url}
+            coreIntegrationURL={
+              moodle_core_download_url
+                ? moodle_core_download_url +
+                  `&sourceurl=` +
+                  encodeURIComponent(hit.url) +
+                  `&moodleneturl=` +
+                  encodeURIComponent(hit.id) +
+                  `&name=` +
+                  encodeURIComponent(hit.name) +
+                  `&description=` +
+                  encodeURIComponent(hit.summary)
+                : null
+            }
+          />
+        </Resource>
+      ) : hit.index_type == 'Collection' ? (
+        <Collection>
+          <UrlBlock href={hit.id}>
+            <CollectionImage
+              m={3}
+              style={{ backgroundImage: `url(${hit.icon || hit.image})` }}
+            />
+            <CollectionText ml={1}>{hit.name}</CollectionText>
+          </UrlBlock>
+          <div>{hit.summary}</div>
+        </Collection>
+      ) : (
+        <Community>
+          <UrlBlock href={hit.id}>
+            <CommunityImage
+              m={3}
+              style={{ backgroundImage: `url(${hit.image || hit.icon})` }}
+            >
+              <CommunityText ml={1}>{hit.name}</CommunityText>
+            </CommunityImage>
+          </UrlBlock>
+          <div>{hit.summary}</div>
+        </Community>
+      )}
+    </ResultWrapper>
   );
-}
-
-function collection_resources(collection) {
-  const urlParams = new URLSearchParams(window.location.search);
-  const moodle_core_download_url = decodeURI(
-    urlParams.get('moodle_core_download_url') || ''
-  );
-  return collection.resources.map((resource, i_res) => (
-    <ResourceCard
-      key={i_res}
-      icon={resource.icon}
-      title={resource.name}
-      summary={resource.summary}
-      url={resource.url}
-      coreIntegrationURL={
-        moodle_core_download_url
-          ? moodle_core_download_url +
-            `&sourceurl=` +
-            encodeURIComponent(resource.url) +
-            `&moodleneturl=` +
-            encodeURIComponent(collection.id) +
-            `&name=` +
-            encodeURIComponent(resource.name) +
-            `&description=` +
-            encodeURIComponent(resource.summary)
-          : null
-      }
-    />
-  ));
 }
 
 export default class extends React.Component {
@@ -157,8 +154,8 @@ export default class extends React.Component {
           {/* <Wrapper>
           <WrapperCont> */}
           <Configure hitsPerPage={8} />
-          <Box width={'100%'}>
-            <Hits hitComponent={Hit} />
+          <Box>
+            <Hits hitComponent={Result} />
           </Box>
           <PaginationWrapper>
             <Pagination />
