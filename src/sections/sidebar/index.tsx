@@ -6,7 +6,6 @@ import { Trans } from '@lingui/macro';
 import { NavLink } from 'react-router-dom';
 import { Globe } from 'react-feather';
 import OutsideClickHandler from 'react-outside-click-handler';
-// import Input from '../../components/inputs/Text/Text';
 import media from 'styled-media-query';
 import { ellipsis } from 'polished';
 import Dropdown from './dropdown';
@@ -124,13 +123,6 @@ const NavItem = styled(Flex)`
   }
 `};
 `;
-// const SupText = styled(Text)`
-//   color: ${props => props.theme.styles.colors.gray};
-//   text-transform: uppercase;
-//   ${media.lessThan('1280px')`
-//   display: none;
-// `};
-// `;
 
 const ItemTitle = styled(Text)`
   color: ${props => props.theme.styles.colors.darkgray};

@@ -25,16 +25,6 @@ import { NavLink } from 'react-router-dom';
 const localActivities = require('../../graphql/localActivities.graphql');
 
 interface Data extends GraphqlQueryControls {
-  // localActivities: {
-  //   user: {
-  //     name: string;
-  //     icon: string;
-  //     summary: string;
-  //     id: string;
-  //     localId: string;
-  //     inbox: any;
-  //   };
-  // };
   localActivities: any;
 }
 
@@ -43,7 +33,6 @@ interface Props {
 }
 
 const Home: React.FC<Props> = props => {
-  console.log(props.data.error);
   return (
     <MainContainer>
       <HomeBox>
@@ -164,9 +153,7 @@ const WrapperFeatured = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  background: white;
-  border-radius: 6px;
-  margin-top: 16px;
+  margin-top: 8px;
 `;
 
 const withGetInbox = graphql<

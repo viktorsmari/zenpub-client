@@ -269,16 +269,22 @@ export const Create = styled.div`
 `;
 
 const OverviewCollection = styled.div`
-  padding-top: 8px;
-  margin-bottom: -8px;
-  flex: 1;
-  & button {
-    margin-left: 8px
-    margin-bottom: 16px;
-  }
-  & p {
-    margin-top: 0 !important;
-    padding: 8px;
+  background: ${props => props.theme.styles.colors.lighter};
+  margin: 16px;
+  padding: 32px;
+  text-align: center;
+  border-radius: 6px;
+  display: flex;
+  height: 100px;
+  padding: 0;
+  p {
+    flex: 1;
+    align-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    line-height: 100px;
+    margin: 0;
   }
 `;
 

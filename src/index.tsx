@@ -33,14 +33,16 @@ async function run() {
         height: 40px;
         display: flex;
         flex-grow: 1;
-        background: #f9f0e8;
+        background: #fff;
         border-radius: 100px;
         margin: 0 8px;
         text-indent: 8px;
+        margin-left: 16px;
+        border: 1px solid #dadada
         input {
           height: 100%;
           border: none;
-          background: #f9f0e8;
+          background: #fff;
           margin: 0 !important; 
         }
       }
