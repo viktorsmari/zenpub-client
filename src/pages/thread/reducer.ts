@@ -1,34 +1,36 @@
 import { Reducer } from 'redux';
 import { gqlResponse } from '../../gql/actions';
-import { GET_THREAD_REPLY, Data, REPLY_THREAD_REPLY } from './types';
+import { Data, THREAD_PAGE_GQL_REPLY } from './types';
 
 const initialState: State = {
-  thread: null
+  thread: null,
+  refreshing: null
 };
 export const reducer: Reducer<State> = (old = initialState, action) => {
   if (
     gqlResponse.is(action) &&
-    action.payload.replyTo === GET_THREAD_REPLY &&
-    action.payload.resp.getThread
+    action.payload.replyTo === THREAD_PAGE_GQL_REPLY
   ) {
-    const resp = action.payload.resp.getThread;
-    const next: State = {
-      ...old,
-      thread: resp
-    };
-    return next;
-  } else if (
-    gqlResponse.is(action) &&
-    action.payload.replyTo === REPLY_THREAD_REPLY &&
-    action.payload.resp.createReplyMutation &&
-    !action.payload.resp.createReplyMutation.loading
-  ) {
-    const next: State = initialState;
-    return next;
+    if (action.payload.resp.getThread) {
+      const resp = action.payload.resp.getThread;
+      const next: State = {
+        ...old,
+        thread: resp,
+        refreshing: old.thread && !old.thread.loading ? old.thread : resp
+      };
+      return next;
+    } else if (!action.payload.resp.undoLikeCommentMutation.loading) {
+      const next: State = {
+        ...old,
+        thread: null
+      };
+      return next;
+    }
   }
   return old;
 };
 
-export interface State {
+export type State = {
   thread: Data | null;
-}
+  refreshing: Data | null;
+};

@@ -3,14 +3,15 @@ import { DateTime } from 'luxon';
 import { clearFix } from 'polished';
 import * as React from 'react';
 import { SFC } from 'react';
-import removeMd from 'remove-markdown';
-import styled from '../../../themes/styled';
-import Link from '../Link/Link';
+import { NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass';
-import Resource from '../Resource/Resource';
+import removeMd from 'remove-markdown';
+import { GqlSdkCtx } from '../../../containers/App/ProvideGqlSdk';
+import styled from '../../../themes/styled';
 import Collection from '../Collection/CollectionSmall';
 import CommunitySmall from '../Community/CommunitySmall';
-import { NavLink } from 'react-router-dom';
+import Link from '../Link/Link';
+import Resource from '../Resource/Resource';
 import Actions from './Actions';
 interface Props {
   userpage?: boolean;
@@ -19,6 +20,23 @@ interface Props {
 }
 
 const Item: SFC<Props> = ({ user, node, userpage }) => {
+  const FAKE________COMMENT_I_LIKE_IT = !!Math.round(Math.random());
+  const sdk = React.useContext(GqlSdkCtx);
+  const [iLikeIt, setiLikeIt] = React.useState(FAKE________COMMENT_I_LIKE_IT);
+  const toggleLike = React.useCallback(
+    () => {
+      if (iLikeIt) {
+        sdk
+          .likeCommentMutation({ localId: node.object.localId })
+          .then(_ => setiLikeIt(false));
+      } else {
+        sdk
+          .undoLikeCommentMutation({ localId: node.object.localId })
+          .then(_ => setiLikeIt(true));
+      }
+    },
+    [node, iLikeIt]
+  );
   return (
     <FeedItem>
       <NavigateToThread to={`/thread/${node.object.localId}`} />
@@ -151,8 +169,10 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
 
           {node.activityType === 'CreateComment' ? (
             <Actions
-              totalReplies={node.object.replies.totalCount}
-              totalLikes={0}
+              totalReplies={node.object.replies.totalCount as number}
+              totalLikes={node.object.likers.totalCount as number}
+              toggleLike={toggleLike}
+              iLikeIt={iLikeIt}
             />
           ) : null}
         </MemberInfo>
@@ -160,7 +180,6 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
     </FeedItem>
   );
 };
-
 const NavigateToThread = styled(Link)`
   position: absolute;
   left: 0;

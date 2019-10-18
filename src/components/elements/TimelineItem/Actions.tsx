@@ -3,7 +3,18 @@ import { MessageCircle, Star } from 'react-feather';
 import styled from '../../../themes/styled';
 import { Box, Flex, Text } from 'rebass';
 
-const ActionsWrapper = ({ totalReplies, totalLikes }) => (
+export interface Props {
+  totalReplies: number;
+  totalLikes: number;
+  iLikeIt: boolean;
+  toggleLike: () => unknown;
+}
+const ActionsWrapper = ({
+  totalReplies,
+  totalLikes,
+  iLikeIt,
+  toggleLike
+}: Props) => (
   <Actions mt={2}>
     <Items>
       <ActionItem>
@@ -14,7 +25,11 @@ const ActionsWrapper = ({ totalReplies, totalLikes }) => (
       </ActionItem>
       <ActionItem>
         <ActionIcon>
-          <Star color="rgba(0,0,0,.4)" size="16" />
+          <Star
+            onClick={toggleLike}
+            color={iLikeIt ? 'yellow' : 'rgba(0,0,0,.4)'}
+            size="16"
+          />
         </ActionIcon>
         <Text ml={2}>{totalLikes}</Text>
       </ActionItem>

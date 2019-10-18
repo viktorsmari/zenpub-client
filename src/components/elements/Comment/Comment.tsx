@@ -1,15 +1,17 @@
 import { Trans } from '@lingui/macro';
+import { DateTime } from 'luxon';
 import { clearFix } from 'polished';
 import * as React from 'react';
-import styled from '../../../themes/styled';
-import Link from '../Link/Link';
 import { MessageCircle, Star } from 'react-feather';
 import { Box, Flex, Text } from 'rebass';
-import removeMd from 'remove-markdown';
-import { DateTime } from 'luxon';
-import Talk from '../TalkModal';
 import { compose, withState } from 'recompose';
+import removeMd from 'remove-markdown';
+import { gqlRequest } from '../../../gql/actions';
 import { Comment } from '../../../gql/sdk';
+import styled from '../../../themes/styled';
+import { ActionContext } from '../../../_context/actionCtx';
+import Link from '../Link/Link';
+import Talk from '../TalkModal';
 
 interface EventProps {
   userpage?: boolean;
@@ -20,6 +22,7 @@ interface EventProps {
   noAction?: boolean;
   onOpen(boolean): unknown;
   isOpen: boolean;
+  replyTo: any;
 }
 
 const CommentWrapper: React.FC<EventProps> = ({
@@ -28,8 +31,37 @@ const CommentWrapper: React.FC<EventProps> = ({
   comment,
   noAction,
   onOpen,
-  isOpen
+  isOpen,
+  replyTo
 }) => {
+  const FAKE________COMMENT_I_LIKE_IT = !!Math.round(Math.random());
+  const { dispatch } = React.useContext(ActionContext);
+  const [iLikeIt, setiLikeIt] = React.useState(FAKE________COMMENT_I_LIKE_IT);
+  const toggleLike = React.useCallback(
+    () => {
+      if (iLikeIt) {
+        dispatch(
+          gqlRequest.create({
+            op: {
+              undoLikeCommentMutation: [{ localId: comment!.localId! }]
+            },
+            replyTo
+          })
+        );
+      } else {
+        dispatch(
+          gqlRequest.create({
+            op: {
+              likeCommentMutation: [{ localId: comment!.localId! }]
+            },
+            replyTo
+          })
+        );
+      }
+      setiLikeIt(!iLikeIt);
+    },
+    [comment, iLikeIt]
+  );
   return (
     <FeedItem>
       <NavigateToThread to={`/thread/${comment!.localId}`} />
@@ -85,9 +117,13 @@ const CommentWrapper: React.FC<EventProps> = ({
                 </ActionItem>
                 <ActionItem>
                   <ActionIcon>
-                    <Star color="rgba(0,0,0,.4)" size="16" />
+                    <Star
+                      onClick={toggleLike}
+                      color={iLikeIt ? 'yellow' : 'rgba(0,0,0,.4)'}
+                      size="16"
+                    />
                   </ActionIcon>
-                  <Text ml={2}>0</Text>
+                  <Text ml={2}>{comment!.likers!.totalCount}</Text>
                 </ActionItem>
               </Items>
             </Actions>

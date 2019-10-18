@@ -2,5 +2,4 @@ import { SdkRespObj } from '../../gql/actions';
 
 export type Data = SdkRespObj['getThread'];
 
-export const GET_THREAD_REPLY = `pages.thread.getThread`;
-export const REPLY_THREAD_REPLY = `pages.thread.replyThread`;
+export const THREAD_PAGE_GQL_REPLY = `pages.thread.gqlReply`;

@@ -23,6 +23,9 @@ fragment BasicComment on Comment {
       preferredUsername
     }
   }
+  likers {
+    totalCount
+  }
   context {
     __typename
     ... on Community {
