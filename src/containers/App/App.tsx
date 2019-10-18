@@ -1,16 +1,18 @@
 import { Catalogs, setupI18n } from '@lingui/core';
 import { Trans } from '@lingui/macro';
 import { I18nProvider } from '@lingui/react';
-import '@zendeskgarden/react-checkboxes/dist/styles.css';
-import '@zendeskgarden/react-select/dist/styles.css';
-import '@zendeskgarden/react-tabs/dist/styles.css';
-import '@zendeskgarden/react-textfields/dist/styles.css';
+// import '@zendeskgarden/react-checkboxes/dist/styles.css';
+// import '@zendeskgarden/react-select/dist/styles.css';
+// import '@zendeskgarden/react-tabs/dist/styles.css';
+// import '@zendeskgarden/react-textfields/dist/styles.css';
 import { Settings } from 'luxon';
 import * as React from 'react';
 import { ThemeProvider } from '../../styleguide/Wrapper';
 import '../../styles/loader.css';
 import '../../styles/social-icons.css';
 import Router from './Router';
+import { ProvideContexts } from '../../_context';
+import { ProvideGqlSdk } from './ProvideGqlSdk';
 
 const LocalStorageLocaleKey = 'locale';
 
@@ -132,19 +134,23 @@ export default class App extends React.Component<{}, State> {
     }
 
     return (
-      <ThemeProvider>
-        <LocaleContext.Provider value={this.state}>
-          <I18nProvider
-            i18n={i18n}
-            language={this.state.locale}
-            catalogs={this.state.catalogs}
-          >
-            {/* <AppStyles> */}
-            <Router />
-            {/* </AppStyles> */}
-          </I18nProvider>
-        </LocaleContext.Provider>
-      </ThemeProvider>
+      <ProvideContexts>
+        <ProvideGqlSdk>
+          <ThemeProvider>
+            <LocaleContext.Provider value={this.state}>
+              <I18nProvider
+                i18n={i18n}
+                language={this.state.locale}
+                catalogs={this.state.catalogs}
+              >
+                {/* <AppStyles> */}
+                <Router />
+                {/* </AppStyles> */}
+              </I18nProvider>
+            </LocaleContext.Provider>
+          </ThemeProvider>
+        </ProvideGqlSdk>
+      </ProvideContexts>
     );
   }
 }

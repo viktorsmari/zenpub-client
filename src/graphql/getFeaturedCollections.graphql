@@ -1,3 +1,5 @@
+#import "./fragments/basicCollection.graphql"
+
 query getFeaturedCollections(
   $one: Int!
   $two: Int!
@@ -8,80 +10,24 @@ query getFeaturedCollections(
   $seven: Int!
   ) {
   one: collection(localId: $one) {
-    id
-    localId
-    name
-    summary
-    icon
-    followers {totalCount}
-    resources {totalCount}
-    threads {totalCount}
-    followed
+    ...BasicCollection
   }
    two: collection(localId: $two) {
-    id
-    localId
-    name
-    summary
-    icon
-    followers {totalCount}
-    resources {totalCount}
-    threads {totalCount}
-    followed
+    ...BasicCollection
   }
   three: collection(localId: $three) {
-    id
-    localId
-    name
-    summary
-    icon
-    followers {totalCount}
-    resources {totalCount}
-    threads {totalCount}
-    followed
+    ...BasicCollection
   }
    four: collection(localId: $four) {
-    id
-    localId
-    name
-    summary
-    icon
-    followers {totalCount}
-    resources {totalCount}
-    threads {totalCount}
-    followed
+    ...BasicCollection
   }
   five: collection(localId: $five) {
-    id
-    localId
-    name
-    summary
-    icon
-    followers {totalCount}
-    resources {totalCount}
-    threads {totalCount}
-    followed
+    ...BasicCollection
   }
   six: collection(localId: $six) {
-    id
-    localId
-    name
-    summary
-    icon
-    followers {totalCount}
-    resources {totalCount}
-    threads {totalCount}
-    followed
+    ...BasicCollection
   }
   seven: collection(localId: $seven) {
-    id
-    localId
-    name
-    summary
-    icon
-    followers {totalCount}
-    resources {totalCount}
-    threads {totalCount}
-    followed
+    ...BasicCollection
   }
 }

@@ -1,11 +1,9 @@
-query meQuery(
-  $limitComm: Int, 
-  $endComm: Int, 
-  $limitColl: Int, 
-  $endColl: Int, 
-  $limitTimeline:Int, 
-  $endTimeline:Int
-  )  {
+#import "./fragments/basicComment.graphql"
+#import "./fragments/basicCollection.graphql"
+#import "./fragments/basicResource.graphql"
+#import "./fragments/basicCommunity.graphql"
+#import "./fragments/basicUser.graphql"
+query getUser($limitComm: Int, $endComm: Int, $limitColl: Int, $endColl: Int, $limitTimeline: Int, $endTimeline: Int) {
   me {
     user {
       id
@@ -15,7 +13,7 @@ query meQuery(
       summary
       icon
       image
-      joinedCommunities(limit: $limitComm, after:$endComm) {
+      joinedCommunities(limit: $limitComm, after: $endComm) {
         pageInfo {
           startCursor
           endCursor
@@ -29,120 +27,80 @@ query meQuery(
             summary
             icon
             collections {
-            totalCount
+              totalCount
             }
-          threads {totalCount}
-          members {
-            totalCount
+            threads {
+              totalCount
+            }
+            members {
+              totalCount
+            }
+            followed
           }
-          followed
         }
       }
-    }
-      outbox (limit: $limitTimeline, after:$endTimeline) {
+      outbox(limit: $limitTimeline, after: $endTimeline) {
         pageInfo {
-            startCursor
-            endCursor
+          startCursor
+          endCursor
         }
         edges {
           node {
             id
             activityType
-            published
             type
+            published
+            user {
+              ...BasicUser
+            }
             object {
               __typename
               ... on Community {
-              id
-              name
-              localId
+                ...BasicCommunity
               }
               ... on Comment {
-              id
-              localId
-              context {
-                __typename
-                ... on Community {
-                  id
-                  name
-                  localId
-                }
-                ... on Collection {
-                  id
-                  name
-                  localId
-                }
-              }
-              localId
+                ...BasicComment
               }
               ... on Collection {
-              id
-              name
-              localId
-              summary
-              icon
-              community {
-                id
-                localId
+                ...BasicCollection
               }
-              }
-                ... on Resource {
-              id
-              name
-              localId
-              summary
-              icon
-              url
-              collection {
-                  name
-                  localId
-                  community {
-                    localId
-                  }
-              }
+              ... on Resource {
+                ...BasicResource
               }
             }
-            user {
-              name
-              id
-              localId
-              icon
-            }
+          }
         }
       }
-    }
-    followingCollections(limit: $limitColl, after:$endColl) {
-      pageInfo {
-        startCursor
-        endCursor
-      }
-      edges {
-        node {
-          id
-          localId
-          preferredUsername
-          name
-          summary
-          icon
-          community {
-            localId
+      followingCollections(limit: $limitColl, after: $endColl) {
+        pageInfo {
+          startCursor
+          endCursor
+        }
+        edges {
+          node {
             id
-          }
-          followed
-          followers {
-            totalCount
-          }
-          resources {
-            totalCount
-          }
+            localId
+            preferredUsername
+            name
+            summary
+            icon
+            community {
+              localId
+              id
+            }
+            followed
+            followers {
+              totalCount
+            }
+            resources {
+              totalCount
+            }
             threads {
-            totalCount
+              totalCount
+            }
           }
         }
-    }
-  }
-
+      }
     }
   }
 }
-

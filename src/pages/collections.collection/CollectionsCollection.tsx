@@ -10,7 +10,6 @@ import Collection from '../../types/Collection';
 import { compose, withState, withHandlers } from 'recompose';
 import { RouteComponentProps } from 'react-router';
 import Loader from '../../components/elements/Loader/Loader';
-import CollectionModal from '../../components/elements/CollectionModal';
 import EditCollectionModal from '../../components/elements/EditCollectionModal';
 const getCollection = require('../../graphql/getCollection.graphql');
 import { Route, Switch } from 'react-router-dom';
@@ -136,13 +135,6 @@ class CollectionComponent extends React.Component<Props> {
             />
           </Switch>
         </WrapperCont>
-
-        <CollectionModal
-          toggleModal={this.props.addNewResource}
-          modalIsOpen={this.props.isOpen}
-          collectionId={collection.localId}
-          collectionExternalId={collection.id}
-        />
         <EditCollectionModal
           toggleModal={this.props.editCollection}
           modalIsOpen={this.props.isEditCollectionOpen}
@@ -273,10 +265,8 @@ const withGetCollection = graphql<
 
 export default compose(
   withGetCollection,
-  withState('isOpen', 'onOpen', false),
   withState('isEditCollectionOpen', 'onEditCollectionOpen', false),
   withHandlers({
-    addNewResource: props => () => props.onOpen(!props.isOpen),
     editCollection: props => () =>
       props.onEditCollectionOpen(!props.isEditCollectionOpen)
   })

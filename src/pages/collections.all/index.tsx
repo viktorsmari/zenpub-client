@@ -4,7 +4,6 @@ import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
 import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
 import { compose, withState, withHandlers } from 'recompose';
-import Main from '../../components/chrome/Main/Main';
 import CollectionCard from '../../components/elements/Collection/Collection';
 import Loader from '../../components/elements/Loader/Loader';
 import CollectionsLoadMore from '../../components/elements/Loadmore/collections';
@@ -13,7 +12,7 @@ import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
 import CollectionType from '../../types/Collection';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-
+import { Flex } from 'rebass';
 const { getCollectionsQuery } = require('../../graphql/getCollections.graphql');
 
 interface Data extends GraphqlQueryControls {
@@ -34,7 +33,7 @@ interface Props {
 class CommunitiesYours extends React.Component<Props> {
   render() {
     return (
-      <Main>
+      <Flex>
         <WrapperCont>
           <Wrapper>
             <Tabs>
@@ -79,7 +78,7 @@ class CommunitiesYours extends React.Component<Props> {
             </Tabs>
           </Wrapper>
         </WrapperCont>
-      </Main>
+      </Flex>
     );
   }
 }

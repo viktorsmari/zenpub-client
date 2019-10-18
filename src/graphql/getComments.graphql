@@ -1,8 +1,0 @@
-query getCommentsQuery($id: Int!) {
-    comments(contextLocalId: $id)  {
-        localId
-        content
-        id
-        published
-    }
-}

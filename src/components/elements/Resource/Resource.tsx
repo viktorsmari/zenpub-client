@@ -17,8 +17,7 @@ import * as React from 'react';
 import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
 import styled from '../../../themes/styled';
-import H5 from '../../typography/H5/H5';
-import P from '../../typography/P/P';
+import { Heading, Text } from 'rebass';
 import Button from '../Button/Button';
 import EditResourceModal from '../EditResourceModal';
 const PlaceholderImg = require('../Icons/resourcePlaceholder.png');
@@ -167,7 +166,7 @@ const Img = styled.div`
     margin-top: 8px;
   `};
 `;
-const Title = styled(H5)`
+const Title = styled(Heading)`
   margin: 0 !important;
   font-size: 15px !important;
   line-height: 22px !important;
@@ -180,7 +179,7 @@ const Title = styled(H5)`
   line-height: 24px !important;
 `};
 `;
-const Summary = styled(P)`
+const Summary = styled(Text)`
   margin: 0 !important;
   margin-top: 4px;
   color: ${props => props.theme.styles.colour.resourceNote}

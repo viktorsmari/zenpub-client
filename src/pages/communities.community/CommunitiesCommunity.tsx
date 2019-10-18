@@ -12,9 +12,8 @@ import Loader from '../../components/elements/Loader/Loader';
 import '../../containers/App/basic.css';
 import { clearFix } from 'polished';
 import CollectionCard from '../../components/elements/Collection/Collection';
-import P from '../../components/typography/P/P';
+
 import Hero from './hero';
-import CommunityModal from '../../components/elements/CommunityModal';
 import EditCommunityModal from '../../components/elements/EditCommunityModal';
 import UsersModal from '../../components/elements/UsersModal';
 import CollectionModal from '../../components/elements/CollectionViewModal';
@@ -30,15 +29,13 @@ import {
   Nav,
   NavItem
 } from '../../sections/panel';
-import { Box } from 'rebass';
+import { Box, Text } from 'rebass';
 const { getCommunityQuery } = require('../../graphql/getCommunity.graphql');
 enum TabsEnum {
   // Overview = 'Overview',
   Collections = 'Collections',
   Discussion = 'Discussion'
 }
-import Thread from '../thread';
-
 interface Data extends GraphqlQueryControls {
   community: Community;
 }
@@ -86,30 +83,6 @@ class CommunitiesFeatured extends React.Component<Props, State> {
 
       if (this.props.data.community.collections.totalCount) {
         collections = (
-          /* {community.followed ? (
-              <Header>
-                <Actions>
-                  <Create onClick={this.props.handleNewCollection}>
-                    <WrapperAction>
-                      <span>
-                        <Collection
-                          width={40}
-                          height={40}
-                          strokeWidth={1}
-                          color={'#f98012'}
-                        />
-                      </span>
-                      <Trans>Create a collection</Trans>
-                    </WrapperAction>
-                  </Create>
-                </Actions>
-              </Header>
-            ) : (
-              <Footer>
-                <Trans>Join the community to create a collection</Trans>
-              </Footer>
-            )} */
-
           <Box m={2}>
             {this.props.data.community.collections.edges.map((e, i) => (
               <CollectionCard
@@ -124,32 +97,9 @@ class CommunitiesFeatured extends React.Component<Props, State> {
       } else {
         collections = (
           <OverviewCollection>
-            <P>
+            <Text>
               <Trans>This community has no collections.</Trans>
-            </P>
-            {/* {community.followed ? (
-              <Header style={{ marginBottom: '8px' }}>
-                <Actions>
-                  <Create onClick={this.props.handleNewCollection}>
-                    <WrapperAction>
-                      <span>
-                        <Collection
-                          width={40}
-                          height={40}
-                          strokeWidth={1}
-                          color={'#282828'}
-                        />
-                      </span>
-                      <Trans>Create a collection</Trans>
-                    </WrapperAction>
-                  </Create>
-                </Actions>
-              </Header>
-            ) : (
-              <Footer>
-                <Trans>Join the community to create a collection</Trans>
-              </Footer>
-            )} */}
+            </Text>
           </OverviewCollection>
         );
       }
@@ -189,10 +139,6 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                 editCommunity={this.props.editCommunity}
               />
               <Switch>
-                {/* <Route
-                  path={`/communities/${community.localId}/thread/:id`}
-                  component={Thread}
-                /> */}
                 <Route
                   path={this.props.match.url}
                   exact
@@ -203,6 +149,7 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                       community={community}
                       fetchMore={this.props.data.fetchMore}
                       type={'community'}
+                      refetch={() => this.props.data.refetch()}
                     />
                   )}
                 />
@@ -219,12 +166,6 @@ class CommunitiesFeatured extends React.Component<Props, State> {
               </Switch>
             </Wrapper>
           </WrapperCont>
-          <CommunityModal
-            toggleModal={this.props.handleNewCollection}
-            modalIsOpen={this.props.isOpen}
-            communityId={community.localId}
-            communityExternalId={community.id}
-          />
           <EditCommunityModal
             toggleModal={this.props.editCommunity}
             modalIsOpen={this.props.isEditCommunityOpen}
@@ -331,32 +272,23 @@ export const Create = styled.div`
   }
 `;
 
-// const Header = styled.div`
-//   ${clearFix()};
-// `;
-
-// const Footer = styled.div`
-//   height: 30px;
-//   line-height: 30px;
-//   font-weight: 600;
-//   text-align: center;
-//   background: #ffefd9;
-//   font-size: 13px;
-//   border-bottom: 1px solid ${props => props.theme.styles.colour.divider};
-//   color: #544f46;
-// `;
-
 const OverviewCollection = styled.div`
-  padding-top: 8px;
-  margin-bottom: -8px;
-  flex: 1;
-  & button {
-    margin-left: 8px
-    margin-bottom: 16px;
-  }
-  & p {
-    margin-top: 0 !important;
-    padding: 8px;
+  background: ${props => props.theme.styles.colors.lighter};
+  margin: 16px;
+  padding: 32px;
+  text-align: center;
+  border-radius: 6px;
+  display: flex;
+  height: 100px;
+  padding: 0;
+  p {
+    flex: 1;
+    align-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    line-height: 100px;
+    margin: 0;
   }
 `;
 

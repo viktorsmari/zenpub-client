@@ -17,7 +17,7 @@ export const WrapperPanel = styled(Flex)`
   padding: 0px;
   position: relative;
   z-index: 0;
-  margin-top: 16px;
+  margin-top: 16px !important;
   margin-right: 10px;
   ${media.lessThan('1095px')`
   width: 290px;
@@ -44,7 +44,7 @@ export const PanelInner = styled(Flex)`
 `;
 
 export const Panel = styled(Box)`
-  background: #f9f0e8!important
+  background: #fff;
   border-radius: 4px;
   align-items: stretch;
   border: 0 solid black;
@@ -58,7 +58,7 @@ export const Panel = styled(Box)`
   padding: 0px;
   position: relative;
   z-index: 0;
-  margin-bottom: 16px;
+  margin-bottom: 16px !important;
 `;
 
 export const PanelTitle = styled(Text)`

@@ -1,6 +1,5 @@
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
-// import { Col, Row } from '@zendeskgarden/react-grid';
 import { withTheme } from '@zendeskgarden/react-theming';
 import { clearFix } from 'polished';
 import * as React from 'react';
@@ -15,22 +14,12 @@ import SignupModal from '../../components/elements/SignupModal';
 import { APP_NAME } from '../../constants';
 import { i18n } from '../../containers/App/App';
 import styled, { ThemeInterface } from '../../themes/styled';
-// import Logo from '../../components/brand/Logo/Logo';
-// import LanguageSelect from '../../components/inputs/LanguageSelect/LanguageSelect';
-// import H6 from '../../components/typography/H6/H6';
+
 import LoginForm from './LoginForm';
 import { ValidationField, ValidationObject, ValidationType } from './types';
-// const { getUserQuery } = require('../../graphql/getUser.client.graphql');
-// const { setUserMutation } = require('../../graphql/setUser.client.graphql');
+import { login } from '../../_redux/session';
+import { GlobCtx } from '../../_context/GLOB';
 const { loginMutation } = require('../../graphql/login.graphql');
-
-// const tt = {
-//   with: {
-//     fb: i18nMark('Sign in with Facebook'),
-//     g: i18nMark('Sign in with Google'),
-//     tw: i18nMark('Sign in with Twitter')
-//   },
-// };
 
 const Signup = styled(Button)`
   margin-top: 24px !important;
@@ -42,29 +31,6 @@ const Signup = styled(Button)`
   }
 `;
 
-// const BodyCenterContent = styled.div`
-//   margin: 0 auto;
-//   margin-top: 36px;
-//   padding: 0 16px;
-// `;
-
-// const WrapperLogin = styled.div`
-//   padding: 24px;
-//   padding-top: 24px;
-//   background: white;
-//   border-radius: 8px;
-//   box-shadow: 0 4px 24px 4px rgba(100, 100, 100, 0.1);
-//   padding-top: 1px;
-// `;
-
-// const LanguageWrapper = styled.div`
-//   margin-top: 24px;
-//   margin-bottom: 24px;
-//   & div {
-//     background: white !important;
-//     color: ${props => props.theme.styles.colour.base1} !important;
-//   }
-// `;
 const Background = styled.div`
   background-image: url('https://i.imgur.com/zpWmkgE.png');
   background-size: contain;
@@ -78,12 +44,6 @@ const Tagline = styled.h5`
   color: #000000a1;
   font-weight: 500;
 `;
-// const Roww = styled(Row)`
-//   width: 1040px;
-//   ${media.lessThan('medium')`
-//    width: 100%;
-//    `};
-// `;
 
 const Logo = styled.div`
   background: url(https://i.imgur.com/YdflNQp.png);
@@ -260,6 +220,8 @@ type CredentialsObject = {
 // };
 
 class Login extends React.Component<LoginProps, LoginState> {
+  static contextType = GlobCtx;
+  context!: React.ContextType<typeof GlobCtx>;
   state = {
     redirectTo: null,
     authenticating: false,
@@ -337,6 +299,7 @@ class Login extends React.Component<LoginProps, LoginState> {
     const userData = result.data.createSession;
 
     // TODO pull key out into constant
+    this.context.action.dispatch(login.create(userData));
     process.env.REACT_APP_GRAPHQL_ENDPOINT ===
     'https://home.moodle.net/api/graphql'
       ? localStorage.setItem('user_access_token', userData.token)

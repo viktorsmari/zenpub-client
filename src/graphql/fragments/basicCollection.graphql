@@ -6,10 +6,19 @@ fragment BasicCollection on Collection {
     summary
     icon
     followed
+    community {
+      id
+      localId
+      name
+      followed
+    }
     followers {
         totalCount
     }
     resources {
+        totalCount
+    }
+    inbox {
         totalCount
     }
 }

@@ -8,14 +8,17 @@ import { Hits, Pagination, Configure } from 'react-instantsearch-dom';
 import { Trans } from '@lingui/macro';
 
 const CommunityWrapper = styled(Box)`
-  background: #f9f0e8;
   border-radius: 4px;
+  background: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  flex: 1;
+  width: 100%;
 `;
 
 const Community = styled(Flex)`
   align-items: center;
-  border-bottom: 3px solid white;
-  background: #f1e5db;
+  border-bottom: 3px solid #f9f9f9;
 `;
 const CommunityImage = styled(Box)`
   width: 100px;
@@ -33,14 +36,71 @@ const SubText = styled(Text)`
   font-weight: 800;
   text-transform: uppercase;
   color: ${props => props.theme.styles.colors.darkgray};
-  background: #f1e5db;
+`;
+
+const BoxResource = styled(Box)`
+  > div {
+    border-bottom: 1px solid #efefef;
+  }
+`;
+const PaginationWrapper = styled(Box)`
+  display: flex;
+  flex: 1;
+  width: 100%;
+  margin: 24px 0;
+  .ais-Pagination {
+    margin: 0 auto;
+    margin-bottom: 16px;
+  }
+  .ais-Pagination-item--disabled {
+    background: #eaeaea !important;
+    border: 1px solid #dadada;
+  }
+
+  .ais-Pagination-item {
+    width: 30px;
+    height: 30px;
+    background: #f5801f;
+    margin-right: 4px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    &.ais-Pagination-item--selected {
+      background: #c7600b;
+      a,
+      span {
+        color: white;
+      }
+    }
+    a {
+      flex: 1;
+      color: black;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 13px;
+      width: 100%;
+      height: 100%;
+      line-height: 30px;
+    }
+    span {
+      flex: 1;
+      color: black;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 13px;
+      width: 100%;
+      height: 100%;
+      line-height: 30px;
+    }
+  }
 `;
 
 function Hit(props) {
   var community = props.hit;
 
   return (
-    <CommunityWrapper m={2} mb={4}>
+    <CommunityWrapper m={2} mb={3}>
       <Community>
         <CommunityImage
           m={3}
@@ -48,14 +108,14 @@ function Hit(props) {
         />
         <CommunityText ml={1}>{community.name}</CommunityText>
       </Community>
-      <Box>
+      <BoxResource>
         <SubText p={2}>
           <Trans>Resources list</Trans>
         </SubText>
         {community.collections.map((collection, i_col) =>
           collection_resources(collection)
         )}
-      </Box>
+      </BoxResource>
     </CommunityWrapper>
   );
 }
@@ -97,10 +157,12 @@ export default class extends React.Component {
           {/* <Wrapper>
           <WrapperCont> */}
           <Configure hitsPerPage={8} />
-          <Box>
+          <Box width={'100%'}>
             <Hits hitComponent={Hit} />
           </Box>
-          <Pagination />
+          <PaginationWrapper>
+            <Pagination />
+          </PaginationWrapper>
           {/* </WrapperCont>
         </Wrapper> */}
         </HomeBox>

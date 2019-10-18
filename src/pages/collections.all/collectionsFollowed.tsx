@@ -1,15 +1,14 @@
 import { Trans } from '@lingui/macro';
 import * as React from 'react';
 import { TabPanel, Tabs } from 'react-tabs';
-import Main from '../../components/chrome/Main/Main';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import CollectionsFollowed from '../collections.followed';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-
+import { Flex } from 'rebass';
 class ColloctionsFollowed extends React.Component<{}> {
   render() {
     return (
-      <Main>
+      <Flex>
         <WrapperCont>
           <Wrapper>
             <Tabs>
@@ -26,7 +25,7 @@ class ColloctionsFollowed extends React.Component<{}> {
             </Tabs>
           </Wrapper>
         </WrapperCont>
-      </Main>
+      </Flex>
     );
   }
 }

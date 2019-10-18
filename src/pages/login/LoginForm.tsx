@@ -3,7 +3,7 @@ import { Col, Row } from '@zendeskgarden/react-grid';
 import { Message, TextField } from '@zendeskgarden/react-textfields';
 import * as React from 'react';
 import { LoaderButton } from '../../components/elements/Button/Button';
-import TextInput from '../../components/inputs/Text/Text';
+import { Input } from '@rebass/forms';
 import { i18n } from '../../containers/App/App';
 import styled from '../../themes/styled';
 import { ValidationField, ValidationObject, ValidationType } from './types';
@@ -106,7 +106,7 @@ export default class extends React.Component<LoginFormProps, LoginFormState> {
               {/* <Label>
                 <Trans>Email address</Trans>:
               </Label> */}
-              <TextInput
+              <Input
                 placeholder={i18n._(i18nMark('Enter your email'))}
                 value={this.state.email}
                 validation={this.getValidation(ValidationField.email)}
@@ -126,7 +126,7 @@ export default class extends React.Component<LoginFormProps, LoginFormState> {
               {/* <Label>
                 <Trans>Password</Trans>:
               </Label> */}
-              <TextInput
+              <Input
                 type="password"
                 placeholder={i18n._(i18nMark('Enter your password'))}
                 value={this.state.password}

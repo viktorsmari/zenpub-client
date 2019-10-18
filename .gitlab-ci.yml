@@ -44,7 +44,9 @@ deploy-next: # build and deploy develop branch to staging
 
 deploy-prod: # build and deploy master branch to production
   only:
-    - master # Only run on production branch
+    - develop # Only run on staging branch
+
+master: # build and deploy master branch to production
   script:
     - if [ ! -z "$TX_TOKEN" ]; then pip install transifex-client && tx pull --force --no-interactive ; else echo "Skipping..."; fi # install transifex cli, then pull all the latest localised PO files from transifex 
     - yarn compile # compile localisation PO files into .js files 
