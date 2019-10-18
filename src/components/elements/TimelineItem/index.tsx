@@ -7,9 +7,9 @@ import removeMd from 'remove-markdown';
 import styled from '../../../themes/styled';
 import Link from '../Link/Link';
 import { Box, Flex, Text } from 'rebass';
-import Resource from '../Resource/Resource';
-import Collection from '../Collection/CollectionSmall';
-import CommunitySmall from '../Community/CommunitySmall';
+// import Resource from '../Resource/Resource';
+// import Collection from '../Collection/CollectionSmall';
+// import CommunitySmall from '../Community/CommunitySmall';
 import { NavLink } from 'react-router-dom';
 import Actions from './Actions';
 import { Star } from 'react-feather';
@@ -86,7 +86,10 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
             {node.activityType === 'JoinCommunity' ? (
               <SubText>
                 <Trans>joined</Trans>{' '}
-                <NavLink to={`/communities/${node.object.localId}`}>
+                <NavLink
+                  style={{ marginLeft: '4px' }}
+                  to={`/communities/${node.object.localId}`}
+                >
                   @{node.object.name}
                 </NavLink>
               </SubText>
@@ -97,6 +100,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
                     <InReply my={2} fontSize={1}>
                       <Trans>in reply to</Trans>{' '}
                       <Link
+                        style={{ marginLeft: '4px' }}
                         to={`/user/${node.object.inReplyTo.author.localId}`}
                       >
                         {node.object.inReplyTo.author.name}
@@ -116,7 +120,10 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
             ) : node.activityType === 'UpdateCommunity' ? (
               <SubText>
                 <Trans>updated</Trans>{' '}
-                <NavLink to={`/communities/${node.object.localId}`}>
+                <NavLink
+                  style={{ marginLeft: '4px' }}
+                  to={`/communities/${node.object.localId}`}
+                >
                   @{node.object.name}
                 </NavLink>
               </SubText>
@@ -124,6 +131,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
               <SubText>
                 <Trans>updated</Trans>{' '}
                 <NavLink
+                  style={{ marginLeft: '4px' }}
                   to={`/communities/${
                     node.object.community.localId
                   }/collections/${node.object.localId}`}
@@ -135,6 +143,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
               <SubText>
                 <Trans>followed</Trans>{' '}
                 <NavLink
+                  style={{ marginLeft: '4px' }}
                   to={`/communities/${
                     node.object.community.localId
                   }/collections/${node.object.localId}`}
@@ -146,13 +155,14 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
               <SubText>
                 <Trans>added a new resource</Trans> <Trans>in</Trans>{' '}
                 <NavLink
+                  style={{ marginLeft: '4px' }}
                   to={`/communities/${
                     node.object.collection.community.localId
                   }/collections/${node.object.collection.localId}`}
                 >
                   +{node.object.collection.name}
                 </NavLink>
-                <ResourcePreview mt={2}>
+                {/* <ResourcePreview mt={2}>
                   <Resource
                     icon={node.object.icon}
                     title={node.object.name}
@@ -160,31 +170,35 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
                     url={node.object.url}
                     localId={node.object.localId}
                   />
-                </ResourcePreview>
+                </ResourcePreview> */}
               </SubText>
             ) : node.activityType === 'CreateCollection' ? (
               <SubText>
                 <Trans>created a new collection</Trans>{' '}
                 <NavLink
+                  style={{ marginLeft: '4px' }}
                   to={`/communities/${
                     node.object.community.localId
                   }/collections/${node.object.localId}`}
                 >
                   +{node.object.name}
                 </NavLink>
-                <CommunityPreview mt={2}>
+                {/* <CommunityPreview mt={2}>
                   <Collection collection={node.object} />
-                </CommunityPreview>
+                </CommunityPreview> */}
               </SubText>
             ) : node.activityType === 'CreateCommunity' ? (
               <SubText>
                 <Trans>created a new community</Trans>{' '}
-                <NavLink to={`/communities/${node.object.localId}`}>
+                <NavLink
+                  style={{ marginLeft: '4px' }}
+                  to={`/communities/${node.object.localId}`}
+                >
                   @{node.object.name}
                 </NavLink>
-                <CommunityPreview mt={2}>
+                {/* <CommunityPreview mt={2}>
                   <CommunitySmall community={node.object} />
-                </CommunityPreview>
+                </CommunityPreview> */}
               </SubText>
             ) : null}
 
@@ -218,27 +232,27 @@ const InReply = styled(Text)`
   }
 `;
 
-const ResourcePreview = styled(Box)`
-  border: 1px solid ${props => props.theme.styles.colors.lightgray};
-  border-radius: 2px;
-  max-height: 200px;
-  overflow-y: hidden;
-  > div {
-    padding: 8px;
-    margin: 0;
-  }
-`;
+// const ResourcePreview = styled(Box)`
+//   border: 1px solid ${props => props.theme.styles.colors.lightgray};
+//   border-radius: 2px;
+//   max-height: 200px;
+//   overflow-y: hidden;
+//   > div {
+//     padding: 8px;
+//     margin: 0;
+//   }
+// `;
 
-const CommunityPreview = styled(Box)`
-  border: 1px solid ${props => props.theme.styles.colors.lightgray};
-  border-radius: 2px;
-  max-width: 200px;
-  overflow-y: hidden;
-  > div {
-    padding: 8px;
-    margin: 0;
-  }
-`;
+// const CommunityPreview = styled(Box)`
+//   border: 1px solid ${props => props.theme.styles.colors.lightgray};
+//   border-radius: 2px;
+//   max-width: 200px;
+//   overflow-y: hidden;
+//   > div {
+//     padding: 8px;
+//     margin: 0;
+//   }
+// `;
 
 const Username = styled(Text)`
   color: ${props => props.theme.styles.colors.gray};
