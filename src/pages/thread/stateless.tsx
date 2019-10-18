@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
-import { SdkRespObj } from 'src/gql/actions';
+import { SdkRespObj } from '../../gql/actions';
 import Comment from '../../components/elements/Comment/Comment';
 import Loader from '../../components/elements/Loader/Loader';
 import Thread from '../../components/elements/thread';

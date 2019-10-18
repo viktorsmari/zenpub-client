@@ -1,4 +1,4 @@
-import { LoginMutationMutation } from 'src/gql/sdk';
+import { LoginMutationMutation } from '../../gql/sdk';
 
 export type User = LoginMutationMutation['createSession'];
 

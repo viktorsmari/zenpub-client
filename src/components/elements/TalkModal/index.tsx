@@ -2,35 +2,39 @@ import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import * as React from 'react';
 import { Box, Flex } from 'rebass';
-import {
-  Comment as CommentData,
-  CreateReplyMutationMutationVariables
-} from 'src/gql/sdk';
 import { string } from 'yup';
 import { i18n } from '../../../containers/App/App';
 import { gqlRequest } from '../../../gql/actions';
+import {
+  Comment as CommentData,
+  CreateReplyMutationMutationVariables
+} from '../../../gql/sdk';
 import styled from '../../../themes/styled';
 import { ActionContext } from '../../../_context/actionCtx';
 import Alert from '../../elements/Alert';
-import Textarea from '../../inputs/TextArea/Textarea';
+// import Textarea from '../../inputs/TextArea/Textarea';
 import Button from '../Button/Button';
 import Comment from '../Comment/Comment';
 import Modal from '../Modal';
 import { Actions, Container } from '../Modal/modal';
+import SocialText from '../SocialText';
+// import { SdkData } from 'src/gql/actions';
+// import { getGlob } from 'src/_context/GLOB';
+// import { /* gqlRequest,  */SdkData } from 'src/gql/actions';
 
 const TextWrapper = styled(Flex)`
   padding: 16px;
 `;
 
-const TalkEditor = styled(Textarea)`
-  flex: 1;
-  border: none;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 15px;
-  &::placeholder {
-    font-size: 18px;
-  }
-`;
+// const TalkEditor = styled(Textarea)`
+//   flex: 1;
+//   border: none;
+//   font-family: 'Open Sans', sans-serif;
+//   font-size: 15px;
+//   &::placeholder {
+//     font-size: 18px;
+//   }
+// `;
 
 const Publish = styled(Button)`
   height: 40px;
@@ -129,7 +133,7 @@ const CreateCommunityModal = (
         <Comment user={props.author} comment={props.comment} noAction />
         <TextWrapper>
           <Avatar />
-          <TalkEditor
+          <SocialText
             placeholder={i18n._(tt.placeholders.name)}
             name={'text'}
             defaultValue={text}

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 import Modal from './modal';
-const modalRoot = document.getElementById('modal') as HTMLElement;
 
 interface PortalState {
   el: any;
@@ -9,13 +8,17 @@ interface PortalState {
 
 class Portal extends React.Component<{}, PortalState> {
   el: HTMLElement = document.createElement('div');
-
+  modalRoot: HTMLElement;
+  constructor(a, b) {
+    super(a, b);
+    this.modalRoot = document.getElementById('modal') as HTMLElement;
+  }
   componentDidMount() {
-    modalRoot.appendChild(this.el);
+    this.modalRoot && this.modalRoot.appendChild(this.el);
   }
 
   componentWillUnmount() {
-    modalRoot.removeChild(this.el);
+    this.modalRoot && this.modalRoot.removeChild(this.el);
   }
 
   render() {

@@ -1,13 +1,16 @@
-import { SFC } from 'react';
+import React, { useState } from 'react';
 import { Trans } from '@lingui/macro';
-import { Tabs, TabPanel } from 'react-tabs';
-import styled from '../../themes/styled';
+import { SFC } from 'react';
+import { TabPanel, Tabs } from 'react-tabs';
+import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
+import { SocialText } from '../../components/elements/SocialText';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem';
-import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
 import { Button, Flex } from 'rebass';
-import React, { useState } from 'react';
 import CommunityModal from '../../components/elements/CommunityModal';
+import { GqlSdkCtx } from '../../containers/App/ProvideGqlSdk';
+// import Discussion from '../../components/chrome/Discussion/Discussion';
+import styled from '../../themes/styled';
 
 interface Props {
   collections: any;
@@ -15,11 +18,53 @@ interface Props {
   fetchMore: any;
   type: string;
   match: any;
+  refetch: () => unknown;
 }
 
-const CommunityPage: SFC<Props> = ({ collections, community, fetchMore }) => {
+const CommunityPage: SFC<Props> = ({
+  collections,
+  community,
+  fetchMore,
+  match,
+  type,
+  refetch
+}) => {
   const [isOpen, onOpen] = useState(false);
-  console.log(community);
+  // const { dispatch } = React.useContext(ActionContext);
+  // const history = useHistory();
+  const sdk = React.useContext(GqlSdkCtx);
+  const [newThreadText, setNewThreadText] = React.useState('');
+  const addNewThread = React.useCallback(
+    () => {
+      // dispatch(
+      //   gqlRequest.create({
+      //     op: {
+      //       createThreadMutation: [
+      //         { comment: { content: newThreadText }, id: community.localId }
+      //       ]
+      //     },
+      //     replyTo: null
+      //   })
+      // );
+      sdk
+        .createThreadMutation({
+          comment: { content: newThreadText },
+          id: community.localId
+        })
+        .then(() => {
+          socialTextRef.current && (socialTextRef.current.value = '');
+          refetch();
+        });
+    },
+    [newThreadText, community.localId]
+  );
+  const socialTextRef = React.useRef<HTMLTextAreaElement>();
+  const setNewThreadTextInput = React.useCallback(
+    (ev: React.FormEvent<HTMLTextAreaElement>) => {
+      setNewThreadText(ev.currentTarget.value);
+    },
+    []
+  );
   return (
     <WrapperTab>
       <OverlayTab>
@@ -37,6 +82,13 @@ const CommunityPage: SFC<Props> = ({ collections, community, fetchMore }) => {
             </SuperTab>
           </SuperTabList>
           <TabPanel>
+            <SocialText
+              onInput={setNewThreadTextInput}
+              reference={socialTextRef}
+            />
+            <button onClick={addNewThread} disabled={!newThreadText.length}>
+              send
+            </button>
             <div>
               {community.inbox.edges.map((t, i) => (
                 <TimelineItem node={t.node} user={t.node.user} key={i} />
