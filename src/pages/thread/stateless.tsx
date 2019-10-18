@@ -43,7 +43,7 @@ const Component: React.FC<Props> = ({ thread }) => {
             <Helmet>
               <title>{APP_NAME} > Discussion Thread</title>
             </Helmet>
-            <Header history={history} id={comment.context!.localId} />
+            <Header id={comment.context!.localId} />
             <Thread
               content={message.body}
               author={author}
