@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import { i18n } from '../../../containers/App/App';
 import Alert from '../../elements/Alert';
 import { Input, Textarea } from '@rebass/forms';
-import H5 from '../../typography/H5/H5';
+import { Heading } from 'rebass';
 import Button from '../Button/Button';
 import Modal from '../Modal';
 import {
@@ -67,9 +67,9 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
     <Modal isOpen={modalIsOpen} toggleModal={toggleModal}>
       <Container>
         <Header>
-          <H5>
+          <Heading m={2}>
             <Trans>Create a new community</Trans>
-          </H5>
+          </Heading>
         </Header>
         <Form>
           <Row>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Modal from '../Modal';
 import { Trans } from '@lingui/macro';
-import H5 from '../../typography/H5/H5';
+import { Heading } from 'rebass';
 import { Input, Textarea } from '@rebass/forms';
 import Button from '../Button/Button';
 import { compose } from 'react-apollo';
@@ -58,9 +58,9 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
     <Modal isOpen={modalIsOpen} toggleModal={toggleModal}>
       <Container>
         <Header>
-          <H5>
+          <Heading m={2}>
             <Trans>Edit the community details</Trans>
-          </H5>
+          </Heading>
         </Header>
         <Form>
           <Row>

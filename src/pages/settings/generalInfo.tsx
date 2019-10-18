@@ -7,8 +7,7 @@ import * as Yup from 'yup';
 import media from 'styled-media-query';
 
 import Alert from '../../components/elements/Alert';
-import Input from '../../components/inputs/Text/Text';
-import Textarea from '../../components/inputs/TextArea/Textarea';
+import { Input, Textarea } from '@rebass/forms';
 import styled from '../../themes/styled';
 import { Heading, Button, Flex, Box } from 'rebass';
 const checkUsername = require('../../graphql/checkUsername.graphql');

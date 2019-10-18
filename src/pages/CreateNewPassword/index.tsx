@@ -5,7 +5,7 @@ import { Trans } from '@lingui/macro';
 import styled from '../../themes/styled';
 import { Helmet } from 'react-helmet';
 import Button from '../../components/elements/Button/Button';
-import Text from '../../components/inputs/Text/Text';
+import { Input } from '@rebass/forms';
 import { withFormik, FormikProps, Form, Field, FormikValues } from 'formik';
 import * as Yup from 'yup';
 const resetPassword = require('../../graphql/resetPassword.graphql');
@@ -76,8 +76,6 @@ interface MyFormProps {
  */
 
 const ResetPasswordPage = (props: Props & FormikProps<FormikValues>) => {
-  console.log(props.history);
-  console.log(props.match);
   return (
     <>
       <Helmet>
@@ -91,7 +89,7 @@ const ResetPasswordPage = (props: Props & FormikProps<FormikValues>) => {
               <Field
                 name="password"
                 render={({ field }) => (
-                  <Text
+                  <Input
                     placeholder={'Type your new password'}
                     name={field.name}
                     type="password"
@@ -108,7 +106,7 @@ const ResetPasswordPage = (props: Props & FormikProps<FormikValues>) => {
               <Field
                 name="confirm"
                 render={({ field }) => (
-                  <Text
+                  <Input
                     style={{ marginTop: '16px' }}
                     placeholder={'Confirm the new password'}
                     name={field.name}

@@ -9,16 +9,13 @@ import {
   ContainerForm,
   Header
 } from '../Modal/modal';
-import H5 from '../../typography/H5/H5';
-// import Text from '../../inputs/Text/Text';
+import { Heading } from 'rebass';
 import { Input, Textarea } from '@rebass/forms';
-// import Textarea from '../../inputs/TextArea/Textarea';
 import { Button } from 'rebass';
 import { compose } from 'react-apollo';
 import { withFormik, FormikProps, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import Alert from '../../elements/Alert';
-// import gql from 'graphql-tag';
 import { graphql, OperationOption } from 'react-apollo';
 import Collection from '../../../types/Collection';
 const {
@@ -60,9 +57,9 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
     <Modal isOpen={modalIsOpen} toggleModal={toggleModal}>
       <Container>
         <Header>
-          <H5>
+          <Heading m={2}>
             <Trans>Edit the collection details</Trans>
-          </H5>
+          </Heading>
         </Header>
         <Form>
           <Row>

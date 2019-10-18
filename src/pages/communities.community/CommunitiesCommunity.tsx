@@ -12,7 +12,7 @@ import Loader from '../../components/elements/Loader/Loader';
 import '../../containers/App/basic.css';
 import { clearFix } from 'polished';
 import CollectionCard from '../../components/elements/Collection/Collection';
-import P from '../../components/typography/P/P';
+
 import Hero from './hero';
 import EditCommunityModal from '../../components/elements/EditCommunityModal';
 import UsersModal from '../../components/elements/UsersModal';
@@ -29,7 +29,7 @@ import {
   Nav,
   NavItem
 } from '../../sections/panel';
-import { Box } from 'rebass';
+import { Box, Text } from 'rebass';
 const { getCommunityQuery } = require('../../graphql/getCommunity.graphql');
 enum TabsEnum {
   // Overview = 'Overview',
@@ -97,9 +97,9 @@ class CommunitiesFeatured extends React.Component<Props, State> {
       } else {
         collections = (
           <OverviewCollection>
-            <P>
+            <Text>
               <Trans>This community has no collections.</Trans>
-            </P>
+            </Text>
           </OverviewCollection>
         );
       }

@@ -12,29 +12,15 @@ import {
 import styled from '../../../themes/styled';
 import { ActionContext } from '../../../_context/actionCtx';
 import Alert from '../../elements/Alert';
-// import Textarea from '../../inputs/TextArea/Textarea';
 import Button from '../Button/Button';
 import Comment from '../Comment/Comment';
 import Modal from '../Modal';
 import { Actions, Container } from '../Modal/modal';
 import SocialText from '../SocialText';
-// import { SdkData } from 'src/gql/actions';
-// import { getGlob } from 'src/_context/GLOB';
-// import { /* gqlRequest,  */SdkData } from 'src/gql/actions';
 
 const TextWrapper = styled(Flex)`
   padding: 16px;
 `;
-
-// const TalkEditor = styled(Textarea)`
-//   flex: 1;
-//   border: none;
-//   font-family: 'Open Sans', sans-serif;
-//   font-size: 15px;
-//   &::placeholder {
-//     font-size: 18px;
-//   }
-// `;
 
 const Publish = styled(Button)`
   height: 40px;

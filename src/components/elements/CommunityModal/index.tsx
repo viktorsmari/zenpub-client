@@ -8,7 +8,7 @@ import { compose, graphql, OperationOption } from 'react-apollo';
 import * as Yup from 'yup';
 import { i18n } from '../../../containers/App/App';
 import Alert from '../../elements/Alert';
-import H5 from '../../typography/H5/H5';
+import { Heading } from 'rebass';
 import { Button } from 'rebass';
 import Modal from '../Modal';
 import { Input, Textarea } from '@rebass/forms';
@@ -70,9 +70,9 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
     <Modal isOpen={modalIsOpen} toggleModal={toggleModal}>
       <Container>
         <Header>
-          <H5>
+          <Heading m={2}>
             <Trans>Create a new collection</Trans>
-          </H5>
+          </Heading>
         </Header>
         <Form>
           <Row>
