@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { StateContext } from '../../_context/stateCtx';
 import { ActionContext } from '../../_context/actionCtx';
 import { gqlRequest } from '../../gql/actions';
-import { GET_THREAD_REPLY } from './types';
+import { THREAD_PAGE_GQL_REPLY } from './types';
 import Stateless from './stateless';
 export interface Props {
   id: number;
@@ -10,7 +10,7 @@ export interface Props {
 export const Thread: React.FC<Props> = ({ id }) => {
   const {
     pages: {
-      thread: { thread }
+      thread: { thread, refreshing }
     }
   } = useContext(StateContext);
   const { dispatch } = useContext(ActionContext);
@@ -24,7 +24,7 @@ export const Thread: React.FC<Props> = ({ id }) => {
       ) {
         dispatch(
           gqlRequest.create({
-            replyTo: GET_THREAD_REPLY,
+            replyTo: THREAD_PAGE_GQL_REPLY,
             op: { getThread: [{ id }] }
           })
         );
@@ -33,7 +33,13 @@ export const Thread: React.FC<Props> = ({ id }) => {
     [id, thread]
   );
 
-  return thread && <Stateless {...{ thread }} />;
+  return (
+    thread && (
+      <Stateless
+        {...{ thread: thread.loading && refreshing ? refreshing : thread }}
+      />
+    )
+  );
 };
 
 export default Thread;

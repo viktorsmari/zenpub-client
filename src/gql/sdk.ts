@@ -1180,6 +1180,12 @@ export type BasicCommentFragment = { __typename?: 'Comment' } & Pick<
           >;
         }
     >;
+    likers: Maybe<
+      { __typename?: 'CommentLikersConnection' } & Pick<
+        CommentLikersConnection,
+        'totalCount'
+      >
+    >;
     context: Maybe<
       | ({ __typename?: 'Collection' } & Pick<
           Collection,
@@ -2085,6 +2091,12 @@ export type GetThreadQuery = { __typename?: 'RootQueryType' } & {
                                 >;
                               }
                           >;
+                          likers: Maybe<
+                            { __typename?: 'CommentLikersConnection' } & Pick<
+                              CommentLikersConnection,
+                              'totalCount'
+                            >
+                          >;
                           author: Maybe<
                             { __typename?: 'User' } & Pick<
                               User,
@@ -2310,6 +2322,14 @@ export type JoinCommunityMutationMutation = {
   __typename?: 'RootMutationType';
 } & Pick<RootMutationType, 'joinCommunity'>;
 
+export type LikeCommentMutationMutationVariables = {
+  localId: Scalars['Int'];
+};
+
+export type LikeCommentMutationMutation = {
+  __typename?: 'RootMutationType';
+} & Pick<RootMutationType, 'likeComment'>;
+
 export type LocalActivitiesQueryVariables = {
   limit?: Maybe<Scalars['Int']>;
   end?: Maybe<Scalars['Int']>;
@@ -2423,6 +2443,14 @@ export type UndoJoinCommunityMutationMutationVariables = {
 export type UndoJoinCommunityMutationMutation = {
   __typename?: 'RootMutationType';
 } & Pick<RootMutationType, 'undoJoinCommunity'>;
+
+export type UndoLikeCommentMutationMutationVariables = {
+  localId: Scalars['Int'];
+};
+
+export type UndoLikeCommentMutationMutation = {
+  __typename?: 'RootMutationType';
+} & Pick<RootMutationType, 'undoLikeComment'>;
 
 export type UpdateCollectionMutationMutationVariables = {
   collectionId: Scalars['Int'];
@@ -2582,6 +2610,9 @@ export const BasicCommentFragmentDoc = gql`
         localId
         preferredUsername
       }
+    }
+    likers {
+      totalCount
     }
     context {
       __typename
@@ -3310,6 +3341,9 @@ export const GetThreadDocument = gql`
                 }
               }
             }
+            likers {
+              totalCount
+            }
             author {
               id
               icon
@@ -3459,6 +3493,11 @@ export const JoinCommunityMutationDocument = gql`
     joinCommunity(communityLocalId: $communityId)
   }
 `;
+export const LikeCommentMutationDocument = gql`
+  mutation likeCommentMutation($localId: Int!) {
+    likeComment(localId: $localId)
+  }
+`;
 export const LocalActivitiesDocument = gql`
   query localActivities($limit: Int, $end: Int) {
     localActivities(limit: $limit, after: $end) {
@@ -3550,6 +3589,11 @@ export const UndoJoinCollectionMutationDocument = gql`
 export const UndoJoinCommunityMutationDocument = gql`
   mutation undoJoinCommunityMutation($communityId: Int!) {
     undoJoinCommunity(communityLocalId: $communityId)
+  }
+`;
+export const UndoLikeCommentMutationDocument = gql`
+  mutation undoLikeCommentMutation($localId: Int!) {
+    undoLikeComment(localId: $localId)
   }
 `;
 export const UpdateCollectionMutationDocument = gql`
@@ -3815,6 +3859,14 @@ export function getSdk(client: GraphQLClient) {
         variables
       );
     },
+    likeCommentMutation(
+      variables: LikeCommentMutationMutationVariables
+    ): Promise<LikeCommentMutationMutation> {
+      return client.request<LikeCommentMutationMutation>(
+        print(LikeCommentMutationDocument),
+        variables
+      );
+    },
     localActivities(
       variables?: LocalActivitiesQueryVariables
     ): Promise<LocalActivitiesQuery> {
@@ -3863,6 +3915,14 @@ export function getSdk(client: GraphQLClient) {
     ): Promise<UndoJoinCommunityMutationMutation> {
       return client.request<UndoJoinCommunityMutationMutation>(
         print(UndoJoinCommunityMutationDocument),
+        variables
+      );
+    },
+    undoLikeCommentMutation(
+      variables: UndoLikeCommentMutationMutationVariables
+    ): Promise<UndoLikeCommentMutationMutation> {
+      return client.request<UndoLikeCommentMutationMutation>(
+        print(UndoLikeCommentMutationDocument),
         variables
       );
     },

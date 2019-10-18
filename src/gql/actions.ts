@@ -38,7 +38,8 @@ export interface SdkReqActionPayload {
 }
 export interface SdkRespActionPayload<K extends SdkKey> {
   opName: SdkKey;
-  resp: SdkRespObj;
+  loading: boolean;
+  resp: Partial<SdkRespObj>;
   replyTo: any;
 }
 

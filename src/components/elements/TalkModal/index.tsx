@@ -119,7 +119,7 @@ const CreateCommunityModal = (
     <Modal isOpen={modalIsOpen} toggleModal={() => toggleModal(false)}>
       {/* <Container> */}
       {/* <Form> */}
-      <Comment user={props.author} comment={props.comment} noAction />
+      <Comment user={props.author} comment={props.comment} noAction replyTo />
       <TextWrapper>
         <Avatar
           style={{

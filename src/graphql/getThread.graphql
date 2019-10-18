@@ -14,18 +14,21 @@ query getThread($id: Int!) {
           inReplyTo {
             localId
             author {
-            id
-            icon
-            name
-            localId
-            preferredUsername
-          }
+              id
+              icon
+              name
+              localId
+              preferredUsername
+            }
           }
           replies {
             totalCount
             edges {
               node {id}
             }
+          }
+          likers {
+            totalCount
           }
           author {
             id
