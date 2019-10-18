@@ -53,7 +53,10 @@ export const SocialText: React.FC<Props> = props => {
         return;
       }
       const textarea = ref.current as HTMLTextAreaElement;
+      const pos = textarea.selectionStart + 1;
       dropEmoji(textarea, obj.name);
+      textarea.focus();
+      textarea.selectionEnd = pos;
     },
     [ref.current]
   );

@@ -4,13 +4,7 @@ import * as Sess from '../session';
 
 const LOCAL_STORAGE_SESSION_KEY = 'MOO_LOCAL_STORAGE_SESSION';
 export const createSessionMW = (): Middleware => store => next => {
-  let obj = parse(localStorage.getItem(LOCAL_STORAGE_SESSION_KEY));
   return action => {
-    if (obj) {
-      let _ = obj;
-      obj = null;
-      store.dispatch(Sess.login.create(_));
-    }
     if (Sess.login.is(action)) {
       localStorage.setItem(LOCAL_STORAGE_SESSION_KEY, strng(action.payload));
       //TODO this setToken action should be in a separate integration(Session-GQL) middleware
