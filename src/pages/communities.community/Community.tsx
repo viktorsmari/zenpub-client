@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
 import { Trans } from '@lingui/macro';
+import React, { useState } from 'react';
 import { SFC } from 'react';
 import { TabPanel, Tabs } from 'react-tabs';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
 import { SocialText } from '../../components/elements/SocialText';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem';
-import { Button, Flex } from 'rebass';
-import CommunityModal from '../../components/elements/CommunityModal';
 import { GqlSdkCtx } from '../../containers/App/ProvideGqlSdk';
-// import Discussion from '../../components/chrome/Discussion/Discussion';
 import styled from '../../themes/styled';
+import { Flex, Button } from 'rebass';
+import CommunityModal from '../../components/elements/CommunityModal';
 
 interface Props {
   collections: any;
@@ -29,10 +28,10 @@ const CommunityPage: SFC<Props> = ({
   type,
   refetch
 }) => {
-  const [isOpen, onOpen] = useState(false);
   // const { dispatch } = React.useContext(ActionContext);
   // const history = useHistory();
   const sdk = React.useContext(GqlSdkCtx);
+  const [isOpen, onOpen] = useState(false);
   const [newThreadText, setNewThreadText] = React.useState('');
   const addNewThread = React.useCallback(
     () => {
@@ -80,6 +79,11 @@ const CommunityPage: SFC<Props> = ({
                 <Trans>Collections</Trans>
               </h5>
             </SuperTab>
+            {/* <SuperTab>
+            <h5>
+              <Trans>Discussions</Trans>
+            </h5>
+          </SuperTab> */}
           </SuperTabList>
           <TabPanel>
             <SocialText
@@ -119,9 +123,6 @@ const CommunityPage: SFC<Props> = ({
   );
 };
 
-const ButtonWrapper = styled(Flex)`
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
-`;
 export const Footer = styled.div`
   height: 30px;
   line-height: 30px;
@@ -131,6 +132,10 @@ export const Footer = styled.div`
   font-size: 13px;
   border-bottom: 1px solid ${props => props.theme.styles.colour.divider};
   color: #544f46;
+`;
+
+const ButtonWrapper = styled(Flex)`
+  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
 `;
 
 const CreateCollection = styled(Button)`
