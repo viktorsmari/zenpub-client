@@ -1,4 +1,3 @@
-import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import * as React from 'react';
 import { Box, Flex } from 'rebass';
@@ -12,36 +11,39 @@ import {
 import styled from '../../../themes/styled';
 import { ActionContext } from '../../../_context/actionCtx';
 import Alert from '../../elements/Alert';
-import Button from '../Button/Button';
+// import {Button} from 'rebass';
 import Comment from '../Comment/Comment';
 import Modal from '../Modal';
-import { Actions, Container } from '../Modal/modal';
+// import { Actions, Container } from '../Modal/modal';
 import SocialText from '../SocialText';
+import { SessionContext } from '../../../_context/sessionCtx';
+// import { Send } from 'react-feather';
 
 const TextWrapper = styled(Flex)`
   padding: 16px;
 `;
 
-const Publish = styled(Button)`
-  height: 40px;
-  padding: 0 40px;
-  color: white !important;
-  font-size: 15px;
-  border-radius: 20px;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  &:hover {
-    background: #ec7c16 !important;
-    color: white !important;
-  }
-`;
+// const Publish = styled(Button)`
+//   height: 40px;
+//   padding: 0 40px;
+//   color: white !important;
+//   font-size: 15px;
+//   border-radius: 20px;
+//   letter-spacing: 0.5px;
+//   cursor: pointer;
+//   &:hover {
+//     background: #ec7c16 !important;
+//     color: white !important;
+//   }
+// `;
 
 const Avatar = styled(Box)`
-  width: 48px;
+  min-width: 48px !important;
   height: 48px;
   border-radius: 48px;
-  background: red;
-  margin-right: 8px;
+  background: ${props => props.theme.styles.colors.orange};
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
 
 const tt = {
@@ -80,7 +82,7 @@ const CreateCommunityModal = (
   const [text, setText] = React.useState('');
   const [error, setError] = React.useState('');
   const [touched, setTouched] = React.useState(false);
-  const [isSubmitting /* setSubmitting */] = React.useState(false);
+  // const [isSubmitting /* setSubmitting */] = React.useState(false);
   const oninput = React.useCallback(
     async (_: React.SyntheticEvent<HTMLTextAreaElement>) => {
       const _text = _.currentTarget.value;
@@ -112,33 +114,41 @@ const CreateCommunityModal = (
     },
     [error, text]
   );
+  const session = React.useContext(SessionContext);
   return (
     <Modal isOpen={modalIsOpen} toggleModal={() => toggleModal(false)}>
-      <Container>
-        {/* <Form> */}
-        <Comment user={props.author} comment={props.comment} noAction />
-        <TextWrapper>
-          <Avatar />
-          <SocialText
-            placeholder={i18n._(tt.placeholders.name)}
-            name={'text'}
-            defaultValue={text}
-            onChange={oninput}
-          />
-          {error && touched && <Alert>{error}</Alert>}
-        </TextWrapper>
-        <Actions>
+      {/* <Container> */}
+      {/* <Form> */}
+      <Comment user={props.author} comment={props.comment} noAction />
+      <TextWrapper>
+        <Avatar
+          style={{
+            backgroundImage: `url(${session.session.user!.me!.user!.icon!})`
+          }}
+          mr={2}
+        />
+        <SocialText
+          placeholder={i18n._(tt.placeholders.name)}
+          name={'text'}
+          defaultValue={text}
+          submit={submit}
+          onChange={oninput}
+        />
+        {error && touched && <Alert>{error}</Alert>}
+      </TextWrapper>
+      {/* <Actions>
+          
           <Publish
             onClick={submit}
             disabled={isSubmitting}
             type="submit"
             style={{ marginLeft: '10px' }}
           >
-            <Trans>Create</Trans>
+           <Send size="24" />
           </Publish>
-        </Actions>
-        {/* </Form> */}
-      </Container>
+        </Actions> */}
+      {/* </Form> */}
+      {/* </Container> */}
     </Modal>
   );
 };

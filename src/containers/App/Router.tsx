@@ -34,7 +34,7 @@ import { InstantSearch, connectStateResults } from 'react-instantsearch-dom';
 
 const Main = styled(Flex)`
   height: 100%;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif !important;
 `;
 
 const AppInner = styled.div`

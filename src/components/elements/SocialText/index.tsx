@@ -5,12 +5,16 @@ import React, {
   MutableRefObject,
   useEffect
 } from 'react';
-import { dropEmoji, getEmoji } from '../../../util/emoji';
+import { dropEmoji } from '../../../util/emoji';
 import EmojiPicker from 'emoji-picker-react';
 import styled from 'styled-components';
-
+import { Textarea } from '@rebass/forms';
+import { Box, Flex } from 'rebass';
+import { Smile, Send } from 'react-feather';
 const PickerWrap = styled.div`
-  width: 100%;
+  position: absolute;
+  right: 10px;
+  top: 45px;
 `;
 const Wrapper = styled.div`
   width: 100%;
@@ -20,27 +24,33 @@ const SocialTextDiv = styled.div`
   position: relative;
   width: 100%;
 `;
-const SocialTextTrigger = styled.span`
-  width: 10px;
-  position: absolute;
-  right: 10px;
-  top: 0;
+const SocialTextTrigger = styled(Box)`
   cursor: pointer;
 `;
 
-const SocialTextArea = styled.textarea`
-  width: 100%;
-  height: 40px;
-  margin-right: 40px;
-  resize: none
+const SocialTextArea = styled(Textarea)`
+  height: 60px;
+  border-radius: 4px;
+  border: 1px solid ${props => props.theme.styles.colors.lightgray} !important;
+  resize: none;
+  font-size: 16px !important;
+  font-family: 'Open Sans', sans-serif !important;
+
   :focus {
     height: 160px;
   }
 `;
 
+const SocialActions = styled(Flex)`
+  position: absolute;
+  right: 10px;
+  top: 16px;
+`;
+
 export interface Props
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   reference?: MutableRefObject<HTMLTextAreaElement | undefined>;
+  submit(): void;
 }
 export const SocialText: React.FC<Props> = props => {
   const ref = useRef<any>();
@@ -68,16 +78,21 @@ export const SocialText: React.FC<Props> = props => {
   );
   return (
     <Wrapper>
-      {isOpen ? (
-        <PickerWrap>
-          <EmojiPicker preload onEmojiClick={addEmoji} />
-        </PickerWrap>
-      ) : null}
       <SocialTextDiv>
         <SocialTextArea ref={ref} {...props} />
-        <SocialTextTrigger onClick={toggle}>
-          {getEmoji('slightly_smiling_face')}
-        </SocialTextTrigger>
+        <SocialActions>
+          <SocialTextTrigger onClick={toggle}>
+            <Smile color={'rgba(0,0,0,.4)'} size="24" />
+          </SocialTextTrigger>
+          <Box ml={2} onClick={props.submit}>
+            <Send color={'rgba(0,0,0,.4)'} size="24" />
+          </Box>
+        </SocialActions>
+        {isOpen ? (
+          <PickerWrap>
+            <EmojiPicker preload onEmojiClick={addEmoji} />
+          </PickerWrap>
+        ) : null}
       </SocialTextDiv>
     </Wrapper>
   );

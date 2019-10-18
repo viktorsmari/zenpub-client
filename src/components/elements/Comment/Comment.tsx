@@ -34,7 +34,7 @@ const CommentWrapper: React.FC<EventProps> = ({
     <FeedItem>
       <NavigateToThread to={`/thread/${comment!.localId}`} />
       <Member>
-        <MemberItem>
+        <MemberItem mr={2}>
           <Img src={user ? user.icon : ''} />
         </MemberItem>
         <MemberInfo>

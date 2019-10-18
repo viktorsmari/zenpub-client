@@ -8,7 +8,7 @@ import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem';
 import { GqlSdkCtx } from '../../containers/App/ProvideGqlSdk';
 import styled from '../../themes/styled';
-import { Flex, Button } from 'rebass';
+import { Flex, Box, Button } from 'rebass';
 import CommunityModal from '../../components/elements/CommunityModal';
 
 interface Props {
@@ -86,13 +86,14 @@ const CommunityPage: SFC<Props> = ({
           </SuperTab> */}
           </SuperTabList>
           <TabPanel>
-            <SocialText
-              onInput={setNewThreadTextInput}
-              reference={socialTextRef}
-            />
-            <button onClick={addNewThread} disabled={!newThreadText.length}>
-              send
-            </button>
+            <Box m={3}>
+              <SocialText
+                onInput={setNewThreadTextInput}
+                reference={socialTextRef}
+                submit={addNewThread}
+                placeholder="Start a new thread..."
+              />
+            </Box>
             <div>
               {community.inbox.edges.map((t, i) => (
                 <TimelineItem node={t.node} user={t.node.user} key={i} />
