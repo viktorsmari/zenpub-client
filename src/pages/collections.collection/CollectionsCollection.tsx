@@ -5,7 +5,7 @@ import * as React from 'react';
 import { Trans } from '@lingui/macro';
 import { clearFix } from 'polished';
 import styled from '../../themes/styled';
-import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
+import { graphql, QueryControls, OperationOption } from 'react-apollo';
 import Collection from '../../types/Collection';
 import { compose, withState, withHandlers } from 'recompose';
 import { RouteComponentProps } from 'react-router';
@@ -25,7 +25,7 @@ enum TabsEnum {
   Discussion = 'Discussion'
 }
 
-interface Data extends GraphqlQueryControls {
+interface Data extends QueryControls {
   collection: Collection;
 }
 

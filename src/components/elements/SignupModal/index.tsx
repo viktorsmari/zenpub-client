@@ -2,12 +2,8 @@ import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Field, Form, FormikProps, withFormik } from 'formik';
 import * as React from 'react';
-import {
-  ApolloConsumer,
-  compose,
-  graphql,
-  OperationOption
-} from 'react-apollo';
+import { compose } from 'recompose';
+import { ApolloConsumer, graphql, OperationOption } from 'react-apollo';
 import { getGlob } from '../../../_context/GLOB';
 import { login } from '../../../_redux/session';
 import * as Yup from 'yup';

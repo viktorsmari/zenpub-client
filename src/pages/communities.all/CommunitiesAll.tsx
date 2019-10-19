@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/macro';
 import * as React from 'react';
-import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
+import { graphql, QueryControls, OperationOption } from 'react-apollo';
 import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
 import { compose, withHandlers, withState } from 'recompose';
@@ -17,7 +17,7 @@ import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel, Panel, Nav, NavItem } from '../../sections/panel';
 const { getCommunitiesQuery } = require('../../graphql/getCommunities.graphql');
 
-interface Data extends GraphqlQueryControls {
+interface Data extends QueryControls {
   communities: {
     nodes: CommunityType[];
     pageInfo: {
@@ -29,7 +29,7 @@ interface Data extends GraphqlQueryControls {
 
 interface Props {
   data: Data;
-  handleNewCommunity(boolean): boolean;
+  handleNewCommunity(): boolean;
   isOpenCommunity: boolean;
 }
 

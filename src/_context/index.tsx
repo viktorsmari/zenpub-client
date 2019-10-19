@@ -3,15 +3,22 @@ import { ProvideActionCtx } from './actionCtx';
 import { ProvideGlobCtx } from './GLOB';
 import { ProvideSessionCtx } from './sessionCtx';
 import { ProvideStateCtx } from './stateCtx';
-import { ProvideStoreCtx } from './storeCtx';
+import { ProvideStoreCtx, StoreContextT } from './storeCtx';
+import { ProvideGqlSdk } from '../containers/App/ProvideGqlSdk';
 
-export const ProvideContexts: React.FC = ({ children }) => {
+interface Props {
+  children: React.ReactNode;
+  store: StoreContextT;
+}
+export const ProvideContexts = ({ children, store }: Props) => {
   return (
-    <ProvideStoreCtx>
+    <ProvideStoreCtx store={store}>
       <ProvideStateCtx>
         <ProvideActionCtx>
           <ProvideSessionCtx>
-            <ProvideGlobCtx>{children}</ProvideGlobCtx>
+            <ProvideGqlSdk>
+              <ProvideGlobCtx>{children}</ProvideGlobCtx>
+            </ProvideGqlSdk>
           </ProvideSessionCtx>
         </ProvideActionCtx>
       </ProvideStateCtx>
