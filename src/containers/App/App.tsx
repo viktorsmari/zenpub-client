@@ -41,6 +41,25 @@ interface State {
   setLocale: (locale: string) => void;
 }
 
+const languageOfLocale = (locale: string): string => {
+  const [language] = locale.split('_');
+  return language;
+};
+
+const directionForLanguage = (language: string): string => {
+  return language === 'ar' ? 'rtl' : 'ltr';
+};
+
+const setHTMLDirection = (language: string) => {
+  const htmlEl = document.querySelector('html');
+  if (htmlEl) {
+    const dir = directionForLanguage(language);
+    htmlEl.style.direction = dir;
+    htmlEl.classList.remove('--rtl', '--ltr');
+    htmlEl.classList.add(`--${dir}`);
+  }
+};
+
 /**
  * App container.
  *
@@ -109,10 +128,12 @@ export default class App extends React.Component<{}, State> {
       catalogs
     });
 
-    const [language] = locale.split('_');
+    const language = languageOfLocale(locale);
 
     Settings.defaultLocale = language;
     Settings.defaultZoneName = 'UTC';
+
+    setHTMLDirection(language);
 
     // Persist the locale to local-storage.
     localStorage.setItem(LocalStorageLocaleKey, locale);
@@ -136,10 +157,12 @@ export default class App extends React.Component<{}, State> {
       );
     }
 
+    const direction = directionForLanguage(languageOfLocale(this.state.locale));
+
     return (
       <ProvideContexts>
         <ProvideGqlSdk>
-          <ThemeProvider>
+          <ThemeProvider rtl={direction === 'rtl'}>
             <LocaleContext.Provider value={this.state}>
               <I18nProvider
                 i18n={i18n}

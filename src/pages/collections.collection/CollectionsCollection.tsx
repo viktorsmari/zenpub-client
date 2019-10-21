@@ -199,6 +199,9 @@ const EditButton = styled.span`
 const HeroInfo = styled.div`
   flex: 1;
   margin-left: 16px;
+  .--rtl & {
+    margin-right: 16px;
+  }
   position: relative;
   ${clearFix()};
   & h2 {

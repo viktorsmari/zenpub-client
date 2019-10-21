@@ -143,6 +143,7 @@
     'Load more':
       '\u062A\u062D\u0645\u064A\u0644 \u0627\u0644\u0645\u0632\u064A\u062F',
     Location: '\u0627\u0644\u0645\u0648\u0642\u0639',
+    More: 'More',
     'My MoodleNet':
       '\u0645\u0648\u062F\u064A\u0644 \u0646\u062A \u0627\u0644\u0634\u062E\u0635\u064A',
     'My MoodleNet timeline':

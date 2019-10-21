@@ -160,6 +160,9 @@ const Img = styled.div`
   margin: 0 auto;
   background-position: center center;
   margin-right: 20px;
+  .--rtl & {
+    margin-left: 20px;
+  }
   ${media.lessThan('medium')`
     margin: 0 auto;
     margin-bottom: 8px;
