@@ -1,4 +1,6 @@
 import React, { SFC } from 'react';
+// import { Trans } from '@lingui/macro';
+import { i18nMark } from '@lingui/react';
 import { Box, Text, Flex } from 'rebass';
 import styled from '../../themes/styled';
 import Join from './Join';
@@ -54,7 +56,7 @@ const HeroComp: SFC<Props> = ({ community, showUsers, editCommunity }) => (
             })}{' '}
             <Tot>
               {community.members.totalCount - 3 > 0
-                ? `+ ${community.members.totalCount - 3} More`
+                ? `+ ${community.members.totalCount - 3} ${i18nMark('More')}`
                 : ``}
             </Tot>
           </MembersTot>

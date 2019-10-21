@@ -11,6 +11,7 @@ type LanguageSelectProps = {
 } & React.SelectHTMLAttributes<object>;
 
 export const languageNames = {
+  ar_SA: 'العربية, المملكة العربية السعودية',
   en_GB: 'English, British',
   en_US: 'English, USA',
   es_MX: 'Español, Méjico',
@@ -23,7 +24,7 @@ let options: any[] = [];
 
 Object.keys(languageNames).forEach(key => {
   console.log(languageNames[key]);
-  options.push({ value: languageNames[key], label: languageNames[key] });
+  options.push({ value: key, label: languageNames[key] });
 });
 
 /**
@@ -37,7 +38,6 @@ export default class LanguageSelect extends React.Component<
   state = {
     selectedKey: locale_default
   };
-
   constructor(props) {
     super(props);
   }
@@ -49,8 +49,9 @@ export default class LanguageSelect extends React.Component<
           <Select
             defaultValue={locale}
             onChange={selectedKey => {
-              setLocale(selectedKey);
-              this.setState({ selectedKey });
+              console.log(locale);
+              setLocale(selectedKey.value);
+              this.setState({ selectedKey: selectedKey.value });
             }}
             options={options}
           />
