@@ -82,6 +82,7 @@
     Links: 'Links',
     'Load more': 'Load more',
     Location: 'Location',
+    More: 'More',
     'My MoodleNet': 'My MoodleNet',
     'My MoodleNet timeline': 'My MoodleNet timeline',
     'My collections': 'My collections',
@@ -121,6 +122,7 @@
     'Sign up': 'Sign up',
     'Sorry, we encountered a problem loading the app in your language.':
       'Sorry, we encountered a problem loading the app in your language.',
+    'Start a new thread...': 'Start a new thread...',
     'The email field cannot be empty': 'The email field cannot be empty',
     'The password field cannot be empty': 'The password field cannot be empty',
     'This community has no collections.': 'This community has no collections.',

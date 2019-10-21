@@ -110,7 +110,7 @@ msgstr ""
 msgid "Code of Conduct"
 msgstr ""
 
-#: src/pages/communities.community/Community.tsx:54
+#: src/pages/communities.community/Community.tsx:61
 msgid "Collections"
 msgstr ""
 
@@ -148,7 +148,7 @@ msgid "Create a new account"
 msgstr ""
 
 #: src/components/elements/CommunityModal/index.tsx:34
-#: src/pages/communities.community/Community.tsx:73
+#: src/pages/communities.community/Community.tsx:80
 msgid "Create a new collection"
 msgstr ""
 
@@ -250,7 +250,7 @@ msgstr ""
 msgid "Error loading featured collections"
 msgstr ""
 
-#: src/components/featuredCommunities/index.tsx:111
+#: src/components/featuredCommunities/index.tsx:114
 msgid "Error loading featured communities"
 msgstr ""
 
@@ -267,7 +267,7 @@ msgstr ""
 msgid "Featured collections"
 msgstr ""
 
-#: src/components/featuredCommunities/index.tsx:99
+#: src/components/featuredCommunities/index.tsx:102
 msgid "Featured communities"
 msgstr ""
 
@@ -357,6 +357,10 @@ msgstr ""
 
 #: src/pages/settings/generalInfo.tsx:143
 msgid "Location"
+msgstr ""
+
+#: src/pages/communities.community/hero.tsx:11
+msgid "More"
 msgstr ""
 
 #: src/sections/sidebar/index.tsx:171
@@ -449,7 +453,7 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-#: src/pages/communities.community/Community.tsx:49
+#: src/pages/communities.community/Community.tsx:56
 #: src/pages/User/index.tsx:62
 msgid "Recent activities"
 msgstr ""
@@ -510,8 +514,12 @@ msgstr ""
 msgid "Sign up"
 msgstr ""
 
-#: src/containers/App/App.tsx:115
+#: src/containers/App/App.tsx:132
 msgid "Sorry, we encountered a problem loading the app in your language."
+msgstr ""
+
+#: src/pages/communities.community/Community.tsx:16
+msgid "Start a new thread..."
 msgstr ""
 
 #: src/pages/login/Login.tsx:217

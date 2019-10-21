@@ -250,7 +250,7 @@ msgstr "خطأ في تحميل المجتمعات"
 msgid "Error loading featured collections"
 msgstr "خطأ في تحميل المجموعات المميزة"
 
-#: src/components/featuredCommunities/index.tsx:111
+#: src/components/featuredCommunities/index.tsx:114
 msgid "Error loading featured communities"
 msgstr "خطأ في تحميل المجتمعات المميزة"
 
@@ -267,7 +267,7 @@ msgstr "خطأ في تحميل المستخدم"
 msgid "Featured collections"
 msgstr "مجموعات مميزة"
 
-#: src/components/featuredCommunities/index.tsx:99
+#: src/components/featuredCommunities/index.tsx:102
 msgid "Featured communities"
 msgstr "المجتمعات المميزة"
 
@@ -514,7 +514,7 @@ msgstr "تسجيل الخروج"
 msgid "Sign up"
 msgstr "انشاء حساب"
 
-#: src/containers/App/App.tsx:115
+#: src/containers/App/App.tsx:132
 msgid "Sorry, we encountered a problem loading the app in your language."
 msgstr "عذرًا ، واجهنا مشكلة أثناء تحميل التطبيق بلغتك."
 
