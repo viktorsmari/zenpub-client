@@ -58,6 +58,9 @@ interface State {
 export default class App extends React.Component<{}, State> {
   state = {
     catalogs: {
+      ar_SA: require(process.env.NODE_ENV === 'development'
+        ? '../../locales/ar_SA/messages.po'
+        : '../../locales/ar_SA/messages.js'),
       en_GB: require(process.env.NODE_ENV === 'development'
         ? '../../locales/en_GB/messages.po'
         : '../../locales/en_GB/messages.js'),
