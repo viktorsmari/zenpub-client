@@ -33,6 +33,9 @@ export const Title = styled.div`
 `;
 
 export const RightContext = styled.div`
+  .--rtl & {
+    flex-direction: row-reverse;
+  }
   & span {
     cursor: pointer;
     display: inline-block;

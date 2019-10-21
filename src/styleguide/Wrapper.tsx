@@ -24,7 +24,7 @@ const useEffectDarkMode = () => {
   return [themeState, setThemeState];
 };
 
-const ThemeProvider = ({ children }) => {
+const ThemeProvider = ({ rtl, children }) => {
   const [themeState, setThemeState] = useEffectDarkMode();
   if (!themeState.hasThemeMounted) {
     return <div />;
@@ -39,7 +39,7 @@ const ThemeProvider = ({ children }) => {
     ? moodlenet('dark')
     : moodlenet('light');
   return (
-    <ZenThemeProvider theme={computedTheme}>
+    <ZenThemeProvider rtl={rtl} theme={computedTheme}>
       <ThemeContext.Provider
         value={{
           dark: themeState!.dark,
