@@ -1,4 +1,6 @@
 import { Trans } from '@lingui/macro';
+import { i18nMark } from '@lingui/react';
+import { i18n } from '../../containers/App/App';
 import React, { useState } from 'react';
 import { SFC } from 'react';
 import { TabPanel, Tabs } from 'react-tabs';
@@ -11,6 +13,11 @@ import styled from '../../themes/styled';
 import { Flex, Box, Button } from 'rebass';
 import CommunityModal from '../../components/elements/CommunityModal';
 
+const tt = {
+  placeholders: {
+    thread: i18nMark('Start a new thread...')
+  }
+};
 interface Props {
   collections: any;
   community: any;
@@ -91,7 +98,7 @@ const CommunityPage: SFC<Props> = ({
                 onInput={setNewThreadTextInput}
                 reference={socialTextRef}
                 submit={addNewThread}
-                placeholder="Start a new thread..."
+                placeholder={i18n._(tt.placeholders.thread)}
               />
             </Box>
             <div>

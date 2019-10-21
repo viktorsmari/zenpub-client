@@ -1,11 +1,16 @@
 import React, { SFC } from 'react';
-// import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
+import { i18n } from '../../containers/App/App';
 import { Box, Text, Flex } from 'rebass';
 import styled from '../../themes/styled';
 import Join from './Join';
 import { clearFix } from 'polished';
 import { Settings } from 'react-feather';
+const tt = {
+  text: {
+    more: i18nMark('More')
+  }
+};
 interface Props {
   community: {
     icon: string;
@@ -56,7 +61,8 @@ const HeroComp: SFC<Props> = ({ community, showUsers, editCommunity }) => (
             })}{' '}
             <Tot>
               {community.members.totalCount - 3 > 0
-                ? `+ ${community.members.totalCount - 3} ${i18nMark('More')}`
+                ? `+ ${community.members.totalCount - 3} ` +
+                  i18n._(tt.text.more)
                 : ``}
             </Tot>
           </MembersTot>

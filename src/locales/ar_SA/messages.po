@@ -110,7 +110,7 @@ msgstr "أختر كلمة المرور الخاصة بك"
 msgid "Code of Conduct"
 msgstr "القواعد السلوكية"
 
-#: src/pages/communities.community/Community.tsx:54
+#: src/pages/communities.community/Community.tsx:61
 msgid "Collections"
 msgstr "المجموعات"
 
@@ -148,7 +148,7 @@ msgid "Create a new account"
 msgstr "إنشاء حساب جديد"
 
 #: src/components/elements/CommunityModal/index.tsx:34
-#: src/pages/communities.community/Community.tsx:73
+#: src/pages/communities.community/Community.tsx:80
 msgid "Create a new collection"
 msgstr "إنشاء مجموعة جديدة"
 
@@ -359,9 +359,9 @@ msgstr "تحميل المزيد"
 msgid "Location"
 msgstr "الموقع"
 
-#: src/pages/communities.community/hero.tsx:31
+#: src/pages/communities.community/hero.tsx:11
 msgid "More"
-msgstr ""
+msgstr "عضو"
 
 #: src/sections/sidebar/index.tsx:171
 msgid "My MoodleNet"
@@ -453,7 +453,7 @@ msgstr "اسم المستخدم المفضل"
 msgid "Profile"
 msgstr "الملف الشخصي"
 
-#: src/pages/communities.community/Community.tsx:49
+#: src/pages/communities.community/Community.tsx:56
 #: src/pages/User/index.tsx:62
 msgid "Recent activities"
 msgstr "احدث الأنشطة"
@@ -517,6 +517,10 @@ msgstr "انشاء حساب"
 #: src/containers/App/App.tsx:115
 msgid "Sorry, we encountered a problem loading the app in your language."
 msgstr "عذرًا ، واجهنا مشكلة أثناء تحميل التطبيق بلغتك."
+
+#: src/pages/communities.community/Community.tsx:16
+msgid "Start a new thread..."
+msgstr "إنشاء موضوع جديد..."
 
 #: src/pages/login/Login.tsx:217
 msgid "The email field cannot be empty"
