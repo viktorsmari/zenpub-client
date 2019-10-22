@@ -218,7 +218,9 @@ class CommunitiesFeatured extends React.Component<Props, State> {
         </HomeBox>
         <WrapperPanel>
           <Panel>
-            <Follow variant={'outline'}>Follow</Follow>
+            <Follow variant={'outline'}>
+              <Trans>Follow</Trans>
+            </Follow>
           </Panel>
           <Panel>
             <PanelTitle fontSize={0} fontWeight={'bold'}>

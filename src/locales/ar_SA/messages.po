@@ -279,6 +279,11 @@ msgstr "التعليقات والاقتراحات"
 msgid "Fetch the resource"
 msgstr "إحضار المورد"
 
+#: src/components/elements/Collection/Join.tsx:85
+#: src/pages/User/index.tsx:113
+msgid "Follow"
+msgstr "تابع"
+
 #: src/pages/Profile/index.tsx:65
 #: src/pages/User/index.tsx:67
 msgid "Followed Collections"
@@ -432,7 +437,7 @@ msgstr "هاشتاقات مجتمعي الأكثر شعبية"
 
 #: src/components/elements/TalkModal/index.tsx:51
 msgid "Post a reply"
-msgstr "انشر رد"
+msgstr "اكتب رد"
 
 #: src/pages/communities.community/CommunitiesCommunity.tsx:137
 msgid "Postgraduate"
@@ -545,6 +550,10 @@ msgstr "إلى مودل!"
 #: src/pages/login/Login.tsx:299
 msgid "Trouble logging in?"
 msgstr "مشكلة في تسجيل الدخول؟"
+
+#: src/components/elements/Collection/Join.tsx:51
+msgid "Unfollow"
+msgstr "الغاء المتابعة"
 
 #: src/components/elements/TimelineItem/index.tsx:113
 msgid "added a new resource"

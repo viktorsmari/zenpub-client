@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 import React from 'react';
+import { Trans } from '@lingui/macro';
 import { graphql, OperationOption } from 'react-apollo';
 import { compose, withState } from 'recompose';
 import styled from '../../../themes/styled';
@@ -79,7 +80,9 @@ const Join: React.FC<Props> = ({
           <Loader />
         ) : (
           <>
-            <Text>Unfollow</Text>
+            <Text>
+              <Trans>Unfollow</Trans>
+            </Text>
           </>
         )}
       </Span>
@@ -117,7 +120,13 @@ const Join: React.FC<Props> = ({
             .catch(err => console.log(err));
         }}
       >
-        {isSubmitting ? <Loader /> : <Text>Follow</Text>}
+        {isSubmitting ? (
+          <Loader />
+        ) : (
+          <Text>
+            <Trans>Follow</Trans>
+          </Text>
+        )}
       </Span>
     );
   }
