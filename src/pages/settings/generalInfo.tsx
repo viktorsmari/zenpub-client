@@ -20,7 +20,8 @@ import {
   CounterChars,
   ContainerForm
 } from '../../components/elements/Modal/modal';
-import { ArrowLeft } from 'react-feather';
+import { ArrowLeft, ArrowRight } from 'react-feather';
+import { LocaleContext } from '../../containers/App/App';
 
 const withUpdateCommunity = graphql<{}>(updateProfileMutation, {
   name: 'updateProfile'
@@ -124,11 +125,23 @@ const Component = (props: Props & FormikProps<FormValues>) => {
       {client => (
         <>
           <Header p={3} alignItems="center">
-            <ArrowLeft
-              size={32}
-              color="#f98012"
-              onClick={() => props.onSwitch('sidebar')}
-            />
+            <LocaleContext.Consumer>
+              {value =>
+                value.contentDirection == 'ltr' ? (
+                  <ArrowLeft
+                    size={32}
+                    color="#f98012"
+                    onClick={() => props.onSwitch('sidebar')}
+                  />
+                ) : (
+                  <ArrowRight
+                    size={32}
+                    color="#f98012"
+                    onClick={() => props.onSwitch('sidebar')}
+                  />
+                )
+              }
+            </LocaleContext.Consumer>
             <Heading ml={2}>
               <Trans>General Information</Trans>
             </Heading>

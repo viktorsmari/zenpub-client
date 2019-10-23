@@ -10,6 +10,7 @@ import { Trans } from '@lingui/macro';
 import CollectionSmall from '../elements/Collection/CollectionSmall';
 import { ChevronLeft, Right } from '../elements/Icons';
 import { Title, RightContext } from '../featuredCommunities';
+import { LocaleContext } from '../../containers/App/App';
 
 interface Data extends GraphqlQueryControls {
   one: any;
@@ -78,19 +79,49 @@ class MultipleItems extends React.Component<Props> {
           <h5>
             <Trans>Featured collections</Trans>{' '}
           </h5>
-          <RightContext>
-            <span onClick={this.previous}>
-              <ChevronLeft
-                width={26}
-                height={26}
-                strokeWidth={1}
-                color={'inherit'}
-              />
-            </span>
-            <span onClick={this.next}>
-              <Right width={26} height={26} strokeWidth={1} color={'inherit'} />
-            </span>
-          </RightContext>
+          <LocaleContext.Consumer>
+            {value =>
+              value.contentDirection == 'ltr' ? (
+                <RightContext>
+                  <span onClick={this.previous}>
+                    <ChevronLeft
+                      width={26}
+                      height={26}
+                      strokeWidth={1}
+                      color={'inherit'}
+                    />
+                  </span>
+                  <span onClick={this.next}>
+                    <Right
+                      width={26}
+                      height={26}
+                      strokeWidth={1}
+                      color={'inherit'}
+                    />
+                  </span>
+                </RightContext>
+              ) : (
+                <RightContext>
+                  <span onClick={this.next}>
+                    <Right
+                      width={26}
+                      height={26}
+                      strokeWidth={1}
+                      color={'inherit'}
+                    />
+                  </span>
+                  <span onClick={this.previous}>
+                    <ChevronLeft
+                      width={26}
+                      height={26}
+                      strokeWidth={1}
+                      color={'inherit'}
+                    />
+                  </span>
+                </RightContext>
+              )
+            }
+          </LocaleContext.Consumer>{' '}
         </Title>
         {this.props.data.error ? (
           <span>

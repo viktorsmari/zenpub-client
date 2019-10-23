@@ -47,6 +47,11 @@ const Action = styled.div`
   padding-top: 10px;
   padding-right: 10px;
   float: right;
+  .--rtl & {
+    float: left;
+    padding-right: 0px;
+    padding-left: 10px;
+  }
 `;
 
 const Close = styled.div`

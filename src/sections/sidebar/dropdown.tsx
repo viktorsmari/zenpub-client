@@ -33,6 +33,10 @@ const Item = styled.div`
   & span {
     display: inline-block;
     margin-right: 8px;
+    .--rtl & {
+      margin-right: 0px;
+      margin-left: 8px;
+    }
     & svg {
       vertical-align: sub;
     }

@@ -10,6 +10,7 @@ import { Trans } from '@lingui/macro';
 import CommunitySmall from '../elements/Community/CommunitySmall';
 import styled from '../../themes/styled';
 import { ChevronLeft, Right } from '../elements/Icons';
+import { LocaleContext } from '../../containers/App/App';
 
 export const Title = styled.div`
   font-size: 15px;
@@ -33,9 +34,6 @@ export const Title = styled.div`
 `;
 
 export const RightContext = styled.div`
-  .--rtl & {
-    flex-direction: row-reverse;
-  }
   & span {
     cursor: pointer;
     display: inline-block;
@@ -52,6 +50,11 @@ export const RightContext = styled.div`
     }
   }
   float: right;
+
+  .--rtl & {
+    flex-direction: row-reverse;
+    float: left;
+  }
 `;
 
 interface Data extends GraphqlQueryControls {
@@ -120,19 +123,49 @@ class MultipleItems extends React.Component<Props> {
           <h5>
             <Trans>Featured communities</Trans>{' '}
           </h5>
-          <RightContext>
-            <span onClick={this.previous}>
-              <ChevronLeft
-                width={26}
-                height={26}
-                strokeWidth={1}
-                color={'#333'}
-              />
-            </span>
-            <span onClick={this.next}>
-              <Right width={26} height={26} strokeWidth={1} color={'#333'} />
-            </span>
-          </RightContext>
+          <LocaleContext.Consumer>
+            {value =>
+              value.contentDirection == 'ltr' ? (
+                <RightContext>
+                  <span onClick={this.previous}>
+                    <ChevronLeft
+                      width={26}
+                      height={26}
+                      strokeWidth={1}
+                      color={'#333'}
+                    />
+                  </span>
+                  <span onClick={this.next}>
+                    <Right
+                      width={26}
+                      height={26}
+                      strokeWidth={1}
+                      color={'#333'}
+                    />
+                  </span>
+                </RightContext>
+              ) : (
+                <RightContext>
+                  <span onClick={this.next}>
+                    <Right
+                      width={26}
+                      height={26}
+                      strokeWidth={1}
+                      color={'#333'}
+                    />
+                  </span>
+                  <span onClick={this.previous}>
+                    <ChevronLeft
+                      width={26}
+                      height={26}
+                      strokeWidth={1}
+                      color={'#333'}
+                    />
+                  </span>
+                </RightContext>
+              )
+            }
+          </LocaleContext.Consumer>
         </Title>
         {this.props.data.error ? (
           <span>

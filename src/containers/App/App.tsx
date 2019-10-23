@@ -29,18 +29,6 @@ export const i18n = setupI18n();
 export const locale_default =
   localStorage.getItem(LocalStorageLocaleKey) || 'en_GB';
 
-export const LocaleContext = React.createContext({
-  catalogs: {},
-  locale: locale_default,
-  setLocale: (locale: string) => {}
-});
-
-interface State {
-  catalogs: Catalogs;
-  locale: string;
-  setLocale: (locale: string) => void;
-}
-
 const languageOfLocale = (locale: string): string => {
   const [language] = locale.split('_');
   return language;
@@ -49,6 +37,24 @@ const languageOfLocale = (locale: string): string => {
 const directionForLanguage = (language: string): string => {
   return language === 'ar' ? 'rtl' : 'ltr';
 };
+
+export const direction_default = directionForLanguage(
+  languageOfLocale(locale_default)
+);
+
+export const LocaleContext = React.createContext({
+  catalogs: {},
+  locale: locale_default,
+  contentDirection: direction_default,
+  setLocale: (locale: string) => {}
+});
+
+interface State {
+  catalogs: Catalogs;
+  locale: string;
+  contentDirection: string;
+  setLocale: (locale: string) => void;
+}
 
 const setHTMLDirection = (language: string) => {
   const htmlEl = document.querySelector('html');
@@ -100,6 +106,7 @@ export default class App extends React.Component<{}, State> {
         : '../../locales/eu/messages.js')
     },
     locale: locale_default,
+    contentDirection: direction_default,
     setLocale: this.setLocale.bind(this)
   };
 
@@ -123,8 +130,11 @@ export default class App extends React.Component<{}, State> {
     };
     // }
 
+    const contentDirection = directionForLanguage(languageOfLocale(locale));
+
     this.setState({
       locale,
+      contentDirection,
       catalogs
     });
 
