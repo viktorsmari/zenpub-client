@@ -39,14 +39,12 @@ push-localisation-strings: # send any new strings to transifex
   only:
     - develop # Only run on staging branch
   script:
-    - export PATH=$PATH:.pip
     - if [ ! -z "$TX_TOKEN" ]; then tx push --source --no-interactive ; else echo "Skipping..."; fi # install transifex cli, then push latest English PO file to transifex for translators, and finally pull all the latest localised PO files from transifex to be used by frontend
 
 pull-localisations: # pull localisation files in each language from transifex
   stage: pull-localisations
   script:
-   - export PATH=$PATH:.pip
-   - if [ ! -z "$TX_TOKEN" ]; then tx pull --force --no-interactive ; else echo "Skipping..."; fi # install transifex cli, then push latest English PO file to transifex for translators, and finally pull all the latest localised PO files from transifex to be used by frontend
+    - if [ ! -z "$TX_TOKEN" ]; then tx pull --force --no-interactive ; else echo "Skipping..."; fi # install transifex cli, then push latest English PO file to transifex for translators, and finally pull all the latest localised PO files from transifex to be used by frontend
     - yarn compile # compile localisation PO files into .js files 
 
 
@@ -55,7 +53,6 @@ docs: # build and deploy documentation
   only:
     - develop # Only run on staging branch
   script:
-    - export PATH=$PATH:.pip
     - mkdir docs && yarn docs # generate TypeDocs
     - cd .docz && yarn && cd .. && CI=false yarn docz:build && mv .docz/dist docs/ui # prepare Docz dependencies & generate new styleguide
     - if [ ! -z "$DOCS_STAGING_BUCKET" ]; then aws s3 sync docs/ s3://${DOCS_STAGING_BUCKET}/docs/client/ --delete --exclude .git --acl public-read ; else echo "Skipping..."; fi # also copy docs to (a different) S3-served website
@@ -65,9 +62,8 @@ docs: # build and deploy documentation
 deploy-staging-next: # build and deploy develop branch to app.next.moodle.net
   stage: deploy
   only:
-    - staging # Only run on specific branchcompile
+    - staging # Only run on specific branch
   script:
-    - export PATH=$PATH:.pip
     - REACT_APP_GRAPHQL_ENDPOINT=https://home.next.moodle.net/api/graphql CI=false yarn build --prod # Build for prod, need to specify URL of backend API, and CI=false to avoid failing on warnings
     - rm -rf public # CRA and gitlab pages both use the public folder. Only do this in a build pipeline.
     - mv build public # Move build files to public dir for Gitlab Pages
@@ -85,7 +81,6 @@ deploy-team-instance: # build and deploy to team.moodle.net
   only:
     - develop # Only run on specific branch
   script:
-    - export PATH=$PATH:.pip
     - REACT_APP_GRAPHQL_ENDPOINT=https://team.moodle.net/api/graphql CI=false yarn build --prod # Build for prod, need to specify URL of backend API, and CI=false to avoid failing on warnings
     - rm -rf public # CRA and gitlab pages both use the public folder. Only do this in a build pipeline.
     - mv build public # Move build files to public dir for Gitlab Pages
@@ -103,7 +98,6 @@ deploy-prod: # build and deploy master branch to app.moodle.net
   only:
     - master # Only run on production branch
   script:
-    - export PATH=$PATH:.pip
     - REACT_APP_GRAPHQL_ENDPOINT=https://home.moodle.net/api/graphql CI=false yarn build --prod # Build for prod, need to specify URL of backend API, and CI=false to avoid failing on warnings
     - rm -rf public # CRA and gitlab pages both use the public folder. Only do this in a build pipeline.
     - mv build public # Move build files to public dir for Gitlab Pages
