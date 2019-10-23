@@ -21,12 +21,17 @@ stages:
   - docs
   - deploy
 
+default:
+  before_script:
+    - mkdir -p .pip # prepare to cache pip packages
+    - export PATH=$PATH:.pip
+
+
 prepare:
   stage: prepare
   script:
     # - rm -rf node_modules
-    - apk add --update py-pip # install python & pip
-    - mkdir -p .pip && pip install -U pip # prepare to cache pip packages
+    - apk add --update py-pip && pip install -U pip # install python & pip
     - pip --cache-dir=.pip install awscli 
     - yarn # Install all JS dependencies
     - yarn add-locale en_GB # make sure we have default language
