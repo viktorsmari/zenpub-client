@@ -1,3 +1,5 @@
+#import "./fragments/basicCommunity.graphql"
+
 input CommunityInput {
     name: String!
     summary: String!
@@ -9,16 +11,6 @@ input CommunityInput {
 
 mutation createCommunityMutation($community: CommunityInput!) {
         createCommunity(community: $community) {
-          id
-          localId
-          name
-          summary
-          content
-          preferredUsername
-          followed
-          primaryLanguage
-          icon
-          # followingCount
-          # followersCount
+          ...BasicCommunity
         }
       }

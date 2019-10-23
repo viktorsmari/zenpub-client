@@ -5,11 +5,9 @@ import media from 'styled-media-query';
 
 import { Trans } from '@lingui/macro';
 import Link from '../../elements/Link/Link';
-import H4 from '../../typography/H4/H4';
-
 import { clearFix } from 'polished';
-import H5 from '../../typography/H5/H5';
-
+import { Heading, Text } from 'rebass';
+import { Container, Header } from '../Modal/modal';
 interface Props {
   toggleModal?: any;
   modalIsOpen?: boolean;
@@ -22,9 +20,9 @@ const CreateCommunityModal = (props: Props) => {
     <Modal isOpen={modalIsOpen} toggleModal={() => toggleModal(false)}>
       <Container>
         <Header>
-          <H5>
+          <Heading m={2}>
             <Trans>Community Members</Trans>
-          </H5>
+          </Heading>
         </Header>
         <Members>
           {members.map((edge, i) => (
@@ -46,10 +44,6 @@ const CreateCommunityModal = (props: Props) => {
 };
 
 export default CreateCommunityModal;
-
-const Container = styled.div`
-  font-family: ${props => props.theme.styles.fontFamily};
-`;
 
 const Members = styled.div`
   ${clearFix()};
@@ -84,7 +78,7 @@ const Img = styled.div`
   border-radius: 100px;
   border: 5px solid #eceaea;
 `;
-const FollowerName = styled(H4)`
+const FollowerName = styled(Text)`
   margin-top: 8px !important;
   text-align: center;
   font-size: 14px !important;
@@ -93,15 +87,5 @@ const FollowerName = styled(H4)`
   color: ${props => props.theme.styles.colour.base2};
   &:hover {
     color: ${props => props.theme.styles.colour.primary};
-  }
-`;
-const Header = styled.div`
-  height: 60px;
-  border-bottom: 1px solid rgba(151, 151, 151, 0.2);
-  & h5 {
-    text-align: center !important;
-    line-height: 60px !important;
-    margin: 0 !important;
-    color: ${props => props.theme.styles.colour.base2};
   }
 `;

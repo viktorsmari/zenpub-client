@@ -1,3 +1,6 @@
+#import "./fragments/basicResource.graphql"
+
+
 input ResourceInput {
     name: String!
     summary: String
@@ -12,16 +15,7 @@ input ResourceInput {
     collectionLocalId: $resourceId
     resource: $resource
     ) {
-        id
-        localId
-        name
-        summary
-        content
-        url
-        primaryLanguage
-        icon
-        published
-        updated
+        ...BasicResource
     }
 }
 

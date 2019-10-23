@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from '../../../themes/styled';
 import CollectionType from '../../../types/Collection';
 import { Link } from 'react-router-dom';
-import { Resource, Eye, Message } from '../Icons';
+import { Resource } from '../Icons';
 import { Flex, Text, Heading } from 'rebass';
 const PlaceholderImg = require('../Icons/collectionPlaceholder.png');
 
@@ -56,11 +56,11 @@ export default ({ collection, communityId, openModal }: CollectionProps) => {
                 color={'#8b98a2'}
               />
             </ActionItem>
-            <ActionItem>
+            {/* <ActionItem>
               {(collection.followers && collection.followers.totalCount) || 0}{' '}
               <Eye width={18} height={18} strokeWidth={2} color={'#8b98a2'} />
-            </ActionItem>
-            <ActionItem>
+            </ActionItem> */}
+            {/* <ActionItem>
               {(collection.threads && collection.threads.totalCount) || 0}{' '}
               <Message
                 width={18}
@@ -68,7 +68,7 @@ export default ({ collection, communityId, openModal }: CollectionProps) => {
                 strokeWidth={2}
                 color={'#8b98a2'}
               />
-            </ActionItem>
+            </ActionItem> */}
           </Actions>
         </Infos>
       </Link>
@@ -77,7 +77,11 @@ export default ({ collection, communityId, openModal }: CollectionProps) => {
 };
 
 const Actions = styled.div`
-  margin-top: 10px;
+  padding-top: 8px;
+  background: #f5f6f7;
+  padding: 8px;
+  border-radius: 4px;
+  display: inline-block;
 `;
 const ActionItem = styled.div`
   display: inline-block;
@@ -85,7 +89,6 @@ const ActionItem = styled.div`
   font-weight: 600;
   color: ${props => props.theme.styles.colour.collectionIcon};
   text-transform: uppercase;
-  margin-right: 20px;
   & svg {
     vertical-align: sub;
     color: inherit !important;

@@ -1,23 +1,8 @@
-#import "./fragments/basicComment.graphql"
+#import "./fragments/basicCollection.graphql"
 
 query getCollection($id: Int!) {
   collection(localId: $id) {
-    id
-    localId
-    icon
-    name
-    content
-    followed
-    followers {
-      totalCount
-    }
-    summary
-    community {
-      localId
-      id
-      name
-      followed
-    }
+    ...BasicCollection
     resources {
       totalCount
       edges {

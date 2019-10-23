@@ -16,7 +16,7 @@ import MyCollections from '../../pages/collections.all/collectionsFollowed';
 import User from '../../pages/User';
 import Settings from '../../pages/settings';
 import Reset from '../../pages/Reset';
-import Thread from '../../pages/thread';
+import Thread from '../../pages/thread/component';
 import CreateNewPassword from '../../pages/CreateNewPassword';
 import qs from 'qs';
 
@@ -34,7 +34,7 @@ import { InstantSearch, connectStateResults } from 'react-instantsearch-dom';
 
 const Main = styled(Flex)`
   height: 100%;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif !important;
 `;
 
 const AppInner = styled.div`
@@ -93,7 +93,14 @@ const Content = connectStateResults(
         <Route exact path="/communities" component={CommunitiesAll} />
         <Route exact path="/mycommunities" component={MyCommunities} />
         <Route exact path="/mycollections" component={MyCollections} />
-        <Route exact path="/thread/:id" components={Thread} />
+        <Route
+          exact
+          path="/thread/:id"
+          render={route => {
+            const id = Number(route.match.params.id);
+            return <Thread id={id} />;
+          }}
+        />
         <Route
           exact
           path="/communities/:community"
@@ -103,11 +110,6 @@ const Content = connectStateResults(
           exact
           path="/communities/:community/collections/:collection"
           component={CollectionViewModal}
-        />
-        <Route
-          exact
-          path="/communities/:community/thread/:threadId"
-          component={Thread}
         />
         <Route exact path="/collections" component={CollectionsAll} />
         <Route exact path="/profile" component={Profile} />
@@ -166,10 +168,10 @@ class App extends React.Component<any> {
           onSearchStateChange={this.onSearchStateChange}
           createURL={createURL}
           searchClient={searchClient}
-          indexName="next_moodlenet_all"
+          indexName="next_moodlenet"
         >
           <PageContainer>
-            <Sidebar history={history} />
+            <Sidebar history={this.props.history} />
             <MainWrapper>
               <WrapperDimension>
                 <Inner>

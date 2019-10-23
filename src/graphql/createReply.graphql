@@ -2,13 +2,17 @@ input CommentInput {
   content: String!
 }
 
-mutation createReplyMutation($id: String!, $comment: CommentInput!) {
+mutation createReplyMutation($id: Int!, $comment: CommentInput!) {
   createReply(inReplyToLocalId: $id, comment: $comment) {
     id
     localId
     replies {
       totalCount
-      edges {node{id}}
+      edges {
+        node {
+          id
+        }
+      }
     }
     published
     author {

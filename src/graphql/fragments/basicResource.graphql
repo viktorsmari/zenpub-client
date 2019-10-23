@@ -1,0 +1,15 @@
+fragment BasicResource on Resource {
+  id
+  name
+  localId
+  url
+  summary
+  icon
+  collection {
+    name
+    localId
+    community {
+      localId
+    }
+  }
+}

@@ -1,9 +1,8 @@
 import * as React from 'react';
 import Modal from '../Modal';
 import { Trans } from '@lingui/macro';
-import H5 from '../../typography/H5/H5';
-import Text from '../../inputs/Text/Text';
-import Textarea from '../../inputs/TextArea/Textarea';
+import { Heading } from 'rebass';
+import { Input, Textarea } from '@rebass/forms';
 import Button from '../Button/Button';
 import { compose } from 'react-apollo';
 import { withFormik, FormikProps, Form, Field } from 'formik';
@@ -67,9 +66,9 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
     <Modal isOpen={modalIsOpen} toggleModal={toggleModal}>
       <Container>
         <Header>
-          <H5>
+          <Heading m={2}>
             <Trans>Edit the resource details</Trans>
-          </H5>
+          </Heading>
         </Header>
         <Form>
           <Row>
@@ -80,7 +79,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
               <Field
                 name="url"
                 render={({ field }) => (
-                  <Text
+                  <Input
                     // placeholder="The url of the resource..."
                     name={field.name}
                     value={field.value}
@@ -100,7 +99,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                 name="name"
                 render={({ field }) => (
                   <>
-                    <Text
+                    <Input
                       // placeholder="The name of the resoruce..."
                       name={field.name}
                       value={field.value}
@@ -142,7 +141,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
               <Field
                 name="image"
                 render={({ field }) => (
-                  <Text
+                  <Input
                     // placeholder="Type a url of a background image..."
                     name={field.name}
                     value={field.value}

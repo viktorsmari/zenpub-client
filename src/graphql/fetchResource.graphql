@@ -1,5 +1,5 @@
-mutation fetchResource ($url: String) {
-  fetchWebMetadata(url: $url){
+mutation fetchResource($url: String!) {
+  fetchWebMetadata(url: $url) {
     image
     title
     author

@@ -7,9 +7,8 @@ import { withRouter } from 'react-router';
 import * as Yup from 'yup';
 import { i18n } from '../../../containers/App/App';
 import Alert from '../../elements/Alert';
-import Text from '../../inputs/Text/Text';
-import Textarea from '../../inputs/TextArea/Textarea';
-import H5 from '../../typography/H5/H5';
+import { Input, Textarea } from '@rebass/forms';
+import { Heading } from 'rebass';
 import Button from '../Button/Button';
 import Modal from '../Modal';
 import {
@@ -68,9 +67,9 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
     <Modal isOpen={modalIsOpen} toggleModal={toggleModal}>
       <Container>
         <Header>
-          <H5>
+          <Heading m={2}>
             <Trans>Create a new community</Trans>
-          </H5>
+          </Heading>
         </Header>
         <Form>
           <Row>
@@ -80,7 +79,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                 name="name"
                 render={({ field }) => (
                   <>
-                    <Text
+                    <Input
                       placeholder={i18n._(tt.placeholders.name)}
                       name={field.name}
                       value={field.value}
@@ -122,7 +121,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
               <Field
                 name="image"
                 render={({ field }) => (
-                  <Text
+                  <Input
                     placeholder={i18n._(tt.placeholders.image)}
                     name={field.name}
                     value={field.value}

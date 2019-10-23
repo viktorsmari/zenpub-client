@@ -79,9 +79,6 @@ const Location = styled(Text)`
   font-size: 14px;
   border-radius: 100px;
   margin-top: 16px;
-  padding: 0 8px;
-  display: inline-block;
-  background: ${props => props.theme.styles.colors.lighter};
   span {
     display: inline-block;
     margin-right: 8px;

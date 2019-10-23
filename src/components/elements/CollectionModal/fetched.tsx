@@ -10,8 +10,7 @@ import { compose } from 'recompose';
 import * as Yup from 'yup';
 import { i18n } from '../../../containers/App/App';
 import styled from '../../../themes/styled';
-import Text from '../../inputs/Text/Text';
-import Textarea from '../../inputs/TextArea/Textarea';
+import { Input, Textarea } from '@rebass/forms';
 import Alert from '../Alert';
 import Button, { LoaderButton } from '../Button/Button';
 import { Actions, ContainerForm, CounterChars, Row } from '../Modal/modal';
@@ -93,7 +92,7 @@ const Fetched = (props: Props & FormikProps<FormValues>) => (
           <Field
             name="url"
             render={({ field }) => (
-              <Text
+              <Input
                 placeholder={i18n._(tt.placeholders.url)}
                 name={field.name}
                 value={field.value}
@@ -114,7 +113,7 @@ const Fetched = (props: Props & FormikProps<FormValues>) => (
             name="name"
             render={({ field }) => (
               <>
-                <Text
+                <Input
                   placeholder={i18n._(tt.placeholders.name)}
                   name={field.name}
                   value={field.value}
@@ -157,7 +156,7 @@ const Fetched = (props: Props & FormikProps<FormValues>) => (
           <Field
             name="image"
             render={({ field }) => (
-              <Text
+              <Input
                 placeholder={i18n._(tt.placeholders.image)}
                 name={field.name}
                 value={field.value}

@@ -13,7 +13,6 @@ interface Props {
 }
 
 const CollectionViewModal = (props: Props) => {
-  console.log(props);
   return (
     <Modal isOpen={true} toggleModal={() => props.history.goBack()}>
       <Container>

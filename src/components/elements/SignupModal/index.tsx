@@ -1,7 +1,6 @@
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Field, Form, FormikProps, withFormik } from 'formik';
-import { clearFix } from 'polished';
 import * as React from 'react';
 import {
   ApolloConsumer,
@@ -9,14 +8,16 @@ import {
   graphql,
   OperationOption
 } from 'react-apollo';
+import { getGlob } from '../../../_context/GLOB';
+import { login } from '../../../_redux/session';
 import * as Yup from 'yup';
 import { i18n } from '../../../containers/App/App';
-import styled from '../../../themes/styled';
 import Alert from '../../elements/Alert';
-import Text from '../../inputs/Text/Text';
-import H5 from '../../typography/H5/H5';
+import { Input } from '@rebass/forms';
+import { Heading } from 'rebass';
 import Button from '../Button/Button';
 import Modal from '../Modal';
+import { Row, Container, Actions, ContainerForm, Header } from '../Modal/modal';
 const { createUserMutation } = require('../../../graphql/createUser.graphql');
 const checkUsername = require('../../../graphql/checkUsername.graphql');
 
@@ -91,9 +92,9 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
         <Modal isOpen={modalIsOpen} toggleModal={toggleModal}>
           <Container>
             <Header>
-              <H5>
+              <Heading m={2}>
                 <Trans>Create a new account</Trans>
-              </H5>
+              </Heading>
             </Header>
             <Form>
               <Row>
@@ -104,7 +105,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                   <Field
                     name="email"
                     render={({ field }) => (
-                      <Text
+                      <Input
                         placeholder={i18n._(tt.placeholders.email)}
                         name={field.name}
                         value={field.value}
@@ -124,7 +125,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                   <Field
                     name="name"
                     render={({ field }) => (
-                      <Text
+                      <Input
                         placeholder={i18n._(tt.placeholders.name)}
                         name={field.name}
                         value={field.value}
@@ -145,7 +146,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                     validate={val => validateUsername(val, client)}
                     render={({ field }) => (
                       <>
-                        <Text
+                        <Input
                           // placeholder="The name of the community..."
                           name={field.name}
                           value={field.value}
@@ -167,7 +168,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                   <Field
                     name="password"
                     render={({ field }) => (
-                      <Text
+                      <Input
                         placeholder={i18n._(tt.placeholders.password)}
                         type="password"
                         name={field.name}
@@ -188,7 +189,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                   <Field
                     name="passwordConfirm"
                     render={({ field }) => (
-                      <Text
+                      <Input
                         placeholder={i18n._(tt.placeholders.passwordConfirm)}
                         type="password"
                         name={field.name}
@@ -257,6 +258,7 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
         variables: variables
       })
       .then(res => {
+        getGlob().action.dispatch(login.create(res.data.createUser));
         process.env.REACT_APP_GRAPHQL_ENDPOINT ===
         'https://home.moodle.net/api/graphql'
           ? localStorage.setItem('user_access_token', res.data.createUser.token)
@@ -276,46 +278,3 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
 })(CreateCommunityModal);
 
 export default compose(withCreateUser)(ModalWithFormik);
-
-const Container = styled.div`
-  font-family: ${props => props.theme.styles.fontFamily};
-`;
-const Actions = styled.div`
-  ${clearFix()};
-  height: 60px;
-  padding-top: 10px;
-  padding-right: 10px;
-  & button {
-    float: right;
-  }
-`;
-
-const Row = styled.div<{ big?: boolean }>`
-  ${clearFix()};
-  border-bottom: 1px solid rgba(151, 151, 151, 0.2);
-  height: ${props => (props.big ? '180px' : '100px')};
-  display: flex;
-  padding: 20px;
-  & textarea {
-    height: 120px;
-  }
-  & label {
-    width: 200px;
-    line-height: 40px;
-  }
-`;
-
-const ContainerForm = styled.div`
-  flex: 1;
-  ${clearFix()};
-`;
-
-const Header = styled.div`
-  height: 60px;
-  border-bottom: 1px solid rgba(151, 151, 151, 0.2);
-  & h5 {
-    text-align: center !important;
-    line-height: 60px !important;
-    margin: 0 !important;
-  }
-`;

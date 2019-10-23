@@ -89,18 +89,16 @@ export const ContainerForm = styled.div`
 `;
 
 export const Header = styled.div`
-  height: 60px;
-  border-bottom: 1px solid rgba(151, 151, 151, 0.2);
+  border-bottom: 1px solid ${props => props.theme.styles.colors.lighter};
   & h5 {
     text-align: center !important;
-    line-height: 60px !important;
     margin: 0 !important;
   }
 `;
 
 export const Row = styled.div<{ big?: boolean }>`
   ${clearFix()};
-  border-bottom: 1px solid rgba(151, 151, 151, 0.2);
+  border-bottom: 1px solid ${props => props.theme.styles.colors.lighter};
   height: ${props => (props.big ? '180px' : 'auto')};
   display: flex;
   padding: 20px;

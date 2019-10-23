@@ -1,6 +1,10 @@
 fragment BasicUser on User {
+   name
     id
+    preferredUsername
     localId
-    name
     icon
+    location
+    summary
+    image
 }

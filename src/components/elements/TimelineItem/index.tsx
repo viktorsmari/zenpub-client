@@ -3,16 +3,17 @@ import { DateTime } from 'luxon';
 import { clearFix } from 'polished';
 import * as React from 'react';
 import { SFC } from 'react';
-import removeMd from 'remove-markdown';
-import styled from '../../../themes/styled';
-import Link from '../Link/Link';
+import { NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass';
-import Resource from '../Resource/Resource';
+import removeMd from 'remove-markdown';
+import { GqlSdkCtx } from '../../../containers/App/ProvideGqlSdk';
+import styled from '../../../themes/styled';
 import Collection from '../Collection/CollectionSmall';
 import CommunitySmall from '../Community/CommunitySmall';
-import { MessageCircle, Star } from 'react-feather';
-import { NavLink } from 'react-router-dom';
-
+import Link from '../Link/Link';
+import Resource from '../Resource/Resource';
+import Actions from './Actions';
+import { Star } from 'react-feather';
 interface Props {
   userpage?: boolean;
   user: any;
@@ -20,46 +21,50 @@ interface Props {
 }
 
 const Item: SFC<Props> = ({ user, node, userpage }) => {
+  const FAKE________COMMENT_I_LIKE_IT = !!Math.round(Math.random());
+  const sdk = React.useContext(GqlSdkCtx);
+  const [iLikeIt, setiLikeIt] = React.useState(FAKE________COMMENT_I_LIKE_IT);
+  const toggleLike = React.useCallback(
+    () => {
+      if (iLikeIt) {
+        sdk
+          .likeCommentMutation({ localId: node.object.localId })
+          .then(_ => setiLikeIt(false));
+      } else {
+        sdk
+          .undoLikeCommentMutation({ localId: node.object.localId })
+          .then(_ => setiLikeIt(true));
+      }
+    },
+    [node, iLikeIt]
+  );
   return (
     <FeedItem>
-      <Member>
-        <MemberItem>
-          <Img src={user ? user.icon : ''} />
-        </MemberItem>
-        <MemberInfo>
-          {userpage ? (
-            <b>{user ? user.name : <Trans>Deleted user</Trans>}</b>
-          ) : user ? (
-            <Name>
-              <Link to={'/user/' + user.localId}>
-                {user.name}{' '}
-                {user.preferredUsername ? (
-                  <Username>@{user.preferredUsername}</Username>
-                ) : null}
-              </Link>
-              <Spacer>·</Spacer>{' '}
-              <Date>{DateTime.fromISO(node.published).toRelative()}</Date>
-            </Name>
-          ) : (
-            <Name>
-              <Trans>Deleted user</Trans>
-            </Name>
-          )}
-
-          {node.activityType === 'JoinCommunity' ? (
-            <SubText>
-              <Trans>joined</Trans>{' '}
-              <NavLink to={`/communities/${node.object.localId}`}>
-                @{node.object.name}
-              </NavLink>
-            </SubText>
-          ) : node.activityType === 'CreateComment' ? (
-            <>
-              <SubText>
-                {node.object.inReplyTo !== null ? (
-                  <Trans>in reply</Trans>
-                ) : null}
-              </SubText>
+      <NavigateToThread to={`/thread/${node.object.localId}`} />
+      {node.activityType === 'LikeComment' ? (
+        <Box>
+          <SubText mb={2}>
+            <Star size="20" color="#ca8f04" />
+            <NavLink style={{ marginRight: '4px' }} to="/">
+              {user.name}
+            </NavLink>
+            <Trans>boosted</Trans>
+          </SubText>
+          <MemberWrapped>
+            <MemberItem mr={2}>
+              <Img src={node.object.author.icon} />
+            </MemberItem>
+            <MemberInfo>
+              <Name>
+                <Link to={'/user/' + node.object.author.localId}>
+                  {node.object.author.name}{' '}
+                  {node.object.author.preferredUsername ? (
+                    <Username>@{node.object.author.preferredUsername}</Username>
+                  ) : null}
+                </Link>
+                <Spacer>·</Spacer>{' '}
+                <Date>{DateTime.fromISO(node.published).toRelative()}</Date>
+              </Name>
               <Comment>
                 {node.object.content && node.object.content.length > 320
                   ? removeMd(node.object.content).replace(
@@ -68,180 +73,188 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
                     )
                   : removeMd(node.object.content)}
               </Comment>
-            </>
-          ) : node.activityType === 'UpdateCommunity' ? (
-            <SubText>
-              <Trans>updated</Trans>{' '}
-              <NavLink to={`/communities/${node.object.localId}`}>
-                @{node.object.name}
-              </NavLink>
-            </SubText>
-          ) : node.activityType === 'UpdateCollection' ? (
-            <SubText>
-              <Trans>updated</Trans>{' '}
-              <NavLink
-                to={`/communities/${
-                  node.object.community.localId
-                }/collections/${node.object.localId}`}
-              >
-                +{node.object.name}
-              </NavLink>
-            </SubText>
-          ) : node.activityType === 'FollowCollection' ? (
-            <SubText>
-              <Trans>followed</Trans>{' '}
-              <NavLink
-                to={`/communities/${
-                  node.object.community.localId
-                }/collections/${node.object.localId}`}
-              >
-                +{node.object.name}
-              </NavLink>
-            </SubText>
-          ) : node.activityType === 'CreateResource' ? (
-            <SubText>
-              <Trans>added a new resource</Trans> <Trans>in</Trans>{' '}
-              <NavLink
-                to={`/communities/${
-                  node.object.collection.community.localId
-                }/collections/${node.object.collection.localId}`}
-              >
-                +{node.object.collection.name}
-              </NavLink>
-              <ResourcePreview mt={2}>
-                <Resource
-                  icon={node.object.icon}
-                  title={node.object.name}
-                  summary={node.object.summary}
-                  url={node.object.url}
-                  localId={node.object.localId}
-                />
-              </ResourcePreview>
-            </SubText>
-          ) : node.activityType === 'CreateCollection' ? (
-            <SubText>
-              <Trans>created a new collection</Trans>{' '}
-              <NavLink
-                to={`/communities/${
-                  node.object.community.localId
-                }/collections/${node.object.localId}`}
-              >
-                +{node.object.name}
-              </NavLink>
-              <ResourcePreview mt={2}>
-                <Collection collection={node.object} />
-              </ResourcePreview>
-            </SubText>
-          ) : node.activityType === 'CreateCommunity' ? (
-            <SubText>
-              <Trans>created a new community</Trans>{' '}
-              <NavLink to={`/communities/${node.object.localId}`}>
-                @{node.object.name}
-              </NavLink>
-              <ResourcePreview mt={2}>
-                <CommunitySmall community={node.object} />
-              </ResourcePreview>
-            </SubText>
-          ) : null}
-          {node.activityType === 'CreateComment' ? (
-            <BoxLink to={`/communities/${node.object.context.localId}`}>
-              @{node.object.context.name}
-            </BoxLink>
-          ) : // : node.activityType === "JoinCommunity" || node.activityType === "CreateCommunity" || node.activityType === "UpdateCommunity" ?
-          // <BoxLink to={`/communities/${node.object.localId}`}>
-          //   @{node.object.name}
-          // </BoxLink>
-          // : node.activityType === "FollowCollection" || node.activityType === "UpdateCollection" || node.activityType === "CreateCollection"  ?
-          // <BoxLink to={`/communities/${node.object.community.localId}/collections/${node.object.localId}` }>
-          // +{node.object.name}
-          // </BoxLink>
-          // : node.activityType === "CreateResource" ?
-          // <BoxLink to={`/communities/${node.object.collection.community.localId}/collections/${node.object.collection.localId}` }>
-          // +{node.object.collection.name}
-          // </BoxLink>
-          // :
-          null}
-          {node.activityType === 'CreateComment' ? (
-            <Actions mt={2}>
-              <Items>
-                <ActionItem>
-                  <NavLink to={`/thread/${node.object.localId}`}>
-                    <ActionIcon>
-                      <MessageCircle color="rgba(0,0,0,.4)" size="16" />
-                    </ActionIcon>
-                    <Text ml={2}>0</Text>
-                  </NavLink>
-                </ActionItem>
-                <ActionItem>
-                  <ActionIcon>
-                    <Star color="rgba(0,0,0,.4)" size="16" />
-                  </ActionIcon>
-                  <Text ml={2}>0</Text>
-                </ActionItem>
-              </Items>
-            </Actions>
-          ) : null}
-        </MemberInfo>
-      </Member>
+            </MemberInfo>
+          </MemberWrapped>
+        </Box>
+      ) : (
+        <Member>
+          <MemberItem mr={2}>
+            <Img src={user ? user.icon : ''} />
+          </MemberItem>
+          <MemberInfo>
+            {userpage ? (
+              <b>{user ? user.name : <Trans>Deleted user</Trans>}</b>
+            ) : user ? (
+              <Name>
+                <Link to={'/user/' + user.localId}>
+                  {user.name}{' '}
+                  {user.preferredUsername ? (
+                    <Username>@{user.preferredUsername}</Username>
+                  ) : null}
+                </Link>
+                <Spacer>·</Spacer>{' '}
+                <Date>{DateTime.fromISO(node.published).toRelative()}</Date>
+              </Name>
+            ) : (
+              <Name>
+                <Trans>Deleted user</Trans>
+              </Name>
+            )}
+
+            {node.activityType === 'JoinCommunity' ? (
+              <SubText>
+                <Trans>joined</Trans>{' '}
+                <NavLink to={`/communities/${node.object.localId}`}>
+                  @{node.object.name}
+                </NavLink>
+              </SubText>
+            ) : node.activityType === 'CreateComment' ? (
+              <>
+                <SubText>
+                  {node.object.inReplyTo !== null ? (
+                    <InReply my={2} fontSize={1}>
+                      <Trans>in reply to</Trans>{' '}
+                      <Link
+                        to={`/user/${node.object.inReplyTo.author.localId}`}
+                      >
+                        {node.object.inReplyTo.author.name}
+                      </Link>
+                    </InReply>
+                  ) : null}
+                </SubText>
+                <Comment>
+                  {node.object.content && node.object.content.length > 320
+                    ? removeMd(node.object.content).replace(
+                        /^([\s\S]{316}[^\s]*)[\s\S]*/,
+                        '$1...'
+                      )
+                    : removeMd(node.object.content)}
+                </Comment>
+              </>
+            ) : node.activityType === 'UpdateCommunity' ? (
+              <SubText>
+                <Trans>updated</Trans>{' '}
+                <NavLink to={`/communities/${node.object.localId}`}>
+                  @{node.object.name}
+                </NavLink>
+              </SubText>
+            ) : node.activityType === 'UpdateCollection' ? (
+              <SubText>
+                <Trans>updated</Trans>{' '}
+                <NavLink
+                  to={`/communities/${
+                    node.object.community.localId
+                  }/collections/${node.object.localId}`}
+                >
+                  +{node.object.name}
+                </NavLink>
+              </SubText>
+            ) : node.activityType === 'FollowCollection' ? (
+              <SubText>
+                <Trans>followed</Trans>{' '}
+                <NavLink
+                  to={`/communities/${
+                    node.object.community.localId
+                  }/collections/${node.object.localId}`}
+                >
+                  +{node.object.name}
+                </NavLink>
+              </SubText>
+            ) : node.activityType === 'CreateResource' ? (
+              <SubText>
+                <Trans>added a new resource</Trans> <Trans>in</Trans>{' '}
+                <NavLink
+                  to={`/communities/${
+                    node.object.collection.community.localId
+                  }/collections/${node.object.collection.localId}`}
+                >
+                  +{node.object.collection.name}
+                </NavLink>
+                <ResourcePreview mt={2}>
+                  <Resource
+                    icon={node.object.icon}
+                    title={node.object.name}
+                    summary={node.object.summary}
+                    url={node.object.url}
+                    localId={node.object.localId}
+                  />
+                </ResourcePreview>
+              </SubText>
+            ) : node.activityType === 'CreateCollection' ? (
+              <SubText>
+                <Trans>created a new collection</Trans>{' '}
+                <NavLink
+                  to={`/communities/${
+                    node.object.community.localId
+                  }/collections/${node.object.localId}`}
+                >
+                  +{node.object.name}
+                </NavLink>
+                <CommunityPreview mt={2}>
+                  <Collection collection={node.object} />
+                </CommunityPreview>
+              </SubText>
+            ) : node.activityType === 'CreateCommunity' ? (
+              <SubText>
+                <Trans>created a new community</Trans>{' '}
+                <NavLink to={`/communities/${node.object.localId}`}>
+                  @{node.object.name}
+                </NavLink>
+                <CommunityPreview mt={2}>
+                  <CommunitySmall community={node.object} />
+                </CommunityPreview>
+              </SubText>
+            ) : null}
+
+            {node.activityType === 'CreateComment' ? (
+              <Actions
+                totalReplies={node.object.replies.totalCount as number}
+                totalLikes={node.object.likers.totalCount as number}
+                toggleLike={toggleLike}
+                iLikeIt={iLikeIt}
+              />
+            ) : null}
+          </MemberInfo>
+        </Member>
+      )}
     </FeedItem>
   );
 };
-
-const Items = styled(Flex)`
-  flex: 1;
+const NavigateToThread = styled(Link)`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
 `;
 
-const BoxLink = styled(NavLink)`
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 30px;
-  display: inline-block;
-  color: ${props => props.theme.styles.colors.orange} !important;
-  margin-top: 8px;
-`;
-const Actions = styled(Flex)``;
-
-const ActionItem = styled(Flex)`
-  margin-right: 32px;
-  align-items: center;
+const InReply = styled(Text)`
   color: ${props => props.theme.styles.colors.gray};
-  cursor: pointer;
   a {
-    display: flex;
-    align-items: center;
-  }
-  &:hover {
-    div:first-of-type {
-      background: #fffbf8;
-      svg {
-        color: ${props => props.theme.styles.colors.orange};
-      }
-    }
-    div:last-of-type {
-      color: ${props => props.theme.styles.colors.orange};
-    }
-  }
-`;
-
-const ActionIcon = styled(Box)`
-  width: 30px;
-  height: 30px;
-  border-radius: 99999px;
-  display: inline-flex;
-  align-items: center;
-  align-content: center;
-  text-align: center;
-  margin-left: -8px;
-  svg {
-    margin: 0 auto;
+    color: ${props => props.theme.styles.colors.black} !important;
+    font-weight: 700;
   }
 `;
 
 const ResourcePreview = styled(Box)`
   border: 1px solid ${props => props.theme.styles.colors.lightgray};
   border-radius: 2px;
+  max-height: 200px;
+  overflow-y: hidden;
   > div {
-    padding: 16px;
+    padding: 8px;
+    margin: 0;
+  }
+`;
+
+const CommunityPreview = styled(Box)`
+  border: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-radius: 2px;
+  max-width: 200px;
+  overflow-y: hidden;
+  > div {
+    padding: 8px;
     margin: 0;
   }
 `;
@@ -263,9 +276,16 @@ const Date = styled(Text)`
   font-weight: 500;
 `;
 
-const SubText = styled(Text)`
+const SubText = styled(Flex)`
 font-size: 14px;
+align-items: center;
+svg {
+  fill: #ffc02d;
+  margin-right: 8px;
+}
 > a {
+  position: relative;
+  z-index: 9;
   text-decoration: none;
   font-weight: 800
   color: ${props => props.theme.styles.colors.darkgray} !important;
@@ -288,12 +308,18 @@ const Name = styled(Text)`
     display: flex;
     text-decoration: none;
     align-items: center;
+    position: relative;
+    z-index: 9;
     color: ${props => props.theme.styles.colors.darkgray} !important;
   }
 `;
 
 const Member = styled(Flex)`
   align-items: stretch;
+`;
+
+const MemberWrapped = styled(Member)`
+  padding: 8px;
 `;
 
 const MemberInfo = styled(Box)`
@@ -323,7 +349,7 @@ const MemberItem = styled(Box)`
   z-index: 0;
   vertical-align: inherit;
   margin-right: 8px;
-  min-width: 48px;
+  min-width: 48px !important;
 `;
 
 const Img = styled.img`
@@ -356,10 +382,17 @@ const FeedItem = styled.div`
   position: relative;
   background: #ffffff;
   position: relative;
+  cursor: pointer;
+  &:hover {
+    background: ${props => props.theme.styles.colors.lighter};
+  }
   border-bottom: 1px solid  ${props => props.theme.styles.colors.lightgray};
   a {
     text-decoration: none;
-    color: inherit;
+    color: inherit !important;
+    &:hover {
+      text-decoration: underline
+    }
   }
 
 `;
