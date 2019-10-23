@@ -1,16 +1,12 @@
 import * as React from 'react';
+import { ApolloProvider } from 'react-apollo';
 import ReactDOM from 'react-dom';
 import getApolloClient from './apollo/client';
 import App from './containers/App/App';
-import {
-  useCreateCollectionMutationMutation,
-  useCreateCommunityMutationMutation
-} from './generated/graphqlapollo';
 import registerServiceWorker from './registerServiceWorker';
 import { createGlobalStyle } from './themes/styled';
 import { ProvideContexts } from './_context';
 import createStore from './_redux/store';
-import { ApolloProvider } from 'react-apollo';
 
 run();
 
@@ -56,22 +52,9 @@ async function run() {
       width: 100%; }
       }
   `;
-  const X: React.FC = () => {
-    console.log(
-      ' useCreateCollectionMutationMutation()',
-      useCreateCollectionMutationMutation({})
-    );
-    console.log(
-      ' useCreateCommunityMutationMutation({})()',
-      useCreateCommunityMutationMutation({})
-    );
-    return null;
-  };
-  console.log('apolloClient', apolloClient);
   const store = createStore();
   const ApolloApp = () => (
     <ApolloProvider client={apolloClient}>
-      <X />
       <ProvideContexts store={store}>
         <Global />
         <App />
