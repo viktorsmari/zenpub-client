@@ -159,10 +159,6 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                   }/collection/:collection`}
                   component={CollectionModal}
                 />
-                <Route
-                  path={`/communities/${community.localId}/thread/:threadId`}
-                  component={Thread}
-                />
               </Switch>
             </Wrapper>
           </WrapperCont>
