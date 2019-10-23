@@ -25,18 +25,18 @@ default:
   before_script:
     - mkdir -p .pip # prepare to cache pip packages
     - export PATH=$PATH:.pip
+    - apk add --update py-pip && pip install -U pip # install python & pip
+    - pip --cache-dir=.pip install awscli 
+    - if [ ! -z "$TX_TOKEN" ]; then pip --cache-dir=.pip install transifex-client ; else echo "Skipping..."; fi # install transifex cli, then push latest English PO file to transifex for translators, and finally pull all the latest localised PO files from transifex to be used by frontend
 
 
 prepare:
   stage: prepare
   script:
     # - rm -rf node_modules
-    - apk add --update py-pip && pip install -U pip # install python & pip
-    - pip --cache-dir=.pip install awscli 
     - yarn # Install all JS dependencies
     - yarn add-locale en_GB # make sure we have default language
     - yarn extract # extract latest strings from source into English PO file for localisation
-    - if [ ! -z "$TX_TOKEN" ]; then pip --cache-dir=.pip install transifex-client ; else echo "Skipping..."; fi # install transifex cli, then push latest English PO file to transifex for translators, and finally pull all the latest localised PO files from transifex to be used by frontend
 
 
 push-localisation-strings: # send any new strings to transifex
