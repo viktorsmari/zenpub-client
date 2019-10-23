@@ -332,7 +332,9 @@ class Login extends React.Component<LoginProps, LoginState> {
           <LoginWrapper>
             <Header>
               <Logo />
-              <Tagline>Share. Curate. Discuss.</Tagline>
+              <Tagline>
+                <Trans>Share. Curate. Discuss.</Trans>
+              </Tagline>
             </Header>
             <FormWrapper>
               <Form>

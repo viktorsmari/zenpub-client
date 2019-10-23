@@ -48,6 +48,10 @@ msgstr ""
 msgid "A name or title for the resource"
 msgstr "اسم أو عنوان للمورد"
 
+#: src/pages/login/Login.tsx:317
+msgid "About"
+msgstr "من نحن"
+
 #: src/components/elements/CollectionModal/fetched.tsx:27
 msgid "Add"
 msgstr "أضافة"
@@ -107,6 +111,7 @@ msgstr "اختر اسم المجتمع"
 msgid "Choose your password"
 msgstr "أختر كلمة المرور الخاصة بك"
 
+#: src/pages/login/Login.tsx:322
 #: src/sections/sidebar/dropdown.tsx:70
 msgid "Code of Conduct"
 msgstr "القواعد السلوكية"
@@ -273,6 +278,10 @@ msgstr "مجموعات مميزة"
 msgid "Featured communities"
 msgstr "المجتمعات المميزة"
 
+#: src/pages/login/Login.tsx:332
+msgid "Feedback"
+msgstr "التغذية الاسترجاعية"
+
 #: src/sections/sidebar/dropdown.tsx:76
 msgid "Feedback & Suggestions"
 msgstr "التعليقات والاقتراحات"
@@ -296,7 +305,7 @@ msgid "Followed collections"
 msgstr "المجموعات المتّبعة"
 
 #: src/pages/settings/generalInfo.tsx:102
-#: src/pages/settings/sidebarSettings.tsx:86
+#: src/pages/settings/sidebarSettings.tsx:88
 msgid "General Information"
 msgstr "معلومات عامة"
 
@@ -346,7 +355,7 @@ msgstr "إلغاء العضوية"
 msgid "Link"
 msgstr "رابط"
 
-#: src/pages/Profile/index.tsx:113
+#: src/pages/Profile/index.tsx:115
 #: src/pages/User/index.tsx:119
 msgid "Links"
 msgstr "الروابط"
@@ -394,6 +403,10 @@ msgstr "مجتماعاتي"
 #: src/pages/settings/generalInfo.tsx:109
 msgid "Name"
 msgstr "الاسم"
+
+#: src/pages/login/Login.tsx:327
+msgid "Open source"
+msgstr "مصدر مفتوح"
 
 #: src/pages/login/Login.tsx:304
 msgid "Or"
@@ -446,7 +459,7 @@ msgid "Postgraduate"
 msgstr "الدراسات العليا"
 
 #: src/pages/settings/preferences.tsx:24
-#: src/pages/settings/sidebarSettings.tsx:94
+#: src/pages/settings/sidebarSettings.tsx:96
 msgid "Preferences"
 msgstr "تفضيلات المستخدم"
 
@@ -455,6 +468,10 @@ msgstr "تفضيلات المستخدم"
 #: src/pages/settings/generalInfo.tsx:131
 msgid "Preferred username"
 msgstr "اسم المستخدم المفضل"
+
+#: src/pages/login/Login.tsx:337
+msgid "Privacy notice"
+msgstr "إشعار الخصوصية"
 
 #: src/sections/sidebar/dropdown.tsx:58
 msgid "Profile"
@@ -496,8 +513,8 @@ msgstr "احفظ كلمة المرور الجديدة"
 msgid "Select language"
 msgstr "اختر اللغة"
 
-#: src/pages/Profile/index.tsx:109
-#: src/pages/settings/sidebarSettings.tsx:78
+#: src/pages/Profile/index.tsx:110
+#: src/pages/settings/sidebarSettings.tsx:79
 #: src/sections/sidebar/dropdown.tsx:64
 msgid "Settings"
 msgstr "الإعدادات"
@@ -505,6 +522,10 @@ msgstr "الإعدادات"
 #: src/pages/collections.collection/collection.tsx:49
 msgid "Share a link"
 msgstr "مشاركة الرابط"
+
+#: src/pages/login/Login.tsx:292
+msgid "Share. Curate. Discuss."
+msgstr "شارك. أنشأ. ناقش."
 
 #: src/components/elements/SignupModal/index.tsx:134
 msgid "Sign Up"
