@@ -62,11 +62,12 @@ msgstr "جميع المجموعات"
 msgid "All communities"
 msgstr "جميع المجتمعات"
 
-#: src/pages/settings/generalInfo.tsx:170
+#: src/pages/settings/generalInfo.tsx:173
 msgid "Avatar"
 msgstr "صورة الملف الشخصي"
 
-#: src/pages/thread/header.tsx:24
+#: src/pages/thread/header.tsx:26
+#: src/pages/thread/header.tsx:31
 msgid "Back"
 msgstr "عودة"
 
@@ -90,7 +91,7 @@ msgstr "استعرض الصفحة الرئيسية"
 msgid "Cancel"
 msgstr "إلغاء"
 
-#: src/sections/sidebar/dropdown.tsx:78
+#: src/sections/sidebar/dropdown.tsx:82
 msgid "Changelog"
 msgstr "سجل التغييرات"
 
@@ -106,7 +107,7 @@ msgstr "اختر اسم المجتمع"
 msgid "Choose your password"
 msgstr "أختر كلمة المرور الخاصة بك"
 
-#: src/sections/sidebar/dropdown.tsx:66
+#: src/sections/sidebar/dropdown.tsx:70
 msgid "Code of Conduct"
 msgstr "القواعد السلوكية"
 
@@ -171,11 +172,12 @@ msgstr "مستخدم محذوف"
 #: src/components/elements/EditCollectionModal/index.tsx:44
 #: src/components/elements/EditCommunityModal/index.tsx:44
 #: src/components/elements/EditResourceModal/index.tsx:55
-#: src/pages/settings/generalInfo.tsx:157
+#: src/pages/settings/generalInfo.tsx:160
 msgid "Description"
 msgstr "الوصف"
 
-#: src/sections/sidebar/index.tsx:163
+#: src/sections/sidebar/index.tsx:165
+#: src/sections/sidebar/index.tsx:167
 msgid "Discover"
 msgstr "اكتشف"
 
@@ -246,11 +248,11 @@ msgstr "خطأ في تحميل المجموعات"
 msgid "Error loading communities"
 msgstr "خطأ في تحميل المجتمعات"
 
-#: src/components/featuredCollections/index.tsx:73
+#: src/components/featuredCollections/index.tsx:83
 msgid "Error loading featured collections"
 msgstr "خطأ في تحميل المجموعات المميزة"
 
-#: src/components/featuredCommunities/index.tsx:114
+#: src/components/featuredCommunities/index.tsx:126
 msgid "Error loading featured communities"
 msgstr "خطأ في تحميل المجتمعات المميزة"
 
@@ -263,15 +265,15 @@ msgstr "خطأ في تحميل الجدول الزمني لمودل نت"
 msgid "Error loading user"
 msgstr "خطأ في تحميل المستخدم"
 
-#: src/components/featuredCollections/index.tsx:61
+#: src/components/featuredCollections/index.tsx:62
 msgid "Featured collections"
 msgstr "مجموعات مميزة"
 
-#: src/components/featuredCommunities/index.tsx:102
+#: src/components/featuredCommunities/index.tsx:105
 msgid "Featured communities"
 msgstr "المجتمعات المميزة"
 
-#: src/sections/sidebar/dropdown.tsx:72
+#: src/sections/sidebar/dropdown.tsx:76
 msgid "Feedback & Suggestions"
 msgstr "التعليقات والاقتراحات"
 
@@ -279,8 +281,8 @@ msgstr "التعليقات والاقتراحات"
 msgid "Fetch the resource"
 msgstr "إحضار المورد"
 
-#: src/components/elements/Collection/Join.tsx:85
-#: src/pages/User/index.tsx:113
+#: src/components/elements/Collection/Join.tsx:88
+#: src/pages/User/index.tsx:114
 msgid "Follow"
 msgstr "تابع"
 
@@ -293,12 +295,12 @@ msgstr "المجموعات المتّبعة"
 msgid "Followed collections"
 msgstr "المجموعات المتّبعة"
 
-#: src/pages/settings/generalInfo.tsx:99
-#: src/pages/settings/sidebarSettings.tsx:84
+#: src/pages/settings/generalInfo.tsx:102
+#: src/pages/settings/sidebarSettings.tsx:86
 msgid "General Information"
 msgstr "معلومات عامة"
 
-#: src/pages/settings/generalInfo.tsx:181
+#: src/pages/settings/generalInfo.tsx:184
 msgid "Header image"
 msgstr "صورة الخلفية"
 
@@ -345,7 +347,7 @@ msgid "Link"
 msgstr "رابط"
 
 #: src/pages/Profile/index.tsx:113
-#: src/pages/User/index.tsx:117
+#: src/pages/User/index.tsx:119
 msgid "Links"
 msgstr "الروابط"
 
@@ -360,7 +362,7 @@ msgstr "الروابط"
 msgid "Load more"
 msgstr "تحميل المزيد"
 
-#: src/pages/settings/generalInfo.tsx:143
+#: src/pages/settings/generalInfo.tsx:146
 msgid "Location"
 msgstr "الموقع"
 
@@ -368,7 +370,7 @@ msgstr "الموقع"
 msgid "More"
 msgstr "عضو"
 
-#: src/sections/sidebar/index.tsx:171
+#: src/sections/sidebar/index.tsx:175
 msgid "My MoodleNet"
 msgstr "موديل نت الشخصي"
 
@@ -389,7 +391,7 @@ msgstr "مجتماعاتي"
 #: src/components/elements/EditCollectionModal/index.tsx:30
 #: src/components/elements/EditCommunityModal/index.tsx:30
 #: src/components/elements/EditResourceModal/index.tsx:41
-#: src/pages/settings/generalInfo.tsx:106
+#: src/pages/settings/generalInfo.tsx:109
 msgid "Name"
 msgstr "الاسم"
 
@@ -443,18 +445,18 @@ msgstr "اكتب رد"
 msgid "Postgraduate"
 msgstr "الدراسات العليا"
 
-#: src/pages/settings/preferences.tsx:22
-#: src/pages/settings/sidebarSettings.tsx:92
+#: src/pages/settings/preferences.tsx:24
+#: src/pages/settings/sidebarSettings.tsx:94
 msgid "Preferences"
 msgstr "تفضيلات المستخدم"
 
 #: src/components/elements/SignupModal/index.tsx:100
-#: src/pages/settings/generalInfo.tsx:120
-#: src/pages/settings/generalInfo.tsx:128
+#: src/pages/settings/generalInfo.tsx:123
+#: src/pages/settings/generalInfo.tsx:131
 msgid "Preferred username"
 msgstr "اسم المستخدم المفضل"
 
-#: src/sections/sidebar/dropdown.tsx:54
+#: src/sections/sidebar/dropdown.tsx:58
 msgid "Profile"
 msgstr "الملف الشخصي"
 
@@ -482,7 +484,7 @@ msgstr "رومانا"
 #: src/components/elements/EditCollectionModal/index.tsx:68
 #: src/components/elements/EditCommunityModal/index.tsx:68
 #: src/components/elements/EditResourceModal/index.tsx:79
-#: src/pages/settings/generalInfo.tsx:192
+#: src/pages/settings/generalInfo.tsx:195
 msgid "Save"
 msgstr "حفظ"
 
@@ -490,11 +492,13 @@ msgstr "حفظ"
 msgid "Save the new password"
 msgstr "احفظ كلمة المرور الجديدة"
 
-#: src/pages/settings/preferences.tsx:28
+#: src/pages/settings/preferences.tsx:30
 msgid "Select language"
 msgstr "اختر اللغة"
 
-#: src/sections/sidebar/dropdown.tsx:60
+#: src/pages/Profile/index.tsx:109
+#: src/pages/settings/sidebarSettings.tsx:78
+#: src/sections/sidebar/dropdown.tsx:64
 msgid "Settings"
 msgstr "الإعدادات"
 
@@ -511,7 +515,7 @@ msgstr "انشاء حساب"
 msgid "Sign in"
 msgstr "تسجيل الدخول"
 
-#: src/sections/sidebar/dropdown.tsx:87
+#: src/sections/sidebar/dropdown.tsx:91
 msgid "Sign out"
 msgstr "تسجيل الخروج"
 
@@ -519,7 +523,7 @@ msgstr "تسجيل الخروج"
 msgid "Sign up"
 msgstr "انشاء حساب"
 
-#: src/containers/App/App.tsx:132
+#: src/containers/App/App.tsx:137
 msgid "Sorry, we encountered a problem loading the app in your language."
 msgstr "عذرًا ، واجهنا مشكلة أثناء تحميل التطبيق بلغتك."
 
@@ -551,7 +555,7 @@ msgstr "إلى مودل!"
 msgid "Trouble logging in?"
 msgstr "مشكلة في تسجيل الدخول؟"
 
-#: src/components/elements/Collection/Join.tsx:51
+#: src/components/elements/Collection/Join.tsx:52
 msgid "Unfollow"
 msgstr "الغاء المتابعة"
 

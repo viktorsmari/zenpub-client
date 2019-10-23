@@ -362,7 +362,7 @@ class Login extends React.Component<LoginProps, LoginState> {
               <ul>
                 <li>
                   <a href="https://new.moodle.net" target="blank">
-                    About
+                    <Trans>About</Trans>
                   </a>
                 </li>
                 <li>
@@ -370,12 +370,12 @@ class Login extends React.Component<LoginProps, LoginState> {
                     href="https://docs.moodle.org/dev/MoodleNet/Code_of_Conduct"
                     target="blank"
                   >
-                    Code of Conduct
+                    <Trans>Code of Conduct</Trans>
                   </a>
                 </li>
                 <li>
                   <a href="https://gitlab.com/moodlenet" target="blank">
-                    Open source
+                    <Trans>Open source</Trans>
                   </a>
                 </li>
                 <li>
@@ -383,12 +383,12 @@ class Login extends React.Component<LoginProps, LoginState> {
                     href="https://changemap.co/moodle/moodlenet/"
                     target="blank"
                   >
-                    Feedback
+                    <Trans>Feedback</Trans>
                   </a>
                 </li>
                 <li>
                   <a href="https://moodle.com/privacy-notice" target="blank">
-                    Privacy notice
+                    <Trans>Privacy notice</Trans>
                   </a>
                 </li>
               </ul>

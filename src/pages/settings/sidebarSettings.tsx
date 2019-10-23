@@ -87,7 +87,9 @@ const Sidebar = props => {
         <SidebarFixed>
           <SidebarOverflow>
             <Header alignItems={'center'}>
-              <Title>Settings</Title>
+              <Title>
+                <Trans>Settings</Trans>
+              </Title>
             </Header>
             <LocaleContext.Consumer>
               {value => (
