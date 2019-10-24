@@ -6,7 +6,6 @@ import { SFC } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass';
 import removeMd from 'remove-markdown';
-import { GqlSdkCtx } from '../../../containers/App/ProvideGqlSdk';
 import styled from '../../../themes/styled';
 import Link from '../Link/Link';
 import Actions from './Actions';
@@ -19,23 +18,7 @@ interface Props {
 }
 
 const Item: SFC<Props> = ({ user, node, userpage }) => {
-  const FAKE________COMMENT_I_LIKE_IT = !!Math.round(Math.random());
-  const sdk = React.useContext(GqlSdkCtx);
-  const [iLikeIt, setiLikeIt] = React.useState(FAKE________COMMENT_I_LIKE_IT);
-  const toggleLike = React.useCallback(
-    () => {
-      if (iLikeIt) {
-        sdk
-          .likeCommentMutation({ localId: node.object.localId })
-          .then(_ => setiLikeIt(false));
-      } else {
-        sdk
-          .undoLikeCommentMutation({ localId: node.object.localId })
-          .then(_ => setiLikeIt(true));
-      }
-    },
-    [node, iLikeIt]
-  );
+  const [iLikeIt /* , setiLikeIt */] = React.useState(false);
   return (
     <FeedItem>
       {node.activityType === 'CreateComment' && node.object.inReplyTo ? (
@@ -259,7 +242,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
               <Actions
                 totalReplies={node.object.replies.totalCount as number}
                 totalLikes={node.object.likers.totalCount as number}
-                toggleLike={toggleLike}
+                toggleLike={() => {}}
                 iLikeIt={iLikeIt}
               />
             ) : null}

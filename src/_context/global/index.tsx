@@ -4,7 +4,6 @@ import { ProvideGlobCtx } from './GLOB';
 import { ProvideSessionCtx } from './sessionCtx';
 import { ProvideStateCtx } from './stateCtx';
 import { ProvideStoreCtx, StoreContextT } from './storeCtx';
-import { ProvideGqlSdk } from '../../containers/App/ProvideGqlSdk';
 
 interface Props {
   children: React.ReactNode;
@@ -16,9 +15,7 @@ export const ProvideContexts = ({ children, store }: Props) => {
       <ProvideStateCtx>
         <ProvideActionCtx>
           <ProvideSessionCtx>
-            <ProvideGqlSdk>
-              <ProvideGlobCtx>{children}</ProvideGlobCtx>
-            </ProvideGqlSdk>
+            <ProvideGlobCtx>{children}</ProvideGlobCtx>
           </ProvideSessionCtx>
         </ProvideActionCtx>
       </ProvideStateCtx>

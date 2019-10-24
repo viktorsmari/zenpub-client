@@ -1,15 +1,14 @@
 import { Trans } from '@lingui/macro';
-import React, { useState } from 'react';
-import { SFC } from 'react';
+import React, { SFC, useState } from 'react';
 import { TabPanel, Tabs } from 'react-tabs';
+import { Box, Button, Flex } from 'rebass';
+import CommunityModal from '../../components/elements/CommunityModal';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
 import { SocialText } from '../../components/elements/SocialText';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem';
-import { GqlSdkCtx } from '../../containers/App/ProvideGqlSdk';
+import { useCreateThreadMutationMutation } from '../../generated/graphqlapollo';
 import styled from '../../themes/styled';
-import { Flex, Box, Button } from 'rebass';
-import CommunityModal from '../../components/elements/CommunityModal';
 
 interface Props {
   collections: any;
@@ -28,32 +27,20 @@ const CommunityPage: SFC<Props> = ({
   type,
   refetch
 }) => {
-  // const { dispatch } = React.useContext(ActionContext);
-  // const history = useHistory();
-  const sdk = React.useContext(GqlSdkCtx);
+  const [createThreadMutation] = useCreateThreadMutationMutation();
   const [isOpen, onOpen] = useState(false);
   const [newThreadText, setNewThreadText] = React.useState('');
   const addNewThread = React.useCallback(
     () => {
-      // dispatch(
-      //   gqlRequest.create({
-      //     op: {
-      //       createThreadMutation: [
-      //         { comment: { content: newThreadText }, id: community.localId }
-      //       ]
-      //     },
-      //     replyTo: null
-      //   })
-      // );
-      sdk
-        .createThreadMutation({
+      createThreadMutation({
+        variables: {
           comment: { content: newThreadText },
           id: community.localId
-        })
-        .then(() => {
-          socialTextRef.current && (socialTextRef.current.value = '');
-          refetch();
-        });
+        }
+      }).then(() => {
+        socialTextRef.current && (socialTextRef.current.value = '');
+        refetch();
+      });
     },
     [newThreadText, community.localId]
   );

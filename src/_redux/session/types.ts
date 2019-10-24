@@ -1,6 +1,6 @@
-import { LoginMutationMutation } from '../../gql/sdk';
+import { AuthPayload } from '../../generated/graphqlapollo';
 
-export type User = LoginMutationMutation['createSession'];
+export type User = AuthPayload;
 
 export interface State {
   user: User | null;
