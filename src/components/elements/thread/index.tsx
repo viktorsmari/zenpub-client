@@ -33,8 +33,8 @@ const Wrapper = styled(Box)`
 `;
 
 const Avatar = styled(Image)`
-  width: 40px;
-  height: 40px;
+  width: 48px !important;
+  height: 48px !important;
   border-radius: 100px;
   background: ${props => props.theme.styles.colors.black};
 `;
@@ -92,7 +92,7 @@ interface Props {
 }
 
 const Thread: SFC<Props> = props => {
-  const { replyTo, content, author, date, retweets, inReplyTo } = props;
+  const { replyTo, content, author, date, inReplyTo } = props;
   const [isOpen, onOpen] = useState(false);
   return (
     <Wrapper px={3} py={3}>
@@ -105,7 +105,7 @@ const Thread: SFC<Props> = props => {
                 {author.name}
               </Text>
             </Link>
-            <Spacer>·</Spacer>{' '}
+            <Spacer mx={2}>·</Spacer>{' '}
             <Date fontSize={1}>{DateTime.fromISO(date).toRelative()}</Date>
           </Flex>
           <Link to={'/user/' + author.localId}>
@@ -128,23 +128,11 @@ const Thread: SFC<Props> = props => {
       </Message>
       <Actions alignItems="center" mt={3} py={3}>
         <Icon mr={5} className="tooltip" onClick={() => onOpen(true)}>
-          <Feather.MessageSquare color={'rgba(0,0,0,.4)'} size="20" />
+          <Feather.MessageCircle color={'rgba(0,0,0,.4)'} size="20" />
         </Icon>
         <Icon mr={5}>
-          <Feather.Heart color={'rgba(0,0,0,.4)'} size="20" />
+          <Feather.Star color={'rgba(0,0,0,.4)'} size="20" />
         </Icon>
-        {retweets ? (
-          <Icon>
-            <Feather.Repeat color={'rgba(0,0,0,.4)'} size="20" />
-            <Text
-              ml={1}
-              mr={3}
-              style={{ display: 'inline-block', verticalAlign: 'super' }}
-            >
-              {retweets}
-            </Text>
-          </Icon>
-        ) : null}
       </Actions>
       <Talk
         toggleModal={onOpen}

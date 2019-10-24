@@ -15,6 +15,7 @@ const PickerWrap = styled.div`
   position: absolute;
   right: 10px;
   top: 45px;
+  z-index: 9999;
 `;
 const Wrapper = styled.div`
   width: 100%;
@@ -35,10 +36,6 @@ const SocialTextArea = styled(Textarea)`
   resize: none;
   font-size: 16px !important;
   font-family: 'Open Sans', sans-serif !important;
-
-  :focus {
-    height: 160px;
-  }
 `;
 
 const SocialActions = styled(Flex)`
@@ -58,14 +55,17 @@ export const SocialText: React.FC<Props> = props => {
   const toggle = useCallback(() => setOpen(!isOpen), [isOpen]);
   const addEmoji = React.useCallback(
     (code, obj) => {
-      console.log(code, obj);
+      //  console.log(code, obj);
       if (!ref.current) {
         return;
       }
       const textarea = ref.current as HTMLTextAreaElement;
-      const pos = textarea.selectionStart + 1;
-      dropEmoji(textarea, obj.name);
+      const selectionStart = textarea.selectionStart;
+      // const selectionEnd = textarea.selectionEnd
+      const offset = dropEmoji(textarea, obj.name);
+      const pos = selectionStart + offset;
       textarea.focus();
+      // console.log([selectionStart,selectionEnd], offset, pos, [textarea.selectionStart, textarea.selectionEnd] )
       textarea.selectionEnd = pos;
     },
     [ref.current]
@@ -84,7 +84,7 @@ export const SocialText: React.FC<Props> = props => {
           <SocialTextTrigger onClick={toggle}>
             <Smile color={'rgba(0,0,0,.4)'} size="24" />
           </SocialTextTrigger>
-          <Box ml={2} onClick={props.submit}>
+          <Box style={{ cursor: 'pointer' }} ml={3} onClick={props.submit}>
             <Send color={'rgba(0,0,0,.4)'} size="24" />
           </Box>
         </SocialActions>

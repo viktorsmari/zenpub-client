@@ -4,11 +4,10 @@ import { SdkRespObj } from '../../gql/actions';
 import Comment from '../../components/elements/Comment/Comment';
 import Loader from '../../components/elements/Loader/Loader';
 import Thread from '../../components/elements/thread';
-import { APP_NAME } from '../../constants';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import Header from './header';
-import { REPLY_THREAD_REPLY } from './types';
+import { THREAD_PAGE_GQL_REPLY } from './types';
 
 export interface Props {
   thread: SdkRespObj['getThread'];
@@ -40,10 +39,8 @@ const Component: React.FC<Props> = ({ thread }) => {
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <Helmet>
-              <title>{APP_NAME} > Discussion Thread</title>
-            </Helmet>
-            <Header history={history} id={comment.context!.localId} />
+            <Helmet title={'Discussion Thread'} />
+            <Header id={comment.context!.localId} />
             <Thread
               content={message.body}
               author={author}
@@ -53,7 +50,7 @@ const Component: React.FC<Props> = ({ thread }) => {
               likes={0}
               retweets={0}
               comment={comment}
-              replyTo={REPLY_THREAD_REPLY}
+              replyTo={THREAD_PAGE_GQL_REPLY}
             />
             {comment.replies!.edges!.reverse().map((c, i) => {
               let author = {
@@ -67,6 +64,7 @@ const Component: React.FC<Props> = ({ thread }) => {
                   user={author}
                   totalReplies={c!.node!.replies!.totalCount}
                   comment={c!.node}
+                  replyTo={THREAD_PAGE_GQL_REPLY}
                 />
               );
             })}

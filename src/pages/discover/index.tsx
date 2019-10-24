@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/macro';
 import React from 'react';
-import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
+import { graphql, QueryControls, OperationOption } from 'react-apollo';
 import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
 import { compose } from 'recompose';
@@ -24,7 +24,7 @@ import { NavLink } from 'react-router-dom';
 
 const localActivities = require('../../graphql/localActivities.graphql');
 
-interface Data extends GraphqlQueryControls {
+interface Data extends QueryControls {
   localActivities: any;
 }
 

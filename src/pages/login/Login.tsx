@@ -3,7 +3,7 @@ import { i18nMark } from '@lingui/react';
 import { withTheme } from '@zendeskgarden/react-theming';
 import { clearFix } from 'polished';
 import * as React from 'react';
-import { graphql, OperationOption } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import { Helmet } from 'react-helmet';
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
 import { compose, withHandlers, withState } from 'recompose';
@@ -14,11 +14,11 @@ import SignupModal from '../../components/elements/SignupModal';
 import { APP_NAME } from '../../constants';
 import { i18n } from '../../containers/App/App';
 import styled, { ThemeInterface } from '../../themes/styled';
-
+import { GlobCtx } from '../../_context/global/GLOB';
+import { login } from '../../_redux/session';
 import LoginForm from './LoginForm';
 import { ValidationField, ValidationObject, ValidationType } from './types';
-import { login } from '../../_redux/session';
-import { GlobCtx } from '../../_context/GLOB';
+
 const { loginMutation } = require('../../graphql/login.graphql');
 
 const Signup = styled(Button)`
@@ -400,52 +400,6 @@ class Login extends React.Component<LoginProps, LoginState> {
             modalIsOpen={this.props.isOpen}
           />
         </Container>
-
-        {/* <BodyCenterContent>
-          <Roww>
-            <Col md={5} sm={12}>
-              <Logo big />
-              <Tagline>Share. Curate. Discuss.</Tagline>
-
-              <WrapperLogin>
-                <H6>
-                  <Trans>Sign in</Trans>
-                </H6>
-
-                <LoginForm
-                  validation={this.state.validation}
-                  onSubmit={this.onLoginFormSubmit}
-                  onInputChange={this.onLoginFormInputChange}
-                  authenticating={this.state.authenticating}
-                />
-                <Signup>
-                  <Trans>Don't yet have an account?</Trans>{' '}
-                  <u onClick={this.props.handleSignup}>
-                    <Trans>Sign up</Trans>
-                  </u>
-                </Signup>
-              </WrapperLogin>
-              <LanguageWrapper>
-                <LanguageSelect />
-              </LanguageWrapper>
-            </Col>
-            <Col md={7}>
-              <Background />
-            </Col>
-          </Roww>
-
-          <SignupModal
-            toggleModal={this.props.handleSignup}
-            modalIsOpen={this.props.isOpen}
-          />
-        </BodyCenterContent> */}
-        {/* <Banner>
-            <Trans>
-              Seeing some error messages? Just hit refresh! Contact us if that
-              didn't help, of course.
-            </Trans>
-          </Banner>
-          </div> */}
       </>
     );
   }
@@ -468,10 +422,10 @@ export interface Args {
 // } as OperationOption<{}, {}>);
 
 // to login via the API
-const withLogin = graphql<{}, Args>(loginMutation, {
+const withLogin = graphql(loginMutation, {
   name: 'login'
   // TODO enforce proper types for OperationOption
-} as OperationOption<{}, {}>);
+});
 
 export default compose(
   withTheme,

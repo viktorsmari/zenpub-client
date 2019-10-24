@@ -101,6 +101,17 @@ const errorLink = onError(
   }
 );
 
+const headersLink = setContext((_, ctx) => {
+  const { headers } = ctx;
+  return {
+    ...ctx,
+    clientAwareness: undefined,
+    headers: {
+      ...headers
+    }
+  };
+});
+
 // used for graphql query and mutations
 const httpLink = ApolloLink.from(
   [
@@ -108,6 +119,7 @@ const httpLink = ApolloLink.from(
     errorLink,
     stateLink,
     authLink,
+    headersLink,
     createHttpLink({ uri: GRAPHQL_ENDPOINT })
   ].filter(Boolean)
 );

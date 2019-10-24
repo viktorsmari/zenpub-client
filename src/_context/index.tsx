@@ -1,17 +1,24 @@
 import React from 'react';
-import { ProvideActionCtx } from './actionCtx';
-import { ProvideGlobCtx } from './GLOB';
-import { ProvideSessionCtx } from './sessionCtx';
-import { ProvideStateCtx } from './stateCtx';
-import { ProvideStoreCtx } from './storeCtx';
+import { ProvideActionCtx } from './global/actionCtx';
+import { ProvideGlobCtx } from './global/GLOB';
+import { ProvideSessionCtx } from './global/sessionCtx';
+import { ProvideStateCtx } from './global/stateCtx';
+import { ProvideStoreCtx, StoreContextT } from './global/storeCtx';
+import { ProvideGqlSdk } from '../containers/App/ProvideGqlSdk';
 
-export const ProvideContexts: React.FC = ({ children }) => {
+interface Props {
+  children: React.ReactNode;
+  store: StoreContextT;
+}
+export const ProvideContexts = ({ children, store }: Props) => {
   return (
-    <ProvideStoreCtx>
+    <ProvideStoreCtx store={store}>
       <ProvideStateCtx>
         <ProvideActionCtx>
           <ProvideSessionCtx>
-            <ProvideGlobCtx>{children}</ProvideGlobCtx>
+            <ProvideGqlSdk>
+              <ProvideGlobCtx>{children}</ProvideGlobCtx>
+            </ProvideGqlSdk>
           </ProvideSessionCtx>
         </ProvideActionCtx>
       </ProvideStateCtx>

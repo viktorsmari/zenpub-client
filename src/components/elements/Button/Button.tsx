@@ -1,8 +1,13 @@
 import * as React from 'react';
-import { Button as ZenButton } from '@zendeskgarden/react-buttons';
+import { Button } from 'rebass';
+import styled from '../../../themes/styled';
 
 import Loader from '../Loader/Loader';
 
+const Btn = styled(Button)`
+  background: ${props => props.theme.styles.colors.orange} !important;
+  cursor: pointer;
+`;
 interface ButtonProps extends React.ButtonHTMLAttributes<object> {
   secondary?: boolean;
   // non-HTML attrs. copied from:
@@ -24,9 +29,9 @@ interface ButtonProps extends React.ButtonHTMLAttributes<object> {
 }
 
 export const LoaderButton = ({ text, loading, type = 'submit', ...props }) => (
-  <Button disabled={loading} type="submit" {...props}>
+  <Btn disabled={loading} {...props}>
     {loading ? <Loader /> : text}
-  </Button>
+  </Btn>
 );
 
 /**
@@ -37,7 +42,7 @@ export const LoaderButton = ({ text, loading, type = 'submit', ...props }) => (
  * @param props {Object} button props
  * @constructor
  */
-export default function Button({
+export default function ButtonC({
   children,
   secondary = false,
   className = '',
@@ -46,9 +51,5 @@ export default function Button({
   if (secondary) {
     className += ' secondary';
   }
-  return (
-    <ZenButton className={className} {...props}>
-      {children}
-    </ZenButton>
-  );
+  return <Btn className={className}>{children}</Btn>;
 }

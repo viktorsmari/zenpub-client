@@ -9,18 +9,19 @@ import {
   CreateReplyMutationMutationVariables
 } from '../../../gql/sdk';
 import styled from '../../../themes/styled';
-import { ActionContext } from '../../../_context/actionCtx';
+import { ActionContext } from '../../../_context/global/actionCtx';
 import Alert from '../../elements/Alert';
 // import {Button} from 'rebass';
 import Comment from '../Comment/Comment';
 import Modal from '../Modal';
 // import { Actions, Container } from '../Modal/modal';
 import SocialText from '../SocialText';
-import { SessionContext } from '../../../_context/sessionCtx';
+import { SessionContext } from '../../../_context/global/sessionCtx';
 // import { Send } from 'react-feather';
 
 const TextWrapper = styled(Flex)`
   padding: 16px;
+  align-items: center;
 `;
 
 // const Publish = styled(Button)`
@@ -119,7 +120,7 @@ const CreateCommunityModal = (
     <Modal isOpen={modalIsOpen} toggleModal={() => toggleModal(false)}>
       {/* <Container> */}
       {/* <Form> */}
-      <Comment user={props.author} comment={props.comment} noAction />
+      <Comment user={props.author} comment={props.comment} noAction replyTo />
       <TextWrapper>
         <Avatar
           style={{
@@ -136,19 +137,6 @@ const CreateCommunityModal = (
         />
         {error && touched && <Alert>{error}</Alert>}
       </TextWrapper>
-      {/* <Actions>
-          
-          <Publish
-            onClick={submit}
-            disabled={isSubmitting}
-            type="submit"
-            style={{ marginLeft: '10px' }}
-          >
-           <Send size="24" />
-          </Publish>
-        </Actions> */}
-      {/* </Form> */}
-      {/* </Container> */}
     </Modal>
   );
 };

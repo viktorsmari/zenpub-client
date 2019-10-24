@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { State } from '../_redux/session';
+import { State } from '../../_redux/session';
 import { createContext } from 'react';
 import { StateContext } from './stateCtx';
 

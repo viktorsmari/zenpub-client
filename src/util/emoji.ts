@@ -63,7 +63,11 @@ export const getEmoji = (emojiName: string) =>
 export const dropEmoji = (
   elem: HTMLTextAreaElement | HTMLInputElement,
   emojiName: string
-) => setNativeValue(elem, getWithNewTextAtCursor(elem, getEmoji(emojiName)));
+) => {
+  const emojiStr = getEmoji(emojiName);
+  setNativeValue(elem, getWithNewTextAtCursor(elem, emojiStr));
+  return emojiStr.length;
+};
 
 export const getWithNewTextAtCursor = (
   elem: HTMLTextAreaElement | HTMLInputElement,
@@ -76,8 +80,9 @@ export const getWithNewTextAtCursor = (
   }
   const textBefore = currValue.substring(0, cursorPos);
   const textAfter = currValue.substring(cursorPos, currValue.length);
+  const result = `${textBefore}${text}${textAfter}`;
 
-  return `${textBefore}${text}${textAfter}`;
+  return result;
 };
 
 /**

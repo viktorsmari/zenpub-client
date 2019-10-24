@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { createContext } from 'react';
 import { StoreContext } from './storeCtx';
-import { State } from '../_redux/store';
+import { State } from '../../_redux/store';
 
 export type StateContextT = State;
 export const StateContext = createContext<StateContextT>({} as StateContextT);

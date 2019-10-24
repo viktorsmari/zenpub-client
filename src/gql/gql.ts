@@ -55,6 +55,7 @@ const responseActionLoading = <K extends SdkKey>(
     }
   } as unknown) as SdkRespLoading;
   return {
+    loading: true,
     replyTo: req.replyTo,
     opName,
     resp
@@ -73,6 +74,7 @@ const responseActionOk = <K extends SdkKey>(
     }
   } as unknown) as SdkRespOk;
   return {
+    loading: false,
     replyTo: req.replyTo,
     opName,
     resp
@@ -91,6 +93,7 @@ const responseActionKo = <K extends SdkKey>(
     }
   } as unknown) as SdkRespErr;
   return {
+    loading: false,
     replyTo: req.replyTo,
     opName,
     resp
