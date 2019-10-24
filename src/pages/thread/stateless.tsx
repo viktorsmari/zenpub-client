@@ -4,7 +4,6 @@ import { SdkRespObj } from '../../gql/actions';
 import Comment from '../../components/elements/Comment/Comment';
 import Loader from '../../components/elements/Loader/Loader';
 import Thread from '../../components/elements/thread';
-import { APP_NAME } from '../../constants';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import Header from './header';
@@ -40,9 +39,7 @@ const Component: React.FC<Props> = ({ thread }) => {
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <Helmet>
-              <title>{APP_NAME} > Discussion Thread</title>
-            </Helmet>
+            <Helmet title={'Discussion Thread'} />
             <Header id={comment.context!.localId} />
             <Thread
               content={message.body}

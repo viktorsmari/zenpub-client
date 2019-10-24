@@ -23,6 +23,7 @@ interface EventProps {
   onOpen(boolean): unknown;
   isOpen: boolean;
   replyTo: any;
+  id: string;
 }
 
 const CommentWrapper: React.FC<EventProps> = ({
@@ -80,7 +81,7 @@ const CommentWrapper: React.FC<EventProps> = ({
                   <Username>@{user.preferredUsername}</Username>
                 ) : null}
               </Link>
-              <Spacer>·</Spacer>{' '}
+              <Spacer mx={2}>·</Spacer>{' '}
               <Date>{DateTime.fromISO(comment!.published!).toRelative()}</Date>
             </Name>
           ) : (
@@ -89,14 +90,14 @@ const CommentWrapper: React.FC<EventProps> = ({
             </Name>
           )}
           <>
-            {comment!.inReplyTo !== null ? (
+            {/* {comment!.inReplyTo !== null ? (
               <SubText my={1}>
                 <Trans>in reply to</Trans>{' '}
                 <Link to={`/user/${comment!.inReplyTo!.author!.localId}`}>
                   {comment!.inReplyTo!.author!.name}
                 </Link>
               </SubText>
-            ) : null}
+            ) : null} */}
             <Comment>
               {comment!.content && comment!.content!.length > 320
                 ? removeMd(comment!.content).replace(
@@ -115,7 +116,7 @@ const CommentWrapper: React.FC<EventProps> = ({
                   </ActionIcon>
                   <Text ml={2}>{comment!.replies!.totalCount}</Text>
                 </ActionItem>
-                <ActionItem>
+                <ActionItem ml={3}>
                   <ActionIcon>
                     <Star
                       onClick={toggleLike}
@@ -215,21 +216,21 @@ const Spacer = styled(Text)`
   font-weight: 500;
 `;
 
-const SubText = styled(Text)`
-font-size: 14px;
-color:  ${props => props.theme.styles.colors.gray};
-> a {
-  text-decoration: none;
-  font-weight: 600
-  color: ${props => props.theme.styles.colors.black} !important;
-  z-index: 9;
-  position: relative;
+// const SubText = styled(Text)`
+// font-size: 14px;
+// color:  ${props => props.theme.styles.colors.gray};
+// > a {
+//   text-decoration: none;
+//   font-weight: 600
+//   color: ${props => props.theme.styles.colors.black} !important;
+//   z-index: 9;
+//   position: relative;
 
-  &:hover {
-    text-decoration: underline;
-  }
-}
-`;
+//   &:hover {
+//     text-decoration: underline;
+//   }
+// }
+// `;
 
 const Name = styled(Text)`
   font-weight: 600;
