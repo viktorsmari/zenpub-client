@@ -18,7 +18,7 @@ const Header = styled(Flex)`
   }
 `;
 
-const HeaderWrapper = ({ id }) => {
+const HeaderWrapper = () => {
   const history = useHistory();
   return (
     <Header onClick={() => history.goBack()}>

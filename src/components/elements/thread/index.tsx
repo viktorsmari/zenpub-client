@@ -7,7 +7,7 @@ import { DateTime } from 'luxon';
 import Talk from '../TalkModal';
 import Link from '../Link/Link';
 import { Trans } from '@lingui/react';
-import { SdkData } from '../../../gql/actions';
+import { Comment } from '../../../generated/graphqlapollo';
 // import { Comment } from 'src/gql/sdk';
 
 const Icon = styled(Flex)`
@@ -74,57 +74,44 @@ const Actions = styled(Flex)`
 `;
 
 interface Props {
-  content: string;
-  url?: string;
-  date: string;
-  replies: number;
-  likes: number;
-  retweets?: number;
-  inReplyTo: any;
-  author: {
-    image: string;
-    name: string;
-    username: string;
-    localId: string;
-  };
-  comment: SdkData<'getThread'>['comment'];
-  replyTo: any;
+  comment: Comment;
 }
 
-const Thread: SFC<Props> = props => {
-  const { replyTo, content, author, date, retweets, inReplyTo } = props;
+const Thread: SFC<Props> = ({ comment }) => {
   const [isOpen, onOpen] = useState(false);
   return (
     <Wrapper px={3} py={3}>
       <Flex alignItems="center">
-        <Avatar src={author.image} />
+        <Avatar src={comment.author!.image!} />
         <Flex flexDirection="column">
           <Flex>
-            <Link to={'/user/' + author.localId}>
+            <Link to={'/user/' + comment.author!.localId!}>
               <Text fontWeight={800} mx={2} fontSize={1}>
-                {author.name}
+                {comment.author!.name}
               </Text>
             </Link>
             <Spacer>·</Spacer>{' '}
-            <Date fontSize={1}>{DateTime.fromISO(date).toRelative()}</Date>
+            <Date fontSize={1}>
+              {DateTime.fromISO(comment.published!).toRelative()}
+            </Date>
           </Flex>
-          <Link to={'/user/' + author.localId}>
+          <Link to={'/user/' + comment.author!.localId!}>
             <Username mt={1} fontSize={1} mx={2}>
-              @{author.username}
+              @{comment.author!.name!}
             </Username>
           </Link>
         </Flex>
       </Flex>
-      {inReplyTo !== null ? (
+      {comment.inReplyTo && (
         <InReply my={2} fontSize={1}>
           <Trans>in reply to</Trans>{' '}
-          <Link to={`/user/${inReplyTo.author.localId}`}>
-            {inReplyTo.author.name}
+          <Link to={`/user/${comment.inReplyTo.author!.localId!}`}>
+            {comment.inReplyTo.author!.name!}
           </Link>
         </InReply>
-      ) : null}
+      )}
       <Message mt={2} fontSize={[3]}>
-        {content}
+        {comment.content!}
       </Message>
       <Actions alignItems="center" mt={3} py={3}>
         <Icon mr={5} className="tooltip" onClick={() => onOpen(true)}>
@@ -133,7 +120,10 @@ const Thread: SFC<Props> = props => {
         <Icon mr={5}>
           <Feather.Heart color={'rgba(0,0,0,.4)'} size="20" />
         </Icon>
-        {retweets ? (
+        {
+          //TODO Retweets
+        }
+        {null && (
           <Icon>
             <Feather.Repeat color={'rgba(0,0,0,.4)'} size="20" />
             <Text
@@ -141,19 +131,12 @@ const Thread: SFC<Props> = props => {
               mr={3}
               style={{ display: 'inline-block', verticalAlign: 'super' }}
             >
-              {retweets}
+              {`--------RETWEETS---------`}
             </Text>
           </Icon>
-        ) : null}
+        )}
       </Actions>
-      <Talk
-        toggleModal={onOpen}
-        author={author}
-        modalIsOpen={isOpen}
-        id={props.comment!.id!}
-        comment={props.comment!}
-        replyTo={replyTo}
-      />
+      <Talk toggleModal={onOpen} modalIsOpen={isOpen} comment={comment} />
     </Wrapper>
   );
 };

@@ -4,60 +4,34 @@ import { clearFix } from 'polished';
 import * as React from 'react';
 import { MessageCircle, Star } from 'react-feather';
 import { Box, Flex, Text } from 'rebass';
-import { compose, withState } from 'recompose';
 import removeMd from 'remove-markdown';
-import { gqlRequest } from '../../../gql/actions';
 import { Comment } from '../../../gql/sdk';
 import styled from '../../../themes/styled';
-import { ActionContext } from '../../../_context/global/actionCtx';
 import Link from '../Link/Link';
 import Talk from '../TalkModal';
+import { CommentCtx } from '../../../_context/commentCtx';
 
 interface EventProps {
   userpage?: boolean;
   user?: any;
   comment: Comment;
-  thread?: boolean;
-  totalReplies?: string;
   noAction?: boolean;
-  onOpen(boolean): unknown;
-  isOpen: boolean;
-  replyTo: any;
 }
 
 const CommentWrapper: React.FC<EventProps> = ({
   user,
   userpage,
   comment,
-  noAction,
-  onOpen,
-  isOpen,
-  replyTo
+  noAction
 }) => {
   const FAKE________COMMENT_I_LIKE_IT = !!Math.round(Math.random());
-  const { dispatch } = React.useContext(ActionContext);
+  const commentCtx = React.useContext(CommentCtx);
   const [iLikeIt, setiLikeIt] = React.useState(FAKE________COMMENT_I_LIKE_IT);
+  const [isOpen, onOpen] = React.useState(false);
   const toggleLike = React.useCallback(
     () => {
-      if (iLikeIt) {
-        dispatch(
-          gqlRequest.create({
-            op: {
-              undoLikeCommentMutation: [{ localId: comment!.localId! }]
-            },
-            replyTo
-          })
-        );
-      } else {
-        dispatch(
-          gqlRequest.create({
-            op: {
-              likeCommentMutation: [{ localId: comment!.localId! }]
-            },
-            replyTo
-          })
-        );
-      }
+      const vars = { localId: comment.localId! };
+      (iLikeIt ? commentCtx.unlikeComment : commentCtx.likeComment)(vars);
       setiLikeIt(!iLikeIt);
     },
     [comment, iLikeIt]
@@ -130,19 +104,12 @@ const CommentWrapper: React.FC<EventProps> = ({
           )}
         </MemberInfo>
       </Member>
-      <Talk
-        toggleModal={onOpen}
-        modalIsOpen={isOpen}
-        comment={comment}
-        author={user}
-        id={comment!.id!}
-        replyTo={null}
-      />
+      <Talk toggleModal={onOpen} modalIsOpen={isOpen} comment={comment} />
     </FeedItem>
   );
 };
 
-export default compose(withState('isOpen', 'onOpen', false))(CommentWrapper);
+export default CommentWrapper;
 
 const NavigateToThread = styled(Link)`
   position: absolute;
