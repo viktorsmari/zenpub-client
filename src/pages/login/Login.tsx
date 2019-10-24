@@ -400,52 +400,6 @@ class Login extends React.Component<LoginProps, LoginState> {
             modalIsOpen={this.props.isOpen}
           />
         </Container>
-
-        {/* <BodyCenterContent>
-          <Roww>
-            <Col md={5} sm={12}>
-              <Logo big />
-              <Tagline>Share. Curate. Discuss.</Tagline>
-
-              <WrapperLogin>
-                <H6>
-                  <Trans>Sign in</Trans>
-                </H6>
-
-                <LoginForm
-                  validation={this.state.validation}
-                  onSubmit={this.onLoginFormSubmit}
-                  onInputChange={this.onLoginFormInputChange}
-                  authenticating={this.state.authenticating}
-                />
-                <Signup>
-                  <Trans>Don't yet have an account?</Trans>{' '}
-                  <u onClick={this.props.handleSignup}>
-                    <Trans>Sign up</Trans>
-                  </u>
-                </Signup>
-              </WrapperLogin>
-              <LanguageWrapper>
-                <LanguageSelect />
-              </LanguageWrapper>
-            </Col>
-            <Col md={7}>
-              <Background />
-            </Col>
-          </Roww>
-
-          <SignupModal
-            toggleModal={this.props.handleSignup}
-            modalIsOpen={this.props.isOpen}
-          />
-        </BodyCenterContent> */}
-        {/* <Banner>
-            <Trans>
-              Seeing some error messages? Just hit refresh! Contact us if that
-              didn't help, of course.
-            </Trans>
-          </Banner>
-          </div> */}
       </>
     );
   }

@@ -14,6 +14,7 @@ import SocialText from '../SocialText';
 
 const TextWrapper = styled(Flex)`
   padding: 16px;
+  align-items: center;
 `;
 
 // const Publish = styled(Button)`
@@ -112,19 +113,6 @@ const CreateCommunityModal: React.FC<Props> = ({
         />
         {error && touched && <Alert>{error}</Alert>}
       </TextWrapper>
-      {/* <Actions>
-          
-          <Publish
-            onClick={submit}
-            disabled={isSubmitting}
-            type="submit"
-            style={{ marginLeft: '10px' }}
-          >
-           <Send size="24" />
-          </Publish>
-        </Actions> */}
-      {/* </Form> */}
-      {/* </Container> */}
     </Modal>
   );
 };

@@ -33,8 +33,8 @@ const Wrapper = styled(Box)`
 `;
 
 const Avatar = styled(Image)`
-  width: 40px;
-  height: 40px;
+  width: 48px !important;
+  height: 48px !important;
   border-radius: 100px;
   background: ${props => props.theme.styles.colors.black};
 `;
@@ -90,7 +90,7 @@ const Thread: SFC<Props> = ({ comment }) => {
                 {comment.author!.name}
               </Text>
             </Link>
-            <Spacer>·</Spacer>{' '}
+            <Spacer mx={2}>·</Spacer>{' '}
             <Date fontSize={1}>
               {DateTime.fromISO(comment.published!).toRelative()}
             </Date>
@@ -115,26 +115,11 @@ const Thread: SFC<Props> = ({ comment }) => {
       </Message>
       <Actions alignItems="center" mt={3} py={3}>
         <Icon mr={5} className="tooltip" onClick={() => onOpen(true)}>
-          <Feather.MessageSquare color={'rgba(0,0,0,.4)'} size="20" />
+          <Feather.MessageCircle color={'rgba(0,0,0,.4)'} size="20" />
         </Icon>
         <Icon mr={5}>
-          <Feather.Heart color={'rgba(0,0,0,.4)'} size="20" />
+          <Feather.Star color={'rgba(0,0,0,.4)'} size="20" />
         </Icon>
-        {
-          //TODO Retweets
-        }
-        {null && (
-          <Icon>
-            <Feather.Repeat color={'rgba(0,0,0,.4)'} size="20" />
-            <Text
-              ml={1}
-              mr={3}
-              style={{ display: 'inline-block', verticalAlign: 'super' }}
-            >
-              {`--------RETWEETS---------`}
-            </Text>
-          </Icon>
-        )}
       </Actions>
       <Talk toggleModal={onOpen} modalIsOpen={isOpen} comment={comment} />
     </Wrapper>

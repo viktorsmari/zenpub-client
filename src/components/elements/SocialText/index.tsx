@@ -15,6 +15,7 @@ const PickerWrap = styled.div`
   position: absolute;
   right: 10px;
   top: 45px;
+  z-index: 9999;
 `;
 const Wrapper = styled.div`
   width: 100%;
@@ -83,7 +84,7 @@ export const SocialText: React.FC<Props> = props => {
           <SocialTextTrigger onClick={toggle}>
             <Smile color={'rgba(0,0,0,.4)'} size="24" />
           </SocialTextTrigger>
-          <Box ml={2} onClick={props.submit}>
+          <Box style={{ cursor: 'pointer' }} ml={3} onClick={props.submit}>
             <Send color={'rgba(0,0,0,.4)'} size="24" />
           </Box>
         </SocialActions>

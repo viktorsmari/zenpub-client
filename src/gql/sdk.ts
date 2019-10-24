@@ -1171,7 +1171,7 @@ export type BasicCommentFragment = { __typename?: 'Comment' } & Pick<
       >
     >;
     inReplyTo: Maybe<
-      { __typename?: 'Comment' } & Pick<Comment, 'localId'> & {
+      { __typename?: 'Comment' } & Pick<Comment, 'localId' | 'content'> & {
           author: Maybe<
             { __typename?: 'User' } & Pick<
               User,
@@ -2603,6 +2603,7 @@ export const BasicCommentFragmentDoc = gql`
     }
     inReplyTo {
       localId
+      content
       author {
         id
         icon
