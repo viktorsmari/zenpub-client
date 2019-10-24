@@ -4,7 +4,7 @@ import { Field, Form, FormikProps, withFormik } from 'formik';
 import * as React from 'react';
 import { compose } from 'recompose';
 import { ApolloConsumer, graphql, OperationOption } from 'react-apollo';
-import { getGlob } from '../../../_context/GLOB';
+import { getGlob } from '../../../_context/global/GLOB';
 import { login } from '../../../_redux/session';
 import * as Yup from 'yup';
 import { i18n } from '../../../containers/App/App';

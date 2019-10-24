@@ -9,14 +9,14 @@ import {
   CreateReplyMutationMutationVariables
 } from '../../../gql/sdk';
 import styled from '../../../themes/styled';
-import { ActionContext } from '../../../_context/actionCtx';
+import { ActionContext } from '../../../_context/global/actionCtx';
 import Alert from '../../elements/Alert';
 // import {Button} from 'rebass';
 import Comment from '../Comment/Comment';
 import Modal from '../Modal';
 // import { Actions, Container } from '../Modal/modal';
 import SocialText from '../SocialText';
-import { SessionContext } from '../../../_context/sessionCtx';
+import { SessionContext } from '../../../_context/global/sessionCtx';
 // import { Send } from 'react-feather';
 
 const TextWrapper = styled(Flex)`
