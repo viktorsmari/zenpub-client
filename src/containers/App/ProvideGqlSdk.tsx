@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useRef } from 'react';
 import { GraphQLClient } from 'graphql-request';
 import { getSdk } from '../../gql/sdk';
-import { SessionContext } from '../../_context/sessionCtx';
+import { SessionContext } from '../../_context/global/sessionCtx';
 
 type Sdk = ReturnType<typeof getSdk>;
 

@@ -9,7 +9,7 @@ import removeMd from 'remove-markdown';
 import { gqlRequest } from '../../../gql/actions';
 import { Comment } from '../../../gql/sdk';
 import styled from '../../../themes/styled';
-import { ActionContext } from '../../../_context/actionCtx';
+import { ActionContext } from '../../../_context/global/actionCtx';
 import Link from '../Link/Link';
 import Talk from '../TalkModal';
 

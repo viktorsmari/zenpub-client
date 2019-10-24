@@ -3,7 +3,7 @@ import { i18nMark } from '@lingui/react';
 import { withTheme } from '@zendeskgarden/react-theming';
 import { clearFix } from 'polished';
 import * as React from 'react';
-import { graphql, OperationOption } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import { Helmet } from 'react-helmet';
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
 import { compose, withHandlers, withState } from 'recompose';
@@ -14,11 +14,11 @@ import SignupModal from '../../components/elements/SignupModal';
 import { APP_NAME } from '../../constants';
 import { i18n } from '../../containers/App/App';
 import styled, { ThemeInterface } from '../../themes/styled';
-
+import { GlobCtx } from '../../_context/global/GLOB';
+import { login } from '../../_redux/session';
 import LoginForm from './LoginForm';
 import { ValidationField, ValidationObject, ValidationType } from './types';
-import { login } from '../../_redux/session';
-import { GlobCtx } from '../../_context/GLOB';
+
 const { loginMutation } = require('../../graphql/login.graphql');
 
 const Signup = styled(Button)`
@@ -422,10 +422,10 @@ export interface Args {
 // } as OperationOption<{}, {}>);
 
 // to login via the API
-const withLogin = graphql<{}, Args>(loginMutation, {
+const withLogin = graphql(loginMutation, {
   name: 'login'
   // TODO enforce proper types for OperationOption
-} as OperationOption<{}, {}>);
+});
 
 export default compose(
   withTheme,

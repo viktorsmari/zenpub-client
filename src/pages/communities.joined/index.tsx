@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/macro';
 import * as React from 'react';
-import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
+import { graphql, QueryControls, OperationOption } from 'react-apollo';
 import { Helmet } from 'react-helmet';
 import compose from 'recompose/compose';
 import media from 'styled-media-query';
@@ -14,7 +14,7 @@ const {
   getJoinedCommunitiesQuery
 } = require('../../graphql/getJoinedCommunities.graphql');
 
-interface Data extends GraphqlQueryControls {
+interface Data extends QueryControls {
   me: {
     user: {
       joinedCommunities: {
