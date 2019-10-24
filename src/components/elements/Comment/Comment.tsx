@@ -5,11 +5,11 @@ import * as React from 'react';
 import { MessageCircle, Star } from 'react-feather';
 import { Box, Flex, Text } from 'rebass';
 import removeMd from 'remove-markdown';
-import { Comment } from '../../../gql/sdk';
 import styled from '../../../themes/styled';
 import Link from '../Link/Link';
 import Talk from '../TalkModal';
 import { CommentCtx } from '../../../_context/commentCtx';
+import { Comment } from '../../../generated/graphqlapollo';
 
 interface EventProps {
   userpage?: boolean;

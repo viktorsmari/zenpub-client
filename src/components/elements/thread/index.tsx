@@ -82,7 +82,7 @@ const Thread: SFC<Props> = ({ comment }) => {
   return (
     <Wrapper px={3} py={3}>
       <Flex alignItems="center">
-        <Avatar src={comment.author!.image!} />
+        <Avatar src={comment.author!.icon!} />
         <Flex flexDirection="column">
           <Flex>
             <Link to={'/user/' + comment.author!.localId!}>
