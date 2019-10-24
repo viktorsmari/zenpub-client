@@ -5,7 +5,7 @@ import { compose, withState, withHandlers } from 'recompose';
 import media from 'styled-media-query';
 import { Trans } from '@lingui/macro';
 import { RouteComponentProps } from 'react-router';
-import { graphql, QueryControls, OperationOption } from 'react-apollo';
+import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
 import styled from '../../themes/styled';
 import Community from '../../types/Community';
 import Loader from '../../components/elements/Loader/Loader';
@@ -36,7 +36,7 @@ enum TabsEnum {
   Collections = 'Collections',
   Discussion = 'Discussion'
 }
-interface Data extends QueryControls {
+interface Data extends GraphqlQueryControls {
   community: Community;
 }
 
