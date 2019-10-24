@@ -1,44 +1,39 @@
-import React, { useContext, useEffect } from 'react';
-import { StateContext } from '../../_context/global/stateCtx';
-import { ActionContext } from '../../_context/global/actionCtx';
-import { gqlRequest } from '../../gql/actions';
-import { THREAD_PAGE_GQL_REPLY } from './types';
+import React from 'react';
 import Stateless from './stateless';
+import {
+  useGetThreadQuery,
+  useLikeCommentMutationMutation,
+  useUndoLikeCommentMutationMutation,
+  useCreateReplyMutationMutation
+} from '../../generated/graphqlapollo';
+import { CommentCtx } from '../../_context/commentCtx';
 export interface Props {
   id: number;
 }
 export const Thread: React.FC<Props> = ({ id }) => {
-  const {
-    pages: {
-      thread: { thread, refreshing }
-    }
-  } = useContext(StateContext);
-  const { dispatch } = useContext(ActionContext);
-  useEffect(
-    () => {
-      if (
-        !thread ||
-        ('data' in thread &&
-          thread.data &&
-          thread.data.comment!.localId! !== id)
-      ) {
-        dispatch(
-          gqlRequest.create({
-            replyTo: THREAD_PAGE_GQL_REPLY,
-            op: { getThread: [{ id }] }
-          })
-        );
-      }
-    },
-    [id, thread]
-  );
+  const [
+    createReplyMutation /* , CreateReplyResult */
+  ] = useCreateReplyMutationMutation({});
+  const [
+    likeCommentMutation /* , likeCommentResult */
+  ] = useLikeCommentMutationMutation({});
+  const [
+    undoLikeCommentMutation /* , undoLikeCommentResult */
+  ] = useUndoLikeCommentMutationMutation({});
+  const threadQuery = useGetThreadQuery({ variables: { id } });
+  const commentCtx: CommentCtx = {
+    likeComment: variables =>
+      likeCommentMutation({ variables }).then(() => threadQuery.refetch()),
+    unlikeComment: variables =>
+      undoLikeCommentMutation({ variables }).then(() => threadQuery.refetch()),
+    replyComment: variables =>
+      createReplyMutation({ variables }).then(() => threadQuery.refetch())
+  };
 
   return (
-    thread && (
-      <Stateless
-        {...{ thread: thread.loading && refreshing ? refreshing : thread }}
-      />
-    )
+    <CommentCtx.Provider value={commentCtx}>
+      <Stateless threadQuery={threadQuery} />
+    </CommentCtx.Provider>
   );
 };
 
