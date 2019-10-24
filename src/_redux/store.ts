@@ -1,12 +1,10 @@
 import { applyMiddleware, combineReducers, createStore, compose } from 'redux';
 import { createSessionMW, getCachedSession } from './session';
-import * as pages from '../pages/redux';
 import * as session from './session';
 import { login } from './session';
 
 export type State = ReturnType<typeof reducer>;
 const reducer = combineReducers({
-  pages: pages.reducer,
   session: session.reducer
 });
 

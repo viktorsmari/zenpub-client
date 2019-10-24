@@ -12,9 +12,9 @@ export interface GlobCtx {
 }
 
 export const GlobCtx = createContext({} as GlobCtx);
-const GLOBSYM = Symbol('GLOB');
+let GLOBSYM: GlobCtx;
 
-export const getGlob = (): GlobCtx => window[GLOBSYM];
+export const getGlob = (): GlobCtx => GLOBSYM;
 
 export const ProvideGlobCtx: React.FC = ({ children }) => {
   const state = useContext(StateContext);
@@ -27,6 +27,6 @@ export const ProvideGlobCtx: React.FC = ({ children }) => {
     action,
     session
   };
-  window[GLOBSYM] = glob;
+  GLOBSYM = glob;
   return <GlobCtx.Provider value={glob}>{children}</GlobCtx.Provider>;
 };
