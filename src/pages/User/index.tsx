@@ -4,7 +4,7 @@ import * as React from 'react';
 import { compose, withState, withHandlers } from 'recompose';
 
 import { Trans } from '@lingui/macro';
-import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
+import { graphql, QueryControls, OperationOption } from 'react-apollo';
 import Loader from '../../components/elements/Loader/Loader';
 import { Tabs, TabPanel } from 'react-tabs';
 import CollectionCard from '../../components/elements/Collection/Collection';
@@ -39,7 +39,7 @@ enum TabsEnum {
   Collections = 'Followed collections'
 }
 
-interface Data extends GraphqlQueryControls {
+interface Data extends QueryControls {
   user: {
     name;
     icon;

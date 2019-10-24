@@ -10,7 +10,7 @@ import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel, Panel, Nav, NavItem } from '../../sections/panel';
 
 interface Props {
-  handleNewCommunity(boolean): boolean;
+  handleNewCommunity(): boolean;
   isOpenCommunity: boolean;
 }
 

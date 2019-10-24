@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
-import { StateContext } from '../../_context/stateCtx';
-import { ActionContext } from '../../_context/actionCtx';
+import { StateContext } from '../../_context/global/stateCtx';
+import { ActionContext } from '../../_context/global/actionCtx';
 import { gqlRequest } from '../../gql/actions';
 import { THREAD_PAGE_GQL_REPLY } from './types';
 import Stateless from './stateless';

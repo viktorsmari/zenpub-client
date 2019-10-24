@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/macro';
 import * as React from 'react';
-import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
+import { graphql, QueryControls, OperationOption } from 'react-apollo';
 import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
 import { compose, withState, withHandlers } from 'recompose';
@@ -15,7 +15,7 @@ import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { Flex } from 'rebass';
 const { getCollectionsQuery } = require('../../graphql/getCollections.graphql');
 
-interface Data extends GraphqlQueryControls {
+interface Data extends QueryControls {
   collections: {
     nodes: CollectionType[];
     pageInfo: {

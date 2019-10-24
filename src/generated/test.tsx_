@@ -1,0 +1,17 @@
+import React from 'react'
+import {useLoginMutationMutation, useGetThreadQuery, useGetCommunitiesQueryQuery } from './graphqlapollo';
+
+interface Props{
+  a:number
+}
+export const Comp:React.FC<Props>=(p)=>{
+  const [login, {data,called,client}] = useLoginMutationMutation()
+  const {}=useGetCommunitiesQueryQuery({})
+  c
+  client!.
+  login({})
+  return <div>{p.a}</div>
+}
+
+
+

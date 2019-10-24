@@ -1,6 +1,6 @@
 import React from 'react';
 import { compose } from 'recompose';
-import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
+import { graphql, QueryControls, OperationOption } from 'react-apollo';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -11,7 +11,7 @@ import CollectionSmall from '../elements/Collection/CollectionSmall';
 import { ChevronLeft, Right } from '../elements/Icons';
 import { Title, RightContext } from '../featuredCommunities';
 
-interface Data extends GraphqlQueryControls {
+interface Data extends QueryControls {
   one: any;
   two: any;
   three: any;
