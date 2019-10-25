@@ -12,19 +12,13 @@ import { CommentCtx } from '../../../context/commentCtx';
 import { Comment } from '../../../generated/graphqlapollo';
 
 interface EventProps {
-  userpage?: boolean;
-  user?: any;
   comment: Comment;
   noAction?: boolean;
 }
 
-const CommentWrapper: React.FC<EventProps> = ({
-  user,
-  userpage,
-  comment,
-  noAction
-}) => {
+const CommentWrapper: React.FC<EventProps> = ({ comment, noAction }) => {
   const FAKE________COMMENT_I_LIKE_IT = !!Math.round(Math.random());
+  const { author } = comment;
   const commentCtx = React.useContext(CommentCtx);
   const [iLikeIt, setiLikeIt] = React.useState(FAKE________COMMENT_I_LIKE_IT);
   const [isOpen, onOpen] = React.useState(false);
@@ -41,18 +35,16 @@ const CommentWrapper: React.FC<EventProps> = ({
       <NavigateToThread to={`/thread/${comment!.localId}`} />
       <Member>
         <MemberItem mr={2}>
-          <Img src={user ? user.icon : ''} />
+          <Img src={(author && author.icon) || ''} />
         </MemberItem>
         <MemberInfo>
-          {userpage ? (
-            <b>{user ? user.name : <Trans>Deleted user</Trans>}</b>
-          ) : user ? (
+          {author ? (
             <Name>
-              <Link to={'/user/' + user.localId}>
-                {user.name}{' '}
-                {user.preferredUsername ? (
-                  <Username>@{user.preferredUsername}</Username>
-                ) : null}
+              <Link to={'/user/' + author.localId}>
+                {author.name}{' '}
+                {author.preferredUsername && (
+                  <Username>@{author.preferredUsername}</Username>
+                )}
               </Link>
               <Spacer mx={2}>·</Spacer>{' '}
               <Date>{DateTime.fromISO(comment!.published!).toRelative()}</Date>
