@@ -18,7 +18,7 @@ export const LOCAL_STORAGE_USER_ACCESS_TOKEN = IS_DEV
   ? 'dev_user_access_token'
   : 'user_access_token';
 
-export const LOCAL_STORAGE_SESSION = IS_DEV ? 'moo_session' : 'dev_moo_session';
+export const LOCAL_STORAGE_SESSION = IS_DEV ? 'dev_moo_session' : 'moo_session';
 
 export const APP_NAME = 'MoodleNet';
 
