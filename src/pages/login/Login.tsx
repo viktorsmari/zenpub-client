@@ -14,8 +14,8 @@ import SignupModal from '../../components/elements/SignupModal';
 import { APP_NAME, LOCAL_STORAGE_USER_ACCESS_TOKEN } from '../../constants';
 import { i18n } from '../../containers/App/App';
 import styled, { ThemeInterface } from '../../themes/styled';
-import { GlobCtx } from '../../_context/global/GLOB';
-import { login } from '../../_redux/session';
+import { GlobCtx } from '../../context/global/GLOB';
+import { login } from '../../redux/session';
 import LoginForm from './LoginForm';
 import { ValidationField, ValidationObject, ValidationType } from './types';
 
