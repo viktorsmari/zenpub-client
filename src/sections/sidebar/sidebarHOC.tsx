@@ -5,6 +5,7 @@ import Loader from '../../components/elements/Loader/Loader';
 import { Trans } from '@lingui/macro';
 import User from '../../types/User';
 import { compose, withHandlers, withState } from 'recompose';
+import { LOCAL_STORAGE_USER_ACCESS_TOKEN } from '../../constants';
 const getSidebar = require('../../graphql/getSidebar.graphql');
 
 const SidebarWrapper = props =>
@@ -40,12 +41,7 @@ export default compose(
     handleOpen: props => () => props.onOpen(true),
     closeMenu: props => () => props.onOpen(false),
     logout: props => () => {
-      let token;
-      process.env.REACT_APP_GRAPHQL_ENDPOINT ===
-      'https://home.moodle.net/api/graphql'
-        ? (token = 'user_access_token')
-        : (token = 'dev_user_access_token');
-      localStorage.removeItem(token);
+      localStorage.removeItem(LOCAL_STORAGE_USER_ACCESS_TOKEN);
       localStorage.removeItem('dark');
       return window.location.reload();
     }

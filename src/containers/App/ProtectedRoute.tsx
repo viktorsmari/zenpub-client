@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { graphql } from 'react-apollo';
-import { Route, Redirect, RouteComponentProps } from 'react-router-dom';
+import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
+import { LOCAL_STORAGE_USER_ACCESS_TOKEN } from '../../constants';
 
 const { getUserQuery } = require('../../graphql/getUser.client.graphql');
 
@@ -20,12 +21,7 @@ interface ProtectedRouteProps extends RouteComponentProps {
  * @constructor
  */
 function ProtectedRoute({ component: Component, data, ...rest }) {
-  let token;
-  process.env.REACT_APP_GRAPHQL_ENDPOINT ===
-  'https://home.moodle.net/api/graphql'
-    ? (token = localStorage.getItem('user_access_token'))
-    : (token = localStorage.getItem('dev_user_access_token'));
-
+  const token = localStorage.getItem(LOCAL_STORAGE_USER_ACCESS_TOKEN);
   return (
     <Route
       {...rest}

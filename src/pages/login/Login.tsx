@@ -11,7 +11,7 @@ import media from 'styled-media-query';
 import Button from '../../components/elements/Button/Button';
 import Link from '../../components/elements/Link/Link';
 import SignupModal from '../../components/elements/SignupModal';
-import { APP_NAME } from '../../constants';
+import { APP_NAME, LOCAL_STORAGE_USER_ACCESS_TOKEN } from '../../constants';
 import { i18n } from '../../containers/App/App';
 import styled, { ThemeInterface } from '../../themes/styled';
 import { GlobCtx } from '../../_context/global/GLOB';
@@ -176,11 +176,7 @@ const ResetPass = styled.div`
  * @constructor
  */
 function RedirectIfAuthenticated({ component: Component, data, ...rest }) {
-  let token;
-  process.env.REACT_APP_GRAPHQL_ENDPOINT ===
-  'https://home.moodle.net/api/graphql'
-    ? (token = localStorage.getItem('user_access_token'))
-    : (token = localStorage.getItem('dev_user_access_token'));
+  const token = localStorage.getItem(LOCAL_STORAGE_USER_ACCESS_TOKEN);
 
   return (
     <Route
@@ -300,10 +296,7 @@ class Login extends React.Component<LoginProps, LoginState> {
 
     // TODO pull key out into constant
     this.context.action.dispatch(login.create(userData));
-    process.env.REACT_APP_GRAPHQL_ENDPOINT ===
-    'https://home.moodle.net/api/graphql'
-      ? localStorage.setItem('user_access_token', userData.token)
-      : localStorage.setItem('dev_user_access_token', userData.token);
+    localStorage.setItem(LOCAL_STORAGE_USER_ACCESS_TOKEN, userData.token);
     window.location.reload();
   }
 
