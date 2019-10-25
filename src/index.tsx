@@ -9,7 +9,6 @@ import { ProvideContexts } from './_context/global';
 import createStore from './_redux/store';
 
 run();
-
 async function run() {
   const apolloClient = await getApolloClient();
   const Global = createGlobalStyle`

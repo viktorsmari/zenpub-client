@@ -14,6 +14,7 @@ import { Heading } from 'rebass';
 import Button from '../Button/Button';
 import Modal from '../Modal';
 import { Row, Container, Actions, ContainerForm, Header } from '../Modal/modal';
+import { LOCAL_STORAGE_USER_ACCESS_TOKEN } from '../../../constants';
 const { createUserMutation } = require('../../../graphql/createUser.graphql');
 const checkUsername = require('../../../graphql/checkUsername.graphql');
 
@@ -255,13 +256,10 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
       })
       .then(res => {
         getGlob().action.dispatch(login.create(res.data.createUser));
-        process.env.REACT_APP_GRAPHQL_ENDPOINT ===
-        'https://home.moodle.net/api/graphql'
-          ? localStorage.setItem('user_access_token', res.data.createUser.token)
-          : localStorage.setItem(
-              'dev_user_access_token',
-              res.data.createUser.token
-            );
+        localStorage.setItem(
+          LOCAL_STORAGE_USER_ACCESS_TOKEN,
+          res.data.createUser.token
+        );
         setSubmitting(false);
         window.location.reload();
       })

@@ -10,6 +10,7 @@ import { Trans } from '@lingui/macro';
 import CollectionSmall from '../elements/Collection/CollectionSmall';
 import { ChevronLeft, Right } from '../elements/Icons';
 import { Title, RightContext } from '../featuredCommunities';
+import { IS_DEV } from '../../constants';
 
 interface Data extends QueryControls {
   one: any;
@@ -136,41 +137,13 @@ const withGetInbox = graphql<
 >(getFollowedCollections, {
   options: {
     variables: {
-      one:
-        process.env.REACT_APP_GRAPHQL_ENDPOINT ===
-        'https://home.moodle.net/api/graphql'
-          ? 2510
-          : 4944,
-      two:
-        process.env.REACT_APP_GRAPHQL_ENDPOINT ===
-        'https://home.moodle.net/api/graphql'
-          ? 2374
-          : 5416,
-      three:
-        process.env.REACT_APP_GRAPHQL_ENDPOINT ===
-        'https://home.moodle.net/api/graphql'
-          ? 5487
-          : 5571,
-      four:
-        process.env.REACT_APP_GRAPHQL_ENDPOINT ===
-        'https://home.moodle.net/api/graphql'
-          ? 8092
-          : 5487,
-      five:
-        process.env.REACT_APP_GRAPHQL_ENDPOINT ===
-        'https://home.moodle.net/api/graphql'
-          ? 690
-          : 4944,
-      six:
-        process.env.REACT_APP_GRAPHQL_ENDPOINT ===
-        'https://home.moodle.net/api/graphql'
-          ? 3790
-          : 2374,
-      seven:
-        process.env.REACT_APP_GRAPHQL_ENDPOINT ===
-        'https://home.moodle.net/api/graphql'
-          ? 4848
-          : 5571
+      one: IS_DEV ? 2510 : 4944,
+      two: IS_DEV ? 2374 : 5416,
+      three: IS_DEV ? 5487 : 5571,
+      four: IS_DEV ? 8092 : 5487,
+      five: IS_DEV ? 690 : 4944,
+      six: IS_DEV ? 3790 : 2374,
+      seven: IS_DEV ? 4848 : 5571
     }
   }
 }) as OperationOption<{}, {}>;

@@ -10,6 +10,7 @@ import { Trans } from '@lingui/macro';
 import CommunitySmall from '../elements/Community/CommunitySmall';
 import styled from '../../themes/styled';
 import { ChevronLeft, Right } from '../elements/Icons';
+import { IS_DEV } from '../../constants';
 
 export const Title = styled.div`
   font-size: 15px;
@@ -175,41 +176,13 @@ const withGetInbox = graphql<
 >(getFollowedCommunities, {
   options: {
     variables: {
-      one:
-        process.env.REACT_APP_GRAPHQL_ENDPOINT ===
-        'https://home.moodle.net/api/graphql'
-          ? 7
-          : 7,
-      two:
-        process.env.REACT_APP_GRAPHQL_ENDPOINT ===
-        'https://home.moodle.net/api/graphql'
-          ? 15
-          : 15,
-      three:
-        process.env.REACT_APP_GRAPHQL_ENDPOINT ===
-        'https://home.moodle.net/api/graphql'
-          ? 5369
-          : 7633,
-      four:
-        process.env.REACT_APP_GRAPHQL_ENDPOINT ===
-        'https://home.moodle.net/api/graphql'
-          ? 8083
-          : 5939,
-      five:
-        process.env.REACT_APP_GRAPHQL_ENDPOINT ===
-        'https://home.moodle.net/api/graphql'
-          ? 8806
-          : 4241,
-      six:
-        process.env.REACT_APP_GRAPHQL_ENDPOINT ===
-        'https://home.moodle.net/api/graphql'
-          ? 7933
-          : 2900,
-      seven:
-        process.env.REACT_APP_GRAPHQL_ENDPOINT ===
-        'https://home.moodle.net/api/graphql'
-          ? 2708
-          : 2708
+      one: IS_DEV ? 7 : 7,
+      two: IS_DEV ? 15 : 15,
+      three: IS_DEV ? 5369 : 7633,
+      four: IS_DEV ? 8083 : 5939,
+      five: IS_DEV ? 8806 : 4241,
+      six: IS_DEV ? 7933 : 2900,
+      seven: IS_DEV ? 2708 : 2708
     }
   }
 }) as OperationOption<{}, {}>;
