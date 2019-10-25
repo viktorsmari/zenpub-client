@@ -294,10 +294,13 @@ class Login extends React.Component<LoginProps, LoginState> {
 
     const userData = result.data.createSession;
 
-    // TODO pull key out into constant
-    this.context.action.dispatch(login.create(userData));
-    localStorage.setItem(LOCAL_STORAGE_USER_ACCESS_TOKEN, userData.token);
-    window.location.reload();
+    //TODO all in global business logic (redux/mw)
+    if (userData) {
+      // TODO pull key out into constant
+      this.context.action.dispatch(login.create(userData));
+      localStorage.setItem(LOCAL_STORAGE_USER_ACCESS_TOKEN, userData.token);
+      window.location.reload();
+    }
   }
 
   /** Clear the validation messages for a field and also generic validations when its value changes. */
