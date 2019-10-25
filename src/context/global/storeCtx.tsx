@@ -1,5 +1,5 @@
 import React from 'react';
-import store from '../../_redux/store';
+import store from '../../redux/store';
 import { createContext } from 'react';
 
 export type StoreContextT = ReturnType<typeof store>;

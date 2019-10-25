@@ -8,7 +8,7 @@ import removeMd from 'remove-markdown';
 import styled from '../../../themes/styled';
 import Link from '../Link/Link';
 import Talk from '../TalkModal';
-import { CommentCtx } from '../../../_context/commentCtx';
+import { CommentCtx } from '../../../context/commentCtx';
 import { Comment } from '../../../generated/graphqlapollo';
 
 interface EventProps {

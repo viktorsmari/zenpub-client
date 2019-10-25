@@ -5,8 +5,8 @@ import getApolloClient from './apollo/client';
 import App from './containers/App/App';
 import registerServiceWorker from './registerServiceWorker';
 import { createGlobalStyle } from './themes/styled';
-import { ProvideContexts } from './_context/global';
-import createStore from './_redux/store';
+import { ProvideContexts } from './context/global';
+import createStore from './redux/store';
 
 run();
 async function run() {

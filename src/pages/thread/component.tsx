@@ -6,7 +6,7 @@ import {
   useUndoLikeCommentMutationMutation,
   useCreateReplyMutationMutation
 } from '../../generated/graphqlapollo';
-import { CommentCtx } from '../../_context/commentCtx';
+import { CommentCtx } from '../../context/commentCtx';
 export interface Props {
   id: number;
 }
