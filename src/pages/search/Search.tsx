@@ -6,6 +6,7 @@ import styled from '../../themes/styled';
 
 import { Hits, Pagination, Configure } from 'react-instantsearch-dom';
 import { Trans } from '@lingui/macro';
+import { LocaleContext } from '../../containers/App/App';
 
 const CommunityWrapper = styled(Box)`
   border-radius: 4px;
@@ -106,7 +107,15 @@ function Hit(props) {
           m={3}
           style={{ backgroundImage: `url(${community.icon})` }}
         />
-        <CommunityText ml={1}>{community.name}</CommunityText>
+        <LocaleContext.Consumer>
+          {value =>
+            value.contentDirection == 'ltr' ? (
+              <CommunityText ml={1}>{community.name}</CommunityText>
+            ) : (
+              <CommunityText mr={1}>{community.name}</CommunityText>
+            )
+          }
+        </LocaleContext.Consumer>
       </Community>
       <BoxResource>
         <SubText p={2}>

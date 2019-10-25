@@ -120,31 +120,35 @@ const ExRowUsername = styled(ExRow)`
 
 const Component = (props: Props & FormikProps<FormValues>) => {
   const { errors, touched, isSubmitting } = props;
+  const localeCntx = React.useContext(LocaleContext);
+
   return (
     <ApolloConsumer>
       {client => (
         <>
           <Header p={3} alignItems="center">
-            <LocaleContext.Consumer>
-              {value =>
-                value.contentDirection == 'ltr' ? (
-                  <ArrowLeft
-                    size={32}
-                    color="#f98012"
-                    onClick={() => props.onSwitch('sidebar')}
-                  />
-                ) : (
-                  <ArrowRight
-                    size={32}
-                    color="#f98012"
-                    onClick={() => props.onSwitch('sidebar')}
-                  />
-                )
-              }
-            </LocaleContext.Consumer>
-            <Heading ml={2}>
-              <Trans>General Information</Trans>
-            </Heading>
+            {localeCntx.contentDirection == 'ltr' ? (
+              <ArrowLeft
+                size={32}
+                color="#f98012"
+                onClick={() => props.onSwitch('sidebar')}
+              />
+            ) : (
+              <ArrowRight
+                size={32}
+                color="#f98012"
+                onClick={() => props.onSwitch('sidebar')}
+              />
+            )}
+            {localeCntx.contentDirection == 'ltr' ? (
+              <Heading ml={2}>
+                <Trans>General Information</Trans>
+              </Heading>
+            ) : (
+              <Heading mr={2}>
+                <Trans>General Information</Trans>
+              </Heading>
+            )}
           </Header>
           <Form>
             <ExRow>

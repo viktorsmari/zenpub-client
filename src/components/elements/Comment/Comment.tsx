@@ -288,6 +288,10 @@ const MemberItem = styled(Box)`
   vertical-align: inherit;
   margin-right: 8px;
   min-width: 48px;
+  .--rtl & {
+    margin-right: 0px;
+    margin-left: 8px;
+  }
 `;
 
 const Img = styled.img`
@@ -304,6 +308,10 @@ const Img = styled.img`
   text-overflow: ellipsis;
   vertical-align: text-top;
   margin-right: 8px;
+  .--rtl & {
+    margin-right: 0px;
+    margin-left: 8px;
+  }
 `;
 
 const FeedItem = styled.div`

@@ -19,6 +19,8 @@ import {
 
 import { graphql, OperationOption } from 'react-apollo';
 import Community from '../../../types/Community';
+import { LocaleContext } from '../../../containers/App/App';
+
 const {
   updateCommunityMutation
 } = require('../../../graphql/updateCommunity.graphql');
@@ -54,6 +56,8 @@ const withUpdateCommunity = graphql<{}>(updateCommunityMutation, {
 
 const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
   const { toggleModal, modalIsOpen, errors, touched, isSubmitting } = props;
+  const localeCntx = React.useContext(LocaleContext);
+
   return (
     <Modal isOpen={modalIsOpen} toggleModal={toggleModal}>
       <Container>
@@ -125,18 +129,33 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
               {errors.image && touched.image && <Alert>{errors.image}</Alert>}
             </ContainerForm>
           </Row>
-          <Actions>
-            <Button
-              disabled={isSubmitting}
-              type="submit"
-              style={{ marginLeft: '10px' }}
-            >
-              <Trans>Save</Trans>
-            </Button>
-            <Button onClick={toggleModal} secondary>
-              <Trans>Cancel</Trans>
-            </Button>
-          </Actions>
+          {localeCntx.contentDirection == 'ltr' ? (
+            <Actions>
+              <Button
+                disabled={isSubmitting}
+                type="submit"
+                style={{ marginLeft: '10px' }}
+              >
+                <Trans>Save</Trans>
+              </Button>
+              <Button onClick={toggleModal} secondary>
+                <Trans>Cancel</Trans>
+              </Button>
+            </Actions>
+          ) : (
+            <Actions>
+              <Button onClick={toggleModal} secondary>
+                <Trans>Cancel</Trans>
+              </Button>
+              <Button
+                disabled={isSubmitting}
+                type="submit"
+                style={{ marginLeft: '10px' }}
+              >
+                <Trans>Save</Trans>
+              </Button>
+            </Actions>
+          )}
         </Form>
       </Container>
     </Modal>

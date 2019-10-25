@@ -11,6 +11,7 @@ import { Input, Textarea } from '@rebass/forms';
 import { Heading } from 'rebass';
 import Button from '../Button/Button';
 import Modal from '../Modal';
+
 import {
   Actions,
   Container,
@@ -139,9 +140,6 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
               style={{ marginLeft: '10px' }}
             >
               <Trans>Create</Trans>
-            </Button>
-            <Button onClick={toggleModal} secondary>
-              <Trans>Cancel</Trans>
             </Button>
           </Actions>
         </Form>

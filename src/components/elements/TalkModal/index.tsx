@@ -18,6 +18,7 @@ import Modal from '../Modal';
 import SocialText from '../SocialText';
 import { SessionContext } from '../../../_context/sessionCtx';
 // import { Send } from 'react-feather';
+import { LocaleContext } from '../../../containers/App/App';
 
 const TextWrapper = styled(Flex)`
   padding: 16px;
@@ -115,18 +116,28 @@ const CreateCommunityModal = (
     [error, text]
   );
   const session = React.useContext(SessionContext);
+  const localeCntx = React.useContext(LocaleContext);
   return (
     <Modal isOpen={modalIsOpen} toggleModal={() => toggleModal(false)}>
       {/* <Container> */}
       {/* <Form> */}
       <Comment user={props.author} comment={props.comment} noAction replyTo />
       <TextWrapper>
-        <Avatar
-          style={{
-            backgroundImage: `url(${session.session.user!.me!.user!.icon!})`
-          }}
-          mr={2}
-        />
+        {localeCntx.contentDirection == 'ltr' ? (
+          <Avatar
+            style={{
+              backgroundImage: `url(${session.session.user!.me!.user!.icon!})`
+            }}
+            mr={2}
+          />
+        ) : (
+          <Avatar
+            style={{
+              backgroundImage: `url(${session.session.user!.me!.user!.icon!})`
+            }}
+            ml={2}
+          />
+        )}
         <SocialText
           placeholder={i18n._(tt.placeholders.name)}
           name={'text'}
@@ -137,16 +148,16 @@ const CreateCommunityModal = (
         {error && touched && <Alert>{error}</Alert>}
       </TextWrapper>
       {/* <Actions>
-          
-          <Publish
-            onClick={submit}
-            disabled={isSubmitting}
-            type="submit"
-            style={{ marginLeft: '10px' }}
-          >
-           <Send size="24" />
-          </Publish>
-        </Actions> */}
+            
+            <Publish
+              onClick={submit}
+              disabled={isSubmitting}
+              type="submit"
+              style={{ marginLeft: '10px' }}
+            >
+             <Send size="24" />
+            </Publish>
+          </Actions> */}
       {/* </Form> */}
       {/* </Container> */}
     </Modal>

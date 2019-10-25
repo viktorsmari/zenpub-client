@@ -94,43 +94,70 @@ const Sidebar = props => {
             <LocaleContext.Consumer>
               {value => (
                 <Nav mt={3}>
-                  <NavItem
-                    style={
-                      props.switch === 'general'
-                        ? { background: 'rgba(0,0,0,.1)' }
-                        : { position: 'static' }
-                    }
-                    onClick={() => props.onSwitch('general')}
-                    alignItems={'center'}
-                  >
-                    <ItemTitle ml={2} fontSize={2} fontWeight={600} width={1}>
-                      <Trans>General Information</Trans>
-                    </ItemTitle>
-                    {value.contentDirection == 'ltr' ? (
+                  {value.contentDirection == 'ltr' ? (
+                    <NavItem
+                      style={
+                        props.switch === 'general'
+                          ? { background: 'rgba(0,0,0,.1)' }
+                          : { position: 'static' }
+                      }
+                      onClick={() => props.onSwitch('general')}
+                      alignItems={'center'}
+                    >
+                      <ItemTitle ml={2} fontSize={2} fontWeight={600} width={1}>
+                        <Trans>General Information</Trans>
+                      </ItemTitle>
                       <ChevronRight size={24} />
-                    ) : (
+                    </NavItem>
+                  ) : (
+                    <NavItem
+                      style={
+                        props.switch === 'general'
+                          ? { background: 'rgba(0,0,0,.1)' }
+                          : { position: 'static' }
+                      }
+                      onClick={() => props.onSwitch('general')}
+                      alignItems={'center'}
+                    >
+                      <ItemTitle mr={2} fontSize={2} fontWeight={600} width={1}>
+                        <Trans>General Information</Trans>
+                      </ItemTitle>
                       <ChevronLeft size={24} />
-                    )}
-                  </NavItem>
-                  <NavItem
-                    style={
-                      props.switch === 'preferences'
-                        ? { background: 'rgba(0,0,0,.1)' }
-                        : { position: 'static' }
-                    }
-                    onClick={() => props.onSwitch('preferences')}
-                    mb={3}
-                    alignItems={'center'}
-                  >
-                    <ItemTitle ml={2} fontSize={2} fontWeight={600} width={1}>
-                      <Trans>Preferences</Trans>
-                    </ItemTitle>
-                    {value.contentDirection == 'ltr' ? (
+                    </NavItem>
+                  )}
+                  {value.contentDirection == 'ltr' ? (
+                    <NavItem
+                      style={
+                        props.switch === 'preferences'
+                          ? { background: 'rgba(0,0,0,.1)' }
+                          : { position: 'static' }
+                      }
+                      onClick={() => props.onSwitch('preferences')}
+                      mb={3}
+                      alignItems={'center'}
+                    >
+                      <ItemTitle ml={2} fontSize={2} fontWeight={600} width={1}>
+                        <Trans>Preferences</Trans>
+                      </ItemTitle>
                       <ChevronRight size={24} />
-                    ) : (
+                    </NavItem>
+                  ) : (
+                    <NavItem
+                      style={
+                        props.switch === 'preferences'
+                          ? { background: 'rgba(0,0,0,.1)' }
+                          : { position: 'static' }
+                      }
+                      onClick={() => props.onSwitch('preferences')}
+                      mb={3}
+                      alignItems={'center'}
+                    >
+                      <ItemTitle mr={2} fontSize={2} fontWeight={600} width={1}>
+                        <Trans>Preferences</Trans>
+                      </ItemTitle>
                       <ChevronLeft size={24} />
-                    )}
-                  </NavItem>
+                    </NavItem>
+                  )}
                 </Nav>
               )}
             </LocaleContext.Consumer>

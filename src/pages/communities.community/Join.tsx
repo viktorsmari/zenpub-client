@@ -133,6 +133,10 @@ const Span = styled.div`
     vertical-align: text-top;
     color: ${props => props.theme.styles.colors.orange};
   }
+  .--rtl & {
+    margin-left: 0px;
+    margin-right: 8px;
+  }
 `;
 
 export default compose(

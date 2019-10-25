@@ -74,6 +74,14 @@ export const Actions = styled.div`
   & button {
     float: right;
   }
+  .--rtl & {
+    padding-right: 0px;
+    padding-left: 10px;
+    text-align: left;
+  }
+  .--rtl & button {
+    float: left;
+  }
 `;
 
 export const CounterChars = styled.div`
@@ -86,6 +94,9 @@ export const CounterChars = styled.div`
   margin-top: 4px;
   color: #32302e;
   letter-spacing: 1px;
+  .--rtl & {
+    float: left;
+  }
 `;
 
 export const ContainerForm = styled.div`

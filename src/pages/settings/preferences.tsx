@@ -36,9 +36,15 @@ const Preferences = props => (
               onClick={() => props.onSwitch('sidebar')}
             />
           )}
-          <Heading ml={2}>
-            <Trans>Preferences</Trans>
-          </Heading>
+          {value.contentDirection == 'ltr' ? (
+            <Heading ml={2}>
+              <Trans>Preferences</Trans>
+            </Heading>
+          ) : (
+            <Heading mr={2}>
+              <Trans>Preferences</Trans>
+            </Heading>
+          )}
         </Header>
         <Row>
           <ContainerForm>

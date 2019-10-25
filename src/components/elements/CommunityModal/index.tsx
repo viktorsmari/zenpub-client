@@ -12,6 +12,7 @@ import { Heading } from 'rebass';
 import { Button } from 'rebass';
 import Modal from '../Modal';
 import { Input, Textarea } from '@rebass/forms';
+import { LocaleContext } from '../../../containers/App/App';
 import {
   Actions,
   Container,
@@ -135,14 +136,29 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
               {errors.image && touched.image && <Alert>{errors.image}</Alert>}
             </ContainerForm>
           </Row>
-          <Actions>
-            <Button disabled={isSubmitting} type="submit" ml={2}>
-              <Trans>Create</Trans>
-            </Button>
-            <Button onClick={toggleModal}>
-              <Trans>Cancel</Trans>
-            </Button>
-          </Actions>
+          <LocaleContext.Consumer>
+            {value =>
+              value.contentDirection == 'ltr' ? (
+                <Actions>
+                  <Button disabled={isSubmitting} type="submit" ml={2}>
+                    <Trans>Create</Trans>
+                  </Button>
+                  <Button onClick={toggleModal}>
+                    <Trans>Cancel</Trans>
+                  </Button>
+                </Actions>
+              ) : (
+                <Actions>
+                  <Button onClick={toggleModal} ml={2}>
+                    <Trans>Cancel</Trans>
+                  </Button>
+                  <Button disabled={isSubmitting} type="submit" ml={2}>
+                    <Trans>Create</Trans>
+                  </Button>
+                </Actions>
+              )
+            }
+          </LocaleContext.Consumer>
         </Form>
       </Container>
     </Modal>

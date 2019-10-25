@@ -9,6 +9,8 @@ import { withFormik, FormikProps, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import Alert from '../../elements/Alert';
 import { graphql, OperationOption } from 'react-apollo';
+import { LocaleContext } from '../../../containers/App/App';
+
 const {
   updateResourceMutation
 } = require('../../../graphql/updateResource.graphql');
@@ -152,18 +154,37 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
               {errors.image && touched.image && <Alert>{errors.image}</Alert>}
             </ContainerForm>
           </Row>
-          <Actions>
-            <Button
-              disabled={isSubmitting}
-              type="submit"
-              style={{ marginLeft: '10px' }}
-            >
-              <Trans>Save</Trans>
-            </Button>
-            <Button onClick={toggleModal} secondary>
-              <Trans>Cancel</Trans>
-            </Button>
-          </Actions>
+          <LocaleContext.Consumer>
+            {value =>
+              value.contentDirection == 'ltr' ? (
+                <Actions>
+                  <Button
+                    disabled={isSubmitting}
+                    type="submit"
+                    style={{ marginLeft: '10px' }}
+                  >
+                    <Trans>Save</Trans>
+                  </Button>
+                  <Button onClick={toggleModal} secondary>
+                    <Trans>Cancel</Trans>
+                  </Button>
+                </Actions>
+              ) : (
+                <Actions>
+                  <Button onClick={toggleModal} secondary>
+                    <Trans>Cancel</Trans>
+                  </Button>
+                  <Button
+                    disabled={isSubmitting}
+                    type="submit"
+                    style={{ marginLeft: '10px' }}
+                  >
+                    <Trans>Save</Trans>
+                  </Button>
+                </Actions>
+              )
+            }
+          </LocaleContext.Consumer>
         </Form>
       </Container>
     </Modal>

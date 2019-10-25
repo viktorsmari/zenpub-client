@@ -113,6 +113,10 @@ const Info = styled.div`
     text-decoration: none;
     color: inherit;
   }
+  .--rtl & {
+    margin-left: 0px;
+    margin-right: 8px;
+  }
 `;
 const Url = styled.div`
   margin-bottom: 8px;

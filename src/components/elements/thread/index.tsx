@@ -49,6 +49,10 @@ const Spacer = styled(Text)`
   color: ${props => props.theme.styles.colors.gray};
   margin-right: 8px;
   font-weight: 500;
+  .--rtl & {
+    margin-right: 0px;
+    margin-left: 8px;
+  }
 `;
 
 const Date = styled(Text)`

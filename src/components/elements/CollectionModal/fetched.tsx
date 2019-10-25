@@ -15,6 +15,7 @@ import Alert from '../Alert';
 import Button, { LoaderButton } from '../Button/Button';
 import { Actions, ContainerForm, CounterChars, Row } from '../Modal/modal';
 import ResourceCard from '../Resource/Resource';
+import { LocaleContext } from '../../../containers/App/App';
 
 const {
   createResourceMutation
@@ -168,18 +169,37 @@ const Fetched = (props: Props & FormikProps<FormValues>) => (
             props.touched.image && <Alert>{props.errors.image}</Alert>}
         </ContainerForm>
       </Row>
-      <Actions>
-        <LoaderButton
-          loading={props.isSubmitting}
-          disabled={props.isSubmitting}
-          text={i18n._(tt.placeholders.submit)}
-          type="submit"
-          style={{ marginLeft: '10px' }}
-        />
-        <Button onClick={props.toggleModal} secondary>
-          <Trans>Cancel</Trans>
-        </Button>
-      </Actions>
+      <LocaleContext.Consumer>
+        {value =>
+          value.contentDirection == 'ltr' ? (
+            <Actions>
+              <LoaderButton
+                loading={props.isSubmitting}
+                disabled={props.isSubmitting}
+                text={i18n._(tt.placeholders.submit)}
+                type="submit"
+                style={{ marginLeft: '10px' }}
+              />
+              <Button onClick={props.toggleModal} secondary>
+                <Trans>Cancel</Trans>
+              </Button>
+            </Actions>
+          ) : (
+            <Actions>
+              <Button onClick={props.toggleModal} secondary>
+                <Trans>Cancel</Trans>
+              </Button>
+              <LoaderButton
+                loading={props.isSubmitting}
+                disabled={props.isSubmitting}
+                text={i18n._(tt.placeholders.submit)}
+                type="submit"
+                style={{ marginLeft: '10px' }}
+              />
+            </Actions>
+          )
+        }
+      </LocaleContext.Consumer>
     </Form>
   </>
 );
