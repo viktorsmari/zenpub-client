@@ -5,7 +5,6 @@ import {
   IntrospectionFragmentMatcher
 } from 'apollo-cache-inmemory';
 import { setContext } from 'apollo-link-context';
-import { withClientState } from 'apollo-link-state';
 import { createAbsintheSocketLink } from '@absinthe/socket-apollo-link';
 import { Socket as PhoenixSocket } from 'phoenix';
 import { createHttpLink } from 'apollo-link-http';
@@ -13,8 +12,6 @@ import { hasSubscription } from '@jumpn/utils-graphql';
 import apolloLogger from 'apollo-link-logger';
 import * as AbsintheSocket from '@absinthe/socket';
 const introspectionQueryResultData = require('../fragmentTypes.json');
-import resolvers from './resolvers';
-import typeDefs from './typeDefs';
 import {
   GRAPHQL_ENDPOINT,
   PHOENIX_SOCKET_ENDPOINT,
@@ -25,7 +22,6 @@ import {
 import { onError } from 'apollo-link-error';
 
 // const { meQuery } = require('../graphql/me.graphql');
-const { setUserMutation } = require('../graphql/setUser.client.graphql');
 
 export default async function initialise() {
   const fragmentMatcher = new IntrospectionFragmentMatcher({
@@ -33,21 +29,6 @@ export default async function initialise() {
   });
 
   const cache = new InMemoryCache({ fragmentMatcher });
-  let token = localStorage.getItem(LOCAL_STORAGE_USER_ACCESS_TOKEN);
-  const defaults = {
-    user: {
-      __typename: 'User',
-      isAuthenticated: !!token
-      // data: user ? JSON.parse(user) : null
-    }
-  };
-
-  const stateLink = withClientState({
-    cache,
-    resolvers,
-    defaults,
-    typeDefs
-  });
 
   /**
    * This context link is used to assign the necessary Authorization header
@@ -110,14 +91,27 @@ export default async function initialise() {
     };
   });
 
+  // const mutationFinder = new ApolloLink((operation,nextLink)=>{
+  //   const foundMutationDef = operation.query.definitions.find(def =>
+  //     def.kind ==='OperationDefinition' &&
+  //     def.name &&
+  //     def.name.value===operation.operationName &&
+  //     def.operation==='mutation'
+  //     )
+  //   if(foundMutationDef){
+  //     console.log('*** foundMutationDef **', operation.operationName, foundMutationDef, operation)
+  //   }
+  //   return nextLink(operation)
+  // })
+
   // used for graphql query and mutations
   const httpLink = ApolloLink.from(
     [
       IS_DEV ? apolloLogger : null,
       errorLink,
-      stateLink,
       authLink,
       headersLink,
+      // mutationFinder,
       createHttpLink({ uri: GRAPHQL_ENDPOINT })
     ].filter(Boolean)
   );
@@ -151,52 +145,6 @@ export default async function initialise() {
         errorPolicy: 'all'
       }
     }
-  });
-
-  // interface MeQueryResult extends ApolloQueryResult<object> {
-  //   // TODO don't use any type
-  //   me: any;
-  // }
-
-  /**
-   * Initialise the Apollo client by fetching the logged in user
-   * if the user has an existing token in local storage.
-   * @returns {ApolloClient} the apollo client
-   */
-  let localUser;
-
-  try {
-    // const result = await client.query<MeQueryResult>({
-    //   query: meQuery
-    // });
-    // console.log('logged in');
-    // console.log(result);
-    localUser = {
-      isAuthenticated: true
-      // data: {
-      //   ...result.data.me.user,
-      //   email: result.data.me.email
-      // }
-    };
-  } catch (err) {
-    console.log('err');
-    console.error(err.message);
-
-    if (err.message.includes('You are not logged in')) {
-      localStorage.removeItem('user_access_token');
-    } else {
-      //TODO handle unknown error / warn user?
-    }
-
-    localUser = {
-      isAuthenticated: false
-      // data: null
-    };
-  }
-
-  await client.mutate({
-    variables: localUser,
-    mutation: setUserMutation
   });
 
   return client;

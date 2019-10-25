@@ -1,9 +1,6 @@
 import * as React from 'react';
-import { graphql } from 'react-apollo';
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
 import { LOCAL_STORAGE_USER_ACCESS_TOKEN } from '../../constants';
-
-const { getUserQuery } = require('../../graphql/getUser.client.graphql');
 
 interface ProtectedRouteProps extends RouteComponentProps {
   redirectUnauthenticatedTo?: string;
@@ -20,7 +17,7 @@ interface ProtectedRouteProps extends RouteComponentProps {
  * @param rest {Object} props or the Route component
  * @constructor
  */
-function ProtectedRoute({ component: Component, data, ...rest }) {
+function ProtectedRoute({ component: Component, ...rest }) {
   const token = localStorage.getItem(LOCAL_STORAGE_USER_ACCESS_TOKEN);
   return (
     <Route
@@ -42,8 +39,4 @@ function ProtectedRoute({ component: Component, data, ...rest }) {
   );
 }
 
-const WrappedComponent = graphql(getUserQuery)(ProtectedRoute);
-
-export default function({ ...props }) {
-  return <WrappedComponent {...props} />;
-}
+export default ProtectedRoute;

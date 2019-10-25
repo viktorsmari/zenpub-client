@@ -400,24 +400,6 @@ class Login extends React.Component<LoginProps, LoginState> {
     );
   }
 }
-
-export interface Args {
-  data: {
-    isAuthenticated: boolean;
-    user: any;
-  };
-}
-
-// get the user auth object from local cache
-// const withUser = graphql<{}, Args>(getUserQuery);
-
-// get user mutation so we can set the user in the local cache
-// const withSetLocalUser = graphql<{}, Args>(setUserMutation, {
-//   name: 'setLocalUser'
-//   // TODO enforce proper types for OperationOption
-// } as OperationOption<{}, {}>);
-
-// to login via the API
 const withLogin = graphql(loginMutation, {
   name: 'login'
   // TODO enforce proper types for OperationOption
