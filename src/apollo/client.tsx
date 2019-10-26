@@ -93,16 +93,16 @@ export default async function initialise() {
     };
   });
 
-  const interceptors = new Set<Interceptor<OperationName>>();
+  const operationInterceptors = new Set<Interceptor<OperationName>>();
 
   const addInterceptor = (interc: Interceptor<OperationName>) => {
-    interceptors.add(interc);
+    operationInterceptors.add(interc);
     return () => {
-      interceptors.delete(interc);
+      operationInterceptors.delete(interc);
     };
   };
 
-  const interceptorLink = new ApolloLink((operation, nextLink) => {
+  const oprationInterceptorLink = new ApolloLink((operation, nextLink) => {
     const maybeOperationDef = operation.query.definitions.find(
       (def): def is OperationDefinitionNode =>
         def.kind === 'OperationDefinition' &&
@@ -129,11 +129,13 @@ export default async function initialise() {
         ''
       ) as OperationName;
 
-      for (const interceptor of interceptors) {
+      for (const interceptor of operationInterceptors) {
         if (interceptor.operation === defOpName) {
           const interceptorAction = interceptor.request(operation);
           if (interceptorAction === false) {
-            interceptorOperationResponseHandlers.forEach(_ => _(ABORT));
+            interceptorOperationResponseHandlers.forEach(responseHandler =>
+              responseHandler(ABORT)
+            );
             const error = new GraphQLError(`Operation ${defOpName} Aborted`);
             const result: FetchResult = {
               errors: [error],
@@ -150,7 +152,9 @@ export default async function initialise() {
     }
 
     return nextLink(operation).map(result => {
-      interceptorOperationResponseHandlers.forEach(_ => _(result));
+      interceptorOperationResponseHandlers.forEach(responseHandler =>
+        responseHandler(result)
+      );
       return result;
     });
   });
@@ -159,10 +163,10 @@ export default async function initialise() {
   const httpLink = ApolloLink.from(
     [
       IS_DEV ? apolloLogger : null,
+      oprationInterceptorLink,
       errorLink,
       authLink,
       headersLink,
-      interceptorLink,
       createHttpLink({ uri: GRAPHQL_ENDPOINT })
     ].filter(Boolean)
   );
@@ -197,12 +201,12 @@ export default async function initialise() {
       }
     }
   });
-  const interceptor = {
+  const opInterceptor = {
     add: addInterceptor
   };
   return {
     client,
-    interceptor
+    opInterceptor
   };
 }
 export interface InterceptorSrv {

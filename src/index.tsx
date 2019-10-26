@@ -56,7 +56,7 @@ async function run() {
     <ApolloProvider client={apolloClient.client}>
       <ProvideContexts
         store={store}
-        apolloInterceptor={apolloClient.interceptor}
+        apolloInterceptor={apolloClient.opInterceptor}
       >
         <Global />
         <App />
