@@ -53,8 +53,11 @@ async function run() {
   `;
   const store = createStore();
   const ApolloApp = () => (
-    <ApolloProvider client={apolloClient}>
-      <ProvideContexts store={store}>
+    <ApolloProvider client={apolloClient.client}>
+      <ProvideContexts
+        store={store}
+        apolloInterceptor={apolloClient.interceptor}
+      >
         <Global />
         <App />
       </ProvideContexts>
