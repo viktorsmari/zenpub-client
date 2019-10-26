@@ -20,6 +20,8 @@ import {
 } from '../constants';
 
 import { onError } from 'apollo-link-error';
+// import { RootMutationType } from '../generated/graphqlapollo';
+// import { OperationDefinitionNode } from 'graphql';
 
 // const { meQuery } = require('../graphql/me.graphql');
 
@@ -92,14 +94,22 @@ export default async function initialise() {
   });
 
   // const mutationFinder = new ApolloLink((operation,nextLink)=>{
-  //   const foundMutationDef = operation.query.definitions.find(def =>
+  //   type MutationName = keyof RootMutationType
+
+  //   const maybeMutationDef = operation.query.definitions.find((def):def is OperationDefinitionNode =>
   //     def.kind ==='OperationDefinition' &&
-  //     def.name &&
-  //     def.name.value===operation.operationName &&
-  //     def.operation==='mutation'
-  //     )
-  //   if(foundMutationDef){
-  //     console.log('*** foundMutationDef **', operation.operationName, foundMutationDef, operation)
+  //     def.operation==='mutation' &&
+  //     !!def.name &&
+  //     def.name.value === operation.operationName &&
+  //     !!def
+  //   )
+
+  //   if(maybeMutationDef){
+  //     console.log('*** found a mutation', operation.operationName)
+  //     const mutationName = operation.operationName.replace(/Mutation$/,'') as MutationName
+  //     if(mutationName==='undoLikeComment'){
+  //       console.log('*** found undoLikeComment **', mutationName, operation)
+  //     }
   //   }
   //   return nextLink(operation)
   // })

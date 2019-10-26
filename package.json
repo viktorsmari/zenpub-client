@@ -13,7 +13,7 @@
     "docs": "typedoc --out docs src",
     "docz:dev": "docz dev --typescript",
     "docz:build": "docz build --typescript",
-    "gqlcode": "graphql-codegen --config src/generated/codegen.yml"
+    "gqlcode": "graphql-codegen --config ./codegen.yml"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,md}": [
