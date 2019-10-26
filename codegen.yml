@@ -2,11 +2,16 @@ overwrite: true
 schema: "https://home.next.moodle.net/api/graphql"
 documents: "src/**/!(*.client).graphql"
 generates:
-  src/gql/sdk.ts:
+  src/generated/graphqlapollo.tsx:
     plugins:
       - "typescript"
       - "typescript-operations"
-      - "typescript-graphql-request"
+      - "typescript-react-apollo"
+      - "fragment-matcher"
+    config:
+      reactApolloVersion: 3
+      withHooks: true
+      withHOC: true
   ./graphql.schema.json:
     plugins:
       - "introspection"
