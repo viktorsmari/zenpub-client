@@ -13,9 +13,7 @@ import Link from '../../components/elements/Link/Link';
 import SignupModal from '../../components/elements/SignupModal';
 import { APP_NAME } from '../../constants';
 import { i18n } from '../../containers/App/App';
-// import { GlobCtx } from '../../context/global/GLOB';
 import { SessionContext } from '../../context/global/sessionCtx';
-// import { login } from '../../redux/session';
 import styled, { ThemeInterface } from '../../themes/styled';
 import LoginForm from './LoginForm';
 import { ValidationField, ValidationObject, ValidationType } from './types';
@@ -210,11 +208,6 @@ type CredentialsObject = {
   email: string;
   password: string;
 };
-//
-// const DEMO_CREDENTIALS = {
-//   email: 'moodle@moodle.net',
-//   password: 'moodle'
-// };
 
 class Login extends React.Component<LoginProps, LoginState> {
   // static contextType = GlobCtx;
@@ -265,11 +258,8 @@ class Login extends React.Component<LoginProps, LoginState> {
     }
 
     this.setState({ authenticating: true });
-
-    let result;
-
     try {
-      result = await this.props.login({
+      await this.props.login({
         variables: credentials
       });
     } catch (err) {
@@ -289,17 +279,6 @@ class Login extends React.Component<LoginProps, LoginState> {
         ]
       });
       return;
-    }
-
-    this.setState({ authenticating: false });
-
-    const userData = result.data.createSession;
-
-    //TODO all in global business logic (redux/mw)
-    if (userData) {
-      // TODO pull key out into constant
-      //  this.context.action.dispatch(login.create(userData));
-      // window.location.reload();
     }
   }
 

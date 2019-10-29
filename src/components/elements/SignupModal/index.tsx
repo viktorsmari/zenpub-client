@@ -1,15 +1,8 @@
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
-import {
-  Field,
-  Form /* , FormikProps */ /* , withFormik */,
-  Formik
-} from 'formik';
+import { Field, Form, Formik } from 'formik';
 import * as React from 'react';
-// import { compose } from 'recompose';
-import { ApolloConsumer /* , graphql, OperationOption */ } from 'react-apollo';
-// import { getGlob } from '../../../context/global/GLOB';
-// import { login } from '../../../redux/session';
+import { ApolloConsumer } from 'react-apollo';
 import * as Yup from 'yup';
 import { i18n } from '../../../containers/App/App';
 import Alert from '../../elements/Alert';
@@ -19,7 +12,6 @@ import Button from '../Button/Button';
 import Modal from '../Modal';
 import { Row, Container, Actions, ContainerForm, Header } from '../Modal/modal';
 import { useCreateUserMutationMutation } from '../../../generated/graphqlapollo';
-// const { createUserMutation } = require('../../../graphql/createUser.graphql');
 const checkUsername = require('../../../graphql/checkUsername.graphql');
 
 let tt = {
@@ -35,9 +27,6 @@ let tt = {
 interface Props {
   toggleModal?: any;
   modalIsOpen?: boolean;
-  // errors: any;
-  // touched: any;
-  // isSubmitting: boolean;
 }
 
 interface FormValues {
@@ -47,11 +36,6 @@ interface FormValues {
   username: string;
   passwordConfirm: string;
 }
-
-// interface MyFormProps {
-//   createUser: any;
-//   toggleModal: any;
-// }
 
 async function validateUsername(value, client) {
   // TODO use the same function in signup & edit profile
@@ -80,16 +64,8 @@ async function validateUsername(value, client) {
   }
 }
 
-// const withCreateUser = graphql<{}>(createUserMutation, {
-//   name: 'createUser'
-//   // TODO enforce proper types for OperationOption
-// } as OperationOption<{}, {}>);
-
-const CreateCommunityModal = (props: Props /* & FormikProps<FormValues> */) => {
-  const {
-    toggleModal,
-    modalIsOpen /* , errors, touched, isSubmitting */
-  } = props;
+const CreateCommunityModal = (props: Props) => {
+  const { toggleModal, modalIsOpen } = props;
   const [createUser /*, createUserResp*/] = useCreateUserMutationMutation();
   return (
     <ApolloConsumer>
@@ -280,50 +256,5 @@ const validationSchema = Yup.object().shape({
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
     .required('Password confirmation is required')
 });
-/* const ModalWithFormik = withFormik<MyFormProps, FormValues>({
-  mapPropsToValues: props => ({
-    name: '',
-    email: '',
-    username: '',
-    password: '',
-    passwordConfirm: ''
-  }),
-  validationSchema: Yup.object().shape({
-    name: Yup.string().required('Please enter your name or nickname'),
-    email: Yup.string()
-      .email()
-      .required('Please enter your email'),
-    password: Yup.string()
-      .min(6)
-      .required('Password is required'),
-    passwordConfirm: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Passwords must match')
-      .required('Password confirmation is required')
-  }),
-  handleSubmit: (values, { props, setSubmitting }) => {
-    const variables = {
-      user: {
-        email: values.email,
-        name: values.name,
-        password: values.password,
-        preferredUsername: values.username
-      }
-    };
-    return props
-      .createUser({
-        variables: variables
-      })
-      .then(res => {
-        getGlob().action.dispatch(login.create(res.data.createUser));
-        setSubmitting(false);
-        window.location.reload();
-      })
-      .catch(err => {
-        setSubmitting(false);
-        alert(err);
-        console.log(err);
-      });
-  }
-})(CreateCommunityModal);
- */
-export default CreateCommunityModal; // compose(withCreateUser)(ModalWithFormik);
+
+export default CreateCommunityModal;

@@ -259,17 +259,6 @@ export const getOperationName = (
   if (!maybeOperationName) {
     return null;
   }
-  const opName = maybeOperationName as OperationName; /*  operation.operationName.replace(
-    new RegExp(
-      `${
-        maybeOperationDef.operation === 'mutation'
-          ? 'Mutation'
-          : maybeOperationDef.operation === 'query'
-            ? 'Query'
-            : 'Subscription'
-      }$`
-    ),
-    ''
-  ) as OperationName; */
+  const opName = maybeOperationName as OperationName;
   return opName;
 };
