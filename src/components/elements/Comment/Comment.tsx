@@ -30,6 +30,7 @@ const CommentWrapper: React.FC<EventProps> = ({ comment, noAction }) => {
     },
     [comment, iLikeIt]
   );
+
   return (
     <FeedItem>
       <NavigateToThread to={`/thread/${comment!.localId}`} />
