@@ -1,4 +1,4 @@
-import { ApolloLink } from 'apollo-link';
+import { ApolloLink, Operation, Observable, FetchResult } from 'apollo-link';
 import { ApolloClient } from 'apollo-client';
 import {
   InMemoryCache,
@@ -20,8 +20,8 @@ import {
 } from '../constants';
 
 import { onError } from 'apollo-link-error';
-// import { RootMutationType } from '../generated/graphqlapollo';
-// import { OperationDefinitionNode } from 'graphql';
+import { RootMutationType, RootQueryType } from '../generated/graphqlapollo';
+import { OperationDefinitionNode, GraphQLError } from 'graphql';
 
 // const { meQuery } = require('../graphql/me.graphql');
 
@@ -93,35 +93,80 @@ export default async function initialise() {
     };
   });
 
-  // const mutationFinder = new ApolloLink((operation,nextLink)=>{
-  //   type MutationName = keyof RootMutationType
+  const operationInterceptors = new Set<Interceptor<OperationName>>();
 
-  //   const maybeMutationDef = operation.query.definitions.find((def):def is OperationDefinitionNode =>
-  //     def.kind ==='OperationDefinition' &&
-  //     def.operation==='mutation' &&
-  //     !!def.name &&
-  //     def.name.value === operation.operationName &&
-  //     !!def
-  //   )
+  const addInterceptor = (interc: Interceptor<OperationName>) => {
+    operationInterceptors.add(interc);
+    return () => {
+      operationInterceptors.delete(interc);
+    };
+  };
 
-  //   if(maybeMutationDef){
-  //     console.log('*** found a mutation', operation.operationName)
-  //     const mutationName = operation.operationName.replace(/Mutation$/,'') as MutationName
-  //     if(mutationName==='undoLikeComment'){
-  //       console.log('*** found undoLikeComment **', mutationName, operation)
-  //     }
-  //   }
-  //   return nextLink(operation)
-  // })
+  const oprationInterceptorLink = new ApolloLink((operation, nextLink) => {
+    const maybeOperationDef = operation.query.definitions.find(
+      (def): def is OperationDefinitionNode =>
+        def.kind === 'OperationDefinition' &&
+        !!def.name &&
+        def.name.value === operation.operationName &&
+        !!def
+    );
+
+    const interceptorOperationResponseHandlers: InterceptorOperationResponseHandler<
+      OperationName
+    >[] = [];
+
+    if (maybeOperationDef) {
+      const defOpName = operation.operationName.replace(
+        new RegExp(
+          `${
+            maybeOperationDef.operation === 'mutation'
+              ? 'Mutation'
+              : maybeOperationDef.operation === 'query'
+                ? 'Query'
+                : 'Subscription'
+          }$`
+        ),
+        ''
+      ) as OperationName;
+
+      for (const interceptor of operationInterceptors) {
+        if (interceptor.operation === defOpName) {
+          const interceptorAction = interceptor.request(operation);
+          if (interceptorAction === false) {
+            interceptorOperationResponseHandlers.forEach(responseHandler =>
+              responseHandler(ABORT)
+            );
+            const error = new GraphQLError(`Operation ${defOpName} Aborted`);
+            const result: FetchResult = {
+              errors: [error],
+              data: null,
+              context: operation.getContext(),
+              extensions: operation.extensions
+            };
+            return Observable.of(result);
+          } else if ('function' === typeof interceptorAction) {
+            interceptorOperationResponseHandlers.push(interceptorAction);
+          }
+        }
+      }
+    }
+
+    return nextLink(operation).map(result => {
+      interceptorOperationResponseHandlers.forEach(responseHandler =>
+        responseHandler(result)
+      );
+      return result;
+    });
+  });
 
   // used for graphql query and mutations
   const httpLink = ApolloLink.from(
     [
       IS_DEV ? apolloLogger : null,
+      oprationInterceptorLink,
       errorLink,
       authLink,
       headersLink,
-      // mutationFinder,
       createHttpLink({ uri: GRAPHQL_ENDPOINT })
     ].filter(Boolean)
   );
@@ -156,6 +201,36 @@ export default async function initialise() {
       }
     }
   });
-
-  return client;
+  const opInterceptor = {
+    add: addInterceptor
+  };
+  return {
+    client,
+    opInterceptor
+  };
 }
+export interface InterceptorSrv {
+  add: (interc: Interceptor<OperationName>) => () => void;
+}
+export type MutationName = keyof RootMutationType;
+export type QueryName = keyof RootQueryType;
+export type OperationName = QueryName | MutationName;
+
+export type ResponseOf<
+  OpName extends OperationName
+> = OpName extends MutationName
+  ? RootMutationType[OpName]
+  : OpName extends QueryName ? RootQueryType[OpName] : never;
+
+export type InterceptorOperationResponseHandler<
+  OpName extends OperationName
+> = (response: ResponseOf<OpName> | ABORT) => unknown;
+
+export type Interceptor<OpName extends OperationName> = {
+  operation: OpName;
+  request: (
+    operation: Operation
+  ) => InterceptorOperationResponseHandler<OpName> | boolean | ABORT;
+};
+export const ABORT = Symbol();
+export type ABORT = typeof ABORT;
