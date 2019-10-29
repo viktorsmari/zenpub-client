@@ -5,3 +5,6 @@ export interface KVStore {
   get(key: Key): Val;
   del(key: Key): Val;
 }
+export interface CreateKVStore {
+  (prefix?: string): KVStore;
+}
