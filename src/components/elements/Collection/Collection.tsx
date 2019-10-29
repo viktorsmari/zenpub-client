@@ -38,7 +38,7 @@ export default ({ collection, communityId, openModal }: CollectionProps) => {
               ? collection.name.replace(/^(.{76}[^\s]*).*/, '$1...')
               : collection.name}
           </Title>
-          <Desc mb={2}>
+          <Desc mt={2}>
             {collection.summary.length > 320
               ? collection.summary.replace(
                   /^([\s\S]{316}[^\s]*)[\s\S]*/,
@@ -48,27 +48,14 @@ export default ({ collection, communityId, openModal }: CollectionProps) => {
           </Desc>
           <Actions>
             <ActionItem>
-              {(collection.resources && collection.resources.totalCount) || 0}{' '}
               <Resource
                 width={18}
                 height={18}
                 strokeWidth={2}
                 color={'#8b98a2'}
               />
+              {(collection.resources && collection.resources.totalCount) || 0}{' '}
             </ActionItem>
-            {/* <ActionItem>
-              {(collection.followers && collection.followers.totalCount) || 0}{' '}
-              <Eye width={18} height={18} strokeWidth={2} color={'#8b98a2'} />
-            </ActionItem> */}
-            {/* <ActionItem>
-              {(collection.threads && collection.threads.totalCount) || 0}{' '}
-              <Message
-                width={18}
-                height={18}
-                strokeWidth={2}
-                color={'#8b98a2'}
-              />
-            </ActionItem> */}
           </Actions>
         </Infos>
       </Link>
@@ -77,11 +64,9 @@ export default ({ collection, communityId, openModal }: CollectionProps) => {
 };
 
 const Actions = styled.div`
-  padding-top: 8px;
-  background: #f5f6f7;
-  padding: 8px;
-  border-radius: 4px;
   display: inline-block;
+  position: absolute;
+  bottom: 0;
 `;
 const ActionItem = styled.div`
   display: inline-block;
@@ -92,6 +77,7 @@ const ActionItem = styled.div`
   & svg {
     vertical-align: sub;
     color: inherit !important;
+    margin-right: 4px;
   }
 `;
 
@@ -122,14 +108,16 @@ const Img = styled.div`
 const Infos = styled.div`
   flex: 1;
   margin-left: 8px;
+  position: relative;
 `;
 const Title = styled(Heading)`
   color: ${props => props.theme.styles.colors.darkgray};
   font-size: 20px;
 `;
 const Desc = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.styles.colors.darkgray};
   line-height: 20px;
+  margin-bottom: 26px !important;
 `;
 
 // export default Collection;
