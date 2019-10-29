@@ -1,9 +1,11 @@
-import { KVStore } from './types';
+import { KVStore, CreateKVStore } from './types';
 
 type Type = 'session' | 'local';
 export const SESSION: Type = 'session';
 export const LOCAL: Type = 'local';
-export const create = (type: Type, prefix = ''): KVStore => {
+export const createLocalSessionKVStorage = (type: Type): CreateKVStore => (
+  prefix = ''
+): KVStore => {
   const storage = type == 'local' ? localStorage : sessionStorage;
   const pkey = key => `${prefix}${key}`;
   const get: KVStore['get'] = key =>

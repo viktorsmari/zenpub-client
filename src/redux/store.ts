@@ -1,23 +1,37 @@
-import { applyMiddleware, combineReducers, createStore, compose } from 'redux';
-import { createSessionMW, getCachedSession } from './session';
+import {
+  applyMiddleware,
+  combineReducers,
+  createStore,
+  compose,
+  Store
+} from 'redux';
+import { createSessionMW } from './session';
 import * as session from './session';
-import { login } from './session';
+import { CreateKVStore } from '../util/keyvaluestore/types';
 
-export type State = ReturnType<typeof reducer>;
-const reducer = combineReducers({
-  session: session.reducer
-});
+export type State = ReturnType<typeof createAppStore> extends Store<infer S>
+  ? S
+  : never;
 
-export default () => {
+interface Cfg {
+  createLocalKVStore: CreateKVStore;
+}
+export const createAppStore = ({ createLocalKVStore }: Cfg) => {
   const composeEnhancers =
     (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose();
   // const __DEV__ = (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
-  const enhancer = composeEnhancers(applyMiddleware(createSessionMW()));
+
+  const Session = createSessionMW(createLocalKVStore('SESSION#'));
+
+  const enhancer = composeEnhancers(applyMiddleware(Session.mw));
+
+  const reducer = combineReducers({
+    session: session.reducer(Session.initialState)
+  });
 
   const store = createStore(reducer, enhancer);
 
-  const user = getCachedSession();
-  store.dispatch(login.create(user));
-
   return store;
 };
+
+export default createAppStore;

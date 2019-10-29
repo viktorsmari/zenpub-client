@@ -7,6 +7,7 @@ import registerServiceWorker from './registerServiceWorker';
 import { createGlobalStyle } from './themes/styled';
 import { ProvideContexts } from './context/global';
 import createStore from './redux/store';
+import { createLocalSessionKVStorage } from './util/keyvaluestore/localSessionStorage';
 
 run();
 async function run() {
@@ -51,7 +52,8 @@ async function run() {
       width: 100%; }
       }
   `;
-  const store = createStore();
+  const KVlocalStorageCreate = createLocalSessionKVStorage('local');
+  const store = createStore({ createLocalKVStore: KVlocalStorageCreate });
   const ApolloApp = () => (
     <ApolloProvider client={apolloClient.client}>
       <ProvideContexts
