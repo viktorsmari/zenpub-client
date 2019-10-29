@@ -4,9 +4,11 @@ import { Box, Flex } from 'rebass';
 import { string } from 'yup';
 import { i18n } from '../../../containers/App/App';
 import CommentCmp from '../Comment/Comment';
-import { Comment } from '../../../generated/graphqlapollo';
+import {
+  Comment,
+  useCreateReplyMutationMutation
+} from '../../../generated/graphqlapollo';
 import styled from '../../../themes/styled';
-import { CommentCtx } from '../../../context/commentCtx';
 import { SessionContext } from '../../../context/global/sessionCtx';
 import Alert from '../../elements/Alert';
 import Modal from '../Modal';
@@ -61,8 +63,8 @@ const CreateCommunityModal: React.FC<Props> = ({
   modalIsOpen,
   toggleModal
 }) => {
+  const [reply /* ,replyResult */] = useCreateReplyMutationMutation();
   const session = React.useContext(SessionContext);
-  const commentCtx = React.useContext(CommentCtx);
   const [text, setText] = React.useState('');
   const [error, setError] = React.useState('');
   const [touched, setTouched] = React.useState(false);
@@ -84,9 +86,11 @@ const CreateCommunityModal: React.FC<Props> = ({
       if (error) {
         return;
       }
-      commentCtx.replyComment({
-        id: comment.localId!,
-        comment: { content: text }
+      reply({
+        variables: {
+          id: comment.localId!,
+          comment: { content: text }
+        }
       });
       toggleModal(false);
     },

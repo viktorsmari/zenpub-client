@@ -8,8 +8,11 @@ import removeMd from 'remove-markdown';
 import styled from '../../../themes/styled';
 import Link from '../Link/Link';
 import Talk from '../TalkModal';
-import { CommentCtx } from '../../../context/commentCtx';
-import { Comment } from '../../../generated/graphqlapollo';
+import {
+  Comment,
+  useLikeCommentMutationMutation,
+  useUndoLikeCommentMutationMutation
+} from '../../../generated/graphqlapollo';
 
 interface EventProps {
   comment: Comment;
@@ -19,17 +22,19 @@ interface EventProps {
 const CommentWrapper: React.FC<EventProps> = ({ comment, noAction }) => {
   const FAKE________COMMENT_I_LIKE_IT = !!Math.round(Math.random());
   const { author } = comment;
-  const commentCtx = React.useContext(CommentCtx);
+  const [like /* , likeResult */] = useLikeCommentMutationMutation();
+  const [undoLike /* , likeResult */] = useUndoLikeCommentMutationMutation();
   const [iLikeIt, setiLikeIt] = React.useState(FAKE________COMMENT_I_LIKE_IT);
   const [isOpen, onOpen] = React.useState(false);
   const toggleLike = React.useCallback(
     () => {
-      const vars = { localId: comment.localId! };
-      (iLikeIt ? commentCtx.unlikeComment : commentCtx.likeComment)(vars);
+      const variables = { localId: comment.localId! };
+      (iLikeIt ? undoLike : like)({ variables });
       setiLikeIt(!iLikeIt);
     },
     [comment, iLikeIt]
   );
+
   return (
     <FeedItem>
       <NavigateToThread to={`/thread/${comment!.localId}`} />
