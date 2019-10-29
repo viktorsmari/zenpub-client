@@ -15,22 +15,43 @@ const introspectionQueryResultData = require('../fragmentTypes.json');
 import {
   GRAPHQL_ENDPOINT,
   PHOENIX_SOCKET_ENDPOINT,
-  LOCAL_STORAGE_USER_ACCESS_TOKEN,
   IS_DEV
 } from '../constants';
 
 import { onError } from 'apollo-link-error';
 import { RootMutationType, RootQueryType } from '../generated/graphqlapollo';
-import { OperationDefinitionNode, GraphQLError } from 'graphql';
+import { OperationDefinitionNode, GraphQLError, FieldNode } from 'graphql';
 
 // const { meQuery } = require('../graphql/me.graphql');
-
-export default async function initialise() {
+interface Cfg {
+  authToken?: string;
+}
+export default async function initialise({ authToken }: Cfg) {
   const fragmentMatcher = new IntrospectionFragmentMatcher({
     introspectionQueryResultData
   });
 
   const cache = new InMemoryCache({ fragmentMatcher });
+
+  const setTokenLink = new ApolloLink((operation, nextLink) => {
+    const createSessionOpName: OperationName = 'createSession';
+    const createUserOpName: OperationName = 'createUser';
+    const deleteSessionOpName: OperationName = 'deleteSession';
+    const opName = getOperationName(operation);
+    if (opName === deleteSessionOpName) {
+      authToken = undefined;
+    }
+    return nextLink(operation).map(resp => {
+      if (opName === createUserOpName || opName === createSessionOpName) {
+        const authPyload: ResponseOf<
+          typeof createSessionOpName | typeof createUserOpName
+        > = resp.data && resp.data[opName];
+        authToken =
+          authPyload && authPyload.token ? authPyload.token : undefined;
+      }
+      return resp;
+    });
+  });
 
   /**
    * This context link is used to assign the necessary Authorization header
@@ -38,14 +59,11 @@ export default async function initialise() {
    * is authenticated it sets their access token as the value, otherwise null.
    */
   const authLink = setContext((_, { headers }) => {
-    // get the authentication token from localstorage if it exists
-    let token = localStorage.getItem(LOCAL_STORAGE_USER_ACCESS_TOKEN);
-
     // return the headers to the context so httpLink can read them
     return {
       headers: {
         ...headers,
-        authorization: token ? `Bearer ${token}` : null
+        authorization: authToken ? `Bearer ${authToken}` : null
       }
     };
   });
@@ -82,7 +100,7 @@ export default async function initialise() {
     }
   );
 
-  const headersLink = setContext((_, ctx) => {
+  const clientAwarenessHeadersLinkForNonApollo3Server = setContext((_, ctx) => {
     const { headers } = ctx;
     return {
       ...ctx,
@@ -103,38 +121,17 @@ export default async function initialise() {
   };
 
   const oprationInterceptorLink = new ApolloLink((operation, nextLink) => {
-    const maybeOperationDef = operation.query.definitions.find(
-      (def): def is OperationDefinitionNode =>
-        def.kind === 'OperationDefinition' &&
-        !!def.name &&
-        def.name.value === operation.operationName &&
-        !!def
-    );
-
     const interceptorOperationResponseHandlers: InterceptorOperationResponseHandler<
       OperationName
     >[] = [];
-
-    if (maybeOperationDef) {
-      const defOpName = operation.operationName.replace(
-        new RegExp(
-          `${
-            maybeOperationDef.operation === 'mutation'
-              ? 'Mutation'
-              : maybeOperationDef.operation === 'query'
-                ? 'Query'
-                : 'Subscription'
-          }$`
-        ),
-        ''
-      ) as OperationName;
-
+    const defOpName = getOperationName(operation);
+    if (defOpName) {
       for (const interceptor of operationInterceptors) {
         if (interceptor.operation === defOpName) {
           const interceptorAction = interceptor.request(operation);
-          if (interceptorAction === false) {
+          if (interceptorAction === BLOCK_REQUEST) {
             interceptorOperationResponseHandlers.forEach(responseHandler =>
-              responseHandler(ABORT)
+              responseHandler(BLOCK_REQUEST)
             );
             const error = new GraphQLError(`Operation ${defOpName} Aborted`);
             const result: FetchResult = {
@@ -152,9 +149,11 @@ export default async function initialise() {
     }
 
     return nextLink(operation).map(result => {
-      interceptorOperationResponseHandlers.forEach(responseHandler =>
-        responseHandler(result)
-      );
+      if (defOpName) {
+        interceptorOperationResponseHandlers.forEach(responseHandler =>
+          responseHandler(result.data && result.data[defOpName])
+        );
+      }
       return result;
     });
   });
@@ -166,7 +165,8 @@ export default async function initialise() {
       oprationInterceptorLink,
       errorLink,
       authLink,
-      headersLink,
+      clientAwarenessHeadersLinkForNonApollo3Server,
+      setTokenLink,
       createHttpLink({ uri: GRAPHQL_ENDPOINT })
     ].filter(Boolean)
   );
@@ -210,7 +210,9 @@ export default async function initialise() {
   };
 }
 export interface InterceptorSrv {
-  add: (interc: Interceptor<OperationName>) => () => void;
+  add: <OpName extends OperationName>(
+    interc: Interceptor<OpName>
+  ) => () => void;
 }
 export type MutationName = keyof RootMutationType;
 export type QueryName = keyof RootQueryType;
@@ -224,13 +226,39 @@ export type ResponseOf<
 
 export type InterceptorOperationResponseHandler<
   OpName extends OperationName
-> = (response: ResponseOf<OpName> | ABORT) => unknown;
+> = (response: ResponseOf<OpName> | BlockRequest) => unknown;
 
 export type Interceptor<OpName extends OperationName> = {
   operation: OpName;
   request: (
     operation: Operation
-  ) => InterceptorOperationResponseHandler<OpName> | boolean | ABORT;
+  ) => InterceptorOperationResponseHandler<OpName> | void | BlockRequest;
 };
-export const ABORT = Symbol();
-export type ABORT = typeof ABORT;
+export const BLOCK_REQUEST = Symbol();
+export type BlockRequest = typeof BLOCK_REQUEST;
+
+export const getOperationName = (
+  operation: Operation
+): OperationName | null => {
+  const opDefNodes = operation.query.definitions.filter(
+    (def): def is OperationDefinitionNode => def.kind === 'OperationDefinition'
+  );
+  const maybeOperationName = opDefNodes.reduce<string | undefined>(
+    (found, opDefNode) => {
+      if (!found) {
+        const maybeFieldNode = opDefNode.selectionSet.selections.find(
+          (selNode): selNode is FieldNode => selNode.kind === 'Field'
+        );
+        found = maybeFieldNode && maybeFieldNode.name.value;
+      }
+      return found;
+    },
+    undefined
+  );
+
+  if (!maybeOperationName) {
+    return null;
+  }
+  const opName = maybeOperationName as OperationName;
+  return opName;
+};

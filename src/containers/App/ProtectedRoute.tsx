@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
-import { LOCAL_STORAGE_USER_ACCESS_TOKEN } from '../../constants';
+import { SessionContext } from '../../context/global/sessionCtx';
 
 interface ProtectedRouteProps extends RouteComponentProps {
   redirectUnauthenticatedTo?: string;
@@ -18,12 +18,12 @@ interface ProtectedRouteProps extends RouteComponentProps {
  * @constructor
  */
 function ProtectedRoute({ component: Component, ...rest }) {
-  const token = localStorage.getItem(LOCAL_STORAGE_USER_ACCESS_TOKEN);
+  const sessionCtx = React.useContext(SessionContext);
   return (
     <Route
       {...rest}
       render={(props: ProtectedRouteProps) => {
-        if (token) {
+        if (sessionCtx.session.user) {
           return <Component {...props} />;
         }
         return (
