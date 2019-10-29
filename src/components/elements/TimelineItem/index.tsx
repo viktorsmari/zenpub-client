@@ -23,7 +23,8 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
     <FeedItem>
       {node.activityType === 'CreateComment' && node.object.inReplyTo ? (
         <NavigateToThread to={`/thread/${node.object.inReplyTo.localId}`} />
-      ) : node.activityType === 'CreateComment' ? (
+      ) : node.activityType === 'CreateComment' ||
+      node.activityType === 'LikeComment' ? (
         <NavigateToThread to={`/thread/${node.object.localId}`} />
       ) : null}
       {node.activityType === 'LikeComment' ? (
