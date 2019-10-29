@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Helmet } from 'react-helmet';
 import Comment from '../../components/elements/Comment/Comment';
 import Loader from '../../components/elements/Loader/Loader';
 import Thread from '../../components/elements/thread';
@@ -22,7 +21,6 @@ const Component: React.FC<Props> = ({ threadQuery: thread }) => {
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <Helmet title={'Discussion Thread'} />
             <Header />
             <Thread comment={thread.data.comment!} />
             {thread.data.comment!.replies!.edges!.reverse().map(edge => {

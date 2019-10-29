@@ -4,14 +4,14 @@ import { withTheme } from '@zendeskgarden/react-theming';
 import { clearFix } from 'polished';
 import * as React from 'react';
 import { graphql } from 'react-apollo';
-import { Helmet } from 'react-helmet';
+// import { Helmet } from 'react-helmet';
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
 import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
 import Button from '../../components/elements/Button/Button';
 import Link from '../../components/elements/Link/Link';
 import SignupModal from '../../components/elements/SignupModal';
-import { APP_NAME, LOCAL_STORAGE_USER_ACCESS_TOKEN } from '../../constants';
+import { LOCAL_STORAGE_USER_ACCESS_TOKEN } from '../../constants';
 import { i18n } from '../../containers/App/App';
 import styled, { ThemeInterface } from '../../themes/styled';
 import { GlobCtx } from '../../context/global/GLOB';
@@ -321,9 +321,9 @@ class Login extends React.Component<LoginProps, LoginState> {
 
     return (
       <>
-        <Helmet>
+        {/* <Helmet>
           <title>{APP_NAME} - Share. Curate. Discuss.</title>
-        </Helmet>
+        </Helmet> */}
         <Container>
           <LoginWrapper>
             <Header>

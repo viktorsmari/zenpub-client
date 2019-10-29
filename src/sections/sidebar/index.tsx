@@ -10,6 +10,8 @@ import media from 'styled-media-query';
 import { ellipsis } from 'polished';
 import Dropdown from './dropdown';
 import { SearchBox } from 'react-instantsearch-dom';
+import Loader from '../../components/elements/Loader/Loader';
+
 const MnetLogo = require('./moodle-logo.png');
 const SidebarComponent = styled(Flex)`
   flex-grow: 1;
@@ -152,75 +154,83 @@ const Sidebar = props => {
   return (
     <SidebarComponent>
       <InternalWrapper>
-        <SidebarFixed>
-          <SidebarOverflow>
-            <Header alignItems={'center'}>
-              <Avatar
-                onClick={props.handleOpen}
-                src={props.data.me.user.icon}
-                // name={props.data.me.user.name}
-              />
-              <Sbox>
-                <SearchBox />
-              </Sbox>
-              {/* <Input placeholder="Search" /> */}
-              {props.isOpen ? (
-                <>
-                  <OutsideClickHandler onOutsideClick={props.closeMenu}>
-                    <Dropdown
-                      navigateToPage={props.navigateToPage}
-                      logout={props.logout}
-                    />
-                  </OutsideClickHandler>
-                  <Layer />
-                </>
-              ) : null}
-              {/* <Input placeholder={"Search here"} /> */}
-            </Header>
-            <Nav pt={3}>
-              <SidebarLink exact to={'/discover'}>
-                <NavItem mb={3} alignItems={'center'}>
-                  <Globe size={36} />
-                  <ItemTitle ml={2} fontSize={2} fontWeight={600} width={1}>
-                    <Trans>Discover</Trans>
-                  </ItemTitle>
-                </NavItem>
-              </SidebarLink>
-              <SidebarLink exact to={'/'}>
-                <NavItem mb={3} alignItems={'center'}>
-                  <Image
-                    mr={2}
-                    borderRadius={4}
-                    height={36}
-                    width={36}
-                    src={MnetLogo}
-                  />
-                  <ItemTitle fontSize={2} fontWeight={600} width={1}>
-                    <Trans>My MoodleNet</Trans>
-                  </ItemTitle>
-                </NavItem>
-              </SidebarLink>
-            </Nav>
-            <Nav>
-              {props.data.me.user.joinedCommunities.edges.map((c, i) => (
-                <CommunityLink key={i} to={'/communities/' + c.node.localId}>
-                  <NavItem alignItems={'center'} mb={2}>
+        {props.data.error ? (
+          <span>
+            <Trans>Error loading communities</Trans>
+          </span>
+        ) : props.data.loading ? (
+          <Loader />
+        ) : (
+          <SidebarFixed>
+            <SidebarOverflow>
+              <Header alignItems={'center'}>
+                <Avatar
+                  onClick={props.handleOpen}
+                  src={props.data.me.user.icon}
+                  // name={props.data.me.user.name}
+                />
+                <Sbox>
+                  <SearchBox />
+                </Sbox>
+                {/* <Input placeholder="Search" /> */}
+                {props.isOpen ? (
+                  <>
+                    <OutsideClickHandler onOutsideClick={props.closeMenu}>
+                      <Dropdown
+                        navigateToPage={props.navigateToPage}
+                        logout={props.logout}
+                      />
+                    </OutsideClickHandler>
+                    <Layer />
+                  </>
+                ) : null}
+                {/* <Input placeholder={"Search here"} /> */}
+              </Header>
+              <Nav pt={3}>
+                <SidebarLink exact to={'/discover'}>
+                  <NavItem mb={3} alignItems={'center'}>
+                    <Globe size={36} />
+                    <ItemTitle ml={2} fontSize={2} fontWeight={600} width={1}>
+                      <Trans>Discover</Trans>
+                    </ItemTitle>
+                  </NavItem>
+                </SidebarLink>
+                <SidebarLink exact to={'/'}>
+                  <NavItem mb={3} alignItems={'center'}>
                     <Image
                       mr={2}
                       borderRadius={4}
                       height={36}
                       width={36}
-                      src={c.node.icon}
+                      src={MnetLogo}
                     />
-                    <ItemTitle fontSize={1} fontWeight={600}>
-                      {c.node.name}
+                    <ItemTitle fontSize={2} fontWeight={600} width={1}>
+                      <Trans>My MoodleNet</Trans>
                     </ItemTitle>
                   </NavItem>
-                </CommunityLink>
-              ))}
-            </Nav>
-          </SidebarOverflow>
-        </SidebarFixed>
+                </SidebarLink>
+              </Nav>
+              <Nav>
+                {props.data.me.user.joinedCommunities.edges.map((c, i) => (
+                  <CommunityLink key={i} to={'/communities/' + c.node.localId}>
+                    <NavItem alignItems={'center'} mb={2}>
+                      <Image
+                        mr={2}
+                        borderRadius={4}
+                        height={36}
+                        width={36}
+                        src={c.node.icon}
+                      />
+                      <ItemTitle fontSize={1} fontWeight={600}>
+                        {c.node.name}
+                      </ItemTitle>
+                    </NavItem>
+                  </CommunityLink>
+                ))}
+              </Nav>
+            </SidebarOverflow>
+          </SidebarFixed>
+        )}
       </InternalWrapper>
     </SidebarComponent>
   );

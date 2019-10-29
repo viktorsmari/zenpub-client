@@ -60,14 +60,6 @@ const CommentWrapper: React.FC<EventProps> = ({ comment, noAction }) => {
             </Name>
           )}
           <>
-            {/* {comment!.inReplyTo !== null ? (
-              <SubText my={1}>
-                <Trans>in reply to</Trans>{' '}
-                <Link to={`/user/${comment!.inReplyTo!.author!.localId}`}>
-                  {comment!.inReplyTo!.author!.name}
-                </Link>
-              </SubText>
-            ) : null} */}
             <Comment>
               {comment!.content && comment!.content!.length > 320
                 ? removeMd(comment!.content).replace(

@@ -128,11 +128,21 @@ const ButtonWrapper = styled(Flex)`
 
 const CreateCollection = styled(Button)`
   flex: 1;
-  border: 2px solid ${props => props.theme.styles.colors.orange} !important;
+  background: none;
+  font-weight: 600;
+  cursor: pointer;
+  flex: 1;
+  border: 1px solid ${props => props.theme.styles.colors.lightgray} !important;
   background: none;
   font-weight: 600;
   color: ${props => props.theme.styles.colors.darkgray} !important;
   cursor: pointer;
+  padding: 16px;
+  text-transform: uppercase;
+  font-size: 14px !important;
+  &:hover {
+    background: ${props => props.theme.styles.colors.lightgray};
+  }
 `;
 
 export const WrapperTab = styled.div`

@@ -3,7 +3,7 @@ import { compose } from 'recompose';
 import { graphql, OperationOption } from 'react-apollo';
 import { Trans } from '@lingui/macro';
 import styled from '../../themes/styled';
-import { Helmet } from 'react-helmet';
+// import { Helmet } from 'react-helmet';
 import Button from '../../components/elements/Button/Button';
 import { Input } from '@rebass/forms';
 import { withFormik, FormikProps, Form, Field, FormikValues } from 'formik';
@@ -78,9 +78,9 @@ interface MyFormProps {
 const ResetPasswordPage = (props: Props & FormikProps<FormikValues>) => {
   return (
     <>
-      <Helmet>
+      {/* <Helmet>
         <title>Reset password</title>
-      </Helmet>
+      </Helmet> */}
       <Container>
         <LoginWrapper>
           <FormWrapper>

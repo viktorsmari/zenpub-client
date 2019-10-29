@@ -78,9 +78,10 @@ const Wrapper = styled.div`
   &:hover {
     background: ${props => props.theme.styles.colour.resourceBg};
   }
-  padding-top: 16px;
+  padding: 8px;
   margin-bottom: 8px;
   border-radius: 3px;
+  margin-top: 8px;
   ${media.lessThan('medium')`
   display: block;
   padding: 0;

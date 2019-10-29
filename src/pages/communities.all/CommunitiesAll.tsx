@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/macro';
 import * as React from 'react';
 import { graphql, QueryControls, OperationOption } from 'react-apollo';
-import { Helmet } from 'react-helmet';
+// import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
 import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
@@ -10,7 +10,7 @@ import NewCommunityModal from '../../components/elements/CreateCommunityModal';
 import Loader from '../../components/elements/Loader/Loader';
 import CommunitiesLoadMore from '../../components/elements/Loadmore/community';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
-import { APP_NAME } from '../../constants';
+// import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
 import CommunityType from '../../types/Community';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
@@ -57,9 +57,9 @@ class CommunitiesYours extends React.Component<Props> {
                     <Loader />
                   ) : (
                     <>
-                      <Helmet>
+                      {/* <Helmet>
                         <title>{APP_NAME} > All communities</title>
-                      </Helmet>
+                      </Helmet> */}
                       <List>
                         {this.props.data.communities.nodes.map(
                           (community, i) => {

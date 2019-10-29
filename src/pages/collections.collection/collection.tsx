@@ -8,7 +8,7 @@ import ResourceCard from '../../components/elements/Resource/Resource';
 // import { Resource } from '../../components/elements/Icons';
 import Link from '../../components/elements/Link/Link';
 import media from 'styled-media-query';
-import { Button, Flex } from 'rebass';
+import { Button, Flex, Box } from 'rebass';
 import {
   Footer,
   WrapperTab,
@@ -88,17 +88,22 @@ const CommunityPage: SFC<Props> = ({
                       collectionExternalId={collection.id}
                     />
                   ) : null}
-
-                  {resources.edges.map((edge, i) => (
-                    <ResourceCard
-                      key={i}
-                      icon={edge.node.icon}
-                      title={edge.node.name}
-                      summary={edge.node.summary}
-                      url={edge.node.url}
-                      localId={edge.node.localId}
-                    />
-                  ))}
+                  {resources.totalCount > 0 ? (
+                    resources.edges.map((edge, i) => (
+                      <ResourceCard
+                        key={i}
+                        icon={edge.node.icon}
+                        title={edge.node.name}
+                        summary={edge.node.summary}
+                        url={edge.node.url}
+                        localId={edge.node.localId}
+                      />
+                    ))
+                  ) : (
+                    <Empty>
+                      <Trans>This collection is empty.</Trans>
+                    </Empty>
+                  )}
                 </CollectionList>
               </Wrapper>
             </div>
@@ -108,15 +113,28 @@ const CommunityPage: SFC<Props> = ({
     </WrapperTab>
   );
 };
+
+const Empty = styled(Box)`
+  padding: 24px;
+  text-align: center;
+  font-weight: 600;
+  color: #000000b5;
+`;
 const ButtonWrapper = styled(Flex)`
   border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
   button {
     flex: 1;
-    border: 2px solid ${props => props.theme.styles.colors.orange} !important;
+    border: 1px solid ${props => props.theme.styles.colors.lightgray} !important;
     background: none;
     font-weight: 600;
     color: ${props => props.theme.styles.colors.darkgray} !important;
     cursor: pointer;
+    padding: 16px;
+    text-transform: uppercase;
+    font-size: 14px;
+    &:hover {
+      background: ${props => props.theme.styles.colors.lightgray};
+    }
   }
 `;
 const Wrapper = styled.div`

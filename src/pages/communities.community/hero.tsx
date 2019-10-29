@@ -27,7 +27,7 @@ const HeroComp: SFC<Props> = ({ community, showUsers, editCommunity }) => (
         style={{ backgroundImage: `url(${community.icon})` }}
       />
       <HeroInfo>
-        <Title fontSize={5} mt={1} fontWeight={'bold'}>
+        <Title fontSize={5} mt={0} fontWeight={'bold'}>
           {community.name}
         </Title>
         {community.preferredUsername ? (
@@ -63,7 +63,7 @@ const HeroComp: SFC<Props> = ({ community, showUsers, editCommunity }) => (
             community.localId === 15 ||
             community.followed == false ? null : (
               <EditButton onClick={editCommunity}>
-                <Settings size={18} color={'#333'} />
+                <Settings size={18} color={'#f98012'} />
               </EditButton>
             )}
             <Join
@@ -135,20 +135,24 @@ const ImgTot = styled.div`
 `;
 
 const EditButton = styled.span`
-  display: inline-block;
-  vertical-align: bottom;
-  margin-left: 8px;
-  text-align: center;
+  height: 40px;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 38px;
   cursor: pointer;
-  &:hover {
-    svg {
-      color: ${props => props.theme.styles.colour.primary};
-    }
-  }
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  vertical-align: bottom;
+  margin-rigth: 16px;
+  border-radius: 40px;
+  text-align: center;
+  border: 1px solid ${props => props.theme.styles.colors.orange};
+  cursor: pointer;
   & svg {
-    margin-right: 8px;
     text-align: center;
-    color: ${props => props.theme.styles.colour.base1};
+    vertical-align: text-bottom;
+    color: inherit !important;
   }
 `;
 
