@@ -1,15 +1,17 @@
+import { Trans } from '@lingui/macro';
+import { ellipsis } from 'polished';
 import * as React from 'react';
-import { Box, Image, Text, Flex } from 'rebass';
+import { Globe } from 'react-feather';
+import { SearchBox } from 'react-instantsearch-dom';
+import OutsideClickHandler from 'react-outside-click-handler';
+import { NavLink } from 'react-router-dom';
+import { Box, Flex, Image, Text } from 'rebass';
+import media from 'styled-media-query';
+import Loader from '../../components/elements/Loader/Loader';
+import { GetSidebarQueryQueryResult } from '../../generated/graphqlapollo';
 import Avatar from '../../styleguide/avatar';
 import styled from '../../themes/styled';
-import { Trans } from '@lingui/macro';
-import { NavLink } from 'react-router-dom';
-import { Globe } from 'react-feather';
-import OutsideClickHandler from 'react-outside-click-handler';
-import media from 'styled-media-query';
-import { ellipsis } from 'polished';
 import Dropdown from './dropdown';
-import { SearchBox } from 'react-instantsearch-dom';
 const MnetLogo = require('./moodle-logo.png');
 const SidebarComponent = styled(Flex)`
   flex-grow: 1;
@@ -147,30 +149,39 @@ const Sbox = styled(Box)`
  display: none;
 `};
 `;
-
-const Sidebar = props => {
-  return (
+interface Props {
+  resp: GetSidebarQueryQueryResult;
+}
+const Sidebar: React.FC<Props> = ({ resp }) => {
+  const [menuIsOpen, setMenuIsOpen] = React.useState(false);
+  const closeMenu = React.useCallback(() => setMenuIsOpen(false), []);
+  const openMenu = React.useCallback(() => setMenuIsOpen(true), []);
+  const { data } = resp;
+  return resp.error ? (
+    <span>
+      <Trans>Error loading communities</Trans>
+    </span>
+  ) : resp.loading ? (
+    <Loader />
+  ) : (
     <SidebarComponent>
       <InternalWrapper>
         <SidebarFixed>
           <SidebarOverflow>
             <Header alignItems={'center'}>
               <Avatar
-                onClick={props.handleOpen}
-                src={props.data.me.user.icon}
+                onClick={openMenu}
+                src={data!.me!.user!.icon!}
                 // name={props.data.me.user.name}
               />
               <Sbox>
                 <SearchBox />
               </Sbox>
               {/* <Input placeholder="Search" /> */}
-              {props.isOpen ? (
+              {menuIsOpen ? (
                 <>
-                  <OutsideClickHandler onOutsideClick={props.closeMenu}>
-                    <Dropdown
-                      navigateToPage={props.navigateToPage}
-                      logout={props.logout}
-                    />
+                  <OutsideClickHandler onOutsideClick={closeMenu}>
+                    <Dropdown />
                   </OutsideClickHandler>
                   <Layer />
                 </>
@@ -202,22 +213,30 @@ const Sidebar = props => {
               </SidebarLink>
             </Nav>
             <Nav>
-              {props.data.me.user.joinedCommunities.edges.map((c, i) => (
-                <CommunityLink key={i} to={'/communities/' + c.node.localId}>
-                  <NavItem alignItems={'center'} mb={2}>
-                    <Image
-                      mr={2}
-                      borderRadius={4}
-                      height={36}
-                      width={36}
-                      src={c.node.icon}
-                    />
-                    <ItemTitle fontSize={1} fontWeight={600}>
-                      {c.node.name}
-                    </ItemTitle>
-                  </NavItem>
-                </CommunityLink>
-              ))}
+              {data!.me!.user!.joinedCommunities!.edges!.map(
+                userJoinedCommunitiesEdge => (
+                  <CommunityLink
+                    key={userJoinedCommunitiesEdge!.node!.localId!}
+                    to={
+                      '/communities/' +
+                      userJoinedCommunitiesEdge!.node!.localId!
+                    }
+                  >
+                    <NavItem alignItems={'center'} mb={2}>
+                      <Image
+                        mr={2}
+                        borderRadius={4}
+                        height={36}
+                        width={36}
+                        src={userJoinedCommunitiesEdge!.node!.icon!}
+                      />
+                      <ItemTitle fontSize={1} fontWeight={600}>
+                        {userJoinedCommunitiesEdge!.node!.name}
+                      </ItemTitle>
+                    </NavItem>
+                  </CommunityLink>
+                )
+              )}
             </Nav>
           </SidebarOverflow>
         </SidebarFixed>

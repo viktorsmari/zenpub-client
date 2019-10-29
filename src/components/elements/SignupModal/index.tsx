@@ -1,11 +1,15 @@
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
-import { Field, Form, FormikProps, withFormik } from 'formik';
+import {
+  Field,
+  Form /* , FormikProps */ /* , withFormik */,
+  Formik
+} from 'formik';
 import * as React from 'react';
-import { compose } from 'recompose';
-import { ApolloConsumer, graphql, OperationOption } from 'react-apollo';
-import { getGlob } from '../../../context/global/GLOB';
-import { login } from '../../../redux/session';
+// import { compose } from 'recompose';
+import { ApolloConsumer /* , graphql, OperationOption */ } from 'react-apollo';
+// import { getGlob } from '../../../context/global/GLOB';
+// import { login } from '../../../redux/session';
 import * as Yup from 'yup';
 import { i18n } from '../../../containers/App/App';
 import Alert from '../../elements/Alert';
@@ -14,8 +18,8 @@ import { Heading } from 'rebass';
 import Button from '../Button/Button';
 import Modal from '../Modal';
 import { Row, Container, Actions, ContainerForm, Header } from '../Modal/modal';
-import { LOCAL_STORAGE_USER_ACCESS_TOKEN } from '../../../constants';
-const { createUserMutation } = require('../../../graphql/createUser.graphql');
+import { useCreateUserMutationMutation } from '../../../generated/graphqlapollo';
+// const { createUserMutation } = require('../../../graphql/createUser.graphql');
 const checkUsername = require('../../../graphql/checkUsername.graphql');
 
 let tt = {
@@ -31,9 +35,9 @@ let tt = {
 interface Props {
   toggleModal?: any;
   modalIsOpen?: boolean;
-  errors: any;
-  touched: any;
-  isSubmitting: boolean;
+  // errors: any;
+  // touched: any;
+  // isSubmitting: boolean;
 }
 
 interface FormValues {
@@ -44,10 +48,10 @@ interface FormValues {
   passwordConfirm: string;
 }
 
-interface MyFormProps {
-  createUser: any;
-  toggleModal: any;
-}
+// interface MyFormProps {
+//   createUser: any;
+//   toggleModal: any;
+// }
 
 async function validateUsername(value, client) {
   // TODO use the same function in signup & edit profile
@@ -76,13 +80,17 @@ async function validateUsername(value, client) {
   }
 }
 
-const withCreateUser = graphql<{}>(createUserMutation, {
-  name: 'createUser'
-  // TODO enforce proper types for OperationOption
-} as OperationOption<{}, {}>);
+// const withCreateUser = graphql<{}>(createUserMutation, {
+//   name: 'createUser'
+//   // TODO enforce proper types for OperationOption
+// } as OperationOption<{}, {}>);
 
-const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
-  const { toggleModal, modalIsOpen, errors, touched, isSubmitting } = props;
+const CreateCommunityModal = (props: Props /* & FormikProps<FormValues> */) => {
+  const {
+    toggleModal,
+    modalIsOpen /* , errors, touched, isSubmitting */
+  } = props;
+  const [createUser /*, createUserResp*/] = useCreateUserMutationMutation();
   return (
     <ApolloConsumer>
       {client => (
@@ -93,127 +101,159 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                 <Trans>Create a new account</Trans>
               </Heading>
             </Header>
-            <Form>
-              <Row>
-                <label>
-                  <Trans>Email</Trans>
-                </label>
-                <ContainerForm>
-                  <Field
-                    name="email"
-                    render={({ field }) => (
-                      <Input
-                        placeholder={i18n._(tt.placeholders.email)}
-                        name={field.name}
-                        value={field.value}
-                        onChange={field.onChange}
-                      />
-                    )}
-                  />
-                  {errors.email &&
-                    touched.email && <Alert>{errors.email}</Alert>}
-                </ContainerForm>
-              </Row>
-              <Row>
-                <label>
-                  <Trans>Display Name</Trans>
-                </label>
-                <ContainerForm>
-                  <Field
-                    name="name"
-                    render={({ field }) => (
-                      <Input
-                        placeholder={i18n._(tt.placeholders.name)}
-                        name={field.name}
-                        value={field.value}
-                        onChange={field.onChange}
-                      />
-                    )}
-                  />
-                  {errors.name && touched.name && <Alert>{errors.name}</Alert>}
-                </ContainerForm>
-              </Row>
-              <Row>
-                <label>
-                  <Trans>Preferred username</Trans>
-                </label>
-                <ContainerForm>
-                  <Field
-                    name="username"
-                    validate={val => validateUsername(val, client)}
-                    render={({ field }) => (
-                      <>
-                        <Input
-                          // placeholder="The name of the community..."
-                          name={field.name}
-                          value={field.value}
-                          onChange={field.onChange}
+            <Formik
+              render={({ errors, touched, isSubmitting }) => {
+                return (
+                  <Form>
+                    <Row>
+                      <label>
+                        <Trans>Email</Trans>
+                      </label>
+                      <ContainerForm>
+                        <Field
+                          name="email"
+                          render={({ field }) => (
+                            <Input
+                              placeholder={i18n._(tt.placeholders.email)}
+                              name={field.name}
+                              value={field.value}
+                              onChange={field.onChange}
+                            />
+                          )}
                         />
-                      </>
-                    )}
-                  />
-                  {/* {errors.username &&
-            touched.username && <Alert>{errors.username}</Alert>} */}
-                  {errors.username && <Alert>{errors.username}</Alert>}
-                </ContainerForm>
-              </Row>
-              <Row>
-                <label>
-                  <Trans>Password</Trans>
-                </label>
-                <ContainerForm>
-                  <Field
-                    name="password"
-                    render={({ field }) => (
-                      <Input
-                        placeholder={i18n._(tt.placeholders.password)}
-                        type="password"
-                        name={field.name}
-                        value={field.value}
-                        onChange={field.onChange}
-                      />
-                    )}
-                  />
-                  {errors.password &&
-                    touched.password && <Alert>{errors.password}</Alert>}
-                </ContainerForm>
-              </Row>
-              <Row>
-                <label>
-                  <Trans>Confirm password</Trans>
-                </label>
-                <ContainerForm>
-                  <Field
-                    name="passwordConfirm"
-                    render={({ field }) => (
-                      <Input
-                        placeholder={i18n._(tt.placeholders.passwordConfirm)}
-                        type="password"
-                        name={field.name}
-                        value={field.value}
-                        onChange={field.onChange}
-                      />
-                    )}
-                  />
-                  {errors.passwordConfirm &&
-                    touched.passwordConfirm && (
-                      <Alert>{errors.passwordConfirm}</Alert>
-                    )}
-                </ContainerForm>
-              </Row>
-              <Actions>
-                <Button
-                  disabled={isSubmitting}
-                  type="submit"
-                  style={{ marginLeft: '10px' }}
-                >
-                  <Trans>Sign Up</Trans>
-                </Button>
-                <Button onClick={toggleModal} secondary>
-                  <Trans>Cancel</Trans>
-                </Button>
-              </Actions>
-            </Form>
+                        {errors.email &&
+                          touched.email && <Alert>{errors.email}</Alert>}
+                      </ContainerForm>
+                    </Row>
+                    <Row>
+                      <label>
+                        <Trans>Display Name</Trans>
+                      </label>
+                      <ContainerForm>
+                        <Field
+                          name="name"
+                          render={({ field }) => (
+                            <Input
+                              placeholder={i18n._(tt.placeholders.name)}
+                              name={field.name}
+                              value={field.value}
+                              onChange={field.onChange}
+                            />
+                          )}
+                        />
+                        {errors.name &&
+                          touched.name && <Alert>{errors.name}</Alert>}
+                      </ContainerForm>
+                    </Row>
+                    <Row>
+                      <label>
+                        <Trans>Preferred username</Trans>
+                      </label>
+                      <ContainerForm>
+                        <Field
+                          name="username"
+                          validate={val => validateUsername(val, client)}
+                          render={({ field }) => (
+                            <>
+                              <Input
+                                // placeholder="The name of the community..."
+                                name={field.name}
+                                value={field.value}
+                                onChange={field.onChange}
+                              />
+                            </>
+                          )}
+                        />
+                        {/* {errors.username &&
+                touched.username && <Alert>{errors.username}</Alert>} */}
+                        {errors.username && <Alert>{errors.username}</Alert>}
+                      </ContainerForm>
+                    </Row>
+                    <Row>
+                      <label>
+                        <Trans>Password</Trans>
+                      </label>
+                      <ContainerForm>
+                        <Field
+                          name="password"
+                          render={({ field }) => (
+                            <Input
+                              placeholder={i18n._(tt.placeholders.password)}
+                              type="password"
+                              name={field.name}
+                              value={field.value}
+                              onChange={field.onChange}
+                            />
+                          )}
+                        />
+                        {errors.password &&
+                          touched.password && <Alert>{errors.password}</Alert>}
+                      </ContainerForm>
+                    </Row>
+                    <Row>
+                      <label>
+                        <Trans>Confirm password</Trans>
+                      </label>
+                      <ContainerForm>
+                        <Field
+                          name="passwordConfirm"
+                          render={({ field }) => (
+                            <Input
+                              placeholder={i18n._(
+                                tt.placeholders.passwordConfirm
+                              )}
+                              type="password"
+                              name={field.name}
+                              value={field.value}
+                              onChange={field.onChange}
+                            />
+                          )}
+                        />
+                        {errors.passwordConfirm &&
+                          touched.passwordConfirm && (
+                            <Alert>{errors.passwordConfirm}</Alert>
+                          )}
+                      </ContainerForm>
+                    </Row>
+                    <Actions>
+                      <Button
+                        disabled={isSubmitting}
+                        type="submit"
+                        style={{ marginLeft: '10px' }}
+                      >
+                        <Trans>Sign Up</Trans>
+                      </Button>
+                      <Button onClick={toggleModal} secondary>
+                        <Trans>Cancel</Trans>
+                      </Button>
+                    </Actions>
+                  </Form>
+                );
+              }}
+              onSubmit={(values, { setSubmitting }) => {
+                const variables = {
+                  user: {
+                    email: values.email,
+                    name: values.name,
+                    password: values.password,
+                    preferredUsername: values.username
+                  }
+                };
+                return createUser({
+                  variables: variables
+                })
+                  .then(res => {
+                    setSubmitting(false);
+                  })
+                  .catch(err => {
+                    setSubmitting(false);
+                    alert(err);
+                    console.log(err);
+                  });
+              }}
+              initialValues={initialFormValues}
+              validationSchema={validationSchema}
+            />
           </Container>
         </Modal>
       )}
@@ -221,7 +261,26 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
   );
 };
 
-const ModalWithFormik = withFormik<MyFormProps, FormValues>({
+const initialFormValues: FormValues = {
+  name: '',
+  email: '',
+  username: '',
+  password: '',
+  passwordConfirm: ''
+};
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required('Please enter your name or nickname'),
+  email: Yup.string()
+    .email()
+    .required('Please enter your email'),
+  password: Yup.string()
+    .min(6)
+    .required('Password is required'),
+  passwordConfirm: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    .required('Password confirmation is required')
+});
+/* const ModalWithFormik = withFormik<MyFormProps, FormValues>({
   mapPropsToValues: props => ({
     name: '',
     email: '',
@@ -256,10 +315,6 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
       })
       .then(res => {
         getGlob().action.dispatch(login.create(res.data.createUser));
-        localStorage.setItem(
-          LOCAL_STORAGE_USER_ACCESS_TOKEN,
-          res.data.createUser.token
-        );
         setSubmitting(false);
         window.location.reload();
       })
@@ -270,5 +325,5 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
       });
   }
 })(CreateCommunityModal);
-
-export default compose(withCreateUser)(ModalWithFormik);
+ */
+export default CreateCommunityModal; // compose(withCreateUser)(ModalWithFormik);

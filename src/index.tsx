@@ -8,10 +8,10 @@ import { createGlobalStyle } from './themes/styled';
 import { ProvideContexts } from './context/global';
 import createStore from './redux/store';
 import { createLocalSessionKVStorage } from './util/keyvaluestore/localSessionStorage';
+import { integrateSessionApolloRedux } from './integrations/Session-Apollo-Redux';
 
 run();
 async function run() {
-  const apolloClient = await getApolloClient();
   const Global = createGlobalStyle`
       body, html {
           border: 0;
@@ -54,6 +54,11 @@ async function run() {
   `;
   const KVlocalStorageCreate = createLocalSessionKVStorage('local');
   const store = createStore({ createLocalKVStore: KVlocalStorageCreate });
+  const initialState = store.getState();
+  const authToken =
+    (initialState.session.user && initialState.session.user.token) || undefined;
+  const apolloClient = await getApolloClient({ authToken });
+  integrateSessionApolloRedux(apolloClient.opInterceptor, store);
   const ApolloApp = () => (
     <ApolloProvider client={apolloClient.client}>
       <ProvideContexts

@@ -11,11 +11,12 @@ import media from 'styled-media-query';
 import Button from '../../components/elements/Button/Button';
 import Link from '../../components/elements/Link/Link';
 import SignupModal from '../../components/elements/SignupModal';
-import { APP_NAME, LOCAL_STORAGE_USER_ACCESS_TOKEN } from '../../constants';
+import { APP_NAME } from '../../constants';
 import { i18n } from '../../containers/App/App';
+// import { GlobCtx } from '../../context/global/GLOB';
+import { SessionContext } from '../../context/global/sessionCtx';
+// import { login } from '../../redux/session';
 import styled, { ThemeInterface } from '../../themes/styled';
-import { GlobCtx } from '../../context/global/GLOB';
-import { login } from '../../redux/session';
 import LoginForm from './LoginForm';
 import { ValidationField, ValidationObject, ValidationType } from './types';
 
@@ -176,12 +177,12 @@ const ResetPass = styled.div`
  * @constructor
  */
 function RedirectIfAuthenticated({ component: Component, data, ...rest }) {
-  const token = localStorage.getItem(LOCAL_STORAGE_USER_ACCESS_TOKEN);
+  const sessionCtx = React.useContext(SessionContext);
 
   return (
     <Route
       render={(props: RouteComponentProps & LoginProps) => {
-        if (token) {
+        if (sessionCtx.session.user) {
           return <Redirect to="/" />;
         }
         return <Login data={data} {...props} {...rest} />;
@@ -216,8 +217,8 @@ type CredentialsObject = {
 // };
 
 class Login extends React.Component<LoginProps, LoginState> {
-  static contextType = GlobCtx;
-  context!: React.ContextType<typeof GlobCtx>;
+  // static contextType = GlobCtx;
+  // context!: React.ContextType<typeof GlobCtx>;
   state = {
     redirectTo: null,
     authenticating: false,
@@ -297,9 +298,8 @@ class Login extends React.Component<LoginProps, LoginState> {
     //TODO all in global business logic (redux/mw)
     if (userData) {
       // TODO pull key out into constant
-      this.context.action.dispatch(login.create(userData));
-      localStorage.setItem(LOCAL_STORAGE_USER_ACCESS_TOKEN, userData.token);
-      window.location.reload();
+      //  this.context.action.dispatch(login.create(userData));
+      // window.location.reload();
     }
   }
 
