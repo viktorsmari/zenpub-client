@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import styled from '../../../themes/styled';
 import { Text, Heading, Box, Flex } from 'rebass';
 import { Layers, Users } from 'react-feather';
+import { LocaleContext } from '../../../containers/App/App';
+
 const PlaceholderImg = require('../Icons/communityPlaceholder.png');
 
 interface Props {
@@ -50,20 +52,41 @@ const Community: React.FC<Props> = ({
           ? summary.replace(/^([\s\S]{156}[^\s]*)[\s\S]*/, '$1...')
           : summary}
       </Text>
-      <Flex my={2} color={'rgba(0,0,0,.4)'}>
-        <Flex mr={4} alignSelf="center" alignItems="center">
-          <Flex mr={2}>
-            <Users width={18} height={18} strokeWidth={2} />
-          </Flex>
-          <Text>{followersCount || 0}</Text>
-        </Flex>
-        <Flex mr={4} alignSelf="center" alignItems="center">
-          <Flex mr={2}>
-            <Layers width={18} height={18} strokeWidth={2} />
-          </Flex>
-          <Text>{collectionsCount || 0}</Text>
-        </Flex>
-      </Flex>
+      <LocaleContext.Consumer>
+        {value =>
+          value.contentDirection == 'ltr' ? (
+            <Flex my={2} color={'rgba(0,0,0,.4)'}>
+              <Flex mr={4} alignSelf="center" alignItems="center">
+                <Flex mr={2}>
+                  <Users width={18} height={18} strokeWidth={2} />
+                </Flex>
+                <Text>{followersCount || 0}</Text>
+              </Flex>
+              <Flex mr={4} alignSelf="center" alignItems="center">
+                <Flex mr={2}>
+                  <Layers width={18} height={18} strokeWidth={2} />
+                </Flex>
+                <Text>{collectionsCount || 0}</Text>
+              </Flex>
+            </Flex>
+          ) : (
+            <Flex my={2} color={'rgba(0,0,0,.4)'}>
+              <Flex ml={4} alignSelf="center" alignItems="center">
+                <Flex ml={2}>
+                  <Users width={18} height={18} strokeWidth={2} />
+                </Flex>
+                <Text>{followersCount || 0}</Text>
+              </Flex>
+              <Flex ml={4} alignSelf="center" alignItems="center">
+                <Flex ml={2}>
+                  <Layers width={18} height={18} strokeWidth={2} />
+                </Flex>
+                <Text>{collectionsCount || 0}</Text>
+              </Flex>
+            </Flex>
+          )
+        }
+      </LocaleContext.Consumer>
     </Link>
   </Wrapper>
 );
