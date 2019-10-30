@@ -113,6 +113,11 @@ const Tot = styled.div`
   font-size: 13px;
   color: #cacaca;
   font-weight: 600;
+  .--rtl & {
+    float: right;
+    margin-left: 0px;
+    margin-right: 8px;
+  }
 `;
 
 const MembersTot = styled.div`
@@ -129,6 +134,11 @@ const MembersTot = styled.div`
     & svg {
       vertical-align: middle;
     }
+    .--rtl & {
+      float: right;
+      margin-right: 0px;
+      margin-left: 8px;
+    }
   }
 `;
 
@@ -140,6 +150,11 @@ const ImgTot = styled.div`
   margin-left: -4px;
   background-size: cover;
   border: 2px solid white;
+  .--rtl & {
+    float: right;
+    margin-right: -4px;
+    margin-left: 0px;
+  }
 `;
 
 const EditButton = styled.span`
