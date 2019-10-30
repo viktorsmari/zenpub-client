@@ -78,6 +78,10 @@ const ActionItem = styled.div`
     vertical-align: sub;
     color: inherit !important;
     margin-right: 4px;
+    .--rtl & {
+      margin-right: 0px;
+      margin-left: 4px;
+    }
   }
 `;
 

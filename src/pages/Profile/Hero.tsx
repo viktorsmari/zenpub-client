@@ -84,6 +84,10 @@ const Location = styled(Text)`
       color: ${props => props.theme.styles.colors.gray};
       vertical-align: text-bottom;
     }
+    .--rtl & {
+      margin-left: 8px;
+      margin-right: 0px;
+    }
   }
 `;
 
