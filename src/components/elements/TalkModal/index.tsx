@@ -3,25 +3,21 @@ import * as React from 'react';
 import { Box, Flex } from 'rebass';
 import { string } from 'yup';
 import { i18n } from '../../../containers/App/App';
-import { gqlRequest } from '../../../gql/actions';
+import CommentCmp from '../Comment/Comment';
 import {
-  Comment as CommentData,
-  CreateReplyMutationMutationVariables
-} from '../../../gql/sdk';
+  Comment,
+  useCreateReplyMutationMutation
+} from '../../../generated/graphqlapollo';
 import styled from '../../../themes/styled';
-import { ActionContext } from '../../../_context/actionCtx';
+import { SessionContext } from '../../../context/global/sessionCtx';
 import Alert from '../../elements/Alert';
-// import {Button} from 'rebass';
-import Comment from '../Comment/Comment';
 import Modal from '../Modal';
-// import { Actions, Container } from '../Modal/modal';
 import SocialText from '../SocialText';
-import { SessionContext } from '../../../_context/sessionCtx';
-// import { Send } from 'react-feather';
 import { LocaleContext } from '../../../containers/App/App';
 
 const TextWrapper = styled(Flex)`
   padding: 16px;
+  align-items: center;
 `;
 
 // const Publish = styled(Button)`
@@ -58,32 +54,22 @@ const tt = {
 };
 
 interface Props {
-  toggleModal: (_: boolean) => unknown;
+  toggleModal(_: boolean): unknown;
   modalIsOpen: boolean;
-  communityId?: string;
-  communityExternalId?: string;
-  id: string;
-  author: Author;
-  comment: CommentData;
-  replyTo: any;
+  comment: Comment;
 }
 
-interface Author {
-  image: string;
-  name: string;
-  username: string;
-  localId: string;
-}
-
-const CreateCommunityModal = (
-  props: Props /*  & FormikProps<FormValues> */
-) => {
-  const { dispatch } = React.useContext(ActionContext);
-  const { /* comment ,*/ modalIsOpen, toggleModal } = props;
+const CreateCommunityModal: React.FC<Props> = ({
+  comment,
+  modalIsOpen,
+  toggleModal
+}) => {
+  const [reply /* ,replyResult */] = useCreateReplyMutationMutation();
+  const session = React.useContext(SessionContext);
+  const localeCntx = React.useContext(LocaleContext);
   const [text, setText] = React.useState('');
   const [error, setError] = React.useState('');
   const [touched, setTouched] = React.useState(false);
-  // const [isSubmitting /* setSubmitting */] = React.useState(false);
   const oninput = React.useCallback(
     async (_: React.SyntheticEvent<HTMLTextAreaElement>) => {
       const _text = _.currentTarget.value;
@@ -102,26 +88,21 @@ const CreateCommunityModal = (
       if (error) {
         return;
       }
-      const vars: CreateReplyMutationMutationVariables = {
-        id: props.comment.localId!,
-        comment: { content: text }
-      };
-      dispatch(
-        gqlRequest.create({
-          op: { createReplyMutation: [vars] },
-          replyTo: props.replyTo
-        })
-      );
+      reply({
+        variables: {
+          id: comment.localId!,
+          comment: { content: text }
+        }
+      });
+      toggleModal(false);
     },
     [error, text]
   );
-  const session = React.useContext(SessionContext);
-  const localeCntx = React.useContext(LocaleContext);
   return (
     <Modal isOpen={modalIsOpen} toggleModal={() => toggleModal(false)}>
       {/* <Container> */}
       {/* <Form> */}
-      <Comment user={props.author} comment={props.comment} noAction replyTo />
+      <CommentCmp comment={comment} noAction />
       <TextWrapper>
         {localeCntx.contentDirection == 'ltr' ? (
           <Avatar
@@ -147,19 +128,6 @@ const CreateCommunityModal = (
         />
         {error && touched && <Alert>{error}</Alert>}
       </TextWrapper>
-      {/* <Actions>
-            
-            <Publish
-              onClick={submit}
-              disabled={isSubmitting}
-              type="submit"
-              style={{ marginLeft: '10px' }}
-            >
-             <Send size="24" />
-            </Publish>
-          </Actions> */}
-      {/* </Form> */}
-      {/* </Container> */}
     </Modal>
   );
 };

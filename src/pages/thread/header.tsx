@@ -19,7 +19,7 @@ const Header = styled(Flex)`
   }
 `;
 
-const HeaderWrapper = ({ id }) => {
+const HeaderWrapper = () => {
   const history = useHistory();
   return (
     <LocaleContext.Consumer>

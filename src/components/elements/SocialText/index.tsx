@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import { dropEmoji } from '../../../util/emoji';
 import EmojiPicker from 'emoji-picker-react';
+import OutsideClickHandler from 'react-outside-click-handler';
 import styled from 'styled-components';
 import { Textarea } from '@rebass/forms';
 import { Box, Flex } from 'rebass';
@@ -19,6 +20,7 @@ const PickerWrap = styled.div`
     left: 10px;
     right: auto;
   }
+  z-index: 9999;
 `;
 const Wrapper = styled.div`
   width: 100%;
@@ -79,7 +81,8 @@ export const SocialText: React.FC<Props> = props => {
   );
   useEffect(
     () => {
-      props.reference && (props.reference.current = ref.current);
+      const current = ref.current;
+      props.reference && (props.reference.current = current);
     },
     [ref.current]
   );
@@ -91,14 +94,16 @@ export const SocialText: React.FC<Props> = props => {
           <SocialTextTrigger onClick={toggle}>
             <Smile color={'rgba(0,0,0,.4)'} size="24" />
           </SocialTextTrigger>
-          <Box ml={2} onClick={props.submit}>
+          <Box style={{ cursor: 'pointer' }} ml={3} onClick={props.submit}>
             <Send color={'rgba(0,0,0,.4)'} size="24" />
           </Box>
         </SocialActions>
         {isOpen ? (
-          <PickerWrap>
-            <EmojiPicker preload onEmojiClick={addEmoji} />
-          </PickerWrap>
+          <OutsideClickHandler onOutsideClick={toggle}>
+            <PickerWrap>
+              <EmojiPicker preload onEmojiClick={addEmoji} />
+            </PickerWrap>
+          </OutsideClickHandler>
         ) : null}
       </SocialTextDiv>
     </Wrapper>

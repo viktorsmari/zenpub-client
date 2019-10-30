@@ -1,17 +1,17 @@
 import * as React from 'react';
-import ReactDOM from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
-
+import ReactDOM from 'react-dom';
 import getApolloClient from './apollo/client';
-import registerServiceWorker from './registerServiceWorker';
 import App from './containers/App/App';
+import registerServiceWorker from './registerServiceWorker';
 import { createGlobalStyle } from './themes/styled';
+import { ProvideContexts } from './context/global';
+import createStore from './redux/store';
+import { createLocalSessionKVStorage } from './util/keyvaluestore/localSessionStorage';
+import { integrateSessionApolloRedux } from './integrations/Session-Apollo-Redux';
 
 run();
-
 async function run() {
-  const apolloClient = await getApolloClient();
-
   const Global = createGlobalStyle`
       body, html {
           border: 0;
@@ -52,11 +52,22 @@ async function run() {
       width: 100%; }
       }
   `;
-
+  const KVlocalStorageCreate = createLocalSessionKVStorage('local');
+  const store = createStore({ createLocalKVStore: KVlocalStorageCreate });
+  const initialState = store.getState();
+  const authToken =
+    (initialState.session.user && initialState.session.user.token) || undefined;
+  const apolloClient = await getApolloClient({ authToken });
+  integrateSessionApolloRedux(apolloClient.opInterceptor, store);
   const ApolloApp = () => (
-    <ApolloProvider client={apolloClient}>
-      <Global />
-      <App />
+    <ApolloProvider client={apolloClient.client}>
+      <ProvideContexts
+        store={store}
+        apolloInterceptor={apolloClient.opInterceptor}
+      >
+        <Global />
+        <App />
+      </ProvideContexts>
     </ApolloProvider>
   );
 

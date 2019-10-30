@@ -1,45 +1,26 @@
-import React, { useContext, useEffect } from 'react';
-import { StateContext } from '../../_context/stateCtx';
-import { ActionContext } from '../../_context/actionCtx';
-import { gqlRequest } from '../../gql/actions';
-import { THREAD_PAGE_GQL_REPLY } from './types';
+import React from 'react';
 import Stateless from './stateless';
+import { useGetThreadQuery } from '../../generated/graphqlapollo';
+import { useInterceptor } from '../../context/global/apolloInterceptorCtx';
 export interface Props {
   id: number;
 }
 export const Thread: React.FC<Props> = ({ id }) => {
-  const {
-    pages: {
-      thread: { thread, refreshing }
-    }
-  } = useContext(StateContext);
-  const { dispatch } = useContext(ActionContext);
-  useEffect(
-    () => {
-      if (
-        !thread ||
-        ('data' in thread &&
-          thread.data &&
-          thread.data.comment!.localId! !== id)
-      ) {
-        dispatch(
-          gqlRequest.create({
-            replyTo: THREAD_PAGE_GQL_REPLY,
-            op: { getThread: [{ id }] }
-          })
-        );
-      }
-    },
-    [id, thread]
-  );
+  const threadQuery = useGetThreadQuery({ variables: { id } });
+  useInterceptor({
+    operation: 'undoLikeComment',
+    request: () => () => threadQuery.refetch()
+  });
+  useInterceptor({
+    operation: 'likeComment',
+    request: () => () => threadQuery.refetch()
+  });
+  useInterceptor({
+    operation: 'createReply',
+    request: () => () => threadQuery.refetch()
+  });
 
-  return (
-    thread && (
-      <Stateless
-        {...{ thread: thread.loading && refreshing ? refreshing : thread }}
-      />
-    )
-  );
+  return <Stateless threadQuery={threadQuery} />;
 };
 
 export default Thread;

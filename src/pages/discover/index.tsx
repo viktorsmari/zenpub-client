@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/macro';
 import React from 'react';
-import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
-import { Helmet } from 'react-helmet';
+import { graphql, QueryControls, OperationOption } from 'react-apollo';
+// import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
 import { compose } from 'recompose';
 import Loader from '../../components/elements/Loader/Loader';
@@ -24,7 +24,7 @@ import { NavLink } from 'react-router-dom';
 
 const localActivities = require('../../graphql/localActivities.graphql');
 
-interface Data extends GraphqlQueryControls {
+interface Data extends QueryControls {
   localActivities: any;
 }
 
@@ -49,9 +49,9 @@ const Home: React.FC<Props> = props => {
                 <SuperTab>
                   <h5>
                     <Trans>Instance timeline</Trans>
-                    <Helmet>
+                    {/* <Helmet>
                       <title>Instance timeline</title>
-                    </Helmet>
+                    </Helmet> */}
                   </h5>
                 </SuperTab>
               </SuperTabList>

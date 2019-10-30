@@ -1,8 +1,6 @@
 import * as React from 'react';
-import { graphql } from 'react-apollo';
-import { Route, Redirect, RouteComponentProps } from 'react-router-dom';
-
-const { getUserQuery } = require('../../graphql/getUser.client.graphql');
+import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
+import { SessionContext } from '../../context/global/sessionCtx';
 
 interface ProtectedRouteProps extends RouteComponentProps {
   redirectUnauthenticatedTo?: string;
@@ -19,18 +17,13 @@ interface ProtectedRouteProps extends RouteComponentProps {
  * @param rest {Object} props or the Route component
  * @constructor
  */
-function ProtectedRoute({ component: Component, data, ...rest }) {
-  let token;
-  process.env.REACT_APP_GRAPHQL_ENDPOINT ===
-  'https://home.moodle.net/api/graphql'
-    ? (token = localStorage.getItem('user_access_token'))
-    : (token = localStorage.getItem('dev_user_access_token'));
-
+function ProtectedRoute({ component: Component, ...rest }) {
+  const sessionCtx = React.useContext(SessionContext);
   return (
     <Route
       {...rest}
       render={(props: ProtectedRouteProps) => {
-        if (token) {
+        if (sessionCtx.session.user) {
           return <Component {...props} />;
         }
         return (
@@ -46,8 +39,4 @@ function ProtectedRoute({ component: Component, data, ...rest }) {
   );
 }
 
-const WrappedComponent = graphql(getUserQuery)(ProtectedRoute);
-
-export default function({ ...props }) {
-  return <WrappedComponent {...props} />;
-}
+export default ProtectedRoute;

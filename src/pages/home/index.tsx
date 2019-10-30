@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/macro';
 import React from 'react';
-import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
-import { Helmet } from 'react-helmet';
+import { graphql, QueryControls, OperationOption } from 'react-apollo';
+// import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
 import { compose } from 'recompose';
 import Loader from '../../components/elements/Loader/Loader';
@@ -21,7 +21,7 @@ import {
 } from '../../sections/panel';
 import { NavLink } from 'react-router-dom';
 
-interface Data extends GraphqlQueryControls {
+interface Data extends QueryControls {
   me: {
     user: {
       name: string;
@@ -49,9 +49,9 @@ const Home: React.FC<Props> = props => {
                 <SuperTab>
                   <h5>
                     <Trans>My MoodleNet timeline</Trans>
-                    <Helmet>
+                    {/* <Helmet>
                       <title>My MoodleNet timeline</title>
-                    </Helmet>
+                    </Helmet> */}
                   </h5>
                 </SuperTab>
               </StickyTabList>

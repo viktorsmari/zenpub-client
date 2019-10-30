@@ -1,21 +1,21 @@
 import { Trans } from '@lingui/macro';
 import * as React from 'react';
-import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
-import { Helmet } from 'react-helmet';
+import { graphql, QueryControls, OperationOption } from 'react-apollo';
+// import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
 import { compose, withState, withHandlers } from 'recompose';
 import CollectionCard from '../../components/elements/Collection/Collection';
 import Loader from '../../components/elements/Loader/Loader';
 import CollectionsLoadMore from '../../components/elements/Loadmore/collections';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
-import { APP_NAME } from '../../constants';
+// import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
 import CollectionType from '../../types/Collection';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { Flex } from 'rebass';
 const { getCollectionsQuery } = require('../../graphql/getCollections.graphql');
 
-interface Data extends GraphqlQueryControls {
+interface Data extends QueryControls {
   collections: {
     nodes: CollectionType[];
     pageInfo: {
@@ -54,9 +54,9 @@ class CommunitiesYours extends React.Component<Props> {
                     <Loader />
                   ) : (
                     <>
-                      <Helmet>
+                      {/* <Helmet>
                         <title>{APP_NAME} > All collections</title>
-                      </Helmet>
+                      </Helmet> */}
                       <List>
                         {this.props.data.collections.nodes.map((coll, i) => (
                           <CollectionCard

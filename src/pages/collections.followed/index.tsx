@@ -1,19 +1,19 @@
 import { Trans } from '@lingui/macro';
 import * as React from 'react';
-import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
-import { Helmet } from 'react-helmet';
-import { compose, withState, withHandlers } from 'recompose';
+import { graphql, QueryControls } from 'react-apollo';
+// import { Helmet } from 'react-helmet';
+import { compose, withHandlers, withState } from 'recompose';
 import CollectionCard from '../../components/elements/Collection/Collection';
 import Loader from '../../components/elements/Loader/Loader';
 import CollectionsLoadMore from '../../components/elements/Loadmore/followingCollections';
-import { APP_NAME } from '../../constants';
+// import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
 
 const {
   getFollowedCollections
 } = require('../../graphql/getFollowedCollections.graphql');
 
-interface Data extends GraphqlQueryControls {
+interface Data extends QueryControls {
   me: {
     user: {
       followingCollections: {
@@ -42,9 +42,9 @@ class FollowingCollectionsComponent extends React.Component<Props> {
       <Loader />
     ) : (
       <>
-        <Helmet>
+        {/* <Helmet>
           <title>{APP_NAME} > Followed collections</title>
-        </Helmet>
+        </Helmet> */}
         <ListWrapper>
           <List>
             {this.props.data.me.user.followingCollections.edges.map(
@@ -77,21 +77,14 @@ const List = styled.div`
   padding-top: 0;
 `;
 
-const withGetFollowingCollections = graphql<
-  {},
-  {
-    data: {
-      me: any;
-    };
-  }
->(getFollowedCollections, {
+const withGetFollowingCollections = graphql(getFollowedCollections, {
   options: (props: Props) => ({
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy: 'cache-first',
     variables: {
       limit: 15
     }
   })
-}) as OperationOption<{}, {}>;
+});
 
 export default compose(
   withGetFollowingCollections,

@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/macro';
 import * as React from 'react';
-import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
-import { Helmet } from 'react-helmet';
+import { graphql, QueryControls, OperationOption } from 'react-apollo';
+// import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
 import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
@@ -10,14 +10,14 @@ import NewCommunityModal from '../../components/elements/CreateCommunityModal';
 import Loader from '../../components/elements/Loader/Loader';
 import CommunitiesLoadMore from '../../components/elements/Loadmore/community';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
-import { APP_NAME } from '../../constants';
+// import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
 import CommunityType from '../../types/Community';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel, Panel, Nav, NavItem } from '../../sections/panel';
 const { getCommunitiesQuery } = require('../../graphql/getCommunities.graphql');
 
-interface Data extends GraphqlQueryControls {
+interface Data extends QueryControls {
   communities: {
     nodes: CommunityType[];
     pageInfo: {
@@ -29,7 +29,7 @@ interface Data extends GraphqlQueryControls {
 
 interface Props {
   data: Data;
-  handleNewCommunity(boolean): boolean;
+  handleNewCommunity(): boolean;
   isOpenCommunity: boolean;
 }
 
@@ -57,9 +57,9 @@ class CommunitiesYours extends React.Component<Props> {
                     <Loader />
                   ) : (
                     <>
-                      <Helmet>
+                      {/* <Helmet>
                         <title>{APP_NAME} > All communities</title>
-                      </Helmet>
+                      </Helmet> */}
                       <List>
                         {this.props.data.communities.nodes.map(
                           (community, i) => {

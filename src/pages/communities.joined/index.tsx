@@ -1,20 +1,20 @@
 import { Trans } from '@lingui/macro';
 import * as React from 'react';
-import { graphql, GraphqlQueryControls, OperationOption } from 'react-apollo';
-import { Helmet } from 'react-helmet';
+import { graphql, QueryControls, OperationOption } from 'react-apollo';
+// import { Helmet } from 'react-helmet';
 import compose from 'recompose/compose';
 import media from 'styled-media-query';
 import CommunityCard from '../../components/elements/Community/Community';
 import Loader from '../../components/elements/Loader/Loader';
 import CommunitiesLoadMore from '../../components/elements/Loadmore/joinedCommunities';
-import { APP_NAME } from '../../constants';
+// import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
 
 const {
   getJoinedCommunitiesQuery
 } = require('../../graphql/getJoinedCommunities.graphql');
 
-interface Data extends GraphqlQueryControls {
+interface Data extends QueryControls {
   me: {
     user: {
       joinedCommunities: {
@@ -42,9 +42,9 @@ class CommunitiesJoined extends React.Component<Props> {
       <Loader />
     ) : (
       <>
-        <Helmet>
+        {/* <Helmet>
           <title>{APP_NAME} > Joined communities</title>
-        </Helmet>
+        </Helmet> */}
         <ListWrapper>
           <List>
             {this.props.data.me.user.joinedCommunities.edges.map(

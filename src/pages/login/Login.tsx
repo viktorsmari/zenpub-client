@@ -3,22 +3,20 @@ import { i18nMark } from '@lingui/react';
 import { withTheme } from '@zendeskgarden/react-theming';
 import { clearFix } from 'polished';
 import * as React from 'react';
-import { graphql, OperationOption } from 'react-apollo';
-import { Helmet } from 'react-helmet';
+import { graphql } from 'react-apollo';
+// import { Helmet } from 'react-helmet';
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
 import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
 import Button from '../../components/elements/Button/Button';
 import Link from '../../components/elements/Link/Link';
 import SignupModal from '../../components/elements/SignupModal';
-import { APP_NAME } from '../../constants';
 import { i18n } from '../../containers/App/App';
+import { SessionContext } from '../../context/global/sessionCtx';
 import styled, { ThemeInterface } from '../../themes/styled';
-
 import LoginForm from './LoginForm';
 import { ValidationField, ValidationObject, ValidationType } from './types';
-import { login } from '../../_redux/session';
-import { GlobCtx } from '../../_context/GLOB';
+
 const { loginMutation } = require('../../graphql/login.graphql');
 
 const Signup = styled(Button)`
@@ -176,16 +174,12 @@ const ResetPass = styled.div`
  * @constructor
  */
 function RedirectIfAuthenticated({ component: Component, data, ...rest }) {
-  let token;
-  process.env.REACT_APP_GRAPHQL_ENDPOINT ===
-  'https://home.moodle.net/api/graphql'
-    ? (token = localStorage.getItem('user_access_token'))
-    : (token = localStorage.getItem('dev_user_access_token'));
+  const sessionCtx = React.useContext(SessionContext);
 
   return (
     <Route
       render={(props: RouteComponentProps & LoginProps) => {
-        if (token) {
+        if (sessionCtx.session.user) {
           return <Redirect to="/" />;
         }
         return <Login data={data} {...props} {...rest} />;
@@ -213,15 +207,10 @@ type CredentialsObject = {
   email: string;
   password: string;
 };
-//
-// const DEMO_CREDENTIALS = {
-//   email: 'moodle@moodle.net',
-//   password: 'moodle'
-// };
 
 class Login extends React.Component<LoginProps, LoginState> {
-  static contextType = GlobCtx;
-  context!: React.ContextType<typeof GlobCtx>;
+  // static contextType = GlobCtx;
+  // context!: React.ContextType<typeof GlobCtx>;
   state = {
     redirectTo: null,
     authenticating: false,
@@ -268,11 +257,8 @@ class Login extends React.Component<LoginProps, LoginState> {
     }
 
     this.setState({ authenticating: true });
-
-    let result;
-
     try {
-      result = await this.props.login({
+      await this.props.login({
         variables: credentials
       });
     } catch (err) {
@@ -293,18 +279,6 @@ class Login extends React.Component<LoginProps, LoginState> {
       });
       return;
     }
-
-    this.setState({ authenticating: false });
-
-    const userData = result.data.createSession;
-
-    // TODO pull key out into constant
-    this.context.action.dispatch(login.create(userData));
-    process.env.REACT_APP_GRAPHQL_ENDPOINT ===
-    'https://home.moodle.net/api/graphql'
-      ? localStorage.setItem('user_access_token', userData.token)
-      : localStorage.setItem('dev_user_access_token', userData.token);
-    window.location.reload();
   }
 
   /** Clear the validation messages for a field and also generic validations when its value changes. */
@@ -325,9 +299,9 @@ class Login extends React.Component<LoginProps, LoginState> {
 
     return (
       <>
-        <Helmet>
+        {/* <Helmet>
           <title>{APP_NAME} - Share. Curate. Discuss.</title>
-        </Helmet>
+        </Helmet> */}
         <Container>
           <LoginWrapper>
             <Header>
@@ -402,78 +376,14 @@ class Login extends React.Component<LoginProps, LoginState> {
             modalIsOpen={this.props.isOpen}
           />
         </Container>
-
-        {/* <BodyCenterContent>
-          <Roww>
-            <Col md={5} sm={12}>
-              <Logo big />
-              <Tagline>Share. Curate. Discuss.</Tagline>
-
-              <WrapperLogin>
-                <H6>
-                  <Trans>Sign in</Trans>
-                </H6>
-
-                <LoginForm
-                  validation={this.state.validation}
-                  onSubmit={this.onLoginFormSubmit}
-                  onInputChange={this.onLoginFormInputChange}
-                  authenticating={this.state.authenticating}
-                />
-                <Signup>
-                  <Trans>Don't yet have an account?</Trans>{' '}
-                  <u onClick={this.props.handleSignup}>
-                    <Trans>Sign up</Trans>
-                  </u>
-                </Signup>
-              </WrapperLogin>
-              <LanguageWrapper>
-                <LanguageSelect />
-              </LanguageWrapper>
-            </Col>
-            <Col md={7}>
-              <Background />
-            </Col>
-          </Roww>
-
-          <SignupModal
-            toggleModal={this.props.handleSignup}
-            modalIsOpen={this.props.isOpen}
-          />
-        </BodyCenterContent> */}
-        {/* <Banner>
-            <Trans>
-              Seeing some error messages? Just hit refresh! Contact us if that
-              didn't help, of course.
-            </Trans>
-          </Banner>
-          </div> */}
       </>
     );
   }
 }
-
-export interface Args {
-  data: {
-    isAuthenticated: boolean;
-    user: any;
-  };
-}
-
-// get the user auth object from local cache
-// const withUser = graphql<{}, Args>(getUserQuery);
-
-// get user mutation so we can set the user in the local cache
-// const withSetLocalUser = graphql<{}, Args>(setUserMutation, {
-//   name: 'setLocalUser'
-//   // TODO enforce proper types for OperationOption
-// } as OperationOption<{}, {}>);
-
-// to login via the API
-const withLogin = graphql<{}, Args>(loginMutation, {
+const withLogin = graphql(loginMutation, {
   name: 'login'
   // TODO enforce proper types for OperationOption
-} as OperationOption<{}, {}>);
+});
 
 export default compose(
   withTheme,

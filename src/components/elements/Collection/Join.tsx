@@ -45,6 +45,7 @@ const Join: React.FC<Props> = ({
   if (followed) {
     return (
       <Span
+        ml={2}
         unfollow
         onClick={() => {
           onSubmitting(true);
@@ -80,7 +81,7 @@ const Join: React.FC<Props> = ({
           <Loader />
         ) : (
           <>
-            <Text>
+            <Text fontSize={2}>
               <Trans>Unfollow</Trans>
             </Text>
           </>
@@ -90,6 +91,7 @@ const Join: React.FC<Props> = ({
   } else {
     return (
       <Span
+        ml={2}
         onClick={() => {
           onSubmitting(true);
           return joinCollection({
@@ -123,7 +125,7 @@ const Join: React.FC<Props> = ({
         {isSubmitting ? (
           <Loader />
         ) : (
-          <Text>
+          <Text fontSize={2}>
             <Trans>Follow</Trans>
           </Text>
         )}
@@ -134,9 +136,9 @@ const Join: React.FC<Props> = ({
 
 const Span = styled(Box)<{ unfollow?: boolean }>`
   color: ${props =>
-    props.unfollow ? '#fff' : props.theme.styles.colour.primary};
+    props.unfollow ? props.theme.styles.colors.darkgray : '#fff'};
   background: ${props =>
-    props.unfollow ? props.theme.styles.colour.primary : 'transparent'};
+    props.unfollow ? 'transparent' : props.theme.styles.colors.orange};
   cursor: pointer;
   height: 40px;
   width: 140px;
@@ -145,16 +147,14 @@ const Span = styled(Box)<{ unfollow?: boolean }>`
   text-align: center;
   border: 1px solid
     ${props =>
-      props.unfollow
-        ? props => props.theme.styles.colour.primary
-        : props.theme.styles.colour.primary};
+      props.unfollow ? props => props.theme.styles.colors.orange : '#fff'};
   &:hover {
     color: ${props =>
-      props.unfollow ? props => 'white' : props.theme.styles.colour.base6};
+      props.unfollow ? props => 'white' : props.theme.styles.colors.darkgray};
     background: ${props =>
       props.unfollow
-        ? props.theme.styles.colour.primary
-        : props.theme.styles.colour.newcommunityBgHover};
+        ? props.theme.styles.colors.orange
+        : props.theme.styles.colors.lightgray};
   }
 `;
 

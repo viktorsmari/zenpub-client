@@ -4,7 +4,7 @@ import { Trans } from '@lingui/macro';
 import { Heading } from 'rebass';
 import { Input, Textarea } from '@rebass/forms';
 import Button from '../Button/Button';
-import { compose } from 'react-apollo';
+import { compose } from 'recompose';
 import { withFormik, FormikProps, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import Alert from '../../elements/Alert';

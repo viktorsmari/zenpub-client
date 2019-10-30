@@ -21,9 +21,9 @@ const ActionsWrapper = ({
         <ActionIcon>
           <MessageCircle color="rgba(0,0,0,.4)" size="16" />
         </ActionIcon>
-        <Text ml={2}>{totalReplies}</Text>
+        <Text ml={1}>{totalReplies}</Text>
       </ActionItem>
-      <ActionItem>
+      <ActionItem ml={3}>
         <ActionIcon>
           <Star
             onClick={toggleLike}
@@ -31,7 +31,7 @@ const ActionsWrapper = ({
             size="16"
           />
         </ActionIcon>
-        <Text ml={2}>{totalLikes}</Text>
+        <Text ml={1}>{totalLikes}</Text>
       </ActionItem>
     </Items>
   </Actions>
@@ -44,7 +44,6 @@ const Items = styled(Flex)`
 const Actions = styled(Flex)``;
 
 const ActionItem = styled(Flex)`
-  margin-right: 32px;
   align-items: center;
   color: ${props => props.theme.styles.colors.gray};
   cursor: pointer;

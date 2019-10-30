@@ -103,9 +103,6 @@ export default class extends React.Component<LoginFormProps, LoginFormState> {
         <Row style={{ padding: '16px' }}>
           <Col>
             <TextField>
-              {/* <Label>
-                <Trans>Email address</Trans>:
-              </Label> */}
               <Input
                 placeholder={i18n._(i18nMark('Enter your email'))}
                 value={this.state.email}
@@ -123,9 +120,6 @@ export default class extends React.Component<LoginFormProps, LoginFormState> {
             </TextField>
             <Spacer />
             <TextField>
-              {/* <Label>
-                <Trans>Password</Trans>:
-              </Label> */}
               <Input
                 type="password"
                 placeholder={i18n._(i18nMark('Enter your password'))}
@@ -158,11 +152,6 @@ export default class extends React.Component<LoginFormProps, LoginFormState> {
             </Col>
           </Row>
         ) : null}
-        {/* <SubmitCol>
-            <Link to="/reset-password">
-              <Trans>Forgotten your password?</Trans>
-            </Link>
-          </SubmitCol> */}
         <SubmitCol alignRight>
           <LoaderButton
             loading={authenticating}

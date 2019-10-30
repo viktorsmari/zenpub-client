@@ -15,6 +15,7 @@ fragment BasicComment on Comment {
   }
   inReplyTo {
     localId
+    content
     author {
       id
       icon

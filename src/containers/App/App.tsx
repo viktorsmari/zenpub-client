@@ -11,8 +11,6 @@ import { ThemeProvider } from '../../styleguide/Wrapper';
 import '../../styles/loader.css';
 import '../../styles/social-icons.css';
 import Router from './Router';
-import { ProvideContexts } from '../../_context';
-import { ProvideGqlSdk } from './ProvideGqlSdk';
 
 const LocalStorageLocaleKey = 'locale';
 
@@ -170,23 +168,19 @@ export default class App extends React.Component<{}, State> {
     const direction = directionForLanguage(languageOfLocale(this.state.locale));
 
     return (
-      <ProvideContexts>
-        <ProvideGqlSdk>
-          <ThemeProvider rtl={direction === 'rtl'}>
-            <LocaleContext.Provider value={this.state}>
-              <I18nProvider
-                i18n={i18n}
-                language={this.state.locale}
-                catalogs={this.state.catalogs}
-              >
-                {/* <AppStyles> */}
-                <Router />
-                {/* </AppStyles> */}
-              </I18nProvider>
-            </LocaleContext.Provider>
-          </ThemeProvider>
-        </ProvideGqlSdk>
-      </ProvideContexts>
+      <ThemeProvider rtl={direction === 'rtl'}>
+        <LocaleContext.Provider value={this.state}>
+          <I18nProvider
+            i18n={i18n}
+            language={this.state.locale}
+            catalogs={this.state.catalogs}
+          >
+            {/* <AppStyles> */}
+            <Router />
+            {/* </AppStyles> */}
+          </I18nProvider>
+        </LocaleContext.Provider>
+      </ThemeProvider>
     );
   }
 }

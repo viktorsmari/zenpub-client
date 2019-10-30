@@ -1,17 +1,16 @@
 import { Trans } from '@lingui/macro';
+import React, { SFC, useState } from 'react';
 import { i18nMark } from '@lingui/react';
 import { i18n } from '../../containers/App/App';
-import React, { useState } from 'react';
-import { SFC } from 'react';
 import { TabPanel, Tabs } from 'react-tabs';
+import { Box, Button, Flex } from 'rebass';
+import CommunityModal from '../../components/elements/CommunityModal';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
 import { SocialText } from '../../components/elements/SocialText';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem';
-import { GqlSdkCtx } from '../../containers/App/ProvideGqlSdk';
+import { useCreateThreadMutationMutation } from '../../generated/graphqlapollo';
 import styled from '../../themes/styled';
-import { Flex, Box, Button } from 'rebass';
-import CommunityModal from '../../components/elements/CommunityModal';
 
 const tt = {
   placeholders: {
@@ -35,32 +34,20 @@ const CommunityPage: SFC<Props> = ({
   type,
   refetch
 }) => {
-  // const { dispatch } = React.useContext(ActionContext);
-  // const history = useHistory();
-  const sdk = React.useContext(GqlSdkCtx);
+  const [createThreadMutation] = useCreateThreadMutationMutation();
   const [isOpen, onOpen] = useState(false);
   const [newThreadText, setNewThreadText] = React.useState('');
   const addNewThread = React.useCallback(
     () => {
-      // dispatch(
-      //   gqlRequest.create({
-      //     op: {
-      //       createThreadMutation: [
-      //         { comment: { content: newThreadText }, id: community.localId }
-      //       ]
-      //     },
-      //     replyTo: null
-      //   })
-      // );
-      sdk
-        .createThreadMutation({
+      createThreadMutation({
+        variables: {
           comment: { content: newThreadText },
           id: community.localId
-        })
-        .then(() => {
-          socialTextRef.current && (socialTextRef.current.value = '');
-          refetch();
-        });
+        }
+      }).then(() => {
+        socialTextRef.current && (socialTextRef.current.value = '');
+        refetch();
+      });
     },
     [newThreadText, community.localId]
   );
@@ -148,11 +135,21 @@ const ButtonWrapper = styled(Flex)`
 
 const CreateCollection = styled(Button)`
   flex: 1;
-  border: 2px solid ${props => props.theme.styles.colors.orange} !important;
+  background: none;
+  font-weight: 600;
+  cursor: pointer;
+  flex: 1;
+  border: 1px solid ${props => props.theme.styles.colors.lightgray} !important;
   background: none;
   font-weight: 600;
   color: ${props => props.theme.styles.colors.darkgray} !important;
   cursor: pointer;
+  padding: 16px;
+  text-transform: uppercase;
+  font-size: 14px !important;
+  &:hover {
+    background: ${props => props.theme.styles.colors.lightgray};
+  }
 `;
 
 export const WrapperTab = styled.div`

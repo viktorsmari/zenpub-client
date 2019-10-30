@@ -123,10 +123,12 @@ const Span = styled.div`
   font-size: 16px;
   border-radius: 4px;
   border: 1px solid ${props => props.theme.styles.colors.orange};
-  font-size: 14px;
+  font-size: 11px;
   line-height: 29px;
   color: ${props => props.theme.styles.colors.darkgray};
   font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
   letter-spacing: 1px;
   & svg {
     margin-right: 4px;

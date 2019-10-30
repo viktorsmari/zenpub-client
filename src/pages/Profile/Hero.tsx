@@ -1,8 +1,6 @@
 import React, { SFC } from 'react';
-import { Helmet } from 'react-helmet';
 import { Box, Text, Flex } from 'rebass';
 import { Globe } from '../../components/elements/Icons';
-import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
 
 interface Props {
@@ -18,11 +16,11 @@ interface Props {
 
 const HeroComp: SFC<Props> = ({ user }) => (
   <ProfileBox p={1} mb={2}>
-    <Helmet>
+    {/* <Helmet>
       <title>
         {APP_NAME} > Profile > {user.name}
       </title>
-    </Helmet>
+    </Helmet> */}
     <Hero>
       <HeroBg src={user.image} />
       <Flex>
