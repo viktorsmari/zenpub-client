@@ -2,6 +2,8 @@ import React from 'react';
 import Stateless from './stateless';
 import { useGetThreadQuery } from '../../generated/graphqlapollo';
 import { useInterceptor } from '../../context/global/apolloInterceptorCtx';
+import { toast } from 'react-toastify';
+import { BLOCK_REQUEST } from '../../apollo/client';
 export interface Props {
   id: number;
 }
@@ -17,7 +19,10 @@ export const Thread: React.FC<Props> = ({ id }) => {
   });
   useInterceptor({
     operation: 'createReply',
-    request: () => () => threadQuery.refetch()
+    request: () => resp => {
+      resp && resp !== BLOCK_REQUEST && toast('Reply sent!');
+      threadQuery.refetch();
+    }
   });
 
   return <Stateless threadQuery={threadQuery} />;
