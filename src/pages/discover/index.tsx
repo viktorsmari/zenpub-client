@@ -1,38 +1,34 @@
 import { Trans } from '@lingui/macro';
 import React from 'react';
-import { graphql, QueryControls, OperationOption } from 'react-apollo';
+import { NavLink } from 'react-router-dom';
 // import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
-import { compose } from 'recompose';
 import Loader from '../../components/elements/Loader/Loader';
 import LoadMoreTimeline from '../../components/elements/Loadmore/localInstance';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem';
 import FeaturedCollections from '../../components/featuredCollections';
 import FeaturedCommunities from '../../components/featuredCommunities';
-import styled from '../../themes/styled';
-import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
+import { useLocalActivitiesQuery } from '../../generated/graphqlapollo';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import {
-  WrapperPanel,
+  Nav,
+  NavItem,
   Panel,
   PanelTitle,
-  Nav,
-  NavItem
+  WrapperPanel
 } from '../../sections/panel';
-import { NavLink } from 'react-router-dom';
+import styled from '../../themes/styled';
+import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 
-const localActivities = require('../../graphql/localActivities.graphql');
-
-interface Data extends QueryControls {
-  localActivities: any;
-}
-
-interface Props {
-  data: Data;
-}
+interface Props {}
 
 const Home: React.FC<Props> = props => {
+  const { data, error, loading, fetchMore } = useLocalActivitiesQuery({
+    variables: {
+      limit: 15
+    }
+  });
   return (
     <MainContainer>
       <HomeBox>
@@ -56,21 +52,25 @@ const Home: React.FC<Props> = props => {
                 </SuperTab>
               </SuperTabList>
               <TabPanel>
-                {props.data.error ? (
+                {error ? (
                   <span>
-                    <Trans>{props.data.error}</Trans>
+                    <Trans>{error}</Trans>
                   </span>
-                ) : props.data.loading ? (
+                ) : loading ? (
                   <Loader />
                 ) : (
                   <div>
-                    {props.data.localActivities.nodes.map((t, i) => (
-                      <TimelineItem node={t} user={t.user} key={i} />
+                    {data!.localActivities!.nodes!.map(activity => (
+                      <TimelineItem
+                        node={activity!}
+                        user={activity!.user!}
+                        key={activity!.id!}
+                      />
                     ))}
                     <div style={{ padding: '8px' }}>
                       <LoadMoreTimeline
-                        fetchMore={props.data.fetchMore}
-                        localInstance={props.data.localActivities}
+                        fetchMore={fetchMore}
+                        localInstance={data!.localActivities!}
                       />
                     </div>
                   </div>
@@ -156,19 +156,4 @@ const WrapperFeatured = styled.div`
   margin-top: 8px;
 `;
 
-const withGetInbox = graphql<
-  {},
-  {
-    data: {
-      localActivities: any;
-    };
-  }
->(localActivities, {
-  options: (props: Props) => ({
-    variables: {
-      limit: 15
-    }
-  })
-}) as OperationOption<{}, {}>;
-
-export default compose(withGetInbox)(Home);
+export default Home;
