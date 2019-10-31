@@ -257,27 +257,32 @@ class Login extends React.Component<LoginProps, LoginState> {
     }
 
     this.setState({ authenticating: true });
+    let error = '';
     try {
-      await this.props.login({
+      const resp = await this.props.login({
         variables: credentials
       });
+      if (resp.errors) {
+        error = resp.errors.map(err => err.message).join('\n');
+      }
     } catch (err) {
-      // alert(err);
+      error = i18n._(
+        i18nMark(
+          'Could not log in. Please check your credentials or use the link below to reset your password.'
+        )
+      );
+    }
+    if (error) {
       this.setState({
         authenticating: false,
         validation: [
           {
             field: null,
             type: ValidationType.warning,
-            message: i18n._(
-              i18nMark(
-                'Could not log in. Please check your credentials or use the link below to reset your password.'
-              )
-            )
+            message: error
           } as ValidationObject
         ]
       });
-      return;
     }
   }
 
