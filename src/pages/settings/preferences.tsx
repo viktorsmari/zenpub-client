@@ -8,7 +8,7 @@ import media from 'styled-media-query';
 import styled from '../../themes/styled';
 
 const Header = styled(Flex)`
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
   svg {
     cursor: pointer;
   }

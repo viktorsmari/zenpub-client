@@ -79,7 +79,7 @@ const Wrapper = styled(Box)`
   border-radius: 6px;
   padding-bottom: 0;
   &:hover {
-    background: ${props => props.theme.styles.colors.lighter};
+    background: ${props => props.theme.colors.lighter};
     text-decoration: none;
   }
   & a {

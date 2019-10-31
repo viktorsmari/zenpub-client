@@ -6,7 +6,7 @@ import { ChevronLeft } from 'react-feather';
 import { useHistory } from 'react-router';
 
 const Header = styled(Flex)`
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
   height: 50px;
   align-items: center;
   padding: 0 8px;

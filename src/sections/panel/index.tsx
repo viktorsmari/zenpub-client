@@ -63,7 +63,7 @@ export const Panel = styled(Box)`
 
 export const PanelTitle = styled(Text)`
   text-transform: uppercase;
-  border-bottom: 4px solid ${props => props.theme.styles.colors.lighter};
+  border-bottom: 4px solid ${props => props.theme.colors.lighter};
   padding: 16px;
 `;
 
@@ -72,9 +72,9 @@ export const Nav = styled(Box)`
 `;
 
 export const NavItem = styled(Text)`
-color: ${props => props.theme.styles.colors.darkgray}
+color: ${props => props.theme.colors.darkgray}
 a {
-  color: ${props => props.theme.styles.colors.darkgray}
+  color: ${props => props.theme.colors.darkgray}
   text-decoration: none;
 }
   `;

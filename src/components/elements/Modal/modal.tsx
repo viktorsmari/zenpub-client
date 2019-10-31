@@ -59,7 +59,7 @@ const Content = styled.div`
 `;
 
 export const Container = styled.div`
-  font-family: ${props => props.theme.styles.fontFamily};
+  font-family: ${props => props.theme.fontFamily};
 `;
 export const Actions = styled.div`
   ${clearFix()};
@@ -89,7 +89,7 @@ export const ContainerForm = styled.div`
 `;
 
 export const Header = styled.div`
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lighter};
+  border-bottom: 1px solid ${props => props.theme.colors.lighter};
   & h5 {
     text-align: center !important;
     margin: 0 !important;
@@ -98,7 +98,7 @@ export const Header = styled.div`
 
 export const Row = styled.div<{ big?: boolean }>`
   ${clearFix()};
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lighter};
+  border-bottom: 1px solid ${props => props.theme.colors.lighter};
   height: ${props => (props.big ? '180px' : 'auto')};
   display: flex;
   padding: 20px;

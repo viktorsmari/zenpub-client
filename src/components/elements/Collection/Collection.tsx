@@ -72,7 +72,7 @@ const ActionItem = styled.div`
   display: inline-block;
   font-size: 14px;
   font-weight: 600;
-  color: ${props => props.theme.styles.colors.lightgray};
+  color: ${props => props.theme.colors.lightgray};
   text-transform: uppercase;
   & svg {
     vertical-align: sub;
@@ -84,7 +84,7 @@ const ActionItem = styled.div`
 const Wrapper = styled(Flex)`
   cursor: pointer;
   position: relative;
-  border-bottom: 4px solid ${props => props.theme.styles.colors.lighter};
+  border-bottom: 4px solid ${props => props.theme.colors.lighter};
   & a {
     display: flex;
     color: inherit;
@@ -94,7 +94,7 @@ const Wrapper = styled(Flex)`
   }
   &:hover {
     border-radius: 4px;
-    background: ${props => props.theme.styles.colors.lighter};
+    background: ${props => props.theme.colors.lighter};
   }
 `;
 const Img = styled.div`
@@ -111,11 +111,11 @@ const Infos = styled.div`
   position: relative;
 `;
 const Title = styled(Heading)`
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
   font-size: 20px;
 `;
 const Desc = styled(Text)`
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
   line-height: 20px;
   margin-bottom: 26px !important;
 `;

@@ -115,12 +115,12 @@ export const Footer = styled.div`
   text-align: center;
   background: #ffefd9;
   font-size: 13px;
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
   color: #544f46;
 `;
 
 const ButtonWrapper = styled(Flex)`
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
 `;
 
 const CreateCollection = styled(Button)`
@@ -129,16 +129,16 @@ const CreateCollection = styled(Button)`
   font-weight: 600;
   cursor: pointer;
   flex: 1;
-  border: 1px solid ${props => props.theme.styles.colors.lightgray} !important;
+  border: 1px solid ${props => props.theme.colors.lightgray} !important;
   background: none;
   font-weight: 600;
-  color: ${props => props.theme.styles.colors.darkgray} !important;
+  color: ${props => props.theme.colors.darkgray} !important;
   cursor: pointer;
   padding: 16px;
   text-transform: uppercase;
   font-size: 14px !important;
   &:hover {
-    background: ${props => props.theme.styles.colors.lightgray};
+    background: ${props => props.theme.colors.lightgray};
   }
 `;
 

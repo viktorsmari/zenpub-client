@@ -82,15 +82,15 @@ const Actions = styled(Flex)`
   align-items: center;
 `;
 const Title = styled(Text)`
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
 `;
 
 const Description = styled(Text)`
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
 `;
 
 const Username = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   font-weight: 500;
 `;
 
@@ -147,7 +147,7 @@ const EditButton = styled.span`
   margin-rigth: 16px;
   border-radius: 40px;
   text-align: center;
-  border: 1px solid ${props => props.theme.styles.colors.orange};
+  border: 1px solid ${props => props.theme.colors.orange};
   cursor: pointer;
   & svg {
     text-align: center;
@@ -181,11 +181,11 @@ const HeroInfo = styled.div`
     font-size: 24px !important;
     line-height: 40px !important;
     margin-bottom: 0px;
-    color: ${props => props.theme.styles.colors.darkgray};
+    color: ${props => props.theme.colors.darkgray};
   }
   & p {
     margin-top: 8px;
-    color: ${props => props.theme.styles.colors.darkgray};
+    color: ${props => props.theme.colors.darkgray};
   }
   & button {
     span {

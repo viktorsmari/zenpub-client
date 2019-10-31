@@ -84,8 +84,8 @@ const FollowerName = styled(Text)`
   font-size: 14px !important;
   line-height: 20px !important;
   text-decoration: none;
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
   &:hover {
-    color: ${props => props.theme.styles.colors.orange};
+    color: ${props => props.theme.colors.orange};
   }
 `;

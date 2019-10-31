@@ -121,19 +121,19 @@ const Empty = styled(Box)`
   color: #000000b5;
 `;
 const ButtonWrapper = styled(Flex)`
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
   button {
     flex: 1;
-    border: 1px solid ${props => props.theme.styles.colors.lightgray} !important;
+    border: 1px solid ${props => props.theme.colors.lightgray} !important;
     background: none;
     font-weight: 600;
-    color: ${props => props.theme.styles.colors.darkgray} !important;
+    color: ${props => props.theme.colors.darkgray} !important;
     cursor: pointer;
     padding: 16px;
     text-transform: uppercase;
     font-size: 14px;
     &:hover {
-      background: ${props => props.theme.styles.colors.lightgray};
+      background: ${props => props.theme.colors.lightgray};
     }
   }
 `;

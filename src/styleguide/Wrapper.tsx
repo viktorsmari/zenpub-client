@@ -1,6 +1,6 @@
 import React from 'react';
 import { moodlenet } from '../themes';
-import { ThemeProvider as StyledTheme } from 'styled-theming';
+import { ThemeProvider as StyledTheme } from 'styled-components';
 
 const ThemeProvider = ({ children }) => {
   return <StyledTheme theme={moodlenet}>{children}</StyledTheme>;

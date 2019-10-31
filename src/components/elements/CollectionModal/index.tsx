@@ -182,7 +182,7 @@ const Span = styled.button`
   height: 37px;
   cursor: pointer;
   &:hover {
-    background: ${props => props.theme.styles.colors.orange};
+    background: ${props => props.theme.colors.orange};
   }
 `;
 

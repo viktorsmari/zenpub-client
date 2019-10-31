@@ -60,18 +60,18 @@ const ProfileBox = styled(Box)`
 `;
 
 const Title = styled(Text)`
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
 `;
 const Username = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   font-weight: 500;
 `;
 const Description = styled(Text)`
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
 `;
 
 const Location = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   font-weight: 500;
   line-height: 26px;
   font-size: 14px;
@@ -81,7 +81,7 @@ const Location = styled(Text)`
     display: inline-block;
     margin-right: 8px;
     & svg {
-      color: ${props => props.theme.styles.colors.gray};
+      color: ${props => props.theme.colors.gray};
       vertical-align: text-bottom;
     }
   }
@@ -112,7 +112,7 @@ const Img = styled.div`
   width: 120px;
   height: 120px;
   border-radius: 100px;
-  background: ${props => props.theme.styles.colors.lightgray};
+  background: ${props => props.theme.colors.lightgray};
   border: 3px solid white;
   margin-bottom: 10px;
   background-size: cover;
@@ -128,7 +128,7 @@ const Hero = styled.div`
   position: relative;
   border-radius: 6px;
   & p {
-    color: ${props => props.theme.styles.colors.darkgray};
+    color: ${props => props.theme.colors.darkgray};
     padding: 0 24px;
     margin-left: 120px;
     margin: 0;

@@ -13,7 +13,7 @@ import Link from '../../components/elements/Link/Link';
 import SignupModal from '../../components/elements/SignupModal';
 import { LOCAL_STORAGE_USER_ACCESS_TOKEN } from '../../constants';
 import { i18n } from '../../containers/App/App';
-import styled, { ThemeInterface } from '../../themes/styled';
+import styled, { MoodleThemeInterface } from '../../themes/styled';
 import { GlobCtx } from '../../context/global/GLOB';
 import { login } from '../../redux/session';
 import LoginForm from './LoginForm';
@@ -194,7 +194,7 @@ interface LoginProps extends RouteComponentProps {
   // setLocalUser: Function;
   login: Function;
   data: object;
-  theme: ThemeInterface;
+  theme: MoodleThemeInterface;
   handleSignup(): boolean;
   isOpen: boolean;
 }

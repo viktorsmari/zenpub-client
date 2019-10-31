@@ -143,15 +143,15 @@ class CollectionComponent extends React.Component<Props> {
 }
 
 const Title = styled(Text)`
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
 `;
 
 const Description = styled(Text)`
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
 `;
 
 const Username = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   font-weight: 500;
 `;
 
@@ -179,7 +179,7 @@ const EditButton = styled.span`
   margin-rigth: 16px;
   border-radius: 40px;
   text-align: center;
-  border: 1px solid ${props => props.theme.styles.colors.orange};
+  border: 1px solid ${props => props.theme.colors.orange};
   cursor: pointer;
   & svg {
     text-align: center;
@@ -197,7 +197,7 @@ const HeroInfo = styled.div`
     margin: 0;
     line-height: 32px !important;
     font-size: 24px !important;
-    color: ${props => props.theme.styles.colors.darkgray};
+    color: ${props => props.theme.colors.darkgray};
     ${media.lessThan('medium')`
       margin-top: 8px;
     `};
@@ -207,14 +207,14 @@ const HeroInfo = styled.div`
     color: rgba(0, 0, 0, 0.8);
     font-size: 15px;
     margin-top: 8px;
-    color: ${props => props.theme.styles.colors.darkgray};
+    color: ${props => props.theme.colors.darkgray};
   }
 `;
 const HeroCont = styled.div`
   margin-bottom: 16px;
   border-radius: 6px;
   box-sizing: border-box;
-  background: ${props => props.theme.styles.colors.lightgray};
+  background: ${props => props.theme.colors.lightgray};
 `;
 
 const Hero = styled.div`
@@ -234,7 +234,7 @@ const Background = styled.div`
   border-radius: 4px;
   background-size: cover;
   background-repeat: no-repeat;
-  background-color: ${props => props.theme.styles.colors.lightgray};
+  background-color: ${props => props.theme.colors.lightgray};
   position: relative;
   margin: 0 auto;
 `;

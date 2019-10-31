@@ -30,18 +30,8 @@ export interface MoodleThemeInterface {
   fontFamily: string;
 }
 
-// MoodleNet theme interface, defines the shape of a theme definition
-export interface ThemeInterface {
-  // There is a "styles" parent property on the interface because
-  // we are using Zendesk Garden which provides its own ThemeProvider,
-  // which places the consumer theme at `props.theme.styles` instead
-  // of the styled-components' usual `props.theme`.
-  // https://garden.zendesk.com/react-components/theming/#themeprovider
-  styles: MoodleThemeInterface;
-}
-
 export interface StyledThemeInterface {
-  theme: ThemeInterface;
+  theme: MoodleThemeInterface;
 }
 
 const {
@@ -51,7 +41,7 @@ const {
   keyframes,
   ThemeProvider,
   withTheme
-} = styledComponents as ThemedStyledComponentsModule<ThemeInterface>;
+} = styledComponents as ThemedStyledComponentsModule<MoodleThemeInterface>;
 
 export { css, createGlobalStyle, keyframes, ThemeProvider, withTheme };
 

@@ -29,7 +29,7 @@ const Item = styled.div`
   height: 50px;
   cursor: pointer;
   font-weight: 600;
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
   & span {
     display: inline-block;
     margin-right: 8px;

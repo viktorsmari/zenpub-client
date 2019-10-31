@@ -7,7 +7,7 @@ export const SuperTabList = styled(TabList)`
   list-style: none;
   padding: 0;
   margin: 0;
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: 32px;
@@ -50,7 +50,7 @@ export const StickyTabList = styled(SuperTabList)`
   list-style: none;
   padding: 0;
   margin: 0;
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: 32px;

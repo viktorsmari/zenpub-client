@@ -14,10 +14,10 @@ const Icon = styled(Flex)`
   cursor: pointer;
   &:hover {
     svg {
-      stroke: ${props => props.theme.styles.colors.orange};
+      stroke: ${props => props.theme.colors.orange};
     }
     div {
-      color: ${props => props.theme.styles.colors.orange};
+      color: ${props => props.theme.colors.orange};
     }
   }
 `;
@@ -36,23 +36,23 @@ const Avatar = styled(Image)`
   width: 48px !important;
   height: 48px !important;
   border-radius: 100px;
-  background: ${props => props.theme.styles.colors.black};
+  background: ${props => props.theme.colors.black};
 `;
 
 const Username = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   margin: 0 8px;
   font-weight: 500;
 `;
 
 const Spacer = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   margin-right: 8px;
   font-weight: 500;
 `;
 
 const Date = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   font-weight: 500;
 `;
 
@@ -61,9 +61,9 @@ const Message = styled(Text)`
 `;
 
 const InReply = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   a {
-    color: ${props => props.theme.styles.colors.black} !important;
+    color: ${props => props.theme.colors.black} !important;
     font-weight: 700;
   }
 `;

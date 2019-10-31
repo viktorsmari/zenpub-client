@@ -111,9 +111,9 @@ const Join: React.FC<Props> = ({
 };
 
 const JoinButton = styled(Button)`
-  border: 1px solid ${props => props.theme.styles.colors.orange} !important;
+  border: 1px solid ${props => props.theme.colors.orange} !important;
   font-size: 11px !important;
-  color: ${props => props.theme.styles.colors.darkgray} !important;
+  color: ${props => props.theme.colors.darkgray} !important;
   text-transform: uppercase !important;
   letter-spacing: 1px !important;
   background: transparent !important;
@@ -133,10 +133,10 @@ const Span = styled.div`
   min-width: 0;
   font-size: 16px;
   border-radius: 4px;
-  border: 1px solid ${props => props.theme.styles.colors.orange};
+  border: 1px solid ${props => props.theme.colors.orange};
   font-size: 11px;
   line-height: 29px;
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;

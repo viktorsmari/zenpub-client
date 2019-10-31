@@ -5,7 +5,7 @@ import styled from '../../../themes/styled';
 import Loader from '../Loader/Loader';
 
 const Btn = styled(Button)`
-  background: ${props => props.theme.styles.colors.orange} !important;
+  background: ${props => props.theme.colors.orange} !important;
   cursor: pointer;
 `;
 interface ButtonProps extends React.ButtonHTMLAttributes<object> {

@@ -126,10 +126,9 @@ const Join: React.FC<Props> = ({
 };
 
 const Span = styled(Box)<{ unfollow?: boolean }>`
-  color: ${props =>
-    props.unfollow ? props.theme.styles.colors.darkgray : '#fff'};
+  color: ${props => (props.unfollow ? props.theme.colors.darkgray : '#fff')};
   background: ${props =>
-    props.unfollow ? 'transparent' : props.theme.styles.colors.orange};
+    props.unfollow ? 'transparent' : props.theme.colors.orange};
   cursor: pointer;
   height: 40px;
   width: 140px;
@@ -137,15 +136,14 @@ const Span = styled(Box)<{ unfollow?: boolean }>`
   border-radius: 3px;
   text-align: center;
   border: 1px solid
-    ${props =>
-      props.unfollow ? props => props.theme.styles.colors.orange : '#fff'};
+    ${props => (props.unfollow ? props => props.theme.colors.orange : '#fff')};
   &:hover {
     color: ${props =>
-      props.unfollow ? props => 'white' : props.theme.styles.colors.darkgray};
+      props.unfollow ? props => 'white' : props.theme.colors.darkgray};
     background: ${props =>
       props.unfollow
-        ? props.theme.styles.colors.orange
-        : props.theme.styles.colors.lightgray};
+        ? props.theme.colors.orange
+        : props.theme.colors.lightgray};
   }
 `;
 
