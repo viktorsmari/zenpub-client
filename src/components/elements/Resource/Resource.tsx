@@ -17,7 +17,7 @@ import * as React from 'react';
 import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
 import styled from '../../../themes/styled';
-import { Heading, Text } from 'rebass';
+import { Heading, Text } from 'rebass/styled-components';
 import Button from '../Button/Button';
 import EditResourceModal from '../EditResourceModal';
 const PlaceholderImg = require('../Icons/resourcePlaceholder.png');

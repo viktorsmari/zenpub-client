@@ -12,7 +12,7 @@ import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import styled from '../../themes/styled';
 import CollectionType from '../../types/Collection';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-import { Flex } from 'rebass';
+import { Flex } from 'rebass/styled-components';
 const { getCollectionsQuery } = require('../../graphql/getCollections.graphql');
 
 interface Data extends QueryControls {

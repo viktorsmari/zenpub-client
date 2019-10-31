@@ -8,7 +8,7 @@ import { graphql } from 'react-apollo';
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
 import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
-import Button from '../../components/elements/Button/Button';
+// import Button from '../../components/elements/Button/Button';
 import Link from '../../components/elements/Link/Link';
 import SignupModal from '../../components/elements/SignupModal';
 import { i18n } from '../../containers/App/App';
@@ -16,18 +16,18 @@ import { SessionContext } from '../../context/global/sessionCtx';
 import styled, { MoodleThemeInterface } from '../../themes/styled';
 import LoginForm from './LoginForm';
 import { ValidationField, ValidationObject, ValidationType } from './types';
-
+import { Button } from 'rebass/styled-components';
 const { loginMutation } = require('../../graphql/login.graphql');
 
-const Signup = styled(Button)`
-  margin-top: 24px !important;
-  width: 100%;
-  color: #fff !important;
-  text-transform: uppercase
-  &:hover {
-    background: #d67218 !important;
-  }
-`;
+// const Signup = styled(Button)`
+//   margin-top: 24px !important;
+//   width: 100%;
+//   color: #fff !important;
+//   text-transform: uppercase
+//   &:hover {
+//     background: #d67218 !important;
+//   }
+// `;
 
 const Background = styled.div`
   background-image: url('https://i.imgur.com/zpWmkgE.png');
@@ -325,9 +325,9 @@ class Login extends React.Component<LoginProps, LoginState> {
               <Or>
                 <Trans>Or</Trans>
               </Or>
-              <Signup onClick={this.props.handleSignup}>
+              <Button variant="secondary" onClick={this.props.handleSignup}>
                 <Trans>Sign up</Trans>
-              </Signup>
+              </Button>
             </FormWrapper>
             <Image>
               <Background />

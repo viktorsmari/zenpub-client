@@ -9,9 +9,9 @@ import {
   ContainerForm,
   Header
 } from '../Modal/modal';
-import { Heading } from 'rebass';
+import { Heading } from 'rebass/styled-components';
 import { Input, Textarea } from '@rebass/forms';
-import { Button } from 'rebass';
+import { Button } from 'rebass/styled-components';
 import { compose } from 'recompose';
 import { withFormik, FormikProps, Form, Field } from 'formik';
 import * as Yup from 'yup';

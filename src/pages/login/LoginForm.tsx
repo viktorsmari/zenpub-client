@@ -2,12 +2,13 @@ import { i18nMark } from '@lingui/react';
 import { Col, Row } from '@zendeskgarden/react-grid';
 import { Message, TextField } from '@zendeskgarden/react-textfields';
 import * as React from 'react';
-import { LoaderButton } from '../../components/elements/Button/Button';
+import { Trans } from '@lingui/macro';
+// import { LoaderButton } from '../../components/elements/Button/Button';
 import { Input } from '@rebass/forms';
 import { i18n } from '../../containers/App/App';
 import styled from '../../themes/styled';
 import { ValidationField, ValidationObject, ValidationType } from './types';
-
+import { Button } from 'rebass/styled-components';
 type SubmitColProps = {
   alignRight?: boolean;
 };
@@ -23,14 +24,6 @@ const SubmitCol = styled(Col)`
   padding: 0px 16px !important;
   justify-content: ${(props: SubmitColProps) =>
     props.alignRight ? 'flex-end' : 'flex-start'};
-  button {
-    width: 100%;
-    color: #fff !important;
-    text-transform: uppercase
-      &:hover {
-      background: #d67218 !important;
-    }
-  }
 `;
 
 const Spacer = styled.div`
@@ -91,7 +84,7 @@ export default class extends React.Component<LoginFormProps, LoginFormState> {
   }
 
   render() {
-    const { onInputChange, onSubmit, authenticating } = this.props;
+    const { onInputChange, onSubmit } = this.props;
 
     return (
       <LoginForm
@@ -153,10 +146,10 @@ export default class extends React.Component<LoginFormProps, LoginFormState> {
           </Row>
         ) : null}
         <SubmitCol alignRight>
-          <LoaderButton
-            loading={authenticating}
-            text={i18n._(i18nMark('Sign in'))}
-          />
+          <Button style={{ width: '100%' }} variant="secondary">
+            {' '}
+            <Trans>Sign in</Trans>{' '}
+          </Button>
         </SubmitCol>
       </LoginForm>
     );

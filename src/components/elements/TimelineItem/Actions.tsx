@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { MessageCircle, Star } from 'react-feather';
 import styled from '../../../themes/styled';
-import { Box, Flex, Text } from 'rebass';
+import { Box, Flex, Text } from 'rebass/styled-components';
 
 export interface Props {
   totalReplies: number;
@@ -41,7 +41,10 @@ const Items = styled(Flex)`
   flex: 1;
 `;
 
-const Actions = styled(Flex)``;
+const Actions = styled(Flex)`
+  position: relative;
+  z-index: 9999;
+`;
 
 const ActionItem = styled(Flex)`
   align-items: center;

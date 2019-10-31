@@ -16,7 +16,7 @@ import { Route, Switch } from 'react-router-dom';
 import CollectionPage from './collection';
 import Join from '../../components/elements/Collection/Join';
 import { Settings } from 'react-feather';
-import { Text, Flex } from 'rebass';
+import { Text, Flex } from 'rebass/styled-components';
 import media from 'styled-media-query';
 
 enum TabsEnum {

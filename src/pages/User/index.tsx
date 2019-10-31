@@ -21,7 +21,7 @@ import LoadMoreTimeline from '../../components/elements/Loadmore/timelineoutbox'
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel, Panel, PanelTitle, Nav } from '../../sections/panel';
-import { Button } from 'rebass';
+import { Button } from 'rebass/styled-components';
 import styled from '../../themes/styled';
 
 const Follow = styled(Button)`

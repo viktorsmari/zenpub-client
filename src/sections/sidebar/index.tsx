@@ -5,7 +5,7 @@ import { Globe } from 'react-feather';
 import { SearchBox } from 'react-instantsearch-dom';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { NavLink } from 'react-router-dom';
-import { Box, Flex, Image, Text } from 'rebass';
+import { Box, Flex, Image, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import Loader from '../../components/elements/Loader/Loader';
 import { GetSidebarQueryQueryResult } from '../../generated/graphqlapollo';
@@ -200,7 +200,7 @@ const Sidebar: React.FC<Props> = ({ resp }) => {
                 <NavItem mb={3} alignItems={'center'}>
                   <Image
                     mr={2}
-                    borderRadius={4}
+                    // borderRadius={4}
                     height={36}
                     width={36}
                     src={MnetLogo}
@@ -224,7 +224,7 @@ const Sidebar: React.FC<Props> = ({ resp }) => {
                     <NavItem alignItems={'center'} mb={2}>
                       <Image
                         mr={2}
-                        borderRadius={4}
+                        // borderRadius={4}
                         height={36}
                         width={36}
                         src={userJoinedCommunitiesEdge!.node!.icon!}

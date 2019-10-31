@@ -3,7 +3,7 @@ import styled from '../../../themes/styled';
 import CollectionType from '../../../types/Collection';
 import { Link } from 'react-router-dom';
 import { Resource } from '../Icons';
-import { Flex, Text, Heading } from 'rebass';
+import { Flex, Text, Heading } from 'rebass/styled-components';
 const PlaceholderImg = require('../Icons/collectionPlaceholder.png');
 
 interface CollectionProps {

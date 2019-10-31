@@ -14,7 +14,7 @@
 import * as React from 'react';
 import media from 'styled-media-query';
 import styled from '../../../themes/styled';
-import { Heading, Text } from 'rebass';
+import { Heading, Text } from 'rebass/styled-components';
 import { NavLink } from 'react-router-dom';
 const PlaceholderImg = require('../Icons/resourcePlaceholder.png');
 

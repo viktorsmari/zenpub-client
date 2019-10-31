@@ -1,5 +1,5 @@
 import React, { SFC } from 'react';
-import { Box, Text, Flex } from 'rebass';
+import { Box, Text, Flex } from 'rebass/styled-components';
 import { Globe } from '../../components/elements/Icons';
 import styled from '../../themes/styled';
 
