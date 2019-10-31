@@ -181,11 +181,11 @@ const HeroInfo = styled.div`
     font-size: 24px !important;
     line-height: 40px !important;
     margin-bottom: 0px;
-    color: ${props => props.theme.styles.colour.communityTitle};
+    color: ${props => props.theme.styles.colors.darkgray};
   }
   & p {
     margin-top: 8px;
-    color: ${props => props.theme.styles.colour.communityNote};
+    color: ${props => props.theme.styles.colors.darkgray};
   }
   & button {
     span {

@@ -76,7 +76,7 @@ const Info = styled.div`
 
 const Wrapper = styled.div`
   &:hover {
-    background: ${props => props.theme.styles.colour.resourceBg};
+    background: ${props => props.theme.styles.colors.lightgray};
   }
   padding: 8px;
   margin-bottom: 8px;
@@ -116,7 +116,7 @@ const Title = styled(Heading)`
   line-height: 22px !important;
   margin-top: 8px;
   flex: 1;
-  color: ${props => props.theme.styles.colour.resourceTitle};
+  color: ${props => props.theme.styles.colors.darkgray};
   ${media.lessThan('medium')`
   text-align: center;
   padding: 0 8px;
@@ -126,7 +126,7 @@ const Title = styled(Heading)`
 const Summary = styled(Text)`
   margin: 0 !important;
   margin-top: 4px;
-  color: ${props => props.theme.styles.colour.resourceNote}
+  color: ${props => props.theme.styles.colors.darkgray}
   font-size: 13px;
   line-height: 18px;
 `;

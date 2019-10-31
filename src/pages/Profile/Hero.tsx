@@ -112,7 +112,7 @@ const Img = styled.div`
   width: 120px;
   height: 120px;
   border-radius: 100px;
-  background: ${props => props.theme.styles.colour.secondary};
+  background: ${props => props.theme.styles.colors.lightgray};
   border: 3px solid white;
   margin-bottom: 10px;
   background-size: cover;
@@ -128,7 +128,7 @@ const Hero = styled.div`
   position: relative;
   border-radius: 6px;
   & p {
-    color: ${props => props.theme.styles.colour.heroNote};
+    color: ${props => props.theme.styles.colors.darkgray};
     padding: 0 24px;
     margin-left: 120px;
     margin: 0;

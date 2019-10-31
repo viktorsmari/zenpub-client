@@ -72,7 +72,7 @@ const ActionItem = styled.div`
   display: inline-block;
   font-size: 14px;
   font-weight: 600;
-  color: ${props => props.theme.styles.colour.collectionIcon};
+  color: ${props => props.theme.styles.colors.lightgray};
   text-transform: uppercase;
   & svg {
     vertical-align: sub;

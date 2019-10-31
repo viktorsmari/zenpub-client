@@ -66,21 +66,18 @@ const CommunityPage: SFC<Props> = ({
                 <Trans>Collections</Trans>
               </h5>
             </SuperTab>
-            {/* <SuperTab>
-            <h5>
-              <Trans>Discussions</Trans>
-            </h5>
-          </SuperTab> */}
           </SuperTabList>
           <TabPanel>
-            <Box m={3}>
-              <SocialText
-                onInput={setNewThreadTextInput}
-                reference={socialTextRef}
-                submit={addNewThread}
-                placeholder="Start a new thread..."
-              />
-            </Box>
+            {community.followed ? (
+              <Box m={3}>
+                <SocialText
+                  onInput={setNewThreadTextInput}
+                  reference={socialTextRef}
+                  submit={addNewThread}
+                  placeholder="Start a new thread..."
+                />
+              </Box>
+            ) : null}
             <div>
               {community.inbox.edges.map((t, i) => (
                 <TimelineItem node={t.node} user={t.node.user} key={i} />
@@ -118,7 +115,7 @@ export const Footer = styled.div`
   text-align: center;
   background: #ffefd9;
   font-size: 13px;
-  border-bottom: 1px solid ${props => props.theme.styles.colour.divider};
+  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
   color: #544f46;
 `;
 
@@ -155,7 +152,7 @@ export const WrapperTab = styled.div`
   margin-bottom: 16px;
   border-radius: 6px;
   box-sizing: border-box;
-  background: ${props => props.theme.styles.colour.secondaryBg};
+  background: #fff;
 `;
 export const OverlayTab = styled.div`
   height: 100%;

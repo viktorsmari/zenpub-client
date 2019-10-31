@@ -197,7 +197,7 @@ const HeroInfo = styled.div`
     margin: 0;
     line-height: 32px !important;
     font-size: 24px !important;
-    color: ${props => props.theme.styles.colour.heroCollectionTitle};
+    color: ${props => props.theme.styles.colors.darkgray};
     ${media.lessThan('medium')`
       margin-top: 8px;
     `};
@@ -207,14 +207,14 @@ const HeroInfo = styled.div`
     color: rgba(0, 0, 0, 0.8);
     font-size: 15px;
     margin-top: 8px;
-    color: ${props => props.theme.styles.colour.heroCollectionNote};
+    color: ${props => props.theme.styles.colors.darkgray};
   }
 `;
 const HeroCont = styled.div`
   margin-bottom: 16px;
   border-radius: 6px;
   box-sizing: border-box;
-  background: ${props => props.theme.styles.colour.heroCollection};
+  background: ${props => props.theme.styles.colors.lightgray};
 `;
 
 const Hero = styled.div`
@@ -234,7 +234,7 @@ const Background = styled.div`
   border-radius: 4px;
   background-size: cover;
   background-repeat: no-repeat;
-  background-color: ${props => props.theme.styles.colour.base4};
+  background-color: ${props => props.theme.styles.colors.lightgray};
   position: relative;
   margin: 0 auto;
 `;
