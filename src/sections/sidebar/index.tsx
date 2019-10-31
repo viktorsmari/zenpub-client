@@ -71,7 +71,7 @@ const Header = styled(Flex)`
   }
 `;
 const Nav = styled(Box)`
-  // border-top: 4px solid ${props => props.theme.styles.colors.lightgray};
+  // border-top: 4px solid ${props => props.theme.colors.lightgray};
   a {
     text-decoration: none;
   }
@@ -80,7 +80,7 @@ const Nav = styled(Box)`
 const CommunityLink = styled(NavLink)`
   &.active {
     > div {
-      background: ${props => props.theme.styles.colors.orange};
+      background: ${props => props.theme.colors.orange};
     }
     div {
       color: white !important;
@@ -93,7 +93,7 @@ const SidebarLink = styled(NavLink)`
   position: relative;
   color: inherit;
   &.active {
-    color: ${props => props.theme.styles.colors.orange};
+    color: ${props => props.theme.colors.orange};
     position: relative;
     &:before {
       position: absolute;
@@ -104,12 +104,11 @@ const SidebarLink = styled(NavLink)`
       border-radius: 100px;
       height: 8px;
       display: block;
-      background: ${props => props.theme.styles.colors.orange};
+      background: ${props => props.theme.colors.orange};
     }
   }
   div {
-    color: ${props =>
-      props.isActive ? props.theme.styles.colors.orange : 'inherit'};
+    color: ${props => (props.isActive ? props.theme.colors.orange : 'inherit')};
   }
 `;
 
@@ -117,7 +116,7 @@ const NavItem = styled(Flex)`
   border-radius: 4px;
   padding: 8px;
   &:hover {
-    background: ${props => props.theme.styles.colors.lightgray};
+    background: ${props => props.theme.colors.lightgray};
   }
   ${media.lessThan('1280px')`
   img {
@@ -127,7 +126,7 @@ const NavItem = styled(Flex)`
 `;
 
 const ItemTitle = styled(Text)`
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
   ${ellipsis('220px')} ${media.lessThan('1280px')`
   display: none;
 `};

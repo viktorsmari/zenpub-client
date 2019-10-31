@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { compose, withState, withHandlers } from 'recompose';
-import media from 'styled-media-query';
 import { Trans } from '@lingui/macro';
 import { RouteComponentProps } from 'react-router';
 import { graphql, QueryControls, OperationOption } from 'react-apollo';
@@ -10,7 +9,6 @@ import styled from '../../themes/styled';
 import Community from '../../types/Community';
 import Loader from '../../components/elements/Loader/Loader';
 import '../../containers/App/basic.css';
-import { clearFix } from 'polished';
 import CollectionCard from '../../components/elements/Collection/Collection';
 
 import Hero from './hero';
@@ -29,7 +27,7 @@ import {
   Nav,
   NavItem
 } from '../../sections/panel';
-import { Box, Text } from 'rebass';
+import { Box } from 'rebass';
 const { getCommunityQuery } = require('../../graphql/getCommunity.graphql');
 enum TabsEnum {
   // Overview = 'Overview',
@@ -97,9 +95,7 @@ class CommunitiesFeatured extends React.Component<Props, State> {
       } else {
         collections = (
           <OverviewCollection>
-            <Text>
-              <Trans>This community has no collections.</Trans>
-            </Text>
+            <Trans>This community has no collections.</Trans>
           </OverviewCollection>
         );
       }
@@ -227,65 +223,11 @@ class CommunitiesFeatured extends React.Component<Props, State> {
   }
 }
 
-// const WrapperAction = styled.div`
-//   text-align: center;
-//   flex: 1;
-// `;
-export const Actions = styled.div`
-  ${clearFix()};
-  display: flex;
-`;
-
-export const Create = styled.div`
-  display: flex;
-  cursor: pointer;
-  padding: 8px 0;
-  position: relative;
-  background: ${props => props.theme.styles.colour.newcommunityBg};
-  border-radius: 6px;
-  margin-bottom: 8px;
-  flex: 1;
-  margin: 8px;
-  height: 120px;
-  margin-top: 16px;
-  display: flex;
-  align-items: center;
-  color: #f98012;
-  border: 2px dashed #f98012;
-  & span {
-    display: inherit;
-    margin-bottom: 8px;
-    margin: 0 16px;
-  }
-  ${media.lessThan('medium')`display: block;`} & a {
-    display: flex;
-    color: inherit;
-    text-decoration: none;
-    width: 100%;
-  }
-  &:hover {
-    background: ${props => props.theme.styles.colour.newcommunityBgHover};
-  }
-`;
-
 const OverviewCollection = styled.div`
-  background: ${props => props.theme.styles.colors.lighter};
-  margin: 16px;
-  padding: 32px;
+  padding: 24px;
   text-align: center;
-  border-radius: 6px;
-  display: flex;
-  height: 100px;
-  padding: 0;
-  p {
-    flex: 1;
-    align-content: center;
-    align-items: center;
-    padding: 0;
-    margin: 0;
-    line-height: 100px;
-    margin: 0;
-  }
+  font-weight: 600;
+  color: #000000b5;
 `;
 
 const withGetCollections = graphql<

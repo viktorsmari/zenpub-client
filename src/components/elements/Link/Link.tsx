@@ -4,24 +4,9 @@ import {
   LinkProps as RouterLinkProps
 } from 'react-router-dom';
 
-import styled, { StyledThemeInterface } from '../../../themes/styled';
+import styled from '../../../themes/styled';
 
-const Link = styled(RouterLink)<StyledThemeInterface>`
-  &&,
-  && a {
-    color: ${props => props.theme.styles.colour.primary};
-
-    &:hover,
-    &.hover {
-      color: ${props => props.theme.styles.colour.primaryAlt};
-    }
-
-    &:active,
-    &.active {
-      color: ${props => props.theme.styles.colour.primaryDark};
-    }
-  }
-`;
+const Link = styled(RouterLink)``;
 
 type LinkProps = {
   hovered?: boolean;

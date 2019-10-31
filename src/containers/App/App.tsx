@@ -1,10 +1,6 @@
 import { Catalogs, setupI18n } from '@lingui/core';
 import { Trans } from '@lingui/macro';
 import { I18nProvider } from '@lingui/react';
-// import '@zendeskgarden/react-checkboxes/dist/styles.css';
-// import '@zendeskgarden/react-select/dist/styles.css';
-// import '@zendeskgarden/react-tabs/dist/styles.css';
-// import '@zendeskgarden/react-textfields/dist/styles.css';
 import { Settings } from 'luxon';
 import * as React from 'react';
 import { ThemeProvider } from '../../styleguide/Wrapper';
@@ -13,14 +9,6 @@ import '../../styles/social-icons.css';
 import Router from './Router';
 
 const LocalStorageLocaleKey = 'locale';
-
-// export const AppStyles = styled.div`
-//   font-family: ${props => props.theme.styles.fontFamily};
-
-//   * {
-//     font-family: ${props => props.theme.styles.fontFamily};
-//   }
-// `;
 
 export const i18n = setupI18n();
 

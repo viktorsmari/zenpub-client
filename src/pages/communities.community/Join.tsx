@@ -74,7 +74,7 @@ const Join: React.FC<Props> = ({
     );
   } else {
     return (
-      <Button
+      <JoinButton
         onClick={() =>
           joinCommunity({
             variables: { communityId: id },
@@ -105,13 +105,24 @@ const Join: React.FC<Props> = ({
         }
       >
         <Trans>Join</Trans>
-      </Button>
+      </JoinButton>
     );
   }
 };
 
+const JoinButton = styled(Button)`
+  border: 1px solid ${props => props.theme.colors.orange} !important;
+  font-size: 11px !important;
+  color: ${props => props.theme.colors.darkgray} !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  background: transparent !important;
+  cursor: pointer;
+  height: 30px !important;
+  border-radius: 2px !important;
+`;
+
 const Span = styled.div`
-  color: ${props => props.theme.styles.colour.base2};
   cursor: pointer;
   text-align: center;
   border-radius: 3px;
@@ -122,19 +133,14 @@ const Span = styled.div`
   min-width: 0;
   font-size: 16px;
   border-radius: 4px;
-  border: 1px solid ${props => props.theme.styles.colors.orange};
+  border: 1px solid ${props => props.theme.colors.orange};
   font-size: 11px;
   line-height: 29px;
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  & svg {
-    margin-right: 4px;
-    vertical-align: text-top;
-    color: ${props => props.theme.styles.colors.orange};
-  }
 `;
 
 export default compose(

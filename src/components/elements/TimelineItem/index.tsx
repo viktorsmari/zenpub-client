@@ -263,13 +263,13 @@ const NavigateToThread = styled(Link)`
 `;
 
 const InReply = styled(Box)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   border: 1px solid #ececec;
   margin: 16px 0;
   border-radius: 2px;
   background: whitesmoke;
   a {
-    color: ${props => props.theme.styles.colors.black} !important;
+    color: ${props => props.theme.colors.black} !important;
     font-weight: 700;
   }
 `;
@@ -282,7 +282,7 @@ const InReply = styled(Box)`
 // `;
 
 // const CommunityPreview = styled(Box)`
-//   border: 1px solid ${props => props.theme.styles.colors.lightgray};
+//   border: 1px solid ${props => props.theme.colors.lightgray};
 //   border-radius: 2px;
 //   max-width: 200px;
 //   overflow-y: hidden;
@@ -293,20 +293,20 @@ const InReply = styled(Box)`
 // `;
 
 const Username = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   margin: 0 8px;
   font-weight: 500;
 `;
 
 const Spacer = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   margin-right: 8px;
   margin-left: 8px;
   font-weight: 500;
 `;
 
 const Date = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   font-weight: 500;
 `;
 
@@ -323,7 +323,7 @@ svg {
   text-decoration: none;
   font-weight: 800
   margin-left: 4px;
-  color: ${props => props.theme.styles.colors.darkgray} !important;
+  color: ${props => props.theme.colors.darkgray} !important;
   &:hover {
     text-decoration: underline;
   }
@@ -332,7 +332,7 @@ svg {
 
 const Name = styled(Text)`
   font-weight: 600;
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -345,7 +345,7 @@ const Name = styled(Text)`
     align-items: center;
     position: relative;
     z-index: 9;
-    color: ${props => props.theme.styles.colors.darkgray} !important;
+    color: ${props => props.theme.colors.darkgray} !important;
   }
 `;
 
@@ -365,7 +365,7 @@ const MemberInfo = styled(Box)`
 const Comment = styled.div`
   margin-top: 6px;
   & a {
-    color: ${props => props.theme.styles.colors.darkgray} !important;
+    color: ${props => props.theme.colors.darkgray} !important;
     font-weight: 400 !important;
     font-size: 14px;
     text-decoration: none;
@@ -419,9 +419,9 @@ const FeedItem = styled.div`
   position: relative;
   cursor: pointer;
   &:hover {
-    background: ${props => props.theme.styles.colors.lighter};
+    background: ${props => props.theme.colors.lighter};
   }
-  border-bottom: 1px solid  ${props => props.theme.styles.colors.lightgray};
+  border-bottom: 1px solid  ${props => props.theme.colors.lightgray};
   a {
     text-decoration: none;
     color: inherit !important;

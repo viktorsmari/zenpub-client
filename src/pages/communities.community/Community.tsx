@@ -66,21 +66,18 @@ const CommunityPage: SFC<Props> = ({
                 <Trans>Collections</Trans>
               </h5>
             </SuperTab>
-            {/* <SuperTab>
-            <h5>
-              <Trans>Discussions</Trans>
-            </h5>
-          </SuperTab> */}
           </SuperTabList>
           <TabPanel>
-            <Box m={3}>
-              <SocialText
-                onInput={setNewThreadTextInput}
-                reference={socialTextRef}
-                submit={addNewThread}
-                placeholder="Start a new thread..."
-              />
-            </Box>
+            {community.followed ? (
+              <Box m={3}>
+                <SocialText
+                  onInput={setNewThreadTextInput}
+                  reference={socialTextRef}
+                  submit={addNewThread}
+                  placeholder="Start a new thread..."
+                />
+              </Box>
+            ) : null}
             <div>
               {community.inbox.edges.map((t, i) => (
                 <TimelineItem node={t.node} user={t.node.user} key={i} />
@@ -118,12 +115,12 @@ export const Footer = styled.div`
   text-align: center;
   background: #ffefd9;
   font-size: 13px;
-  border-bottom: 1px solid ${props => props.theme.styles.colour.divider};
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
   color: #544f46;
 `;
 
 const ButtonWrapper = styled(Flex)`
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
 `;
 
 const CreateCollection = styled(Button)`
@@ -132,16 +129,16 @@ const CreateCollection = styled(Button)`
   font-weight: 600;
   cursor: pointer;
   flex: 1;
-  border: 1px solid ${props => props.theme.styles.colors.lightgray} !important;
+  border: 1px solid ${props => props.theme.colors.lightgray} !important;
   background: none;
   font-weight: 600;
-  color: ${props => props.theme.styles.colors.darkgray} !important;
+  color: ${props => props.theme.colors.darkgray} !important;
   cursor: pointer;
   padding: 16px;
   text-transform: uppercase;
   font-size: 14px !important;
   &:hover {
-    background: ${props => props.theme.styles.colors.lightgray};
+    background: ${props => props.theme.colors.lightgray};
   }
 `;
 
@@ -155,7 +152,7 @@ export const WrapperTab = styled.div`
   margin-bottom: 16px;
   border-radius: 6px;
   box-sizing: border-box;
-  background: ${props => props.theme.styles.colour.secondaryBg};
+  background: #fff;
 `;
 export const OverlayTab = styled.div`
   height: 100%;

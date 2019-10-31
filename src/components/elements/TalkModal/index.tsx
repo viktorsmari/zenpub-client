@@ -37,7 +37,7 @@ const Avatar = styled(Box)`
   min-width: 48px !important;
   height: 48px;
   border-radius: 48px;
-  background: ${props => props.theme.styles.colors.orange};
+  background: ${props => props.theme.colors.orange};
   background-repeat: no-repeat;
   background-size: cover;
 `;

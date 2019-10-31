@@ -133,7 +133,7 @@ export const WrapperCont = styled.div`
   min-width: 0px;
   padding: 0px;
   position: relative;
-  border-right: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-right: 1px solid ${props => props.theme.colors.lightgray};
   background: white;
   z-index: 0;
 `;

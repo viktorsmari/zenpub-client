@@ -117,7 +117,7 @@ const Info = styled.div`
 const Url = styled.div`
   margin-bottom: 8px;
   font-size: 14px;
-  color: ${props => props.theme.styles.colour.base3};
+  color: ${props => props.theme.colors.lightgray};
   font-weight: 400;
   ${ellipsis('270px')};
   margin-top: 8px;
@@ -133,7 +133,7 @@ const Url = styled.div`
 
 const Wrapper = styled.div`
   &:hover {
-    background: ${props => props.theme.styles.colour.resourceBg};
+    background: ${props => props.theme.colors.lighter};
   }
   padding: 20px;
   margin-bottom: 8px;
@@ -172,7 +172,7 @@ const Title = styled(Heading)`
   line-height: 22px !important;
   margin-top: 8px;
   flex: 1;
-  color: ${props => props.theme.styles.colour.resourceTitle};
+  color: ${props => props.theme.colors.darkgray};
   ${media.lessThan('medium')`
   text-align: center;
   padding: 0 8px;
@@ -182,7 +182,7 @@ const Title = styled(Heading)`
 const Summary = styled(Text)`
   margin: 0 !important;
   margin-top: 4px;
-  color: ${props => props.theme.styles.colour.resourceNote}
+  color: ${props => props.theme.colors.darkgray}
   font-size: 13px;
   line-height: 18px;
 `;
@@ -195,7 +195,7 @@ const Actions = styled.div`
     min-width: 80px;
     border-width: 1px !important;
     line-height: 25px;
-    color: ${props => props.theme.styles.colour.resourceIcon} svg {
+    color: ${props => props.theme.colors.lightgray} svg {
       color: inherit !important;
     }
   }

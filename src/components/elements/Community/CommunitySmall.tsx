@@ -51,7 +51,7 @@ const Img = styled.div`
 `;
 const Infos = styled.div``;
 const Title = styled(Text)`
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
 `;
 
 export default CommunitySmall;

@@ -99,11 +99,11 @@ const Actions = styled(Box)`
     width: 100%;
     height: 40px;
     cursor: pointer;
-    background: ${props => props.theme.styles.colors.orange};
+    background: ${props => props.theme.colors.orange};
   }
 `;
 const Header = styled(Flex)`
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
   svg {
     cursor: pointer;
   }
@@ -113,8 +113,8 @@ display: none;
 `;
 
 const ExRowUsername = styled(ExRow)`
-  border-top: 1px solid ${props => props.theme.styles.colors.lightgray};
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-top: 1px solid ${props => props.theme.colors.lightgray};
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
 `;
 
 const Component = (props: Props & FormikProps<FormValues>) => {

@@ -72,9 +72,9 @@ const Component = (props: Props) => {
 };
 
 const SettingBox = styled(HomeBox)`
-  border-right: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-right: 1px solid ${props => props.theme.colors.lightgray};
   ${media.lessThan('1005px')`
-border-left: 1px solid ${props => props.theme.styles.colors.lightgray};
+border-left: 1px solid ${props => props.theme.colors.lightgray};
   `};
 `;
 

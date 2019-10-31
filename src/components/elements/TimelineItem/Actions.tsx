@@ -45,7 +45,7 @@ const Actions = styled(Flex)``;
 
 const ActionItem = styled(Flex)`
   align-items: center;
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   cursor: pointer;
   a {
     display: flex;
@@ -57,11 +57,11 @@ const ActionItem = styled(Flex)`
     div:first-of-type {
       background: #fffbf8;
       svg {
-        color: ${props => props.theme.styles.colors.orange};
+        color: ${props => props.theme.colors.orange};
       }
     }
     div:last-of-type {
-      color: ${props => props.theme.styles.colors.orange};
+      color: ${props => props.theme.colors.orange};
     }
   }
 `;

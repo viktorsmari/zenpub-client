@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import getApolloClient from './apollo/client';
 import App from './containers/App/App';
 import registerServiceWorker from './registerServiceWorker';
-import { createGlobalStyle } from './themes/styled';
+import { createGlobalStyle } from 'styled-components';
 import { ProvideContexts } from './context/global';
 import createStore from './redux/store';
 import { createLocalSessionKVStorage } from './util/keyvaluestore/localSessionStorage';
