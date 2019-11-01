@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Modal from '../Modal';
 import { Trans } from '@lingui/macro';
-import { Heading } from 'rebass';
+import { Heading } from 'rebass/styled-components';
 import { Input, Textarea } from '@rebass/forms';
 import Button from '../Button/Button';
 import { compose } from 'recompose';

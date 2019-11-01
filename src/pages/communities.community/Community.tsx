@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/macro';
 import React, { SFC, useState } from 'react';
 import { TabPanel, Tabs } from 'react-tabs';
-import { Box, Button, Flex } from 'rebass';
+import { Box, Button, Flex } from 'rebass/styled-components';
 import CommunityModal from '../../components/elements/CommunityModal';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
 import { SocialText } from '../../components/elements/SocialText';

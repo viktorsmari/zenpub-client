@@ -1,4 +1,4 @@
-import { Flex, Text, Image } from 'rebass';
+import { Flex, Text, Image } from 'rebass/styled-components';
 import * as React from 'react';
 
 interface Props {
@@ -16,7 +16,7 @@ const Avatar: React.SFC<Props> = ({ name, src, ...rest }) =>
         src={src}
         width={48}
         height={48}
-        borderRadius={9999}
+        // borderRadius={9999}
         {...rest}
       />
       <Text ml={3} fontSize={[2, 3]} fontWeight={600} {...rest}>
@@ -24,7 +24,7 @@ const Avatar: React.SFC<Props> = ({ name, src, ...rest }) =>
       </Text>
     </Flex>
   ) : (
-    <Image src={src} width={48} height={48} borderRadius={9999} {...rest} />
+    <Image src={src} width={48} height={48} {...rest} />
   );
 
 export default Avatar;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from '../../../themes/styled';
-import { Text, Heading, Box, Flex } from 'rebass';
+import { Text, Heading, Box, Flex } from 'rebass/styled-components';
 import { Layers, Users } from 'react-feather';
 const PlaceholderImg = require('../Icons/communityPlaceholder.png');
 

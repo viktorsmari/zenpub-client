@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from '../../themes/styled';
-import { Flex, Text } from 'rebass';
+import { Flex, Text } from 'rebass/styled-components';
 import { Trans } from '@lingui/macro';
 import { ChevronLeft } from 'react-feather';
 import { useHistory } from 'react-router';

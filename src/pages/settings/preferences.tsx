@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ContainerForm, Row } from '../../components/elements/Modal/modal';
 import LanguageSelect from '../../components/inputs/LanguageSelect/LanguageSelect';
 import { Trans } from '@lingui/macro';
-import { Box, Flex, Heading } from 'rebass';
+import { Box, Flex, Heading } from 'rebass/styled-components';
 import { ArrowLeft } from 'react-feather';
 import media from 'styled-media-query';
 import styled from '../../themes/styled';

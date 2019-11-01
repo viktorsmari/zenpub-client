@@ -27,7 +27,7 @@ import {
   Nav,
   NavItem
 } from '../../sections/panel';
-import { Box } from 'rebass';
+import { Box } from 'rebass/styled-components';
 const { getCommunityQuery } = require('../../graphql/getCommunity.graphql');
 enum TabsEnum {
   // Overview = 'Overview',

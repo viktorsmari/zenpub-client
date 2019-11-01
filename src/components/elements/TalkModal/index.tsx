@@ -1,6 +1,6 @@
 import { i18nMark } from '@lingui/react';
 import * as React from 'react';
-import { Box, Flex } from 'rebass';
+import { Box, Flex } from 'rebass/styled-components';
 import { string } from 'yup';
 import { i18n } from '../../../containers/App/App';
 import CommentCmp from '../Comment/Comment';

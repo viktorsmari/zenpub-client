@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/macro';
 import * as React from 'react';
-import { Heading } from 'rebass';
+import { Heading } from 'rebass/styled-components';
 import styled from '../../themes/styled';
 
 const NotFound = styled.div`

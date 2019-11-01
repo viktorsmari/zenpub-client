@@ -8,7 +8,7 @@ import ResourceCard from '../../components/elements/Resource/Resource';
 // import { Resource } from '../../components/elements/Icons';
 import Link from '../../components/elements/Link/Link';
 import media from 'styled-media-query';
-import { Button, Flex, Box } from 'rebass';
+import { Button, Flex, Box } from 'rebass/styled-components';
 import {
   Footer,
   WrapperTab,

@@ -4,7 +4,7 @@ import React from 'react';
 import { graphql, OperationOption } from 'react-apollo';
 import { compose } from 'recompose';
 import styled from '../../themes/styled';
-import { Button } from 'rebass';
+import { Button } from 'rebass/styled-components';
 const {
   joinCommunityMutation
 } = require('../../graphql/joinCommunity.graphql');

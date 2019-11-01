@@ -2083,14 +2083,15 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
-"@types/rebass@3.0.4":
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/@types/rebass/-/rebass-3.0.4.tgz#c21ef30895d857a3bb0822084440739f448159d6"
-  integrity sha512-qTR46x+9niOIxOZJ/R0voBKes2YQb2wndC7kMLDuQ9baRB+3RO04tKF90y9jt/bEvD1gIMPaAsuKN/zqrekZOw==
+"@types/rebass@4.0.3":
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/@types/rebass/-/rebass-4.0.3.tgz#cb55b73395ae87e0c2c0c0292c95d9f8e7a2ca27"
+  integrity sha512-dUZMb8IOqSesn1bQHLeIMIAHTaYcuQ9hTn9b2/Vj9AEcjRIBYnOfQlTshXWcf+GAYTWYxK4fb9qjkoQ3GyG52w==
   dependencies:
     "@types/react" "*"
     "@types/styled-components" "*"
     "@types/styled-system" "*"
+    "@types/styled-system__css" "*"
 
 "@types/shelljs@^0.8.0":
   version "0.8.5"
@@ -2123,6 +2124,13 @@
   integrity sha512-Byh33qthYnI6+qS0TRr4vqd+N/ax6ic1NFE6ZA16xuVr/EvYvSB8+diEP1lTSE7sP/MTdQpl+KaONREnyalDUA==
   dependencies:
     csstype "^2.6.4"
+
+"@types/styled-system__css@*":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@types/styled-system__css/-/styled-system__css-5.0.4.tgz#df83b015cf377ab39ecf33ea31339c05eeb9230a"
+  integrity sha512-SHHoNh9cCRTG9hcmCD2ua0NeYUrLmLXoMJ7g0U/e0FjrzcwNQtM5wjjEJVCVZymU632xA1PdPEykrtoSHTIecA==
+  dependencies:
+    csstype "^2.6.6"
 
 "@types/styled-theming@2.2.2":
   version "2.2.2"
@@ -5460,7 +5468,7 @@ csso@^3.5.1:
   dependencies:
     css-tree "1.0.0-alpha.29"
 
-csstype@^2.2.0, csstype@^2.5.7, csstype@^2.6.4:
+csstype@^2.2.0, csstype@^2.5.7, csstype@^2.6.4, csstype@^2.6.6:
   version "2.6.7"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.7.tgz#20b0024c20b6718f4eda3853a1f5a1cce7f5e4a5"
   integrity sha512-9Mcn9sFbGBAdmimWb2gLVDtFJzeKtDGIr76TUqmjZrw9LFXBMSU70lcs+C0/7fyCd6iBDqmksUcCOUIkisPHsQ==
@@ -13174,10 +13182,10 @@ readdirp@~3.2.0:
   dependencies:
     picomatch "^2.0.4"
 
-rebass@4.0.6:
-  version "4.0.6"
-  resolved "https://registry.yarnpkg.com/rebass/-/rebass-4.0.6.tgz#eaded5d0d99f68e69cd6b1e9e645f391c15d90dd"
-  integrity sha512-O4eSG4vhboiI00R5YmrRTuKiehpLkB3gDBWp00qymEbPxJPjkXoQVkOEhbWaRNRqBv/bMlvLczqarvCno1JORw==
+rebass@4.0.7:
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/rebass/-/rebass-4.0.7.tgz#0a84e5558750c1f416c3baf41ec4c7fc8d64a98a"
+  integrity sha512-GJot6j6Qcr7jk1QIgf9qBoud75CGRpN8pGcEo98TSp4KNSWV01ZLvGwFKGI35oEBuNs+lpEd3+pnwkQUTSFytg==
   dependencies:
     reflexbox "^4.0.6"
 

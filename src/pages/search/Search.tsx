@@ -1,6 +1,6 @@
 import * as React from 'react';
 import ResourceCard from '../../components/elements/Resource/Resource';
-import { Box, Flex, Text } from 'rebass';
+import { Box, Flex, Text } from 'rebass/styled-components';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import styled from '../../themes/styled';
 

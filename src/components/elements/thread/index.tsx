@@ -1,7 +1,7 @@
 import styled from '../../../themes/styled';
 import React, { useState } from 'react';
 import { SFC } from 'react';
-import { Text, Box, Flex, Image } from 'rebass';
+import { Text, Box, Flex, Image } from 'rebass/styled-components';
 import * as Feather from 'react-feather';
 import { DateTime } from 'luxon';
 import Talk from '../TalkModal';

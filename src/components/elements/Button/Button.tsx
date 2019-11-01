@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button } from 'rebass';
+import { Button } from 'rebass/styled-components';
 import styled from '../../../themes/styled';
 
 import Loader from '../Loader/Loader';

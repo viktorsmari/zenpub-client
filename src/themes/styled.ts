@@ -2,23 +2,10 @@ import * as styledComponents from 'styled-components';
 import { ThemedStyledComponentsModule } from 'styled-components';
 
 export interface MoodleThemeInterface {
-  // rebass
-  buttons: {
-    primary: {
-      backgroundColor: string;
-      color: string;
-      borderRadius: string;
-    };
-    outline: {
-      color: string;
-      borderColor: string;
-      backgroundColor: string;
-      borderRadius: string;
-    };
-  };
   breakpoints: string[];
-  fontSizes: number[];
+  fontSizes: string[];
   colors: {
+    primary: string;
     orange: string;
     black: string;
     gray: string;
@@ -26,7 +13,33 @@ export interface MoodleThemeInterface {
     lighter: string;
     darkgray: string;
   };
-  space: number[];
+  radii: {
+    default: number;
+  };
+  variants: {
+    primary: {
+      bg: string;
+    };
+  };
+  buttons: {
+    secondary: {
+      fontWeight: string;
+      borderRadius: string;
+      p: number;
+      px: number;
+      fontSize: string;
+      backgroundColor: string;
+      cursor: string;
+      textTransform: string;
+      letterSpacing: string;
+    };
+    outline: {
+      color: string;
+      borderColor: string;
+      backgroundColor: string;
+    };
+  };
+  space: string[];
   fontFamily: string;
 }
 

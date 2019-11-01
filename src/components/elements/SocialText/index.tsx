@@ -10,7 +10,7 @@ import EmojiPicker from 'emoji-picker-react';
 import OutsideClickHandler from 'react-outside-click-handler';
 import styled from 'styled-components';
 import { Textarea } from '@rebass/forms';
-import { Box, Flex } from 'rebass';
+import { Box, Flex } from 'rebass/styled-components';
 import { Smile, Send } from 'react-feather';
 const PickerWrap = styled.div`
   position: absolute;

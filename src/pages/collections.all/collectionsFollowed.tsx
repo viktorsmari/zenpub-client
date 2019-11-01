@@ -4,7 +4,7 @@ import { TabPanel, Tabs } from 'react-tabs';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import CollectionsFollowed from '../collections.followed';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-import { Flex } from 'rebass';
+import { Flex } from 'rebass/styled-components';
 class ColloctionsFollowed extends React.Component<{}> {
   render() {
     return (

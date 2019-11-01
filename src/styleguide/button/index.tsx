@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button } from 'rebass';
+import { Button } from 'rebass/styled-components';
 
 interface Props extends React.ButtonHTMLAttributes<object> {
   children: any;

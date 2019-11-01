@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { i18n } from '../../../containers/App/App';
 import Alert from '../../elements/Alert';
 import { Input } from '@rebass/forms';
-import { Heading } from 'rebass';
+import { Heading } from 'rebass/styled-components';
 import Button from '../Button/Button';
 import Modal from '../Modal';
 import { Row, Container, Actions, ContainerForm, Header } from '../Modal/modal';
