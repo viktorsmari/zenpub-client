@@ -1,6 +1,5 @@
 import React from 'react';
 import { ProvideActionCtx } from './actionCtx';
-import { ProvideGlobCtx } from './GLOB';
 import { ProvideSessionCtx } from './sessionCtx';
 import { ProvideStateCtx } from './stateCtx';
 import { ProvideStoreCtx, StoreContextT } from './storeCtx';
@@ -23,7 +22,7 @@ export const ProvideContexts = ({
         <ProvideActionCtx>
           <ProvideSessionCtx>
             <ProvideApolloInterceptorCtx interceptor={apolloInterceptor}>
-              <ProvideGlobCtx>{children}</ProvideGlobCtx>
+              {children}
             </ProvideApolloInterceptorCtx>
           </ProvideSessionCtx>
         </ProvideActionCtx>
