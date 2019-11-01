@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useGetSidebarQueryQuery } from '../../generated/graphqlapollo';
 import Sidebar from './';
+import { useGetSidebarQueryQuery } from '../../graphql/generated/getSidebar.generated';
 
 export const SidebarWrapper: React.FC = () => {
   const resp = useGetSidebarQueryQuery();

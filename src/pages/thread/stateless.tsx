@@ -5,7 +5,7 @@ import Thread from '../../components/elements/thread';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import Header from './header';
-import { GetThreadQueryHookResult } from '../../generated/graphqlapollo';
+import { GetThreadQueryHookResult } from '../../graphql/generated/getThread.generated';
 
 export interface Props {
   threadQuery: GetThreadQueryHookResult;

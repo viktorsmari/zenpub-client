@@ -1,9 +1,9 @@
 import React from 'react';
 import Stateless from './stateless';
-import { useGetThreadQuery } from '../../generated/graphqlapollo';
 import { useInterceptor } from '../../context/global/apolloInterceptorCtx';
 import { toast } from 'react-toastify';
 import { BLOCK_REQUEST } from '../../apollo/client';
+import { useGetThreadQuery } from '../../graphql/generated/getThread.generated';
 export interface Props {
   id: number;
 }

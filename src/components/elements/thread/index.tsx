@@ -7,7 +7,7 @@ import { DateTime } from 'luxon';
 import Talk from '../TalkModal';
 import Link from '../Link/Link';
 import { Trans } from '@lingui/react';
-import { Comment } from '../../../generated/graphqlapollo';
+import { Comment } from '../../../graphql/types';
 // import { Comment } from 'src/gql/sdk';
 
 const Icon = styled(Flex)`

@@ -8,10 +8,10 @@ import { NavLink } from 'react-router-dom';
 import { Box, Flex, Image, Text } from 'rebass';
 import media from 'styled-media-query';
 import Loader from '../../components/elements/Loader/Loader';
-import { GetSidebarQueryQueryResult } from '../../generated/graphqlapollo';
 import Avatar from '../../styleguide/avatar';
 import styled from '../../themes/styled';
 import Dropdown from './dropdown';
+import { GetSidebarQueryQueryResult } from '../../graphql/generated/getSidebar.generated';
 const MnetLogo = require('./moodle-logo.png');
 const SidebarComponent = styled(Flex)`
   flex-grow: 1;

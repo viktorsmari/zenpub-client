@@ -9,7 +9,6 @@ import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem';
 import FeaturedCollections from '../../components/featuredCollections';
 import FeaturedCommunities from '../../components/featuredCommunities';
-import { useLocalActivitiesQuery } from '../../generated/graphqlapollo';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import {
   Nav,
@@ -20,6 +19,7 @@ import {
 } from '../../sections/panel';
 import styled from '../../themes/styled';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
+import { useLocalActivitiesQuery } from '../../graphql/generated/localActivities.generated';
 
 interface Props {}
 

@@ -3,7 +3,7 @@ import { Settings, User, Power } from 'react-feather';
 import styled from '../../themes/styled';
 import { Trans } from '@lingui/macro';
 import { useHistory } from 'react-router';
-import { useLogoutMutationMutation } from '../../generated/graphqlapollo';
+import { useLogoutMutationMutation } from '../../graphql/generated/logout.generated';
 
 const WrapperMenu = styled.div`
   box-sizing: border-box;
