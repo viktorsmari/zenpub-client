@@ -8,11 +8,9 @@ import removeMd from 'remove-markdown';
 import styled from '../../../themes/styled';
 import Link from '../Link/Link';
 import Talk from '../TalkModal';
-import {
-  Comment,
-  useLikeCommentMutationMutation,
-  useUndoLikeCommentMutationMutation
-} from '../../../generated/graphqlapollo';
+import { useLikeCommentMutationMutation } from '../../../graphql/generated/likeComment.generated';
+import { useUndoLikeCommentMutationMutation } from '../../../graphql/generated/undoLikeComment.generated';
+import { Comment } from '../../../graphql/types';
 
 interface EventProps {
   comment: Comment;

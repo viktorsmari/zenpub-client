@@ -7,8 +7,8 @@ import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
 import { SocialText } from '../../components/elements/SocialText';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem';
-import { useCreateThreadMutationMutation } from '../../generated/graphqlapollo';
 import styled from '../../themes/styled';
+import { useCreateThreadMutationMutation } from '../../graphql/generated/createThread.generated';
 
 interface Props {
   collections: any;

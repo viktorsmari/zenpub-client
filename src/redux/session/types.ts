@@ -1,4 +1,4 @@
-import { AuthPayload } from '../../generated/graphqlapollo';
+import { AuthPayload } from '../../graphql/types';
 
 export type User = AuthPayload | null;
 

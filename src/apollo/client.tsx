@@ -19,8 +19,8 @@ import {
 } from '../constants';
 
 import { onError } from 'apollo-link-error';
-import { RootMutationType, RootQueryType } from '../generated/graphqlapollo';
 import { OperationDefinitionNode, GraphQLError, FieldNode } from 'graphql';
+import { RootMutationType, RootQueryType } from '../graphql/types';
 
 // const { meQuery } = require('../graphql/me.graphql');
 interface Cfg {

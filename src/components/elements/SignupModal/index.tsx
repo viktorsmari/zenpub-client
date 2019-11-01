@@ -11,7 +11,7 @@ import { Heading } from 'rebass';
 import Button from '../Button/Button';
 import Modal from '../Modal';
 import { Row, Container, Actions, ContainerForm, Header } from '../Modal/modal';
-import { useCreateUserMutationMutation } from '../../../generated/graphqlapollo';
+import { useCreateUserMutationMutation } from '../../../graphql/generated/createUser.generated';
 const checkUsername = require('../../../graphql/checkUsername.graphql');
 
 let tt = {
