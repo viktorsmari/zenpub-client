@@ -5,10 +5,9 @@ import { Input, Textarea } from '@rebass/forms';
 import { Field, Form, Formik, FormikConfig } from 'formik';
 import * as React from 'react';
 import { useHistory } from 'react-router';
-import { Heading } from 'rebass';
+import { Heading } from 'rebass/styled-components';
 import * as Yup from 'yup';
 import { i18n } from '../../../containers/App/App';
-import { useCreateCommunityMutationMutation } from '../../../generated/graphqlapollo';
 import Alert from '../../elements/Alert';
 import Button from '../Button/Button';
 import Modal from '../Modal';
@@ -20,6 +19,7 @@ import {
   Header,
   Row
 } from '../Modal/modal';
+import { useCreateCommunityMutationMutation } from '../../../graphql/generated/createCommunity.generated';
 
 const tt = {
   placeholders: {

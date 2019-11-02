@@ -1,5 +1,5 @@
 import styled from '../../themes/styled';
-import { Box, Flex, Text } from 'rebass';
+import { Box, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 
 export const WrapperPanel = styled(Flex)`
@@ -63,7 +63,7 @@ export const Panel = styled(Box)`
 
 export const PanelTitle = styled(Text)`
   text-transform: uppercase;
-  border-bottom: 4px solid white;
+  border-bottom: 4px solid ${props => props.theme.colors.lighter};
   padding: 16px;
 `;
 
@@ -72,9 +72,9 @@ export const Nav = styled(Box)`
 `;
 
 export const NavItem = styled(Text)`
-color: ${props => props.theme.styles.colors.darkgray}
+color: ${props => props.theme.colors.darkgray}
 a {
-  color: ${props => props.theme.styles.colors.darkgray}
+  color: ${props => props.theme.colors.darkgray}
   text-decoration: none;
 }
   `;

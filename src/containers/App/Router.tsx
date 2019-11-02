@@ -25,7 +25,7 @@ import {
   WrapperDimension,
   Inner
 } from '../../sections/layoutUtils';
-import { Flex } from 'rebass';
+import { Flex } from 'rebass/styled-components';
 import Sidebar from '../../sections/sidebar/sidebarHOC';
 import CollectionViewModal from '../../components/elements/CollectionViewModal';
 import algoliasearch from 'algoliasearch/lite';
@@ -171,7 +171,7 @@ class App extends React.Component<any> {
           indexName="next_moodlenet_all"
         >
           <PageContainer>
-            <Sidebar history={this.props.history} />
+            <Sidebar />
             <MainWrapper>
               <WrapperDimension>
                 <Inner>

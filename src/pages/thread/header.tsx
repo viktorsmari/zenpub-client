@@ -1,12 +1,12 @@
 import * as React from 'react';
 import styled from '../../themes/styled';
-import { Flex, Text } from 'rebass';
+import { Flex, Text } from 'rebass/styled-components';
 import { Trans } from '@lingui/macro';
 import { ChevronLeft } from 'react-feather';
 import { useHistory } from 'react-router';
 
 const Header = styled(Flex)`
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
   height: 50px;
   align-items: center;
   padding: 0 8px;
@@ -18,7 +18,7 @@ const Header = styled(Flex)`
   }
 `;
 
-const HeaderWrapper = ({ id }) => {
+const HeaderWrapper = () => {
   const history = useHistory();
   return (
     <Header onClick={() => history.goBack()}>

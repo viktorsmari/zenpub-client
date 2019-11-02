@@ -1,5 +1,5 @@
 import styled from '../themes/styled';
-import { Flex } from 'rebass';
+import { Flex } from 'rebass/styled-components';
 import media from 'styled-media-query';
 
 export const HomeBox = styled(Flex)`
@@ -38,7 +38,7 @@ export const MainWrapper = styled(Flex)`
   padding: 0px;
   position: relative;
   z-index: 0;
-  border-left: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-left: 1px solid ${props => props.theme.colors.lightgray};
   margin-left: 0px;
   ${media.lessThan('medium')`
   width: 100%;

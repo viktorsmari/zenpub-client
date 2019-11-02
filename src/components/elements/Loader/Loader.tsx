@@ -1,9 +1,8 @@
 import * as React from 'react';
-
 import styled from '../../../themes/styled';
 
-const Bounce = styled.div<any>`
-  background-color: ${props => props.theme.styles.colour.primary};
+const Bounce = styled.div`
+  background-color: ${props => props.theme.colors.orange};
 `;
 
 /**

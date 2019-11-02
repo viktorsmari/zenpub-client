@@ -1,15 +1,14 @@
 import { Trans } from '@lingui/macro';
-import React, { useState } from 'react';
-import { SFC } from 'react';
+import React, { SFC, useState } from 'react';
 import { TabPanel, Tabs } from 'react-tabs';
+import { Box, Button, Flex } from 'rebass/styled-components';
+import CommunityModal from '../../components/elements/CommunityModal';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
 import { SocialText } from '../../components/elements/SocialText';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem';
-import { GqlSdkCtx } from '../../containers/App/ProvideGqlSdk';
 import styled from '../../themes/styled';
-import { Flex, Box, Button } from 'rebass';
-import CommunityModal from '../../components/elements/CommunityModal';
+import { useCreateThreadMutationMutation } from '../../graphql/generated/createThread.generated';
 
 interface Props {
   collections: any;
@@ -28,32 +27,20 @@ const CommunityPage: SFC<Props> = ({
   type,
   refetch
 }) => {
-  // const { dispatch } = React.useContext(ActionContext);
-  // const history = useHistory();
-  const sdk = React.useContext(GqlSdkCtx);
+  const [createThreadMutation] = useCreateThreadMutationMutation();
   const [isOpen, onOpen] = useState(false);
   const [newThreadText, setNewThreadText] = React.useState('');
   const addNewThread = React.useCallback(
     () => {
-      // dispatch(
-      //   gqlRequest.create({
-      //     op: {
-      //       createThreadMutation: [
-      //         { comment: { content: newThreadText }, id: community.localId }
-      //       ]
-      //     },
-      //     replyTo: null
-      //   })
-      // );
-      sdk
-        .createThreadMutation({
+      createThreadMutation({
+        variables: {
           comment: { content: newThreadText },
           id: community.localId
-        })
-        .then(() => {
-          socialTextRef.current && (socialTextRef.current.value = '');
-          refetch();
-        });
+        }
+      }).then(() => {
+        socialTextRef.current && (socialTextRef.current.value = '');
+        refetch();
+      });
     },
     [newThreadText, community.localId]
   );
@@ -79,21 +66,18 @@ const CommunityPage: SFC<Props> = ({
                 <Trans>Collections</Trans>
               </h5>
             </SuperTab>
-            {/* <SuperTab>
-            <h5>
-              <Trans>Discussions</Trans>
-            </h5>
-          </SuperTab> */}
           </SuperTabList>
           <TabPanel>
-            <Box m={3}>
-              <SocialText
-                onInput={setNewThreadTextInput}
-                reference={socialTextRef}
-                submit={addNewThread}
-                placeholder="Start a new thread..."
-              />
-            </Box>
+            {community.followed ? (
+              <Box m={3}>
+                <SocialText
+                  onInput={setNewThreadTextInput}
+                  reference={socialTextRef}
+                  submit={addNewThread}
+                  placeholder="Start a new thread..."
+                />
+              </Box>
+            ) : null}
             <div>
               {community.inbox.edges.map((t, i) => (
                 <TimelineItem node={t.node} user={t.node.user} key={i} />
@@ -131,21 +115,31 @@ export const Footer = styled.div`
   text-align: center;
   background: #ffefd9;
   font-size: 13px;
-  border-bottom: 1px solid ${props => props.theme.styles.colour.divider};
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
   color: #544f46;
 `;
 
 const ButtonWrapper = styled(Flex)`
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
 `;
 
 const CreateCollection = styled(Button)`
   flex: 1;
-  border: 2px solid ${props => props.theme.styles.colors.orange} !important;
   background: none;
   font-weight: 600;
-  color: ${props => props.theme.styles.colors.darkgray} !important;
   cursor: pointer;
+  flex: 1;
+  border: 1px solid ${props => props.theme.colors.lightgray} !important;
+  background: none;
+  font-weight: 600;
+  color: ${props => props.theme.colors.darkgray} !important;
+  cursor: pointer;
+  height: 50px;
+  text-transform: uppercase;
+  font-size: 14px !important;
+  &:hover {
+    background: ${props => props.theme.colors.lightgray};
+  }
 `;
 
 export const WrapperTab = styled.div`
@@ -158,7 +152,7 @@ export const WrapperTab = styled.div`
   margin-bottom: 16px;
   border-radius: 6px;
   box-sizing: border-box;
-  background: ${props => props.theme.styles.colour.secondaryBg};
+  background: #fff;
 `;
 export const OverlayTab = styled.div`
   height: 100%;

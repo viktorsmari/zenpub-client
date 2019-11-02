@@ -3,83 +3,51 @@ import { DateTime } from 'luxon';
 import { clearFix } from 'polished';
 import * as React from 'react';
 import { MessageCircle, Star } from 'react-feather';
-import { Box, Flex, Text } from 'rebass';
-import { compose, withState } from 'recompose';
+import { Box, Flex, Text } from 'rebass/styled-components';
 import removeMd from 'remove-markdown';
-import { gqlRequest } from '../../../gql/actions';
-import { Comment } from '../../../gql/sdk';
 import styled from '../../../themes/styled';
-import { ActionContext } from '../../../_context/global/actionCtx';
 import Link from '../Link/Link';
 import Talk from '../TalkModal';
+import { useLikeCommentMutationMutation } from '../../../graphql/generated/likeComment.generated';
+import { useUndoLikeCommentMutationMutation } from '../../../graphql/generated/undoLikeComment.generated';
+import { Comment } from '../../../graphql/types';
 
 interface EventProps {
-  userpage?: boolean;
-  user?: any;
   comment: Comment;
-  thread?: boolean;
-  totalReplies?: string;
   noAction?: boolean;
-  onOpen(boolean): unknown;
-  isOpen: boolean;
-  replyTo: any;
-  id: string;
 }
 
-const CommentWrapper: React.FC<EventProps> = ({
-  user,
-  userpage,
-  comment,
-  noAction,
-  onOpen,
-  isOpen,
-  replyTo
-}) => {
+const CommentWrapper: React.FC<EventProps> = ({ comment, noAction }) => {
   const FAKE________COMMENT_I_LIKE_IT = !!Math.round(Math.random());
-  const { dispatch } = React.useContext(ActionContext);
+  const { author } = comment;
+  const [like /* , likeResult */] = useLikeCommentMutationMutation();
+  const [undoLike /* , likeResult */] = useUndoLikeCommentMutationMutation();
   const [iLikeIt, setiLikeIt] = React.useState(FAKE________COMMENT_I_LIKE_IT);
+  const [isOpen, onOpen] = React.useState(false);
   const toggleLike = React.useCallback(
     () => {
-      if (iLikeIt) {
-        dispatch(
-          gqlRequest.create({
-            op: {
-              undoLikeCommentMutation: [{ localId: comment!.localId! }]
-            },
-            replyTo
-          })
-        );
-      } else {
-        dispatch(
-          gqlRequest.create({
-            op: {
-              likeCommentMutation: [{ localId: comment!.localId! }]
-            },
-            replyTo
-          })
-        );
-      }
+      const variables = { localId: comment.localId! };
+      (iLikeIt ? undoLike : like)({ variables });
       setiLikeIt(!iLikeIt);
     },
     [comment, iLikeIt]
   );
+
   return (
     <FeedItem>
       <NavigateToThread to={`/thread/${comment!.localId}`} />
       <Member>
         <MemberItem mr={2}>
-          <Img src={user ? user.icon : ''} />
+          <Img src={(author && author.icon) || ''} />
         </MemberItem>
         <MemberInfo>
-          {userpage ? (
-            <b>{user ? user.name : <Trans>Deleted user</Trans>}</b>
-          ) : user ? (
+          {author ? (
             <Name>
-              <Link to={'/user/' + user.localId}>
-                {user.name}{' '}
-                {user.preferredUsername ? (
-                  <Username>@{user.preferredUsername}</Username>
-                ) : null}
+              <Link to={'/user/' + author.localId}>
+                {author.name}{' '}
+                {author.preferredUsername && (
+                  <Username>@{author.preferredUsername}</Username>
+                )}
               </Link>
               <Spacer mx={2}>·</Spacer>{' '}
               <Date>{DateTime.fromISO(comment!.published!).toRelative()}</Date>
@@ -90,14 +58,6 @@ const CommentWrapper: React.FC<EventProps> = ({
             </Name>
           )}
           <>
-            {/* {comment!.inReplyTo !== null ? (
-              <SubText my={1}>
-                <Trans>in reply to</Trans>{' '}
-                <Link to={`/user/${comment!.inReplyTo!.author!.localId}`}>
-                  {comment!.inReplyTo!.author!.name}
-                </Link>
-              </SubText>
-            ) : null} */}
             <Comment>
               {comment!.content && comment!.content!.length > 320
                 ? removeMd(comment!.content).replace(
@@ -131,19 +91,12 @@ const CommentWrapper: React.FC<EventProps> = ({
           )}
         </MemberInfo>
       </Member>
-      <Talk
-        toggleModal={onOpen}
-        modalIsOpen={isOpen}
-        comment={comment}
-        author={user}
-        id={comment!.id!}
-        replyTo={null}
-      />
+      <Talk toggleModal={onOpen} modalIsOpen={isOpen} comment={comment} />
     </FeedItem>
   );
 };
 
-export default compose(withState('isOpen', 'onOpen', false))(CommentWrapper);
+export default CommentWrapper;
 
 const NavigateToThread = styled(Link)`
   position: absolute;
@@ -155,7 +108,7 @@ const NavigateToThread = styled(Link)`
 `;
 
 const Date = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   font-weight: 500;
 `;
 
@@ -171,7 +124,7 @@ const Actions = styled(Flex)`
 const ActionItem = styled(Flex)`
   margin-right: 32px;
   align-items: center;
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   cursor: pointer;
   a {
     display: flex;
@@ -181,11 +134,11 @@ const ActionItem = styled(Flex)`
     div:first-of-type {
       background: #fffbf8;
       svg {
-        color: ${props => props.theme.styles.colors.orange};
+        color: ${props => props.theme.colors.orange};
       }
     }
     div:last-of-type {
-      color: ${props => props.theme.styles.colors.orange};
+      color: ${props => props.theme.colors.orange};
     }
   }
 `;
@@ -205,24 +158,24 @@ const ActionIcon = styled(Box)`
 `;
 
 const Username = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   margin: 0 8px;
   font-weight: 500;
 `;
 
 const Spacer = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   margin-right: 8px;
   font-weight: 500;
 `;
 
 // const SubText = styled(Text)`
 // font-size: 14px;
-// color:  ${props => props.theme.styles.colors.gray};
+// color:  ${props => props.theme.colors.gray};
 // > a {
 //   text-decoration: none;
 //   font-weight: 600
-//   color: ${props => props.theme.styles.colors.black} !important;
+//   color: ${props => props.theme.colors.black} !important;
 //   z-index: 9;
 //   position: relative;
 
@@ -234,7 +187,7 @@ const Spacer = styled(Text)`
 
 const Name = styled(Text)`
   font-weight: 600;
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -245,7 +198,7 @@ const Name = styled(Text)`
     display: flex;
     text-decoration: none;
     align-items: center;
-    color: ${props => props.theme.styles.colors.darkgray} !important;
+    color: ${props => props.theme.colors.darkgray} !important;
     z-index: 9;
     position: relative;
 
@@ -267,7 +220,7 @@ const MemberInfo = styled(Box)`
 const Comment = styled.div`
   margin-top: 6px;
   & a {
-    color: ${props => props.theme.styles.colors.darkgray} !important;
+    color: ${props => props.theme.colors.darkgray} !important;
     font-weight: 400 !important;
     font-size: 14px;
     text-decoration: none;
@@ -321,13 +274,13 @@ const FeedItem = styled.div`
   position: relative;
   background: #ffffff;
   position: relative;
-  border-bottom: 1px solid  ${props => props.theme.styles.colors.lightgray};
+  border-bottom: 1px solid  ${props => props.theme.colors.lightgray};
   a {
     text-decoration: none;
     color: inherit;
   }
   &:hover {
-    background: ${props => props.theme.styles.colors.lighter};
+    background: ${props => props.theme.colors.lighter};
   }
 
 `;

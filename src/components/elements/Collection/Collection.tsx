@@ -3,7 +3,7 @@ import styled from '../../../themes/styled';
 import CollectionType from '../../../types/Collection';
 import { Link } from 'react-router-dom';
 import { Resource } from '../Icons';
-import { Flex, Text, Heading } from 'rebass';
+import { Flex, Text, Heading } from 'rebass/styled-components';
 const PlaceholderImg = require('../Icons/collectionPlaceholder.png');
 
 interface CollectionProps {
@@ -17,7 +17,7 @@ interface CollectionProps {
 
 export default ({ collection, communityId, openModal }: CollectionProps) => {
   return (
-    <Wrapper mb={2} p={2}>
+    <Wrapper p={3}>
       <Link
         to={
           collection.localId
@@ -38,7 +38,7 @@ export default ({ collection, communityId, openModal }: CollectionProps) => {
               ? collection.name.replace(/^(.{76}[^\s]*).*/, '$1...')
               : collection.name}
           </Title>
-          <Desc mb={2}>
+          <Desc mt={2}>
             {collection.summary.length > 320
               ? collection.summary.replace(
                   /^([\s\S]{316}[^\s]*)[\s\S]*/,
@@ -48,27 +48,14 @@ export default ({ collection, communityId, openModal }: CollectionProps) => {
           </Desc>
           <Actions>
             <ActionItem>
-              {(collection.resources && collection.resources.totalCount) || 0}{' '}
               <Resource
                 width={18}
                 height={18}
                 strokeWidth={2}
                 color={'#8b98a2'}
               />
+              {(collection.resources && collection.resources.totalCount) || 0}{' '}
             </ActionItem>
-            {/* <ActionItem>
-              {(collection.followers && collection.followers.totalCount) || 0}{' '}
-              <Eye width={18} height={18} strokeWidth={2} color={'#8b98a2'} />
-            </ActionItem> */}
-            {/* <ActionItem>
-              {(collection.threads && collection.threads.totalCount) || 0}{' '}
-              <Message
-                width={18}
-                height={18}
-                strokeWidth={2}
-                color={'#8b98a2'}
-              />
-            </ActionItem> */}
           </Actions>
         </Infos>
       </Link>
@@ -77,28 +64,27 @@ export default ({ collection, communityId, openModal }: CollectionProps) => {
 };
 
 const Actions = styled.div`
-  padding-top: 8px;
-  background: #f5f6f7;
-  padding: 8px;
-  border-radius: 4px;
   display: inline-block;
+  position: absolute;
+  bottom: 0;
 `;
 const ActionItem = styled.div`
   display: inline-block;
   font-size: 14px;
   font-weight: 600;
-  color: ${props => props.theme.styles.colour.collectionIcon};
+  color: ${props => props.theme.colors.gray};
   text-transform: uppercase;
   & svg {
     vertical-align: sub;
     color: inherit !important;
+    margin-right: 4px;
   }
 `;
 
 const Wrapper = styled(Flex)`
   cursor: pointer;
   position: relative;
-  border-bottom: 4px solid ${props => props.theme.styles.colors.lighter};
+  border-bottom: 4px solid ${props => props.theme.colors.lighter};
   & a {
     display: flex;
     color: inherit;
@@ -108,7 +94,7 @@ const Wrapper = styled(Flex)`
   }
   &:hover {
     border-radius: 4px;
-    background: ${props => props.theme.styles.colors.lighter};
+    background: ${props => props.theme.colors.lighter};
   }
 `;
 const Img = styled.div`
@@ -122,14 +108,16 @@ const Img = styled.div`
 const Infos = styled.div`
   flex: 1;
   margin-left: 8px;
+  position: relative;
 `;
 const Title = styled(Heading)`
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
   font-size: 20px;
 `;
 const Desc = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.darkgray};
   line-height: 20px;
+  margin-bottom: 26px !important;
 `;
 
 // export default Collection;

@@ -1,23 +1,16 @@
 import { i18nMark } from '@lingui/react';
 import * as React from 'react';
-import { Box, Flex } from 'rebass';
+import { Box, Flex } from 'rebass/styled-components';
 import { string } from 'yup';
 import { i18n } from '../../../containers/App/App';
-import { gqlRequest } from '../../../gql/actions';
-import {
-  Comment as CommentData,
-  CreateReplyMutationMutationVariables
-} from '../../../gql/sdk';
+import CommentCmp from '../Comment/Comment';
 import styled from '../../../themes/styled';
-import { ActionContext } from '../../../_context/global/actionCtx';
+import { SessionContext } from '../../../context/global/sessionCtx';
 import Alert from '../../elements/Alert';
-// import {Button} from 'rebass';
-import Comment from '../Comment/Comment';
 import Modal from '../Modal';
-// import { Actions, Container } from '../Modal/modal';
 import SocialText from '../SocialText';
-import { SessionContext } from '../../../_context/global/sessionCtx';
-// import { Send } from 'react-feather';
+import { Comment } from '../../../graphql/types';
+import { useCreateReplyMutationMutation } from '../../../graphql/generated/createReply.generated';
 
 const TextWrapper = styled(Flex)`
   padding: 16px;
@@ -42,7 +35,7 @@ const Avatar = styled(Box)`
   min-width: 48px !important;
   height: 48px;
   border-radius: 48px;
-  background: ${props => props.theme.styles.colors.orange};
+  background: ${props => props.theme.colors.orange};
   background-repeat: no-repeat;
   background-size: cover;
 `;
@@ -58,32 +51,21 @@ const tt = {
 };
 
 interface Props {
-  toggleModal: (_: boolean) => unknown;
+  toggleModal(_: boolean): unknown;
   modalIsOpen: boolean;
-  communityId?: string;
-  communityExternalId?: string;
-  id: string;
-  author: Author;
-  comment: CommentData;
-  replyTo: any;
+  comment: Comment;
 }
 
-interface Author {
-  image: string;
-  name: string;
-  username: string;
-  localId: string;
-}
-
-const CreateCommunityModal = (
-  props: Props /*  & FormikProps<FormValues> */
-) => {
-  const { dispatch } = React.useContext(ActionContext);
-  const { /* comment ,*/ modalIsOpen, toggleModal } = props;
+const CreateCommunityModal: React.FC<Props> = ({
+  comment,
+  modalIsOpen,
+  toggleModal
+}) => {
+  const [reply /* ,replyResult */] = useCreateReplyMutationMutation();
+  const session = React.useContext(SessionContext);
   const [text, setText] = React.useState('');
   const [error, setError] = React.useState('');
   const [touched, setTouched] = React.useState(false);
-  // const [isSubmitting /* setSubmitting */] = React.useState(false);
   const oninput = React.useCallback(
     async (_: React.SyntheticEvent<HTMLTextAreaElement>) => {
       const _text = _.currentTarget.value;
@@ -102,25 +84,21 @@ const CreateCommunityModal = (
       if (error) {
         return;
       }
-      const vars: CreateReplyMutationMutationVariables = {
-        id: props.comment.localId!,
-        comment: { content: text }
-      };
-      dispatch(
-        gqlRequest.create({
-          op: { createReplyMutation: [vars] },
-          replyTo: props.replyTo
-        })
-      );
+      reply({
+        variables: {
+          id: comment.localId!,
+          comment: { content: text }
+        }
+      });
+      toggleModal(false);
     },
     [error, text]
   );
-  const session = React.useContext(SessionContext);
   return (
     <Modal isOpen={modalIsOpen} toggleModal={() => toggleModal(false)}>
       {/* <Container> */}
       {/* <Form> */}
-      <Comment user={props.author} comment={props.comment} noAction replyTo />
+      <CommentCmp comment={comment} noAction />
       <TextWrapper>
         <Avatar
           style={{

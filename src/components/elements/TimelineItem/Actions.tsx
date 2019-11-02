@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { MessageCircle, Star } from 'react-feather';
 import styled from '../../../themes/styled';
-import { Box, Flex, Text } from 'rebass';
+import { Box, Flex, Text } from 'rebass/styled-components';
 
 export interface Props {
   totalReplies: number;
@@ -21,9 +21,9 @@ const ActionsWrapper = ({
         <ActionIcon>
           <MessageCircle color="rgba(0,0,0,.4)" size="16" />
         </ActionIcon>
-        <Text ml={2}>{totalReplies}</Text>
+        <Text ml={1}>{totalReplies}</Text>
       </ActionItem>
-      <ActionItem>
+      <ActionItem ml={3}>
         <ActionIcon>
           <Star
             onClick={toggleLike}
@@ -31,7 +31,7 @@ const ActionsWrapper = ({
             size="16"
           />
         </ActionIcon>
-        <Text ml={2}>{totalLikes}</Text>
+        <Text ml={1}>{totalLikes}</Text>
       </ActionItem>
     </Items>
   </Actions>
@@ -41,12 +41,14 @@ const Items = styled(Flex)`
   flex: 1;
 `;
 
-const Actions = styled(Flex)``;
+const Actions = styled(Flex)`
+  position: relative;
+  z-index: 9999;
+`;
 
 const ActionItem = styled(Flex)`
-  margin-right: 32px;
   align-items: center;
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   cursor: pointer;
   a {
     display: flex;
@@ -58,11 +60,11 @@ const ActionItem = styled(Flex)`
     div:first-of-type {
       background: #fffbf8;
       svg {
-        color: ${props => props.theme.styles.colors.orange};
+        color: ${props => props.theme.colors.orange};
       }
     }
     div:last-of-type {
-      color: ${props => props.theme.styles.colors.orange};
+      color: ${props => props.theme.colors.orange};
     }
   }
 `;

@@ -4,7 +4,7 @@ import media from 'styled-media-query';
 import styled from '../../../themes/styled';
 import Collection from '../../../types/Collection';
 const PlaceholderImg = require('../Icons/collectionPlaceholder.png');
-import { Text, Box } from 'rebass';
+import { Text, Box } from 'rebass/styled-components';
 
 interface CollectionProps {
   collection: Collection;
@@ -55,7 +55,7 @@ const Img = styled.div`
 `;
 const Infos = styled.div``;
 const Title = styled(Text)`
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
   text-align: center;
 `;
 

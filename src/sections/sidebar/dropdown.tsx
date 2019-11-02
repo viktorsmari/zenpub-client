@@ -2,6 +2,8 @@ import * as React from 'react';
 import { Settings, User, Power } from 'react-feather';
 import styled from '../../themes/styled';
 import { Trans } from '@lingui/macro';
+import { useHistory } from 'react-router';
+import { useLogoutMutationMutation } from '../../graphql/generated/logout.generated';
 
 const WrapperMenu = styled.div`
   box-sizing: border-box;
@@ -29,7 +31,7 @@ const Item = styled.div`
   height: 50px;
   cursor: pointer;
   font-weight: 600;
-  color: ${props => props.theme.styles.colour.base3};
+  color: ${props => props.theme.colors.darkgray};
   & span {
     display: inline-block;
     margin-right: 8px;
@@ -46,57 +48,64 @@ const Item = styled.div`
   }
 `;
 
-const Dropdown = props => (
-  <>
-    <WrapperMenu>
-      <ProfileMenu>
-        <List lined>
-          <Item onClick={() => props.navigateToPage('/profile')}>
-            <span>
-              <User size={18} color={'#333'} />
-            </span>
-            <Trans>Profile</Trans>
-          </Item>
-          <Item onClick={() => props.navigateToPage('/settings')}>
-            <span>
-              <Settings size={18} color={'#333'} />
-            </span>
-            <Trans>Settings</Trans>
-          </Item>
-        </List>
-        <List lined>
-          <Item>
-            <a
-              href="https://docs.moodle.org/dev/MoodleNet/Code_of_Conduct"
-              target="blank"
-            >
-              <Trans>Code of Conduct</Trans>
-            </a>
-          </Item>
+const Dropdown: React.FC = () => {
+  const { push } = useHistory();
+  const [logoutMut /* , logoutMutResp */] = useLogoutMutationMutation();
+  const logout = React.useCallback(() => logoutMut(), [logoutMut]);
+  return (
+    <>
+      <WrapperMenu>
+        <ProfileMenu>
+          <List lined>
+            <Item onClick={() => push('/profile')}>
+              <span>
+                <User size={18} color={'#333'} />
+              </span>
+              <Trans>Profile</Trans>
+            </Item>
+            <Item onClick={() => push('/settings')}>
+              <span>
+                <Settings size={18} color={'#333'} />
+              </span>
+              <Trans>Settings</Trans>
+            </Item>
+          </List>
+          <List lined>
+            <Item>
+              <a
+                href="https://docs.moodle.org/dev/MoodleNet/Code_of_Conduct"
+                target="blank"
+              >
+                <Trans>Code of Conduct</Trans>
+              </a>
+            </Item>
 
-          <Item>
-            <a href="https://changemap.co/moodle/moodlenet/" target="blank">
-              <Trans>Feedback &amp; Suggestions</Trans>
-            </a>
-          </Item>
+            <Item>
+              <a href="https://changemap.co/moodle/moodlenet/" target="blank">
+                <Trans>Feedback &amp; Suggestions</Trans>
+              </a>
+            </Item>
 
-          <Item>
-            <a href="https://blog.moodle.net/category/versions/" target="blank">
-              v0.9.4 alpha <Trans>Changelog</Trans>
-            </a>
-          </Item>
-        </List>
-        <List>
-          <Item onClick={props.logout}>
-            <span>
-              <Power width={18} height={18} strokeWidth={1} color={'#333'} />
-            </span>
-            <Trans>Sign out</Trans>
-          </Item>
-        </List>
-      </ProfileMenu>
-    </WrapperMenu>
-  </>
-);
-
+            <Item>
+              <a
+                href="https://blog.moodle.net/category/versions/"
+                target="blank"
+              >
+                v0.9.4 alpha <Trans>Changelog</Trans>
+              </a>
+            </Item>
+          </List>
+          <List>
+            <Item onClick={logout}>
+              <span>
+                <Power width={18} height={18} strokeWidth={1} color={'#333'} />
+              </span>
+              <Trans>Sign out</Trans>
+            </Item>
+          </List>
+        </ProfileMenu>
+      </WrapperMenu>
+    </>
+  );
+};
 export default Dropdown;

@@ -1,12 +1,12 @@
 import { Trans } from '@lingui/macro';
 import * as React from 'react';
 import { graphql, QueryControls } from 'react-apollo';
-import { Helmet } from 'react-helmet';
+// import { Helmet } from 'react-helmet';
 import { compose, withHandlers, withState } from 'recompose';
 import CollectionCard from '../../components/elements/Collection/Collection';
 import Loader from '../../components/elements/Loader/Loader';
 import CollectionsLoadMore from '../../components/elements/Loadmore/followingCollections';
-import { APP_NAME } from '../../constants';
+// import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
 
 const {
@@ -42,9 +42,9 @@ class FollowingCollectionsComponent extends React.Component<Props> {
       <Loader />
     ) : (
       <>
-        <Helmet>
+        {/* <Helmet>
           <title>{APP_NAME} > Followed collections</title>
-        </Helmet>
+        </Helmet> */}
         <ListWrapper>
           <List>
             {this.props.data.me.user.followingCollections.edges.map(

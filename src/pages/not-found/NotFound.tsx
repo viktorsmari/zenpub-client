@@ -1,8 +1,6 @@
 import { Trans } from '@lingui/macro';
 import * as React from 'react';
-import { Helmet } from 'react-helmet';
-import { Heading } from 'rebass';
-import { APP_NAME } from '../../constants';
+import { Heading } from 'rebass/styled-components';
 import styled from '../../themes/styled';
 
 const NotFound = styled.div`
@@ -17,9 +15,9 @@ const NotFound = styled.div`
 export default () => {
   return (
     <NotFound>
-      <Helmet>
+      {/* <Helmet>
         <title>{APP_NAME} > Not found</title>
-      </Helmet>
+      </Helmet> */}
       <Heading>
         <Trans>Page not found</Trans>
       </Heading>

@@ -1,45 +1,35 @@
-import React, { useContext, useEffect } from 'react';
-import { StateContext } from '../../_context/global/stateCtx';
-import { ActionContext } from '../../_context/global/actionCtx';
-import { gqlRequest } from '../../gql/actions';
-import { THREAD_PAGE_GQL_REPLY } from './types';
+import React, { useContext } from 'react';
+import { BLOCK_REQUEST } from '../../apollo/client';
+import { ActionContext } from '../../context/global/actionCtx';
+import { useInterceptor } from '../../context/global/apolloInterceptorCtx';
+import { useGetThreadQuery } from '../../graphql/generated/getThread.generated';
+import { showToastMessage } from '../../redux/toastMsgs';
 import Stateless from './stateless';
 export interface Props {
   id: number;
 }
 export const Thread: React.FC<Props> = ({ id }) => {
-  const {
-    pages: {
-      thread: { thread, refreshing }
-    }
-  } = useContext(StateContext);
+  const threadQuery = useGetThreadQuery({ variables: { id } });
   const { dispatch } = useContext(ActionContext);
-  useEffect(
-    () => {
-      if (
-        !thread ||
-        ('data' in thread &&
-          thread.data &&
-          thread.data.comment!.localId! !== id)
-      ) {
-        dispatch(
-          gqlRequest.create({
-            replyTo: THREAD_PAGE_GQL_REPLY,
-            op: { getThread: [{ id }] }
-          })
-        );
-      }
-    },
-    [id, thread]
-  );
+  useInterceptor({
+    operation: 'undoLikeComment',
+    request: () => () => threadQuery.refetch()
+  });
+  useInterceptor({
+    operation: 'likeComment',
+    request: () => () => threadQuery.refetch()
+  });
+  useInterceptor({
+    operation: 'createReply',
+    request: () => resp => {
+      resp &&
+        resp !== BLOCK_REQUEST &&
+        dispatch(showToastMessage.create({ content: 'Reply sent!' }));
+      threadQuery.refetch();
+    }
+  });
 
-  return (
-    thread && (
-      <Stateless
-        {...{ thread: thread.loading && refreshing ? refreshing : thread }}
-      />
-    )
-  );
+  return <Stateless threadQuery={threadQuery} />;
 };
 
 export default Thread;

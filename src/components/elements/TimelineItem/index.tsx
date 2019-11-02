@@ -4,9 +4,8 @@ import { clearFix } from 'polished';
 import * as React from 'react';
 import { SFC } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Box, Flex, Text } from 'rebass';
+import { Box, Flex, Text } from 'rebass/styled-components';
 import removeMd from 'remove-markdown';
-import { GqlSdkCtx } from '../../../containers/App/ProvideGqlSdk';
 import styled from '../../../themes/styled';
 import Link from '../Link/Link';
 import Actions from './Actions';
@@ -19,28 +18,13 @@ interface Props {
 }
 
 const Item: SFC<Props> = ({ user, node, userpage }) => {
-  const FAKE________COMMENT_I_LIKE_IT = !!Math.round(Math.random());
-  const sdk = React.useContext(GqlSdkCtx);
-  const [iLikeIt, setiLikeIt] = React.useState(FAKE________COMMENT_I_LIKE_IT);
-  const toggleLike = React.useCallback(
-    () => {
-      if (iLikeIt) {
-        sdk
-          .likeCommentMutation({ localId: node.object.localId })
-          .then(_ => setiLikeIt(false));
-      } else {
-        sdk
-          .undoLikeCommentMutation({ localId: node.object.localId })
-          .then(_ => setiLikeIt(true));
-      }
-    },
-    [node, iLikeIt]
-  );
+  const [iLikeIt /* , setiLikeIt */] = React.useState(false);
   return (
     <FeedItem>
       {node.activityType === 'CreateComment' && node.object.inReplyTo ? (
         <NavigateToThread to={`/thread/${node.object.inReplyTo.localId}`} />
-      ) : node.activityType === 'CreateComment' ? (
+      ) : node.activityType === 'CreateComment' ||
+      node.activityType === 'LikeComment' ? (
         <NavigateToThread to={`/thread/${node.object.localId}`} />
       ) : null}
       {node.activityType === 'LikeComment' ? (
@@ -66,9 +50,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
                     </Username>
                   ) : null}
                 </Link>
-                <Spacer ml={2} mr={2}>
-                  ·
-                </Spacer>{' '}
+                <Spacer mr={2}>·</Spacer>{' '}
                 <Date>{DateTime.fromISO(node.published).toRelative()}</Date>
               </Name>
               <Comment>
@@ -98,9 +80,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
                     <Username ml={2}>@{user.preferredUsername}</Username>
                   ) : null}
                 </Link>
-                <Spacer ml={2} mr={2}>
-                  ·
-                </Spacer>{' '}
+                <Spacer mr={2}>·</Spacer>{' '}
                 <Date>{DateTime.fromISO(node.published).toRelative()}</Date>
               </Name>
             ) : (
@@ -122,7 +102,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
                 {node.object.inReplyTo !== null ? (
                   <InReply my={2}>
                     <MemberWrapped>
-                      <MemberItem mr={2}>
+                      <MemberItem className={'miniavatar'} mr={2}>
                         <Img src={node.object.inReplyTo.author.icon} />
                       </MemberItem>
                       <MemberInfo>
@@ -130,17 +110,9 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
                           <Link
                             to={'/user/' + node.object.inReplyTo.author.localId}
                           >
-                            {node.object.inReplyTo.author.name}{' '}
-                            {node.object.inReplyTo.author.preferredUsername ? (
-                              <Username ml={2}>
-                                @
-                                {node.object.inReplyTo.author.preferredUsername}
-                              </Username>
-                            ) : null}
+                            {node.object.inReplyTo.author.name}
                           </Link>
-                          <Spacer ml={2} mr={2}>
-                            ·
-                          </Spacer>{' '}
+                          <Spacer mr={2}>·</Spacer>{' '}
                           <Date>
                             {DateTime.fromISO(node.published).toRelative()}
                           </Date>
@@ -264,7 +236,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
               <Actions
                 totalReplies={node.object.replies.totalCount as number}
                 totalLikes={node.object.likers.totalCount as number}
-                toggleLike={toggleLike}
+                toggleLike={() => {}}
                 iLikeIt={iLikeIt}
               />
             ) : null}
@@ -284,13 +256,25 @@ const NavigateToThread = styled(Link)`
 `;
 
 const InReply = styled(Box)`
-  color: ${props => props.theme.styles.colors.gray};
-  border: 1px solid #ececec;
-  margin: 16px 0;
-  border-radius: 2px;
-  background: whitesmoke;
+  color: ${props => props.theme.colors.gray};
+  // border: 1px solid #ececec;
+  // margin: 16px 0;
+  // border-radius: 2px;
+  // background: whitesmoke;
+  position: relative;
+  opacity: 0.8
+  &:after {
+    position: absolute;
+    content: '';
+    width: 4px;
+    top: 10px;
+    left: -2px;
+    bottom: 10px;
+    display: block;
+    background: #f3f3f3;
+  }
   a {
-    color: ${props => props.theme.styles.colors.black} !important;
+    color: ${props => props.theme.colors.black} !important;
     font-weight: 700;
   }
 `;
@@ -303,7 +287,7 @@ const InReply = styled(Box)`
 // `;
 
 // const CommunityPreview = styled(Box)`
-//   border: 1px solid ${props => props.theme.styles.colors.lightgray};
+//   border: 1px solid ${props => props.theme.colors.lightgray};
 //   border-radius: 2px;
 //   max-width: 200px;
 //   overflow-y: hidden;
@@ -314,21 +298,21 @@ const InReply = styled(Box)`
 // `;
 
 const Username = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   margin: 0 8px;
   font-weight: 500;
 `;
 
 const Spacer = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   margin-right: 8px;
-  margin-left: 8px;
   font-weight: 500;
 `;
 
 const Date = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   font-weight: 500;
+  font-size: 12px;
 `;
 
 const SubText = styled(Flex)`
@@ -344,7 +328,7 @@ svg {
   text-decoration: none;
   font-weight: 800
   margin-left: 4px;
-  color: ${props => props.theme.styles.colors.darkgray} !important;
+  color: ${props => props.theme.colors.darkgray} !important;
   &:hover {
     text-decoration: underline;
   }
@@ -353,7 +337,7 @@ svg {
 
 const Name = styled(Text)`
   font-weight: 600;
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -366,7 +350,7 @@ const Name = styled(Text)`
     align-items: center;
     position: relative;
     z-index: 9;
-    color: ${props => props.theme.styles.colors.darkgray} !important;
+    color: ${props => props.theme.colors.darkgray} !important;
   }
 `;
 
@@ -376,6 +360,10 @@ const Member = styled(Flex)`
 
 const MemberWrapped = styled(Member)`
   padding: 8px;
+  .miniavatar {
+    min-width: 40px !important;
+    height: 40px;
+  }
 `;
 
 const MemberInfo = styled(Box)`
@@ -386,7 +374,7 @@ const MemberInfo = styled(Box)`
 const Comment = styled.div`
   margin-top: 6px;
   & a {
-    color: ${props => props.theme.styles.colors.darkgray} !important;
+    color: ${props => props.theme.colors.darkgray} !important;
     font-weight: 400 !important;
     font-size: 14px;
     text-decoration: none;
@@ -440,9 +428,9 @@ const FeedItem = styled.div`
   position: relative;
   cursor: pointer;
   &:hover {
-    background: ${props => props.theme.styles.colors.lighter};
+    background: ${props => props.theme.colors.lighter};
   }
-  border-bottom: 1px solid  ${props => props.theme.styles.colors.lightgray};
+  border-bottom: 1px solid  ${props => props.theme.colors.lightgray};
   a {
     text-decoration: none;
     color: inherit !important;

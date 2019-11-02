@@ -14,7 +14,7 @@
 import * as React from 'react';
 import media from 'styled-media-query';
 import styled from '../../../themes/styled';
-import { Heading, Text } from 'rebass';
+import { Heading, Text } from 'rebass/styled-components';
 import { NavLink } from 'react-router-dom';
 const PlaceholderImg = require('../Icons/resourcePlaceholder.png');
 
@@ -76,11 +76,12 @@ const Info = styled.div`
 
 const Wrapper = styled.div`
   &:hover {
-    background: ${props => props.theme.styles.colour.resourceBg};
+    background: ${props => props.theme.colors.lightgray};
   }
-  padding-top: 16px;
+  padding: 8px;
   margin-bottom: 8px;
   border-radius: 3px;
+  margin-top: 8px;
   ${media.lessThan('medium')`
   display: block;
   padding: 0;
@@ -115,7 +116,7 @@ const Title = styled(Heading)`
   line-height: 22px !important;
   margin-top: 8px;
   flex: 1;
-  color: ${props => props.theme.styles.colour.resourceTitle};
+  color: ${props => props.theme.colors.darkgray};
   ${media.lessThan('medium')`
   text-align: center;
   padding: 0 8px;
@@ -125,7 +126,7 @@ const Title = styled(Heading)`
 const Summary = styled(Text)`
   margin: 0 !important;
   margin-top: 4px;
-  color: ${props => props.theme.styles.colour.resourceNote}
+  color: ${props => props.theme.colors.darkgray}
   font-size: 13px;
   line-height: 18px;
 `;

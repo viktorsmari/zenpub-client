@@ -2,9 +2,10 @@ import gql from 'graphql-tag';
 import React from 'react';
 import { graphql, OperationOption } from 'react-apollo';
 import { compose, withState } from 'recompose';
-import styled from '../../../themes/styled';
-import { Text, Box } from 'rebass';
+// import styled from '../../../themes/styled';
+import { Button } from 'rebass/styled-components';
 import Loader from '../Loader/Loader';
+import { Trans } from '@lingui/react';
 const {
   joinCollectionMutation
 } = require('../../../graphql/joinCollection.graphql');
@@ -43,7 +44,8 @@ const Join: React.FC<Props> = ({
 }) => {
   if (followed) {
     return (
-      <Span
+      <Button
+        variant="outline"
         unfollow
         onClick={() => {
           onSubmitting(true);
@@ -75,18 +77,13 @@ const Join: React.FC<Props> = ({
             .catch(err => console.log(err));
         }}
       >
-        {isSubmitting ? (
-          <Loader />
-        ) : (
-          <>
-            <Text>Unfollow</Text>
-          </>
-        )}
-      </Span>
+        {isSubmitting ? <Loader /> : <Trans>Unfollow</Trans>}
+      </Button>
     );
   } else {
     return (
-      <Span
+      <Button
+        variant="primary"
         onClick={() => {
           onSubmitting(true);
           return joinCollection({
@@ -117,37 +114,11 @@ const Join: React.FC<Props> = ({
             .catch(err => console.log(err));
         }}
       >
-        {isSubmitting ? <Loader /> : <Text>Follow</Text>}
-      </Span>
+        {isSubmitting ? <Loader /> : <Trans>Follow</Trans>}
+      </Button>
     );
   }
 };
-
-const Span = styled(Box)<{ unfollow?: boolean }>`
-  color: ${props =>
-    props.unfollow ? '#fff' : props.theme.styles.colour.primary};
-  background: ${props =>
-    props.unfollow ? props.theme.styles.colour.primary : 'transparent'};
-  cursor: pointer;
-  height: 40px;
-  width: 140px;
-  line-height: 40px;
-  border-radius: 3px;
-  text-align: center;
-  border: 1px solid
-    ${props =>
-      props.unfollow
-        ? props => props.theme.styles.colour.primary
-        : props.theme.styles.colour.primary};
-  &:hover {
-    color: ${props =>
-      props.unfollow ? props => 'white' : props.theme.styles.colour.base6};
-    background: ${props =>
-      props.unfollow
-        ? props.theme.styles.colour.primary
-        : props.theme.styles.colour.newcommunityBgHover};
-  }
-`;
 
 export default compose(
   withJoinCollection,

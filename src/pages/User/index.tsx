@@ -21,15 +21,15 @@ import LoadMoreTimeline from '../../components/elements/Loadmore/timelineoutbox'
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel, Panel, PanelTitle, Nav } from '../../sections/panel';
-import { Button } from 'rebass';
+import { Button } from 'rebass/styled-components';
 import styled from '../../themes/styled';
 
 const Follow = styled(Button)`
-  color: ${props => props.theme.styles.colors.orange};
+  color: ${props => props.theme.colors.orange};
   display: block;
   width: 100%;
-  background: ${props => props.theme.styles.colors.lighter};
-  border: 2px solid ${props => props.theme.styles.colors.orange};
+  background: ${props => props.theme.colors.lighter};
+  border: 2px solid ${props => props.theme.colors.orange};
   cursor: pointer;
 `;
 

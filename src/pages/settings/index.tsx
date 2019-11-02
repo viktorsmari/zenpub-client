@@ -1,12 +1,10 @@
 import * as React from 'react';
 import { graphql, OperationOption } from 'react-apollo';
-import { Helmet } from 'react-helmet';
 import { compose, withState } from 'recompose';
 // import media from 'styled-media-query';
-import { Flex, Box } from 'rebass';
+import { Flex, Box } from 'rebass/styled-components';
 import Loader from '../../components/elements/Loader/Loader';
 import Sidebar from './sidebarSettings';
-import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
 import CommentType from '../../types/Comment';
 import GeneralInfo from './generalInfo';
@@ -41,9 +39,6 @@ const Component = (props: Props) => {
   }
   return (
     <>
-      <Helmet>
-        <title>{APP_NAME} > Settings</title>
-      </Helmet>
       <SidebarComponent
         style={
           props.switch === 'sidebar'
@@ -77,9 +72,9 @@ const Component = (props: Props) => {
 };
 
 const SettingBox = styled(HomeBox)`
-  border-right: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-right: 1px solid ${props => props.theme.colors.lightgray};
   ${media.lessThan('1005px')`
-border-left: 1px solid ${props => props.theme.styles.colors.lightgray};
+border-left: 1px solid ${props => props.theme.colors.lightgray};
   `};
 `;
 

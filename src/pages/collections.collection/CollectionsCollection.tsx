@@ -15,8 +15,8 @@ const getCollection = require('../../graphql/getCollection.graphql');
 import { Route, Switch } from 'react-router-dom';
 import CollectionPage from './collection';
 import Join from '../../components/elements/Collection/Join';
-import { Settings } from '../../components/elements/Icons';
-import { Text, Flex } from 'rebass';
+import { Settings } from 'react-feather';
+import { Text, Flex } from 'rebass/styled-components';
 import media from 'styled-media-query';
 
 enum TabsEnum {
@@ -79,15 +79,15 @@ class CollectionComponent extends React.Component<Props> {
                 style={{ backgroundImage: `url(${collection.icon})` }}
               />
               <HeroInfo>
-                <Title fontSize={5} mt={1} fontWeight={'bold'}>
+                <Title fontSize={5} fontWeight={'bold'}>
                   {collection.name}
                 </Title>
                 {collection.preferredUsername ? (
-                  <Username fontSize={2}>
+                  <Username fontSize={1}>
                     +{collection.preferredUsername}
                   </Username>
                 ) : null}
-                <Description>
+                <Description fontSize={2} mt={2}>
                   {collection.summary.split('\n').map(function(item, key) {
                     return (
                       <span key={key}>
@@ -97,15 +97,10 @@ class CollectionComponent extends React.Component<Props> {
                     );
                   })}
                 </Description>
-                <ActionsHero mt={4} alignItems={'center'}>
+                <ActionsHero mt={3} alignItems={'center'}>
                   {collection.community.followed ? (
                     <EditButton onClick={this.props.editCollection}>
-                      <Settings
-                        width={18}
-                        height={18}
-                        strokeWidth={2}
-                        color={'#f98012'}
-                      />
+                      <Settings size={18} color={'#f98012'} />
                     </EditButton>
                   ) : null}
                   <Join
@@ -148,15 +143,15 @@ class CollectionComponent extends React.Component<Props> {
 }
 
 const Title = styled(Text)`
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
 `;
 
 const Description = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.darkgray};
 `;
 
 const Username = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   font-weight: 500;
 `;
 
@@ -172,26 +167,23 @@ const WrapperCont = styled.div`
 `;
 
 const EditButton = styled.span`
-  color: ${props => props.theme.styles.colour.heroCollectionIcon};
   height: 40px;
   font-weight: 600;
   font-size: 13px;
   line-height: 38px;
-  margin-left: 24px;
   cursor: pointer;
   display: inline-block;
   width: 40px;
   height: 40px;
   vertical-align: bottom;
-  margin-left: 8px;
+  margin-right: 16px;
   border-radius: 40px;
   text-align: center;
+  border: 1px solid ${props => props.theme.colors.orange};
   cursor: pointer;
   & svg {
-    margin-top: 8px;
     text-align: center;
     vertical-align: text-bottom;
-    margin-right: 8px;
     color: inherit !important;
   }
 `;
@@ -205,7 +197,7 @@ const HeroInfo = styled.div`
     margin: 0;
     line-height: 32px !important;
     font-size: 24px !important;
-    color: ${props => props.theme.styles.colour.heroCollectionTitle};
+    color: ${props => props.theme.colors.darkgray};
     ${media.lessThan('medium')`
       margin-top: 8px;
     `};
@@ -215,14 +207,13 @@ const HeroInfo = styled.div`
     color: rgba(0, 0, 0, 0.8);
     font-size: 15px;
     margin-top: 8px;
-    color: ${props => props.theme.styles.colour.heroCollectionNote};
+    color: ${props => props.theme.colors.darkgray};
   }
 `;
 const HeroCont = styled.div`
   margin-bottom: 16px;
   border-radius: 6px;
   box-sizing: border-box;
-  background: ${props => props.theme.styles.colour.heroCollection};
 `;
 
 const Hero = styled.div`
@@ -242,7 +233,7 @@ const Background = styled.div`
   border-radius: 4px;
   background-size: cover;
   background-repeat: no-repeat;
-  background-color: ${props => props.theme.styles.colour.base4};
+  background-color: ${props => props.theme.colors.lightgray};
   position: relative;
   margin: 0 auto;
 `;

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import media from 'styled-media-query';
 import styled from '../../../themes/styled';
 import Community from '../../../types/Community';
-import { Text, Box } from 'rebass';
+import { Text, Box } from 'rebass/styled-components';
 const PlaceholderImg = require('../Icons/collectionPlaceholder.png');
 
 interface CommunityProps {
@@ -51,7 +51,7 @@ const Img = styled.div`
 `;
 const Infos = styled.div``;
 const Title = styled(Text)`
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
 `;
 
 export default CommunitySmall;
