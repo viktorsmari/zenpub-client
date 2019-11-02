@@ -176,7 +176,7 @@ const EditButton = styled.span`
   width: 40px;
   height: 40px;
   vertical-align: bottom;
-  margin-rigth: 16px;
+  margin-right: 16px;
   border-radius: 40px;
   text-align: center;
   border: 1px solid ${props => props.theme.colors.orange};
@@ -214,7 +214,6 @@ const HeroCont = styled.div`
   margin-bottom: 16px;
   border-radius: 6px;
   box-sizing: border-box;
-  background: ${props => props.theme.colors.lightgray};
 `;
 
 const Hero = styled.div`

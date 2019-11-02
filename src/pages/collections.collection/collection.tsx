@@ -33,7 +33,6 @@ const CommunityPage: SFC<Props> = ({
   resources
 }) => {
   const [isOpen, onOpen] = useState(false);
-  console.log(isOpen);
   return (
     <WrapperTab>
       <OverlayTab>
@@ -129,7 +128,7 @@ const ButtonWrapper = styled(Flex)`
     font-weight: 600;
     color: ${props => props.theme.colors.darkgray} !important;
     cursor: pointer;
-    padding: 16px;
+    height: 50px;
     text-transform: uppercase;
     font-size: 14px;
     &:hover {

@@ -1,9 +1,8 @@
 import * as React from 'react';
 import Modal from '../Modal';
 import { Trans } from '@lingui/macro';
-import { Heading } from 'rebass/styled-components';
+import { Heading, Button } from 'rebass/styled-components';
 import { Input, Textarea } from '@rebass/forms';
-import Button from '../Button/Button';
 import { compose } from 'recompose';
 import { withFormik, FormikProps, Form, Field } from 'formik';
 import * as Yup from 'yup';
@@ -126,14 +125,10 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
             </ContainerForm>
           </Row>
           <Actions>
-            <Button
-              disabled={isSubmitting}
-              type="submit"
-              style={{ marginLeft: '10px' }}
-            >
+            <Button disabled={isSubmitting} type="submit" variant="primary">
               <Trans>Save</Trans>
             </Button>
-            <Button onClick={toggleModal} secondary>
+            <Button onClick={toggleModal} mr={2} variant="outline">
               <Trans>Cancel</Trans>
             </Button>
           </Actions>

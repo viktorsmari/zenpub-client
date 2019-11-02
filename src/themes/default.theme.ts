@@ -21,13 +21,13 @@ const themeLight: MoodleThemeInterface = {
     }
   },
   buttons: {
-    secondary: {
+    primary: {
       // backgroundColor: '#f98012',
       // color: '#fff',
       fontWeight: '600',
-      p: 3,
+      height: '40px',
       px: 4,
-      backgroundColor: 'orange',
+      backgroundColor: '#f98012',
       borderRadius: '4px',
       fontSize: '12px',
       cursor: 'pointer',
@@ -35,10 +35,17 @@ const themeLight: MoodleThemeInterface = {
       letterSpacing: '1px'
     },
     outline: {
-      color: '#000000e0',
-      borderColor: '#f98012',
-      backgroundColor: 'transparent'
-      // borderRadius: '3px'
+      fontWeight: '600',
+      height: '40px',
+      px: 4,
+      backgroundColor: 'transparent',
+      borderRadius: '4px',
+      fontSize: '12px',
+      cursor: 'pointer',
+      textTransform: 'uppercase',
+      letterSpacing: '1px',
+      color: 'darkgray',
+      border: '1px solid #f98012'
     }
   },
   space: ['0px', '4px', '8px', '16px', '32px', '64px', '128px', '256px'],

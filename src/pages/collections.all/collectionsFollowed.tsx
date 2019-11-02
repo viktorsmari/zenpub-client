@@ -4,28 +4,33 @@ import { TabPanel, Tabs } from 'react-tabs';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import CollectionsFollowed from '../collections.followed';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-import { Flex } from 'rebass/styled-components';
+import { HomeBox, MainContainer } from '../../sections/layoutUtils';
+import { WrapperPanel } from '../../sections/panel';
+
 class ColloctionsFollowed extends React.Component<{}> {
   render() {
     return (
-      <Flex>
-        <WrapperCont>
-          <Wrapper>
-            <Tabs>
-              <SuperTabList>
-                <SuperTab>
-                  <h5>
-                    <Trans>Followed collections</Trans>
-                  </h5>
-                </SuperTab>
-              </SuperTabList>
-              <TabPanel>
-                <CollectionsFollowed />
-              </TabPanel>
-            </Tabs>
-          </Wrapper>
-        </WrapperCont>
-      </Flex>
+      <MainContainer>
+        <HomeBox>
+          <WrapperCont>
+            <Wrapper>
+              <Tabs>
+                <SuperTabList>
+                  <SuperTab>
+                    <h5>
+                      <Trans>Followed collections</Trans>
+                    </h5>
+                  </SuperTab>
+                </SuperTabList>
+                <TabPanel>
+                  <CollectionsFollowed />
+                </TabPanel>
+              </Tabs>
+            </Wrapper>
+          </WrapperCont>
+        </HomeBox>
+        <WrapperPanel />
+      </MainContainer>
     );
   }
 }

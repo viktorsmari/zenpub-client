@@ -134,7 +134,7 @@ const CreateCollection = styled(Button)`
   font-weight: 600;
   color: ${props => props.theme.colors.darkgray} !important;
   cursor: pointer;
-  padding: 16px;
+  height: 50px;
   text-transform: uppercase;
   font-size: 14px !important;
   &:hover {

@@ -8,7 +8,6 @@ import { NavLink } from 'react-router-dom';
 import { Box, Flex, Image, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import Loader from '../../components/elements/Loader/Loader';
-import Avatar from '../../styleguide/avatar';
 import styled from '../../themes/styled';
 import Dropdown from './dropdown';
 import { GetSidebarQueryQueryResult } from '../../graphql/generated/getSidebar.generated';
@@ -58,8 +57,9 @@ const Header = styled(Flex)`
   cursor: pointer;
   padding-left: 8px;
   img {
-    width: 36px;
+    min-width: 36px;
     height: 36px;
+    border-radius: 36px;
   }
   input {
     margin: 0 8px !important;
@@ -78,6 +78,10 @@ const Nav = styled(Box)`
 `;
 
 const CommunityLink = styled(NavLink)`
+  img {
+    width: 36px;
+    height: 36px;
+  }
   &.active {
     > div {
       background: ${props => props.theme.colors.orange};
@@ -92,6 +96,10 @@ const CommunityLink = styled(NavLink)`
 const SidebarLink = styled(NavLink)`
   position: relative;
   color: inherit;
+  img {
+    width: 36px;
+    height: 36px;
+  }
   &.active {
     color: ${props => props.theme.colors.orange};
     position: relative;
@@ -168,7 +176,7 @@ const Sidebar: React.FC<Props> = ({ resp }) => {
         <SidebarFixed>
           <SidebarOverflow>
             <Header alignItems={'center'}>
-              <Avatar
+              <Image
                 onClick={openMenu}
                 src={data!.me!.user!.icon!}
                 // name={props.data.me.user.name}
@@ -198,13 +206,7 @@ const Sidebar: React.FC<Props> = ({ resp }) => {
               </SidebarLink>
               <SidebarLink exact to={'/'}>
                 <NavItem mb={3} alignItems={'center'}>
-                  <Image
-                    mr={2}
-                    // borderRadius={4}
-                    height={36}
-                    width={36}
-                    src={MnetLogo}
-                  />
+                  <Image mr={2} width={'40px'} src={MnetLogo} />
                   <ItemTitle fontSize={2} fontWeight={600} width={1}>
                     <Trans>My MoodleNet</Trans>
                   </ItemTitle>
@@ -224,9 +226,6 @@ const Sidebar: React.FC<Props> = ({ resp }) => {
                     <NavItem alignItems={'center'} mb={2}>
                       <Image
                         mr={2}
-                        // borderRadius={4}
-                        height={36}
-                        width={36}
                         src={userJoinedCommunitiesEdge!.node!.icon!}
                       />
                       <ItemTitle fontSize={1} fontWeight={600}>

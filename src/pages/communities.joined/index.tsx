@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/macro';
 import * as React from 'react';
 import { graphql, QueryControls, OperationOption } from 'react-apollo';
-// import { Helmet } from 'react-helmet';
+import { Flex, Box, Button } from 'rebass';
 import compose from 'recompose/compose';
 import media from 'styled-media-query';
 import CommunityCard from '../../components/elements/Community/Community';
@@ -30,6 +30,7 @@ interface Data extends QueryControls {
 
 interface Props {
   data: Data;
+  handleNewCommunity(): void;
 }
 
 class CommunitiesJoined extends React.Component<Props> {
@@ -45,8 +46,17 @@ class CommunitiesJoined extends React.Component<Props> {
         {/* <Helmet>
           <title>{APP_NAME} > Joined communities</title>
         </Helmet> */}
-        <ListWrapper>
-          <List>
+        <Box>
+          <ButtonWrapper>
+            <CreateCollection
+              p={3}
+              onClick={() => this.props.handleNewCommunity()}
+              m={3}
+            >
+              <Trans>Create a new community</Trans>
+            </CreateCollection>
+          </ButtonWrapper>
+          <List p={2}>
             {this.props.data.me.user.joinedCommunities.edges.map(
               (community, i) => (
                 <CommunityCard
@@ -69,23 +79,40 @@ class CommunitiesJoined extends React.Component<Props> {
             fetchMore={this.props.data.fetchMore}
             communities={this.props.data.me.user.joinedCommunities}
           />
-        </ListWrapper>
+        </Box>
       </>
     );
   }
 }
 
-const ListWrapper = styled.div`
-  padding: 16px;
+const ButtonWrapper = styled(Flex)`
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
 `;
 
-const List = styled.div`
+const CreateCollection = styled(Button)`
+  flex: 1;
+  background: none;
+  font-weight: 600;
+  cursor: pointer;
+  flex: 1;
+  border: 1px solid ${props => props.theme.colors.lightgray} !important;
+  background: none;
+  font-weight: 600;
+  color: ${props => props.theme.colors.darkgray} !important;
+  cursor: pointer;
+  height: 50px;
+  text-transform: uppercase;
+  font-size: 14px !important;
+  &:hover {
+    background: ${props => props.theme.colors.lightgray};
+  }
+`;
+
+const List = styled(Box)`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 16px;
   grid-row-gap: 16px;
-
-  padding-top: 0;
   ${media.lessThan('medium')`
   grid-template-columns: 1fr;
   `};

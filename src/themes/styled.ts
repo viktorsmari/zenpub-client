@@ -22,10 +22,10 @@ export interface MoodleThemeInterface {
     };
   };
   buttons: {
-    secondary: {
+    primary: {
       fontWeight: string;
       borderRadius: string;
-      p: number;
+      height: string;
       px: number;
       fontSize: string;
       backgroundColor: string;
@@ -34,9 +34,17 @@ export interface MoodleThemeInterface {
       letterSpacing: string;
     };
     outline: {
-      color: string;
-      borderColor: string;
+      fontWeight: string;
+      borderRadius: string;
+      height: string;
+      px: number;
+      fontSize: string;
       backgroundColor: string;
+      cursor: string;
+      color: string;
+      textTransform: string;
+      letterSpacing: string;
+      border: string;
     };
   };
   space: string[];

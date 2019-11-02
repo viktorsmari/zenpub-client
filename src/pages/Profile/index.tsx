@@ -235,7 +235,7 @@ const Settings = styled(NavLink)`
   color: ${props => props.theme.colors.orange};
   display: block;
   width: 100%;
-  background: ${props => props.theme.colors.lighter};
+  background: #fbfbf9;
   border: 2px solid ${props => props.theme.colors.orange};
   cursor: pointer;
   height: 40px;

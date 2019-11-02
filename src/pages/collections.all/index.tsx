@@ -1,18 +1,17 @@
 import { Trans } from '@lingui/macro';
 import * as React from 'react';
 import { graphql, QueryControls, OperationOption } from 'react-apollo';
-// import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
 import { compose, withState, withHandlers } from 'recompose';
 import CollectionCard from '../../components/elements/Collection/Collection';
 import Loader from '../../components/elements/Loader/Loader';
 import CollectionsLoadMore from '../../components/elements/Loadmore/collections';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
-// import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
 import CollectionType from '../../types/Collection';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-import { Flex } from 'rebass/styled-components';
+import { HomeBox, MainContainer } from '../../sections/layoutUtils';
+import { WrapperPanel } from '../../sections/panel';
 const { getCollectionsQuery } = require('../../graphql/getCollections.graphql');
 
 interface Data extends QueryControls {
@@ -33,52 +32,55 @@ interface Props {
 class CommunitiesYours extends React.Component<Props> {
   render() {
     return (
-      <Flex>
-        <WrapperCont>
-          <Wrapper>
-            <Tabs>
-              <SuperTabList>
-                <SuperTab>
-                  <h5>
-                    <Trans>All collections</Trans>
-                  </h5>
-                </SuperTab>
-              </SuperTabList>
-              <TabPanel>
-                <div>
-                  {this.props.data.error ? (
-                    <span>
-                      <Trans>Error loading collections</Trans>
-                    </span>
-                  ) : this.props.data.loading ? (
-                    <Loader />
-                  ) : (
-                    <>
-                      {/* <Helmet>
+      <MainContainer>
+        <HomeBox>
+          <WrapperCont>
+            <Wrapper>
+              <Tabs>
+                <SuperTabList>
+                  <SuperTab>
+                    <h5>
+                      <Trans>All collections</Trans>
+                    </h5>
+                  </SuperTab>
+                </SuperTabList>
+                <TabPanel>
+                  <div>
+                    {this.props.data.error ? (
+                      <span>
+                        <Trans>Error loading collections</Trans>
+                      </span>
+                    ) : this.props.data.loading ? (
+                      <Loader />
+                    ) : (
+                      <>
+                        {/* <Helmet>
                         <title>{APP_NAME} > All collections</title>
                       </Helmet> */}
-                      <List>
-                        {this.props.data.collections.nodes.map((coll, i) => (
-                          <CollectionCard
-                            key={i}
-                            collection={coll}
-                            openModal={this.props.handleCollection}
-                            communityId={coll.community.localId}
-                          />
-                        ))}
-                      </List>
-                      <CollectionsLoadMore
-                        fetchMore={this.props.data.fetchMore}
-                        collections={this.props.data.collections}
-                      />
-                    </>
-                  )}
-                </div>
-              </TabPanel>
-            </Tabs>
-          </Wrapper>
-        </WrapperCont>
-      </Flex>
+                        <List>
+                          {this.props.data.collections.nodes.map((coll, i) => (
+                            <CollectionCard
+                              key={i}
+                              collection={coll}
+                              openModal={this.props.handleCollection}
+                              communityId={coll.community.localId}
+                            />
+                          ))}
+                        </List>
+                        <CollectionsLoadMore
+                          fetchMore={this.props.data.fetchMore}
+                          collections={this.props.data.collections}
+                        />
+                      </>
+                    )}
+                  </div>
+                </TabPanel>
+              </Tabs>
+            </Wrapper>
+          </WrapperCont>
+        </HomeBox>
+        <WrapperPanel />
+      </MainContainer>
     );
   }
 }

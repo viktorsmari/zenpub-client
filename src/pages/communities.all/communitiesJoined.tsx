@@ -7,7 +7,7 @@ import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import CommunitiesJoined from '../communities.joined';
 import { Wrapper, WrapperCont } from './CommunitiesAll';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
-import { WrapperPanel, Panel, Nav, NavItem } from '../../sections/panel';
+import { WrapperPanel } from '../../sections/panel';
 
 interface Props {
   handleNewCommunity(): boolean;
@@ -30,25 +30,15 @@ class CommunitiesYours extends React.Component<Props> {
                   </SuperTab>
                 </SuperTabList>
                 <TabPanel>
-                  <CommunitiesJoined />
+                  <CommunitiesJoined
+                    handleNewCommunity={this.props.handleNewCommunity}
+                  />
                 </TabPanel>
               </Tabs>
             </Wrapper>
           </WrapperCont>
         </HomeBox>
-        <WrapperPanel>
-          <Panel>
-            <Nav>
-              <NavItem
-                onClick={this.props.handleNewCommunity}
-                fontSize={1}
-                fontWeight={'bold'}
-              >
-                <Trans>Create a new community</Trans>
-              </NavItem>
-            </Nav>
-          </Panel>
-        </WrapperPanel>
+        <WrapperPanel />
         <NewCommunityModal
           toggleModal={this.props.handleNewCommunity}
           modalIsOpen={this.props.isOpenCommunity}

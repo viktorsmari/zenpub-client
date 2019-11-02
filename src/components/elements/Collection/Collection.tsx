@@ -17,7 +17,7 @@ interface CollectionProps {
 
 export default ({ collection, communityId, openModal }: CollectionProps) => {
   return (
-    <Wrapper mb={2} p={2}>
+    <Wrapper p={3}>
       <Link
         to={
           collection.localId
@@ -72,7 +72,7 @@ const ActionItem = styled.div`
   display: inline-block;
   font-size: 14px;
   font-weight: 600;
-  color: ${props => props.theme.colors.lightgray};
+  color: ${props => props.theme.colors.gray};
   text-transform: uppercase;
   & svg {
     vertical-align: sub;
