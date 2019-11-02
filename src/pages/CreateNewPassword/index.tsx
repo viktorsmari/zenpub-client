@@ -4,7 +4,7 @@ import { graphql, OperationOption } from 'react-apollo';
 import { Trans } from '@lingui/macro';
 import styled from '../../themes/styled';
 // import { Helmet } from 'react-helmet';
-import Button from '../../components/elements/Button/Button';
+import { Button } from 'rebass/styled-components';
 import { Input } from '@rebass/forms';
 import { withFormik, FormikProps, Form, Field, FormikValues } from 'formik';
 import * as Yup from 'yup';
@@ -27,9 +27,7 @@ const Container = styled.div`
   & button {
     margin-top: 16px;
     width: 100%;
-    color: #fff !important;
-    text-transform: uppercase
-      &:hover {
+    &:hover {
       background: #d67218 !important;
     }
   }

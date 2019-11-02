@@ -13,7 +13,7 @@ import styled from '../../themes/styled';
 import CommunityType from '../../types/Community';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel } from '../../sections/panel';
-import { Button, Flex } from 'rebass';
+import { Button, Flex } from 'rebass/styled-components';
 const { getCommunitiesQuery } = require('../../graphql/getCommunities.graphql');
 
 interface Data extends QueryControls {

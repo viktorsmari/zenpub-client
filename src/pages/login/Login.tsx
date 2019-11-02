@@ -1,6 +1,5 @@
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
-import { withTheme } from '@zendeskgarden/react-theming';
 import { clearFix } from 'polished';
 import * as React from 'react';
 import { graphql } from 'react-apollo';
@@ -8,7 +7,6 @@ import { graphql } from 'react-apollo';
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
 import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
-// import Button from '../../components/elements/Button/Button';
 import Link from '../../components/elements/Link/Link';
 import SignupModal from '../../components/elements/SignupModal';
 import { i18n } from '../../containers/App/App';
@@ -330,7 +328,12 @@ class Login extends React.Component<LoginProps, LoginState> {
               <Or>
                 <Trans>Or</Trans>
               </Or>
-              <Button variant="secondary" onClick={this.props.handleSignup}>
+              <Button
+                mt={3}
+                style={{ width: '100%' }}
+                variant="outline"
+                onClick={this.props.handleSignup}
+              >
                 <Trans>Sign up</Trans>
               </Button>
             </FormWrapper>
@@ -389,7 +392,7 @@ const withLogin = graphql(loginMutation, {
 });
 
 export default compose(
-  withTheme,
+  // withTheme,
   // withUser,
   // withSetLocalUser,
   withLogin,
