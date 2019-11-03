@@ -134,13 +134,11 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                                 />
                               )
                             )}
-                            <div style={{ padding: '8px' }}>
-                              <LoadMoreTimeline
-                                me
-                                fetchMore={this.props.data.fetchMore}
-                                community={this.props.data.me.user}
-                              />
-                            </div>
+                            <LoadMoreTimeline
+                              me
+                              fetchMore={this.props.data.fetchMore}
+                              community={this.props.data.me.user}
+                            />
                           </div>
                         </TabPanel>
                         <TabPanel>
@@ -156,15 +154,13 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                               )
                             )}
                           </ListCollections>
-                          <div style={{ padding: '8px' }}>
-                            <FollowingCollectionsLoadMore
-                              collections={
-                                this.props.data.me.user.followingCollections
-                              }
-                              fetchMore={this.props.data.fetchMore}
-                              me
-                            />
-                          </div>
+                          <FollowingCollectionsLoadMore
+                            collections={
+                              this.props.data.me.user.followingCollections
+                            }
+                            fetchMore={this.props.data.fetchMore}
+                            me
+                          />
                         </TabPanel>
                         <TabPanel
                           label={`${TabsEnum.Communities}`}
@@ -196,15 +192,13 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                                 )
                               )}
                             </List>
-                            <div style={{ padding: '8px' }}>
-                              <JoinedCommunitiesLoadMore
-                                me
-                                communities={
-                                  this.props.data.me.user.joinedCommunities
-                                }
-                                fetchMore={this.props.data.fetchMore}
-                              />
-                            </div>
+                            <JoinedCommunitiesLoadMore
+                              me
+                              communities={
+                                this.props.data.me.user.joinedCommunities
+                              }
+                              fetchMore={this.props.data.fetchMore}
+                            />
                           </>
                         </TabPanel>
                       </Tabs>

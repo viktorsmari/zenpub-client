@@ -174,7 +174,7 @@ const CreateCommunityModal = (
                   >
                     <Trans>Create</Trans>
                   </Button>
-                  <Button onClick={toggleModal} secondary>
+                  <Button variant="outline" onClick={toggleModal}>
                     <Trans>Cancel</Trans>
                   </Button>
                 </Actions>
