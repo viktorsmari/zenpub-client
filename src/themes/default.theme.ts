@@ -2,7 +2,7 @@ import { MoodleThemeInterface } from './styled';
 
 const themeLight: MoodleThemeInterface = {
   breakpoints: ['40em', '52em', '64em'],
-  fontSizes: ['12px', '14px', '16px', '20px', '24px', '32px', '48px', '64px'],
+  fontSizes: ['12px', '14px', '16px', '20px', '24px', '28px', '32px', '48px'],
   colors: {
     primary: '#f98012',
     orange: '#f98012',
@@ -12,12 +12,40 @@ const themeLight: MoodleThemeInterface = {
     lightgray: 'rgba(0,0,0,.1)',
     lighter: '#F5F6F7'
   },
-  radii: {
-    default: 12
-  },
   variants: {
     primary: {
       bg: '#000'
+    }
+  },
+  text: {
+    suptitle: {
+      fontFamily: '"Open Sans", sans-serif',
+      fontSize: 0,
+      color: 'rgba(0,0,0,.4)',
+      textTransform: 'uppercase',
+      letterSpacing: '1px',
+      fontWeight: '700'
+    },
+    link: {
+      fontFamily: '"Open Sans", sans-serif',
+      fontSize: 1,
+      color: '#3C3C3C',
+      letterSpacing: '.5px',
+      fontWeight: '600'
+    },
+    text: {
+      fontFamily: '"Open Sans", sans-serif',
+      fontSize: 1,
+      color: '#3C3C3C',
+      letterSpacing: '.5px',
+      fontWeight: '500'
+    },
+    heading: {
+      fontFamily: '"Open Sans", sans-serif',
+      fontSize: 5,
+      color: '#3C3C3C',
+      letterSpacing: '1px',
+      fontWeight: '800'
     }
   },
   buttons: {

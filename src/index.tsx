@@ -29,7 +29,7 @@ async function run() {
       }
 
       body {
-      background: #fbfbf9;
+      background: #F5F6F7;
       overflow-y: scroll;
       overscroll-behavior-y: none;
       .ais-SearchBox {

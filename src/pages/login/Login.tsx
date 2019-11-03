@@ -14,24 +14,18 @@ import { SessionContext } from '../../context/global/sessionCtx';
 import styled, { MoodleThemeInterface } from '../../themes/styled';
 import LoginForm from './LoginForm';
 import { ValidationField, ValidationObject, ValidationType } from './types';
-import { Button } from 'rebass/styled-components';
+import { Button, Box, Text } from 'rebass/styled-components';
 const { loginMutation } = require('../../graphql/login.graphql');
-
-// const Signup = styled(Button)`
-//   margin-top: 24px !important;
-//   width: 100%;
-//   color: #fff !important;
-//   text-transform: uppercase
-//   &:hover {
-//     background: #d67218 !important;
-//   }
-// `;
+import { Panel, WrapperPanel } from '../../sections/panel';
 
 const Background = styled.div`
-  background-image: url('https://i.imgur.com/zpWmkgE.png');
-  background-size: contain;
+  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwB3uElmeu6GMAuX2UCuLLVGCLBnqxcZQL4GoLyWlUvxMLQL70zA&s');
+  background-size: cover;
+  background-position: center center;
   background-repeat: no-repeat;
-  height: 490px;
+  height: 260px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
 `;
 const Tagline = styled.h5`
   font-size: 16px;
@@ -40,6 +34,10 @@ const Tagline = styled.h5`
   color: #000000a1;
   font-weight: 500;
 `;
+
+const Infos = styled(Box)``;
+
+const Info = styled(Box)``;
 
 const Logo = styled.div`
   background: url(https://i.imgur.com/YdflNQp.png);
@@ -85,17 +83,22 @@ const Form = styled.div`
   height: fit-content;
 `;
 
-const Image = styled.div`
-grid-area: image
-background: #fff;
-  border-radius: 4px;
-  height: inherit;
-  border: 1px solid #dddfe2;
-  text-align: left;
-  ${media.lessThan('medium')`
-  display: none;
-  `};
+const Right = styled(Box)`
+  grid-area: image .extra {
+    width: 100%;
+    margin-right: 0;
+  }
 `;
+// const Image = styled.div`
+//   background: #fff;
+//   border-radius: 4px;
+//   height: inherit;
+//   border: 1px solid #dddfe2;
+//   text-align: left;
+//   ${media.lessThan('medium')`
+//   display: none;
+//   `};
+// `;
 
 const Footer = styled.div`
 grid-area: footer
@@ -128,6 +131,10 @@ padding-top: 24px;
 }
 `;
 
+const Browse = styled(Box)`
+  background: #fff;
+`;
+
 const Or = styled.div`
   position: relative;
   color: rgba(0, 0, 0, 0.5);
@@ -155,14 +162,14 @@ const Or = styled.div`
   }
 `;
 
-const ResetPass = styled.div`
-  margin-top: 8px;
+const ResetPass = styled(Text)`
   text-align: center;
-  font-size: 14px;
-  color: rgba(0, 0, 0, 0.45);
   text-decoration: underline;
-  margin-bottom: 16px;
   cursor: pointer;
+  a {
+    font-size: 14px;
+    color: inherit;
+  }
 `;
 
 /**
@@ -302,9 +309,6 @@ class Login extends React.Component<LoginProps, LoginState> {
 
     return (
       <>
-        {/* <Helmet>
-          <title>{APP_NAME} - Share. Curate. Discuss.</title>
-        </Helmet> */}
         <Container>
           <LoginWrapper>
             <Header>
@@ -319,7 +323,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                   onInputChange={this.onLoginFormInputChange}
                   authenticating={this.state.authenticating}
                 />
-                <ResetPass>
+                <ResetPass variant="text" my={3} mt={2}>
                   <Link to="/reset">
                     <Trans>Trouble logging in?</Trans>
                   </Link>
@@ -328,18 +332,54 @@ class Login extends React.Component<LoginProps, LoginState> {
               <Or>
                 <Trans>Or</Trans>
               </Or>
+              <Browse mt={3} p={3}>
+                <Text variant="heading" fontSize={3}>
+                  <Trans>Browse MoodleNet</Trans>
+                </Text>
+                <Text variant="text" mt={2}>
+                  <Trans>
+                    Preview what people are sharing, curating, and discussing!
+                  </Trans>
+                </Text>
+                <Button mt={3} variant="outline">
+                  <Trans>Browse</Trans>
+                </Button>
+              </Browse>
+            </FormWrapper>
+            <Right>
               <Button
-                mt={3}
-                style={{ width: '100%' }}
+                mb={2}
+                style={{ width: '100%', height: '50px' }}
                 variant="outline"
                 onClick={this.props.handleSignup}
               >
                 <Trans>Sign up</Trans>
               </Button>
-            </FormWrapper>
-            <Image>
-              <Background />
-            </Image>
+              <WrapperPanel className="extra">
+                <Panel>
+                  <Background />
+                  <Infos p={3}>
+                    <Info>
+                      <Text variant="suptitle">
+                        <Trans>Instance description</Trans>
+                      </Text>
+                      <Text mt={2} variant="text">
+                        <Trans>
+                          This instance of MoodleNet is run by Moodle HQ and is
+                          currently invite-only.
+                        </Trans>
+                      </Text>
+                    </Info>
+                    <Info mt={3}>
+                      <Text variant="suptitle">
+                        <Trans>Admins</Trans>
+                      </Text>
+                    </Info>
+                  </Infos>
+                </Panel>
+              </WrapperPanel>
+            </Right>
+
             <Footer>
               <ul>
                 <li>

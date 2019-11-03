@@ -11,6 +11,12 @@ import { Box } from 'rebass/styled-components';
 const LoginForm = styled.form`
   margin: 0;
   margin-bottom: 16px;
+  input {
+    height: 50px;
+    background-color: transparent;
+    border-radius: 4px;
+    border-color: #dadada;
+  }
 `;
 
 const Spacer = styled.div`
@@ -105,10 +111,7 @@ export default class extends React.Component<LoginFormProps, LoginFormState> {
               onInputChange(ValidationField.password, evt.target.value);
             }}
           />
-        </Box>
-
-        <Box m={3}>
-          <Button style={{ width: '100%' }} variant="primary">
+          <Button mt={3} style={{ width: '100%' }} variant="primary">
             <Trans>Sign in</Trans>{' '}
           </Button>
         </Box>

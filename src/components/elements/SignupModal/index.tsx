@@ -192,6 +192,7 @@ const CreateCommunityModal = (props: Props) => {
                     </Row>
                     <Actions>
                       <Button
+                        variant="outline"
                         disabled={isSubmitting}
                         type="submit"
                         style={{ marginLeft: '10px' }}
@@ -211,7 +212,8 @@ const CreateCommunityModal = (props: Props) => {
                     email: values.email,
                     name: values.name,
                     password: values.password,
-                    preferredUsername: values.username
+                    preferredUsername: values.username,
+                    isPublic: true
                   }
                 };
                 return createUser({

@@ -134,7 +134,10 @@ const NavItem = styled(Flex)`
 `;
 
 const ItemTitle = styled(Text)`
-  color: ${props => props.theme.colors.darkgray};
+  a:focus,
+  a:active {
+    color: inherit;
+  }
   ${ellipsis('220px')} ${media.lessThan('1280px')`
   display: none;
 `};
@@ -199,7 +202,7 @@ const Sidebar: React.FC<Props> = ({ resp }) => {
               <SidebarLink exact to={'/discover'}>
                 <NavItem mb={3} alignItems={'center'}>
                   <Globe size={36} />
-                  <ItemTitle ml={2} fontSize={2} fontWeight={600} width={1}>
+                  <ItemTitle ml={2} variant="link">
                     <Trans>Discover</Trans>
                   </ItemTitle>
                 </NavItem>
@@ -207,7 +210,7 @@ const Sidebar: React.FC<Props> = ({ resp }) => {
               <SidebarLink exact to={'/'}>
                 <NavItem mb={3} alignItems={'center'}>
                   <Image mr={2} width={'40px'} src={MnetLogo} />
-                  <ItemTitle fontSize={2} fontWeight={600} width={1}>
+                  <ItemTitle variant="link">
                     <Trans>My MoodleNet</Trans>
                   </ItemTitle>
                 </NavItem>
@@ -228,7 +231,7 @@ const Sidebar: React.FC<Props> = ({ resp }) => {
                         mr={2}
                         src={userJoinedCommunitiesEdge!.node!.icon!}
                       />
-                      <ItemTitle fontSize={1} fontWeight={600}>
+                      <ItemTitle variant="link">
                         {userJoinedCommunitiesEdge!.node!.name}
                       </ItemTitle>
                     </NavItem>
