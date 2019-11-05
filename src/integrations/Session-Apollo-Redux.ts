@@ -1,7 +1,7 @@
 import { InterceptorSrv, BLOCK_REQUEST, BlockRequest } from '../apollo/client';
 import { Store } from 'redux';
 import { login, logout } from '../redux/session';
-import { AuthPayload } from '../generated/graphqlapollo';
+import { AuthPayload } from '../graphql/types';
 
 export const integrateSessionApolloRedux = (
   intercSrv: InterceptorSrv,

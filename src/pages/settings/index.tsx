@@ -2,7 +2,7 @@ import * as React from 'react';
 import { graphql, OperationOption } from 'react-apollo';
 import { compose, withState } from 'recompose';
 // import media from 'styled-media-query';
-import { Flex, Box } from 'rebass';
+import { Flex, Box } from 'rebass/styled-components';
 import Loader from '../../components/elements/Loader/Loader';
 import Sidebar from './sidebarSettings';
 import styled from '../../themes/styled';

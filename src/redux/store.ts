@@ -8,6 +8,7 @@ import {
 import { createSessionMW } from './session';
 import * as session from './session';
 import { CreateKVStore } from '../util/keyvaluestore/types';
+import { ToastMiddleware } from './toastMsgs';
 
 export type State = ReturnType<typeof createAppStore> extends Store<infer S>
   ? S
@@ -23,7 +24,9 @@ export const createAppStore = ({ createLocalKVStore }: Cfg) => {
 
   const Session = createSessionMW(createLocalKVStore('SESSION#'));
 
-  const enhancer = composeEnhancers(applyMiddleware(Session.mw));
+  const enhancer = composeEnhancers(
+    applyMiddleware(Session.mw, ToastMiddleware)
+  );
 
   const reducer = combineReducers({
     session: session.reducer(Session.initialState)

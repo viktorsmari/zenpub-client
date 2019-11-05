@@ -3,7 +3,7 @@ import styled from '../../../themes/styled';
 import CollectionType from '../../../types/Collection';
 import { Link } from 'react-router-dom';
 import { Resource } from '../Icons';
-import { Flex, Text, Heading } from 'rebass';
+import { Flex, Text, Heading } from 'rebass/styled-components';
 const PlaceholderImg = require('../Icons/collectionPlaceholder.png');
 
 interface CollectionProps {
@@ -17,7 +17,7 @@ interface CollectionProps {
 
 export default ({ collection, communityId, openModal }: CollectionProps) => {
   return (
-    <Wrapper mb={2} p={2}>
+    <Wrapper p={3}>
       <Link
         to={
           collection.localId
@@ -38,14 +38,14 @@ export default ({ collection, communityId, openModal }: CollectionProps) => {
               ? collection.name.replace(/^(.{76}[^\s]*).*/, '$1...')
               : collection.name}
           </Title>
-          <Desc mt={2}>
+          <Text variant="text" mt={2} mb={3}>
             {collection.summary.length > 320
               ? collection.summary.replace(
                   /^([\s\S]{316}[^\s]*)[\s\S]*/,
                   '$1...'
                 )
               : collection.summary}
-          </Desc>
+          </Text>
           <Actions>
             <ActionItem>
               <Resource
@@ -72,7 +72,7 @@ const ActionItem = styled.div`
   display: inline-block;
   font-size: 14px;
   font-weight: 600;
-  color: ${props => props.theme.colors.lightgray};
+  color: ${props => props.theme.colors.gray};
   text-transform: uppercase;
   & svg {
     vertical-align: sub;
@@ -113,11 +113,6 @@ const Infos = styled.div`
 const Title = styled(Heading)`
   color: ${props => props.theme.colors.darkgray};
   font-size: 20px;
-`;
-const Desc = styled(Text)`
-  color: ${props => props.theme.colors.darkgray};
-  line-height: 20px;
-  margin-bottom: 26px !important;
 `;
 
 // export default Collection;

@@ -3,8 +3,8 @@ import gql from 'graphql-tag';
 import React from 'react';
 import { graphql, OperationOption } from 'react-apollo';
 import { compose } from 'recompose';
-import styled from '../../themes/styled';
-import { Button } from 'rebass';
+// import styled from '../../themes/styled';
+import { Button } from 'rebass/styled-components';
 const {
   joinCommunityMutation
 } = require('../../graphql/joinCommunity.graphql');
@@ -39,7 +39,8 @@ const Join: React.FC<Props> = ({
 }) => {
   if (followed) {
     return (
-      <Span
+      <Button
+        variant="outline"
         onClick={() =>
           leaveCommunity({
             variables: { communityId: id },
@@ -70,11 +71,12 @@ const Join: React.FC<Props> = ({
         }
       >
         <Trans>Leave</Trans>
-      </Span>
+      </Button>
     );
   } else {
     return (
-      <JoinButton
+      <Button
+        variant="primary"
         onClick={() =>
           joinCommunity({
             variables: { communityId: id },
@@ -105,43 +107,43 @@ const Join: React.FC<Props> = ({
         }
       >
         <Trans>Join</Trans>
-      </JoinButton>
+      </Button>
     );
   }
 };
 
-const JoinButton = styled(Button)`
-  border: 1px solid ${props => props.theme.colors.orange} !important;
-  font-size: 11px !important;
-  color: ${props => props.theme.colors.darkgray} !important;
-  text-transform: uppercase !important;
-  letter-spacing: 1px !important;
-  background: transparent !important;
-  cursor: pointer;
-  height: 30px !important;
-  border-radius: 2px !important;
-`;
+// const JoinButton = styled(Button)`
+//   border: 1px solid ${props => props.theme.colors.orange} !important;
+//   font-size: 11px !important;
+//   color: ${props => props.theme.colors.darkgray} !important;
+//   text-transform: uppercase !important;
+//   letter-spacing: 1px !important;
+//   background: transparent !important;
+//   cursor: pointer;
+//   height: 30px !important;
+//   border-radius: 2px !important;
+// `;
 
-const Span = styled.div`
-  cursor: pointer;
-  text-align: center;
-  border-radius: 3px;
-  margin-left: 8px;
-  box-sizing: border-box;
-  display: inline-block;
-  padding: 4px 32px;
-  min-width: 0;
-  font-size: 16px;
-  border-radius: 4px;
-  border: 1px solid ${props => props.theme.colors.orange};
-  font-size: 11px;
-  line-height: 29px;
-  color: ${props => props.theme.colors.darkgray};
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-`;
+// const Span = styled.div`
+//   cursor: pointer;
+//   text-align: center;
+//   border-radius: 3px;
+//   margin-left: 8px;
+//   box-sizing: border-box;
+//   display: inline-block;
+//   padding: 4px 32px;
+//   min-width: 0;
+//   font-size: 16px;
+//   border-radius: 4px;
+//   border: 1px solid ${props => props.theme.colors.orange};
+//   font-size: 11px;
+//   line-height: 29px;
+//   color: ${props => props.theme.colors.darkgray};
+//   font-weight: 600;
+//   letter-spacing: 1px;
+//   text-transform: uppercase;
+//   letter-spacing: 1px;
+// `;
 
 export default compose(
   withJoinCommunity,

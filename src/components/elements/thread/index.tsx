@@ -1,13 +1,13 @@
 import styled from '../../../themes/styled';
 import React, { useState } from 'react';
 import { SFC } from 'react';
-import { Text, Box, Flex, Image } from 'rebass';
+import { Text, Box, Flex, Image } from 'rebass/styled-components';
 import * as Feather from 'react-feather';
 import { DateTime } from 'luxon';
 import Talk from '../TalkModal';
 import Link from '../Link/Link';
 import { Trans } from '@lingui/react';
-import { Comment } from '../../../generated/graphqlapollo';
+import { Comment } from '../../../graphql/types';
 // import { Comment } from 'src/gql/sdk';
 
 const Icon = styled(Flex)`

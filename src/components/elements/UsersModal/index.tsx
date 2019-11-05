@@ -6,7 +6,7 @@ import media from 'styled-media-query';
 import { Trans } from '@lingui/macro';
 import Link from '../../elements/Link/Link';
 import { clearFix } from 'polished';
-import { Heading, Text } from 'rebass';
+import { Heading, Text } from 'rebass/styled-components';
 import { Container, Header } from '../Modal/modal';
 interface Props {
   toggleModal?: any;

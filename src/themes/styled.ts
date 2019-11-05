@@ -2,23 +2,10 @@ import * as styledComponents from 'styled-components';
 import { ThemedStyledComponentsModule } from 'styled-components';
 
 export interface MoodleThemeInterface {
-  // rebass
-  buttons: {
-    primary: {
-      backgroundColor: string;
-      color: string;
-      borderRadius: string;
-    };
-    outline: {
-      color: string;
-      borderColor: string;
-      backgroundColor: string;
-      borderRadius: string;
-    };
-  };
   breakpoints: string[];
-  fontSizes: number[];
+  fontSizes: string[];
   colors: {
+    primary: string;
     orange: string;
     black: string;
     gray: string;
@@ -26,7 +13,69 @@ export interface MoodleThemeInterface {
     lighter: string;
     darkgray: string;
   };
-  space: number[];
+  text: {
+    suptitle: {
+      fontFamily: string;
+      fontSize: number;
+      color: string;
+      textTransform: string;
+      letterSpacing: string;
+      fontWeight: string;
+    };
+    link: {
+      fontFamily: string;
+      fontSize: number;
+      color: string;
+      letterSpacing: string;
+      fontWeight: string;
+    };
+    text: {
+      fontFamily: string;
+      fontSize: number;
+      color: string;
+      letterSpacing: string;
+      fontWeight: string;
+    };
+    heading: {
+      fontFamily: string;
+      fontSize: number;
+      color: string;
+      letterSpacing: string;
+      fontWeight: string;
+    };
+  };
+  variants: {
+    primary: {
+      bg: string;
+    };
+  };
+  buttons: {
+    primary: {
+      fontWeight: string;
+      borderRadius: string;
+      height: string;
+      px: number;
+      fontSize: string;
+      backgroundColor: string;
+      cursor: string;
+      textTransform: string;
+      letterSpacing: string;
+    };
+    outline: {
+      fontWeight: string;
+      borderRadius: string;
+      height: string;
+      px: number;
+      fontSize: string;
+      backgroundColor: string;
+      cursor: string;
+      color: string;
+      textTransform: string;
+      letterSpacing: string;
+      border: string;
+    };
+  };
+  space: string[];
   fontFamily: string;
 }
 

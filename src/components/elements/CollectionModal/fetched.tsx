@@ -12,7 +12,7 @@ import { i18n } from '../../../containers/App/App';
 import styled from '../../../themes/styled';
 import { Input, Textarea } from '@rebass/forms';
 import Alert from '../Alert';
-import Button, { LoaderButton } from '../Button/Button';
+import { Button } from 'rebass/styled-components';
 import { Actions, ContainerForm, CounterChars, Row } from '../Modal/modal';
 import ResourceCard from '../Resource/Resource';
 
@@ -169,7 +169,7 @@ const Fetched = (props: Props & FormikProps<FormValues>) => (
         </ContainerForm>
       </Row>
       <Actions>
-        <LoaderButton
+        <Button
           loading={props.isSubmitting}
           disabled={props.isSubmitting}
           text={i18n._(tt.placeholders.submit)}

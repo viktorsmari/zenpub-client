@@ -9,7 +9,7 @@ import media from 'styled-media-query';
 import Alert from '../../components/elements/Alert';
 import { Input, Textarea } from '@rebass/forms';
 import styled from '../../themes/styled';
-import { Heading, Button, Flex, Box } from 'rebass';
+import { Heading, Button, Flex, Box } from 'rebass/styled-components';
 const checkUsername = require('../../graphql/checkUsername.graphql');
 const {
   updateProfileMutation

@@ -1,5 +1,5 @@
 import styled from '../themes/styled';
-import { Flex } from 'rebass';
+import { Flex } from 'rebass/styled-components';
 import media from 'styled-media-query';
 
 export const HomeBox = styled(Flex)`

@@ -9,8 +9,8 @@ import * as Yup from 'yup';
 import { i18n } from '../../../containers/App/App';
 import { compose } from 'recompose';
 import Alert from '../../elements/Alert';
-import { Heading } from 'rebass';
-import { Button } from 'rebass';
+import { Heading } from 'rebass/styled-components';
+import { Button } from 'rebass/styled-components';
 import Modal from '../Modal';
 import { Input, Textarea } from '@rebass/forms';
 import {
@@ -140,7 +140,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
             <Button disabled={isSubmitting} type="submit" ml={2}>
               <Trans>Create</Trans>
             </Button>
-            <Button onClick={toggleModal}>
+            <Button variant="outline" onClick={toggleModal}>
               <Trans>Cancel</Trans>
             </Button>
           </Actions>

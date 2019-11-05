@@ -7,7 +7,6 @@ import Loader from '../../components/elements/Loader/Loader';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timelineUser';
 import { StickyTabList, SuperTab } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem';
-import { useGetMeInboxQuery } from '../../generated/graphqlapollo';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import {
   Nav,
@@ -18,6 +17,7 @@ import {
   WrapperPanel
 } from '../../sections/panel';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
+import { useGetMeInboxQuery } from '../../graphql/generated/getMeInbox.generated';
 
 interface Props {}
 
@@ -56,12 +56,10 @@ const Home: React.FC<Props> = () => {
                         key={userActivityEdge!.node!.id!}
                       />
                     ))}
-                    <div style={{ padding: '8px' }}>
-                      <LoadMoreTimeline
-                        fetchMore={fetchMore}
-                        community={data!.me!.user!}
-                      />
-                    </div>
+                    <LoadMoreTimeline
+                      fetchMore={fetchMore}
+                      community={data!.me!.user!}
+                    />
                   </div>
                 )}
               </TabPanel>

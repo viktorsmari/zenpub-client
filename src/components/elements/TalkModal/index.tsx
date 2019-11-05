@@ -1,18 +1,16 @@
 import { i18nMark } from '@lingui/react';
 import * as React from 'react';
-import { Box, Flex } from 'rebass';
+import { Box, Flex } from 'rebass/styled-components';
 import { string } from 'yup';
 import { i18n } from '../../../containers/App/App';
 import CommentCmp from '../Comment/Comment';
-import {
-  Comment,
-  useCreateReplyMutationMutation
-} from '../../../generated/graphqlapollo';
 import styled from '../../../themes/styled';
 import { SessionContext } from '../../../context/global/sessionCtx';
 import Alert from '../../elements/Alert';
 import Modal from '../Modal';
 import SocialText from '../SocialText';
+import { Comment } from '../../../graphql/types';
+import { useCreateReplyMutationMutation } from '../../../graphql/generated/createReply.generated';
 
 const TextWrapper = styled(Flex)`
   padding: 16px;

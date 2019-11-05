@@ -1,7 +1,6 @@
 import { Trans } from '@lingui/macro';
 import * as React from 'react';
 import { graphql, QueryControls, OperationOption } from 'react-apollo';
-// import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
 import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
@@ -10,11 +9,11 @@ import NewCommunityModal from '../../components/elements/CreateCommunityModal';
 import Loader from '../../components/elements/Loader/Loader';
 import CommunitiesLoadMore from '../../components/elements/Loadmore/community';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
-// import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
 import CommunityType from '../../types/Community';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
-import { WrapperPanel, Panel, Nav, NavItem } from '../../sections/panel';
+import { WrapperPanel } from '../../sections/panel';
+import { Button, Flex } from 'rebass/styled-components';
 const { getCommunitiesQuery } = require('../../graphql/getCommunities.graphql');
 
 interface Data extends QueryControls {
@@ -57,9 +56,15 @@ class CommunitiesYours extends React.Component<Props> {
                     <Loader />
                   ) : (
                     <>
-                      {/* <Helmet>
-                        <title>{APP_NAME} > All communities</title>
-                      </Helmet> */}
+                      <ButtonWrapper>
+                        <CreateCollection
+                          p={3}
+                          onClick={() => this.props.handleNewCommunity()}
+                          m={3}
+                        >
+                          <Trans>Create a new community</Trans>
+                        </CreateCollection>
+                      </ButtonWrapper>
                       <List>
                         {this.props.data.communities.nodes.map(
                           (community, i) => {
@@ -82,12 +87,10 @@ class CommunitiesYours extends React.Component<Props> {
                           }
                         )}
                       </List>
-                      <div style={{ padding: '8px' }}>
-                        <CommunitiesLoadMore
-                          fetchMore={this.props.data.fetchMore}
-                          communities={this.props.data.communities}
-                        />
-                      </div>
+                      <CommunitiesLoadMore
+                        fetchMore={this.props.data.fetchMore}
+                        communities={this.props.data.communities}
+                      />
                     </>
                   )}
                 </TabPanel>
@@ -95,19 +98,7 @@ class CommunitiesYours extends React.Component<Props> {
             </Wrapper>
           </WrapperCont>
         </HomeBox>
-        <WrapperPanel>
-          <Panel>
-            <Nav>
-              <NavItem
-                onClick={this.props.handleNewCommunity}
-                fontSize={1}
-                fontWeight={'bold'}
-              >
-                <Trans>Create a new community</Trans>
-              </NavItem>
-            </Nav>
-          </Panel>
-        </WrapperPanel>
+        <WrapperPanel />
         <NewCommunityModal
           toggleModal={this.props.handleNewCommunity}
           modalIsOpen={this.props.isOpenCommunity}
@@ -116,6 +107,29 @@ class CommunitiesYours extends React.Component<Props> {
     );
   }
 }
+
+const ButtonWrapper = styled(Flex)`
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+`;
+
+const CreateCollection = styled(Button)`
+  flex: 1;
+  background: none;
+  font-weight: 600;
+  cursor: pointer;
+  flex: 1;
+  border: 1px solid ${props => props.theme.colors.lightgray} !important;
+  background: none;
+  font-weight: 600;
+  color: ${props => props.theme.colors.darkgray} !important;
+  cursor: pointer;
+  height: 50px;
+  text-transform: uppercase;
+  font-size: 14px !important;
+  &:hover {
+    background: ${props => props.theme.colors.lightgray};
+  }
+`;
 
 export const WrapperCont = styled.div`
   width: 100%;

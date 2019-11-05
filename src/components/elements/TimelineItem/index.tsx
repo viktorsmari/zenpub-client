@@ -4,13 +4,15 @@ import { clearFix } from 'polished';
 import * as React from 'react';
 import { SFC } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Box, Flex, Text } from 'rebass';
+import { Box, Flex, Text } from 'rebass/styled-components';
 import removeMd from 'remove-markdown';
 import styled from '../../../themes/styled';
 import Link from '../Link/Link';
 import Actions from './Actions';
 import Preview from './preview';
 import { Star } from 'react-feather';
+import { useLikeCommentMutationMutation } from '../../../graphql/generated/likeComment.generated';
+import { useUndoLikeCommentMutationMutation } from '../../../graphql/generated/undoLikeComment.generated';
 interface Props {
   userpage?: boolean;
   user: any;
@@ -18,7 +20,16 @@ interface Props {
 }
 
 const Item: SFC<Props> = ({ user, node, userpage }) => {
-  const [iLikeIt /* , setiLikeIt */] = React.useState(false);
+  const [iLikeIt, setiLikeIt] = React.useState(false);
+  const [like] = useLikeCommentMutationMutation();
+  const [undoLike] = useUndoLikeCommentMutationMutation();
+  const toggleLike = React.useCallback(
+    (localId: number) => () => {
+      (iLikeIt ? undoLike : like)({ variables: { localId } });
+      setiLikeIt(!iLikeIt);
+    },
+    [iLikeIt, like, undoLike]
+  );
   return (
     <FeedItem>
       {node.activityType === 'CreateComment' && node.object.inReplyTo ? (
@@ -50,9 +61,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
                     </Username>
                   ) : null}
                 </Link>
-                <Spacer ml={2} mr={2}>
-                  ·
-                </Spacer>{' '}
+                <Spacer mr={2}>·</Spacer>{' '}
                 <Date>{DateTime.fromISO(node.published).toRelative()}</Date>
               </Name>
               <Comment>
@@ -82,9 +91,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
                     <Username ml={2}>@{user.preferredUsername}</Username>
                   ) : null}
                 </Link>
-                <Spacer ml={2} mr={2}>
-                  ·
-                </Spacer>{' '}
+                <Spacer mr={2}>·</Spacer>{' '}
                 <Date>{DateTime.fromISO(node.published).toRelative()}</Date>
               </Name>
             ) : (
@@ -106,7 +113,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
                 {node.object.inReplyTo !== null ? (
                   <InReply my={2}>
                     <MemberWrapped>
-                      <MemberItem mr={2}>
+                      <MemberItem className={'miniavatar'} mr={2}>
                         <Img src={node.object.inReplyTo.author.icon} />
                       </MemberItem>
                       <MemberInfo>
@@ -114,17 +121,9 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
                           <Link
                             to={'/user/' + node.object.inReplyTo.author.localId}
                           >
-                            {node.object.inReplyTo.author.name}{' '}
-                            {node.object.inReplyTo.author.preferredUsername ? (
-                              <Username ml={2}>
-                                @
-                                {node.object.inReplyTo.author.preferredUsername}
-                              </Username>
-                            ) : null}
+                            {node.object.inReplyTo.author.name}
                           </Link>
-                          <Spacer ml={2} mr={2}>
-                            ·
-                          </Spacer>{' '}
+                          <Spacer mr={2}>·</Spacer>{' '}
                           <Date>
                             {DateTime.fromISO(node.published).toRelative()}
                           </Date>
@@ -243,7 +242,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
               <Actions
                 totalReplies={node.object.replies.totalCount as number}
                 totalLikes={node.object.likers.totalCount as number}
-                toggleLike={() => {}}
+                toggleLike={toggleLike(node.object.localId)}
                 iLikeIt={iLikeIt}
               />
             ) : null}
@@ -264,10 +263,22 @@ const NavigateToThread = styled(Link)`
 
 const InReply = styled(Box)`
   color: ${props => props.theme.colors.gray};
-  border: 1px solid #ececec;
-  margin: 16px 0;
-  border-radius: 2px;
-  background: whitesmoke;
+  // border: 1px solid #ececec;
+  // margin: 16px 0;
+  // border-radius: 2px;
+  // background: whitesmoke;
+  position: relative;
+  opacity: 0.8
+  &:after {
+    position: absolute;
+    content: '';
+    width: 4px;
+    top: 10px;
+    left: -2px;
+    bottom: 10px;
+    display: block;
+    background: #f3f3f3;
+  }
   a {
     color: ${props => props.theme.colors.black} !important;
     font-weight: 700;
@@ -301,13 +312,13 @@ const Username = styled(Text)`
 const Spacer = styled(Text)`
   color: ${props => props.theme.colors.gray};
   margin-right: 8px;
-  margin-left: 8px;
   font-weight: 500;
 `;
 
 const Date = styled(Text)`
   color: ${props => props.theme.colors.gray};
   font-weight: 500;
+  font-size: 12px;
 `;
 
 const SubText = styled(Flex)`
@@ -355,6 +366,10 @@ const Member = styled(Flex)`
 
 const MemberWrapped = styled(Member)`
   padding: 8px;
+  .miniavatar {
+    min-width: 40px !important;
+    height: 40px;
+  }
 `;
 
 const MemberInfo = styled(Box)`

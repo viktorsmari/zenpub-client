@@ -21,7 +21,7 @@ import LoadMoreTimeline from '../../components/elements/Loadmore/timelineoutbox'
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel, Panel, PanelTitle, Nav } from '../../sections/panel';
-import { Button } from 'rebass';
+import { Button } from 'rebass/styled-components';
 import styled from '../../themes/styled';
 
 const Follow = styled(Button)`
@@ -136,12 +136,10 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                                 key={i}
                               />
                             ))}
-                            <div style={{ padding: '8px' }}>
-                              <LoadMoreTimeline
-                                fetchMore={this.props.data.fetchMore}
-                                community={this.props.data.user}
-                              />
-                            </div>
+                            <LoadMoreTimeline
+                              fetchMore={this.props.data.fetchMore}
+                              community={this.props.data.user}
+                            />
                           </div>
                         </TabPanel>
                         <TabPanel>
@@ -158,14 +156,12 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                                 )
                               )}
                             </ListCollections>
-                            <div style={{ padding: '8px' }}>
-                              <FollowingCollectionsLoadMore
-                                collections={
-                                  this.props.data.user.followingCollections
-                                }
-                                fetchMore={this.props.data.fetchMore}
-                              />
-                            </div>
+                            <FollowingCollectionsLoadMore
+                              collections={
+                                this.props.data.user.followingCollections
+                              }
+                              fetchMore={this.props.data.fetchMore}
+                            />
                           </>
                         </TabPanel>
                         <TabPanel
@@ -198,14 +194,12 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                                 )
                               )}
                             </List>
-                            <div style={{ padding: '8px' }}>
-                              <JoinedCommunitiesLoadMore
-                                communities={
-                                  this.props.data.user.joinedCommunities
-                                }
-                                fetchMore={this.props.data.fetchMore}
-                              />
-                            </div>
+                            <JoinedCommunitiesLoadMore
+                              communities={
+                                this.props.data.user.joinedCommunities
+                              }
+                              fetchMore={this.props.data.fetchMore}
+                            />
                           </>
                         </TabPanel>
                       </Tabs>

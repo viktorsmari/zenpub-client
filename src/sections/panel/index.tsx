@@ -1,5 +1,5 @@
 import styled from '../../themes/styled';
-import { Box, Flex, Text } from 'rebass';
+import { Box, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 
 export const WrapperPanel = styled(Flex)`

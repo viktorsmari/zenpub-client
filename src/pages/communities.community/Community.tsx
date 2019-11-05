@@ -1,15 +1,15 @@
 import { Trans } from '@lingui/macro';
 import React, { SFC, useState } from 'react';
 import { TabPanel, Tabs } from 'react-tabs';
-import { Box, Button, Flex } from 'rebass';
+import { Box, Button, Flex } from 'rebass/styled-components';
 import CommunityModal from '../../components/elements/CommunityModal';
 import FlagModal from '../../components/elements/FlagModal';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
 import { SocialText } from '../../components/elements/SocialText';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem';
-import { useCreateThreadMutationMutation } from '../../generated/graphqlapollo';
 import styled from '../../themes/styled';
+import { useCreateThreadMutationMutation } from '../../graphql/generated/createThread.generated';
 
 interface Props {
   collections: any;
@@ -84,9 +84,7 @@ const CommunityPage: SFC<Props> = ({
               {community.inbox.edges.map((t, i) => (
                 <TimelineItem node={t.node} user={t.node.user} key={i} />
               ))}
-              <div style={{ padding: '8px' }}>
-                <LoadMoreTimeline fetchMore={fetchMore} community={community} />
-              </div>
+              <LoadMoreTimeline fetchMore={fetchMore} community={community} />
             </div>
           </TabPanel>
           <TabPanel>
@@ -141,7 +139,7 @@ const CreateCollection = styled(Button)`
   font-weight: 600;
   color: ${props => props.theme.colors.darkgray} !important;
   cursor: pointer;
-  padding: 16px;
+  height: 50px;
   text-transform: uppercase;
   font-size: 14px !important;
   &:hover {
@@ -155,9 +153,6 @@ export const WrapperTab = styled.div`
   height: 100%;
   border-radius: 6px;
   height: 100%;
-  box-sizing: border-box;
-  margin-bottom: 16px;
-  border-radius: 6px;
   box-sizing: border-box;
   background: #fff;
 `;

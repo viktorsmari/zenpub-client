@@ -1,14 +1,16 @@
 import * as React from 'react';
 import { ApolloProvider } from 'react-apollo';
 import ReactDOM from 'react-dom';
+import { createGlobalStyle } from 'styled-components';
 import getApolloClient from './apollo/client';
 import App from './containers/App/App';
-import registerServiceWorker from './registerServiceWorker';
-import { createGlobalStyle } from 'styled-components';
 import { ProvideContexts } from './context/global';
-import createStore from './redux/store';
-import { createLocalSessionKVStorage } from './util/keyvaluestore/localSessionStorage';
 import { integrateSessionApolloRedux } from './integrations/Session-Apollo-Redux';
+import createStore from './redux/store';
+import registerServiceWorker from './registerServiceWorker';
+import { createLocalSessionKVStorage } from './util/keyvaluestore/localSessionStorage';
+import { ToastContainer, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 run();
 async function run() {
@@ -27,7 +29,7 @@ async function run() {
       }
 
       body {
-      background: #fbfbf9;
+      background: #F5F6F7;
       overflow-y: scroll;
       overscroll-behavior-y: none;
       .ais-SearchBox {
@@ -61,6 +63,12 @@ async function run() {
   integrateSessionApolloRedux(apolloClient.opInterceptor, store);
   const ApolloApp = () => (
     <ApolloProvider client={apolloClient.client}>
+      <ToastContainer
+        hideProgressBar
+        transition={Slide}
+        autoClose={3000}
+        newestOnTop
+      />
       <ProvideContexts
         store={store}
         apolloInterceptor={apolloClient.opInterceptor}

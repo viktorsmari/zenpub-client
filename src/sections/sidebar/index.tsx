@@ -5,13 +5,12 @@ import { Globe } from 'react-feather';
 import { SearchBox } from 'react-instantsearch-dom';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { NavLink } from 'react-router-dom';
-import { Box, Flex, Image, Text } from 'rebass';
+import { Box, Flex, Image, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import Loader from '../../components/elements/Loader/Loader';
-import { GetSidebarQueryQueryResult } from '../../generated/graphqlapollo';
-import Avatar from '../../styleguide/avatar';
 import styled from '../../themes/styled';
 import Dropdown from './dropdown';
+import { GetSidebarQueryQueryResult } from '../../graphql/generated/getSidebar.generated';
 const MnetLogo = require('./moodle-logo.png');
 const SidebarComponent = styled(Flex)`
   flex-grow: 1;
@@ -58,8 +57,9 @@ const Header = styled(Flex)`
   cursor: pointer;
   padding-left: 8px;
   img {
-    width: 36px;
+    min-width: 36px;
     height: 36px;
+    border-radius: 36px;
   }
   input {
     margin: 0 8px !important;
@@ -78,6 +78,10 @@ const Nav = styled(Box)`
 `;
 
 const CommunityLink = styled(NavLink)`
+  img {
+    width: 36px;
+    height: 36px;
+  }
   &.active {
     > div {
       background: ${props => props.theme.colors.orange};
@@ -92,6 +96,10 @@ const CommunityLink = styled(NavLink)`
 const SidebarLink = styled(NavLink)`
   position: relative;
   color: inherit;
+  img {
+    width: 36px;
+    height: 36px;
+  }
   &.active {
     color: ${props => props.theme.colors.orange};
     position: relative;
@@ -126,7 +134,10 @@ const NavItem = styled(Flex)`
 `;
 
 const ItemTitle = styled(Text)`
-  color: ${props => props.theme.colors.darkgray};
+  a:focus,
+  a:active {
+    color: inherit;
+  }
   ${ellipsis('220px')} ${media.lessThan('1280px')`
   display: none;
 `};
@@ -168,7 +179,7 @@ const Sidebar: React.FC<Props> = ({ resp }) => {
         <SidebarFixed>
           <SidebarOverflow>
             <Header alignItems={'center'}>
-              <Avatar
+              <Image
                 onClick={openMenu}
                 src={data!.me!.user!.icon!}
                 // name={props.data.me.user.name}
@@ -191,21 +202,15 @@ const Sidebar: React.FC<Props> = ({ resp }) => {
               <SidebarLink exact to={'/discover'}>
                 <NavItem mb={3} alignItems={'center'}>
                   <Globe size={36} />
-                  <ItemTitle ml={2} fontSize={2} fontWeight={600} width={1}>
+                  <ItemTitle ml={2} variant="link">
                     <Trans>Discover</Trans>
                   </ItemTitle>
                 </NavItem>
               </SidebarLink>
               <SidebarLink exact to={'/'}>
                 <NavItem mb={3} alignItems={'center'}>
-                  <Image
-                    mr={2}
-                    borderRadius={4}
-                    height={36}
-                    width={36}
-                    src={MnetLogo}
-                  />
-                  <ItemTitle fontSize={2} fontWeight={600} width={1}>
+                  <Image mr={2} width={'40px'} src={MnetLogo} />
+                  <ItemTitle variant="link">
                     <Trans>My MoodleNet</Trans>
                   </ItemTitle>
                 </NavItem>
@@ -224,12 +229,9 @@ const Sidebar: React.FC<Props> = ({ resp }) => {
                     <NavItem alignItems={'center'} mb={2}>
                       <Image
                         mr={2}
-                        borderRadius={4}
-                        height={36}
-                        width={36}
                         src={userJoinedCommunitiesEdge!.node!.icon!}
                       />
-                      <ItemTitle fontSize={1} fontWeight={600}>
+                      <ItemTitle variant="link">
                         {userJoinedCommunitiesEdge!.node!.name}
                       </ItemTitle>
                     </NavItem>

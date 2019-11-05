@@ -9,8 +9,8 @@ import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem';
 import FeaturedCollections from '../../components/featuredCollections';
 import FeaturedCommunities from '../../components/featuredCommunities';
-import { useLocalActivitiesQuery } from '../../generated/graphqlapollo';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
+import { Flex } from 'rebass/styled-components';
 import {
   Nav,
   NavItem,
@@ -20,6 +20,7 @@ import {
 } from '../../sections/panel';
 import styled from '../../themes/styled';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
+import { useLocalActivitiesQuery } from '../../graphql/generated/localActivities.generated';
 
 interface Props {}
 
@@ -36,7 +37,7 @@ const Home: React.FC<Props> = props => {
           <WrapperFeatured>
             <FeaturedCollections />
           </WrapperFeatured>
-          <WrapperFeatured>
+          <WrapperFeatured mt={2}>
             <FeaturedCommunities />
           </WrapperFeatured>
           <Wrapper>
@@ -67,12 +68,10 @@ const Home: React.FC<Props> = props => {
                         key={activity!.id!}
                       />
                     ))}
-                    <div style={{ padding: '8px' }}>
-                      <LoadMoreTimeline
-                        fetchMore={fetchMore}
-                        localInstance={data!.localActivities!}
-                      />
-                    </div>
+                    <LoadMoreTimeline
+                      fetchMore={fetchMore}
+                      localActivities={data!.localActivities!}
+                    />
                   </div>
                 )}
               </TabPanel>
@@ -149,11 +148,10 @@ const Home: React.FC<Props> = props => {
   );
 };
 
-const WrapperFeatured = styled.div`
+const WrapperFeatured = styled(Flex)`
   display: flex;
   flex-direction: column;
   flex: 1;
-  margin-top: 8px;
 `;
 
 export default Home;
