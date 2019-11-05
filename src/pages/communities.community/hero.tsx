@@ -3,7 +3,9 @@ import { Box, Text, Flex } from 'rebass/styled-components';
 import styled from '../../themes/styled';
 import Join from './Join';
 import { clearFix } from 'polished';
-import { Settings } from 'react-feather';
+import { Settings, MoreHorizontal } from 'react-feather';
+import OutsideClickHandler from 'react-outside-click-handler';
+import OptionsDropdown from '../../components/elements/OptionsDropDown';
 interface Props {
   community: {
     icon: string;
@@ -19,66 +21,86 @@ interface Props {
   editCommunity: any;
 }
 
-const HeroComp: SFC<Props> = ({ community, showUsers, editCommunity }) => (
-  <Box p={1} mb={2}>
-    <Hero>
-      <Background
-        id="header"
-        style={{ backgroundImage: `url(${community.icon})` }}
-      />
-      <HeroInfo>
-        <Text variant="heading" mt={0}>
-          {community.name}
-        </Text>
-        {community.preferredUsername ? (
-          <Username mt={2} fontSize={2}>
-            @{community.preferredUsername}
-          </Username>
-        ) : null}
-        <Text variant="text" mt={2}>
-          {community.summary}
-        </Text>
+const HeroComp: SFC<Props> = ({ community, showUsers, editCommunity }) => {
+  const [menuIsOpen, setMenuIsOpen] = React.useState(false);
+  const closeMenu = React.useCallback(() => setMenuIsOpen(false), []);
+  const openMenu = React.useCallback(() => setMenuIsOpen(true), []);
+  return (
+    <Box p={1} mb={2}>
+      <Hero>
+        <Background
+          id="header"
+          style={{ backgroundImage: `url(${community.icon})` }}
+        />
+        <HeroInfo>
+          <Text variant="heading" mt={0}>
+            {community.name}
+          </Text>
+          {community.preferredUsername ? (
+            <Username mt={2} fontSize={2}>
+              @{community.preferredUsername}
+            </Username>
+          ) : null}
+          <Text variant="text" mt={2}>
+            {community.summary}
+          </Text>
 
-        <Flex mt={3}>
-          <MembersTot onClick={() => showUsers(true)}>
-            {community.members.edges.slice(0, 3).map((a, i) => {
-              return (
-                <ImgTot
-                  key={i}
-                  style={{
-                    backgroundImage: `url(${a.node.icon ||
-                      `https://www.gravatar.com/avatar/${
-                        a.node.localId
-                      }?f=y&d=identicon`})`
-                  }}
+          <Flex mt={3}>
+            <MembersTot onClick={() => showUsers(true)}>
+              {community.members.edges.slice(0, 3).map((a, i) => {
+                return (
+                  <ImgTot
+                    key={i}
+                    style={{
+                      backgroundImage: `url(${a.node.icon ||
+                        `https://www.gravatar.com/avatar/${
+                          a.node.localId
+                        }?f=y&d=identicon`})`
+                    }}
+                  />
+                );
+              })}{' '}
+              <Tot>
+                {community.members.totalCount - 3 > 0
+                  ? `+ ${community.members.totalCount - 3} More`
+                  : ``}
+              </Tot>
+            </MembersTot>
+            <Actions>
+              {community.localId === 7 ||
+              community.localId === 15 ||
+              community.followed == false ? null : (
+                <EditButton onClick={editCommunity}>
+                  <Settings size={18} color={'#f98012'} />
+                </EditButton>
+              )}
+              <Join
+                id={community.localId}
+                followed={community.followed}
+                externalId={community.id}
+              />
+              <MoreButton>
+                <MoreHorizontal
+                  size={18}
+                  color={'#f98012'}
+                  onClick={openMenu}
                 />
-              );
-            })}{' '}
-            <Tot>
-              {community.members.totalCount - 3 > 0
-                ? `+ ${community.members.totalCount - 3} More`
-                : ``}
-            </Tot>
-          </MembersTot>
-          <Actions>
-            {community.localId === 7 ||
-            community.localId === 15 ||
-            community.followed == false ? null : (
-              <EditButton onClick={editCommunity}>
-                <Settings size={18} color={'#f98012'} />
-              </EditButton>
-            )}
-            <Join
-              id={community.localId}
-              followed={community.followed}
-              externalId={community.id}
-            />
-          </Actions>
-        </Flex>
-      </HeroInfo>
-    </Hero>
-  </Box>
-);
+                {menuIsOpen ? (
+                  <>
+                    <OutsideClickHandler onOutsideClick={closeMenu}>
+                      <OptionsDropdown />
+                    </OutsideClickHandler>
+                    <Layer />
+                  </>
+                ) : null}
+              </MoreButton>
+            </Actions>
+          </Flex>
+        </HeroInfo>
+      </Hero>
+    </Box>
+  );
+};
 
 const Actions = styled(Flex)`
   align-items: center;
@@ -190,6 +212,21 @@ const HeroInfo = styled.div`
       margin-right: 4px;
     }
   }
+`;
+
+const MoreButton = styled.div`
+  margin-left: 16px;
+  position: relative;
+`;
+
+const Layer = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0px;
+  height: 50px;
+  z-index: 1;
+  display: block;
 `;
 
 export default HeroComp;

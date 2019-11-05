@@ -3,7 +3,6 @@ import React, { SFC, useState } from 'react';
 import { TabPanel, Tabs } from 'react-tabs';
 import { Box, Button, Flex } from 'rebass/styled-components';
 import CommunityModal from '../../components/elements/CommunityModal';
-import FlagModal from '../../components/elements/FlagModal';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
 import { SocialText } from '../../components/elements/SocialText';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
@@ -30,7 +29,6 @@ const CommunityPage: SFC<Props> = ({
 }) => {
   const [createThreadMutation] = useCreateThreadMutationMutation();
   const [isOpen, onOpen] = useState(false);
-  const [isFlagOpen, onFlagOpen] = useState(true);
   const [newThreadText, setNewThreadText] = React.useState('');
   const addNewThread = React.useCallback(
     () => {
@@ -103,11 +101,6 @@ const CommunityPage: SFC<Props> = ({
         toggleModal={() => onOpen(false)}
         modalIsOpen={isOpen}
         communityId={community.localId}
-      />
-      <FlagModal
-        toggleModal={() => onFlagOpen(false)}
-        modalIsOpen={isFlagOpen}
-        // communityId={community.localId}
       />
     </WrapperTab>
   );
