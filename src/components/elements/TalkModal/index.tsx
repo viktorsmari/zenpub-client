@@ -102,7 +102,7 @@ const CreateCommunityModal: React.FC<Props> = ({
       <TextWrapper>
         <Avatar
           style={{
-            backgroundImage: `url(${session.session.user!.me!.user!.icon!})`
+            backgroundImage: `url(${session.auth!.me.user!.icon!})`
           }}
           mr={2}
         />

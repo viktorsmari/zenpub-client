@@ -184,7 +184,7 @@ function RedirectIfAuthenticated({ component: Component, data, ...rest }) {
   return (
     <Route
       render={(props: RouteComponentProps & LoginProps) => {
-        if (sessionCtx.session.user) {
+        if (sessionCtx.auth) {
           return <Redirect to="/" />;
         }
         return <Login data={data} {...props} {...rest} />;
