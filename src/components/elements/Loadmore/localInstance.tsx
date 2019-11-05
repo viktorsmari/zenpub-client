@@ -4,47 +4,50 @@ import { Trans } from '@lingui/macro';
 import { LoadMore } from './timeline';
 
 interface Props {
-  localInstance: any;
+  localActivities: any;
   fetchMore: any;
 }
 
-const TimelineLoadMore: SFC<Props> = ({ fetchMore, localInstance }) =>
-  (localInstance.pageInfo.startCursor === null &&
-    localInstance.pageInfo.endCursor === null) ||
-  (localInstance.pageInfo.startCursor &&
-    localInstance.pageInfo.endCursor === null) ? null : (
+const TimelineLoadMore: SFC<Props> = ({
+  fetchMore,
+  localActivities: localActivities
+}) =>
+  (localActivities.pageInfo.startCursor === null &&
+    localActivities.pageInfo.endCursor === null) ||
+  (localActivities.pageInfo.startCursor &&
+    localActivities.pageInfo.endCursor === null) ? null : (
     <LoadMore
       onClick={() =>
         fetchMore({
           fetchPolicy: 'cache-first',
           variables: {
-            end: localInstance.pageInfo.endCursor
+            end: localActivities.pageInfo.endCursor
           },
           updateQuery: (previousResult, { fetchMoreResult }) => {
-            const newNodes = fetchMoreResult.localInstance.nodes;
-            const pageInfo = fetchMoreResult.localInstance.pageInfo;
+            const newNodes = fetchMoreResult.localActivities.nodes;
+            const pageInfo = fetchMoreResult.localActivities.pageInfo;
             return newNodes.length
               ? {
                   // Put the new comments at the end of the list and update `pageInfo`
                   // so we have the new `endCursor` and `hasNextPage` values
-                  localInstance: {
-                    ...previousResult.localInstance,
-                    __typename: previousResult.localInstance.__typename,
+                  localActivities: {
+                    ...previousResult.localActivities,
+                    __typename: previousResult.localActivities.__typename,
                     nodes: [
-                        ...previousResult.localInstance.nodes,
-                        ...newNodes
-                      ],
+                      ...previousResult.localActivities.nodes,
+                      ...newNodes
+                    ],
                     pageInfo
                   }
                 }
               : {
-                  localInstance: {
-                    ...previousResult.localInstance,
-                    __typename: previousResult.localInstance.__typename,
+                  localActivities: {
+                    ...previousResult.localActivities,
+                    __typename: previousResult.localActivities.__typename,
                     nodes: [...previousResult.community.inbox.edges]
-                    },
-                    pageInfo
-                  }
+                  },
+                  pageInfo
+                };
           }
         })
       }

@@ -11,6 +11,8 @@ import Link from '../Link/Link';
 import Actions from './Actions';
 import Preview from './preview';
 import { Star } from 'react-feather';
+import { useLikeCommentMutationMutation } from '../../../graphql/generated/likeComment.generated';
+import { useUndoLikeCommentMutationMutation } from '../../../graphql/generated/undoLikeComment.generated';
 interface Props {
   userpage?: boolean;
   user: any;
@@ -18,7 +20,16 @@ interface Props {
 }
 
 const Item: SFC<Props> = ({ user, node, userpage }) => {
-  const [iLikeIt /* , setiLikeIt */] = React.useState(false);
+  const [iLikeIt, setiLikeIt] = React.useState(false);
+  const [like] = useLikeCommentMutationMutation();
+  const [undoLike] = useUndoLikeCommentMutationMutation();
+  const toggleLike = React.useCallback(
+    (localId: number) => () => {
+      (iLikeIt ? undoLike : like)({ variables: { localId } });
+      setiLikeIt(!iLikeIt);
+    },
+    [iLikeIt, like, undoLike]
+  );
   return (
     <FeedItem>
       {node.activityType === 'CreateComment' && node.object.inReplyTo ? (
@@ -231,7 +242,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
               <Actions
                 totalReplies={node.object.replies.totalCount as number}
                 totalLikes={node.object.likers.totalCount as number}
-                toggleLike={() => {}}
+                toggleLike={toggleLike(node.object.localId)}
                 iLikeIt={iLikeIt}
               />
             ) : null}

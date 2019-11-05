@@ -70,7 +70,7 @@ const Home: React.FC<Props> = props => {
                     ))}
                     <LoadMoreTimeline
                       fetchMore={fetchMore}
-                      localInstance={data!.localActivities!}
+                      localActivities={data!.localActivities!}
                     />
                   </div>
                 )}
