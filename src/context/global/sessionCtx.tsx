@@ -1,20 +1,15 @@
 import React, { useContext } from 'react';
-import { State } from '../../redux/session';
+import { State as SessionContextT } from '../../redux/session';
 import { createContext } from 'react';
 import { StateContext } from './stateCtx';
 
-export interface SessionContextT {
-  session: State;
-}
-export const SessionContext = createContext<SessionContextT>(
-  {} as SessionContextT
-);
+export const SessionContext = createContext<SessionContextT>({ auth: null });
 
 export const ProvideSessionCtx: React.FC = ({ children }) => {
   const { session } = useContext(StateContext);
 
   return (
-    <SessionContext.Provider value={{ session }}>
+    <SessionContext.Provider value={session}>
       {children}
     </SessionContext.Provider>
   );
