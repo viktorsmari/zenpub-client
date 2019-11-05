@@ -3,16 +3,16 @@ import { DateTime } from 'luxon';
 import { clearFix } from 'polished';
 import * as React from 'react';
 import { SFC } from 'react';
+import { Star } from 'react-feather';
 import { NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import removeMd from 'remove-markdown';
+import { useLikeCommentMutationMutation } from '../../../graphql/generated/likeComment.generated';
+import { useUndoLikeCommentMutationMutation } from '../../../graphql/generated/undoLikeComment.generated';
 import styled from '../../../themes/styled';
 import Link from '../Link/Link';
 import Actions from './Actions';
 import Preview from './preview';
-import { Star } from 'react-feather';
-import { useLikeCommentMutationMutation } from '../../../graphql/generated/likeComment.generated';
-import { useUndoLikeCommentMutationMutation } from '../../../graphql/generated/undoLikeComment.generated';
 interface Props {
   userpage?: boolean;
   user: any;
@@ -61,6 +61,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
                     </Username>
                   ) : null}
                 </Link>
+                comment
                 <Spacer mr={2}>·</Spacer>{' '}
                 <Date>{DateTime.fromISO(node.published).toRelative()}</Date>
               </Name>
@@ -170,7 +171,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
               </SubText>
             ) : node.activityType === 'FollowCollection' ? (
               <SubText mt={1}>
-                <Trans>followed</Trans>{' '}
+                <Trans>followed</Trans> comment
                 <NavLink
                   to={`/communities/${
                     node.object.community.localId
@@ -242,6 +243,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
               <Actions
                 totalReplies={node.object.replies.totalCount as number}
                 totalLikes={node.object.likers.totalCount as number}
+                comment={node.object}
                 toggleLike={toggleLike(node.object.localId)}
                 iLikeIt={iLikeIt}
               />
