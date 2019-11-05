@@ -38,6 +38,7 @@ export const integrateToastNotifications = (
           : { content: `User created!` }
       )
   });
+
   intercSrv.add({
     operation: 'createSession',
     request: () => _ =>
@@ -58,6 +59,84 @@ export const integrateToastNotifications = (
               options: { type: 'error' }
             }
           : { content: `Reply sent!` }
+      )
+  });
+
+  intercSrv.add({
+    operation: 'createCommunity',
+    request: () => _ =>
+      showMessage(
+        _.error
+          ? {
+              content: `Could not create Community`,
+              options: { type: 'error' }
+            }
+          : { content: `Community created!` }
+      )
+  });
+
+  intercSrv.add({
+    operation: 'createCollection',
+    request: () => _ =>
+      showMessage(
+        _.error
+          ? {
+              content: `Could not create Collection`,
+              options: { type: 'error' }
+            }
+          : { content: `Collection created!` }
+      )
+  });
+
+  intercSrv.add({
+    operation: 'joinCommunity',
+    request: () => _ =>
+      showMessage(
+        _.error
+          ? {
+              content: `Could not join Community`,
+              options: { type: 'error' }
+            }
+          : { content: `Community joined!` }
+      )
+  });
+
+  intercSrv.add({
+    operation: 'undoJoinCommunity',
+    request: () => _ =>
+      showMessage(
+        _.error
+          ? {
+              content: `Could not unjoin Community`,
+              options: { type: 'error' }
+            }
+          : { content: `Community unjoined!` }
+      )
+  });
+
+  intercSrv.add({
+    operation: 'followCollection',
+    request: () => _ =>
+      showMessage(
+        _.error
+          ? {
+              content: `Could not follow Collection`,
+              options: { type: 'error' }
+            }
+          : { content: `Following Collection!` }
+      )
+  });
+
+  intercSrv.add({
+    operation: 'undoFollowCollection',
+    request: () => _ =>
+      showMessage(
+        _.error
+          ? {
+              content: `Could not unfollow Collection`,
+              options: { type: 'error' }
+            }
+          : { content: `Unfollowing Collection!` }
       )
   });
 
