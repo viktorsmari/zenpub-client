@@ -3,7 +3,6 @@ import { i18nMark } from '@lingui/react';
 import { clearFix } from 'polished';
 import * as React from 'react';
 import { graphql } from 'react-apollo';
-// import { Helmet } from 'react-helmet';
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
 import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
@@ -89,16 +88,6 @@ const Right = styled(Box)`
     margin-right: 0;
   }
 `;
-// const Image = styled.div`
-//   background: #fff;
-//   border-radius: 4px;
-//   height: inherit;
-//   border: 1px solid #dddfe2;
-//   text-align: left;
-//   ${media.lessThan('medium')`
-//   display: none;
-//   `};
-// `;
 
 const Footer = styled.div`
 grid-area: footer
@@ -370,11 +359,6 @@ class Login extends React.Component<LoginProps, LoginState> {
                         </Trans>
                       </Text>
                     </Info>
-                    <Info mt={3}>
-                      <Text variant="suptitle">
-                        <Trans>Admins</Trans>
-                      </Text>
-                    </Info>
                   </Infos>
                 </Panel>
               </WrapperPanel>
@@ -428,13 +412,9 @@ class Login extends React.Component<LoginProps, LoginState> {
 }
 const withLogin = graphql(loginMutation, {
   name: 'login'
-  // TODO enforce proper types for OperationOption
 });
 
 export default compose(
-  // withTheme,
-  // withUser,
-  // withSetLocalUser,
   withLogin,
   withState('isOpen', 'onOpen', false),
   withHandlers({

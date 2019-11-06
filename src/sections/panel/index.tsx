@@ -19,6 +19,9 @@ export const WrapperPanel = styled(Flex)`
   z-index: 0;
   margin-top: 16px !important;
   margin-right: 10px;
+  &.extra {
+    width: 100%;
+  }
   ${media.lessThan('1095px')`
   width: 290px;
 `};
