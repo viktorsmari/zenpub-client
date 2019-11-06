@@ -3,23 +3,25 @@ import { DateTime } from 'luxon';
 import { clearFix } from 'polished';
 import * as React from 'react';
 import { SFC } from 'react';
-import { Star } from 'react-feather';
 import { NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import removeMd from 'remove-markdown';
-import { useLikeCommentMutationMutation } from '../../../graphql/generated/likeComment.generated';
-import { useUndoLikeCommentMutationMutation } from '../../../graphql/generated/undoLikeComment.generated';
 import styled from '../../../themes/styled';
 import Link from '../Link/Link';
 import Actions from './Actions';
 import Preview from './preview';
+import { Star } from 'react-feather';
+import { useLikeCommentMutationMutation } from '../../../graphql/generated/likeComment.generated';
+import { useUndoLikeCommentMutationMutation } from '../../../graphql/generated/undoLikeComment.generated';
+import { ActivityObject } from '../../../graphql/types';
 interface Props {
   userpage?: boolean;
   user: any;
   node: any;
+  activity:ActivityObject
 }
 
-const Item: SFC<Props> = ({ user, node, userpage }) => {
+const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
   const [iLikeIt, setiLikeIt] = React.useState(false);
   const [like] = useLikeCommentMutationMutation();
   const [undoLike] = useUndoLikeCommentMutationMutation();
@@ -32,11 +34,34 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
   );
   return (
     <FeedItem>
-      {node.activityType === 'CreateComment' && node.object.inReplyTo ? (
-        <NavigateToThread to={`/thread/${node.object.inReplyTo.localId}`} />
+      {
+        
+        /**Comment ActivityObject */
+        activity.__typename === 'Comment'  ? (
+          
+          /** Comment : CreateComment */
+          node.activityType === 'CreateComment'  ?(
+            activity.inReplyTo 
+            ?  <NavigateToThread to={`/thread/${activity.inReplyTo.localId}`} />
+            :null
+          )
+          /** END Comment : CreateComment */
+        ):
+          /** Comment : LikeComment */
+        node.activityType === 'LikeComment' 
+        ? <NavigateToThread to={`/thread/${activity.localId}`} />
+        : null
+          /** END Comment : LikeComment */
+         
+        /**END Comment ActivityObject */
+      :
+    }
+      {
+        node.activityType === 'CreateComment' && activity.inReplyTo ? (
+        <NavigateToThread to={`/thread/${activity.inReplyTo.localId}`} />
       ) : node.activityType === 'CreateComment' ||
       node.activityType === 'LikeComment' ? (
-        <NavigateToThread to={`/thread/${node.object.localId}`} />
+        <NavigateToThread to={`/thread/${activity.localId}`} />
       ) : null}
       {node.activityType === 'LikeComment' ? (
         <Box>
@@ -49,29 +74,28 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
           </SubText>
           <MemberWrapped>
             <MemberItem mr={2}>
-              <Img src={node.object.author.icon} />
+              <Img src={activity.author.icon} />
             </MemberItem>
             <MemberInfo>
               <Name>
-                <Link to={'/user/' + node.object.author.localId}>
-                  {node.object.author.name}{' '}
-                  {node.object.author.preferredUsername ? (
+                <Link to={'/user/' + activity.author.localId}>
+                  {activity.author.name}{' '}
+                  {activity.author.preferredUsername ? (
                     <Username ml={2}>
-                      @{node.object.author.preferredUsername}
+                      @{activity.author.preferredUsername}
                     </Username>
                   ) : null}
                 </Link>
-                comment
                 <Spacer mr={2}>·</Spacer>{' '}
                 <Date>{DateTime.fromISO(node.published).toRelative()}</Date>
               </Name>
               <Comment>
-                {node.object.content && node.object.content.length > 320
-                  ? removeMd(node.object.content).replace(
+                {activity.content && activity.content.length > 320
+                  ? removeMd(activity.content).replace(
                       /^([\s\S]{316}[^\s]*)[\s\S]*/,
                       '$1...'
                     )
-                  : removeMd(node.object.content)}
+                  : removeMd(activity.content)}
               </Comment>
             </MemberInfo>
           </MemberWrapped>
@@ -104,25 +128,25 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
             {node.activityType === 'JoinCommunity' ? (
               <SubText>
                 <Trans>joined</Trans>
-                <NavLink to={`/communities/${node.object.localId}`}>
+                <NavLink to={`/communities/${activity.localId}`}>
                   {' '}
-                  @{node.object.name}
+                  @{activity.name}
                 </NavLink>
               </SubText>
             ) : node.activityType === 'CreateComment' ? (
               <>
-                {node.object.inReplyTo !== null ? (
+                {activity.inReplyTo !== null ? (
                   <InReply my={2}>
                     <MemberWrapped>
                       <MemberItem className={'miniavatar'} mr={2}>
-                        <Img src={node.object.inReplyTo.author.icon} />
+                        <Img src={activity.inReplyTo.author.icon} />
                       </MemberItem>
                       <MemberInfo>
                         <Name>
                           <Link
-                            to={'/user/' + node.object.inReplyTo.author.localId}
+                            to={'/user/' + activity.inReplyTo.author.localId}
                           >
-                            {node.object.inReplyTo.author.name}
+                            {activity.inReplyTo.author.name}
                           </Link>
                           <Spacer mr={2}>·</Spacer>{' '}
                           <Date>
@@ -130,59 +154,54 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
                           </Date>
                         </Name>
                         <Comment>
-                          {node.object.inReplyTo.content &&
-                          node.object.inReplyTo.content.length > 320
-                            ? removeMd(node.object.inReplyTo.content).replace(
+                          {activity.inReplyTo.content &&
+                          activity.inReplyTo.content.length > 320
+                            ? removeMd(activity.inReplyTo.content).replace(
                                 /^([\s\S]{316}[^\s]*)[\s\S]*/,
                                 '$1...'
                               )
-                            : removeMd(node.object.inReplyTo.content)}
+                            : removeMd(activity.inReplyTo.content)}
                         </Comment>
                       </MemberInfo>
                     </MemberWrapped>
                   </InReply>
                 ) : null}
                 <Comment>
-                  {node.object.content && node.object.content.length > 320
-                    ? removeMd(node.object.content).replace(
+                  {activity.content && activity.content.length > 320
+                    ? removeMd(activity.content).replace(
                         /^([\s\S]{316}[^\s]*)[\s\S]*/,
                         '$1...'
                       )
-                    : removeMd(node.object.content)}
+                    : removeMd(activity.content)}
                 </Comment>
               </>
             ) : node.activityType === 'UpdateCommunity' ? (
               <SubText mt={1}>
                 <Trans>updated</Trans>{' '}
-                <NavLink
-                  style={{ marginLeft: '4px' }}
-                  to={`/communities/${node.object.localId}`}
-                >
-                  @{node.object.name}
+                <NavLink to={`/communities/${activity.localId}`}>
+                  @{activity.name}
                 </NavLink>
               </SubText>
             ) : node.activityType === 'UpdateCollection' ? (
               <SubText mt={1}>
                 <Trans>updated</Trans>{' '}
                 <NavLink
-                  style={{ marginLeft: '4px' }}
                   to={`/communities/${
-                    node.object.community.localId
-                  }/collections/${node.object.localId}`}
+                    activity.community.localId
+                  }/collections/${activity.localId}`}
                 >
-                  +{node.object.name}
+                  +{activity.name}
                 </NavLink>
               </SubText>
             ) : node.activityType === 'FollowCollection' ? (
               <SubText mt={1}>
-                <Trans>followed</Trans> comment
+                <Trans>followed</Trans>{' '}
                 <NavLink
-                  style={{ marginLeft: '4px' }}
                   to={`/communities/${
-                    node.object.community.localId
-                  }/collections/${node.object.localId}`}
+                    activity.community.localId
+                  }/collections/${activity.localId}`}
                 >
-                  +{node.object.name}
+                  +{activity.name}
                 </NavLink>
               </SubText>
             ) : node.activityType === 'CreateResource' ? (
@@ -191,19 +210,19 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
                   <Trans>added a new resource</Trans> <Trans>in</Trans>{' '}
                   <NavLink
                     to={`/communities/${
-                      node.object.collection.community.localId
-                    }/collections/${node.object.collection.localId}`}
+                      activity.collection.community.localId
+                    }/collections/${activity.collection.localId}`}
                   >
-                    +{node.object.collection.name}
+                    +{activity.collection.name}
                   </NavLink>
                 </SubText>
                 <Preview
-                  icon={node.object.icon}
-                  title={node.object.name}
-                  summary={node.object.summary}
+                  icon={activity.icon}
+                  title={activity.name}
+                  summary={activity.summary}
                   url={`/communities/${
-                    node.object.collection.community.localId
-                  }/collections/${node.object.collection.localId}`}
+                    activity.collection.community.localId
+                  }/collections/${activity.collection.localId}`}
                 />
               </Box>
             ) : node.activityType === 'CreateCollection' ? (
@@ -212,44 +231,43 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
                   <Trans>created a new collection</Trans>{' '}
                   <NavLink
                     to={`/communities/${
-                      node.object.community.localId
-                    }/collections/${node.object.localId}`}
+                      activity.community.localId
+                    }/collections/${activity.localId}`}
                   >
-                    +{node.object.name}
+                    +{activity.name}
                   </NavLink>
                 </SubText>
                 <Preview
-                  icon={node.object.icon}
-                  title={node.object.name}
-                  summary={node.object.summary}
+                  icon={activity.icon}
+                  title={activity.name}
+                  summary={activity.summary}
                   url={`/communities/${
-                    node.object.community.localId
-                  }/collections/${node.object.localId}`}
+                    activity.community.localId
+                  }/collections/${activity.localId}`}
                 />
               </Box>
             ) : node.activityType === 'CreateCommunity' ? (
               <Box>
                 <SubText mt={1}>
                   <Trans>created a new community</Trans>{' '}
-                  <NavLink to={`/communities/${node.object.localId}`}>
-                    @{node.object.name}
+                  <NavLink to={`/communities/${activity.localId}`}>
+                    @{activity.name}
                   </NavLink>
                 </SubText>
                 <Preview
-                  icon={node.object.icon}
-                  title={node.object.name}
-                  summary={node.object.summary}
-                  url={`/communities/${node.object.localId}`}
+                  icon={activity.icon}
+                  title={activity.name}
+                  summary={activity.summary}
+                  url={`/communities/${activity.localId}`}
                 />
               </Box>
             ) : null}
 
             {node.activityType === 'CreateComment' ? (
               <Actions
-                totalReplies={node.object.replies.totalCount as number}
-                totalLikes={node.object.likers.totalCount as number}
-                comment={node.object}
-                toggleLike={toggleLike(node.object.localId)}
+                totalReplies={activity.replies.totalCount as number}
+                totalLikes={activity.likers.totalCount as number}
+                toggleLike={toggleLike(activity.localId)}
                 iLikeIt={iLikeIt}
               />
             ) : null}

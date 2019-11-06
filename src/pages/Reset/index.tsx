@@ -3,7 +3,7 @@ import { compose } from 'recompose';
 import { graphql, OperationOption } from 'react-apollo';
 import { Trans } from '@lingui/macro';
 import styled from '../../themes/styled';
-import Button from '../../components/elements/Button/Button';
+import { Button } from 'rebass/styled-components';
 import { Input } from '@rebass/forms';
 import { withFormik, FormikProps, Form, Field, FormikValues } from 'formik';
 import * as Yup from 'yup';

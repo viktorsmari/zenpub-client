@@ -1,29 +1,22 @@
 import { i18nMark } from '@lingui/react';
-import { Col, Row } from '@zendeskgarden/react-grid';
-import { Message, TextField } from '@zendeskgarden/react-textfields';
 import * as React from 'react';
 import { Trans } from '@lingui/macro';
-// import { LoaderButton } from '../../components/elements/Button/Button';
 import { Input } from '@rebass/forms';
 import { i18n } from '../../containers/App/App';
 import styled from '../../themes/styled';
 import { ValidationField, ValidationObject, ValidationType } from './types';
 import { Button } from 'rebass/styled-components';
-type SubmitColProps = {
-  alignRight?: boolean;
-};
+import { Box } from 'rebass/styled-components';
 
 const LoginForm = styled.form`
   margin: 0;
   margin-bottom: 16px;
-`;
-
-const SubmitCol = styled(Col)`
-  display: flex;
-  align-items: center;
-  padding: 0px 16px !important;
-  justify-content: ${(props: SubmitColProps) =>
-    props.alignRight ? 'flex-end' : 'flex-start'};
+  input {
+    height: 50px;
+    background-color: transparent;
+    border-radius: 4px;
+    border-color: #dadada;
+  }
 `;
 
 const Spacer = styled.div`
@@ -93,64 +86,35 @@ export default class extends React.Component<LoginFormProps, LoginFormState> {
           onSubmit(this.state);
         }}
       >
-        <Row style={{ padding: '16px' }}>
-          <Col>
-            <TextField>
-              <Input
-                placeholder={i18n._(i18nMark('Enter your email'))}
-                value={this.state.email}
-                validation={this.getValidation(ValidationField.email)}
-                onChange={(evt: any) => {
-                  this.setState({
-                    email: evt.target.value
-                  });
-                  onInputChange(ValidationField.email, evt.target.value);
-                }}
-              />
-              <Message validation={this.getValidation(ValidationField.email)}>
-                {this.getValidationMessage(ValidationField.email)}
-              </Message>
-            </TextField>
-            <Spacer />
-            <TextField>
-              <Input
-                type="password"
-                placeholder={i18n._(i18nMark('Enter your password'))}
-                value={this.state.password}
-                validation={this.getValidation(ValidationField.password)}
-                onChange={(evt: any) => {
-                  this.setState({
-                    password: evt.target.value
-                  });
-                  onInputChange(ValidationField.password, evt.target.value);
-                }}
-              />
-              <Message
-                validation={this.getValidation(ValidationField.password)}
-              >
-                {this.getValidationMessage(ValidationField.password)}
-              </Message>
-            </TextField>
-          </Col>
-        </Row>
-        {this.getValidationMessage(null) ? (
-          <Row>
-            <Col>
-              <Message
-                style={{ margin: '10px 0' }}
-                validation={this.getValidation(null)}
-              >
-                {this.getValidationMessage(null)}
-              </Message>
-            </Col>
-          </Row>
-        ) : null}
-        <SubmitCol alignRight>
-          <Button style={{ width: '100%' }} variant="secondary">
-            {' '}
+        <Box p={3}>
+          <Input
+            placeholder={i18n._(i18nMark('Enter your email'))}
+            value={this.state.email}
+            validation={this.getValidation(ValidationField.email)}
+            onChange={(evt: any) => {
+              this.setState({
+                email: evt.target.value
+              });
+              onInputChange(ValidationField.email, evt.target.value);
+            }}
+          />
+          <Spacer />
+          <Input
+            type="password"
+            placeholder={i18n._(i18nMark('Enter your password'))}
+            value={this.state.password}
+            validation={this.getValidation(ValidationField.password)}
+            onChange={(evt: any) => {
+              this.setState({
+                password: evt.target.value
+              });
+              onInputChange(ValidationField.password, evt.target.value);
+            }}
+          />
+          <Button mt={3} style={{ width: '100%' }} variant="primary">
             <Trans>Sign in</Trans>{' '}
           </Button>
-        </SubmitCol>
+        </Box>
       </LoginForm>
     );
   }

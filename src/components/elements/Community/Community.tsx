@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from '../../../themes/styled';
-import { Text, Heading, Box, Flex } from 'rebass/styled-components';
+import { Text, Box, Flex } from 'rebass/styled-components';
 import { Layers, Users } from 'react-feather';
 const PlaceholderImg = require('../Icons/communityPlaceholder.png');
 
@@ -41,11 +41,11 @@ const Community: React.FC<Props> = ({
           }}
         />
       </WrapperImage>
-      <Heading>
+      <Text variant="heading" fontSize={3}>
         {title.length > 60 ? title.replace(/^(.{56}[^\s]*).*/, '$1...') : title}
-      </Heading>
+      </Text>
 
-      <Text>
+      <Text variant="text">
         {summary.length > 160
           ? summary.replace(/^([\s\S]{156}[^\s]*)[\s\S]*/, '$1...')
           : summary}

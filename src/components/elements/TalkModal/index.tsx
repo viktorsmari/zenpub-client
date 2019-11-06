@@ -56,7 +56,7 @@ interface Props {
   comment: Comment;
 }
 
-const CreateCommunityModal: React.FC<Props> = ({
+export const TalkModal: React.FC<Props> = ({
   comment,
   modalIsOpen,
   toggleModal
@@ -102,7 +102,7 @@ const CreateCommunityModal: React.FC<Props> = ({
       <TextWrapper>
         <Avatar
           style={{
-            backgroundImage: `url(${session.session.user!.me!.user!.icon!})`
+            backgroundImage: `url(${session.auth!.me.user!.icon!})`
           }}
           mr={2}
         />
@@ -119,4 +119,4 @@ const CreateCommunityModal: React.FC<Props> = ({
   );
 };
 
-export default CreateCommunityModal; // compose(withCreateCollection)(ModalWithFormik);
+export default TalkModal; // compose(withCreateCollection)(ModalWithFormik);

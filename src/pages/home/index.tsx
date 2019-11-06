@@ -56,12 +56,10 @@ const Home: React.FC<Props> = () => {
                         key={userActivityEdge!.node!.id!}
                       />
                     ))}
-                    <div style={{ padding: '8px' }}>
-                      <LoadMoreTimeline
-                        fetchMore={fetchMore}
-                        community={data!.me!.user!}
-                      />
-                    </div>
+                    <LoadMoreTimeline
+                      fetchMore={fetchMore}
+                      community={data!.me!.user!}
+                    />
                   </div>
                 )}
               </TabPanel>

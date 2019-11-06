@@ -140,7 +140,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
             <Button disabled={isSubmitting} type="submit" ml={2}>
               <Trans>Create</Trans>
             </Button>
-            <Button onClick={toggleModal}>
+            <Button variant="outline" onClick={toggleModal}>
               <Trans>Cancel</Trans>
             </Button>
           </Actions>

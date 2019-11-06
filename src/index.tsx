@@ -11,6 +11,7 @@ import registerServiceWorker from './registerServiceWorker';
 import { createLocalSessionKVStorage } from './util/keyvaluestore/localSessionStorage';
 import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { integrateToastNotifications } from './integrations/Toast-Notifications';
 
 run();
 async function run() {
@@ -29,7 +30,7 @@ async function run() {
       }
 
       body {
-      background: #fbfbf9;
+      background: #F5F6F7;
       overflow-y: scroll;
       overscroll-behavior-y: none;
       .ais-SearchBox {
@@ -58,9 +59,10 @@ async function run() {
   const store = createStore({ createLocalKVStore: KVlocalStorageCreate });
   const initialState = store.getState();
   const authToken =
-    (initialState.session.user && initialState.session.user.token) || undefined;
+    (initialState.session.auth && initialState.session.auth.token) || undefined;
   const apolloClient = await getApolloClient({ authToken });
   integrateSessionApolloRedux(apolloClient.opInterceptor, store);
+  integrateToastNotifications(apolloClient.opInterceptor, store);
   const ApolloApp = () => (
     <ApolloProvider client={apolloClient.client}>
       <ToastContainer

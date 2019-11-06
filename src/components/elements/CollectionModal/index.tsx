@@ -5,7 +5,6 @@ import { Field, Form, FormikProps, withFormik } from 'formik';
 import { clearFix } from 'polished';
 import * as React from 'react';
 import { graphql, OperationOption } from 'react-apollo';
-// import { LoaderButton } from '../Button/Button';
 import { compose, withState } from 'recompose';
 import * as Yup from 'yup';
 import { i18n } from '../../../containers/App/App';

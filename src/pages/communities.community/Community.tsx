@@ -82,9 +82,7 @@ const CommunityPage: SFC<Props> = ({
               {community.inbox.edges.map((t, i) => (
                 <TimelineItem node={t.node} user={t.node.user} key={i} />
               ))}
-              <div style={{ padding: '8px' }}>
-                <LoadMoreTimeline fetchMore={fetchMore} community={community} />
-              </div>
+              <LoadMoreTimeline fetchMore={fetchMore} community={community} />
             </div>
           </TabPanel>
           <TabPanel>
@@ -148,9 +146,6 @@ export const WrapperTab = styled.div`
   height: 100%;
   border-radius: 6px;
   height: 100%;
-  box-sizing: border-box;
-  margin-bottom: 16px;
-  border-radius: 6px;
   box-sizing: border-box;
   background: #fff;
 `;

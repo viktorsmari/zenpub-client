@@ -13,7 +13,7 @@ import styled from '../../themes/styled';
 import CommunityType from '../../types/Community';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel } from '../../sections/panel';
-import { Button, Flex } from 'rebass';
+import { Button, Flex } from 'rebass/styled-components';
 const { getCommunitiesQuery } = require('../../graphql/getCommunities.graphql');
 
 interface Data extends QueryControls {
@@ -87,12 +87,10 @@ class CommunitiesYours extends React.Component<Props> {
                           }
                         )}
                       </List>
-                      <div style={{ padding: '8px' }}>
-                        <CommunitiesLoadMore
-                          fetchMore={this.props.data.fetchMore}
-                          communities={this.props.data.communities}
-                        />
-                      </div>
+                      <CommunitiesLoadMore
+                        fetchMore={this.props.data.fetchMore}
+                        communities={this.props.data.communities}
+                      />
                     </>
                   )}
                 </TabPanel>

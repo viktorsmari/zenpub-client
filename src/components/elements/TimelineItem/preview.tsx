@@ -36,7 +36,7 @@ const Resource: React.FC<Props> = props => {
           <TitleWrapper>
             <Title>{props.title}</Title>
           </TitleWrapper>
-          <Summary>
+          <Text variant="text" mt={2}>
             {props.summary.split('\n').map(function(item, key) {
               return (
                 <span key={key}>
@@ -45,7 +45,7 @@ const Resource: React.FC<Props> = props => {
                 </span>
               );
             })}
-          </Summary>
+          </Text>
         </Info>
       </WrapperLink>
     </Wrapper>
@@ -80,8 +80,9 @@ const Wrapper = styled.div`
   }
   padding: 8px;
   margin-bottom: 8px;
-  border-radius: 3px;
-  margin-top: 8px;
+  border-radius: 4px;
+  margin-top: 16px;
+  border: 1px solid #dadada;
   ${media.lessThan('medium')`
   display: block;
   padding: 0;
@@ -103,7 +104,7 @@ const Img = styled.div`
   width: 120px;
   margin: 0 auto;
   background-position: center center;
-  margin-right: 20px;
+  margin-right: 8px;
   ${media.lessThan('medium')`
     margin: 0 auto;
     margin-bottom: 8px;
@@ -123,12 +124,12 @@ const Title = styled(Heading)`
   line-height: 24px !important;
 `};
 `;
-const Summary = styled(Text)`
-  margin: 0 !important;
-  margin-top: 4px;
-  color: ${props => props.theme.colors.darkgray}
-  font-size: 13px;
-  line-height: 18px;
-`;
+// const Summary = styled(Text)`
+//   margin: 0 !important;
+//   margin-top: 4px;
+//   color: ${props => props.theme.colors.darkgray}
+//   font-size: 13px;
+//   line-height: 18px;
+// `;
 
 export default Resource;

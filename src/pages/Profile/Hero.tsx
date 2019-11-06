@@ -32,13 +32,15 @@ const HeroComp: SFC<Props> = ({ user }) => (
           />
         </WrapperHero>
         <HeroInfo>
-          <Title fontSize={5} mt={1} fontWeight={'bold'}>
+          <Text variant="heading" mt={1} fontWeight={'bold'}>
             {user.name}
-          </Title>
-          <Username fontSize={2}>@{user.preferredUsername}</Username>
-          <Description mt={2} fontSize={2}>
+          </Text>
+          <Username mt={2} fontSize={2}>
+            @{user.preferredUsername}
+          </Username>
+          <Text variant="text" mt={2}>
             {user.summary}
-          </Description>
+          </Text>
           {user.location ? (
             <Location mt={2}>
               <span>
@@ -59,15 +61,9 @@ const ProfileBox = styled(Box)`
   // overflow-y: overlay;
 `;
 
-const Title = styled(Text)`
-  color: ${props => props.theme.colors.darkgray};
-`;
 const Username = styled(Text)`
   color: ${props => props.theme.colors.gray};
   font-weight: 500;
-`;
-const Description = styled(Text)`
-  color: ${props => props.theme.colors.darkgray};
 `;
 
 const Location = styled(Text)`
