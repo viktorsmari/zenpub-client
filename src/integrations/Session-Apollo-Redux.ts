@@ -1,7 +1,6 @@
-import { InterceptorSrv, BLOCK_REQUEST, BlockRequest } from '../apollo/client';
 import { Store } from 'redux';
+import { InterceptorSrv, InterceptorResultOf } from '../apollo/client';
 import { login, logout } from '../redux/session';
-import { AuthPayload } from '../graphql/types';
 
 export const integrateSessionApolloRedux = (
   intercSrv: InterceptorSrv,
@@ -14,16 +13,17 @@ export const integrateSessionApolloRedux = (
 
   intercSrv.add({
     operation: 'createUser',
-    request: _ => doMaybeLogin
+    request: _ => _ => doMaybeLogin
   });
 
   const doMaybeLogin = (
-    resp: AuthPayload | BlockRequest | null | undefined
+    resp: InterceptorResultOf<'createUser' | 'createSession'>
   ) => {
-    if (resp !== BLOCK_REQUEST) {
-      resp
-        ? store.dispatch(login.create(resp))
-        : store.dispatch(logout.create());
+    if (!resp.error && resp.data && resp.data.me && resp.data.token) {
+      const payload = { me: resp.data.me, token: resp.data.token };
+      store.dispatch(login.create(payload));
+    } else {
+      store.dispatch(logout.create());
     }
   };
 

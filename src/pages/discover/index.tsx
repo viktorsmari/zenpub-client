@@ -21,14 +21,23 @@ import {
 import styled from '../../themes/styled';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { useLocalActivitiesQuery } from '../../graphql/generated/localActivities.generated';
+import { useInterceptor } from '../../context/global/apolloInterceptorCtx';
 
 interface Props {}
 
 const Home: React.FC<Props> = props => {
-  const { data, error, loading, fetchMore } = useLocalActivitiesQuery({
+  const { data, error, loading, fetchMore, refetch } = useLocalActivitiesQuery({
     variables: {
       limit: 15
     }
+  });
+  console.log('startCursor', data && data.localActivities.pageInfo.startCursor);
+  console.log('endCursor', data && data.localActivities.pageInfo.endCursor);
+  useInterceptor({ operation: 'createReply', request: () => () => refetch() });
+  useInterceptor({ operation: 'likeComment', request: () => () => refetch() });
+  useInterceptor({
+    operation: 'undoLikeComment',
+    request: () => () => refetch()
   });
   return (
     <MainContainer>
@@ -70,7 +79,7 @@ const Home: React.FC<Props> = props => {
                     ))}
                     <LoadMoreTimeline
                       fetchMore={fetchMore}
-                      localInstance={data!.localActivities!}
+                      localActivities={data!.localActivities!}
                     />
                   </div>
                 )}
