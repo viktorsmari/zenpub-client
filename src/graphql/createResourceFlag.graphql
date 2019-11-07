@@ -1,0 +1,3 @@
+mutation createResourceFlag($localId: Int!, $reason: String!) {
+  flagResource(localId: $localId, reason: $reason)
+}

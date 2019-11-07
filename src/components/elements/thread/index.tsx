@@ -8,6 +8,8 @@ import Talk from '../TalkModal';
 import Link from '../Link/Link';
 import { Trans } from '@lingui/react';
 import { Comment } from '../../../graphql/types';
+import MoreOptions from '../MoreOptions';
+
 // import { Comment } from 'src/gql/sdk';
 
 const Icon = styled(Flex)`
@@ -73,6 +75,12 @@ const Actions = styled(Flex)`
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
+const MoreOptionsContainer = styled.div`
+  margin-left: 16px;
+  position: absolute;
+  right: 20px;
+`;
+
 interface Props {
   comment: Comment;
 }
@@ -94,6 +102,11 @@ const Thread: SFC<Props> = ({ comment }) => {
             <Date fontSize={1}>
               {DateTime.fromISO(comment.published!).toRelative()}
             </Date>
+            {typeof comment!.localId == 'number' ? (
+              <MoreOptionsContainer>
+                <MoreOptions flagFor="comment" itemLocalId={comment.localId} />
+              </MoreOptionsContainer>
+            ) : null}
           </Flex>
           <Link to={'/user/' + comment.author!.localId!}>
             <Username mt={1} fontSize={1} mx={2}>

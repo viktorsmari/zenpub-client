@@ -1,0 +1,3 @@
+mutation createCommentFlag($localId: Int!, $reason: String!) {
+  flagComment(localId: $localId, reason: $reason)
+}

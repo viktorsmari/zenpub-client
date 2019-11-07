@@ -6,10 +6,11 @@ import { Heading, Flex } from 'rebass';
 import { Button } from 'rebass/styled-components';
 import { string } from 'yup';
 import { i18n } from '../../../containers/App/App';
-// import {
-//   Flag,
-//   useCreateFlagMutation
-// } from '../../../generated/graphqlapollo';
+import { useCreateCommunityFlagMutation } from '../../../graphql/generated/createCommunityFlag.generated';
+import { useCreateCollectionFlagMutation } from '../../../graphql/generated/createCollectionFlag.generated';
+import { useCreateResourceFlagMutation } from '../../../graphql/generated/createResourceFlag.generated';
+import { useCreateCommentFlagMutation } from '../../../graphql/generated/createCommentFlag.generated';
+
 import styled from '../../../themes/styled';
 import Alert from '../../elements/Alert';
 import Modal from '../Modal';
@@ -28,17 +29,23 @@ const tt = {
 };
 
 interface Props {
-  toggleModal(_: boolean): unknown;
+  flagFor: string;
+  itemLocalId: number;
+  closeModal(_: boolean): unknown;
   modalIsOpen: boolean;
   // flag: string;
 }
 
 const FlagModal: React.FC<Props> = ({
-  // flag,
+  flagFor,
+  itemLocalId,
   modalIsOpen,
-  toggleModal
+  closeModal
 }) => {
-  //   const [report] = useCreateFlagMutation();
+  const [flagCommunity] = useCreateCommunityFlagMutation();
+  const [flagCollection] = useCreateCollectionFlagMutation();
+  const [flagResource] = useCreateResourceFlagMutation();
+  const [flagComment] = useCreateCommentFlagMutation();
   const [text, setText] = React.useState('');
   const [error, setError] = React.useState('');
   const [touched, setTouched] = React.useState(false);
@@ -60,18 +67,51 @@ const FlagModal: React.FC<Props> = ({
       if (error) {
         return;
       }
-      //   report({
-      //     variables: {
-      //       id: flag.localId!,
-      //       flag: { content: text }
-      //     }
-      //   });
-      toggleModal(false);
+      closeModal;
+      switch (flagFor) {
+        case 'community':
+          flagCommunity({
+            variables: {
+              localId: itemLocalId!,
+              reason: text!
+            }
+          });
+          break;
+        case 'collection':
+          flagCollection({
+            variables: {
+              localId: itemLocalId!,
+              reason: text!
+            }
+          });
+          break;
+        case 'resource':
+          flagResource({
+            variables: {
+              localId: itemLocalId!,
+              reason: text!
+            }
+          });
+          break;
+        case 'comment':
+          flagComment({
+            variables: {
+              localId: itemLocalId!,
+              reason: text!
+            }
+          });
+          break;
+      }
     },
     [error, text]
   );
   return (
-    <Modal isOpen={modalIsOpen} toggleModal={() => toggleModal(false)}>
+    <Modal
+      isOpen={modalIsOpen}
+      toggleModal={closeModal}
+      flagFor={flagFor}
+      itemLocalId={itemLocalId}
+    >
       {/* <Container> */}
       {/* <Form> */}
       <Container>
@@ -96,7 +136,7 @@ const FlagModal: React.FC<Props> = ({
           >
             <Trans>Send</Trans>
           </Button>
-          <Button variant="outline" onClick={() => toggleModal(false)}>
+          <Button variant="outline" onClick={closeModal}>
             <Trans>Cancel</Trans>
           </Button>
         </Actions>

@@ -1,0 +1,3 @@
+mutation createCollectionFlag($localId: Int!, $reason: String!) {
+  flagCollection(localId: $localId, reason: $reason)
+}

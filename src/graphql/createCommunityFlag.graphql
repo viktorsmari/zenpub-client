@@ -1,0 +1,3 @@
+mutation createCommunityFlag($localId: Int!, $reason: String!) {
+  flagCommunity(localId: $localId, reason: $reason)
+}

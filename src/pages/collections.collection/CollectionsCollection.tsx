@@ -18,6 +18,7 @@ import Join from '../../components/elements/Collection/Join';
 import { Settings } from 'react-feather';
 import { Text, Flex } from 'rebass/styled-components';
 import media from 'styled-media-query';
+import MoreOptions from '../../components/elements/MoreOptions';
 
 enum TabsEnum {
   // Members = 'Members',
@@ -45,7 +46,6 @@ class CollectionComponent extends React.Component<Props> {
   state = {
     tab: TabsEnum.Resources
   };
-
   render() {
     let collection;
     let resources;
@@ -108,6 +108,12 @@ class CollectionComponent extends React.Component<Props> {
                     id={collection.localId}
                     externalId={collection.id}
                   />
+                  <MoreOptionsContainer>
+                    <MoreOptions
+                      flagFor="collection"
+                      itemLocalId={collection.localId}
+                    />
+                  </MoreOptionsContainer>
                 </ActionsHero>
               </HeroInfo>
             </Hero>
@@ -238,6 +244,11 @@ const Background = styled.div`
   margin: 0 auto;
 `;
 
+const MoreOptionsContainer = styled.div`
+  margin-left: 16px;
+  position: relative;
+`;
+
 const withGetCollection = graphql<
   {},
   {
@@ -257,6 +268,7 @@ const withGetCollection = graphql<
 export default compose(
   withGetCollection,
   withState('isEditCollectionOpen', 'onEditCollectionOpen', false),
+
   withHandlers({
     editCollection: props => () =>
       props.onEditCollectionOpen(!props.isEditCollectionOpen)

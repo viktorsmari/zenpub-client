@@ -3,9 +3,8 @@ import { Box, Text, Flex } from 'rebass/styled-components';
 import styled from '../../themes/styled';
 import Join from './Join';
 import { clearFix } from 'polished';
-import { Settings, MoreHorizontal } from 'react-feather';
-import OutsideClickHandler from 'react-outside-click-handler';
-import OptionsDropdown from '../../components/elements/OptionsDropDown';
+import { Settings } from 'react-feather';
+import MoreOptions from '../../components/elements/MoreOptions';
 interface Props {
   community: {
     icon: string;
@@ -22,9 +21,9 @@ interface Props {
 }
 
 const HeroComp: SFC<Props> = ({ community, showUsers, editCommunity }) => {
-  const [menuIsOpen, setMenuIsOpen] = React.useState(false);
-  const closeMenu = React.useCallback(() => setMenuIsOpen(false), []);
-  const openMenu = React.useCallback(() => setMenuIsOpen(true), []);
+  // const [menuIsOpen, setMenuIsOpen] = React.useState(false);
+  // const closeMenu = React.useCallback(() => setMenuIsOpen(false), []);
+  // const openMenu = React.useCallback(() => setMenuIsOpen(true), []);
   return (
     <Box p={1} mb={2}>
       <Hero>
@@ -79,21 +78,12 @@ const HeroComp: SFC<Props> = ({ community, showUsers, editCommunity }) => {
                 followed={community.followed}
                 externalId={community.id}
               />
-              <MoreButton>
-                <MoreHorizontal
-                  size={18}
-                  color={'#f98012'}
-                  onClick={openMenu}
+              <MoreOptionsContainer>
+                <MoreOptions
+                  flagFor="community"
+                  itemLocalId={community.localId}
                 />
-                {menuIsOpen ? (
-                  <>
-                    <OutsideClickHandler onOutsideClick={closeMenu}>
-                      <OptionsDropdown />
-                    </OutsideClickHandler>
-                    <Layer />
-                  </>
-                ) : null}
-              </MoreButton>
+              </MoreOptionsContainer>
             </Actions>
           </Flex>
         </HeroInfo>
@@ -214,19 +204,9 @@ const HeroInfo = styled.div`
   }
 `;
 
-const MoreButton = styled.div`
+const MoreOptionsContainer = styled.div`
   margin-left: 16px;
   position: relative;
-`;
-
-const Layer = styled.div`
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0px;
-  height: 50px;
-  z-index: 1;
-  display: block;
 `;
 
 export default HeroComp;

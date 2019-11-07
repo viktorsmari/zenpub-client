@@ -11,6 +11,7 @@ import Talk from '../TalkModal';
 import { useLikeCommentMutationMutation } from '../../../graphql/generated/likeComment.generated';
 import { useUndoLikeCommentMutationMutation } from '../../../graphql/generated/undoLikeComment.generated';
 import { Comment } from '../../../graphql/types';
+import MoreOptions from '../MoreOptions';
 
 interface EventProps {
   comment: Comment;
@@ -41,6 +42,11 @@ const CommentWrapper: React.FC<EventProps> = ({ comment, noAction }) => {
           <Img src={(author && author.icon) || ''} />
         </MemberItem>
         <MemberInfo>
+          {typeof comment!.localId == 'number' ? (
+            <MoreOptionsContainer>
+              <MoreOptions flagFor="comment" itemLocalId={comment.localId} />
+            </MoreOptionsContainer>
+          ) : null}
           {author ? (
             <Name>
               <Link to={'/user/' + author.localId}>
@@ -283,4 +289,11 @@ const FeedItem = styled.div`
     background: ${props => props.theme.colors.lighter};
   }
 
+`;
+
+const MoreOptionsContainer = styled.div`
+  margin-left: 16px;
+  position: absolute;
+  right: 20px;
+  z-index: 20;
 `;
