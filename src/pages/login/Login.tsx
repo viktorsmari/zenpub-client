@@ -13,16 +13,16 @@ import { SessionContext } from '../../context/global/sessionCtx';
 import styled, { MoodleThemeInterface } from '../../themes/styled';
 import LoginForm from './LoginForm';
 import { ValidationField, ValidationObject, ValidationType } from './types';
-import { Button, Box, Text } from 'rebass/styled-components';
+import { Button, Box, Text, Image } from 'rebass/styled-components';
 const { loginMutation } = require('../../graphql/login.graphql');
 import { Panel, WrapperPanel } from '../../sections/panel';
+const MnetLogin = require('./login.jpg');
 
-const Background = styled.div`
-  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwB3uElmeu6GMAuX2UCuLLVGCLBnqxcZQL4GoLyWlUvxMLQL70zA&s');
+const Background = styled(Image)`
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  height: 260px;
+  width: 100%;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 `;
@@ -346,7 +346,7 @@ class Login extends React.Component<LoginProps, LoginState> {
               </Button>
               <WrapperPanel className="extra">
                 <Panel>
-                  <Background />
+                  <Background src={MnetLogin} />
                   <Infos p={3}>
                     <Info>
                       <Text variant="suptitle">

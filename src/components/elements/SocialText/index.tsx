@@ -22,9 +22,10 @@ const Wrapper = styled.div`
   width: 100%;
   position: relative;
 `;
-const SocialTextDiv = styled.div`
+const SocialTextDiv = styled(Flex)`
   position: relative;
   width: 100%;
+  align-items: center;
 `;
 const SocialTextTrigger = styled(Box)`
   cursor: pointer;
@@ -33,16 +34,21 @@ const SocialTextTrigger = styled(Box)`
 const SocialTextArea = styled(Textarea)`
   height: 60px;
   border-radius: 4px;
-  border: 1px solid ${props => props.theme.colors.lightgray} !important;
+  border: 0px solid ${props => props.theme.colors.lightgray} !important;
   resize: none;
+  flex: 1;
   font-size: 16px !important;
+  &:focus {
+    outline: none;
+  }
   font-family: 'Open Sans', sans-serif !important;
 `;
 
 const SocialActions = styled(Flex)`
-  position: absolute;
-  right: 10px;
-  top: 16px;
+  // position: absolute;
+  // right: 10px;
+  // top: 16px;
+  width: 70px;
 `;
 
 export interface Props

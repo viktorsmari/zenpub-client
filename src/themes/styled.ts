@@ -45,6 +45,9 @@ export interface MoodleThemeInterface {
     };
   };
   variants: {
+    inReplyTo: {
+      bg: string;
+    };
     primary: {
       bg: string;
     };

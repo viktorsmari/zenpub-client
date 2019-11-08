@@ -54,6 +54,10 @@ const Resource: React.FC<Props> = props => {
 
 const WrapperLink = styled(NavLink)`
   display: flex;
+  text-decoration: none;
+  &:hover {
+    text-decoration: none !important;
+  }
 `;
 
 const TitleWrapper = styled.div`
@@ -76,7 +80,7 @@ const Info = styled.div`
 
 const Wrapper = styled.div`
   &:hover {
-    background: ${props => props.theme.colors.lightgray};
+    background: ${props => props.theme.colors.lighter};
   }
   padding: 8px;
   margin-bottom: 8px;
@@ -87,12 +91,9 @@ const Wrapper = styled.div`
   display: block;
   padding: 0;
   padding: 20px;
-  & a {
-    text-decoration: none;
-  }
-  &:last-of-type {
-    margin-bottom: 0;
-    border-bottom: 0px;
+  a {
+    
+    }
   }
   `};
 `;

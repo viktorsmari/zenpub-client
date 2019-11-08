@@ -23,23 +23,15 @@ const ActionsWrapper = ({
   return (
     <Actions mt={2}>
       <Items>
-        <ActionItem>
+        <ActionItem onClick={() => showTalkModal(true)}>
           <ActionIcon>
-            <MessageCircle
-              onClick={() => showTalkModal(true)}
-              color="rgba(0,0,0,.4)"
-              size="16"
-            />
+            <MessageCircle color="rgba(0,0,0,.4)" size="16" />
           </ActionIcon>
           <Text ml={1}>{totalReplies}</Text>
         </ActionItem>
-        <ActionItem ml={3}>
+        <ActionItem ml={4} onClick={toggleLike}>
           <ActionIcon>
-            <Star
-              onClick={toggleLike}
-              color={iLikeIt ? 'yellow' : 'rgba(0,0,0,.4)'}
-              size="16"
-            />
+            <Star color={iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'} size="16" />
           </ActionIcon>
           <Text ml={1}>{totalLikes}</Text>
         </ActionItem>

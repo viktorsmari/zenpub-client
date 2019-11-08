@@ -12,7 +12,7 @@ import SocialText from '../SocialText';
 import { Comment } from '../../../graphql/types';
 import { useCreateReplyMutationMutation } from '../../../graphql/generated/createReply.generated';
 
-const TextWrapper = styled(Flex)`
+export const TextWrapper = styled(Flex)`
   padding: 16px;
   align-items: center;
 `;
@@ -31,7 +31,7 @@ const TextWrapper = styled(Flex)`
 //   }
 // `;
 
-const Avatar = styled(Box)`
+export const Avatar = styled(Box)`
   min-width: 48px !important;
   height: 48px;
   border-radius: 48px;
@@ -98,7 +98,7 @@ export const TalkModal: React.FC<Props> = ({
     <Modal isOpen={modalIsOpen} toggleModal={() => toggleModal(false)}>
       {/* <Container> */}
       {/* <Form> */}
-      <CommentCmp comment={comment} noAction />
+      <CommentCmp comment={comment} noLink noAction />
       <TextWrapper>
         <Avatar
           style={{
@@ -113,8 +113,8 @@ export const TalkModal: React.FC<Props> = ({
           submit={submit}
           onChange={oninput}
         />
-        {error && touched && <Alert>{error}</Alert>}
       </TextWrapper>
+      {error && touched && <Alert>{error}</Alert>}
     </Modal>
   );
 };

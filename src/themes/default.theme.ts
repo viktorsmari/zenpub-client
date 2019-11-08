@@ -13,6 +13,9 @@ const themeLight: MoodleThemeInterface = {
     lighter: '#F5F6F7'
   },
   variants: {
+    inReplyTo: {
+      bg: 'aliceblue'
+    },
     primary: {
       bg: '#000'
     }

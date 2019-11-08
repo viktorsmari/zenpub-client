@@ -22,6 +22,7 @@ import styled from '../../themes/styled';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { useLocalActivitiesQuery } from '../../graphql/generated/localActivities.generated';
 import { useInterceptor } from '../../context/global/apolloInterceptorCtx';
+import Empty from '../../components/elements/Empty';
 
 interface Props {}
 
@@ -63,9 +64,9 @@ const Home: React.FC<Props> = props => {
               </SuperTabList>
               <TabPanel>
                 {error ? (
-                  <span>
+                  <Empty>
                     <Trans>{error}</Trans>
-                  </span>
+                  </Empty>
                 ) : loading ? (
                   <Loader />
                 ) : (

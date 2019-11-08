@@ -15,9 +15,14 @@ import { Comment } from '../../../graphql/types';
 interface EventProps {
   comment: Comment;
   noAction?: boolean;
+  noLink?: boolean;
 }
 
-const CommentWrapper: React.FC<EventProps> = ({ comment, noAction }) => {
+const CommentWrapper: React.FC<EventProps> = ({
+  comment,
+  noAction,
+  noLink
+}) => {
   const FAKE________COMMENT_I_LIKE_IT = !!Math.round(Math.random());
   const { author } = comment;
   const [like /* , likeResult */] = useLikeCommentMutationMutation();
@@ -35,7 +40,7 @@ const CommentWrapper: React.FC<EventProps> = ({ comment, noAction }) => {
 
   return (
     <FeedItem>
-      <NavigateToThread to={`/thread/${comment!.localId}`} />
+      {noLink ? null : <NavigateToThread to={`/thread/${comment!.localId}`} />}
       <Member>
         <MemberItem mr={2}>
           <Img src={(author && author.icon) || ''} />
@@ -70,17 +75,16 @@ const CommentWrapper: React.FC<EventProps> = ({ comment, noAction }) => {
           {noAction ? null : (
             <Actions mt={2}>
               <Items>
-                <ActionItem>
-                  <ActionIcon onClick={() => onOpen(true)}>
+                <ActionItem onClick={() => onOpen(true)}>
+                  <ActionIcon>
                     <MessageCircle color="rgba(0,0,0,.4)" size="16" />
                   </ActionIcon>
                   <Text ml={2}>{comment!.replies!.totalCount}</Text>
                 </ActionItem>
-                <ActionItem ml={3}>
+                <ActionItem ml={3} onClick={toggleLike}>
                   <ActionIcon>
                     <Star
-                      onClick={toggleLike}
-                      color={iLikeIt ? 'yellow' : 'rgba(0,0,0,.4)'}
+                      color={iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'}
                       size="16"
                     />
                   </ActionIcon>
@@ -219,6 +223,7 @@ const MemberInfo = styled(Box)`
 
 const Comment = styled.div`
   margin-top: 6px;
+  word-break: break-all;
   & a {
     color: ${props => props.theme.colors.darkgray} !important;
     font-weight: 400 !important;
@@ -272,7 +277,6 @@ const FeedItem = styled.div`
   margin-top: 0
   z-index: 10;
   position: relative;
-  background: #ffffff;
   position: relative;
   border-bottom: 1px solid  ${props => props.theme.colors.lightgray};
   a {

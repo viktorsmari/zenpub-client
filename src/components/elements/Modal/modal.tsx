@@ -52,6 +52,8 @@ const Action = styled.div`
 const Close = styled.div`
   float: right;
   cursor: pointer;
+  position: relative;
+  z-index: 999999;
 `;
 
 const Content = styled.div`
