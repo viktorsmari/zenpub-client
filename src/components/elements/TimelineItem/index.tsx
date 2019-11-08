@@ -61,7 +61,6 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
                     </Username>
                   ) : null}
                 </Link>
-                comment
                 <Spacer mr={2}>·</Spacer>{' '}
                 <Date>{DateTime.fromISO(node.published).toRelative()}</Date>
               </Name>
@@ -175,7 +174,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
               </SubText>
             ) : node.activityType === 'FollowCollection' ? (
               <SubText mt={1}>
-                <Trans>followed</Trans> comment
+                <Trans>followed</Trans>
                 <NavLink
                   style={{ marginLeft: '4px' }}
                   to={`/communities/${

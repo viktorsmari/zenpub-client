@@ -11,6 +11,7 @@ import Loader from '../../components/elements/Loader/Loader';
 import styled from '../../themes/styled';
 import Dropdown from './dropdown';
 import { GetSidebarQueryQueryResult } from '../../graphql/generated/getSidebar.generated';
+import Empty from '../../components/elements/Empty';
 const MnetLogo = require('./moodle-logo.png');
 const SidebarComponent = styled(Flex)`
   flex-grow: 1;
@@ -168,9 +169,9 @@ const Sidebar: React.FC<Props> = ({ resp }) => {
   const openMenu = React.useCallback(() => setMenuIsOpen(true), []);
   const { data } = resp;
   return resp.error ? (
-    <span>
-      <Trans>Error loading communities</Trans>
-    </span>
+    <Empty>
+      <Trans>Error loading the sidebar</Trans>
+    </Empty>
   ) : resp.loading ? (
     <Loader />
   ) : (

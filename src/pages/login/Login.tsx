@@ -3,7 +3,6 @@ import { i18nMark } from '@lingui/react';
 import { clearFix } from 'polished';
 import * as React from 'react';
 import { graphql } from 'react-apollo';
-// import { Helmet } from 'react-helmet';
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
 import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
@@ -14,16 +13,16 @@ import { SessionContext } from '../../context/global/sessionCtx';
 import styled, { MoodleThemeInterface } from '../../themes/styled';
 import LoginForm from './LoginForm';
 import { ValidationField, ValidationObject, ValidationType } from './types';
-import { Button, Box, Text } from 'rebass/styled-components';
+import { Button, Box, Text, Image } from 'rebass/styled-components';
 const { loginMutation } = require('../../graphql/login.graphql');
 import { Panel, WrapperPanel } from '../../sections/panel';
+const MnetLogin = require('./login.jpg');
 
-const Background = styled.div`
-  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwB3uElmeu6GMAuX2UCuLLVGCLBnqxcZQL4GoLyWlUvxMLQL70zA&s');
+const Background = styled(Image)`
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  height: 260px;
+  width: 100%;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 `;
@@ -89,16 +88,6 @@ const Right = styled(Box)`
     margin-right: 0;
   }
 `;
-// const Image = styled.div`
-//   background: #fff;
-//   border-radius: 4px;
-//   height: inherit;
-//   border: 1px solid #dddfe2;
-//   text-align: left;
-//   ${media.lessThan('medium')`
-//   display: none;
-//   `};
-// `;
 
 const Footer = styled.div`
 grid-area: footer
@@ -357,7 +346,7 @@ class Login extends React.Component<LoginProps, LoginState> {
               </Button>
               <WrapperPanel className="extra">
                 <Panel>
-                  <Background />
+                  <Background src={MnetLogin} />
                   <Infos p={3}>
                     <Info>
                       <Text variant="suptitle">
@@ -368,11 +357,6 @@ class Login extends React.Component<LoginProps, LoginState> {
                           This instance of MoodleNet is run by Moodle HQ and is
                           currently invite-only.
                         </Trans>
-                      </Text>
-                    </Info>
-                    <Info mt={3}>
-                      <Text variant="suptitle">
-                        <Trans>Admins</Trans>
                       </Text>
                     </Info>
                   </Infos>
@@ -428,13 +412,9 @@ class Login extends React.Component<LoginProps, LoginState> {
 }
 const withLogin = graphql(loginMutation, {
   name: 'login'
-  // TODO enforce proper types for OperationOption
 });
 
 export default compose(
-  // withTheme,
-  // withUser,
-  // withSetLocalUser,
   withLogin,
   withState('isOpen', 'onOpen', false),
   withHandlers({

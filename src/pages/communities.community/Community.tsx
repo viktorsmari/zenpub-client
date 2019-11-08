@@ -69,14 +69,14 @@ const CommunityPage: SFC<Props> = ({
           </SuperTabList>
           <TabPanel>
             {community.followed ? (
-              <Box m={3}>
+              <WrapperBox p={3}>
                 <SocialText
                   onInput={setNewThreadTextInput}
                   reference={socialTextRef}
                   submit={addNewThread}
                   placeholder="Start a new thread..."
                 />
-              </Box>
+              </WrapperBox>
             ) : null}
             <div>
               {community.inbox.edges.map((t, i) => (
@@ -115,6 +115,10 @@ export const Footer = styled.div`
   font-size: 13px;
   border-bottom: 1px solid ${props => props.theme.colors.lightgray};
   color: #544f46;
+`;
+
+const WrapperBox = styled(Box)`
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
 `;
 
 const ButtonWrapper = styled(Flex)`
