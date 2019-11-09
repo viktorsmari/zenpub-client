@@ -108,14 +108,16 @@ function Hit(props) {
         />
         <CommunityText ml={1}>{community.name}</CommunityText>
       </Community>
-      <BoxResource>
-        <SubText p={2}>
-          <Trans>Resources list</Trans>
-        </SubText>
-        {community.collections.map((collection, i_col) =>
-          collection_resources(collection)
-        )}
-      </BoxResource>
+      {community.collections && (
+        <BoxResource>
+          <SubText p={2}>
+            <Trans>Resources list</Trans>
+          </SubText>
+          {community.collections.map((collection, i_col) =>
+            collection_resources(collection)
+          )}
+        </BoxResource>
+      )}
     </CommunityWrapper>
   );
 }
