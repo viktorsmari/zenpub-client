@@ -1,7 +1,10 @@
-import { AuthPayload } from '../../graphql/types';
+import { Me } from '../../graphql/types';
 
-export type User = AuthPayload | null;
+export type Auth = {
+  me: Me;
+  token: string;
+} | null;
 
 export interface State {
-  user: User;
+  auth: Auth;
 }

@@ -6,27 +6,47 @@ import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import Header from './header';
 import { GetThreadQueryHookResult } from '../../graphql/generated/getThread.generated';
+import Empty from '../../components/elements/Empty';
+import { Trans } from '@lingui/macro';
+import { Box } from 'rebass/styled-components';
 
 export interface Props {
   threadQuery: GetThreadQueryHookResult;
 }
 const Component: React.FC<Props> = ({ threadQuery: thread }) => {
-  if (thread.loading) {
-    return <Loader />;
-  } else if (thread.error || !thread.data) {
-    return <>error...</>;
-  }
   return (
     <MainContainer>
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <Header />
-            <Thread comment={thread.data.comment!} />
-            {thread.data.comment!.replies!.edges!.reverse().map(edge => {
-              const { node: comment } = edge!;
-              return <Comment key={comment!.localId!} comment={comment!} />;
-            })}
+            {thread.loading ? (
+              <Empty alignItems="center" mt={3}>
+                <Loader />
+              </Empty>
+            ) : thread.error || !thread.data ? (
+              <Empty>
+                <Trans>Is it not possible to show the thread</Trans>
+              </Empty>
+            ) : (
+              <>
+                <Header context={thread.data.comment!.context} />
+                {thread.data.comment!.inReplyTo ? (
+                  <Box variant="inReplyTo">
+                    <Comment
+                      noAction
+                      key={thread.data.comment!.inReplyTo!.localId!}
+                      comment={thread.data.comment!.inReplyTo!}
+                    />
+                  </Box>
+                ) : null}
+                <Thread comment={thread.data.comment!} />
+
+                {thread.data.comment!.replies!.edges!.reverse().map(edge => {
+                  const { node: comment } = edge!;
+                  return <Comment key={comment!.localId!} comment={comment!} />;
+                })}
+              </>
+            )}
           </Wrapper>
         </WrapperCont>
       </HomeBox>

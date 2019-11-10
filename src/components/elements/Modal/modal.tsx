@@ -25,7 +25,7 @@ const Dialog = styled.div`
   background-color: #ffffff;
   padding: 0;
   margin: 40px auto;
-  position: absolute;
+  position: fixed;
   top: 20px;
   left: 50%;
   margin-left: -350px;
@@ -52,6 +52,8 @@ const Action = styled.div`
 const Close = styled.div`
   float: right;
   cursor: pointer;
+  position: relative;
+  z-index: 999999;
 `;
 
 const Content = styled.div`

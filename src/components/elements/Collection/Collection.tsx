@@ -66,7 +66,7 @@ export default ({ collection, communityId, openModal }: CollectionProps) => {
 const Actions = styled.div`
   display: inline-block;
   position: absolute;
-  bottom: 0;
+  bottom: -10px;
 `;
 const ActionItem = styled.div`
   display: inline-block;

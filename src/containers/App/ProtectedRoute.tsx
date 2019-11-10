@@ -23,7 +23,7 @@ function ProtectedRoute({ component: Component, ...rest }) {
     <Route
       {...rest}
       render={(props: ProtectedRouteProps) => {
-        if (sessionCtx.session.user) {
+        if (sessionCtx.auth) {
           return <Component {...props} />;
         }
         return (

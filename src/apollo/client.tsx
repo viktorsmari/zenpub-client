@@ -130,12 +130,12 @@ export default async function initialise({ authToken }: Cfg) {
         if (interceptor.operation === defOpName) {
           const interceptorAction = interceptor.request(operation);
           if (interceptorAction === BLOCK_REQUEST) {
+            const error = `Operation ${defOpName} Aborted`;
             interceptorOperationResponseHandlers.forEach(responseHandler =>
-              responseHandler(BLOCK_REQUEST)
+              responseHandler({ data: null, error })
             );
-            const error = new GraphQLError(`Operation ${defOpName} Aborted`);
             const result: FetchResult = {
-              errors: [error],
+              errors: [new GraphQLError(error)],
               data: null,
               context: operation.getContext(),
               extensions: operation.extensions
@@ -150,9 +150,16 @@ export default async function initialise({ authToken }: Cfg) {
 
     return nextLink(operation).map(result => {
       if (defOpName) {
-        interceptorOperationResponseHandlers.forEach(responseHandler =>
-          responseHandler(result.data && result.data[defOpName])
-        );
+        interceptorOperationResponseHandlers.forEach(responseHandler => {
+          let error: string | null = null;
+          let data: any = null;
+          if (result.errors) {
+            error = result.errors.map(err => err.message).join('\n');
+          } else {
+            data = result.data && result.data[defOpName];
+          }
+          responseHandler({ data, error });
+        });
       }
       return result;
     });
@@ -226,8 +233,11 @@ export type ResponseOf<
 
 export type InterceptorOperationResponseHandler<
   OpName extends OperationName
-> = (response: ResponseOf<OpName> | BlockRequest) => unknown;
-
+> = (response: InterceptorResultOf<OpName>) => unknown;
+export type InterceptorResultOf<OpName extends OperationName> = {
+  data: ResponseOf<OpName>;
+  error: null | string;
+};
 export type Interceptor<OpName extends OperationName> = {
   operation: OpName;
   request: (
