@@ -13,8 +13,8 @@ const WrapperMenu = styled.div`
   border-radius: 0.25em;
   background-color: rgb(232, 232, 232);
   position: absolute;
-  top: 50px;
-  left: 10px;
+  top: 110px;
+  left: 16px;
   z-index: 999999999999;
 `;
 
@@ -42,7 +42,7 @@ const Item = styled(Text)`
     text-decoration: none;
   }
   &:hover {
-    color: rgba(0, 0, 0, 0.9);
+    color: ${props => props.theme.colors.orange};
   }
 `;
 

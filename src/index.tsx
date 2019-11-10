@@ -34,20 +34,15 @@ async function run() {
       overflow-y: scroll;
       overscroll-behavior-y: none;
       .ais-SearchBox {
-        height: 40px;
-        display: flex;
-        flex-grow: 1;
-        background: #fff;
-        border-radius: 100px;
-        margin: 0 8px;
-        text-indent: 8px;
-        margin-left: 16px;
+        height: 42px;
+        border-radius: 4px;
         border: 1px solid #dadada
         input {
-          height: 100%;
+          height: 40px;
           border: none;
           background: #fff;
           margin: 0 !important; 
+          border-radius: 4px
         }
       }
       .ais-InstantSearch__root { 
