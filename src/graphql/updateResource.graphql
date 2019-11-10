@@ -1,27 +1,26 @@
 input ResourceInput {
     name: String!
     summary: String
-    content: String
     url: String!
-    primaryLanguage: String
+    license: String
+    primaryLanguageId: String
     icon: String
 }
 
  mutation updateResourceMutation($resourceId: Int!, $resource: ResourceInput!) {
-    updateResource(
-    resourceLocalId: $resourceId
-    resource: $resource
-    ) {
+    updateResource(resourceId: $resourceId, resource: $resource) {
         id
-        localId
         name
         summary
-        content
         url
-        primaryLanguage
+	license
         icon
-        published
-        updated
+	isLocal
+	isPublic
+	isHidden
+        createdAt
+        updatedAt
+        primaryLanguage { id englishName localName }
     }
 }
 

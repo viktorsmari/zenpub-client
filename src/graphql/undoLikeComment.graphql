@@ -1,3 +1,0 @@
-mutation undoLikeCommentMutation($localId: Int!) {
-  undoLikeComment(localId: $localId)
-}

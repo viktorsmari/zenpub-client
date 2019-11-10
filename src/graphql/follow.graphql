@@ -1,0 +1,3 @@
+mutation followMutation($contextId: String!) {
+    follow(contextId: $contextId)
+}
