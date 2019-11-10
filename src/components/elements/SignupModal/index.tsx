@@ -7,8 +7,7 @@ import * as Yup from 'yup';
 import { i18n } from '../../../containers/App/App';
 import Alert from '../../elements/Alert';
 import { Input } from '@rebass/forms';
-import { Heading } from 'rebass/styled-components';
-import Button from '../Button/Button';
+import { Heading, Button } from 'rebass/styled-components';
 import Modal from '../Modal';
 import { Row, Container, Actions, ContainerForm, Header } from '../Modal/modal';
 import { useCreateUserMutationMutation } from '../../../graphql/generated/createUser.generated';
@@ -199,7 +198,7 @@ const CreateCommunityModal = (props: Props) => {
                       >
                         <Trans>Sign Up</Trans>
                       </Button>
-                      <Button onClick={toggleModal} secondary>
+                      <Button onClick={toggleModal} variant="outline">
                         <Trans>Cancel</Trans>
                       </Button>
                     </Actions>
@@ -212,7 +211,8 @@ const CreateCommunityModal = (props: Props) => {
                     email: values.email,
                     name: values.name,
                     password: values.password,
-                    preferredUsername: values.username
+                    preferredUsername: values.username,
+                    isPublic: true
                   }
                 };
                 return createUser({

@@ -10,7 +10,9 @@ import media from 'styled-media-query';
 import Loader from '../../components/elements/Loader/Loader';
 import styled from '../../themes/styled';
 import Dropdown from './dropdown';
+import { MoreHorizontal } from 'react-feather';
 import { GetSidebarQueryQueryResult } from '../../graphql/generated/getSidebar.generated';
+import Empty from '../../components/elements/Empty';
 const MnetLogo = require('./moodle-logo.png');
 const SidebarComponent = styled(Flex)`
   flex-grow: 1;
@@ -53,9 +55,8 @@ const SidebarOverflow = styled(Box)`
   overflow-y: auto;
 `;
 
-const Header = styled(Flex)`
+const Header = styled(Box)`
   cursor: pointer;
-  padding-left: 8px;
   img {
     min-width: 36px;
     height: 36px;
@@ -134,7 +135,10 @@ const NavItem = styled(Flex)`
 `;
 
 const ItemTitle = styled(Text)`
-  color: ${props => props.theme.colors.darkgray};
+  a:focus,
+  a:active {
+    color: inherit;
+  }
   ${ellipsis('220px')} ${media.lessThan('1280px')`
   display: none;
 `};
@@ -150,12 +154,23 @@ const Layer = styled.div`
   display: block;
 `;
 
-const Sbox = styled(Box)`
-  width: 100%;
-  ${media.lessThan('1280px')`
- display: none;
-`};
+const Right = styled(Box)`
+  color: ${props => props.theme.colors.gray};
 `;
+
+const Sbox = styled(Box)`
+//   width: 100%;
+//   ${media.lessThan('1280px')`
+//  display: none;
+// `};
+`;
+
+// const HeaderProfile = styled(Flex)``
+
+const HeaderName = styled(Text)`
+  flex: 1;
+`;
+
 interface Props {
   resp: GetSidebarQueryQueryResult;
 }
@@ -165,9 +180,9 @@ const Sidebar: React.FC<Props> = ({ resp }) => {
   const openMenu = React.useCallback(() => setMenuIsOpen(true), []);
   const { data } = resp;
   return resp.error ? (
-    <span>
-      <Trans>Error loading communities</Trans>
-    </span>
+    <Empty>
+      <Trans>Error loading the sidebar</Trans>
+    </Empty>
   ) : resp.loading ? (
     <Loader />
   ) : (
@@ -176,14 +191,21 @@ const Sidebar: React.FC<Props> = ({ resp }) => {
         <SidebarFixed>
           <SidebarOverflow>
             <Header alignItems={'center'}>
-              <Image
-                onClick={openMenu}
-                src={data!.me!.user!.icon!}
-                // name={props.data.me.user.name}
-              />
-              <Sbox>
+              <Sbox ml={2} mb={3}>
                 <SearchBox />
               </Sbox>
+              <NavItem alignItems="center" onClick={openMenu}>
+                <Image
+                  src={data!.me!.user!.icon!}
+                  // name={props.data.me.user.name}
+                />
+                <HeaderName ml={2} variant="link">
+                  {data!.me!.user!.name}
+                </HeaderName>
+                <Right>
+                  <MoreHorizontal size="20" />
+                </Right>
+              </NavItem>
               {/* <Input placeholder="Search" /> */}
               {menuIsOpen ? (
                 <>
@@ -199,7 +221,7 @@ const Sidebar: React.FC<Props> = ({ resp }) => {
               <SidebarLink exact to={'/discover'}>
                 <NavItem mb={3} alignItems={'center'}>
                   <Globe size={36} />
-                  <ItemTitle ml={2} fontSize={2} fontWeight={600} width={1}>
+                  <ItemTitle ml={2} variant="link">
                     <Trans>Discover</Trans>
                   </ItemTitle>
                 </NavItem>
@@ -207,7 +229,7 @@ const Sidebar: React.FC<Props> = ({ resp }) => {
               <SidebarLink exact to={'/'}>
                 <NavItem mb={3} alignItems={'center'}>
                   <Image mr={2} width={'40px'} src={MnetLogo} />
-                  <ItemTitle fontSize={2} fontWeight={600} width={1}>
+                  <ItemTitle variant="link">
                     <Trans>My MoodleNet</Trans>
                   </ItemTitle>
                 </NavItem>
@@ -228,7 +250,7 @@ const Sidebar: React.FC<Props> = ({ resp }) => {
                         mr={2}
                         src={userJoinedCommunitiesEdge!.node!.icon!}
                       />
-                      <ItemTitle fontSize={1} fontWeight={600}>
+                      <ItemTitle variant="link">
                         {userJoinedCommunitiesEdge!.node!.name}
                       </ItemTitle>
                     </NavItem>

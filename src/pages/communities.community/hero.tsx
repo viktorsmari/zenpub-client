@@ -27,15 +27,17 @@ const HeroComp: SFC<Props> = ({ community, showUsers, editCommunity }) => (
         style={{ backgroundImage: `url(${community.icon})` }}
       />
       <HeroInfo>
-        <Title fontSize={5} mt={0} fontWeight={'bold'}>
+        <Text variant="heading" mt={0}>
           {community.name}
-        </Title>
+        </Text>
         {community.preferredUsername ? (
-          <Username fontSize={2}>@{community.preferredUsername}</Username>
+          <Username mt={2} fontSize={2}>
+            @{community.preferredUsername}
+          </Username>
         ) : null}
-        <Description mt={2} fontSize={2}>
+        <Text variant="text" mt={2}>
           {community.summary}
-        </Description>
+        </Text>
 
         <Flex mt={3}>
           <MembersTot onClick={() => showUsers(true)}>
@@ -80,13 +82,6 @@ const HeroComp: SFC<Props> = ({ community, showUsers, editCommunity }) => (
 
 const Actions = styled(Flex)`
   align-items: center;
-`;
-const Title = styled(Text)`
-  color: ${props => props.theme.colors.darkgray};
-`;
-
-const Description = styled(Text)`
-  color: ${props => props.theme.colors.darkgray};
 `;
 
 const Username = styled(Text)`

@@ -1,171 +1,143 @@
 import * as React from 'react';
-import ResourceCard from '../../components/elements/Resource/Resource';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
-import styled from '../../themes/styled';
-
-import { Hits, Pagination, Configure } from 'react-instantsearch-dom';
+// import styled from '../../themes/styled';
+import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
+import {
+  connectInfiniteHits,
+  Pagination,
+  RefinementList,
+  Configure
+} from 'react-instantsearch-dom';
+import Preview from './preview';
+import { TabPanel, Tabs } from 'react-tabs';
+import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import { Trans } from '@lingui/macro';
+import styled from '../../themes/styled';
+import { Nav, Panel, PanelTitle, WrapperPanel } from '../../sections/panel';
+const urlParams = new URLSearchParams(window.location.search);
+const moodle_core_download_url = decodeURI(
+  urlParams.get('moodle_core_download_url') || ''
+);
 
-const CommunityWrapper = styled(Box)`
-  border-radius: 4px;
-  background: #ffffff;
-  border-radius: 4px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  flex: 1;
-  width: 100%;
+const WrapperResult = styled(Box)`
+  :hover {
+    background: ${props => props.theme.colors.lighter};
+  }
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
 `;
-
-const Community = styled(Flex)`
-  align-items: center;
-  border-bottom: 3px solid #f9f9f9;
-`;
-const CommunityImage = styled(Box)`
-  width: 100px;
-  height: 100px;
-  border-radius: 6px;
-  background-size: cover;
-`;
-const CommunityText = styled(Text)`
-  font-size: 16px;
-  font-weight: 800;
-`;
-
-const SubText = styled(Text)`
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  color: ${props => props.theme.colors.darkgray};
-`;
-
-const BoxResource = styled(Box)`
-  > div {
-    border-bottom: 1px solid #efefef;
+const SupText = styled(Text)`
+  a {
+    color: inherit;
+    text-decoration: none
+   :hover {
+      color: ${props => props.theme.colors.orange};
+    }
   }
 `;
-const PaginationWrapper = styled(Box)`
-  display: flex;
-  flex: 1;
-  width: 100%;
-  margin: 24px 0;
+
+const PagFlex = styled(Flex)`
+  align-content: center;
+  text-align: center;
   .ais-Pagination {
-    margin: 0 auto;
-    margin-bottom: 16px;
-  }
-  .ais-Pagination-item--disabled {
-    background: #eaeaea !important;
-    border: 1px solid #dadada;
-  }
-
-  .ais-Pagination-item {
-    width: 30px;
-    height: 30px;
-    background: #f5801f;
-    margin-right: 4px;
-    text-align: center;
-    display: flex;
-    align-items: center;
     flex: 1;
-    &.ais-Pagination-item--selected {
-      background: #c7600b;
-      a,
-      span {
-        color: white;
-      }
-    }
-    a {
-      flex: 1;
-      color: black;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 13px;
-      width: 100%;
-      height: 100%;
-      line-height: 30px;
-    }
-    span {
-      flex: 1;
-      color: black;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 13px;
-      width: 100%;
-      height: 100%;
-      line-height: 30px;
-    }
   }
 `;
 
-function Hit(props) {
-  var community = props.hit;
-
+function Result(props) {
+  var hit = props.hit;
   return (
-    <CommunityWrapper m={2} mb={3}>
-      <Community>
-        <CommunityImage
-          m={3}
-          style={{ backgroundImage: `url(${community.icon})` }}
-        />
-        <CommunityText ml={1}>{community.name}</CommunityText>
-      </Community>
-      <BoxResource>
-        <SubText p={2}>
-          <Trans>Resources list</Trans>
-        </SubText>
-        {community.collections.map((collection, i_col) =>
-          collection_resources(collection)
-        )}
-      </BoxResource>
-    </CommunityWrapper>
+    <WrapperResult p={3}>
+      {hit.collection ? (
+        <SupText mb={3} variant="suptitle">
+          <a href={hit.collection.community.id}>
+            {hit.collection.community.name}
+          </a>{' '}
+          > <a href={hit.collection.id}>{hit.collection.name}</a>
+        </SupText>
+      ) : hit.community ? (
+        <SupText mb={3} variant="suptitle">
+          <a href={hit.community.id}>{hit.community.name}</a>
+        </SupText>
+      ) : (
+        <span />
+      )}
+      <Preview
+        icon={hit.icon || hit.image}
+        title={hit.name}
+        summary={hit.summary}
+        url={hit.id}
+        type={hit.index_type}
+        coreIntegrationURL={
+          moodle_core_download_url
+            ? moodle_core_download_url +
+              `&sourceurl=` +
+              encodeURIComponent(hit.url) +
+              `&moodleneturl=` +
+              encodeURIComponent(hit.id) +
+              `&name=` +
+              encodeURIComponent(hit.name) +
+              `&description=` +
+              encodeURIComponent(hit.summary)
+            : null
+        }
+      />
+    </WrapperResult>
   );
 }
 
-function collection_resources(collection) {
-  const urlParams = new URLSearchParams(window.location.search);
-  const moodle_core_download_url = decodeURI(
-    urlParams.get('moodle_core_download_url') || ''
-  );
-  return collection.resources.map((resource, i_res) => (
-    <ResourceCard
-      key={i_res}
-      icon={resource.icon}
-      title={resource.name}
-      summary={resource.summary}
-      url={resource.url}
-      coreIntegrationURL={
-        moodle_core_download_url
-          ? moodle_core_download_url +
-            `&sourceurl=` +
-            encodeURIComponent(resource.url) +
-            `&moodleneturl=` +
-            encodeURIComponent(collection.id) +
-            `&name=` +
-            encodeURIComponent(resource.name) +
-            `&description=` +
-            encodeURIComponent(resource.summary)
-          : null
-      }
-    />
-  ));
-}
+const InfiniteHits = ({ hits }) => (
+  // return the DOM output
+  <>
+    {hits.map(hit => (
+      <Result key={hit.objectID} hit={hit} />
+    ))}
+    <PagFlex alignItems="center" p={3}>
+      <Pagination showNext />
+    </PagFlex>
+  </>
+);
+
+const CustomInfiniteHits = connectInfiniteHits(InfiniteHits);
 
 export default class extends React.Component {
   render() {
     return (
       <MainContainer>
         <HomeBox>
-          {/* <Wrapper>
-          <WrapperCont> */}
-          <Configure hitsPerPage={8} />
-          <Box width={'100%'}>
-            <Hits hitComponent={Hit} />
-          </Box>
-          <PaginationWrapper>
-            <Pagination />
-          </PaginationWrapper>
-          {/* </WrapperCont>
-        </Wrapper> */}
+          <WrapperCont>
+            <Wrapper>
+              <Configure hitsPerPage={8} />
+              <Flex>
+                <Tabs>
+                  <SuperTabList>
+                    <SuperTab>
+                      <h5>
+                        <Trans>Search result</Trans>
+                      </h5>
+                    </SuperTab>
+                  </SuperTabList>
+                  <TabPanel>
+                    <Box>
+                      <CustomInfiniteHits />
+                    </Box>
+                  </TabPanel>
+                </Tabs>
+              </Flex>
+            </Wrapper>
+          </WrapperCont>
         </HomeBox>
+
+        <WrapperPanel>
+          <Panel>
+            <PanelTitle fontSize={0} fontWeight={'bold'}>
+              <Trans>Search filter</Trans>
+            </PanelTitle>
+            <Nav>
+              <RefinementList attribute="index_type" />
+            </Nav>
+          </Panel>
+        </WrapperPanel>
       </MainContainer>
     );
   }

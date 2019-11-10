@@ -9,7 +9,7 @@ import { Heading } from 'rebass/styled-components';
 import * as Yup from 'yup';
 import { i18n } from '../../../containers/App/App';
 import Alert from '../../elements/Alert';
-import Button from '../Button/Button';
+import { Button } from 'rebass/styled-components';
 import Modal from '../Modal';
 import {
   Actions,
@@ -174,7 +174,7 @@ const CreateCommunityModal = (
                   >
                     <Trans>Create</Trans>
                   </Button>
-                  <Button onClick={toggleModal} secondary>
+                  <Button variant="outline" onClick={toggleModal}>
                     <Trans>Cancel</Trans>
                   </Button>
                 </Actions>

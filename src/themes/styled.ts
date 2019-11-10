@@ -13,10 +13,41 @@ export interface MoodleThemeInterface {
     lighter: string;
     darkgray: string;
   };
-  radii: {
-    default: number;
+  text: {
+    suptitle: {
+      fontFamily: string;
+      fontSize: number;
+      color: string;
+      textTransform: string;
+      letterSpacing: string;
+      fontWeight: string;
+    };
+    link: {
+      fontFamily: string;
+      fontSize: number;
+      color: string;
+      letterSpacing: string;
+      fontWeight: string;
+    };
+    text: {
+      fontFamily: string;
+      fontSize: number;
+      color: string;
+      letterSpacing: string;
+      fontWeight: string;
+    };
+    heading: {
+      fontFamily: string;
+      fontSize: number;
+      color: string;
+      letterSpacing: string;
+      fontWeight: string;
+    };
   };
   variants: {
+    inReplyTo: {
+      bg: string;
+    };
     primary: {
       bg: string;
     };

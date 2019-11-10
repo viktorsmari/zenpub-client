@@ -12,7 +12,7 @@ import SocialText from '../SocialText';
 import { Comment } from '../../../graphql/types';
 import { useCreateReplyMutationMutation } from '../../../graphql/generated/createReply.generated';
 
-const TextWrapper = styled(Flex)`
+export const TextWrapper = styled(Flex)`
   padding: 16px;
   align-items: center;
 `;
@@ -31,7 +31,7 @@ const TextWrapper = styled(Flex)`
 //   }
 // `;
 
-const Avatar = styled(Box)`
+export const Avatar = styled(Box)`
   min-width: 48px !important;
   height: 48px;
   border-radius: 48px;
@@ -56,7 +56,7 @@ interface Props {
   comment: Comment;
 }
 
-const CreateCommunityModal: React.FC<Props> = ({
+export const TalkModal: React.FC<Props> = ({
   comment,
   modalIsOpen,
   toggleModal
@@ -98,11 +98,11 @@ const CreateCommunityModal: React.FC<Props> = ({
     <Modal isOpen={modalIsOpen} toggleModal={() => toggleModal(false)}>
       {/* <Container> */}
       {/* <Form> */}
-      <CommentCmp comment={comment} noAction />
+      <CommentCmp comment={comment} noLink noAction />
       <TextWrapper>
         <Avatar
           style={{
-            backgroundImage: `url(${session.session.user!.me!.user!.icon!})`
+            backgroundImage: `url(${session.auth!.me.user!.icon!})`
           }}
           mr={2}
         />
@@ -113,10 +113,10 @@ const CreateCommunityModal: React.FC<Props> = ({
           submit={submit}
           onChange={oninput}
         />
-        {error && touched && <Alert>{error}</Alert>}
       </TextWrapper>
+      {error && touched && <Alert>{error}</Alert>}
     </Modal>
   );
 };
 
-export default CreateCommunityModal; // compose(withCreateCollection)(ModalWithFormik);
+export default TalkModal; // compose(withCreateCollection)(ModalWithFormik);

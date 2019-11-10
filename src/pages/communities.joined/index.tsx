@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/macro';
 import * as React from 'react';
 import { graphql, QueryControls, OperationOption } from 'react-apollo';
-import { Flex, Box, Button } from 'rebass';
+import { Flex, Box, Button } from 'rebass/styled-components';
 import compose from 'recompose/compose';
 import media from 'styled-media-query';
 import CommunityCard from '../../components/elements/Community/Community';

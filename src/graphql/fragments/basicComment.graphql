@@ -33,11 +33,13 @@ fragment BasicComment on Comment {
       id
       name
       localId
+      icon
     }
       ... on Collection {
       id
       name
       localId
+      icon
     }
   }
 }

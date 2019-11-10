@@ -38,14 +38,14 @@ export default ({ collection, communityId, openModal }: CollectionProps) => {
               ? collection.name.replace(/^(.{76}[^\s]*).*/, '$1...')
               : collection.name}
           </Title>
-          <Desc mt={2}>
+          <Text variant="text" mt={2} mb={3}>
             {collection.summary.length > 320
               ? collection.summary.replace(
                   /^([\s\S]{316}[^\s]*)[\s\S]*/,
                   '$1...'
                 )
               : collection.summary}
-          </Desc>
+          </Text>
           <Actions>
             <ActionItem>
               <Resource
@@ -66,7 +66,7 @@ export default ({ collection, communityId, openModal }: CollectionProps) => {
 const Actions = styled.div`
   display: inline-block;
   position: absolute;
-  bottom: 0;
+  bottom: -10px;
 `;
 const ActionItem = styled.div`
   display: inline-block;
@@ -113,11 +113,6 @@ const Infos = styled.div`
 const Title = styled(Heading)`
   color: ${props => props.theme.colors.darkgray};
   font-size: 20px;
-`;
-const Desc = styled(Text)`
-  color: ${props => props.theme.colors.darkgray};
-  line-height: 20px;
-  margin-bottom: 26px !important;
 `;
 
 // export default Collection;

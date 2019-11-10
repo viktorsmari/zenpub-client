@@ -7,6 +7,7 @@ import Loader from '../../components/elements/Loader/Loader';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timelineUser';
 import { StickyTabList, SuperTab } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem';
+import Empty from '../../components/elements/Empty';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import {
   Nav,
@@ -42,9 +43,9 @@ const Home: React.FC<Props> = () => {
               </StickyTabList>
               <TabPanel>
                 {error ? (
-                  <span>
+                  <Empty>
                     <Trans>Error loading moodlenet timeline</Trans>
-                  </span>
+                  </Empty>
                 ) : loading ? (
                   <Loader />
                 ) : (
@@ -56,12 +57,10 @@ const Home: React.FC<Props> = () => {
                         key={userActivityEdge!.node!.id!}
                       />
                     ))}
-                    <div style={{ padding: '8px' }}>
-                      <LoadMoreTimeline
-                        fetchMore={fetchMore}
-                        community={data!.me!.user!}
-                      />
-                    </div>
+                    <LoadMoreTimeline
+                      fetchMore={fetchMore}
+                      community={data!.me!.user!}
+                    />
                   </div>
                 )}
               </TabPanel>

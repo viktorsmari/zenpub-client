@@ -4,6 +4,7 @@ import styled from '../../themes/styled';
 import { Trans } from '@lingui/macro';
 import { useHistory } from 'react-router';
 import { useLogoutMutationMutation } from '../../graphql/generated/logout.generated';
+import { Text } from 'rebass/styled-components';
 
 const WrapperMenu = styled.div`
   box-sizing: border-box;
@@ -12,8 +13,8 @@ const WrapperMenu = styled.div`
   border-radius: 0.25em;
   background-color: rgb(232, 232, 232);
   position: absolute;
-  top: 50px;
-  left: 10px;
+  top: 110px;
+  left: 16px;
   z-index: 999999999999;
 `;
 
@@ -25,13 +26,10 @@ const List = styled.div<{ lined?: boolean }>`
   padding: 8px;
   border-bottom: ${props => (props.lined ? '1px solid #dadada' : null)};
 `;
-const Item = styled.div`
-  font-size: 14px;
+const Item = styled(Text)`
   line-height: 50px;
   height: 50px;
   cursor: pointer;
-  font-weight: 600;
-  color: ${props => props.theme.colors.darkgray};
   & span {
     display: inline-block;
     margin-right: 8px;
@@ -44,7 +42,7 @@ const Item = styled.div`
     text-decoration: none;
   }
   &:hover {
-    color: rgba(0, 0, 0, 0.9);
+    color: ${props => props.theme.colors.orange};
   }
 `;
 
@@ -57,13 +55,13 @@ const Dropdown: React.FC = () => {
       <WrapperMenu>
         <ProfileMenu>
           <List lined>
-            <Item onClick={() => push('/profile')}>
+            <Item variant="link" onClick={() => push('/profile')}>
               <span>
                 <User size={18} color={'#333'} />
               </span>
               <Trans>Profile</Trans>
             </Item>
-            <Item onClick={() => push('/settings')}>
+            <Item variant="link" onClick={() => push('/settings')}>
               <span>
                 <Settings size={18} color={'#333'} />
               </span>
@@ -71,7 +69,7 @@ const Dropdown: React.FC = () => {
             </Item>
           </List>
           <List lined>
-            <Item>
+            <Item variant="link">
               <a
                 href="https://docs.moodle.org/dev/MoodleNet/Code_of_Conduct"
                 target="blank"
@@ -80,13 +78,13 @@ const Dropdown: React.FC = () => {
               </a>
             </Item>
 
-            <Item>
+            <Item variant="link">
               <a href="https://changemap.co/moodle/moodlenet/" target="blank">
                 <Trans>Feedback &amp; Suggestions</Trans>
               </a>
             </Item>
 
-            <Item>
+            <Item variant="link">
               <a
                 href="https://blog.moodle.net/category/versions/"
                 target="blank"
@@ -96,7 +94,7 @@ const Dropdown: React.FC = () => {
             </Item>
           </List>
           <List>
-            <Item onClick={logout}>
+            <Item variant="link" onClick={logout}>
               <span>
                 <Power width={18} height={18} strokeWidth={1} color={'#333'} />
               </span>

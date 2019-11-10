@@ -5,6 +5,7 @@ input RegistrationInput {
     name: String!
     summary: String!
     location: String!
+    isPublic: Boolean!
 }
 
 mutation createUserMutation($user: RegistrationInput!) {
