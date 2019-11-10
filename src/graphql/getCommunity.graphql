@@ -32,7 +32,7 @@ query getCommunityQuery($communityId: String!, $limit: Int, $end: String) {
                     createdAt
                     published
                     user { ...BasicUser }
-                    noun {
+                    context {
                         __typename
                         ... on Community  { ...BasicCommunity  }
                         ... on Comment    { ...BasicComment    }

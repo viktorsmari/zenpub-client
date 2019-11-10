@@ -45,7 +45,7 @@ query getAgentQuery(
           user {
             ...BasicUser
           }
-          noun {
+          context {
             __typename
             ... on Community  { ...BasicCommunity  }
             ... on Comment    { ...BasicComment    }
