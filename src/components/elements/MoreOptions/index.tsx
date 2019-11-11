@@ -101,7 +101,10 @@ const MoreOptions: React.FC<Props> = ({ flagFor, itemLocalId }) => {
         </>
       ) : null}
       <FlagModal
-        closeModal={() => onFlagOpen(false)}
+        closeModal={() => {
+          console.log('close');
+          onFlagOpen(false);
+        }}
         modalIsOpen={isFlagOpen}
         flagFor={flagFor}
         itemLocalId={itemLocalId}

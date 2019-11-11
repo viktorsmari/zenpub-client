@@ -67,7 +67,6 @@ const FlagModal: React.FC<Props> = ({
       if (error) {
         return;
       }
-      closeModal;
       switch (flagFor) {
         case 'community':
           flagCommunity({
@@ -102,6 +101,7 @@ const FlagModal: React.FC<Props> = ({
           });
           break;
       }
+      closeModal(false);
     },
     [error, text]
   );
