@@ -1,11 +1,8 @@
-query getSidebarQuery($limitComm: Int, $endComm: String) {
+query getFollowedCommunitiesQuery($limit: Int, $endComm: String) {
     me {
         user {
             id
-            name
-            preferredUsername
-            icon
-            followedCommunities(limit: $limitComm, after:$endComm) {
+            followedCommunities(limit: $limit, after:$endComm) {
                 pageInfo { startCursor endCursor }
                 edges {
                     node {
@@ -28,4 +25,3 @@ query getSidebarQuery($limitComm: Int, $endComm: String) {
         }
     }
 }
-

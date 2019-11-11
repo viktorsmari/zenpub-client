@@ -1,16 +1,15 @@
 #import "./fragments/basicCollection.graphql"
 
 input CollectionInput {
-  name: String!
-  summary: String!
-  content: String!
-  preferredUsername: String!
-  primaryLanguage: String
-  icon: String!
+    name: String!
+    summary: String!
+    preferredUsername: String!
+    primaryLanguageId: String
+    icon: String!
 }
 
-mutation createCollectionMutation($communityId: Int!, $collection: CollectionInput!) {
-  createCollection(communityLocalId: $communityId, collection: $collection) {
-    ...BasicCollection
-  }
+mutation createCollectionMutation($communityId: String!, $collection: CollectionInput!) {
+    createCollection(communityId: $communityId, collection: $collection) {
+        ...BasicCollection
+    }
 }

@@ -1,23 +1,30 @@
 input UpdateProfileInput {
     name: String
     summary: String
-    preferredUsername: String
-    primaryLanguage: String
+    primaryLanguageId: String
     icon: String
+    image: String
+    location: String
+    website: String
+    wantsEmailDigest: Boolean
+    wantsNotifications: Boolean
 }
 
 mutation updateProfileMutation($profile: UpdateProfileInput!) {
-updateProfile(
-profile: $profile
-) {
-    user {
-        id
-        localId
-        name
-        summary
-        preferredUsername
-        primaryLanguage
-        icon
+    updateProfile(profile: $profile) {
+        wantsEmailDigest
+        wantsNotifications
+        user {
+            id
+            name
+            summary
+            primaryLanguage { id }
+            icon
+            image
+            location
+            website
+            isConfirmed
+            isInstanceAdmin
+        }
     }
-  }
 }

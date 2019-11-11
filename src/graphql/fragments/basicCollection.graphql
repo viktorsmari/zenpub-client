@@ -1,24 +1,24 @@
 fragment BasicCollection on Collection {
     id
-    localId
+    canonicalUrl
     preferredUsername
     name
     summary
     icon
-    followed
+    isLocal
+    isPublic
+    myFollow { id }
     community {
-      id
-      localId
-      name
-      followed
+        id
+        canonicalUrl
+        isLocal
+        isPublic
+        name
+        icon
+        myFollow { id }
     }
-    followers {
-        totalCount
-    }
-    resources {
-        totalCount
-    }
-    inbox {
-        totalCount
-    }
+    followers { totalCount }
+    likes     { totalCount }
+    resources { totalCount }
+    outbox    { totalCount }
 }

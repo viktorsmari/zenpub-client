@@ -1,10 +1,19 @@
 fragment BasicUser on User {
-   name
     id
+    canonicalUrl
     preferredUsername
-    localId
+    name
     icon
     location
     summary
     image
+    isLocal
+    isPublic
+    isDisabled
+    createdAt
+    updatedAt
+    lastActivity
+    myFollow { id }
+    myLike   { id }
+    primaryLanguage { id englishName localName }
 }

@@ -1,9 +1,6 @@
-query getCommunitiesQuery($limit: Int, $end: Int) {
+query getCommunitiesQuery($limit: Int, $end: String) {
     communities(limit: $limit, after:$end) {
-        pageInfo {
-            startCursor
-            endCursor
-        }
+        pageInfo { startCursor endCursor }
         nodes {
             id
             localId
@@ -11,16 +8,10 @@ query getCommunitiesQuery($limit: Int, $end: Int) {
             name
             summary
             icon
-            collections {
-                totalCount
-            }
-            members {
-              totalCount
-            }
-            threads {
-                totalCount
-            }
-            followed
+	    myFollow { id }
+            collections { totalCount }
+            followers   { totalCount }
+            threads     { totalCount }
         }
     }
 }

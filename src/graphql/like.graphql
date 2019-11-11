@@ -1,0 +1,3 @@
+mutation likeMutation($contextId: String!) {
+    like(contextId: $contextId)
+}

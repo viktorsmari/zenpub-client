@@ -1,9 +1,20 @@
 fragment BasicCommunity on Community {
     id
+    canonicalUrl
+    preferredUsername
     name
-    localId
     summary
     icon
-    preferredUsername
-    followed
+    image
+    createdAt
+    updatedAt
+    lastActivity
+    isLocal
+    isPublic
+    isDisabled
+    myFollow { id }
+    primaryLanguage { id englishName localName }
+    followers { totalCount }
+    threads { totalCount }
+    outbox { totalCount }
 }

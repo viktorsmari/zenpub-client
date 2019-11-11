@@ -1,0 +1,18 @@
+fragment BasicThread on Thread {
+    id
+    isLocal
+    isPublic
+    isHidden
+    createdAt
+    updatedAt
+    lastActivity
+    myFollow { id }
+    comments {
+        pageInfo { startCursor endCursor
+        totalCount
+        edges {
+            cursor
+            node { ...BasicComment }
+        }
+    }
+}

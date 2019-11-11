@@ -1,23 +1,23 @@
 input CommunityInput {
-  name: String!
-  summary: String!
-  content: String!
-  preferredUsername: String!
-  primaryLanguage: String
-  icon: String!
+    name: String!
+    summary: String!
+    preferredUsername: String!
+    primaryLanguage: String
+    icon: String!
 }
 
 mutation updateCommunityMutation($community: CommunityInput!, $communityId: Int!) {
   updateCommunity(communityLocalId: $communityId, community: $community) {
     id
-    localId
+    canonicalUrl
+    preferredUsername
     name
     summary
-    content
-    preferredUsername
-    primaryLanguage
     icon
-    published
-    updated
+    isLocal
+    isPublic
+    createdAt
+    updatedAt
+    primaryLanguage { id englishName localName }
   }
 }
