@@ -96,7 +96,21 @@ deploy-team-instance: # build and deploy to team.moodle.net
     paths:
     - public # The built files for Gitlab Pages to serve
   
-
+deploy-mothership-instance: # build and deploy to mothership.moodle.net
+  stage: deploy
+  only:
+    - develop # Only run on specific branch
+  script:
+    - REACT_APP_GRAPHQL_ENDPOINT=https://mothership.moodle.net/api/graphql CI=false yarn build --prod # Build for prod, need to specify URL of backend API, and CI=false to avoid failing on warnings
+    - rm -rf public # CRA and gitlab pages both use the public folder. Only do this in a build pipeline.
+    - mv build public # Move build files to public dir for Gitlab Pages
+    - cp public/index.html public/404.html # Not necessary, but helps with https://medium.com/@pshrmn/demystifying-single-page-applications-3068d0555d46
+    - if [ ! -z "$MOTHERSHIP_BUCKET" ]; then aws s3 sync public/ s3://${MOTHERSHIP_BUCKET} --delete --exclude .git --exclude README.md --acl public-read ; else echo "Skipping..."; fi # deploy frontend to prod
+    - if [ ! -z "$MOTHERSHIP_DISTRIBUTION_ID" ]; then aws cloudfront create-invalidation --distribution-id ${MOTHERSHIP_DISTRIBUTION_ID} --paths '/*' ; else echo "Skipping..."; fi # invalidate CloudFront's cache to serve the new version
+  artifacts:
+    paths:
+    - public # The built files for Gitlab Pages to serve
+  
 deploy-prod: # build and deploy master branch to app.moodle.net
   stage: deploy
   only:
