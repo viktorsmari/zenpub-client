@@ -13,16 +13,20 @@
 
 import * as React from 'react';
 import media from 'styled-media-query';
-import styled from '../../../themes/styled';
-import { Heading, Text } from 'rebass/styled-components';
+import styled from '../../themes/styled';
+import { Heading, Text, Button } from 'rebass/styled-components';
 import { NavLink } from 'react-router-dom';
-const PlaceholderImg = require('../Icons/resourcePlaceholder.png');
+import { Trans } from '@lingui/macro';
+
+const PlaceholderImg = require('../../components/elements/Icons/resourcePlaceholder.png');
 
 interface Props {
   icon: string;
   title: string;
   summary: string;
   url: string;
+  type: string;
+  coreIntegrationURL?: any;
 }
 
 const Resource: React.FC<Props> = props => {
@@ -46,11 +50,42 @@ const Resource: React.FC<Props> = props => {
               );
             })}
           </Text>
+          <Type variant="suptitle">{props.type}</Type>
+          {!props.coreIntegrationURL ? null : (
+            <Actions>
+              <a href={props.coreIntegrationURL} target="_top">
+                <Button variant="outline">
+                  <Trans>To Moodle!</Trans>
+                </Button>
+              </a>
+            </Actions>
+          )}
         </Info>
       </WrapperLink>
     </Wrapper>
   );
 };
+const Type = styled(Text)`
+  margin-top: 8px;
+  background: ${props => props.theme.colors.lighter};
+  display: inline-block;
+  padding: 4px 16px;
+  border-radius: 30px;
+`;
+const Actions = styled.div`
+  width: 100px;
+  text-align: right;
+  & button {
+    height: 25x;
+    max-width: 80px;
+    min-width: 80px;
+    border-width: 1px !important;
+    line-height: 25px;
+    color: ${props => props.theme.colors.lightgray} svg {
+      color: inherit !important;
+    }
+  }
+`;
 
 const WrapperLink = styled(NavLink)`
   display: flex;
@@ -79,30 +114,19 @@ const Info = styled.div`
 `;
 
 const Wrapper = styled.div`
-  &:hover {
-    background: ${props => props.theme.colors.lighter};
-  }
-  padding: 8px;
-  margin-bottom: 8px;
-  border-radius: 4px;
-  margin-top: 16px;
-  border: 1px solid #dadada;
   ${media.lessThan('medium')`
   display: block;
   padding: 0;
   padding: 20px;
-  a {
-    
-    }
-  }
   `};
 `;
 
 const Img = styled.div`
   background-size: cover;
   background-repeat: none;
-  height: 120px;
-  width: 120px;
+  height: 60px;
+  width: 60px;
+  border-radius: 4px;
   margin: 0 auto;
   background-position: center center;
   margin-right: 8px;

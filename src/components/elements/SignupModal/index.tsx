@@ -192,14 +192,13 @@ const CreateCommunityModal = (props: Props) => {
                     </Row>
                     <Actions>
                       <Button
-                        variant="outline"
                         disabled={isSubmitting}
                         type="submit"
                         style={{ marginLeft: '10px' }}
                       >
                         <Trans>Sign Up</Trans>
                       </Button>
-                      <Button onClick={toggleModal} secondary>
+                      <Button onClick={toggleModal} variant="outline">
                         <Trans>Cancel</Trans>
                       </Button>
                     </Actions>
