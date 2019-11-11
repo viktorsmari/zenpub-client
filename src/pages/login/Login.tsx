@@ -53,14 +53,14 @@ const LoginWrapper = styled.div`
   grid-template-areas: 'header header' 'form image' 'footer footer';
   ${media.lessThan('medium')`
     grid-template-columns: 1fr;
-    grid-template-areas: 'header' 'form' 'footer';
+    grid-template-areas: 'header' 'image' 'form' 'footer';
     padding: 16px
   `};
 `;
 
 const Container = styled.div`
   margin: 0 auto;
-  width: 900px;
+  max-width: 900px;
   margin-top: 60px;
 `;
 
