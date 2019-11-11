@@ -13,6 +13,8 @@ import styled from '../../../themes/styled';
 import Link from '../Link/Link';
 import Actions from './Actions';
 import Preview from './preview';
+import media from 'styled-media-query';
+
 interface Props {
   userpage?: boolean;
   user: any;
@@ -269,10 +271,6 @@ const NavigateToThread = styled(Link)`
 
 const InReply = styled(Box)`
   color: ${props => props.theme.colors.gray};
-  // border: 1px solid #ececec;
-  // margin: 16px 0;
-  // border-radius: 2px;
-  // background: whitesmoke;
   position: relative;
   opacity: 0.8
   &:after {
@@ -291,34 +289,23 @@ const InReply = styled(Box)`
   }
 `;
 
-// const ResourcePreview = styled(Box)`
-//   // > div {
-//   //   padding: 8px;
-//   //   margin: 0;
-//   // }
-// `;
-
-// const CommunityPreview = styled(Box)`
-//   border: 1px solid ${props => props.theme.colors.lightgray};
-//   border-radius: 2px;
-//   max-width: 200px;
-//   overflow-y: hidden;
-//   > div {
-//     padding: 8px;
-//     margin: 0;
-//   }
-// `;
-
 const Username = styled(Text)`
   color: ${props => props.theme.colors.gray};
   margin: 0 8px;
   font-weight: 500;
+
+  ${media.lessThan('1280px')`
+  display: none;
+ `};
 `;
 
 const Spacer = styled(Text)`
   color: ${props => props.theme.colors.gray};
   margin-right: 8px;
   font-weight: 500;
+  ${media.lessThan('1280px')`
+  display: none;
+ `};
 `;
 
 const Date = styled(Text)`
@@ -355,6 +342,11 @@ const Name = styled(Text)`
   align-items: center;
   font-size: 14px;
   margin-bottom: 2px;
+  ${media.lessThan('1280px')`
+  flex-direction: column;
+  align-items: normal;
+ `};
+
   a {
     font-weight: 800;
     display: flex;

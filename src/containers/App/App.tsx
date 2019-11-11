@@ -7,7 +7,6 @@ import { ThemeProvider } from '../../styleguide/Wrapper';
 import '../../styles/loader.css';
 import '../../styles/social-icons.css';
 import Router from './Router';
-
 const LocalStorageLocaleKey = 'locale';
 
 export const i18n = setupI18n();

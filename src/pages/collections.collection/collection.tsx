@@ -40,8 +40,7 @@ const CommunityPage: SFC<Props> = ({
           <SuperTabList>
             <SuperTab>
               <h5>
-                <Trans>Resources</Trans> ({collection.resources.totalCount}
-                /10)
+                <Trans>Resources</Trans>
               </h5>
             </SuperTab>
           </SuperTabList>

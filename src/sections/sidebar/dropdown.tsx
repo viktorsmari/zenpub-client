@@ -5,6 +5,7 @@ import { Trans } from '@lingui/macro';
 import { useHistory } from 'react-router';
 import { useLogoutMutationMutation } from '../../graphql/generated/logout.generated';
 import { Text } from 'rebass/styled-components';
+import media from 'styled-media-query';
 
 const WrapperMenu = styled.div`
   box-sizing: border-box;
@@ -16,6 +17,10 @@ const WrapperMenu = styled.div`
   top: 110px;
   left: 16px;
   z-index: 999999999999;
+  ${media.lessThan('860px')`
+  position: fixed;
+  top: 70px;
+  `};
 `;
 
 const ProfileMenu = styled.div`

@@ -3,7 +3,11 @@ import Sidebar from './';
 import { useGetSidebarQueryQuery } from '../../graphql/generated/getSidebar.generated';
 import { useInterceptor } from '../../context/global/apolloInterceptorCtx';
 
-export const SidebarWrapper: React.FC = () => {
+interface Props {
+  isOpen: boolean;
+}
+
+export const SidebarWrapper: React.FC<Props> = ({ isOpen }) => {
   const resp = useGetSidebarQueryQuery();
   const _handle = React.useCallback(
     () => () => {
@@ -15,7 +19,7 @@ export const SidebarWrapper: React.FC = () => {
   useInterceptor({ operation: 'createCommunity', request: _handle });
   useInterceptor({ operation: 'joinCommunity', request: _handle });
   useInterceptor({ operation: 'undoJoinCommunity', request: _handle });
-  return <Sidebar resp={resp} />;
+  return <Sidebar resp={resp} isOpen={isOpen} />;
 };
 
 export default SidebarWrapper;

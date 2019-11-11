@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import styled from '../../themes/styled';
 import CommunitiesAll from '../../pages/communities.all/CommunitiesAll';
@@ -19,6 +19,7 @@ import Reset from '../../pages/Reset';
 import Thread from '../../pages/thread/component';
 import CreateNewPassword from '../../pages/CreateNewPassword';
 import qs from 'qs';
+import MobileHeader from './mobileHeader';
 
 import {
   MainWrapper,
@@ -80,44 +81,50 @@ const searchStateToUrl = (props, searchState) => {
 };
 
 const Content = connectStateResults(
-  ({ searchState }) =>
+  ({ searchState, onOpen }) =>
     searchState && searchState.query ? (
-      <Switch>
-        <Route path="/search" component={SearchComp} />
-      </Switch>
+      <>
+        <MobileHeader onOpen={onOpen} />
+        <Switch>
+          <Route path="/search" component={SearchComp} />
+        </Switch>
+      </>
     ) : (
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/discover" component={Discover} />
-        <Route exact path="/settings" component={Settings} />
-        <Route exact path="/communities" component={CommunitiesAll} />
-        <Route exact path="/mycommunities" component={MyCommunities} />
-        <Route exact path="/mycollections" component={MyCollections} />
-        <Route
-          exact
-          path="/thread/:id"
-          render={route => {
-            const id = Number(route.match.params.id);
-            return <Thread id={id} />;
-          }}
-        />
-        <Route
-          exact
-          path="/communities/:community"
-          component={CommunitiesCommunity}
-        />
-        <Route
-          exact
-          path="/communities/:community/collections/:collection"
-          component={CollectionViewModal}
-        />
-        <Route exact path="/collections" component={CollectionsAll} />
-        <Route exact path="/profile" component={Profile} />
-        <Route exact path="/user/:id" component={User} />
-        <Route path="/search" component={SearchComp} />
+      <>
+        <MobileHeader onOpen={onOpen} />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/discover" component={Discover} />
+          <Route exact path="/settings" component={Settings} />
+          <Route exact path="/communities" component={CommunitiesAll} />
+          <Route exact path="/mycommunities" component={MyCommunities} />
+          <Route exact path="/mycollections" component={MyCollections} />
+          <Route
+            exact
+            path="/thread/:id"
+            render={route => {
+              const id = Number(route.match.params.id);
+              return <Thread id={id} />;
+            }}
+          />
+          <Route
+            exact
+            path="/communities/:community"
+            component={CommunitiesCommunity}
+          />
+          <Route
+            exact
+            path="/communities/:community/collections/:collection"
+            component={CollectionViewModal}
+          />
+          <Route exact path="/collections" component={CollectionsAll} />
+          <Route exact path="/profile" component={Profile} />
+          <Route exact path="/user/:id" component={User} />
+          <Route path="/search" component={SearchComp} />
 
-        <Route component={NotFound} />
-      </Switch>
+          <Route component={NotFound} />
+        </Switch>
+      </>
     )
 );
 
@@ -133,7 +140,8 @@ const searchClient = algoliasearch(
 class App extends React.Component<any> {
   state = {
     searchState: urlToSearchState(this.props.location),
-    lastLocation: this.props.location
+    lastLocation: this.props.location,
+    isSidebarOpen: false
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -146,6 +154,10 @@ class App extends React.Component<any> {
 
     return null;
   }
+
+  onSidebarOpen = () => {
+    this.setState({ isSidebarOpen: !this.state.isSidebarOpen });
+  };
 
   onSearchStateChange = searchState => {
     clearTimeout(this['debouncedSetState']);
@@ -171,11 +183,14 @@ class App extends React.Component<any> {
           indexName="next_moodlenet_all"
         >
           <PageContainer>
-            <Sidebar />
+            <Sidebar isOpen={this.state.isSidebarOpen} />
             <MainWrapper>
               <WrapperDimension>
                 <Inner>
-                  <Content />
+                  <Content
+                    isOpen={this.state.isSidebarOpen}
+                    onOpen={this.onSidebarOpen}
+                  />
                 </Inner>
               </WrapperDimension>
             </MainWrapper>

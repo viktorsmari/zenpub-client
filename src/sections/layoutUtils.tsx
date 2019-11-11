@@ -69,5 +69,5 @@ export const Inner = styled(Flex)`
   align-items: stretch;
   min-height: 100%;
   width: 100%;
-  flex-direction: row;
+  flex-direction: column;
 `;
