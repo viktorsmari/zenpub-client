@@ -57,7 +57,11 @@ const SidebarFixed = styled(Box)`
   top: 0px;
   display: flex;
   padding-left: 6px;
-  ${media.lessThan('860px')`
+
+  width: 280px;
+  ${media.lessThan('1280px')`
+    width: auto;
+  `} ${media.lessThan('860px')`
     position: relative;
     width: 100%
   `};
@@ -65,6 +69,7 @@ const SidebarFixed = styled(Box)`
 
 const SidebarOverflow = styled(Box)`
   overflow-y: auto;
+  flex: 1;
 `;
 
 const Header = styled(Box)`
