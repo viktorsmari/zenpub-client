@@ -16,6 +16,9 @@ export const HomeBox = styled(Flex)`
   padding: 0px;
   position: relative;
   z-index: 0;
+  ${media.lessThan('1280px')`
+  top: 60px;
+  `};
 `;
 
 export const MainContainer = styled(Flex)`

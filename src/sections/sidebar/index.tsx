@@ -33,6 +33,7 @@ const SidebarComponent = styled(Flex)`
 `;
 
 const InternalWrapper = styled(Box)<{ isOpen: boolean }>`
+  transition: 'all 250ms ease';
   ${media.greaterThan('1281px')`
     width: 300px !important;
   `}
@@ -53,10 +54,9 @@ const SidebarFixed = styled(Box)`
   justify-content: space-between;
   height: 100%;
   position: fixed;
-  top: 16px;
+  top: 0px;
   display: flex;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 6px;
   ${media.lessThan('860px')`
     position: relative;
     width: 100%
@@ -151,7 +151,8 @@ const ItemTitle = styled(Text)`
   a:active {
     color: inherit;
   }
-  ${ellipsis('220px')} ${media.lessThan('1280px')`
+  ${ellipsis('220px')};
+  ${media.lessThan('1280px')`
   display: none;
 `};
 `;
@@ -168,14 +169,14 @@ const Layer = styled.div`
 
 const Right = styled(Box)`
   color: ${props => props.theme.colors.gray};
-  ${media.lessThan('1024px')`
+  ${media.lessThan('1280px')`
     display: none;
   `};
 `;
 
 const Sbox = styled(Box)`
-  ${media.lessThan('860px')`
-   display: none;
+  ${media.lessThan('1280px')`
+    display: none;
   `};
 `;
 
@@ -183,7 +184,7 @@ const Sbox = styled(Box)`
 
 const HeaderName = styled(Text)`
   flex: 1;
-  ${media.lessThan('1024px')`
+  ${media.lessThan('1280px')`
   display: none;
 `};
 `;
@@ -207,7 +208,7 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
     <SidebarComponent>
       <InternalWrapper isOpen={isOpen}>
         <SidebarFixed>
-          <SidebarOverflow>
+          <SidebarOverflow pt={3}>
             <Header alignItems={'center'}>
               <Sbox ml={2} mb={3}>
                 <SearchBox />

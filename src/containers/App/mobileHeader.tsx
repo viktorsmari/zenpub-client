@@ -12,17 +12,34 @@ const HeaderWrapper = styled(Flex)`
   max-width: 600px;
   background: white;
   align-items: center;
-  border-bottom: 1px solid ${props => props.theme.colors.lighter};
-  ${media.greaterThan('860px')`
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+  border-right: 1px solid ${props => props.theme.colors.lightgray};
+  position: absolute;
+  top: 0;
+  z-index: 99999999999999999999999999999999999999;
+  left: 0;
+  right: 0;
+  ${media.greaterThan('1280px')`
   display: none;
   `};
 `;
 
+const MenuBox = styled(Box)`
+cursor: pointer;
+color: ${props => props.theme.colors.gray}
+&:hover {
+    color: ${props => props.theme.colors.darkgray}
+}
+${media.greaterThan('860px')`
+display: none;
+`};
+`;
+
 const Header = ({ onOpen }) => (
   <HeaderWrapper p={2}>
-    <Box mr={2}>
+    <MenuBox mr={2}>
       <Menu onClick={() => onOpen()} size="20" />
-    </Box>
+    </MenuBox>
     <Box flex="1">
       <SearchBox />
     </Box>

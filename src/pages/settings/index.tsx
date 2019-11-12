@@ -38,7 +38,7 @@ const Component = (props: Props) => {
     return <Loader />;
   }
   return (
-    <>
+    <Flex>
       <SidebarComponent
         style={
           props.switch === 'sidebar'
@@ -67,7 +67,7 @@ const Component = (props: Props) => {
           </FormWrapper>
         </SettingBox>
       ) : null}
-    </>
+    </Flex>
   );
 };
 
