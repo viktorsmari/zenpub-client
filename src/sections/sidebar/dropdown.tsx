@@ -90,11 +90,8 @@ const Dropdown: React.FC = () => {
             </Item>
 
             <Item variant="link">
-              <a
-                href="https://blog.moodle.net/category/versions/"
-                target="blank"
-              >
-                v0.9.4 alpha <Trans>Changelog</Trans>
+              <a href="#" target="blank">
+                v0.9.5 alpha <Trans>Changelog</Trans>
               </a>
             </Item>
           </List>
