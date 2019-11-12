@@ -8,6 +8,9 @@ import media from 'styled-media-query';
 // import media from 'styled-media-query';
 
 const HeaderWrapper = styled(Flex)`
+  ${media.lessThan('1005px')`
+max-width: 100%;
+`};
   height: 60px;
   max-width: 600px;
   background: white;
