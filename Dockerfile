@@ -13,7 +13,7 @@ RUN yarn build --prod
 
 #production stage
 FROM abiosoft/caddy:no-stats as production-stage
-#todo: configure hostname & serve files:
-#COPY --from=build-stage /app/public /usr/share/nginx/html
+COPY --from=build-stage /app/build /frontend
 EXPOSE 80
 EXPOSE 443
+

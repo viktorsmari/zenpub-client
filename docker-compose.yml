@@ -20,6 +20,11 @@ services:
       - "443:443"
     env_file:
       - .env
+    volumes:
+      - type: bind
+        source: ./Caddyfile
+        target: /etc/Caddyfile
+        read_only: true
   db:
     image: postgres:9.6.6-alpine
     # volumes:
