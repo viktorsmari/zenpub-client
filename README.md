@@ -44,35 +44,36 @@ docker-compose version 1.23.2
 
 2. Clone this repository and change into the directory:
 ```sh
-$ git clone https://gitlab.com/moodlenet/client/react.git
+$ git clone https://gitlab.com/moodlenet/clients/react.git
 $ cd react
 ```
 
-3. Build the docker image:
+3. Configuration
+
+First make sure to configure your domain name or subdomain to point to your server's IP address.
+
+We need to set some environment variables in order to function, a list of which can be found in these files:
+- `.env` (for the frontend, replace 'home.next.moodle.net' with your domain name)
+- `.env.backend` (for the backend, replace all mentions of 'localhost' with your domain name)
+- `.env.secrets.example` (which you must copy to `.env.secrets` and update with secure passowrds and secrets, MAIL_DOMAIN and MAIL_KEY are to configure transactional email with [Mailgun](https://www.mailgun.com/)) 
+
+
+4. Once configured, build the docker image:
 
 ```
 $ docker-compose build
 ```
 
-4. Configuration
 
-First make sure to configure your domain name or subdomain to point to your server's IP address.
-
-We need to set some environment variables in order to work, a list of which can be found in these files:
-- `.env` (for the frontend, replace 'home.next.moodle.net' with your domain name)
-- `.env.backend` (for the backend, replace all mentions of 'localhost' with your domain name)
-- `.env.secrets.example` (which you must copy to to `.env.secrets` and update with secure passowrds and secrets, MAIL_DOMAIN and MAIL_KEY are for transactional email with Mailgun) 
-
-
-4. Start the docker containers with docker-compose:
+5. Start the docker containers with docker-compose:
 
 ```sh
 $ docker-compose up
 ```
 
-5. The MoodleNet backend and frontend should now be running at [http://localhost/](http://localhost/) on your machine and at https://your-domain-name.tld/ with SSL certificates automatically configured thanks to letsencrypt.org (if your domain was correctly configured).
+6. The MoodleNet backend and frontend should now be running at [http://localhost/](http://localhost/) on your machine and at https://your-domain-name.tld/ with SSL certificates automatically configured thanks to letsencrypt.org (if your domain was correctly configured).
 
-6. If that worked, start the app as a daemon next time:
+7. If that worked, start the app as a daemon next time:
 ```sh
 $ docker-compose up -d
 ```
