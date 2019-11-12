@@ -116,7 +116,7 @@ const Info = styled.div`
 const Url = styled.div`
   margin-bottom: 8px;
   font-size: 14px;
-  color: ${props => props.theme.colors.lightgray};
+  color: ${props => props.theme.colors.gray};
   font-weight: 400;
   ${ellipsis('270px')};
   margin-top: 8px;
