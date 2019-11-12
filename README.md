@@ -4,25 +4,19 @@ This React project was bootstrapped with [Create React App](https://github.com/f
 It has changed dramatically since its initial creation so the CRA documentation is no longer relevant and has been
 removed from the README, however this notice is left here just in case it can be informative and for posterity.
 
-## Glossary
+## Index
 
+- [Deploying MoodleNet](#deploying-moodlenet)
 - [Structure](#structure)
     - [High level folder structure](#high-level-folder-structure)
     - [Application source folder structure](#application-source-folder-structure)
-- [Scripts](#scripts)
+- [Development Scripts](#development-scripts)
     - [`yarn start`](#yarn-start)
     - [`yarn add-locale`](#yarn-add-locale)
     - [`yarn extract`](#yarn-extract)
     - [`yarn compile`](#yarn-compile)
     - [`yarn build`](#yarn-build)
 - [Libraries](#libraries)
-- [Theme](#theme)
-    - [Theme structure](#theme-structure)
-    - [Themed components](#themed-components)
-    - [Adding a theme](#adding-a-theme)
-    - [Using a theme](#using-a-theme)
-    - [Themeing Zendesk Garden](#themeing-zendesk-garden)
-    - [Grid system](#grid-system)
 - [Localisation](#localisation)
     - [Set up](#set-up)
     - [Usage](#usage)
@@ -32,6 +26,57 @@ removed from the README, however this notice is left here just in case it can be
     - [Interpolated language strings](#interpolated-language-strings)
     - [Updating language files](#updating-language-files)
 - [Dependencies](#dependencies)
+
+## Deploying MoodleNet
+
+
+### Install using Docker containers (recommended)
+
+1. Make sure you have [Docker](https://www.docker.com/), a recent [docker-compose](https://docs.docker.com/compose/install/#install-compose) (which supports v3 configs) installed:
+
+```sh
+$ docker version
+Docker version 18.09.1-ce
+$ docker-compose -v                                                                                                                                              
+docker-compose version 1.23.2
+...
+```
+
+2. Clone this repository and change into the directory:
+```sh
+$ git clone https://gitlab.com/moodlenet/client/react.git
+$ cd react
+```
+
+3. Build the docker image:
+
+```
+$ docker-compose build
+```
+
+4. Configuration
+
+First make sure to configure your domain name or subdomain to point to your server's IP address.
+
+We need to set some environment variables in order to work, a list of which can be found in these files:
+- `.env` (for the frontend, replace 'home.next.moodle.net' with your domain name)
+- `.env.backend` (for the backend, replace all mentions of 'localhost' with your domain name)
+- `.env.secrets.example` (which you must copy to to `.env.secrets` and update with secure passowrds and secrets, MAIL_DOMAIN and MAIL_KEY are for transactional email with Mailgun) 
+
+
+4. Start the docker containers with docker-compose:
+
+```sh
+$ docker-compose up
+```
+
+5. The MoodleNet backend and frontend should now be running at [http://localhost/](http://localhost/) on your machine and at https://your-domain-name.tld/ with SSL certificates automatically configured thanks to letsencrypt.org (if your domain was correctly configured).
+
+6. If that worked, start the app as a daemon next time:
+```sh
+$ docker-compose up -d
+```
+
 
 ## Structure
 

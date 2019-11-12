@@ -1,5 +1,5 @@
-:443, 
-:80 # for testing only - make sure to disable in prod
+:80, # for testing only - make sure to disable in prod
+:443
 {
 
 #   tls self_signed # for local testing - make sure to disable in prod
