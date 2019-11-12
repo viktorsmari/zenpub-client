@@ -6,10 +6,12 @@ import { Heading, Flex } from 'rebass';
 import { Button } from 'rebass/styled-components';
 import { string } from 'yup';
 import { i18n } from '../../../containers/App/App';
-import { useCreateCommunityFlagMutation } from '../../../graphql/generated/createCommunityFlag.generated';
-import { useCreateCollectionFlagMutation } from '../../../graphql/generated/createCollectionFlag.generated';
-import { useCreateResourceFlagMutation } from '../../../graphql/generated/createResourceFlag.generated';
-import { useCreateCommentFlagMutation } from '../../../graphql/generated/createCommentFlag.generated';
+// import { useCreateCommunityFlagMutation } from '../../../graphql/generated/createCommunityFlag.generated';
+// import { useCreateCollectionFlagMutation } from '../../../graphql/generated/createCollectionFlag.generated';
+// import { useCreateResourceFlagMutation } from '../../../graphql/generated/createResourceFlag.generated';
+// import { useCreateCommentFlagMutation } from '../../../graphql/generated/createCommentFlag.generated';
+import { useFlagMutation } from '../../../graphql/generated/flag.generated';
+import { useUndoflagMutation } from '../../../graphql/generated/undoflag.generated';
 
 import styled from '../../../themes/styled';
 import Alert from '../../elements/Alert';
@@ -29,23 +31,27 @@ const tt = {
 };
 
 interface Props {
-  flagFor: string;
-  itemLocalId: number;
+  contextId: string;
   closeModal(_: boolean): unknown;
+  flagItem(_: boolean): unknown;
   modalIsOpen: boolean;
+  myFlag: string | null;
   // flag: string;
 }
 
 const FlagModal: React.FC<Props> = ({
-  flagFor,
-  itemLocalId,
+  contextId,
+  myFlag,
   modalIsOpen,
+  flagItem,
   closeModal
 }) => {
-  const [flagCommunity] = useCreateCommunityFlagMutation();
-  const [flagCollection] = useCreateCollectionFlagMutation();
-  const [flagResource] = useCreateResourceFlagMutation();
-  const [flagComment] = useCreateCommentFlagMutation();
+  // const [flagCommunity] = useCreateCommunityFlagMutation();
+  // const [flagCollection] = useCreateCollectionFlagMutation();
+  // const [flagResource] = useCreateResourceFlagMutation();
+  // const [flagComment] = useCreateCommentFlagMutation();
+  const [flag] = useFlagMutation();
+  const [undoflag] = useUndoflagMutation();
   const [text, setText] = React.useState('');
   const [error, setError] = React.useState('');
   const [touched, setTouched] = React.useState(false);
@@ -67,80 +73,98 @@ const FlagModal: React.FC<Props> = ({
       if (error) {
         return;
       }
-      switch (flagFor) {
-        case 'community':
-          flagCommunity({
-            variables: {
-              localId: itemLocalId!,
-              reason: text!
-            }
-          });
-          break;
-        case 'collection':
-          flagCollection({
-            variables: {
-              localId: itemLocalId!,
-              reason: text!
-            }
-          });
-          break;
-        case 'resource':
-          flagResource({
-            variables: {
-              localId: itemLocalId!,
-              reason: text!
-            }
-          });
-          break;
-        case 'comment':
-          flagComment({
-            variables: {
-              localId: itemLocalId!,
-              reason: text!
-            }
-          });
-          break;
-      }
+      flag({
+        variables: {
+          contextId: contextId!,
+          reason: text!
+        }
+      });
+      flagItem(true);
       closeModal(false);
     },
     [error, text]
   );
+
+  const undoflagItem = React.useCallback(
+    () => {
+      if (error) {
+        return;
+      }
+      undoflag({
+        variables: {
+          contextId: contextId!
+        }
+      });
+      flagItem(false);
+      closeModal(false);
+    },
+    [error, text]
+  );
+
   return (
     <Modal
       isOpen={modalIsOpen}
       toggleModal={closeModal}
-      flagFor={flagFor}
-      itemLocalId={itemLocalId}
+      myFlag={myFlag}
+      flagItem={flagItem}
+      // flagFor={flagFor}
+      contextId={contextId}
     >
       {/* <Container> */}
       {/* <Form> */}
-      <Container>
-        <Header>
-          <Heading m={2}>
-            <Trans>Flag</Trans>
-          </Heading>
-        </Header>
-        <TextWrapper>
-          <Textarea
-            placeholder={i18n._(tt.placeholders.flag)}
-            name={'text'}
-            onChange={oninput}
-          />
-          {error && touched && <Alert>{error}</Alert>}
-        </TextWrapper>
-        <Actions>
-          <Button
-            variant="primary"
-            onClick={submit}
-            style={{ marginLeft: '10px' }}
-          >
-            <Trans>Send</Trans>
-          </Button>
-          <Button variant="outline" onClick={closeModal}>
-            <Trans>Cancel</Trans>
-          </Button>
-        </Actions>
-      </Container>
+      {myFlag == null ? (
+        <Container>
+          <Header>
+            <Heading m={2}>
+              <Trans>Flag</Trans>
+            </Heading>
+          </Header>
+          <TextWrapper>
+            <Textarea
+              placeholder={i18n._(tt.placeholders.flag)}
+              name={'text'}
+              onChange={oninput}
+            />
+            {error && touched && <Alert>{error}</Alert>}
+          </TextWrapper>
+          <Actions>
+            <Button
+              variant="primary"
+              onClick={submit}
+              style={{ marginLeft: '10px' }}
+            >
+              <Trans>Send</Trans>
+            </Button>
+            <Button variant="outline" onClick={closeModal}>
+              <Trans>Cancel</Trans>
+            </Button>
+          </Actions>
+        </Container>
+      ) : (
+        <Container>
+          <Header>
+            <Heading m={2}>
+              <Trans>Undo flag</Trans>
+            </Heading>
+          </Header>
+          <TextWrapper>
+            <p>You have already flagged this item.</p>
+            {error && touched && <Alert>{error}</Alert>}
+          </TextWrapper>
+          <Actions>
+            <Button
+              variant="primary"
+              onClick={undoflagItem}
+              style={{ marginLeft: '10px' }}
+            >
+              <Trans>Unflag</Trans>
+            </Button>
+            <Button variant="outline" onClick={closeModal}>
+              <Trans>Cancel</Trans>
+            </Button>
+          </Actions>
+        </Container>
+      )}
     </Modal>
   );
 };

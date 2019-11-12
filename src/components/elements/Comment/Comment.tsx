@@ -47,9 +47,9 @@ const CommentWrapper: React.FC<EventProps> = ({
           <Img src={(author && author.icon) || ''} />
         </MemberItem>
         <MemberInfo>
-          {typeof comment!.localId == 'number' ? (
+          {typeof comment!.id == 'string' ? (
             <MoreOptionsContainer>
-              <MoreOptions flagFor="comment" itemLocalId={comment.localId} />
+              <MoreOptions contextId={comment.id} myFlag={comment.myFlag} />
             </MoreOptionsContainer>
           ) : null}
           {author ? (

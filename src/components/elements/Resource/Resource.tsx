@@ -34,13 +34,14 @@ interface Props {
   preview?: boolean;
   isEditable?: boolean;
   coreIntegrationURL?: string;
+  myFlag: string | null;
 }
 
 const Resource: React.FC<Props> = props => {
   return (
     <Wrapper>
       <MoreOptionsContainer>
-        <MoreOptions flagFor="resource" itemLocalId={Number(props.localId)} />
+        <MoreOptions contextId={props.localId} myFlag={props.myFlag} />
       </MoreOptionsContainer>{' '}
       <UrlLink target="blank" href={props.url}>
         <Img

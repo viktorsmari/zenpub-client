@@ -15,6 +15,7 @@ interface Props {
     id: string;
     preferredUsername: string;
     followed: boolean;
+    myFlag: string | null;
   };
   showUsers(boolean): boolean;
   editCommunity: any;
@@ -80,8 +81,8 @@ const HeroComp: SFC<Props> = ({ community, showUsers, editCommunity }) => {
               />
               <MoreOptionsContainer>
                 <MoreOptions
-                  flagFor="community"
-                  itemLocalId={community.localId}
+                  contextId={community.id}
+                  myFlag={community.myFlag}
                 />
               </MoreOptionsContainer>
             </Actions>

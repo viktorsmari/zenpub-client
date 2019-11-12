@@ -60,15 +60,16 @@ const Layer = styled.div`
 `;
 
 interface Props {
-  flagFor: string;
-  itemLocalId: number;
+  contextId: string;
+  myFlag: string | null;
 }
 
-const MoreOptions: React.FC<Props> = ({ flagFor, itemLocalId }) => {
+const MoreOptions: React.FC<Props> = ({ contextId, myFlag }) => {
   const [isFlagOpen, onFlagOpen] = React.useState(false);
   const [menuIsOpen, setMenuIsOpen] = React.useState(false);
   const closeMenu = React.useCallback(() => setMenuIsOpen(false), []);
   const openMenu = React.useCallback(() => setMenuIsOpen(true), []);
+  const [isFlagged, flagItem] = React.useState(myFlag != null);
 
   return (
     <>
@@ -91,7 +92,11 @@ const MoreOptions: React.FC<Props> = ({ flagFor, itemLocalId }) => {
                     <span>
                       <Flag size={18} color={'#333'} />
                     </span>
-                    <Trans>Flag</Trans>
+                    {myFlag != null ? (
+                      <Trans>Flag</Trans>
+                    ) : (
+                      <Trans>Unflag</Trans>
+                    )}
                   </Item>
                 </List>
               </OptionsMenu>
@@ -101,13 +106,13 @@ const MoreOptions: React.FC<Props> = ({ flagFor, itemLocalId }) => {
         </>
       ) : null}
       <FlagModal
+        myFlag={myFlag}
+        flagItem={flagItem}
         closeModal={() => {
           console.log('close');
-          onFlagOpen(false);
         }}
         modalIsOpen={isFlagOpen}
-        flagFor={flagFor}
-        itemLocalId={itemLocalId}
+        contextId={contextId}
       />
     </>
   );

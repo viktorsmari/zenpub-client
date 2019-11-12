@@ -1,0 +1,3 @@
+mutation undoFlag($contextId: String!) {
+  undoFlag(contextId: $contextId)
+}

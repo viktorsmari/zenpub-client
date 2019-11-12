@@ -110,8 +110,8 @@ class CollectionComponent extends React.Component<Props> {
                   />
                   <MoreOptionsContainer>
                     <MoreOptions
-                      flagFor="collection"
-                      itemLocalId={collection.localId}
+                      contextId={collection.id}
+                      myFlag={collection.myFlag}
                     />
                   </MoreOptionsContainer>
                 </ActionsHero>

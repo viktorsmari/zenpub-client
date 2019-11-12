@@ -522,10 +522,8 @@ export type RootMutationType = {
   updateCommunity?: Maybe<Community>;
   /** Create a collection */
   createCollection?: Maybe<Collection>;
-  /** Flag a collection */
-  flagCollection?: Maybe<Scalars['Boolean']>;
-  /** Flag a resource */
-  flagResource?: Maybe<Scalars['Boolean']>;
+  /** Flag */
+  flag?: Maybe<Scalars['Boolean']>;
   /** Delete a comment */
   deleteComment?: Maybe<Scalars['Boolean']>;
   /** Fetch an AS2 object from URL */
@@ -534,8 +532,6 @@ export type RootMutationType = {
   undoLikeComment?: Maybe<Scalars['Boolean']>;
   /** Update a resource */
   updateResource?: Maybe<Resource>;
-  /** Flag a community */
-  flagCommunity?: Maybe<Scalars['Boolean']>;
   /** Delete a community */
   deleteCommunity?: Maybe<Scalars['Boolean']>;
   /** Like a comment */
@@ -546,8 +542,8 @@ export type RootMutationType = {
   createSession?: Maybe<AuthPayload>;
   /** Create a user */
   createUser?: Maybe<AuthPayload>;
-  /** Undo a previous flag of a community */
-  undoFlagCommunity?: Maybe<Scalars['Boolean']>;
+  /** Undo a previous flag */
+  undoFlag?: Maybe<Scalars['Boolean']>;
   /** Undo join a community */
   undoJoinCommunity?: Maybe<Scalars['Boolean']>;
   /** Delete a resource */
@@ -556,8 +552,6 @@ export type RootMutationType = {
   undoFollowCollection?: Maybe<Scalars['Boolean']>;
   /** Create a resource */
   createResource?: Maybe<Resource>;
-  /** Undo a previous flag of a collection */
-  undoFlagCollection?: Maybe<Scalars['Boolean']>;
   /** Copy a resource */
   copyResource: Resource;
   /** Follow a collection */
@@ -586,8 +580,6 @@ export type RootMutationType = {
   createCommunity?: Maybe<Community>;
   /** Update a profile */
   updateProfile?: Maybe<Me>;
-  /** Undo a previous flag to a resource */
-  undoFlagResource?: Maybe<Scalars['Boolean']>;
   /** Create a new thread */
   createThread?: Maybe<Comment>;
   /** Join a community */
@@ -596,8 +588,6 @@ export type RootMutationType = {
   deleteSession?: Maybe<Scalars['Boolean']>;
   /** Update a collection */
   updateCollection?: Maybe<Collection>;
-  /** Undo a previous like to a comment */
-  undoFlagComment?: Maybe<Scalars['Boolean']>;
 };
 
 export type RootMutationTypeLikeCollectionArgs = {
@@ -614,13 +604,8 @@ export type RootMutationTypeCreateCollectionArgs = {
   communityLocalId: Scalars['Int'];
 };
 
-export type RootMutationTypeFlagCollectionArgs = {
-  localId: Scalars['Int'];
-  reason: Scalars['String'];
-};
-
-export type RootMutationTypeFlagResourceArgs = {
-  localId: Scalars['Int'];
+export type RootMutationTypeFlagArgs = {
+  contextId: Scalars['String'];
   reason: Scalars['String'];
 };
 
@@ -667,8 +652,8 @@ export type RootMutationTypeCreateUserArgs = {
   user: RegistrationInput;
 };
 
-export type RootMutationTypeUndoFlagCommunityArgs = {
-  localId: Scalars['Int'];
+export type RootMutationTypeUndoFlagArgs = {
+  contextId: Scalars['Int'];
 };
 
 export type RootMutationTypeUndoJoinCommunityArgs = {
@@ -688,10 +673,6 @@ export type RootMutationTypeCreateResourceArgs = {
   resource: ResourceInput;
 };
 
-export type RootMutationTypeUndoFlagCollectionArgs = {
-  localId: Scalars['Int'];
-};
-
 export type RootMutationTypeCopyResourceArgs = {
   collectionLocalId: Scalars['Int'];
   resourceLocalId: Scalars['Int'];
@@ -708,11 +689,6 @@ export type RootMutationTypeFetchWebMetadataArgs = {
 export type RootMutationTypeResetPasswordArgs = {
   password: Scalars['String'];
   token: Scalars['String'];
-};
-
-export type RootMutationTypeFlagCommentArgs = {
-  localId: Scalars['Int'];
-  reason: Scalars['String'];
 };
 
 export type RootMutationTypeLikeResourceArgs = {
@@ -748,10 +724,6 @@ export type RootMutationTypeUpdateProfileArgs = {
   profile: UpdateProfileInput;
 };
 
-export type RootMutationTypeUndoFlagResourceArgs = {
-  localId: Scalars['Int'];
-};
-
 export type RootMutationTypeCreateThreadArgs = {
   comment: CommentInput;
   contextLocalId: Scalars['Int'];
@@ -764,10 +736,6 @@ export type RootMutationTypeJoinCommunityArgs = {
 export type RootMutationTypeUpdateCollectionArgs = {
   collection: CollectionInput;
   collectionLocalId: Scalars['Int'];
-};
-
-export type RootMutationTypeUndoFlagCommentArgs = {
-  localId: Scalars['Int'];
 };
 
 export type RootQueryType = {

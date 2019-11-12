@@ -1,0 +1,3 @@
+mutation flag($contextId: String!, $reason: String!) {
+  flag(contextId: $contextId, reason: $reason)
+}

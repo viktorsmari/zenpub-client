@@ -135,9 +135,9 @@ const Thread: SFC<Props> = ({ comment }) => {
             <Date fontSize={1}>
               {DateTime.fromISO(comment.published!).toRelative()}
             </Date>
-            {typeof comment!.localId == 'number' ? (
+            {typeof comment!.id == 'number' ? (
               <MoreOptionsContainer>
-                <MoreOptions flagFor="comment" itemLocalId={comment.localId} />
+                <MoreOptions contextId={comment.id} myFlag={comment.myFlag} />
               </MoreOptionsContainer>
             ) : null}
           </Flex>

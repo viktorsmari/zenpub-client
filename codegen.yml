@@ -1,5 +1,5 @@
 overwrite: true
-schema: "https://home.next.moodle.net/api/graphql"
+schema: "https://team.moodle.net/api/graphql"
 documents: "src/**/!(*.client).graphql"
 
 generates:
