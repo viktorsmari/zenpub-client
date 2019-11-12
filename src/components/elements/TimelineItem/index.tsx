@@ -167,9 +167,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
                 <Trans>updated</Trans>{' '}
                 <NavLink
                   style={{ marginLeft: '4px' }}
-                  to={`/communities/${
-                    node.object.community.localId
-                  }/collections/${node.object.localId}`}
+                  to={`/collections/${node.object.localId}`}
                 >
                   +{node.object.name}
                 </NavLink>
@@ -179,9 +177,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
                 <Trans>followed</Trans>
                 <NavLink
                   style={{ marginLeft: '4px' }}
-                  to={`/communities/${
-                    node.object.community.localId
-                  }/collections/${node.object.localId}`}
+                  to={`/collections/${node.object.localId}`}
                 >
                   +{node.object.name}
                 </NavLink>
@@ -191,9 +187,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
                 <SubText mt={1}>
                   <Trans>added a new resource</Trans> <Trans>in</Trans>{' '}
                   <NavLink
-                    to={`/communities/${
-                      node.object.collection.community.localId
-                    }/collections/${node.object.collection.localId}`}
+                    to={`/collections/${node.object.collection.localId}`}
                   >
                     +{node.object.collection.name}
                   </NavLink>
@@ -202,20 +196,14 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
                   icon={node.object.icon}
                   title={node.object.name}
                   summary={node.object.summary}
-                  url={`/communities/${
-                    node.object.collection.community.localId
-                  }/collections/${node.object.collection.localId}`}
+                  url={`/collections/${node.object.collection.localId}`}
                 />
               </Box>
             ) : node.activityType === 'CreateCollection' ? (
               <Box>
                 <SubText mt={1}>
                   <Trans>created a new collection</Trans>{' '}
-                  <NavLink
-                    to={`/communities/${
-                      node.object.community.localId
-                    }/collections/${node.object.localId}`}
-                  >
+                  <NavLink to={`/collections/${node.object.localId}`}>
                     +{node.object.name}
                   </NavLink>
                 </SubText>
@@ -223,9 +211,7 @@ const Item: SFC<Props> = ({ user, node, userpage }) => {
                   icon={node.object.icon}
                   title={node.object.name}
                   summary={node.object.summary}
-                  url={`/communities/${
-                    node.object.community.localId
-                  }/collections/${node.object.localId}`}
+                  url={`/collections/${node.object.localId}`}
                 />
               </Box>
             ) : node.activityType === 'CreateCommunity' ? (

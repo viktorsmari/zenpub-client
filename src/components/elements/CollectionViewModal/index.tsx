@@ -1,25 +1,25 @@
-// create a new collection
+// // create a new collection
 
-import * as React from 'react';
-import Modal from '../Modal';
-import { Container } from '../Modal/modal';
-import Collection from '../../../pages/collections.collection/CollectionsCollection';
+// import * as React from 'react';
+// import Modal from '../Modal';
+// import { Container } from '../Modal/modal';
+// import Collection from '../../../pages/collections.collection/CollectionsCollection';
 
-interface Props {
-  toggleModal?: any;
-  modalIsOpen?: boolean;
-  history: any;
-  match: any;
-}
+// interface Props {
+//   toggleModal?: any;
+//   modalIsOpen?: boolean;
+//   history: any;
+//   match: any;
+// }
 
-const CollectionViewModal = (props: Props) => {
-  return (
-    <Modal isOpen={true} toggleModal={() => props.history.goBack()}>
-      <Container>
-        <Collection match={props.match} />
-      </Container>
-    </Modal>
-  );
-};
+// const CollectionViewModal = (props: Props) => {
+//   return (
+//     <Modal isOpen={true} toggleModal={() => props.history.goBack()}>
+//       <Container>
+//         <Collection match={props.match} />
+//       </Container>
+//     </Modal>
+//   );
+// };
 
-export default CollectionViewModal;
+// export default CollectionViewModal;

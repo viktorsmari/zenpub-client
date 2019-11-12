@@ -23,7 +23,6 @@ interface Props {
   resources: any;
   fetchMore: any;
   type: string;
-  match: any;
   addNewResource: any;
 }
 

@@ -14,7 +14,7 @@ import CollectionCard from '../../components/elements/Collection/Collection';
 import Hero from './hero';
 import EditCommunityModal from '../../components/elements/EditCommunityModal';
 import UsersModal from '../../components/elements/UsersModal';
-import CollectionModal from '../../components/elements/CollectionViewModal';
+// import CollectionModal from '../../components/elements/CollectionViewModal';
 import CommunityPage from './Community';
 import { Switch, Route } from 'react-router-dom';
 
@@ -149,12 +149,12 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                     />
                   )}
                 />
-                <Route
+                {/* <Route
                   path={`/communities/${
                     community.localId
                   }/collection/:collection`}
                   component={CollectionModal}
-                />
+                /> */}
               </Switch>
             </Wrapper>
           </WrapperCont>
@@ -257,9 +257,7 @@ export default compose(
     handleCollection: props => () =>
       props.onOpenCollection(!props.isOpenCollection),
     handleNewCollection: props => coll => {
-      props.history.push(
-        '/communities/' + props.match.params.community + '/collections/' + coll
-      );
+      props.history.push('/collections/' + coll);
     },
     editCommunity: props => () =>
       props.onEditCommunityOpen(!props.isEditCommunityOpen)

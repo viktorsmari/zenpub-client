@@ -17,6 +17,8 @@ import User from '../../pages/User';
 import Settings from '../../pages/settings';
 import Reset from '../../pages/Reset';
 import Thread from '../../pages/thread/component';
+import Collection from '../../pages/collections.collection/component';
+
 import CreateNewPassword from '../../pages/CreateNewPassword';
 import qs from 'qs';
 import MobileHeader from './mobileHeader';
@@ -28,7 +30,6 @@ import {
 } from '../../sections/layoutUtils';
 import { Flex } from 'rebass/styled-components';
 import Sidebar from '../../sections/sidebar/sidebarHOC';
-import CollectionViewModal from '../../components/elements/CollectionViewModal';
 import algoliasearch from 'algoliasearch/lite';
 
 import { InstantSearch, connectStateResults } from 'react-instantsearch-dom';
@@ -114,8 +115,11 @@ const Content = connectStateResults(
           />
           <Route
             exact
-            path="/communities/:community/collections/:collection"
-            component={CollectionViewModal}
+            path="/collections/:id"
+            render={route => {
+              const id = Number(route.match.params.id);
+              return <Collection id={id} />;
+            }}
           />
           <Route exact path="/collections" component={CollectionsAll} />
           <Route exact path="/profile" component={Profile} />
