@@ -1,8 +1,8 @@
 /*  currently:
 NODE_ENV: "development"
 PUBLIC_URL: ""
-REACT_APP_GRAPHQL_ENDPOINT: "https://home.next.moodle.net/api/graphql"
-REACT_APP_PHOENIX_SOCKET_ENDPOINT: "ws://home.next.moodle.net/api/socket" 
+REACT_APP_GRAPHQL_ENDPOINT: "https://team.moodle.net/api/graphql"
+REACT_APP_PHOENIX_SOCKET_ENDPOINT: "ws://team.moodle.net/api/socket" 
 */
 
 export const PHOENIX_SOCKET_ENDPOINT =

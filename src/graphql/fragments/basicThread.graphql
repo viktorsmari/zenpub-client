@@ -8,11 +8,14 @@ fragment BasicThread on Thread {
     lastActivity
     myFollow { id }
     comments {
-        pageInfo { startCursor endCursor
-        totalCount
-        edges {
-            cursor
-            node { ...BasicComment }
+        pageInfo { 
+            startCursor 
+            endCursor
+            totalCount
+            edges {
+                cursor
+                node { ...BasicComment }
+            }
         }
     }
 }
