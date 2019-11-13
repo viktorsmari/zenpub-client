@@ -80,6 +80,7 @@ const CommunityPage: SFC<Props> = ({
                   ) : null}
                   {isOpen === true ? (
                     <CollectionModal
+                      toggleModal={onOpen}
                       modalIsOpen={isOpen}
                       collectionId={collection.localId}
                       collectionExternalId={collection.id}
