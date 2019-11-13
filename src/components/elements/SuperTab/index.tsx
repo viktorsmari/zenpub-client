@@ -12,7 +12,11 @@ export const SuperTabList = styled(TabList)`
   grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: 32px;
   ${media.lessThan('medium')`
-    grid-template-columns: 1fr 1fr 1fr
+      display: block;
+      overflow-y: auto;
+      width: 100%;
+      white-space: nowrap;
+
   `};
 `;
 export const SuperTab = styled(Tab)`
@@ -21,15 +25,15 @@ export const SuperTab = styled(Tab)`
   position: relative;
   height: 40px;
   padding: 0 16px;
-  color: #a0a2a5;
+  color: ${props => props.theme.colors.gray};
   background: transparent;
   cursor: pointer;
   text-align: center;
   & h5 {
     display: inline-block;
-    color: #a0a2a5;
+    color: ${props => props.theme.colors.gray};
     font-size: 12px !important;
-    font-weight: 600 !important;
+    font-weight: 700 !important;
     line-height: 40px;
     text-transform: uppercase;
     margin: 0;

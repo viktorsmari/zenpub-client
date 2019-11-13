@@ -174,6 +174,7 @@ const Fetched = (props: Props & FormikProps<FormValues>) => (
           disabled={props.isSubmitting}
           text={i18n._(tt.placeholders.submit)}
           ml={2}
+          onClick={props.handleSubmit}
           variant="primary"
         >
           <Trans>Publish</Trans>
