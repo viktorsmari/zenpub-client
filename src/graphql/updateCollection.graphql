@@ -1,26 +1,22 @@
 input CollectionInput {
-  name: String!
-  summary: String!
-  content: String!
-  preferredUsername: String!
-  primaryLanguage: String
-  icon: String!
+    name: String!
+    summary: String!
+    preferredUsername: String!
+    primaryLanguageId: String
+    icon: String!
 }
 
-mutation updateCollectionMutation($collectionId: Int!, $collection: CollectionInput!) {
-  updateCollection(collectionLocalId: $collectionId, collection: $collection) {
-    id
-    localId
-    name
-    summary
-    content
-    preferredUsername
-    primaryLanguage
-    icon
-    published
-    updated
-    resources {
-      totalCount
+mutation updateCollectionMutation($collectionId: String!, $collection: CollectionInput!) {
+    updateCollection(collectionLocalId: $collectionId, collection: $collection) {
+        id
+        canonicalUrl
+        preferredUsername
+        name
+        summary
+        icon
+        createdAt
+        updatedAt
+        primaryLanguage { id englishName localName }
+        resources { totalCount }
     }
-  }
 }

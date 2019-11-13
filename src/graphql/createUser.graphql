@@ -4,21 +4,29 @@ input RegistrationInput {
     preferredUsername: String!
     name: String!
     summary: String!
-    location: String!
-    isPublic: Boolean!
+    primaryLanguageId: String!
+    wantsEmailDigest: Boolean!
+    wantsNotifications: Boolean!
+    location: String
+    website: String
+    icon: String
+    image: String
 }
 
 mutation createUserMutation($user: RegistrationInput!) {
     createUser(user: $user) {
-        token
         me {
             email
+	    wantsEmailDigest
+	    wantsNotifications
+	    isConfirmed
             user {
-            name
-            summary # bio
-            preferredUsername # emoji ID
-            location
-            id
+                id
+                preferredUsername
+                name
+                summary # bio
+                location
+  	        website
             }
         }
     }
