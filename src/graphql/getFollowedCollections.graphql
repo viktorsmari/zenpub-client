@@ -2,7 +2,7 @@ query getFollowedCollections($limit: Int, $endColl: String) {
     me {
         user {
             id
-	    canonicalUrl
+            canonicalUrl
             isLocal
             isPublic
             isDisabled
@@ -19,14 +19,14 @@ query getFollowedCollections($limit: Int, $endColl: String) {
                         isLocal
                         isPublic
                         isDisabled
-			createdAt
-			lastActivity
+                        createdAt
+                        lastActivity
                         myFollow { id }
                         myLike   { id }
                         community {
                             id
                             canonicalUrl
-			    preferredUsername
+                            preferredUsername
                             isLocal
                             isPublic
                             isDisabled

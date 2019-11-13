@@ -17,25 +17,26 @@ fragment BasicComment on Comment {
 	isPublic
 	isDisabled
     }
-    thread  { id }
     likes   { totalCount }
-    context {
-        __typename
-        ... on Community {
-            id
-            canonicalUrl
-            name
-            isLocal
-            isPublic
-            isDisabled
-        }
-        ... on Collection {
-            id
-            canonicalUrl
-            name
-            isLocal
-            isPublic
-            isHidden
-        }
-    }
+    thread  {
+      id
+      context {
+          __typename
+          ... on Community {
+              id
+              canonicalUrl
+              name
+              isLocal
+              isPublic
+              isDisabled
+          }
+          ... on Collection {
+              id
+              canonicalUrl
+              name
+              isLocal
+              isPublic
+              isDisabled
+          }
+    }	
 }

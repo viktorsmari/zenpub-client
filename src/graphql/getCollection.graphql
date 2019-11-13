@@ -8,20 +8,20 @@ query getCollection($id: String!) {
       edges {
         node {
           id
-	  canonicalUrl
+          canonicalUrl
           name
           summary
-	  icon
+          icon
           url
           license
-	  createdAt
-	  updatedAt
-	  lastActivity
-	  isLocal
-	  isPublic
-	  isHidden
-	  myLike { id }
-	  likes { totalCount }
+          createdAt
+          updatedAt
+          lastActivity
+          isLocal
+          isPublic
+          isHidden
+          myLike { id }
+          likes { totalCount }
         }
       }
     }

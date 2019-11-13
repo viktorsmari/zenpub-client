@@ -13,7 +13,7 @@ fragment BasicResource on Resource {
         preferredUsername
         isLocal
         isPublic
-        isHidden
+        isDisabled
         community {
             id
             canonicalUrl

@@ -7,7 +7,7 @@ input CommunityInput {
 }
 
 mutation updateCommunityMutation($community: CommunityInput!, $communityId: Int!) {
-  updateCommunity(communityLocalId: $communityId, community: $community) {
+  updateCommunity(communityId: $communityId, community: $community) {
     id
     canonicalUrl
     preferredUsername

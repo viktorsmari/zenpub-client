@@ -13,11 +13,11 @@ input ResourceInput {
         name
         summary
         url
-	license
+        license
         icon
-	isLocal
-	isPublic
-	isHidden
+        isLocal
+        isPublic
+        isHidden
         createdAt
         updatedAt
         primaryLanguage { id englishName localName }
