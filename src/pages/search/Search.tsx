@@ -109,7 +109,7 @@ export default class extends React.Component {
             <Wrapper>
               <Configure hitsPerPage={8} />
               <Flex>
-                <Tabs>
+                <Tabs style={{ flex: 1 }}>
                   <SuperTabList>
                     <SuperTab>
                       <h5>

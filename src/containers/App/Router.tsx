@@ -29,6 +29,7 @@ import {
   Inner
 } from '../../sections/layoutUtils';
 import { Flex } from 'rebass/styled-components';
+// import Sidebar from '../../sections/sidebar/sidebar_not_logged';
 import Sidebar from '../../sections/sidebar/sidebarHOC';
 import algoliasearch from 'algoliasearch/lite';
 
@@ -188,6 +189,7 @@ class App extends React.Component<any> {
         >
           <PageContainer>
             <Sidebar isOpen={this.state.isSidebarOpen} />
+            {/* <Sidebar  isOpen={this.state.isSidebarOpen} /> */}
             <MainWrapper>
               <WrapperDimension>
                 <Inner>

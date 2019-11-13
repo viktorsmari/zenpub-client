@@ -302,7 +302,8 @@ const Date = styled(Text)`
 
 const SubText = styled(Flex)`
 font-size: 14px;
-align-items: center;
+align-items: end;
+display: inline;
 svg {
   fill: #ffc02d;
   margin-right: 8px;
