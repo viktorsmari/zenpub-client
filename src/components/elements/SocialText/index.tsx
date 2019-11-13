@@ -62,14 +62,14 @@ export const SocialText: React.FC<Props> = props => {
   const toggle = useCallback(() => setOpen(!isOpen), [isOpen]);
   const addEmoji = React.useCallback(
     (code, obj) => {
-      //  console.log(code, obj);
+      console.log(code, obj);
       if (!ref.current) {
         return;
       }
       const textarea = ref.current as HTMLTextAreaElement;
       const selectionStart = textarea.selectionStart;
       // const selectionEnd = textarea.selectionEnd
-      const offset = dropEmoji(textarea, obj.name);
+      const offset = dropEmoji(textarea, obj.emoji);
       const pos = selectionStart + offset;
       textarea.focus();
       // console.log([selectionStart,selectionEnd], offset, pos, [textarea.selectionStart, textarea.selectionEnd] )

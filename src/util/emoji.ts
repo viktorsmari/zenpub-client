@@ -46,7 +46,7 @@ const emoji = new EmojiConvertor();
  * https://github.com/ealush/emoji-picker-react#integrating-with-your-app
  */
 // set the style to emojione (default - apple)
-emoji.img_set = 'emojione';
+emoji.img_set = 'apple';
 // set the storage location for all emojis
 // emoji.img_sets.emojione.path = 'https://cdn.jsdelivr.net/gh/iamcal/emoji-data@19299c91bc87374118f06b2760f1ced69d714ab1/img-emojione-64/';
 
@@ -64,9 +64,9 @@ export const dropEmoji = (
   elem: HTMLTextAreaElement | HTMLInputElement,
   emojiName: string
 ) => {
-  const emojiStr = getEmoji(emojiName);
-  setNativeValue(elem, getWithNewTextAtCursor(elem, emojiStr));
-  return emojiStr.length;
+  // const emojiStr = getEmoji(emojiName);
+  setNativeValue(elem, getWithNewTextAtCursor(elem, emojiName));
+  return emojiName.length;
 };
 
 export const getWithNewTextAtCursor = (
