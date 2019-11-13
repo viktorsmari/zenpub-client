@@ -1,0 +1,631 @@
+# source: https://home.next.moodle.net/api/graphql
+# timestamp: Wed Nov 13 2019 12:21:50 GMT+0100 (GMT+01:00)
+
+schema {
+  query: RootQueryType
+  mutation: RootMutationType
+}
+
+type Activity {
+  activityType: String
+  id: String
+  localId: Int
+  object: ActivityObject
+  published: String
+  type: [String!]!
+  user: User
+}
+
+"""Activity object"""
+union ActivityObject = Community | Collection | Resource | Comment
+
+type AuthPayload {
+  me: Me
+  token: String
+}
+
+type Collection {
+  community: Community
+  content: String
+  creator: User
+  flags(after: Int, before: Int, limit: Int): CollectionFlagsConnection
+  followed: Boolean!
+  followers(after: Int, before: Int, limit: Int): CollectionFollowersConnection
+  icon: String
+  id: String
+  inbox(after: Int, before: Int, limit: Int): CollectionInboxConnection
+  likers(after: Int, before: Int, limit: Int): CollectionLikersConnection
+  local: Boolean
+  localId: Int
+  name: String
+  preferredUsername: String
+  primaryLanguage: String
+  published: String
+  resources(after: Int, before: Int, limit: Int): CollectionResourcesConnection
+  summary: String
+  threads(after: Int, before: Int, limit: Int): CollectionThreadsConnection
+  type: [String]
+  updated: String
+}
+
+type CollectionActivitiesEdge {
+  cursor: Int!
+  node: Activity
+}
+
+type CollectionFlagsConnection {
+  edges: [CollectionFlagsEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type CollectionFlagsEdge {
+  cursor: Int!
+  node: User
+  reason: String
+}
+
+type CollectionFollowersConnection {
+  edges: [CollectionFollowersEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type CollectionFollowersEdge {
+  cursor: Int!
+  node: User
+}
+
+type CollectionInboxConnection {
+  edges: [CollectionActivitiesEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+input CollectionInput {
+  content: String!
+  icon: String
+  name: String!
+  preferredUsername: String!
+  primaryLanguage: String
+  summary: String!
+}
+
+type CollectionLikersConnection {
+  edges: [CollectionLikersEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type CollectionLikersEdge {
+  cursor: Int!
+  node: User
+}
+
+type CollectionPage {
+  nodes: [Collection]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type CollectionResourcesConnection {
+  edges: [CollectionResourcesEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type CollectionResourcesEdge {
+  cursor: Int!
+  node: Resource
+}
+
+type CollectionThreadsConnection {
+  edges: [CollectionThreadsEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type CollectionThreadsEdge {
+  cursor: Int!
+  node: Comment
+}
+
+type Comment {
+  author: User
+  content: String
+  context: CommentContext
+  flags(after: Int, before: Int, limit: Int): CommentFlagsConnection
+  id: String
+  inReplyTo: Comment
+  likers(after: Int, before: Int, limit: Int): CommentLikersConnection
+  local: Boolean
+  localId: Int
+  published: String
+  replies(after: Int, before: Int, limit: Int): CommentRepliesConnection
+  type: [String]
+  updated: String
+}
+
+"""Where the comment resides"""
+union CommentContext = Collection | Community
+
+type CommentFlagsConnection {
+  edges: [CommentFlagsEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type CommentFlagsEdge {
+  cursor: Int!
+  node: User
+}
+
+input CommentInput {
+  content: String!
+}
+
+type CommentLikersConnection {
+  edges: [CommentLikersEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type CommentLikersEdge {
+  cursor: Int!
+  node: User
+}
+
+type CommentRepliesConnection {
+  edges: [CommentRepliesEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type CommentRepliesEdge {
+  cursor: Int!
+  node: Comment
+}
+
+type Community {
+  collections(after: Int, before: Int, limit: Int): CommunityCollectionsConnection
+  content: String
+  creator: User
+  followed: Boolean!
+  icon: String
+  id: String
+  inbox(after: Int, before: Int, limit: Int): CommunityInboxConnection
+  local: Boolean
+  localId: Int
+  members(after: Int, before: Int, limit: Int): CommunityMembersConnection
+  name: String
+  preferredUsername: String
+  primaryLanguage: String
+  published: String
+  summary: String
+  threads(after: Int, before: Int, limit: Int): CommunityThreadsConnection
+  type: [String]
+  updated: String
+}
+
+type CommunityActivitiesEdge {
+  cursor: Int!
+  node: Activity
+}
+
+type CommunityCollectionsConnection {
+  edges: [CommunityCollectionsEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type CommunityCollectionsEdge {
+  cursor: Int!
+  node: Collection
+}
+
+type CommunityInboxConnection {
+  edges: [CommunityActivitiesEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+input CommunityInput {
+  content: String!
+  icon: String
+  name: String!
+  preferredUsername: String!
+  primaryLanguage: String
+  summary: String!
+}
+
+type CommunityMembersConnection {
+  edges: [CommunityMembersEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type CommunityMembersEdge {
+  cursor: Int!
+  node: User
+}
+
+type CommunityPage {
+  nodes: [Community]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type CommunityThreadsConnection {
+  edges: [CommunityThreadsEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type CommunityThreadsEdge {
+  cursor: Int!
+  node: Comment
+}
+
+type FetchedObject {
+  data: Json
+  id: String
+  local: Boolean
+  public: Boolean
+}
+
+type GenericActivityPage {
+  nodes: [Activity]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+"""
+The `Json` scalar type represents arbitrary json string data, represented as UTF-8
+character sequences. The Json type is most often used to represent a free-form
+human-readable json string.
+"""
+scalar Json
+
+type Me {
+  email: String
+  user: User
+}
+
+type PageInfo {
+  endCursor: Int
+  startCursor: Int
+}
+
+input RegistrationInput {
+  email: String!
+  icon: String
+  image: String
+  location: String
+  name: String
+  password: String!
+  preferredUsername: String!
+  primaryLanguage: String
+  summary: String
+  website: String
+}
+
+type Resource {
+  collection: Collection
+  content: String
+  creator: User
+  educationalUse: [String!]
+  flags(after: Int, before: Int, limit: Int): ResourceFlagsConnection!
+  icon: String
+  id: String
+  inLanguage: [String!]
+  isAccesibleForFree: Boolean
+  learningResourceType: String
+  license: String
+  likers(after: Int, before: Int, limit: Int): ResourceLikersConnection!
+  local: Boolean
+  localId: Int
+  name: String
+  primaryLanguage: String
+  publicAccess: Boolean
+  published: String
+  sameAs: String
+  summary: String
+  timeRequired: Int
+  type: [String]
+  typicalAgeRange: String
+  updated: String
+  url: String
+}
+
+type ResourceFlagsConnection {
+  edges: [ResourceFlagsEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type ResourceFlagsEdge {
+  cursor: Int!
+  node: User
+}
+
+input ResourceInput {
+  content: String
+  educationalUse: [String!]
+  icon: String
+  id: String
+  inLanguage: [String!]
+  isAccesibleForFree: Boolean
+  learningResourceType: String
+  license: String
+  local: Boolean
+  localId: Int
+  name: String
+  primaryLanguage: String
+  publicAccess: Boolean
+  sameAs: String
+  summary: String
+  timeRequired: Int
+  type: [String]
+  typicalAgeRange: String
+  url: String
+}
+
+type ResourceLikersConnection {
+  edges: [ResourceLikersEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type ResourceLikersEdge {
+  cursor: Int!
+  node: User
+}
+
+type RootMutationType {
+  """Like a collection"""
+  likeCollection(localId: Int!): Boolean
+
+  """Update a community"""
+  updateCommunity(community: CommunityInput!, communityLocalId: Int!): Community
+
+  """Create a collection"""
+  createCollection(collection: CollectionInput!, communityLocalId: Int!): Collection
+
+  """Flag a collection"""
+  flagCollection(localId: Int!, reason: String!): Boolean
+
+  """Flag a resource"""
+  flagResource(localId: Int!, reason: String!): Boolean
+
+  """Delete a comment"""
+  deleteComment(localId: Int!): Boolean
+
+  """Fetch an AS2 object from URL"""
+  fetchObject(url: String!): FetchedObject
+
+  """Undo a previous like to a comment"""
+  undoLikeComment(localId: Int!): Boolean
+
+  """Update a resource"""
+  updateResource(resource: ResourceInput!, resourceLocalId: Int!): Resource
+
+  """Flag a community"""
+  flagCommunity(localId: Int!, reason: String!): Boolean
+
+  """Delete a community"""
+  deleteCommunity(localId: Int!): Boolean
+
+  """Like a comment"""
+  likeComment(localId: Int!): Boolean
+
+  """Confirm email"""
+  confirmEmail(token: String!): Boolean
+
+  """Login"""
+  createSession(email: String!, password: String!): AuthPayload
+
+  """Create a user"""
+  createUser(user: RegistrationInput!): AuthPayload
+
+  """Undo a previous flag of a community"""
+  undoFlagCommunity(localId: Int!): Boolean
+
+  """Undo join a community"""
+  undoJoinCommunity(communityLocalId: Int!): Boolean
+
+  """Delete a resource"""
+  deleteResource(localId: Int!): Boolean
+
+  """Undo follow a collection"""
+  undoFollowCollection(collectionLocalId: Int!): Boolean
+
+  """Create a resource"""
+  createResource(collectionLocalId: Int!, resource: ResourceInput!): Resource
+
+  """Undo a previous flag of a collection"""
+  undoFlagCollection(localId: Int!): Boolean
+
+  """Copy a resource"""
+  copyResource(collectionLocalId: Int!, resourceLocalId: Int!): Resource!
+
+  """Follow a collection"""
+  followCollection(collectionLocalId: Int!): Boolean
+
+  """Delete a user"""
+  deleteUser: Boolean
+
+  """Fetch metadata from webpage"""
+  fetchWebMetadata(url: String!): WebMetadata
+
+  """Reset password"""
+  resetPassword(password: String!, token: String!): Boolean
+
+  """Like a comment"""
+  flagComment(localId: Int!, reason: String!): Boolean
+
+  """Like a resource"""
+  likeResource(localId: Int!): Boolean
+
+  """Undo a previous like to a collection"""
+  undoLikeCollection(localId: Int!): Boolean
+
+  """Reset password request"""
+  resetPasswordRequest(email: String!): Boolean
+
+  """Undo a previous like to a resource"""
+  undoLikeResource(localId: Int!): Boolean
+
+  """Create a reply"""
+  createReply(comment: CommentInput!, inReplyToLocalId: Int!): Comment
+
+  """Delete a collection"""
+  deleteCollection(localId: Int!): Boolean
+
+  """Create a community"""
+  createCommunity(community: CommunityInput!): Community
+
+  """Update a profile"""
+  updateProfile(profile: UpdateProfileInput!): Me
+
+  """Undo a previous flag to a resource"""
+  undoFlagResource(localId: Int!): Boolean
+
+  """Create a new thread"""
+  createThread(comment: CommentInput!, contextLocalId: Int!): Comment
+
+  """Join a community"""
+  joinCommunity(communityLocalId: Int!): Boolean
+
+  """Logout"""
+  deleteSession: Boolean
+
+  """Update a collection"""
+  updateCollection(collection: CollectionInput!, collectionLocalId: Int!): Collection
+
+  """Undo a previous like to a comment"""
+  undoFlagComment(localId: Int!): Boolean
+}
+
+type RootQueryType {
+  """Get a collection"""
+  collection(localId: Int!): Collection
+
+  """Get list of collections"""
+  collections(after: Int, before: Int, limit: Int): CollectionPage
+
+  """Get a comment"""
+  comment(localId: Int!): Comment
+
+  """Get list of communities"""
+  communities(after: Int, before: Int, limit: Int): CommunityPage
+
+  """Get a community"""
+  community(localId: Int!): Community
+
+  """Get local activity list"""
+  localActivities(after: Int, before: Int, limit: Int): GenericActivityPage!
+
+  """Get my user"""
+  me: Me
+
+  """Get a resource"""
+  resource(localId: Int!): Resource
+
+  """Get an user"""
+  user(localId: Int!): User
+
+  """Check if a user exists with a username"""
+  usernameAvailable(username: String!): Boolean
+}
+
+input UpdateProfileInput {
+  icon: String
+  image: String
+  location: String
+  name: String
+  preferredUsername: String
+  primaryLanguage: String
+  summary: String
+  website: String
+}
+
+type User {
+  comments(after: Int, before: Int, limit: Int): UserCreatedCommentsConnection
+  followingCollections(after: Int, before: Int, limit: Int): UserFollowingCollectionsConnection
+  icon: String
+  id: ID
+  image: String
+  inbox(after: Int, before: Int, limit: Int): UserInboxConnection
+  joinedCommunities(after: Int, before: Int, limit: Int): UserJoinedCommunitiesConnection
+  local: Boolean
+  localId: Int
+  location: String
+  name: String
+  outbox(after: Int, before: Int, limit: Int): UserOutboxConnection
+  preferredUsername: String
+  primaryLanguage: String
+  summary: String
+  type: [String]
+  website: String
+}
+
+type UserActivitiesEdge {
+  cursor: Int!
+  node: Activity
+}
+
+type UserCreatedCommentsConnection {
+  edges: [UserCreatedCommentsEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type UserCreatedCommentsEdge {
+  cursor: Int!
+  node: Comment
+}
+
+type UserFollowingCollectionsConnection {
+  edges: [UserFollowingCollectionsEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type UserFollowingCollectionsEdge {
+  cursor: Int!
+  node: Collection
+}
+
+type UserInboxConnection {
+  edges: [UserActivitiesEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type UserJoinedCommunitiesConnection {
+  edges: [UserJoinedCommunitiesEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type UserJoinedCommunitiesEdge {
+  cursor: Int!
+  node: Community
+}
+
+type UserOutboxConnection {
+  edges: [UserActivitiesEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type WebMetadata {
+  author: String
+  embedCode: String
+  image: String
+  language: String
+  resourceType: String
+  source: String
+  summary: String
+  title: String
+}

@@ -1,0 +1,6 @@
+projects:
+  homeNext:
+    schemaPath: src/graphql/main/home.next.moodle.net_schema.graphql
+    extensions:
+      endpoints:
+        default: https://home.next.moodle.net/api/graphql
