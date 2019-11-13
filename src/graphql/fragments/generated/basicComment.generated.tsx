@@ -40,11 +40,11 @@ export type BasicCommentFragment = { __typename?: 'Comment' } & Pick<
     context: Types.Maybe<
       | ({ __typename?: 'Collection' } & Pick<
           Types.Collection,
-          'id' | 'name' | 'localId'
+          'id' | 'name' | 'localId' | 'icon'
         >)
       | ({ __typename?: 'Community' } & Pick<
           Types.Community,
-          'id' | 'name' | 'localId'
+          'id' | 'name' | 'localId' | 'icon'
         >)
     >;
   };
@@ -85,11 +85,13 @@ export const BasicCommentFragmentDoc = gql`
         id
         name
         localId
+        icon
       }
       ... on Collection {
         id
         name
         localId
+        icon
       }
     }
   }
