@@ -3,12 +3,17 @@ query getCommunitiesQuery($limit: Int, $end: String) {
         pageInfo { startCursor endCursor }
         nodes {
             id
-            localId
+            canonicalUrl
             preferredUsername
             name
             summary
             icon
+	    isLocal
+	    isPublic
+	    isDisabled
 	    myFollow { id }
+	    createdAt
+	    updatedAt
             collections { totalCount }
             followers   { totalCount }
             threads     { totalCount }

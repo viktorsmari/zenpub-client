@@ -2,10 +2,11 @@ query getFollowedCollections($limit: Int, $endColl: String) {
     me {
         user {
             id
+	    canonicalUrl
             isLocal
             isPublic
             isDisabled
-            followingCollections(limit: $limit, after:$endColl) {
+            followedCollections(limit: $limit, after:$endColl) {
                 pageInfo { startCursor endCursor }
                 edges {
                     node {
@@ -17,12 +18,15 @@ query getFollowedCollections($limit: Int, $endColl: String) {
                         icon
                         isLocal
                         isPublic
-                        isHidden
+                        isDisabled
+			createdAt
+			lastActivity
                         myFollow { id }
                         myLike   { id }
                         community {
                             id
                             canonicalUrl
+			    preferredUsername
                             isLocal
                             isPublic
                             isDisabled

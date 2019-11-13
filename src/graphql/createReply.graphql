@@ -9,6 +9,7 @@ mutation createReplyMutation(
 ) {
     createReply(threadId: $threadId, inReplyToId: $commentId, comment: $comment) {
         id
+	canonicalUrl
         inReplyToId
         content
         isLocal

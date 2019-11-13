@@ -10,7 +10,7 @@ query getCollectionsQuery($limit: Int, $end: String) {
             icon
             isLocal
             isPublic
-            isHidden
+            isDisabled
             createdAt
             updatedAt
             lastActivity
@@ -20,11 +20,12 @@ query getCollectionsQuery($limit: Int, $end: String) {
             community {
                 id
                 canonicalUrl
+		preferredUsername
                 name
                 icon
                 isLocal
                 isPublic
-                isHidden
+                isDisabled
                 createdAt
                 updatedAt
                 lastActivity

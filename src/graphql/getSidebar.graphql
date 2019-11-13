@@ -2,6 +2,7 @@ query getSidebarQuery($limitComm: Int, $endComm: String) {
     me {
         user {
             id
+	    canonicalUrl
             name
             preferredUsername
             icon

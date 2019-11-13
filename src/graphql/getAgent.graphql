@@ -30,7 +30,7 @@ query getAgentQuery(
     lastActivity
     myFollow { id }
     myLike { id }
-    primaryLanguage { id englishName localName }
+    primaryLanguage { id isoCode2 isoCode3 englishName localName }
     outbox (limit: $limitTimeline, after:$endTimeline) {
       pageInfo { startCursor endCursor }
       edges {
@@ -41,7 +41,6 @@ query getAgentQuery(
           isLocal
           isPublic
           createdAt
-          published
           user {
             ...BasicUser
           }
@@ -64,7 +63,7 @@ query getAgentQuery(
           isLocal
           isPublic
           createdAt
-          followed {
+          context {
             __typename
             ... on Community {
               id
@@ -73,9 +72,15 @@ query getAgentQuery(
               name
               summary
               icon
+	      image
+	      isLocal
+	      isPublic
+	      isDisabled
               createdAt
               updatedAt
+	      lastActivity
               myFollow { id }
+	      primaryLanguage { id isoCode2 isoCode3 englishName localName }
               collections {
                 totalCount
               }
@@ -99,7 +104,7 @@ query getAgentQuery(
           isLocal
           isPublic
           createdAt
-          followed {
+          context {
             __typename
             ... on Collection {
               id
@@ -113,9 +118,10 @@ query getAgentQuery(
               isHidden
               createdAt
               updatedAt
+	      lastActivity
               myFollow { id }
               myLike   { id }
-              primaryLanguage { id englishName localName }
+              primaryLanguage { id isoCode2 isoCode3 englishName localName }
               community { id }
               resources { totalCount }
               followers { totalCount }

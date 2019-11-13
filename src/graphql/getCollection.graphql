@@ -8,6 +8,7 @@ query getCollection($id: String!) {
       edges {
         node {
           id
+	  canonicalUrl
           name
           summary
 	  icon

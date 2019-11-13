@@ -23,8 +23,6 @@ mutation updateProfileMutation($profile: UpdateProfileInput!) {
             image
             location
             website
-            isConfirmed
-            isInstanceAdmin
         }
     }
 }
