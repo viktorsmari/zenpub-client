@@ -13,6 +13,7 @@ import Dropdown from './dropdown';
 import { MoreHorizontal } from 'react-feather';
 import { GetSidebarQueryQueryResult } from '../../graphql/generated/getSidebar.generated';
 import Empty from '../../components/elements/Empty';
+
 const MnetLogo = require('./moodle-logo.png');
 const SidebarComponent = styled(Flex)`
   flex-grow: 1;
@@ -27,32 +28,48 @@ const SidebarComponent = styled(Flex)`
   padding: 0px;
   position: relative;
   overflow-y: auto;
+  ${media.lessThan('860px')`
+  `};
 `;
 
-const InternalWrapper = styled(Box)`
-${media.greaterThan('1281px')`
-  width: 300px !important;
-`}
-${media.lessThan('1280px')`
-  width: 88px;
-`}
-${media.lessThan('10240px')`
-  width: 68px;
-`}
+const InternalWrapper = styled(Box)<{ isOpen: boolean }>`
+  transition: 'all 250ms ease';
+  ${media.greaterThan('1281px')`
+    width: 300px !important;
+  `}
+  ${media.lessThan('1280px')`
+    width: 88px;
+  `}
+  ${media.lessThan('10240px')`
+    width: 68px;
+  `}
+  ${media.lessThan('860px')`
+    position: relative;
+    left: ${props => (props.isOpen ? '0' : '-300px')};
+    width: ${props => (props.isOpen ? '100%' : '0')};
+  `}
 `;
 
 const SidebarFixed = styled(Box)`
   justify-content: space-between;
   height: 100%;
   position: fixed;
-  top: 16px;
+  top: 0px;
   display: flex;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 6px;
+
+  width: 280px;
+  ${media.lessThan('1280px')`
+    width: auto;
+  `} ${media.lessThan('860px')`
+    position: relative;
+    width: 100%
+  `};
 `;
 
 const SidebarOverflow = styled(Box)`
   overflow-y: auto;
+  flex: 1;
 `;
 
 const Header = styled(Box)`
@@ -139,7 +156,8 @@ const ItemTitle = styled(Text)`
   a:active {
     color: inherit;
   }
-  ${ellipsis('220px')} ${media.lessThan('1280px')`
+  ${ellipsis('220px')};
+  ${media.lessThan('1280px')`
   display: none;
 `};
 `;
@@ -156,25 +174,31 @@ const Layer = styled.div`
 
 const Right = styled(Box)`
   color: ${props => props.theme.colors.gray};
+  ${media.lessThan('1280px')`
+    display: none;
+  `};
 `;
 
 const Sbox = styled(Box)`
-//   width: 100%;
-//   ${media.lessThan('1280px')`
-//  display: none;
-// `};
+  ${media.lessThan('1280px')`
+    display: none;
+  `};
 `;
 
 // const HeaderProfile = styled(Flex)``
 
 const HeaderName = styled(Text)`
   flex: 1;
+  ${media.lessThan('1280px')`
+  display: none;
+`};
 `;
 
 interface Props {
   resp: GetSidebarQueryQueryResult;
+  isOpen: boolean;
 }
-const Sidebar: React.FC<Props> = ({ resp }) => {
+const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
   const [menuIsOpen, setMenuIsOpen] = React.useState(false);
   const closeMenu = React.useCallback(() => setMenuIsOpen(false), []);
   const openMenu = React.useCallback(() => setMenuIsOpen(true), []);
@@ -187,9 +211,9 @@ const Sidebar: React.FC<Props> = ({ resp }) => {
     <Loader />
   ) : (
     <SidebarComponent>
-      <InternalWrapper>
+      <InternalWrapper isOpen={isOpen}>
         <SidebarFixed>
-          <SidebarOverflow>
+          <SidebarOverflow pt={3}>
             <Header alignItems={'center'}>
               <Sbox ml={2} mb={3}>
                 <SearchBox />

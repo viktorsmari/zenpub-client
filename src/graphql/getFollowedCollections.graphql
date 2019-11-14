@@ -2,38 +2,46 @@ query getFollowedCollections($limit: Int, $endColl: String) {
     me {
         user {
             id
+            canonicalUrl
             isLocal
             isPublic
             isDisabled
-            followingCollections(limit: $limit, after:$endColl) {
+            followedCollections(limit: $limit, after:$endColl) {
                 pageInfo { startCursor endCursor }
                 edges {
                     node {
                         id
                         canonicalUrl
-                        preferredUsername
-                        name
-                        summary
-                        icon
-                        isLocal
-                        isPublic
-                        isHidden
-                        myFollow { id }
-                        myLike   { id }
-                        community {
-                            id
-                            canonicalUrl
-                            isLocal
-                            isPublic
-                            isDisabled
-                            icon
-                            myFollow { id }
-                            myLike   { id }
+                        context {
+                            __typename
+                            ... on Collection {
+                                preferredUsername
+                                name
+                                summary
+                                icon
+                                isLocal
+                                isPublic
+                                isDisabled
+                                createdAt
+                                lastActivity
+                                myFollow { id }
+                                myLike   { id }
+                                community {
+                                    id
+                                    canonicalUrl
+                                    preferredUsername
+                                    isLocal
+                                    isPublic
+                                    isDisabled
+                                    icon
+                                    myFollow { id }
+                                }
+                                followers { totalCount }
+                                likes     { totalCount }
+                                resources { totalCount }
+                                threads   { totalCount }
+                            }
                         }
-                        followers { totalCount }
-                        likes     { totalCount }
-                        resources { totalCount }
-                        threads   { totalCount }
                     }
                 }
             }

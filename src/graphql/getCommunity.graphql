@@ -30,7 +30,6 @@ query getCommunityQuery($communityId: String!, $limit: Int, $end: String) {
                     isLocal
                     isPublic
                     createdAt
-                    published
                     user { ...BasicUser }
                     context {
                         __typename
@@ -42,19 +41,15 @@ query getCommunityQuery($communityId: String!, $limit: Int, $end: String) {
                 }
             }
         }
-        members {
+        followers {
             pageInfo { startCursor endCursor }
             totalCount
             edges {
                 node {
                     id
                     canonicalUrl
-                    name
-                    icon
                     isLocal
                     isPublic
-                    isDisabled
-                    myFollow { id }
                 }
             }
         }
@@ -69,7 +64,8 @@ query getCommunityQuery($communityId: String!, $limit: Int, $end: String) {
                     name
                     summary
                     icon
-                    followed
+                    myFollow { id }
+		            likes     { totalCount}
                     followers { totalCount }
                     resources { totalCount }
                     threads   { totalCount }

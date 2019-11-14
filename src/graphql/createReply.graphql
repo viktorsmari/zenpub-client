@@ -3,12 +3,13 @@ input CommentInput {
 }
 
 mutation createReplyMutation(
-    $threadId: String!,
-    $commentId: $commentId,
-    $comment: CommentInput!
+    $comment: CommentInput!,
+    $inReplyToId: String!,
+    $threadId: String!
 ) {
-    createReply(threadId: $threadId, inReplyToId: $commentId, comment: $comment) {
+    createReply(comment: $comment, inReplyToId: $inReplyToId, threadId: $threadId) {
         id
+	canonicalUrl
         inReplyToId
         content
         isLocal

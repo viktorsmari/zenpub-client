@@ -2,9 +2,11 @@ input CommentInput {
     content: String!
 }
 
-mutation createThreadMutation($contextId: Int!, $comment: CommentInput!) {
-    createThread(contextId: $id, comment: $comment) {
+mutation createThreadMutation($contextId: String!, $comment: CommentInput!) {
+    createThread(contextId: $contextId, comment: $comment) {
         id
+	canonicalUrl
+	inReplyToId
         content
         isLocal
         isPublic

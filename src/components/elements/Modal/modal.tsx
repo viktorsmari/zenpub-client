@@ -88,6 +88,12 @@ export const CounterChars = styled.div`
 export const ContainerForm = styled.div`
   flex: 1;
   ${clearFix()};
+  input {
+    height: 40px;
+    background: white;
+    border-radius: 2px;
+    border: 1px solid ${props => props.theme.colors.lightgray};
+  }
 `;
 
 export const Header = styled.div`

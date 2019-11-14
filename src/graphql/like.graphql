@@ -1,3 +1,5 @@
 mutation likeMutation($contextId: String!) {
-    like(contextId: $contextId)
+    createLike(contextId: $contextId){
+        id
+    }
 }

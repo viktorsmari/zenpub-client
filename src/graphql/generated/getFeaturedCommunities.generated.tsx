@@ -11,13 +11,13 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type GetFeaturedCommunitiesQueryVariables = {
-  one: Types.Scalars['Int'];
-  two: Types.Scalars['Int'];
-  three: Types.Scalars['Int'];
-  four: Types.Scalars['Int'];
-  five: Types.Scalars['Int'];
-  six: Types.Scalars['Int'];
-  seven: Types.Scalars['Int'];
+  one: Types.Scalars['String'];
+  two: Types.Scalars['String'];
+  three: Types.Scalars['String'];
+  four: Types.Scalars['String'];
+  five: Types.Scalars['String'];
+  six: Types.Scalars['String'];
+  seven: Types.Scalars['String'];
 };
 
 export type GetFeaturedCommunitiesQuery = { __typename?: 'RootQueryType' } & {
@@ -32,33 +32,33 @@ export type GetFeaturedCommunitiesQuery = { __typename?: 'RootQueryType' } & {
 
 export const GetFeaturedCommunitiesDocument = gql`
   query getFeaturedCommunities(
-    $one: Int!
-    $two: Int!
-    $three: Int!
-    $four: Int!
-    $five: Int!
-    $six: Int!
-    $seven: Int!
+    $one: String!
+    $two: String!
+    $three: String!
+    $four: String!
+    $five: String!
+    $six: String!
+    $seven: String!
   ) {
-    one: community(localId: $one) {
+    one: community(communityId: $one) {
       ...BasicCommunity
     }
-    two: community(localId: $two) {
+    two: community(communityId: $two) {
       ...BasicCommunity
     }
-    three: community(localId: $three) {
+    three: community(communityId: $three) {
       ...BasicCommunity
     }
-    four: community(localId: $four) {
+    four: community(communityId: $four) {
       ...BasicCommunity
     }
-    five: community(localId: $five) {
+    five: community(communityId: $five) {
       ...BasicCommunity
     }
-    six: community(localId: $six) {
+    six: community(communityId: $six) {
       ...BasicCommunity
     }
-    seven: community(localId: $seven) {
+    seven: community(communityId: $seven) {
       ...BasicCommunity
     }
   }
@@ -185,31 +185,94 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: 'UNION',
-        name: 'CommentContext',
+        name: 'ActivityContext',
         possibleTypes: [
           {
             name: 'Collection'
           },
           {
+            name: 'Comment'
+          },
+          {
             name: 'Community'
+          },
+          {
+            name: 'Resource'
           }
         ]
       },
       {
         kind: 'UNION',
-        name: 'ActivityObject',
+        name: 'FlagContext',
         possibleTypes: [
           {
-            name: 'Community'
+            name: 'Collection'
           },
           {
-            name: 'Collection'
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
           },
           {
             name: 'Resource'
           },
           {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'LikeContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
             name: 'Comment'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'ThreadContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Resource'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'FollowContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
           }
         ]
       }

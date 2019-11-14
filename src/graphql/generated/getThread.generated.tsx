@@ -11,127 +11,66 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type GetThreadQueryVariables = {
-  id: Types.Scalars['Int'];
+  threadId: Types.Scalars['String'];
 };
 
 export type GetThreadQuery = { __typename?: 'RootQueryType' } & {
-  comment: Types.Maybe<
-    { __typename?: 'Comment' } & {
-      replies: Types.Maybe<
-        { __typename?: 'CommentRepliesConnection' } & Pick<
-          Types.CommentRepliesConnection,
-          'totalCount'
-        > & {
-            edges: Types.Maybe<
-              Array<
-                Types.Maybe<
-                  { __typename?: 'CommentRepliesEdge' } & {
-                    node: Types.Maybe<
-                      { __typename?: 'Comment' } & Pick<
-                        Types.Comment,
-                        'id' | 'localId' | 'content' | 'published'
-                      > & {
-                          inReplyTo: Types.Maybe<
-                            { __typename?: 'Comment' } & Pick<
-                              Types.Comment,
-                              'localId'
-                            > & {
-                                author: Types.Maybe<
-                                  { __typename?: 'User' } & Pick<
-                                    Types.User,
-                                    | 'id'
-                                    | 'icon'
-                                    | 'name'
-                                    | 'localId'
-                                    | 'preferredUsername'
-                                  >
-                                >;
-                              }
-                          >;
-                          replies: Types.Maybe<
-                            { __typename?: 'CommentRepliesConnection' } & Pick<
-                              Types.CommentRepliesConnection,
-                              'totalCount'
-                            > & {
-                                edges: Types.Maybe<
-                                  Array<
-                                    Types.Maybe<
-                                      { __typename?: 'CommentRepliesEdge' } & {
-                                        node: Types.Maybe<
-                                          { __typename?: 'Comment' } & Pick<
-                                            Types.Comment,
-                                            'id'
-                                          >
-                                        >;
-                                      }
-                                    >
-                                  >
-                                >;
-                              }
-                          >;
-                          likers: Types.Maybe<
-                            { __typename?: 'CommentLikersConnection' } & Pick<
-                              Types.CommentLikersConnection,
-                              'totalCount'
-                            >
-                          >;
-                          author: Types.Maybe<
-                            { __typename?: 'User' } & Pick<
-                              Types.User,
-                              'id' | 'icon' | 'name' | 'localId'
-                            >
-                          >;
-                        }
-                    >;
-                  }
+  thread: Types.Maybe<
+    { __typename?: 'Thread' } & Pick<
+      Types.Thread,
+      | 'id'
+      | 'canonicalUrl'
+      | 'isLocal'
+      | 'isPublic'
+      | 'isHidden'
+      | 'createdAt'
+      | 'updatedAt'
+      | 'lastActivity'
+    > & {
+        myFollow: Types.Maybe<
+          { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
+        >;
+        comments: Types.Maybe<
+          { __typename?: 'CommentsEdges' } & Pick<
+            Types.CommentsEdges,
+            'totalCount'
+          > & {
+              edges: Types.Maybe<
+                Array<
+                  Types.Maybe<
+                    { __typename?: 'CommentsEdge' } & {
+                      node: Types.Maybe<
+                        { __typename?: 'Comment' } & BasicCommentFragment
+                      >;
+                    }
+                  >
                 >
-              >
-            >;
-          }
-      >;
-    } & BasicCommentFragment
+              >;
+            }
+        >;
+      }
   >;
 };
 
 export const GetThreadDocument = gql`
-  query getThread($id: Int!) {
-    comment(localId: $id) {
-      ...BasicComment
-      replies {
+  query getThread($threadId: String!) {
+    thread(threadId: $threadId) {
+      id
+      canonicalUrl
+      isLocal
+      isPublic
+      isHidden
+      createdAt
+      updatedAt
+      lastActivity
+      myFollow {
+        id
+      }
+      comments {
         totalCount
         edges {
           node {
-            id
-            localId
-            content
-            published
-            inReplyTo {
-              localId
-              author {
-                id
-                icon
-                name
-                localId
-                preferredUsername
-              }
-            }
-            replies {
-              totalCount
-              edges {
-                node {
-                  id
-                }
-              }
-            }
-            likers {
-              totalCount
-            }
-            author {
-              id
-              icon
-              name
-              localId
-            }
+            ...BasicComment
           }
         }
       }
@@ -191,7 +130,7 @@ export function withGetThread<TProps, TChildProps = {}>(
  * @example
  * const { data, loading, error } = useGetThreadQuery({
  *   variables: {
- *      id: // value for 'id'
+ *      threadId: // value for 'threadId'
  *   },
  * });
  */
@@ -243,31 +182,94 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: 'UNION',
-        name: 'CommentContext',
+        name: 'ActivityContext',
         possibleTypes: [
           {
             name: 'Collection'
           },
           {
+            name: 'Comment'
+          },
+          {
             name: 'Community'
+          },
+          {
+            name: 'Resource'
           }
         ]
       },
       {
         kind: 'UNION',
-        name: 'ActivityObject',
+        name: 'FlagContext',
         possibleTypes: [
           {
-            name: 'Community'
+            name: 'Collection'
           },
           {
-            name: 'Collection'
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
           },
           {
             name: 'Resource'
           },
           {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'LikeContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
             name: 'Comment'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'ThreadContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Resource'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'FollowContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
           }
         ]
       }

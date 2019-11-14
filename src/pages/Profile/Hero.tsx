@@ -2,6 +2,7 @@ import React, { SFC } from 'react';
 import { Box, Text, Flex } from 'rebass/styled-components';
 import { Globe } from '../../components/elements/Icons';
 import styled from '../../themes/styled';
+import media from 'styled-media-query';
 
 interface Props {
   user: {
@@ -23,7 +24,7 @@ const HeroComp: SFC<Props> = ({ user }) => (
     </Helmet> */}
     <Hero>
       <HeroBg src={user.image} />
-      <Flex>
+      <FlexProfile>
         <WrapperHero>
           <Img
             style={{
@@ -50,12 +51,20 @@ const HeroComp: SFC<Props> = ({ user }) => (
             </Location>
           ) : null}
         </HeroInfo>
-      </Flex>
+      </FlexProfile>
     </Hero>
   </ProfileBox>
 );
 
 export default HeroComp;
+
+const FlexProfile = styled(Flex)`
+  ${media.lessThan('860px')`
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+`};
+`;
 
 const ProfileBox = styled(Box)`
   // overflow-y: overlay;

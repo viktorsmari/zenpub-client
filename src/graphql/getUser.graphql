@@ -14,6 +14,7 @@ query getUser(
     me {
         user {
             id
+	    canonicalUrl
             name
             preferredUsername
             location
@@ -26,17 +27,22 @@ query getUser(
                     node {
                         id
                         canonicalUrl
-                        preferredUsername
-                        name
-                        summary
-                        icon
-                        isLocal
-                        isPublic
-                        isDisabled
-                        myFollow    { id }
-                        collections { totalCount }
-                        followers   { totalCount }
-                        threads     { totalCount }
+                        context {
+                            __typename
+                            ... on Community {
+                                preferredUsername
+                                name
+                                summary
+                                icon
+                                isLocal
+                                isPublic
+                                isDisabled
+                                myFollow    { id }
+                                collections { totalCount }
+                                followers   { totalCount }
+                                threads     { totalCount }
+                            }
+                        }
                     }
                 }
             }
@@ -61,25 +67,31 @@ query getUser(
                     }
                 }
             }
-            followingCollections(limit: $limitColl, after: $endColl) {
+            followedCollections(limit: $limitColl, after: $endColl) {
                 pageInfo { startCursor endCursor }
                 edges {
                     node {
                         id
                         canonicalUrl
-                        preferredUsername
-                        name
-                        summary
-                        icon
-                        isLocal
-                        isPublic
-                        isHidden
-                        community { id }
-                        myFollow  { id }
-                        likes     { totalCount }
-                        followers { totalCount }
-                        resources { totalCount }
-                        threads   { totalCount }
+                        context {
+                            __typename
+                            ... on Collection {
+                                preferredUsername
+                                name
+                                summary
+                                icon
+                                isLocal
+                                isPublic
+                                isDisabled
+                                community { id }
+                                myFollow  { id }
+                                myLike    { id }
+                                likes     { totalCount }
+                                followers { totalCount }
+                                resources { totalCount }
+                                threads   { totalCount }
+                            }
+                        }
                     }
                 }
             }

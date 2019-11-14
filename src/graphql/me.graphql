@@ -9,7 +9,6 @@ query meQuery {
             location
             icon
             image
-            image
             summary
             location
             website

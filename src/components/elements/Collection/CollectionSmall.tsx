@@ -12,11 +12,7 @@ interface CollectionProps {
 const Collection: React.FC<CollectionProps> = ({ collection }) => {
   return (
     <Wrapper py={1} mb={1} ml={3}>
-      <Link
-        to={`/communities/${collection.community.localId}/collections/${
-          collection.localId
-        }`}
-      >
+      <Link to={`/collections/${collection.localId}`}>
         <Img
           style={{
             backgroundImage: `url(${collection.icon || PlaceholderImg})`

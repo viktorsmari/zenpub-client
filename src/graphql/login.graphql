@@ -3,23 +3,23 @@ mutation loginMutation($email: String!, $password: String!) {
         token
         me {
             email
-	    wantsEmailDigest
-	    wantsNotifications
-	    isConfirmed
-	    isInstanceAdmin
+            wantsEmailDigest
+            wantsNotifications
+            isConfirmed
+            isInstanceAdmin
             user {
                 id
-		canonicalUrl
+                canonicalUrl
                 preferredUsername
                 name
                 summary
                 location
                 icon
-		isPublic
-		isDisabled
-		createdAt
-		updatedAt
-		lastActivity
+                isPublic
+                isDisabled
+                createdAt
+                updatedAt
+                lastActivity
             }
         }
     }

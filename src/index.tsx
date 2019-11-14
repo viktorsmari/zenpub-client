@@ -42,7 +42,9 @@ async function run() {
           border: none;
           background: #fff;
           margin: 0 !important; 
-          border-radius: 4px
+          border-radius: 4px;
+          text-indent: 30px;
+          padding: 0;
         }
       }
       .ais-InstantSearch__root { 

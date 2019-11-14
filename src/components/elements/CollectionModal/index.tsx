@@ -84,7 +84,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
             <Field
               name="fetchUrl"
               render={({ field }) => (
-                <Input
+                <SearchInput
                   placeholder={i18n._(tt.placeholders.url)}
                   onChange={field.onChange}
                   name={field.name}
@@ -167,6 +167,13 @@ export default compose(
 
 const WrapperLoader = styled.div`
   padding: 10px;
+`;
+
+const SearchInput = styled(Input)`
+  height: 40px;
+  background: white;
+  border-radius: 2px;
+  border: 1px solid ${props => props.theme.colors.lightgray};
 `;
 
 const Span = styled.button`

@@ -2,6 +2,7 @@
 query getThread($threadId: String!) {
     thread(threadId: $threadId) {
         id
+	canonicalUrl
         isLocal
         isPublic
         isHidden

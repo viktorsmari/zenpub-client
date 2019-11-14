@@ -21,10 +21,8 @@ export default ({ collection, communityId, openModal }: CollectionProps) => {
       <Link
         to={
           collection.localId
-            ? `/communities/${communityId}/collections/${collection.localId}`
-            : `/communities/${communityId}/collections/federate?url=${encodeURI(
-                collection.id
-              )}`
+            ? `/collections/${collection.localId}`
+            : `/collections/federate?url=${encodeURI(collection.id)}`
         }
       >
         <Img
