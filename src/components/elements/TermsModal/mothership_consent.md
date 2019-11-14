@@ -12,8 +12,8 @@ This document exists to request you to give specific, valid and informed consent
 
 In [GDPR](https://en.wikipedia.org/wiki/General_Data_Protection_Regulation) (General Data Protection Regulation 2016/679 of EU) terms adopted by Moodle Pty Ltd as global standard, their relationship with our instance is therefore both as:
 
-- - Joint Data Controller (in respect of certain elements of personal data made public by users which Moodle Pty Ltd makes searchable across the federated instances connected to the MoodleNet "mothership")
-  - Data Processor (Instance administrators act as the Data Controller, and can request Moodle Pty Ltd to delete personal data on the data subject from the MoodleNet "mothership")
+- Joint Data Controller (in respect of certain elements of personal data made public by users which Moodle Pty Ltd makes searchable across the federated instances connected to the MoodleNet "mothership")
+- Data Processor (Instance administrators act as the Data Controller, and can request Moodle Pty Ltd to delete personal data on the data subject from the MoodleNet "mothership")
 
 The specific categories of data and forms of processing which will be completed by Moodle Pty Ltd will be the following:
 
@@ -34,4 +34,4 @@ If you choose to enter any information involving a special category of personal 
 
 You have the right to withdraw consent for the processing of personal data at any time by contacting the admin of this instance, or failing that, by notifying Moodle Pty Ltd on <mailto:privacy@moodle.com>.
 
-By click on 'Continue', I agree to my data being processed for the "mothership" service.
+By clicking on _Continue_, you agree to your data being processed for the "mothership" service.
