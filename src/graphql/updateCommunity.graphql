@@ -6,7 +6,7 @@ input CommunityInput {
     icon: String!
 }
 
-mutation updateCommunityMutation($community: CommunityInput!, $communityId: Int!) {
+mutation updateCommunityMutation($community: CommunityInput!, $communityId: String!) {
   updateCommunity(communityId: $communityId, community: $community) {
     id
     canonicalUrl

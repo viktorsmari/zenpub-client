@@ -15,19 +15,17 @@ input RegistrationInput {
 
 mutation createUserMutation($user: RegistrationInput!) {
     createUser(user: $user) {
-        me {
-            email
-	    wantsEmailDigest
-	    wantsNotifications
-	    isConfirmed
-            user {
-                id
-                preferredUsername
-                name
-                summary # bio
-                location
-  	        website
-            }
+        email
+        wantsEmailDigest
+        wantsNotifications
+        isConfirmed
+        user {
+            id
+            preferredUsername
+            name
+            summary # bio
+            location
+            website
         }
     }
 }

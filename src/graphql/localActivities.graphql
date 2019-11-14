@@ -7,20 +7,23 @@ query localActivities($limit: Int, $end: String) {
     instance {
         outbox(limit: $limit, after: $end) {
             pageInfo { startCursor endCursor }
-            nodes {
-                id
-                canonicalUrl
-                verb
-                isLocal
-                isPublic
-                createdAt
-                user { ...BasicUser }
-                context {
-                    __typename
-                    ... on Community  { ...BasicCommunity  }
-                    ... on Comment    { ...BasicComment    }
-                    ... on Collection { ...BasicCollection }
-                    ... on Resource   { ...BasicResource   } 
+            edges {
+                cursor
+                node {
+                    id
+                    canonicalUrl
+                    verb
+                    isLocal
+                    isPublic
+                    createdAt
+                    user { ...BasicUser }
+                    context {
+                        __typename
+                        ... on Community  { ...BasicCommunity  }
+                        ... on Comment    { ...BasicComment    }
+                        ... on Collection { ...BasicCollection }
+                        ... on Resource   { ...BasicResource   } 
+                    }
                 }
             }
         }

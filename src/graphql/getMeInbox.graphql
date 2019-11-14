@@ -9,7 +9,10 @@ query getMeInbox($limit: Int, $end: String) {
         user {
             id
             inbox(limit: $limit, after: $end) {
-                pageInfo { startCursor endCursor }
+                pageInfo {
+                    startCursor
+                    endCursor
+                }
                 edges {
                     node {
                         id

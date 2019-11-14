@@ -6,8 +6,8 @@ input CollectionInput {
     icon: String!
 }
 
-mutation updateCollectionMutation($collectionId: String!, $collection: CollectionInput!) {
-    updateCollection(collectionLocalId: $collectionId, collection: $collection) {
+mutation updateCollectionMutation($collection: CollectionInput!, $collectionId: String!) {
+    updateCollection(collection: $collection, collectionId: $collectionId) {
         id
         canonicalUrl
         preferredUsername

@@ -1,0 +1,878 @@
+# source: https://team.moodle.net/api/graphql
+# timestamp: Thu Nov 14 2019 10:21:42 GMT+0100 (GMT+01:00)
+
+schema {
+  query: RootQueryType
+  mutation: RootMutationType
+}
+
+type ActivitiesEdge {
+  cursor: String!
+  node: Activity
+}
+
+type ActivitiesEdges {
+  edges: [ActivitiesEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+"""An event that appears in a feed"""
+type Activity {
+  """A url for the like, may be to a remote instance"""
+  canonicalUrl: String
+
+  """The object of the user's verbing"""
+  context: ActivityContext
+
+  """When the activity was created"""
+  createdAt: String
+
+  """An instance-local UUID identifying the activity"""
+  id: String
+
+  """Whether the activity is local to the instance"""
+  isLocal: Boolean
+
+  """Whether the activity is public"""
+  isPublic: Boolean
+
+  """The user who performed the activity"""
+  user: User
+
+  """The verb describing the activity"""
+  verb: ActivityVerb
+}
+
+"""Activity object"""
+union ActivityContext = Collection | Comment | Community | Resource
+
+"""Something a user does, in past tense"""
+enum ActivityVerb {
+  CREATED
+  UPDATED
+}
+
+type AuthPayload {
+  me: Me
+  token: String
+}
+
+"""
+A collection is the home of resources and discussion threads within a community
+
+"""
+type Collection {
+  """A url for the collection, may be to a remote instance"""
+  canonicalUrl: String
+
+  """The community the collection belongs to"""
+  community: Community
+
+  """When the collection was created"""
+  createdAt: String
+
+  """The user who created the collection"""
+  creator: User
+
+  """
+  Flags users have made about the collection, most recently created first
+  """
+  flags(after: String, before: String, limit: Int): FlagsEdges
+
+  """Subscriptions users have to the collection"""
+  followers(after: String, before: String, limit: Int): FollowsEdges
+
+  """An avatar url"""
+  icon: String
+
+  """An instance-local UUID identifying the user"""
+  id: String
+
+  """Whether an instance admin has hidden the collection"""
+  isDisabled: Boolean
+
+  """Whether the collection is local to the instance"""
+  isLocal: Boolean
+
+  """Whether the collection is public"""
+  isPublic: Boolean
+
+  """
+  When the collection or a resource in it was last updated or a
+  thread or a comment was created or updated
+  
+  """
+  lastActivity: String
+
+  """Likes users have given the collection"""
+  likes(after: String, before: String, limit: Int): LikesEdges
+
+  """The current user's follow of this collection, if any"""
+  myFollow: Follow
+
+  """The current user's like of this collection, if any"""
+  myLike: Like
+
+  """A name field"""
+  name: String
+
+  """Activities on the collection, most recent first"""
+  outbox(after: String, before: String, limit: Int): ActivitiesEdges
+
+  """An instance-unique identifier shared with users and communities"""
+  preferredUsername: String
+
+  """The primary language the community speaks"""
+  primaryLanguage: Language
+
+  """The resources in the collection, most recently created last"""
+  resources(after: String, before: String, limit: Int): ResourcesEdges
+
+  """Possibly biographical information"""
+  summary: String
+
+  """
+  The threads created on the collection, most recently created
+  first. Does not include threads created on resources.
+  
+  """
+  threads(after: String, before: String, limit: Int): ThreadsEdges
+
+  """When the collection was last updated"""
+  updatedAt: String
+}
+
+input CollectionInput {
+  icon: String
+  name: String!
+  preferredUsername: String!
+  primaryLanguageId: String
+  summary: String!
+}
+
+type CollectionsEdge {
+  cursor: String!
+  node: Collection
+}
+
+type CollectionsEdges {
+  edges: [CollectionsEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type CollectionsNodes {
+  nodes: [Collection]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type Comment {
+  """A url for the user, may be to a remote instance"""
+  canonicalUrl: String
+
+  """The comment text"""
+  content: String
+
+  """When the comment was created"""
+  createdAt: String
+
+  """The user who created this comment"""
+  creator: User
+
+  """Flags users have made about the comment, most recently created first"""
+  flags(after: String, before: String, limit: Int): FlagsEdges
+
+  """An instance-local UUID identifying the thread"""
+  id: String
+
+  """The id of the comment this one was a reply to"""
+  inReplyToId: String
+
+  """Whether an comment admin has hidden the thread"""
+  isHidden: Boolean
+
+  """Whether the comment is local to the instance"""
+  isLocal: Boolean
+
+  """Whether the comment is publically visible"""
+  isPublic: Boolean
+
+  """Users who like the comment, most recently liked first"""
+  likes(after: String, before: String, limit: Int): LikesEdges
+
+  """The current user's like of this comment, if any"""
+  myLike: Like
+
+  """The thread this comment is part of"""
+  thread: Thread
+
+  """When the comment was last updated"""
+  updatedAt: String
+}
+
+input CommentInput {
+  content: String!
+}
+
+type CommentsEdge {
+  cursor: String!
+  node: Comment
+}
+
+type CommentsEdges {
+  edges: [CommentsEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type CommunitiesNodes {
+  nodes: [Community]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type Community {
+  """A url for the community, may be to a remote instance"""
+  canonicalUrl: String
+
+  """The communities a user has joined, most recently joined first"""
+  collections(after: String, before: String, limit: Int): CollectionsEdges
+
+  """When the community was created"""
+  createdAt: String
+
+  """The user who created the community"""
+  creator: User
+
+  """Users following the community, most recently followed first"""
+  followers(after: String, before: String, limit: Int): FollowsEdges
+
+  """An avatar url"""
+  icon: String
+
+  """An instance-local UUID identifying the user"""
+  id: String
+
+  """A header background image url"""
+  image: String
+
+  """Activities for community moderators. Not available to plebs."""
+  inbox(after: String, before: String, limit: Int): ActivitiesEdges
+
+  """Whether an instance admin has disabled the community"""
+  isDisabled: Boolean
+
+  """Whether the community is local to the instance"""
+  isLocal: Boolean
+
+  """Whether the community has a public profile"""
+  isPublic: Boolean
+
+  """
+  When the community or a resource or collection in it was last
+  updated or a thread or a comment was created or updated
+  
+  """
+  lastActivity: String
+
+  """The current user's follow of the community, if any"""
+  myFollow: Follow
+
+  """A name field"""
+  name: String
+
+  """Activities in the community, most recently created first"""
+  outbox(after: String, before: String, limit: Int): ActivitiesEdges
+
+  """An instance-unique identifier shared with users and collections"""
+  preferredUsername: String
+
+  """The primary language the community speaks"""
+  primaryLanguage: Language
+
+  """Possibly biographical information"""
+  summary: String
+
+  """
+  Threads started on the community, in most recently updated
+  order. Does not include threads started on collections or
+  resources
+  
+  """
+  threads(after: String, before: String, limit: Int): ThreadsEdges
+
+  """When the community was last updated"""
+  updatedAt: String
+}
+
+input CommunityInput {
+  icon: String
+  image: String
+  name: String!
+  preferredUsername: String!
+  primaryLanguageId: String!
+  summary: String!
+}
+
+type CountriesNodes {
+  nodes: [Country]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type Country {
+  createdAt: String
+  englishName: String
+  id: String
+  isoCode2: String
+  isoCode3: String
+  localName: String
+  updatedAt: String
+}
+
+"""A report about objectionable content"""
+type Flag {
+  """A url for the flag, may be to a remote instance"""
+  canonicalUrl: String
+
+  """The thing that is being flagged"""
+  context: FlagContext
+
+  """When the flag was created"""
+  createdAt: String
+
+  """The user who flagged"""
+  creator: User
+
+  """An instance-local UUID identifying the user"""
+  id: String
+
+  """Whether the flag is local to the instance"""
+  isLocal: Boolean
+
+  """Whether the flag is public"""
+  isPublic: Boolean
+
+  """Is the flag considered dealt with by the instance moderator?"""
+  isResolved: Boolean
+
+  """The reason for flagging"""
+  message: String
+
+  """When the flag was updated"""
+  updatedAt: String
+}
+
+"""A thing that can be flagged"""
+union FlagContext = Collection | Comment | Community | Resource | User
+
+type FlagsEdge {
+  cursor: String!
+  node: Flag
+}
+
+type FlagsEdges {
+  edges: [FlagsEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+"""A record that a user follows something"""
+type Follow {
+  """A url for the flag, may be to a remote instance"""
+  canonicalUrl: String
+
+  """The thing that is being followed"""
+  context: FollowContext
+
+  """When the like was created"""
+  createdAt: String
+
+  """The user who followed"""
+  creator: User
+
+  """An instance-local UUID identifying the user"""
+  id: String
+
+  """Whether the follow is local to the instance"""
+  isLocal: Boolean
+
+  """Whether the follow is public"""
+  isPublic: Boolean
+}
+
+"""A thing that can be followed"""
+union FollowContext = Collection | Community | Thread | User
+
+type FollowsEdge {
+  cursor: String!
+  node: Follow
+}
+
+type FollowsEdges {
+  edges: [FollowsEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type Instance {
+  """
+  A list of public activity on the local instance, most recent first
+  
+  """
+  outbox(after: String, before: String, limit: Int): ActivitiesEdges
+}
+
+type Language {
+  createdAt: String
+  englishName: String
+  id: String
+  isoCode2: String
+  isoCode3: String
+  localName: String
+  updatedAt: String
+}
+
+type LanguagesNodes {
+  nodes: [Language]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+"""A record that a user likes a thing"""
+type Like {
+  """A url for the like, may be to a remote instance"""
+  canonicalUrl: String
+
+  """The thing that is liked"""
+  context: LikeContext
+
+  """When the like was created"""
+  createdAt: String
+
+  """The user who liked"""
+  creator: User
+
+  """An instance-local UUID identifying the like"""
+  id: String
+
+  """Whether the like is local to the instance"""
+  isLocal: Boolean
+
+  """Whether the like is public"""
+  isPublic: Boolean
+}
+
+"""A thing which can be liked"""
+union LikeContext = Collection | Comment | Resource | User
+
+type LikesEdge {
+  cursor: String!
+  node: Like
+}
+
+type LikesEdges {
+  edges: [LikesEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+"""
+The current user. Contains more information than just the `user` type
+
+"""
+type Me {
+  """The user's email"""
+  email: String
+
+  """Has the user confirmed their account?"""
+  isConfirmed: Boolean
+
+  """Is the user a witch or wizard?"""
+  isInstanceAdmin: Boolean
+
+  """The public info"""
+  user: User
+
+  """Would the user like to receive digest emails of updates?"""
+  wantsEmailDigest: Boolean
+
+  """Does the user want notifications? Which don't work yet."""
+  wantsNotifications: Boolean
+}
+
+"""Cursors for pagination"""
+type PageInfo {
+  endCursor: String
+  startCursor: String
+}
+
+input RegistrationInput {
+  email: String!
+  icon: String
+  image: String
+  location: String
+  name: String
+  password: String!
+  preferredUsername: String!
+  primaryLanguageId: String
+  summary: String
+  wantsEmailDigest: Boolean
+  wantsNotifications: Boolean
+  website: String
+}
+
+type Resource {
+  """A url for the user, may be to a remote instance"""
+  canonicalUrl: String
+
+  """The collection this resource is a part of"""
+  collection: Collection
+
+  """When the collection was created"""
+  createdAt: String
+
+  """The user who created the resource"""
+  creator: User
+
+  """Flags users have made about the resource, most recently created first"""
+  flags(after: String, before: String, limit: Int): FlagsEdges
+
+  """An avatar url"""
+  icon: String
+
+  """An instance-local UUID identifying the user"""
+  id: String
+
+  """Whether an instance admin has hidden the resource"""
+  isDisabled: Boolean
+
+  """Whether the resource is local to the instance"""
+  isLocal: Boolean
+
+  """Whether the community is public"""
+  isPublic: Boolean
+
+  """
+  When the resource was last updated or a thread or a comment on it
+  was created or updated
+  
+  """
+  lastActivity: String
+
+  """What license is it available under?"""
+  license: String
+
+  """Users who like the resource, most recently liked first"""
+  likes(after: String, before: String, limit: Int): LikesEdges
+
+  """The current user's like of the resource, if any"""
+  myLike: Like
+
+  """A name field"""
+  name: String
+
+  """Languages the resources is available in"""
+  primaryLanguage: Language
+
+  """Possibly biographical information"""
+  summary: String
+
+  """When the collection was last updated"""
+  updatedAt: String
+
+  """A link to an external resource"""
+  url: String
+}
+
+input ResourceInput {
+  icon: String
+  license: String
+  name: String
+  primaryLanguageId: String
+  summary: String
+  url: String
+}
+
+type ResourcesEdge {
+  cursor: String!
+  node: Resource
+}
+
+type ResourcesEdges {
+  edges: [ResourcesEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type RootMutationType {
+  """Confirm email. Returns a login token."""
+  confirmEmail(token: String!): AuthPayload
+
+  """Copy a resource"""
+  copyResource(collectionId: String!, resourceId: String!): Resource
+
+  """Create a collection"""
+  createCollection(collection: CollectionInput!, communityId: String!): Collection
+
+  """Create a community"""
+  createCommunity(community: CommunityInput!): Community
+
+  """
+  Flag a user, community, collection, resource or comment, returning a flag id
+  """
+  createFlag(contextId: String!, message: String!): Flag
+
+  """Follow a community, collection or thread returning a follow id"""
+  createFollow(contextId: String!): Follow
+
+  """Like a comment, collection, or resource returning a like id"""
+  createLike(contextId: String!): Like
+
+  """Create a reply"""
+  createReply(comment: CommentInput!, inReplyToId: String!, threadId: String!): Comment
+
+  """Create a resource"""
+  createResource(collectionId: String!, resource: ResourceInput!): Resource
+
+  """Log in"""
+  createSession(email: String!, password: String!): AuthPayload
+
+  """Create a new thread"""
+  createThread(comment: CommentInput!, contextId: String!): Comment
+
+  """Create a user"""
+  createUser(user: RegistrationInput!): Me
+
+  """Delete more or less anything"""
+  delete(contextId: String!): Boolean
+
+  """Deletes my account!"""
+  deleteSelf(iAmSure: Boolean!): Boolean
+
+  """Log out"""
+  deleteSession: Boolean
+
+  """Edit a comment"""
+  editComment(comment: CommentInput!, commentId: String!): Comment
+
+  """Reset password"""
+  resetPassword(password: String!, token: String!): AuthPayload
+
+  """Reset password request"""
+  resetPasswordRequest(email: String!): Boolean
+
+  """Close a flag"""
+  resolveFlag(flagId: String!): Boolean
+
+  """Update a collection"""
+  updateCollection(collection: CollectionInput!, collectionId: String!): Collection
+
+  """Update a community"""
+  updateCommunity(community: CommunityInput!, communityId: String!): Community
+
+  """Update a profile"""
+  updateProfile(profile: UpdateProfileInput!): Me
+
+  """Update a resource"""
+  updateResource(resource: ResourceInput!, resourceId: String!): Resource
+}
+
+type RootQueryType {
+  activity(activityId: String!): Activity
+
+  """Get a collection"""
+  collection(collectionId: String!): Collection
+
+  """Get list of collections, most recent activity first"""
+  collections(after: String, before: String, limit: Int): CollectionsNodes
+
+  """Get a comment"""
+  comment(commentId: String!): Comment
+
+  """Get list of communities, most followed first"""
+  communities(after: String, before: String, limit: Int): CommunitiesNodes
+
+  """Get a community"""
+  community(communityId: String!): Community
+
+  """Get list of languages we know about"""
+  countries(after: String, before: String, limit: Int): CountriesNodes
+  country(countryId: String!): Country
+  flag(flagId: String!): Flag
+  follow(followId: String!): Follow
+
+  """A logical object for the local instance"""
+  instance: Instance
+  language(languageId: String!): Language
+
+  """Get list of languages we know about"""
+  languages(after: String, before: String, limit: Int): LanguagesNodes
+  like(likeId: String!): Like
+
+  """Get my user"""
+  me: Me
+
+  """Get a resource"""
+  resource(resourceId: String!): Resource
+  searchCountry(query: String!): CountriesNodes
+  searchLanguage(query: String!): LanguagesNodes
+
+  """Get a thread"""
+  thread(threadId: String!): Thread
+
+  """Get an user"""
+  user(userId: String!): User
+
+  """Check if a user exists with a username"""
+  usernameAvailable(username: String!): Boolean
+}
+
+"""A thread is essentially a list of comments"""
+type Thread {
+  """A url for the user, may be to a remote instance"""
+  canonicalUrl: String
+
+  """Comments in the thread, most recently created first"""
+  comments(after: String, before: String, limit: Int): CommentsEdges
+
+  """The object the thread is attached to"""
+  context: ThreadContext
+
+  """When the thread was created"""
+  createdAt: String
+
+  """Users following the collection, most recently followed first"""
+  followers(after: String, before: String, limit: Int): FollowsEdges
+
+  """An instance-local UUID identifying the thread"""
+  id: String
+
+  """Whether an instance admin has hidden the thread"""
+  isHidden: Boolean
+
+  """Whether the thread is local to the instance"""
+  isLocal: Boolean
+
+  """Whether the thread is publically visible"""
+  isPublic: Boolean
+
+  """The last time the thread or a comment on it was created or updated"""
+  lastActivity: String
+
+  """The current user's follow of the community, if any"""
+  myFollow: Follow
+
+  """When the thread was last updated"""
+  updatedAt: String
+}
+
+"""The thing the comment is about"""
+union ThreadContext = Collection | Community | Flag | Resource
+
+type ThreadsEdge {
+  cursor: String!
+  node: Thread
+}
+
+type ThreadsEdges {
+  edges: [ThreadsEdge]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+input UpdateProfileInput {
+  icon: String
+  image: String
+  location: String
+  name: String
+  primaryLanguageId: String
+  summary: String
+  wantsEmailDigest: Boolean
+  wantsNotifications: Boolean
+  website: String
+}
+
+"""User profile information"""
+type User {
+  """A url for the user, may be to a remote instance"""
+  canonicalUrl: String
+
+  """Comments the user has made, most recently created first"""
+  comments(after: String, before: String, limit: Int): CommentsEdges
+
+  """When the user signed up"""
+  createdAt: String
+
+  """The collections a user is following, most recently followed first"""
+  followedCollections(after: String, before: String, limit: Int): FollowsEdges
+
+  """The communities a user is following, most recently followed first"""
+  followedCommunities(after: String, before: String, limit: Int): FollowsEdges
+
+  """The users a user is following, most recently followed first"""
+  followedUsers(after: String, before: String, limit: Int): FollowsEdges
+
+  """An avatar url"""
+  icon: String
+
+  """An instance-local UUID identifying the user"""
+  id: ID
+
+  """A header background image url"""
+  image: String
+
+  """
+  Activities of others the user is following, most recently created
+  first. Only available to the current user under `me`
+  
+  """
+  inbox(after: String, before: String, limit: Int): ActivitiesEdges
+
+  """Whether an instance admin has disabled the user's account"""
+  isDisabled: Boolean
+
+  """Whether the user is local to the instance"""
+  isLocal: Boolean
+
+  """Whether the user has a public profile"""
+  isPublic: Boolean
+
+  """The last time the user did anything"""
+  lastActivity: String
+
+  """The collections a user is following, most recently followed first"""
+  likes(after: String, before: String, limit: Int): LikesEdges
+
+  """Free text"""
+  location: String
+
+  """The current user's follow of this user, if any"""
+  myFollow: Follow
+
+  """The current user's like of this user, if any"""
+  myLike: Like
+
+  """A name field"""
+  name: String
+
+  """Activities of the user, most recently created first"""
+  outbox(after: String, before: String, limit: Int): ActivitiesEdges
+
+  """An instance-unique identifier shared with communities and collections"""
+  preferredUsername: String
+
+  """The language the user wishes to use moodlenet in"""
+  primaryLanguage: Language
+
+  """Possibly biographical information"""
+  summary: String
+
+  """When the user last updated their profile"""
+  updatedAt: String
+
+  """A valid URL"""
+  website: String
+}

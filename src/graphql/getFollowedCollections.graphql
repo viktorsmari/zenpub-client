@@ -12,32 +12,36 @@ query getFollowedCollections($limit: Int, $endColl: String) {
                     node {
                         id
                         canonicalUrl
-                        preferredUsername
-                        name
-                        summary
-                        icon
-                        isLocal
-                        isPublic
-                        isDisabled
-                        createdAt
-                        lastActivity
-                        myFollow { id }
-                        myLike   { id }
-                        community {
-                            id
-                            canonicalUrl
-                            preferredUsername
-                            isLocal
-                            isPublic
-                            isDisabled
-                            icon
-                            myFollow { id }
-                            myLike   { id }
+                        context {
+                            __typename
+                            ... on Collection {
+                                preferredUsername
+                                name
+                                summary
+                                icon
+                                isLocal
+                                isPublic
+                                isDisabled
+                                createdAt
+                                lastActivity
+                                myFollow { id }
+                                myLike   { id }
+                                community {
+                                    id
+                                    canonicalUrl
+                                    preferredUsername
+                                    isLocal
+                                    isPublic
+                                    isDisabled
+                                    icon
+                                    myFollow { id }
+                                }
+                                followers { totalCount }
+                                likes     { totalCount }
+                                resources { totalCount }
+                                threads   { totalCount }
+                            }
                         }
-                        followers { totalCount }
-                        likes     { totalCount }
-                        resources { totalCount }
-                        threads   { totalCount }
                     }
                 }
             }
