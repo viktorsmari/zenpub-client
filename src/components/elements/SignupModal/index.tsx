@@ -63,7 +63,7 @@ async function validateUsername(value, client) {
   }
 }
 
-const CreateCommunityModal = (props: Props) => {
+const SignupModal = (props: Props) => {
   const { toggleModal, modalIsOpen } = props;
   const [createUser /*, createUserResp*/] = useCreateUserMutationMutation();
   return (
@@ -257,4 +257,4 @@ const validationSchema = Yup.object().shape({
     .required('Password confirmation is required')
 });
 
-export default CreateCommunityModal;
+export default SignupModal;

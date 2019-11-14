@@ -26,7 +26,7 @@ const Dialog = styled.div`
   padding: 0;
   margin: 40px auto;
   position: fixed;
-  top: 20px;
+  top: 10px;
   left: 50%;
   margin-left: -350px;
   border-radius: 3px;
@@ -58,6 +58,8 @@ const Close = styled.div`
 
 const Content = styled.div`
   ${clearFix()};
+  overflow: auto;
+  max-height: 90vh;
 `;
 
 export const Container = styled.div`
