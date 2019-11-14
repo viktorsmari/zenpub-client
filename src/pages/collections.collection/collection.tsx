@@ -108,8 +108,8 @@ const CommunityPage: SFC<Props> = ({
                     <DropzoneModal
                       toggleModal={onUploadOpen}
                       modalIsOpen={isUploadOpen}
-                      collectionId={collection.localId}
-                      collectionExternalId={collection.id}
+                      itemId={collection.localId}
+                      externalItemId={collection.id}
                     />
                   ) : null}
 

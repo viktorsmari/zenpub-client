@@ -146,6 +146,7 @@
     "styled-components": "4.0.0",
     "styled-media-query": "2.1.1",
     "styled-theming": "2.2.0",
+    "superagent": "5.1.0",
     "sw-precache-webpack-plugin": "0.11.5",
     "terser-webpack-plugin": "1.1.0",
     "tributejs": "3.7.3",
