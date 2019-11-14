@@ -14,7 +14,7 @@ import SignupModal from '../SignupModal';
 import Markdown from 'markdown-to-jsx';
 
 import user_agreement_md from '!!raw-loader!./user_agreement.md';
-import mothership_consent_md from '!!raw-loader!./mothership_consent.md';
+// import mothership_consent_md from '!!raw-loader!./mothership_consent.md';
 // console.log(agreement_md)
 
 interface Props {
@@ -32,13 +32,13 @@ const TermsUserModal = (props: Props) => {
         <Container>
           <Header>
             <Heading m={2}>
-              <Trans>Please read our user agreement</Trans>
+              <Trans>Please read our user agreement and privacy notice</Trans>
             </Heading>
           </Header>
           <Form>
             <Markdown>{user_agreement_md}</Markdown>
 
-            <Markdown>{mothership_consent_md}</Markdown>
+            {/* <Markdown>{mothership_consent_md}</Markdown> */}
 
             <Actions>
               <Button onClick={props.handleNext} style={{ marginLeft: '10px' }}>
