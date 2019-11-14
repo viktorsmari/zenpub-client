@@ -9,13 +9,13 @@ fragment BasicComment on Comment {
     updatedAt
     author {
         id
-	canonicalUrl
+	    canonicalUrl
         preferredUsername
         name
         icon
-	isLocal
-	isPublic
-	isDisabled
+        isLocal
+        isPublic
+        isDisabled
     }
     likes   { totalCount }
     thread  {
@@ -38,5 +38,6 @@ fragment BasicComment on Comment {
               isPublic
               isDisabled
           }
+      }
     }	
 }
