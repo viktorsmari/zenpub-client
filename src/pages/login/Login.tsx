@@ -331,7 +331,9 @@ class Login extends React.Component<LoginProps, LoginState> {
                   </Trans>
                 </Text>
                 <Button mt={3} variant="outline">
-                  <Trans>Browse</Trans>
+                  <Link to={'/discover'}>
+                    <Trans>Browse</Trans>
+                  </Link>
                 </Button>
               </Browse>
             </FormWrapper>

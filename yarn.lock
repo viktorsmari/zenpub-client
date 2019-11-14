@@ -4806,13 +4806,10 @@ emoji-js@3.4.1:
   dependencies:
     emoji-datasource "4.0.0"
 
-emoji-picker-react@2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/emoji-picker-react/-/emoji-picker-react-2.1.1.tgz#d833635c8c18dfac5dbe53b0eadd62f630d6273e"
-  integrity sha512-LtCmP/1o+xSzqKJk07NSCcMkPrnkpO6jdJkDLlfNpZL7IUERVDXVRhUannjDX2cY6wYuPWGDZHLvaeGIILAUfw==
-  dependencies:
-    babel-runtime "^6.25.0"
-    throttle-debounce "^1.0.1"
+emoji-picker-react@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/emoji-picker-react/-/emoji-picker-react-3.0.1.tgz#1e3599aa574cda8b2ac889e08b26add5248f8195"
+  integrity sha512-WCGaa2T9Aekcx3TyqFp09B/gco5//tzWAaiiND0/cNdP3CuqgTwgdU36I8snjoXQps+ZeS3YVXcKDV2OwrFpCQ==
 
 emoji-regex@^6.1.0:
   version "6.5.1"
