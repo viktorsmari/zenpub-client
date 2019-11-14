@@ -27,7 +27,7 @@
     ],
     "presets": [
       "react-app",
-      "@lingui/babegraphqll-preset-react"
+      "@lingui/babel-preset-react"
     ]
   },
   "eslintConfig": {

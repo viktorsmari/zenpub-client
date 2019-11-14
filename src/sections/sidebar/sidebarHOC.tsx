@@ -15,10 +15,10 @@ export const SidebarWrapper: React.FC<Props> = ({ isOpen }) => {
     },
     [resp.refetch]
   );
-  useInterceptor({ operation: 'deleteCommunity', request: _handle });
+  useInterceptor({ operation: 'delete', request: _handle });
   useInterceptor({ operation: 'createCommunity', request: _handle });
-  useInterceptor({ operation: 'joinCommunity', request: _handle });
-  useInterceptor({ operation: 'undoJoinCommunity', request: _handle });
+  useInterceptor({ operation: 'follow', request: _handle });
+  useInterceptor({ operation: 'delete', request: _handle });
   return <Sidebar resp={resp} isOpen={isOpen} />;
 };
 

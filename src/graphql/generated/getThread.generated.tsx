@@ -27,6 +27,21 @@ export type GetThreadQuery = { __typename?: 'RootQueryType' } & {
       | 'updatedAt'
       | 'lastActivity'
     > & {
+        context: Types.Maybe<
+          | ({ __typename?: 'Collection' } & Pick<
+              Types.Collection,
+              'id' | 'icon' | 'name'
+            >)
+          | ({ __typename?: 'Community' } & Pick<
+              Types.Community,
+              'id' | 'icon' | 'name'
+            >)
+          | { __typename?: 'Flag' }
+          | ({ __typename?: 'Resource' } & Pick<
+              Types.Resource,
+              'id' | 'icon' | 'name'
+            >)
+        >;
         myFollow: Types.Maybe<
           { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
         >;
@@ -63,6 +78,24 @@ export const GetThreadDocument = gql`
       createdAt
       updatedAt
       lastActivity
+      context {
+        __typename
+        ... on Community {
+          id
+          icon
+          name
+        }
+        ... on Collection {
+          id
+          icon
+          name
+        }
+        ... on Resource {
+          id
+          icon
+          name
+        }
+      }
       myFollow {
         id
       }

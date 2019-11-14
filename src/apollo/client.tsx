@@ -35,17 +35,16 @@ export default async function initialise({ authToken }: Cfg) {
 
   const setTokenLink = new ApolloLink((operation, nextLink) => {
     const createSessionOpName: OperationName = 'createSession';
-    const createUserOpName: OperationName = 'createUser';
+    // const createUserOpName: OperationName = 'createUser';
     const deleteSessionOpName: OperationName = 'deleteSession';
     const opName = getOperationName(operation);
     if (opName === deleteSessionOpName) {
       authToken = undefined;
     }
     return nextLink(operation).map(resp => {
-      if (opName === createUserOpName || opName === createSessionOpName) {
-        const authPyload: ResponseOf<
-          typeof createSessionOpName | typeof createUserOpName
-        > = resp.data && resp.data[opName];
+      if (opName === createSessionOpName) {
+        const authPyload: ResponseOf<typeof createSessionOpName> =
+          resp.data && resp.data[opName];
         authToken =
           authPyload && authPyload.token ? authPyload.token : undefined;
       }

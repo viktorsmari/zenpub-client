@@ -58,6 +58,7 @@ async function run() {
   const authToken =
     (initialState.session.auth && initialState.session.auth.token) || undefined;
   const apolloClient = await getApolloClient({ authToken });
+  //@ts-ignore
   integrateSessionApolloRedux(apolloClient.opInterceptor, store);
   integrateToastNotifications(apolloClient.opInterceptor, store);
   const ApolloApp = () => (

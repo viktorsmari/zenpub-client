@@ -104,8 +104,8 @@ const Content = connectStateResults(
             exact
             path="/thread/:id"
             render={route => {
-              const id = Number(route.match.params.id);
-              return <Thread id={id} />;
+              const threadId = route.match.params.id;
+              return <Thread threadId={threadId} />;
             }}
           />
           <Route
@@ -117,7 +117,7 @@ const Content = connectStateResults(
             exact
             path="/collections/:id"
             render={route => {
-              const id = Number(route.match.params.id);
+              const id = route.match.params.id;
               return <Collection id={id} />;
             }}
           />

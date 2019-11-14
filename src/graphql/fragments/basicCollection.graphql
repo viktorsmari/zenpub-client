@@ -4,6 +4,7 @@ fragment BasicCollection on Collection {
     preferredUsername
     name
     summary
+    creator { id }
     icon
     isLocal
     isPublic
