@@ -1,43 +1,20 @@
 #import "./fragments/basicComment.graphql"
-
-query getThread($id: Int!) {
-  comment(localId: $id) {
-     ...BasicComment
-    replies {
-      totalCount
-      edges {
-        node {
-          id
-          localId
-          content
-          published
-          inReplyTo {
-            localId
-            author {
-              id
-              icon
-              name
-              localId
-              preferredUsername
-            }
-          }
-          replies {
+query getThread($threadId: String!) {
+    thread(threadId: $threadId) {
+        id
+	canonicalUrl
+        isLocal
+        isPublic
+        isHidden
+        createdAt
+        updatedAt
+        lastActivity
+        myFollow { id }
+        comments {
             totalCount
             edges {
-              node {id}
+                node { ...BasicComment }
             }
-          }
-          likers {
-            totalCount
-          }
-          author {
-            id
-            icon
-            name
-            localId
-          }
         }
-      }
     }
-  }
 }

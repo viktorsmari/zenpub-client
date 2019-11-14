@@ -4,17 +4,14 @@
 input ResourceInput {
     name: String!
     summary: String
-    content: String
     url: String!
-    primaryLanguage: String
     icon: String
+    license: String
+    primaryLanguageId: String
 }
 
- mutation createResourceMutation($resourceId: Int!, $resource: ResourceInput!) {
-    createResource(
-    collectionLocalId: $resourceId
-    resource: $resource
-    ) {
+mutation createResourceMutation($collectionId: String!, $resource: ResourceInput!) {
+    createResource(collectionId: $collectionId, resource: $resource) {
         ...BasicResource
     }
 }

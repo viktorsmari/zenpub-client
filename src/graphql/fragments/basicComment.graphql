@@ -1,45 +1,43 @@
 fragment BasicComment on Comment {
-  localId
-  content
-  id
-  published
-  author {
-      name
-      id
-      icon
-      preferredUsername
-      localId
-  }
-  replies {
-      totalCount
-  }
-  inReplyTo {
-    localId
+    id
+    inReplyToId
     content
+    isLocal
+    isPublic
+    isHidden
+    createdAt
+    updatedAt
     author {
-      id
-      icon
-      name
-      localId
-      preferredUsername
+        id
+	    canonicalUrl
+        preferredUsername
+        name
+        icon
+        isLocal
+        isPublic
+        isDisabled
     }
-  }
-  likers {
-    totalCount
-  }
-  context {
-    __typename
-    ... on Community {
+    likes   { totalCount }
+    thread  {
       id
-      name
-      localId
-      icon
-    }
-      ... on Collection {
-      id
-      name
-      localId
-      icon
-    }
-  }
+      context {
+          __typename
+          ... on Community {
+              id
+              canonicalUrl
+              name
+              isLocal
+              isPublic
+              isDisabled
+          }
+          ... on Collection {
+              id
+              canonicalUrl
+              name
+              isLocal
+              isPublic
+              isDisabled
+          }
+      }
+    }	
 }
