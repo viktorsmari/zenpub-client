@@ -53,7 +53,7 @@ $ cd react
 First make sure to configure your domain name or subdomain to point to your server's IP address.
 
 We need to set some environment variables in order to function, a list of which can be found in these files:
-- `.env` (for the frontend, replace 'home.next.moodle.net' with your domain name)
+- `.env` (for the frontend, replace 'team.moodle.net' with your domain name)
 - `.env.backend` (for the backend, replace all mentions of 'localhost' with your domain name)
 - `.env.secrets.example` (which you must copy to `.env.secrets` and update with secure passowrds and secrets, MAIL_DOMAIN and MAIL_KEY are to configure transactional email with [Mailgun](https://www.mailgun.com/)) 
 

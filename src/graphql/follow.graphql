@@ -1,3 +1,5 @@
 mutation followMutation($contextId: String!) {
-    createFollow(contextId: $contextId)
+    createFollow(contextId: $contextId){
+        id
+    }
 }

@@ -48,14 +48,8 @@ query getCommunityQuery($communityId: String!, $limit: Int, $end: String) {
                 node {
                     id
                     canonicalUrl
-		    preferredUsername
-                    name
-                    icon
                     isLocal
                     isPublic
-                    isDisabled
-		    lastActivity
-                    myFollow { id }
                 }
             }
         }
@@ -71,7 +65,7 @@ query getCommunityQuery($communityId: String!, $limit: Int, $end: String) {
                     summary
                     icon
                     myFollow { id }
-		    likes     { totalCount}
+		            likes     { totalCount}
                     followers { totalCount }
                     resources { totalCount }
                     threads   { totalCount }

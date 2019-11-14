@@ -1,77 +1,74 @@
 import * as Types from '../../types.d';
 
+import { BasicCommentFragment } from './basicComment.generated';
 import gql from 'graphql-tag';
+import { BasicCommentFragmentDoc } from './basicComment.generated';
 
-export type BasicCommunityFragment = { __typename?: 'Community' } & Pick<
-  Types.Community,
+export type BasicThreadFragment = { __typename?: 'Thread' } & Pick<
+  Types.Thread,
   | 'id'
-  | 'canonicalUrl'
-  | 'preferredUsername'
-  | 'name'
-  | 'summary'
-  | 'icon'
-  | 'image'
+  | 'isLocal'
+  | 'isPublic'
+  | 'isHidden'
   | 'createdAt'
   | 'updatedAt'
   | 'lastActivity'
-  | 'isLocal'
-  | 'isPublic'
-  | 'isDisabled'
 > & {
     myFollow: Types.Maybe<{ __typename?: 'Follow' } & Pick<Types.Follow, 'id'>>;
-    primaryLanguage: Types.Maybe<
-      { __typename?: 'Language' } & Pick<
-        Types.Language,
-        'id' | 'englishName' | 'localName'
-      >
-    >;
-    followers: Types.Maybe<
-      { __typename?: 'FollowsEdges' } & Pick<Types.FollowsEdges, 'totalCount'>
-    >;
-    threads: Types.Maybe<
-      { __typename?: 'ThreadsEdges' } & Pick<Types.ThreadsEdges, 'totalCount'>
-    >;
-    outbox: Types.Maybe<
-      { __typename?: 'ActivitiesEdges' } & Pick<
-        Types.ActivitiesEdges,
+    comments: Types.Maybe<
+      { __typename?: 'CommentsEdges' } & Pick<
+        Types.CommentsEdges,
         'totalCount'
-      >
+      > & {
+          pageInfo: { __typename?: 'PageInfo' } & Pick<
+            Types.PageInfo,
+            'startCursor' | 'endCursor'
+          >;
+          edges: Types.Maybe<
+            Array<
+              Types.Maybe<
+                { __typename?: 'CommentsEdge' } & Pick<
+                  Types.CommentsEdge,
+                  'cursor'
+                > & {
+                    node: Types.Maybe<
+                      { __typename?: 'Comment' } & BasicCommentFragment
+                    >;
+                  }
+              >
+            >
+          >;
+        }
     >;
   };
 
-export const BasicCommunityFragmentDoc = gql`
-  fragment BasicCommunity on Community {
+export const BasicThreadFragmentDoc = gql`
+  fragment BasicThread on Thread {
     id
-    canonicalUrl
-    preferredUsername
-    name
-    summary
-    icon
-    image
+    isLocal
+    isPublic
+    isHidden
     createdAt
     updatedAt
     lastActivity
-    isLocal
-    isPublic
-    isDisabled
     myFollow {
       id
     }
-    primaryLanguage {
-      id
-      englishName
-      localName
-    }
-    followers {
+    comments {
       totalCount
-    }
-    threads {
-      totalCount
-    }
-    outbox {
-      totalCount
+      pageInfo {
+        startCursor
+        endCursor
+      }
+      edges {
+        cursor
+        node {
+          ...BasicComment
+        }
+      }
     }
   }
+  ${BasicCommentFragmentDoc}
 `;
 
 export interface IntrospectionResultData {

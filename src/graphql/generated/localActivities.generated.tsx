@@ -20,64 +20,99 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type LocalActivitiesQueryVariables = {
   limit?: Types.Maybe<Types.Scalars['Int']>;
-  end?: Types.Maybe<Types.Scalars['Int']>;
+  end?: Types.Maybe<Types.Scalars['String']>;
 };
 
 export type LocalActivitiesQuery = { __typename?: 'RootQueryType' } & {
-  localActivities: { __typename?: 'GenericActivityPage' } & {
-    pageInfo: { __typename?: 'PageInfo' } & Pick<
-      Types.PageInfo,
-      'startCursor' | 'endCursor'
-    >;
-    nodes: Types.Maybe<
-      Array<
-        Types.Maybe<
-          { __typename?: 'Activity' } & Pick<
-            Types.Activity,
-            'id' | 'activityType' | 'published' | 'type'
-          > & {
-              user: Types.Maybe<{ __typename?: 'User' } & BasicUserFragment>;
-              object: Types.Maybe<
-                | ({ __typename?: 'Community' } & BasicCommunityFragment)
-                | ({ __typename?: 'Collection' } & BasicCollectionFragment)
-                | ({ __typename?: 'Resource' } & BasicResourceFragment)
-                | ({ __typename?: 'Comment' } & BasicCommentFragment)
-              >;
-            }
-        >
-      >
-    >;
-  };
+  instance: Types.Maybe<
+    { __typename?: 'Instance' } & {
+      outbox: Types.Maybe<
+        { __typename?: 'ActivitiesEdges' } & {
+          pageInfo: { __typename?: 'PageInfo' } & Pick<
+            Types.PageInfo,
+            'startCursor' | 'endCursor'
+          >;
+          edges: Types.Maybe<
+            Array<
+              Types.Maybe<
+                { __typename?: 'ActivitiesEdge' } & Pick<
+                  Types.ActivitiesEdge,
+                  'cursor'
+                > & {
+                    node: Types.Maybe<
+                      { __typename?: 'Activity' } & Pick<
+                        Types.Activity,
+                        | 'id'
+                        | 'canonicalUrl'
+                        | 'verb'
+                        | 'isLocal'
+                        | 'isPublic'
+                        | 'createdAt'
+                      > & {
+                          user: Types.Maybe<
+                            { __typename?: 'User' } & BasicUserFragment
+                          >;
+                          context: Types.Maybe<
+                            | ({
+                                __typename?: 'Collection';
+                              } & BasicCollectionFragment)
+                            | ({
+                                __typename?: 'Comment';
+                              } & BasicCommentFragment)
+                            | ({
+                                __typename?: 'Community';
+                              } & BasicCommunityFragment)
+                            | ({
+                                __typename?: 'Resource';
+                              } & BasicResourceFragment)
+                          >;
+                        }
+                    >;
+                  }
+              >
+            >
+          >;
+        }
+      >;
+    }
+  >;
 };
 
 export const LocalActivitiesDocument = gql`
-  query localActivities($limit: Int, $end: Int) {
-    localActivities(limit: $limit, after: $end) {
-      pageInfo {
-        startCursor
-        endCursor
-      }
-      nodes {
-        id
-        activityType
-        published
-        type
-        user {
-          ...BasicUser
+  query localActivities($limit: Int, $end: String) {
+    instance {
+      outbox(limit: $limit, after: $end) {
+        pageInfo {
+          startCursor
+          endCursor
         }
-        object {
-          __typename
-          ... on Community {
-            ...BasicCommunity
-          }
-          ... on Comment {
-            ...BasicComment
-          }
-          ... on Collection {
-            ...BasicCollection
-          }
-          ... on Resource {
-            ...BasicResource
+        edges {
+          cursor
+          node {
+            id
+            canonicalUrl
+            verb
+            isLocal
+            isPublic
+            createdAt
+            user {
+              ...BasicUser
+            }
+            context {
+              __typename
+              ... on Community {
+                ...BasicCommunity
+              }
+              ... on Comment {
+                ...BasicComment
+              }
+              ... on Collection {
+                ...BasicCollection
+              }
+              ... on Resource {
+                ...BasicResource
+              }
+            }
           }
         }
       }
@@ -200,31 +235,94 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: 'UNION',
-        name: 'CommentContext',
+        name: 'ActivityContext',
         possibleTypes: [
           {
             name: 'Collection'
           },
           {
+            name: 'Comment'
+          },
+          {
             name: 'Community'
+          },
+          {
+            name: 'Resource'
           }
         ]
       },
       {
         kind: 'UNION',
-        name: 'ActivityObject',
+        name: 'FlagContext',
         possibleTypes: [
           {
-            name: 'Community'
+            name: 'Collection'
           },
           {
-            name: 'Collection'
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
           },
           {
             name: 'Resource'
           },
           {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'LikeContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
             name: 'Comment'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'ThreadContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Resource'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'FollowContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
           }
         ]
       }

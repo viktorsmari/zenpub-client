@@ -14,16 +14,20 @@ export type CreateUserMutationMutationVariables = {
 
 export type CreateUserMutationMutation = { __typename?: 'RootMutationType' } & {
   createUser: Types.Maybe<
-    { __typename?: 'AuthPayload' } & Pick<Types.AuthPayload, 'token'> & {
-        me: Types.Maybe<
-          { __typename?: 'Me' } & Pick<Types.Me, 'email'> & {
-              user: Types.Maybe<
-                { __typename?: 'User' } & Pick<
-                  Types.User,
-                  'name' | 'summary' | 'preferredUsername' | 'location' | 'id'
-                >
-              >;
-            }
+    { __typename?: 'Me' } & Pick<
+      Types.Me,
+      'email' | 'wantsEmailDigest' | 'wantsNotifications' | 'isConfirmed'
+    > & {
+        user: Types.Maybe<
+          { __typename?: 'User' } & Pick<
+            Types.User,
+            | 'id'
+            | 'preferredUsername'
+            | 'name'
+            | 'summary'
+            | 'location'
+            | 'website'
+          >
         >;
       }
   >;
@@ -32,16 +36,17 @@ export type CreateUserMutationMutation = { __typename?: 'RootMutationType' } & {
 export const CreateUserMutationDocument = gql`
   mutation createUserMutation($user: RegistrationInput!) {
     createUser(user: $user) {
-      token
-      me {
-        email
-        user {
-          name
-          summary
-          preferredUsername
-          location
-          id
-        }
+      email
+      wantsEmailDigest
+      wantsNotifications
+      isConfirmed
+      user {
+        id
+        preferredUsername
+        name
+        summary
+        location
+        website
       }
     }
   }
@@ -152,31 +157,94 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: 'UNION',
-        name: 'CommentContext',
+        name: 'ActivityContext',
         possibleTypes: [
           {
             name: 'Collection'
           },
           {
+            name: 'Comment'
+          },
+          {
             name: 'Community'
+          },
+          {
+            name: 'Resource'
           }
         ]
       },
       {
         kind: 'UNION',
-        name: 'ActivityObject',
+        name: 'FlagContext',
         possibleTypes: [
           {
-            name: 'Community'
+            name: 'Collection'
           },
           {
-            name: 'Collection'
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
           },
           {
             name: 'Resource'
           },
           {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'LikeContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
             name: 'Comment'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'ThreadContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Resource'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'FollowContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
           }
         ]
       }

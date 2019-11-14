@@ -10,12 +10,12 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type GetCommunitiesQueryQueryVariables = {
   limit?: Types.Maybe<Types.Scalars['Int']>;
-  end?: Types.Maybe<Types.Scalars['Int']>;
+  end?: Types.Maybe<Types.Scalars['String']>;
 };
 
 export type GetCommunitiesQueryQuery = { __typename?: 'RootQueryType' } & {
   communities: Types.Maybe<
-    { __typename?: 'CommunityPage' } & {
+    { __typename?: 'CommunitiesNodes' } & {
       pageInfo: { __typename?: 'PageInfo' } & Pick<
         Types.PageInfo,
         'startCursor' | 'endCursor'
@@ -26,28 +26,35 @@ export type GetCommunitiesQueryQuery = { __typename?: 'RootQueryType' } & {
             { __typename?: 'Community' } & Pick<
               Types.Community,
               | 'id'
-              | 'localId'
+              | 'canonicalUrl'
               | 'preferredUsername'
               | 'name'
               | 'summary'
               | 'icon'
-              | 'followed'
+              | 'isLocal'
+              | 'isPublic'
+              | 'isDisabled'
+              | 'createdAt'
+              | 'updatedAt'
             > & {
+                myFollow: Types.Maybe<
+                  { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
+                >;
                 collections: Types.Maybe<
-                  { __typename?: 'CommunityCollectionsConnection' } & Pick<
-                    Types.CommunityCollectionsConnection,
+                  { __typename?: 'CollectionsEdges' } & Pick<
+                    Types.CollectionsEdges,
                     'totalCount'
                   >
                 >;
-                members: Types.Maybe<
-                  { __typename?: 'CommunityMembersConnection' } & Pick<
-                    Types.CommunityMembersConnection,
+                followers: Types.Maybe<
+                  { __typename?: 'FollowsEdges' } & Pick<
+                    Types.FollowsEdges,
                     'totalCount'
                   >
                 >;
                 threads: Types.Maybe<
-                  { __typename?: 'CommunityThreadsConnection' } & Pick<
-                    Types.CommunityThreadsConnection,
+                  { __typename?: 'ThreadsEdges' } & Pick<
+                    Types.ThreadsEdges,
                     'totalCount'
                   >
                 >;
@@ -60,7 +67,7 @@ export type GetCommunitiesQueryQuery = { __typename?: 'RootQueryType' } & {
 };
 
 export const GetCommunitiesQueryDocument = gql`
-  query getCommunitiesQuery($limit: Int, $end: Int) {
+  query getCommunitiesQuery($limit: Int, $end: String) {
     communities(limit: $limit, after: $end) {
       pageInfo {
         startCursor
@@ -68,21 +75,28 @@ export const GetCommunitiesQueryDocument = gql`
       }
       nodes {
         id
-        localId
+        canonicalUrl
         preferredUsername
         name
         summary
         icon
+        isLocal
+        isPublic
+        isDisabled
+        myFollow {
+          id
+        }
+        createdAt
+        updatedAt
         collections {
           totalCount
         }
-        members {
+        followers {
           totalCount
         }
         threads {
           totalCount
         }
-        followed
       }
     }
   }
@@ -200,31 +214,94 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: 'UNION',
-        name: 'CommentContext',
+        name: 'ActivityContext',
         possibleTypes: [
           {
             name: 'Collection'
           },
           {
+            name: 'Comment'
+          },
+          {
             name: 'Community'
+          },
+          {
+            name: 'Resource'
           }
         ]
       },
       {
         kind: 'UNION',
-        name: 'ActivityObject',
+        name: 'FlagContext',
         possibleTypes: [
           {
-            name: 'Community'
+            name: 'Collection'
           },
           {
-            name: 'Collection'
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
           },
           {
             name: 'Resource'
           },
           {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'LikeContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
             name: 'Comment'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'ThreadContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Resource'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'FollowContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
           }
         ]
       }

@@ -16,34 +16,46 @@ export type UpdateProfileMutationMutation = {
   __typename?: 'RootMutationType';
 } & {
   updateProfile: Types.Maybe<
-    { __typename?: 'Me' } & {
-      user: Types.Maybe<
-        { __typename?: 'User' } & Pick<
-          Types.User,
-          | 'id'
-          | 'localId'
-          | 'name'
-          | 'summary'
-          | 'preferredUsername'
-          | 'primaryLanguage'
-          | 'icon'
-        >
-      >;
-    }
+    { __typename?: 'Me' } & Pick<
+      Types.Me,
+      'wantsEmailDigest' | 'wantsNotifications'
+    > & {
+        user: Types.Maybe<
+          { __typename?: 'User' } & Pick<
+            Types.User,
+            | 'id'
+            | 'name'
+            | 'summary'
+            | 'icon'
+            | 'image'
+            | 'location'
+            | 'website'
+          > & {
+              primaryLanguage: Types.Maybe<
+                { __typename?: 'Language' } & Pick<Types.Language, 'id'>
+              >;
+            }
+        >;
+      }
   >;
 };
 
 export const UpdateProfileMutationDocument = gql`
   mutation updateProfileMutation($profile: UpdateProfileInput!) {
     updateProfile(profile: $profile) {
+      wantsEmailDigest
+      wantsNotifications
       user {
         id
-        localId
         name
         summary
-        preferredUsername
-        primaryLanguage
+        primaryLanguage {
+          id
+        }
         icon
+        image
+        location
+        website
       }
     }
   }
@@ -154,31 +166,94 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: 'UNION',
-        name: 'CommentContext',
+        name: 'ActivityContext',
         possibleTypes: [
           {
             name: 'Collection'
           },
           {
+            name: 'Comment'
+          },
+          {
             name: 'Community'
+          },
+          {
+            name: 'Resource'
           }
         ]
       },
       {
         kind: 'UNION',
-        name: 'ActivityObject',
+        name: 'FlagContext',
         possibleTypes: [
           {
-            name: 'Community'
+            name: 'Collection'
           },
           {
-            name: 'Collection'
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
           },
           {
             name: 'Resource'
           },
           {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'LikeContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
             name: 'Comment'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'ThreadContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Resource'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'FollowContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
           }
         ]
       }
