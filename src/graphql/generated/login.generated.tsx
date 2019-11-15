@@ -14,35 +14,34 @@ export type LoginMutationMutationVariables = {
 };
 
 export type LoginMutationMutation = { __typename?: 'RootMutationType' } & {
-  createSession: { __typename?: 'AuthPayload' } & Pick<
-    Types.AuthPayload,
-    'token'
-  > & {
-      me: { __typename?: 'Me' } & Pick<
-        Types.Me,
-        | 'email'
-        | 'wantsEmailDigest'
-        | 'wantsNotifications'
-        | 'isConfirmed'
-        | 'isInstanceAdmin'
-      > & {
-          user: { __typename?: 'User' } & Pick<
-            Types.User,
-            | 'id'
-            | 'canonicalUrl'
-            | 'preferredUsername'
-            | 'name'
-            | 'summary'
-            | 'location'
-            | 'icon'
-            | 'isPublic'
-            | 'isDisabled'
-            | 'createdAt'
-            | 'updatedAt'
-            | 'lastActivity'
-          >;
-        };
-    };
+  createSession: Types.Maybe<
+    { __typename?: 'AuthPayload' } & Pick<Types.AuthPayload, 'token'> & {
+        me: { __typename?: 'Me' } & Pick<
+          Types.Me,
+          | 'email'
+          | 'wantsEmailDigest'
+          | 'wantsNotifications'
+          | 'isConfirmed'
+          | 'isInstanceAdmin'
+        > & {
+            user: { __typename?: 'User' } & Pick<
+              Types.User,
+              | 'id'
+              | 'canonicalUrl'
+              | 'preferredUsername'
+              | 'name'
+              | 'summary'
+              | 'location'
+              | 'icon'
+              | 'isPublic'
+              | 'isDisabled'
+              | 'createdAt'
+              | 'updatedAt'
+              | 'lastActivity'
+            >;
+          };
+      }
+  >;
 };
 
 export const LoginMutationDocument = gql`
@@ -284,16 +283,10 @@ const result: IntrospectionResultData = {
             name: 'Community'
           },
           {
-            name: 'Country'
-          },
-          {
             name: 'Flag'
           },
           {
             name: 'Follow'
-          },
-          {
-            name: 'Language'
           },
           {
             name: 'Like'

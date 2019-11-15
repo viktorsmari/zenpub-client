@@ -18,12 +18,6 @@ export type NodeCommunityFragment = { __typename?: 'Community' } & Pick<
   | 'updatedAt'
   | 'lastActivity'
 > & {
-    primaryLanguage: Types.Maybe<
-      { __typename?: 'Language' } & Pick<
-        Types.Language,
-        'id' | 'englishName' | 'localName'
-      >
-    >;
     myFollow: Types.Maybe<{ __typename?: 'Follow' } & Pick<Types.Follow, 'id'>>;
     collections: { __typename?: 'CollectionsEdges' } & Pick<
       Types.CollectionsEdges,
@@ -54,11 +48,6 @@ export const NodeCommunityFragmentDoc = gql`
     createdAt
     updatedAt
     lastActivity
-    primaryLanguage {
-      id
-      englishName
-      localName
-    }
     myFollow {
       id
     }
@@ -199,16 +188,10 @@ const result: IntrospectionResultData = {
             name: 'Community'
           },
           {
-            name: 'Country'
-          },
-          {
             name: 'Flag'
           },
           {
             name: 'Follow'
-          },
-          {
-            name: 'Language'
           },
           {
             name: 'Like'

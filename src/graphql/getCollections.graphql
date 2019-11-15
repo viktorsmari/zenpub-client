@@ -16,7 +16,6 @@ query getCollectionsQuery($limit: Int, $end: String) {
             lastActivity
             myLike   { id }
             myFollow { id }
-            primaryLanguage { id englishName localName }
             community {
                 id
                 canonicalUrl

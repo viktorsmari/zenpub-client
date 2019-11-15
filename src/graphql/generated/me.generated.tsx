@@ -11,26 +11,28 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type MeQueryQueryVariables = {};
 
 export type MeQueryQuery = { __typename?: 'RootQueryType' } & {
-  me: { __typename?: 'Me' } & Pick<Types.Me, 'email'> & {
-      user: { __typename?: 'User' } & Pick<
-        Types.User,
-        | 'id'
-        | 'canonicalUrl'
-        | 'preferredUsername'
-        | 'name'
-        | 'location'
-        | 'icon'
-        | 'image'
-        | 'summary'
-        | 'website'
-        | 'isLocal'
-        | 'isPublic'
-        | 'isDisabled'
-        | 'createdAt'
-        | 'updatedAt'
-        | 'lastActivity'
-      >;
-    };
+  me: Types.Maybe<
+    { __typename?: 'Me' } & Pick<Types.Me, 'email'> & {
+        user: { __typename?: 'User' } & Pick<
+          Types.User,
+          | 'id'
+          | 'canonicalUrl'
+          | 'preferredUsername'
+          | 'name'
+          | 'location'
+          | 'icon'
+          | 'image'
+          | 'summary'
+          | 'website'
+          | 'isLocal'
+          | 'isPublic'
+          | 'isDisabled'
+          | 'createdAt'
+          | 'updatedAt'
+          | 'lastActivity'
+        >;
+      }
+  >;
 };
 
 export const MeQueryDocument = gql`
@@ -266,16 +268,10 @@ const result: IntrospectionResultData = {
             name: 'Community'
           },
           {
-            name: 'Country'
-          },
-          {
             name: 'Flag'
           },
           {
             name: 'Follow'
-          },
-          {
-            name: 'Language'
           },
           {
             name: 'Like'

@@ -7,7 +7,6 @@ input ResourceInput {
     url: String!
     icon: String
     license: String
-    primaryLanguageId: String
 }
 
 mutation createResourceMutation($collectionId: String!, $resource: ResourceInput!) {

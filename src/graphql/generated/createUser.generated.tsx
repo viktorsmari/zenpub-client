@@ -13,15 +13,22 @@ export type CreateUserMutationMutationVariables = {
 };
 
 export type CreateUserMutationMutation = { __typename?: 'RootMutationType' } & {
-  createUser: { __typename?: 'Me' } & Pick<
-    Types.Me,
-    'email' | 'wantsEmailDigest' | 'wantsNotifications' | 'isConfirmed'
-  > & {
-      user: { __typename?: 'User' } & Pick<
-        Types.User,
-        'id' | 'preferredUsername' | 'name' | 'summary' | 'location' | 'website'
-      >;
-    };
+  createUser: Types.Maybe<
+    { __typename?: 'Me' } & Pick<
+      Types.Me,
+      'email' | 'wantsEmailDigest' | 'wantsNotifications' | 'isConfirmed'
+    > & {
+        user: { __typename?: 'User' } & Pick<
+          Types.User,
+          | 'id'
+          | 'preferredUsername'
+          | 'name'
+          | 'summary'
+          | 'location'
+          | 'website'
+        >;
+      }
+  >;
 };
 
 export const CreateUserMutationDocument = gql`
@@ -256,16 +263,10 @@ const result: IntrospectionResultData = {
             name: 'Community'
           },
           {
-            name: 'Country'
-          },
-          {
             name: 'Flag'
           },
           {
             name: 'Follow'
-          },
-          {
-            name: 'Language'
           },
           {
             name: 'Like'

@@ -5,6 +5,7 @@ import { Trans } from '@lingui/macro';
 import { ChevronLeft } from 'react-feather';
 import { useHistory } from 'react-router';
 import Link from '../../components/elements/Link/Link';
+import { Community, Collection, Resource } from '../../graphql/types';
 
 const Right = styled(Box)``;
 const Left = styled(Flex)`
@@ -24,8 +25,10 @@ const Header = styled(Flex)`
     text-decoration: none;
   }
 `;
-
-const HeaderWrapper = ({ context }) => {
+export interface Props {
+  context: Pick<Community | Collection | Resource, 'id' | 'name' | 'icon'>;
+}
+const HeaderWrapper: React.FC<Props> = ({ context }) => {
   const history = useHistory();
   return (
     <Header>
@@ -36,7 +39,7 @@ const HeaderWrapper = ({ context }) => {
         </Text>
       </Left>
       <Right>
-        <Link to={`/communities/${context.localId}`}>
+        <Link to={`/communities/${context.id}`}>
           <Image src={context.icon} />
           <Text variant="suptitle">{context.name}</Text>
         </Link>

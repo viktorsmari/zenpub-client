@@ -18,23 +18,25 @@ export type CreateThreadMutationMutationVariables = {
 export type CreateThreadMutationMutation = {
   __typename?: 'RootMutationType';
 } & {
-  createThread: { __typename?: 'Comment' } & Pick<
-    Types.Comment,
-    | 'id'
-    | 'canonicalUrl'
-    | 'content'
-    | 'isLocal'
-    | 'isPublic'
-    | 'isHidden'
-    | 'createdAt'
-    | 'updatedAt'
-  > & {
-      inReplyTo: Types.Maybe<
-        { __typename?: 'Comment' } & BasicCommentWithInReplyToFragment
-      >;
-      creator: { __typename?: 'User' } & Pick<Types.User, 'name' | 'icon'>;
-      thread: { __typename?: 'Thread' } & Pick<Types.Thread, 'id'>;
-    };
+  createThread: Types.Maybe<
+    { __typename?: 'Comment' } & Pick<
+      Types.Comment,
+      | 'id'
+      | 'canonicalUrl'
+      | 'content'
+      | 'isLocal'
+      | 'isPublic'
+      | 'isHidden'
+      | 'createdAt'
+      | 'updatedAt'
+    > & {
+        inReplyTo: Types.Maybe<
+          { __typename?: 'Comment' } & BasicCommentWithInReplyToFragment
+        >;
+        creator: { __typename?: 'User' } & Pick<Types.User, 'name' | 'icon'>;
+        thread: { __typename?: 'Thread' } & Pick<Types.Thread, 'id'>;
+      }
+  >;
 };
 
 export const CreateThreadMutationDocument = gql`
@@ -277,16 +279,10 @@ const result: IntrospectionResultData = {
             name: 'Community'
           },
           {
-            name: 'Country'
-          },
-          {
             name: 'Flag'
           },
           {
             name: 'Follow'
-          },
-          {
-            name: 'Language'
           },
           {
             name: 'Like'

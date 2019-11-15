@@ -14,9 +14,8 @@ export type ResetPasswordMutationVariables = {
 };
 
 export type ResetPasswordMutation = { __typename?: 'RootMutationType' } & {
-  resetPassword: { __typename?: 'AuthPayload' } & Pick<
-    Types.AuthPayload,
-    'token'
+  resetPassword: Types.Maybe<
+    { __typename?: 'AuthPayload' } & Pick<Types.AuthPayload, 'token'>
   >;
 };
 
@@ -238,16 +237,10 @@ const result: IntrospectionResultData = {
             name: 'Community'
           },
           {
-            name: 'Country'
-          },
-          {
             name: 'Flag'
           },
           {
             name: 'Follow'
-          },
-          {
-            name: 'Language'
           },
           {
             name: 'Like'

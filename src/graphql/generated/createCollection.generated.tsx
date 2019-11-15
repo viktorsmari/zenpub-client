@@ -18,7 +18,9 @@ export type CreateCollectionMutationMutationVariables = {
 export type CreateCollectionMutationMutation = {
   __typename?: 'RootMutationType';
 } & {
-  createCollection: { __typename?: 'Collection' } & BasicCollectionFragment;
+  createCollection: Types.Maybe<
+    { __typename?: 'Collection' } & BasicCollectionFragment
+  >;
 };
 
 export const CreateCollectionMutationDocument = gql`
@@ -247,16 +249,10 @@ const result: IntrospectionResultData = {
             name: 'Community'
           },
           {
-            name: 'Country'
-          },
-          {
             name: 'Flag'
           },
           {
             name: 'Follow'
-          },
-          {
-            name: 'Language'
           },
           {
             name: 'Like'

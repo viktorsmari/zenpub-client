@@ -203,13 +203,15 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
   const closeMenu = React.useCallback(() => setMenuIsOpen(false), []);
   const openMenu = React.useCallback(() => setMenuIsOpen(true), []);
   const { data } = resp;
-  return resp.error ? (
-    <Empty>
-      <Trans>Error loading the sidebar</Trans>
-    </Empty>
-  ) : resp.loading ? (
-    <Loader />
-  ) : (
+  return !data ? (
+    resp.error ? (
+      <Empty>
+        <Trans>Error loading the sidebar</Trans>
+      </Empty>
+    ) : resp.loading ? (
+      <Loader />
+    ) : null
+  ) : !data.me ? null : (
     <SidebarComponent>
       <InternalWrapper isOpen={isOpen}>
         <SidebarFixed>
@@ -220,11 +222,11 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
               </Sbox>
               <NavItem alignItems="center" onClick={openMenu}>
                 <Image
-                  src={data!.me!.user!.icon!}
+                  src={data.me.user.icon}
                   // name={props.data.me.user.name}
                 />
                 <HeaderName ml={2} variant="link">
-                  {data!.me!.user!.name}
+                  {data.me.user.name}
                 </HeaderName>
                 <Right>
                   <MoreHorizontal size="20" />
@@ -260,23 +262,22 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
               </SidebarLink>
             </Nav>
             <Nav>
-              {data!.me!.user!.followedCommunities!.edges!.map(
+              {data.me.user.followedCommunities.edges.map(
                 userJoinedCommunitiesEdge => {
-                  const context = userJoinedCommunitiesEdge!.node!.context!;
+                  if (!userJoinedCommunitiesEdge) {
+                    return null;
+                  }
+                  const community = userJoinedCommunitiesEdge.node.community;
                   return (
-                    context.__typename === 'Community' && (
-                      <CommunityLink
-                        key={userJoinedCommunitiesEdge!.node!.id!}
-                        to={
-                          '/communities/' + userJoinedCommunitiesEdge!.node!.id!
-                        }
-                      >
-                        <NavItem alignItems={'center'} mb={2}>
-                          <Image mr={2} src={context.icon} />
-                          <ItemTitle variant="link">{context.name}</ItemTitle>
-                        </NavItem>
-                      </CommunityLink>
-                    )
+                    <CommunityLink
+                      key={community.id}
+                      to={'/communities/' + community.id}
+                    >
+                      <NavItem alignItems={'center'} mb={2}>
+                        <Image mr={2} src={community.icon} />
+                        <ItemTitle variant="link">{community.name}</ItemTitle>
+                      </NavItem>
+                    </CommunityLink>
                   );
                 }
               )}

@@ -17,7 +17,9 @@ export type CreateCommunityMutationMutationVariables = {
 export type CreateCommunityMutationMutation = {
   __typename?: 'RootMutationType';
 } & {
-  createCommunity: { __typename?: 'Community' } & BasicCommunityFragment;
+  createCommunity: Types.Maybe<
+    { __typename?: 'Community' } & BasicCommunityFragment
+  >;
 };
 
 export const CreateCommunityMutationDocument = gql`
@@ -242,16 +244,10 @@ const result: IntrospectionResultData = {
             name: 'Community'
           },
           {
-            name: 'Country'
-          },
-          {
             name: 'Flag'
           },
           {
             name: 'Follow'
-          },
-          {
-            name: 'Language'
           },
           {
             name: 'Like'

@@ -13,7 +13,7 @@ fragment BasicCommunity on Community {
     isPublic
     isDisabled
     myFollow { id }
-    primaryLanguage { id englishName localName }
+    collections { totalCount }
     followers { totalCount }
     threads { totalCount }
     outbox { totalCount }

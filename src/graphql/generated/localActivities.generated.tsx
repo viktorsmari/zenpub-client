@@ -26,47 +26,43 @@ export type LocalActivitiesQueryVariables = {
 export type LocalActivitiesQuery = { __typename?: 'RootQueryType' } & {
   instance: Types.Maybe<
     { __typename?: 'Instance' } & {
-      outbox: Types.Maybe<
-        { __typename?: 'ActivitiesEdges' } & {
-          pageInfo: Types.Maybe<
-            { __typename?: 'PageInfo' } & Pick<
-              Types.PageInfo,
-              'startCursor' | 'endCursor'
-            >
-          >;
-          edges: Array<
-            Types.Maybe<
-              { __typename?: 'ActivitiesEdge' } & Pick<
-                Types.ActivitiesEdge,
-                'cursor'
-              > & {
-                  node: { __typename?: 'Activity' } & Pick<
-                    Types.Activity,
-                    | 'id'
-                    | 'canonicalUrl'
-                    | 'verb'
-                    | 'isLocal'
-                    | 'isPublic'
-                    | 'createdAt'
-                  > & {
-                      user: { __typename?: 'User' } & BasicUserFragment;
-                      context:
-                        | ({
-                            __typename?: 'Collection';
-                          } & BasicCollectionFragment)
-                        | ({
-                            __typename?: 'Comment';
-                          } & BasicCommentWithInReplyToFragment)
-                        | ({
-                            __typename?: 'Community';
-                          } & BasicCommunityFragment)
-                        | ({ __typename?: 'Resource' } & BasicResourceFragment);
-                    };
-                }
-            >
-          >;
-        }
-      >;
+      outbox: { __typename?: 'ActivitiesEdges' } & {
+        pageInfo: Types.Maybe<
+          { __typename?: 'PageInfo' } & Pick<
+            Types.PageInfo,
+            'startCursor' | 'endCursor'
+          >
+        >;
+        edges: Array<
+          Types.Maybe<
+            { __typename?: 'ActivitiesEdge' } & Pick<
+              Types.ActivitiesEdge,
+              'cursor'
+            > & {
+                node: { __typename?: 'Activity' } & Pick<
+                  Types.Activity,
+                  | 'id'
+                  | 'canonicalUrl'
+                  | 'verb'
+                  | 'isLocal'
+                  | 'isPublic'
+                  | 'createdAt'
+                > & {
+                    user: { __typename?: 'User' } & BasicUserFragment;
+                    context:
+                      | ({
+                          __typename?: 'Collection';
+                        } & BasicCollectionFragment)
+                      | ({
+                          __typename?: 'Comment';
+                        } & BasicCommentWithInReplyToFragment)
+                      | ({ __typename?: 'Community' } & BasicCommunityFragment)
+                      | ({ __typename?: 'Resource' } & BasicResourceFragment);
+                  };
+              }
+          >
+        >;
+      };
     }
   >;
 };
@@ -336,16 +332,10 @@ const result: IntrospectionResultData = {
             name: 'Community'
           },
           {
-            name: 'Country'
-          },
-          {
             name: 'Flag'
           },
           {
             name: 'Follow'
-          },
-          {
-            name: 'Language'
           },
           {
             name: 'Like'

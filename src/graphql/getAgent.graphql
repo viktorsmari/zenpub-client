@@ -30,7 +30,6 @@ query getAgentQuery(
     lastActivity
     myFollow { id }
     myLike { id }
-    primaryLanguage { id isoCode2 isoCode3 englishName localName }
     outbox (limit: $limitTimeline, after:$endTimeline) {
       pageInfo { startCursor endCursor }
       edges {
@@ -82,7 +81,6 @@ query getAgentQuery(
               updatedAt
               lastActivity
               myFollow { id }
-              primaryLanguage { id isoCode2 isoCode3 englishName localName }
               collections { totalCount }
               followers { totalCount }
               threads { totalCount }
@@ -119,7 +117,6 @@ query getAgentQuery(
               lastActivity
               myFollow { id }
               myLike   { id }
-              primaryLanguage { id isoCode2 isoCode3 englishName localName }
               community { id }
               resources { totalCount }
               followers { totalCount }

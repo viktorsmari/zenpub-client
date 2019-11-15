@@ -1,7 +1,6 @@
 input UpdateProfileInput {
     name: String
     summary: String
-    primaryLanguageId: String
     icon: String
     image: String
     location: String
@@ -18,7 +17,6 @@ mutation updateProfileMutation($profile: UpdateProfileInput!) {
             id
             name
             summary
-            primaryLanguage { id }
             icon
             image
             location

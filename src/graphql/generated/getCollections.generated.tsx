@@ -44,12 +44,6 @@ export type GetCollectionsQueryQuery = { __typename?: 'RootQueryType' } & {
             myFollow: Types.Maybe<
               { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
             >;
-            primaryLanguage: Types.Maybe<
-              { __typename?: 'Language' } & Pick<
-                Types.Language,
-                'id' | 'englishName' | 'localName'
-              >
-            >;
             community: { __typename?: 'Community' } & Pick<
               Types.Community,
               | 'id'
@@ -111,11 +105,6 @@ export const GetCollectionsQueryDocument = gql`
         }
         myFollow {
           id
-        }
-        primaryLanguage {
-          id
-          englishName
-          localName
         }
         community {
           id
@@ -367,16 +356,10 @@ const result: IntrospectionResultData = {
             name: 'Community'
           },
           {
-            name: 'Country'
-          },
-          {
             name: 'Flag'
           },
           {
             name: 'Follow'
-          },
-          {
-            name: 'Language'
           },
           {
             name: 'Like'

@@ -8,12 +8,12 @@ import removeMd from 'remove-markdown';
 import styled from '../../../themes/styled';
 import Link from '../Link/Link';
 import Talk from '../TalkModal';
-import { Comment } from '../../../graphql/types';
 import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
 import { useDeleteMutation } from '../../../graphql/generated/delete.generated';
+import { BasicCommentFragment } from '../../../graphql/fragments/generated/basicComment.generated';
 
 interface EventProps {
-  comment: Comment;
+  comment: BasicCommentFragment;
   noAction?: boolean;
   noLink?: boolean;
 }

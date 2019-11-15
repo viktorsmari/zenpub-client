@@ -73,9 +73,7 @@ const CreateCommunityModal = (
           name: values.name,
           summary: values.summary,
           image: values.image,
-          preferredUsername: values.name.split(' ').join('_'),
-          //FIXME Language !
-          primaryLanguageId: 'en'
+          preferredUsername: values.name.split(' ').join('_')
         }
       };
       create({

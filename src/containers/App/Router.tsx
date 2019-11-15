@@ -5,23 +5,23 @@ import { connectStateResults, InstantSearch } from 'react-instantsearch-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
 import { SessionContext } from '../../context/global/sessionCtx';
-import CollectionsAll from '../../pages/collections.all';
-import MyCollections from '../../pages/collections.all/collectionsFollowed';
-import Collection from '../../pages/collections.collection/component';
+// import CollectionsAll from '../../pages/collections.all';
+// import MyCollections from '../../pages/collections.all/collectionsFollowed';
+// import Collection from '../../pages/collections.collection/component';
 import CommunitiesAll from '../../pages/communities.all/CommunitiesAll';
-import MyCommunities from '../../pages/communities.all/communitiesJoined';
-import CommunitiesCommunity from '../../pages/communities.community/CommunitiesCommunity';
+// import MyCommunities from '../../pages/communities.all/communitiesJoined';
+// import CommunitiesCommunity from '../../pages/communities.community/CommunitiesCommunity';
 import CreateNewPassword from '../../pages/CreateNewPassword';
-import Discover from '../../pages/discover';
-import Home from '../../pages/home';
+// import Discover from '../../pages/discover';
+// import Home from '../../pages/home';
 import Login from '../../pages/login/Login';
 import NotFound from '../../pages/not-found/NotFound';
-import Profile from '../../pages/Profile';
+// import Profile from '../../pages/Profile';
 import Reset from '../../pages/Reset';
 import SearchComp from '../../pages/search/Search';
-import Settings from '../../pages/settings';
-import Thread from '../../pages/thread/component';
-import User from '../../pages/User';
+// import Settings from '../../pages/settings';
+// import Thread from '../../pages/thread/component';
+// import User from '../../pages/User';
 import {
   Inner,
   MainWrapper,
@@ -80,7 +80,7 @@ const searchStateToUrl = (props, searchState, loggedin) => {
 };
 
 const Content = connectStateResults(({ searchState, onOpen }) => {
-  const { auth } = React.useContext(SessionContext);
+  // const { auth } = React.useContext(SessionContext);
 
   return searchState && searchState.query ? (
     <>
@@ -93,7 +93,7 @@ const Content = connectStateResults(({ searchState, onOpen }) => {
     <>
       <MobileHeader onOpen={onOpen} />
       <Switch>
-        <Route exact path="/" component={auth ? Home : Login} />
+        {/* <Route exact path="/" component={auth ? Home : Login} />
         <Route exact path="/settings" component={auth ? Settings : Login} />
         <Route exact path="/profile" component={auth ? Profile : Login} />
         <Route
@@ -107,9 +107,9 @@ const Content = connectStateResults(({ searchState, onOpen }) => {
           component={auth ? MyCollections : Login}
         />
 
-        <Route exact path="/discover" component={Discover} />
+        <Route exact path="/discover" component={Discover} /> */}
         <Route exact path="/communities" component={CommunitiesAll} />
-        <Route
+        {/*   <Route
           exact
           path="/thread/:id"
           render={route => {
@@ -131,7 +131,7 @@ const Content = connectStateResults(({ searchState, onOpen }) => {
           }}
         />
         <Route exact path="/collections" component={CollectionsAll} />
-        <Route exact path="/user/:id" component={User} />
+        <Route exact path="/user/:id" component={User} /> */}
         <Route path="/search" component={SearchComp} />
 
         <Route component={NotFound} />

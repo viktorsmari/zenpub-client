@@ -2,7 +2,6 @@ input CommunityInput {
     name: String!
     summary: String
     preferredUsername: String!
-    primaryLanguage: String
     icon: String!
 }
 
@@ -18,6 +17,5 @@ mutation updateCommunityMutation($community: CommunityInput!, $communityId: Stri
     isPublic
     createdAt
     updatedAt
-    primaryLanguage { id englishName localName }
   }
 }

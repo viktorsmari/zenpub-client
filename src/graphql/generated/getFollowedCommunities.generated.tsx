@@ -16,56 +16,58 @@ export type GetFollowedCommunitiesQueryQueryVariables = {
 export type GetFollowedCommunitiesQueryQuery = {
   __typename?: 'RootQueryType';
 } & {
-  me: { __typename?: 'Me' } & {
-    user: { __typename?: 'User' } & Pick<Types.User, 'id'> & {
-        followedCommunities: { __typename?: 'FollowedCommunitiesEdges' } & {
-          pageInfo: Types.Maybe<
-            { __typename?: 'PageInfo' } & Pick<
-              Types.PageInfo,
-              'startCursor' | 'endCursor'
-            >
-          >;
-          edges: Array<
-            Types.Maybe<
-              { __typename?: 'FollowedCommunitiesEdge' } & {
-                node: { __typename?: 'FollowedCommunity' } & {
-                  follow: { __typename?: 'Follow' } & Pick<
-                    Types.Follow,
-                    'id' | 'canonicalUrl'
-                  >;
-                  community: { __typename: 'Community' } & Pick<
-                    Types.Community,
-                    | 'preferredUsername'
-                    | 'name'
-                    | 'summary'
-                    | 'icon'
-                    | 'isLocal'
-                    | 'isPublic'
-                    | 'isDisabled'
-                  > & {
-                      myFollow: Types.Maybe<
-                        { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
-                      >;
-                      collections: { __typename?: 'CollectionsEdges' } & Pick<
-                        Types.CollectionsEdges,
-                        'totalCount'
-                      >;
-                      followers: { __typename?: 'FollowsEdges' } & Pick<
-                        Types.FollowsEdges,
-                        'totalCount'
-                      >;
-                      threads: { __typename?: 'ThreadsEdges' } & Pick<
-                        Types.ThreadsEdges,
-                        'totalCount'
-                      >;
-                    };
-                };
-              }
-            >
-          >;
+  me: Types.Maybe<
+    { __typename?: 'Me' } & {
+      user: { __typename?: 'User' } & Pick<Types.User, 'id'> & {
+          followedCommunities: { __typename?: 'FollowedCommunitiesEdges' } & {
+            pageInfo: Types.Maybe<
+              { __typename?: 'PageInfo' } & Pick<
+                Types.PageInfo,
+                'startCursor' | 'endCursor'
+              >
+            >;
+            edges: Array<
+              Types.Maybe<
+                { __typename?: 'FollowedCommunitiesEdge' } & {
+                  node: { __typename?: 'FollowedCommunity' } & {
+                    follow: { __typename?: 'Follow' } & Pick<
+                      Types.Follow,
+                      'id' | 'canonicalUrl'
+                    >;
+                    community: { __typename: 'Community' } & Pick<
+                      Types.Community,
+                      | 'preferredUsername'
+                      | 'name'
+                      | 'summary'
+                      | 'icon'
+                      | 'isLocal'
+                      | 'isPublic'
+                      | 'isDisabled'
+                    > & {
+                        myFollow: Types.Maybe<
+                          { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
+                        >;
+                        collections: { __typename?: 'CollectionsEdges' } & Pick<
+                          Types.CollectionsEdges,
+                          'totalCount'
+                        >;
+                        followers: { __typename?: 'FollowsEdges' } & Pick<
+                          Types.FollowsEdges,
+                          'totalCount'
+                        >;
+                        threads: { __typename?: 'ThreadsEdges' } & Pick<
+                          Types.ThreadsEdges,
+                          'totalCount'
+                        >;
+                      };
+                  };
+                }
+              >
+            >;
+          };
         };
-      };
-  };
+    }
+  >;
 };
 
 export const GetFollowedCommunitiesQueryDocument = gql`
@@ -336,16 +338,10 @@ const result: IntrospectionResultData = {
             name: 'Community'
           },
           {
-            name: 'Country'
-          },
-          {
             name: 'Flag'
           },
           {
             name: 'Follow'
-          },
-          {
-            name: 'Language'
           },
           {
             name: 'Like'

@@ -28,157 +28,161 @@ export type GetUserQueryVariables = {
 };
 
 export type GetUserQuery = { __typename?: 'RootQueryType' } & {
-  me: { __typename?: 'Me' } & {
-    user: { __typename?: 'User' } & Pick<
-      Types.User,
-      | 'id'
-      | 'canonicalUrl'
-      | 'name'
-      | 'preferredUsername'
-      | 'location'
-      | 'summary'
-      | 'icon'
-      | 'image'
-    > & {
-        followedCommunities: { __typename?: 'FollowedCommunitiesEdges' } & {
-          pageInfo: Types.Maybe<
-            { __typename?: 'PageInfo' } & Pick<
-              Types.PageInfo,
-              'startCursor' | 'endCursor'
-            >
-          >;
-          edges: Array<
-            Types.Maybe<
-              { __typename?: 'FollowedCommunitiesEdge' } & {
-                node: { __typename?: 'FollowedCommunity' } & {
-                  follow: { __typename?: 'Follow' } & Pick<
-                    Types.Follow,
-                    'id' | 'canonicalUrl'
-                  >;
-                  community: { __typename: 'Community' } & Pick<
-                    Types.Community,
-                    | 'preferredUsername'
-                    | 'name'
-                    | 'summary'
-                    | 'icon'
-                    | 'isLocal'
-                    | 'isPublic'
-                    | 'isDisabled'
-                  > & {
-                      myFollow: Types.Maybe<
-                        { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
-                      >;
-                      collections: { __typename?: 'CollectionsEdges' } & Pick<
-                        Types.CollectionsEdges,
-                        'totalCount'
-                      >;
-                      followers: { __typename?: 'FollowsEdges' } & Pick<
-                        Types.FollowsEdges,
-                        'totalCount'
-                      >;
-                      threads: { __typename?: 'ThreadsEdges' } & Pick<
-                        Types.ThreadsEdges,
-                        'totalCount'
-                      >;
-                    };
-                };
-              }
-            >
-          >;
-        };
-        outbox: { __typename?: 'ActivitiesEdges' } & {
-          pageInfo: Types.Maybe<
-            { __typename?: 'PageInfo' } & Pick<
-              Types.PageInfo,
-              'startCursor' | 'endCursor'
-            >
-          >;
-          edges: Array<
-            Types.Maybe<
-              { __typename?: 'ActivitiesEdge' } & {
-                node: { __typename?: 'Activity' } & Pick<
-                  Types.Activity,
-                  | 'id'
-                  | 'canonicalUrl'
-                  | 'verb'
-                  | 'isLocal'
-                  | 'isPublic'
-                  | 'createdAt'
-                > & {
-                    user: { __typename?: 'User' } & BasicUserFragment;
-                    context:
-                      | ({
-                          __typename?: 'Collection';
-                        } & BasicCollectionFragment)
-                      | ({
-                          __typename?: 'Comment';
-                        } & BasicCommentWithInReplyToFragment)
-                      | ({ __typename?: 'Community' } & BasicCommunityFragment)
-                      | ({ __typename?: 'Resource' } & BasicResourceFragment);
+  me: Types.Maybe<
+    { __typename?: 'Me' } & {
+      user: { __typename?: 'User' } & Pick<
+        Types.User,
+        | 'id'
+        | 'canonicalUrl'
+        | 'name'
+        | 'preferredUsername'
+        | 'location'
+        | 'summary'
+        | 'icon'
+        | 'image'
+      > & {
+          followedCommunities: { __typename?: 'FollowedCommunitiesEdges' } & {
+            pageInfo: Types.Maybe<
+              { __typename?: 'PageInfo' } & Pick<
+                Types.PageInfo,
+                'startCursor' | 'endCursor'
+              >
+            >;
+            edges: Array<
+              Types.Maybe<
+                { __typename?: 'FollowedCommunitiesEdge' } & {
+                  node: { __typename?: 'FollowedCommunity' } & {
+                    follow: { __typename?: 'Follow' } & Pick<
+                      Types.Follow,
+                      'id' | 'canonicalUrl'
+                    >;
+                    community: { __typename: 'Community' } & Pick<
+                      Types.Community,
+                      | 'preferredUsername'
+                      | 'name'
+                      | 'summary'
+                      | 'icon'
+                      | 'isLocal'
+                      | 'isPublic'
+                      | 'isDisabled'
+                    > & {
+                        myFollow: Types.Maybe<
+                          { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
+                        >;
+                        collections: { __typename?: 'CollectionsEdges' } & Pick<
+                          Types.CollectionsEdges,
+                          'totalCount'
+                        >;
+                        followers: { __typename?: 'FollowsEdges' } & Pick<
+                          Types.FollowsEdges,
+                          'totalCount'
+                        >;
+                        threads: { __typename?: 'ThreadsEdges' } & Pick<
+                          Types.ThreadsEdges,
+                          'totalCount'
+                        >;
+                      };
                   };
-              }
-            >
-          >;
-        };
-        followedCollections: { __typename?: 'FollowedCollectionsEdges' } & {
-          pageInfo: Types.Maybe<
-            { __typename?: 'PageInfo' } & Pick<
-              Types.PageInfo,
-              'startCursor' | 'endCursor'
-            >
-          >;
-          edges: Array<
-            Types.Maybe<
-              { __typename?: 'FollowedCollectionsEdge' } & {
-                node: { __typename?: 'FollowedCollection' } & {
-                  follow: { __typename?: 'Follow' } & Pick<
-                    Types.Follow,
-                    'id' | 'canonicalUrl'
-                  >;
-                  collection: { __typename: 'Collection' } & Pick<
-                    Types.Collection,
-                    | 'preferredUsername'
-                    | 'name'
-                    | 'summary'
-                    | 'icon'
+                }
+              >
+            >;
+          };
+          outbox: { __typename?: 'ActivitiesEdges' } & {
+            pageInfo: Types.Maybe<
+              { __typename?: 'PageInfo' } & Pick<
+                Types.PageInfo,
+                'startCursor' | 'endCursor'
+              >
+            >;
+            edges: Array<
+              Types.Maybe<
+                { __typename?: 'ActivitiesEdge' } & {
+                  node: { __typename?: 'Activity' } & Pick<
+                    Types.Activity,
+                    | 'id'
+                    | 'canonicalUrl'
+                    | 'verb'
                     | 'isLocal'
                     | 'isPublic'
-                    | 'isDisabled'
+                    | 'createdAt'
                   > & {
-                      community: { __typename?: 'Community' } & Pick<
-                        Types.Community,
-                        'id'
-                      >;
-                      myFollow: Types.Maybe<
-                        { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
-                      >;
-                      myLike: Types.Maybe<
-                        { __typename?: 'Like' } & Pick<Types.Like, 'id'>
-                      >;
-                      likes: { __typename?: 'LikesEdges' } & Pick<
-                        Types.LikesEdges,
-                        'totalCount'
-                      >;
-                      followers: { __typename?: 'FollowsEdges' } & Pick<
-                        Types.FollowsEdges,
-                        'totalCount'
-                      >;
-                      resources: { __typename?: 'ResourcesEdges' } & Pick<
-                        Types.ResourcesEdges,
-                        'totalCount'
-                      >;
-                      threads: { __typename?: 'ThreadsEdges' } & Pick<
-                        Types.ThreadsEdges,
-                        'totalCount'
-                      >;
+                      user: { __typename?: 'User' } & BasicUserFragment;
+                      context:
+                        | ({
+                            __typename?: 'Collection';
+                          } & BasicCollectionFragment)
+                        | ({
+                            __typename?: 'Comment';
+                          } & BasicCommentWithInReplyToFragment)
+                        | ({
+                            __typename?: 'Community';
+                          } & BasicCommunityFragment)
+                        | ({ __typename?: 'Resource' } & BasicResourceFragment);
                     };
-                };
-              }
-            >
-          >;
+                }
+              >
+            >;
+          };
+          followedCollections: { __typename?: 'FollowedCollectionsEdges' } & {
+            pageInfo: Types.Maybe<
+              { __typename?: 'PageInfo' } & Pick<
+                Types.PageInfo,
+                'startCursor' | 'endCursor'
+              >
+            >;
+            edges: Array<
+              Types.Maybe<
+                { __typename?: 'FollowedCollectionsEdge' } & {
+                  node: { __typename?: 'FollowedCollection' } & {
+                    follow: { __typename?: 'Follow' } & Pick<
+                      Types.Follow,
+                      'id' | 'canonicalUrl'
+                    >;
+                    collection: { __typename: 'Collection' } & Pick<
+                      Types.Collection,
+                      | 'preferredUsername'
+                      | 'name'
+                      | 'summary'
+                      | 'icon'
+                      | 'isLocal'
+                      | 'isPublic'
+                      | 'isDisabled'
+                    > & {
+                        community: { __typename?: 'Community' } & Pick<
+                          Types.Community,
+                          'id'
+                        >;
+                        myFollow: Types.Maybe<
+                          { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
+                        >;
+                        myLike: Types.Maybe<
+                          { __typename?: 'Like' } & Pick<Types.Like, 'id'>
+                        >;
+                        likes: { __typename?: 'LikesEdges' } & Pick<
+                          Types.LikesEdges,
+                          'totalCount'
+                        >;
+                        followers: { __typename?: 'FollowsEdges' } & Pick<
+                          Types.FollowsEdges,
+                          'totalCount'
+                        >;
+                        resources: { __typename?: 'ResourcesEdges' } & Pick<
+                          Types.ResourcesEdges,
+                          'totalCount'
+                        >;
+                        threads: { __typename?: 'ThreadsEdges' } & Pick<
+                          Types.ThreadsEdges,
+                          'totalCount'
+                        >;
+                      };
+                  };
+                }
+              >
+            >;
+          };
         };
-      };
-  };
+    }
+  >;
 };
 
 export const GetUserDocument = gql`
@@ -542,16 +546,10 @@ const result: IntrospectionResultData = {
             name: 'Community'
           },
           {
-            name: 'Country'
-          },
-          {
             name: 'Flag'
           },
           {
             name: 'Follow'
-          },
-          {
-            name: 'Language'
           },
           {
             name: 'Like'

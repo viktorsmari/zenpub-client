@@ -99,8 +99,6 @@ export type Collection = {
   outbox: ActivitiesEdges;
   /** An instance-unique identifier shared with users and communities */
   preferredUsername: Scalars['String'];
-  /** The primary language the community speaks */
-  primaryLanguage?: Maybe<Language>;
   /** The resources in the collection, most recently created last */
   resources: ResourcesEdges;
   /** Possibly biographical information */
@@ -160,7 +158,6 @@ export type CollectionInput = {
   icon?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   preferredUsername: Scalars['String'];
-  primaryLanguageId?: Maybe<Scalars['String']>;
   summary?: Maybe<Scalars['String']>;
 };
 
@@ -291,8 +288,6 @@ export type Community = {
   outbox: ActivitiesEdges;
   /** An instance-unique identifier shared with users and collections */
   preferredUsername: Scalars['String'];
-  /** The primary language the community speaks */
-  primaryLanguage?: Maybe<Language>;
   /** Possibly biographical information */
   summary?: Maybe<Scalars['String']>;
   /**
@@ -340,26 +335,7 @@ export type CommunityInput = {
   image?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   preferredUsername: Scalars['String'];
-  primaryLanguageId?: Maybe<Scalars['String']>;
   summary?: Maybe<Scalars['String']>;
-};
-
-export type CountriesNodes = {
-  __typename?: 'CountriesNodes';
-  nodes?: Maybe<Array<Maybe<Country>>>;
-  pageInfo: PageInfo;
-  totalCount: Scalars['Int'];
-};
-
-export type Country = {
-  __typename?: 'Country';
-  createdAt?: Maybe<Scalars['String']>;
-  englishName?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
-  isoCode2?: Maybe<Scalars['String']>;
-  isoCode3?: Maybe<Scalars['String']>;
-  localName?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
 };
 
 /** A thing that can be deleted */
@@ -368,10 +344,8 @@ export type DeleteContext =
   | Collection
   | Comment
   | Community
-  | Country
   | Flag
   | Follow
-  | Language
   | Like
   | Resource
   | Thread
@@ -515,31 +489,13 @@ export type FollowsEdges = {
 export type Instance = {
   __typename?: 'Instance';
   /** A list of public activity on the local instance, most recent first */
-  outbox?: Maybe<ActivitiesEdges>;
+  outbox: ActivitiesEdges;
 };
 
 export type InstanceOutboxArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   limit?: Maybe<Scalars['Int']>;
-};
-
-export type Language = {
-  __typename?: 'Language';
-  createdAt?: Maybe<Scalars['String']>;
-  englishName?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
-  isoCode2?: Maybe<Scalars['String']>;
-  isoCode3?: Maybe<Scalars['String']>;
-  localName?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
-};
-
-export type LanguagesNodes = {
-  __typename?: 'LanguagesNodes';
-  nodes?: Maybe<Array<Maybe<Language>>>;
-  pageInfo: PageInfo;
-  totalCount: Scalars['Int'];
 };
 
 /** A record that a user likes a thing */
@@ -611,7 +567,6 @@ export type RegistrationInput = {
   name: Scalars['String'];
   password: Scalars['String'];
   preferredUsername: Scalars['String'];
-  primaryLanguageId?: Maybe<Scalars['String']>;
   summary?: Maybe<Scalars['String']>;
   wantsEmailDigest: Scalars['Boolean'];
   wantsNotifications: Scalars['Boolean'];
@@ -653,8 +608,6 @@ export type Resource = {
   myLike?: Maybe<Like>;
   /** A name field */
   name: Scalars['String'];
-  /** Languages the resources is available in */
-  primaryLanguage?: Maybe<Language>;
   /** Possibly biographical information */
   summary?: Maybe<Scalars['String']>;
   /** When the collection was last updated */
@@ -679,7 +632,6 @@ export type ResourceInput = {
   icon?: Maybe<Scalars['String']>;
   license?: Maybe<Scalars['String']>;
   name: Scalars['String'];
-  primaryLanguageId?: Maybe<Scalars['String']>;
   summary?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
 };
@@ -692,61 +644,61 @@ export type ResourcesEdge = {
 
 export type ResourcesEdges = {
   __typename?: 'ResourcesEdges';
-  edges?: Maybe<Array<Maybe<ResourcesEdge>>>;
-  pageInfo: PageInfo;
+  edges: Array<Maybe<ResourcesEdge>>;
+  pageInfo?: Maybe<PageInfo>;
   totalCount: Scalars['Int'];
 };
 
 export type RootMutationType = {
   __typename?: 'RootMutationType';
   /** Confirm email. Returns a login token. */
-  confirmEmail: AuthPayload;
+  confirmEmail?: Maybe<AuthPayload>;
   /** Copy a resource */
-  copyResource: Resource;
+  copyResource?: Maybe<Resource>;
   /** Create a collection */
-  createCollection: Collection;
+  createCollection?: Maybe<Collection>;
   /** Create a community */
-  createCommunity: Community;
+  createCommunity?: Maybe<Community>;
   /** Flag a user, community, collection, resource or comment, returning a flag id */
-  createFlag: Flag;
+  createFlag?: Maybe<Flag>;
   /** Follow a community, collection or thread returning a follow id */
-  createFollow: Follow;
+  createFollow?: Maybe<Follow>;
   /** Like a comment, collection, or resource returning a like id */
-  createLike: Like;
+  createLike?: Maybe<Like>;
   /** Create a reply */
-  createReply: Comment;
+  createReply?: Maybe<Comment>;
   /** Create a resource */
-  createResource: Resource;
+  createResource?: Maybe<Resource>;
   /** Log in */
-  createSession: AuthPayload;
+  createSession?: Maybe<AuthPayload>;
   /** Create a new thread */
-  createThread: Comment;
+  createThread?: Maybe<Comment>;
   /** Create a user */
-  createUser: Me;
+  createUser?: Maybe<Me>;
   /** Delete more or less anything */
-  delete: DeleteContext;
+  delete?: Maybe<DeleteContext>;
   /** Deletes my account! */
-  deleteSelf: Scalars['Boolean'];
+  deleteSelf?: Maybe<Scalars['Boolean']>;
   /** Log out */
-  deleteSession: Scalars['Boolean'];
+  deleteSession?: Maybe<Scalars['Boolean']>;
   /** Edit a comment */
-  editComment: Comment;
+  editComment?: Maybe<Comment>;
   /** Fetch metadata from webpage */
   fetchWebMetadata?: Maybe<WebMetadata>;
   /** Reset password */
-  resetPassword: AuthPayload;
+  resetPassword?: Maybe<AuthPayload>;
   /** Reset password request */
-  resetPasswordRequest: Scalars['Boolean'];
+  resetPasswordRequest?: Maybe<Scalars['Boolean']>;
   /** Close a flag */
-  resolveFlag: Flag;
+  resolveFlag?: Maybe<Flag>;
   /** Update a collection */
-  updateCollection: Collection;
+  updateCollection?: Maybe<Collection>;
   /** Update a community */
-  updateCommunity: Community;
+  updateCommunity?: Maybe<Community>;
   /** Update a profile */
-  updateProfile: Me;
+  updateProfile?: Maybe<Me>;
   /** Update a resource */
-  updateResource: Resource;
+  updateResource?: Maybe<Resource>;
 };
 
 export type RootMutationTypeConfirmEmailArgs = {
@@ -856,38 +808,30 @@ export type RootMutationTypeUpdateResourceArgs = {
 
 export type RootQueryType = {
   __typename?: 'RootQueryType';
-  activity: Activity;
+  activity?: Maybe<Activity>;
   /** Get a collection */
-  collection: Collection;
+  collection?: Maybe<Collection>;
   /** Get list of collections, most recent activity first */
   collections: CollectionsNodes;
   /** Get a comment */
-  comment: Comment;
+  comment?: Maybe<Comment>;
   /** Get list of communities, most followed first */
   communities: CommunitiesNodes;
   /** Get a community */
-  community: Community;
-  /** Get list of languages we know about */
-  countries?: Maybe<CountriesNodes>;
-  country?: Maybe<Country>;
-  flag: Flag;
-  follow: Follow;
+  community?: Maybe<Community>;
+  flag?: Maybe<Flag>;
+  follow?: Maybe<Follow>;
   /** A logical object for the local instance */
   instance?: Maybe<Instance>;
-  language?: Maybe<Language>;
-  /** Get list of languages we know about */
-  languages?: Maybe<LanguagesNodes>;
-  like: Like;
+  like?: Maybe<Like>;
   /** Get my user */
-  me: Me;
+  me?: Maybe<Me>;
   /** Get a resource */
-  resource: Resource;
-  searchCountry?: Maybe<CountriesNodes>;
-  searchLanguage?: Maybe<LanguagesNodes>;
+  resource?: Maybe<Resource>;
   /** Get a thread */
-  thread: Thread;
+  thread?: Maybe<Thread>;
   /** Get an user */
-  user: User;
+  user?: Maybe<User>;
   /** Check if a user exists with a username */
   usernameAvailable: Scalars['Boolean'];
 };
@@ -920,16 +864,6 @@ export type RootQueryTypeCommunityArgs = {
   communityId: Scalars['String'];
 };
 
-export type RootQueryTypeCountriesArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-};
-
-export type RootQueryTypeCountryArgs = {
-  countryId: Scalars['String'];
-};
-
 export type RootQueryTypeFlagArgs = {
   flagId: Scalars['String'];
 };
@@ -938,30 +872,12 @@ export type RootQueryTypeFollowArgs = {
   followId: Scalars['String'];
 };
 
-export type RootQueryTypeLanguageArgs = {
-  languageId: Scalars['String'];
-};
-
-export type RootQueryTypeLanguagesArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-};
-
 export type RootQueryTypeLikeArgs = {
   likeId: Scalars['String'];
 };
 
 export type RootQueryTypeResourceArgs = {
   resourceId: Scalars['String'];
-};
-
-export type RootQueryTypeSearchCountryArgs = {
-  query: Scalars['String'];
-};
-
-export type RootQueryTypeSearchLanguageArgs = {
-  query: Scalars['String'];
 };
 
 export type RootQueryTypeThreadArgs = {
@@ -1030,7 +946,7 @@ export type ThreadsEdge = {
 
 export type ThreadsEdges = {
   __typename?: 'ThreadsEdges';
-  edges?: Maybe<Array<Maybe<ThreadsEdge>>>;
+  edges: Array<Maybe<ThreadsEdge>>;
   pageInfo?: Maybe<PageInfo>;
   totalCount: Scalars['Int'];
 };
@@ -1040,7 +956,6 @@ export type UpdateProfileInput = {
   image?: Maybe<Scalars['String']>;
   location?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
-  primaryLanguageId?: Maybe<Scalars['String']>;
   summary?: Maybe<Scalars['String']>;
   wantsEmailDigest?: Maybe<Scalars['Boolean']>;
   wantsNotifications?: Maybe<Scalars['Boolean']>;
@@ -1095,8 +1010,6 @@ export type User = {
   outbox: ActivitiesEdges;
   /** An instance-unique identifier shared with communities and collections */
   preferredUsername: Scalars['String'];
-  /** The language the user wishes to use moodlenet in */
-  primaryLanguage?: Maybe<Language>;
   /** Possibly biographical information */
   summary?: Maybe<Scalars['String']>;
   /** When the user last updated their profile */

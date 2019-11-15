@@ -1,22 +1,9 @@
+#import "./fragments/basicCommunity.graphql"
 query getCommunitiesQuery($limit: Int, $end: String) {
     communities(limit: $limit, after:$end) {
         pageInfo { startCursor endCursor }
         nodes {
-            id
-            canonicalUrl
-            preferredUsername
-            name
-            summary
-            icon
-	    isLocal
-	    isPublic
-	    isDisabled
-	    myFollow { id }
-	    createdAt
-	    updatedAt
-            collections { totalCount }
-            followers   { totalCount }
-            threads     { totalCount }
+            ...BasicCommunity
         }
     }
 }

@@ -9,8 +9,8 @@ import { SessionContext } from '../../../context/global/sessionCtx';
 import Alert from '../../elements/Alert';
 import Modal from '../Modal';
 import SocialText from '../SocialText';
-import { Comment } from '../../../graphql/types';
 import { useCreateReplyMutationMutation } from '../../../graphql/generated/createReply.generated';
+import { BasicCommentFragment } from '../../../graphql/fragments/generated/basicComment.generated';
 
 export const TextWrapper = styled(Flex)`
   padding: 16px;
@@ -53,7 +53,7 @@ const tt = {
 interface Props {
   toggleModal(_: boolean): unknown;
   modalIsOpen: boolean;
-  comment: Comment;
+  comment: BasicCommentFragment;
 }
 
 export const TalkModal: React.FC<Props> = ({

@@ -16,28 +16,24 @@ export type UpdateCollectionMutationMutationVariables = {
 export type UpdateCollectionMutationMutation = {
   __typename?: 'RootMutationType';
 } & {
-  updateCollection: { __typename?: 'Collection' } & Pick<
-    Types.Collection,
-    | 'id'
-    | 'canonicalUrl'
-    | 'preferredUsername'
-    | 'name'
-    | 'summary'
-    | 'icon'
-    | 'createdAt'
-    | 'updatedAt'
-  > & {
-      primaryLanguage: Types.Maybe<
-        { __typename?: 'Language' } & Pick<
-          Types.Language,
-          'id' | 'englishName' | 'localName'
-        >
-      >;
-      resources: { __typename?: 'ResourcesEdges' } & Pick<
-        Types.ResourcesEdges,
-        'totalCount'
-      >;
-    };
+  updateCollection: Types.Maybe<
+    { __typename?: 'Collection' } & Pick<
+      Types.Collection,
+      | 'id'
+      | 'canonicalUrl'
+      | 'preferredUsername'
+      | 'name'
+      | 'summary'
+      | 'icon'
+      | 'createdAt'
+      | 'updatedAt'
+    > & {
+        resources: { __typename?: 'ResourcesEdges' } & Pick<
+          Types.ResourcesEdges,
+          'totalCount'
+        >;
+      }
+  >;
 };
 
 export const UpdateCollectionMutationDocument = gql`
@@ -54,11 +50,6 @@ export const UpdateCollectionMutationDocument = gql`
       icon
       createdAt
       updatedAt
-      primaryLanguage {
-        id
-        englishName
-        localName
-      }
       resources {
         totalCount
       }
@@ -280,16 +271,10 @@ const result: IntrospectionResultData = {
             name: 'Community'
           },
           {
-            name: 'Country'
-          },
-          {
             name: 'Flag'
           },
           {
             name: 'Follow'
-          },
-          {
-            name: 'Language'
           },
           {
             name: 'Like'

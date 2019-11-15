@@ -212,7 +212,9 @@ const CreateCommunityModal = (props: Props) => {
                     name: values.name,
                     password: values.password,
                     preferredUsername: values.username,
-                    isPublic: true
+                    isPublic: true,
+                    wantsEmailDigest: false,
+                    wantsNotifications: false
                   }
                 };
                 return createUser({

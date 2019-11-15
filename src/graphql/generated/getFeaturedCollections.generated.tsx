@@ -21,13 +21,13 @@ export type GetFeaturedCollectionsQueryVariables = {
 };
 
 export type GetFeaturedCollectionsQuery = { __typename?: 'RootQueryType' } & {
-  one: { __typename?: 'Collection' } & BasicCollectionFragment;
-  two: { __typename?: 'Collection' } & BasicCollectionFragment;
-  three: { __typename?: 'Collection' } & BasicCollectionFragment;
-  four: { __typename?: 'Collection' } & BasicCollectionFragment;
-  five: { __typename?: 'Collection' } & BasicCollectionFragment;
-  six: { __typename?: 'Collection' } & BasicCollectionFragment;
-  seven: { __typename?: 'Collection' } & BasicCollectionFragment;
+  one: Types.Maybe<{ __typename?: 'Collection' } & BasicCollectionFragment>;
+  two: Types.Maybe<{ __typename?: 'Collection' } & BasicCollectionFragment>;
+  three: Types.Maybe<{ __typename?: 'Collection' } & BasicCollectionFragment>;
+  four: Types.Maybe<{ __typename?: 'Collection' } & BasicCollectionFragment>;
+  five: Types.Maybe<{ __typename?: 'Collection' } & BasicCollectionFragment>;
+  six: Types.Maybe<{ __typename?: 'Collection' } & BasicCollectionFragment>;
+  seven: Types.Maybe<{ __typename?: 'Collection' } & BasicCollectionFragment>;
 };
 
 export const GetFeaturedCollectionsDocument = gql`
@@ -293,16 +293,10 @@ const result: IntrospectionResultData = {
             name: 'Community'
           },
           {
-            name: 'Country'
-          },
-          {
             name: 'Flag'
           },
           {
             name: 'Follow'
-          },
-          {
-            name: 'Language'
           },
           {
             name: 'Like'

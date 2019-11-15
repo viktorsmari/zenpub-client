@@ -19,11 +19,9 @@ export type BasicCommunityFragment = { __typename?: 'Community' } & Pick<
   | 'isDisabled'
 > & {
     myFollow: Types.Maybe<{ __typename?: 'Follow' } & Pick<Types.Follow, 'id'>>;
-    primaryLanguage: Types.Maybe<
-      { __typename?: 'Language' } & Pick<
-        Types.Language,
-        'id' | 'englishName' | 'localName'
-      >
+    collections: { __typename?: 'CollectionsEdges' } & Pick<
+      Types.CollectionsEdges,
+      'totalCount'
     >;
     followers: { __typename?: 'FollowsEdges' } & Pick<
       Types.FollowsEdges,
@@ -57,10 +55,8 @@ export const BasicCommunityFragmentDoc = gql`
     myFollow {
       id
     }
-    primaryLanguage {
-      id
-      englishName
-      localName
+    collections {
+      totalCount
     }
     followers {
       totalCount
@@ -199,16 +195,10 @@ const result: IntrospectionResultData = {
             name: 'Community'
           },
           {
-            name: 'Country'
-          },
-          {
             name: 'Flag'
           },
           {
             name: 'Follow'
-          },
-          {
-            name: 'Language'
           },
           {
             name: 'Like'

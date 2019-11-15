@@ -17,6 +17,7 @@ query getSidebarQuery($limitComm: Int, $endComm: String) {
                         community {
                             __typename
                             ... on Community {
+                                id
                                 preferredUsername
                                 name
                                 summary

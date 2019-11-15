@@ -21,13 +21,13 @@ export type GetFeaturedCommunitiesQueryVariables = {
 };
 
 export type GetFeaturedCommunitiesQuery = { __typename?: 'RootQueryType' } & {
-  one: { __typename?: 'Community' } & BasicCommunityFragment;
-  two: { __typename?: 'Community' } & BasicCommunityFragment;
-  three: { __typename?: 'Community' } & BasicCommunityFragment;
-  four: { __typename?: 'Community' } & BasicCommunityFragment;
-  five: { __typename?: 'Community' } & BasicCommunityFragment;
-  six: { __typename?: 'Community' } & BasicCommunityFragment;
-  seven: { __typename?: 'Community' } & BasicCommunityFragment;
+  one: Types.Maybe<{ __typename?: 'Community' } & BasicCommunityFragment>;
+  two: Types.Maybe<{ __typename?: 'Community' } & BasicCommunityFragment>;
+  three: Types.Maybe<{ __typename?: 'Community' } & BasicCommunityFragment>;
+  four: Types.Maybe<{ __typename?: 'Community' } & BasicCommunityFragment>;
+  five: Types.Maybe<{ __typename?: 'Community' } & BasicCommunityFragment>;
+  six: Types.Maybe<{ __typename?: 'Community' } & BasicCommunityFragment>;
+  seven: Types.Maybe<{ __typename?: 'Community' } & BasicCommunityFragment>;
 };
 
 export const GetFeaturedCommunitiesDocument = gql`
@@ -293,16 +293,10 @@ const result: IntrospectionResultData = {
             name: 'Community'
           },
           {
-            name: 'Country'
-          },
-          {
             name: 'Flag'
           },
           {
             name: 'Follow'
-          },
-          {
-            name: 'Language'
           },
           {
             name: 'Like'

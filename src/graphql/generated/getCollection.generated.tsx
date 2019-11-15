@@ -15,13 +15,13 @@ export type GetCollectionQueryVariables = {
 };
 
 export type GetCollectionQuery = { __typename?: 'RootQueryType' } & {
-  collection: { __typename?: 'Collection' } & {
-    resources: { __typename?: 'ResourcesEdges' } & Pick<
-      Types.ResourcesEdges,
-      'totalCount'
-    > & {
-        edges: Types.Maybe<
-          Array<
+  collection: Types.Maybe<
+    { __typename?: 'Collection' } & {
+      resources: { __typename?: 'ResourcesEdges' } & Pick<
+        Types.ResourcesEdges,
+        'totalCount'
+      > & {
+          edges: Array<
             Types.Maybe<
               { __typename?: 'ResourcesEdge' } & {
                 node: { __typename?: 'Resource' } & Pick<
@@ -50,10 +50,10 @@ export type GetCollectionQuery = { __typename?: 'RootQueryType' } & {
                   };
               }
             >
-          >
-        >;
-      };
-  } & BasicCollectionFragment;
+          >;
+        };
+    } & BasicCollectionFragment
+  >;
 };
 
 export const GetCollectionDocument = gql`
@@ -306,16 +306,10 @@ const result: IntrospectionResultData = {
             name: 'Community'
           },
           {
-            name: 'Country'
-          },
-          {
             name: 'Flag'
           },
           {
             name: 'Follow'
-          },
-          {
-            name: 'Language'
           },
           {
             name: 'Like'

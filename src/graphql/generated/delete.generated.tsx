@@ -13,19 +13,18 @@ export type DeleteMutationVariables = {
 };
 
 export type DeleteMutation = { __typename?: 'RootMutationType' } & {
-  delete:
+  delete: Types.Maybe<
     | { __typename?: 'Activity' }
     | { __typename?: 'Collection' }
     | { __typename?: 'Comment' }
     | { __typename?: 'Community' }
-    | { __typename?: 'Country' }
     | { __typename?: 'Flag' }
     | { __typename?: 'Follow' }
-    | { __typename?: 'Language' }
     | { __typename?: 'Like' }
     | { __typename?: 'Resource' }
     | { __typename?: 'Thread' }
-    | { __typename?: 'User' };
+    | { __typename?: 'User' }
+  >;
 };
 
 export const DeleteDocument = gql`
@@ -240,16 +239,10 @@ const result: IntrospectionResultData = {
             name: 'Community'
           },
           {
-            name: 'Country'
-          },
-          {
             name: 'Flag'
           },
           {
             name: 'Follow'
-          },
-          {
-            name: 'Language'
           },
           {
             name: 'Like'

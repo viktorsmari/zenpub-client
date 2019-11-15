@@ -21,12 +21,6 @@ export type BasicUserFragment = { __typename?: 'User' } & Pick<
 > & {
     myFollow: Types.Maybe<{ __typename?: 'Follow' } & Pick<Types.Follow, 'id'>>;
     myLike: Types.Maybe<{ __typename?: 'Like' } & Pick<Types.Like, 'id'>>;
-    primaryLanguage: Types.Maybe<
-      { __typename?: 'Language' } & Pick<
-        Types.Language,
-        'id' | 'englishName' | 'localName'
-      >
-    >;
   };
 
 export const BasicUserFragmentDoc = gql`
@@ -50,11 +44,6 @@ export const BasicUserFragmentDoc = gql`
     }
     myLike {
       id
-    }
-    primaryLanguage {
-      id
-      englishName
-      localName
     }
   }
 `;
@@ -184,16 +173,10 @@ const result: IntrospectionResultData = {
             name: 'Community'
           },
           {
-            name: 'Country'
-          },
-          {
             name: 'Flag'
           },
           {
             name: 'Follow'
-          },
-          {
-            name: 'Language'
           },
           {
             name: 'Like'

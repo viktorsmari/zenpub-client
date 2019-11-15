@@ -15,5 +15,4 @@ fragment BasicUser on User {
     lastActivity
     myFollow { id }
     myLike   { id }
-    primaryLanguage { id englishName localName }
 }

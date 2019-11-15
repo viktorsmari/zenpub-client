@@ -2,7 +2,6 @@ input ResourceInput {
     icon: String!
     license: String
     name: String!
-    primaryLanguageId: String
     summary: String
     url: String}
 
@@ -21,11 +20,5 @@ input ResourceInput {
         isDisabled
         createdAt
         updatedAt
-        primaryLanguage {
-            id
-            englishName
-            localName
-        }
     }
 }
-

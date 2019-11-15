@@ -24,44 +24,48 @@ export type GetMeInboxQueryVariables = {
 };
 
 export type GetMeInboxQuery = { __typename?: 'RootQueryType' } & {
-  me: { __typename?: 'Me' } & {
-    user: { __typename?: 'User' } & Pick<Types.User, 'id'> & {
-        inbox: { __typename?: 'ActivitiesEdges' } & {
-          pageInfo: Types.Maybe<
-            { __typename?: 'PageInfo' } & Pick<
-              Types.PageInfo,
-              'startCursor' | 'endCursor'
-            >
-          >;
-          edges: Array<
-            Types.Maybe<
-              { __typename?: 'ActivitiesEdge' } & {
-                node: { __typename?: 'Activity' } & Pick<
-                  Types.Activity,
-                  | 'id'
-                  | 'canonicalUrl'
-                  | 'verb'
-                  | 'isLocal'
-                  | 'isPublic'
-                  | 'createdAt'
-                > & {
-                    user: { __typename?: 'User' } & BasicUserFragment;
-                    context:
-                      | ({
-                          __typename?: 'Collection';
-                        } & BasicCollectionFragment)
-                      | ({
-                          __typename?: 'Comment';
-                        } & BasicCommentWithInReplyToFragment)
-                      | ({ __typename?: 'Community' } & BasicCommunityFragment)
-                      | ({ __typename?: 'Resource' } & BasicResourceFragment);
-                  };
-              }
-            >
-          >;
+  me: Types.Maybe<
+    { __typename?: 'Me' } & {
+      user: { __typename?: 'User' } & Pick<Types.User, 'id'> & {
+          inbox: { __typename?: 'ActivitiesEdges' } & {
+            pageInfo: Types.Maybe<
+              { __typename?: 'PageInfo' } & Pick<
+                Types.PageInfo,
+                'startCursor' | 'endCursor'
+              >
+            >;
+            edges: Array<
+              Types.Maybe<
+                { __typename?: 'ActivitiesEdge' } & {
+                  node: { __typename?: 'Activity' } & Pick<
+                    Types.Activity,
+                    | 'id'
+                    | 'canonicalUrl'
+                    | 'verb'
+                    | 'isLocal'
+                    | 'isPublic'
+                    | 'createdAt'
+                  > & {
+                      user: { __typename?: 'User' } & BasicUserFragment;
+                      context:
+                        | ({
+                            __typename?: 'Collection';
+                          } & BasicCollectionFragment)
+                        | ({
+                            __typename?: 'Comment';
+                          } & BasicCommentWithInReplyToFragment)
+                        | ({
+                            __typename?: 'Community';
+                          } & BasicCommunityFragment)
+                        | ({ __typename?: 'Resource' } & BasicResourceFragment);
+                    };
+                }
+              >
+            >;
+          };
         };
-      };
-  };
+    }
+  >;
 };
 
 export const GetMeInboxDocument = gql`
@@ -324,16 +328,10 @@ const result: IntrospectionResultData = {
             name: 'Community'
           },
           {
-            name: 'Country'
-          },
-          {
             name: 'Flag'
           },
           {
             name: 'Follow'
-          },
-          {
-            name: 'Language'
           },
           {
             name: 'Like'

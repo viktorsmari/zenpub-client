@@ -15,19 +15,17 @@ export type UpdateProfileMutationMutationVariables = {
 export type UpdateProfileMutationMutation = {
   __typename?: 'RootMutationType';
 } & {
-  updateProfile: { __typename?: 'Me' } & Pick<
-    Types.Me,
-    'wantsEmailDigest' | 'wantsNotifications'
-  > & {
-      user: { __typename?: 'User' } & Pick<
-        Types.User,
-        'id' | 'name' | 'summary' | 'icon' | 'image' | 'location' | 'website'
-      > & {
-          primaryLanguage: Types.Maybe<
-            { __typename?: 'Language' } & Pick<Types.Language, 'id'>
-          >;
-        };
-    };
+  updateProfile: Types.Maybe<
+    { __typename?: 'Me' } & Pick<
+      Types.Me,
+      'wantsEmailDigest' | 'wantsNotifications'
+    > & {
+        user: { __typename?: 'User' } & Pick<
+          Types.User,
+          'id' | 'name' | 'summary' | 'icon' | 'image' | 'location' | 'website'
+        >;
+      }
+  >;
 };
 
 export const UpdateProfileMutationDocument = gql`
@@ -39,9 +37,6 @@ export const UpdateProfileMutationDocument = gql`
         id
         name
         summary
-        primaryLanguage {
-          id
-        }
         icon
         image
         location
@@ -264,16 +259,10 @@ const result: IntrospectionResultData = {
             name: 'Community'
           },
           {
-            name: 'Country'
-          },
-          {
             name: 'Flag'
           },
           {
             name: 'Follow'
-          },
-          {
-            name: 'Language'
           },
           {
             name: 'Like'

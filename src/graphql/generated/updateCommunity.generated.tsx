@@ -16,26 +16,21 @@ export type UpdateCommunityMutationMutationVariables = {
 export type UpdateCommunityMutationMutation = {
   __typename?: 'RootMutationType';
 } & {
-  updateCommunity: { __typename?: 'Community' } & Pick<
-    Types.Community,
-    | 'id'
-    | 'canonicalUrl'
-    | 'preferredUsername'
-    | 'name'
-    | 'summary'
-    | 'icon'
-    | 'isLocal'
-    | 'isPublic'
-    | 'createdAt'
-    | 'updatedAt'
-  > & {
-      primaryLanguage: Types.Maybe<
-        { __typename?: 'Language' } & Pick<
-          Types.Language,
-          'id' | 'englishName' | 'localName'
-        >
-      >;
-    };
+  updateCommunity: Types.Maybe<
+    { __typename?: 'Community' } & Pick<
+      Types.Community,
+      | 'id'
+      | 'canonicalUrl'
+      | 'preferredUsername'
+      | 'name'
+      | 'summary'
+      | 'icon'
+      | 'isLocal'
+      | 'isPublic'
+      | 'createdAt'
+      | 'updatedAt'
+    >
+  >;
 };
 
 export const UpdateCommunityMutationDocument = gql`
@@ -54,11 +49,6 @@ export const UpdateCommunityMutationDocument = gql`
       isPublic
       createdAt
       updatedAt
-      primaryLanguage {
-        id
-        englishName
-        localName
-      }
     }
   }
 `;
@@ -277,16 +267,10 @@ const result: IntrospectionResultData = {
             name: 'Community'
           },
           {
-            name: 'Country'
-          },
-          {
             name: 'Flag'
           },
           {
             name: 'Follow'
-          },
-          {
-            name: 'Language'
           },
           {
             name: 'Like'

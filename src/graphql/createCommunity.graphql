@@ -4,7 +4,6 @@ input CommunityInput {
     name: String!
     summary: String
     preferredUsername: String!
-    primaryLanguageId: String
     icon: String
     image: String
 }

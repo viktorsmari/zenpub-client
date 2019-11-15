@@ -1,6 +1,8 @@
 import * as Types from '../types.d';
 
+import { BasicCommunityFragment } from '../fragments/generated/basicCommunity.generated';
 import gql from 'graphql-tag';
+import { BasicCommunityFragmentDoc } from '../fragments/generated/basicCommunity.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -22,38 +24,7 @@ export type GetCommunitiesQueryQuery = { __typename?: 'RootQueryType' } & {
       >
     >;
     nodes: Array<
-      Types.Maybe<
-        { __typename?: 'Community' } & Pick<
-          Types.Community,
-          | 'id'
-          | 'canonicalUrl'
-          | 'preferredUsername'
-          | 'name'
-          | 'summary'
-          | 'icon'
-          | 'isLocal'
-          | 'isPublic'
-          | 'isDisabled'
-          | 'createdAt'
-          | 'updatedAt'
-        > & {
-            myFollow: Types.Maybe<
-              { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
-            >;
-            collections: { __typename?: 'CollectionsEdges' } & Pick<
-              Types.CollectionsEdges,
-              'totalCount'
-            >;
-            followers: { __typename?: 'FollowsEdges' } & Pick<
-              Types.FollowsEdges,
-              'totalCount'
-            >;
-            threads: { __typename?: 'ThreadsEdges' } & Pick<
-              Types.ThreadsEdges,
-              'totalCount'
-            >;
-          }
-      >
+      Types.Maybe<{ __typename?: 'Community' } & BasicCommunityFragment>
     >;
   };
 };
@@ -66,32 +37,11 @@ export const GetCommunitiesQueryDocument = gql`
         endCursor
       }
       nodes {
-        id
-        canonicalUrl
-        preferredUsername
-        name
-        summary
-        icon
-        isLocal
-        isPublic
-        isDisabled
-        myFollow {
-          id
-        }
-        createdAt
-        updatedAt
-        collections {
-          totalCount
-        }
-        followers {
-          totalCount
-        }
-        threads {
-          totalCount
-        }
+        ...BasicCommunity
       }
     }
   }
+  ${BasicCommunityFragmentDoc}
 `;
 export type GetCommunitiesQueryComponentProps = Omit<
   ApolloReactComponents.QueryComponentOptions<
@@ -314,16 +264,10 @@ const result: IntrospectionResultData = {
             name: 'Community'
           },
           {
-            name: 'Country'
-          },
-          {
             name: 'Flag'
           },
           {
             name: 'Follow'
-          },
-          {
-            name: 'Language'
           },
           {
             name: 'Like'
