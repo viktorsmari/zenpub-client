@@ -30,7 +30,9 @@ export type BasicCommentFragment = { __typename?: 'Comment' } & Pick<
               | 'isLocal'
               | 'isPublic'
               | 'isDisabled'
-            >)
+            > & {
+                creator: { __typename?: 'User' } & BasicUserFragment;
+              })
           | ({ __typename?: 'Community' } & Pick<
               Types.Community,
               | 'id'
@@ -39,9 +41,25 @@ export type BasicCommentFragment = { __typename?: 'Comment' } & Pick<
               | 'isLocal'
               | 'isPublic'
               | 'isDisabled'
-            >)
+            > & {
+                creator: { __typename?: 'User' } & BasicUserFragment;
+              })
           | { __typename?: 'Flag' }
-          | { __typename?: 'Resource' };
+          | ({ __typename?: 'Resource' } & Pick<
+              Types.Resource,
+              | 'id'
+              | 'canonicalUrl'
+              | 'name'
+              | 'isLocal'
+              | 'isPublic'
+              | 'isDisabled'
+            > & {
+                creator: { __typename?: 'User' } & BasicUserFragment;
+                collection: { __typename?: 'Collection' } & Pick<
+                  Types.Collection,
+                  'id' | 'name'
+                >;
+              });
       };
   };
 
@@ -71,6 +89,9 @@ export const BasicCommentFragmentDoc = gql`
           isLocal
           isPublic
           isDisabled
+          creator {
+            ...BasicUser
+          }
         }
         ... on Collection {
           id
@@ -79,6 +100,24 @@ export const BasicCommentFragmentDoc = gql`
           isLocal
           isPublic
           isDisabled
+          creator {
+            ...BasicUser
+          }
+        }
+        ... on Resource {
+          id
+          canonicalUrl
+          name
+          isLocal
+          isPublic
+          isDisabled
+          creator {
+            ...BasicUser
+          }
+          collection {
+            id
+            name
+          }
         }
       }
     }

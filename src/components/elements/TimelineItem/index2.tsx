@@ -175,9 +175,9 @@ const CommentItem: SFC<CommentProps> = ({
       {comment.inReplyTo !== null ? (
         <InReply my={2}>
           <MemberWrapped>
-            <MemberItem className={'miniavatar'} mr={2}>
-              {/* <Img src={comment.thread.context.creator.icon} /> */}
-            </MemberItem>
+            {/* <MemberItem className={'miniavatar'} mr={2}> */}
+            {/* <Img src={comment.thread.context.creator.icon} /> */}
+            {/* </MemberItem> */}
             <MemberInfo>
               {/* <Name>
             <Link

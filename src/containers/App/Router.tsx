@@ -13,7 +13,7 @@ import CommunitiesAll from '../../pages/communities.all/CommunitiesAll';
 // import CommunitiesCommunity from '../../pages/communities.community/CommunitiesCommunity';
 import CreateNewPassword from '../../pages/CreateNewPassword';
 // import Discover from '../../pages/discover';
-// import Home from '../../pages/home';
+import Home from '../../pages/home';
 import Login from '../../pages/login/Login';
 import NotFound from '../../pages/not-found/NotFound';
 // import Profile from '../../pages/Profile';
@@ -80,7 +80,7 @@ const searchStateToUrl = (props, searchState, loggedin) => {
 };
 
 const Content = connectStateResults(({ searchState, onOpen }) => {
-  // const { auth } = React.useContext(SessionContext);
+  const { auth } = React.useContext(SessionContext);
 
   return searchState && searchState.query ? (
     <>
@@ -93,8 +93,8 @@ const Content = connectStateResults(({ searchState, onOpen }) => {
     <>
       <MobileHeader onOpen={onOpen} />
       <Switch>
-        {/* <Route exact path="/" component={auth ? Home : Login} />
-        <Route exact path="/settings" component={auth ? Settings : Login} />
+        <Route exact path="/" component={auth ? Home : Login} />
+        {/*  <Route exact path="/settings" component={auth ? Settings : Login} />
         <Route exact path="/profile" component={auth ? Profile : Login} />
         <Route
           exact

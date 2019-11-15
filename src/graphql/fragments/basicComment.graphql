@@ -28,6 +28,9 @@ fragment BasicComment on Comment {
                 isLocal
                 isPublic
                 isDisabled
+                creator {
+                    ...BasicUser
+                }
             }
           ... on Collection {
                 id
@@ -36,6 +39,25 @@ fragment BasicComment on Comment {
                 isLocal
                 isPublic
                 isDisabled
+                creator {
+                    ...BasicUser
+                }
+            }
+            ... on Resource {
+                id
+                canonicalUrl
+                name
+                isLocal
+                isPublic
+                isDisabled
+                
+                creator {
+                    ...BasicUser
+                }
+                collection {
+                    id
+                    name
+                }
             }
         }
     }
