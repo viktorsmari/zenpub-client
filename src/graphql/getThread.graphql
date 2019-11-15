@@ -20,7 +20,7 @@ query getThread($threadId: String!) {
         comments {
             totalCount
             edges {
-                node { ...BasicComment }
+                node { ...BasicCommentWithInReplyTo }
             }
         }
     }

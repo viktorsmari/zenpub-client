@@ -1,6 +1,8 @@
 import * as Types from '../types.d';
 
+import { BasicCommentWithInReplyToFragment } from '../fragments/generated/basicComment.generated';
 import gql from 'graphql-tag';
+import { BasicCommentWithInReplyToFragmentDoc } from '../fragments/generated/basicComment.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as React from 'react';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -16,27 +18,23 @@ export type CreateThreadMutationMutationVariables = {
 export type CreateThreadMutationMutation = {
   __typename?: 'RootMutationType';
 } & {
-  createThread: Types.Maybe<
-    { __typename?: 'Comment' } & Pick<
-      Types.Comment,
-      | 'id'
-      | 'canonicalUrl'
-      | 'inReplyToId'
-      | 'content'
-      | 'isLocal'
-      | 'isPublic'
-      | 'isHidden'
-      | 'createdAt'
-      | 'updatedAt'
-    > & {
-        creator: Types.Maybe<
-          { __typename?: 'User' } & Pick<Types.User, 'name' | 'icon'>
-        >;
-        thread: Types.Maybe<
-          { __typename?: 'Thread' } & Pick<Types.Thread, 'id'>
-        >;
-      }
-  >;
+  createThread: { __typename?: 'Comment' } & Pick<
+    Types.Comment,
+    | 'id'
+    | 'canonicalUrl'
+    | 'content'
+    | 'isLocal'
+    | 'isPublic'
+    | 'isHidden'
+    | 'createdAt'
+    | 'updatedAt'
+  > & {
+      inReplyTo: Types.Maybe<
+        { __typename?: 'Comment' } & BasicCommentWithInReplyToFragment
+      >;
+      creator: { __typename?: 'User' } & Pick<Types.User, 'name' | 'icon'>;
+      thread: { __typename?: 'Thread' } & Pick<Types.Thread, 'id'>;
+    };
 };
 
 export const CreateThreadMutationDocument = gql`
@@ -44,7 +42,9 @@ export const CreateThreadMutationDocument = gql`
     createThread(contextId: $contextId, comment: $comment) {
       id
       canonicalUrl
-      inReplyToId
+      inReplyTo {
+        ...BasicCommentWithInReplyTo
+      }
       content
       isLocal
       isPublic
@@ -60,6 +60,7 @@ export const CreateThreadMutationDocument = gql`
       }
     }
   }
+  ${BasicCommentWithInReplyToFragmentDoc}
 `;
 export type CreateThreadMutationMutationFn = ApolloReactCommon.MutationFunction<
   CreateThreadMutationMutation,
@@ -250,6 +251,48 @@ const result: IntrospectionResultData = {
           },
           {
             name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Country'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Language'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
           },
           {
             name: 'Thread'

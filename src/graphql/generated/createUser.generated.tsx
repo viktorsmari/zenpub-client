@@ -13,24 +13,15 @@ export type CreateUserMutationMutationVariables = {
 };
 
 export type CreateUserMutationMutation = { __typename?: 'RootMutationType' } & {
-  createUser: Types.Maybe<
-    { __typename?: 'Me' } & Pick<
-      Types.Me,
-      'email' | 'wantsEmailDigest' | 'wantsNotifications' | 'isConfirmed'
-    > & {
-        user: Types.Maybe<
-          { __typename?: 'User' } & Pick<
-            Types.User,
-            | 'id'
-            | 'preferredUsername'
-            | 'name'
-            | 'summary'
-            | 'location'
-            | 'website'
-          >
-        >;
-      }
-  >;
+  createUser: { __typename?: 'Me' } & Pick<
+    Types.Me,
+    'email' | 'wantsEmailDigest' | 'wantsNotifications' | 'isConfirmed'
+  > & {
+      user: { __typename?: 'User' } & Pick<
+        Types.User,
+        'id' | 'preferredUsername' | 'name' | 'summary' | 'location' | 'website'
+      >;
+    };
 };
 
 export const CreateUserMutationDocument = gql`
@@ -239,6 +230,48 @@ const result: IntrospectionResultData = {
           },
           {
             name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Country'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Language'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
           },
           {
             name: 'Thread'

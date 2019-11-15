@@ -1,6 +1,9 @@
+fragment BasicCommentWithInReplyTo on Comment {
+    ...BasicComment
+    inReplyTo { ...BasicComment }
+}
 fragment BasicComment on Comment {
     id
-    inReplyToId
     content
     isLocal
     isPublic

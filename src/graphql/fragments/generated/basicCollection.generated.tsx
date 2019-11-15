@@ -13,29 +13,27 @@ export type BasicCollectionFragment = { __typename?: 'Collection' } & Pick<
   | 'isLocal'
   | 'isPublic'
 > & {
-    creator: Types.Maybe<{ __typename?: 'User' } & Pick<Types.User, 'id'>>;
+    creator: { __typename?: 'User' } & Pick<Types.User, 'id'>;
     myFollow: Types.Maybe<{ __typename?: 'Follow' } & Pick<Types.Follow, 'id'>>;
-    community: Types.Maybe<
-      { __typename?: 'Community' } & Pick<
-        Types.Community,
-        'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'name' | 'icon'
-      > & {
-          myFollow: Types.Maybe<
-            { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
-          >;
-        }
+    community: { __typename?: 'Community' } & Pick<
+      Types.Community,
+      'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'name' | 'icon'
+    > & {
+        myFollow: Types.Maybe<
+          { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
+        >;
+      };
+    followers: { __typename?: 'FollowsEdges' } & Pick<
+      Types.FollowsEdges,
+      'totalCount'
     >;
-    followers: Types.Maybe<
-      { __typename?: 'FollowsEdges' } & Pick<Types.FollowsEdges, 'totalCount'>
+    threads: { __typename?: 'ThreadsEdges' } & Pick<
+      Types.ThreadsEdges,
+      'totalCount'
     >;
-    threads: Types.Maybe<
-      { __typename?: 'ThreadsEdges' } & Pick<Types.ThreadsEdges, 'totalCount'>
-    >;
-    outbox: Types.Maybe<
-      { __typename?: 'ActivitiesEdges' } & Pick<
-        Types.ActivitiesEdges,
-        'totalCount'
-      >
+    outbox: { __typename?: 'ActivitiesEdges' } & Pick<
+      Types.ActivitiesEdges,
+      'totalCount'
     >;
   };
 
@@ -177,6 +175,48 @@ const result: IntrospectionResultData = {
           },
           {
             name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Country'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Language'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
           },
           {
             name: 'Thread'

@@ -13,11 +13,9 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type GetUserBasicQueryVariables = {};
 
 export type GetUserBasicQuery = { __typename?: 'RootQueryType' } & {
-  me: Types.Maybe<
-    { __typename?: 'Me' } & Pick<Types.Me, 'email'> & {
-        user: Types.Maybe<{ __typename?: 'User' } & BasicUserFragment>;
-      }
-  >;
+  me: { __typename?: 'Me' } & Pick<Types.Me, 'email'> & {
+      user: { __typename?: 'User' } & BasicUserFragment;
+    };
 };
 
 export const GetUserBasicDocument = gql`
@@ -217,6 +215,48 @@ const result: IntrospectionResultData = {
           },
           {
             name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Country'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Language'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
           },
           {
             name: 'Thread'

@@ -18,9 +18,7 @@ export type CreateResourceMutationMutationVariables = {
 export type CreateResourceMutationMutation = {
   __typename?: 'RootMutationType';
 } & {
-  createResource: Types.Maybe<
-    { __typename?: 'Resource' } & BasicResourceFragment
-  >;
+  createResource: { __typename?: 'Resource' } & BasicResourceFragment;
 };
 
 export const CreateResourceMutationDocument = gql`
@@ -223,6 +221,48 @@ const result: IntrospectionResultData = {
           },
           {
             name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Country'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Language'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
           },
           {
             name: 'Thread'

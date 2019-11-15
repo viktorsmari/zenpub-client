@@ -25,17 +25,17 @@ export type NodeCommunityFragment = { __typename?: 'Community' } & Pick<
       >
     >;
     myFollow: Types.Maybe<{ __typename?: 'Follow' } & Pick<Types.Follow, 'id'>>;
-    collections: Types.Maybe<
-      { __typename?: 'CollectionsEdges' } & Pick<
-        Types.CollectionsEdges,
-        'totalCount'
-      >
+    collections: { __typename?: 'CollectionsEdges' } & Pick<
+      Types.CollectionsEdges,
+      'totalCount'
     >;
-    followers: Types.Maybe<
-      { __typename?: 'FollowsEdges' } & Pick<Types.FollowsEdges, 'totalCount'>
+    followers: { __typename?: 'FollowsEdges' } & Pick<
+      Types.FollowsEdges,
+      'totalCount'
     >;
-    threads: Types.Maybe<
-      { __typename?: 'ThreadsEdges' } & Pick<Types.ThreadsEdges, 'totalCount'>
+    threads: { __typename?: 'ThreadsEdges' } & Pick<
+      Types.ThreadsEdges,
+      'totalCount'
     >;
   };
 
@@ -173,6 +173,48 @@ const result: IntrospectionResultData = {
           },
           {
             name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Country'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Language'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
           },
           {
             name: 'Thread'

@@ -13,7 +13,7 @@ export type LikeMutationMutationVariables = {
 };
 
 export type LikeMutationMutation = { __typename?: 'RootMutationType' } & {
-  createLike: Types.Maybe<{ __typename?: 'Like' } & Pick<Types.Like, 'id'>>;
+  createLike: { __typename?: 'Like' } & Pick<Types.Like, 'id'>;
 };
 
 export const LikeMutationDocument = gql`
@@ -207,6 +207,48 @@ const result: IntrospectionResultData = {
           },
           {
             name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Country'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Language'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
           },
           {
             name: 'Thread'

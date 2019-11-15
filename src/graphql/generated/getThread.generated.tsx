@@ -1,8 +1,8 @@
 import * as Types from '../types.d';
 
-import { BasicCommentFragment } from '../fragments/generated/basicComment.generated';
+import { BasicCommentWithInReplyToFragment } from '../fragments/generated/basicComment.generated';
 import gql from 'graphql-tag';
-import { BasicCommentFragmentDoc } from '../fragments/generated/basicComment.generated';
+import { BasicCommentWithInReplyToFragmentDoc } from '../fragments/generated/basicComment.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -15,56 +15,49 @@ export type GetThreadQueryVariables = {
 };
 
 export type GetThreadQuery = { __typename?: 'RootQueryType' } & {
-  thread: Types.Maybe<
-    { __typename?: 'Thread' } & Pick<
-      Types.Thread,
-      | 'id'
-      | 'canonicalUrl'
-      | 'isLocal'
-      | 'isPublic'
-      | 'isHidden'
-      | 'createdAt'
-      | 'updatedAt'
-      | 'lastActivity'
-    > & {
-        context: Types.Maybe<
-          | ({ __typename?: 'Collection' } & Pick<
-              Types.Collection,
-              'id' | 'icon' | 'name'
-            >)
-          | ({ __typename?: 'Community' } & Pick<
-              Types.Community,
-              'id' | 'icon' | 'name'
-            >)
-          | { __typename?: 'Flag' }
-          | ({ __typename?: 'Resource' } & Pick<
-              Types.Resource,
-              'id' | 'icon' | 'name'
-            >)
-        >;
-        myFollow: Types.Maybe<
-          { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
-        >;
-        comments: Types.Maybe<
-          { __typename?: 'CommentsEdges' } & Pick<
-            Types.CommentsEdges,
-            'totalCount'
-          > & {
-              edges: Types.Maybe<
-                Array<
-                  Types.Maybe<
-                    { __typename?: 'CommentsEdge' } & {
-                      node: Types.Maybe<
-                        { __typename?: 'Comment' } & BasicCommentFragment
-                      >;
-                    }
-                  >
-                >
-              >;
-            }
-        >;
-      }
-  >;
+  thread: { __typename?: 'Thread' } & Pick<
+    Types.Thread,
+    | 'id'
+    | 'canonicalUrl'
+    | 'isLocal'
+    | 'isPublic'
+    | 'isHidden'
+    | 'createdAt'
+    | 'updatedAt'
+    | 'lastActivity'
+  > & {
+      context:
+        | ({ __typename?: 'Collection' } & Pick<
+            Types.Collection,
+            'id' | 'icon' | 'name'
+          >)
+        | ({ __typename?: 'Community' } & Pick<
+            Types.Community,
+            'id' | 'icon' | 'name'
+          >)
+        | { __typename?: 'Flag' }
+        | ({ __typename?: 'Resource' } & Pick<
+            Types.Resource,
+            'id' | 'icon' | 'name'
+          >);
+      myFollow: Types.Maybe<
+        { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
+      >;
+      comments: { __typename?: 'CommentsEdges' } & Pick<
+        Types.CommentsEdges,
+        'totalCount'
+      > & {
+          edges: Array<
+            Types.Maybe<
+              { __typename?: 'CommentsEdge' } & {
+                node: {
+                  __typename?: 'Comment';
+                } & BasicCommentWithInReplyToFragment;
+              }
+            >
+          >;
+        };
+    };
 };
 
 export const GetThreadDocument = gql`
@@ -103,13 +96,13 @@ export const GetThreadDocument = gql`
         totalCount
         edges {
           node {
-            ...BasicComment
+            ...BasicCommentWithInReplyTo
           }
         }
       }
     }
   }
-  ${BasicCommentFragmentDoc}
+  ${BasicCommentWithInReplyToFragmentDoc}
 `;
 export type GetThreadComponentProps = Omit<
   ApolloReactComponents.QueryComponentOptions<
@@ -297,6 +290,48 @@ const result: IntrospectionResultData = {
           },
           {
             name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Country'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Language'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
           },
           {
             name: 'Thread'

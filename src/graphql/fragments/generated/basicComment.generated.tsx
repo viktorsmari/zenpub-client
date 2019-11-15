@@ -2,10 +2,13 @@ import * as Types from '../../types.d';
 
 import gql from 'graphql-tag';
 
+export type BasicCommentWithInReplyToFragment = { __typename?: 'Comment' } & {
+  inReplyTo: Types.Maybe<{ __typename?: 'Comment' } & BasicCommentFragment>;
+} & BasicCommentFragment;
+
 export type BasicCommentFragment = { __typename?: 'Comment' } & Pick<
   Types.Comment,
   | 'id'
-  | 'inReplyToId'
   | 'content'
   | 'isLocal'
   | 'isPublic'
@@ -13,54 +16,46 @@ export type BasicCommentFragment = { __typename?: 'Comment' } & Pick<
   | 'createdAt'
   | 'updatedAt'
 > & {
-    creator: Types.Maybe<
-      { __typename?: 'User' } & Pick<
-        Types.User,
-        | 'id'
-        | 'canonicalUrl'
-        | 'preferredUsername'
-        | 'name'
-        | 'icon'
-        | 'isLocal'
-        | 'isPublic'
-        | 'isDisabled'
-      >
+    creator: { __typename?: 'User' } & Pick<
+      Types.User,
+      | 'id'
+      | 'canonicalUrl'
+      | 'preferredUsername'
+      | 'name'
+      | 'icon'
+      | 'isLocal'
+      | 'isPublic'
+      | 'isDisabled'
     >;
-    likes: Types.Maybe<
-      { __typename?: 'LikesEdges' } & Pick<Types.LikesEdges, 'totalCount'>
-    >;
-    thread: Types.Maybe<
-      { __typename?: 'Thread' } & Pick<Types.Thread, 'id'> & {
-          context: Types.Maybe<
-            | ({ __typename?: 'Collection' } & Pick<
-                Types.Collection,
-                | 'id'
-                | 'canonicalUrl'
-                | 'name'
-                | 'isLocal'
-                | 'isPublic'
-                | 'isDisabled'
-              >)
-            | ({ __typename?: 'Community' } & Pick<
-                Types.Community,
-                | 'id'
-                | 'canonicalUrl'
-                | 'name'
-                | 'isLocal'
-                | 'isPublic'
-                | 'isDisabled'
-              >)
-            | { __typename?: 'Flag' }
-            | { __typename?: 'Resource' }
-          >;
-        }
-    >;
+    likes: { __typename?: 'LikesEdges' } & Pick<Types.LikesEdges, 'totalCount'>;
+    thread: { __typename?: 'Thread' } & Pick<Types.Thread, 'id'> & {
+        context:
+          | ({ __typename?: 'Collection' } & Pick<
+              Types.Collection,
+              | 'id'
+              | 'canonicalUrl'
+              | 'name'
+              | 'isLocal'
+              | 'isPublic'
+              | 'isDisabled'
+            >)
+          | ({ __typename?: 'Community' } & Pick<
+              Types.Community,
+              | 'id'
+              | 'canonicalUrl'
+              | 'name'
+              | 'isLocal'
+              | 'isPublic'
+              | 'isDisabled'
+            >)
+          | { __typename?: 'Flag' }
+          | { __typename?: 'Resource' };
+      };
   };
 
 export const BasicCommentFragmentDoc = gql`
   fragment BasicComment on Comment {
     id
-    inReplyToId
     content
     isLocal
     isPublic
@@ -103,6 +98,15 @@ export const BasicCommentFragmentDoc = gql`
       }
     }
   }
+`;
+export const BasicCommentWithInReplyToFragmentDoc = gql`
+  fragment BasicCommentWithInReplyTo on Comment {
+    ...BasicComment
+    inReplyTo {
+      ...BasicComment
+    }
+  }
+  ${BasicCommentFragmentDoc}
 `;
 
 export interface IntrospectionResultData {
@@ -204,6 +208,48 @@ const result: IntrospectionResultData = {
           },
           {
             name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Country'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Language'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
           },
           {
             name: 'Thread'

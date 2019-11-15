@@ -2,13 +2,13 @@ import * as Types from '../types.d';
 
 import { BasicResourceFragment } from '../fragments/generated/basicResource.generated';
 import { BasicCollectionFragment } from '../fragments/generated/basicCollection.generated';
-import { BasicCommentFragment } from '../fragments/generated/basicComment.generated';
+import { BasicCommentWithInReplyToFragment } from '../fragments/generated/basicComment.generated';
 import { BasicCommunityFragment } from '../fragments/generated/basicCommunity.generated';
 import { BasicUserFragment } from '../fragments/generated/basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from '../fragments/generated/basicUser.generated';
 import { BasicCommunityFragmentDoc } from '../fragments/generated/basicCommunity.generated';
-import { BasicCommentFragmentDoc } from '../fragments/generated/basicComment.generated';
+import { BasicCommentWithInReplyToFragmentDoc } from '../fragments/generated/basicComment.generated';
 import { BasicCollectionFragmentDoc } from '../fragments/generated/basicCollection.generated';
 import { BasicResourceFragmentDoc } from '../fragments/generated/basicResource.generated';
 import * as React from 'react';
@@ -24,59 +24,44 @@ export type GetMeInboxQueryVariables = {
 };
 
 export type GetMeInboxQuery = { __typename?: 'RootQueryType' } & {
-  me: Types.Maybe<
-    { __typename?: 'Me' } & {
-      user: Types.Maybe<
-        { __typename?: 'User' } & Pick<Types.User, 'id'> & {
-            inbox: Types.Maybe<
-              { __typename?: 'ActivitiesEdges' } & {
-                pageInfo: { __typename?: 'PageInfo' } & Pick<
-                  Types.PageInfo,
-                  'startCursor' | 'endCursor'
-                >;
-                edges: Types.Maybe<
-                  Array<
-                    Types.Maybe<
-                      { __typename?: 'ActivitiesEdge' } & {
-                        node: Types.Maybe<
-                          { __typename?: 'Activity' } & Pick<
-                            Types.Activity,
-                            | 'id'
-                            | 'canonicalUrl'
-                            | 'verb'
-                            | 'isLocal'
-                            | 'isPublic'
-                            | 'createdAt'
-                          > & {
-                              user: Types.Maybe<
-                                { __typename?: 'User' } & BasicUserFragment
-                              >;
-                              context: Types.Maybe<
-                                | ({
-                                    __typename?: 'Collection';
-                                  } & BasicCollectionFragment)
-                                | ({
-                                    __typename?: 'Comment';
-                                  } & BasicCommentFragment)
-                                | ({
-                                    __typename?: 'Community';
-                                  } & BasicCommunityFragment)
-                                | ({
-                                    __typename?: 'Resource';
-                                  } & BasicResourceFragment)
-                              >;
-                            }
-                        >;
-                      }
-                    >
-                  >
-                >;
+  me: { __typename?: 'Me' } & {
+    user: { __typename?: 'User' } & Pick<Types.User, 'id'> & {
+        inbox: { __typename?: 'ActivitiesEdges' } & {
+          pageInfo: Types.Maybe<
+            { __typename?: 'PageInfo' } & Pick<
+              Types.PageInfo,
+              'startCursor' | 'endCursor'
+            >
+          >;
+          edges: Array<
+            Types.Maybe<
+              { __typename?: 'ActivitiesEdge' } & {
+                node: { __typename?: 'Activity' } & Pick<
+                  Types.Activity,
+                  | 'id'
+                  | 'canonicalUrl'
+                  | 'verb'
+                  | 'isLocal'
+                  | 'isPublic'
+                  | 'createdAt'
+                > & {
+                    user: { __typename?: 'User' } & BasicUserFragment;
+                    context:
+                      | ({
+                          __typename?: 'Collection';
+                        } & BasicCollectionFragment)
+                      | ({
+                          __typename?: 'Comment';
+                        } & BasicCommentWithInReplyToFragment)
+                      | ({ __typename?: 'Community' } & BasicCommunityFragment)
+                      | ({ __typename?: 'Resource' } & BasicResourceFragment);
+                  };
               }
-            >;
-          }
-      >;
-    }
-  >;
+            >
+          >;
+        };
+      };
+  };
 };
 
 export const GetMeInboxDocument = gql`
@@ -106,7 +91,7 @@ export const GetMeInboxDocument = gql`
                   ...BasicCommunity
                 }
                 ... on Comment {
-                  ...BasicComment
+                  ...BasicCommentWithInReplyTo
                 }
                 ... on Collection {
                   ...BasicCollection
@@ -123,7 +108,7 @@ export const GetMeInboxDocument = gql`
   }
   ${BasicUserFragmentDoc}
   ${BasicCommunityFragmentDoc}
-  ${BasicCommentFragmentDoc}
+  ${BasicCommentWithInReplyToFragmentDoc}
   ${BasicCollectionFragmentDoc}
   ${BasicResourceFragmentDoc}
 `;
@@ -313,6 +298,48 @@ const result: IntrospectionResultData = {
           },
           {
             name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Country'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Language'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
           },
           {
             name: 'Thread'

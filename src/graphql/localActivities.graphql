@@ -20,7 +20,7 @@ query localActivities($limit: Int, $end: String) {
                     context {
                         __typename
                         ... on Community  { ...BasicCommunity  }
-                        ... on Comment    { ...BasicComment    }
+                        ... on Comment    { ...BasicCommentWithInReplyTo    }
                         ... on Collection { ...BasicCollection }
                         ... on Resource   { ...BasicResource   } 
                     }

@@ -15,29 +15,19 @@ export type UpdateProfileMutationMutationVariables = {
 export type UpdateProfileMutationMutation = {
   __typename?: 'RootMutationType';
 } & {
-  updateProfile: Types.Maybe<
-    { __typename?: 'Me' } & Pick<
-      Types.Me,
-      'wantsEmailDigest' | 'wantsNotifications'
-    > & {
-        user: Types.Maybe<
-          { __typename?: 'User' } & Pick<
-            Types.User,
-            | 'id'
-            | 'name'
-            | 'summary'
-            | 'icon'
-            | 'image'
-            | 'location'
-            | 'website'
-          > & {
-              primaryLanguage: Types.Maybe<
-                { __typename?: 'Language' } & Pick<Types.Language, 'id'>
-              >;
-            }
-        >;
-      }
-  >;
+  updateProfile: { __typename?: 'Me' } & Pick<
+    Types.Me,
+    'wantsEmailDigest' | 'wantsNotifications'
+  > & {
+      user: { __typename?: 'User' } & Pick<
+        Types.User,
+        'id' | 'name' | 'summary' | 'icon' | 'image' | 'location' | 'website'
+      > & {
+          primaryLanguage: Types.Maybe<
+            { __typename?: 'Language' } & Pick<Types.Language, 'id'>
+          >;
+        };
+    };
 };
 
 export const UpdateProfileMutationDocument = gql`
@@ -248,6 +238,48 @@ const result: IntrospectionResultData = {
           },
           {
             name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Country'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Language'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
           },
           {
             name: 'Thread'

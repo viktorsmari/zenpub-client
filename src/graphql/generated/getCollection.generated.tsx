@@ -15,53 +15,45 @@ export type GetCollectionQueryVariables = {
 };
 
 export type GetCollectionQuery = { __typename?: 'RootQueryType' } & {
-  collection: Types.Maybe<
-    { __typename?: 'Collection' } & {
-      resources: Types.Maybe<
-        { __typename?: 'ResourcesEdges' } & Pick<
-          Types.ResourcesEdges,
-          'totalCount'
-        > & {
-            edges: Types.Maybe<
-              Array<
-                Types.Maybe<
-                  { __typename?: 'ResourcesEdge' } & {
-                    node: Types.Maybe<
-                      { __typename?: 'Resource' } & Pick<
-                        Types.Resource,
-                        | 'id'
-                        | 'canonicalUrl'
-                        | 'name'
-                        | 'summary'
-                        | 'icon'
-                        | 'url'
-                        | 'license'
-                        | 'createdAt'
-                        | 'updatedAt'
-                        | 'lastActivity'
-                        | 'isLocal'
-                        | 'isPublic'
-                        | 'isDisabled'
-                      > & {
-                          myLike: Types.Maybe<
-                            { __typename?: 'Like' } & Pick<Types.Like, 'id'>
-                          >;
-                          likes: Types.Maybe<
-                            { __typename?: 'LikesEdges' } & Pick<
-                              Types.LikesEdges,
-                              'totalCount'
-                            >
-                          >;
-                        }
+  collection: { __typename?: 'Collection' } & {
+    resources: { __typename?: 'ResourcesEdges' } & Pick<
+      Types.ResourcesEdges,
+      'totalCount'
+    > & {
+        edges: Types.Maybe<
+          Array<
+            Types.Maybe<
+              { __typename?: 'ResourcesEdge' } & {
+                node: { __typename?: 'Resource' } & Pick<
+                  Types.Resource,
+                  | 'id'
+                  | 'canonicalUrl'
+                  | 'name'
+                  | 'summary'
+                  | 'icon'
+                  | 'url'
+                  | 'license'
+                  | 'createdAt'
+                  | 'updatedAt'
+                  | 'lastActivity'
+                  | 'isLocal'
+                  | 'isPublic'
+                  | 'isDisabled'
+                > & {
+                    myLike: Types.Maybe<
+                      { __typename?: 'Like' } & Pick<Types.Like, 'id'>
                     >;
-                  }
-                >
-              >
-            >;
-          }
-      >;
-    } & BasicCollectionFragment
-  >;
+                    likes: { __typename?: 'LikesEdges' } & Pick<
+                      Types.LikesEdges,
+                      'totalCount'
+                    >;
+                  };
+              }
+            >
+          >
+        >;
+      };
+  } & BasicCollectionFragment;
 };
 
 export const GetCollectionDocument = gql`
@@ -288,6 +280,48 @@ const result: IntrospectionResultData = {
           },
           {
             name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Country'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Language'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
           },
           {
             name: 'Thread'

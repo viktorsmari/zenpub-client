@@ -18,9 +18,7 @@ export type CreateCollectionMutationMutationVariables = {
 export type CreateCollectionMutationMutation = {
   __typename?: 'RootMutationType';
 } & {
-  createCollection: Types.Maybe<
-    { __typename?: 'Collection' } & BasicCollectionFragment
-  >;
+  createCollection: { __typename?: 'Collection' } & BasicCollectionFragment;
 };
 
 export const CreateCollectionMutationDocument = gql`
@@ -223,6 +221,48 @@ const result: IntrospectionResultData = {
           },
           {
             name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Country'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Language'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
           },
           {
             name: 'Thread'
