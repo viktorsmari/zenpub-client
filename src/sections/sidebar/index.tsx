@@ -260,26 +260,25 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
               </SidebarLink>
             </Nav>
             <Nav>
-              {data!.me!.user!.joinedCommunities!.edges!.map(
-                userJoinedCommunitiesEdge => (
-                  <CommunityLink
-                    key={userJoinedCommunitiesEdge!.node!.localId!}
-                    to={
-                      '/communities/' +
-                      userJoinedCommunitiesEdge!.node!.localId!
-                    }
-                  >
-                    <NavItem alignItems={'center'} mb={2}>
-                      <Image
-                        mr={2}
-                        src={userJoinedCommunitiesEdge!.node!.icon!}
-                      />
-                      <ItemTitle variant="link">
-                        {userJoinedCommunitiesEdge!.node!.name}
-                      </ItemTitle>
-                    </NavItem>
-                  </CommunityLink>
-                )
+              {data!.me!.user!.followedCommunities!.edges!.map(
+                userJoinedCommunitiesEdge => {
+                  const context = userJoinedCommunitiesEdge!.node!.context!;
+                  return (
+                    context.__typename === 'Community' && (
+                      <CommunityLink
+                        key={userJoinedCommunitiesEdge!.node!.id!}
+                        to={
+                          '/communities/' + userJoinedCommunitiesEdge!.node!.id!
+                        }
+                      >
+                        <NavItem alignItems={'center'} mb={2}>
+                          <Image mr={2} src={context.icon} />
+                          <ItemTitle variant="link">{context.name}</ItemTitle>
+                        </NavItem>
+                      </CommunityLink>
+                    )
+                  );
+                }
               )}
             </Nav>
           </SidebarOverflow>

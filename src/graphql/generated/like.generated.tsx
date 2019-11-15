@@ -8,106 +8,104 @@ import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
-export type ResetPasswordRequestMutationVariables = {
-  email: Types.Scalars['String'];
+export type LikeMutationMutationVariables = {
+  contextId: Types.Scalars['String'];
 };
 
-export type ResetPasswordRequestMutation = {
-  __typename?: 'RootMutationType';
-} & Pick<Types.RootMutationType, 'resetPasswordRequest'>;
+export type LikeMutationMutation = { __typename?: 'RootMutationType' } & {
+  createLike: Types.Maybe<{ __typename?: 'Like' } & Pick<Types.Like, 'id'>>;
+};
 
-export const ResetPasswordRequestDocument = gql`
-  mutation resetPasswordRequest($email: String!) {
-    resetPasswordRequest(email: $email)
+export const LikeMutationDocument = gql`
+  mutation likeMutation($contextId: String!) {
+    createLike(contextId: $contextId) {
+      id
+    }
   }
 `;
-export type ResetPasswordRequestMutationFn = ApolloReactCommon.MutationFunction<
-  ResetPasswordRequestMutation,
-  ResetPasswordRequestMutationVariables
+export type LikeMutationMutationFn = ApolloReactCommon.MutationFunction<
+  LikeMutationMutation,
+  LikeMutationMutationVariables
 >;
-export type ResetPasswordRequestComponentProps = Omit<
+export type LikeMutationComponentProps = Omit<
   ApolloReactComponents.MutationComponentOptions<
-    ResetPasswordRequestMutation,
-    ResetPasswordRequestMutationVariables
+    LikeMutationMutation,
+    LikeMutationMutationVariables
   >,
   'mutation'
 >;
 
-export const ResetPasswordRequestComponent = (
-  props: ResetPasswordRequestComponentProps
-) => (
+export const LikeMutationComponent = (props: LikeMutationComponentProps) => (
   <ApolloReactComponents.Mutation<
-    ResetPasswordRequestMutation,
-    ResetPasswordRequestMutationVariables
+    LikeMutationMutation,
+    LikeMutationMutationVariables
   >
-    mutation={ResetPasswordRequestDocument}
+    mutation={LikeMutationDocument}
     {...props}
   />
 );
 
-export type ResetPasswordRequestProps<
-  TChildProps = {}
-> = ApolloReactHoc.MutateProps<
-  ResetPasswordRequestMutation,
-  ResetPasswordRequestMutationVariables
+export type LikeMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<
+  LikeMutationMutation,
+  LikeMutationMutationVariables
 > &
   TChildProps;
-export function withResetPasswordRequest<TProps, TChildProps = {}>(
+export function withLikeMutation<TProps, TChildProps = {}>(
   operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
-    ResetPasswordRequestMutation,
-    ResetPasswordRequestMutationVariables,
-    ResetPasswordRequestProps<TChildProps>
+    LikeMutationMutation,
+    LikeMutationMutationVariables,
+    LikeMutationProps<TChildProps>
   >
 ) {
   return ApolloReactHoc.withMutation<
     TProps,
-    ResetPasswordRequestMutation,
-    ResetPasswordRequestMutationVariables,
-    ResetPasswordRequestProps<TChildProps>
-  >(ResetPasswordRequestDocument, {
-    alias: 'resetPasswordRequest',
+    LikeMutationMutation,
+    LikeMutationMutationVariables,
+    LikeMutationProps<TChildProps>
+  >(LikeMutationDocument, {
+    alias: 'likeMutation',
     ...operationOptions
   });
 }
 
 /**
- * __useResetPasswordRequestMutation__
+ * __useLikeMutationMutation__
  *
- * To run a mutation, you first call `useResetPasswordRequestMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useResetPasswordRequestMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useLikeMutationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLikeMutationMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [resetPasswordRequestMutation, { data, loading, error }] = useResetPasswordRequestMutation({
+ * const [likeMutationMutation, { data, loading, error }] = useLikeMutationMutation({
  *   variables: {
- *      email: // value for 'email'
+ *      contextId: // value for 'contextId'
  *   },
  * });
  */
-export function useResetPasswordRequestMutation(
+export function useLikeMutationMutation(
   baseOptions?: ApolloReactHooks.MutationHookOptions<
-    ResetPasswordRequestMutation,
-    ResetPasswordRequestMutationVariables
+    LikeMutationMutation,
+    LikeMutationMutationVariables
   >
 ) {
   return ApolloReactHooks.useMutation<
-    ResetPasswordRequestMutation,
-    ResetPasswordRequestMutationVariables
-  >(ResetPasswordRequestDocument, baseOptions);
+    LikeMutationMutation,
+    LikeMutationMutationVariables
+  >(LikeMutationDocument, baseOptions);
 }
-export type ResetPasswordRequestMutationHookResult = ReturnType<
-  typeof useResetPasswordRequestMutation
+export type LikeMutationMutationHookResult = ReturnType<
+  typeof useLikeMutationMutation
 >;
-export type ResetPasswordRequestMutationResult = ApolloReactCommon.MutationResult<
-  ResetPasswordRequestMutation
+export type LikeMutationMutationResult = ApolloReactCommon.MutationResult<
+  LikeMutationMutation
 >;
-export type ResetPasswordRequestMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  ResetPasswordRequestMutation,
-  ResetPasswordRequestMutationVariables
+export type LikeMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  LikeMutationMutation,
+  LikeMutationMutationVariables
 >;
 
 export interface IntrospectionResultData {

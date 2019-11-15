@@ -10,12 +10,12 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type GetCollectionsQueryQueryVariables = {
   limit?: Types.Maybe<Types.Scalars['Int']>;
-  end?: Types.Maybe<Types.Scalars['Int']>;
+  end?: Types.Maybe<Types.Scalars['String']>;
 };
 
 export type GetCollectionsQueryQuery = { __typename?: 'RootQueryType' } & {
   collections: Types.Maybe<
-    { __typename?: 'CollectionPage' } & {
+    { __typename?: 'CollectionsNodes' } & {
       pageInfo: { __typename?: 'PageInfo' } & Pick<
         Types.PageInfo,
         'startCursor' | 'endCursor'
@@ -26,34 +26,65 @@ export type GetCollectionsQueryQuery = { __typename?: 'RootQueryType' } & {
             { __typename?: 'Collection' } & Pick<
               Types.Collection,
               | 'id'
-              | 'localId'
+              | 'canonicalUrl'
               | 'preferredUsername'
               | 'name'
               | 'summary'
               | 'icon'
-              | 'followed'
+              | 'isLocal'
+              | 'isPublic'
+              | 'isDisabled'
+              | 'createdAt'
+              | 'updatedAt'
+              | 'lastActivity'
             > & {
+                myLike: Types.Maybe<
+                  { __typename?: 'Like' } & Pick<Types.Like, 'id'>
+                >;
+                myFollow: Types.Maybe<
+                  { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
+                >;
+                primaryLanguage: Types.Maybe<
+                  { __typename?: 'Language' } & Pick<
+                    Types.Language,
+                    'id' | 'englishName' | 'localName'
+                  >
+                >;
                 community: Types.Maybe<
                   { __typename?: 'Community' } & Pick<
                     Types.Community,
-                    'id' | 'localId' | 'name' | 'followed'
-                  >
+                    | 'id'
+                    | 'canonicalUrl'
+                    | 'preferredUsername'
+                    | 'name'
+                    | 'icon'
+                    | 'isLocal'
+                    | 'isPublic'
+                    | 'isDisabled'
+                    | 'createdAt'
+                    | 'updatedAt'
+                    | 'lastActivity'
+                  > & {
+                      myFollow: Types.Maybe<
+                        { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
+                      >;
+                    }
                 >;
                 followers: Types.Maybe<
-                  { __typename?: 'CollectionFollowersConnection' } & Pick<
-                    Types.CollectionFollowersConnection,
+                  { __typename?: 'FollowsEdges' } & Pick<
+                    Types.FollowsEdges,
                     'totalCount'
                   >
                 >;
                 resources: Types.Maybe<
-                  { __typename?: 'CollectionResourcesConnection' } & Pick<
-                    Types.CollectionResourcesConnection,
+                  { __typename?: 'ResourcesEdges' } & Pick<
+                    Types.ResourcesEdges,
                     'totalCount'
                   >
                 >;
-                inbox: Types.Maybe<
-                  { __typename?: 'CollectionInboxConnection' } & Pick<
-                    Types.CollectionInboxConnection,
+                outbox: Types.Maybe<
+                  { __typename?: 'ActivitiesEdges' } & Pick<
+                    Types.ActivitiesEdges,
                     'totalCount'
                   >
                 >;
@@ -66,7 +97,7 @@ export type GetCollectionsQueryQuery = { __typename?: 'RootQueryType' } & {
 };
 
 export const GetCollectionsQueryDocument = gql`
-  query getCollectionsQuery($limit: Int, $end: Int) {
+  query getCollectionsQuery($limit: Int, $end: String) {
     collections(limit: $limit, after: $end) {
       pageInfo {
         startCursor
@@ -74,17 +105,43 @@ export const GetCollectionsQueryDocument = gql`
       }
       nodes {
         id
-        localId
+        canonicalUrl
         preferredUsername
         name
         summary
         icon
-        followed
+        isLocal
+        isPublic
+        isDisabled
+        createdAt
+        updatedAt
+        lastActivity
+        myLike {
+          id
+        }
+        myFollow {
+          id
+        }
+        primaryLanguage {
+          id
+          englishName
+          localName
+        }
         community {
           id
-          localId
+          canonicalUrl
+          preferredUsername
           name
-          followed
+          icon
+          isLocal
+          isPublic
+          isDisabled
+          createdAt
+          updatedAt
+          lastActivity
+          myFollow {
+            id
+          }
         }
         followers {
           totalCount
@@ -92,7 +149,7 @@ export const GetCollectionsQueryDocument = gql`
         resources {
           totalCount
         }
-        inbox {
+        outbox {
           totalCount
         }
       }
@@ -212,31 +269,94 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: 'UNION',
-        name: 'CommentContext',
+        name: 'ActivityContext',
         possibleTypes: [
           {
             name: 'Collection'
           },
           {
+            name: 'Comment'
+          },
+          {
             name: 'Community'
+          },
+          {
+            name: 'Resource'
           }
         ]
       },
       {
         kind: 'UNION',
-        name: 'ActivityObject',
+        name: 'FlagContext',
         possibleTypes: [
           {
-            name: 'Community'
+            name: 'Collection'
           },
           {
-            name: 'Collection'
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
           },
           {
             name: 'Resource'
           },
           {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'LikeContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
             name: 'Comment'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'ThreadContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Resource'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'FollowContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
           }
         ]
       }

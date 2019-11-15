@@ -4,26 +4,58 @@ import gql from 'graphql-tag';
 
 export type BasicUserFragment = { __typename?: 'User' } & Pick<
   Types.User,
-  | 'name'
   | 'id'
+  | 'canonicalUrl'
   | 'preferredUsername'
-  | 'localId'
+  | 'name'
   | 'icon'
   | 'location'
   | 'summary'
   | 'image'
->;
+  | 'isLocal'
+  | 'isPublic'
+  | 'isDisabled'
+  | 'createdAt'
+  | 'updatedAt'
+  | 'lastActivity'
+> & {
+    myFollow: Types.Maybe<{ __typename?: 'Follow' } & Pick<Types.Follow, 'id'>>;
+    myLike: Types.Maybe<{ __typename?: 'Like' } & Pick<Types.Like, 'id'>>;
+    primaryLanguage: Types.Maybe<
+      { __typename?: 'Language' } & Pick<
+        Types.Language,
+        'id' | 'englishName' | 'localName'
+      >
+    >;
+  };
 
 export const BasicUserFragmentDoc = gql`
   fragment BasicUser on User {
-    name
     id
+    canonicalUrl
     preferredUsername
-    localId
+    name
     icon
     location
     summary
     image
+    isLocal
+    isPublic
+    isDisabled
+    createdAt
+    updatedAt
+    lastActivity
+    myFollow {
+      id
+    }
+    myLike {
+      id
+    }
+    primaryLanguage {
+      id
+      englishName
+      localName
+    }
   }
 `;
 
@@ -44,31 +76,94 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: 'UNION',
-        name: 'CommentContext',
+        name: 'ActivityContext',
         possibleTypes: [
           {
             name: 'Collection'
           },
           {
+            name: 'Comment'
+          },
+          {
             name: 'Community'
+          },
+          {
+            name: 'Resource'
           }
         ]
       },
       {
         kind: 'UNION',
-        name: 'ActivityObject',
+        name: 'FlagContext',
         possibleTypes: [
           {
-            name: 'Community'
+            name: 'Collection'
           },
           {
-            name: 'Collection'
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
           },
           {
             name: 'Resource'
           },
           {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'LikeContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
             name: 'Comment'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'ThreadContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Resource'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'FollowContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
           }
         ]
       }

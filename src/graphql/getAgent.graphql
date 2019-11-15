@@ -81,15 +81,9 @@ query getAgentQuery(
 	      lastActivity
               myFollow { id }
 	      primaryLanguage { id isoCode2 isoCode3 englishName localName }
-              collections {
-                totalCount
-              }
-              followers {
-                totalCount
-              }
-              threads {
-                totalCount
-              }
+              collections { totalCount }
+              followers { totalCount }
+              threads { totalCount }
             }
           }
         }
@@ -115,7 +109,7 @@ query getAgentQuery(
               icon
               isLocal
               isPublic
-              isHidden
+              isDisabled
               createdAt
               updatedAt
 	      lastActivity

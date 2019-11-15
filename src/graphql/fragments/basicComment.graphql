@@ -7,7 +7,7 @@ fragment BasicComment on Comment {
     isHidden
     createdAt
     updatedAt
-    author {
+    creator {
         id
 	    canonicalUrl
         preferredUsername
@@ -23,21 +23,21 @@ fragment BasicComment on Comment {
       context {
           __typename
           ... on Community {
-              id
-              canonicalUrl
-              name
-              isLocal
-              isPublic
-              isDisabled
-          }
+                id
+                canonicalUrl
+                name
+                isLocal
+                isPublic
+                isDisabled
+            }
           ... on Collection {
-              id
-              canonicalUrl
-              name
-              isLocal
-              isPublic
-              isDisabled
-          }
-      }
-    }	
+                id
+                canonicalUrl
+                name
+                isLocal
+                isPublic
+                isDisabled
+            }
+        }
+    }
 }

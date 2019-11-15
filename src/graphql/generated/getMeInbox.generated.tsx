@@ -20,7 +20,7 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type GetMeInboxQueryVariables = {
   limit?: Types.Maybe<Types.Scalars['Int']>;
-  end?: Types.Maybe<Types.Scalars['Int']>;
+  end?: Types.Maybe<Types.Scalars['String']>;
 };
 
 export type GetMeInboxQuery = { __typename?: 'RootQueryType' } & {
@@ -29,7 +29,7 @@ export type GetMeInboxQuery = { __typename?: 'RootQueryType' } & {
       user: Types.Maybe<
         { __typename?: 'User' } & Pick<Types.User, 'id'> & {
             inbox: Types.Maybe<
-              { __typename?: 'UserInboxConnection' } & {
+              { __typename?: 'ActivitiesEdges' } & {
                 pageInfo: { __typename?: 'PageInfo' } & Pick<
                   Types.PageInfo,
                   'startCursor' | 'endCursor'
@@ -37,28 +37,33 @@ export type GetMeInboxQuery = { __typename?: 'RootQueryType' } & {
                 edges: Types.Maybe<
                   Array<
                     Types.Maybe<
-                      { __typename?: 'UserActivitiesEdge' } & {
+                      { __typename?: 'ActivitiesEdge' } & {
                         node: Types.Maybe<
                           { __typename?: 'Activity' } & Pick<
                             Types.Activity,
-                            'id' | 'activityType' | 'type' | 'published'
+                            | 'id'
+                            | 'canonicalUrl'
+                            | 'verb'
+                            | 'isLocal'
+                            | 'isPublic'
+                            | 'createdAt'
                           > & {
                               user: Types.Maybe<
                                 { __typename?: 'User' } & BasicUserFragment
                               >;
-                              object: Types.Maybe<
-                                | ({
-                                    __typename?: 'Community';
-                                  } & BasicCommunityFragment)
+                              context: Types.Maybe<
                                 | ({
                                     __typename?: 'Collection';
                                   } & BasicCollectionFragment)
                                 | ({
-                                    __typename?: 'Resource';
-                                  } & BasicResourceFragment)
-                                | ({
                                     __typename?: 'Comment';
                                   } & BasicCommentFragment)
+                                | ({
+                                    __typename?: 'Community';
+                                  } & BasicCommunityFragment)
+                                | ({
+                                    __typename?: 'Resource';
+                                  } & BasicResourceFragment)
                               >;
                             }
                         >;
@@ -75,7 +80,7 @@ export type GetMeInboxQuery = { __typename?: 'RootQueryType' } & {
 };
 
 export const GetMeInboxDocument = gql`
-  query getMeInbox($limit: Int, $end: Int) {
+  query getMeInbox($limit: Int, $end: String) {
     me {
       user {
         id
@@ -87,13 +92,15 @@ export const GetMeInboxDocument = gql`
           edges {
             node {
               id
-              activityType
-              type
-              published
+              canonicalUrl
+              verb
+              isLocal
+              isPublic
+              createdAt
               user {
                 ...BasicUser
               }
-              object {
+              context {
                 __typename
                 ... on Community {
                   ...BasicCommunity
@@ -224,31 +231,94 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: 'UNION',
-        name: 'CommentContext',
+        name: 'ActivityContext',
         possibleTypes: [
           {
             name: 'Collection'
           },
           {
+            name: 'Comment'
+          },
+          {
             name: 'Community'
+          },
+          {
+            name: 'Resource'
           }
         ]
       },
       {
         kind: 'UNION',
-        name: 'ActivityObject',
+        name: 'FlagContext',
         possibleTypes: [
           {
-            name: 'Community'
+            name: 'Collection'
           },
           {
-            name: 'Collection'
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
           },
           {
             name: 'Resource'
           },
           {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'LikeContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
             name: 'Comment'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'ThreadContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Resource'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'FollowContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
           }
         ]
       }

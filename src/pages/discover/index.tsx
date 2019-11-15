@@ -32,12 +32,10 @@ const Home: React.FC<Props> = props => {
       limit: 15
     }
   });
-  console.log('startCursor', data && data.localActivities.pageInfo.startCursor);
-  console.log('endCursor', data && data.localActivities.pageInfo.endCursor);
   useInterceptor({ operation: 'createReply', request: () => () => refetch() });
-  useInterceptor({ operation: 'likeComment', request: () => () => refetch() });
+  useInterceptor({ operation: 'like', request: () => () => refetch() });
   useInterceptor({
-    operation: 'undoLikeComment',
+    operation: 'delete',
     request: () => () => refetch()
   });
   return (
@@ -71,16 +69,16 @@ const Home: React.FC<Props> = props => {
                   <Loader />
                 ) : (
                   <div>
-                    {data!.localActivities!.nodes!.map(activity => (
+                    {data!.instance!.outbox!.edges!.map(activity => (
                       <TimelineItem
                         node={activity!}
-                        user={activity!.user!}
-                        key={activity!.id!}
+                        user={activity!.node!.user!}
+                        key={activity!.node!.id!}
                       />
                     ))}
                     <LoadMoreTimeline
                       fetchMore={fetchMore}
-                      localActivities={data!.localActivities!}
+                      localActivities={data!.instance!.outbox!}
                     />
                   </div>
                 )}

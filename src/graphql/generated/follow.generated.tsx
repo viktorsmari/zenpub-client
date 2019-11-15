@@ -8,106 +8,108 @@ import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
-export type ResetPasswordRequestMutationVariables = {
-  email: Types.Scalars['String'];
+export type FollowMutationMutationVariables = {
+  contextId: Types.Scalars['String'];
 };
 
-export type ResetPasswordRequestMutation = {
-  __typename?: 'RootMutationType';
-} & Pick<Types.RootMutationType, 'resetPasswordRequest'>;
+export type FollowMutationMutation = { __typename?: 'RootMutationType' } & {
+  createFollow: Types.Maybe<
+    { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
+  >;
+};
 
-export const ResetPasswordRequestDocument = gql`
-  mutation resetPasswordRequest($email: String!) {
-    resetPasswordRequest(email: $email)
+export const FollowMutationDocument = gql`
+  mutation followMutation($contextId: String!) {
+    createFollow(contextId: $contextId) {
+      id
+    }
   }
 `;
-export type ResetPasswordRequestMutationFn = ApolloReactCommon.MutationFunction<
-  ResetPasswordRequestMutation,
-  ResetPasswordRequestMutationVariables
+export type FollowMutationMutationFn = ApolloReactCommon.MutationFunction<
+  FollowMutationMutation,
+  FollowMutationMutationVariables
 >;
-export type ResetPasswordRequestComponentProps = Omit<
+export type FollowMutationComponentProps = Omit<
   ApolloReactComponents.MutationComponentOptions<
-    ResetPasswordRequestMutation,
-    ResetPasswordRequestMutationVariables
+    FollowMutationMutation,
+    FollowMutationMutationVariables
   >,
   'mutation'
 >;
 
-export const ResetPasswordRequestComponent = (
-  props: ResetPasswordRequestComponentProps
+export const FollowMutationComponent = (
+  props: FollowMutationComponentProps
 ) => (
   <ApolloReactComponents.Mutation<
-    ResetPasswordRequestMutation,
-    ResetPasswordRequestMutationVariables
+    FollowMutationMutation,
+    FollowMutationMutationVariables
   >
-    mutation={ResetPasswordRequestDocument}
+    mutation={FollowMutationDocument}
     {...props}
   />
 );
 
-export type ResetPasswordRequestProps<
-  TChildProps = {}
-> = ApolloReactHoc.MutateProps<
-  ResetPasswordRequestMutation,
-  ResetPasswordRequestMutationVariables
+export type FollowMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<
+  FollowMutationMutation,
+  FollowMutationMutationVariables
 > &
   TChildProps;
-export function withResetPasswordRequest<TProps, TChildProps = {}>(
+export function withFollowMutation<TProps, TChildProps = {}>(
   operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
-    ResetPasswordRequestMutation,
-    ResetPasswordRequestMutationVariables,
-    ResetPasswordRequestProps<TChildProps>
+    FollowMutationMutation,
+    FollowMutationMutationVariables,
+    FollowMutationProps<TChildProps>
   >
 ) {
   return ApolloReactHoc.withMutation<
     TProps,
-    ResetPasswordRequestMutation,
-    ResetPasswordRequestMutationVariables,
-    ResetPasswordRequestProps<TChildProps>
-  >(ResetPasswordRequestDocument, {
-    alias: 'resetPasswordRequest',
+    FollowMutationMutation,
+    FollowMutationMutationVariables,
+    FollowMutationProps<TChildProps>
+  >(FollowMutationDocument, {
+    alias: 'followMutation',
     ...operationOptions
   });
 }
 
 /**
- * __useResetPasswordRequestMutation__
+ * __useFollowMutationMutation__
  *
- * To run a mutation, you first call `useResetPasswordRequestMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useResetPasswordRequestMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useFollowMutationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useFollowMutationMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [resetPasswordRequestMutation, { data, loading, error }] = useResetPasswordRequestMutation({
+ * const [followMutationMutation, { data, loading, error }] = useFollowMutationMutation({
  *   variables: {
- *      email: // value for 'email'
+ *      contextId: // value for 'contextId'
  *   },
  * });
  */
-export function useResetPasswordRequestMutation(
+export function useFollowMutationMutation(
   baseOptions?: ApolloReactHooks.MutationHookOptions<
-    ResetPasswordRequestMutation,
-    ResetPasswordRequestMutationVariables
+    FollowMutationMutation,
+    FollowMutationMutationVariables
   >
 ) {
   return ApolloReactHooks.useMutation<
-    ResetPasswordRequestMutation,
-    ResetPasswordRequestMutationVariables
-  >(ResetPasswordRequestDocument, baseOptions);
+    FollowMutationMutation,
+    FollowMutationMutationVariables
+  >(FollowMutationDocument, baseOptions);
 }
-export type ResetPasswordRequestMutationHookResult = ReturnType<
-  typeof useResetPasswordRequestMutation
+export type FollowMutationMutationHookResult = ReturnType<
+  typeof useFollowMutationMutation
 >;
-export type ResetPasswordRequestMutationResult = ApolloReactCommon.MutationResult<
-  ResetPasswordRequestMutation
+export type FollowMutationMutationResult = ApolloReactCommon.MutationResult<
+  FollowMutationMutation
 >;
-export type ResetPasswordRequestMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  ResetPasswordRequestMutation,
-  ResetPasswordRequestMutationVariables
+export type FollowMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  FollowMutationMutation,
+  FollowMutationMutationVariables
 >;
 
 export interface IntrospectionResultData {

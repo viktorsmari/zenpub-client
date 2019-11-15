@@ -4,10 +4,13 @@ fragment BasicCollection on Collection {
     preferredUsername
     name
     summary
+    creator { id }
     icon
     isLocal
     isPublic
-    myFollow { id }
+    myFollow {
+        id
+    }
     community {
         id
         canonicalUrl
@@ -15,10 +18,11 @@ fragment BasicCollection on Collection {
         isPublic
         name
         icon
-        myFollow { id }
+        myFollow { 
+            id
+        }
     }
     followers { totalCount }
-    likes     { totalCount }
-    resources { totalCount }
-    outbox    { totalCount }
+    threads { totalCount }
+    outbox { totalCount }
 }

@@ -9,10 +9,11 @@ import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem';
 import styled from '../../themes/styled';
 import { useCreateThreadMutationMutation } from '../../graphql/generated/createThread.generated';
+import { Community } from '../../graphql/types';
 
 interface Props {
   collections: any;
-  community: any;
+  community: Community;
   fetchMore: any;
   type: string;
   match: any;
@@ -35,14 +36,14 @@ const CommunityPage: SFC<Props> = ({
       createThreadMutation({
         variables: {
           comment: { content: newThreadText },
-          id: community.localId
+          contextId: community.id!
         }
       }).then(() => {
         socialTextRef.current && (socialTextRef.current.value = '');
         refetch();
       });
     },
-    [newThreadText, community.localId]
+    [newThreadText, community.id]
   );
   const socialTextRef = React.useRef<HTMLTextAreaElement>();
   const setNewThreadTextInput = React.useCallback(
@@ -68,7 +69,7 @@ const CommunityPage: SFC<Props> = ({
             </SuperTab>
           </SuperTabList>
           <TabPanel>
-            {community.followed ? (
+            {community.myFollow ? (
               <WrapperBox p={3}>
                 <SocialText
                   onInput={setNewThreadTextInput}
@@ -79,14 +80,14 @@ const CommunityPage: SFC<Props> = ({
               </WrapperBox>
             ) : null}
             <div>
-              {community.inbox.edges.map((t, i) => (
-                <TimelineItem node={t.node} user={t.node.user} key={i} />
+              {community.inbox!.edges!.map((t, i) => (
+                <TimelineItem node={t!.node} user={t!.node!.user} key={i} />
               ))}
               <LoadMoreTimeline fetchMore={fetchMore} community={community} />
             </div>
           </TabPanel>
           <TabPanel>
-            {community.followed ? (
+            {community.myFollow ? (
               <ButtonWrapper>
                 <CreateCollection p={3} onClick={() => onOpen(true)} m={3}>
                   <Trans>Create a new collection</Trans>
@@ -100,7 +101,7 @@ const CommunityPage: SFC<Props> = ({
       <CommunityModal
         toggleModal={() => onOpen(false)}
         modalIsOpen={isOpen}
-        communityId={community.localId}
+        communityId={community.id}
       />
     </WrapperTab>
   );

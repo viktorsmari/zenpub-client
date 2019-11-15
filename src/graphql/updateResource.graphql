@@ -7,8 +7,8 @@ input ResourceInput {
     icon: String
 }
 
- mutation updateResourceMutation($resourceId: Int!, $resource: ResourceInput!) {
-    updateResource(resourceId: $resourceId, resource: $resource) {
+ mutation updateResourceMutation($resource: ResourceInput!,$resourceId: String!) {
+    updateResource(resource: $resource, resourceId: $resourceId) {
         id
         name
         summary
@@ -17,10 +17,14 @@ input ResourceInput {
         icon
         isLocal
         isPublic
-        isHidden
+        isDisabled
         createdAt
         updatedAt
-        primaryLanguage { id englishName localName }
+        primaryLanguage {
+            id
+            englishName
+            localName
+        }
     }
 }
 

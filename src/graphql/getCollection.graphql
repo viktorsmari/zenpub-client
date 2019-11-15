@@ -19,7 +19,7 @@ query getCollection($id: String!) {
           lastActivity
           isLocal
           isPublic
-          isHidden
+          isDisabled
           myLike { id }
           likes { totalCount }
         }

@@ -86,7 +86,8 @@ export const TalkModal: React.FC<Props> = ({
       }
       reply({
         variables: {
-          id: comment.localId!,
+          inReplyToId: comment.id!,
+          threadId: comment.thread!.id!,
           comment: { content: text }
         }
       });

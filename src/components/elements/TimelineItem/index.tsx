@@ -7,13 +7,13 @@ import { Star } from 'react-feather';
 import { NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import removeMd from 'remove-markdown';
-import { useLikeCommentMutationMutation } from '../../../graphql/generated/likeComment.generated';
-import { useUndoLikeCommentMutationMutation } from '../../../graphql/generated/undoLikeComment.generated';
 import styled from '../../../themes/styled';
 import Link from '../Link/Link';
 import Actions from './Actions';
 import Preview from './preview';
 import media from 'styled-media-query';
+import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
+import { useDeleteMutation } from '../../../graphql/generated/delete.generated';
 
 interface Props {
   userpage?: boolean;
@@ -23,11 +23,11 @@ interface Props {
 
 const Item: SFC<Props> = ({ user, node, userpage }) => {
   const [iLikeIt, setiLikeIt] = React.useState(false);
-  const [like] = useLikeCommentMutationMutation();
-  const [undoLike] = useUndoLikeCommentMutationMutation();
+  const [like] = useLikeMutationMutation();
+  const [undoLike] = useDeleteMutation();
   const toggleLike = React.useCallback(
-    (localId: number) => () => {
-      (iLikeIt ? undoLike : like)({ variables: { localId } });
+    (contextId: string) => () => {
+      (iLikeIt ? undoLike : like)({ variables: { contextId } });
       setiLikeIt(!iLikeIt);
     },
     [iLikeIt, like, undoLike]

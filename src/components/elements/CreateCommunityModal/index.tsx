@@ -19,7 +19,10 @@ import {
   Header,
   Row
 } from '../Modal/modal';
-import { useCreateCommunityMutationMutation } from '../../../graphql/generated/createCommunity.generated';
+import {
+  useCreateCommunityMutationMutation,
+  CreateCommunityMutationMutationVariables
+} from '../../../graphql/generated/createCommunity.generated';
 
 const tt = {
   placeholders: {
@@ -65,13 +68,14 @@ const CreateCommunityModal = (
 
   const submit = React.useCallback<FormikConfig<FormValues>['onSubmit']>(
     (values, { setSubmitting }) => {
-      const variables = {
+      const variables: CreateCommunityMutationMutationVariables = {
         community: {
           name: values.name,
           summary: values.summary,
-          icon: values.image,
-          content: values.summary,
-          preferredUsername: values.name.split(' ').join('_')
+          image: values.image,
+          preferredUsername: values.name.split(' ').join('_'),
+          //FIXME Language !
+          primaryLanguageId: 'en'
         }
       };
       create({
@@ -79,7 +83,7 @@ const CreateCommunityModal = (
       })
         .then(res => {
           setSubmitting(false);
-          history.push(`/communities/${res.data!.createCommunity!.localId}`);
+          history.push(`/communities/${res.data!.createCommunity!.id}`);
         })
         .catch(err => console.log(err));
     },
