@@ -11,25 +11,12 @@ import Modal from '../Modal';
 import SocialText from '../SocialText';
 import { useCreateReplyMutationMutation } from '../../../graphql/generated/createReply.generated';
 import { BasicCommentFragment } from '../../../graphql/fragments/generated/basicComment.generated';
+import { Comment } from '../../../graphql/types';
 
 export const TextWrapper = styled(Flex)`
   padding: 16px;
   align-items: center;
 `;
-
-// const Publish = styled(Button)`
-//   height: 40px;
-//   padding: 0 40px;
-//   color: white !important;
-//   font-size: 15px;
-//   border-radius: 20px;
-//   letter-spacing: 0.5px;
-//   cursor: pointer;
-//   &:hover {
-//     background: #ec7c16 !important;
-//     color: white !important;
-//   }
-// `;
 
 export const Avatar = styled(Box)`
   min-width: 48px !important;
@@ -53,7 +40,7 @@ const tt = {
 interface Props {
   toggleModal(_: boolean): unknown;
   modalIsOpen: boolean;
-  comment: BasicCommentFragment;
+  comment: BasicCommentFragment | Comment;
 }
 
 export const TalkModal: React.FC<Props> = ({
@@ -97,8 +84,6 @@ export const TalkModal: React.FC<Props> = ({
   );
   return (
     <Modal isOpen={modalIsOpen} toggleModal={() => toggleModal(false)}>
-      {/* <Container> */}
-      {/* <Form> */}
       <CommentCmp comment={comment} noLink noAction />
       <TextWrapper>
         <Avatar

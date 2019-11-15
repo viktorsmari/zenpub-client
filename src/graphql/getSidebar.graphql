@@ -25,6 +25,7 @@ query getSidebarQuery($limitComm: Int, $endComm: String) {
                                 isLocal
                                 isPublic
                                 isDisabled
+                                id
                                 myFollow    { id }
                                 collections { totalCount }
                                 followers   { totalCount }

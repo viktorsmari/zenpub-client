@@ -85,9 +85,9 @@ const Content = connectStateResults(({ searchState, onOpen }) => {
   return searchState && searchState.query ? (
     <>
       <MobileHeader onOpen={onOpen} />
-      <Switch>
+      {/* <Switch>
         <Route path="/search" component={SearchComp} />
-      </Switch>
+      </Switch> */}
     </>
   ) : (
     <>
@@ -212,7 +212,7 @@ const App: React.FC<Props> = props => {
           {auth ? (
             <Sidebar isOpen={isSidebarOpen} />
           ) : (
-            <SidebarNoLoggedWrapper />
+            <SidebarNoLoggedWrapper isOpen={isSidebarOpen} />
           )}
           <MainWrapper>
             <WrapperDimension>

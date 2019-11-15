@@ -6,7 +6,7 @@ import CommunityModal from '../../components/elements/CommunityModal';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
 import { SocialText } from '../../components/elements/SocialText';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
-import TimelineItem from '../../components/elements/TimelineItem';
+// import TimelineItem from '../../components/elements/TimelineItem/index2';
 import styled from '../../themes/styled';
 import { useCreateThreadMutationMutation } from '../../graphql/generated/createThread.generated';
 import { Community } from '../../graphql/types';
@@ -80,9 +80,9 @@ const CommunityPage: SFC<Props> = ({
               </WrapperBox>
             ) : null}
             <div>
-              {community.inbox!.edges!.map((t, i) => (
+              {/* {community.inbox!.edges!.map((t, i) => (
                 <TimelineItem node={t!.node} user={t!.node!.user} key={i} />
-              ))}
+              ))} */}
               <LoadMoreTimeline fetchMore={fetchMore} community={community} />
             </div>
           </TabPanel>

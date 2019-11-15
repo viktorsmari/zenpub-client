@@ -26,44 +26,42 @@ export type GetMeInboxQueryVariables = {
 export type GetMeInboxQuery = { __typename?: 'RootQueryType' } & {
   me: Types.Maybe<
     { __typename?: 'Me' } & {
-      user: { __typename?: 'User' } & Pick<Types.User, 'id'> & {
-          inbox: { __typename?: 'ActivitiesEdges' } & {
-            pageInfo: Types.Maybe<
-              { __typename?: 'PageInfo' } & Pick<
-                Types.PageInfo,
-                'startCursor' | 'endCursor'
-              >
-            >;
-            edges: Array<
-              Types.Maybe<
-                { __typename?: 'ActivitiesEdge' } & {
-                  node: { __typename?: 'Activity' } & Pick<
-                    Types.Activity,
-                    | 'id'
-                    | 'canonicalUrl'
-                    | 'verb'
-                    | 'isLocal'
-                    | 'isPublic'
-                    | 'createdAt'
-                  > & {
-                      user: { __typename?: 'User' } & BasicUserFragment;
-                      context:
-                        | ({
-                            __typename?: 'Collection';
-                          } & BasicCollectionFragment)
-                        | ({
-                            __typename?: 'Comment';
-                          } & BasicCommentWithInReplyToFragment)
-                        | ({
-                            __typename?: 'Community';
-                          } & BasicCommunityFragment)
-                        | ({ __typename?: 'Resource' } & BasicResourceFragment);
-                    };
-                }
-              >
-            >;
-          };
+      user: { __typename?: 'User' } & {
+        inbox: { __typename?: 'ActivitiesEdges' } & {
+          pageInfo: Types.Maybe<
+            { __typename?: 'PageInfo' } & Pick<
+              Types.PageInfo,
+              'startCursor' | 'endCursor'
+            >
+          >;
+          edges: Array<
+            Types.Maybe<
+              { __typename?: 'ActivitiesEdge' } & {
+                node: { __typename: 'Activity' } & Pick<
+                  Types.Activity,
+                  | 'id'
+                  | 'canonicalUrl'
+                  | 'verb'
+                  | 'isLocal'
+                  | 'isPublic'
+                  | 'createdAt'
+                > & {
+                    user: { __typename?: 'User' } & BasicUserFragment;
+                    context:
+                      | ({
+                          __typename?: 'Collection';
+                        } & BasicCollectionFragment)
+                      | ({
+                          __typename?: 'Comment';
+                        } & BasicCommentWithInReplyToFragment)
+                      | ({ __typename?: 'Community' } & BasicCommunityFragment)
+                      | ({ __typename?: 'Resource' } & BasicResourceFragment);
+                  };
+              }
+            >
+          >;
         };
+      } & BasicUserFragment;
     }
   >;
 };
@@ -72,7 +70,7 @@ export const GetMeInboxDocument = gql`
   query getMeInbox($limit: Int, $end: String) {
     me {
       user {
-        id
+        ...BasicUser
         inbox(limit: $limit, after: $end) {
           pageInfo {
             startCursor
@@ -80,6 +78,7 @@ export const GetMeInboxDocument = gql`
           }
           edges {
             node {
+              __typename
               id
               canonicalUrl
               verb

@@ -1,3 +1,6 @@
+#import "./basicUser.graphql"
+
+
 fragment BasicResource on Resource {
     id
     name
@@ -7,6 +10,9 @@ fragment BasicResource on Resource {
     license
     createdAt
     updatedAt
+    creator {
+        ...BasicUser
+    }
     collection {
         name
         canonicalUrl

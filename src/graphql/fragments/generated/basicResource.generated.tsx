@@ -1,6 +1,8 @@
 import * as Types from '../../types.d';
 
+import { BasicUserFragment } from './basicUser.generated';
 import gql from 'graphql-tag';
+import { BasicUserFragmentDoc } from './basicUser.generated';
 
 export type BasicResourceFragment = { __typename?: 'Resource' } & Pick<
   Types.Resource,
@@ -13,6 +15,7 @@ export type BasicResourceFragment = { __typename?: 'Resource' } & Pick<
   | 'createdAt'
   | 'updatedAt'
 > & {
+    creator: { __typename?: 'User' } & BasicUserFragment;
     collection: { __typename?: 'Collection' } & Pick<
       Types.Collection,
       | 'name'
@@ -39,6 +42,9 @@ export const BasicResourceFragmentDoc = gql`
     license
     createdAt
     updatedAt
+    creator {
+      ...BasicUser
+    }
     collection {
       name
       canonicalUrl
@@ -53,6 +59,7 @@ export const BasicResourceFragmentDoc = gql`
       }
     }
   }
+  ${BasicUserFragmentDoc}
 `;
 
 export interface IntrospectionResultData {

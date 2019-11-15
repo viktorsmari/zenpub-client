@@ -1,3 +1,6 @@
+#import "./basicUser.graphql"
+
+
 fragment BasicCommentWithInReplyTo on Comment {
     ...BasicComment
     inReplyTo { ...BasicComment }
@@ -11,14 +14,7 @@ fragment BasicComment on Comment {
     createdAt
     updatedAt
     creator {
-        id
-	    canonicalUrl
-        preferredUsername
-        name
-        icon
-        isLocal
-        isPublic
-        isDisabled
+        ...BasicUser
     }
     likes   { totalCount }
     thread  {

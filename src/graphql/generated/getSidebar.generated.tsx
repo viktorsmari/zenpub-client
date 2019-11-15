@@ -103,6 +103,7 @@ export const GetSidebarQueryDocument = gql`
                   isLocal
                   isPublic
                   isDisabled
+                  id
                   myFollow {
                     id
                   }

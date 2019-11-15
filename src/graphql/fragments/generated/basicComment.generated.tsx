@@ -1,6 +1,8 @@
 import * as Types from '../../types.d';
 
+import { BasicUserFragment } from './basicUser.generated';
 import gql from 'graphql-tag';
+import { BasicUserFragmentDoc } from './basicUser.generated';
 
 export type BasicCommentWithInReplyToFragment = { __typename?: 'Comment' } & {
   inReplyTo: Types.Maybe<{ __typename?: 'Comment' } & BasicCommentFragment>;
@@ -16,17 +18,7 @@ export type BasicCommentFragment = { __typename?: 'Comment' } & Pick<
   | 'createdAt'
   | 'updatedAt'
 > & {
-    creator: { __typename?: 'User' } & Pick<
-      Types.User,
-      | 'id'
-      | 'canonicalUrl'
-      | 'preferredUsername'
-      | 'name'
-      | 'icon'
-      | 'isLocal'
-      | 'isPublic'
-      | 'isDisabled'
-    >;
+    creator: { __typename?: 'User' } & BasicUserFragment;
     likes: { __typename?: 'LikesEdges' } & Pick<Types.LikesEdges, 'totalCount'>;
     thread: { __typename?: 'Thread' } & Pick<Types.Thread, 'id'> & {
         context:
@@ -63,14 +55,7 @@ export const BasicCommentFragmentDoc = gql`
     createdAt
     updatedAt
     creator {
-      id
-      canonicalUrl
-      preferredUsername
-      name
-      icon
-      isLocal
-      isPublic
-      isDisabled
+      ...BasicUser
     }
     likes {
       totalCount
@@ -98,6 +83,7 @@ export const BasicCommentFragmentDoc = gql`
       }
     }
   }
+  ${BasicUserFragmentDoc}
 `;
 export const BasicCommentWithInReplyToFragmentDoc = gql`
   fragment BasicCommentWithInReplyTo on Comment {

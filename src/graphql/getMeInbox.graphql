@@ -7,7 +7,7 @@
 query getMeInbox($limit: Int, $end: String) {
     me {
         user {
-            id
+            ...BasicUser
             inbox(limit: $limit, after: $end) {
                 pageInfo {
                     startCursor
@@ -15,6 +15,7 @@ query getMeInbox($limit: Int, $end: String) {
                 }
                 edges {
                     node {
+                        __typename
                         id
                         canonicalUrl
                         verb

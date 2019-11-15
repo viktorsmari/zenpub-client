@@ -16,8 +16,8 @@ import JoinedCommunitiesLoadMore from '../../components/elements/Loadmore/joined
 import HeroComp from '../Profile/Hero';
 import { WrapperTab, OverlayTab } from '../communities.community/Community';
 import { List, ListCollections } from '../Profile';
-import TimelineItem from '../../components/elements/TimelineItem';
-import LoadMoreTimeline from '../../components/elements/Loadmore/timelineoutbox';
+// import TimelineItem from '../../components/elements/TimelineItem';
+// import LoadMoreTimeline from '../../components/elements/Loadmore/timelineoutbox';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel, Panel, PanelTitle, Nav } from '../../sections/panel';
@@ -129,7 +129,7 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                         </SuperTabList>
                         <TabPanel>
                           <div>
-                            {this.props.data.user.outbox.edges.map((t, i) => (
+                            {/* {this.props.data.user.outbox.edges.map((t, i) => (
                               <TimelineItem
                                 node={t.node}
                                 user={t.node.user}
@@ -139,7 +139,7 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                             <LoadMoreTimeline
                               fetchMore={this.props.data.fetchMore}
                               community={this.props.data.user}
-                            />
+                            /> */}
                           </div>
                         </TabPanel>
                         <TabPanel>

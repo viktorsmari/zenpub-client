@@ -1,6 +1,8 @@
 import * as Types from '../../types.d';
 
+import { BasicUserFragment } from './basicUser.generated';
 import gql from 'graphql-tag';
+import { BasicUserFragmentDoc } from './basicUser.generated';
 
 export type BasicCommunityFragment = { __typename?: 'Community' } & Pick<
   Types.Community,
@@ -18,6 +20,7 @@ export type BasicCommunityFragment = { __typename?: 'Community' } & Pick<
   | 'isPublic'
   | 'isDisabled'
 > & {
+    creator: { __typename?: 'User' } & BasicUserFragment;
     myFollow: Types.Maybe<{ __typename?: 'Follow' } & Pick<Types.Follow, 'id'>>;
     collections: { __typename?: 'CollectionsEdges' } & Pick<
       Types.CollectionsEdges,
@@ -44,6 +47,9 @@ export const BasicCommunityFragmentDoc = gql`
     preferredUsername
     name
     summary
+    creator {
+      ...BasicUser
+    }
     icon
     image
     createdAt
@@ -68,6 +74,7 @@ export const BasicCommunityFragmentDoc = gql`
       totalCount
     }
   }
+  ${BasicUserFragmentDoc}
 `;
 
 export interface IntrospectionResultData {

@@ -120,9 +120,7 @@ const Title = styled(Heading)`
   flex: 1;
   color: ${props => props.theme.colors.darkgray};
   ${media.lessThan('medium')`
-  text-align: center;
-  padding: 0 8px;
-  line-height: 24px !important;
+  line-height: 20px !important;
 `};
 `;
 // const Summary = styled(Text)`

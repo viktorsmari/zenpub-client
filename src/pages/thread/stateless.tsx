@@ -34,7 +34,7 @@ const Component: React.FC<Props> = ({ threadQuery: thread }) => {
               <Empty>
                 <Trans>Is it not possible to show the thread</Trans>
               </Empty>
-            ) : (
+            ) : !thread.data ? null : (
               <>
                 {context && <Header context={context} />}
                 {/**
@@ -50,7 +50,7 @@ const Component: React.FC<Props> = ({ threadQuery: thread }) => {
                   <Thread comment={thread.data.thread!} />
                 */}
 
-                {thread.data.thread!.comments!.edges!.reverse().map(edge => {
+                {thread.data.thread!.comments.edges.reverse().map(edge => {
                   const { node: comment } = edge!;
                   return <Comment key={comment.id} comment={comment} />;
                 })}

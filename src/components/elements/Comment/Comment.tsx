@@ -11,9 +11,10 @@ import Talk from '../TalkModal';
 import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
 import { useDeleteMutation } from '../../../graphql/generated/delete.generated';
 import { BasicCommentFragment } from '../../../graphql/fragments/generated/basicComment.generated';
+import { Comment } from '../../../graphql/types';
 
 interface EventProps {
-  comment: BasicCommentFragment;
+  comment: BasicCommentFragment | Comment;
   noAction?: boolean;
   noLink?: boolean;
 }
