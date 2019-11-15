@@ -169,7 +169,11 @@ const Thread: SFC<Props> = ({ comment }) => {
           <Feather.Star color={'rgba(0,0,0,.4)'} size="20" />
         </Icon>
       </Actions> */}
-      <Talk toggleModal={onOpen} modalIsOpen={isOpen} comment={comment} />
+      <Talk
+        toggleModal={onOpen}
+        modalIsOpen={isOpen}
+        // comment={comment}
+      />
     </Wrapper>
   );
 };

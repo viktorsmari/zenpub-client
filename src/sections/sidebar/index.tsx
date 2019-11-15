@@ -262,14 +262,12 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
             <Nav>
               {data!.me!.user!.followedCommunities!.edges!.map(
                 userJoinedCommunitiesEdge => {
-                  const context = userJoinedCommunitiesEdge!.node!.context!;
+                  const context = userJoinedCommunitiesEdge!.node!.community!;
                   return (
                     context.__typename === 'Community' && (
                       <CommunityLink
-                        key={userJoinedCommunitiesEdge!.node!.id!}
-                        to={
-                          '/communities/' + userJoinedCommunitiesEdge!.node!.id!
-                        }
+                        key={context.id}
+                        to={'/communities/' + context.id}
                       >
                         <NavItem alignItems={'center'} mb={2}>
                           <Image mr={2} src={context.icon} />

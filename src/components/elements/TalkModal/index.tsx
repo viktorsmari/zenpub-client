@@ -3,33 +3,19 @@ import * as React from 'react';
 import { Box, Flex } from 'rebass/styled-components';
 import { string } from 'yup';
 import { i18n } from '../../../containers/App/App';
-import CommentCmp from '../Comment/Comment';
+// import CommentCmp from '../Comment/Comment';
 import styled from '../../../themes/styled';
 import { SessionContext } from '../../../context/global/sessionCtx';
 import Alert from '../../elements/Alert';
 import Modal from '../Modal';
 import SocialText from '../SocialText';
-import { Comment } from '../../../graphql/types';
-import { useCreateReplyMutationMutation } from '../../../graphql/generated/createReply.generated';
+// import { Comment } from '../../../graphql/types';
+// import { useCreateReplyMutationMutation } from '../../../graphql/generated/createReply.generated';
 
 export const TextWrapper = styled(Flex)`
   padding: 16px;
   align-items: center;
 `;
-
-// const Publish = styled(Button)`
-//   height: 40px;
-//   padding: 0 40px;
-//   color: white !important;
-//   font-size: 15px;
-//   border-radius: 20px;
-//   letter-spacing: 0.5px;
-//   cursor: pointer;
-//   &:hover {
-//     background: #ec7c16 !important;
-//     color: white !important;
-//   }
-// `;
 
 export const Avatar = styled(Box)`
   min-width: 48px !important;
@@ -53,15 +39,15 @@ const tt = {
 interface Props {
   toggleModal(_: boolean): unknown;
   modalIsOpen: boolean;
-  comment: Comment;
+  // comment: Comment;
 }
 
 export const TalkModal: React.FC<Props> = ({
-  comment,
+  // comment,
   modalIsOpen,
   toggleModal
 }) => {
-  const [reply /* ,replyResult */] = useCreateReplyMutationMutation();
+  // const [reply /* ,replyResult */] = useCreateReplyMutationMutation();
   const session = React.useContext(SessionContext);
   const [text, setText] = React.useState('');
   const [error, setError] = React.useState('');
@@ -79,27 +65,26 @@ export const TalkModal: React.FC<Props> = ({
     },
     []
   );
-  const submit = React.useCallback(
-    () => {
-      if (error) {
-        return;
-      }
-      reply({
-        variables: {
-          inReplyToId: comment.id!,
-          threadId: comment.thread!.id!,
-          comment: { content: text }
-        }
-      });
-      toggleModal(false);
-    },
-    [error, text]
-  );
+  // const submit = React.useCallback(
+  //   () => {
+  //     if (error) {
+  //       return;
+  //     }
+  //     reply({
+  //       variables: {
+  //         inReplyToId: comment.id!,
+  //         threadId: comment.thread!.id!,
+  //         comment: { content: text }
+  //       }
+  //     });
+  //     toggleModal(false);
+  //   },
+  //   [error, text]
+  // );
+  const submit = () => console.log('ea');
   return (
     <Modal isOpen={modalIsOpen} toggleModal={() => toggleModal(false)}>
-      {/* <Container> */}
-      {/* <Form> */}
-      <CommentCmp comment={comment} noLink noAction />
+      {/* <CommentCmp comment={comment} noLink noAction /> */}
       <TextWrapper>
         <Avatar
           style={{

@@ -1,21 +1,21 @@
 import * as React from 'react';
 import { MessageCircle, Star } from 'react-feather';
 import styled from '../../../themes/styled';
-import { Box, Flex, Text } from 'rebass/styled-components';
+import { Box, Flex } from 'rebass/styled-components';
 import TalkModal from '../TalkModal';
-import { Comment } from '../../../graphql/types';
+// import { Comment } from '../../../graphql/types';
 
 export interface Props {
-  totalReplies: number;
-  totalLikes: number;
+  // totalReplies: number;
+  // totalLikes: number;
   iLikeIt: boolean;
   toggleLike: () => unknown;
-  comment: Comment;
+  // comment: Comment;
 }
 const ActionsWrapper = ({
-  totalReplies,
-  comment,
-  totalLikes,
+  // totalReplies,
+  // comment,
+  // totalLikes,
   iLikeIt,
   toggleLike
 }: Props) => {
@@ -27,18 +27,18 @@ const ActionsWrapper = ({
           <ActionIcon>
             <MessageCircle color="rgba(0,0,0,.4)" size="16" />
           </ActionIcon>
-          <Text ml={1}>{totalReplies}</Text>
+          {/* <Text ml={1}>{totalReplies}</Text> */}
         </ActionItem>
         <ActionItem ml={4} onClick={toggleLike}>
           <ActionIcon>
             <Star color={iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'} size="16" />
           </ActionIcon>
-          <Text ml={1}>{totalLikes}</Text>
+          {/* <Text ml={1}>{totalLikes}</Text> */}
         </ActionItem>
       </Items>
       <TalkModal
         modalIsOpen={talkModalVisible}
-        comment={comment}
+        // comment={comment}
         toggleModal={showTalkModal}
       />
     </Actions>

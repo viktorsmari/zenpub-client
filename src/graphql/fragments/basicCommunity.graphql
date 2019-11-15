@@ -1,9 +1,14 @@
+#import "./basicUser.graphql"
+
 fragment BasicCommunity on Community {
     id
     canonicalUrl
     preferredUsername
     name
     summary
+    creator {
+        ...BasicUser
+    }
     icon
     image
     createdAt

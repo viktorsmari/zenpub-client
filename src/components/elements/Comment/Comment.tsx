@@ -95,7 +95,11 @@ const CommentWrapper: React.FC<EventProps> = ({
           )}
         </MemberInfo>
       </Member>
-      <Talk toggleModal={onOpen} modalIsOpen={isOpen} comment={comment} />
+      <Talk
+        toggleModal={onOpen}
+        modalIsOpen={isOpen}
+        // comment={comment}
+      />
     </FeedItem>
   );
 };

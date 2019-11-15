@@ -1,195 +1,328 @@
-// import { Trans } from '@lingui/react';
+import { Trans } from '@lingui/react';
 import { DateTime } from 'luxon';
 import { clearFix } from 'polished';
 import * as React from 'react';
 import { SFC } from 'react';
 // import { Star } from 'react-feather';
-// import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass/styled-components';
-// import removeMd from 'remove-markdown';
+import removeMd from 'remove-markdown';
 import styled from '../../../themes/styled';
 import Link from '../Link/Link';
-// import Actions from './Actions';
-// import Preview from './preview';
+import Actions from './Actions';
+import Preview from './preview';
 import media from 'styled-media-query';
-// import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
-// import { useDeleteMutation } from '../../../graphql/generated/delete.generated';
+import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
+import { useDeleteMutation } from '../../../graphql/generated/delete.generated';
 import {
-  Activity,
   Collection,
   Comment,
   Community,
   Resource
 } from '../../../graphql/types';
-import {} from '../../../graphql/types';
+import { BasicUserFragment } from '../../../graphql/fragments/generated/basicUser.generated';
 
 interface Props {
-  userpage?: boolean;
-  user: any;
-  activity: Activity;
+  user: BasicUserFragment;
+  context: any;
+  verb: string;
+  createdAt: string;
 }
 
 interface CollectionProps {
-  activity: Activity;
   collection: Collection;
+  toggleLike: (_: any) => unknown;
+  noAction?: boolean;
+  user: BasicUserFragment;
+  createdAt;
 }
 
 interface ResourceProps {
-  activity: Activity;
   resource: Resource;
+  toggleLike: (_: any) => unknown;
+  noAction?: boolean;
+  user: BasicUserFragment;
+  createdAt: string;
 }
 
 interface CommentProps {
-  activity: Activity;
   comment: Comment;
+  toggleLike: (_: any) => unknown;
+  noAction?: boolean;
+  user: BasicUserFragment;
+  createdAt: string;
 }
 
 interface CommunityProps {
-  activity: Activity;
   community: Community;
+  toggleLike: (_: any) => unknown;
+  noAction?: boolean;
+  user: BasicUserFragment;
+  createdAt: string;
 }
 
-const CollectionItem: SFC<CollectionProps> = ({ activity, collection }) => (
-  <Box>collection</Box>
-);
-const ResourceItem: SFC<ResourceProps> = ({ activity, resource }) => (
-  <Box>resource</Box>
-);
-const CommentItem: SFC<CommentProps> = ({ activity, comment }) => (
-  <Box>comment</Box>
-);
-const CommunityItem: SFC<CommunityProps> = ({ activity, community }) => (
-  <Box>community</Box>
-);
+const CollectionItem: SFC<CollectionProps> = ({
+  noAction,
+  toggleLike,
+  collection,
+  user,
+  createdAt
+}) => (
+  <Member>
+    <MemberItem mr={2}>
+      <Img src={user.icon!} />
+    </MemberItem>
+    <MemberInfo>
+      <Name>
+        <Link to={'/user/' + user.id}>
+          {user.name}{' '}
+          {user.preferredUsername ? (
+            <Username ml={2}>@{user.preferredUsername}</Username>
+          ) : null}
+        </Link>
+        <Spacer mr={2}>·</Spacer>{' '}
+        <Date>{DateTime.fromISO(createdAt!).toRelative()}</Date>
+      </Name>
 
-const Item: SFC<Props> = ({ user, activity, userpage }) => {
-  const context = activity.context!;
-
-  return (
-    <FeedItem>
-      {activity.verb === 'CREATED' ? (
-        <>
-          {/* <NavigateToThread to={`/thread/${activity.context!.}`} /> */}
-          <Member>
-            <MemberItem mr={2}>
-              <Img src={user ? user.icon : ''} />
+      <Box>
+        <SubText mt={1}>
+          <Trans>created a new collection</Trans>{' '}
+          <NavLink to={`/collections/${collection.id}`}>
+            +{collection.name}
+          </NavLink>
+        </SubText>
+        <Preview
+          icon={collection.icon!}
+          title={collection.name!}
+          summary={collection.summary!}
+          url={`/collections/${collection.id}`}
+        />
+        {noAction ? null : (
+          <Actions
+            // totalReplies={collection.threads.totalCount as number}
+            // totalLikes={collection.likes!.totalCount! as number}
+            // comment={collection}
+            toggleLike={() => toggleLike(collection.id)}
+            iLikeIt={!!collection.myLike!}
+          />
+        )}
+      </Box>
+    </MemberInfo>
+  </Member>
+);
+const ResourceItem: SFC<ResourceProps> = ({
+  noAction,
+  toggleLike,
+  resource,
+  user,
+  createdAt
+}) => (
+  <Member>
+    <MemberItem mr={2}>
+      <Img src={user.icon!} />
+    </MemberItem>
+    <MemberInfo>
+      <Name>
+        <Link to={'/user/' + user.id}>
+          {user.name}{' '}
+          {user.preferredUsername ? (
+            <Username ml={2}>@{user.preferredUsername}</Username>
+          ) : null}
+        </Link>
+        <Spacer mr={2}>·</Spacer>{' '}
+        <Date>{DateTime.fromISO(createdAt!).toRelative()}</Date>
+      </Name>
+      <Box>
+        <SubText mt={1}>
+          <Trans>added a new resource</Trans> <Trans>in</Trans>{' '}
+          <NavLink to={`/collections/${resource.collection!.id}`}>
+            +{resource.collection!.name}
+          </NavLink>
+        </SubText>
+        <Preview
+          icon={resource.icon!}
+          title={resource.name!}
+          summary={resource.summary!}
+          url={`/collections/${resource.collection!.id}`}
+        />
+      </Box>
+    </MemberInfo>
+  </Member>
+);
+const CommentItem: SFC<CommentProps> = ({
+  toggleLike,
+  noAction,
+  comment,
+  user,
+  createdAt
+}) => (
+  <Member>
+    <MemberItem mr={2}>
+      <Img src={user.icon!} />
+    </MemberItem>
+    <MemberInfo>
+      <Name>
+        <Link to={'/user/' + user.id}>
+          {user.name}{' '}
+          {user.preferredUsername ? (
+            <Username ml={2}>@{user.preferredUsername}</Username>
+          ) : null}
+        </Link>
+        <Spacer mr={2}>·</Spacer>{' '}
+        <Date>{DateTime.fromISO(createdAt!).toRelative()}</Date>
+      </Name>
+      {comment.inReplyTo !== null ? (
+        <InReply my={2}>
+          <MemberWrapped>
+            <MemberItem className={'miniavatar'} mr={2}>
+              {/* <Img src={comment.thread!.context!.creator!.icon!} /> */}
             </MemberItem>
             <MemberInfo>
-              <Name>
-                <Link to={'/user/' + user.id}>
-                  {user.name}{' '}
-                  {user.preferredUsername ? (
-                    <Username ml={2}>@{user.preferredUsername}</Username>
-                  ) : null}
-                </Link>
-                <Spacer mr={2}>·</Spacer>{' '}
-                <Date>
-                  {DateTime.fromISO(activity.createdAt!).toRelative()}
-                </Date>
-              </Name>
-              {context.__typename === 'Collection' ? (
-                <CollectionItem activity={activity} collection={context} /> // qui il context è risolto come Collection
-              ) : context.__typename === 'Resource' ? (
-                <ResourceItem activity={activity} resource={context} /> // qui il context è risolto come Resource
-              ) : context.__typename === 'Comment' ? (
-                <CommentItem activity={activity} comment={context} /> // qui il context è risolto come Comment
-              ) : context.__typename === 'Community' ? (
-                <CommunityItem activity={activity} community={context} /> // qui il context è risolto come Community
+              {/* <Name>
+            <Link
+              to={'/user/' + comment.thread!.context!.creator!.id}
+            >
+              {comment.thread!.context!.creator!.name}
+            </Link>
+            <Spacer mr={2}>·</Spacer>{' '}
+            <Date>
+              {DateTime.fromISO(comment.thread!.createdAt!).toRelative()}
+            </Date>
+          </Name> */}
+
+              {comment.thread!.context!.__typename === 'Collection' ? (
+                <CollectionItem
+                  user={comment.thread!.context!.creator!}
+                  createdAt={comment.thread!.context!.createdAt}
+                  noAction
+                  toggleLike={toggleLike}
+                  collection={comment.thread!.context!}
+                /> // qui il comment.thread!.context! è risolto come Collection
+              ) : comment.thread!.context!.__typename === 'Resource' ? (
+                <ResourceItem
+                  user={comment.thread!.context!.creator!}
+                  createdAt={comment.thread!.context!.createdAt}
+                  noAction
+                  toggleLike={toggleLike}
+                  resource={comment.thread!.context!}
+                /> // qui il comment.thread!.context! è risolto come Resource
+              ) : comment.thread!.context!.__typename === 'Community' ? (
+                <CommunityItem
+                  user={comment.thread!.context!.creator!}
+                  createdAt={comment.thread!.context!.createdAt}
+                  noAction
+                  toggleLike={toggleLike}
+                  community={comment.thread!.context!}
+                /> // qui il context è risolto come Community
               ) : (
                 <div>Unknown should never happen</div>
               )}
             </MemberInfo>
-          </Member>
-        </>
+          </MemberWrapped>
+        </InReply>
       ) : null}
-    </FeedItem>
-  );
-};
+      <Comment>
+        {comment.content && comment.content.length > 320
+          ? removeMd(comment.content).replace(
+              /^([\s\S]{316}[^\s]*)[\s\S]*/,
+              '$1...'
+            )
+          : removeMd(comment.content)}
+      </Comment>
+      {noAction ? null : (
+        <Actions
+          // totalReplies={comment.thread.comments.totalCount as number}
+          // totalLikes={comment.likes.totalCount as number}
+          // comment={comment}
+          toggleLike={() => toggleLike(comment.id)}
+          iLikeIt={!!comment.myLike!}
+        />
+      )}
+    </MemberInfo>
+  </Member>
+);
+const CommunityItem: SFC<CommunityProps> = ({ community, user, createdAt }) => (
+  <Member>
+    <MemberItem mr={2}>
+      <Img src={user.icon!} />
+    </MemberItem>
+    <MemberInfo>
+      <Name>
+        <Link to={'/user/' + user.id}>
+          {user.name}{' '}
+          {user.preferredUsername ? (
+            <Username ml={2}>@{user.preferredUsername}</Username>
+          ) : null}
+        </Link>
+        <Spacer mr={2}>·</Spacer>{' '}
+        <Date>{DateTime.fromISO(createdAt!).toRelative()}</Date>
+      </Name>
+      <Box>
+        <SubText mt={1}>
+          <Trans>created a new community</Trans>{' '}
+          <NavLink to={`/communities/${community.id}`}>
+            @{community.name}
+          </NavLink>
+        </SubText>
+        <Preview
+          icon={community.icon!}
+          title={community.name}
+          summary={community.summary!}
+          url={`/communities/${community.id}`}
+        />
+      </Box>
+    </MemberInfo>
+  </Member>
+);
 
-// const Item: SFC<Props> = ({ user, node, userpage }) => {
-//   const [iLikeIt, setiLikeIt] = React.useState(false);
-//   const [like] = useLikeMutationMutation();
-//   const [undoLike] = useDeleteMutation();
-//   const toggleLike = React.useCallback(
-//     (contextId: string) => () => {
-//       (iLikeIt ? undoLike : like)({ variables: { contextId } });
-//       setiLikeIt(!iLikeIt);
-//     },
-//     [iLikeIt, like, undoLike]
-//   );
-//   console.log(toggleLike)
-//   return (
-//     <FeedItem>
-//       {node.verb === "CREATED" ?
-//       <>
-//        <NavigateToThread to={`/thread/${node.context.inReplyToId}`} />
-//         <Member>
-//           <MemberItem mr={2}>
-//             <Img src={user ? user.icon : ''} />
-//           </MemberItem>
-//           <MemberInfo>
-//            <Name>
-//             <Link to={'/user/' + user.id}>
-//               {user.name}{' '}
-//               {user.preferredUsername ? (
-//                 <Username ml={2}>
-//                   @{user.preferredUsername}
-//                 </Username>
-//               ) : null}
-//             </Link>
-//             <Spacer mr={2}>·</Spacer>{' '}
-//             <Date>{DateTime.fromISO(node.createdAt).toRelative()}</Date>
-//           </Name>
-//           {node.context.__typename === 'Comment' ?
-//             <>
-//             {node.context.inReplyToId !== null ? (
-//               <InReply my={2}>
-//                 <MemberWrapped>
-//                   {/* <MemberItem className={'miniavatar'} mr={2}>
-//                     <Img src={node.context.thread.context.author.icon} />
-//                   </MemberItem> */}
-//                   <MemberInfo>
-//                     <Name>
-//                       <Link
-//                         to={'/user/' + node.context.inReplyTo.author.localId}
-//                       >
-//                         {node.context.inReplyTo.author.name}
-//                       </Link>
-//                       <Spacer mr={2}>·</Spacer>{' '}
-//                       <Date>
-//                         {DateTime.fromISO(node.published).toRelative()}
-//                       </Date>
-//                     </Name>
-//                     <Comment>
-//                       {node.context.inReplyTo.content &&
-//                       node.context.inReplyTo.content.length > 320
-//                         ? removeMd(node.context.inReplyTo.content).replace(
-//                             /^([\s\S]{316}[^\s]*)[\s\S]*/,
-//                             '$1...'
-//                           )
-//                         : removeMd(node.context.inReplyTo.content)}
-//                     </Comment>
-//                   </MemberInfo>
-//                 </MemberWrapped>
-//               </InReply>
-//             ) : null}
-//             <Comment>
-//               {node.context.content && node.context.content.length > 320
-//                 ? removeMd(node.context.content).replace(
-//                     /^([\s\S]{316}[^\s]*)[\s\S]*/,
-//                     '$1...'
-//                   )
-//                 : removeMd(node.context.content)}
-//             </Comment>
-//           </>
-//           : null}
-//           </MemberInfo>
-//           </Member>
-//       </> : null
-//     }
-//     </FeedItem>
-//   );
-// };
+const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
+  const [iLikeIt, setiLikeIt] = React.useState(false);
+  const [like] = useLikeMutationMutation();
+  const [undoLike] = useDeleteMutation();
+  const toggleLike = React.useCallback(
+    (contextId: string) => () => {
+      (iLikeIt ? undoLike : like)({ variables: { contextId } });
+      setiLikeIt(!iLikeIt);
+    },
+    [iLikeIt, like, undoLike]
+  );
+  return verb === 'CREATED' ? (
+    <FeedItem>
+      {/* <NavigateToThread to={`/thread/${activity.context!.}`} /> */}
+      {context.__typename === 'Collection' ? (
+        <CollectionItem
+          user={user}
+          createdAt={createdAt}
+          toggleLike={toggleLike}
+          collection={context}
+        /> // qui il context è risolto come Collection
+      ) : context.__typename === 'Resource' ? (
+        <ResourceItem
+          user={user}
+          createdAt={createdAt}
+          toggleLike={toggleLike}
+          resource={context}
+        /> // qui il context è risolto come Resource
+      ) : context.__typename === 'Comment' ? (
+        <CommentItem
+          user={user}
+          createdAt={createdAt}
+          toggleLike={toggleLike}
+          comment={context}
+        /> // qui il context è risolto come Comment
+      ) : context.__typename === 'Community' ? (
+        <CommunityItem
+          user={user}
+          createdAt={createdAt}
+          toggleLike={toggleLike}
+          community={context}
+        /> // qui il context è risolto come Community
+      ) : (
+        <div>Unknown should never happen</div>
+      )}
+    </FeedItem>
+  ) : null;
+};
 
 // const NavigateToThread = styled(Link)`
 //   position: absolute;
@@ -200,25 +333,25 @@ const Item: SFC<Props> = ({ user, activity, userpage }) => {
 //   z-index: 1;
 // `;
 
-// const InReply = styled(Box)`
-//   color: ${props => props.theme.colors.gray};
-//   position: relative;
-//   opacity: 0.8
-//   &:after {
-//     position: absolute;
-//     content: '';
-//     width: 4px;
-//     top: 10px;
-//     left: -2px;
-//     bottom: 10px;
-//     display: block;
-//     background: #f3f3f3;
-//   }
-//   a {
-//     color: ${props => props.theme.colors.black} !important;
-//     font-weight: 700;
-//   }
-// `;
+const InReply = styled(Box)`
+  color: ${props => props.theme.colors.gray};
+  position: relative;
+  opacity: 0.8
+  &:after {
+    position: absolute;
+    content: '';
+    width: 4px;
+    top: 10px;
+    left: -2px;
+    bottom: 10px;
+    display: block;
+    background: #f3f3f3;
+  }
+  a {
+    color: ${props => props.theme.colors.black} !important;
+    font-weight: 700;
+  }
+`;
 
 const Username = styled(Text)`
   color: ${props => props.theme.colors.gray};
@@ -245,26 +378,26 @@ const Date = styled(Text)`
   font-size: 12px;
 `;
 
-// const SubText = styled(Flex)`
-// font-size: 14px;
-// align-items: end;
-// display: inline;
-// svg {
-//   fill: #ffc02d;
-//   margin-right: 8px;
-// }
-// > a {
-//   position: relative;
-//   z-index: 9;
-//   text-decoration: none;
-//   font-weight: 800
-//   margin-left: 4px;
-//   color: ${props => props.theme.colors.darkgray} !important;
-//   &:hover {
-//     text-decoration: underline;
-//   }
-// }
-// `;
+const SubText = styled(Flex)`
+font-size: 14px;
+align-items: end;
+display: inline;
+svg {
+  fill: #ffc02d;
+  margin-right: 8px;
+}
+> a {
+  position: relative;
+  z-index: 9;
+  text-decoration: none;
+  font-weight: 800
+  margin-left: 4px;
+  color: ${props => props.theme.colors.darkgray} !important;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+`;
 
 const Name = styled(Text)`
   font-weight: 600;
@@ -294,13 +427,13 @@ const Member = styled(Flex)`
   align-items: stretch;
 `;
 
-// const MemberWrapped = styled(Member)`
-//   padding: 8px;
-//   .miniavatar {
-//     min-width: 40px !important;
-//     height: 40px;
-//   }
-// `;
+const MemberWrapped = styled(Member)`
+  padding: 8px;
+  .miniavatar {
+    min-width: 40px !important;
+    height: 40px;
+  }
+`;
 
 const MemberInfo = styled(Box)`
   margin-top: 4px;

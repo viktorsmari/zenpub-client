@@ -1,14 +1,14 @@
 import * as React from 'react';
-import Comment from '../../components/elements/Comment/Comment';
+// import Comment from '../../components/elements/Comment/Comment';
 import Loader from '../../components/elements/Loader/Loader';
-import Thread from '../../components/elements/thread';
+// import Thread from '../../components/elements/thread';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import Header from './header';
 import { GetThreadQueryHookResult } from '../../graphql/generated/getThread.generated';
 import Empty from '../../components/elements/Empty';
 import { Trans } from '@lingui/macro';
-import { Box } from 'rebass/styled-components';
+// import { Box } from 'rebass/styled-components';
 
 export interface Props {
   threadQuery: GetThreadQueryHookResult;
@@ -37,21 +37,21 @@ const Component: React.FC<Props> = ({ threadQuery: thread }) => {
             ) : (
               <>
                 <Header context={context} />
-                {thread.data.thread ? (
+                {/* {thread.data.thread ? (
                   <Box variant="inReplyTo">
                     <Comment
                       noAction
                       key={thread.data.thread.id!}
-                      comment={thread.data.thread}
+                      comment={thread.data.thread.comments[0]}
                     />
                   </Box>
-                ) : null}
-                <Thread comment={thread.data.thread!} />
+                ) : null} */}
+                {/* <Thread comment={thread.data.thread!} /> */}
 
-                {thread.data.thread!.comments!.edges!.reverse().map(edge => {
+                {/* {thread.data.thread!.comments!.edges!.reverse().map(edge => {
                   const { node: comment } = edge!;
                   return <Comment key={comment!.id!} comment={comment!} />;
-                })}
+                })} */}
               </>
             )}
           </Wrapper>

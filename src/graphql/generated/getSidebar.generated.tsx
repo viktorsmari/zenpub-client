@@ -43,6 +43,7 @@ export type GetSidebarQueryQuery = { __typename?: 'RootQueryType' } & {
                     | 'isLocal'
                     | 'isPublic'
                     | 'isDisabled'
+                    | 'id'
                   > & {
                       myFollow: Types.Maybe<
                         { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
@@ -99,6 +100,7 @@ export const GetSidebarQueryDocument = gql`
                   isLocal
                   isPublic
                   isDisabled
+                  id
                   myFollow {
                     id
                   }

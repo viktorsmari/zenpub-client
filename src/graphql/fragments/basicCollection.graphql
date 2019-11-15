@@ -1,10 +1,12 @@
+#import "./basicUser.graphql"
+
 fragment BasicCollection on Collection {
     id
     canonicalUrl
     preferredUsername
     name
     summary
-    creator { id }
+    creator { ...basicUser }
     icon
     isLocal
     isPublic
