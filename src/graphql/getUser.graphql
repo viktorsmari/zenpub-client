@@ -25,9 +25,11 @@ query getUser(
                 pageInfo { startCursor endCursor }
                 edges {
                     node {
-                        id
-                        canonicalUrl
-                        context {
+                        follow{
+                            id
+                            canonicalUrl
+                        }
+                        community {
                             __typename
                             ... on Community {
                                 preferredUsername
@@ -60,7 +62,7 @@ query getUser(
                         context {
                             __typename
                             ... on Community  { ...BasicCommunity  }
-                            ... on Comment    { ...BasicComment    }
+                            ... on Comment    { ...BasicCommentWithInReplyTo    }
                             ... on Collection { ...BasicCollection }
                             ... on Resource   { ...BasicResource   }
                         }
@@ -71,9 +73,11 @@ query getUser(
                 pageInfo { startCursor endCursor }
                 edges {
                     node {
-                        id
-                        canonicalUrl
-                        context {
+                        follow {
+                            id
+                            canonicalUrl
+                        }
+                        collection {
                             __typename
                             ... on Collection {
                                 preferredUsername

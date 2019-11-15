@@ -13,24 +13,20 @@ export type BasicResourceFragment = { __typename?: 'Resource' } & Pick<
   | 'createdAt'
   | 'updatedAt'
 > & {
-    collection: Types.Maybe<
-      { __typename?: 'Collection' } & Pick<
-        Types.Collection,
-        | 'name'
-        | 'canonicalUrl'
-        | 'preferredUsername'
-        | 'isLocal'
-        | 'isPublic'
-        | 'isDisabled'
-      > & {
-          community: Types.Maybe<
-            { __typename?: 'Community' } & Pick<
-              Types.Community,
-              'id' | 'canonicalUrl' | 'isLocal'
-            >
-          >;
-        }
-    >;
+    collection: { __typename?: 'Collection' } & Pick<
+      Types.Collection,
+      | 'name'
+      | 'canonicalUrl'
+      | 'preferredUsername'
+      | 'isLocal'
+      | 'isPublic'
+      | 'isDisabled'
+    > & {
+        community: { __typename?: 'Community' } & Pick<
+          Types.Community,
+          'id' | 'canonicalUrl' | 'isLocal'
+        >;
+      };
   };
 
 export const BasicResourceFragmentDoc = gql`
@@ -158,6 +154,48 @@ const result: IntrospectionResultData = {
           },
           {
             name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Country'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Language'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
           },
           {
             name: 'Thread'

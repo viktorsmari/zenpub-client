@@ -3,7 +3,7 @@ input RegistrationInput {
     password: String!
     preferredUsername: String!
     name: String!
-    summary: String!
+    summary: String
     primaryLanguageId: String!
     wantsEmailDigest: Boolean!
     wantsNotifications: Boolean!

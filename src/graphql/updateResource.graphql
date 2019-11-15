@@ -1,11 +1,12 @@
 input ResourceInput {
-    name: String!
-    summary: String
-    url: String!
+    icon: String!
     license: String
+    name: String!
     primaryLanguageId: String
-    icon: String
-}
+    summary: String
+    url: String}
+
+
 
  mutation updateResourceMutation($resource: ResourceInput!,$resourceId: String!) {
     updateResource(resource: $resource, resourceId: $resourceId) {

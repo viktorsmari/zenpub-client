@@ -10,9 +10,11 @@ query getFollowedCollections($limit: Int, $endColl: String) {
                 pageInfo { startCursor endCursor }
                 edges {
                     node {
-                        id
-                        canonicalUrl
-                        context {
+                        follow {
+                            id
+                            canonicalUrl
+                        }
+                        collection {
                             __typename
                             ... on Collection {
                                 preferredUsername

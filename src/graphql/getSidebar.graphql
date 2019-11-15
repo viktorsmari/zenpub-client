@@ -10,9 +10,11 @@ query getSidebarQuery($limitComm: Int, $endComm: String) {
                 pageInfo { startCursor endCursor }
                 edges {
                     node {
-                        id
-                        canonicalUrl
-                        context {
+                        follow {
+                            id
+                            canonicalUrl
+                        }
+                        community {
                             __typename
                             ... on Community {
                                 preferredUsername

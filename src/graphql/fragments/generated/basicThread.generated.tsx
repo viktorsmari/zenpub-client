@@ -1,8 +1,8 @@
 import * as Types from '../../types.d';
 
-import { BasicCommentFragment } from './basicComment.generated';
+import { BasicCommentWithInReplyToFragment } from './basicComment.generated';
 import gql from 'graphql-tag';
-import { BasicCommentFragmentDoc } from './basicComment.generated';
+import { BasicCommentWithInReplyToFragmentDoc } from './basicComment.generated';
 
 export type BasicThreadFragment = { __typename?: 'Thread' } & Pick<
   Types.Thread,
@@ -15,31 +15,29 @@ export type BasicThreadFragment = { __typename?: 'Thread' } & Pick<
   | 'lastActivity'
 > & {
     myFollow: Types.Maybe<{ __typename?: 'Follow' } & Pick<Types.Follow, 'id'>>;
-    comments: Types.Maybe<
-      { __typename?: 'CommentsEdges' } & Pick<
-        Types.CommentsEdges,
-        'totalCount'
-      > & {
-          pageInfo: { __typename?: 'PageInfo' } & Pick<
+    comments: { __typename?: 'CommentsEdges' } & Pick<
+      Types.CommentsEdges,
+      'totalCount'
+    > & {
+        pageInfo: Types.Maybe<
+          { __typename?: 'PageInfo' } & Pick<
             Types.PageInfo,
             'startCursor' | 'endCursor'
-          >;
-          edges: Types.Maybe<
-            Array<
-              Types.Maybe<
-                { __typename?: 'CommentsEdge' } & Pick<
-                  Types.CommentsEdge,
-                  'cursor'
-                > & {
-                    node: Types.Maybe<
-                      { __typename?: 'Comment' } & BasicCommentFragment
-                    >;
-                  }
-              >
-            >
-          >;
-        }
-    >;
+          >
+        >;
+        edges: Array<
+          Types.Maybe<
+            { __typename?: 'CommentsEdge' } & Pick<
+              Types.CommentsEdge,
+              'cursor'
+            > & {
+                node: {
+                  __typename?: 'Comment';
+                } & BasicCommentWithInReplyToFragment;
+              }
+          >
+        >;
+      };
   };
 
 export const BasicThreadFragmentDoc = gql`
@@ -63,12 +61,12 @@ export const BasicThreadFragmentDoc = gql`
       edges {
         cursor
         node {
-          ...BasicComment
+          ...BasicCommentWithInReplyTo
         }
       }
     }
   }
-  ${BasicCommentFragmentDoc}
+  ${BasicCommentWithInReplyToFragmentDoc}
 `;
 
 export interface IntrospectionResultData {
@@ -170,6 +168,48 @@ const result: IntrospectionResultData = {
           },
           {
             name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Country'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Language'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
           },
           {
             name: 'Thread'

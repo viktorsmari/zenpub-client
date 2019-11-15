@@ -1,6 +1,6 @@
 input CommunityInput {
     name: String!
-    summary: String!
+    summary: String
     preferredUsername: String!
     primaryLanguage: String
     icon: String!

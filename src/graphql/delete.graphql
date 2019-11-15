@@ -1,3 +1,5 @@
 mutation delete($contextId: String!) {
-  delete(contextId: $contextId)
+  delete(contextId: $contextId){
+    __typename
+  }
 }

@@ -13,9 +13,7 @@ export type FollowMutationMutationVariables = {
 };
 
 export type FollowMutationMutation = { __typename?: 'RootMutationType' } & {
-  createFollow: Types.Maybe<
-    { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
-  >;
+  createFollow: { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>;
 };
 
 export const FollowMutationDocument = gql`
@@ -211,6 +209,48 @@ const result: IntrospectionResultData = {
           },
           {
             name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Country'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Language'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
           },
           {
             name: 'Thread'

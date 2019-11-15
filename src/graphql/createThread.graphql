@@ -5,8 +5,10 @@ input CommentInput {
 mutation createThreadMutation($contextId: String!, $comment: CommentInput!) {
     createThread(contextId: $contextId, comment: $comment) {
         id
-	canonicalUrl
-	inReplyToId
+        canonicalUrl
+        inReplyTo {
+            ...BasicCommentWithInReplyTo
+        }
         content
         isLocal
         isPublic

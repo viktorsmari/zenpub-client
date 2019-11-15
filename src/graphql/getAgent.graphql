@@ -47,7 +47,7 @@ query getAgentQuery(
           context {
             __typename
             ... on Community  { ...BasicCommunity  }
-            ... on Comment    { ...BasicComment    }
+            ... on Comment    { ...BasicCommentWithInReplyTo    }
             ... on Collection { ...BasicCollection }
             ... on Resource   { ...BasicResource   }
           }       
@@ -58,12 +58,14 @@ query getAgentQuery(
       pageInfo { startCursor endCursor }
       edges {
         node {
-          id
-          canonicalUrl
-          isLocal
-          isPublic
-          createdAt
-          context {
+          follow{
+            id
+            canonicalUrl
+            isLocal
+            isPublic
+            createdAt
+          }
+          community {
             __typename
             ... on Community {
               id
@@ -72,15 +74,15 @@ query getAgentQuery(
               name
               summary
               icon
-	      image
-	      isLocal
-	      isPublic
-	      isDisabled
+              image
+              isLocal
+              isPublic
+              isDisabled
               createdAt
               updatedAt
-	      lastActivity
+              lastActivity
               myFollow { id }
-	      primaryLanguage { id isoCode2 isoCode3 englishName localName }
+              primaryLanguage { id isoCode2 isoCode3 englishName localName }
               collections { totalCount }
               followers { totalCount }
               threads { totalCount }
@@ -93,12 +95,14 @@ query getAgentQuery(
       pageInfo { startCursor endCursor }
       edges {
         node {
-          id
-          canonicalUrl
-          isLocal
-          isPublic
-          createdAt
-          context {
+          follow {
+            id
+            canonicalUrl
+            isLocal
+            isPublic
+            createdAt
+          }
+          collection {
             __typename
             ... on Collection {
               id
@@ -112,7 +116,7 @@ query getAgentQuery(
               isDisabled
               createdAt
               updatedAt
-	      lastActivity
+              lastActivity
               myFollow { id }
               myLike   { id }
               primaryLanguage { id isoCode2 isoCode3 englishName localName }

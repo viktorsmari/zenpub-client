@@ -1,6 +1,8 @@
 import * as Types from '../types.d';
 
+import { BasicCommentWithInReplyToFragment } from '../fragments/generated/basicComment.generated';
 import gql from 'graphql-tag';
+import { BasicCommentWithInReplyToFragmentDoc } from '../fragments/generated/basicComment.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as React from 'react';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -17,35 +19,33 @@ export type CreateReplyMutationMutationVariables = {
 export type CreateReplyMutationMutation = {
   __typename?: 'RootMutationType';
 } & {
-  createReply: Types.Maybe<
-    { __typename?: 'Comment' } & Pick<
-      Types.Comment,
-      | 'id'
-      | 'canonicalUrl'
-      | 'inReplyToId'
-      | 'content'
-      | 'isLocal'
-      | 'isPublic'
-      | 'isHidden'
-      | 'createdAt'
-      | 'updatedAt'
-    > & {
-        myLike: Types.Maybe<{ __typename?: 'Like' } & Pick<Types.Like, 'id'>>;
-        creator: Types.Maybe<
-          { __typename?: 'User' } & Pick<
-            Types.User,
-            | 'id'
-            | 'preferredUsername'
-            | 'canonicalUrl'
-            | 'isLocal'
-            | 'isPublic'
-            | 'isDisabled'
-            | 'icon'
-            | 'name'
-          >
-        >;
-      }
-  >;
+  createReply: { __typename?: 'Comment' } & Pick<
+    Types.Comment,
+    | 'id'
+    | 'canonicalUrl'
+    | 'content'
+    | 'isLocal'
+    | 'isPublic'
+    | 'isHidden'
+    | 'createdAt'
+    | 'updatedAt'
+  > & {
+      inReplyTo: Types.Maybe<
+        { __typename?: 'Comment' } & BasicCommentWithInReplyToFragment
+      >;
+      myLike: Types.Maybe<{ __typename?: 'Like' } & Pick<Types.Like, 'id'>>;
+      creator: { __typename?: 'User' } & Pick<
+        Types.User,
+        | 'id'
+        | 'preferredUsername'
+        | 'canonicalUrl'
+        | 'isLocal'
+        | 'isPublic'
+        | 'isDisabled'
+        | 'icon'
+        | 'name'
+      >;
+    };
 };
 
 export const CreateReplyMutationDocument = gql`
@@ -61,7 +61,9 @@ export const CreateReplyMutationDocument = gql`
     ) {
       id
       canonicalUrl
-      inReplyToId
+      inReplyTo {
+        ...BasicCommentWithInReplyTo
+      }
       content
       isLocal
       isPublic
@@ -83,6 +85,7 @@ export const CreateReplyMutationDocument = gql`
       }
     }
   }
+  ${BasicCommentWithInReplyToFragmentDoc}
 `;
 export type CreateReplyMutationMutationFn = ApolloReactCommon.MutationFunction<
   CreateReplyMutationMutation,
@@ -274,6 +277,48 @@ const result: IntrospectionResultData = {
           },
           {
             name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Country'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Language'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
           },
           {
             name: 'Thread'

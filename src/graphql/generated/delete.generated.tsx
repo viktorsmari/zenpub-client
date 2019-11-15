@@ -12,14 +12,27 @@ export type DeleteMutationVariables = {
   contextId: Types.Scalars['String'];
 };
 
-export type DeleteMutation = { __typename?: 'RootMutationType' } & Pick<
-  Types.RootMutationType,
-  'delete'
->;
+export type DeleteMutation = { __typename?: 'RootMutationType' } & {
+  delete:
+    | { __typename?: 'Activity' }
+    | { __typename?: 'Collection' }
+    | { __typename?: 'Comment' }
+    | { __typename?: 'Community' }
+    | { __typename?: 'Country' }
+    | { __typename?: 'Flag' }
+    | { __typename?: 'Follow' }
+    | { __typename?: 'Language' }
+    | { __typename?: 'Like' }
+    | { __typename?: 'Resource' }
+    | { __typename?: 'Thread' }
+    | { __typename?: 'User' };
+};
 
 export const DeleteDocument = gql`
   mutation delete($contextId: String!) {
-    delete(contextId: $contextId)
+    delete(contextId: $contextId) {
+      __typename
+    }
   }
 `;
 export type DeleteMutationFn = ApolloReactCommon.MutationFunction<
@@ -201,6 +214,48 @@ const result: IntrospectionResultData = {
           },
           {
             name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Country'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Language'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
           },
           {
             name: 'Thread'

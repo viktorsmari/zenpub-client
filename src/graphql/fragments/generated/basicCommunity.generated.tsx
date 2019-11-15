@@ -25,17 +25,17 @@ export type BasicCommunityFragment = { __typename?: 'Community' } & Pick<
         'id' | 'englishName' | 'localName'
       >
     >;
-    followers: Types.Maybe<
-      { __typename?: 'FollowsEdges' } & Pick<Types.FollowsEdges, 'totalCount'>
+    followers: { __typename?: 'FollowsEdges' } & Pick<
+      Types.FollowsEdges,
+      'totalCount'
     >;
-    threads: Types.Maybe<
-      { __typename?: 'ThreadsEdges' } & Pick<Types.ThreadsEdges, 'totalCount'>
+    threads: { __typename?: 'ThreadsEdges' } & Pick<
+      Types.ThreadsEdges,
+      'totalCount'
     >;
-    outbox: Types.Maybe<
-      { __typename?: 'ActivitiesEdges' } & Pick<
-        Types.ActivitiesEdges,
-        'totalCount'
-      >
+    outbox: { __typename?: 'ActivitiesEdges' } & Pick<
+      Types.ActivitiesEdges,
+      'totalCount'
     >;
   };
 
@@ -173,6 +173,48 @@ const result: IntrospectionResultData = {
           },
           {
             name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Country'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Language'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
           },
           {
             name: 'Thread'
