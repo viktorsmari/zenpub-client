@@ -12,6 +12,29 @@ import Modal from '../Modal';
 import { Row, Container, Actions, ContainerForm, Header } from '../Modal/modal';
 import { useCreateUserMutationMutation } from '../../../graphql/generated/createUser.generated';
 const checkUsername = require('../../../graphql/checkUsername.graphql');
+import Markdown from 'markdown-to-jsx';
+import axios from 'axios';
+
+import { INVITE_ONLY_TEXT } from './../../../constants';
+
+var terms_users = { data: '' };
+var terms_cookies = { data: '' };
+var terms_indexing = { data: '' };
+
+async function getTerms() {
+  try {
+    terms_users = await axios.get('https://new.next.moodle.net/terms/users.md');
+    terms_cookies = await axios.get(
+      'https://new.next.moodle.net/terms/cookies.md'
+    );
+    terms_indexing = await axios.get(
+      'https://new.next.moodle.net/terms/indexing.md'
+    );
+    // console.log(terms);
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 let tt = {
   login: i18nMark('Sign in'),
@@ -66,6 +89,7 @@ async function validateUsername(value, client) {
 const SignupModal = (props: Props) => {
   const { toggleModal, modalIsOpen } = props;
   const [createUser /*, createUserResp*/] = useCreateUserMutationMutation();
+  getTerms();
   return (
     <ApolloConsumer>
       {client => (
@@ -80,6 +104,20 @@ const SignupModal = (props: Props) => {
               render={({ errors, touched, isSubmitting }) => {
                 return (
                   <Form>
+                    <Row>{INVITE_ONLY_TEXT}</Row>
+                    <Row>
+                      Please read the following. By signing up your are
+                      consenting to these agreements.
+                    </Row>
+                    <Row>
+                      <Markdown>{terms_users.data}</Markdown>
+                    </Row>
+                    <Row>
+                      <Markdown>{terms_cookies.data}</Markdown>
+                    </Row>
+                    <Row>
+                      <Markdown>{terms_indexing.data}</Markdown>
+                    </Row>
                     <Row>
                       <label>
                         <Trans>Email</Trans>

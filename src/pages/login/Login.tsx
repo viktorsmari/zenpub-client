@@ -7,7 +7,7 @@ import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
 import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
 import Link from '../../components/elements/Link/Link';
-import SignupModal from '../../components/elements/TermsModal';
+import SignupModal from '../../components/elements/SignupModal';
 import { i18n } from '../../containers/App/App';
 import { SessionContext } from '../../context/global/sessionCtx';
 import styled, { MoodleThemeInterface } from '../../themes/styled';
@@ -17,6 +17,7 @@ import { Button, Box, Text, Image } from 'rebass/styled-components';
 const { loginMutation } = require('../../graphql/login.graphql');
 import { Panel, WrapperPanel } from '../../sections/panel';
 const MnetLogin = require('./login.jpg');
+import { INSTANCE_DESCRIPTION } from './../../constants';
 
 const Background = styled(Image)`
   background-size: cover;
@@ -323,7 +324,7 @@ class Login extends React.Component<LoginProps, LoginState> {
               </Or>
               <Browse mt={3} p={3}>
                 <Text variant="heading" fontSize={3}>
-                  <Trans>Browse MoodleNet</Trans>
+                  <Trans>Browse this MoodleNet instance</Trans>
                 </Text>
                 <Text variant="text" mt={2}>
                   <Trans>
@@ -353,10 +354,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                         <Trans>Instance description</Trans>
                       </Text>
                       <Text mt={2} variant="text">
-                        <Trans>
-                          This instance of MoodleNet is run by Moodle HQ and is
-                          currently invite-only.
-                        </Trans>
+                        <Trans>{INSTANCE_DESCRIPTION}</Trans>
                       </Text>
                     </Info>
                   </Infos>
