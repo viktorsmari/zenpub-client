@@ -71,7 +71,7 @@ const CollectionItem: SFC<CollectionProps> = ({
 }) => (
   <Member>
     <MemberItem mr={2}>
-      <Img src={user.icon!} />
+      <Img src={user.icon || ''} />
     </MemberItem>
     <MemberInfo>
       <Name>
@@ -82,7 +82,7 @@ const CollectionItem: SFC<CollectionProps> = ({
           ) : null}
         </Link>
         <Spacer mr={2}>·</Spacer>{' '}
-        <Date>{DateTime.fromISO(createdAt!).toRelative()}</Date>
+        <Date>{DateTime.fromISO(createdAt).toRelative()}</Date>
       </Name>
 
       <Box>
@@ -93,18 +93,18 @@ const CollectionItem: SFC<CollectionProps> = ({
           </NavLink>
         </SubText>
         <Preview
-          icon={collection.icon!}
-          title={collection.name!}
-          summary={collection.summary!}
+          icon={collection.icon || ''}
+          title={collection.name}
+          summary={collection.summary || ''}
           url={`/collections/${collection.id}`}
         />
         {noAction ? null : (
           <Actions
             // totalReplies={collection.threads.totalCount as number}
-            // totalLikes={collection.likes!.totalCount! as number}
+            // totalLikes={collection.likes.totalCount as number}
             // comment={collection}
             toggleLike={() => toggleLike(collection.id)}
-            iLikeIt={!!collection.myLike!}
+            iLikeIt={!!collection.myLike}
           />
         )}
       </Box>
@@ -120,7 +120,7 @@ const ResourceItem: SFC<ResourceProps> = ({
 }) => (
   <Member>
     <MemberItem mr={2}>
-      <Img src={user.icon!} />
+      <Img src={user.icon || ''} />
     </MemberItem>
     <MemberInfo>
       <Name>
@@ -131,20 +131,20 @@ const ResourceItem: SFC<ResourceProps> = ({
           ) : null}
         </Link>
         <Spacer mr={2}>·</Spacer>{' '}
-        <Date>{DateTime.fromISO(createdAt!).toRelative()}</Date>
+        <Date>{DateTime.fromISO(createdAt).toRelative()}</Date>
       </Name>
       <Box>
         <SubText mt={1}>
           <Trans>added a new resource</Trans> <Trans>in</Trans>{' '}
-          <NavLink to={`/collections/${resource.collection!.id}`}>
-            +{resource.collection!.name}
+          <NavLink to={`/collections/${resource.collection.id}`}>
+            +{resource.collection.name}
           </NavLink>
         </SubText>
         <Preview
-          icon={resource.icon!}
-          title={resource.name!}
-          summary={resource.summary!}
-          url={`/collections/${resource.collection!.id}`}
+          icon={resource.icon || ''}
+          title={resource.name}
+          summary={resource.summary || ''}
+          url={`/collections/${resource.collection.id}`}
         />
       </Box>
     </MemberInfo>
@@ -159,7 +159,7 @@ const CommentItem: SFC<CommentProps> = ({
 }) => (
   <Member>
     <MemberItem mr={2}>
-      <Img src={user.icon!} />
+      <Img src={user.icon || ''} />
     </MemberItem>
     <MemberInfo>
       <Name>
@@ -170,50 +170,50 @@ const CommentItem: SFC<CommentProps> = ({
           ) : null}
         </Link>
         <Spacer mr={2}>·</Spacer>{' '}
-        <Date>{DateTime.fromISO(createdAt!).toRelative()}</Date>
+        <Date>{DateTime.fromISO(createdAt).toRelative()}</Date>
       </Name>
       {comment.inReplyTo !== null ? (
         <InReply my={2}>
           <MemberWrapped>
             <MemberItem className={'miniavatar'} mr={2}>
-              {/* <Img src={comment.thread!.context!.creator!.icon!} /> */}
+              {/* <Img src={comment.thread.context.creator.icon} /> */}
             </MemberItem>
             <MemberInfo>
               {/* <Name>
             <Link
-              to={'/user/' + comment.thread!.context!.creator!.id}
+              to={'/user/' + comment.thread.context.creator.id}
             >
-              {comment.thread!.context!.creator!.name}
+              {comment.thread.context.creator.name}
             </Link>
             <Spacer mr={2}>·</Spacer>{' '}
             <Date>
-              {DateTime.fromISO(comment.thread!.createdAt!).toRelative()}
+              {DateTime.fromISO(comment.thread.createdAt).toRelative()}
             </Date>
           </Name> */}
 
-              {comment.thread!.context!.__typename === 'Collection' ? (
+              {comment.thread.context.__typename === 'Collection' ? (
                 <CollectionItem
-                  user={comment.thread!.context!.creator!}
-                  createdAt={comment.thread!.context!.createdAt}
+                  user={comment.thread.context.creator}
+                  createdAt={comment.thread.context.createdAt}
                   noAction
                   toggleLike={toggleLike}
-                  collection={comment.thread!.context!}
-                /> // qui il comment.thread!.context! è risolto come Collection
-              ) : comment.thread!.context!.__typename === 'Resource' ? (
+                  collection={comment.thread.context}
+                /> // qui il comment.thread.context è risolto come Collection
+              ) : comment.thread.context.__typename === 'Resource' ? (
                 <ResourceItem
-                  user={comment.thread!.context!.creator!}
-                  createdAt={comment.thread!.context!.createdAt}
+                  user={comment.thread.context.creator}
+                  createdAt={comment.thread.context.createdAt}
                   noAction
                   toggleLike={toggleLike}
-                  resource={comment.thread!.context!}
-                /> // qui il comment.thread!.context! è risolto come Resource
-              ) : comment.thread!.context!.__typename === 'Community' ? (
+                  resource={comment.thread.context}
+                /> // qui il comment.thread.context è risolto come Resource
+              ) : comment.thread.context.__typename === 'Community' ? (
                 <CommunityItem
-                  user={comment.thread!.context!.creator!}
-                  createdAt={comment.thread!.context!.createdAt}
+                  user={comment.thread.context.creator}
+                  createdAt={comment.thread.context.createdAt}
                   noAction
                   toggleLike={toggleLike}
-                  community={comment.thread!.context!}
+                  community={comment.thread.context}
                 /> // qui il context è risolto come Community
               ) : (
                 <div>Unknown should never happen</div>
@@ -236,7 +236,7 @@ const CommentItem: SFC<CommentProps> = ({
           // totalLikes={comment.likes.totalCount as number}
           // comment={comment}
           toggleLike={() => toggleLike(comment.id)}
-          iLikeIt={!!comment.myLike!}
+          iLikeIt={!!comment.myLike}
         />
       )}
     </MemberInfo>
@@ -245,7 +245,7 @@ const CommentItem: SFC<CommentProps> = ({
 const CommunityItem: SFC<CommunityProps> = ({ community, user, createdAt }) => (
   <Member>
     <MemberItem mr={2}>
-      <Img src={user.icon!} />
+      <Img src={user.icon || ''} />
     </MemberItem>
     <MemberInfo>
       <Name>
@@ -256,7 +256,7 @@ const CommunityItem: SFC<CommunityProps> = ({ community, user, createdAt }) => (
           ) : null}
         </Link>
         <Spacer mr={2}>·</Spacer>{' '}
-        <Date>{DateTime.fromISO(createdAt!).toRelative()}</Date>
+        <Date>{DateTime.fromISO(createdAt).toRelative()}</Date>
       </Name>
       <Box>
         <SubText mt={1}>
@@ -266,9 +266,9 @@ const CommunityItem: SFC<CommunityProps> = ({ community, user, createdAt }) => (
           </NavLink>
         </SubText>
         <Preview
-          icon={community.icon!}
+          icon={community.icon || ''}
           title={community.name}
-          summary={community.summary!}
+          summary={community.summary || ''}
           url={`/communities/${community.id}`}
         />
       </Box>
@@ -289,7 +289,7 @@ const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
   );
   return verb === 'CREATED' ? (
     <FeedItem>
-      {/* <NavigateToThread to={`/thread/${activity.context!.}`} /> */}
+      {/* <NavigateToThread to={`/thread/${activity.context.}`} /> */}
       {context.__typename === 'Collection' ? (
         <CollectionItem
           user={user}
