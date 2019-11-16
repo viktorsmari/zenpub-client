@@ -57,8 +57,7 @@ const SidebarFixed = styled(Box)`
   top: 0px;
   display: flex;
   padding-left: 6px;
-
-  // width: 280px;
+  width: 295px;
   ${media.lessThan('1280px')`
     width: auto;
   `} ${media.lessThan('860px')`
@@ -189,6 +188,7 @@ const Sbox = styled(Box)`
 
 const HeaderName = styled(Text)`
   flex: 1;
+  ${ellipsis('220px')};
   ${media.lessThan('1280px')`
   display: none;
 `};
