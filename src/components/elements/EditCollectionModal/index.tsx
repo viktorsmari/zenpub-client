@@ -55,7 +55,6 @@ const withUpdateCollection = graphql<{}>(updateCollectionMutation, {
 const CreateCommunityModal = (
   props: Props & FormikProps<FormValues> & MyFormProps
 ) => {
-  debugger;
   const { toggleModal, modalIsOpen, errors, touched, isSubmitting } = props;
 
   return (
