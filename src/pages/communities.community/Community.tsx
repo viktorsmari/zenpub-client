@@ -2,14 +2,14 @@ import { Trans } from '@lingui/macro';
 import React, { SFC, useState } from 'react';
 import { TabPanel, Tabs } from 'react-tabs';
 import { Box, Button, Flex } from 'rebass/styled-components';
-import CommunityModal from '../../components/elements/CommunityModal';
+import CreateCollectionModal from '../../components/elements/CreateCollectionModal';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
 import { SocialText } from '../../components/elements/SocialText';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem/index2';
-import styled from '../../themes/styled';
 import { useCreateThreadMutationMutation } from '../../graphql/generated/createThread.generated';
 import { Community } from '../../graphql/types';
+import styled from '../../themes/styled';
 
 interface Props {
   collections: any;
@@ -104,7 +104,7 @@ const CommunityPage: SFC<Props> = ({
           </TabPanel>
         </Tabs>
       </OverlayTab>
-      <CommunityModal
+      <CreateCollectionModal
         toggleModal={() => onOpen(false)}
         modalIsOpen={isOpen}
         communityId={id}
