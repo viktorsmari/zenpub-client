@@ -11,7 +11,7 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type CreateResourceMutationMutationVariables = {
-  resourceId: Types.Scalars['Int'];
+  collectionId: Types.Scalars['String'];
   resource: Types.ResourceInput;
 };
 
@@ -25,10 +25,10 @@ export type CreateResourceMutationMutation = {
 
 export const CreateResourceMutationDocument = gql`
   mutation createResourceMutation(
-    $resourceId: Int!
+    $collectionId: String!
     $resource: ResourceInput!
   ) {
-    createResource(collectionLocalId: $resourceId, resource: $resource) {
+    createResource(collectionId: $collectionId, resource: $resource) {
       ...BasicResource
     }
   }
@@ -97,7 +97,7 @@ export function withCreateResourceMutation<TProps, TChildProps = {}>(
  * @example
  * const [createResourceMutationMutation, { data, loading, error }] = useCreateResourceMutationMutation({
  *   variables: {
- *      resourceId: // value for 'resourceId'
+ *      collectionId: // value for 'collectionId'
  *      resource: // value for 'resource'
  *   },
  * });
@@ -141,31 +141,130 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: 'UNION',
-        name: 'CommentContext',
+        name: 'ActivityContext',
         possibleTypes: [
           {
             name: 'Collection'
           },
           {
+            name: 'Comment'
+          },
+          {
             name: 'Community'
+          },
+          {
+            name: 'Resource'
           }
         ]
       },
       {
         kind: 'UNION',
-        name: 'ActivityObject',
+        name: 'FlagContext',
         possibleTypes: [
           {
-            name: 'Community'
+            name: 'Collection'
           },
           {
-            name: 'Collection'
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
           },
           {
             name: 'Resource'
           },
           {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'LikeContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
             name: 'Comment'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'ThreadContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Resource'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'FollowContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
           }
         ]
       }

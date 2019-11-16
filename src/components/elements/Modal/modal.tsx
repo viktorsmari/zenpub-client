@@ -26,7 +26,7 @@ const Dialog = styled.div`
   padding: 0;
   margin: 40px auto;
   position: fixed;
-  top: 20px;
+  top: 10px;
   left: 50%;
   margin-left: -350px;
   border-radius: 3px;
@@ -58,6 +58,8 @@ const Close = styled.div`
 
 const Content = styled.div`
   ${clearFix()};
+  overflow: auto;
+  max-height: 90vh;
 `;
 
 export const Container = styled.div`
@@ -88,6 +90,12 @@ export const CounterChars = styled.div`
 export const ContainerForm = styled.div`
   flex: 1;
   ${clearFix()};
+  input {
+    height: 40px;
+    background: white;
+    border-radius: 2px;
+    border: 1px solid ${props => props.theme.colors.lightgray};
+  }
 `;
 
 export const Header = styled.div`

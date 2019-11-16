@@ -1,42 +1,30 @@
+#import "./fragments/basicCollection.graphql"
 
-
-query getFollowedCollections($limit: Int, $endColl: Int) {
+query getFollowedCollections($limit: Int, $endColl: String) {
     me {
         user {
-          id
-          followingCollections(limit: $limit, after:$endColl) {
-            pageInfo {
-              startCursor
-              endCursor
+            id
+            canonicalUrl
+            isLocal
+            isPublic
+            isDisabled
+            followedCollections(limit: $limit, after:$endColl) {
+                pageInfo { startCursor endCursor }
+                edges {
+                    node {
+                        follow {
+                            id
+                            canonicalUrl
+                        }
+                        collection {
+                            __typename
+                            ... on Collection {
+                                ...BasicCollection
+                            }
+                        }
+                    }
+                }
             }
-            edges {
-              node {
-                id
-                localId
-                preferredUsername
-                name
-                summary
-                icon
-                community {
-                  localId
-                  id
-                }
-                followed
-                followers {
-                  totalCount
-                }
-                resources {
-                  totalCount
-                }
-                threads {
-                  totalCount
-                }
-                # followersCount
-                # followingCount
-
-              }
-          }
         }
-      }
     }
 }

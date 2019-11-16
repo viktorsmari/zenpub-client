@@ -64,6 +64,7 @@ interface Props {
   myFlag: string | null;
 }
 
+// const MoreOptions: React.FC<Props> = ({ contextId, myFlag }) => {
 const MoreOptions: React.FC<Props> = ({ contextId, myFlag }) => {
   const [isFlagOpen, onFlagOpen] = React.useState(false);
   const [menuIsOpen, setMenuIsOpen] = React.useState(false);
@@ -92,7 +93,7 @@ const MoreOptions: React.FC<Props> = ({ contextId, myFlag }) => {
                     <span>
                       <Flag size={18} color={'#333'} />
                     </span>
-                    {myFlag != null ? (
+                    {isFlagged != null ? (
                       <Trans>Flag</Trans>
                     ) : (
                       <Trans>Unflag</Trans>
@@ -106,13 +107,13 @@ const MoreOptions: React.FC<Props> = ({ contextId, myFlag }) => {
         </>
       ) : null}
       <FlagModal
+        contextId={contextId}
         myFlag={myFlag}
         flagItem={flagItem}
         closeModal={() => {
-          console.log('close');
+          onFlagOpen(false);
         }}
         modalIsOpen={isFlagOpen}
-        contextId={contextId}
       />
     </>
   );

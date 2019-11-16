@@ -16,6 +16,12 @@ export const HomeBox = styled(Flex)`
   padding: 0px;
   position: relative;
   z-index: 0;
+  ${media.lessThan('1005px')`
+  max-width: 100%;
+  `};
+  ${media.lessThan('1280px')`
+  top: 60px;
+  `};
 `;
 
 export const MainContainer = styled(Flex)`
@@ -56,7 +62,7 @@ export const WrapperDimension = styled(Flex)`
   width: 920px;
 `};
   ${media.lessThan('1005px')`
-  width: 600px;
+  width: 100%;
 `};
   ${media.lessThan('medium')`
   width: 100%;
@@ -69,5 +75,5 @@ export const Inner = styled(Flex)`
   align-items: stretch;
   min-height: 100%;
   width: 100%;
-  flex-direction: row;
+  flex-direction: column;
 `;

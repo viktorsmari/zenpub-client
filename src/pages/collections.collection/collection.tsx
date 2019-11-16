@@ -23,7 +23,6 @@ interface Props {
   resources: any;
   fetchMore: any;
   type: string;
-  match: any;
   addNewResource: any;
 }
 
@@ -40,8 +39,7 @@ const CommunityPage: SFC<Props> = ({
           <SuperTabList>
             <SuperTab>
               <h5>
-                <Trans>Resources</Trans> ({collection.resources.totalCount}
-                /10)
+                <Trans>Resources</Trans>
               </h5>
             </SuperTab>
           </SuperTabList>
@@ -82,6 +80,7 @@ const CommunityPage: SFC<Props> = ({
                   ) : null}
                   {isOpen === true ? (
                     <CollectionModal
+                      toggleModal={onOpen}
                       modalIsOpen={isOpen}
                       collectionId={collection.localId}
                       collectionExternalId={collection.id}

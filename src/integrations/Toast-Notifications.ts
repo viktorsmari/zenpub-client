@@ -6,27 +6,37 @@ export const integrateToastNotifications = (
   intercSrv: InterceptorSrv,
   store: Store
 ) => {
+  //@ts-ignore
   intercSrv.add({
-    operation: 'likeComment',
-    request: () => _ =>
-      showMessage(
-        _.error
-          ? { content: `Could not like comment`, options: { type: 'error' } }
-          : { content: `Comment like sent!` }
-      )
-  });
+    operation: 'createLike',
+    request: () => _ => {
+      debugger;
 
-  intercSrv.add({
-    operation: 'undoLikeComment',
-    request: () => _ =>
+      const ctx: string = (_.data && _.data.context.__typename) || '';
       showMessage(
         _.error
           ? {
-              content: `Could not undo like comment`,
+              content: `Could not perform like ${ctx}`,
               options: { type: 'error' }
             }
-          : { content: `Undo like comment sent!` }
-      )
+          : { content: `${ctx} like sent!` }
+      );
+    }
+  });
+
+  //@ts-ignore
+  intercSrv.add({
+    operation: 'delete',
+    request: () => _ => {
+      showMessage(
+        _.error
+          ? {
+              content: `Could not delete`,
+              options: { type: 'error' }
+            }
+          : { content: `delete performed!` }
+      );
+    }
   });
 
   intercSrv.add({
@@ -55,7 +65,7 @@ export const integrateToastNotifications = (
       showMessage(
         _.error
           ? {
-              content: `Could not reply to comment`,
+              content: `Could not perform reply`,
               options: { type: 'error' }
             }
           : { content: `Reply sent!` }
@@ -89,55 +99,19 @@ export const integrateToastNotifications = (
   });
 
   intercSrv.add({
-    operation: 'joinCommunity',
-    request: () => _ =>
-      showMessage(
-        _.error
-          ? {
-              content: `Could not join Community`,
-              options: { type: 'error' }
-            }
-          : { content: `Community joined!` }
-      )
-  });
+    operation: 'createFollow',
+    request: () => _ => {
+      const ctx: string = (_.data && _.data.context.__typename) || '';
 
-  intercSrv.add({
-    operation: 'undoJoinCommunity',
-    request: () => _ =>
       showMessage(
         _.error
           ? {
-              content: `Could not unjoin Community`,
+              content: `Could not perform follow ${ctx}`,
               options: { type: 'error' }
             }
-          : { content: `Community unjoined!` }
-      )
-  });
-
-  intercSrv.add({
-    operation: 'followCollection',
-    request: () => _ =>
-      showMessage(
-        _.error
-          ? {
-              content: `Could not follow Collection`,
-              options: { type: 'error' }
-            }
-          : { content: `Following Collection!` }
-      )
-  });
-
-  intercSrv.add({
-    operation: 'undoFollowCollection',
-    request: () => _ =>
-      showMessage(
-        _.error
-          ? {
-              content: `Could not unfollow Collection`,
-              options: { type: 'error' }
-            }
-          : { content: `Unfollowing Collection!` }
-      )
+          : { content: `Following ${ctx}!` }
+      );
+    }
   });
 
   const showMessage = (payload: ShowPayload) =>

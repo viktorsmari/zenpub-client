@@ -113,7 +113,7 @@ const Fetched = (props: Props & FormikProps<FormValues>) => (
             name="name"
             render={({ field }) => (
               <>
-                <Input
+                <SearchInput
                   placeholder={i18n._(tt.placeholders.name)}
                   name={field.name}
                   value={field.value}
@@ -173,10 +173,13 @@ const Fetched = (props: Props & FormikProps<FormValues>) => (
           loading={props.isSubmitting}
           disabled={props.isSubmitting}
           text={i18n._(tt.placeholders.submit)}
-          type="submit"
-          style={{ marginLeft: '10px' }}
-        />
-        <Button onClick={props.toggleModal} secondary>
+          ml={2}
+          onClick={props.handleSubmit}
+          variant="primary"
+        >
+          <Trans>Publish</Trans>
+        </Button>
+        <Button onClick={props.toggleModal} variant="outline">
           <Trans>Cancel</Trans>
         </Button>
       </Actions>
@@ -270,7 +273,13 @@ export default compose(withCreateResource)(ModalWithFormik);
 
 const Preview = styled.div`
   padding: 8px;
-  background: #eff2f5;
   padding-bottom: 1px;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+`;
+
+const SearchInput = styled(Input)`
+  height: 40px;
+  background: white;
+  border-radius: 2px;
+  border: 1px solid ${props => props.theme.colors.lightgray};
 `;

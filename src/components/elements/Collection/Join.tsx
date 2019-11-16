@@ -1,17 +1,13 @@
 import gql from 'graphql-tag';
 import React from 'react';
-import { graphql, OperationOption } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import { compose, withState } from 'recompose';
 // import styled from '../../../themes/styled';
 import { Button } from 'rebass/styled-components';
 import Loader from '../Loader/Loader';
 import { Trans } from '@lingui/react';
-const {
-  joinCollectionMutation
-} = require('../../../graphql/joinCollection.graphql');
-const {
-  undoJoinCollectionMutation
-} = require('../../../graphql/undoJoinCollection.graphql');
+const { followMutation } = require('../../../graphql/follow.graphql');
+const { deleteMutation } = require('../../../graphql/delete.graphql');
 
 interface Props {
   joinCollection: any;
@@ -23,15 +19,15 @@ interface Props {
   onSubmitting: any;
 }
 
-const withJoinCollection = graphql<{}>(joinCollectionMutation, {
+const withJoinCollection = graphql(followMutation, {
   name: 'joinCollection'
   // TODO enforce proper types for OperationOption
-} as OperationOption<{}, {}>);
+});
 
-const withLeaveCollection = graphql<{}>(undoJoinCollectionMutation, {
+const withLeaveCollection = graphql(deleteMutation, {
   name: 'leaveCollection'
   // TODO enforce proper types for OperationOption
-} as OperationOption<{}, {}>);
+});
 
 const Join: React.FC<Props> = ({
   joinCollection,
@@ -50,7 +46,7 @@ const Join: React.FC<Props> = ({
         onClick={() => {
           onSubmitting(true);
           return leaveCollection({
-            variables: { collectionId: id },
+            variables: { contextId: id },
             update: (proxy, { data: { undoJoinCollection } }) => {
               const fragment = gql`
                 fragment Res on Collection {
@@ -87,7 +83,7 @@ const Join: React.FC<Props> = ({
         onClick={() => {
           onSubmitting(true);
           return joinCollection({
-            variables: { collectionId: id },
+            variables: { contextId: id },
             update: (proxy, { data: { joinCollection } }) => {
               const fragment = gql`
                 fragment Res on Collection {

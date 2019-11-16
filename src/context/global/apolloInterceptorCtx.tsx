@@ -30,6 +30,7 @@ export const useInterceptor = <OpName extends OperationName>(
   const intercCtx = useContext(ApolloInterceptorContext);
   useEffect(
     () => {
+      //@ts-ignore
       return intercCtx.add(interc);
     },
     [intercCtx, interc]

@@ -7,7 +7,7 @@ import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
 import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
 import Link from '../../components/elements/Link/Link';
-import SignupModal from '../../components/elements/SignupModal';
+// import SignupModal from '../../components/elements/SignupModal';
 import { i18n } from '../../containers/App/App';
 import { SessionContext } from '../../context/global/sessionCtx';
 import styled, { MoodleThemeInterface } from '../../themes/styled';
@@ -17,6 +17,7 @@ import { Button, Box, Text, Image } from 'rebass/styled-components';
 const { loginMutation } = require('../../graphql/login.graphql');
 import { Panel, WrapperPanel } from '../../sections/panel';
 const MnetLogin = require('./login.jpg');
+import { INSTANCE_DESCRIPTION } from './../../constants';
 
 const Background = styled(Image)`
   background-size: cover;
@@ -53,14 +54,14 @@ const LoginWrapper = styled.div`
   grid-template-areas: 'header header' 'form image' 'footer footer';
   ${media.lessThan('medium')`
     grid-template-columns: 1fr;
-    grid-template-areas: 'header' 'form' 'footer';
+    grid-template-areas: 'header' 'image' 'form' 'footer';
     padding: 16px
   `};
 `;
 
 const Container = styled.div`
   margin: 0 auto;
-  width: 900px;
+  max-width: 900px;
   margin-top: 60px;
 `;
 
@@ -323,7 +324,7 @@ class Login extends React.Component<LoginProps, LoginState> {
               </Or>
               <Browse mt={3} p={3}>
                 <Text variant="heading" fontSize={3}>
-                  <Trans>Browse MoodleNet</Trans>
+                  <Trans>Browse this MoodleNet instance</Trans>
                 </Text>
                 <Text variant="text" mt={2}>
                   <Trans>
@@ -331,7 +332,9 @@ class Login extends React.Component<LoginProps, LoginState> {
                   </Trans>
                 </Text>
                 <Button mt={3} variant="outline">
-                  <Trans>Browse</Trans>
+                  <Link to={'/discover'}>
+                    <Trans>Browse</Trans>
+                  </Link>
                 </Button>
               </Browse>
             </FormWrapper>
@@ -353,10 +356,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                         <Trans>Instance description</Trans>
                       </Text>
                       <Text mt={2} variant="text">
-                        <Trans>
-                          This instance of MoodleNet is run by Moodle HQ and is
-                          currently invite-only.
-                        </Trans>
+                        <Trans>{INSTANCE_DESCRIPTION}</Trans>
                       </Text>
                     </Info>
                   </Infos>
@@ -400,11 +400,11 @@ class Login extends React.Component<LoginProps, LoginState> {
               </ul>
             </Footer>
           </LoginWrapper>
-
+          {/* 
           <SignupModal
             toggleModal={this.props.handleSignup}
             modalIsOpen={this.props.isOpen}
-          />
+          /> */}
         </Container>
       </>
     );

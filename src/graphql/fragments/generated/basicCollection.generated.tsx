@@ -1,68 +1,89 @@
 import * as Types from '../../types.d';
 
+import { BasicUserFragment } from './basicUser.generated';
 import gql from 'graphql-tag';
+import { BasicUserFragmentDoc } from './basicUser.generated';
 
 export type BasicCollectionFragment = { __typename?: 'Collection' } & Pick<
   Types.Collection,
   | 'id'
-  | 'localId'
+  | 'canonicalUrl'
   | 'preferredUsername'
   | 'name'
   | 'summary'
   | 'icon'
-  | 'followed'
+  | 'isLocal'
+  | 'isPublic'
 > & {
-    community: Types.Maybe<
-      { __typename?: 'Community' } & Pick<
-        Types.Community,
-        'id' | 'localId' | 'name' | 'followed'
-      >
+    creator: { __typename?: 'User' } & BasicUserFragment;
+    myFollow: Types.Maybe<{ __typename?: 'Follow' } & Pick<Types.Follow, 'id'>>;
+    community: { __typename?: 'Community' } & Pick<
+      Types.Community,
+      'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'name' | 'icon'
+    > & {
+        myFollow: Types.Maybe<
+          { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
+        >;
+      };
+    resources: { __typename?: 'ResourcesEdges' } & Pick<
+      Types.ResourcesEdges,
+      'totalCount'
     >;
-    followers: Types.Maybe<
-      { __typename?: 'CollectionFollowersConnection' } & Pick<
-        Types.CollectionFollowersConnection,
-        'totalCount'
-      >
+    followers: { __typename?: 'FollowsEdges' } & Pick<
+      Types.FollowsEdges,
+      'totalCount'
     >;
-    resources: Types.Maybe<
-      { __typename?: 'CollectionResourcesConnection' } & Pick<
-        Types.CollectionResourcesConnection,
-        'totalCount'
-      >
+    threads: { __typename?: 'ThreadsEdges' } & Pick<
+      Types.ThreadsEdges,
+      'totalCount'
     >;
-    inbox: Types.Maybe<
-      { __typename?: 'CollectionInboxConnection' } & Pick<
-        Types.CollectionInboxConnection,
-        'totalCount'
-      >
+    outbox: { __typename?: 'ActivitiesEdges' } & Pick<
+      Types.ActivitiesEdges,
+      'totalCount'
     >;
   };
 
 export const BasicCollectionFragmentDoc = gql`
   fragment BasicCollection on Collection {
     id
-    localId
+    canonicalUrl
     preferredUsername
     name
     summary
+    creator {
+      ...BasicUser
+    }
     icon
-    followed
+    isLocal
+    isPublic
+    myFollow {
+      id
+    }
     community {
       id
-      localId
+      canonicalUrl
+      isLocal
+      isPublic
       name
-      followed
-    }
-    followers {
-      totalCount
+      icon
+      myFollow {
+        id
+      }
     }
     resources {
       totalCount
     }
-    inbox {
+    followers {
+      totalCount
+    }
+    threads {
+      totalCount
+    }
+    outbox {
       totalCount
     }
   }
+  ${BasicUserFragmentDoc}
 `;
 
 export interface IntrospectionResultData {
@@ -82,31 +103,130 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: 'UNION',
-        name: 'CommentContext',
+        name: 'ActivityContext',
         possibleTypes: [
           {
             name: 'Collection'
           },
           {
+            name: 'Comment'
+          },
+          {
             name: 'Community'
+          },
+          {
+            name: 'Resource'
           }
         ]
       },
       {
         kind: 'UNION',
-        name: 'ActivityObject',
+        name: 'FlagContext',
         possibleTypes: [
           {
-            name: 'Community'
+            name: 'Collection'
           },
           {
-            name: 'Collection'
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
           },
           {
             name: 'Resource'
           },
           {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'LikeContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
             name: 'Comment'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'ThreadContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Resource'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'FollowContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
           }
         ]
       }

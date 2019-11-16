@@ -1,45 +1,64 @@
+#import "./basicUser.graphql"
+
+
+fragment BasicCommentWithInReplyTo on Comment {
+    ...BasicComment
+    inReplyTo { ...BasicComment }
+}
 fragment BasicComment on Comment {
-  localId
-  content
-  id
-  published
-  author {
-      name
-      id
-      icon
-      preferredUsername
-      localId
-  }
-  replies {
-      totalCount
-  }
-  inReplyTo {
-    localId
+    id
     content
-    author {
-      id
-      icon
-      name
-      localId
-      preferredUsername
+    isLocal
+    isPublic
+    isHidden
+    createdAt
+    updatedAt
+    creator {
+        ...BasicUser
     }
-  }
-  likers {
-    totalCount
-  }
-  context {
-    __typename
-    ... on Community {
+    likes   { totalCount }
+    thread  {
       id
-      name
-      localId
-      icon
+      context {
+          __typename
+          ... on Community {
+                id
+                canonicalUrl
+                name
+                isLocal
+                isPublic
+                isDisabled
+                creator {
+                    ...BasicUser
+                }
+            }
+          ... on Collection {
+                id
+                canonicalUrl
+                name
+                isLocal
+                isPublic
+                isDisabled
+                creator {
+                    ...BasicUser
+                }
+            }
+            ... on Resource {
+                id
+                canonicalUrl
+                name
+                isLocal
+                isPublic
+                isDisabled
+                
+                creator {
+                    ...BasicUser
+                }
+                collection {
+                    id
+                    name
+                }
+            }
+        }
     }
-      ... on Collection {
-      id
-      name
-      localId
-      icon
-    }
-  }
 }

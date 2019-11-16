@@ -69,7 +69,7 @@ class CollectionComponent extends React.Component<Props> {
     }
 
     let community_name = collection.community.name;
-
+    console.log('collectionT' + collection);
     return (
       <>
         <WrapperCont>
@@ -110,8 +110,9 @@ class CollectionComponent extends React.Component<Props> {
                   />
                   <MoreOptionsContainer>
                     <MoreOptions
-                      contextId={collection.id}
-                      myFlag={collection.myFlag}
+                      contextId={collection.localId}
+                      // myFlag={collection.myFlag}
+                      myFlag="false"
                     />
                   </MoreOptionsContainer>
                 </ActionsHero>

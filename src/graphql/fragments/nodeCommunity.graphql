@@ -1,18 +1,19 @@
 fragment NodeCommunity on Community {
-  id
-  name
-  localId
-  summary
-  icon
-  preferredUsername
-  followed
-  collections {
-    totalCount
-  }
-  members {
-    totalCount
-  }
-  threads {
-    totalCount
-  }
+    id
+    canonicalUrl
+    preferredUsername
+    name
+    summary
+    icon
+    image
+    isLocal
+    isPublic
+    isDisabled
+    createdAt
+    updatedAt
+    lastActivity
+    myFollow    { id }
+    collections { totalCount }
+    followers   { totalCount }
+    threads     { totalCount }
 }

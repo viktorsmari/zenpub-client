@@ -137,13 +137,13 @@ const withGetInbox = graphql<
 >(getFollowedCollections, {
   options: {
     variables: {
-      one: IS_DEV ? 2510 : 4944,
-      two: IS_DEV ? 2374 : 5416,
-      three: IS_DEV ? 5487 : 5571,
-      four: IS_DEV ? 8092 : 5487,
-      five: IS_DEV ? 690 : 4944,
-      six: IS_DEV ? 3790 : 2374,
-      seven: IS_DEV ? 4848 : 5571
+      one: IS_DEV ? '2510' : '4944',
+      two: IS_DEV ? '2374' : '5416',
+      three: IS_DEV ? '5487' : '5571',
+      four: IS_DEV ? '8092' : '5487',
+      five: IS_DEV ? '690' : '4944',
+      six: IS_DEV ? '3790' : '2374',
+      seven: IS_DEV ? '4848' : '5571'
     }
   }
 }) as OperationOption<{}, {}>;

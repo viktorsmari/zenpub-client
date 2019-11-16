@@ -4,25 +4,19 @@ This React project was bootstrapped with [Create React App](https://github.com/f
 It has changed dramatically since its initial creation so the CRA documentation is no longer relevant and has been
 removed from the README, however this notice is left here just in case it can be informative and for posterity.
 
-## Glossary
+## Index
 
+- [Deploying MoodleNet](#deploying-moodlenet)
 - [Structure](#structure)
     - [High level folder structure](#high-level-folder-structure)
     - [Application source folder structure](#application-source-folder-structure)
-- [Scripts](#scripts)
+- [Development Scripts](#development-scripts)
     - [`yarn start`](#yarn-start)
     - [`yarn add-locale`](#yarn-add-locale)
     - [`yarn extract`](#yarn-extract)
     - [`yarn compile`](#yarn-compile)
     - [`yarn build`](#yarn-build)
 - [Libraries](#libraries)
-- [Theme](#theme)
-    - [Theme structure](#theme-structure)
-    - [Themed components](#themed-components)
-    - [Adding a theme](#adding-a-theme)
-    - [Using a theme](#using-a-theme)
-    - [Themeing Zendesk Garden](#themeing-zendesk-garden)
-    - [Grid system](#grid-system)
 - [Localisation](#localisation)
     - [Set up](#set-up)
     - [Usage](#usage)
@@ -32,6 +26,61 @@ removed from the README, however this notice is left here just in case it can be
     - [Interpolated language strings](#interpolated-language-strings)
     - [Updating language files](#updating-language-files)
 - [Dependencies](#dependencies)
+
+## Deploying MoodleNet
+
+
+### Install using Docker containers (recommended)
+
+1. Make sure you have [Docker](https://www.docker.com/), a recent [docker-compose](https://docs.docker.com/compose/install/#install-compose) (which supports v3 configs) installed:
+
+```sh
+$ docker version
+Docker version 18.09.1-ce
+$ docker-compose -v                                                                                                                                              
+docker-compose version 1.23.2
+...
+```
+
+2. Clone this repository and change into the directory:
+```sh
+$ git clone https://gitlab.com/moodlenet/clients/react.git
+$ cd react
+```
+
+3. Configuration
+
+First make sure to configure your domain name or subdomain to point to your server's IP address.
+
+We need to set some environment variables in order for MoodleNet to function, a list of which can be found in these files:
+- `.env` 
+	- If you have a domain configured to point to your server, replace every instance of 'http://localhost' with 'https://your-domain-here.tld'  (the 's' is critical)
+	- **If you want to connect your instance with the MoodleNet "mothership" for indexing public content, search, and discovery**, and you agree with the Terms for Instance Administrators, set CONNECT_WITH_MOTHERSHIP to true, otherwise set it to false. You should then email moodlenet-moderators@moodle.com to request an API key. 
+- `.env.secrets.example` (which you must copy to `.env.secrets`)
+	- set each password and secret with something random and secure
+	- MAIL_DOMAIN and MAIL_KEY are needed to configure transactional email, sign up at [Mailgun](https://www.mailgun.com/) and then configure the domain name and key 
+
+
+4. Once configured, build the docker image:
+
+```
+$ docker-compose build
+```
+
+
+5. Start the docker containers with docker-compose:
+
+```sh
+$ docker-compose up
+```
+
+6. The MoodleNet backend and frontend should now be running at [http://localhost/](http://localhost/) on your machine and at https://your-domain-name.tld/ with SSL certificates automatically configured thanks to letsencrypt.org (if your domain was correctly configured).
+
+7. If that worked, start the app as a daemon next time:
+```sh
+$ docker-compose up -d
+```
+
 
 ## Structure
 
@@ -46,6 +95,8 @@ removed from the README, however this notice is left here just in case it can be
 | `/src` | the application source | 
 
 ### Application source folder structure:
+
+**Please note that the project is undergoing some refactoring, and some of these may be changing...**
 
 | Folder | Description |
 |------|---|
@@ -62,7 +113,7 @@ removed from the README, however this notice is left here just in case it can be
 | `/src/types` | application typescript types, enums, & interfaces |
 | `/src/util` | application utility functions |
 
-## Scripts
+## Development Scripts
 
 In the project directory, you can run:
 
@@ -100,130 +151,8 @@ This section mentions notable libraries and tools used within the application an
 - React, UI framework (https://reactjs.org/docs/getting-started.html)
 - TypeScript, programming language (https://www.typescriptlang.org)
 - webpack, build tool (https://webpack.js.org)
-- Zendesk Garden, UI component framework (https://zendeskgarden.github.io)
 - React Apollo, GraphQL client (https://www.apollographql.com/docs/react/)
 - Phoenix.js, Phoenix channels JS client (https://hexdocs.pm/phoenix/js/index.html)
-- React Styleguidist, UI styleguide (https://react-styleguidist.js.org)
-
-## Theme
-
-The application uses the [Zendesk Garden](https://zendeskgarden.github.io) toolkit for its React and CSS component suites
-and also as it comes the "themeing" built-in. This means we apply our own "MoodlNet style" to the components in the Zendesk
-Garden toolkit.
-
-This section details how themeing is implemented in the application, how to develop new components that are themed, how
-to edit the default theme, and how to introduce new themes.
-
-### Theme structure
-
-Files that are used in themeing are described in the table below.
-
-| File | Description |
-|---|---|
-| `themes/create.ts` | a utility function that generates a Zendesk Garden-specific theme object definition from a theme variable hash |
-| `themes/default.theme.ts` | the default MoodleNet theme |
-| `themes/index.ts` | exports all available themes within the application |
-| `themes/styled.ts` | defines and gathers all theme and `styled-components` interfaces and utilities into one file |
-
-### Themed components
-
-Zendesk Garden comes with lots of built-in components, visual components are defined in CSS (i.e. created with class names)
-and some of these are also available as React components. Some React components are not available in CSS and vice-versa.
-
-The components can be viewed here:
-
-- [Zendesk CSS components](zendeskgarden.github.io/css-components/)
-- [React components](https://zendeskgarden.github.io/react-components/) 
-
-In this application any Zendesk component that is used should be wrapped within a local component. For example, see
-the Pagination component (`src/components/Pagination/Pagination.tsx`), which looks like this:
-
-```typescript jsx
-import * as React from 'react';
-import { Pagination } from '@zendeskgarden/react-pagination';
-
-export default function({ ...props }) {
-  return <Pagination {...props} />;
-}
-```
-
-The reasons for this are 1) it is easy to see within the component directory hierarcy which components are already
-available and have been styled and 2) we can build extra MoodleNet-specific functionality into the components this way.
-
-### Adding a theme
-
-It is relatively easy to create a new theme:
-
-- copy the `themes/default.theme.ts` file to a new file, e.g. `dark.theme.ts`
-- amend the theme variables in the new theme file to whatever you like
-- add an export in `themes/index.ts` for the new theme file, making sure to rename the `theme` export to something unique:
-
-    ```js
-    // for example
-    export { theme as dark } from './dark.theme';
-    ```
-
-- that's it!
-
-### Using a theme
-
-The application does not (yet) have a way for the user to choose a theme. The theme in use is configured in code. 
-
-To use a different theme:
-
-- open the App container (`src/containers/App/App.tsx`)
-- import the them you want to use (or amend the existing import for the `moodlent` theme)
-- update the `ThemeProvider` JSX element `theme` prop to use the new theme definition
-
-### Themeing Zendesk Garden
-
-The Zendesk Garden suite is themed using the `ThemeProvider` component, which takes as a prop
-a theme definition. This theme definition contains the theme variables (as in a theme file created above
-in [Adding a theme](#adding-a-theme)) and also component-specific styles, which are defined using
-Zendesk Garden's own component naming scheme.
-
-For example, to theme the Pagination Zendesk Garden component, we add a key in our theme definition
-object which is the component's canonical "name" in the theme system. This isn't actually referenced anywhere
-in the Zendesk Garden documentation so the easiest way to find it out is by looking at the source code of the 
-component.
-
-For example, for the Pagination Page sub-component we can see the canonical component name in
-`node_modules/@zendeskgarden/react-pagination/dist/index.js`:
-
-```
-var COMPONENT_ID = 'pagination.page';
-```
-
-Now we can style the component in our `createTheme` function in `themes/create.tsx` by adding a key
-in the definition like so:
-
-```js
-  {
-    //...
-    'pagination.page': `
-        &&[class*=is-current] {
-            background-color: ${theme.colour.primary};
-            color: white;
-        }
-    `,
-    //...
-  } 
-```
-
-The styles can be written using SASS syntax. It is necessary to use a double ampersand to target the 
-component element, as (presumably) this style will be merged into Zendesk Garden's own declaration for the element.
-
-### Grid system
-
-The application makes use of the Zendesk Garden [Grid components](https://garden.zendesk.com/react-components/grid/).
-This is a typical responsive column & row grid framework.
-
-> The Grid component is an implementation over the [Bootstrap v4 Flexbox Grid](http://getbootstrap.com/docs/4.0/layout/overview/). 
-> Their documentation is a great resource to explore all of the unique customizations available within this package. 
-
-Given that grid columns adapt to the dimensions of the user agent viewport, when possible components should always
-be built with the capability to reduce their size to fit within their container, and should not therefore 
-use fixed widths.
 
 ### Browser testing
 
@@ -361,6 +290,8 @@ be committed alongside other changes.
 
 ## Dependencies
 
+**Please note that the project is undergoing some refactoring, and some of these may be changing...**
+
 | Development Only | Package | Description |
 |---|------|---|
 | | `@absinthe/*` | the JS Absinthe toolkit used to interface with the Elixir Phoenix backend with GraphQL |
@@ -369,7 +300,6 @@ be committed alongside other changes.
 | | `@jumpn/utils-graphql` | a collection of utilities used to interrogate GraphQL links, such as is it a subscription, which determines what channel to communicate on (WebSocket if yes, HTTP if no) |
 | | `@lingui/*` | lib for localisation of react applications, includes scripts for parsing the app code and pulling out language into locale files (which lives in `/locales/`), and react components such as localisation provider which sets up the react tree to get the correct language data depending on chosen locale | 
 | | `@types/*` | the `@types` package namespace contains type definitions for some of packages we use, as TypeScript is opt-in an they are not included by default in some packages |
-| | `@zendeskgarden/*` | the themeing library which comes with a set of React components and an interface and provider which is used to apply a custom theme |
 | | `apollo-cache-inmemory` | standalone cache for apollo, it caches responses from the graphql backend |
 | | `apollo-client` | a client for graphql |
 | | `apollo-link-context` | allows setting the _context_ of apollo operations, used for example to set the Auth Bearer token in HTTP request headers |

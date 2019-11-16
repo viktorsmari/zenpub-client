@@ -25,7 +25,7 @@ interface Props {
   url: string;
 }
 
-const Resource: React.FC<Props> = props => {
+const Preview: React.FC<Props> = props => {
   return (
     <Wrapper>
       <WrapperLink to={props.url}>
@@ -55,6 +55,8 @@ const Resource: React.FC<Props> = props => {
 const WrapperLink = styled(NavLink)`
   display: flex;
   text-decoration: none;
+  position: relative;
+  z-index: 999999;
   &:hover {
     text-decoration: none !important;
   }
@@ -120,9 +122,7 @@ const Title = styled(Heading)`
   flex: 1;
   color: ${props => props.theme.colors.darkgray};
   ${media.lessThan('medium')`
-  text-align: center;
-  padding: 0 8px;
-  line-height: 24px !important;
+  line-height: 20px !important;
 `};
 `;
 // const Summary = styled(Text)`
@@ -133,4 +133,4 @@ const Title = styled(Heading)`
 //   line-height: 18px;
 // `;
 
-export default Resource;
+export default Preview;

@@ -16,21 +16,30 @@ export type LoginMutationMutationVariables = {
 export type LoginMutationMutation = { __typename?: 'RootMutationType' } & {
   createSession: Types.Maybe<
     { __typename?: 'AuthPayload' } & Pick<Types.AuthPayload, 'token'> & {
-        me: Types.Maybe<
-          { __typename?: 'Me' } & Pick<Types.Me, 'email'> & {
-              user: Types.Maybe<
-                { __typename?: 'User' } & Pick<
-                  Types.User,
-                  | 'name'
-                  | 'id'
-                  | 'summary'
-                  | 'preferredUsername'
-                  | 'location'
-                  | 'icon'
-                >
-              >;
-            }
-        >;
+        me: { __typename?: 'Me' } & Pick<
+          Types.Me,
+          | 'email'
+          | 'wantsEmailDigest'
+          | 'wantsNotifications'
+          | 'isConfirmed'
+          | 'isInstanceAdmin'
+        > & {
+            user: { __typename?: 'User' } & Pick<
+              Types.User,
+              | 'id'
+              | 'canonicalUrl'
+              | 'preferredUsername'
+              | 'name'
+              | 'summary'
+              | 'location'
+              | 'icon'
+              | 'isPublic'
+              | 'isDisabled'
+              | 'createdAt'
+              | 'updatedAt'
+              | 'lastActivity'
+            >;
+          };
       }
   >;
 };
@@ -41,13 +50,23 @@ export const LoginMutationDocument = gql`
       token
       me {
         email
+        wantsEmailDigest
+        wantsNotifications
+        isConfirmed
+        isInstanceAdmin
         user {
-          name
           id
-          summary
+          canonicalUrl
           preferredUsername
+          name
+          summary
           location
           icon
+          isPublic
+          isDisabled
+          createdAt
+          updatedAt
+          lastActivity
         }
       }
     }
@@ -156,31 +175,130 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: 'UNION',
-        name: 'CommentContext',
+        name: 'ActivityContext',
         possibleTypes: [
           {
             name: 'Collection'
           },
           {
+            name: 'Comment'
+          },
+          {
             name: 'Community'
+          },
+          {
+            name: 'Resource'
           }
         ]
       },
       {
         kind: 'UNION',
-        name: 'ActivityObject',
+        name: 'FlagContext',
         possibleTypes: [
           {
-            name: 'Community'
+            name: 'Collection'
           },
           {
-            name: 'Collection'
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
           },
           {
             name: 'Resource'
           },
           {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'LikeContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
             name: 'Comment'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'ThreadContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Resource'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'FollowContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
           }
         ]
       }

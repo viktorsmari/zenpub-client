@@ -1,24 +1,31 @@
+#import "./basicUser.graphql"
+
 fragment BasicCollection on Collection {
     id
-    localId
+    canonicalUrl
     preferredUsername
     name
     summary
+    creator { ...BasicUser }
     icon
-    followed
+    isLocal
+    isPublic
+    myFollow {
+        id
+    }
     community {
-      id
-      localId
-      name
-      followed
+        id
+        canonicalUrl
+        isLocal
+        isPublic
+        name
+        icon
+        myFollow { 
+            id
+        }
     }
-    followers {
-        totalCount
-    }
-    resources {
-        totalCount
-    }
-    inbox {
-        totalCount
-    }
+    resources {totalCount}
+    followers { totalCount }
+    threads { totalCount }
+    outbox { totalCount }
 }

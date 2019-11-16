@@ -2,52 +2,52 @@ import * as React from 'react';
 import { SFC } from 'react';
 import { Trans } from '@lingui/macro';
 import { LoadMore } from './timeline';
+import { LocalActivitiesQuery } from '../../../graphql/generated/localActivities.generated';
 
 interface Props {
-  localActivities: any;
+  outbox: any;
   fetchMore: any;
 }
 
-const TimelineLoadMore: SFC<Props> = ({
-  fetchMore,
-  localActivities: localActivities
-}) =>
-  (localActivities.pageInfo.startCursor === null &&
-    localActivities.pageInfo.endCursor === null) ||
-  (localActivities.pageInfo.startCursor &&
-    localActivities.pageInfo.endCursor === null) ? null : (
+const TimelineLoadMore: SFC<Props> = ({ fetchMore, outbox }) =>
+  (outbox.pageInfo.startCursor === null &&
+    outbox.pageInfo.endCursor === null) ||
+  (outbox.pageInfo.startCursor && outbox.pageInfo.endCursor === null) ? null : (
     <LoadMore
       onClick={() =>
         fetchMore({
           fetchPolicy: 'cache-first',
           variables: {
-            end: localActivities.pageInfo.endCursor
+            end: outbox.pageInfo.endCursor
           },
-          updateQuery: (previousResult, { fetchMoreResult }) => {
-            const newNodes = fetchMoreResult.localActivities.nodes;
-            const pageInfo = fetchMoreResult.localActivities.pageInfo;
-            return newNodes.length
+          updateQuery: (
+            previousLocalActivityQ: LocalActivitiesQuery,
+            { fetchMoreResult }
+          ) => {
+            //debugger
+            const newNodes = fetchMoreResult.instance.outbox.edges;
+            const pageInfo = fetchMoreResult.instance.outbox.pageInfo;
+            const newLocalActQ: LocalActivitiesQuery = newNodes.length
               ? {
                   // Put the new comments at the end of the list and update `pageInfo`
                   // so we have the new `endCursor` and `hasNextPage` values
-                  localActivities: {
-                    ...previousResult.localActivities,
-                    __typename: previousResult.localActivities.__typename,
-                    nodes: [
-                      ...previousResult.localActivities.nodes,
-                      ...newNodes
-                    ],
-                    pageInfo
+                  ...previousLocalActivityQ,
+                  instance: {
+                    ...previousLocalActivityQ.instance,
+                    outbox: {
+                      ...(previousLocalActivityQ.instance &&
+                        previousLocalActivityQ.instance.outbox),
+                      edges: [
+                        ...(previousLocalActivityQ.instance &&
+                          previousLocalActivityQ.instance.outbox.edges),
+                        ...newNodes
+                      ],
+                      pageInfo
+                    }
                   }
                 }
-              : {
-                  localActivities: {
-                    ...previousResult.localActivities,
-                    __typename: previousResult.localActivities.__typename,
-                    nodes: [...previousResult.community.inbox.edges]
-                  },
-                  pageInfo
-                };
+              : previousLocalActivityQ;
+            return newLocalActQ;
           }
         })
       }

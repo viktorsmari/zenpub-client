@@ -1,67 +1,60 @@
 import * as React from 'react';
 import styled from '../../../themes/styled';
-import CollectionType from '../../../types/Collection';
 import { Link } from 'react-router-dom';
 import { Resource } from '../Icons';
 import { Flex, Text, Heading } from 'rebass/styled-components';
+// import { BasicCollectionFragment } from '../../../graphql/fragments/generated/basicCollection.generated';
 const PlaceholderImg = require('../Icons/collectionPlaceholder.png');
 
 interface CollectionProps {
-  collection: CollectionType;
-  openModal: any;
-  communityId: string;
+  collection: any;
 }
 /**
  * Collection component.
  */
-
-export default ({ collection, communityId, openModal }: CollectionProps) => {
-  return (
-    <Wrapper p={3}>
-      <Link
-        to={
-          collection.localId
-            ? `/communities/${communityId}/collections/${collection.localId}`
-            : `/communities/${communityId}/collections/federate?url=${encodeURI(
-                collection.id
-              )}`
-        }
-      >
-        <Img
-          style={{
-            backgroundImage: `url(${collection.icon || PlaceholderImg})`
-          }}
-        />
-        <Infos>
-          <Title>
-            {collection.name.length > 80
-              ? collection.name.replace(/^(.{76}[^\s]*).*/, '$1...')
-              : collection.name}
-          </Title>
-          <Text variant="text" mt={2} mb={3}>
-            {collection.summary.length > 320
-              ? collection.summary.replace(
-                  /^([\s\S]{316}[^\s]*)[\s\S]*/,
-                  '$1...'
-                )
-              : collection.summary}
-          </Text>
-          <Actions>
-            <ActionItem>
-              <Resource
-                width={18}
-                height={18}
-                strokeWidth={2}
-                color={'#8b98a2'}
-              />
-              {(collection.resources && collection.resources.totalCount) || 0}{' '}
-            </ActionItem>
-          </Actions>
-        </Infos>
-      </Link>
-    </Wrapper>
-  );
-};
+const Component: React.SFC<CollectionProps> = ({ collection }) => (
+  <Wrapper p={3}>
+    <Link
+      to={
+        collection.id
+          ? `/collections/${collection.id}`
+          : `/collections/federate?url=${encodeURI(collection.id)}`
+      }
+    >
+      <Img
+        style={{
+          backgroundImage: `url(${collection.icon || PlaceholderImg})`
+        }}
+      />
+      <Infos>
+        <Title>
+          {collection.name.length > 80
+            ? collection.name.replace(/^(.{76}[^\s]*).*/, '$1...')
+            : collection.name}
+        </Title>
+        <Text variant="text" mt={2} mb={3}>
+          {collection.summary!.length > 320
+            ? collection.summary!.replace(
+                /^([\s\S]{316}[^\s]*)[\s\S]*/,
+                '$1...'
+              )
+            : collection.summary}
+        </Text>
+        <Actions>
+          <ActionItem>
+            <Resource
+              width={18}
+              height={18}
+              strokeWidth={2}
+              color={'#8b98a2'}
+            />
+            {(collection.resources && collection.resources.totalCount) || 0}{' '}
+          </ActionItem>
+        </Actions>
+      </Infos>
+    </Link>
+  </Wrapper>
+);
 
 const Actions = styled.div`
   display: inline-block;
@@ -115,4 +108,4 @@ const Title = styled(Heading)`
   font-size: 20px;
 `;
 
-// export default Collection;
+export default Component;

@@ -1,15 +1,29 @@
+#import "./basicUser.graphql"
+
+
 fragment BasicResource on Resource {
-  id
-  name
-  localId
-  url
-  summary
-  icon
-  collection {
+    id
     name
-    localId
-    community {
-      localId
+    summary
+    icon
+    url
+    license
+    createdAt
+    updatedAt
+    creator {
+        ...BasicUser
     }
-  }
+    collection {
+        name
+        canonicalUrl
+        preferredUsername
+        isLocal
+        isPublic
+        isDisabled
+        community {
+            id
+            canonicalUrl
+            isLocal
+        }
+    }
 }

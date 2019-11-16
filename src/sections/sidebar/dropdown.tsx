@@ -5,6 +5,7 @@ import { Trans } from '@lingui/macro';
 import { useHistory } from 'react-router';
 import { useLogoutMutationMutation } from '../../graphql/generated/logout.generated';
 import { Text } from 'rebass/styled-components';
+import media from 'styled-media-query';
 
 const WrapperMenu = styled.div`
   box-sizing: border-box;
@@ -16,6 +17,10 @@ const WrapperMenu = styled.div`
   top: 110px;
   left: 16px;
   z-index: 999999999999;
+  ${media.lessThan('860px')`
+  position: fixed;
+  top: 70px;
+  `};
 `;
 
 const ProfileMenu = styled.div`
@@ -85,11 +90,8 @@ const Dropdown: React.FC = () => {
             </Item>
 
             <Item variant="link">
-              <a
-                href="https://blog.moodle.net/category/versions/"
-                target="blank"
-              >
-                v0.9.4 alpha <Trans>Changelog</Trans>
+              <a href="#" target="blank">
+                v0.9.5 alpha <Trans>Changelog</Trans>
               </a>
             </Item>
           </List>

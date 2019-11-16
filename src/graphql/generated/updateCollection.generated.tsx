@@ -9,8 +9,8 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type UpdateCollectionMutationMutationVariables = {
-  collectionId: Types.Scalars['Int'];
   collection: Types.CollectionInput;
+  collectionId: Types.Scalars['String'];
 };
 
 export type UpdateCollectionMutationMutation = {
@@ -20,21 +20,17 @@ export type UpdateCollectionMutationMutation = {
     { __typename?: 'Collection' } & Pick<
       Types.Collection,
       | 'id'
-      | 'localId'
+      | 'canonicalUrl'
+      | 'preferredUsername'
       | 'name'
       | 'summary'
-      | 'content'
-      | 'preferredUsername'
-      | 'primaryLanguage'
       | 'icon'
-      | 'published'
-      | 'updated'
+      | 'createdAt'
+      | 'updatedAt'
     > & {
-        resources: Types.Maybe<
-          { __typename?: 'CollectionResourcesConnection' } & Pick<
-            Types.CollectionResourcesConnection,
-            'totalCount'
-          >
+        resources: { __typename?: 'ResourcesEdges' } & Pick<
+          Types.ResourcesEdges,
+          'totalCount'
         >;
       }
   >;
@@ -42,23 +38,18 @@ export type UpdateCollectionMutationMutation = {
 
 export const UpdateCollectionMutationDocument = gql`
   mutation updateCollectionMutation(
-    $collectionId: Int!
     $collection: CollectionInput!
+    $collectionId: String!
   ) {
-    updateCollection(
-      collectionLocalId: $collectionId
-      collection: $collection
-    ) {
+    updateCollection(collection: $collection, collectionId: $collectionId) {
       id
-      localId
+      canonicalUrl
+      preferredUsername
       name
       summary
-      content
-      preferredUsername
-      primaryLanguage
       icon
-      published
-      updated
+      createdAt
+      updatedAt
       resources {
         totalCount
       }
@@ -128,8 +119,8 @@ export function withUpdateCollectionMutation<TProps, TChildProps = {}>(
  * @example
  * const [updateCollectionMutationMutation, { data, loading, error }] = useUpdateCollectionMutationMutation({
  *   variables: {
- *      collectionId: // value for 'collectionId'
  *      collection: // value for 'collection'
+ *      collectionId: // value for 'collectionId'
  *   },
  * });
  */
@@ -172,31 +163,130 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: 'UNION',
-        name: 'CommentContext',
+        name: 'ActivityContext',
         possibleTypes: [
           {
             name: 'Collection'
           },
           {
+            name: 'Comment'
+          },
+          {
             name: 'Community'
+          },
+          {
+            name: 'Resource'
           }
         ]
       },
       {
         kind: 'UNION',
-        name: 'ActivityObject',
+        name: 'FlagContext',
         possibleTypes: [
           {
-            name: 'Community'
+            name: 'Collection'
           },
           {
-            name: 'Collection'
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
           },
           {
             name: 'Resource'
           },
           {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'LikeContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
             name: 'Comment'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'ThreadContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Resource'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'FollowContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
           }
         ]
       }

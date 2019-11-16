@@ -4,88 +4,78 @@
 #import "./fragments/basicCommunity.graphql"
 #import "./fragments/basicUser.graphql"
 
-query getCommunityQuery($context: Int!, $limit: Int, $end: Int) {
-  community(localId: $context) {
-    id
-    localId
-    preferredUsername
-    name
-    summary
-    icon
-    followed
-    inbox(limit: $limit, after: $end) {
-      pageInfo {
-        startCursor
-        endCursor
-      }
-      edges {
-        node {
-          id
-          activityType
-          type
-          published
-          user {
-            ...BasicUser
-          }
-          object {
-            __typename
-            ... on Community {
-              ...BasicCommunity
+query getCommunityQuery($communityId: String!, $limit: Int, $end: String) {
+    community(communityId: $communityId) {
+        id
+        canonicalUrl
+        preferredUsername
+        name
+        summary
+        icon
+        image
+        createdAt
+        updatedAt
+        lastActivity
+        isLocal
+        isPublic
+        isDisabled
+        myFollow { id }
+        inbox(limit: $limit, after: $end) {
+            pageInfo { startCursor endCursor }
+            edges {
+                node {
+                    id
+                    canonicalUrl
+                    verb
+                    isLocal
+                    isPublic
+                    createdAt
+                    user { ...BasicUser }
+                    context {
+                        __typename
+                        ... on Community  { ...BasicCommunity  }
+                        ... on Comment    { ...BasicCommentWithInReplyTo    }
+                        ... on Collection { ...BasicCollection }
+                        ... on Resource   { ...BasicResource   }
+                    }       
+                }
             }
-            ... on Comment {
-              ...BasicComment
-            }
-            ... on Collection {
-              ...BasicCollection
-            }
-            ... on Resource {
-              ...BasicResource
-            }
-          }
         }
-      }
-    }
-    members {
-      edges {
-        node {
-          id
-          localId
-          name
-          icon
+        followers {
+            pageInfo { startCursor endCursor }
+            totalCount
+            edges {
+                node {
+                    id
+                    canonicalUrl
+                    isLocal
+                    isPublic
+                    creator {
+                        id
+                        icon
+                    }
+                }
+            }
         }
-      }
-      totalCount
-    }
-    collections {
-      totalCount
-      edges {
-        node {
-          id
-          localId
-          preferredUsername
-          name
-          summary
-          icon
-          followed
-          followers {
+        collections {
+            pageInfo { startCursor endCursor }
             totalCount
-          }
-          resources {
-            totalCount
-          }
-          threads {
-            totalCount
-          }
-          inbox {
-            totalCount
-          }
+            edges {
+                node {
+                    id
+                    canonicalUrl
+                    preferredUsername
+                    name
+                    summary
+                    icon
+                    myFollow { id }
+		            likes     { totalCount}
+                    followers { totalCount }
+                    resources { totalCount }
+                    threads   { totalCount }
+                    outbox    { totalCount }
+                }
+            }
         }
-      }
-      totalCount
-      pageInfo {
-        startCursor
-        endCursor
-      }
     }
-  }
 }

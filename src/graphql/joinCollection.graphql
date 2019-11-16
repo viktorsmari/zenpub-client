@@ -1,3 +1,0 @@
-mutation joinCollectionMutation($collectionId: Int!) {
-  followCollection(collectionLocalId: $collectionId)
-}

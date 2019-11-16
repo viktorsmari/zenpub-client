@@ -10,8 +10,8 @@ import { i18n } from '../../../containers/App/App';
 // import { useCreateCollectionFlagMutation } from '../../../graphql/generated/createCollectionFlag.generated';
 // import { useCreateResourceFlagMutation } from '../../../graphql/generated/createResourceFlag.generated';
 // import { useCreateCommentFlagMutation } from '../../../graphql/generated/createCommentFlag.generated';
-import { useFlagMutation } from '../../../graphql/generated/flag.generated';
-import { useUndoflagMutation } from '../../../graphql/generated/undoflag.generated';
+import { useCreateFlagMutationMutation } from '../../../graphql/generated/createFlag.generated';
+import { useResolveFlagMutationMutation } from '../../../graphql/generated/resolveFlag.generated';
 
 import styled from '../../../themes/styled';
 import Alert from '../../elements/Alert';
@@ -26,7 +26,7 @@ const TextWrapper = styled(Flex)`
 const tt = {
   placeholders: {
     name: i18nMark('Flag'),
-    flag: i18nMark('Please describe the reason')
+    flag: i18nMark('Please describe the reason for flagging the item')
   }
 };
 
@@ -46,12 +46,8 @@ const FlagModal: React.FC<Props> = ({
   flagItem,
   closeModal
 }) => {
-  // const [flagCommunity] = useCreateCommunityFlagMutation();
-  // const [flagCollection] = useCreateCollectionFlagMutation();
-  // const [flagResource] = useCreateResourceFlagMutation();
-  // const [flagComment] = useCreateCommentFlagMutation();
-  const [flag] = useFlagMutation();
-  const [undoflag] = useUndoflagMutation();
+  const [flag] = useCreateFlagMutationMutation();
+  const [undoflag] = useResolveFlagMutationMutation();
   const [text, setText] = React.useState('');
   const [error, setError] = React.useState('');
   const [touched, setTouched] = React.useState(false);
@@ -76,7 +72,7 @@ const FlagModal: React.FC<Props> = ({
       flag({
         variables: {
           contextId: contextId!,
-          reason: text!
+          message: text!
         }
       });
       flagItem(true);
@@ -92,7 +88,7 @@ const FlagModal: React.FC<Props> = ({
       }
       undoflag({
         variables: {
-          contextId: contextId!
+          flagId: contextId!
         }
       });
       flagItem(false);

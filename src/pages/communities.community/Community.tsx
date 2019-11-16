@@ -6,25 +6,26 @@ import CommunityModal from '../../components/elements/CommunityModal';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
 import { SocialText } from '../../components/elements/SocialText';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
-import TimelineItem from '../../components/elements/TimelineItem';
+import TimelineItem from '../../components/elements/TimelineItem/index2';
 import styled from '../../themes/styled';
 import { useCreateThreadMutationMutation } from '../../graphql/generated/createThread.generated';
+import { Community } from '../../graphql/types';
 
 interface Props {
   collections: any;
-  community: any;
+  followed: boolean;
+  id: string;
   fetchMore: any;
-  type: string;
-  match: any;
+  community: Community;
   refetch: () => unknown;
 }
 
 const CommunityPage: SFC<Props> = ({
   collections,
+  id,
+  followed,
   community,
   fetchMore,
-  match,
-  type,
   refetch
 }) => {
   const [createThreadMutation] = useCreateThreadMutationMutation();
@@ -35,14 +36,14 @@ const CommunityPage: SFC<Props> = ({
       createThreadMutation({
         variables: {
           comment: { content: newThreadText },
-          id: community.localId
+          contextId: id
         }
       }).then(() => {
         socialTextRef.current && (socialTextRef.current.value = '');
         refetch();
       });
     },
-    [newThreadText, community.localId]
+    [newThreadText, id]
   );
   const socialTextRef = React.useRef<HTMLTextAreaElement>();
   const setNewThreadTextInput = React.useCallback(
@@ -68,7 +69,7 @@ const CommunityPage: SFC<Props> = ({
             </SuperTab>
           </SuperTabList>
           <TabPanel>
-            {community.followed ? (
+            {followed ? (
               <WrapperBox p={3}>
                 <SocialText
                   onInput={setNewThreadTextInput}
@@ -80,13 +81,19 @@ const CommunityPage: SFC<Props> = ({
             ) : null}
             <div>
               {community.inbox.edges.map((t, i) => (
-                <TimelineItem node={t.node} user={t.node.user} key={i} />
+                <TimelineItem
+                  context={t!.node.context}
+                  user={t!.node.user}
+                  verb={t!.node.verb}
+                  createdAt={t!.node.createdAt}
+                  key={i}
+                />
               ))}
               <LoadMoreTimeline fetchMore={fetchMore} community={community} />
             </div>
           </TabPanel>
           <TabPanel>
-            {community.followed ? (
+            {followed ? (
               <ButtonWrapper>
                 <CreateCollection p={3} onClick={() => onOpen(true)} m={3}>
                   <Trans>Create a new collection</Trans>
@@ -100,7 +107,7 @@ const CommunityPage: SFC<Props> = ({
       <CommunityModal
         toggleModal={() => onOpen(false)}
         modalIsOpen={isOpen}
-        communityId={community.localId}
+        communityId={id}
       />
     </WrapperTab>
   );

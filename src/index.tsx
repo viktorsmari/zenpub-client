@@ -42,7 +42,9 @@ async function run() {
           border: none;
           background: #fff;
           margin: 0 !important; 
-          border-radius: 4px
+          border-radius: 4px;
+          text-indent: 30px;
+          padding: 0;
         }
       }
       .ais-InstantSearch__root { 
@@ -56,6 +58,7 @@ async function run() {
   const authToken =
     (initialState.session.auth && initialState.session.auth.token) || undefined;
   const apolloClient = await getApolloClient({ authToken });
+  //@ts-ignore
   integrateSessionApolloRedux(apolloClient.opInterceptor, store);
   integrateToastNotifications(apolloClient.opInterceptor, store);
   const ApolloApp = () => (

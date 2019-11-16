@@ -11,13 +11,13 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type GetFeaturedCollectionsQueryVariables = {
-  one: Types.Scalars['Int'];
-  two: Types.Scalars['Int'];
-  three: Types.Scalars['Int'];
-  four: Types.Scalars['Int'];
-  five: Types.Scalars['Int'];
-  six: Types.Scalars['Int'];
-  seven: Types.Scalars['Int'];
+  one: Types.Scalars['String'];
+  two: Types.Scalars['String'];
+  three: Types.Scalars['String'];
+  four: Types.Scalars['String'];
+  five: Types.Scalars['String'];
+  six: Types.Scalars['String'];
+  seven: Types.Scalars['String'];
 };
 
 export type GetFeaturedCollectionsQuery = { __typename?: 'RootQueryType' } & {
@@ -32,33 +32,33 @@ export type GetFeaturedCollectionsQuery = { __typename?: 'RootQueryType' } & {
 
 export const GetFeaturedCollectionsDocument = gql`
   query getFeaturedCollections(
-    $one: Int!
-    $two: Int!
-    $three: Int!
-    $four: Int!
-    $five: Int!
-    $six: Int!
-    $seven: Int!
+    $one: String!
+    $two: String!
+    $three: String!
+    $four: String!
+    $five: String!
+    $six: String!
+    $seven: String!
   ) {
-    one: collection(localId: $one) {
+    one: collection(collectionId: $one) {
       ...BasicCollection
     }
-    two: collection(localId: $two) {
+    two: collection(collectionId: $two) {
       ...BasicCollection
     }
-    three: collection(localId: $three) {
+    three: collection(collectionId: $three) {
       ...BasicCollection
     }
-    four: collection(localId: $four) {
+    four: collection(collectionId: $four) {
       ...BasicCollection
     }
-    five: collection(localId: $five) {
+    five: collection(collectionId: $five) {
       ...BasicCollection
     }
-    six: collection(localId: $six) {
+    six: collection(collectionId: $six) {
       ...BasicCollection
     }
-    seven: collection(localId: $seven) {
+    seven: collection(collectionId: $seven) {
       ...BasicCollection
     }
   }
@@ -185,31 +185,130 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: 'UNION',
-        name: 'CommentContext',
+        name: 'ActivityContext',
         possibleTypes: [
           {
             name: 'Collection'
           },
           {
+            name: 'Comment'
+          },
+          {
             name: 'Community'
+          },
+          {
+            name: 'Resource'
           }
         ]
       },
       {
         kind: 'UNION',
-        name: 'ActivityObject',
+        name: 'FlagContext',
         possibleTypes: [
           {
-            name: 'Community'
+            name: 'Collection'
           },
           {
-            name: 'Collection'
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
           },
           {
             name: 'Resource'
           },
           {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'LikeContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
             name: 'Comment'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'ThreadContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Resource'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'FollowContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
           }
         ]
       }
