@@ -71,9 +71,7 @@ const TitleWrapper = styled.div`
 const Info = styled.div`
   flex: 1;
   margin-left: 8px;
-  ${media.lessThan('medium')`
-  margin-left: 0;
-  `};
+
   & a {
     text-decoration: none;
     color: inherit;

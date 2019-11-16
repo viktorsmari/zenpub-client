@@ -52,7 +52,7 @@ const SidebarFixed = styled(Box)`
   display: flex;
   padding-left: 6px;
 
-  width: 280px;
+  // width: 280px;
   ${media.lessThan('1280px')`
     width: auto;
   `} ${media.lessThan('860px')`
