@@ -80,7 +80,7 @@ const Home: React.FC<Props> = props => {
                     ))}
                     <LoadMoreTimeline
                       fetchMore={fetchMore}
-                      localActivities={data!.instance!.outbox!}
+                      outbox={data!.instance!.outbox!}
                     />
                   </div>
                 )}
