@@ -13,13 +13,24 @@ export type LikeMutationMutationVariables = {
 };
 
 export type LikeMutationMutation = { __typename?: 'RootMutationType' } & {
-  createLike: Types.Maybe<{ __typename?: 'Like' } & Pick<Types.Like, 'id'>>;
+  createLike: Types.Maybe<
+    { __typename?: 'Like' } & Pick<Types.Like, 'id'> & {
+        context:
+          | { __typename?: 'Collection' }
+          | { __typename?: 'Comment' }
+          | { __typename?: 'Resource' }
+          | { __typename?: 'User' };
+      }
+  >;
 };
 
 export const LikeMutationDocument = gql`
   mutation likeMutation($contextId: String!) {
     createLike(contextId: $contextId) {
       id
+      context {
+        __typename
+      }
     }
   }
 `;

@@ -10,7 +10,9 @@ export const integrateToastNotifications = (
   intercSrv.add({
     operation: 'createLike',
     request: () => _ => {
-      const ctx = _.data!.context!.__typename;
+      debugger;
+
+      const ctx: string = (_.data && _.data.context.__typename) || '';
       showMessage(
         _.error
           ? {
@@ -99,7 +101,7 @@ export const integrateToastNotifications = (
   intercSrv.add({
     operation: 'createFollow',
     request: () => _ => {
-      const ctx = _.data!.context!.__typename;
+      const ctx: string = (_.data && _.data.context.__typename) || '';
 
       showMessage(
         _.error
