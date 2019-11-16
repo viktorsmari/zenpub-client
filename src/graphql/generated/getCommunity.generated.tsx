@@ -42,6 +42,7 @@ export type GetCommunityQueryQuery = { __typename?: 'RootQueryType' } & {
       | 'isPublic'
       | 'isDisabled'
     > & {
+        creator: { __typename?: 'User' } & Pick<Types.User, 'id'>;
         myFollow: Types.Maybe<
           { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
         >;
@@ -170,6 +171,9 @@ export const GetCommunityQueryDocument = gql`
       icon
       image
       createdAt
+      creator {
+        id
+      }
       updatedAt
       lastActivity
       isLocal

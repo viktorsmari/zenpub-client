@@ -9,6 +9,7 @@ import EditCommunityModal from '../../components/elements/EditCommunityModal';
 import Loader from '../../components/elements/Loader/Loader';
 import UsersModal from '../../components/elements/UsersModal';
 import '../../containers/App/basic.css';
+import { useInterceptor } from '../../context/global/apolloInterceptorCtx';
 import { useGetCommunityQueryQuery } from '../../graphql/generated/getCommunity.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import {
@@ -22,7 +23,6 @@ import styled from '../../themes/styled';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import CommunityPage from './Community';
 import Hero from './hero';
-import { useInterceptor } from '../../context/global/apolloInterceptorCtx';
 
 interface Props {
   communityId: string;
@@ -36,6 +36,7 @@ interface Props {
 
 const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
   // const [tab, setTab] = React.useState(TabsEnum.Collections);
+
   const [isEditCommunityOpen, setEditCommunityOpen] = React.useState(false);
   const [isUsersOpen, showUsers] = React.useState(false);
   const editCommunity = React.useCallback(
@@ -45,10 +46,12 @@ const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
   const communityQuery = useGetCommunityQueryQuery({
     variables: { limit: 15, communityId }
   });
+
   useInterceptor({
     operation: 'createCollection',
     request: () => () => communityQuery.refetch()
   });
+
   let collections;
   if (communityQuery.error || !communityQuery.data) {
     collections = (
@@ -152,6 +155,7 @@ const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
           community={communityQuery.data.community}
           communityUpdated={communityQuery.refetch}
         />
+
         <UsersModal
           toggleModal={showUsers}
           modalIsOpen={isUsersOpen}
