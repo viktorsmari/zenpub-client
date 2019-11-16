@@ -311,7 +311,7 @@ const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
   );
   return (
     <FeedItem>
-      {/* <NavigateToThread to={`/thread/${activity.context.}`} /> */}
+      <NavigateToThread to={`/thread/${context.id}`} />
       {context.__typename === 'Collection' ? (
         <CollectionItem
           user={user}
@@ -351,14 +351,14 @@ const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
   );
 };
 
-// const NavigateToThread = styled(Link)`
-//   position: absolute;
-//   left: 0;
-//   right: 0;
-//   top: 0;
-//   bottom: 0;
-//   z-index: 1;
-// `;
+const NavigateToThread = styled(Link)`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+`;
 
 const InReply = styled(Box)`
   color: ${props => props.theme.colors.gray};
