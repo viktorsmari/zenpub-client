@@ -51,14 +51,15 @@ export const MainWrapper = styled(Flex)`
 `};
 `;
 
-export const WrapperDimension = styled(Flex)`
+export const WrapperDimension = styled(Flex)<{ isLogin: boolean }>`
   align-items: stretch;
   flex-shrink: 1;
   flex-grow: 1;
   flex-basis: auto;
   flex-direction: column;
   width: 990px;
-  ${media.lessThan('1095px')`
+  margin: ${props => (props.isLogin ? '0 auto' : 'initial')}
+    ${media.lessThan('1095px')`
   width: 920px;
 `};
   ${media.lessThan('1005px')`

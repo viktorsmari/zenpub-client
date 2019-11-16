@@ -71,9 +71,7 @@ const TitleWrapper = styled.div`
 const Info = styled.div`
   flex: 1;
   margin-left: 8px;
-  ${media.lessThan('medium')`
-  margin-left: 0;
-  `};
+
   & a {
     text-decoration: none;
     color: inherit;
@@ -82,7 +80,7 @@ const Info = styled.div`
 
 const Wrapper = styled.div`
   &:hover {
-    background: ${props => props.theme.colors.lighter};
+    background: ${props => props.theme.colors.lightgray};
   }
   padding: 8px;
   margin-bottom: 8px;

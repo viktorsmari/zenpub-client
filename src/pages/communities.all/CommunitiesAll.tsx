@@ -158,7 +158,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
   flex: 1;
   & ul {
-    display: block !important;
+    display: block;
 
     & li {
       display: inline-block;

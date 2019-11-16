@@ -37,8 +37,8 @@ const Component: React.FC<Props> = ({ threadQuery: thread }) => {
             ) : !thread.data ? null : (
               <>
                 {context && <Header context={context} />}
-                {/**
-                  {thread.data.thread ? (
+
+                {/* {thread.data.thread ? (
                     <Box variant="inReplyTo">
                     <Comment
                     noAction
@@ -47,8 +47,7 @@ const Component: React.FC<Props> = ({ threadQuery: thread }) => {
                     />
                   </Box>
                   ) : null}
-                  <Thread comment={thread.data.thread!} />
-                */}
+                  <Thread comment={thread.data.thread!} /> */}
 
                 {thread.data.thread!.comments.edges.reverse().map(edge => {
                   const { node: comment } = edge!;

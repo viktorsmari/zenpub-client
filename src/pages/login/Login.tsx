@@ -7,7 +7,7 @@ import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
 import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
 import Link from '../../components/elements/Link/Link';
-// import SignupModal from '../../components/elements/SignupModal';
+import SignupModal from '../../components/elements/SignupModal';
 import { i18n } from '../../containers/App/App';
 import { SessionContext } from '../../context/global/sessionCtx';
 import styled, { MoodleThemeInterface } from '../../themes/styled';
@@ -123,6 +123,10 @@ padding-top: 24px;
 
 const Browse = styled(Box)`
   background: #fff;
+  a {
+    text-decoration: none;
+    color: ${props => props.theme.colors.darkgray};
+  }
 `;
 
 const Or = styled.div`
@@ -400,11 +404,11 @@ class Login extends React.Component<LoginProps, LoginState> {
               </ul>
             </Footer>
           </LoginWrapper>
-          {/* 
+
           <SignupModal
             toggleModal={this.props.handleSignup}
             modalIsOpen={this.props.isOpen}
-          /> */}
+          />
         </Container>
       </>
     );
