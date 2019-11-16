@@ -10,8 +10,6 @@ export const integrateToastNotifications = (
   intercSrv.add({
     operation: 'createLike',
     request: () => _ => {
-      debugger;
-
       const ctx: string = (_.data && _.data.context.__typename) || '';
       showMessage(
         _.error
