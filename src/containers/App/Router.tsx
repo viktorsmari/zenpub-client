@@ -210,11 +210,13 @@ const App: React.FC<Props> = props => {
         <PageContainer>
           {auth ? (
             <Sidebar isOpen={isSidebarOpen} />
-          ) : (
+          ) : location.pathname !== '/' ? (
             <SidebarNoLoggedWrapper isOpen={isSidebarOpen} />
-          )}
+          ) : null}
           <MainWrapper>
-            <WrapperDimension>
+            <WrapperDimension
+              isLogin={!auth && location.pathname === '/' ? true : false}
+            >
               <Inner>
                 <Content isOpen={isSidebarOpen} onOpen={onSidebarOpen} />
               </Inner>

@@ -82,7 +82,7 @@ const Info = styled.div`
 
 const Wrapper = styled.div`
   &:hover {
-    background: ${props => props.theme.colors.lighter};
+    background: ${props => props.theme.colors.lightgray};
   }
   padding: 8px;
   margin-bottom: 8px;
