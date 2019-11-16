@@ -6,7 +6,6 @@ import { Trans } from '@lingui/macro';
 import { RouteComponentProps } from 'react-router';
 import { graphql, QueryControls, OperationOption } from 'react-apollo';
 import styled from '../../themes/styled';
-import Community from '../../types/Community';
 import Loader from '../../components/elements/Loader/Loader';
 import '../../containers/App/basic.css';
 import CollectionCard from '../../components/elements/Collection/Collection';
@@ -14,7 +13,6 @@ import CollectionCard from '../../components/elements/Collection/Collection';
 import Hero from './hero';
 import EditCommunityModal from '../../components/elements/EditCommunityModal';
 import UsersModal from '../../components/elements/UsersModal';
-// import CollectionModal from '../../components/elements/CollectionViewModal';
 import CommunityPage from './Community';
 import { Switch, Route } from 'react-router-dom';
 
@@ -28,6 +26,7 @@ import {
   NavItem
 } from '../../sections/panel';
 import { Box } from 'rebass/styled-components';
+import { Community } from '../../graphql/types';
 const { getCommunityQuery } = require('../../graphql/getCommunity.graphql');
 enum TabsEnum {
   // Overview = 'Overview',
@@ -47,17 +46,10 @@ interface Props
       community: string;
     }> {
   data: Data;
-  handleNewCollection: any;
-  handleCollection: any;
-  isOpenCollection: boolean;
-  isOpen: boolean;
   editCommunity(): boolean;
   isEditCommunityOpen: boolean;
   showUsers(boolean): boolean;
   isUsersOpen: boolean;
-  document: any;
-  stacked: boolean;
-  onStacked(boolean): boolean;
 }
 
 class CommunitiesFeatured extends React.Component<Props, State> {
@@ -67,7 +59,6 @@ class CommunitiesFeatured extends React.Component<Props, State> {
 
   render() {
     let collections;
-    let community;
     if (this.props.data.error) {
       collections = (
         <span>
@@ -77,18 +68,11 @@ class CommunitiesFeatured extends React.Component<Props, State> {
     } else if (this.props.data.loading) {
       collections = <Loader />;
     } else if (this.props.data.community) {
-      community = this.props.data.community;
-
       if (this.props.data.community.collections.totalCount) {
         collections = (
           <Box m={2}>
             {this.props.data.community.collections.edges.map((e, i) => (
-              <CollectionCard
-                key={i}
-                collection={e.node}
-                openModal={this.props.handleCollection}
-                communityId={this.props.data.community.localId}
-              />
+              <CollectionCard key={i} collection={e!.node} />
             ))}
           </Box>
         );
@@ -101,7 +85,7 @@ class CommunitiesFeatured extends React.Component<Props, State> {
       }
     }
 
-    if (!community) {
+    if (!this.props.data.community) {
       if (this.props.data.loading) {
         return (
           <WrapperCont>
@@ -130,7 +114,7 @@ class CommunitiesFeatured extends React.Component<Props, State> {
           <WrapperCont>
             <Wrapper>
               <Hero
-                community={community}
+                community={this.props.data.community}
                 showUsers={this.props.showUsers}
                 editCommunity={this.props.editCommunity}
               />
@@ -142,9 +126,12 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                     <CommunityPage
                       {...props}
                       collections={collections}
-                      community={community}
+                      community={this.props.data.community}
+                      id={this.props.data.community.id}
+                      followed={
+                        this.props.data.community.myFollow!.id ? true : false
+                      }
                       fetchMore={this.props.data.fetchMore}
-                      type={'community'}
                       refetch={() => this.props.data.refetch()}
                     />
                   )}
@@ -161,14 +148,14 @@ class CommunitiesFeatured extends React.Component<Props, State> {
           <EditCommunityModal
             toggleModal={this.props.editCommunity}
             modalIsOpen={this.props.isEditCommunityOpen}
-            communityId={community.localId}
-            communityExternalId={community.id}
-            community={community}
+            communityId={this.props.data.community.id}
+            communityExternalId={this.props.data.community.id}
+            community={this.props.data.community}
           />
           <UsersModal
             toggleModal={this.props.showUsers}
             modalIsOpen={this.props.isUsersOpen}
-            members={community.members.edges}
+            members={this.props.data.community.followers.edges}
           />
         </HomeBox>
         <WrapperPanel>
@@ -241,24 +228,16 @@ const withGetCollections = graphql<
   options: (props: Props) => ({
     variables: {
       limit: 15,
-      context: Number(props.match.params.community)
+      communityId: props.match.params.community
     }
   })
 }) as OperationOption<{}, {}>;
 
 export default compose(
   withGetCollections,
-  withState('isOpen', 'onOpen', false),
-  withState('isOpenCollection', 'onOpenCollection', false),
   withState('isEditCommunityOpen', 'onEditCommunityOpen', false),
   withState('isUsersOpen', 'showUsers', false),
-  withState('stacked', 'onStacked', false),
   withHandlers({
-    handleCollection: props => () =>
-      props.onOpenCollection(!props.isOpenCollection),
-    handleNewCollection: props => coll => {
-      props.history.push('/collections/' + coll);
-    },
     editCommunity: props => () =>
       props.onEditCommunityOpen(!props.isEditCommunityOpen)
   })

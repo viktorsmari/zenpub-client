@@ -13,7 +13,7 @@ import Actions from './Actions';
 import Preview from './preview';
 import media from 'styled-media-query';
 import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
-import { useDeleteMutation } from '../../../graphql/generated/delete.generated';
+import { useDeleteMutationMutation } from '../../../graphql/generated/delete.generated';
 import {
   Collection,
   Comment,
@@ -36,6 +36,7 @@ interface CollectionProps {
   noAction?: boolean;
   user: BasicUserFragment | User;
   createdAt;
+  verb: string;
 }
 
 interface ResourceProps {
@@ -44,6 +45,7 @@ interface ResourceProps {
   noAction?: boolean;
   user: BasicUserFragment | User;
   createdAt: string;
+  verb: string;
 }
 
 interface CommentProps {
@@ -52,6 +54,7 @@ interface CommentProps {
   noAction?: boolean;
   user: BasicUserFragment | User;
   createdAt: string;
+  verb: string;
 }
 
 interface CommunityProps {
@@ -60,6 +63,7 @@ interface CommunityProps {
   noAction?: boolean;
   user: BasicUserFragment | User;
   createdAt: string;
+  verb: string;
 }
 
 const CollectionItem: SFC<CollectionProps> = ({
@@ -67,7 +71,8 @@ const CollectionItem: SFC<CollectionProps> = ({
   toggleLike,
   collection,
   user,
-  createdAt
+  createdAt,
+  verb
 }) => (
   <Member>
     <MemberItem mr={2}>
@@ -87,9 +92,15 @@ const CollectionItem: SFC<CollectionProps> = ({
 
       <Box>
         <SubText mt={1}>
-          <Trans>created a new collection</Trans>{' '}
-          <NavLink to={`/collections/${collection.id}`}>
-            +{collection.name}
+          <Trans>
+            {verb === 'CREATED' ? 'created' : 'updated'} a collection in
+          </Trans>{' '}
+          <NavLink
+            to={`/communities/${
+              collection.community ? collection.community.id : ''
+            }`}
+          >
+            @{collection.community ? collection.community.name : ''}
           </NavLink>
         </SubText>
         <Preview
@@ -116,7 +127,8 @@ const ResourceItem: SFC<ResourceProps> = ({
   toggleLike,
   resource,
   user,
-  createdAt
+  createdAt,
+  verb
 }) => (
   <Member>
     <MemberItem mr={2}>
@@ -135,7 +147,8 @@ const ResourceItem: SFC<ResourceProps> = ({
       </Name>
       <Box>
         <SubText mt={1}>
-          <Trans>added a new resource</Trans> <Trans>in</Trans>{' '}
+          <Trans>{verb === 'CREATED' ? 'created' : 'updated'} a resource</Trans>{' '}
+          <Trans>in</Trans>{' '}
           <NavLink to={`/collections/${resource.collection.id}`}>
             +{resource.collection.name}
           </NavLink>
@@ -154,6 +167,7 @@ const CommentItem: SFC<CommentProps> = ({
   toggleLike,
   noAction,
   comment,
+  verb,
   user,
   createdAt
 }) => (
@@ -196,6 +210,7 @@ const CommentItem: SFC<CommentProps> = ({
                   user={comment.thread.context.creator}
                   createdAt={comment.thread.context.createdAt}
                   noAction
+                  verb={verb}
                   toggleLike={toggleLike}
                   collection={comment.thread.context}
                 /> // qui il comment.thread.context è risolto come Collection
@@ -204,6 +219,7 @@ const CommentItem: SFC<CommentProps> = ({
                   user={comment.thread.context.creator}
                   createdAt={comment.thread.context.createdAt}
                   noAction
+                  verb={verb}
                   toggleLike={toggleLike}
                   resource={comment.thread.context}
                 /> // qui il comment.thread.context è risolto come Resource
@@ -212,12 +228,11 @@ const CommentItem: SFC<CommentProps> = ({
                   user={comment.thread.context.creator}
                   createdAt={comment.thread.context.createdAt}
                   noAction
+                  verb={verb}
                   toggleLike={toggleLike}
                   community={comment.thread.context}
                 /> // qui il context è risolto come Community
-              ) : (
-                <div>Unknown should never happen</div>
-              )}
+              ) : null}
             </MemberInfo>
           </MemberWrapped>
         </InReply>
@@ -242,7 +257,12 @@ const CommentItem: SFC<CommentProps> = ({
     </MemberInfo>
   </Member>
 );
-const CommunityItem: SFC<CommunityProps> = ({ community, user, createdAt }) => (
+const CommunityItem: SFC<CommunityProps> = ({
+  verb,
+  community,
+  user,
+  createdAt
+}) => (
   <Member>
     <MemberItem mr={2}>
       <Img src={user.icon || ''} />
@@ -260,7 +280,9 @@ const CommunityItem: SFC<CommunityProps> = ({ community, user, createdAt }) => (
       </Name>
       <Box>
         <SubText mt={1}>
-          <Trans>created a new community</Trans>{' '}
+          <Trans>
+            {verb === 'CREATED' ? 'created' : 'updated'} a community
+          </Trans>{' '}
           <NavLink to={`/communities/${community.id}`}>
             @{community.name}
           </NavLink>
@@ -279,7 +301,7 @@ const CommunityItem: SFC<CommunityProps> = ({ community, user, createdAt }) => (
 const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
   const [iLikeIt, setiLikeIt] = React.useState(false);
   const [like] = useLikeMutationMutation();
-  const [undoLike] = useDeleteMutation();
+  const [undoLike] = useDeleteMutationMutation();
   const toggleLike = React.useCallback(
     (contextId: string) => () => {
       (iLikeIt ? undoLike : like)({ variables: { contextId } });
@@ -287,12 +309,13 @@ const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
     },
     [iLikeIt, like, undoLike]
   );
-  return verb === 'CREATED' ? (
+  return (
     <FeedItem>
       {/* <NavigateToThread to={`/thread/${activity.context.}`} /> */}
       {context.__typename === 'Collection' ? (
         <CollectionItem
           user={user}
+          verb={verb}
           createdAt={createdAt}
           toggleLike={toggleLike}
           collection={context}
@@ -300,6 +323,7 @@ const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
       ) : context.__typename === 'Resource' ? (
         <ResourceItem
           user={user}
+          verb={verb}
           createdAt={createdAt}
           toggleLike={toggleLike}
           resource={context}
@@ -307,6 +331,7 @@ const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
       ) : context.__typename === 'Comment' ? (
         <CommentItem
           user={user}
+          verb={verb}
           createdAt={createdAt}
           toggleLike={toggleLike}
           comment={context}
@@ -314,6 +339,7 @@ const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
       ) : context.__typename === 'Community' ? (
         <CommunityItem
           user={user}
+          verb={verb}
           createdAt={createdAt}
           toggleLike={toggleLike}
           community={context}
@@ -322,7 +348,7 @@ const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
         <div>Unknown should never happen</div>
       )}
     </FeedItem>
-  ) : null;
+  );
 };
 
 // const NavigateToThread = styled(Link)`

@@ -45,7 +45,7 @@ export type GetCommunityQueryQuery = { __typename?: 'RootQueryType' } & {
         myFollow: Types.Maybe<
           { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
         >;
-        outbox: { __typename?: 'ActivitiesEdges' } & {
+        inbox: { __typename?: 'ActivitiesEdges' } & {
           pageInfo: Types.Maybe<
             { __typename?: 'PageInfo' } & Pick<
               Types.PageInfo,
@@ -95,7 +95,12 @@ export type GetCommunityQueryQuery = { __typename?: 'RootQueryType' } & {
                   node: { __typename?: 'Follow' } & Pick<
                     Types.Follow,
                     'id' | 'canonicalUrl' | 'isLocal' | 'isPublic'
-                  >;
+                  > & {
+                      creator: { __typename?: 'User' } & Pick<
+                        Types.User,
+                        'id' | 'icon'
+                      >;
+                    };
                 }
               >
             >;
@@ -173,7 +178,7 @@ export const GetCommunityQueryDocument = gql`
       myFollow {
         id
       }
-      outbox(limit: $limit, after: $end) {
+      inbox(limit: $limit, after: $end) {
         pageInfo {
           startCursor
           endCursor
@@ -219,6 +224,10 @@ export const GetCommunityQueryDocument = gql`
             canonicalUrl
             isLocal
             isPublic
+            creator {
+              id
+              icon
+            }
           }
         }
       }

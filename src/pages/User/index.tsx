@@ -1,7 +1,7 @@
 // View a Community (with list of collections)
 
 import * as React from 'react';
-import { compose, withState, withHandlers } from 'recompose';
+import { compose } from 'recompose';
 
 import { Trans } from '@lingui/macro';
 import { graphql, QueryControls, OperationOption } from 'react-apollo';
@@ -16,13 +16,14 @@ import JoinedCommunitiesLoadMore from '../../components/elements/Loadmore/joined
 import HeroComp from '../Profile/Hero';
 import { WrapperTab, OverlayTab } from '../communities.community/Community';
 import { List, ListCollections } from '../Profile';
-// import TimelineItem from '../../components/elements/TimelineItem';
-// import LoadMoreTimeline from '../../components/elements/Loadmore/timelineoutbox';
+import TimelineItem from '../../components/elements/TimelineItem/index2';
+import LoadMoreTimeline from '../../components/elements/Loadmore/timelineoutbox';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel, Panel, PanelTitle, Nav } from '../../sections/panel';
 import { Button } from 'rebass/styled-components';
 import styled from '../../themes/styled';
+import { User } from '../../graphql/types';
 
 const Follow = styled(Button)`
   color: ${props => props.theme.colors.orange};
@@ -40,46 +41,12 @@ enum TabsEnum {
 }
 
 interface Data extends QueryControls {
-  user: {
-    name;
-    icon;
-    summary;
-    id;
-    location;
-    image;
-    preferredUsername;
-    localId;
-    outbox: {
-      edges: any[];
-      totalCount: number;
-      pageInfo: {
-        startCursor: number;
-        endCursor: number;
-      };
-    };
-    joinedCommunities: {
-      edges: any[];
-      totalCount: number;
-      pageInfo: {
-        startCursor: number;
-        endCursor: number;
-      };
-    };
-    followingCollections: {
-      edges: any[];
-      totalCount: number;
-      pageInfo: {
-        startCursor: number;
-        endCursor: number;
-      };
-    };
-  };
+  user: User;
 }
 
 interface Props {
   data: Data;
   match: any;
-  handleCollection: any;
 }
 
 type State = {
@@ -129,36 +96,36 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                         </SuperTabList>
                         <TabPanel>
                           <div>
-                            {/* {this.props.data.user.outbox.edges.map((t, i) => (
+                            {this.props.data.user.outbox.edges.map((t, i) => (
                               <TimelineItem
-                                node={t.node}
-                                user={t.node.user}
+                                context={t!.node.context}
+                                user={t!.node.user}
+                                verb={t!.node.verb}
+                                createdAt={t!.node.createdAt}
                                 key={i}
                               />
                             ))}
                             <LoadMoreTimeline
                               fetchMore={this.props.data.fetchMore}
                               community={this.props.data.user}
-                            /> */}
+                            />
                           </div>
                         </TabPanel>
                         <TabPanel>
                           <>
                             <ListCollections>
-                              {this.props.data.user.followingCollections.edges.map(
-                                (comm, i) => (
+                              {this.props.data.user.followedCollections.edges.map(
+                                (collection, i) => (
                                   <CollectionCard
                                     key={i}
-                                    collection={comm.node}
-                                    openModal={this.props.handleCollection}
-                                    communityId={comm.node.community.localId}
+                                    collection={collection!.node.collection}
                                   />
                                 )
                               )}
                             </ListCollections>
                             <FollowingCollectionsLoadMore
                               collections={
-                                this.props.data.user.followingCollections
+                                this.props.data.user.followedCollections
                               }
                               fetchMore={this.props.data.fetchMore}
                             />
@@ -171,24 +138,33 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                         >
                           <>
                             <List>
-                              {this.props.data.user.joinedCommunities.edges.map(
+                              {this.props.data.user.followedCommunities.edges.map(
                                 (community, i) => (
                                   <CommunityCard
                                     key={i}
-                                    summary={community.node.summary}
-                                    title={community.node.name}
+                                    summary={community!.node.community.summary!}
+                                    title={community!.node.community.name}
                                     collectionsCount={
-                                      community.node.collectionsCount
+                                      community!.node.community.collections
+                                        .totalCount
                                     }
                                     threadsCount={
-                                      community.node.threads.totalCount
+                                      community!.node.community.threads
+                                        .totalCount
                                     }
-                                    icon={community.node.icon || ''}
-                                    followed={community.node.followed}
-                                    id={community.node.localId}
-                                    externalId={community.node.id}
+                                    icon={community!.node.community.icon || ''}
+                                    followed={
+                                      community!.node.community.myFollow!.id
+                                        ? true
+                                        : false
+                                    }
+                                    id={community!.node.community.id}
+                                    externalId={
+                                      community!.node.community.canonicalUrl!
+                                    }
                                     followersCount={
-                                      community.node.followersCount
+                                      community!.node.community.followers
+                                        .totalCount
                                     }
                                   />
                                 )
@@ -196,7 +172,7 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                             </List>
                             <JoinedCommunitiesLoadMore
                               communities={
-                                this.props.data.user.joinedCommunities
+                                this.props.data.user.followedCommunities
                               }
                               fetchMore={this.props.data.fetchMore}
                             />
@@ -237,7 +213,7 @@ const withGetCollections = graphql<
   options: (props: Props) => ({
     fetchPolicy: 'no-cache',
     variables: {
-      id: Number(props.match.params.id),
+      userId: props.match.params.id,
       limitComm: 15,
       limitColl: 15,
       limitTimeline: 15
@@ -245,11 +221,4 @@ const withGetCollections = graphql<
   })
 }) as OperationOption<{}, {}>;
 
-export default compose(
-  withGetCollections,
-  withState('isOpenCollection', 'onOpenCollection', false),
-  withHandlers({
-    handleCollection: props => () =>
-      props.onOpenCollection(!props.isOpenCollection)
-  })
-)(CommunitiesFeatured);
+export default compose(withGetCollections)(CommunitiesFeatured);

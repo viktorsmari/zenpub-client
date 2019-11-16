@@ -13,14 +13,7 @@ query getUser(
 ) {
     me {
         user {
-            id
-	    canonicalUrl
-            name
-            preferredUsername
-            location
-            summary
-            icon
-            image
+            ...BasicUser
             followedCommunities(limit: $limitComm, after: $endComm) {
                 pageInfo { startCursor endCursor }
                 edges {
@@ -32,17 +25,7 @@ query getUser(
                         community {
                             __typename
                             ... on Community {
-                                preferredUsername
-                                name
-                                summary
-                                icon
-                                isLocal
-                                isPublic
-                                isDisabled
-                                myFollow    { id }
-                                collections { totalCount }
-                                followers   { totalCount }
-                                threads     { totalCount }
+                                ...BasicCommunity
                             }
                         }
                     }
@@ -80,20 +63,7 @@ query getUser(
                         collection {
                             __typename
                             ... on Collection {
-                                preferredUsername
-                                name
-                                summary
-                                icon
-                                isLocal
-                                isPublic
-                                isDisabled
-                                community { id }
-                                myFollow  { id }
-                                myLike    { id }
-                                likes     { totalCount }
-                                followers { totalCount }
-                                resources { totalCount }
-                                threads   { totalCount }
+                                ...BasicCollection
                             }
                         }
                     }

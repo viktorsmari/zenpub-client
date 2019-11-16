@@ -1,6 +1,8 @@
 import * as Types from '../types.d';
 
+import { BasicCommunityFragment } from '../fragments/generated/basicCommunity.generated';
 import gql from 'graphql-tag';
+import { BasicCommunityFragmentDoc } from '../fragments/generated/basicCommunity.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -34,32 +36,9 @@ export type GetFollowedCommunitiesQueryQuery = {
                       Types.Follow,
                       'id' | 'canonicalUrl'
                     >;
-                    community: { __typename: 'Community' } & Pick<
-                      Types.Community,
-                      | 'preferredUsername'
-                      | 'name'
-                      | 'summary'
-                      | 'icon'
-                      | 'isLocal'
-                      | 'isPublic'
-                      | 'isDisabled'
-                    > & {
-                        myFollow: Types.Maybe<
-                          { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
-                        >;
-                        collections: { __typename?: 'CollectionsEdges' } & Pick<
-                          Types.CollectionsEdges,
-                          'totalCount'
-                        >;
-                        followers: { __typename?: 'FollowsEdges' } & Pick<
-                          Types.FollowsEdges,
-                          'totalCount'
-                        >;
-                        threads: { __typename?: 'ThreadsEdges' } & Pick<
-                          Types.ThreadsEdges,
-                          'totalCount'
-                        >;
-                      };
+                    community: {
+                      __typename: 'Community';
+                    } & BasicCommunityFragment;
                   };
                 }
               >
@@ -89,25 +68,7 @@ export const GetFollowedCommunitiesQueryDocument = gql`
               community {
                 __typename
                 ... on Community {
-                  preferredUsername
-                  name
-                  summary
-                  icon
-                  isLocal
-                  isPublic
-                  isDisabled
-                  myFollow {
-                    id
-                  }
-                  collections {
-                    totalCount
-                  }
-                  followers {
-                    totalCount
-                  }
-                  threads {
-                    totalCount
-                  }
+                  ...BasicCommunity
                 }
               }
             }
@@ -116,6 +77,7 @@ export const GetFollowedCommunitiesQueryDocument = gql`
       }
     }
   }
+  ${BasicCommunityFragmentDoc}
 `;
 export type GetFollowedCommunitiesQueryComponentProps = Omit<
   ApolloReactComponents.QueryComponentOptions<

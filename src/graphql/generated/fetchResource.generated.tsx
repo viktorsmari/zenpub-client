@@ -8,117 +8,123 @@ import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
-export type DeleteMutationMutationVariables = {
-  contextId: Types.Scalars['String'];
+export type FetchResourceMutationVariables = {
+  url: Types.Scalars['String'];
 };
 
-export type DeleteMutationMutation = { __typename?: 'RootMutationType' } & {
-  delete: Types.Maybe<
-    | { __typename?: 'Activity' }
-    | { __typename?: 'Collection' }
-    | { __typename?: 'Comment' }
-    | { __typename?: 'Community' }
-    | { __typename?: 'Flag' }
-    | { __typename?: 'Follow' }
-    | { __typename?: 'Like' }
-    | { __typename?: 'Resource' }
-    | { __typename?: 'Thread' }
-    | { __typename?: 'User' }
+export type FetchResourceMutation = { __typename?: 'RootMutationType' } & {
+  fetchWebMetadata: Types.Maybe<
+    { __typename?: 'WebMetadata' } & Pick<
+      Types.WebMetadata,
+      | 'image'
+      | 'title'
+      | 'author'
+      | 'source'
+      | 'resourceType'
+      | 'summary'
+      | 'embedCode'
+      | 'language'
+    >
   >;
 };
 
-export const DeleteMutationDocument = gql`
-  mutation deleteMutation($contextId: String!) {
-    delete(contextId: $contextId) {
-      __typename
+export const FetchResourceDocument = gql`
+  mutation fetchResource($url: String!) {
+    fetchWebMetadata(url: $url) {
+      image
+      title
+      author
+      source
+      resourceType
+      summary
+      embedCode
+      language
     }
   }
 `;
-export type DeleteMutationMutationFn = ApolloReactCommon.MutationFunction<
-  DeleteMutationMutation,
-  DeleteMutationMutationVariables
+export type FetchResourceMutationFn = ApolloReactCommon.MutationFunction<
+  FetchResourceMutation,
+  FetchResourceMutationVariables
 >;
-export type DeleteMutationComponentProps = Omit<
+export type FetchResourceComponentProps = Omit<
   ApolloReactComponents.MutationComponentOptions<
-    DeleteMutationMutation,
-    DeleteMutationMutationVariables
+    FetchResourceMutation,
+    FetchResourceMutationVariables
   >,
   'mutation'
 >;
 
-export const DeleteMutationComponent = (
-  props: DeleteMutationComponentProps
-) => (
+export const FetchResourceComponent = (props: FetchResourceComponentProps) => (
   <ApolloReactComponents.Mutation<
-    DeleteMutationMutation,
-    DeleteMutationMutationVariables
+    FetchResourceMutation,
+    FetchResourceMutationVariables
   >
-    mutation={DeleteMutationDocument}
+    mutation={FetchResourceDocument}
     {...props}
   />
 );
 
-export type DeleteMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<
-  DeleteMutationMutation,
-  DeleteMutationMutationVariables
+export type FetchResourceProps<TChildProps = {}> = ApolloReactHoc.MutateProps<
+  FetchResourceMutation,
+  FetchResourceMutationVariables
 > &
   TChildProps;
-export function withDeleteMutation<TProps, TChildProps = {}>(
+export function withFetchResource<TProps, TChildProps = {}>(
   operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
-    DeleteMutationMutation,
-    DeleteMutationMutationVariables,
-    DeleteMutationProps<TChildProps>
+    FetchResourceMutation,
+    FetchResourceMutationVariables,
+    FetchResourceProps<TChildProps>
   >
 ) {
   return ApolloReactHoc.withMutation<
     TProps,
-    DeleteMutationMutation,
-    DeleteMutationMutationVariables,
-    DeleteMutationProps<TChildProps>
-  >(DeleteMutationDocument, {
-    alias: 'deleteMutation',
+    FetchResourceMutation,
+    FetchResourceMutationVariables,
+    FetchResourceProps<TChildProps>
+  >(FetchResourceDocument, {
+    alias: 'fetchResource',
     ...operationOptions
   });
 }
 
 /**
- * __useDeleteMutationMutation__
+ * __useFetchResourceMutation__
  *
- * To run a mutation, you first call `useDeleteMutationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteMutationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useFetchResourceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useFetchResourceMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteMutationMutation, { data, loading, error }] = useDeleteMutationMutation({
+ * const [fetchResourceMutation, { data, loading, error }] = useFetchResourceMutation({
  *   variables: {
- *      contextId: // value for 'contextId'
+ *      url: // value for 'url'
  *   },
  * });
  */
-export function useDeleteMutationMutation(
+export function useFetchResourceMutation(
   baseOptions?: ApolloReactHooks.MutationHookOptions<
-    DeleteMutationMutation,
-    DeleteMutationMutationVariables
+    FetchResourceMutation,
+    FetchResourceMutationVariables
   >
 ) {
   return ApolloReactHooks.useMutation<
-    DeleteMutationMutation,
-    DeleteMutationMutationVariables
-  >(DeleteMutationDocument, baseOptions);
+    FetchResourceMutation,
+    FetchResourceMutationVariables
+  >(FetchResourceDocument, baseOptions);
 }
-export type DeleteMutationMutationHookResult = ReturnType<
-  typeof useDeleteMutationMutation
+export type FetchResourceMutationHookResult = ReturnType<
+  typeof useFetchResourceMutation
 >;
-export type DeleteMutationMutationResult = ApolloReactCommon.MutationResult<
-  DeleteMutationMutation
+export type FetchResourceMutationResult = ApolloReactCommon.MutationResult<
+  FetchResourceMutation
 >;
-export type DeleteMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  DeleteMutationMutation,
-  DeleteMutationMutationVariables
+export type FetchResourceMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  FetchResourceMutation,
+  FetchResourceMutationVariables
 >;
 
 export interface IntrospectionResultData {

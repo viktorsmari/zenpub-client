@@ -8,7 +8,7 @@ import Talk from '../TalkModal';
 import Link from '../Link/Link';
 import { Comment } from '../../../graphql/types';
 import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
-import { useDeleteMutation } from '../../../graphql/generated/delete.generated';
+import { useDeleteMutationMutation } from '../../../graphql/generated/delete.generated';
 
 const Wrapper = styled(Box)`
   border-bottom: 1px solid ${props => props.theme.colors.lightgray};
@@ -103,7 +103,7 @@ const Thread: SFC<Props> = ({ comment }) => {
   const [isOpen, onOpen] = useState(false);
   const FAKE________COMMENT_I_LIKE_IT = !!Math.round(Math.random());
   const [like /* , likeResult */] = useLikeMutationMutation();
-  const [undoLike /* , likeResult */] = useDeleteMutation();
+  const [undoLike /* , likeResult */] = useDeleteMutationMutation();
   const [iLikeIt, setiLikeIt] = React.useState(FAKE________COMMENT_I_LIKE_IT);
   const toggleLike = React.useCallback(
     () => {

@@ -1,6 +1,8 @@
 import * as Types from '../types.d';
 
+import { BasicCollectionFragment } from '../fragments/generated/basicCollection.generated';
 import gql from 'graphql-tag';
+import { BasicCollectionFragmentDoc } from '../fragments/generated/basicCollection.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -35,58 +37,9 @@ export type GetFollowedCollectionsQuery = { __typename?: 'RootQueryType' } & {
                       Types.Follow,
                       'id' | 'canonicalUrl'
                     >;
-                    collection: { __typename: 'Collection' } & Pick<
-                      Types.Collection,
-                      | 'preferredUsername'
-                      | 'name'
-                      | 'summary'
-                      | 'icon'
-                      | 'isLocal'
-                      | 'isPublic'
-                      | 'isDisabled'
-                      | 'createdAt'
-                      | 'lastActivity'
-                    > & {
-                        myFollow: Types.Maybe<
-                          { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
-                        >;
-                        myLike: Types.Maybe<
-                          { __typename?: 'Like' } & Pick<Types.Like, 'id'>
-                        >;
-                        community: { __typename?: 'Community' } & Pick<
-                          Types.Community,
-                          | 'id'
-                          | 'canonicalUrl'
-                          | 'preferredUsername'
-                          | 'isLocal'
-                          | 'isPublic'
-                          | 'isDisabled'
-                          | 'icon'
-                        > & {
-                            myFollow: Types.Maybe<
-                              { __typename?: 'Follow' } & Pick<
-                                Types.Follow,
-                                'id'
-                              >
-                            >;
-                          };
-                        followers: { __typename?: 'FollowsEdges' } & Pick<
-                          Types.FollowsEdges,
-                          'totalCount'
-                        >;
-                        likes: { __typename?: 'LikesEdges' } & Pick<
-                          Types.LikesEdges,
-                          'totalCount'
-                        >;
-                        resources: { __typename?: 'ResourcesEdges' } & Pick<
-                          Types.ResourcesEdges,
-                          'totalCount'
-                        >;
-                        threads: { __typename?: 'ThreadsEdges' } & Pick<
-                          Types.ThreadsEdges,
-                          'totalCount'
-                        >;
-                      };
+                    collection: {
+                      __typename: 'Collection';
+                    } & BasicCollectionFragment;
                   };
                 }
               >
@@ -120,45 +73,7 @@ export const GetFollowedCollectionsDocument = gql`
               collection {
                 __typename
                 ... on Collection {
-                  preferredUsername
-                  name
-                  summary
-                  icon
-                  isLocal
-                  isPublic
-                  isDisabled
-                  createdAt
-                  lastActivity
-                  myFollow {
-                    id
-                  }
-                  myLike {
-                    id
-                  }
-                  community {
-                    id
-                    canonicalUrl
-                    preferredUsername
-                    isLocal
-                    isPublic
-                    isDisabled
-                    icon
-                    myFollow {
-                      id
-                    }
-                  }
-                  followers {
-                    totalCount
-                  }
-                  likes {
-                    totalCount
-                  }
-                  resources {
-                    totalCount
-                  }
-                  threads {
-                    totalCount
-                  }
+                  ...BasicCollection
                 }
               }
             }
@@ -167,6 +82,7 @@ export const GetFollowedCollectionsDocument = gql`
       }
     }
   }
+  ${BasicCollectionFragmentDoc}
 `;
 export type GetFollowedCollectionsComponentProps = Omit<
   ApolloReactComponents.QueryComponentOptions<

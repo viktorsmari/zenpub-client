@@ -25,6 +25,10 @@ export type BasicCollectionFragment = { __typename?: 'Collection' } & Pick<
           { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
         >;
       };
+    resources: { __typename?: 'ResourcesEdges' } & Pick<
+      Types.ResourcesEdges,
+      'totalCount'
+    >;
     followers: { __typename?: 'FollowsEdges' } & Pick<
       Types.FollowsEdges,
       'totalCount'
@@ -65,6 +69,9 @@ export const BasicCollectionFragmentDoc = gql`
       myFollow {
         id
       }
+    }
+    resources {
+      totalCount
     }
     followers {
       totalCount

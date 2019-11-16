@@ -1,13 +1,24 @@
 import * as React from 'react';
 import styled from '../../themes/styled';
-import { Flex, Box, Text, Image } from 'rebass/styled-components';
+import { Flex, Text, Image } from 'rebass/styled-components';
 import { Trans } from '@lingui/macro';
 import { ChevronLeft } from 'react-feather';
 import { useHistory } from 'react-router';
 import Link from '../../components/elements/Link/Link';
 import { Community, Collection, Resource } from '../../graphql/types';
 
-const Right = styled(Box)``;
+const Img = styled(Image)`
+  max-width: 30px;
+  height: 30px;
+  border-radius: 3px;
+`;
+const Right = styled(Flex)`
+  align-items: center;
+  a {
+    display: flex;
+    align-items: center;
+  }
+`;
 const Left = styled(Flex)`
   flex: auto;
 `;
@@ -40,7 +51,7 @@ const HeaderWrapper: React.FC<Props> = ({ context }) => {
       </Left>
       <Right>
         <Link to={`/communities/${context.id}`}>
-          <Image src={context.icon} />
+          <Img mr={2} src={context.icon} />
           <Text variant="suptitle">{context.name}</Text>
         </Link>
       </Right>

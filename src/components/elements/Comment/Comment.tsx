@@ -9,7 +9,7 @@ import styled from '../../../themes/styled';
 import Link from '../Link/Link';
 import Talk from '../TalkModal';
 import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
-import { useDeleteMutation } from '../../../graphql/generated/delete.generated';
+import { useDeleteMutationMutation } from '../../../graphql/generated/delete.generated';
 import { BasicCommentFragment } from '../../../graphql/fragments/generated/basicComment.generated';
 import { Comment } from '../../../graphql/types';
 
@@ -27,7 +27,7 @@ const CommentWrapper: React.FC<EventProps> = ({
   const FAKE________COMMENT_I_LIKE_IT = !!Math.round(Math.random());
   const { creator } = comment;
   const [like /* , likeResult */] = useLikeMutationMutation();
-  const [undoLike /* , likeResult */] = useDeleteMutation();
+  const [undoLike /* , likeResult */] = useDeleteMutationMutation();
   const [iLikeIt, setiLikeIt] = React.useState(FAKE________COMMENT_I_LIKE_IT);
   const [isOpen, onOpen] = React.useState(false);
   const toggleLike = React.useCallback(

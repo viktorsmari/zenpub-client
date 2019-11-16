@@ -24,6 +24,7 @@ fragment BasicCollection on Collection {
             id
         }
     }
+    resources {totalCount}
     followers { totalCount }
     threads { totalCount }
     outbox { totalCount }

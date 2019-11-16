@@ -14,7 +14,7 @@ interface Props {
   members: any;
 }
 
-const CreateCommunityModal = (props: Props) => {
+const UsersModal = (props: Props) => {
   const { toggleModal, modalIsOpen, members } = props;
   return (
     <Modal isOpen={modalIsOpen} toggleModal={() => toggleModal(false)}>
@@ -43,7 +43,7 @@ const CreateCommunityModal = (props: Props) => {
   );
 };
 
-export default CreateCommunityModal;
+export default UsersModal;
 
 const Members = styled.div`
   ${clearFix()};

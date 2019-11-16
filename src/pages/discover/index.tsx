@@ -4,9 +4,9 @@ import { NavLink } from 'react-router-dom';
 // import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
 import Loader from '../../components/elements/Loader/Loader';
-// import LoadMoreTimeline from '../../components/elements/Loadmore/localInstance';
+import LoadMoreTimeline from '../../components/elements/Loadmore/localInstance';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
-// import TimelineItem from '../../components/elements/TimelineItem';
+import TimelineItem from '../../components/elements/TimelineItem/index2';
 import FeaturedCollections from '../../components/featuredCollections';
 import FeaturedCommunities from '../../components/featuredCommunities';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
@@ -27,7 +27,7 @@ import Empty from '../../components/elements/Empty';
 interface Props {}
 
 const Home: React.FC<Props> = props => {
-  const { error, loading, refetch } = useLocalActivitiesQuery({
+  const { error, loading, refetch, data, fetchMore } = useLocalActivitiesQuery({
     variables: {
       limit: 15
     }
@@ -69,17 +69,19 @@ const Home: React.FC<Props> = props => {
                   <Loader />
                 ) : (
                   <div>
-                    {/* {data!.instance!.outbox!.edges!.map(activity => (
+                    {data!.instance!.outbox!.edges!.map(activity => (
                       <TimelineItem
-                        node={activity!}
+                        verb={activity!.node.verb}
+                        context={activity!.node.context}
                         user={activity!.node!.user!}
                         key={activity!.node!.id!}
+                        createdAt={activity!.node.createdAt}
                       />
                     ))}
                     <LoadMoreTimeline
                       fetchMore={fetchMore}
                       localActivities={data!.instance!.outbox!}
-                    /> */}
+                    />
                   </div>
                 )}
               </TabPanel>

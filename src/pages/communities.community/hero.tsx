@@ -5,18 +5,10 @@ import Join from './Join';
 import { clearFix } from 'polished';
 import { Settings } from 'react-feather';
 import media from 'styled-media-query';
+import { Community } from '../../graphql/types';
 
 interface Props {
-  community: {
-    icon: string;
-    name: string;
-    summary: string;
-    members: any;
-    localId: number;
-    id: string;
-    preferredUsername: string;
-    followed: boolean;
-  };
+  community: Community;
   showUsers(boolean): boolean;
   editCommunity: any;
 }
@@ -43,36 +35,36 @@ const HeroComp: SFC<Props> = ({ community, showUsers, editCommunity }) => (
 
         <Flex mt={3}>
           <MembersTot onClick={() => showUsers(true)}>
-            {community.members.edges.slice(0, 3).map((a, i) => {
+            {community.followers.edges.slice(0, 3).map((a, i) => {
               return (
                 <ImgTot
                   key={i}
                   style={{
-                    backgroundImage: `url(${a.node.icon ||
+                    backgroundImage: `url(${a!.node.creator.icon ||
                       `https://www.gravatar.com/avatar/${
-                        a.node.localId
+                        a!.node.id
                       }?f=y&d=identicon`})`
                   }}
                 />
               );
             })}{' '}
             <Tot>
-              {community.members.totalCount - 3 > 0
-                ? `+ ${community.members.totalCount - 3} More`
+              {community.followers.totalCount - 3 > 0
+                ? `+ ${community.followers.totalCount - 3} More`
                 : ``}
             </Tot>
           </MembersTot>
           <Actions>
-            {community.localId === 7 ||
-            community.localId === 15 ||
-            community.followed == false ? null : (
+            {community.id === '7' ||
+            community.id === '15' ||
+            !community.myFollow!.id ? null : (
               <EditButton onClick={editCommunity}>
                 <Settings size={18} color={'#f98012'} />
               </EditButton>
             )}
             <Join
-              id={community.localId}
-              followed={community.followed}
+              id={community.id}
+              followed={community.myFollow!.id ? true : false}
               externalId={community.id}
             />
           </Actions>

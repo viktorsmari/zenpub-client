@@ -1,3 +1,6 @@
+#import "./fragments/basicCommunity.graphql"
+
+
 query getFollowedCommunitiesQuery($limit: Int, $endComm: String) {
     me {
         user {
@@ -13,17 +16,7 @@ query getFollowedCommunitiesQuery($limit: Int, $endComm: String) {
                         community {
                             __typename
                             ... on Community {
-                                preferredUsername
-                                name
-                                summary
-                                icon
-                                isLocal
-                                isPublic
-                                isDisabled
-                                myFollow    { id }
-                                collections { totalCount }
-                                followers   { totalCount }
-                                threads     { totalCount }
+                                ...BasicCommunity
                             }
                         }
                     }

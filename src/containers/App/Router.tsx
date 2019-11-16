@@ -5,23 +5,23 @@ import { connectStateResults, InstantSearch } from 'react-instantsearch-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
 import { SessionContext } from '../../context/global/sessionCtx';
-// import CollectionsAll from '../../pages/collections.all';
-// import MyCollections from '../../pages/collections.all/collectionsFollowed';
-// import Collection from '../../pages/collections.collection/component';
+import CollectionsAll from '../../pages/collections.all';
+import MyCollections from '../../pages/collections.all/collectionsFollowed';
+import Collection from '../../pages/collections.collection/component';
 import CommunitiesAll from '../../pages/communities.all/CommunitiesAll';
-// import MyCommunities from '../../pages/communities.all/communitiesJoined';
-// import CommunitiesCommunity from '../../pages/communities.community/CommunitiesCommunity';
+import MyCommunities from '../../pages/communities.all/communitiesJoined';
+import CommunitiesCommunity from '../../pages/communities.community/CommunitiesCommunity';
 import CreateNewPassword from '../../pages/CreateNewPassword';
-// import Discover from '../../pages/discover';
+import Discover from '../../pages/discover';
 import Home from '../../pages/home';
 import Login from '../../pages/login/Login';
 import NotFound from '../../pages/not-found/NotFound';
-// import Profile from '../../pages/Profile';
+import Profile from '../../pages/Profile';
 import Reset from '../../pages/Reset';
 import SearchComp from '../../pages/search/Search';
 // import Settings from '../../pages/settings';
 // import Thread from '../../pages/thread/component';
-// import User from '../../pages/User';
+import User from '../../pages/User';
 import {
   Inner,
   MainWrapper,
@@ -94,21 +94,26 @@ const Content = connectStateResults(({ searchState, onOpen }) => {
       <MobileHeader onOpen={onOpen} />
       <Switch>
         <Route exact path="/" component={auth ? Home : Login} />
-        {/*  <Route exact path="/settings" component={auth ? Settings : Login} />
         <Route exact path="/profile" component={auth ? Profile : Login} />
         <Route
           exact
           path="/mycommunities"
           component={auth ? MyCommunities : Login}
         />
+        {/* <Route exact path="/settings" component={auth ? Settings : Login} />*/}
         <Route
           exact
           path="/mycollections"
           component={auth ? MyCollections : Login}
         />
 
-        <Route exact path="/discover" component={Discover} /> */}
+        <Route exact path="/discover" component={Discover} />
         <Route exact path="/communities" component={CommunitiesAll} />
+        <Route
+          exact
+          path="/communities/:community"
+          component={CommunitiesCommunity}
+        />
         {/*   <Route
           exact
           path="/thread/:id"
@@ -116,12 +121,7 @@ const Content = connectStateResults(({ searchState, onOpen }) => {
             const threadId = route.match.params.id;
             return <Thread threadId={threadId} />;
           }}
-        />
-        <Route
-          exact
-          path="/communities/:community"
-          component={CommunitiesCommunity}
-        />
+        />*/}
         <Route
           exact
           path="/collections/:id"
@@ -130,10 +130,9 @@ const Content = connectStateResults(({ searchState, onOpen }) => {
             return <Collection id={id} />;
           }}
         />
-        <Route exact path="/collections" component={CollectionsAll} />
-        <Route exact path="/user/:id" component={User} /> */}
+        <Route exact path="/user/:id" component={User} />
         <Route path="/search" component={SearchComp} />
-
+        <Route exact path="/collections" component={CollectionsAll} />
         <Route component={NotFound} />
       </Switch>
     </>
