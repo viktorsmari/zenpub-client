@@ -111,8 +111,16 @@ const Content = connectStateResults(({ searchState, onOpen }) => {
         <Route exact path="/communities" component={CommunitiesAll} />
         <Route
           exact
-          path="/communities/:community"
-          component={CommunitiesCommunity}
+          path="/communities/:communityId"
+          render={route => {
+            const communityId = route.match.params.communityId;
+            return (
+              <CommunitiesCommunity
+                url={route.match.url}
+                communityId={communityId}
+              />
+            );
+          }}
         />
         <Route
           exact
