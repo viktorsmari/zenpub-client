@@ -36,10 +36,10 @@ interface Props {
 
 const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
   // const [tab, setTab] = React.useState(TabsEnum.Collections);
-  const [isEditCommunityOpen, onEditCommunityOpen] = React.useState(false);
+  const [isEditCommunityOpen, setEditCommunityOpen] = React.useState(false);
   const [isUsersOpen, showUsers] = React.useState(false);
   const editCommunity = React.useCallback(
-    () => onEditCommunityOpen(isEditCommunityOpen),
+    () => setEditCommunityOpen(!isEditCommunityOpen),
     [isEditCommunityOpen]
   );
   const communityQuery = useGetCommunityQueryQuery({
@@ -150,6 +150,7 @@ const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
           communityId={communityQuery.data.community.id}
           communityExternalId={communityQuery.data.community.id}
           community={communityQuery.data.community}
+          communityUpdated={communityQuery.refetch}
         />
         <UsersModal
           toggleModal={showUsers}
