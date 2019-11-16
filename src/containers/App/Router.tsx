@@ -19,8 +19,8 @@ import NotFound from '../../pages/not-found/NotFound';
 import Profile from '../../pages/Profile';
 import Reset from '../../pages/Reset';
 import SearchComp from '../../pages/search/Search';
-// import Settings from '../../pages/settings';
-// import Thread from '../../pages/thread/component';
+import Settings from '../../pages/settings';
+import Thread from '../../pages/thread/component';
 import User from '../../pages/User';
 import {
   Inner,
@@ -85,9 +85,9 @@ const Content = connectStateResults(({ searchState, onOpen }) => {
   return searchState && searchState.query ? (
     <>
       <MobileHeader onOpen={onOpen} />
-      {/* <Switch>
+      <Switch>
         <Route path="/search" component={SearchComp} />
-      </Switch> */}
+      </Switch>
     </>
   ) : (
     <>
@@ -100,7 +100,7 @@ const Content = connectStateResults(({ searchState, onOpen }) => {
           path="/mycommunities"
           component={auth ? MyCommunities : Login}
         />
-        {/* <Route exact path="/settings" component={auth ? Settings : Login} />*/}
+        <Route exact path="/settings" component={auth ? Settings : Login} />
         <Route
           exact
           path="/mycollections"
@@ -114,14 +114,14 @@ const Content = connectStateResults(({ searchState, onOpen }) => {
           path="/communities/:community"
           component={CommunitiesCommunity}
         />
-        {/*   <Route
+        <Route
           exact
           path="/thread/:id"
           render={route => {
             const threadId = route.match.params.id;
             return <Thread threadId={threadId} />;
           }}
-        />*/}
+        />
         <Route
           exact
           path="/collections/:id"
