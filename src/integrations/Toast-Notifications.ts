@@ -1,6 +1,7 @@
 import { InterceptorSrv } from '../apollo/client';
 import { Store } from 'redux';
 import { showToastMessage, ShowPayload } from '../redux/toastMsgs';
+import { i18nMark } from '@lingui/react';
 
 export const integrateToastNotifications = (
   intercSrv: InterceptorSrv,
@@ -14,10 +15,10 @@ export const integrateToastNotifications = (
       showMessage(
         _.error
           ? {
-              content: `Could not perform like ${ctx}`,
+              content: i18nMark(`Could not perform like ${ctx}`),
               options: { type: 'error' }
             }
-          : { content: `${ctx} like sent!` }
+          : { content: i18nMark(`${ctx} like sent!`) }
       );
     }
   });
@@ -29,10 +30,10 @@ export const integrateToastNotifications = (
       showMessage(
         _.error
           ? {
-              content: `Could not delete`,
+              content: i18nMark(`Could not delete`),
               options: { type: 'error' }
             }
-          : { content: `delete performed!` }
+          : { content: i18nMark(`delete performed!`) }
       );
     }
   });
@@ -42,8 +43,11 @@ export const integrateToastNotifications = (
     request: () => _ =>
       showMessage(
         _.error
-          ? { content: `Could not create user`, options: { type: 'error' } }
-          : { content: `User created!` }
+          ? {
+              content: i18nMark(`Could not create user`),
+              options: { type: 'error' }
+            }
+          : { content: i18nMark(`User created!`) }
       )
   });
 
@@ -52,8 +56,8 @@ export const integrateToastNotifications = (
     request: () => _ =>
       showMessage(
         _.error
-          ? { content: `Could not login`, options: { type: 'error' } }
-          : { content: `Logged in!` }
+          ? { content: i18nMark(`Could not login`), options: { type: 'error' } }
+          : { content: i18nMark(`Logged in!`) }
       )
   });
 
@@ -63,10 +67,10 @@ export const integrateToastNotifications = (
       showMessage(
         _.error
           ? {
-              content: `Could not perform reply`,
+              content: i18nMark(`Could not perform reply`),
               options: { type: 'error' }
             }
-          : { content: `Reply sent!` }
+          : { content: i18nMark(`Reply sent!`) }
       )
   });
 
@@ -76,10 +80,10 @@ export const integrateToastNotifications = (
       showMessage(
         _.error
           ? {
-              content: `Could not create Community`,
+              content: i18nMark(`Could not create Community`),
               options: { type: 'error' }
             }
-          : { content: `Community created!` }
+          : { content: i18nMark(`Community created!`) }
       )
   });
 
@@ -89,10 +93,10 @@ export const integrateToastNotifications = (
       showMessage(
         _.error
           ? {
-              content: `Could not create Collection`,
+              content: i18nMark(`Could not create Collection`),
               options: { type: 'error' }
             }
-          : { content: `Collection created!` }
+          : { content: i18nMark(`Collection created!`) }
       )
   });
 
@@ -104,10 +108,10 @@ export const integrateToastNotifications = (
       showMessage(
         _.error
           ? {
-              content: `Could not perform follow ${ctx}`,
+              content: i18nMark(`Could not perform follow ${ctx}`),
               options: { type: 'error' }
             }
-          : { content: `Following ${ctx}!` }
+          : { content: i18nMark(`Following ${ctx}!`) }
       );
     }
   });

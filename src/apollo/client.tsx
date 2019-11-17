@@ -26,6 +26,7 @@ import {
   OperationTypeNode
 } from 'graphql';
 import { RootMutationType, RootQueryType } from '../graphql/types';
+import { i18nMark } from '@lingui/react';
 
 // const { meQuery } = require('../graphql/me.graphql');
 interface Cfg {
@@ -185,9 +186,7 @@ export default async function initialise({ authToken }: Cfg) {
           optype === 'mutation' &&
           !ALLOWED_ANON_MUTATIONS.includes(opName)
         ) {
-          alert(
-            'You should log in for performing this operation! this operation!'
-          );
+          alert(i18nMark('You should log in for performing this operation!'));
           return null;
         }
       }
