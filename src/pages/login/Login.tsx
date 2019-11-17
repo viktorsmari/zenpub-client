@@ -371,13 +371,13 @@ class Login extends React.Component<LoginProps, LoginState> {
             <Footer>
               <ul>
                 <li>
-                  <a href="https://new.moodle.net" target="blank">
+                  <a href="https://moodle.net" target="blank">
                     About
                   </a>
                 </li>
                 <li>
                   <a
-                    href="https://docs.moodle.org/dev/MoodleNet/Code_of_Conduct"
+                    href="https://moodle.net/terms/users/index.html"
                     target="blank"
                   >
                     Code of Conduct
