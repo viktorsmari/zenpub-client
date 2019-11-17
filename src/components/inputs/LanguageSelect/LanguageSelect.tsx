@@ -58,9 +58,7 @@ export default class LanguageSelect extends React.Component<
               }
 
               setLocale(selection.value);
-              console.log(1, this.state.stateLocale);
               this.setState({ stateLocale: selection.value });
-              console.log(2, this.state.stateLocale);
             }}
           />
         )}

@@ -91,7 +91,7 @@ const Dropdown: React.FC = () => {
 
             <Item variant="link">
               <a href="#" target="blank">
-                v0.9.5 alpha <Trans>Changelog</Trans>
+                v0.10 beta <Trans>Changelog</Trans>
               </a>
             </Item>
           </List>
