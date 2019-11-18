@@ -88,6 +88,10 @@ const Right = styled(Box)`
     width: 100%;
     margin-right: 0;
   }
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 `;
 
 const Footer = styled.div`
@@ -335,22 +339,24 @@ class Login extends React.Component<LoginProps, LoginState> {
                     Preview what people are sharing, curating, and discussing!
                   </Trans>
                 </Text>
-                <Button mt={3} variant="outline">
-                  <Link to={'/discover'}>
+                <Link to={'/discover'}>
+                  <Button mt={3} variant="outline">
                     <Trans>Browse</Trans>
-                  </Link>
-                </Button>
+                  </Button>
+                </Link>
               </Browse>
             </FormWrapper>
             <Right>
-              <Button
-                mb={2}
-                style={{ width: '100%', height: '50px' }}
-                variant="outline"
-                onClick={this.props.handleSignup}
-              >
-                <Trans>Sign up</Trans>
-              </Button>
+              <Link to="signup">
+                <Button
+                  mb={2}
+                  style={{ width: '100%', height: '50px' }}
+                  variant="outline"
+                  // onClick={this.props.handleSignup}
+                >
+                  <Trans>Sign up</Trans>
+                </Button>
+              </Link>
               <WrapperPanel className="extra">
                 <Panel>
                   <Background src={MnetLogin} />

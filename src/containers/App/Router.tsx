@@ -22,6 +22,8 @@ import SearchComp from '../../pages/search/Search';
 import Settings from '../../pages/settings';
 import Thread from '../../pages/thread/component';
 import User from '../../pages/User';
+import Signup from '../../pages/Signup';
+
 import {
   Inner,
   MainWrapper,
@@ -248,7 +250,7 @@ export default _ => (
           <Route exact path="/reset" component={Reset} />
           <Route exact path="/reset/:token" component={CreateNewPassword} />
           <Route exact path="/login" component={Login} />
-
+          <Route exact path="/signup" component={Signup} />
           <Route path="/" component={props => <App {...props} />} />
           <Route component={NotFound} />
         </Switch>
