@@ -312,7 +312,7 @@ const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
   );
   return (
     <FeedItem>
-      {context.__typename}
+      {/* {context.__typename} */}
       <NavigateToThread to={`/thread/${context.id}`} />
       {context.__typename === 'Collection' ? (
         <CollectionItem
