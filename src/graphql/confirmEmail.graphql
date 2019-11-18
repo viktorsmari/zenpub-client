@@ -1,0 +1,27 @@
+
+mutation confirmEmailMutation($token: String!) {
+    confirmEmail(token: $token) {
+        token
+        me {
+            email
+            wantsEmailDigest
+            wantsNotifications
+            isConfirmed
+            isInstanceAdmin
+            user {
+                id
+                canonicalUrl
+                preferredUsername
+                name
+                summary
+                location
+                icon
+                isPublic
+                isDisabled
+                createdAt
+                updatedAt
+                lastActivity
+            }
+        }
+    }
+}

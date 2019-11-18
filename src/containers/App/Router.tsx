@@ -28,7 +28,7 @@ import Settings from '../../pages/settings';
 import Thread from '../../pages/thread/component';
 import User from '../../pages/User';
 import Signup from '../../pages/Signup';
-
+import ConfirmAccount from '../../pages/Confirm';
 import {
   Inner,
   MainWrapper,
@@ -273,6 +273,7 @@ export default _ => (
         <Switch>
           <Route exact path="/reset" component={Reset} />
           <Route exact path="/reset/:token" component={CreateNewPassword} />
+          <Route exact path="/confirm-mail/:token" component={ConfirmAccount} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
           <Route path="/" component={props => <App {...props} />} />
