@@ -1,9 +1,11 @@
+import * as React from 'react';
 import * as Types from '../types.d';
 
 import { BasicCollectionFragment } from '../fragments/generated/basicCollection.generated';
 import gql from 'graphql-tag';
 import { BasicCollectionFragmentDoc } from '../fragments/generated/basicCollection.generated';
-import * as React from 'react';
+import { BasicResourceFragmentDoc } from '../fragments/generated/basicResource.generated';
+import { BasicResourceFragment } from '../fragments/generated/basicResource.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
@@ -24,30 +26,7 @@ export type GetCollectionQuery = { __typename?: 'RootQueryType' } & {
           edges: Array<
             Types.Maybe<
               { __typename?: 'ResourcesEdge' } & {
-                node: { __typename?: 'Resource' } & Pick<
-                  Types.Resource,
-                  | 'id'
-                  | 'canonicalUrl'
-                  | 'name'
-                  | 'summary'
-                  | 'icon'
-                  | 'url'
-                  | 'license'
-                  | 'createdAt'
-                  | 'updatedAt'
-                  | 'lastActivity'
-                  | 'isLocal'
-                  | 'isPublic'
-                  | 'isDisabled'
-                > & {
-                    myLike: Types.Maybe<
-                      { __typename?: 'Like' } & Pick<Types.Like, 'id'>
-                    >;
-                    likes: { __typename?: 'LikesEdges' } & Pick<
-                      Types.LikesEdges,
-                      'totalCount'
-                    >;
-                  };
+                node: { __typename?: 'Resource' } & BasicResourceFragment;
               }
             >
           >;
@@ -64,31 +43,14 @@ export const GetCollectionDocument = gql`
         totalCount
         edges {
           node {
-            id
-            canonicalUrl
-            name
-            summary
-            icon
-            url
-            license
-            createdAt
-            updatedAt
-            lastActivity
-            isLocal
-            isPublic
-            isDisabled
-            myLike {
-              id
-            }
-            likes {
-              totalCount
-            }
+            ...BasicResource
           }
         }
       }
     }
   }
   ${BasicCollectionFragmentDoc}
+  ${BasicResourceFragmentDoc}
 `;
 export type GetCollectionComponentProps = Omit<
   ApolloReactComponents.QueryComponentOptions<

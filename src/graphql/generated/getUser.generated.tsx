@@ -1,6 +1,6 @@
+import { BasicCollectionFragmentDoc } from '../fragments/generated/basicCollection.generated';
 import * as Types from '../types.d';
 
-import { BasicCommentWithInReplyToFragment } from '../fragments/generated/basicComment.generated';
 import { BasicResourceFragment } from '../fragments/generated/basicResource.generated';
 import { BasicCollectionFragment } from '../fragments/generated/basicCollection.generated';
 import { BasicCommunityFragment } from '../fragments/generated/basicCommunity.generated';
@@ -8,7 +8,7 @@ import { BasicUserFragment } from '../fragments/generated/basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from '../fragments/generated/basicUser.generated';
 import { BasicCommunityFragmentDoc } from '../fragments/generated/basicCommunity.generated';
-import { BasicCollectionFragmentDoc } from '../fragments/generated/basicCollection.generated';
+import { BasicCommentWithInReplyToFragment } from '../fragments/generated/basicComment.generated';
 import { BasicResourceFragmentDoc } from '../fragments/generated/basicResource.generated';
 import { BasicCommentWithInReplyToFragmentDoc } from '../fragments/generated/basicComment.generated';
 import * as React from 'react';

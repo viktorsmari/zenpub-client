@@ -6,13 +6,7 @@ import { BasicCommentWithInReplyToFragmentDoc } from './basicComment.generated';
 
 export type BasicThreadFragment = { __typename?: 'Thread' } & Pick<
   Types.Thread,
-  | 'id'
-  | 'isLocal'
-  | 'isPublic'
-  | 'isHidden'
-  | 'createdAt'
-  | 'updatedAt'
-  | 'lastActivity'
+  'id' | 'isLocal' | 'createdAt' | 'updatedAt' | 'lastActivity'
 > & {
     myFollow: Types.Maybe<{ __typename?: 'Follow' } & Pick<Types.Follow, 'id'>>;
     comments: { __typename?: 'CommentsEdges' } & Pick<
@@ -44,8 +38,6 @@ export const BasicThreadFragmentDoc = gql`
   fragment BasicThread on Thread {
     id
     isLocal
-    isPublic
-    isHidden
     createdAt
     updatedAt
     lastActivity

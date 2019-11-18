@@ -1,6 +1,8 @@
 import * as Types from '../types.d';
 
+import { BasicUserFragment } from '../fragments/generated/basicUser.generated';
 import gql from 'graphql-tag';
+import { BasicUserFragmentDoc } from '../fragments/generated/basicUser.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as React from 'react';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -8,134 +10,134 @@ import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
-export type UpdateResourceMutationMutationVariables = {
-  resource: Types.ResourceInput;
-  resourceId: Types.Scalars['String'];
+export type ConfirmEmailMutationMutationVariables = {
+  token: Types.Scalars['String'];
 };
 
-export type UpdateResourceMutationMutation = {
+export type ConfirmEmailMutationMutation = {
   __typename?: 'RootMutationType';
 } & {
-  updateResource: Types.Maybe<
-    { __typename?: 'Resource' } & Pick<
-      Types.Resource,
-      | 'id'
-      | 'name'
-      | 'summary'
-      | 'url'
-      | 'license'
-      | 'icon'
-      | 'createdAt'
-      | 'updatedAt'
-    >
+  confirmEmail: Types.Maybe<
+    { __typename?: 'AuthPayload' } & Pick<Types.AuthPayload, 'token'> & {
+        me: { __typename?: 'Me' } & Pick<
+          Types.Me,
+          | 'email'
+          | 'wantsEmailDigest'
+          | 'wantsNotifications'
+          | 'isConfirmed'
+          | 'isInstanceAdmin'
+        > & {
+            user: { __typename?: 'User' } & BasicUserFragment;
+          };
+      }
   >;
 };
 
-export const UpdateResourceMutationDocument = gql`
-  mutation updateResourceMutation(
-    $resource: ResourceInput!
-    $resourceId: String!
-  ) {
-    updateResource(resource: $resource, resourceId: $resourceId) {
-      id
-      name
-      summary
-      url
-      license
-      icon
-      createdAt
-      updatedAt
+export const ConfirmEmailMutationDocument = gql`
+  mutation confirmEmailMutation($token: String!) {
+    confirmEmail(token: $token) {
+      token
+      me {
+        email
+        wantsEmailDigest
+        wantsNotifications
+        isConfirmed
+        isInstanceAdmin
+        user {
+          ...BasicUser
+        }
+      }
     }
   }
+  ${BasicUserFragmentDoc}
 `;
-export type UpdateResourceMutationMutationFn = ApolloReactCommon.MutationFunction<
-  UpdateResourceMutationMutation,
-  UpdateResourceMutationMutationVariables
+export type ConfirmEmailMutationMutationFn = ApolloReactCommon.MutationFunction<
+  ConfirmEmailMutationMutation,
+  ConfirmEmailMutationMutationVariables
 >;
-export type UpdateResourceMutationComponentProps = Omit<
+export type ConfirmEmailMutationComponentProps = Omit<
   ApolloReactComponents.MutationComponentOptions<
-    UpdateResourceMutationMutation,
-    UpdateResourceMutationMutationVariables
+    ConfirmEmailMutationMutation,
+    ConfirmEmailMutationMutationVariables
   >,
   'mutation'
 >;
 
-export const UpdateResourceMutationComponent = (
-  props: UpdateResourceMutationComponentProps
+export const ConfirmEmailMutationComponent = (
+  props: ConfirmEmailMutationComponentProps
 ) => (
   <ApolloReactComponents.Mutation<
-    UpdateResourceMutationMutation,
-    UpdateResourceMutationMutationVariables
+    ConfirmEmailMutationMutation,
+    ConfirmEmailMutationMutationVariables
   >
-    mutation={UpdateResourceMutationDocument}
+    mutation={ConfirmEmailMutationDocument}
     {...props}
   />
 );
 
-export type UpdateResourceMutationProps<
+export type ConfirmEmailMutationProps<
   TChildProps = {}
 > = ApolloReactHoc.MutateProps<
-  UpdateResourceMutationMutation,
-  UpdateResourceMutationMutationVariables
+  ConfirmEmailMutationMutation,
+  ConfirmEmailMutationMutationVariables
 > &
   TChildProps;
-export function withUpdateResourceMutation<TProps, TChildProps = {}>(
+export function withConfirmEmailMutation<TProps, TChildProps = {}>(
   operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
-    UpdateResourceMutationMutation,
-    UpdateResourceMutationMutationVariables,
-    UpdateResourceMutationProps<TChildProps>
+    ConfirmEmailMutationMutation,
+    ConfirmEmailMutationMutationVariables,
+    ConfirmEmailMutationProps<TChildProps>
   >
 ) {
   return ApolloReactHoc.withMutation<
     TProps,
-    UpdateResourceMutationMutation,
-    UpdateResourceMutationMutationVariables,
-    UpdateResourceMutationProps<TChildProps>
-  >(UpdateResourceMutationDocument, {
-    alias: 'updateResourceMutation',
+    ConfirmEmailMutationMutation,
+    ConfirmEmailMutationMutationVariables,
+    ConfirmEmailMutationProps<TChildProps>
+  >(ConfirmEmailMutationDocument, {
+    alias: 'confirmEmailMutation',
     ...operationOptions
   });
 }
 
 /**
- * __useUpdateResourceMutationMutation__
+ * __useConfirmEmailMutationMutation__
  *
- * To run a mutation, you first call `useUpdateResourceMutationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateResourceMutationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useConfirmEmailMutationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useConfirmEmailMutationMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateResourceMutationMutation, { data, loading, error }] = useUpdateResourceMutationMutation({
+ * const [confirmEmailMutationMutation, { data, loading, error }] = useConfirmEmailMutationMutation({
  *   variables: {
- *      resource: // value for 'resource'
- *      resourceId: // value for 'resourceId'
+ *      token: // value for 'token'
  *   },
  * });
  */
-export function useUpdateResourceMutationMutation(
+export function useConfirmEmailMutationMutation(
   baseOptions?: ApolloReactHooks.MutationHookOptions<
-    UpdateResourceMutationMutation,
-    UpdateResourceMutationMutationVariables
+    ConfirmEmailMutationMutation,
+    ConfirmEmailMutationMutationVariables
   >
 ) {
   return ApolloReactHooks.useMutation<
-    UpdateResourceMutationMutation,
-    UpdateResourceMutationMutationVariables
-  >(UpdateResourceMutationDocument, baseOptions);
+    ConfirmEmailMutationMutation,
+    ConfirmEmailMutationMutationVariables
+  >(ConfirmEmailMutationDocument, baseOptions);
 }
-export type UpdateResourceMutationMutationHookResult = ReturnType<
-  typeof useUpdateResourceMutationMutation
+export type ConfirmEmailMutationMutationHookResult = ReturnType<
+  typeof useConfirmEmailMutationMutation
 >;
-export type UpdateResourceMutationMutationResult = ApolloReactCommon.MutationResult<
-  UpdateResourceMutationMutation
+export type ConfirmEmailMutationMutationResult = ApolloReactCommon.MutationResult<
+  ConfirmEmailMutationMutation
 >;
-export type UpdateResourceMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  UpdateResourceMutationMutation,
-  UpdateResourceMutationMutationVariables
+export type ConfirmEmailMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  ConfirmEmailMutationMutation,
+  ConfirmEmailMutationMutationVariables
 >;
 
 export interface IntrospectionResultData {

@@ -20,7 +20,7 @@ export type GetFollowedCollectionsQuery = { __typename?: 'RootQueryType' } & {
     { __typename?: 'Me' } & {
       user: { __typename?: 'User' } & Pick<
         Types.User,
-        'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'isDisabled'
+        'id' | 'canonicalUrl'
       > & {
           followedCollections: { __typename?: 'FollowedCollectionsEdges' } & {
             pageInfo: Types.Maybe<
@@ -56,9 +56,6 @@ export const GetFollowedCollectionsDocument = gql`
       user {
         id
         canonicalUrl
-        isLocal
-        isPublic
-        isDisabled
         followedCollections(limit: $limit, after: $endColl) {
           pageInfo {
             startCursor
