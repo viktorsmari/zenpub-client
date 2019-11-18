@@ -45,9 +45,9 @@ query getUser(
                         context {
                             __typename
                             ... on Community  { ...BasicCommunity  }
-                            ... on Comment    { ...BasicCommentWithInReplyTo    }
                             ... on Collection { ...BasicCollection }
                             ... on Resource   { ...BasicResource   }
+                            ... on Comment    { ...BasicCommentWithInReplyTo    }
                         }
                     }
                 }

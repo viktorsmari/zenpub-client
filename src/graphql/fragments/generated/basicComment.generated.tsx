@@ -1,8 +1,14 @@
 import * as Types from '../../types.d';
 
+import { BasicResourceFragment } from './basicResource.generated';
+import { BasicCollectionFragment } from './basicCollection.generated';
+import { BasicCommunityFragment } from './basicCommunity.generated';
 import { BasicUserFragment } from './basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from './basicUser.generated';
+import { BasicCommunityFragmentDoc } from './basicCommunity.generated';
+import { BasicCollectionFragmentDoc } from './basicCollection.generated';
+import { BasicResourceFragmentDoc } from './basicResource.generated';
 
 export type BasicCommentWithInReplyToFragment = { __typename?: 'Comment' } & {
   inReplyTo: Types.Maybe<{ __typename?: 'Comment' } & BasicCommentFragment>;
@@ -18,48 +24,15 @@ export type BasicCommentFragment = { __typename?: 'Comment' } & Pick<
   | 'createdAt'
   | 'updatedAt'
 > & {
+    myLike: Types.Maybe<{ __typename?: 'Like' } & Pick<Types.Like, 'id'>>;
     creator: { __typename?: 'User' } & BasicUserFragment;
     likes: { __typename?: 'LikesEdges' } & Pick<Types.LikesEdges, 'totalCount'>;
     thread: { __typename?: 'Thread' } & Pick<Types.Thread, 'id'> & {
         context:
-          | ({ __typename?: 'Collection' } & Pick<
-              Types.Collection,
-              | 'id'
-              | 'canonicalUrl'
-              | 'name'
-              | 'isLocal'
-              | 'isPublic'
-              | 'isDisabled'
-            > & {
-                creator: { __typename?: 'User' } & BasicUserFragment;
-              })
-          | ({ __typename?: 'Community' } & Pick<
-              Types.Community,
-              | 'id'
-              | 'canonicalUrl'
-              | 'name'
-              | 'isLocal'
-              | 'isPublic'
-              | 'isDisabled'
-            > & {
-                creator: { __typename?: 'User' } & BasicUserFragment;
-              })
+          | ({ __typename?: 'Collection' } & BasicCollectionFragment)
+          | ({ __typename?: 'Community' } & BasicCommunityFragment)
           | { __typename?: 'Flag' }
-          | ({ __typename?: 'Resource' } & Pick<
-              Types.Resource,
-              | 'id'
-              | 'canonicalUrl'
-              | 'name'
-              | 'isLocal'
-              | 'isPublic'
-              | 'isDisabled'
-            > & {
-                creator: { __typename?: 'User' } & BasicUserFragment;
-                collection: { __typename?: 'Collection' } & Pick<
-                  Types.Collection,
-                  'id' | 'name'
-                >;
-              });
+          | ({ __typename?: 'Resource' } & BasicResourceFragment);
       };
   };
 
@@ -72,6 +45,9 @@ export const BasicCommentFragmentDoc = gql`
     isHidden
     createdAt
     updatedAt
+    myLike {
+      id
+    }
     creator {
       ...BasicUser
     }
@@ -83,46 +59,21 @@ export const BasicCommentFragmentDoc = gql`
       context {
         __typename
         ... on Community {
-          id
-          canonicalUrl
-          name
-          isLocal
-          isPublic
-          isDisabled
-          creator {
-            ...BasicUser
-          }
+          ...BasicCommunity
         }
         ... on Collection {
-          id
-          canonicalUrl
-          name
-          isLocal
-          isPublic
-          isDisabled
-          creator {
-            ...BasicUser
-          }
+          ...BasicCollection
         }
         ... on Resource {
-          id
-          canonicalUrl
-          name
-          isLocal
-          isPublic
-          isDisabled
-          creator {
-            ...BasicUser
-          }
-          collection {
-            id
-            name
-          }
+          ...BasicResource
         }
       }
     }
   }
   ${BasicUserFragmentDoc}
+  ${BasicCommunityFragmentDoc}
+  ${BasicCollectionFragmentDoc}
+  ${BasicResourceFragmentDoc}
 `;
 export const BasicCommentWithInReplyToFragmentDoc = gql`
   fragment BasicCommentWithInReplyTo on Comment {

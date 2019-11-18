@@ -6,9 +6,7 @@ fragment BasicCommunity on Community {
     preferredUsername
     name
     summary
-    creator {
-        ...BasicUser
-    }
+    creator { ...BasicUser }
     icon
     image
     createdAt

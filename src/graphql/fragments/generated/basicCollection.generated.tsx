@@ -14,8 +14,10 @@ export type BasicCollectionFragment = { __typename?: 'Collection' } & Pick<
   | 'icon'
   | 'isLocal'
   | 'isPublic'
+  | 'createdAt'
 > & {
     creator: { __typename?: 'User' } & BasicUserFragment;
+    myLike: Types.Maybe<{ __typename?: 'Like' } & Pick<Types.Like, 'id'>>;
     myFollow: Types.Maybe<{ __typename?: 'Follow' } & Pick<Types.Follow, 'id'>>;
     community: { __typename?: 'Community' } & Pick<
       Types.Community,
@@ -56,6 +58,10 @@ export const BasicCollectionFragmentDoc = gql`
     icon
     isLocal
     isPublic
+    createdAt
+    myLike {
+      id
+    }
     myFollow {
       id
     }
