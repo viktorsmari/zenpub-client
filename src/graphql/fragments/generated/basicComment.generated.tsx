@@ -16,13 +16,7 @@ export type BasicCommentWithInReplyToFragment = { __typename?: 'Comment' } & {
 
 export type BasicCommentFragment = { __typename?: 'Comment' } & Pick<
   Types.Comment,
-  | 'id'
-  | 'content'
-  | 'isLocal'
-  | 'isPublic'
-  | 'isHidden'
-  | 'createdAt'
-  | 'updatedAt'
+  'id' | 'content' | 'createdAt' | 'updatedAt'
 > & {
     myLike: Types.Maybe<{ __typename?: 'Like' } & Pick<Types.Like, 'id'>>;
     creator: { __typename?: 'User' } & BasicUserFragment;
@@ -40,9 +34,6 @@ export const BasicCommentFragmentDoc = gql`
   fragment BasicComment on Comment {
     id
     content
-    isLocal
-    isPublic
-    isHidden
     createdAt
     updatedAt
     myLike {

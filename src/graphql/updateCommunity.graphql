@@ -13,8 +13,8 @@ mutation updateCommunityMutation($community: CommunityInput!, $communityId: Stri
     name
     summary
     icon
-    isLocal
-    isPublic
+    # isLocal
+    # isPublic
     createdAt
     updatedAt
   }

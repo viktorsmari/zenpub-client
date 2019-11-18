@@ -8,16 +8,16 @@ fragment BasicCollection on Collection {
     summary
     creator { ...BasicUser }
     icon
-    isLocal
-    isPublic
+    # isLocal
+    # isPublic
     createdAt
     myLike { id }
     myFollow { id }
     community {
         id
         canonicalUrl
-        isLocal
-        isPublic
+        # isLocal
+        # isPublic
         name
         icon
         myFollow { id }

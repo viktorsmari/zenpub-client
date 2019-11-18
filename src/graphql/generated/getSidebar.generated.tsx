@@ -33,35 +33,12 @@ export type GetSidebarQueryQuery = { __typename?: 'RootQueryType' } & {
                   node: { __typename?: 'FollowedCommunity' } & {
                     follow: { __typename?: 'Follow' } & Pick<
                       Types.Follow,
-                      'id' | 'canonicalUrl'
+                      'id'
                     >;
                     community: { __typename: 'Community' } & Pick<
                       Types.Community,
-                      | 'id'
-                      | 'preferredUsername'
-                      | 'name'
-                      | 'summary'
-                      | 'icon'
-                      | 'isLocal'
-                      | 'isPublic'
-                      | 'isDisabled'
-                    > & {
-                        myFollow: Types.Maybe<
-                          { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
-                        >;
-                        collections: { __typename?: 'CollectionsEdges' } & Pick<
-                          Types.CollectionsEdges,
-                          'totalCount'
-                        >;
-                        followers: { __typename?: 'FollowsEdges' } & Pick<
-                          Types.FollowsEdges,
-                          'totalCount'
-                        >;
-                        threads: { __typename?: 'ThreadsEdges' } & Pick<
-                          Types.ThreadsEdges,
-                          'totalCount'
-                        >;
-                      };
+                      'id' | 'preferredUsername' | 'name' | 'icon'
+                    >;
                   };
                 }
               >
@@ -90,7 +67,6 @@ export const GetSidebarQueryDocument = gql`
             node {
               follow {
                 id
-                canonicalUrl
               }
               community {
                 __typename
@@ -98,24 +74,7 @@ export const GetSidebarQueryDocument = gql`
                   id
                   preferredUsername
                   name
-                  summary
                   icon
-                  isLocal
-                  isPublic
-                  isDisabled
-                  id
-                  myFollow {
-                    id
-                  }
-                  collections {
-                    totalCount
-                  }
-                  followers {
-                    totalCount
-                  }
-                  threads {
-                    totalCount
-                  }
                 }
               }
             }

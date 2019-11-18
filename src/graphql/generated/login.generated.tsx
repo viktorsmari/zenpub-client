@@ -33,11 +33,8 @@ export type LoginMutationMutation = { __typename?: 'RootMutationType' } & {
               | 'summary'
               | 'location'
               | 'icon'
-              | 'isPublic'
-              | 'isDisabled'
               | 'createdAt'
               | 'updatedAt'
-              | 'lastActivity'
             >;
           };
       }
@@ -62,11 +59,8 @@ export const LoginMutationDocument = gql`
           summary
           location
           icon
-          isPublic
-          isDisabled
           createdAt
           updatedAt
-          lastActivity
         }
       }
     }

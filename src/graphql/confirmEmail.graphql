@@ -1,4 +1,4 @@
-
+#import "./fragments/basicUser.graphql"
 mutation confirmEmailMutation($token: String!) {
     confirmEmail(token: $token) {
         token
@@ -9,18 +9,7 @@ mutation confirmEmailMutation($token: String!) {
             isConfirmed
             isInstanceAdmin
             user {
-                id
-                canonicalUrl
-                preferredUsername
-                name
-                summary
-                location
-                icon
-                isPublic
-                isDisabled
-                createdAt
-                updatedAt
-                lastActivity
+               ...BasicUser
             }
         }
     }

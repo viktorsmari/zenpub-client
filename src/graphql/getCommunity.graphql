@@ -74,7 +74,7 @@ query getCommunityQuery($communityId: String!, $limit: Int, $end: String) {
                     followers { totalCount }
                     resources { totalCount }
                     threads   { totalCount }
-                    outbox    { totalCount }
+                    # outbox    { totalCount }
                 }
             }
         }
