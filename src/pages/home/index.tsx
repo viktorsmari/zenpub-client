@@ -19,15 +19,23 @@ import {
 } from '../../sections/panel';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { useGetMeInboxQuery } from '../../graphql/generated/getMeInbox.generated';
+import { useInterceptor } from '../../context/global/apolloInterceptorCtx';
 
 interface Props {}
 
 const Home: React.FC<Props> = () => {
-  const { data, loading, error, fetchMore } = useGetMeInboxQuery({
+  const { data, loading, error, fetchMore, refetch } = useGetMeInboxQuery({
     variables: {
       limit: 15
     }
   });
+  useInterceptor({ operation: 'createReply', request: () => () => refetch() });
+  useInterceptor({ operation: 'like', request: () => () => refetch() });
+  useInterceptor({
+    operation: 'delete',
+    request: () => () => refetch()
+  });
+
   return (
     <MainContainer>
       <HomeBox>
