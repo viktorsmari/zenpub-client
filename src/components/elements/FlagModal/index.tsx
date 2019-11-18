@@ -140,7 +140,7 @@ const FlagModal: React.FC<Props> = ({
         <Container>
           <Header>
             <Heading m={2}>
-              <Trans>Undo flag</Trans>
+              <Trans>Unflag</Trans>
             </Heading>
           </Header>
           <TextWrapper>
