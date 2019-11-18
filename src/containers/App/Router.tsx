@@ -2,7 +2,12 @@ import algoliasearch from 'algoliasearch/lite';
 import qs from 'qs';
 import React from 'react';
 import { connectStateResults, InstantSearch } from 'react-instantsearch-dom';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
 import { SessionContext } from '../../context/global/sessionCtx';
 import CollectionsAll from '../../pages/collections.all';
@@ -140,7 +145,18 @@ const Content = connectStateResults(({ searchState, onOpen }) => {
             return <Collection id={id} />;
           }}
         />
-        <Route exact path="/user/:id" component={User} />
+        <Route
+          exact
+          path="/user/:id"
+          render={route => {
+            const userId = route.match.params.id;
+            return auth && auth.me.user.id === userId ? (
+              <Redirect to="/profile" />
+            ) : (
+              <User {...route} />
+            );
+          }}
+        />
         <Route path="/search" component={SearchComp} />
         <Route exact path="/collections" component={CollectionsAll} />
         <Route component={NotFound} />
