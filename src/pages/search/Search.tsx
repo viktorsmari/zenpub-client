@@ -50,14 +50,14 @@ function Result(props) {
     <WrapperResult p={3}>
       {hit.collection ? (
         <SupText mb={3} variant="suptitle">
-          <a href={hit.collection.community.id}>
+          <a href={hit.collection.community.canonicalUrl}>
             {hit.collection.community.name}
           </a>{' '}
-          > <a href={hit.collection.id}>{hit.collection.name}</a>
+          > <a href={hit.collection.canonicalUrl}>{hit.collection.name}</a>
         </SupText>
       ) : hit.community ? (
         <SupText mb={3} variant="suptitle">
-          <a href={hit.community.id}>{hit.community.name}</a>
+          <a href={hit.community.canonicalUrl}>{hit.community.name}</a>
         </SupText>
       ) : (
         <span />
