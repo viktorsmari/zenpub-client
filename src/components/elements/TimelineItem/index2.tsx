@@ -321,6 +321,7 @@ const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
           createdAt={createdAt}
           toggleLike={toggleLike}
           collection={context}
+          noAction
         /> // qui il context è risolto come Collection
       ) : context.__typename === 'Resource' ? (
         <ResourceItem
@@ -329,6 +330,7 @@ const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
           createdAt={createdAt}
           toggleLike={toggleLike}
           resource={context}
+          noAction
         /> // qui il context è risolto come Resource
       ) : context.__typename === 'Comment' ? (
         <CommentItem
@@ -345,6 +347,7 @@ const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
           createdAt={createdAt}
           toggleLike={toggleLike}
           community={context}
+          noAction
         /> // qui il context è risolto come Community
       ) : (
         <div>Unknown should never happen</div>

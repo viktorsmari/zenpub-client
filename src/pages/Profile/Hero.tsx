@@ -31,7 +31,7 @@ const HeroComp: SFC<Props> = ({ user }) => (
             {user.name}
           </Text>
           <Username mt={2} fontSize={2}>
-            @{user.preferredUsername + '@' + user.canonicalUrl}
+            @{user.preferredUsername}
           </Username>
           <Text variant="text" mt={2}>
             {user.summary}
