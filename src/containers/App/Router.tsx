@@ -100,6 +100,17 @@ const Content = connectStateResults(({ searchState, onOpen }) => {
     <>
       <MobileHeader onOpen={onOpen} />
       <Switch>
+        <Route
+          exact
+          path="/confirm-mail/:token"
+          render={route =>
+            auth ? (
+              <Redirect to="/" />
+            ) : (
+              <ConfirmAccount token={route.match.params.token} />
+            )
+          }
+        />
         <Route exact path="/" component={auth ? Home : Login} />
         <Route exact path="/profile" component={auth ? Profile : Login} />
         <Route
@@ -273,7 +284,6 @@ export default _ => (
         <Switch>
           <Route exact path="/reset" component={Reset} />
           <Route exact path="/reset/:token" component={CreateNewPassword} />
-          <Route exact path="/confirm-mail/:token" component={ConfirmAccount} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
           <Route path="/" component={props => <App {...props} />} />

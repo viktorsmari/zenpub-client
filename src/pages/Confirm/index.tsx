@@ -1,11 +1,7 @@
 import * as React from 'react';
-import { compose } from 'recompose';
-import { graphql, OperationOption } from 'react-apollo';
-import styled from '../../themes/styled';
 import { Box } from 'rebass/styled-components';
-import { withFormik, FormikProps, FormikValues } from 'formik';
-import * as Yup from 'yup';
-const resetPasswordRequest = require('../../graphql/resetPasswordRequest.graphql');
+import { useConfirmEmailMutationMutation } from '../../graphql/generated/confirmEmail.generated';
+import styled from '../../themes/styled';
 
 const LoginWrapper = styled.div`
   display: grid;
@@ -45,18 +41,7 @@ const FormWrapper = styled.div`
 `;
 
 interface Props {
-  errors: any;
-  touched: any;
-  isSubmitting: boolean;
-}
-
-interface FormValues {
-  email: string;
-}
-
-interface MyFormProps {
-  resetPassword: any;
-  history: any;
+  token: string;
 }
 
 /**
@@ -66,16 +51,25 @@ interface MyFormProps {
  * @constructor
  */
 
-const Confirm = (props: Props & FormikProps<FormikValues>) => {
-  // const confirmMutation = useGetThreadQuery({ variables: { threadId } });
-
+const Confirm = (props: Props) => {
+  const [confirm, result] = useConfirmEmailMutationMutation();
+  React.useEffect(
+    () => {
+      confirm({ variables: { token: props.token } });
+    },
+    [props.token, confirm]
+  );
   return (
     <>
       <Container>
         <LoginWrapper>
           <FormWrapper>
             <Logo />
-            <Box />
+            <Box>
+              {result.error && (
+                <div>Error in email confirmation: {result.error.message}</div>
+              )}
+            </Box>
           </FormWrapper>
         </LoginWrapper>
       </Container>
@@ -83,40 +77,4 @@ const Confirm = (props: Props & FormikProps<FormikValues>) => {
   );
 };
 
-const withResetEmail = graphql<{}>(resetPasswordRequest, {
-  name: 'resetPassword'
-  // TODO enforce proper types for OperationOption
-} as OperationOption<{}, {}>);
-
-const ModalWithFormik = withFormik<MyFormProps, FormValues>({
-  mapPropsToValues: props => ({
-    email: ''
-  }),
-  validationSchema: Yup.object().shape({
-    email: Yup.string()
-      .email()
-      .required()
-  }),
-  handleSubmit: (values, { props, setSubmitting }) => {
-    const variables = {
-      email: values.email
-    };
-    return props
-      .resetPassword({
-        variables: variables
-      })
-      .then(res => {
-        alert(
-          'If you have correctly entered an email which exists in our database, you will receive an email. Please check your spam folder if necessary.'
-        );
-        props.history.push(`/`);
-      })
-      .catch(err => {
-        setSubmitting(false);
-        alert(err);
-        console.log(err);
-      });
-  }
-})(Confirm);
-
-export default compose(withResetEmail)(ModalWithFormik);
+export default Confirm;
