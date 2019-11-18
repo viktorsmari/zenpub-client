@@ -215,15 +215,12 @@ const SignupModal = (props: Props) => {
             <FormWrapper>
               <Formik
                 onSubmit={(values, { setSubmitting }) => {
-                  console.log('caucsa');
-                  alert('test');
                   const variables = {
                     user: {
                       email: values.email,
                       name: values.name,
                       password: values.password,
                       preferredUsername: values.username,
-                      isPublic: true,
                       wantsEmailDigest: false,
                       wantsNotifications: false
                     }
