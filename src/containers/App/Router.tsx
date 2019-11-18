@@ -171,7 +171,7 @@ const DEBOUNCE_TIME = 100;
 
 const searchClient = algoliasearch(
   'KVG4RFL0JJ',
-  '2b7ba2703d3f4bac126ea5765c2764eb'
+  '884f8371d98c8c9837cf76f85f4b5daa'
 );
 
 // static getDerivedStateFromProps(props, state) {
@@ -239,7 +239,7 @@ const App: React.FC<Props> = props => {
         onSearchStateChange={onSearchStateChange}
         createURL={createURL}
         searchClient={searchClient}
-        indexName="next_moodlenet_all"
+        indexName="moodlenet_mothership"
       >
         <PageContainer>
           {auth ? (
