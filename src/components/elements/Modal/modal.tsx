@@ -58,7 +58,7 @@ const Close = styled.div`
 
 const Content = styled.div`
   ${clearFix()};
-  overflow: auto;
+  // overflow: auto;
   max-height: 90vh;
 `;
 
