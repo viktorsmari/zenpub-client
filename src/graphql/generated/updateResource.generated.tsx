@@ -9,8 +9,8 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type UpdateResourceMutationMutationVariables = {
-  resourceId: Types.Scalars['Int'];
   resource: Types.ResourceInput;
+  resourceId: Types.Scalars['String'];
 };
 
 export type UpdateResourceMutationMutation = {
@@ -20,35 +20,37 @@ export type UpdateResourceMutationMutation = {
     { __typename?: 'Resource' } & Pick<
       Types.Resource,
       | 'id'
-      | 'localId'
       | 'name'
       | 'summary'
-      | 'content'
       | 'url'
-      | 'primaryLanguage'
+      | 'license'
       | 'icon'
-      | 'published'
-      | 'updated'
+      | 'isLocal'
+      | 'isPublic'
+      | 'isDisabled'
+      | 'createdAt'
+      | 'updatedAt'
     >
   >;
 };
 
 export const UpdateResourceMutationDocument = gql`
   mutation updateResourceMutation(
-    $resourceId: Int!
     $resource: ResourceInput!
+    $resourceId: String!
   ) {
-    updateResource(resourceLocalId: $resourceId, resource: $resource) {
+    updateResource(resource: $resource, resourceId: $resourceId) {
       id
-      localId
       name
       summary
-      content
       url
-      primaryLanguage
+      license
       icon
-      published
-      updated
+      isLocal
+      isPublic
+      isDisabled
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -115,8 +117,8 @@ export function withUpdateResourceMutation<TProps, TChildProps = {}>(
  * @example
  * const [updateResourceMutationMutation, { data, loading, error }] = useUpdateResourceMutationMutation({
  *   variables: {
- *      resourceId: // value for 'resourceId'
  *      resource: // value for 'resource'
+ *      resourceId: // value for 'resourceId'
  *   },
  * });
  */
@@ -159,31 +161,130 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: 'UNION',
-        name: 'CommentContext',
+        name: 'ActivityContext',
         possibleTypes: [
           {
             name: 'Collection'
           },
           {
+            name: 'Comment'
+          },
+          {
             name: 'Community'
+          },
+          {
+            name: 'Resource'
           }
         ]
       },
       {
         kind: 'UNION',
-        name: 'ActivityObject',
+        name: 'FlagContext',
         possibleTypes: [
           {
-            name: 'Community'
+            name: 'Collection'
           },
           {
-            name: 'Collection'
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
           },
           {
             name: 'Resource'
           },
           {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'LikeContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
             name: 'Comment'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'ThreadContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Resource'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'FollowContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
           }
         ]
       }

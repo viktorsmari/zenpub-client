@@ -17,6 +17,7 @@ import { Button, Box, Text, Image } from 'rebass/styled-components';
 const { loginMutation } = require('../../graphql/login.graphql');
 import { Panel, WrapperPanel } from '../../sections/panel';
 const MnetLogin = require('./login.jpg');
+import { INSTANCE_DESCRIPTION } from './../../constants';
 
 const Background = styled(Image)`
   background-size: cover;
@@ -87,6 +88,10 @@ const Right = styled(Box)`
     width: 100%;
     margin-right: 0;
   }
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 `;
 
 const Footer = styled.div`
@@ -122,6 +127,10 @@ padding-top: 24px;
 
 const Browse = styled(Box)`
   background: #fff;
+  a {
+    text-decoration: none;
+    color: ${props => props.theme.colors.darkgray};
+  }
 `;
 
 const Or = styled.div`
@@ -323,27 +332,31 @@ class Login extends React.Component<LoginProps, LoginState> {
               </Or>
               <Browse mt={3} p={3}>
                 <Text variant="heading" fontSize={3}>
-                  <Trans>Browse MoodleNet</Trans>
+                  <Trans>Browse this MoodleNet instance</Trans>
                 </Text>
                 <Text variant="text" mt={2}>
                   <Trans>
                     Preview what people are sharing, curating, and discussing!
                   </Trans>
                 </Text>
-                <Button mt={3} variant="outline">
-                  <Trans>Browse</Trans>
-                </Button>
+                <Link to={'/discover'}>
+                  <Button mt={3} variant="outline">
+                    <Trans>Browse</Trans>
+                  </Button>
+                </Link>
               </Browse>
             </FormWrapper>
             <Right>
-              <Button
-                mb={2}
-                style={{ width: '100%', height: '50px' }}
-                variant="outline"
-                onClick={this.props.handleSignup}
-              >
-                <Trans>Sign up</Trans>
-              </Button>
+              <Link to="signup">
+                <Button
+                  mb={2}
+                  style={{ width: '100%', height: '50px' }}
+                  variant="outline"
+                  // onClick={this.props.handleSignup}
+                >
+                  <Trans>Sign up</Trans>
+                </Button>
+              </Link>
               <WrapperPanel className="extra">
                 <Panel>
                   <Background src={MnetLogin} />
@@ -353,10 +366,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                         <Trans>Instance description</Trans>
                       </Text>
                       <Text mt={2} variant="text">
-                        <Trans>
-                          This instance of MoodleNet is run by Moodle HQ and is
-                          currently invite-only.
-                        </Trans>
+                        <Trans>{INSTANCE_DESCRIPTION}</Trans>
                       </Text>
                     </Info>
                   </Infos>
@@ -367,13 +377,13 @@ class Login extends React.Component<LoginProps, LoginState> {
             <Footer>
               <ul>
                 <li>
-                  <a href="https://new.moodle.net" target="blank">
+                  <a href="https://moodle.net" target="blank">
                     About
                   </a>
                 </li>
                 <li>
                   <a
-                    href="https://docs.moodle.org/dev/MoodleNet/Code_of_Conduct"
+                    href="https://moodle.net/terms/users/index.html"
                     target="blank"
                   >
                     Code of Conduct

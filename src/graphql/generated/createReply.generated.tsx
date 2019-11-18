@@ -1,6 +1,8 @@
 import * as Types from '../types.d';
 
+import { BasicCommentWithInReplyToFragment } from '../fragments/generated/basicComment.generated';
 import gql from 'graphql-tag';
+import { BasicCommentWithInReplyToFragmentDoc } from '../fragments/generated/basicComment.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as React from 'react';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -9,8 +11,9 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type CreateReplyMutationMutationVariables = {
-  id: Types.Scalars['Int'];
   comment: Types.CommentInput;
+  inReplyToId: Types.Scalars['String'];
+  threadId: Types.Scalars['String'];
 };
 
 export type CreateReplyMutationMutation = {
@@ -19,59 +22,72 @@ export type CreateReplyMutationMutation = {
   createReply: Types.Maybe<
     { __typename?: 'Comment' } & Pick<
       Types.Comment,
-      'id' | 'localId' | 'published' | 'content'
+      | 'id'
+      | 'canonicalUrl'
+      | 'content'
+      | 'isLocal'
+      | 'isPublic'
+      | 'isHidden'
+      | 'createdAt'
+      | 'updatedAt'
     > & {
-        replies: Types.Maybe<
-          { __typename?: 'CommentRepliesConnection' } & Pick<
-            Types.CommentRepliesConnection,
-            'totalCount'
-          > & {
-              edges: Types.Maybe<
-                Array<
-                  Types.Maybe<
-                    { __typename?: 'CommentRepliesEdge' } & {
-                      node: Types.Maybe<
-                        { __typename?: 'Comment' } & Pick<Types.Comment, 'id'>
-                      >;
-                    }
-                  >
-                >
-              >;
-            }
+        inReplyTo: Types.Maybe<
+          { __typename?: 'Comment' } & BasicCommentWithInReplyToFragment
         >;
-        author: Types.Maybe<
-          { __typename?: 'User' } & Pick<
-            Types.User,
-            'icon' | 'localId' | 'id' | 'name'
-          >
+        myLike: Types.Maybe<{ __typename?: 'Like' } & Pick<Types.Like, 'id'>>;
+        creator: { __typename?: 'User' } & Pick<
+          Types.User,
+          | 'id'
+          | 'preferredUsername'
+          | 'canonicalUrl'
+          | 'isLocal'
+          | 'isPublic'
+          | 'isDisabled'
+          | 'icon'
+          | 'name'
         >;
       }
   >;
 };
 
 export const CreateReplyMutationDocument = gql`
-  mutation createReplyMutation($id: Int!, $comment: CommentInput!) {
-    createReply(inReplyToLocalId: $id, comment: $comment) {
+  mutation createReplyMutation(
+    $comment: CommentInput!
+    $inReplyToId: String!
+    $threadId: String!
+  ) {
+    createReply(
+      comment: $comment
+      inReplyToId: $inReplyToId
+      threadId: $threadId
+    ) {
       id
-      localId
-      replies {
-        totalCount
-        edges {
-          node {
-            id
-          }
-        }
-      }
-      published
-      author {
-        icon
-        localId
-        id
-        name
+      canonicalUrl
+      inReplyTo {
+        ...BasicCommentWithInReplyTo
       }
       content
+      isLocal
+      isPublic
+      isHidden
+      createdAt
+      updatedAt
+      myLike {
+        id
+      }
+      creator {
+        id
+        preferredUsername
+        canonicalUrl
+        isLocal
+        isPublic
+        isDisabled
+        icon
+        name
+      }
     }
   }
+  ${BasicCommentWithInReplyToFragmentDoc}
 `;
 export type CreateReplyMutationMutationFn = ApolloReactCommon.MutationFunction<
   CreateReplyMutationMutation,
@@ -136,8 +152,9 @@ export function withCreateReplyMutation<TProps, TChildProps = {}>(
  * @example
  * const [createReplyMutationMutation, { data, loading, error }] = useCreateReplyMutationMutation({
  *   variables: {
- *      id: // value for 'id'
  *      comment: // value for 'comment'
+ *      inReplyToId: // value for 'inReplyToId'
+ *      threadId: // value for 'threadId'
  *   },
  * });
  */
@@ -180,31 +197,130 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: 'UNION',
-        name: 'CommentContext',
+        name: 'ActivityContext',
         possibleTypes: [
           {
             name: 'Collection'
           },
           {
+            name: 'Comment'
+          },
+          {
             name: 'Community'
+          },
+          {
+            name: 'Resource'
           }
         ]
       },
       {
         kind: 'UNION',
-        name: 'ActivityObject',
+        name: 'FlagContext',
         possibleTypes: [
           {
-            name: 'Community'
+            name: 'Collection'
           },
           {
-            name: 'Collection'
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
           },
           {
             name: 'Resource'
           },
           {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'LikeContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
             name: 'Comment'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'ThreadContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Resource'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'FollowContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
           }
         ]
       }

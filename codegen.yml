@@ -1,8 +1,12 @@
 overwrite: true
-schema: "https://home.next.moodle.net/api/graphql"
+schema: "https://team.moodle.net/api/graphql"
+# documents: "src/graphql/main/home.next.moodle.net_schema.graphql"
 documents: "src/**/!(*.client).graphql"
 
 generates:
+  graphql.schema.json:
+    plugins:
+      - "introspection"
   src/graphql/types.d.ts:
     - typescript
   src/graphql:
@@ -19,7 +23,3 @@ generates:
       reactApolloVersion: 3
       withHooks: true
       withHOC: true
-  graphql.schema.json:
-    plugins:
-      - "introspection"
-

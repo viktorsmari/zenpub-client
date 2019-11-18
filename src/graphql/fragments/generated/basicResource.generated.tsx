@@ -1,39 +1,67 @@
 import * as Types from '../../types.d';
 
+import { BasicUserFragment } from './basicUser.generated';
 import gql from 'graphql-tag';
+import { BasicUserFragmentDoc } from './basicUser.generated';
 
 export type BasicResourceFragment = { __typename?: 'Resource' } & Pick<
   Types.Resource,
-  'id' | 'name' | 'localId' | 'url' | 'summary' | 'icon'
+  | 'id'
+  | 'name'
+  | 'summary'
+  | 'icon'
+  | 'url'
+  | 'license'
+  | 'createdAt'
+  | 'updatedAt'
 > & {
-    collection: Types.Maybe<
-      { __typename?: 'Collection' } & Pick<
-        Types.Collection,
-        'name' | 'localId'
-      > & {
-          community: Types.Maybe<
-            { __typename?: 'Community' } & Pick<Types.Community, 'localId'>
-          >;
-        }
-    >;
+    creator: { __typename?: 'User' } & BasicUserFragment;
+    collection: { __typename?: 'Collection' } & Pick<
+      Types.Collection,
+      | 'id'
+      | 'name'
+      | 'canonicalUrl'
+      | 'preferredUsername'
+      | 'isLocal'
+      | 'isPublic'
+      | 'isDisabled'
+    > & {
+        community: { __typename?: 'Community' } & Pick<
+          Types.Community,
+          'id' | 'canonicalUrl' | 'isLocal'
+        >;
+      };
   };
 
 export const BasicResourceFragmentDoc = gql`
   fragment BasicResource on Resource {
     id
     name
-    localId
-    url
     summary
     icon
+    url
+    license
+    createdAt
+    updatedAt
+    creator {
+      ...BasicUser
+    }
     collection {
+      id
       name
-      localId
+      canonicalUrl
+      preferredUsername
+      isLocal
+      isPublic
+      isDisabled
       community {
-        localId
+        id
+        canonicalUrl
+        isLocal
       }
     }
   }
+  ${BasicUserFragmentDoc}
 `;
 
 export interface IntrospectionResultData {
@@ -53,31 +81,130 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: 'UNION',
-        name: 'CommentContext',
+        name: 'ActivityContext',
         possibleTypes: [
           {
             name: 'Collection'
           },
           {
+            name: 'Comment'
+          },
+          {
             name: 'Community'
+          },
+          {
+            name: 'Resource'
           }
         ]
       },
       {
         kind: 'UNION',
-        name: 'ActivityObject',
+        name: 'FlagContext',
         possibleTypes: [
           {
-            name: 'Community'
+            name: 'Collection'
           },
           {
-            name: 'Collection'
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
           },
           {
             name: 'Resource'
           },
           {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'LikeContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
             name: 'Comment'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'ThreadContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Resource'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'FollowContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
           }
         ]
       }

@@ -9,23 +9,14 @@ import Loader from '../../components/elements/Loader/Loader';
 import CommunitiesLoadMore from '../../components/elements/Loadmore/joinedCommunities';
 // import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
+import { Me } from '../../graphql/types';
 
 const {
-  getJoinedCommunitiesQuery
-} = require('../../graphql/getJoinedCommunities.graphql');
+  getFollowedCommunitiesQuery
+} = require('../../graphql/getFollowedCommunities.graphql');
 
 interface Data extends QueryControls {
-  me: {
-    user: {
-      joinedCommunities: {
-        edges: any[];
-        pageInfo: {
-          startCursor: number;
-          endCursor: number;
-        };
-      };
-    };
-  };
+  me: Me;
 }
 
 interface Props {
@@ -57,19 +48,25 @@ class CommunitiesJoined extends React.Component<Props> {
             </CreateCollection>
           </ButtonWrapper>
           <List p={2}>
-            {this.props.data.me.user.joinedCommunities.edges.map(
+            {this.props.data.me.user.followedCommunities.edges.map(
               (community, i) => (
                 <CommunityCard
                   key={i}
-                  summary={community.node.summary}
-                  title={community.node.name}
-                  collectionsCount={community.node.collections.totalCount}
-                  icon={community.node.icon || ''}
-                  followed={community.node.followed}
-                  id={community.node.localId}
-                  externalId={community.node.id}
-                  followersCount={community.node.members.totalCount}
-                  threadsCount={community.node.threads.totalCount}
+                  summary={community!.node.community.summary!}
+                  title={community!.node.community.name}
+                  collectionsCount={
+                    community!.node.community.collections.totalCount
+                  }
+                  icon={community!.node.community.icon || ''}
+                  followed={
+                    community!.node.community.myFollow!.id ? true : false
+                  }
+                  id={community!.node.community.id}
+                  externalId={community!.node.community.canonicalUrl!}
+                  followersCount={
+                    community!.node.community.followers.totalCount
+                  }
+                  threadsCount={community!.node.community.threads.totalCount}
                 />
               )
             )}
@@ -77,7 +74,7 @@ class CommunitiesJoined extends React.Component<Props> {
           <CommunitiesLoadMore
             me
             fetchMore={this.props.data.fetchMore}
-            communities={this.props.data.me.user.joinedCommunities}
+            communities={this.props.data.me.user.followedCommunities}
           />
         </Box>
       </>
@@ -125,7 +122,7 @@ const withGetCommunities = graphql<
       me: any;
     };
   }
->(getJoinedCommunitiesQuery, {
+>(getFollowedCommunitiesQuery, {
   options: (props: Props) => ({
     fetchPolicy: 'cache-first',
     variables: {

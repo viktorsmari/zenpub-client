@@ -4,42 +4,35 @@
 #import "./fragments/basicCommunity.graphql"
 #import "./fragments/basicUser.graphql"
 
-query getMeInbox($limit: Int, $end: Int) {
-  me {
-    user {
-      id
-      inbox(limit: $limit, after: $end) {
-        pageInfo {
-          startCursor
-          endCursor
-        }
-        edges {
-          node {
-            id
-            activityType
-            type
-            published
-            user {
-              ...BasicUser
+query getMeInbox($limit: Int, $end: String) {
+    me {
+        user {
+            ...BasicUser
+            inbox(limit: $limit, after: $end) {
+                pageInfo {
+                    startCursor
+                    endCursor
+                }
+                edges {
+                    node {
+                        __typename
+                        id
+                        canonicalUrl
+                        verb
+                        isLocal
+                        isPublic
+                        createdAt
+                        user { ...BasicUser }
+                        context {
+                            __typename
+                            ... on Community  { ...BasicCommunity  }
+                            ... on Collection { ...BasicCollection }
+                            ... on Resource   { ...BasicResource   }
+                            ... on Comment    { ...BasicCommentWithInReplyTo    }
+                        }
+                    }
+                }
             }
-            object {
-              __typename
-              ... on Community {
-                ...BasicCommunity
-              }
-              ... on Comment {
-                ...BasicComment
-              }
-              ... on Collection {
-                ...BasicCollection
-              }
-              ... on Resource {
-                ...BasicResource
-              }
-            }
-          }
         }
-      }
     }
-  }
 }

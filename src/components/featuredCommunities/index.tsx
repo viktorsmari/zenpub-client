@@ -176,13 +176,13 @@ const withGetInbox = graphql<
 >(getFollowedCommunities, {
   options: {
     variables: {
-      one: IS_DEV ? 7 : 7,
-      two: IS_DEV ? 15 : 15,
-      three: IS_DEV ? 5369 : 7633,
-      four: IS_DEV ? 8083 : 5939,
-      five: IS_DEV ? 8806 : 4241,
-      six: IS_DEV ? 7933 : 2900,
-      seven: IS_DEV ? 2708 : 2708
+      one: IS_DEV ? '7' : '7',
+      two: IS_DEV ? '15' : '15',
+      three: IS_DEV ? '5369' : '7633',
+      four: IS_DEV ? '8083' : '5939',
+      five: IS_DEV ? '8806' : '4241',
+      six: IS_DEV ? '7933' : '2900',
+      seven: IS_DEV ? '2708' : '2708'
     }
   }
 }) as OperationOption<{}, {}>;

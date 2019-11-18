@@ -6,7 +6,7 @@ import { TabPanel, Tabs } from 'react-tabs';
 import Loader from '../../components/elements/Loader/Loader';
 import LoadMoreTimeline from '../../components/elements/Loadmore/localInstance';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
-import TimelineItem from '../../components/elements/TimelineItem';
+import TimelineItem from '../../components/elements/TimelineItem/index2';
 import FeaturedCollections from '../../components/featuredCollections';
 import FeaturedCommunities from '../../components/featuredCommunities';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
@@ -27,17 +27,15 @@ import Empty from '../../components/elements/Empty';
 interface Props {}
 
 const Home: React.FC<Props> = props => {
-  const { data, error, loading, fetchMore, refetch } = useLocalActivitiesQuery({
+  const { error, loading, refetch, data, fetchMore } = useLocalActivitiesQuery({
     variables: {
       limit: 15
     }
   });
-  console.log('startCursor', data && data.localActivities.pageInfo.startCursor);
-  console.log('endCursor', data && data.localActivities.pageInfo.endCursor);
   useInterceptor({ operation: 'createReply', request: () => () => refetch() });
-  useInterceptor({ operation: 'likeComment', request: () => () => refetch() });
+  useInterceptor({ operation: 'like', request: () => () => refetch() });
   useInterceptor({
-    operation: 'undoLikeComment',
+    operation: 'delete',
     request: () => () => refetch()
   });
   return (
@@ -71,16 +69,18 @@ const Home: React.FC<Props> = props => {
                   <Loader />
                 ) : (
                   <div>
-                    {data!.localActivities!.nodes!.map(activity => (
+                    {data!.instance!.outbox!.edges!.map(activity => (
                       <TimelineItem
-                        node={activity!}
-                        user={activity!.user!}
-                        key={activity!.id!}
+                        verb={activity!.node.verb}
+                        context={activity!.node.context}
+                        user={activity!.node!.user!}
+                        key={activity!.node!.id!}
+                        createdAt={activity!.node.createdAt}
                       />
                     ))}
                     <LoadMoreTimeline
                       fetchMore={fetchMore}
-                      localActivities={data!.localActivities!}
+                      outbox={data!.instance!.outbox!}
                     />
                   </div>
                 )}

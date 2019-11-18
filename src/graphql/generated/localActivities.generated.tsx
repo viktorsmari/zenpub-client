@@ -1,16 +1,16 @@
-import { BasicCommentFragmentDoc } from '../fragments/generated/basicComment.generated';
+import { BasicCommunityFragmentDoc } from '../fragments/generated/basicCommunity.generated';
 import * as Types from '../types.d';
 
 import { BasicCollectionFragment } from '../fragments/generated/basicCollection.generated';
-import { BasicCommentFragment } from '../fragments/generated/basicComment.generated';
 import { BasicCommunityFragment } from '../fragments/generated/basicCommunity.generated';
+import { BasicResourceFragment } from '../fragments/generated/basicResource.generated';
 import { BasicUserFragment } from '../fragments/generated/basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from '../fragments/generated/basicUser.generated';
-import { BasicCommunityFragmentDoc } from '../fragments/generated/basicCommunity.generated';
-import { BasicResourceFragment } from '../fragments/generated/basicResource.generated';
-import { BasicCollectionFragmentDoc } from '../fragments/generated/basicCollection.generated';
 import { BasicResourceFragmentDoc } from '../fragments/generated/basicResource.generated';
+import { BasicCommentWithInReplyToFragment } from '../fragments/generated/basicComment.generated';
+import { BasicCollectionFragmentDoc } from '../fragments/generated/basicCollection.generated';
+import { BasicCommentWithInReplyToFragmentDoc } from '../fragments/generated/basicComment.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -20,74 +20,98 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type LocalActivitiesQueryVariables = {
   limit?: Types.Maybe<Types.Scalars['Int']>;
-  end?: Types.Maybe<Types.Scalars['Int']>;
+  end?: Types.Maybe<Types.Scalars['String']>;
 };
 
 export type LocalActivitiesQuery = { __typename?: 'RootQueryType' } & {
-  localActivities: { __typename?: 'GenericActivityPage' } & {
-    pageInfo: { __typename?: 'PageInfo' } & Pick<
-      Types.PageInfo,
-      'startCursor' | 'endCursor'
-    >;
-    nodes: Types.Maybe<
-      Array<
-        Types.Maybe<
-          { __typename?: 'Activity' } & Pick<
-            Types.Activity,
-            'id' | 'activityType' | 'published' | 'type'
-          > & {
-              user: Types.Maybe<{ __typename?: 'User' } & BasicUserFragment>;
-              object: Types.Maybe<
-                | ({ __typename?: 'Community' } & BasicCommunityFragment)
-                | ({ __typename?: 'Collection' } & BasicCollectionFragment)
-                | ({ __typename?: 'Resource' } & BasicResourceFragment)
-                | ({ __typename?: 'Comment' } & BasicCommentFragment)
-              >;
-            }
-        >
-      >
-    >;
-  };
+  instance: Types.Maybe<
+    { __typename?: 'Instance' } & {
+      outbox: { __typename?: 'ActivitiesEdges' } & {
+        pageInfo: Types.Maybe<
+          { __typename?: 'PageInfo' } & Pick<
+            Types.PageInfo,
+            'startCursor' | 'endCursor'
+          >
+        >;
+        edges: Array<
+          Types.Maybe<
+            { __typename?: 'ActivitiesEdge' } & Pick<
+              Types.ActivitiesEdge,
+              'cursor'
+            > & {
+                node: { __typename?: 'Activity' } & Pick<
+                  Types.Activity,
+                  | 'id'
+                  | 'canonicalUrl'
+                  | 'verb'
+                  | 'isLocal'
+                  | 'isPublic'
+                  | 'createdAt'
+                > & {
+                    user: { __typename?: 'User' } & BasicUserFragment;
+                    context:
+                      | ({
+                          __typename?: 'Collection';
+                        } & BasicCollectionFragment)
+                      | ({
+                          __typename?: 'Comment';
+                        } & BasicCommentWithInReplyToFragment)
+                      | ({ __typename?: 'Community' } & BasicCommunityFragment)
+                      | ({ __typename?: 'Resource' } & BasicResourceFragment);
+                  };
+              }
+          >
+        >;
+      };
+    }
+  >;
 };
 
 export const LocalActivitiesDocument = gql`
-  query localActivities($limit: Int, $end: Int) {
-    localActivities(limit: $limit, after: $end) {
-      pageInfo {
-        startCursor
-        endCursor
-      }
-      nodes {
-        id
-        activityType
-        published
-        type
-        user {
-          ...BasicUser
+  query localActivities($limit: Int, $end: String) {
+    instance {
+      outbox(limit: $limit, after: $end) {
+        pageInfo {
+          startCursor
+          endCursor
         }
-        object {
-          __typename
-          ... on Community {
-            ...BasicCommunity
-          }
-          ... on Comment {
-            ...BasicComment
-          }
-          ... on Collection {
-            ...BasicCollection
-          }
-          ... on Resource {
-            ...BasicResource
+        edges {
+          cursor
+          node {
+            id
+            canonicalUrl
+            verb
+            isLocal
+            isPublic
+            createdAt
+            user {
+              ...BasicUser
+            }
+            context {
+              __typename
+              ... on Resource {
+                ...BasicResource
+              }
+              ... on Community {
+                ...BasicCommunity
+              }
+              ... on Collection {
+                ...BasicCollection
+              }
+              ... on Comment {
+                ...BasicCommentWithInReplyTo
+              }
+            }
           }
         }
       }
     }
   }
   ${BasicUserFragmentDoc}
-  ${BasicCommunityFragmentDoc}
-  ${BasicCommentFragmentDoc}
-  ${BasicCollectionFragmentDoc}
   ${BasicResourceFragmentDoc}
+  ${BasicCommunityFragmentDoc}
+  ${BasicCollectionFragmentDoc}
+  ${BasicCommentWithInReplyToFragmentDoc}
 `;
 export type LocalActivitiesComponentProps = Omit<
   ApolloReactComponents.QueryComponentOptions<
@@ -200,31 +224,130 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: 'UNION',
-        name: 'CommentContext',
+        name: 'ActivityContext',
         possibleTypes: [
           {
             name: 'Collection'
           },
           {
+            name: 'Comment'
+          },
+          {
             name: 'Community'
+          },
+          {
+            name: 'Resource'
           }
         ]
       },
       {
         kind: 'UNION',
-        name: 'ActivityObject',
+        name: 'FlagContext',
         possibleTypes: [
           {
-            name: 'Community'
+            name: 'Collection'
           },
           {
-            name: 'Collection'
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
           },
           {
             name: 'Resource'
           },
           {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'LikeContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
             name: 'Comment'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'ThreadContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Resource'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'FollowContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
           }
         ]
       }

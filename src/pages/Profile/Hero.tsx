@@ -3,16 +3,10 @@ import { Box, Text, Flex } from 'rebass/styled-components';
 import { Globe } from '../../components/elements/Icons';
 import styled from '../../themes/styled';
 import media from 'styled-media-query';
+import { User } from '../../graphql/types';
 
 interface Props {
-  user: {
-    name: string;
-    summary: string;
-    image: string;
-    icon: string;
-    preferredUsername: string;
-    location: string;
-  };
+  user: User;
 }
 
 const HeroComp: SFC<Props> = ({ user }) => (
@@ -23,7 +17,7 @@ const HeroComp: SFC<Props> = ({ user }) => (
       </title>
     </Helmet> */}
     <Hero>
-      <HeroBg src={user.image} />
+      <HeroBg src={user.image!} />
       <FlexProfile>
         <WrapperHero>
           <Img
@@ -37,7 +31,7 @@ const HeroComp: SFC<Props> = ({ user }) => (
             {user.name}
           </Text>
           <Username mt={2} fontSize={2}>
-            @{user.preferredUsername}
+            @{user.preferredUsername + '@' + user.canonicalUrl}
           </Username>
           <Text variant="text" mt={2}>
             {user.summary}

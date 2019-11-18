@@ -1,16 +1,12 @@
 import { Trans } from '@lingui/macro';
 import gql from 'graphql-tag';
 import React from 'react';
-import { graphql, OperationOption } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import { compose } from 'recompose';
 // import styled from '../../themes/styled';
 import { Button } from 'rebass/styled-components';
-const {
-  joinCommunityMutation
-} = require('../../graphql/joinCommunity.graphql');
-const {
-  undoJoinCommunityMutation
-} = require('../../graphql/undoJoinCommunity.graphql');
+const { followMutation } = require('../../graphql/follow.graphql');
+const { deleteMutation } = require('../../graphql/delete.graphql');
 
 interface Props {
   joinCommunity: any;
@@ -20,15 +16,15 @@ interface Props {
   externalId: string;
 }
 
-const withJoinCommunity = graphql<{}>(joinCommunityMutation, {
+const withJoinCommunity = graphql(followMutation, {
   name: 'joinCommunity'
   // TODO enforce proper types for OperationOption
-} as OperationOption<{}, {}>);
+});
 
-const withLeaveCommunity = graphql<{}>(undoJoinCommunityMutation, {
+const withLeaveCommunity = graphql(deleteMutation, {
   name: 'leaveCommunity'
   // TODO enforce proper types for OperationOption
-} as OperationOption<{}, {}>);
+});
 
 const Join: React.FC<Props> = ({
   joinCommunity,
@@ -43,7 +39,7 @@ const Join: React.FC<Props> = ({
         variant="outline"
         onClick={() =>
           leaveCommunity({
-            variables: { communityId: id },
+            variables: { contextId: id },
             update: (proxy, { data: { undoJoinCommunity } }) => {
               const fragment = gql`
                 fragment Res on Community {
@@ -79,7 +75,7 @@ const Join: React.FC<Props> = ({
         variant="primary"
         onClick={() =>
           joinCommunity({
-            variables: { communityId: id },
+            variables: { contextId: id },
             update: (proxy, { data: { joinCommunity } }) => {
               const fragment = gql`
                 fragment Res on Community {

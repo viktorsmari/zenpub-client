@@ -1,6 +1,8 @@
 import * as Types from '../types.d';
 
+import { BasicCommentWithInReplyToFragment } from '../fragments/generated/basicComment.generated';
 import gql from 'graphql-tag';
+import { BasicCommentWithInReplyToFragmentDoc } from '../fragments/generated/basicComment.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as React from 'react';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -9,7 +11,7 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type CreateThreadMutationMutationVariables = {
-  id: Types.Scalars['Int'];
+  contextId: Types.Scalars['String'];
   comment: Types.CommentInput;
 };
 
@@ -19,36 +21,48 @@ export type CreateThreadMutationMutation = {
   createThread: Types.Maybe<
     { __typename?: 'Comment' } & Pick<
       Types.Comment,
-      'id' | 'localId' | 'content'
+      | 'id'
+      | 'canonicalUrl'
+      | 'content'
+      | 'isLocal'
+      | 'isPublic'
+      | 'isHidden'
+      | 'createdAt'
+      | 'updatedAt'
     > & {
-        author: Types.Maybe<
-          { __typename?: 'User' } & Pick<Types.User, 'name' | 'icon'>
+        inReplyTo: Types.Maybe<
+          { __typename?: 'Comment' } & BasicCommentWithInReplyToFragment
         >;
-        replies: Types.Maybe<
-          { __typename?: 'CommentRepliesConnection' } & Pick<
-            Types.CommentRepliesConnection,
-            'totalCount'
-          >
-        >;
+        creator: { __typename?: 'User' } & Pick<Types.User, 'name' | 'icon'>;
+        thread: { __typename?: 'Thread' } & Pick<Types.Thread, 'id'>;
       }
   >;
 };
 
 export const CreateThreadMutationDocument = gql`
-  mutation createThreadMutation($id: Int!, $comment: CommentInput!) {
-    createThread(contextLocalId: $id, comment: $comment) {
+  mutation createThreadMutation($contextId: String!, $comment: CommentInput!) {
+    createThread(contextId: $contextId, comment: $comment) {
       id
-      author {
+      canonicalUrl
+      inReplyTo {
+        ...BasicCommentWithInReplyTo
+      }
+      content
+      isLocal
+      isPublic
+      isHidden
+      createdAt
+      updatedAt
+      creator {
         name
         icon
       }
-      localId
-      content
-      replies {
-        totalCount
+      thread {
+        id
       }
     }
   }
+  ${BasicCommentWithInReplyToFragmentDoc}
 `;
 export type CreateThreadMutationMutationFn = ApolloReactCommon.MutationFunction<
   CreateThreadMutationMutation,
@@ -113,7 +127,7 @@ export function withCreateThreadMutation<TProps, TChildProps = {}>(
  * @example
  * const [createThreadMutationMutation, { data, loading, error }] = useCreateThreadMutationMutation({
  *   variables: {
- *      id: // value for 'id'
+ *      contextId: // value for 'contextId'
  *      comment: // value for 'comment'
  *   },
  * });
@@ -157,31 +171,130 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: 'UNION',
-        name: 'CommentContext',
+        name: 'ActivityContext',
         possibleTypes: [
           {
             name: 'Collection'
           },
           {
+            name: 'Comment'
+          },
+          {
             name: 'Community'
+          },
+          {
+            name: 'Resource'
           }
         ]
       },
       {
         kind: 'UNION',
-        name: 'ActivityObject',
+        name: 'FlagContext',
         possibleTypes: [
           {
-            name: 'Community'
+            name: 'Collection'
           },
           {
-            name: 'Collection'
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
           },
           {
             name: 'Resource'
           },
           {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'LikeContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
             name: 'Comment'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'ThreadContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Resource'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'FollowContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
           }
         ]
       }

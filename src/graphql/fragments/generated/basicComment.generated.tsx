@@ -1,100 +1,88 @@
 import * as Types from '../../types.d';
 
+import { BasicResourceFragment } from './basicResource.generated';
+import { BasicCollectionFragment } from './basicCollection.generated';
+import { BasicCommunityFragment } from './basicCommunity.generated';
+import { BasicUserFragment } from './basicUser.generated';
 import gql from 'graphql-tag';
+import { BasicUserFragmentDoc } from './basicUser.generated';
+import { BasicCommunityFragmentDoc } from './basicCommunity.generated';
+import { BasicCollectionFragmentDoc } from './basicCollection.generated';
+import { BasicResourceFragmentDoc } from './basicResource.generated';
+
+export type BasicCommentWithInReplyToFragment = { __typename?: 'Comment' } & {
+  inReplyTo: Types.Maybe<{ __typename?: 'Comment' } & BasicCommentFragment>;
+} & BasicCommentFragment;
 
 export type BasicCommentFragment = { __typename?: 'Comment' } & Pick<
   Types.Comment,
-  'localId' | 'content' | 'id' | 'published'
+  | 'id'
+  | 'content'
+  | 'isLocal'
+  | 'isPublic'
+  | 'isHidden'
+  | 'createdAt'
+  | 'updatedAt'
 > & {
-    author: Types.Maybe<
-      { __typename?: 'User' } & Pick<
-        Types.User,
-        'name' | 'id' | 'icon' | 'preferredUsername' | 'localId'
-      >
-    >;
-    replies: Types.Maybe<
-      { __typename?: 'CommentRepliesConnection' } & Pick<
-        Types.CommentRepliesConnection,
-        'totalCount'
-      >
-    >;
-    inReplyTo: Types.Maybe<
-      { __typename?: 'Comment' } & Pick<
-        Types.Comment,
-        'localId' | 'content'
-      > & {
-          author: Types.Maybe<
-            { __typename?: 'User' } & Pick<
-              Types.User,
-              'id' | 'icon' | 'name' | 'localId' | 'preferredUsername'
-            >
-          >;
-        }
-    >;
-    likers: Types.Maybe<
-      { __typename?: 'CommentLikersConnection' } & Pick<
-        Types.CommentLikersConnection,
-        'totalCount'
-      >
-    >;
-    context: Types.Maybe<
-      | ({ __typename?: 'Collection' } & Pick<
-          Types.Collection,
-          'id' | 'name' | 'localId' | 'icon'
-        >)
-      | ({ __typename?: 'Community' } & Pick<
-          Types.Community,
-          'id' | 'name' | 'localId' | 'icon'
-        >)
-    >;
+    myLike: Types.Maybe<{ __typename?: 'Like' } & Pick<Types.Like, 'id'>>;
+    creator: { __typename?: 'User' } & BasicUserFragment;
+    likes: { __typename?: 'LikesEdges' } & Pick<Types.LikesEdges, 'totalCount'>;
+    thread: { __typename?: 'Thread' } & Pick<Types.Thread, 'id'> & {
+        context:
+          | ({ __typename?: 'Collection' } & BasicCollectionFragment)
+          | ({ __typename?: 'Community' } & BasicCommunityFragment)
+          | { __typename?: 'Flag' }
+          | ({ __typename?: 'Resource' } & BasicResourceFragment);
+      };
   };
 
 export const BasicCommentFragmentDoc = gql`
   fragment BasicComment on Comment {
-    localId
-    content
     id
-    published
-    author {
-      name
+    content
+    isLocal
+    isPublic
+    isHidden
+    createdAt
+    updatedAt
+    myLike {
       id
-      icon
-      preferredUsername
-      localId
     }
-    replies {
+    creator {
+      ...BasicUser
+    }
+    likes {
       totalCount
     }
-    inReplyTo {
-      localId
-      content
-      author {
-        id
-        icon
-        name
-        localId
-        preferredUsername
-      }
-    }
-    likers {
-      totalCount
-    }
-    context {
-      __typename
-      ... on Community {
-        id
-        name
-        localId
-        icon
-      }
-      ... on Collection {
-        id
-        name
-        localId
-        icon
+    thread {
+      id
+      context {
+        __typename
+        ... on Community {
+          ...BasicCommunity
+        }
+        ... on Collection {
+          ...BasicCollection
+        }
+        ... on Resource {
+          ...BasicResource
+        }
       }
     }
   }
+  ${BasicUserFragmentDoc}
+  ${BasicCommunityFragmentDoc}
+  ${BasicCollectionFragmentDoc}
+  ${BasicResourceFragmentDoc}
+`;
+export const BasicCommentWithInReplyToFragmentDoc = gql`
+  fragment BasicCommentWithInReplyTo on Comment {
+    ...BasicComment
+    inReplyTo {
+      ...BasicComment
+    }
+  }
+  ${BasicCommentFragmentDoc}
 `;
 
 export interface IntrospectionResultData {
@@ -114,31 +102,130 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: 'UNION',
-        name: 'CommentContext',
+        name: 'ActivityContext',
         possibleTypes: [
           {
             name: 'Collection'
           },
           {
+            name: 'Comment'
+          },
+          {
             name: 'Community'
+          },
+          {
+            name: 'Resource'
           }
         ]
       },
       {
         kind: 'UNION',
-        name: 'ActivityObject',
+        name: 'FlagContext',
         possibleTypes: [
           {
-            name: 'Community'
+            name: 'Collection'
           },
           {
-            name: 'Collection'
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
           },
           {
             name: 'Resource'
           },
           {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'LikeContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
             name: 'Comment'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'ThreadContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Resource'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'FollowContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
           }
         ]
       }

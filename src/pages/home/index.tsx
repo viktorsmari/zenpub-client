@@ -6,7 +6,7 @@ import { TabPanel, Tabs } from 'react-tabs';
 import Loader from '../../components/elements/Loader/Loader';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timelineUser';
 import { StickyTabList, SuperTab } from '../../components/elements/SuperTab';
-import TimelineItem from '../../components/elements/TimelineItem';
+import TimelineItem from '../../components/elements/TimelineItem/index2';
 import Empty from '../../components/elements/Empty';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import {
@@ -19,15 +19,23 @@ import {
 } from '../../sections/panel';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { useGetMeInboxQuery } from '../../graphql/generated/getMeInbox.generated';
+import { useInterceptor } from '../../context/global/apolloInterceptorCtx';
 
 interface Props {}
 
 const Home: React.FC<Props> = () => {
-  const { data, loading, error, fetchMore } = useGetMeInboxQuery({
+  const { data, loading, error, fetchMore, refetch } = useGetMeInboxQuery({
     variables: {
       limit: 15
     }
   });
+  useInterceptor({ operation: 'createReply', request: () => () => refetch() });
+  useInterceptor({ operation: 'like', request: () => () => refetch() });
+  useInterceptor({
+    operation: 'delete',
+    request: () => () => refetch()
+  });
+
   return (
     <MainContainer>
       <HomeBox>
@@ -52,7 +60,9 @@ const Home: React.FC<Props> = () => {
                   <div>
                     {data!.me!.user!.inbox!.edges!.map(userActivityEdge => (
                       <TimelineItem
-                        node={userActivityEdge!.node!}
+                        context={userActivityEdge!.node!.context}
+                        verb={userActivityEdge!.node!.verb}
+                        createdAt={userActivityEdge!.node!.createdAt}
                         user={userActivityEdge!.node!.user!}
                         key={userActivityEdge!.node!.id!}
                       />

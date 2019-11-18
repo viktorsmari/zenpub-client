@@ -8,12 +8,13 @@ import removeMd from 'remove-markdown';
 import styled from '../../../themes/styled';
 import Link from '../Link/Link';
 import Talk from '../TalkModal';
-import { useLikeCommentMutationMutation } from '../../../graphql/generated/likeComment.generated';
-import { useUndoLikeCommentMutationMutation } from '../../../graphql/generated/undoLikeComment.generated';
+import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
+import { useDeleteMutationMutation } from '../../../graphql/generated/delete.generated';
+import { BasicCommentFragment } from '../../../graphql/fragments/generated/basicComment.generated';
 import { Comment } from '../../../graphql/types';
 
 interface EventProps {
-  comment: Comment;
+  comment: BasicCommentFragment | Comment;
   noAction?: boolean;
   noLink?: boolean;
 }
@@ -24,14 +25,14 @@ const CommentWrapper: React.FC<EventProps> = ({
   noLink
 }) => {
   const FAKE________COMMENT_I_LIKE_IT = !!Math.round(Math.random());
-  const { author } = comment;
-  const [like /* , likeResult */] = useLikeCommentMutationMutation();
-  const [undoLike /* , likeResult */] = useUndoLikeCommentMutationMutation();
+  const { creator } = comment;
+  const [like /* , likeResult */] = useLikeMutationMutation();
+  const [undoLike /* , likeResult */] = useDeleteMutationMutation();
   const [iLikeIt, setiLikeIt] = React.useState(FAKE________COMMENT_I_LIKE_IT);
   const [isOpen, onOpen] = React.useState(false);
   const toggleLike = React.useCallback(
     () => {
-      const variables = { localId: comment.localId! };
+      const variables = { contextId: comment.id! };
       (iLikeIt ? undoLike : like)({ variables });
       setiLikeIt(!iLikeIt);
     },
@@ -40,22 +41,22 @@ const CommentWrapper: React.FC<EventProps> = ({
 
   return (
     <FeedItem>
-      {noLink ? null : <NavigateToThread to={`/thread/${comment!.localId}`} />}
+      {noLink ? null : <NavigateToThread to={`/thread/${comment.id}`} />}
       <Member>
         <MemberItem mr={2}>
-          <Img src={(author && author.icon) || ''} />
+          <Img src={(creator && creator.icon) || ''} />
         </MemberItem>
         <MemberInfo>
-          {author ? (
+          {creator ? (
             <Name>
-              <Link to={'/user/' + author.localId}>
-                {author.name}{' '}
-                {author.preferredUsername && (
-                  <Username>@{author.preferredUsername}</Username>
+              <Link to={'/user/' + creator.id}>
+                {creator.name}{' '}
+                {creator.preferredUsername && (
+                  <Username>@{creator.preferredUsername}</Username>
                 )}
               </Link>
               <Spacer mx={2}>·</Spacer>{' '}
-              <Date>{DateTime.fromISO(comment!.published!).toRelative()}</Date>
+              <Date>{DateTime.fromISO(comment.createdAt!).toRelative()}</Date>
             </Name>
           ) : (
             <Name>
@@ -64,12 +65,12 @@ const CommentWrapper: React.FC<EventProps> = ({
           )}
           <>
             <Comment>
-              {comment!.content && comment!.content!.length > 320
+              {comment.content && comment.content.length > 320
                 ? removeMd(comment!.content).replace(
                     /^([\s\S]{316}[^\s]*)[\s\S]*/,
                     '$1...'
                   )
-                : removeMd(comment!.content)}
+                : removeMd(comment.content)}
             </Comment>
           </>
           {noAction ? null : (
@@ -79,7 +80,7 @@ const CommentWrapper: React.FC<EventProps> = ({
                   <ActionIcon>
                     <MessageCircle color="rgba(0,0,0,.4)" size="16" />
                   </ActionIcon>
-                  <Text ml={2}>{comment!.replies!.totalCount}</Text>
+                  <Text ml={2}>{/*TODO comment.replies!.totalCount */}</Text>
                 </ActionItem>
                 <ActionItem ml={3} onClick={toggleLike}>
                   <ActionIcon>
@@ -88,7 +89,7 @@ const CommentWrapper: React.FC<EventProps> = ({
                       size="16"
                     />
                   </ActionIcon>
-                  <Text ml={2}>{comment!.likers!.totalCount}</Text>
+                  <Text ml={2}>{comment.likes!.totalCount}</Text>
                 </ActionItem>
               </Items>
             </Actions>

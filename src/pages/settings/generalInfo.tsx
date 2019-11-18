@@ -287,6 +287,7 @@ const Component = (props: Props & FormikProps<FormValues>) => {
           </ExRow> */}
             <Actions>
               <Button
+                type="submit"
                 disabled={isSubmitting || Object.keys(errors).length > 0}
                 style={{ width: '100%' }}
               >
@@ -321,7 +322,6 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
       profile: {
         name: values.name,
         image: values.image,
-        preferredUsername: values.username,
         summary: values.summary,
         location: values.location,
         icon: values.icon

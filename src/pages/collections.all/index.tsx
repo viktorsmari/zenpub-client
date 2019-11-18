@@ -2,7 +2,7 @@ import { Trans } from '@lingui/macro';
 import * as React from 'react';
 import { graphql, QueryControls, OperationOption } from 'react-apollo';
 import { TabPanel, Tabs } from 'react-tabs';
-import { compose, withState, withHandlers } from 'recompose';
+import { compose } from 'recompose';
 import CollectionCard from '../../components/elements/Collection/Collection';
 import Loader from '../../components/elements/Loader/Loader';
 import CollectionsLoadMore from '../../components/elements/Loadmore/collections';
@@ -12,11 +12,12 @@ import CollectionType from '../../types/Collection';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel } from '../../sections/panel';
+import { BasicCollectionFragment } from '../../graphql/fragments/generated/basicCollection.generated';
 const { getCollectionsQuery } = require('../../graphql/getCollections.graphql');
 
 interface Data extends QueryControls {
   collections: {
-    nodes: CollectionType[];
+    nodes: BasicCollectionFragment[];
     pageInfo: {
       startCursor: number;
       endCursor: number;
@@ -59,12 +60,7 @@ class CommunitiesYours extends React.Component<Props> {
                       </Helmet> */}
                         <List>
                           {this.props.data.collections.nodes.map((coll, i) => (
-                            <CollectionCard
-                              key={i}
-                              collection={coll}
-                              openModal={this.props.handleCollection}
-                              communityId={coll.community.localId}
-                            />
+                            <CollectionCard key={i} collection={coll} />
                           ))}
                         </List>
                         <CollectionsLoadMore
@@ -106,11 +102,4 @@ const withGetCommunities = graphql<
   })
 }) as OperationOption<{}, {}>;
 
-export default compose(
-  withGetCommunities,
-  withState('isOpenCollection', 'onOpenCollection', false),
-  withHandlers({
-    handleCollection: props => () =>
-      props.onOpenCollection(!props.isOpenCollection)
-  })
-)(CommunitiesYours);
+export default compose(withGetCommunities)(CommunitiesYours);

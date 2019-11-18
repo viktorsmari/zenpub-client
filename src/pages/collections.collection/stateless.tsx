@@ -18,6 +18,7 @@ import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import Header from '../thread/header';
 import Empty from '../../components/elements/Empty';
+import { SessionContext } from '../../context/global/sessionCtx';
 
 export interface Props {
   collectionQuery: GetCollectionQueryHookResult;
@@ -32,6 +33,12 @@ const Component: React.FC<Props> = ({
   editCollection,
   isEditCollectionOpen
 }) => {
+  const { auth } = React.useContext(SessionContext);
+  const isMine =
+    !!auth &&
+    !!collection.data &&
+    !!collection.data.collection &&
+    auth.me.user.id === collection.data.collection.creator.id;
   return (
     <MainContainer>
       <HomeBox>
@@ -79,14 +86,14 @@ const Component: React.FC<Props> = ({
                           })}
                       </Description>
                       <ActionsHero mt={3} alignItems={'center'}>
-                        {collection.data!.collection!.community!.followed ? (
+                        {isMine ? (
                           <EditButton onClick={editCollection}>
                             <Settings size={18} color={'#f98012'} />
                           </EditButton>
                         ) : null}
                         <Join
-                          followed={collection.data!.collection!.followed}
-                          id={collection.data!.collection!.localId}
+                          followed={collection.data!.collection!.myFollow}
+                          id={collection.data!.collection!.id}
                           externalId={collection.data!.collection!.id}
                         />
                       </ActionsHero>
@@ -105,9 +112,10 @@ const Component: React.FC<Props> = ({
                 <EditCollectionModal
                   toggleModal={editCollection}
                   modalIsOpen={isEditCollectionOpen}
-                  collectionId={collection.data!.collection!.localId}
+                  collectionId={collection.data!.collection!.id}
                   collectionExternalId={collection.data!.collection!.id}
-                  collection={collection}
+                  collection={collection.data.collection!}
+                  collectionUpdated={collection.refetch}
                 />
               </>
             )}

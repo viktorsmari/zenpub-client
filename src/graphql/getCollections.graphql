@@ -1,32 +1,38 @@
-query getCollectionsQuery($limit: Int, $end: Int) {
+query getCollectionsQuery($limit: Int, $end: String) {
     collections(limit: $limit, after:$end) {
-        pageInfo {
-            startCursor
-            endCursor
-        }
+        pageInfo { startCursor endCursor }
         nodes {
             id
-            localId
+            canonicalUrl
             preferredUsername
             name
             summary
             icon
-            followed
+            isLocal
+            isPublic
+            isDisabled
+            createdAt
+            updatedAt
+            lastActivity
+            myLike   { id }
+            myFollow { id }
             community {
-            id
-            localId
-            name
-            followed
+                id
+                canonicalUrl
+		preferredUsername
+                name
+                icon
+                isLocal
+                isPublic
+                isDisabled
+                createdAt
+                updatedAt
+                lastActivity
+                myFollow { id }
             }
-            followers {
-                totalCount
-            }
-            resources {
-                totalCount
-            }
-            inbox {
-                totalCount
-            }
+            followers { totalCount }
+            resources { totalCount }
+            outbox    { totalCount }
         }
     }
 }

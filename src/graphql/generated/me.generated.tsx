@@ -13,17 +13,23 @@ export type MeQueryQueryVariables = {};
 export type MeQueryQuery = { __typename?: 'RootQueryType' } & {
   me: Types.Maybe<
     { __typename?: 'Me' } & Pick<Types.Me, 'email'> & {
-        user: Types.Maybe<
-          { __typename?: 'User' } & Pick<
-            Types.User,
-            | 'id'
-            | 'name'
-            | 'preferredUsername'
-            | 'location'
-            | 'icon'
-            | 'image'
-            | 'summary'
-          >
+        user: { __typename?: 'User' } & Pick<
+          Types.User,
+          | 'id'
+          | 'canonicalUrl'
+          | 'preferredUsername'
+          | 'name'
+          | 'location'
+          | 'icon'
+          | 'image'
+          | 'summary'
+          | 'website'
+          | 'isLocal'
+          | 'isPublic'
+          | 'isDisabled'
+          | 'createdAt'
+          | 'updatedAt'
+          | 'lastActivity'
         >;
       }
   >;
@@ -35,12 +41,21 @@ export const MeQueryDocument = gql`
       email
       user {
         id
-        name
+        canonicalUrl
         preferredUsername
+        name
         location
         icon
         image
         summary
+        location
+        website
+        isLocal
+        isPublic
+        isDisabled
+        createdAt
+        updatedAt
+        lastActivity
       }
     }
   }
@@ -145,31 +160,130 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: 'UNION',
-        name: 'CommentContext',
+        name: 'ActivityContext',
         possibleTypes: [
           {
             name: 'Collection'
           },
           {
+            name: 'Comment'
+          },
+          {
             name: 'Community'
+          },
+          {
+            name: 'Resource'
           }
         ]
       },
       {
         kind: 'UNION',
-        name: 'ActivityObject',
+        name: 'FlagContext',
         possibleTypes: [
           {
-            name: 'Community'
+            name: 'Collection'
           },
           {
-            name: 'Collection'
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
           },
           {
             name: 'Resource'
           },
           {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'LikeContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
             name: 'Comment'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'ThreadContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Resource'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'FollowContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
           }
         ]
       }

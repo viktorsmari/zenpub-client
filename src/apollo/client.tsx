@@ -19,8 +19,14 @@ import {
 } from '../constants';
 
 import { onError } from 'apollo-link-error';
-import { OperationDefinitionNode, GraphQLError, FieldNode } from 'graphql';
+import {
+  OperationDefinitionNode,
+  GraphQLError,
+  FieldNode,
+  OperationTypeNode
+} from 'graphql';
 import { RootMutationType, RootQueryType } from '../graphql/types';
+import { i18nMark } from '@lingui/react';
 
 // const { meQuery } = require('../graphql/me.graphql');
 interface Cfg {
@@ -35,17 +41,17 @@ export default async function initialise({ authToken }: Cfg) {
 
   const setTokenLink = new ApolloLink((operation, nextLink) => {
     const createSessionOpName: OperationName = 'createSession';
-    const createUserOpName: OperationName = 'createUser';
     const deleteSessionOpName: OperationName = 'deleteSession';
-    const opName = getOperationName(operation);
-    if (opName === deleteSessionOpName) {
+
+    const [opName] = getOperationNameAndType(operation);
+
+    if (opName && opName === deleteSessionOpName) {
       authToken = undefined;
     }
     return nextLink(operation).map(resp => {
-      if (opName === createUserOpName || opName === createSessionOpName) {
-        const authPyload: ResponseOf<
-          typeof createSessionOpName | typeof createUserOpName
-        > = resp.data && resp.data[opName];
+      if (opName === createSessionOpName) {
+        const authPyload: ResponseOf<typeof createSessionOpName> =
+          resp.data && resp.data[opName];
         authToken =
           authPyload && authPyload.token ? authPyload.token : undefined;
       }
@@ -124,7 +130,7 @@ export default async function initialise({ authToken }: Cfg) {
     const interceptorOperationResponseHandlers: InterceptorOperationResponseHandler<
       OperationName
     >[] = [];
-    const defOpName = getOperationName(operation);
+    const [defOpName] = getOperationNameAndType(operation);
     if (defOpName) {
       for (const interceptor of operationInterceptors) {
         if (interceptor.operation === defOpName) {
@@ -165,10 +171,34 @@ export default async function initialise({ authToken }: Cfg) {
     });
   });
 
+  const ALLOWED_ANON_MUTATIONS: OperationName[] = [
+    'createUser',
+    'createSession',
+    'usernameAvailable'
+  ];
+  const alertBlockMutationsForAnonymousLink = new ApolloLink(
+    (operation, nextLink) => {
+      if (!authToken) {
+        const [opName, optype] = getOperationNameAndType(operation);
+        if (
+          opName &&
+          optype &&
+          optype === 'mutation' &&
+          !ALLOWED_ANON_MUTATIONS.includes(opName)
+        ) {
+          alert(i18nMark('You should log in for performing this operation!'));
+          return null;
+        }
+      }
+
+      return nextLink(operation);
+    }
+  );
   // used for graphql query and mutations
   const httpLink = ApolloLink.from(
     [
       IS_DEV ? apolloLogger : null,
+      alertBlockMutationsForAnonymousLink,
       oprationInterceptorLink,
       errorLink,
       authLink,
@@ -182,7 +212,6 @@ export default async function initialise({ authToken }: Cfg) {
   const absintheSocket = createAbsintheSocketLink(
     AbsintheSocket.create(new PhoenixSocket(PHOENIX_SOCKET_ENDPOINT))
   );
-
   // if the operation is a subscription then use
   // the absintheSocket otherwise use the httpLink
   const link = ApolloLink.split(
@@ -247,28 +276,31 @@ export type Interceptor<OpName extends OperationName> = {
 export const BLOCK_REQUEST = Symbol();
 export type BlockRequest = typeof BLOCK_REQUEST;
 
-export const getOperationName = (
+export const getOperationNameAndType = (
   operation: Operation
-): OperationName | null => {
+): [OperationName, OperationTypeNode] | [] => {
   const opDefNodes = operation.query.definitions.filter(
     (def): def is OperationDefinitionNode => def.kind === 'OperationDefinition'
   );
-  const maybeOperationName = opDefNodes.reduce<string | undefined>(
-    (found, opDefNode) => {
-      if (!found) {
-        const maybeFieldNode = opDefNode.selectionSet.selections.find(
-          (selNode): selNode is FieldNode => selNode.kind === 'Field'
-        );
-        found = maybeFieldNode && maybeFieldNode.name.value;
-      }
-      return found;
-    },
-    undefined
-  );
 
-  if (!maybeOperationName) {
-    return null;
-  }
-  const opName = maybeOperationName as OperationName;
-  return opName;
+  const maybeOperationNameAndType = opDefNodes.reduce<
+    [OperationName, OperationTypeNode] | null
+  >((found, opDefNode) => {
+    if (!found) {
+      const maybeFieldNode =
+        opDefNode.selectionSet.selections.find(
+          (selNode): selNode is FieldNode => selNode.kind === 'Field'
+        ) || null;
+      const opType = opDefNode.operation;
+      found =
+        maybeFieldNode &&
+        ([maybeFieldNode.name.value, opType] as [
+          OperationName,
+          OperationTypeNode
+        ]);
+    }
+    return found;
+  }, null);
+
+  return maybeOperationNameAndType || [];
 };

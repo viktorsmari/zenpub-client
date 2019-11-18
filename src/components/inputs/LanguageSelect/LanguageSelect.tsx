@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { LocaleContext, locale_default } from '../../../containers/App/App';
 import Select from 'react-select';
+import { LocaleContext, locale_default } from '../../../containers/App/App';
 
 type LanguageSelectState = {
-  selectedKey?: string;
+  stateLocale: string;
 };
 
 type LanguageSelectProps = {
@@ -19,12 +19,12 @@ export const languageNames = {
   eu: 'Euskara'
 };
 
-let options: any[] = [];
+type LangKey = keyof typeof languageNames;
 
-Object.keys(languageNames).forEach(key => {
-  console.log(languageNames[key]);
-  options.push({ value: languageNames[key], label: languageNames[key] });
-});
+const options = Object.keys(languageNames).map((key: LangKey) => ({
+  value: key,
+  label: languageNames[key]
+}));
 
 /**
  * LanguageSelect component.
@@ -35,9 +35,8 @@ export default class LanguageSelect extends React.Component<
   LanguageSelectState
 > {
   state = {
-    selectedKey: locale_default
+    stateLocale: locale_default
   };
-
   constructor(props) {
     super(props);
   }
@@ -47,12 +46,20 @@ export default class LanguageSelect extends React.Component<
       <LocaleContext.Consumer>
         {({ setLocale, locale }) => (
           <Select
-            defaultValue={locale}
-            onChange={selectedKey => {
-              setLocale(selectedKey);
-              this.setState({ selectedKey });
-            }}
             options={options}
+            defaultValue={options.find(_ => _.value === locale)}
+            onChange={selectedKey => {
+              const selection =
+                !!selectedKey && 'length' in selectedKey
+                  ? selectedKey[0]
+                  : selectedKey;
+              if (!selection) {
+                return;
+              }
+
+              setLocale(selection.value);
+              this.setState({ stateLocale: selection.value });
+            }}
           />
         )}
       </LocaleContext.Consumer>

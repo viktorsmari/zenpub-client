@@ -11,51 +11,78 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type GetCollectionQueryVariables = {
-  id: Types.Scalars['Int'];
+  id: Types.Scalars['String'];
 };
 
 export type GetCollectionQuery = { __typename?: 'RootQueryType' } & {
   collection: Types.Maybe<
     { __typename?: 'Collection' } & {
-      resources: Types.Maybe<
-        { __typename?: 'CollectionResourcesConnection' } & Pick<
-          Types.CollectionResourcesConnection,
-          'totalCount'
-        > & {
-            edges: Types.Maybe<
-              Array<
-                Types.Maybe<
-                  { __typename?: 'CollectionResourcesEdge' } & {
-                    node: Types.Maybe<
-                      { __typename?: 'Resource' } & Pick<
-                        Types.Resource,
-                        'id' | 'localId' | 'name' | 'summary' | 'url' | 'icon'
-                      >
+      resources: { __typename?: 'ResourcesEdges' } & Pick<
+        Types.ResourcesEdges,
+        'totalCount'
+      > & {
+          edges: Array<
+            Types.Maybe<
+              { __typename?: 'ResourcesEdge' } & {
+                node: { __typename?: 'Resource' } & Pick<
+                  Types.Resource,
+                  | 'id'
+                  | 'canonicalUrl'
+                  | 'name'
+                  | 'summary'
+                  | 'icon'
+                  | 'url'
+                  | 'license'
+                  | 'createdAt'
+                  | 'updatedAt'
+                  | 'lastActivity'
+                  | 'isLocal'
+                  | 'isPublic'
+                  | 'isDisabled'
+                > & {
+                    myLike: Types.Maybe<
+                      { __typename?: 'Like' } & Pick<Types.Like, 'id'>
                     >;
-                  }
-                >
-              >
-            >;
-          }
-      >;
+                    likes: { __typename?: 'LikesEdges' } & Pick<
+                      Types.LikesEdges,
+                      'totalCount'
+                    >;
+                  };
+              }
+            >
+          >;
+        };
     } & BasicCollectionFragment
   >;
 };
 
 export const GetCollectionDocument = gql`
-  query getCollection($id: Int!) {
-    collection(localId: $id) {
+  query getCollection($id: String!) {
+    collection(collectionId: $id) {
       ...BasicCollection
       resources {
         totalCount
         edges {
           node {
             id
-            localId
+            canonicalUrl
             name
             summary
-            url
             icon
+            url
+            license
+            createdAt
+            updatedAt
+            lastActivity
+            isLocal
+            isPublic
+            isDisabled
+            myLike {
+              id
+            }
+            likes {
+              totalCount
+            }
           }
         }
       }
@@ -171,31 +198,130 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: 'UNION',
-        name: 'CommentContext',
+        name: 'ActivityContext',
         possibleTypes: [
           {
             name: 'Collection'
           },
           {
+            name: 'Comment'
+          },
+          {
             name: 'Community'
+          },
+          {
+            name: 'Resource'
           }
         ]
       },
       {
         kind: 'UNION',
-        name: 'ActivityObject',
+        name: 'FlagContext',
         possibleTypes: [
           {
-            name: 'Community'
+            name: 'Collection'
           },
           {
-            name: 'Collection'
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
           },
           {
             name: 'Resource'
           },
           {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'LikeContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
             name: 'Comment'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'ThreadContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Resource'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'FollowContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
           }
         ]
       }

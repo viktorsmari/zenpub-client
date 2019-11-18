@@ -4,114 +4,128 @@
 #import "./fragments/basicCommunity.graphql"
 #import "./fragments/basicUser.graphql"
 query getAgentQuery(
-  $id: Int!, 
-  $limitComm: Int, 
-  $endComm: Int, 
-  $limitColl: Int, 
-  $endColl: Int, 
-  $limitTimeline:Int, 
-  $endTimeline:Int
-  )  {
-    user(localId: $id) {
-        id
-        localId
-        name
-        preferredUsername
-        location
-        summary
-        icon
-        image
-        outbox (limit: $limitTimeline, after:$endTimeline) {
-          pageInfo {
-            startCursor
-            endCursor
+  $userId: String!
+  $limitComm: Int
+  $endComm: String
+  $limitColl: Int
+  $endColl: String
+  $limitTimeline: Int 
+  $endTimeline: String
+) {
+  user(userId: $userId) {
+    id
+    canonicalUrl
+    preferredUsername
+    name
+    summary
+    location
+    website
+    icon
+    image
+    isLocal
+    isPublic
+    isDisabled
+    createdAt
+    updatedAt
+    lastActivity
+    myFollow { id }
+    myLike { id }
+    outbox (limit: $limitTimeline, after:$endTimeline) {
+      pageInfo { startCursor endCursor }
+      edges {
+        node {
+          id
+          canonicalUrl
+          verb
+          isLocal
+          isPublic
+          createdAt
+          user {
+            ...BasicUser
           }
-          edges {
-            node {
-              id
-              activityType
-              type
-              published
-              user {
-                ...BasicUser
-              }
-              object {
-                __typename
-                ... on Community {
-                  ...BasicCommunity
-                }
-                ... on Comment {
-                  ...BasicComment
-                }
-                ... on Collection {
-                  ...BasicCollection
-                }
-                  ... on Resource {
-                  ...BasicResource
-                }
-              }
-            }
-          }
+          context {
+            __typename
+            ... on Community  { ...BasicCommunity  }
+            ... on Collection { ...BasicCollection }
+            ... on Resource   { ...BasicResource   }
+            ... on Comment    { ...BasicCommentWithInReplyTo    }
+          }       
         }
-        joinedCommunities(limit: $limitComm, after:$endComm) {
-          pageInfo {
-            startCursor
-            endCursor
+      }
+    }
+    followedCommunities(limit: $limitComm, after:$endComm) {
+      pageInfo { startCursor endCursor }
+      edges {
+        node {
+          follow{
+            id
+            canonicalUrl
+            isLocal
+            isPublic
+            createdAt
           }
-          edges {
-            node {
+          community {
+            __typename
+            ... on Community {
               id
+              canonicalUrl
+              preferredUsername
               name
-              localId
               summary
               icon
+              image
+              isLocal
+              isPublic
+              isDisabled
+              createdAt
+              updatedAt
+              lastActivity
+              myFollow { id }
+              collections { totalCount }
+              followers { totalCount }
+              threads { totalCount }
+            }
+          }
+        }
+      }
+    }
+    followedCollections(limit: $limitColl, after:$endColl) {
+      pageInfo { startCursor endCursor }
+      edges {
+        node {
+          follow {
+            id
+            canonicalUrl
+            isLocal
+            isPublic
+            createdAt
+          }
+          collection {
+            __typename
+            ... on Collection {
+              id
+              canonicalUrl
               preferredUsername
-              followed
-              collections {
-                totalCount
-              }
-              members {
-                totalCount
-              }
-              threads {
-                totalCount
-              }
+              name
+              summary
+              icon
+              isLocal
+              isPublic
+              isDisabled
+              createdAt
+              updatedAt
+              lastActivity
+              myFollow { id }
+              myLike   { id }
+              community { id }
+              resources { totalCount }
+              followers { totalCount }
+              likes     { totalCount }
+              threads   { totalCount }
             }
           }
         }
-        followingCollections(limit: $limitColl, after:$endColl) {
-            pageInfo {
-              startCursor
-              endCursor
-            }
-            edges {
-              node {
-                id
-                localId
-                preferredUsername
-                name
-                community {
-                  localId
-                  id
-                }
-                summary
-                icon
-                followed
-                followers {
-                  totalCount
-                }
-                resources {
-                  totalCount
-                }
-                threads {
-                  totalCount
-                }
-                # followersCount
-                # followingCount
-
-              }
-          }
-        }
+      }
+    }
   }
 }
-

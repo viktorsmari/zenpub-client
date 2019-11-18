@@ -1,5 +1,5 @@
 import { Store } from 'redux';
-import { InterceptorSrv, InterceptorResultOf } from '../apollo/client';
+import { InterceptorSrv } from '../apollo/client';
 import { login, logout } from '../redux/session';
 
 export const integrateSessionApolloRedux = (
@@ -8,24 +8,15 @@ export const integrateSessionApolloRedux = (
 ) => {
   intercSrv.add({
     operation: 'createSession',
-    request: _ => doMaybeLogin
-  });
-
-  intercSrv.add({
-    operation: 'createUser',
-    request: _ => _ => doMaybeLogin
-  });
-
-  const doMaybeLogin = (
-    resp: InterceptorResultOf<'createUser' | 'createSession'>
-  ) => {
-    if (!resp.error && resp.data && resp.data.me && resp.data.token) {
-      const payload = { me: resp.data.me, token: resp.data.token };
-      store.dispatch(login.create(payload));
-    } else {
-      store.dispatch(logout.create());
+    request: _ => resp => {
+      if (!resp.error && resp.data && resp.data.me && resp.data.token) {
+        const payload = { me: resp.data.me, token: resp.data.token };
+        store.dispatch(login.create(payload));
+      } else {
+        store.dispatch(logout.create());
+      }
     }
-  };
+  });
 
   intercSrv.add({
     operation: 'deleteSession',

@@ -14,11 +14,12 @@ import CommunityType from '../../types/Community';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel } from '../../sections/panel';
 import { Button, Flex } from 'rebass/styled-components';
+import { BasicCommunityFragment } from '../../graphql/fragments/generated/basicCommunity.generated';
 const { getCommunitiesQuery } = require('../../graphql/getCommunities.graphql');
 
 interface Data extends QueryControls {
   communities: {
-    nodes: CommunityType[];
+    nodes: BasicCommunityFragment[];
     pageInfo: {
       startCursor: number;
       endCursor: number;
@@ -71,12 +72,12 @@ class CommunitiesYours extends React.Component<Props> {
                             return (
                               <CommunityCard
                                 key={i}
-                                summary={community.summary}
+                                summary={community.summary || ''}
                                 title={community.name}
                                 icon={community.icon || ''}
-                                id={community.localId}
-                                followed={community.followed}
-                                followersCount={community.members.totalCount}
+                                id={community.id}
+                                followed={!!community.myFollow}
+                                followersCount={community.followers.totalCount}
                                 collectionsCount={
                                   community.collections.totalCount
                                 }
@@ -157,7 +158,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
   flex: 1;
   & ul {
-    display: block !important;
+    display: block;
 
     & li {
       display: inline-block;

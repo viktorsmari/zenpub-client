@@ -52,10 +52,13 @@ $ cd react
 
 First make sure to configure your domain name or subdomain to point to your server's IP address.
 
-We need to set some environment variables in order to function, a list of which can be found in these files:
-- `.env` (for the frontend, replace 'home.next.moodle.net' with your domain name)
-- `.env.backend` (for the backend, replace all mentions of 'localhost' with your domain name)
-- `.env.secrets.example` (which you must copy to `.env.secrets` and update with secure passowrds and secrets, MAIL_DOMAIN and MAIL_KEY are to configure transactional email with [Mailgun](https://www.mailgun.com/)) 
+We need to set some environment variables in order for MoodleNet to function, a list of which can be found in these files:
+- `.env` 
+	- If you have a domain configured to point to your server, replace every instance of 'localhost' with 'your-domain-here.tld' and those of 'http:' with 'https:'  (the 's' is critical)
+	- **If you want to connect your instance with the MoodleNet "mothership" for indexing public content, search, and discovery**, and you agree with the [Terms for Instance Administrators](https://moodle.net/terms/admins/index.html), set CONNECT_WITH_MOTHERSHIP to true, otherwise set it to false. You should then email moodlenet-moderators@moodle.com to request an API key. 
+- `.env.secrets.example` (which you must copy to `.env.secrets`)
+	- set each password and secret with something random and secure
+	- MAIL_DOMAIN and MAIL_KEY are needed to configure transactional email, sign up at [Mailgun](https://www.mailgun.com/) and then configure the domain name and key 
 
 
 4. Once configured, build the docker image:

@@ -10,7 +10,7 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type UpdateCommunityMutationMutationVariables = {
   community: Types.CommunityInput;
-  communityId: Types.Scalars['Int'];
+  communityId: Types.Scalars['String'];
 };
 
 export type UpdateCommunityMutationMutation = {
@@ -20,15 +20,15 @@ export type UpdateCommunityMutationMutation = {
     { __typename?: 'Community' } & Pick<
       Types.Community,
       | 'id'
-      | 'localId'
+      | 'canonicalUrl'
+      | 'preferredUsername'
       | 'name'
       | 'summary'
-      | 'content'
-      | 'preferredUsername'
-      | 'primaryLanguage'
       | 'icon'
-      | 'published'
-      | 'updated'
+      | 'isLocal'
+      | 'isPublic'
+      | 'createdAt'
+      | 'updatedAt'
     >
   >;
 };
@@ -36,19 +36,19 @@ export type UpdateCommunityMutationMutation = {
 export const UpdateCommunityMutationDocument = gql`
   mutation updateCommunityMutation(
     $community: CommunityInput!
-    $communityId: Int!
+    $communityId: String!
   ) {
-    updateCommunity(communityLocalId: $communityId, community: $community) {
+    updateCommunity(communityId: $communityId, community: $community) {
       id
-      localId
+      canonicalUrl
+      preferredUsername
       name
       summary
-      content
-      preferredUsername
-      primaryLanguage
       icon
-      published
-      updated
+      isLocal
+      isPublic
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -159,31 +159,130 @@ const result: IntrospectionResultData = {
     types: [
       {
         kind: 'UNION',
-        name: 'CommentContext',
+        name: 'ActivityContext',
         possibleTypes: [
           {
             name: 'Collection'
           },
           {
+            name: 'Comment'
+          },
+          {
             name: 'Community'
+          },
+          {
+            name: 'Resource'
           }
         ]
       },
       {
         kind: 'UNION',
-        name: 'ActivityObject',
+        name: 'FlagContext',
         possibleTypes: [
           {
-            name: 'Community'
+            name: 'Collection'
           },
           {
-            name: 'Collection'
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
           },
           {
             name: 'Resource'
           },
           {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'LikeContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
             name: 'Comment'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'ThreadContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Resource'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'FollowContext',
+        possibleTypes: [
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
+          }
+        ]
+      },
+      {
+        kind: 'UNION',
+        name: 'DeleteContext',
+        possibleTypes: [
+          {
+            name: 'Activity'
+          },
+          {
+            name: 'Collection'
+          },
+          {
+            name: 'Comment'
+          },
+          {
+            name: 'Community'
+          },
+          {
+            name: 'Flag'
+          },
+          {
+            name: 'Follow'
+          },
+          {
+            name: 'Like'
+          },
+          {
+            name: 'Resource'
+          },
+          {
+            name: 'Thread'
+          },
+          {
+            name: 'User'
           }
         ]
       }
