@@ -174,6 +174,7 @@ export default async function initialise({ authToken }: Cfg) {
   const ALLOWED_ANON_MUTATIONS: OperationName[] = [
     'createUser',
     'createSession',
+    'confirmEmail',
     'usernameAvailable'
   ];
   const alertBlockMutationsForAnonymousLink = new ApolloLink(
