@@ -114,19 +114,19 @@ const Home: React.FC<Props> = props => {
           </PanelTitle>
           <Nav>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#learningdesign</Trans>
+              <Trans>#pedagogy</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#MPI</Trans>
+              <Trans>#transition</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#Youtube</Trans>
+              <Trans>#english</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#models</Trans>
+              <Trans>#template</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#ADDIE</Trans>
+              <Trans>#assessment</Trans>
             </NavItem>
           </Nav>
         </Panel>
@@ -137,19 +137,19 @@ const Home: React.FC<Props> = props => {
           </PanelTitle>
           <Nav>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#learningdesign</Trans>
+              <Trans>#pedagogy</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#MPI</Trans>
+              <Trans>#transition</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#Youtube</Trans>
+              <Trans>#english</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#models</Trans>
+              <Trans>#template</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#ADDIE</Trans>
+              <Trans>#assessment</Trans>
             </NavItem>
           </Nav>
         </Panel>
