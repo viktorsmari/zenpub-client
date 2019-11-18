@@ -206,6 +206,14 @@ const App: React.FC<Props> = props => {
   const debouncedSetState = React.useRef<any>(null);
   const onSearchStateChange = React.useCallback(
     searchState => {
+      if (
+        lastLocation &&
+        !props.history.location.pathname.startsWith('/search/')
+      ) {
+        setSearchState({ search: '' });
+        setLastLocation(undefined);
+        return;
+      }
       !lastLocation && setLastLocation(props.location.pathname);
       clearTimeout(debouncedSetState.current);
       debouncedSetState.current = setTimeout(() => {
