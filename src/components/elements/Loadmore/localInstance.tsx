@@ -24,7 +24,6 @@ const TimelineLoadMore: SFC<Props> = ({ fetchMore, outbox }) =>
             previousLocalActivityQ: LocalActivitiesQuery,
             { fetchMoreResult }
           ) => {
-            //debugger
             const newNodes = fetchMoreResult.instance.outbox.edges;
             const pageInfo = fetchMoreResult.instance.outbox.pageInfo;
             const newLocalActQ: LocalActivitiesQuery = newNodes.length

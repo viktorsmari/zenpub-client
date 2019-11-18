@@ -51,8 +51,8 @@ const SidebarFixed = styled(Box)`
   top: 0px;
   display: flex;
   padding-left: 6px;
-
-  width: 280px;
+  width: 290px;
+  // width: 280px;
   ${media.lessThan('1280px')`
     width: auto;
   `} ${media.lessThan('860px')`
@@ -156,19 +156,19 @@ const Sidebar: React.FC<{ isOpen: boolean }> = isOpen => (
             </Sbox>
           </Header>
           <Nav pt={3}>
+            <SidebarLink exact to={'/'}>
+              <NavItem mb={3} alignItems={'center'}>
+                <Image mr={2} width={'40px'} src={MnetLogo} />
+                <ItemTitle variant="link">
+                  <Trans>Join MoodleNet</Trans>
+                </ItemTitle>
+              </NavItem>
+            </SidebarLink>
             <SidebarLink exact to={'/discover'}>
               <NavItem mb={3} alignItems={'center'}>
                 <Globe size={36} />
                 <ItemTitle ml={2} variant="link">
                   <Trans>Discover</Trans>
-                </ItemTitle>
-              </NavItem>
-            </SidebarLink>
-            <SidebarLink exact to={'/'}>
-              <NavItem mb={3} alignItems={'center'}>
-                <Image mr={2} width={'40px'} src={MnetLogo} />
-                <ItemTitle variant="link">
-                  <Trans>Join</Trans>
                 </ItemTitle>
               </NavItem>
             </SidebarLink>

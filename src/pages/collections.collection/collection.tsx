@@ -52,8 +52,7 @@ const CommunityPage: SFC<Props> = ({
               }}
             >
               <Wrapper>
-                {resources.totalCount > 9 ? null : collection.community
-                  .followed ? null : (
+                {collection.community.followed ? null : (
                   <Footer>
                     <Trans>Join the community</Trans>{' '}
                     <Link to={'/communities/' + collection.community.localId}>

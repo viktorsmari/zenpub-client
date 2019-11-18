@@ -7,7 +7,7 @@ import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
 import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
 import Link from '../../components/elements/Link/Link';
-// import SignupModal from '../../components/elements/SignupModal';
+import SignupModal from '../../components/elements/SignupModal';
 import { i18n } from '../../containers/App/App';
 import { SessionContext } from '../../context/global/sessionCtx';
 import styled, { MoodleThemeInterface } from '../../themes/styled';
@@ -88,6 +88,10 @@ const Right = styled(Box)`
     width: 100%;
     margin-right: 0;
   }
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 `;
 
 const Footer = styled.div`
@@ -123,6 +127,10 @@ padding-top: 24px;
 
 const Browse = styled(Box)`
   background: #fff;
+  a {
+    text-decoration: none;
+    color: ${props => props.theme.colors.darkgray};
+  }
 `;
 
 const Or = styled.div`
@@ -331,22 +339,24 @@ class Login extends React.Component<LoginProps, LoginState> {
                     Preview what people are sharing, curating, and discussing!
                   </Trans>
                 </Text>
-                <Button mt={3} variant="outline">
-                  <Link to={'/discover'}>
+                <Link to={'/discover'}>
+                  <Button mt={3} variant="outline">
                     <Trans>Browse</Trans>
-                  </Link>
-                </Button>
+                  </Button>
+                </Link>
               </Browse>
             </FormWrapper>
             <Right>
-              <Button
-                mb={2}
-                style={{ width: '100%', height: '50px' }}
-                variant="outline"
-                onClick={this.props.handleSignup}
-              >
-                <Trans>Sign up</Trans>
-              </Button>
+              <Link to="signup">
+                <Button
+                  mb={2}
+                  style={{ width: '100%', height: '50px' }}
+                  variant="outline"
+                  // onClick={this.props.handleSignup}
+                >
+                  <Trans>Sign up</Trans>
+                </Button>
+              </Link>
               <WrapperPanel className="extra">
                 <Panel>
                   <Background src={MnetLogin} />
@@ -367,13 +377,13 @@ class Login extends React.Component<LoginProps, LoginState> {
             <Footer>
               <ul>
                 <li>
-                  <a href="https://new.moodle.net" target="blank">
+                  <a href="https://moodle.net" target="blank">
                     About
                   </a>
                 </li>
                 <li>
                   <a
-                    href="https://docs.moodle.org/dev/MoodleNet/Code_of_Conduct"
+                    href="https://moodle.net/terms/users/index.html"
                     target="blank"
                   >
                     Code of Conduct
@@ -400,11 +410,11 @@ class Login extends React.Component<LoginProps, LoginState> {
               </ul>
             </Footer>
           </LoginWrapper>
-          {/* 
+
           <SignupModal
             toggleModal={this.props.handleSignup}
             modalIsOpen={this.props.isOpen}
-          /> */}
+          />
         </Container>
       </>
     );

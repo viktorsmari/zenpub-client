@@ -138,7 +138,10 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
   );
 };
 
-const ModalWithFormik = withFormik<MyFormProps, FormValues>({
+const ModalWithFormik = withFormik<
+  MyFormProps & { communityUpdated(): unknown },
+  FormValues
+>({
   mapPropsToValues: props => ({
     name: props.community.name || '',
     summary: props.community.summary || '',
@@ -151,12 +154,12 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
   }),
   handleSubmit: (values, { props, setSubmitting }) => {
     const variables = {
-      communityId: Number(props.communityId),
+      communityId: props.communityId,
       community: {
         name: values.name,
         preferredUsername: values.name,
         summary: values.summary,
-        content: values.summary,
+        image: values.image,
         icon: values.image
       }
     };
@@ -167,6 +170,7 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
       .then(res => {
         setSubmitting(false);
         props.toggleModal();
+        props.communityUpdated();
       })
       .catch(err => console.log(err));
   }

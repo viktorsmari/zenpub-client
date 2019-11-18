@@ -38,8 +38,8 @@ const Component: React.FC<Props> = ({
   const isMine =
     !!auth &&
     !!collection.data &&
-    auth.me.user!.id === collection.data.collection!.id;
-  console.log('collectionS %O', collection.data);
+    !!collection.data.collection &&
+    auth.me.user.id === collection.data.collection.creator.id;
   return (
     <MainContainer>
       <HomeBox>
@@ -122,7 +122,8 @@ const Component: React.FC<Props> = ({
                   modalIsOpen={isEditCollectionOpen}
                   collectionId={collection.data!.collection!.id}
                   collectionExternalId={collection.data!.collection!.id}
-                  collection={collection}
+                  collection={collection.data.collection!}
+                  collectionUpdated={collection.refetch}
                 />
               </>
             )}

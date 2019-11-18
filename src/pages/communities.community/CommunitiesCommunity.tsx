@@ -1,214 +1,217 @@
 // View a Community (with list of collections)
 
-import * as React from 'react';
-import { compose, withState, withHandlers } from 'recompose';
 import { Trans } from '@lingui/macro';
-import { RouteComponentProps } from 'react-router';
-import { graphql, QueryControls, OperationOption } from 'react-apollo';
-import styled from '../../themes/styled';
-import Loader from '../../components/elements/Loader/Loader';
-import '../../containers/App/basic.css';
+import * as React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import { Box } from 'rebass/styled-components';
 import CollectionCard from '../../components/elements/Collection/Collection';
-
-import Hero from './hero';
 import EditCommunityModal from '../../components/elements/EditCommunityModal';
+import Loader from '../../components/elements/Loader/Loader';
 import UsersModal from '../../components/elements/UsersModal';
-import CommunityPage from './Community';
-import { Switch, Route } from 'react-router-dom';
-
+import '../../containers/App/basic.css';
+import { useInterceptor } from '../../context/global/apolloInterceptorCtx';
+import { useGetCommunityQueryQuery } from '../../graphql/generated/getCommunity.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
-import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import {
-  WrapperPanel,
+  Nav,
+  NavItem,
   Panel,
   PanelTitle,
-  Nav,
-  NavItem
+  WrapperPanel
 } from '../../sections/panel';
-import { Box } from 'rebass/styled-components';
-import { Community } from '../../graphql/types';
-const { getCommunityQuery } = require('../../graphql/getCommunity.graphql');
-enum TabsEnum {
-  // Overview = 'Overview',
-  Collections = 'Collections',
-  Discussion = 'Discussion'
-}
-interface Data extends QueryControls {
-  community: Community;
-}
+import styled from '../../themes/styled';
+import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
+import CommunityPage from './Community';
+import Hero from './hero';
 
-type State = {
-  tab: TabsEnum;
-};
-
-interface Props
-  extends RouteComponentProps<{
-      community: string;
-    }> {
-  data: Data;
-  editCommunity(): boolean;
-  isEditCommunityOpen: boolean;
-  showUsers(boolean): boolean;
-  isUsersOpen: boolean;
+interface Props {
+  communityId: string;
+  url: string;
+  // data: Data;
+  // editCommunity(): boolean;
+  // isEditCommunityOpen: boolean;
+  // showUsers(boolean): boolean;
+  // isUsersOpen: boolean;
 }
 
-class CommunitiesFeatured extends React.Component<Props, State> {
-  state = {
-    tab: TabsEnum.Collections
-  };
+const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
+  // const [tab, setTab] = React.useState(TabsEnum.Collections);
 
-  render() {
-    let collections;
-    if (this.props.data.error) {
+  const [isEditCommunityOpen, setEditCommunityOpen] = React.useState(false);
+  const [isUsersOpen, showUsers] = React.useState(false);
+  const editCommunity = React.useCallback(
+    () => setEditCommunityOpen(!isEditCommunityOpen),
+    [isEditCommunityOpen]
+  );
+  const communityQuery = useGetCommunityQueryQuery({
+    variables: { limit: 15, communityId }
+  });
+
+  useInterceptor({
+    operation: 'createCollection',
+    request: () => () => communityQuery.refetch()
+  });
+
+  let collections;
+  if (communityQuery.error || !communityQuery.data) {
+    collections = (
+      <span>
+        <Trans>Error loading collections</Trans>
+      </span>
+    );
+  } else if (communityQuery.loading) {
+    collections = <Loader />;
+  } else if (communityQuery.data.community) {
+    if (communityQuery.data.community.collections.totalCount) {
       collections = (
-        <span>
-          <Trans>Error loading collections</Trans>
-        </span>
+        <Box m={2}>
+          {communityQuery.data.community.collections.edges.map((e, i) => (
+            <CollectionCard key={i} collection={e!.node} />
+          ))}
+        </Box>
       );
-    } else if (this.props.data.loading) {
-      collections = <Loader />;
-    } else if (this.props.data.community) {
-      if (this.props.data.community.collections.totalCount) {
-        collections = (
-          <Box m={2}>
-            {this.props.data.community.collections.edges.map((e, i) => (
-              <CollectionCard key={i} collection={e!.node} />
-            ))}
-          </Box>
-        );
-      } else {
-        collections = (
-          <OverviewCollection>
-            <Trans>This community has no collections.</Trans>
-          </OverviewCollection>
-        );
-      }
+    } else {
+      collections = (
+        <OverviewCollection>
+          <Trans>This community has no collections.</Trans>
+        </OverviewCollection>
+      );
     }
+  }
 
-    if (!this.props.data.community) {
-      if (this.props.data.loading) {
-        return (
-          <WrapperCont>
-            <Wrapper>
-              <Loader />
-            </Wrapper>
-          </WrapperCont>
-        );
-      } else {
-        // TODO better handling of no community
-        return (
-          <WrapperCont>
-            <Wrapper>
-              <span>
-                <Trans>{this.props.data.error}</Trans>
-              </span>
-            </Wrapper>
-          </WrapperCont>
-        );
-      }
+  if (!communityQuery.data || !communityQuery.data.community) {
+    if (communityQuery.loading) {
+      return (
+        <WrapperCont>
+          <Wrapper>
+            <Loader />
+          </Wrapper>
+        </WrapperCont>
+      );
+    } else {
+      // TODO better handling of no community
+      return (
+        <WrapperCont>
+          <Wrapper>
+            <span>
+              <Trans>
+                {communityQuery.error
+                  ? communityQuery.error.message
+                  : 'Unknown error'}
+              </Trans>
+            </span>
+          </Wrapper>
+        </WrapperCont>
+      );
     }
+  }
 
-    return (
-      <MainContainer>
-        <HomeBox>
-          <WrapperCont>
-            <Wrapper>
-              <Hero
-                community={this.props.data.community}
-                showUsers={this.props.showUsers}
-                editCommunity={this.props.editCommunity}
-              />
-              <Switch>
-                <Route
-                  path={this.props.match.url}
-                  exact
-                  render={props => (
+  return (
+    <MainContainer>
+      <HomeBox>
+        <WrapperCont>
+          <Wrapper>
+            <Hero
+              community={communityQuery.data.community}
+              showUsers={showUsers}
+              editCommunity={editCommunity}
+            />
+            <Switch>
+              <Route
+                path={url}
+                exact
+                render={props =>
+                  communityQuery.data &&
+                  communityQuery.data.community && (
                     <CommunityPage
-                      {...props}
                       collections={collections}
-                      community={this.props.data.community}
-                      id={this.props.data.community.id}
+                      community={communityQuery.data.community}
+                      id={communityQuery.data.community.id}
                       followed={
-                        this.props.data.community.myFollow!.id ? true : false
+                        communityQuery.data.community.myFollow!.id
+                          ? true
+                          : false
                       }
-                      fetchMore={this.props.data.fetchMore}
-                      refetch={() => this.props.data.refetch()}
+                      fetchMore={communityQuery.fetchMore}
+                      refetch={() => communityQuery.refetch()}
                     />
-                  )}
-                />
-                {/* <Route
+                  )
+                }
+              />
+              {/* <Route
                   path={`/communities/${
                     community.localId
                   }/collection/:collection`}
                   component={CollectionModal}
                 /> */}
-              </Switch>
-            </Wrapper>
-          </WrapperCont>
-          <EditCommunityModal
-            toggleModal={this.props.editCommunity}
-            modalIsOpen={this.props.isEditCommunityOpen}
-            communityId={this.props.data.community.id}
-            communityExternalId={this.props.data.community.id}
-            community={this.props.data.community}
-          />
-          <UsersModal
-            toggleModal={this.props.showUsers}
-            modalIsOpen={this.props.isUsersOpen}
-            members={this.props.data.community.followers.edges}
-          />
-        </HomeBox>
-        <WrapperPanel>
-          <Panel>
-            <PanelTitle fontSize={0} fontWeight={'bold'}>
-              <Trans>Popular hashtags</Trans>
-            </PanelTitle>
-            <Nav>
-              <NavItem mb={3} fontSize={1}>
-                <Trans>#learningdesign</Trans>
-              </NavItem>
-              <NavItem mb={3} fontSize={1}>
-                <Trans>#MPI</Trans>
-              </NavItem>
-              <NavItem mb={3} fontSize={1}>
-                <Trans>#Youtube</Trans>
-              </NavItem>
-              <NavItem mb={3} fontSize={1}>
-                <Trans>#models</Trans>
-              </NavItem>
-              <NavItem mb={3} fontSize={1}>
-                <Trans>#ADDIE</Trans>
-              </NavItem>
-            </Nav>
-          </Panel>
+            </Switch>
+          </Wrapper>
+        </WrapperCont>
+        <EditCommunityModal
+          toggleModal={editCommunity}
+          modalIsOpen={isEditCommunityOpen}
+          communityId={communityQuery.data.community.id}
+          communityExternalId={communityQuery.data.community.id}
+          community={communityQuery.data.community}
+          communityUpdated={communityQuery.refetch}
+        />
 
-          <Panel>
-            <PanelTitle fontSize={0} fontWeight={'bold'}>
-              <Trans>Popular categories</Trans>
-            </PanelTitle>
-            <Nav>
-              <NavItem mb={3} fontSize={1}>
-                <Trans>Humanities</Trans>
-              </NavItem>
-              <NavItem mb={3} fontSize={1}>
-                <Trans>Behavioural science</Trans>
-              </NavItem>
-              <NavItem mb={3} fontSize={1}>
-                <Trans>English</Trans>
-              </NavItem>
-              <NavItem mb={3} fontSize={1}>
-                <Trans>Romana</Trans>
-              </NavItem>
-              <NavItem mb={3} fontSize={1}>
-                <Trans>Postgraduate</Trans>
-              </NavItem>
-            </Nav>
-          </Panel>
-        </WrapperPanel>
-      </MainContainer>
-    );
-  }
-}
+        <UsersModal
+          toggleModal={showUsers}
+          modalIsOpen={isUsersOpen}
+          members={communityQuery.data.community.followers.edges}
+        />
+      </HomeBox>
+      <WrapperPanel>
+        <Panel>
+          <PanelTitle fontSize={0} fontWeight={'bold'}>
+            <Trans>Popular hashtags</Trans>
+          </PanelTitle>
+          <Nav>
+            <NavItem mb={3} fontSize={1}>
+              <Trans>#learningdesign</Trans>
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              <Trans>#MPI</Trans>
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              <Trans>#Youtube</Trans>
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              <Trans>#models</Trans>
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              <Trans>#ADDIE</Trans>
+            </NavItem>
+          </Nav>
+        </Panel>
+
+        <Panel>
+          <PanelTitle fontSize={0} fontWeight={'bold'}>
+            <Trans>Popular categories</Trans>
+          </PanelTitle>
+          <Nav>
+            <NavItem mb={3} fontSize={1}>
+              <Trans>Humanities</Trans>
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              <Trans>Behavioural science</Trans>
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              <Trans>English</Trans>
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              <Trans>Romana</Trans>
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              <Trans>Postgraduate</Trans>
+            </NavItem>
+          </Nav>
+        </Panel>
+      </WrapperPanel>
+    </MainContainer>
+  );
+};
 
 const OverviewCollection = styled.div`
   padding: 24px;
@@ -216,29 +219,27 @@ const OverviewCollection = styled.div`
   font-weight: 600;
   color: #000000b5;
 `;
+export default CommunitiesFeatured;
+// const withGetCollections = graphql<
+//   {},
+//   {
+//     data: {
+//       community: Community;
+//     };
+//   }
+// >(getCommunityQuery, {
+//   options: (props: Props) => ({
+//     variables: {
+//       limit: 15,
+//       communityId: props.match.params.community
+//     }
+//   })
+// }) as OperationOption<{}, {}>;
 
-const withGetCollections = graphql<
-  {},
-  {
-    data: {
-      community: Community;
-    };
-  }
->(getCommunityQuery, {
-  options: (props: Props) => ({
-    variables: {
-      limit: 15,
-      communityId: props.match.params.community
-    }
-  })
-}) as OperationOption<{}, {}>;
-
-export default compose(
-  withGetCollections,
-  withState('isEditCommunityOpen', 'onEditCommunityOpen', false),
-  withState('isUsersOpen', 'showUsers', false),
-  withHandlers({
-    editCommunity: props => () =>
-      props.onEditCommunityOpen(!props.isEditCommunityOpen)
-  })
-)(CommunitiesFeatured);
+// export default compose(
+//   withGetCollections,
+//   withHandlers({
+//     editCommunity: props => () =>
+//       props.onEditCommunityOpen(!props.isEditCommunityOpen)
+//   })
+// )(CommunitiesFeatured);

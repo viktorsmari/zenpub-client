@@ -57,8 +57,7 @@ const SidebarFixed = styled(Box)`
   top: 0px;
   display: flex;
   padding-left: 6px;
-
-  width: 280px;
+  width: 295px;
   ${media.lessThan('1280px')`
     width: auto;
   `} ${media.lessThan('860px')`
@@ -189,6 +188,7 @@ const Sbox = styled(Box)`
 
 const HeaderName = styled(Text)`
   flex: 1;
+  ${ellipsis('220px')};
   ${media.lessThan('1280px')`
   display: none;
 `};
@@ -203,85 +203,92 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
   const closeMenu = React.useCallback(() => setMenuIsOpen(false), []);
   const openMenu = React.useCallback(() => setMenuIsOpen(true), []);
   const { data } = resp;
-  return !data ? (
-    resp.error ? (
-      <Empty>
-        <Trans>Error loading the sidebar</Trans>
-      </Empty>
-    ) : resp.loading ? (
-      <Loader />
-    ) : null
-  ) : !data.me ? null : (
+  return (
     <SidebarComponent>
       <InternalWrapper isOpen={isOpen}>
         <SidebarFixed>
           <SidebarOverflow pt={3}>
-            <Header alignItems={'center'}>
-              <Sbox ml={2} mb={3}>
-                <SearchBox />
-              </Sbox>
-              <NavItem alignItems="center" onClick={openMenu}>
-                <Image
-                  src={data.me.user.icon}
-                  // name={props.data.me.user.name}
-                />
-                <HeaderName ml={2} variant="link">
-                  {data.me.user.name}
-                </HeaderName>
-                <Right>
-                  <MoreHorizontal size="20" />
-                </Right>
-              </NavItem>
-              {/* <Input placeholder="Search" /> */}
-              {menuIsOpen ? (
-                <>
-                  <OutsideClickHandler onOutsideClick={closeMenu}>
-                    <Dropdown />
-                  </OutsideClickHandler>
-                  <Layer />
-                </>
-              ) : null}
-              {/* <Input placeholder={"Search here"} /> */}
-            </Header>
-            <Nav pt={3}>
-              <SidebarLink exact to={'/discover'}>
-                <NavItem mb={3} alignItems={'center'}>
-                  <Globe size={36} />
-                  <ItemTitle ml={2} variant="link">
-                    <Trans>Discover</Trans>
-                  </ItemTitle>
-                </NavItem>
-              </SidebarLink>
-              <SidebarLink exact to={'/'}>
-                <NavItem mb={3} alignItems={'center'}>
-                  <Image mr={2} width={'40px'} src={MnetLogo} />
-                  <ItemTitle variant="link">
-                    <Trans>My MoodleNet</Trans>
-                  </ItemTitle>
-                </NavItem>
-              </SidebarLink>
-            </Nav>
-            <Nav>
-              {data.me.user.followedCommunities.edges.map(
-                userJoinedCommunitiesEdge => {
-                  if (!userJoinedCommunitiesEdge) {
-                    return null;
-                  }
-                  const community = userJoinedCommunitiesEdge.node.community;
-                  return (
-                    <CommunityLink
-                      key={community.id}
-                      to={'/communities/' + community.id}
-                    >
-                      <NavItem alignItems={'center'} mb={2}>
-                        <Image mr={2} src={community.icon} />
-                        <ItemTitle variant="link">{community.name}</ItemTitle>
-                      </NavItem>
-                    </CommunityLink>
-                  );
-                }
-              )}
-            </Nav>
+            {!data ? (
+              resp.error ? (
+                <Empty>
+                  <Trans>Error loading the sidebar</Trans>
+                </Empty>
+              ) : resp.loading ? (
+                <Loader />
+              ) : null
+            ) : !data.me ? null : (
+              <>
+                <Header alignItems={'center'}>
+                  <Sbox ml={2} mb={3}>
+                    <SearchBox />
+                  </Sbox>
+                  <NavItem alignItems="center" onClick={openMenu}>
+                    <Image
+                      src={data.me.user.icon}
+                      // name={props.data.me.user.name}
+                    />
+                    <HeaderName ml={2} variant="link">
+                      {data.me.user.name}
+                    </HeaderName>
+                    <Right>
+                      <MoreHorizontal size="20" />
+                    </Right>
+                  </NavItem>
+                  {/* <Input placeholder="Search" /> */}
+                  {menuIsOpen ? (
+                    <>
+                      <OutsideClickHandler onOutsideClick={closeMenu}>
+                        <Dropdown />
+                      </OutsideClickHandler>
+                      <Layer />
+                    </>
+                  ) : null}
+                  {/* <Input placeholder={"Search here"} /> */}
+                </Header>
+                <Nav pt={3}>
+                  <SidebarLink exact to={'/discover'}>
+                    <NavItem mb={3} alignItems={'center'}>
+                      <Globe size={36} />
+                      <ItemTitle ml={2} variant="link">
+                        <Trans>Discover</Trans>
+                      </ItemTitle>
+                    </NavItem>
+                  </SidebarLink>
+                  <SidebarLink exact to={'/'}>
+                    <NavItem mb={3} alignItems={'center'}>
+                      <Image mr={2} width={'40px'} src={MnetLogo} />
+                      <ItemTitle variant="link">
+                        <Trans>My MoodleNet</Trans>
+                      </ItemTitle>
+                    </NavItem>
+                  </SidebarLink>
+                </Nav>
+                <Nav>
+                  {data.me.user.followedCommunities.edges.map(
+                    userJoinedCommunitiesEdge => {
+                      if (!userJoinedCommunitiesEdge) {
+                        return null;
+                      }
+                      const community =
+                        userJoinedCommunitiesEdge.node.community;
+                      return (
+                        <CommunityLink
+                          key={community.id}
+                          to={'/communities/' + community.id}
+                        >
+                          <NavItem alignItems={'center'} mb={2}>
+                            <Image mr={2} src={community.icon} />
+                            <ItemTitle variant="link">
+                              {community.name}
+                            </ItemTitle>
+                          </NavItem>
+                        </CommunityLink>
+                      );
+                    }
+                  )}
+                </Nav>
+              </>
+            )}
           </SidebarOverflow>
         </SidebarFixed>
       </InternalWrapper>

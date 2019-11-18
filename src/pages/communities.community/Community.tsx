@@ -2,21 +2,21 @@ import { Trans } from '@lingui/macro';
 import React, { SFC, useState } from 'react';
 import { TabPanel, Tabs } from 'react-tabs';
 import { Box, Button, Flex } from 'rebass/styled-components';
-import CommunityModal from '../../components/elements/CommunityModal';
+import CreateCollectionModal from '../../components/elements/CreateCollectionModal';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
 import { SocialText } from '../../components/elements/SocialText';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem/index2';
-import styled from '../../themes/styled';
 import { useCreateThreadMutationMutation } from '../../graphql/generated/createThread.generated';
-import { Community } from '../../graphql/types';
+import { GetCommunityQueryQuery } from '../../graphql/generated/getCommunity.generated';
+import styled from '../../themes/styled';
 
 interface Props {
   collections: any;
   followed: boolean;
   id: string;
   fetchMore: any;
-  community: Community;
+  community: GetCommunityQueryQuery['community'];
   refetch: () => unknown;
 }
 
@@ -53,63 +53,65 @@ const CommunityPage: SFC<Props> = ({
     []
   );
   return (
-    <WrapperTab>
-      <OverlayTab>
-        <Tabs defaultIndex={1}>
-          <SuperTabList>
-            <SuperTab>
-              <h5>
-                <Trans>Recent activities</Trans>
-              </h5>
-            </SuperTab>
-            <SuperTab>
-              <h5>
-                <Trans>Collections</Trans>
-              </h5>
-            </SuperTab>
-          </SuperTabList>
-          <TabPanel>
-            {followed ? (
-              <WrapperBox p={3}>
-                <SocialText
-                  onInput={setNewThreadTextInput}
-                  reference={socialTextRef}
-                  submit={addNewThread}
-                  placeholder="Start a new thread..."
-                />
-              </WrapperBox>
-            ) : null}
-            <div>
-              {community.inbox.edges.map((t, i) => (
-                <TimelineItem
-                  context={t!.node.context}
-                  user={t!.node.user}
-                  verb={t!.node.verb}
-                  createdAt={t!.node.createdAt}
-                  key={i}
-                />
-              ))}
-              <LoadMoreTimeline fetchMore={fetchMore} community={community} />
-            </div>
-          </TabPanel>
-          <TabPanel>
-            {followed ? (
-              <ButtonWrapper>
-                <CreateCollection p={3} onClick={() => onOpen(true)} m={3}>
-                  <Trans>Create a new collection</Trans>
-                </CreateCollection>
-              </ButtonWrapper>
-            ) : null}
-            <div>{collections}</div>
-          </TabPanel>
-        </Tabs>
-      </OverlayTab>
-      <CommunityModal
-        toggleModal={() => onOpen(false)}
-        modalIsOpen={isOpen}
-        communityId={id}
-      />
-    </WrapperTab>
+    community && (
+      <WrapperTab>
+        <OverlayTab>
+          <Tabs defaultIndex={1}>
+            <SuperTabList>
+              <SuperTab>
+                <h5>
+                  <Trans>Recent activities</Trans>
+                </h5>
+              </SuperTab>
+              <SuperTab>
+                <h5>
+                  <Trans>Collections</Trans>
+                </h5>
+              </SuperTab>
+            </SuperTabList>
+            <TabPanel>
+              {followed ? (
+                <WrapperBox p={3}>
+                  <SocialText
+                    onInput={setNewThreadTextInput}
+                    reference={socialTextRef}
+                    submit={addNewThread}
+                    placeholder="Start a new thread..."
+                  />
+                </WrapperBox>
+              ) : null}
+              <div>
+                {community.inbox.edges.map((t, i) => (
+                  <TimelineItem
+                    context={t!.node.context}
+                    user={t!.node.user}
+                    verb={t!.node.verb}
+                    createdAt={t!.node.createdAt}
+                    key={i}
+                  />
+                ))}
+                <LoadMoreTimeline fetchMore={fetchMore} community={community} />
+              </div>
+            </TabPanel>
+            <TabPanel>
+              {followed ? (
+                <ButtonWrapper>
+                  <CreateCollection p={3} onClick={() => onOpen(true)} m={3}>
+                    <Trans>Create a new collection</Trans>
+                  </CreateCollection>
+                </ButtonWrapper>
+              ) : null}
+              <div>{collections}</div>
+            </TabPanel>
+          </Tabs>
+        </OverlayTab>
+        <CreateCollectionModal
+          toggleModal={() => onOpen(false)}
+          modalIsOpen={isOpen}
+          communityId={id}
+        />
+      </WrapperTab>
+    )
   );
 };
 

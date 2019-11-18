@@ -23,11 +23,9 @@ var terms_indexing = { data: '' };
 
 async function getTerms() {
   try {
-    terms_users = await axios.get('https://new.moodle.net/terms/users.md');
-    terms_cookies = await axios.get('https://new.moodle.net/terms/cookies.md');
-    terms_indexing = await axios.get(
-      'https://new.moodle.net/terms/indexing.md'
-    );
+    terms_users = await axios.get('https://moodle.net/terms/users.md');
+    terms_cookies = await axios.get('https://moodle.net/terms/cookies.md');
+    terms_indexing = await axios.get('https://moodle.net/terms/indexing.md');
     // console.log(terms);
   } catch (error) {
     console.error(error);

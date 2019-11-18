@@ -10,10 +10,9 @@ fragment BasicResource on Resource {
     license
     createdAt
     updatedAt
-    creator {
-        ...BasicUser
-    }
+    creator { ...BasicUser }
     collection {
+        id
         name
         canonicalUrl
         preferredUsername

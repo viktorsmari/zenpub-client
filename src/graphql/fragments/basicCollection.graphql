@@ -10,9 +10,9 @@ fragment BasicCollection on Collection {
     icon
     isLocal
     isPublic
-    myFollow {
-        id
-    }
+    createdAt
+    myLike { id }
+    myFollow { id }
     community {
         id
         canonicalUrl
@@ -20,9 +20,7 @@ fragment BasicCollection on Collection {
         isPublic
         name
         icon
-        myFollow { 
-            id
-        }
+        myFollow { id }
     }
     resources {totalCount}
     followers { totalCount }

@@ -18,6 +18,7 @@ export type BasicResourceFragment = { __typename?: 'Resource' } & Pick<
     creator: { __typename?: 'User' } & BasicUserFragment;
     collection: { __typename?: 'Collection' } & Pick<
       Types.Collection,
+      | 'id'
       | 'name'
       | 'canonicalUrl'
       | 'preferredUsername'
@@ -46,6 +47,7 @@ export const BasicResourceFragmentDoc = gql`
       ...BasicUser
     }
     collection {
+      id
       name
       canonicalUrl
       preferredUsername

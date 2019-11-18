@@ -2,7 +2,12 @@ import algoliasearch from 'algoliasearch/lite';
 import qs from 'qs';
 import React from 'react';
 import { connectStateResults, InstantSearch } from 'react-instantsearch-dom';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
 import { SessionContext } from '../../context/global/sessionCtx';
 import CollectionsAll from '../../pages/collections.all';
@@ -22,6 +27,8 @@ import SearchComp from '../../pages/search/Search';
 import Settings from '../../pages/settings';
 import Thread from '../../pages/thread/component';
 import User from '../../pages/User';
+import Signup from '../../pages/Signup';
+
 import {
   Inner,
   MainWrapper,
@@ -111,8 +118,16 @@ const Content = connectStateResults(({ searchState, onOpen }) => {
         <Route exact path="/communities" component={CommunitiesAll} />
         <Route
           exact
-          path="/communities/:community"
-          component={CommunitiesCommunity}
+          path="/communities/:communityId"
+          render={route => {
+            const communityId = route.match.params.communityId;
+            return (
+              <CommunitiesCommunity
+                url={route.match.url}
+                communityId={communityId}
+              />
+            );
+          }}
         />
         <Route
           exact
@@ -130,7 +145,18 @@ const Content = connectStateResults(({ searchState, onOpen }) => {
             return <Collection id={id} />;
           }}
         />
-        <Route exact path="/user/:id" component={User} />
+        <Route
+          exact
+          path="/user/:id"
+          render={route => {
+            const userId = route.match.params.id;
+            return auth && auth.me.user.id === userId ? (
+              <Redirect to="/profile" />
+            ) : (
+              <User {...route} />
+            );
+          }}
+        />
         <Route path="/search" component={SearchComp} />
         <Route exact path="/collections" component={CollectionsAll} />
         <Route component={NotFound} />
@@ -210,11 +236,13 @@ const App: React.FC<Props> = props => {
         <PageContainer>
           {auth ? (
             <Sidebar isOpen={isSidebarOpen} />
-          ) : (
+          ) : location.pathname !== '/' ? (
             <SidebarNoLoggedWrapper isOpen={isSidebarOpen} />
-          )}
+          ) : null}
           <MainWrapper>
-            <WrapperDimension>
+            <WrapperDimension
+              isLogin={!auth && location.pathname === '/' ? true : false}
+            >
               <Inner>
                 <Content isOpen={isSidebarOpen} onOpen={onSidebarOpen} />
               </Inner>
@@ -238,7 +266,7 @@ export default _ => (
           <Route exact path="/reset" component={Reset} />
           <Route exact path="/reset/:token" component={CreateNewPassword} />
           <Route exact path="/login" component={Login} />
-
+          <Route exact path="/signup" component={Signup} />
           <Route path="/" component={props => <App {...props} />} />
           <Route component={NotFound} />
         </Switch>

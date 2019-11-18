@@ -1,16 +1,16 @@
-import { BasicCommentWithInReplyToFragmentDoc } from '../fragments/generated/basicComment.generated';
+import { BasicCollectionFragmentDoc } from '../fragments/generated/basicCollection.generated';
 import * as Types from '../types.d';
 
+import { BasicResourceFragment } from '../fragments/generated/basicResource.generated';
 import { BasicCollectionFragment } from '../fragments/generated/basicCollection.generated';
-import { BasicCommentWithInReplyToFragment } from '../fragments/generated/basicComment.generated';
 import { BasicCommunityFragment } from '../fragments/generated/basicCommunity.generated';
 import { BasicUserFragment } from '../fragments/generated/basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from '../fragments/generated/basicUser.generated';
 import { BasicCommunityFragmentDoc } from '../fragments/generated/basicCommunity.generated';
-import { BasicResourceFragment } from '../fragments/generated/basicResource.generated';
-import { BasicCollectionFragmentDoc } from '../fragments/generated/basicCollection.generated';
+import { BasicCommentWithInReplyToFragment } from '../fragments/generated/basicComment.generated';
 import { BasicResourceFragmentDoc } from '../fragments/generated/basicResource.generated';
+import { BasicCommentWithInReplyToFragmentDoc } from '../fragments/generated/basicComment.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -42,6 +42,7 @@ export type GetCommunityQueryQuery = { __typename?: 'RootQueryType' } & {
       | 'isPublic'
       | 'isDisabled'
     > & {
+        creator: { __typename?: 'User' } & Pick<Types.User, 'id'>;
         myFollow: Types.Maybe<
           { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
         >;
@@ -170,6 +171,9 @@ export const GetCommunityQueryDocument = gql`
       icon
       image
       createdAt
+      creator {
+        id
+      }
       updatedAt
       lastActivity
       isLocal
@@ -199,14 +203,14 @@ export const GetCommunityQueryDocument = gql`
               ... on Community {
                 ...BasicCommunity
               }
-              ... on Comment {
-                ...BasicCommentWithInReplyTo
-              }
               ... on Collection {
                 ...BasicCollection
               }
               ... on Resource {
                 ...BasicResource
+              }
+              ... on Comment {
+                ...BasicCommentWithInReplyTo
               }
             }
           }
@@ -270,9 +274,9 @@ export const GetCommunityQueryDocument = gql`
   }
   ${BasicUserFragmentDoc}
   ${BasicCommunityFragmentDoc}
-  ${BasicCommentWithInReplyToFragmentDoc}
   ${BasicCollectionFragmentDoc}
   ${BasicResourceFragmentDoc}
+  ${BasicCommentWithInReplyToFragmentDoc}
 `;
 export type GetCommunityQueryComponentProps = Omit<
   ApolloReactComponents.QueryComponentOptions<
