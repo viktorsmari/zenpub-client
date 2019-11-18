@@ -7,21 +7,19 @@ import { SFC } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import removeMd from 'remove-markdown';
+import media from 'styled-media-query';
+import { BasicCollectionFragment } from '../../../graphql/fragments/generated/basicCollection.generated';
+import { BasicCommentWithInReplyToFragment } from '../../../graphql/fragments/generated/basicComment.generated';
+import { BasicCommunityFragment } from '../../../graphql/fragments/generated/basicCommunity.generated';
+import { BasicResourceFragment } from '../../../graphql/fragments/generated/basicResource.generated';
+import { BasicUserFragment } from '../../../graphql/fragments/generated/basicUser.generated';
+import { useDeleteMutationMutation } from '../../../graphql/generated/delete.generated';
+import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
+import { Comment, User } from '../../../graphql/types';
 import styled from '../../../themes/styled';
 import Link from '../Link/Link';
 import Actions from './Actions';
 import Preview from './preview';
-import media from 'styled-media-query';
-import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
-import { useDeleteMutationMutation } from '../../../graphql/generated/delete.generated';
-import {
-  Collection,
-  Comment,
-  Community,
-  Resource,
-  User
-} from '../../../graphql/types';
-import { BasicUserFragment } from '../../../graphql/fragments/generated/basicUser.generated';
 
 interface Props {
   user: User | BasicUserFragment;
@@ -29,10 +27,13 @@ interface Props {
   verb: string;
   createdAt: string;
 }
-
+interface Likeable {
+  id: string;
+  myLike?: { id: string } | null;
+}
 interface CollectionProps {
-  collection: Collection;
-  toggleLike: (_: any) => unknown;
+  collection: BasicCollectionFragment;
+  toggleLike: (likeable: Likeable) => unknown;
   noAction?: boolean;
   user: BasicUserFragment | User;
   createdAt;
@@ -40,8 +41,8 @@ interface CollectionProps {
 }
 
 interface ResourceProps {
-  resource: Resource;
-  toggleLike: (_: any) => unknown;
+  resource: BasicResourceFragment;
+  toggleLike: (likeable: Likeable) => unknown;
   noAction?: boolean;
   user: BasicUserFragment | User;
   createdAt: string;
@@ -49,8 +50,8 @@ interface ResourceProps {
 }
 
 interface CommentProps {
-  comment: Comment;
-  toggleLike: (_: any) => unknown;
+  comment: BasicCommentWithInReplyToFragment;
+  toggleLike: (likeable: Likeable) => unknown;
   noAction?: boolean;
   user: BasicUserFragment | User;
   createdAt: string;
@@ -58,8 +59,8 @@ interface CommentProps {
 }
 
 interface CommunityProps {
-  community: Community;
-  toggleLike: (_: any) => unknown;
+  community: BasicCommunityFragment;
+  toggleLike: (likeable: Likeable) => unknown;
   noAction?: boolean;
   user: BasicUserFragment | User;
   createdAt: string;
@@ -114,7 +115,7 @@ const CollectionItem: SFC<CollectionProps> = ({
             // totalReplies={collection.threads.totalCount as number}
             // totalLikes={collection.likes.totalCount as number}
             // comment={collection}
-            toggleLike={() => toggleLike(collection.id)}
+            toggleLike={() => toggleLike(collection)}
             iLikeIt={!!collection.myLike}
           />
         )}
@@ -247,10 +248,10 @@ const CommentItem: SFC<CommentProps> = ({
       </Comment>
       {noAction ? null : (
         <Actions
-          // totalReplies={comment.thread.comments.totalCount as number}
-          // totalLikes={comment.likes.totalCount as number}
-          // comment={comment}
-          toggleLike={() => toggleLike(comment.id)}
+          // totalReplies={comment.thread.comments.totalCount}
+          // totalLikes={comment.likes.totalCount}
+          comment={comment}
+          toggleLike={() => toggleLike(comment)}
           iLikeIt={!!comment.myLike}
         />
       )}
@@ -299,18 +300,19 @@ const CommunityItem: SFC<CommunityProps> = ({
 );
 
 const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
-  const [iLikeIt, setiLikeIt] = React.useState(false);
   const [like] = useLikeMutationMutation();
   const [undoLike] = useDeleteMutationMutation();
   const toggleLike = React.useCallback(
-    (contextId: string) => () => {
-      (iLikeIt ? undoLike : like)({ variables: { contextId } });
-      setiLikeIt(!iLikeIt);
+    (likeable: Likeable) => {
+      likeable.myLike
+        ? undoLike({ variables: { contextId: likeable.myLike.id } })
+        : like({ variables: { contextId: likeable.id } });
     },
-    [iLikeIt, like, undoLike]
+    [like, undoLike]
   );
   return (
     <FeedItem>
+      {context.__typename}
       <NavigateToThread to={`/thread/${context.id}`} />
       {context.__typename === 'Collection' ? (
         <CollectionItem

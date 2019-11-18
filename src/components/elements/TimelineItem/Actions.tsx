@@ -23,12 +23,21 @@ const ActionsWrapper = ({
   return (
     <Actions mt={2}>
       <Items>
-        <ActionItem onClick={() => showTalkModal(true)}>
-          <ActionIcon>
-            <MessageCircle color="rgba(0,0,0,.4)" size="16" />
-          </ActionIcon>
-          {/* <Text ml={1}>{totalReplies}</Text> */}
-        </ActionItem>
+        {comment && (
+          <>
+            <TalkModal
+              modalIsOpen={talkModalVisible}
+              comment={comment}
+              toggleModal={showTalkModal}
+            />
+            <ActionItem onClick={() => showTalkModal(true)}>
+              <ActionIcon>
+                <MessageCircle color="rgba(0,0,0,.4)" size="16" />
+              </ActionIcon>
+              {/* <Text ml={1}>{totalReplies}</Text> */}
+            </ActionItem>
+          </>
+        )}
         <ActionItem ml={4} onClick={toggleLike}>
           <ActionIcon>
             <Star color={iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'} size="16" />
@@ -36,13 +45,6 @@ const ActionsWrapper = ({
           {/* <Text ml={1}>{totalLikes}</Text> */}
         </ActionItem>
       </Items>
-      {comment && (
-        <TalkModal
-          modalIsOpen={talkModalVisible}
-          comment={comment}
-          toggleModal={showTalkModal}
-        />
-      )}
     </Actions>
   );
 };
