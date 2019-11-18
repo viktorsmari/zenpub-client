@@ -15,7 +15,7 @@ import * as React from 'react';
 import media from 'styled-media-query';
 import styled from '../../themes/styled';
 import { Heading, Text, Button } from 'rebass/styled-components';
-import { NavLink } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
 import { Trans } from '@lingui/macro';
 
 const PlaceholderImg = require('../../components/elements/Icons/resourcePlaceholder.png');
@@ -32,7 +32,7 @@ interface Props {
 const Resource: React.FC<Props> = props => {
   return (
     <Wrapper>
-      <WrapperLink to={props.url}>
+      <WrapperLink target="blank" href={props.url}>
         <Img
           style={{ backgroundImage: `url(${props.icon || PlaceholderImg})` }}
         />
@@ -87,7 +87,7 @@ const Actions = styled.div`
   }
 `;
 
-const WrapperLink = styled(NavLink)`
+const WrapperLink = styled.a`
   display: flex;
   text-decoration: none;
   &:hover {
