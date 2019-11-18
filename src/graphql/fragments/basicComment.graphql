@@ -28,7 +28,7 @@ fragment BasicComment on Comment {
             ... on Community {
                 ...BasicCommunity
             }
-            ... on Collection {
+          ... on Collection {
                 ...BasicCollection
             }
             ... on Resource {

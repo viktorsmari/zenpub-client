@@ -1,11 +1,15 @@
 import * as Types from '../types.d';
 
 import { BasicCommentWithInReplyToFragment } from '../fragments/generated/basicComment.generated';
+import { BasicCollectionFragment } from '../fragments/generated/basicCollection.generated';
 import { BasicCommunityFragment } from '../fragments/generated/basicCommunity.generated';
+import { BasicResourceFragment } from '../fragments/generated/basicResource.generated';
 import { BasicUserFragment } from '../fragments/generated/basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from '../fragments/generated/basicUser.generated';
+import { BasicResourceFragmentDoc } from '../fragments/generated/basicResource.generated';
 import { BasicCommunityFragmentDoc } from '../fragments/generated/basicCommunity.generated';
+import { BasicCollectionFragmentDoc } from '../fragments/generated/basicCollection.generated';
 import { BasicCommentWithInReplyToFragmentDoc } from '../fragments/generated/basicComment.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -85,17 +89,17 @@ export const LocalActivitiesDocument = gql`
             }
             context {
               __typename
+              ... on Resource {
+                ...BasicResource
+              }
               ... on Community {
                 ...BasicCommunity
-              }
-              ... on Comment {
-                ...BasicCommentWithInReplyTo
               }
               ... on Collection {
                 ...BasicCollection
               }
-              ... on Resource {
-                ...BasicResource
+              ... on Comment {
+                ...BasicCommentWithInReplyTo
               }
             }
           }
@@ -104,10 +108,10 @@ export const LocalActivitiesDocument = gql`
     }
   }
   ${BasicUserFragmentDoc}
-  ${BasicCommunityFragmentDoc}
-  ${BasicCommentWithInReplyToFragmentDoc}
-  ${BasicCollectionFragmentDoc}
   ${BasicResourceFragmentDoc}
+  ${BasicCommunityFragmentDoc}
+  ${BasicCollectionFragmentDoc}
+  ${BasicCommentWithInReplyToFragmentDoc}
 `;
 export type LocalActivitiesComponentProps = Omit<
   ApolloReactComponents.QueryComponentOptions<
