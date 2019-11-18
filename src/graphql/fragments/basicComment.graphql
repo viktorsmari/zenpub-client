@@ -11,9 +11,9 @@ fragment BasicCommentWithInReplyTo on Comment {
 fragment BasicComment on Comment {
     id
     content
-    # isLocal
-    # isPublic
-    # isHidden
+    isLocal
+    isPublic
+    isHidden
     createdAt
     updatedAt
     myLike { id }

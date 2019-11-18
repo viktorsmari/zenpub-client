@@ -18,13 +18,13 @@ fragment BasicResource on Resource {
         name
         # canonicalUrl
         preferredUsername
-        # isLocal
-        # isPublic
-        # isDisabled
-        # community {
-        #     id
-        #     canonicalUrl
-        #     isLocal
-        # }
+        isLocal
+        isPublic
+        isDisabled
+        community {
+            id
+            canonicalUrl
+            isLocal
+        }
     }
 }

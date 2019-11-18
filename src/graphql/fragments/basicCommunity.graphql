@@ -13,8 +13,8 @@ fragment BasicCommunity on Community {
     updatedAt
     lastActivity
     isLocal
-    # isPublic
-    # isDisabled
+    isPublic
+    isDisabled
     myFollow { id }
     collections { totalCount }
     followers { totalCount }
