@@ -355,7 +355,7 @@ const SignupModal = (props: Props) => {
                         </>
                       </Box>
                       <Box mt={3}>
-                        <Button>
+                        <Button type="submit">
                           <Trans>Signup</Trans>
                         </Button>
                       </Box>
