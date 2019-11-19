@@ -9,7 +9,7 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type UpdateCollectionMutationMutationVariables = {
-  collection: Types.CollectionInput;
+  collection: Types.CollectionUpdateInput;
   collectionId: Types.Scalars['String'];
 };
 
@@ -38,7 +38,7 @@ export type UpdateCollectionMutationMutation = {
 
 export const UpdateCollectionMutationDocument = gql`
   mutation updateCollectionMutation(
-    $collection: CollectionInput!
+    $collection: CollectionUpdateInput!
     $collectionId: String!
   ) {
     updateCollection(collection: $collection, collectionId: $collectionId) {

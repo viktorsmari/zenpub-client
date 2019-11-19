@@ -20,8 +20,18 @@ export type BasicResourceFragment = { __typename?: 'Resource' } & Pick<
     creator: { __typename?: 'User' } & BasicUserFragment;
     collection: { __typename?: 'Collection' } & Pick<
       Types.Collection,
-      'id' | 'name' | 'preferredUsername'
-    >;
+      | 'id'
+      | 'name'
+      | 'preferredUsername'
+      | 'isLocal'
+      | 'isPublic'
+      | 'isDisabled'
+    > & {
+        community: { __typename?: 'Community' } & Pick<
+          Types.Community,
+          'id' | 'canonicalUrl' | 'isLocal'
+        >;
+      };
   };
 
 export const BasicResourceFragmentDoc = gql`
@@ -47,6 +57,14 @@ export const BasicResourceFragmentDoc = gql`
       id
       name
       preferredUsername
+      isLocal
+      isPublic
+      isDisabled
+      community {
+        id
+        canonicalUrl
+        isLocal
+      }
     }
   }
   ${BasicUserFragmentDoc}

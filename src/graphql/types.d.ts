@@ -181,6 +181,13 @@ export type CollectionsNodes = {
   totalCount: Scalars['Int'];
 };
 
+export type CollectionUpdateInput = {
+  icon?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  preferredUsername: Scalars['String'];
+  summary?: Maybe<Scalars['String']>;
+};
+
 export type Comment = {
   __typename?: 'Comment';
   /** A url for the user, may be to a remote instance */
@@ -267,8 +274,6 @@ export type Community = {
   id: Scalars['String'];
   /** A header background image url */
   image?: Maybe<Scalars['String']>;
-  /** Activities for community moderators. Not available to plebs. */
-  inbox: ActivitiesEdges;
   /** Whether an instance admin has disabled the community */
   isDisabled: Scalars['Boolean'];
   /** Whether the community is local to the instance */
@@ -312,12 +317,6 @@ export type CommunityFollowersArgs = {
   limit?: Maybe<Scalars['Int']>;
 };
 
-export type CommunityInboxArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-};
-
 export type CommunityOutboxArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -335,6 +334,13 @@ export type CommunityInput = {
   image?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   preferredUsername: Scalars['String'];
+  summary?: Maybe<Scalars['String']>;
+};
+
+export type CommunityUpdateInput = {
+  icon?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
   summary?: Maybe<Scalars['String']>;
 };
 
@@ -488,6 +494,8 @@ export type FollowsEdges = {
 
 export type Instance = {
   __typename?: 'Instance';
+  description?: Maybe<Scalars['String']>;
+  hostname: Scalars['String'];
   /** A list of public activity on the local instance, most recent first */
   outbox: ActivitiesEdges;
 };
@@ -593,13 +601,8 @@ export type Resource = {
   isDisabled: Scalars['Boolean'];
   /** Whether the resource is local to the instance */
   isLocal: Scalars['Boolean'];
-  /** Whether the community is public */
+  /** Whether the resource is public */
   isPublic: Scalars['Boolean'];
-  /**
-   * When the resource was last updated or a thread or a comment on it
-   * was created or updated
-   **/
-  lastActivity: Scalars['String'];
   /** What license is it available under? */
   license?: Maybe<Scalars['String']>;
   /** Users who like the resource, most recently liked first */
@@ -788,12 +791,12 @@ export type RootMutationTypeResolveFlagArgs = {
 };
 
 export type RootMutationTypeUpdateCollectionArgs = {
-  collection: CollectionInput;
+  collection: CollectionUpdateInput;
   collectionId: Scalars['String'];
 };
 
 export type RootMutationTypeUpdateCommunityArgs = {
-  community: CommunityInput;
+  community: CommunityUpdateInput;
   communityId: Scalars['String'];
 };
 
@@ -830,7 +833,7 @@ export type RootQueryType = {
   resource?: Maybe<Resource>;
   /** Get a thread */
   thread?: Maybe<Thread>;
-  /** Get an user */
+  /** Get a user */
   user?: Maybe<User>;
   /** Check if a user exists with a username */
   usernameAvailable: Scalars['Boolean'];
@@ -946,7 +949,7 @@ export type ThreadsEdge = {
 
 export type ThreadsEdges = {
   __typename?: 'ThreadsEdges';
-  edges: Array<Maybe<ThreadsEdge>>;
+  edges?: Maybe<Array<Maybe<ThreadsEdge>>>;
   pageInfo?: Maybe<PageInfo>;
   totalCount: Scalars['Int'];
 };
@@ -995,7 +998,7 @@ export type User = {
   /** Whether the user has a public profile */
   isPublic: Scalars['Boolean'];
   /** The last time the user did anything */
-  lastActivity: Scalars['String'];
+  lastActivity?: Maybe<Scalars['String']>;
   /** The collections a user is following, most recently followed first */
   likes: LikesEdges;
   /** Free text */
@@ -1005,7 +1008,7 @@ export type User = {
   /** The current user's like of this user, if any */
   myLike?: Maybe<Like>;
   /** A name field */
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
   /** Activities of the user, most recently created first */
   outbox: ActivitiesEdges;
   /** An instance-unique identifier shared with communities and collections */

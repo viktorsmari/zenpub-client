@@ -1,6 +1,6 @@
-import { BasicCollectionFragmentDoc } from '../fragments/generated/basicCollection.generated';
 import * as Types from '../types.d';
 
+import { BasicCommentWithInReplyToFragment } from '../fragments/generated/basicComment.generated';
 import { BasicResourceFragment } from '../fragments/generated/basicResource.generated';
 import { BasicCollectionFragment } from '../fragments/generated/basicCollection.generated';
 import { BasicCommunityFragment } from '../fragments/generated/basicCommunity.generated';
@@ -8,7 +8,7 @@ import { BasicUserFragment } from '../fragments/generated/basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from '../fragments/generated/basicUser.generated';
 import { BasicCommunityFragmentDoc } from '../fragments/generated/basicCommunity.generated';
-import { BasicCommentWithInReplyToFragment } from '../fragments/generated/basicComment.generated';
+import { BasicCollectionFragmentDoc } from '../fragments/generated/basicCollection.generated';
 import { BasicResourceFragmentDoc } from '../fragments/generated/basicResource.generated';
 import { BasicCommentWithInReplyToFragmentDoc } from '../fragments/generated/basicComment.generated';
 import * as React from 'react';
@@ -46,7 +46,7 @@ export type GetCommunityQueryQuery = { __typename?: 'RootQueryType' } & {
         myFollow: Types.Maybe<
           { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
         >;
-        inbox: { __typename?: 'ActivitiesEdges' } & {
+        outbox: { __typename?: 'ActivitiesEdges' } & {
           pageInfo: Types.Maybe<
             { __typename?: 'PageInfo' } & Pick<
               Types.PageInfo,
@@ -178,7 +178,7 @@ export const GetCommunityQueryDocument = gql`
       myFollow {
         id
       }
-      inbox(limit: $limit, after: $end) {
+      outbox(limit: $limit, after: $end) {
         pageInfo {
           startCursor
           endCursor

@@ -84,7 +84,7 @@ const CommunityPage: SFC<Props> = ({
                 </>
               ) : null}
               <div>
-                {community.inbox.edges.map((t, i) => (
+                {community.outbox.edges.map((t, i) => (
                   <TimelineItem
                     context={t!.node.context}
                     user={t!.node.user}

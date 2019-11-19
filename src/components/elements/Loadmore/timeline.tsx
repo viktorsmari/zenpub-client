@@ -9,20 +9,20 @@ interface Props {
 }
 
 const TimelineLoadMore: SFC<Props> = ({ fetchMore, community }) =>
-  (community.inbox.pageInfo.startCursor === null &&
-    community.inbox.pageInfo.endCursor === null) ||
-  (community.inbox.pageInfo.startCursor &&
-    community.inbox.pageInfo.endCursor === null) ? null : (
+  (community.outbox.pageInfo.startCursor === null &&
+    community.outbox.pageInfo.endCursor === null) ||
+  (community.outbox.pageInfo.startCursor &&
+    community.outbox.pageInfo.endCursor === null) ? null : (
     <LoadMore
       onClick={() =>
         fetchMore({
           fetchPolicy: 'cache-first',
           variables: {
-            end: community.inbox.pageInfo.endCursor
+            end: community.outbox.pageInfo.endCursor
           },
           updateQuery: (previousResult, { fetchMoreResult }) => {
-            const newNodes = fetchMoreResult.community.inbox.edges;
-            const pageInfo = fetchMoreResult.community.inbox.pageInfo;
+            const newNodes = fetchMoreResult.community.outbox.edges;
+            const pageInfo = fetchMoreResult.community.outbox.pageInfo;
             return newNodes.length
               ? {
                   // Put the new comments at the end of the list and update `pageInfo`
@@ -30,10 +30,10 @@ const TimelineLoadMore: SFC<Props> = ({ fetchMore, community }) =>
                   community: {
                     ...previousResult.community,
                     __typename: previousResult.community.__typename,
-                    inbox: {
-                      ...previousResult.community.inbox,
+                    outbox: {
+                      ...previousResult.community.outbox,
                       edges: [
-                        ...previousResult.community.inbox.edges,
+                        ...previousResult.community.outbox.edges,
                         ...newNodes
                       ]
                     },
@@ -44,9 +44,9 @@ const TimelineLoadMore: SFC<Props> = ({ fetchMore, community }) =>
                   community: {
                     ...previousResult.community,
                     __typename: previousResult.community.__typename,
-                    inbox: {
-                      ...previousResult.community.inbox,
-                      edges: [...previousResult.community.inbox.edges]
+                    outbox: {
+                      ...previousResult.community.outbox,
+                      edges: [...previousResult.community.outbox.edges]
                     },
                     pageInfo
                   }
