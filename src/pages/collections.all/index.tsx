@@ -18,9 +18,9 @@ const { getCollectionsQuery } = require('../../graphql/getCollections.graphql');
 interface Data extends QueryControls {
   collections: {
     nodes: BasicCollectionFragment[];
-    pageInfo: {
-      startCursor: number;
-      endCursor: number;
+    pageInfo?: {
+      startCursor: string;
+      endCursor: string;
     };
   };
 }

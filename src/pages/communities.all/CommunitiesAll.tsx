@@ -20,9 +20,9 @@ const { getCommunitiesQuery } = require('../../graphql/getCommunities.graphql');
 interface Data extends QueryControls {
   communities: {
     nodes: BasicCommunityFragment[];
-    pageInfo: {
-      startCursor: number;
-      endCursor: number;
+    pageInfo?: {
+      startCursor: string;
+      endCursor: string;
     };
   };
 }

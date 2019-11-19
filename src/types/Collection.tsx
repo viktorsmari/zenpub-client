@@ -10,9 +10,9 @@ export default interface Collection {
         node: User;
       }
     ];
-    pageInfo: {
-      endCursor: number;
-      startCursor: number;
+    pageInfo?: {
+      startCursor: string;
+      endCursor: string;
     };
     totalCount: number;
   };
@@ -25,9 +25,9 @@ export default interface Collection {
   summary: string;
   resources: {
     totalCount: number;
-    pageInfo: {
-      endCursor: number;
-      startCursor: number;
+    pageInfo?: {
+      startCursor: string;
+      endCursor: string;
     };
     edges: [
       {
@@ -38,9 +38,9 @@ export default interface Collection {
   };
   threads: {
     totalCount: number;
-    pageInfo: {
-      endCursor: number;
-      startCursor: number;
+    pageInfo?: {
+      startCursor: string;
+      endCursor: string;
     };
     edges: [
       {

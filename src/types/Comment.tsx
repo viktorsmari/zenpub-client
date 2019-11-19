@@ -14,9 +14,9 @@ export default interface Comment {
         node: Comment;
       }
     ];
-    pageInfo: {
-      endCursor: number;
-      startCursor: number;
+    pageInfo?: {
+      startCursor: string;
+      endCursor: string;
     };
     totalCount: number;
   };

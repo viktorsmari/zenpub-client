@@ -10,10 +10,7 @@ interface Props {
 }
 
 const CollectionsLoadMore: SFC<Props> = ({ fetchMore, collections, me }) =>
-  (collections.pageInfo.startCursor === null &&
-    collections.pageInfo.endCursor === null) ||
-  (collections.pageInfo.startCursor &&
-    collections.pageInfo.endCursor === null) ? null : (
+  collections.pageInfo && (
     <LoadMore
       onClick={() =>
         fetchMore({
