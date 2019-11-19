@@ -63,7 +63,7 @@ const Home: React.FC<Props> = props => {
               <TabPanel>
                 {error ? (
                   <Empty>
-                    <Trans>{error}</Trans>
+                    <Trans>{/* error */}</Trans>
                   </Empty>
                 ) : loading ? (
                   <Loader />
