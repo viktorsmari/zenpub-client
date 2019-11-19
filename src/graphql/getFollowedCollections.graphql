@@ -5,9 +5,9 @@ query getFollowedCollections($limit: Int, $endColl: String) {
         user {
             id
             canonicalUrl
-            isLocal
-            isPublic
-            isDisabled
+            # isLocal
+            # isPublic
+            # isDisabled
             followedCollections(limit: $limit, after:$endColl) {
                 pageInfo { startCursor endCursor }
                 edges {

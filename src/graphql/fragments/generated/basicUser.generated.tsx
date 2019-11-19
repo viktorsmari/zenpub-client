@@ -13,8 +13,6 @@ export type BasicUserFragment = { __typename?: 'User' } & Pick<
   | 'summary'
   | 'image'
   | 'isLocal'
-  | 'isPublic'
-  | 'isDisabled'
   | 'createdAt'
   | 'updatedAt'
   | 'lastActivity'
@@ -34,8 +32,6 @@ export const BasicUserFragmentDoc = gql`
     summary
     image
     isLocal
-    isPublic
-    isDisabled
     createdAt
     updatedAt
     lastActivity

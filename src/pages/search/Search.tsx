@@ -50,14 +50,14 @@ function Result(props) {
     <WrapperResult p={3}>
       {hit.collection ? (
         <SupText mb={3} variant="suptitle">
-          <a href={hit.collection.community.id}>
+          <a href={hit.collection.community.canonicalUrl}>
             {hit.collection.community.name}
           </a>{' '}
-          > <a href={hit.collection.id}>{hit.collection.name}</a>
+          > <a href={hit.collection.canonicalUrl}>{hit.collection.name}</a>
         </SupText>
       ) : hit.community ? (
         <SupText mb={3} variant="suptitle">
-          <a href={hit.community.id}>{hit.community.name}</a>
+          <a href={hit.community.canonicalUrl}>{hit.community.name}</a>
         </SupText>
       ) : (
         <span />
@@ -66,7 +66,7 @@ function Result(props) {
         icon={hit.icon || hit.image}
         title={hit.name}
         summary={hit.summary}
-        url={hit.id}
+        url={hit.url || hit.canonicalUrl}
         type={hit.index_type}
         coreIntegrationURL={
           moodle_core_download_url
@@ -74,7 +74,7 @@ function Result(props) {
               `&sourceurl=` +
               encodeURIComponent(hit.url) +
               `&moodleneturl=` +
-              encodeURIComponent(hit.id) +
+              encodeURIComponent(hit.canonicalUrl) +
               `&name=` +
               encodeURIComponent(hit.name) +
               `&description=` +

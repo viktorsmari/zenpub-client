@@ -1,6 +1,8 @@
 import * as Types from '../types.d';
 
+import { BasicCollectionFragment } from '../fragments/generated/basicCollection.generated';
 import gql from 'graphql-tag';
+import { BasicCollectionFragmentDoc } from '../fragments/generated/basicCollection.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -22,60 +24,7 @@ export type GetCollectionsQueryQuery = { __typename?: 'RootQueryType' } & {
       >
     >;
     nodes: Array<
-      Types.Maybe<
-        { __typename?: 'Collection' } & Pick<
-          Types.Collection,
-          | 'id'
-          | 'canonicalUrl'
-          | 'preferredUsername'
-          | 'name'
-          | 'summary'
-          | 'icon'
-          | 'isLocal'
-          | 'isPublic'
-          | 'isDisabled'
-          | 'createdAt'
-          | 'updatedAt'
-          | 'lastActivity'
-        > & {
-            myLike: Types.Maybe<
-              { __typename?: 'Like' } & Pick<Types.Like, 'id'>
-            >;
-            myFollow: Types.Maybe<
-              { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
-            >;
-            community: { __typename?: 'Community' } & Pick<
-              Types.Community,
-              | 'id'
-              | 'canonicalUrl'
-              | 'preferredUsername'
-              | 'name'
-              | 'icon'
-              | 'isLocal'
-              | 'isPublic'
-              | 'isDisabled'
-              | 'createdAt'
-              | 'updatedAt'
-              | 'lastActivity'
-            > & {
-                myFollow: Types.Maybe<
-                  { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
-                >;
-              };
-            followers: { __typename?: 'FollowsEdges' } & Pick<
-              Types.FollowsEdges,
-              'totalCount'
-            >;
-            resources: { __typename?: 'ResourcesEdges' } & Pick<
-              Types.ResourcesEdges,
-              'totalCount'
-            >;
-            outbox: { __typename?: 'ActivitiesEdges' } & Pick<
-              Types.ActivitiesEdges,
-              'totalCount'
-            >;
-          }
-      >
+      Types.Maybe<{ __typename?: 'Collection' } & BasicCollectionFragment>
     >;
   };
 };
@@ -88,52 +37,11 @@ export const GetCollectionsQueryDocument = gql`
         endCursor
       }
       nodes {
-        id
-        canonicalUrl
-        preferredUsername
-        name
-        summary
-        icon
-        isLocal
-        isPublic
-        isDisabled
-        createdAt
-        updatedAt
-        lastActivity
-        myLike {
-          id
-        }
-        myFollow {
-          id
-        }
-        community {
-          id
-          canonicalUrl
-          preferredUsername
-          name
-          icon
-          isLocal
-          isPublic
-          isDisabled
-          createdAt
-          updatedAt
-          lastActivity
-          myFollow {
-            id
-          }
-        }
-        followers {
-          totalCount
-        }
-        resources {
-          totalCount
-        }
-        outbox {
-          totalCount
-        }
+        ...BasicCollection
       }
     }
   }
+  ${BasicCollectionFragmentDoc}
 `;
 export type GetCollectionsQueryComponentProps = Omit<
   ApolloReactComponents.QueryComponentOptions<

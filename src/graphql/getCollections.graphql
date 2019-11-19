@@ -1,38 +1,10 @@
+#import "./fragments/basicCollection.graphql"
+
 query getCollectionsQuery($limit: Int, $end: String) {
     collections(limit: $limit, after:$end) {
         pageInfo { startCursor endCursor }
         nodes {
-            id
-            canonicalUrl
-            preferredUsername
-            name
-            summary
-            icon
-            isLocal
-            isPublic
-            isDisabled
-            createdAt
-            updatedAt
-            lastActivity
-            myLike   { id }
-            myFollow { id }
-            community {
-                id
-                canonicalUrl
-		preferredUsername
-                name
-                icon
-                isLocal
-                isPublic
-                isDisabled
-                createdAt
-                updatedAt
-                lastActivity
-                myFollow { id }
-            }
-            followers { totalCount }
-            resources { totalCount }
-            outbox    { totalCount }
+            ...BasicCollection
         }
     }
 }

@@ -1,8 +1,8 @@
 fragment BasicThread on Thread {
     id
     isLocal
-    isPublic
-    isHidden
+    # isPublic
+    # isHidden
     createdAt
     updatedAt
     lastActivity

@@ -1,12 +1,12 @@
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
-import { Field, Formik } from 'formik';
+import { Field, Form, Formik } from 'formik';
 import * as React from 'react';
 import { ApolloConsumer } from 'react-apollo';
 import * as Yup from 'yup';
 import Alert from '../../components/elements/Alert';
 import { Input } from '@rebass/forms';
-import { Box, Button, Text, Flex } from 'rebass/styled-components';
+import { Box, Text, Button, Flex } from 'rebass/styled-components';
 import { useCreateUserMutationMutation } from '../../graphql/generated/createUser.generated';
 const checkUsername = require('../../graphql/checkUsername.graphql');
 import Markdown from 'markdown-to-jsx';
@@ -138,13 +138,14 @@ const FormWrapper = styled.div`
   }
 `;
 
-const Form = styled(Box)`
+const FormWrapper2 = styled(Form)`
   background: #fff;
   border-radius: 4px;
   height: inherit;
   border: 1px solid #dddfe2;
   text-align: left;
   height: fit-content;
+  padding: 16px;
 `;
 
 const Right = styled(Box)`
@@ -213,9 +214,32 @@ const SignupModal = (props: Props) => {
             </Header>
             <FormWrapper>
               <Formik
+                onSubmit={(values, { setSubmitting }) => {
+                  const variables = {
+                    user: {
+                      email: values.email,
+                      name: values.name,
+                      password: values.password,
+                      preferredUsername: values.username,
+                      wantsEmailDigest: false,
+                      wantsNotifications: false
+                    }
+                  };
+                  return createUser({
+                    variables: variables
+                  })
+                    .then(res => {
+                      setSubmitting(false);
+                    })
+                    .catch(err => {
+                      setSubmitting(false);
+                      alert(err);
+                      console.log(err);
+                    });
+                }}
                 render={({ errors, touched, isSubmitting }) => {
                   return (
-                    <Form p={3}>
+                    <FormWrapper2>
                       <Box>
                         <label>
                           <Trans>Email</Trans>
@@ -331,36 +355,12 @@ const SignupModal = (props: Props) => {
                         </>
                       </Box>
                       <Box mt={3}>
-                        <Button disabled={isSubmitting} type="submit">
-                          <Trans>Sign Up</Trans>
+                        <Button type="submit">
+                          <Trans>Signup</Trans>
                         </Button>
                       </Box>
-                    </Form>
+                    </FormWrapper2>
                   );
-                }}
-                onSubmit={(values, { setSubmitting }) => {
-                  const variables = {
-                    user: {
-                      email: values.email,
-                      name: values.name,
-                      password: values.password,
-                      preferredUsername: values.username,
-                      isPublic: true,
-                      wantsEmailDigest: false,
-                      wantsNotifications: false
-                    }
-                  };
-                  return createUser({
-                    variables: variables
-                  })
-                    .then(res => {
-                      setSubmitting(false);
-                    })
-                    .catch(err => {
-                      setSubmitting(false);
-                      alert(err);
-                      console.log(err);
-                    });
                 }}
                 initialValues={initialFormValues}
                 validationSchema={validationSchema}

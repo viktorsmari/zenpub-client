@@ -1,4 +1,5 @@
 #import "./fragments/basicCollection.graphql"
+#import "./fragments/basicResource.graphql"
 
 query getCollection($id: String!) {
   collection(collectionId: $id) {
@@ -7,21 +8,7 @@ query getCollection($id: String!) {
       totalCount
       edges {
         node {
-          id
-          canonicalUrl
-          name
-          summary
-          icon
-          url
-          license
-          createdAt
-          updatedAt
-          lastActivity
-          isLocal
-          isPublic
-          isDisabled
-          myLike { id }
-          likes { totalCount }
+          ...BasicResource
         }
       }
     }

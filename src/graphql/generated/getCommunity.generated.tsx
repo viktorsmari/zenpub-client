@@ -147,10 +147,6 @@ export type GetCommunityQueryQuery = { __typename?: 'RootQueryType' } & {
                         Types.ThreadsEdges,
                         'totalCount'
                       >;
-                      outbox: { __typename?: 'ActivitiesEdges' } & Pick<
-                        Types.ActivitiesEdges,
-                        'totalCount'
-                      >;
                     };
                 }
               >
@@ -262,9 +258,6 @@ export const GetCommunityQueryDocument = gql`
               totalCount
             }
             threads {
-              totalCount
-            }
-            outbox {
               totalCount
             }
           }

@@ -15,9 +15,9 @@ input ResourceInput {
         url
         license
         icon
-        isLocal
-        isPublic
-        isDisabled
+        # isLocal
+        # isPublic
+        # isDisabled
         createdAt
         updatedAt
     }

@@ -12,7 +12,7 @@ query getSidebarQuery($limitComm: Int, $endComm: String) {
                     node {
                         follow {
                             id
-                            canonicalUrl
+                            # canonicalUrl
                         }
                         community {
                             __typename
@@ -20,16 +20,16 @@ query getSidebarQuery($limitComm: Int, $endComm: String) {
                                 id
                                 preferredUsername
                                 name
-                                summary
+                                # summary
                                 icon
-                                isLocal
-                                isPublic
-                                isDisabled
-                                id
-                                myFollow    { id }
-                                collections { totalCount }
-                                followers   { totalCount }
-                                threads     { totalCount }
+                                # isLocal
+                                # isPublic
+                                # isDisabled
+                                # id
+                                # myFollow    { id }
+                                # collections { totalCount }
+                                # followers   { totalCount }
+                                # threads     { totalCount }
                             }
                         }
                     }

@@ -8,8 +8,8 @@ fragment BasicUser on User {
     summary
     image
     isLocal
-    isPublic
-    isDisabled
+    # isPublic
+    # isDisabled
     createdAt
     updatedAt
     lastActivity

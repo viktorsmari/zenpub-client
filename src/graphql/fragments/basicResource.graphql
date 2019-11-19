@@ -10,11 +10,13 @@ fragment BasicResource on Resource {
     license
     createdAt
     updatedAt
+    myLike { id }
+    likes { totalCount }
     creator { ...BasicUser }
     collection {
         id
         name
-        canonicalUrl
+        # canonicalUrl
         preferredUsername
         isLocal
         isPublic

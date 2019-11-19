@@ -15,11 +15,11 @@ mutation loginMutation($email: String!, $password: String!) {
                 summary
                 location
                 icon
-                isPublic
-                isDisabled
+                # isPublic
+                # isDisabled
                 createdAt
                 updatedAt
-                lastActivity
+                # lastActivity
             }
         }
     }

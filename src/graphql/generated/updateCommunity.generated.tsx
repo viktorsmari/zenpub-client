@@ -25,8 +25,6 @@ export type UpdateCommunityMutationMutation = {
       | 'name'
       | 'summary'
       | 'icon'
-      | 'isLocal'
-      | 'isPublic'
       | 'createdAt'
       | 'updatedAt'
     >
@@ -45,8 +43,6 @@ export const UpdateCommunityMutationDocument = gql`
       name
       summary
       icon
-      isLocal
-      isPublic
       createdAt
       updatedAt
     }

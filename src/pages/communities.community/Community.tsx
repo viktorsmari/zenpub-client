@@ -71,14 +71,17 @@ const CommunityPage: SFC<Props> = ({
             </SuperTabList>
             <TabPanel>
               {followed ? (
-                <WrapperBox p={3}>
-                  <SocialText
-                    onInput={setNewThreadTextInput}
-                    reference={socialTextRef}
-                    submit={addNewThread}
-                    placeholder="Start a new thread..."
-                  />
-                </WrapperBox>
+                <>
+                  <Overlay />
+                  <WrapperBox p={3}>
+                    <SocialText
+                      onInput={setNewThreadTextInput}
+                      reference={socialTextRef}
+                      submit={addNewThread}
+                      placeholder="Start a new thread..."
+                    />
+                  </WrapperBox>
+                </>
               ) : null}
               <div>
                 {community.inbox.edges.map((t, i) => (
@@ -114,6 +117,8 @@ const CommunityPage: SFC<Props> = ({
     )
   );
 };
+
+const Overlay = styled(Box)``;
 
 export const Footer = styled.div`
   height: 30px;

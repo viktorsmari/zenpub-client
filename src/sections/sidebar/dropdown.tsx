@@ -89,11 +89,17 @@ const Dropdown: React.FC = () => {
               </a>
             </Item>
 
-            <Item variant="link">
-              <a href="#" target="blank">
-                v0.10 beta <Trans>Changelog</Trans>
-              </a>
-            </Item>
+            <Text
+              style={{
+                fontWeight: 600,
+                fontSize: '15px',
+                padding: '8px',
+                paddingLeft: '4px',
+                color: '#3c3c3c'
+              }}
+            >
+              v0.10 beta
+            </Text>
           </List>
           <List>
             <Item variant="link" onClick={logout}>

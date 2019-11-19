@@ -13,23 +13,7 @@ query getAgentQuery(
   $endTimeline: String
 ) {
   user(userId: $userId) {
-    id
-    canonicalUrl
-    preferredUsername
-    name
-    summary
-    location
-    website
-    icon
-    image
-    isLocal
-    isPublic
-    isDisabled
-    createdAt
-    updatedAt
-    lastActivity
-    myFollow { id }
-    myLike { id }
+    ...BasicUser
     outbox (limit: $limitTimeline, after:$endTimeline) {
       pageInfo { startCursor endCursor }
       edges {
@@ -67,23 +51,7 @@ query getAgentQuery(
           community {
             __typename
             ... on Community {
-              id
-              canonicalUrl
-              preferredUsername
-              name
-              summary
-              icon
-              image
-              isLocal
-              isPublic
-              isDisabled
-              createdAt
-              updatedAt
-              lastActivity
-              myFollow { id }
-              collections { totalCount }
-              followers { totalCount }
-              threads { totalCount }
+              ...BasicCommunity
             }
           }
         }
@@ -103,25 +71,7 @@ query getAgentQuery(
           collection {
             __typename
             ... on Collection {
-              id
-              canonicalUrl
-              preferredUsername
-              name
-              summary
-              icon
-              isLocal
-              isPublic
-              isDisabled
-              createdAt
-              updatedAt
-              lastActivity
-              myFollow { id }
-              myLike   { id }
-              community { id }
-              resources { totalCount }
-              followers { totalCount }
-              likes     { totalCount }
-              threads   { totalCount }
+              ...BasicCollection
             }
           }
         }

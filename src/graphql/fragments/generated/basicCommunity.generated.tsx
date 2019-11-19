@@ -17,8 +17,6 @@ export type BasicCommunityFragment = { __typename?: 'Community' } & Pick<
   | 'updatedAt'
   | 'lastActivity'
   | 'isLocal'
-  | 'isPublic'
-  | 'isDisabled'
 > & {
     creator: { __typename?: 'User' } & BasicUserFragment;
     myFollow: Types.Maybe<{ __typename?: 'Follow' } & Pick<Types.Follow, 'id'>>;
@@ -56,8 +54,6 @@ export const BasicCommunityFragmentDoc = gql`
     updatedAt
     lastActivity
     isLocal
-    isPublic
-    isDisabled
     myFollow {
       id
     }

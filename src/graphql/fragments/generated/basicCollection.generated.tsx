@@ -12,8 +12,6 @@ export type BasicCollectionFragment = { __typename?: 'Collection' } & Pick<
   | 'name'
   | 'summary'
   | 'icon'
-  | 'isLocal'
-  | 'isPublic'
   | 'createdAt'
 > & {
     creator: { __typename?: 'User' } & BasicUserFragment;
@@ -21,7 +19,7 @@ export type BasicCollectionFragment = { __typename?: 'Collection' } & Pick<
     myFollow: Types.Maybe<{ __typename?: 'Follow' } & Pick<Types.Follow, 'id'>>;
     community: { __typename?: 'Community' } & Pick<
       Types.Community,
-      'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'name' | 'icon'
+      'id' | 'canonicalUrl' | 'name' | 'icon'
     > & {
         myFollow: Types.Maybe<
           { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
@@ -56,8 +54,6 @@ export const BasicCollectionFragmentDoc = gql`
       ...BasicUser
     }
     icon
-    isLocal
-    isPublic
     createdAt
     myLike {
       id
@@ -68,8 +64,6 @@ export const BasicCollectionFragmentDoc = gql`
     community {
       id
       canonicalUrl
-      isLocal
-      isPublic
       name
       icon
       myFollow {
