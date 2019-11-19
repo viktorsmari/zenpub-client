@@ -152,7 +152,11 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                                       community!.node.community.threads
                                         .totalCount
                                     }
-                                    icon={community!.node.community.icon || ''}
+                                    icon={
+                                      community!.node.community.icon ||
+                                      community!.node.community.image ||
+                                      ''
+                                    }
                                     followed={
                                       !!community!.node.community.myFollow
                                     }

@@ -57,7 +57,11 @@ class CommunitiesJoined extends React.Component<Props> {
                   collectionsCount={
                     community!.node.community.collections.totalCount
                   }
-                  icon={community!.node.community.icon || ''}
+                  icon={
+                    community!.node.community.icon ||
+                    community!.node.community.image ||
+                    ''
+                  }
                   followed={
                     community!.node.community.myFollow!.id ? true : false
                   }
