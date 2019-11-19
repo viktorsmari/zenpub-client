@@ -121,11 +121,7 @@ const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
                       collections={collections}
                       community={communityQuery.data.community}
                       id={communityQuery.data.community.id}
-                      followed={
-                        communityQuery.data.community.myFollow!.id
-                          ? true
-                          : false
-                      }
+                      followed={!!communityQuery.data.community.myFollow}
                       fetchMore={communityQuery.fetchMore}
                       refetch={() => communityQuery.refetch()}
                     />

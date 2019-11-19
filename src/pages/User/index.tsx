@@ -154,9 +154,7 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                                     }
                                     icon={community!.node.community.icon || ''}
                                     followed={
-                                      community!.node.community.myFollow!.id
-                                        ? true
-                                        : false
+                                      !!community!.node.community.myFollow
                                     }
                                     id={community!.node.community.id}
                                     externalId={

@@ -69,7 +69,7 @@ const HeroComp: SFC<Props> = ({ community, showUsers, editCommunity }) => {
                 ) : null}
                 <Join
                   id={community.id}
-                  followed={community.myFollow!.id ? true : false}
+                  followed={!!community.myFollow}
                   externalId={community.id}
                 />
               </Actions>

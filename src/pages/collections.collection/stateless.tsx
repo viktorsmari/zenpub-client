@@ -92,7 +92,7 @@ const Component: React.FC<Props> = ({
                           </EditButton>
                         ) : null}
                         <Join
-                          followed={collection.data!.collection!.myFollow}
+                          followed={!!collection.data!.collection!.myFollow}
                           id={collection.data!.collection!.id}
                           externalId={collection.data!.collection!.id}
                         />
