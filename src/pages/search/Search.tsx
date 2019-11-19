@@ -66,7 +66,7 @@ function Result(props) {
         icon={hit.icon || hit.image}
         title={hit.name}
         summary={hit.summary}
-        url={hit.id}
+        url={hit.url || hit.canonicalUrl}
         type={hit.index_type}
         coreIntegrationURL={
           moodle_core_download_url
@@ -74,7 +74,7 @@ function Result(props) {
               `&sourceurl=` +
               encodeURIComponent(hit.url) +
               `&moodleneturl=` +
-              encodeURIComponent(hit.id) +
+              encodeURIComponent(hit.canonicalUrl) +
               `&name=` +
               encodeURIComponent(hit.name) +
               `&description=` +
