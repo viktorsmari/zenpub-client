@@ -97,13 +97,13 @@ const CommunityPage: SFC<Props> = ({
               </div>
             </TabPanel>
             <TabPanel>
-              {followed ? (
-                <ButtonWrapper>
+              {
+                /*FIXME followed ? */ <ButtonWrapper>
                   <CreateCollection p={3} onClick={() => onOpen(true)} m={3}>
                     <Trans>Create a new collection</Trans>
                   </CreateCollection>
-                </ButtonWrapper>
-              ) : null}
+                </ButtonWrapper> /*FIXME : null */
+              }
               <div>{collections}</div>
             </TabPanel>
           </Tabs>
