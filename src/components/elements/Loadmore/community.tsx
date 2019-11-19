@@ -9,7 +9,8 @@ interface Props {
 }
 
 const CommunitiesLoadMore: SFC<Props> = ({ fetchMore, communities }) =>
-  communities.pageInfo && (
+  null &&
+  /*FIXME*/ communities.pageInfo && (
     <LoadMore
       onClick={() =>
         fetchMore({
