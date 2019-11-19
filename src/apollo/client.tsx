@@ -75,7 +75,7 @@ export default async function initialise({ authToken }: Cfg) {
   });
 
   function handleError(message) {
-    alert(message); //TODO: nicer display of errors
+    //  alert(message); //TODO: nicer display of errors
   }
 
   function handleErrorGraphQL(message, locations, path) {

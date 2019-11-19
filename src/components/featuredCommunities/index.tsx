@@ -134,7 +134,7 @@ class MultipleItems extends React.Component<Props> {
         </Title>
         {this.props.data.error ? (
           <span>
-            <Trans>Error loading featured communities</Trans>
+            <Trans>{/* Error loading featured communities */}</Trans>
           </span>
         ) : this.props.data.loading ? (
           <Loader />

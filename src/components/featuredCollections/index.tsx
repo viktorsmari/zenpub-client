@@ -95,7 +95,7 @@ class MultipleItems extends React.Component<Props> {
         </Title>
         {this.props.data.error ? (
           <span>
-            <Trans>Error loading featured collections</Trans>
+            <Trans>{/* Error loading featured collections */}</Trans>
           </span>
         ) : this.props.data.loading ? (
           <Loader />
