@@ -44,10 +44,10 @@ export const integrateToastNotifications = (
       showMessage(
         _.error
           ? {
-              content: i18nMark(`Could not create user`),
+              content: i18nMark(`Could send registration request`),
               options: { type: 'error' }
             }
-          : { content: i18nMark(`User created!`) }
+          : { content: i18nMark(`Registartion sent!`) }
       )
   });
 

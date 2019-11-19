@@ -14,22 +14,6 @@
       },
       {
         "kind": "UNION",
-        "name": "DeleteContext",
-        "possibleTypes": [
-          { "name": "Activity" },
-          { "name": "Collection" },
-          { "name": "Comment" },
-          { "name": "Community" },
-          { "name": "Flag" },
-          { "name": "Follow" },
-          { "name": "Like" },
-          { "name": "Resource" },
-          { "name": "Thread" },
-          { "name": "User" }
-        ]
-      },
-      {
-        "kind": "UNION",
         "name": "LikeContext",
         "possibleTypes": [
           { "name": "Collection" },
@@ -50,6 +34,16 @@
       },
       {
         "kind": "UNION",
+        "name": "FollowContext",
+        "possibleTypes": [
+          { "name": "Collection" },
+          { "name": "Community" },
+          { "name": "Thread" },
+          { "name": "User" }
+        ]
+      },
+      {
+        "kind": "UNION",
         "name": "ActivityContext",
         "possibleTypes": [
           { "name": "Collection" },
@@ -60,10 +54,16 @@
       },
       {
         "kind": "UNION",
-        "name": "FollowContext",
+        "name": "DeleteContext",
         "possibleTypes": [
+          { "name": "Activity" },
           { "name": "Collection" },
+          { "name": "Comment" },
           { "name": "Community" },
+          { "name": "Flag" },
+          { "name": "Follow" },
+          { "name": "Like" },
+          { "name": "Resource" },
           { "name": "Thread" },
           { "name": "User" }
         ]
