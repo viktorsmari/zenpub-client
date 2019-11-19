@@ -100,17 +100,6 @@ const Content = connectStateResults(({ searchState, onOpen }) => {
     <>
       <MobileHeader onOpen={onOpen} />
       <Switch>
-        <Route
-          exact
-          path="/confirm-mail/:token"
-          render={route =>
-            auth ? (
-              <Redirect to="/" />
-            ) : (
-              <ConfirmAccount token={route.match.params.token} />
-            )
-          }
-        />
         <Route exact path="/" component={auth ? Home : Login} />
         <Route exact path="/profile" component={auth ? Profile : Login} />
         <Route
@@ -273,23 +262,38 @@ const App: React.FC<Props> = props => {
   );
 };
 
-export default _ => (
-  <Main>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.1.1/themes/reset-min.css"
-    />
-    <Router>
-      <AppInner>
-        <Switch>
-          <Route exact path="/reset" component={Reset} />
-          <Route exact path="/reset/:token" component={CreateNewPassword} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={Signup} />
-          <Route path="/" component={props => <App {...props} />} />
-          <Route component={NotFound} />
-        </Switch>
-      </AppInner>
-    </Router>
-  </Main>
-);
+export default _ => {
+  const { auth } = React.useContext(SessionContext);
+
+  return (
+    <Main>
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.1.1/themes/reset-min.css"
+      />
+      <Router>
+        <AppInner>
+          <Switch>
+            <Route
+              exact
+              path="/confirm-email/:token"
+              render={route =>
+                auth ? (
+                  <Redirect to="/" />
+                ) : (
+                  <ConfirmAccount token={route.match.params.token} />
+                )
+              }
+            />
+            <Route exact path="/reset" component={Reset} />
+            <Route exact path="/reset/:token" component={CreateNewPassword} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={Signup} />
+            <Route path="/" component={props => <App {...props} />} />
+            <Route component={NotFound} />
+          </Switch>
+        </AppInner>
+      </Router>
+    </Main>
+  );
+};
