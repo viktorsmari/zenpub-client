@@ -22,6 +22,7 @@ const PlaceholderImg = require('../../components/elements/Icons/resourcePlacehol
 
 interface Props {
   icon: string;
+  image?: string;
   title: string;
   summary: string;
   url: string;
@@ -34,7 +35,11 @@ const Resource: React.FC<Props> = props => {
     <Wrapper>
       <WrapperLink target="blank" href={props.url}>
         <Img
-          style={{ backgroundImage: `url(${props.icon || PlaceholderImg})` }}
+          style={{
+            backgroundImage: `url(${props.icon ||
+              props.image ||
+              PlaceholderImg})`
+          }}
         />
         <Info>
           <TitleWrapper>

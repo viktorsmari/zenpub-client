@@ -3,6 +3,7 @@ import Comment from './Comment';
 import User from './User';
 
 export default interface Community {
+  image: string | null;
   icon: string | null;
   id: string;
   localId: string;
