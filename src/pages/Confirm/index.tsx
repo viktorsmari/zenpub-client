@@ -57,7 +57,7 @@ const Confirm = (props: Props) => {
     () => {
       confirm({ variables: { token: props.token } });
     },
-    [props.token, confirm]
+    [props.token]
   );
   return (
     <>
