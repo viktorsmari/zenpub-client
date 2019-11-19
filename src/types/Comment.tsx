@@ -3,7 +3,6 @@ import User from './User';
 export default interface Comment {
   content: string;
   id: string;
-  localId: string;
   author: User;
   published: number;
   inReplyTo: Comment;

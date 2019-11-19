@@ -35,10 +35,10 @@
 //   return (
 //     <FeedItem>
 //       {node.activityType === 'CreateComment' && node.object.inReplyTo ? (
-//         <NavigateToThread to={`/thread/${node.object.inReplyTo.localId}`} />
+//         <NavigateToThread to={`/thread/${node.object.inReplyTo.id}`} />
 //       ) : node.activityType === 'CreateComment' ||
 //       node.activityType === 'LikeComment' ? (
-//         <NavigateToThread to={`/thread/${node.object.localId}`} />
+//         <NavigateToThread to={`/thread/${node.object.id}`} />
 //       ) : null}
 //       {node.activityType === 'LikeComment' ? (
 //         <Box>
@@ -55,7 +55,7 @@
 //             </MemberItem>
 //             <MemberInfo>
 //               <Name>
-//                 <Link to={'/user/' + node.object.author.localId}>
+//                 <Link to={'/user/' + node.object.author.id}>
 //                   {node.object.author.name}{' '}
 //                   {node.object.author.preferredUsername ? (
 //                     <Username ml={2}>
@@ -87,7 +87,7 @@
 //               <b>{user ? user.name : <Trans>Deleted user</Trans>}</b>
 //             ) : user ? (
 //               <Name>
-//                 <Link to={'/user/' + user.localId}>
+//                 <Link to={'/user/' + user.id}>
 //                   {user.name}{' '}
 //                   {user.preferredUsername ? (
 //                     <Username ml={2}>@{user.preferredUsername}</Username>
@@ -105,7 +105,7 @@
 //             {node.activityType === 'JoinCommunity' ? (
 //               <SubText>
 //                 <Trans>joined</Trans>
-//                 <NavLink to={`/communities/${node.object.localId}`}>
+//                 <NavLink to={`/communities/${node.object.id}`}>
 //                   {' '}
 //                   @{node.object.name}
 //                 </NavLink>
@@ -121,7 +121,7 @@
 //                       <MemberInfo>
 //                         <Name>
 //                           <Link
-//                             to={'/user/' + node.object.inReplyTo.author.localId}
+//                             to={'/user/' + node.object.inReplyTo.author.id}
 //                           >
 //                             {node.object.inReplyTo.author.name}
 //                           </Link>
@@ -157,7 +157,7 @@
 //                 <Trans>updated</Trans>{' '}
 //                 <NavLink
 //                   style={{ marginLeft: '4px' }}
-//                   to={`/communities/${node.object.localId}`}
+//                   to={`/communities/${node.object.id}`}
 //                 >
 //                   @{node.object.name}
 //                 </NavLink>
@@ -167,7 +167,7 @@
 //                 <Trans>updated</Trans>{' '}
 //                 <NavLink
 //                   style={{ marginLeft: '4px' }}
-//                   to={`/collections/${node.object.localId}`}
+//                   to={`/collections/${node.object.id}`}
 //                 >
 //                   +{node.object.name}
 //                 </NavLink>
@@ -177,7 +177,7 @@
 //                 <Trans>followed</Trans>
 //                 <NavLink
 //                   style={{ marginLeft: '4px' }}
-//                   to={`/collections/${node.object.localId}`}
+//                   to={`/collections/${node.object.id}`}
 //                 >
 //                   +{node.object.name}
 //                 </NavLink>
@@ -187,7 +187,7 @@
 //                 <SubText mt={1}>
 //                   <Trans>added a new resource</Trans> <Trans>in</Trans>{' '}
 //                   <NavLink
-//                     to={`/collections/${node.object.collection.localId}`}
+//                     to={`/collections/${node.object.collection.id}`}
 //                   >
 //                     +{node.object.collection.name}
 //                   </NavLink>
@@ -196,14 +196,14 @@
 //                   icon={node.object.icon}
 //                   title={node.object.name}
 //                   summary={node.object.summary}
-//                   url={`/collections/${node.object.collection.localId}`}
+//                   url={`/collections/${node.object.collection.id}`}
 //                 />
 //               </Box>
 //             ) : node.activityType === 'CreateCollection' ? (
 //               <Box>
 //                 <SubText mt={1}>
 //                   <Trans>created a new collection</Trans>{' '}
-//                   <NavLink to={`/collections/${node.object.localId}`}>
+//                   <NavLink to={`/collections/${node.object.id}`}>
 //                     +{node.object.name}
 //                   </NavLink>
 //                 </SubText>
@@ -211,14 +211,14 @@
 //                   icon={node.object.icon}
 //                   title={node.object.name}
 //                   summary={node.object.summary}
-//                   url={`/collections/${node.object.localId}`}
+//                   url={`/collections/${node.object.id}`}
 //                 />
 //               </Box>
 //             ) : node.activityType === 'CreateCommunity' ? (
 //               <Box>
 //                 <SubText mt={1}>
 //                   <Trans>created a new community</Trans>{' '}
-//                   <NavLink to={`/communities/${node.object.localId}`}>
+//                   <NavLink to={`/communities/${node.object.id}`}>
 //                     @{node.object.name}
 //                   </NavLink>
 //                 </SubText>
@@ -226,7 +226,7 @@
 //                   icon={node.object.icon}
 //                   title={node.object.name}
 //                   summary={node.object.summary}
-//                   url={`/communities/${node.object.localId}`}
+//                   url={`/communities/${node.object.id}`}
 //                 />
 //               </Box>
 //             ) : null}
@@ -236,7 +236,7 @@
 //                 totalReplies={node.object.replies.totalCount as number}
 //                 totalLikes={node.object.likers.totalCount as number}
 //                 comment={node.object}
-//                 toggleLike={toggleLike(node.object.localId)}
+//                 toggleLike={toggleLike(node.object.id)}
 //                 iLikeIt={iLikeIt}
 //               />
 //             ) : null}

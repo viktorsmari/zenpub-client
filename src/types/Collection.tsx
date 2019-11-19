@@ -19,7 +19,6 @@ export default interface Collection {
   followed: boolean;
   icon: string | null;
   id: string;
-  localId: string;
   preferredUsername: string;
   name: string;
   summary: string;

@@ -6,7 +6,6 @@ export default interface Community {
   image: string | null;
   icon: string | null;
   id: string;
-  localId: string;
   name: string;
   preferredUsername: string;
   summary: string;

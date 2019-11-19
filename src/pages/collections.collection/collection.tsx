@@ -55,7 +55,7 @@ const CommunityPage: SFC<Props> = ({
                 {/*FIXME collection.community.followed ? null : ( // BTW .followed does not exist no more.. it's spread around code
                   <Footer>
                     <Trans>Join the community</Trans>{' '}
-                    <Link to={'/communities/' + collection.community.localId}>
+                    <Link to={'/communities/' + collection.community.id}>
                       {community_name}
                     </Link>{' '}
                     <Trans>to add a resource</Trans>
@@ -92,7 +92,7 @@ const CommunityPage: SFC<Props> = ({
                         title={edge.node.name}
                         summary={edge.node.summary}
                         url={edge.node.url}
-                        localId={edge.node.localId}
+                        id={edge.node.id}
                       />
                     ))
                   ) : (

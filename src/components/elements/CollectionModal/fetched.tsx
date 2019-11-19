@@ -220,7 +220,6 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
           const fragment = gql`
             fragment Res on Collection {
               id
-              localId
               icon
               name
               content
@@ -230,7 +229,6 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
                 edges {
                   node {
                     id
-                    localId
                     name
                     summary
                     url

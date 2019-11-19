@@ -26,8 +26,8 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
   const [like] = useLikeCommentMutationMutation();
   const [undoLike] = useUndoLikeCommentMutationMutation();
   const toggleLike = React.useCallback(
-    (localId: number) => () => {
-      (iLikeIt ? undoLike : like)({ variables: { localId } });
+    (id: number) => () => {
+      (iLikeIt ? undoLike : like)({ variables: { id } });
       setiLikeIt(!iLikeIt);
     },
     [iLikeIt, like, undoLike]
@@ -42,14 +42,14 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
           /** Comment : CreateComment */
           node.activityType === 'CreateComment'  ?(
             activity.inReplyTo 
-            ?  <NavigateToThread to={`/thread/${activity.inReplyTo.localId}`} />
+            ?  <NavigateToThread to={`/thread/${activity.inReplyTo.id}`} />
             :null
           )
           /** END Comment : CreateComment */
         ):
           /** Comment : LikeComment */
         node.activityType === 'LikeComment' 
-        ? <NavigateToThread to={`/thread/${activity.localId}`} />
+        ? <NavigateToThread to={`/thread/${activity.id}`} />
         : null
           /** END Comment : LikeComment */
          
@@ -58,10 +58,10 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
     }
       {
         node.activityType === 'CreateComment' && activity.inReplyTo ? (
-        <NavigateToThread to={`/thread/${activity.inReplyTo.localId}`} />
+        <NavigateToThread to={`/thread/${activity.inReplyTo.id}`} />
       ) : node.activityType === 'CreateComment' ||
       node.activityType === 'LikeComment' ? (
-        <NavigateToThread to={`/thread/${activity.localId}`} />
+        <NavigateToThread to={`/thread/${activity.id}`} />
       ) : null}
       {node.activityType === 'LikeComment' ? (
         <Box>
@@ -78,7 +78,7 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
             </MemberItem>
             <MemberInfo>
               <Name>
-                <Link to={'/user/' + activity.author.localId}>
+                <Link to={'/user/' + activity.author.id}>
                   {activity.author.name}{' '}
                   {activity.author.preferredUsername ? (
                     <Username ml={2}>
@@ -110,7 +110,7 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
               <b>{user ? user.name : <Trans>Deleted user</Trans>}</b>
             ) : user ? (
               <Name>
-                <Link to={'/user/' + user.localId}>
+                <Link to={'/user/' + user.id}>
                   {user.name}{' '}
                   {user.preferredUsername ? (
                     <Username ml={2}>@{user.preferredUsername}</Username>
@@ -128,7 +128,7 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
             {node.activityType === 'JoinCommunity' ? (
               <SubText>
                 <Trans>joined</Trans>
-                <NavLink to={`/communities/${activity.localId}`}>
+                <NavLink to={`/communities/${activity.id}`}>
                   {' '}
                   @{activity.name}
                 </NavLink>
@@ -144,7 +144,7 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
                       <MemberInfo>
                         <Name>
                           <Link
-                            to={'/user/' + activity.inReplyTo.author.localId}
+                            to={'/user/' + activity.inReplyTo.author.id}
                           >
                             {activity.inReplyTo.author.name}
                           </Link>
@@ -178,7 +178,7 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
             ) : node.activityType === 'UpdateCommunity' ? (
               <SubText mt={1}>
                 <Trans>updated</Trans>{' '}
-                <NavLink to={`/communities/${activity.localId}`}>
+                <NavLink to={`/communities/${activity.id}`}>
                   @{activity.name}
                 </NavLink>
               </SubText>
@@ -187,8 +187,8 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
                 <Trans>updated</Trans>{' '}
                 <NavLink
                   to={`/communities/${
-                    activity.community.localId
-                  }/collections/${activity.localId}`}
+                    activity.community.id
+                  }/collections/${activity.id}`}
                 >
                   +{activity.name}
                 </NavLink>
@@ -198,8 +198,8 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
                 <Trans>followed</Trans>{' '}
                 <NavLink
                   to={`/communities/${
-                    activity.community.localId
-                  }/collections/${activity.localId}`}
+                    activity.community.id
+                  }/collections/${activity.id}`}
                 >
                   +{activity.name}
                 </NavLink>
@@ -210,8 +210,8 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
                   <Trans>added a new resource</Trans> <Trans>in</Trans>{' '}
                   <NavLink
                     to={`/communities/${
-                      activity.collection.community.localId
-                    }/collections/${activity.collection.localId}`}
+                      activity.collection.community.id
+                    }/collections/${activity.collection.id}`}
                   >
                     +{activity.collection.name}
                   </NavLink>
@@ -221,8 +221,8 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
                   title={activity.name}
                   summary={activity.summary}
                   url={`/communities/${
-                    activity.collection.community.localId
-                  }/collections/${activity.collection.localId}`}
+                    activity.collection.community.id
+                  }/collections/${activity.collection.id}`}
                 />
               </Box>
             ) : node.activityType === 'CreateCollection' ? (
@@ -231,8 +231,8 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
                   <Trans>created a new collection</Trans>{' '}
                   <NavLink
                     to={`/communities/${
-                      activity.community.localId
-                    }/collections/${activity.localId}`}
+                      activity.community.id
+                    }/collections/${activity.id}`}
                   >
                     +{activity.name}
                   </NavLink>
@@ -242,15 +242,15 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
                   title={activity.name}
                   summary={activity.summary}
                   url={`/communities/${
-                    activity.community.localId
-                  }/collections/${activity.localId}`}
+                    activity.community.id
+                  }/collections/${activity.id}`}
                 />
               </Box>
             ) : node.activityType === 'CreateCommunity' ? (
               <Box>
                 <SubText mt={1}>
                   <Trans>created a new community</Trans>{' '}
-                  <NavLink to={`/communities/${activity.localId}`}>
+                  <NavLink to={`/communities/${activity.id}`}>
                     @{activity.name}
                   </NavLink>
                 </SubText>
@@ -258,7 +258,7 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
                   icon={activity.icon}
                   title={activity.name}
                   summary={activity.summary}
-                  url={`/communities/${activity.localId}`}
+                  url={`/communities/${activity.id}`}
                 />
               </Box>
             ) : null}
@@ -267,7 +267,7 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
               <Actions
                 totalReplies={activity.replies.totalCount as number}
                 totalLikes={activity.likers.totalCount as number}
-                toggleLike={toggleLike(activity.localId)}
+                toggleLike={toggleLike(activity.id)}
                 iLikeIt={iLikeIt}
               />
             ) : null}

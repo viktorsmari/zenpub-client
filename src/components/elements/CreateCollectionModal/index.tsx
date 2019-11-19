@@ -216,7 +216,7 @@ export default CreateCollectionModal;
 //             node: {
 //               __typename: 'Collection',
 //               id: data.createCollection.id,
-//               localId: data.createCollection.localId,
+//               id: data.createCollection.id,
 //               name: data.createCollection.name,
 //               summary: data.createCollection.summary,
 //               preferredUsername: data.createCollection.preferredUsername,
