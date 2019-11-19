@@ -21,6 +21,7 @@ import {
   ContainerForm
 } from '../../components/elements/Modal/modal';
 import { ArrowLeft } from 'react-feather';
+import ImageDropzoneModal from '../../components/elements/DropzoneModal/imageModal';
 
 const withUpdateCommunity = graphql<{}>(updateProfileMutation, {
   name: 'updateProfile'
@@ -119,6 +120,8 @@ const ExRowUsername = styled(ExRow)`
 
 const Component = (props: Props & FormikProps<FormValues>) => {
   const { errors, touched, isSubmitting } = props;
+  const [isUploadOpen, onUploadOpen] = React.useState(true);
+
   return (
     <ApolloConsumer>
       {client => (
@@ -254,6 +257,7 @@ const Component = (props: Props & FormikProps<FormValues>) => {
                       name={field.name}
                       value={field.value}
                       onChange={field.onChange}
+                      onClick={() => onUploadOpen(true)}
                     />
                   )}
                 />
@@ -265,20 +269,31 @@ const Component = (props: Props & FormikProps<FormValues>) => {
                 <label>
                   <Trans>Header image</Trans>
                 </label>
+                <p onClick={() => onUploadOpen(true)}>Add a Link</p>
                 <Field
                   name="image"
                   render={({ field }) => (
-                    <Input
-                      // placeholder="Type a url of a background image..."
-                      name={field.name}
-                      value={field.value}
-                      onChange={field.onChange}
-                    />
+                    <>
+                      <br />
+                      <Input
+                        // placeholder="Type a url of a background image..."
+                        name={field.name}
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
+                      <p onClick={() => onUploadOpen(true)}>Upload</p>
+                    </>
                   )}
                 />
                 {errors.image && touched.image && <Alert>{errors.image}</Alert>}
               </ContainerForm>
             </ExRow>
+            {isUploadOpen === true ? (
+              <ImageDropzoneModal
+                toggleModal={onUploadOpen}
+                modalIsOpen={isUploadOpen}
+              />
+            ) : null}
             {/* <ExRow>
             <label>
               <Trans>Primary Language</Trans>

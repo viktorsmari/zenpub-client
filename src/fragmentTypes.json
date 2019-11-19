@@ -3,6 +3,16 @@
     "types": [
       {
         "kind": "UNION",
+        "name": "ThreadContext",
+        "possibleTypes": [
+          { "name": "Collection" },
+          { "name": "Community" },
+          { "name": "Flag" },
+          { "name": "Resource" }
+        ]
+      },
+      {
+        "kind": "UNION",
         "name": "FlagContext",
         "possibleTypes": [
           { "name": "Collection" },
@@ -14,12 +24,12 @@
       },
       {
         "kind": "UNION",
-        "name": "ThreadContext",
+        "name": "FollowContext",
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Community" },
-          { "name": "Flag" },
-          { "name": "Resource" }
+          { "name": "Thread" },
+          { "name": "User" }
         ]
       },
       {
@@ -40,32 +50,22 @@
       },
       {
         "kind": "UNION",
-        "name": "ActivityContext",
-        "possibleTypes": [
-          { "name": "Collection" },
-          { "name": "Comment" },
-          { "name": "Community" },
-          { "name": "Resource" }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "FollowContext",
-        "possibleTypes": [
-          { "name": "Collection" },
-          { "name": "Community" },
-          { "name": "Thread" },
-          { "name": "User" }
-        ]
-      },
-      {
-        "kind": "UNION",
         "name": "LikeContext",
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Comment" },
           { "name": "Resource" },
           { "name": "User" }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "ActivityContext",
+        "possibleTypes": [
+          { "name": "Collection" },
+          { "name": "Comment" },
+          { "name": "Community" },
+          { "name": "Resource" }
         ]
       }
     ]

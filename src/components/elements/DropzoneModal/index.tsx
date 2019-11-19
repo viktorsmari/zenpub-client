@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { Trans } from '@lingui/macro';
 import { withPreviews, clearPreviews } from './with-previews';
 import styled from '../../../themes/styled';
 import { UploadCloud } from 'react-feather';
 import request from 'superagent';
+import { Heading, Button } from 'rebass/styled-components';
+import { Actions } from '../Modal/modal';
 
 interface Props {
   isSubmitting?: boolean;
@@ -57,6 +60,9 @@ const DropzoneModal: React.FC<Props> = ({
 
   return (
     <>
+      <Heading m={2}>
+        <Trans>Upload Resource</Trans>
+      </Heading>
       <div {...getRootProps({ className: 'dropzone' })}>
         <input {...getInputProps()} />
         <InfoContainer>
@@ -68,14 +74,16 @@ const DropzoneModal: React.FC<Props> = ({
           )}
         </InfoContainer>
       </div>
-      <ClearButton
-        onClick={() => {
-          clearPreviews(files);
-          setFiles([]);
-        }}
-      >
-        Clear
-      </ClearButton>
+      <Actions>
+        <Button
+          onClick={() => {
+            clearPreviews(files);
+            setFiles([]);
+          }}
+        >
+          <Trans>Clear</Trans>
+        </Button>
+      </Actions>
       {files.map(file => (
         <img
           key={file.name}
@@ -94,18 +102,18 @@ const InfoContainer = styled.div`
   background: ${props => props.theme.colors.lighter};
   border-radius: 2px;
   text-align: center;
-  padding: 60px 20px;
+  padding: 10px 20px 0px;
   font-style: italic;
   cursor: pointer;
   border: 2px dashed ${props => props.theme.colors.gray};
   margin: 0px 20px;
 `;
 
-const ClearButton = styled.button`
-  width: 100px;
-  cursor: pointer;
-  border: 1px solid ${props => props.theme.colors.gray};
-  margin-left: 20px;
-  padding: 10px;
-  border-radius: 2px;
-`;
+// const ClearButton = styled.button`
+//   width: 100px;
+//   cursor: pointer;
+//   border: 1px solid ${props => props.theme.colors.gray};
+//   margin-left: 20px;
+//   padding: 10px;
+//   border-radius: 2px;
+// `;

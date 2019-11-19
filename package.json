@@ -130,7 +130,7 @@
     "react-dev-utils": "6.0.4",
     "react-docgen-typescript": "1.10.0",
     "react-dom": "next",
-    "react-dropzone": "10.1.10",
+    "react-dropzone": "10.2.0",
     "react-feather": "2.0.3",
     "react-instantsearch-dom": "5.4.0",
     "react-live": "2.1.2",
