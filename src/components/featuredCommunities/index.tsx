@@ -4,7 +4,7 @@ import { graphql, QueryControls, OperationOption } from 'react-apollo';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-const getFollowedCommunities = require('../../graphql/getFeaturedCommunities.graphql');
+const getFeaturedCommunities = require('../../graphql/getFeaturedCommunities.graphql');
 import Loader from '../../components/elements/Loader/Loader';
 import { Trans } from '@lingui/macro';
 import CommunitySmall from '../elements/Community/CommunitySmall';
@@ -176,7 +176,7 @@ const withGetInbox = graphql<
   {
     data: any;
   }
->(getFollowedCommunities, {
+>(getFeaturedCommunities, {
   options: {
     variables: {
       one: is_home

@@ -25,7 +25,9 @@ const HeroComp: SFC<Props> = ({ community, showUsers, editCommunity }) => {
         <Hero>
           <Background
             id="header"
-            style={{ backgroundImage: `url(${community.icon})` }}
+            style={{
+              backgroundImage: `url(${community.icon || community.image})`
+            }}
           />
           <HeroInfo>
             <Title variant="heading" mt={0}>

@@ -4,13 +4,13 @@ import { graphql, QueryControls, OperationOption } from 'react-apollo';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-const getFollowedCollections = require('../../graphql/getFeaturedCollections.graphql');
+const getFeaturedCollections = require('../../graphql/getFeaturedCollections.graphql');
 import Loader from '../../components/elements/Loader/Loader';
 import { Trans } from '@lingui/macro';
 import CollectionSmall from '../elements/Collection/CollectionSmall';
 import { ChevronLeft, Right } from '../elements/Icons';
 import { Title, RightContext } from '../featuredCommunities';
-import { IS_DEV } from '../../constants';
+import { GRAPHQL_ENDPOINT } from '../../constants';
 
 interface Data extends QueryControls {
   one: any;
@@ -129,35 +129,24 @@ class MultipleItems extends React.Component<Props> {
   }
 }
 
+const is_home =
+  GRAPHQL_ENDPOINT == 'https://home.moodle.net/api/graphql' ? true : false;
+
 const withGetInbox = graphql<
   {},
   {
     data: any;
   }
->(getFollowedCollections, {
+>(getFeaturedCollections, {
   options: {
     variables: {
-      one: IS_DEV
-        ? '2457bae9-9c16-4783-8089-07c9a8ef46b3'
-        : '2457bae9-9c16-4783-8089-07c9a8ef46b3',
-      two: IS_DEV
-        ? 'c9385ae4-4227-4885-ab44-c51301df9518'
-        : 'c9385ae4-4227-4885-ab44-c51301df9518',
-      three: IS_DEV
-        ? '4d5b465c-6a7e-49f9-ac10-e1a5e4a6a438'
-        : '4d5b465c-6a7e-49f9-ac10-e1a5e4a6a438',
-      four: IS_DEV
-        ? 'ac253480-8c42-43e0-aeb2-611e29dbf77c'
-        : 'ac253480-8c42-43e0-aeb2-611e29dbf77c',
-      five: IS_DEV
-        ? '2457bae9-9c16-4783-8089-07c9a8ef46b3'
-        : '2457bae9-9c16-4783-8089-07c9a8ef46b3',
-      six: IS_DEV
-        ? 'c9385ae4-4227-4885-ab44-c51301df9518'
-        : 'c9385ae4-4227-4885-ab44-c51301df9518',
-      seven: IS_DEV
-        ? '54500246-f87e-4022-a1eb-313f385bd83c'
-        : '54500246-f87e-4022-a1eb-313f385bd83c'
+      one: is_home ? 'cd514675-e822-4041-84e8-a5493e57d7d1' : null,
+      two: is_home ? '0e745426-995f-4755-80a0-59df867fd6ab' : null
+      // three: IS_DEV ? '5487' : '5571',
+      // four: IS_DEV ? '8092' : '5487',
+      // five: IS_DEV ? '690' : '4944',
+      // six: IS_DEV ? '3790' : '2374',
+      // seven: IS_DEV ? '4848' : '5571'
     }
   }
 }) as OperationOption<{}, {}>;

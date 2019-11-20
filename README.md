@@ -67,8 +67,13 @@ We need to set some environment variables in order for MoodleNet to function, a 
 $ docker-compose build
 ```
 
+5. Try it out 
 
-5. Start the docker containers with docker-compose:
+a) run the backend in console mode: `docker-compose run --rm backend bin/moodle_net start_iex`
+
+b) add your email to the allowlist in order to be able to sign up: `MoodleNet.Access.create_register_email("myemail@domain.com")` and then exit (Ctrl+C and then `abort`)
+
+c) Start the docker containers with docker-compose:
 
 ```sh
 $ docker-compose up
