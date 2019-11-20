@@ -2,32 +2,32 @@
 
 query getFeaturedCollections(
   $one: String!
-  $two: String!
-  $three: String!
-  $four: String!
-  $five: String!
-  $six: String!
-  $seven: String!
+  # $two: String!
+  # $three: String!
+  # $four: String!
+  # $five: String!
+  # $six: String!
+  # $seven: String!
   ) {
   one: collection(collectionId: $one) {
     ...BasicCollection
   }
-   two: collection(collectionId: $two) {
-    ...BasicCollection
-  }
-  three: collection(collectionId: $three) {
-    ...BasicCollection
-  }
-   four: collection(collectionId: $four) {
-    ...BasicCollection
-  }
-  five: collection(collectionId: $five) {
-    ...BasicCollection
-  }
-  six: collection(collectionId: $six) {
-    ...BasicCollection
-  }
-  seven: collection(collectionId: $seven) {
-    ...BasicCollection
-  }
+  #  two: collection(collectionId: $two) {
+  #   ...BasicCollection
+  # }
+  # three: collection(collectionId: $three) {
+  #   ...BasicCollection
+  # }
+  #  four: collection(collectionId: $four) {
+  #   ...BasicCollection
+  # }
+  # five: collection(collectionId: $five) {
+  #   ...BasicCollection
+  # }
+  # six: collection(collectionId: $six) {
+  #   ...BasicCollection
+  # }
+  # seven: collection(collectionId: $seven) {
+  #   ...BasicCollection
+  # }
 }

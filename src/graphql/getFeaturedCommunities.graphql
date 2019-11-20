@@ -4,9 +4,9 @@ query getFeaturedCommunities(
   $two: String!
   $three: String!
   $four: String!
-  $five: String!
-  $six: String!
-  $seven: String!
+  # $five: String!
+  # $six: String!
+  # $seven: String!
   ) {
   one: community(communityId:$one) {
     ...BasicCommunity
@@ -20,13 +20,13 @@ query getFeaturedCommunities(
    four: community(communityId:$four) {
     ...BasicCommunity
   }
-   five: community(communityId:$five) {
-    ...BasicCommunity
-  }
-   six: community(communityId:$six) {
-    ...BasicCommunity
-  }
-   seven: community(communityId:$seven) {
-    ...BasicCommunity
-  }
+  #  five: community(communityId:$five) {
+  #   ...BasicCommunity
+  # }
+  #  six: community(communityId:$six) {
+  #   ...BasicCommunity
+  # }
+  #  seven: community(communityId:$seven) {
+  #   ...BasicCommunity
+  # }
 }
