@@ -140,8 +140,8 @@ const withGetInbox = graphql<
 >(getFeaturedCollections, {
   options: {
     variables: {
-      one: is_home ? 'cd514675-e822-4041-84e8-a5493e57d7d1' : null
-      // two: IS_DEV ? '2374' : '5416',
+      one: is_home ? 'cd514675-e822-4041-84e8-a5493e57d7d1' : null,
+      two: is_home ? '0e745426-995f-4755-80a0-59df867fd6ab' : null
       // three: IS_DEV ? '5487' : '5571',
       // four: IS_DEV ? '8092' : '5487',
       // five: IS_DEV ? '690' : '4944',

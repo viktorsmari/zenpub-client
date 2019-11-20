@@ -2,7 +2,7 @@
 
 query getFeaturedCollections(
   $one: String!
-  # $two: String!
+  $two: String!
   # $three: String!
   # $four: String!
   # $five: String!
@@ -12,9 +12,9 @@ query getFeaturedCollections(
   one: collection(collectionId: $one) {
     ...BasicCollection
   }
-  #  two: collection(collectionId: $two) {
-  #   ...BasicCollection
-  # }
+   two: collection(collectionId: $two) {
+    ...BasicCollection
+  }
   # three: collection(collectionId: $three) {
   #   ...BasicCollection
   # }
