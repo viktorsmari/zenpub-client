@@ -137,13 +137,27 @@ const withGetInbox = graphql<
 >(getFollowedCollections, {
   options: {
     variables: {
-      one: IS_DEV ? '2510' : '4944',
-      two: IS_DEV ? '2374' : '5416',
-      three: IS_DEV ? '5487' : '5571',
-      four: IS_DEV ? '8092' : '5487',
-      five: IS_DEV ? '690' : '4944',
-      six: IS_DEV ? '3790' : '2374',
-      seven: IS_DEV ? '4848' : '5571'
+      one: IS_DEV
+        ? '2457bae9-9c16-4783-8089-07c9a8ef46b3'
+        : '2457bae9-9c16-4783-8089-07c9a8ef46b3',
+      two: IS_DEV
+        ? 'c9385ae4-4227-4885-ab44-c51301df9518'
+        : 'c9385ae4-4227-4885-ab44-c51301df9518',
+      three: IS_DEV
+        ? '4d5b465c-6a7e-49f9-ac10-e1a5e4a6a438'
+        : '4d5b465c-6a7e-49f9-ac10-e1a5e4a6a438',
+      four: IS_DEV
+        ? 'ac253480-8c42-43e0-aeb2-611e29dbf77c'
+        : 'ac253480-8c42-43e0-aeb2-611e29dbf77c',
+      five: IS_DEV
+        ? '2457bae9-9c16-4783-8089-07c9a8ef46b3'
+        : '2457bae9-9c16-4783-8089-07c9a8ef46b3',
+      six: IS_DEV
+        ? 'c9385ae4-4227-4885-ab44-c51301df9518'
+        : 'c9385ae4-4227-4885-ab44-c51301df9518',
+      seven: IS_DEV
+        ? '54500246-f87e-4022-a1eb-313f385bd83c'
+        : '54500246-f87e-4022-a1eb-313f385bd83c'
     }
   }
 }) as OperationOption<{}, {}>;

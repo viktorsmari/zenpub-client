@@ -179,13 +179,27 @@ const withGetInbox = graphql<
 >(getFollowedCommunities, {
   options: {
     variables: {
-      one: is_home ? '29443e0a-8091-48c3-8617-9bc91810e0d4' : null,
-      two: is_home ? '47d994da-cd9c-4d05-b3b7-1363b54bdd5f' : null,
-      three: is_home ? 'f546ae02-654c-4532-877f-de07fef9aa98' : null,
-      four: is_home ? '24f47162-19e8-4044-863e-6e8b15e5658b' : null
-      // five: is_home ? '8806' : null,
-      // six: is_home ? '7933' : null,
-      // seven: is_home ? '2708' : null
+      one: is_home
+        ? '29443e0a-8091-48c3-8617-9bc91810e0d4'
+        : '4f59c147-37c2-4c56-9736-beb6b09792cf',
+      two: is_home
+        ? '47d994da-cd9c-4d05-b3b7-1363b54bdd5f'
+        : '4f59c147-37c2-4c56-9736-beb6b09792cf',
+      three: is_home
+        ? 'f546ae02-654c-4532-877f-de07fef9aa98'
+        : '4f59c147-37c2-4c56-9736-beb6b09792cf',
+      four: is_home
+        ? '24f47162-19e8-4044-863e-6e8b15e5658b'
+        : '4f59c147-37c2-4c56-9736-beb6b09792cf',
+      five: is_home
+        ? '24f47162-19e8-4044-863e-6e8b15e5658b'
+        : '4f59c147-37c2-4c56-9736-beb6b09792cf',
+      six: is_home
+        ? '24f47162-19e8-4044-863e-6e8b15e5658b'
+        : '4f59c147-37c2-4c56-9736-beb6b09792cf',
+      seven: is_home
+        ? '24f47162-19e8-4044-863e-6e8b15e5658b'
+        : '4f59c147-37c2-4c56-9736-beb6b09792cf'
     }
   }
 }) as OperationOption<{}, {}>;
