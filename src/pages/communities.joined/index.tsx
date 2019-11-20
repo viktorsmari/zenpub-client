@@ -49,30 +49,29 @@ class CommunitiesJoined extends React.Component<Props> {
           </ButtonWrapper>
           <List p={2}>
             {this.props.data.me.user.followedCommunities.edges.map(
-              (community, i) => (
-                <CommunityCard
-                  key={i}
-                  summary={community!.node.community.summary!}
-                  title={community!.node.community.name}
-                  collectionsCount={
-                    community!.node.community.collections.totalCount
-                  }
-                  icon={
-                    community!.node.community.icon ||
-                    community!.node.community.image ||
-                    ''
-                  }
-                  followed={
-                    community!.node.community.myFollow!.id ? true : false
-                  }
-                  id={community!.node.community.id}
-                  externalId={community!.node.community.canonicalUrl!}
-                  followersCount={
-                    community!.node.community.followers.totalCount
-                  }
-                  threadsCount={community!.node.community.threads.totalCount}
-                />
-              )
+              (community, i) =>
+                community && (
+                  <CommunityCard
+                    key={i}
+                    summary={community.node.community.summary || ''}
+                    title={community.node.community.name || ''}
+                    collectionsCount={
+                      community.node.community.collections.totalCount
+                    }
+                    icon={
+                      community.node.community.icon ||
+                      community.node.community.image ||
+                      ''
+                    }
+                    followed={!!community.node.community.myFollow}
+                    id={community.node.community.id}
+                    externalId={community.node.community.canonicalUrl || ''}
+                    followersCount={
+                      community.node.community.followers.totalCount
+                    }
+                    threadsCount={community.node.community.threads.totalCount}
+                  />
+                )
             )}
           </List>
           <CommunitiesLoadMore

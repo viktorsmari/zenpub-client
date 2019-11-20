@@ -44,15 +44,17 @@ const HeroComp: SFC<Props> = ({ community, showUsers, editCommunity }) => {
               <MembersTot onClick={() => showUsers(true)}>
                 {community.followers.edges.slice(0, 3).map((a, i) => {
                   return (
-                    <ImgTot
-                      key={i}
-                      style={{
-                        backgroundImage: `url(${a!.node.creator.icon ||
-                          `https://www.gravatar.com/avatar/${
-                            a!.node.id
-                          }?f=y&d=identicon`})`
-                      }}
-                    />
+                    a && (
+                      <ImgTot
+                        key={i}
+                        style={{
+                          backgroundImage: `url(${a.node.creator.icon ||
+                            `https://www.gravatar.com/avatar/${
+                              a.node.id
+                            }?f=y&d=identicon`})`
+                        }}
+                      />
+                    )
                   );
                 })}{' '}
                 <Tot>

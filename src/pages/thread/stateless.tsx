@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Comment from '../../components/elements/Comment/Comment';
+// import Comment from '../../components/elements/Comment/Comment';
 import Loader from '../../components/elements/Loader/Loader';
 // import Thread from '../../components/elements/thread';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
@@ -14,7 +14,8 @@ export interface Props {
   threadQuery: GetThreadQueryHookResult;
 }
 const Component: React.FC<Props> = ({ threadQuery: thread }) => {
-  const ctx = !!thread.data && thread.data.thread!.context!;
+  const ctx =
+    !!thread.data && !!thread.data.thread && thread.data.thread.context;
   const context =
     ctx &&
     (ctx.__typename === 'Resource' ||
@@ -42,17 +43,20 @@ const Component: React.FC<Props> = ({ threadQuery: thread }) => {
                     <Box variant="inReplyTo">
                     <Comment
                     noAction
-                    key={thread.data.thread.id!}
+                    key={thread.data.thread.id}
                     comment={thread.data.thread}
                     />
                   </Box>
                   ) : null}
-                  <Thread comment={thread.data.thread!} /> */}
+                  <Thread comment={thread.data.thread} /> */}
 
-                {thread.data.thread!.comments.edges.reverse().map(edge => {
-                  const { node: comment } = edge!;
-                  return <Comment key={comment.id} comment={comment} />;
-                })}
+                {thread.data.thread &&
+                  thread.data.thread.comments.edges
+                    .reverse()
+                    .map(
+                      edge =>
+                        /*FIXME*/ null /*   edge && edge.node && <Comment key={edge.node.thread.id} comment={edge.node.thread} /> */
+                    )}
               </>
             )}
           </Wrapper>

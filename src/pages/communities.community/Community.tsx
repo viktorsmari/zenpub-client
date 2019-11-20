@@ -84,15 +84,18 @@ const CommunityPage: SFC<Props> = ({
                 </>
               ) : null}
               <div>
-                {community.outbox.edges.map((t, i) => (
-                  <TimelineItem
-                    context={t!.node.context}
-                    user={t!.node.user}
-                    verb={t!.node.verb}
-                    createdAt={t!.node.createdAt}
-                    key={i}
-                  />
-                ))}
+                {community.outbox.edges.map(
+                  (t, i) =>
+                    t && (
+                      <TimelineItem
+                        context={t.node.context}
+                        user={t.node.user}
+                        verb={t.node.verb}
+                        createdAt={t.node.createdAt}
+                        key={i}
+                      />
+                    )
+                )}
                 <LoadMoreTimeline fetchMore={fetchMore} community={community} />
               </div>
             </TabPanel>

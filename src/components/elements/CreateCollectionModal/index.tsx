@@ -69,7 +69,9 @@ const CreateCollectionModal: React.FC<Props> = ({
       return createCollection({ variables })
         .then(res => {
           setSubmitting(false);
-          history.push(`/collections/${res.data!.createCollection!.id}`);
+          res.data &&
+            res.data.createCollection &&
+            history.push(`/collections/${res.data.createCollection.id}`);
         })
         .catch(err => {
           setSubmitting(false);

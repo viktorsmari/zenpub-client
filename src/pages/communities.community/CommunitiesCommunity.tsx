@@ -59,9 +59,9 @@ const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
     if (communityQuery.data.community.collections.totalCount) {
       collections = (
         <Box m={2}>
-          {communityQuery.data.community.collections.edges.map((e, i) => (
-            <CollectionCard key={i} collection={e!.node} />
-          ))}
+          {communityQuery.data.community.collections.edges.map(
+            (e, i) => e && <CollectionCard key={i} collection={e.node} />
+          )}
         </Box>
       );
     } else {
