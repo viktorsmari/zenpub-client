@@ -10,7 +10,7 @@ import { Trans } from '@lingui/macro';
 import CommunitySmall from '../elements/Community/CommunitySmall';
 import styled from '../../themes/styled';
 import { ChevronLeft, Right } from '../elements/Icons';
-import { IS_DEV } from '../../constants';
+import { GRAPHQL_ENDPOINT } from '../../constants';
 
 export const Title = styled.div`
   font-size: 15px;
@@ -168,6 +168,9 @@ class MultipleItems extends React.Component<Props> {
   }
 }
 
+const is_home =
+  GRAPHQL_ENDPOINT == 'https://home.moodle.net/api/graphql' ? true : false;
+
 const withGetInbox = graphql<
   {},
   {
@@ -176,13 +179,13 @@ const withGetInbox = graphql<
 >(getFollowedCommunities, {
   options: {
     variables: {
-      one: IS_DEV ? '7' : '7',
-      two: IS_DEV ? '15' : '15',
-      three: IS_DEV ? '5369' : '7633',
-      four: IS_DEV ? '8083' : '5939',
-      five: IS_DEV ? '8806' : '4241',
-      six: IS_DEV ? '7933' : '2900',
-      seven: IS_DEV ? '2708' : '2708'
+      one: is_home ? '29443e0a-8091-48c3-8617-9bc91810e0d4' : null,
+      two: is_home ? '47d994da-cd9c-4d05-b3b7-1363b54bdd5f' : null,
+      three: is_home ? 'f546ae02-654c-4532-877f-de07fef9aa98' : null,
+      four: is_home ? '24f47162-19e8-4044-863e-6e8b15e5658b' : null
+      // five: is_home ? '8806' : null,
+      // six: is_home ? '7933' : null,
+      // seven: is_home ? '2708' : null
     }
   }
 }) as OperationOption<{}, {}>;
