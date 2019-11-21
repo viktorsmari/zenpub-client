@@ -17,7 +17,7 @@ const HeroComp: SFC<Props> = ({ user }) => (
       </title>
     </Helmet> */}
     <Hero>
-      <HeroBg src={user.image!} />
+      <HeroBg src={user.icon || user.image || ''} />
       <FlexProfile>
         <WrapperHero>
           <Img

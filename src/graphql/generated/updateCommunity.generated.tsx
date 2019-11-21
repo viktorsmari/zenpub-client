@@ -9,7 +9,7 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type UpdateCommunityMutationMutationVariables = {
-  community: Types.CommunityInput;
+  community: Types.CommunityUpdateInput;
   communityId: Types.Scalars['String'];
 };
 
@@ -33,7 +33,7 @@ export type UpdateCommunityMutationMutation = {
 
 export const UpdateCommunityMutationDocument = gql`
   mutation updateCommunityMutation(
-    $community: CommunityInput!
+    $community: CommunityUpdateInput!
     $communityId: String!
   ) {
     updateCommunity(communityId: $communityId, community: $community) {

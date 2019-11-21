@@ -14,10 +14,8 @@ const JoinedCommunitiesLoadMore: SFC<Props> = ({
   me,
   communities
 }) =>
-  (communities.pageInfo.startCursor === null &&
-    communities.pageInfo.endCursor === null) ||
-  (communities.pageInfo.startCursor &&
-    communities.pageInfo.endCursor === null) ? null : (
+  null &&
+  /*FIXME*/ communities.pageInfo && (
     <LoadMore
       onClick={() =>
         fetchMore({

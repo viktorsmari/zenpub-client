@@ -20,9 +20,9 @@ const { getCommunitiesQuery } = require('../../graphql/getCommunities.graphql');
 interface Data extends QueryControls {
   communities: {
     nodes: BasicCommunityFragment[];
-    pageInfo: {
-      startCursor: number;
-      endCursor: number;
+    pageInfo?: {
+      startCursor: string;
+      endCursor: string;
     };
   };
 }
@@ -74,7 +74,7 @@ class CommunitiesYours extends React.Component<Props> {
                                 key={i}
                                 summary={community.summary || ''}
                                 title={community.name}
-                                icon={community.icon || ''}
+                                icon={community.icon || community.image || ''}
                                 id={community.id}
                                 followed={!!community.myFollow}
                                 followersCount={community.followers.totalCount}

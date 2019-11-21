@@ -12,10 +12,12 @@ interface CommunityProps {
 const CommunitySmall: React.FC<CommunityProps> = ({ community }) => {
   return (
     <Wrapper py={1} mb={1} ml={3}>
-      <Link to={`/communities/${community.localId}`}>
+      <Link to={`/communities/${community.id}`}>
         <Img
           style={{
-            backgroundImage: `url(${community.icon || PlaceholderImg})`
+            backgroundImage: `url(${community.icon ||
+              community.image ||
+              PlaceholderImg})`
           }}
         />
         <Infos>

@@ -47,20 +47,20 @@ const Join: React.FC<Props> = ({
           onSubmitting(true);
           return leaveCollection({
             variables: { contextId: id },
-            update: (proxy, { data: { undoJoinCollection } }) => {
+            update: (proxy, { data }) => {
               const fragment = gql`
                 fragment Res on Collection {
                   followed
                 }
               `;
               let collection = proxy.readFragment({
-                id: `Collection:${externalId}`,
+                id: `Collection:${id}`,
                 fragment: fragment,
                 fragmentName: 'Res'
               });
-              collection.followed = !collection.followed;
+              collection.myFollow = null;
               proxy.writeFragment({
-                id: `Collection:${externalId}`,
+                id: `Collection:${id}`,
                 fragment: fragment,
                 fragmentName: 'Res',
                 data: collection
@@ -84,20 +84,20 @@ const Join: React.FC<Props> = ({
           onSubmitting(true);
           return joinCollection({
             variables: { contextId: id },
-            update: (proxy, { data: { joinCollection } }) => {
+            update: (proxy, { data: { createFollow } }) => {
               const fragment = gql`
                 fragment Res on Collection {
-                  followed
+                  myFollow
                 }
               `;
               let collection = proxy.readFragment({
-                id: `Collection:${externalId}`,
+                id: `Collection:${id}`,
                 fragment: fragment,
                 fragmentName: 'Res'
               });
-              collection.followed = !collection.followed;
+              collection.myFollow = createFollow;
               proxy.writeFragment({
-                id: `Collection:${externalId}`,
+                id: `Collection:${id}`,
                 fragment: fragment,
                 fragmentName: 'Res',
                 data: collection

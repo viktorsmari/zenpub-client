@@ -32,7 +32,7 @@ const CommentWrapper: React.FC<EventProps> = ({
   const [isOpen, onOpen] = React.useState(false);
   const toggleLike = React.useCallback(
     () => {
-      const variables = { contextId: comment.id! };
+      const variables = { contextId: comment.id };
       (iLikeIt ? undoLike : like)({ variables });
       setiLikeIt(!iLikeIt);
     },
@@ -56,7 +56,7 @@ const CommentWrapper: React.FC<EventProps> = ({
                 )}
               </Link>
               <Spacer mx={2}>·</Spacer>{' '}
-              <Date>{DateTime.fromISO(comment.createdAt!).toRelative()}</Date>
+              <Date>{DateTime.fromISO(comment.createdAt).toRelative()}</Date>
             </Name>
           ) : (
             <Name>
@@ -66,7 +66,7 @@ const CommentWrapper: React.FC<EventProps> = ({
           <>
             <Comment>
               {comment.content && comment.content.length > 320
-                ? removeMd(comment!.content).replace(
+                ? removeMd(comment.content).replace(
                     /^([\s\S]{316}[^\s]*)[\s\S]*/,
                     '$1...'
                   )
@@ -80,7 +80,7 @@ const CommentWrapper: React.FC<EventProps> = ({
                   <ActionIcon>
                     <MessageCircle color="rgba(0,0,0,.4)" size="16" />
                   </ActionIcon>
-                  <Text ml={2}>{/*TODO comment.replies!.totalCount */}</Text>
+                  <Text ml={2}>{/*TODO comment.replies.totalCount */}</Text>
                 </ActionItem>
                 <ActionItem ml={3} onClick={toggleLike}>
                   <ActionIcon>
@@ -89,7 +89,7 @@ const CommentWrapper: React.FC<EventProps> = ({
                       size="16"
                     />
                   </ActionIcon>
-                  <Text ml={2}>{comment.likes!.totalCount}</Text>
+                  <Text ml={2}>{comment.likes.totalCount}</Text>
                 </ActionItem>
               </Items>
             </Actions>

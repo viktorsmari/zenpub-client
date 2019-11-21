@@ -57,21 +57,30 @@ const Home: React.FC<Props> = () => {
                 ) : loading ? (
                   <Loader />
                 ) : (
-                  <div>
-                    {data!.me!.user!.inbox!.edges!.map(userActivityEdge => (
-                      <TimelineItem
-                        context={userActivityEdge!.node!.context}
-                        verb={userActivityEdge!.node!.verb}
-                        createdAt={userActivityEdge!.node!.createdAt}
-                        user={userActivityEdge!.node!.user!}
-                        key={userActivityEdge!.node!.id!}
-                      />
-                    ))}
-                    <LoadMoreTimeline
-                      fetchMore={fetchMore}
-                      community={data!.me!.user!}
-                    />
-                  </div>
+                  data &&
+                  data.me && (
+                    <div>
+                      {data.me.user.inbox.edges.map(
+                        userActivityEdge =>
+                          userActivityEdge && (
+                            <TimelineItem
+                              context={userActivityEdge.node.context}
+                              verb={userActivityEdge.node.verb}
+                              createdAt={userActivityEdge.node.createdAt}
+                              user={userActivityEdge.node.user}
+                              key={userActivityEdge.node.id}
+                            />
+                          )
+                      )}
+                      {data &&
+                        data.me && (
+                          <LoadMoreTimeline
+                            fetchMore={fetchMore}
+                            community={data.me.user}
+                          />
+                        )}
+                    </div>
+                  )
                 )}
               </TabPanel>
             </Tabs>

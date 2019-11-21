@@ -3,9 +3,9 @@ import Comment from './Comment';
 import User from './User';
 
 export default interface Community {
+  image: string | null;
   icon: string | null;
   id: string;
-  localId: string;
   name: string;
   preferredUsername: string;
   summary: string;
@@ -16,9 +16,9 @@ export default interface Community {
         node: Collection;
       }
     ];
-    pageInfo: {
-      endCursor: number;
-      startCursor: number;
+    pageInfo?: {
+      startCursor: string;
+      endCursor: string;
     };
     totalCount: number;
   };
@@ -30,9 +30,9 @@ export default interface Community {
         node: Comment;
       }
     ];
-    pageInfo: {
-      endCursor: number;
-      startCursor: number;
+    pageInfo?: {
+      startCursor: string;
+      endCursor: string;
     };
   };
   members: {
@@ -42,9 +42,9 @@ export default interface Community {
         node: User;
       }
     ];
-    pageInfo: {
-      endCursor: number;
-      startCursor: number;
+    pageInfo?: {
+      startCursor: string;
+      endCursor: string;
     };
     totalCount: number;
   };

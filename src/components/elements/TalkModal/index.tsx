@@ -73,8 +73,8 @@ export const TalkModal: React.FC<Props> = ({
       }
       reply({
         variables: {
-          inReplyToId: comment.id!,
-          threadId: comment.thread!.id!,
+          inReplyToId: comment.id,
+          threadId: comment.thread.id,
           comment: { content: text }
         }
       });
@@ -89,7 +89,7 @@ export const TalkModal: React.FC<Props> = ({
         <Avatar
           style={{
             backgroundImage: `url(${
-              session.auth ? session.auth.me.user!.icon! : ''
+              session.auth ? session.auth.me.user.icon : ''
             })`
           }}
           mr={2}

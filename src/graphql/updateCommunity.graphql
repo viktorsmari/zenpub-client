@@ -1,11 +1,11 @@
-input CommunityInput {
-    name: String!
-    summary: String
-    preferredUsername: String!
-    icon: String!
+input CommunityUpdateInput {
+  icon: String
+  image: String
+  name: String!
+  summary: String
 }
 
-mutation updateCommunityMutation($community: CommunityInput!, $communityId: String!) {
+mutation updateCommunityMutation($community: CommunityUpdateInput!, $communityId: String!) {
   updateCommunity(communityId: $communityId, community: $community) {
     id
     canonicalUrl

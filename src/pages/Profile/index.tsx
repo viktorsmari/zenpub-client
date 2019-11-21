@@ -79,15 +79,16 @@ class CommunitiesFeatured extends React.Component<Props> {
                         <TabPanel>
                           <>
                             {this.props.data.me.user.outbox.edges.map(
-                              (t, i) => (
-                                <TimelineItem
-                                  context={t!.node.context}
-                                  user={t!.node.user}
-                                  verb={t!.node.verb}
-                                  createdAt={t!.node.createdAt}
-                                  key={i}
-                                />
-                              )
+                              (t, i) =>
+                                t && (
+                                  <TimelineItem
+                                    context={t.node.context}
+                                    user={t.node.user}
+                                    verb={t.node.verb}
+                                    createdAt={t.node.createdAt}
+                                    key={i}
+                                  />
+                                )
                             )}
                             <LoadMoreTimeline
                               me
@@ -99,12 +100,13 @@ class CommunitiesFeatured extends React.Component<Props> {
                         <TabPanel>
                           <ListCollections>
                             {this.props.data.me.user.followedCollections.edges.map(
-                              (collection, i) => (
-                                <CollectionCard
-                                  key={i}
-                                  collection={collection!.node.collection}
-                                />
-                              )
+                              (collection, i) =>
+                                collection && (
+                                  <CollectionCard
+                                    key={i}
+                                    collection={collection.node.collection}
+                                  />
+                                )
                             )}
                           </ListCollections>
                           <FollowingCollectionsLoadMore
@@ -119,35 +121,44 @@ class CommunitiesFeatured extends React.Component<Props> {
                           <>
                             <List>
                               {this.props.data.me.user.followedCommunities.edges.map(
-                                (community, i) => (
-                                  <CommunityCard
-                                    key={i}
-                                    summary={community!.node.community.summary!}
-                                    title={community!.node.community.name}
-                                    collectionsCount={
-                                      community!.node.community.collections
-                                        .totalCount
-                                    }
-                                    icon={community!.node.community.icon || ''}
-                                    followed={
-                                      community!.node.community.myFollow!.id
-                                        ? true
-                                        : false
-                                    }
-                                    id={community!.node.community.id}
-                                    externalId={
-                                      community!.node.community.canonicalUrl!
-                                    }
-                                    followersCount={
-                                      community!.node.community.followers
-                                        .totalCount
-                                    }
-                                    threadsCount={
-                                      community!.node.community.threads
-                                        .totalCount
-                                    }
-                                  />
-                                )
+                                (community, i) =>
+                                  community &&
+                                  community && (
+                                    <CommunityCard
+                                      key={i}
+                                      summary={
+                                        community.node.community.summary || ''
+                                      }
+                                      title={
+                                        community.node.community.name || ''
+                                      }
+                                      collectionsCount={
+                                        community.node.community.collections
+                                          .totalCount
+                                      }
+                                      icon={
+                                        community.node.community.icon ||
+                                        community.node.community.image ||
+                                        ''
+                                      }
+                                      followed={
+                                        !!community.node.community.myFollow
+                                      }
+                                      id={community.node.community.id}
+                                      externalId={
+                                        community.node.community.canonicalUrl ||
+                                        ''
+                                      }
+                                      followersCount={
+                                        community.node.community.followers
+                                          .totalCount
+                                      }
+                                      threadsCount={
+                                        community.node.community.threads
+                                          .totalCount
+                                      }
+                                    />
+                                  )
                               )}
                             </List>
                             <JoinedCommunitiesLoadMore

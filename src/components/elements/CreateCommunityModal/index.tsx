@@ -81,7 +81,9 @@ const CreateCommunityModal = (
       })
         .then(res => {
           setSubmitting(false);
-          history.push(`/communities/${res.data!.createCommunity!.id}`);
+          res.data &&
+            res.data.createCommunity &&
+            history.push(`/communities/${res.data.createCommunity.id}`);
         })
         .catch(err => console.log(err));
     },

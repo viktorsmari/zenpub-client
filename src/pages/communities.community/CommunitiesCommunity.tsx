@@ -59,9 +59,9 @@ const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
     if (communityQuery.data.community.collections.totalCount) {
       collections = (
         <Box m={2}>
-          {communityQuery.data.community.collections.edges.map((e, i) => (
-            <CollectionCard key={i} collection={e!.node} />
-          ))}
+          {communityQuery.data.community.collections.edges.map(
+            (e, i) => e && <CollectionCard key={i} collection={e.node} />
+          )}
         </Box>
       );
     } else {
@@ -121,11 +121,7 @@ const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
                       collections={collections}
                       community={communityQuery.data.community}
                       id={communityQuery.data.community.id}
-                      followed={
-                        communityQuery.data.community.myFollow!.id
-                          ? true
-                          : false
-                      }
+                      followed={!!communityQuery.data.community.myFollow}
                       fetchMore={communityQuery.fetchMore}
                       refetch={() => communityQuery.refetch()}
                     />
@@ -134,7 +130,7 @@ const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
               />
               {/* <Route
                   path={`/communities/${
-                    community.localId
+                    community.id
                   }/collection/:collection`}
                   component={CollectionModal}
                 /> */}

@@ -27,7 +27,7 @@ const UsersModal = (props: Props) => {
         <Members>
           {members.map((edge, i) => (
             <Follower key={i}>
-              <Link to={'/user/' + edge.node.localId}>
+              <Link to={'/user/' + edge.node.id}>
                 <Img
                   style={{
                     backgroundImage: `url(${edge.node.icon})`

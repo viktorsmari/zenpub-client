@@ -11,9 +11,9 @@ export default interface User {
   primaryLanguage: string;
   // inbox: {
   //   edges: any;
-  //   pageInfo: {
-  //     endCursor: number;
-  //     startCursor: number;
+  //   pageInfo?: {
+  //     startCursor: string;
+  //     endCursor: string;
   //   };
   //   totalCount: number;
   // };
@@ -24,9 +24,9 @@ export default interface User {
         node: Comment;
       }
     ];
-    pageInfo: {
-      endCursor: number;
-      startCursor: number;
+    pageInfo?: {
+      startCursor: string;
+      endCursor: string;
     };
     totalCount: number;
   };
@@ -37,9 +37,9 @@ export default interface User {
         node: Collection;
       }
     ];
-    pageInfo: {
-      endCursor: number;
-      startCursor: number;
+    pageInfo?: {
+      startCursor: string;
+      endCursor: string;
     };
     totalCount: number;
   };
@@ -50,9 +50,9 @@ export default interface User {
         node: Community;
       }
     ];
-    pageInfo: {
-      endCursor: number;
-      startCursor: number;
+    pageInfo?: {
+      startCursor: string;
+      endCursor: string;
     };
     totalCount: number;
   };

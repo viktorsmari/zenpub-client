@@ -3,7 +3,6 @@ import User from './User';
 export default interface Comment {
   content: string;
   id: string;
-  localId: string;
   author: User;
   published: number;
   inReplyTo: Comment;
@@ -14,9 +13,9 @@ export default interface Comment {
         node: Comment;
       }
     ];
-    pageInfo: {
-      endCursor: number;
-      startCursor: number;
+    pageInfo?: {
+      startCursor: string;
+      endCursor: string;
     };
     totalCount: number;
   };

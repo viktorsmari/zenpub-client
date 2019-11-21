@@ -63,26 +63,32 @@ const Home: React.FC<Props> = props => {
               <TabPanel>
                 {error ? (
                   <Empty>
-                    <Trans>{error}</Trans>
+                    <Trans>{/* error */}</Trans>
                   </Empty>
                 ) : loading ? (
                   <Loader />
                 ) : (
-                  <div>
-                    {data!.instance!.outbox!.edges!.map(activity => (
-                      <TimelineItem
-                        verb={activity!.node.verb}
-                        context={activity!.node.context}
-                        user={activity!.node!.user!}
-                        key={activity!.node!.id!}
-                        createdAt={activity!.node.createdAt}
+                  data &&
+                  data.instance && (
+                    <div>
+                      {data.instance.outbox.edges.map(
+                        activity =>
+                          activity && (
+                            <TimelineItem
+                              verb={activity.node.verb}
+                              context={activity.node.context}
+                              user={activity.node.user}
+                              key={activity.node.id}
+                              createdAt={activity.node.createdAt}
+                            />
+                          )
+                      )}
+                      <LoadMoreTimeline
+                        fetchMore={fetchMore}
+                        outbox={data.instance.outbox}
                       />
-                    ))}
-                    <LoadMoreTimeline
-                      fetchMore={fetchMore}
-                      outbox={data!.instance!.outbox!}
-                    />
-                  </div>
+                    </div>
+                  )
                 )}
               </TabPanel>
             </Tabs>

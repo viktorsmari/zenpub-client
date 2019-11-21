@@ -18,6 +18,7 @@ import {
 
 import { graphql, OperationOption } from 'react-apollo';
 import Community from '../../../types/Community';
+import { UpdateCommunityMutationMutationVariables } from '../../../graphql/generated/updateCommunity.generated';
 const {
   updateCommunityMutation
 } = require('../../../graphql/updateCommunity.graphql');
@@ -153,11 +154,10 @@ const ModalWithFormik = withFormik<
     image: Yup.string().url()
   }),
   handleSubmit: (values, { props, setSubmitting }) => {
-    const variables = {
+    const variables: UpdateCommunityMutationMutationVariables = {
       communityId: props.communityId,
       community: {
         name: values.name,
-        preferredUsername: values.name,
         summary: values.summary,
         image: values.image,
         icon: values.image

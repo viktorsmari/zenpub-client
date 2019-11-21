@@ -69,7 +69,9 @@ const CreateCollectionModal: React.FC<Props> = ({
       return createCollection({ variables })
         .then(res => {
           setSubmitting(false);
-          history.push(`/collections/${res.data!.createCollection!.id}`);
+          res.data &&
+            res.data.createCollection &&
+            history.push(`/collections/${res.data.createCollection.id}`);
         })
         .catch(err => {
           setSubmitting(false);
@@ -216,7 +218,7 @@ export default CreateCollectionModal;
 //             node: {
 //               __typename: 'Collection',
 //               id: data.createCollection.id,
-//               localId: data.createCollection.localId,
+//               id: data.createCollection.id,
 //               name: data.createCollection.name,
 //               summary: data.createCollection.summary,
 //               preferredUsername: data.createCollection.preferredUsername,

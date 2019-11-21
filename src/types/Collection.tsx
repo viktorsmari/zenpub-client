@@ -10,24 +10,23 @@ export default interface Collection {
         node: User;
       }
     ];
-    pageInfo: {
-      endCursor: number;
-      startCursor: number;
+    pageInfo?: {
+      startCursor: string;
+      endCursor: string;
     };
     totalCount: number;
   };
   followed: boolean;
   icon: string | null;
   id: string;
-  localId: string;
   preferredUsername: string;
   name: string;
   summary: string;
   resources: {
     totalCount: number;
-    pageInfo: {
-      endCursor: number;
-      startCursor: number;
+    pageInfo?: {
+      startCursor: string;
+      endCursor: string;
     };
     edges: [
       {
@@ -38,9 +37,9 @@ export default interface Collection {
   };
   threads: {
     totalCount: number;
-    pageInfo: {
-      endCursor: number;
-      startCursor: number;
+    pageInfo?: {
+      startCursor: string;
+      endCursor: string;
     };
     edges: [
       {
