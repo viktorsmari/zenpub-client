@@ -6,11 +6,11 @@ import { Flex, Box } from 'rebass/styled-components';
 import Loader from '../../components/elements/Loader/Loader';
 import Sidebar from './sidebarSettings';
 import styled from '../../themes/styled';
-import CommentType from '../../types/Comment';
 import GeneralInfo from './generalInfo';
 import Preferences from './preferences';
 import { HomeBox } from '../../sections/layoutUtils';
 import media from 'styled-media-query';
+import { Comment } from '../../graphql/types';
 
 const getSettings = require('../../graphql/me.graphql');
 
@@ -25,7 +25,7 @@ const withGetSettings = graphql<
   {},
   {
     data: {
-      comment: CommentType;
+      comment: Comment;
     };
   }
 >(getSettings) as OperationOption<{}, {}>;
