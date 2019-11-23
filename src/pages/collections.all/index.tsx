@@ -8,11 +8,11 @@ import Loader from '../../components/elements/Loader/Loader';
 import CollectionsLoadMore from '../../components/elements/Loadmore/collections';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import styled from '../../themes/styled';
-import CollectionType from '../../types/Collection';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel } from '../../sections/panel';
 import { BasicCollectionFragment } from '../../graphql/fragments/generated/basicCollection.generated';
+import { Collection } from '../../graphql/types.generated';
 const { getCollectionsQuery } = require('../../graphql/getCollections.graphql');
 
 interface Data extends QueryControls {
@@ -91,7 +91,7 @@ const withGetCommunities = graphql<
   {},
   {
     data: {
-      communities: CollectionType[];
+      communities: Collection[];
     };
   }
 >(getCollectionsQuery, {
