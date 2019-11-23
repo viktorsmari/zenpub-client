@@ -1,4 +1,4 @@
-import * as Types from '../types.d';
+import * as Types from '../types.generated.d';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -9,78 +9,41 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type DeleteMutationMutationVariables = {
-  contextId: Types.Scalars['String'];
+  contextId: Types.Scalars['String']
 };
 
-export type DeleteMutationMutation = { __typename?: 'RootMutationType' } & {
-  delete: Types.Maybe<
-    | { __typename?: 'Activity' }
-    | { __typename?: 'Collection' }
-    | { __typename?: 'Comment' }
-    | { __typename?: 'Community' }
-    | { __typename?: 'Flag' }
-    | { __typename?: 'Follow' }
-    | { __typename?: 'Like' }
-    | { __typename?: 'Resource' }
-    | { __typename?: 'Thread' }
-    | { __typename?: 'User' }
-  >;
-};
 
-export const DeleteMutationDocument = gql`
-  mutation deleteMutation($contextId: String!) {
-    delete(contextId: $contextId) {
-      __typename
-    }
-  }
-`;
-export type DeleteMutationMutationFn = ApolloReactCommon.MutationFunction<
-  DeleteMutationMutation,
-  DeleteMutationMutationVariables
->;
-export type DeleteMutationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    DeleteMutationMutation,
-    DeleteMutationMutationVariables
-  >,
-  'mutation'
->;
-
-export const DeleteMutationComponent = (
-  props: DeleteMutationComponentProps
-) => (
-  <ApolloReactComponents.Mutation<
-    DeleteMutationMutation,
-    DeleteMutationMutationVariables
-  >
-    mutation={DeleteMutationDocument}
-    {...props}
-  />
+export type DeleteMutationMutation = (
+  { __typename?: 'RootMutationType' }
+  & { delete: Types.Maybe<{ __typename?: 'Activity' } | { __typename?: 'Collection' } | { __typename?: 'Comment' } | { __typename?: 'Community' } | { __typename?: 'Flag' } | { __typename?: 'Follow' } | { __typename?: 'Like' } | { __typename?: 'Resource' } | { __typename?: 'Thread' } | { __typename?: 'User' }> }
 );
 
-export type DeleteMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<
-  DeleteMutationMutation,
-  DeleteMutationMutationVariables
-> &
-  TChildProps;
-export function withDeleteMutation<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    DeleteMutationMutation,
-    DeleteMutationMutationVariables,
-    DeleteMutationProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    DeleteMutationMutation,
-    DeleteMutationMutationVariables,
-    DeleteMutationProps<TChildProps>
-  >(DeleteMutationDocument, {
-    alias: 'deleteMutation',
-    ...operationOptions
-  });
+
+export const DeleteMutationDocument = gql`
+    mutation deleteMutation($contextId: String!) {
+  delete(contextId: $contextId) {
+    __typename
+  }
 }
+    `;
+export type DeleteMutationMutationFn = ApolloReactCommon.MutationFunction<DeleteMutationMutation, DeleteMutationMutationVariables>;
+export type DeleteMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<DeleteMutationMutation, DeleteMutationMutationVariables>, 'mutation'>;
+
+    export const DeleteMutationComponent = (props: DeleteMutationComponentProps) => (
+      <ApolloReactComponents.Mutation<DeleteMutationMutation, DeleteMutationMutationVariables> mutation={DeleteMutationDocument} {...props} />
+    );
+    
+export type DeleteMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<DeleteMutationMutation, DeleteMutationMutationVariables> & TChildProps;
+export function withDeleteMutation<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  DeleteMutationMutation,
+  DeleteMutationMutationVariables,
+  DeleteMutationProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, DeleteMutationMutation, DeleteMutationMutationVariables, DeleteMutationProps<TChildProps>>(DeleteMutationDocument, {
+      alias: 'deleteMutation',
+      ...operationOptions
+    });
+};
 
 /**
  * __useDeleteMutationMutation__
@@ -99,169 +62,154 @@ export function withDeleteMutation<TProps, TChildProps = {}>(
  *   },
  * });
  */
-export function useDeleteMutationMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    DeleteMutationMutation,
-    DeleteMutationMutationVariables
-  >
-) {
-  return ApolloReactHooks.useMutation<
-    DeleteMutationMutation,
-    DeleteMutationMutationVariables
-  >(DeleteMutationDocument, baseOptions);
-}
-export type DeleteMutationMutationHookResult = ReturnType<
-  typeof useDeleteMutationMutation
->;
-export type DeleteMutationMutationResult = ApolloReactCommon.MutationResult<
-  DeleteMutationMutation
->;
-export type DeleteMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  DeleteMutationMutation,
-  DeleteMutationMutationVariables
->;
+export function useDeleteMutationMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteMutationMutation, DeleteMutationMutationVariables>) {
+        return ApolloReactHooks.useMutation<DeleteMutationMutation, DeleteMutationMutationVariables>(DeleteMutationDocument, baseOptions);
+      }
+export type DeleteMutationMutationHookResult = ReturnType<typeof useDeleteMutationMutation>;
+export type DeleteMutationMutationResult = ApolloReactCommon.MutationResult<DeleteMutationMutation>;
+export type DeleteMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteMutationMutation, DeleteMutationMutationVariables>;
 
-export interface IntrospectionResultData {
-  __schema: {
-    types: {
-      kind: string;
-      name: string;
-      possibleTypes: {
-        name: string;
-      }[];
-    }[];
-  };
-}
+      export interface IntrospectionResultData {
+        __schema: {
+          types: {
+            kind: string;
+            name: string;
+            possibleTypes: {
+              name: string;
+            }[];
+          }[];
+        };
+      }
 
-const result: IntrospectionResultData = {
-  __schema: {
-    types: [
+      const result: IntrospectionResultData = {
+  "__schema": {
+    "types": [
       {
-        kind: 'UNION',
-        name: 'ActivityContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "ActivityContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'FlagContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "FlagContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'LikeContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "LikeContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'ThreadContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "ThreadContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Flag'
+            "name": "Flag"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'FollowContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "FollowContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Thread'
+            "name": "Thread"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'DeleteContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "DeleteContext",
+        "possibleTypes": [
           {
-            name: 'Activity'
+            "name": "Activity"
           },
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Flag'
+            "name": "Flag"
           },
           {
-            name: 'Follow'
+            "name": "Follow"
           },
           {
-            name: 'Like'
+            "name": "Like"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'Thread'
+            "name": "Thread"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       }
@@ -269,4 +217,5 @@ const result: IntrospectionResultData = {
   }
 };
 
-export default result;
+      export default result;
+    

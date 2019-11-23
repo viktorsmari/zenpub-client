@@ -1,4 +1,4 @@
-import * as Types from '../types.d';
+import * as Types from '../types.generated.d';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -9,69 +9,44 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type FollowMutationMutationVariables = {
-  contextId: Types.Scalars['String'];
+  contextId: Types.Scalars['String']
 };
 
-export type FollowMutationMutation = { __typename?: 'RootMutationType' } & {
-  createFollow: Types.Maybe<
-    { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
-  >;
-};
 
-export const FollowMutationDocument = gql`
-  mutation followMutation($contextId: String!) {
-    createFollow(contextId: $contextId) {
-      id
-    }
-  }
-`;
-export type FollowMutationMutationFn = ApolloReactCommon.MutationFunction<
-  FollowMutationMutation,
-  FollowMutationMutationVariables
->;
-export type FollowMutationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    FollowMutationMutation,
-    FollowMutationMutationVariables
-  >,
-  'mutation'
->;
-
-export const FollowMutationComponent = (
-  props: FollowMutationComponentProps
-) => (
-  <ApolloReactComponents.Mutation<
-    FollowMutationMutation,
-    FollowMutationMutationVariables
-  >
-    mutation={FollowMutationDocument}
-    {...props}
-  />
+export type FollowMutationMutation = (
+  { __typename?: 'RootMutationType' }
+  & { createFollow: Types.Maybe<(
+    { __typename?: 'Follow' }
+    & Pick<Types.Follow, 'id'>
+  )> }
 );
 
-export type FollowMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<
-  FollowMutationMutation,
-  FollowMutationMutationVariables
-> &
-  TChildProps;
-export function withFollowMutation<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    FollowMutationMutation,
-    FollowMutationMutationVariables,
-    FollowMutationProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    FollowMutationMutation,
-    FollowMutationMutationVariables,
-    FollowMutationProps<TChildProps>
-  >(FollowMutationDocument, {
-    alias: 'followMutation',
-    ...operationOptions
-  });
+
+export const FollowMutationDocument = gql`
+    mutation followMutation($contextId: String!) {
+  createFollow(contextId: $contextId) {
+    id
+  }
 }
+    `;
+export type FollowMutationMutationFn = ApolloReactCommon.MutationFunction<FollowMutationMutation, FollowMutationMutationVariables>;
+export type FollowMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<FollowMutationMutation, FollowMutationMutationVariables>, 'mutation'>;
+
+    export const FollowMutationComponent = (props: FollowMutationComponentProps) => (
+      <ApolloReactComponents.Mutation<FollowMutationMutation, FollowMutationMutationVariables> mutation={FollowMutationDocument} {...props} />
+    );
+    
+export type FollowMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<FollowMutationMutation, FollowMutationMutationVariables> & TChildProps;
+export function withFollowMutation<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  FollowMutationMutation,
+  FollowMutationMutationVariables,
+  FollowMutationProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, FollowMutationMutation, FollowMutationMutationVariables, FollowMutationProps<TChildProps>>(FollowMutationDocument, {
+      alias: 'followMutation',
+      ...operationOptions
+    });
+};
 
 /**
  * __useFollowMutationMutation__
@@ -90,169 +65,154 @@ export function withFollowMutation<TProps, TChildProps = {}>(
  *   },
  * });
  */
-export function useFollowMutationMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    FollowMutationMutation,
-    FollowMutationMutationVariables
-  >
-) {
-  return ApolloReactHooks.useMutation<
-    FollowMutationMutation,
-    FollowMutationMutationVariables
-  >(FollowMutationDocument, baseOptions);
-}
-export type FollowMutationMutationHookResult = ReturnType<
-  typeof useFollowMutationMutation
->;
-export type FollowMutationMutationResult = ApolloReactCommon.MutationResult<
-  FollowMutationMutation
->;
-export type FollowMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  FollowMutationMutation,
-  FollowMutationMutationVariables
->;
+export function useFollowMutationMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<FollowMutationMutation, FollowMutationMutationVariables>) {
+        return ApolloReactHooks.useMutation<FollowMutationMutation, FollowMutationMutationVariables>(FollowMutationDocument, baseOptions);
+      }
+export type FollowMutationMutationHookResult = ReturnType<typeof useFollowMutationMutation>;
+export type FollowMutationMutationResult = ApolloReactCommon.MutationResult<FollowMutationMutation>;
+export type FollowMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<FollowMutationMutation, FollowMutationMutationVariables>;
 
-export interface IntrospectionResultData {
-  __schema: {
-    types: {
-      kind: string;
-      name: string;
-      possibleTypes: {
-        name: string;
-      }[];
-    }[];
-  };
-}
+      export interface IntrospectionResultData {
+        __schema: {
+          types: {
+            kind: string;
+            name: string;
+            possibleTypes: {
+              name: string;
+            }[];
+          }[];
+        };
+      }
 
-const result: IntrospectionResultData = {
-  __schema: {
-    types: [
+      const result: IntrospectionResultData = {
+  "__schema": {
+    "types": [
       {
-        kind: 'UNION',
-        name: 'ActivityContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "ActivityContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'FlagContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "FlagContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'LikeContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "LikeContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'ThreadContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "ThreadContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Flag'
+            "name": "Flag"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'FollowContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "FollowContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Thread'
+            "name": "Thread"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'DeleteContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "DeleteContext",
+        "possibleTypes": [
           {
-            name: 'Activity'
+            "name": "Activity"
           },
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Flag'
+            "name": "Flag"
           },
           {
-            name: 'Follow'
+            "name": "Follow"
           },
           {
-            name: 'Like'
+            "name": "Like"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'Thread'
+            "name": "Thread"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       }
@@ -260,4 +220,5 @@ const result: IntrospectionResultData = {
   }
 };
 
-export default result;
+      export default result;
+    

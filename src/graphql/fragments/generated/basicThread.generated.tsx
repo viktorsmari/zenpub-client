@@ -1,207 +1,200 @@
-import * as Types from '../../types.d';
+import * as Types from '../../types.generated.d';
 
 import { BasicCommentWithInReplyToFragment } from './basicComment.generated';
 import gql from 'graphql-tag';
 import { BasicCommentWithInReplyToFragmentDoc } from './basicComment.generated';
 
-export type BasicThreadFragment = { __typename?: 'Thread' } & Pick<
-  Types.Thread,
-  'id' | 'isLocal' | 'createdAt' | 'updatedAt' | 'lastActivity'
-> & {
-    myFollow: Types.Maybe<{ __typename?: 'Follow' } & Pick<Types.Follow, 'id'>>;
-    comments: { __typename?: 'CommentsEdges' } & Pick<
-      Types.CommentsEdges,
-      'totalCount'
-    > & {
-        pageInfo: Types.Maybe<
-          { __typename?: 'PageInfo' } & Pick<
-            Types.PageInfo,
-            'startCursor' | 'endCursor'
-          >
-        >;
-        edges: Array<
-          Types.Maybe<
-            { __typename?: 'CommentsEdge' } & Pick<
-              Types.CommentsEdge,
-              'cursor'
-            > & {
-                node: {
-                  __typename?: 'Comment';
-                } & BasicCommentWithInReplyToFragment;
-              }
-          >
-        >;
-      };
-  };
+
+export type BasicThreadFragment = (
+  { __typename?: 'Thread' }
+  & Pick<Types.Thread, 'id' | 'isLocal' | 'createdAt' | 'updatedAt' | 'lastActivity'>
+  & { myFollow: Types.Maybe<(
+    { __typename?: 'Follow' }
+    & Pick<Types.Follow, 'id'>
+  )>, comments: (
+    { __typename?: 'CommentsEdges' }
+    & Pick<Types.CommentsEdges, 'totalCount'>
+    & { pageInfo: Types.Maybe<(
+      { __typename?: 'PageInfo' }
+      & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
+    )>, edges: Array<Types.Maybe<(
+      { __typename?: 'CommentsEdge' }
+      & Pick<Types.CommentsEdge, 'cursor'>
+      & { node: (
+        { __typename?: 'Comment' }
+        & BasicCommentWithInReplyToFragment
+      ) }
+    )>> }
+  ) }
+);
 
 export const BasicThreadFragmentDoc = gql`
-  fragment BasicThread on Thread {
+    fragment BasicThread on Thread {
+  id
+  isLocal
+  createdAt
+  updatedAt
+  lastActivity
+  myFollow {
     id
-    isLocal
-    createdAt
-    updatedAt
-    lastActivity
-    myFollow {
-      id
+  }
+  comments {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
     }
-    comments {
-      totalCount
-      pageInfo {
-        startCursor
-        endCursor
-      }
-      edges {
-        cursor
-        node {
-          ...BasicCommentWithInReplyTo
-        }
+    edges {
+      cursor
+      node {
+        ...BasicCommentWithInReplyTo
       }
     }
   }
-  ${BasicCommentWithInReplyToFragmentDoc}
-`;
-
-export interface IntrospectionResultData {
-  __schema: {
-    types: {
-      kind: string;
-      name: string;
-      possibleTypes: {
-        name: string;
-      }[];
-    }[];
-  };
 }
+    ${BasicCommentWithInReplyToFragmentDoc}`;
 
-const result: IntrospectionResultData = {
-  __schema: {
-    types: [
+      export interface IntrospectionResultData {
+        __schema: {
+          types: {
+            kind: string;
+            name: string;
+            possibleTypes: {
+              name: string;
+            }[];
+          }[];
+        };
+      }
+
+      const result: IntrospectionResultData = {
+  "__schema": {
+    "types": [
       {
-        kind: 'UNION',
-        name: 'ActivityContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "ActivityContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'FlagContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "FlagContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'LikeContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "LikeContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'ThreadContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "ThreadContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Flag'
+            "name": "Flag"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'FollowContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "FollowContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Thread'
+            "name": "Thread"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'DeleteContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "DeleteContext",
+        "possibleTypes": [
           {
-            name: 'Activity'
+            "name": "Activity"
           },
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Flag'
+            "name": "Flag"
           },
           {
-            name: 'Follow'
+            "name": "Follow"
           },
           {
-            name: 'Like'
+            "name": "Like"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'Thread'
+            "name": "Thread"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       }
@@ -209,4 +202,5 @@ const result: IntrospectionResultData = {
   }
 };
 
-export default result;
+      export default result;
+    

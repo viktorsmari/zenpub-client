@@ -21,7 +21,7 @@ import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { WrapperPanel, Panel, PanelTitle, Nav } from '../../sections/panel';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { NavLink } from 'react-router-dom';
-import { Me } from '../../graphql/types';
+import { Me } from '../../graphql/types.generated';
 
 interface Data extends QueryControls {
   me: Me;

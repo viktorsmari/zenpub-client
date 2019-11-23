@@ -1,4 +1,4 @@
-import * as Types from '../types.d';
+import * as Types from '../types.generated.d';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -9,84 +9,51 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type FetchResourceMutationVariables = {
-  url: Types.Scalars['String'];
+  url: Types.Scalars['String']
 };
 
-export type FetchResourceMutation = { __typename?: 'RootMutationType' } & {
-  fetchWebMetadata: Types.Maybe<
-    { __typename?: 'WebMetadata' } & Pick<
-      Types.WebMetadata,
-      | 'image'
-      | 'title'
-      | 'author'
-      | 'source'
-      | 'resourceType'
-      | 'summary'
-      | 'embedCode'
-      | 'language'
-    >
-  >;
-};
 
-export const FetchResourceDocument = gql`
-  mutation fetchResource($url: String!) {
-    fetchWebMetadata(url: $url) {
-      image
-      title
-      author
-      source
-      resourceType
-      summary
-      embedCode
-      language
-    }
-  }
-`;
-export type FetchResourceMutationFn = ApolloReactCommon.MutationFunction<
-  FetchResourceMutation,
-  FetchResourceMutationVariables
->;
-export type FetchResourceComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    FetchResourceMutation,
-    FetchResourceMutationVariables
-  >,
-  'mutation'
->;
-
-export const FetchResourceComponent = (props: FetchResourceComponentProps) => (
-  <ApolloReactComponents.Mutation<
-    FetchResourceMutation,
-    FetchResourceMutationVariables
-  >
-    mutation={FetchResourceDocument}
-    {...props}
-  />
+export type FetchResourceMutation = (
+  { __typename?: 'RootMutationType' }
+  & { fetchWebMetadata: Types.Maybe<(
+    { __typename?: 'WebMetadata' }
+    & Pick<Types.WebMetadata, 'image' | 'title' | 'author' | 'source' | 'resourceType' | 'summary' | 'embedCode' | 'language'>
+  )> }
 );
 
-export type FetchResourceProps<TChildProps = {}> = ApolloReactHoc.MutateProps<
-  FetchResourceMutation,
-  FetchResourceMutationVariables
-> &
-  TChildProps;
-export function withFetchResource<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    FetchResourceMutation,
-    FetchResourceMutationVariables,
-    FetchResourceProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    FetchResourceMutation,
-    FetchResourceMutationVariables,
-    FetchResourceProps<TChildProps>
-  >(FetchResourceDocument, {
-    alias: 'fetchResource',
-    ...operationOptions
-  });
+
+export const FetchResourceDocument = gql`
+    mutation fetchResource($url: String!) {
+  fetchWebMetadata(url: $url) {
+    image
+    title
+    author
+    source
+    resourceType
+    summary
+    embedCode
+    language
+  }
 }
+    `;
+export type FetchResourceMutationFn = ApolloReactCommon.MutationFunction<FetchResourceMutation, FetchResourceMutationVariables>;
+export type FetchResourceComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<FetchResourceMutation, FetchResourceMutationVariables>, 'mutation'>;
+
+    export const FetchResourceComponent = (props: FetchResourceComponentProps) => (
+      <ApolloReactComponents.Mutation<FetchResourceMutation, FetchResourceMutationVariables> mutation={FetchResourceDocument} {...props} />
+    );
+    
+export type FetchResourceProps<TChildProps = {}> = ApolloReactHoc.MutateProps<FetchResourceMutation, FetchResourceMutationVariables> & TChildProps;
+export function withFetchResource<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  FetchResourceMutation,
+  FetchResourceMutationVariables,
+  FetchResourceProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, FetchResourceMutation, FetchResourceMutationVariables, FetchResourceProps<TChildProps>>(FetchResourceDocument, {
+      alias: 'fetchResource',
+      ...operationOptions
+    });
+};
 
 /**
  * __useFetchResourceMutation__
@@ -105,169 +72,154 @@ export function withFetchResource<TProps, TChildProps = {}>(
  *   },
  * });
  */
-export function useFetchResourceMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    FetchResourceMutation,
-    FetchResourceMutationVariables
-  >
-) {
-  return ApolloReactHooks.useMutation<
-    FetchResourceMutation,
-    FetchResourceMutationVariables
-  >(FetchResourceDocument, baseOptions);
-}
-export type FetchResourceMutationHookResult = ReturnType<
-  typeof useFetchResourceMutation
->;
-export type FetchResourceMutationResult = ApolloReactCommon.MutationResult<
-  FetchResourceMutation
->;
-export type FetchResourceMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  FetchResourceMutation,
-  FetchResourceMutationVariables
->;
+export function useFetchResourceMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<FetchResourceMutation, FetchResourceMutationVariables>) {
+        return ApolloReactHooks.useMutation<FetchResourceMutation, FetchResourceMutationVariables>(FetchResourceDocument, baseOptions);
+      }
+export type FetchResourceMutationHookResult = ReturnType<typeof useFetchResourceMutation>;
+export type FetchResourceMutationResult = ApolloReactCommon.MutationResult<FetchResourceMutation>;
+export type FetchResourceMutationOptions = ApolloReactCommon.BaseMutationOptions<FetchResourceMutation, FetchResourceMutationVariables>;
 
-export interface IntrospectionResultData {
-  __schema: {
-    types: {
-      kind: string;
-      name: string;
-      possibleTypes: {
-        name: string;
-      }[];
-    }[];
-  };
-}
+      export interface IntrospectionResultData {
+        __schema: {
+          types: {
+            kind: string;
+            name: string;
+            possibleTypes: {
+              name: string;
+            }[];
+          }[];
+        };
+      }
 
-const result: IntrospectionResultData = {
-  __schema: {
-    types: [
+      const result: IntrospectionResultData = {
+  "__schema": {
+    "types": [
       {
-        kind: 'UNION',
-        name: 'ActivityContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "ActivityContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'FlagContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "FlagContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'LikeContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "LikeContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'ThreadContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "ThreadContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Flag'
+            "name": "Flag"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'FollowContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "FollowContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Thread'
+            "name": "Thread"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'DeleteContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "DeleteContext",
+        "possibleTypes": [
           {
-            name: 'Activity'
+            "name": "Activity"
           },
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Flag'
+            "name": "Flag"
           },
           {
-            name: 'Follow'
+            "name": "Follow"
           },
           {
-            name: 'Like'
+            "name": "Like"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'Thread'
+            "name": "Thread"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       }
@@ -275,4 +227,5 @@ const result: IntrospectionResultData = {
   }
 };
 
-export default result;
+      export default result;
+    

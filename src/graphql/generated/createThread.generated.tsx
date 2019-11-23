@@ -1,4 +1,4 @@
-import * as Types from '../types.d';
+import * as Types from '../types.generated.d';
 
 import { BasicCommentWithInReplyToFragment } from '../fragments/generated/basicComment.generated';
 import gql from 'graphql-tag';
@@ -10,109 +10,74 @@ import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
+
 export type CreateThreadMutationMutationVariables = {
-  contextId: Types.Scalars['String'];
-  comment: Types.CommentInput;
+  contextId: Types.Scalars['String'],
+  comment: Types.CommentInput
 };
 
-export type CreateThreadMutationMutation = {
-  __typename?: 'RootMutationType';
-} & {
-  createThread: Types.Maybe<
-    { __typename?: 'Comment' } & Pick<
-      Types.Comment,
-      | 'id'
-      | 'canonicalUrl'
-      | 'content'
-      | 'isLocal'
-      | 'isPublic'
-      | 'isHidden'
-      | 'createdAt'
-      | 'updatedAt'
-    > & {
-        inReplyTo: Types.Maybe<
-          { __typename?: 'Comment' } & BasicCommentWithInReplyToFragment
-        >;
-        creator: { __typename?: 'User' } & Pick<Types.User, 'name' | 'icon'>;
-        thread: { __typename?: 'Thread' } & Pick<Types.Thread, 'id'>;
-      }
-  >;
-};
 
-export const CreateThreadMutationDocument = gql`
-  mutation createThreadMutation($contextId: String!, $comment: CommentInput!) {
-    createThread(contextId: $contextId, comment: $comment) {
-      id
-      canonicalUrl
-      inReplyTo {
-        ...BasicCommentWithInReplyTo
-      }
-      content
-      isLocal
-      isPublic
-      isHidden
-      createdAt
-      updatedAt
-      creator {
-        name
-        icon
-      }
-      thread {
-        id
-      }
-    }
-  }
-  ${BasicCommentWithInReplyToFragmentDoc}
-`;
-export type CreateThreadMutationMutationFn = ApolloReactCommon.MutationFunction<
-  CreateThreadMutationMutation,
-  CreateThreadMutationMutationVariables
->;
-export type CreateThreadMutationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    CreateThreadMutationMutation,
-    CreateThreadMutationMutationVariables
-  >,
-  'mutation'
->;
-
-export const CreateThreadMutationComponent = (
-  props: CreateThreadMutationComponentProps
-) => (
-  <ApolloReactComponents.Mutation<
-    CreateThreadMutationMutation,
-    CreateThreadMutationMutationVariables
-  >
-    mutation={CreateThreadMutationDocument}
-    {...props}
-  />
+export type CreateThreadMutationMutation = (
+  { __typename?: 'RootMutationType' }
+  & { createThread: Types.Maybe<(
+    { __typename?: 'Comment' }
+    & Pick<Types.Comment, 'id' | 'canonicalUrl' | 'content' | 'isLocal' | 'isPublic' | 'isHidden' | 'createdAt' | 'updatedAt'>
+    & { inReplyTo: Types.Maybe<(
+      { __typename?: 'Comment' }
+      & BasicCommentWithInReplyToFragment
+    )>, creator: (
+      { __typename?: 'User' }
+      & Pick<Types.User, 'name' | 'icon'>
+    ), thread: (
+      { __typename?: 'Thread' }
+      & Pick<Types.Thread, 'id'>
+    ) }
+  )> }
 );
 
-export type CreateThreadMutationProps<
-  TChildProps = {}
-> = ApolloReactHoc.MutateProps<
-  CreateThreadMutationMutation,
-  CreateThreadMutationMutationVariables
-> &
-  TChildProps;
-export function withCreateThreadMutation<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    CreateThreadMutationMutation,
-    CreateThreadMutationMutationVariables,
-    CreateThreadMutationProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    CreateThreadMutationMutation,
-    CreateThreadMutationMutationVariables,
-    CreateThreadMutationProps<TChildProps>
-  >(CreateThreadMutationDocument, {
-    alias: 'createThreadMutation',
-    ...operationOptions
-  });
+
+export const CreateThreadMutationDocument = gql`
+    mutation createThreadMutation($contextId: String!, $comment: CommentInput!) {
+  createThread(contextId: $contextId, comment: $comment) {
+    id
+    canonicalUrl
+    inReplyTo {
+      ...BasicCommentWithInReplyTo
+    }
+    content
+    isLocal
+    isPublic
+    isHidden
+    createdAt
+    updatedAt
+    creator {
+      name
+      icon
+    }
+    thread {
+      id
+    }
+  }
 }
+    ${BasicCommentWithInReplyToFragmentDoc}`;
+export type CreateThreadMutationMutationFn = ApolloReactCommon.MutationFunction<CreateThreadMutationMutation, CreateThreadMutationMutationVariables>;
+export type CreateThreadMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateThreadMutationMutation, CreateThreadMutationMutationVariables>, 'mutation'>;
+
+    export const CreateThreadMutationComponent = (props: CreateThreadMutationComponentProps) => (
+      <ApolloReactComponents.Mutation<CreateThreadMutationMutation, CreateThreadMutationMutationVariables> mutation={CreateThreadMutationDocument} {...props} />
+    );
+    
+export type CreateThreadMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<CreateThreadMutationMutation, CreateThreadMutationMutationVariables> & TChildProps;
+export function withCreateThreadMutation<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  CreateThreadMutationMutation,
+  CreateThreadMutationMutationVariables,
+  CreateThreadMutationProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateThreadMutationMutation, CreateThreadMutationMutationVariables, CreateThreadMutationProps<TChildProps>>(CreateThreadMutationDocument, {
+      alias: 'createThreadMutation',
+      ...operationOptions
+    });
+};
 
 /**
  * __useCreateThreadMutationMutation__
@@ -132,169 +97,154 @@ export function withCreateThreadMutation<TProps, TChildProps = {}>(
  *   },
  * });
  */
-export function useCreateThreadMutationMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    CreateThreadMutationMutation,
-    CreateThreadMutationMutationVariables
-  >
-) {
-  return ApolloReactHooks.useMutation<
-    CreateThreadMutationMutation,
-    CreateThreadMutationMutationVariables
-  >(CreateThreadMutationDocument, baseOptions);
-}
-export type CreateThreadMutationMutationHookResult = ReturnType<
-  typeof useCreateThreadMutationMutation
->;
-export type CreateThreadMutationMutationResult = ApolloReactCommon.MutationResult<
-  CreateThreadMutationMutation
->;
-export type CreateThreadMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  CreateThreadMutationMutation,
-  CreateThreadMutationMutationVariables
->;
+export function useCreateThreadMutationMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateThreadMutationMutation, CreateThreadMutationMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateThreadMutationMutation, CreateThreadMutationMutationVariables>(CreateThreadMutationDocument, baseOptions);
+      }
+export type CreateThreadMutationMutationHookResult = ReturnType<typeof useCreateThreadMutationMutation>;
+export type CreateThreadMutationMutationResult = ApolloReactCommon.MutationResult<CreateThreadMutationMutation>;
+export type CreateThreadMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateThreadMutationMutation, CreateThreadMutationMutationVariables>;
 
-export interface IntrospectionResultData {
-  __schema: {
-    types: {
-      kind: string;
-      name: string;
-      possibleTypes: {
-        name: string;
-      }[];
-    }[];
-  };
-}
+      export interface IntrospectionResultData {
+        __schema: {
+          types: {
+            kind: string;
+            name: string;
+            possibleTypes: {
+              name: string;
+            }[];
+          }[];
+        };
+      }
 
-const result: IntrospectionResultData = {
-  __schema: {
-    types: [
+      const result: IntrospectionResultData = {
+  "__schema": {
+    "types": [
       {
-        kind: 'UNION',
-        name: 'ActivityContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "ActivityContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'FlagContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "FlagContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'LikeContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "LikeContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'ThreadContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "ThreadContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Flag'
+            "name": "Flag"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'FollowContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "FollowContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Thread'
+            "name": "Thread"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'DeleteContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "DeleteContext",
+        "possibleTypes": [
           {
-            name: 'Activity'
+            "name": "Activity"
           },
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Flag'
+            "name": "Flag"
           },
           {
-            name: 'Follow'
+            "name": "Follow"
           },
           {
-            name: 'Like'
+            "name": "Like"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'Thread'
+            "name": "Thread"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       }
@@ -302,4 +252,5 @@ const result: IntrospectionResultData = {
   }
 };
 
-export default result;
+      export default result;
+    

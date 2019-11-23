@@ -1,216 +1,208 @@
-import * as Types from '../../types.d';
+import * as Types from '../../types.generated.d';
 
 import { BasicUserFragment } from './basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from './basicUser.generated';
 
-export type BasicResourceFragment = { __typename?: 'Resource' } & Pick<
-  Types.Resource,
-  | 'id'
-  | 'name'
-  | 'summary'
-  | 'icon'
-  | 'url'
-  | 'license'
-  | 'createdAt'
-  | 'updatedAt'
-> & {
-    myLike: Types.Maybe<{ __typename?: 'Like' } & Pick<Types.Like, 'id'>>;
-    likes: { __typename?: 'LikesEdges' } & Pick<Types.LikesEdges, 'totalCount'>;
-    creator: { __typename?: 'User' } & BasicUserFragment;
-    collection: { __typename?: 'Collection' } & Pick<
-      Types.Collection,
-      | 'id'
-      | 'name'
-      | 'preferredUsername'
-      | 'isLocal'
-      | 'isPublic'
-      | 'isDisabled'
-    > & {
-        community: { __typename?: 'Community' } & Pick<
-          Types.Community,
-          'id' | 'canonicalUrl' | 'isLocal'
-        >;
-      };
-  };
+
+export type BasicResourceFragment = (
+  { __typename?: 'Resource' }
+  & Pick<Types.Resource, 'id' | 'name' | 'summary' | 'icon' | 'url' | 'license' | 'createdAt' | 'updatedAt'>
+  & { myLike: Types.Maybe<(
+    { __typename?: 'Like' }
+    & Pick<Types.Like, 'id'>
+  )>, likes: (
+    { __typename?: 'LikesEdges' }
+    & Pick<Types.LikesEdges, 'totalCount'>
+  ), creator: (
+    { __typename?: 'User' }
+    & BasicUserFragment
+  ), collection: (
+    { __typename?: 'Collection' }
+    & Pick<Types.Collection, 'id' | 'name' | 'preferredUsername' | 'isLocal' | 'isPublic' | 'isDisabled'>
+    & { community: (
+      { __typename?: 'Community' }
+      & Pick<Types.Community, 'id' | 'canonicalUrl' | 'isLocal'>
+    ) }
+  ) }
+);
 
 export const BasicResourceFragmentDoc = gql`
-  fragment BasicResource on Resource {
+    fragment BasicResource on Resource {
+  id
+  name
+  summary
+  icon
+  url
+  license
+  createdAt
+  updatedAt
+  myLike {
+    id
+  }
+  likes {
+    totalCount
+  }
+  creator {
+    ...BasicUser
+  }
+  collection {
     id
     name
-    summary
-    icon
-    url
-    license
-    createdAt
-    updatedAt
-    myLike {
+    preferredUsername
+    isLocal
+    isPublic
+    isDisabled
+    community {
       id
-    }
-    likes {
-      totalCount
-    }
-    creator {
-      ...BasicUser
-    }
-    collection {
-      id
-      name
-      preferredUsername
+      canonicalUrl
       isLocal
-      isPublic
-      isDisabled
-      community {
-        id
-        canonicalUrl
-        isLocal
-      }
     }
   }
-  ${BasicUserFragmentDoc}
-`;
-
-export interface IntrospectionResultData {
-  __schema: {
-    types: {
-      kind: string;
-      name: string;
-      possibleTypes: {
-        name: string;
-      }[];
-    }[];
-  };
 }
+    ${BasicUserFragmentDoc}`;
 
-const result: IntrospectionResultData = {
-  __schema: {
-    types: [
+      export interface IntrospectionResultData {
+        __schema: {
+          types: {
+            kind: string;
+            name: string;
+            possibleTypes: {
+              name: string;
+            }[];
+          }[];
+        };
+      }
+
+      const result: IntrospectionResultData = {
+  "__schema": {
+    "types": [
       {
-        kind: 'UNION',
-        name: 'ActivityContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "ActivityContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'FlagContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "FlagContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'LikeContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "LikeContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'ThreadContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "ThreadContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Flag'
+            "name": "Flag"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'FollowContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "FollowContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Thread'
+            "name": "Thread"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'DeleteContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "DeleteContext",
+        "possibleTypes": [
           {
-            name: 'Activity'
+            "name": "Activity"
           },
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Flag'
+            "name": "Flag"
           },
           {
-            name: 'Follow'
+            "name": "Follow"
           },
           {
-            name: 'Like'
+            "name": "Like"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'Thread'
+            "name": "Thread"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       }
@@ -218,4 +210,5 @@ const result: IntrospectionResultData = {
   }
 };
 
-export default result;
+      export default result;
+    

@@ -7,13 +7,13 @@ generates:
   graphql.schema.json:
     plugins:
       - "introspection"
-  src/graphql/types.d.ts:
+  src/graphql/types.generated.d.ts:
     - typescript
   src/graphql:
     preset: near-operation-file
     presetConfig:
       extension: .generated.tsx
-      baseTypesPath: types.d.ts
+      baseTypesPath: types.generated.d.ts
       folder: generated/
     plugins:
       - "typescript-operations"

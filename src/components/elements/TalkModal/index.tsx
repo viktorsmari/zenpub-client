@@ -11,7 +11,7 @@ import Modal from '../Modal';
 import SocialText from '../SocialText';
 import { useCreateReplyMutationMutation } from '../../../graphql/generated/createReply.generated';
 import { BasicCommentFragment } from '../../../graphql/fragments/generated/basicComment.generated';
-import { Comment } from '../../../graphql/types';
+import { Comment } from '../../../graphql/types.generated';
 
 export const TextWrapper = styled(Flex)`
   padding: 16px;

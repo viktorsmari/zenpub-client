@@ -1,4 +1,4 @@
-import { Me } from '../../graphql/types';
+import { Me } from '../../graphql/types.generated';
 
 export type Auth = {
   me: Me;

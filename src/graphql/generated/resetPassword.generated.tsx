@@ -1,4 +1,4 @@
-import * as Types from '../types.d';
+import * as Types from '../types.generated.d';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -9,68 +9,45 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type ResetPasswordMutationVariables = {
-  password: Types.Scalars['String'];
-  token: Types.Scalars['String'];
+  password: Types.Scalars['String'],
+  token: Types.Scalars['String']
 };
 
-export type ResetPasswordMutation = { __typename?: 'RootMutationType' } & {
-  resetPassword: Types.Maybe<
-    { __typename?: 'AuthPayload' } & Pick<Types.AuthPayload, 'token'>
-  >;
-};
 
-export const ResetPasswordDocument = gql`
-  mutation resetPassword($password: String!, $token: String!) {
-    resetPassword(password: $password, token: $token) {
-      token
-    }
-  }
-`;
-export type ResetPasswordMutationFn = ApolloReactCommon.MutationFunction<
-  ResetPasswordMutation,
-  ResetPasswordMutationVariables
->;
-export type ResetPasswordComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    ResetPasswordMutation,
-    ResetPasswordMutationVariables
-  >,
-  'mutation'
->;
-
-export const ResetPasswordComponent = (props: ResetPasswordComponentProps) => (
-  <ApolloReactComponents.Mutation<
-    ResetPasswordMutation,
-    ResetPasswordMutationVariables
-  >
-    mutation={ResetPasswordDocument}
-    {...props}
-  />
+export type ResetPasswordMutation = (
+  { __typename?: 'RootMutationType' }
+  & { resetPassword: Types.Maybe<(
+    { __typename?: 'AuthPayload' }
+    & Pick<Types.AuthPayload, 'token'>
+  )> }
 );
 
-export type ResetPasswordProps<TChildProps = {}> = ApolloReactHoc.MutateProps<
-  ResetPasswordMutation,
-  ResetPasswordMutationVariables
-> &
-  TChildProps;
-export function withResetPassword<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    ResetPasswordMutation,
-    ResetPasswordMutationVariables,
-    ResetPasswordProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    ResetPasswordMutation,
-    ResetPasswordMutationVariables,
-    ResetPasswordProps<TChildProps>
-  >(ResetPasswordDocument, {
-    alias: 'resetPassword',
-    ...operationOptions
-  });
+
+export const ResetPasswordDocument = gql`
+    mutation resetPassword($password: String!, $token: String!) {
+  resetPassword(password: $password, token: $token) {
+    token
+  }
 }
+    `;
+export type ResetPasswordMutationFn = ApolloReactCommon.MutationFunction<ResetPasswordMutation, ResetPasswordMutationVariables>;
+export type ResetPasswordComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<ResetPasswordMutation, ResetPasswordMutationVariables>, 'mutation'>;
+
+    export const ResetPasswordComponent = (props: ResetPasswordComponentProps) => (
+      <ApolloReactComponents.Mutation<ResetPasswordMutation, ResetPasswordMutationVariables> mutation={ResetPasswordDocument} {...props} />
+    );
+    
+export type ResetPasswordProps<TChildProps = {}> = ApolloReactHoc.MutateProps<ResetPasswordMutation, ResetPasswordMutationVariables> & TChildProps;
+export function withResetPassword<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ResetPasswordMutation,
+  ResetPasswordMutationVariables,
+  ResetPasswordProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, ResetPasswordMutation, ResetPasswordMutationVariables, ResetPasswordProps<TChildProps>>(ResetPasswordDocument, {
+      alias: 'resetPassword',
+      ...operationOptions
+    });
+};
 
 /**
  * __useResetPasswordMutation__
@@ -90,169 +67,154 @@ export function withResetPassword<TProps, TChildProps = {}>(
  *   },
  * });
  */
-export function useResetPasswordMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    ResetPasswordMutation,
-    ResetPasswordMutationVariables
-  >
-) {
-  return ApolloReactHooks.useMutation<
-    ResetPasswordMutation,
-    ResetPasswordMutationVariables
-  >(ResetPasswordDocument, baseOptions);
-}
-export type ResetPasswordMutationHookResult = ReturnType<
-  typeof useResetPasswordMutation
->;
-export type ResetPasswordMutationResult = ApolloReactCommon.MutationResult<
-  ResetPasswordMutation
->;
-export type ResetPasswordMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  ResetPasswordMutation,
-  ResetPasswordMutationVariables
->;
+export function useResetPasswordMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<ResetPasswordMutation, ResetPasswordMutationVariables>) {
+        return ApolloReactHooks.useMutation<ResetPasswordMutation, ResetPasswordMutationVariables>(ResetPasswordDocument, baseOptions);
+      }
+export type ResetPasswordMutationHookResult = ReturnType<typeof useResetPasswordMutation>;
+export type ResetPasswordMutationResult = ApolloReactCommon.MutationResult<ResetPasswordMutation>;
+export type ResetPasswordMutationOptions = ApolloReactCommon.BaseMutationOptions<ResetPasswordMutation, ResetPasswordMutationVariables>;
 
-export interface IntrospectionResultData {
-  __schema: {
-    types: {
-      kind: string;
-      name: string;
-      possibleTypes: {
-        name: string;
-      }[];
-    }[];
-  };
-}
+      export interface IntrospectionResultData {
+        __schema: {
+          types: {
+            kind: string;
+            name: string;
+            possibleTypes: {
+              name: string;
+            }[];
+          }[];
+        };
+      }
 
-const result: IntrospectionResultData = {
-  __schema: {
-    types: [
+      const result: IntrospectionResultData = {
+  "__schema": {
+    "types": [
       {
-        kind: 'UNION',
-        name: 'ActivityContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "ActivityContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'FlagContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "FlagContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'LikeContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "LikeContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'ThreadContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "ThreadContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Flag'
+            "name": "Flag"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'FollowContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "FollowContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Thread'
+            "name": "Thread"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'DeleteContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "DeleteContext",
+        "possibleTypes": [
           {
-            name: 'Activity'
+            "name": "Activity"
           },
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Flag'
+            "name": "Flag"
           },
           {
-            name: 'Follow'
+            "name": "Follow"
           },
           {
-            name: 'Like'
+            "name": "Like"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'Thread'
+            "name": "Thread"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       }
@@ -260,4 +222,5 @@ const result: IntrospectionResultData = {
   }
 };
 
-export default result;
+      export default result;
+    
