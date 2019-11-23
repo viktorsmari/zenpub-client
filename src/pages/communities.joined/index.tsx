@@ -9,7 +9,7 @@ import Loader from '../../components/elements/Loader/Loader';
 import CommunitiesLoadMore from '../../components/elements/Loadmore/joinedCommunities';
 // import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
-import { Me } from '../../graphql/types';
+import { Me } from '../../graphql/types.generated';
 
 const {
   getFollowedCommunitiesQuery

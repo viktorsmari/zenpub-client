@@ -1,4 +1,4 @@
-import * as Types from '../types.d';
+import * as Types from '../types.generated.d';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -9,76 +9,48 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type LikeMutationMutationVariables = {
-  contextId: Types.Scalars['String'];
+  contextId: Types.Scalars['String']
 };
 
-export type LikeMutationMutation = { __typename?: 'RootMutationType' } & {
-  createLike: Types.Maybe<
-    { __typename?: 'Like' } & Pick<Types.Like, 'id'> & {
-        context:
-          | { __typename?: 'Collection' }
-          | { __typename?: 'Comment' }
-          | { __typename?: 'Resource' }
-          | { __typename?: 'User' };
-      }
-  >;
-};
 
-export const LikeMutationDocument = gql`
-  mutation likeMutation($contextId: String!) {
-    createLike(contextId: $contextId) {
-      id
-      context {
-        __typename
-      }
-    }
-  }
-`;
-export type LikeMutationMutationFn = ApolloReactCommon.MutationFunction<
-  LikeMutationMutation,
-  LikeMutationMutationVariables
->;
-export type LikeMutationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    LikeMutationMutation,
-    LikeMutationMutationVariables
-  >,
-  'mutation'
->;
-
-export const LikeMutationComponent = (props: LikeMutationComponentProps) => (
-  <ApolloReactComponents.Mutation<
-    LikeMutationMutation,
-    LikeMutationMutationVariables
-  >
-    mutation={LikeMutationDocument}
-    {...props}
-  />
+export type LikeMutationMutation = (
+  { __typename?: 'RootMutationType' }
+  & { createLike: Types.Maybe<(
+    { __typename?: 'Like' }
+    & Pick<Types.Like, 'id'>
+    & { context: { __typename?: 'Collection' } | { __typename?: 'Comment' } | { __typename?: 'Resource' } | { __typename?: 'User' } }
+  )> }
 );
 
-export type LikeMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<
-  LikeMutationMutation,
-  LikeMutationMutationVariables
-> &
-  TChildProps;
-export function withLikeMutation<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    LikeMutationMutation,
-    LikeMutationMutationVariables,
-    LikeMutationProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    LikeMutationMutation,
-    LikeMutationMutationVariables,
-    LikeMutationProps<TChildProps>
-  >(LikeMutationDocument, {
-    alias: 'likeMutation',
-    ...operationOptions
-  });
+
+export const LikeMutationDocument = gql`
+    mutation likeMutation($contextId: String!) {
+  createLike(contextId: $contextId) {
+    id
+    context {
+      __typename
+    }
+  }
 }
+    `;
+export type LikeMutationMutationFn = ApolloReactCommon.MutationFunction<LikeMutationMutation, LikeMutationMutationVariables>;
+export type LikeMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<LikeMutationMutation, LikeMutationMutationVariables>, 'mutation'>;
+
+    export const LikeMutationComponent = (props: LikeMutationComponentProps) => (
+      <ApolloReactComponents.Mutation<LikeMutationMutation, LikeMutationMutationVariables> mutation={LikeMutationDocument} {...props} />
+    );
+    
+export type LikeMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<LikeMutationMutation, LikeMutationMutationVariables> & TChildProps;
+export function withLikeMutation<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  LikeMutationMutation,
+  LikeMutationMutationVariables,
+  LikeMutationProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, LikeMutationMutation, LikeMutationMutationVariables, LikeMutationProps<TChildProps>>(LikeMutationDocument, {
+      alias: 'likeMutation',
+      ...operationOptions
+    });
+};
 
 /**
  * __useLikeMutationMutation__
@@ -97,169 +69,154 @@ export function withLikeMutation<TProps, TChildProps = {}>(
  *   },
  * });
  */
-export function useLikeMutationMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    LikeMutationMutation,
-    LikeMutationMutationVariables
-  >
-) {
-  return ApolloReactHooks.useMutation<
-    LikeMutationMutation,
-    LikeMutationMutationVariables
-  >(LikeMutationDocument, baseOptions);
-}
-export type LikeMutationMutationHookResult = ReturnType<
-  typeof useLikeMutationMutation
->;
-export type LikeMutationMutationResult = ApolloReactCommon.MutationResult<
-  LikeMutationMutation
->;
-export type LikeMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  LikeMutationMutation,
-  LikeMutationMutationVariables
->;
+export function useLikeMutationMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<LikeMutationMutation, LikeMutationMutationVariables>) {
+        return ApolloReactHooks.useMutation<LikeMutationMutation, LikeMutationMutationVariables>(LikeMutationDocument, baseOptions);
+      }
+export type LikeMutationMutationHookResult = ReturnType<typeof useLikeMutationMutation>;
+export type LikeMutationMutationResult = ApolloReactCommon.MutationResult<LikeMutationMutation>;
+export type LikeMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<LikeMutationMutation, LikeMutationMutationVariables>;
 
-export interface IntrospectionResultData {
-  __schema: {
-    types: {
-      kind: string;
-      name: string;
-      possibleTypes: {
-        name: string;
-      }[];
-    }[];
-  };
-}
+      export interface IntrospectionResultData {
+        __schema: {
+          types: {
+            kind: string;
+            name: string;
+            possibleTypes: {
+              name: string;
+            }[];
+          }[];
+        };
+      }
 
-const result: IntrospectionResultData = {
-  __schema: {
-    types: [
+      const result: IntrospectionResultData = {
+  "__schema": {
+    "types": [
       {
-        kind: 'UNION',
-        name: 'ActivityContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "ActivityContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'FlagContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "FlagContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'LikeContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "LikeContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'ThreadContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "ThreadContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Flag'
+            "name": "Flag"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'FollowContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "FollowContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Thread'
+            "name": "Thread"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'DeleteContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "DeleteContext",
+        "possibleTypes": [
           {
-            name: 'Activity'
+            "name": "Activity"
           },
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Flag'
+            "name": "Flag"
           },
           {
-            name: 'Follow'
+            "name": "Follow"
           },
           {
-            name: 'Like'
+            "name": "Like"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'Thread'
+            "name": "Thread"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       }
@@ -267,4 +224,5 @@ const result: IntrospectionResultData = {
   }
 };
 
-export default result;
+      export default result;
+    

@@ -1,190 +1,183 @@
-import * as Types from '../../types.d';
+import * as Types from '../../types.generated.d';
 
 import gql from 'graphql-tag';
 
-export type BasicUserFragment = { __typename?: 'User' } & Pick<
-  Types.User,
-  | 'id'
-  | 'canonicalUrl'
-  | 'preferredUsername'
-  | 'name'
-  | 'icon'
-  | 'location'
-  | 'summary'
-  | 'image'
-  | 'isLocal'
-  | 'createdAt'
-  | 'updatedAt'
-  | 'lastActivity'
-> & {
-    myFollow: Types.Maybe<{ __typename?: 'Follow' } & Pick<Types.Follow, 'id'>>;
-    myLike: Types.Maybe<{ __typename?: 'Like' } & Pick<Types.Like, 'id'>>;
-  };
+export type BasicUserFragment = (
+  { __typename?: 'User' }
+  & Pick<Types.User, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'icon' | 'location' | 'summary' | 'image' | 'isLocal' | 'createdAt' | 'updatedAt' | 'lastActivity'>
+  & { myFollow: Types.Maybe<(
+    { __typename?: 'Follow' }
+    & Pick<Types.Follow, 'id'>
+  )>, myLike: Types.Maybe<(
+    { __typename?: 'Like' }
+    & Pick<Types.Like, 'id'>
+  )> }
+);
 
 export const BasicUserFragmentDoc = gql`
-  fragment BasicUser on User {
+    fragment BasicUser on User {
+  id
+  canonicalUrl
+  preferredUsername
+  name
+  icon
+  location
+  summary
+  image
+  isLocal
+  createdAt
+  updatedAt
+  lastActivity
+  myFollow {
     id
-    canonicalUrl
-    preferredUsername
-    name
-    icon
-    location
-    summary
-    image
-    isLocal
-    createdAt
-    updatedAt
-    lastActivity
-    myFollow {
-      id
-    }
-    myLike {
-      id
-    }
   }
-`;
-
-export interface IntrospectionResultData {
-  __schema: {
-    types: {
-      kind: string;
-      name: string;
-      possibleTypes: {
-        name: string;
-      }[];
-    }[];
-  };
+  myLike {
+    id
+  }
 }
+    `;
 
-const result: IntrospectionResultData = {
-  __schema: {
-    types: [
+      export interface IntrospectionResultData {
+        __schema: {
+          types: {
+            kind: string;
+            name: string;
+            possibleTypes: {
+              name: string;
+            }[];
+          }[];
+        };
+      }
+
+      const result: IntrospectionResultData = {
+  "__schema": {
+    "types": [
       {
-        kind: 'UNION',
-        name: 'ActivityContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "ActivityContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'FlagContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "FlagContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'LikeContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "LikeContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'ThreadContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "ThreadContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Flag'
+            "name": "Flag"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'FollowContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "FollowContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Thread'
+            "name": "Thread"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'DeleteContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "DeleteContext",
+        "possibleTypes": [
           {
-            name: 'Activity'
+            "name": "Activity"
           },
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Flag'
+            "name": "Flag"
           },
           {
-            name: 'Follow'
+            "name": "Follow"
           },
           {
-            name: 'Like'
+            "name": "Like"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'Thread'
+            "name": "Thread"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       }
@@ -192,4 +185,5 @@ const result: IntrospectionResultData = {
   }
 };
 
-export default result;
+      export default result;
+    

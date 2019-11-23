@@ -1,4 +1,4 @@
-import * as Types from '../types.d';
+import * as Types from '../types.generated.d';
 
 import { BasicResourceFragment } from '../fragments/generated/basicResource.generated';
 import gql from 'graphql-tag';
@@ -10,79 +10,47 @@ import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
+
 export type CreateResourceMutationMutationVariables = {
-  collectionId: Types.Scalars['String'];
-  resource: Types.ResourceInput;
+  collectionId: Types.Scalars['String'],
+  resource: Types.ResourceInput
 };
 
-export type CreateResourceMutationMutation = {
-  __typename?: 'RootMutationType';
-} & {
-  createResource: Types.Maybe<
-    { __typename?: 'Resource' } & BasicResourceFragment
-  >;
-};
 
-export const CreateResourceMutationDocument = gql`
-  mutation createResourceMutation(
-    $collectionId: String!
-    $resource: ResourceInput!
-  ) {
-    createResource(collectionId: $collectionId, resource: $resource) {
-      ...BasicResource
-    }
-  }
-  ${BasicResourceFragmentDoc}
-`;
-export type CreateResourceMutationMutationFn = ApolloReactCommon.MutationFunction<
-  CreateResourceMutationMutation,
-  CreateResourceMutationMutationVariables
->;
-export type CreateResourceMutationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    CreateResourceMutationMutation,
-    CreateResourceMutationMutationVariables
-  >,
-  'mutation'
->;
-
-export const CreateResourceMutationComponent = (
-  props: CreateResourceMutationComponentProps
-) => (
-  <ApolloReactComponents.Mutation<
-    CreateResourceMutationMutation,
-    CreateResourceMutationMutationVariables
-  >
-    mutation={CreateResourceMutationDocument}
-    {...props}
-  />
+export type CreateResourceMutationMutation = (
+  { __typename?: 'RootMutationType' }
+  & { createResource: Types.Maybe<(
+    { __typename?: 'Resource' }
+    & BasicResourceFragment
+  )> }
 );
 
-export type CreateResourceMutationProps<
-  TChildProps = {}
-> = ApolloReactHoc.MutateProps<
-  CreateResourceMutationMutation,
-  CreateResourceMutationMutationVariables
-> &
-  TChildProps;
-export function withCreateResourceMutation<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    CreateResourceMutationMutation,
-    CreateResourceMutationMutationVariables,
-    CreateResourceMutationProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    CreateResourceMutationMutation,
-    CreateResourceMutationMutationVariables,
-    CreateResourceMutationProps<TChildProps>
-  >(CreateResourceMutationDocument, {
-    alias: 'createResourceMutation',
-    ...operationOptions
-  });
+
+export const CreateResourceMutationDocument = gql`
+    mutation createResourceMutation($collectionId: String!, $resource: ResourceInput!) {
+  createResource(collectionId: $collectionId, resource: $resource) {
+    ...BasicResource
+  }
 }
+    ${BasicResourceFragmentDoc}`;
+export type CreateResourceMutationMutationFn = ApolloReactCommon.MutationFunction<CreateResourceMutationMutation, CreateResourceMutationMutationVariables>;
+export type CreateResourceMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateResourceMutationMutation, CreateResourceMutationMutationVariables>, 'mutation'>;
+
+    export const CreateResourceMutationComponent = (props: CreateResourceMutationComponentProps) => (
+      <ApolloReactComponents.Mutation<CreateResourceMutationMutation, CreateResourceMutationMutationVariables> mutation={CreateResourceMutationDocument} {...props} />
+    );
+    
+export type CreateResourceMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<CreateResourceMutationMutation, CreateResourceMutationMutationVariables> & TChildProps;
+export function withCreateResourceMutation<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  CreateResourceMutationMutation,
+  CreateResourceMutationMutationVariables,
+  CreateResourceMutationProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateResourceMutationMutation, CreateResourceMutationMutationVariables, CreateResourceMutationProps<TChildProps>>(CreateResourceMutationDocument, {
+      alias: 'createResourceMutation',
+      ...operationOptions
+    });
+};
 
 /**
  * __useCreateResourceMutationMutation__
@@ -102,169 +70,154 @@ export function withCreateResourceMutation<TProps, TChildProps = {}>(
  *   },
  * });
  */
-export function useCreateResourceMutationMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    CreateResourceMutationMutation,
-    CreateResourceMutationMutationVariables
-  >
-) {
-  return ApolloReactHooks.useMutation<
-    CreateResourceMutationMutation,
-    CreateResourceMutationMutationVariables
-  >(CreateResourceMutationDocument, baseOptions);
-}
-export type CreateResourceMutationMutationHookResult = ReturnType<
-  typeof useCreateResourceMutationMutation
->;
-export type CreateResourceMutationMutationResult = ApolloReactCommon.MutationResult<
-  CreateResourceMutationMutation
->;
-export type CreateResourceMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  CreateResourceMutationMutation,
-  CreateResourceMutationMutationVariables
->;
+export function useCreateResourceMutationMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateResourceMutationMutation, CreateResourceMutationMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateResourceMutationMutation, CreateResourceMutationMutationVariables>(CreateResourceMutationDocument, baseOptions);
+      }
+export type CreateResourceMutationMutationHookResult = ReturnType<typeof useCreateResourceMutationMutation>;
+export type CreateResourceMutationMutationResult = ApolloReactCommon.MutationResult<CreateResourceMutationMutation>;
+export type CreateResourceMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateResourceMutationMutation, CreateResourceMutationMutationVariables>;
 
-export interface IntrospectionResultData {
-  __schema: {
-    types: {
-      kind: string;
-      name: string;
-      possibleTypes: {
-        name: string;
-      }[];
-    }[];
-  };
-}
+      export interface IntrospectionResultData {
+        __schema: {
+          types: {
+            kind: string;
+            name: string;
+            possibleTypes: {
+              name: string;
+            }[];
+          }[];
+        };
+      }
 
-const result: IntrospectionResultData = {
-  __schema: {
-    types: [
+      const result: IntrospectionResultData = {
+  "__schema": {
+    "types": [
       {
-        kind: 'UNION',
-        name: 'ActivityContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "ActivityContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'FlagContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "FlagContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'LikeContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "LikeContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'ThreadContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "ThreadContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Flag'
+            "name": "Flag"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'FollowContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "FollowContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Thread'
+            "name": "Thread"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'DeleteContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "DeleteContext",
+        "possibleTypes": [
           {
-            name: 'Activity'
+            "name": "Activity"
           },
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Flag'
+            "name": "Flag"
           },
           {
-            name: 'Follow'
+            "name": "Follow"
           },
           {
-            name: 'Like'
+            "name": "Like"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'Thread'
+            "name": "Thread"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       }
@@ -272,4 +225,5 @@ const result: IntrospectionResultData = {
   }
 };
 
-export default result;
+      export default result;
+    

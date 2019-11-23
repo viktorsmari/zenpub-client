@@ -15,7 +15,7 @@ import { BasicResourceFragment } from '../../../graphql/fragments/generated/basi
 import { BasicUserFragment } from '../../../graphql/fragments/generated/basicUser.generated';
 import { useDeleteMutationMutation } from '../../../graphql/generated/delete.generated';
 import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
-import { Comment, User } from '../../../graphql/types';
+import { Comment, User } from '../../../graphql/types.generated';
 import styled from '../../../themes/styled';
 import Link from '../Link/Link';
 import Actions from './Actions';

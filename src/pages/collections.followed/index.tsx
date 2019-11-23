@@ -8,7 +8,7 @@ import Loader from '../../components/elements/Loader/Loader';
 import CollectionsLoadMore from '../../components/elements/Loadmore/followingCollections';
 // import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
-import { Me } from '../../graphql/types';
+import { Me } from '../../graphql/types.generated';
 
 const {
   getFollowedCollections

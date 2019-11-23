@@ -1,238 +1,231 @@
-import * as Types from '../../types.d';
+import * as Types from '../../types.generated.d';
 
 import { BasicUserFragment } from './basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from './basicUser.generated';
 
-export type BasicCollectionFragment = { __typename?: 'Collection' } & Pick<
-  Types.Collection,
-  | 'id'
-  | 'canonicalUrl'
-  | 'preferredUsername'
-  | 'name'
-  | 'summary'
-  | 'icon'
-  | 'isLocal'
-  | 'isPublic'
-  | 'createdAt'
-> & {
-    creator: { __typename?: 'User' } & BasicUserFragment;
-    myLike: Types.Maybe<{ __typename?: 'Like' } & Pick<Types.Like, 'id'>>;
-    myFollow: Types.Maybe<{ __typename?: 'Follow' } & Pick<Types.Follow, 'id'>>;
-    community: { __typename?: 'Community' } & Pick<
-      Types.Community,
-      'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'name' | 'icon'
-    > & {
-        myFollow: Types.Maybe<
-          { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
-        >;
-      };
-    resources: { __typename?: 'ResourcesEdges' } & Pick<
-      Types.ResourcesEdges,
-      'totalCount'
-    >;
-    followers: { __typename?: 'FollowsEdges' } & Pick<
-      Types.FollowsEdges,
-      'totalCount'
-    >;
-    threads: { __typename?: 'ThreadsEdges' } & Pick<
-      Types.ThreadsEdges,
-      'totalCount'
-    >;
-    outbox: { __typename?: 'ActivitiesEdges' } & Pick<
-      Types.ActivitiesEdges,
-      'totalCount'
-    >;
-  };
+
+export type BasicCollectionFragment = (
+  { __typename?: 'Collection' }
+  & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'isLocal' | 'isPublic' | 'createdAt'>
+  & { creator: (
+    { __typename?: 'User' }
+    & BasicUserFragment
+  ), myLike: Types.Maybe<(
+    { __typename?: 'Like' }
+    & Pick<Types.Like, 'id'>
+  )>, myFollow: Types.Maybe<(
+    { __typename?: 'Follow' }
+    & Pick<Types.Follow, 'id'>
+  )>, community: (
+    { __typename?: 'Community' }
+    & Pick<Types.Community, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'name' | 'icon'>
+    & { myFollow: Types.Maybe<(
+      { __typename?: 'Follow' }
+      & Pick<Types.Follow, 'id'>
+    )> }
+  ), resources: (
+    { __typename?: 'ResourcesEdges' }
+    & Pick<Types.ResourcesEdges, 'totalCount'>
+  ), followers: (
+    { __typename?: 'FollowsEdges' }
+    & Pick<Types.FollowsEdges, 'totalCount'>
+  ), threads: (
+    { __typename?: 'ThreadsEdges' }
+    & Pick<Types.ThreadsEdges, 'totalCount'>
+  ), outbox: (
+    { __typename?: 'ActivitiesEdges' }
+    & Pick<Types.ActivitiesEdges, 'totalCount'>
+  ) }
+);
 
 export const BasicCollectionFragmentDoc = gql`
-  fragment BasicCollection on Collection {
+    fragment BasicCollection on Collection {
+  id
+  canonicalUrl
+  preferredUsername
+  name
+  summary
+  creator {
+    ...BasicUser
+  }
+  icon
+  isLocal
+  isPublic
+  createdAt
+  myLike {
+    id
+  }
+  myFollow {
+    id
+  }
+  community {
     id
     canonicalUrl
-    preferredUsername
-    name
-    summary
-    creator {
-      ...BasicUser
-    }
-    icon
     isLocal
     isPublic
-    createdAt
-    myLike {
-      id
-    }
+    name
+    icon
     myFollow {
       id
     }
-    community {
-      id
-      canonicalUrl
-      isLocal
-      isPublic
-      name
-      icon
-      myFollow {
-        id
-      }
-    }
-    resources {
-      totalCount
-    }
-    followers {
-      totalCount
-    }
-    threads {
-      totalCount
-    }
-    outbox {
-      totalCount
-    }
   }
-  ${BasicUserFragmentDoc}
-`;
-
-export interface IntrospectionResultData {
-  __schema: {
-    types: {
-      kind: string;
-      name: string;
-      possibleTypes: {
-        name: string;
-      }[];
-    }[];
-  };
+  resources {
+    totalCount
+  }
+  followers {
+    totalCount
+  }
+  threads {
+    totalCount
+  }
+  outbox {
+    totalCount
+  }
 }
+    ${BasicUserFragmentDoc}`;
 
-const result: IntrospectionResultData = {
-  __schema: {
-    types: [
+      export interface IntrospectionResultData {
+        __schema: {
+          types: {
+            kind: string;
+            name: string;
+            possibleTypes: {
+              name: string;
+            }[];
+          }[];
+        };
+      }
+
+      const result: IntrospectionResultData = {
+  "__schema": {
+    "types": [
       {
-        kind: 'UNION',
-        name: 'ActivityContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "ActivityContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'FlagContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "FlagContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'LikeContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "LikeContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'ThreadContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "ThreadContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Flag'
+            "name": "Flag"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'FollowContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "FollowContext",
+        "possibleTypes": [
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Thread'
+            "name": "Thread"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       },
       {
-        kind: 'UNION',
-        name: 'DeleteContext',
-        possibleTypes: [
+        "kind": "UNION",
+        "name": "DeleteContext",
+        "possibleTypes": [
           {
-            name: 'Activity'
+            "name": "Activity"
           },
           {
-            name: 'Collection'
+            "name": "Collection"
           },
           {
-            name: 'Comment'
+            "name": "Comment"
           },
           {
-            name: 'Community'
+            "name": "Community"
           },
           {
-            name: 'Flag'
+            "name": "Flag"
           },
           {
-            name: 'Follow'
+            "name": "Follow"
           },
           {
-            name: 'Like'
+            "name": "Like"
           },
           {
-            name: 'Resource'
+            "name": "Resource"
           },
           {
-            name: 'Thread'
+            "name": "Thread"
           },
           {
-            name: 'User'
+            "name": "User"
           }
         ]
       }
@@ -240,4 +233,5 @@ const result: IntrospectionResultData = {
   }
 };
 
-export default result;
+      export default result;
+    

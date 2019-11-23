@@ -3,7 +3,7 @@ import { Box, Text, Flex } from 'rebass/styled-components';
 import { Globe } from '../../components/elements/Icons';
 import styled from '../../themes/styled';
 import media from 'styled-media-query';
-import { User } from '../../graphql/types';
+import { User } from '../../graphql/types.generated';
 
 interface Props {
   user: User;
