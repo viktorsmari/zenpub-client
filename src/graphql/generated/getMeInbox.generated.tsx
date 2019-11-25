@@ -29,23 +29,8 @@ export type GetMeInboxQueryVariables = {
 };
 
 
-export type GetMeInboxQuery = (
-  { __typename?: 'RootQueryType' }
-  & { me: Types.Maybe<(
-    { __typename?: 'Me' }
-    & { user: (
-      { __typename?: 'User' }
-      & { inbox: (
-        { __typename?: 'ActivitiesEdges' }
-        & { pageInfo: Types.Maybe<(
-          { __typename?: 'PageInfo' }
-          & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-        )>, edges: Array<Types.Maybe<(
-          { __typename?: 'ActivitiesEdge' }
-          & { node: (
-            { __typename: 'Activity' }
-            & Pick<Types.Activity, 'id' | 'canonicalUrl' | 'verb' | 'isLocal' | 'isPublic' | 'createdAt'>
-            & { user: (
+export type GetMeInboxQuery = { __typename?: 'RootQueryType', me: Types.Maybe<{ __typename?: 'Me', user: (
+      { __typename?: 'User', inbox: { __typename?: 'ActivitiesEdges', pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, edges: Array<Types.Maybe<{ __typename?: 'ActivitiesEdge', node: { __typename: 'Activity', id: string, canonicalUrl: Types.Maybe<string>, verb: Types.ActivityVerb, isLocal: boolean, isPublic: boolean, createdAt: string, user: (
               { __typename?: 'User' }
               & BasicUserFragment
             ), context: (
@@ -60,14 +45,9 @@ export type GetMeInboxQuery = (
             ) | (
               { __typename?: 'Resource' }
               & BasicResourceFragment
-            ) }
-          ) }
-        )>> }
-      ) }
+            ) } }>> } }
       & BasicUserFragment
-    ) }
-  )> }
-);
+    ) }> };
 
 
 export const GetMeInboxDocument = gql`
@@ -162,154 +142,3 @@ export function useGetMeInboxLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryH
 export type GetMeInboxQueryHookResult = ReturnType<typeof useGetMeInboxQuery>;
 export type GetMeInboxLazyQueryHookResult = ReturnType<typeof useGetMeInboxLazyQuery>;
 export type GetMeInboxQueryResult = ApolloReactCommon.QueryResult<GetMeInboxQuery, GetMeInboxQueryVariables>;
-
-      export interface IntrospectionResultData {
-        __schema: {
-          types: {
-            kind: string;
-            name: string;
-            possibleTypes: {
-              name: string;
-            }[];
-          }[];
-        };
-      }
-
-      const result: IntrospectionResultData = {
-  "__schema": {
-    "types": [
-      {
-        "kind": "UNION",
-        "name": "ActivityContext",
-        "possibleTypes": [
-          {
-            "name": "Collection"
-          },
-          {
-            "name": "Comment"
-          },
-          {
-            "name": "Community"
-          },
-          {
-            "name": "Resource"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "FlagContext",
-        "possibleTypes": [
-          {
-            "name": "Collection"
-          },
-          {
-            "name": "Comment"
-          },
-          {
-            "name": "Community"
-          },
-          {
-            "name": "Resource"
-          },
-          {
-            "name": "User"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "LikeContext",
-        "possibleTypes": [
-          {
-            "name": "Collection"
-          },
-          {
-            "name": "Comment"
-          },
-          {
-            "name": "Resource"
-          },
-          {
-            "name": "User"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "ThreadContext",
-        "possibleTypes": [
-          {
-            "name": "Collection"
-          },
-          {
-            "name": "Community"
-          },
-          {
-            "name": "Flag"
-          },
-          {
-            "name": "Resource"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "FollowContext",
-        "possibleTypes": [
-          {
-            "name": "Collection"
-          },
-          {
-            "name": "Community"
-          },
-          {
-            "name": "Thread"
-          },
-          {
-            "name": "User"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "DeleteContext",
-        "possibleTypes": [
-          {
-            "name": "Activity"
-          },
-          {
-            "name": "Collection"
-          },
-          {
-            "name": "Comment"
-          },
-          {
-            "name": "Community"
-          },
-          {
-            "name": "Flag"
-          },
-          {
-            "name": "Follow"
-          },
-          {
-            "name": "Like"
-          },
-          {
-            "name": "Resource"
-          },
-          {
-            "name": "Thread"
-          },
-          {
-            "name": "User"
-          }
-        ]
-      }
-    ]
-  }
-};
-
-      export default result;
-    

@@ -19,9 +19,7 @@ export type GetFeaturedCommunitiesQueryVariables = {
 };
 
 
-export type GetFeaturedCommunitiesQuery = (
-  { __typename?: 'RootQueryType' }
-  & { one: Types.Maybe<(
+export type GetFeaturedCommunitiesQuery = { __typename?: 'RootQueryType', one: Types.Maybe<(
     { __typename?: 'Community' }
     & BasicCommunityFragment
   )>, two: Types.Maybe<(
@@ -33,8 +31,7 @@ export type GetFeaturedCommunitiesQuery = (
   )>, four: Types.Maybe<(
     { __typename?: 'Community' }
     & BasicCommunityFragment
-  )> }
-);
+  )> };
 
 
 export const GetFeaturedCommunitiesDocument = gql`
@@ -99,154 +96,3 @@ export function useGetFeaturedCommunitiesLazyQuery(baseOptions?: ApolloReactHook
 export type GetFeaturedCommunitiesQueryHookResult = ReturnType<typeof useGetFeaturedCommunitiesQuery>;
 export type GetFeaturedCommunitiesLazyQueryHookResult = ReturnType<typeof useGetFeaturedCommunitiesLazyQuery>;
 export type GetFeaturedCommunitiesQueryResult = ApolloReactCommon.QueryResult<GetFeaturedCommunitiesQuery, GetFeaturedCommunitiesQueryVariables>;
-
-      export interface IntrospectionResultData {
-        __schema: {
-          types: {
-            kind: string;
-            name: string;
-            possibleTypes: {
-              name: string;
-            }[];
-          }[];
-        };
-      }
-
-      const result: IntrospectionResultData = {
-  "__schema": {
-    "types": [
-      {
-        "kind": "UNION",
-        "name": "ActivityContext",
-        "possibleTypes": [
-          {
-            "name": "Collection"
-          },
-          {
-            "name": "Comment"
-          },
-          {
-            "name": "Community"
-          },
-          {
-            "name": "Resource"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "FlagContext",
-        "possibleTypes": [
-          {
-            "name": "Collection"
-          },
-          {
-            "name": "Comment"
-          },
-          {
-            "name": "Community"
-          },
-          {
-            "name": "Resource"
-          },
-          {
-            "name": "User"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "LikeContext",
-        "possibleTypes": [
-          {
-            "name": "Collection"
-          },
-          {
-            "name": "Comment"
-          },
-          {
-            "name": "Resource"
-          },
-          {
-            "name": "User"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "ThreadContext",
-        "possibleTypes": [
-          {
-            "name": "Collection"
-          },
-          {
-            "name": "Community"
-          },
-          {
-            "name": "Flag"
-          },
-          {
-            "name": "Resource"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "FollowContext",
-        "possibleTypes": [
-          {
-            "name": "Collection"
-          },
-          {
-            "name": "Community"
-          },
-          {
-            "name": "Thread"
-          },
-          {
-            "name": "User"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "DeleteContext",
-        "possibleTypes": [
-          {
-            "name": "Activity"
-          },
-          {
-            "name": "Collection"
-          },
-          {
-            "name": "Comment"
-          },
-          {
-            "name": "Community"
-          },
-          {
-            "name": "Flag"
-          },
-          {
-            "name": "Follow"
-          },
-          {
-            "name": "Like"
-          },
-          {
-            "name": "Resource"
-          },
-          {
-            "name": "Thread"
-          },
-          {
-            "name": "User"
-          }
-        ]
-      }
-    ]
-  }
-};
-
-      export default result;
-    

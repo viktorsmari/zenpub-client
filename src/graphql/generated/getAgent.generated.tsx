@@ -34,21 +34,8 @@ export type GetAgentQueryQueryVariables = {
 };
 
 
-export type GetAgentQueryQuery = (
-  { __typename?: 'RootQueryType' }
-  & { user: Types.Maybe<(
-    { __typename?: 'User' }
-    & { outbox: (
-      { __typename?: 'ActivitiesEdges' }
-      & { pageInfo: Types.Maybe<(
-        { __typename?: 'PageInfo' }
-        & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-      )>, edges: Array<Types.Maybe<(
-        { __typename?: 'ActivitiesEdge' }
-        & { node: (
-          { __typename?: 'Activity' }
-          & Pick<Types.Activity, 'id' | 'canonicalUrl' | 'verb' | 'isLocal' | 'isPublic' | 'createdAt'>
-          & { user: (
+export type GetAgentQueryQuery = { __typename?: 'RootQueryType', user: Types.Maybe<(
+    { __typename?: 'User', outbox: { __typename?: 'ActivitiesEdges', pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, edges: Array<Types.Maybe<{ __typename?: 'ActivitiesEdge', node: { __typename?: 'Activity', id: string, canonicalUrl: Types.Maybe<string>, verb: Types.ActivityVerb, isLocal: boolean, isPublic: boolean, createdAt: string, user: (
             { __typename?: 'User' }
             & BasicUserFragment
           ), context: (
@@ -63,49 +50,15 @@ export type GetAgentQueryQuery = (
           ) | (
             { __typename?: 'Resource' }
             & BasicResourceFragment
-          ) }
-        ) }
-      )>> }
-    ), followedCommunities: (
-      { __typename?: 'FollowedCommunitiesEdges' }
-      & { pageInfo: Types.Maybe<(
-        { __typename?: 'PageInfo' }
-        & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-      )>, edges: Array<Types.Maybe<(
-        { __typename?: 'FollowedCommunitiesEdge' }
-        & { node: (
-          { __typename?: 'FollowedCommunity' }
-          & { follow: (
-            { __typename?: 'Follow' }
-            & Pick<Types.Follow, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'createdAt'>
-          ), community: (
+          ) } }>> }, followedCommunities: { __typename?: 'FollowedCommunitiesEdges', pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, edges: Array<Types.Maybe<{ __typename?: 'FollowedCommunitiesEdge', node: { __typename?: 'FollowedCommunity', follow: { __typename?: 'Follow', id: string, canonicalUrl: Types.Maybe<string>, isLocal: boolean, isPublic: boolean, createdAt: string }, community: (
             { __typename: 'Community' }
             & BasicCommunityFragment
-          ) }
-        ) }
-      )>> }
-    ), followedCollections: (
-      { __typename?: 'FollowedCollectionsEdges' }
-      & { pageInfo: Types.Maybe<(
-        { __typename?: 'PageInfo' }
-        & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-      )>, edges: Array<Types.Maybe<(
-        { __typename?: 'FollowedCollectionsEdge' }
-        & { node: (
-          { __typename?: 'FollowedCollection' }
-          & { follow: (
-            { __typename?: 'Follow' }
-            & Pick<Types.Follow, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'createdAt'>
-          ), collection: (
+          ) } }>> }, followedCollections: { __typename?: 'FollowedCollectionsEdges', pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, edges: Array<Types.Maybe<{ __typename?: 'FollowedCollectionsEdge', node: { __typename?: 'FollowedCollection', follow: { __typename?: 'Follow', id: string, canonicalUrl: Types.Maybe<string>, isLocal: boolean, isPublic: boolean, createdAt: string }, collection: (
             { __typename: 'Collection' }
             & BasicCollectionFragment
-          ) }
-        ) }
-      )>> }
-    ) }
+          ) } }>> } }
     & BasicUserFragment
-  )> }
-);
+  )> };
 
 
 export const GetAgentQueryDocument = gql`
@@ -248,154 +201,3 @@ export function useGetAgentQueryLazyQuery(baseOptions?: ApolloReactHooks.LazyQue
 export type GetAgentQueryQueryHookResult = ReturnType<typeof useGetAgentQueryQuery>;
 export type GetAgentQueryLazyQueryHookResult = ReturnType<typeof useGetAgentQueryLazyQuery>;
 export type GetAgentQueryQueryResult = ApolloReactCommon.QueryResult<GetAgentQueryQuery, GetAgentQueryQueryVariables>;
-
-      export interface IntrospectionResultData {
-        __schema: {
-          types: {
-            kind: string;
-            name: string;
-            possibleTypes: {
-              name: string;
-            }[];
-          }[];
-        };
-      }
-
-      const result: IntrospectionResultData = {
-  "__schema": {
-    "types": [
-      {
-        "kind": "UNION",
-        "name": "ActivityContext",
-        "possibleTypes": [
-          {
-            "name": "Collection"
-          },
-          {
-            "name": "Comment"
-          },
-          {
-            "name": "Community"
-          },
-          {
-            "name": "Resource"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "FlagContext",
-        "possibleTypes": [
-          {
-            "name": "Collection"
-          },
-          {
-            "name": "Comment"
-          },
-          {
-            "name": "Community"
-          },
-          {
-            "name": "Resource"
-          },
-          {
-            "name": "User"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "LikeContext",
-        "possibleTypes": [
-          {
-            "name": "Collection"
-          },
-          {
-            "name": "Comment"
-          },
-          {
-            "name": "Resource"
-          },
-          {
-            "name": "User"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "ThreadContext",
-        "possibleTypes": [
-          {
-            "name": "Collection"
-          },
-          {
-            "name": "Community"
-          },
-          {
-            "name": "Flag"
-          },
-          {
-            "name": "Resource"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "FollowContext",
-        "possibleTypes": [
-          {
-            "name": "Collection"
-          },
-          {
-            "name": "Community"
-          },
-          {
-            "name": "Thread"
-          },
-          {
-            "name": "User"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "DeleteContext",
-        "possibleTypes": [
-          {
-            "name": "Activity"
-          },
-          {
-            "name": "Collection"
-          },
-          {
-            "name": "Comment"
-          },
-          {
-            "name": "Community"
-          },
-          {
-            "name": "Flag"
-          },
-          {
-            "name": "Follow"
-          },
-          {
-            "name": "Like"
-          },
-          {
-            "name": "Resource"
-          },
-          {
-            "name": "Thread"
-          },
-          {
-            "name": "User"
-          }
-        ]
-      }
-    ]
-  }
-};
-
-      export default result;
-    
