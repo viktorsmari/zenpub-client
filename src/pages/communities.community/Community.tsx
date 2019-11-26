@@ -1,37 +1,38 @@
 import { Trans } from '@lingui/macro';
 import React, { SFC, useState } from 'react';
-import { i18nMark } from '@lingui/react';
-import { i18n } from '../../containers/App/App';
+// import { i18nMark } from '@lingui/react';
+// import { i18n } from '../../containers/App/App';
 import { TabPanel, Tabs } from 'react-tabs';
-import { Box, Button, Flex } from 'rebass';
-import CommunityModal from '../../components/elements/CommunityModal';
+import { Box, Button, Flex } from 'rebass/styled-components';
+import CreateCollectionModal from '../../components/elements/CreateCollectionModal';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
 import { SocialText } from '../../components/elements/SocialText';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
-import TimelineItem from '../../components/elements/TimelineItem';
-import { useCreateThreadMutationMutation } from '../../generated/graphqlapollo';
+import TimelineItem from '../../components/elements/TimelineItem/index2';
+import { useCreateThreadMutationMutation } from '../../graphql/generated/createThread.generated';
+import { GetCommunityQueryQuery } from '../../graphql/generated/getCommunity.generated';
 import styled from '../../themes/styled';
 
-const tt = {
-  placeholders: {
-    thread: i18nMark('Start a new thread...')
-  }
-};
+// const tt = {
+//   placeholders: {
+//     thread: i18nMark('Start a new thread...')
+//   }
+// };
 interface Props {
   collections: any;
-  community: any;
+  followed: boolean;
+  id: string;
   fetchMore: any;
-  type: string;
-  match: any;
+  community: GetCommunityQueryQuery['community'];
   refetch: () => unknown;
 }
 
 const CommunityPage: SFC<Props> = ({
   collections,
+  id,
+  followed,
   community,
   fetchMore,
-  match,
-  type,
   refetch
 }) => {
   const [createThreadMutation] = useCreateThreadMutationMutation();
@@ -42,14 +43,14 @@ const CommunityPage: SFC<Props> = ({
       createThreadMutation({
         variables: {
           comment: { content: newThreadText },
-          id: community.localId
+          contextId: id
         }
       }).then(() => {
         socialTextRef.current && (socialTextRef.current.value = '');
         refetch();
       });
     },
-    [newThreadText, community.localId]
+    [newThreadText, id]
   );
   const socialTextRef = React.useRef<HTMLTextAreaElement>();
   const setNewThreadTextInput = React.useCallback(
@@ -59,64 +60,75 @@ const CommunityPage: SFC<Props> = ({
     []
   );
   return (
-    <WrapperTab>
-      <OverlayTab>
-        <Tabs defaultIndex={1}>
-          <SuperTabList>
-            <SuperTab>
-              <h5>
-                <Trans>Recent activities</Trans>
-              </h5>
-            </SuperTab>
-            <SuperTab>
-              <h5>
-                <Trans>Collections</Trans>
-              </h5>
-            </SuperTab>
-            {/* <SuperTab>
-            <h5>
-              <Trans>Discussions</Trans>
-            </h5>
-          </SuperTab> */}
-          </SuperTabList>
-          <TabPanel>
-            <Box m={3}>
-              <SocialText
-                onInput={setNewThreadTextInput}
-                reference={socialTextRef}
-                submit={addNewThread}
-                placeholder={i18n._(tt.placeholders.thread)}
-              />
-            </Box>
-            <div>
-              {community.inbox.edges.map((t, i) => (
-                <TimelineItem node={t.node} user={t.node.user} key={i} />
-              ))}
-              <div style={{ padding: '8px' }}>
+    community && (
+      <WrapperTab>
+        <OverlayTab>
+          <Tabs defaultIndex={1}>
+            <SuperTabList>
+              <SuperTab>
+                <h5>
+                  <Trans>Recent activities</Trans>
+                </h5>
+              </SuperTab>
+              <SuperTab>
+                <h5>
+                  <Trans>Collections</Trans>
+                </h5>
+              </SuperTab>
+            </SuperTabList>
+            <TabPanel>
+              {followed ? (
+                <>
+                  <Overlay />
+                  <WrapperBox p={3}>
+                    <SocialText
+                      onInput={setNewThreadTextInput}
+                      reference={socialTextRef}
+                      submit={addNewThread}
+                      placeholder="Start a new thread..."
+                    />
+                  </WrapperBox>
+                </>
+              ) : null}
+              <div>
+                {community.outbox.edges.map(
+                  (t, i) =>
+                    t && (
+                      <TimelineItem
+                        context={t.node.context}
+                        user={t.node.user}
+                        verb={t.node.verb}
+                        createdAt={t.node.createdAt}
+                        key={i}
+                      />
+                    )
+                )}
                 <LoadMoreTimeline fetchMore={fetchMore} community={community} />
               </div>
-            </div>
-          </TabPanel>
-          <TabPanel>
-            {community.followed ? (
-              <ButtonWrapper>
-                <CreateCollection p={3} onClick={() => onOpen(true)} m={3}>
-                  <Trans>Create a new collection</Trans>
-                </CreateCollection>
-              </ButtonWrapper>
-            ) : null}
-            <div>{collections}</div>
-          </TabPanel>
-        </Tabs>
-      </OverlayTab>
-      <CommunityModal
-        toggleModal={() => onOpen(false)}
-        modalIsOpen={isOpen}
-        communityId={community.localId}
-      />
-    </WrapperTab>
+            </TabPanel>
+            <TabPanel>
+              {
+                /*FIXME followed ? */ <ButtonWrapper>
+                  <CreateCollection p={3} onClick={() => onOpen(true)} m={3}>
+                    <Trans>Create a new collection</Trans>
+                  </CreateCollection>
+                </ButtonWrapper> /*FIXME : null */
+              }
+              <div>{collections}</div>
+            </TabPanel>
+          </Tabs>
+        </OverlayTab>
+        <CreateCollectionModal
+          toggleModal={() => onOpen(false)}
+          modalIsOpen={isOpen}
+          communityId={id}
+        />
+      </WrapperTab>
+    )
   );
 };
+
+const Overlay = styled(Box)``;
 
 export const Footer = styled.div`
   height: 30px;
@@ -125,12 +137,16 @@ export const Footer = styled.div`
   text-align: center;
   background: #ffefd9;
   font-size: 13px;
-  border-bottom: 1px solid ${props => props.theme.styles.colour.divider};
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
   color: #544f46;
 `;
 
+const WrapperBox = styled(Box)`
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+`;
+
 const ButtonWrapper = styled(Flex)`
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
 `;
 
 const CreateCollection = styled(Button)`
@@ -139,16 +155,16 @@ const CreateCollection = styled(Button)`
   font-weight: 600;
   cursor: pointer;
   flex: 1;
-  border: 1px solid ${props => props.theme.styles.colors.lightgray} !important;
+  border: 1px solid ${props => props.theme.colors.lightgray} !important;
   background: none;
   font-weight: 600;
-  color: ${props => props.theme.styles.colors.darkgray} !important;
+  color: ${props => props.theme.colors.darkgray} !important;
   cursor: pointer;
-  padding: 16px;
+  height: 50px;
   text-transform: uppercase;
   font-size: 14px !important;
   &:hover {
-    background: ${props => props.theme.styles.colors.lightgray};
+    background: ${props => props.theme.colors.lightgray};
   }
 `;
 
@@ -159,10 +175,7 @@ export const WrapperTab = styled.div`
   border-radius: 6px;
   height: 100%;
   box-sizing: border-box;
-  margin-bottom: 16px;
-  border-radius: 6px;
-  box-sizing: border-box;
-  background: ${props => props.theme.styles.colour.secondaryBg};
+  background: #fff;
 `;
 export const OverlayTab = styled.div`
   height: 100%;

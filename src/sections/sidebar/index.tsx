@@ -5,14 +5,15 @@ import { Globe } from 'react-feather';
 import { SearchBox } from 'react-instantsearch-dom';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { NavLink } from 'react-router-dom';
-import { Box, Flex, Image, Text } from 'rebass';
+import { Box, Flex, Image, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import Loader from '../../components/elements/Loader/Loader';
-import { GetSidebarQueryQueryResult } from '../../generated/graphqlapollo';
-import Avatar from '../../styleguide/avatar';
 import styled from '../../themes/styled';
 import Dropdown from './dropdown';
 import { LocaleContext } from '../../containers/App/App';
+import { MoreHorizontal } from 'react-feather';
+import { GetSidebarQueryQueryResult } from '../../graphql/generated/getSidebar.generated';
+import Empty from '../../components/elements/Empty';
 
 const MnetLogo = require('./moodle-logo.png');
 const SidebarComponent = styled(Flex)`
@@ -28,40 +29,55 @@ const SidebarComponent = styled(Flex)`
   padding: 0px;
   position: relative;
   overflow-y: auto;
+  ${media.lessThan('860px')`
+  `};
 `;
 
-const InternalWrapper = styled(Box)`
-${media.greaterThan('1281px')`
-  width: 300px !important;
-`}
-${media.lessThan('1280px')`
-  width: 88px;
-`}
-${media.lessThan('10240px')`
-  width: 68px;
-`}
+const InternalWrapper = styled(Box)<{ isOpen: boolean }>`
+  transition: 'all 250ms ease';
+  ${media.greaterThan('1281px')`
+    width: 300px !important;
+  `}
+  ${media.lessThan('1280px')`
+    width: 88px;
+  `}
+  ${media.lessThan('10240px')`
+    width: 68px;
+  `}
+  ${media.lessThan('860px')`
+    position: relative;
+    left: ${props => (props.isOpen ? '0' : '-300px')};
+    width: ${props => (props.isOpen ? '100%' : '0')};
+  `}
 `;
 
 const SidebarFixed = styled(Box)`
   justify-content: space-between;
   height: 100%;
   position: fixed;
-  top: 16px;
+  top: 0px;
   display: flex;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 6px;
+  width: 295px;
+  ${media.lessThan('1280px')`
+    width: auto;
+  `} ${media.lessThan('860px')`
+    position: relative;
+    width: 100%
+  `};
 `;
 
 const SidebarOverflow = styled(Box)`
   overflow-y: auto;
+  flex: 1;
 `;
 
-const Header = styled(Flex)`
+const Header = styled(Box)`
   cursor: pointer;
-  padding-left: 8px;
   img {
-    width: 36px;
+    min-width: 36px;
     height: 36px;
+    border-radius: 36px;
   }
   input {
     margin: 0 8px !important;
@@ -73,16 +89,20 @@ const Header = styled(Flex)`
   }
 `;
 const Nav = styled(Box)`
-  // border-top: 4px solid ${props => props.theme.styles.colors.lightgray};
+  // border-top: 4px solid ${props => props.theme.colors.lightgray};
   a {
     text-decoration: none;
   }
 `;
 
 const CommunityLink = styled(NavLink)`
+  img {
+    width: 36px;
+    height: 36px;
+  }
   &.active {
     > div {
-      background: ${props => props.theme.styles.colors.orange};
+      background: ${props => props.theme.colors.orange};
     }
     div {
       color: white !important;
@@ -94,8 +114,12 @@ const CommunityLink = styled(NavLink)`
 const SidebarLink = styled(NavLink)`
   position: relative;
   color: inherit;
+  img {
+    width: 36px;
+    height: 36px;
+  }
   &.active {
-    color: ${props => props.theme.styles.colors.orange};
+    color: ${props => props.theme.colors.orange};
     position: relative;
     &:before {
       position: absolute;
@@ -106,12 +130,11 @@ const SidebarLink = styled(NavLink)`
       border-radius: 100px;
       height: 8px;
       display: block;
-      background: ${props => props.theme.styles.colors.orange};
+      background: ${props => props.theme.colors.orange};
     }
   }
   div {
-    color: ${props =>
-      props.isActive ? props.theme.styles.colors.orange : 'inherit'};
+    color: ${props => (props.isActive ? props.theme.colors.orange : 'inherit')};
   }
 `;
 
@@ -119,7 +142,7 @@ const NavItem = styled(Flex)`
   border-radius: 4px;
   padding: 8px;
   &:hover {
-    background: ${props => props.theme.styles.colors.lightgray};
+    background: ${props => props.theme.colors.lightgray};
   }
   ${media.lessThan('1280px')`
   img {
@@ -129,8 +152,12 @@ const NavItem = styled(Flex)`
 `;
 
 const ItemTitle = styled(Text)`
-  color: ${props => props.theme.styles.colors.darkgray};
-  ${ellipsis('220px')} ${media.lessThan('1280px')`
+  a:focus,
+  a:active {
+    color: inherit;
+  }
+  ${ellipsis('220px')};
+  ${media.lessThan('1280px')`
   display: none;
 `};
 `;
@@ -145,140 +172,146 @@ const Layer = styled.div`
   display: block;
 `;
 
-const Sbox = styled(Box)`
-  width: 100%;
+const Right = styled(Box)`
+  color: ${props => props.theme.colors.gray};
   ${media.lessThan('1280px')`
- display: none;
+    display: none;
+  `};
+`;
+
+const Sbox = styled(Box)`
+  ${media.lessThan('1280px')`
+    display: none;
+  `};
+`;
+
+// const HeaderProfile = styled(Flex)``
+
+const HeaderName = styled(Text)`
+  flex: 1;
+  ${ellipsis('220px')};
+  ${media.lessThan('1280px')`
+  display: none;
 `};
 `;
 
 interface Props {
   resp: GetSidebarQueryQueryResult;
+  isOpen: boolean;
 }
-const Sidebar: React.FC<Props> = ({ resp }) => {
+const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
   const [menuIsOpen, setMenuIsOpen] = React.useState(false);
   const closeMenu = React.useCallback(() => setMenuIsOpen(false), []);
   const openMenu = React.useCallback(() => setMenuIsOpen(true), []);
   const { data } = resp;
-  return resp.error ? (
-    <span>
-      <Trans>Error loading communities</Trans>
-    </span>
-  ) : resp.loading ? (
-    <Loader />
-  ) : (
+  return (
     <SidebarComponent>
-      <InternalWrapper>
+      <InternalWrapper isOpen={isOpen}>
         <SidebarFixed>
           <LocaleContext.Consumer>
             {value => (
-              <SidebarOverflow>
-                <Header alignItems={'center'}>
-                  <Avatar
-                    onClick={openMenu}
-                    src={data!.me!.user!.icon!}
-                    // name={props.data.me.user.name}
-                  />
-                  <Sbox>
-                    <SearchBox />
-                  </Sbox>
-                  {/* <Input placeholder="Search" /> */}
-                  {menuIsOpen ? (
-                    <>
-                      <OutsideClickHandler onOutsideClick={closeMenu}>
-                        <Dropdown />
-                      </OutsideClickHandler>
-                      <Layer />
-                    </>
-                  ) : null}
-                  {/* <Input placeholder={"Search here"} /> */}
-                </Header>
-                <Nav pt={3}>
-                  <SidebarLink exact to={'/discover'}>
-                    <NavItem mb={3} alignItems={'center'}>
-                      <Globe size={36} />
-                      {value.contentDirection == 'ltr' ? (
-                        <ItemTitle
-                          ml={2}
-                          fontSize={2}
-                          fontWeight={600}
-                          width={1}
-                        >
-                          <Trans>Discover</Trans>
-                        </ItemTitle>
-                      ) : (
-                        <ItemTitle
-                          mr={2}
-                          fontSize={2}
-                          fontWeight={600}
-                          width={1}
-                        >
-                          <Trans>Discover</Trans>
-                        </ItemTitle>
-                      )}
-                    </NavItem>
-                  </SidebarLink>
-                  <SidebarLink exact to={'/'}>
-                    <NavItem mb={3} alignItems={'center'}>
-                      {value.contentDirection == 'ltr' ? (
+              <SidebarOverflow pt={3}>
+                {!data ? (
+                  resp.error ? (
+                    <Empty>
+                      <Trans>Error loading the sidebar</Trans>
+                    </Empty>
+                  ) : resp.loading ? (
+                    <Loader />
+                  ) : null
+                ) : !data.me ? null : (
+                  <>
+                    <Header alignItems={'center'}>
+                      <Sbox ml={2} mb={3}>
+                        <SearchBox />
+                      </Sbox>
+                      <NavItem alignItems="center" onClick={openMenu}>
                         <Image
-                          mr={2}
-                          borderRadius={4}
-                          height={36}
-                          width={36}
-                          src={MnetLogo}
+                          src={data.me.user.icon}
+                          // name={props.data.me.user.name}
                         />
-                      ) : (
-                        <Image
-                          ml={2}
-                          borderRadius={4}
-                          height={36}
-                          width={36}
-                          src={MnetLogo}
-                        />
-                      )}
-                      <ItemTitle fontSize={2} fontWeight={600} width={1}>
-                        <Trans>My MoodleNet</Trans>
-                      </ItemTitle>
-                    </NavItem>
-                  </SidebarLink>
-                </Nav>
-                <Nav>
-                  {data!.me!.user!.joinedCommunities!.edges!.map(
-                    userJoinedCommunitiesEdge => (
-                      <CommunityLink
-                        key={userJoinedCommunitiesEdge!.node!.localId!}
-                        to={
-                          '/communities/' +
-                          userJoinedCommunitiesEdge!.node!.localId!
-                        }
-                      >
-                        <NavItem alignItems={'center'} mb={2}>
+                        {value.contentDirection == 'ltr' ? (
+                          <HeaderName ml={2} variant="link">
+                            {data.me.user.name}
+                          </HeaderName>
+                        ) : (
+                          <HeaderName mr={2} variant="link">
+                            {data.me.user.name}
+                          </HeaderName>
+                        )}
+                        <Right>
+                          <MoreHorizontal size="20" />
+                        </Right>
+                      </NavItem>
+                      {/* <Input placeholder="Search" /> */}
+                      {menuIsOpen ? (
+                        <>
+                          <OutsideClickHandler onOutsideClick={closeMenu}>
+                            <Dropdown />
+                          </OutsideClickHandler>
+                          <Layer />
+                        </>
+                      ) : null}
+                      {/* <Input placeholder={"Search here"} /> */}
+                    </Header>
+                    <Nav pt={3}>
+                      <SidebarLink exact to={'/discover'}>
+                        <NavItem mb={3} alignItems={'center'}>
+                          <Globe size={36} />
                           {value.contentDirection == 'ltr' ? (
-                            <Image
-                              mr={2}
-                              borderRadius={4}
-                              height={36}
-                              width={36}
-                              src={userJoinedCommunitiesEdge!.node!.icon!}
-                            />
+                            <ItemTitle ml={2} variant="link">
+                              <Trans>Discover</Trans>
+                            </ItemTitle>
                           ) : (
-                            <Image
-                              ml={2}
-                              borderRadius={4}
-                              height={36}
-                              width={36}
-                              src={userJoinedCommunitiesEdge!.node!.icon!}
-                            />
+                            <ItemTitle mr={2} variant="link">
+                              <Trans>Discover</Trans>
+                            </ItemTitle>
                           )}
-                          <ItemTitle fontSize={1} fontWeight={600}>
-                            {userJoinedCommunitiesEdge!.node!.name}
+                        </NavItem>
+                      </SidebarLink>
+                      <SidebarLink exact to={'/'}>
+                        <NavItem mb={3} alignItems={'center'}>
+                          {value.contentDirection == 'ltr' ? (
+                            <Image mr={2} width={'40px'} src={MnetLogo} />
+                          ) : (
+                            <Image mr={2} width={'40px'} src={MnetLogo} />
+                          )}
+                          <ItemTitle variant="link">
+                            <Trans>My MoodleNet</Trans>
                           </ItemTitle>
                         </NavItem>
-                      </CommunityLink>
-                    )
-                  )}
-                </Nav>
+                      </SidebarLink>
+                    </Nav>
+                    <Nav>
+                      {data.me.user.followedCommunities.edges.map(
+                        userJoinedCommunitiesEdge => {
+                          if (!userJoinedCommunitiesEdge) {
+                            return null;
+                          }
+                          const community =
+                            userJoinedCommunitiesEdge.node.community;
+                          return (
+                            <CommunityLink
+                              key={community.id}
+                              to={'/communities/' + community.id}
+                            >
+                              <NavItem alignItems={'center'} mb={2}>
+                                {value.contentDirection == 'ltr' ? (
+                                  <Image mr={2} src={community.icon} />
+                                ) : (
+                                  <Image ml={2} src={community.icon} />
+                                )}
+                                <ItemTitle variant="link">
+                                  {community.name}
+                                </ItemTitle>
+                              </NavItem>
+                            </CommunityLink>
+                          );
+                        }
+                      )}
+                    </Nav>
+                  </>
+                )}
               </SidebarOverflow>
             )}
           </LocaleContext.Consumer>

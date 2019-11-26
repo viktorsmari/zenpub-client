@@ -1,38 +1,43 @@
 import { Trans } from '@lingui/macro';
 import React from 'react';
-import { graphql, QueryControls, OperationOption } from 'react-apollo';
+import { NavLink } from 'react-router-dom';
 // import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
-import { compose } from 'recompose';
 import Loader from '../../components/elements/Loader/Loader';
 import LoadMoreTimeline from '../../components/elements/Loadmore/localInstance';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
-import TimelineItem from '../../components/elements/TimelineItem';
+import TimelineItem from '../../components/elements/TimelineItem/index2';
 import FeaturedCollections from '../../components/featuredCollections';
 import FeaturedCommunities from '../../components/featuredCommunities';
-import styled from '../../themes/styled';
-import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
+import { Flex } from 'rebass/styled-components';
 import {
-  WrapperPanel,
+  Nav,
+  NavItem,
   Panel,
   PanelTitle,
-  Nav,
-  NavItem
+  WrapperPanel
 } from '../../sections/panel';
-import { NavLink } from 'react-router-dom';
+import styled from '../../themes/styled';
+import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
+import { useLocalActivitiesQuery } from '../../graphql/generated/localActivities.generated';
+import { useInterceptor } from '../../context/global/apolloInterceptorCtx';
+import Empty from '../../components/elements/Empty';
 
-const localActivities = require('../../graphql/localActivities.graphql');
-
-interface Data extends QueryControls {
-  localActivities: any;
-}
-
-interface Props {
-  data: Data;
-}
+interface Props {}
 
 const Home: React.FC<Props> = props => {
+  const { error, loading, refetch, data, fetchMore } = useLocalActivitiesQuery({
+    variables: {
+      limit: 15
+    }
+  });
+  useInterceptor({ operation: 'createReply', request: () => () => refetch() });
+  useInterceptor({ operation: 'like', request: () => () => refetch() });
+  useInterceptor({
+    operation: 'delete',
+    request: () => () => refetch()
+  });
   return (
     <MainContainer>
       <HomeBox>
@@ -40,7 +45,7 @@ const Home: React.FC<Props> = props => {
           <WrapperFeatured>
             <FeaturedCollections />
           </WrapperFeatured>
-          <WrapperFeatured>
+          <WrapperFeatured mt={2}>
             <FeaturedCommunities />
           </WrapperFeatured>
           <Wrapper>
@@ -56,24 +61,34 @@ const Home: React.FC<Props> = props => {
                 </SuperTab>
               </SuperTabList>
               <TabPanel>
-                {props.data.error ? (
-                  <span>
-                    <Trans>{props.data.error}</Trans>
-                  </span>
-                ) : props.data.loading ? (
+                {error ? (
+                  <Empty>
+                    <Trans>{/* error */}</Trans>
+                  </Empty>
+                ) : loading ? (
                   <Loader />
                 ) : (
-                  <div>
-                    {props.data.localActivities.nodes.map((t, i) => (
-                      <TimelineItem node={t} user={t.user} key={i} />
-                    ))}
-                    <div style={{ padding: '8px' }}>
+                  data &&
+                  data.instance && (
+                    <div>
+                      {data.instance.outbox.edges.map(
+                        activity =>
+                          activity && (
+                            <TimelineItem
+                              verb={activity.node.verb}
+                              context={activity.node.context}
+                              user={activity.node.user}
+                              key={activity.node.id}
+                              createdAt={activity.node.createdAt}
+                            />
+                          )
+                      )}
                       <LoadMoreTimeline
-                        fetchMore={props.data.fetchMore}
-                        localInstance={props.data.localActivities}
+                        fetchMore={fetchMore}
+                        outbox={data.instance.outbox}
                       />
                     </div>
-                  </div>
+                  )
                 )}
               </TabPanel>
             </Tabs>
@@ -105,19 +120,19 @@ const Home: React.FC<Props> = props => {
           </PanelTitle>
           <Nav>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#learningdesign</Trans>
+              <Trans>#pedagogy</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#MPI</Trans>
+              <Trans>#transition</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#Youtube</Trans>
+              <Trans>#english</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#models</Trans>
+              <Trans>#template</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#ADDIE</Trans>
+              <Trans>#assessment</Trans>
             </NavItem>
           </Nav>
         </Panel>
@@ -128,19 +143,19 @@ const Home: React.FC<Props> = props => {
           </PanelTitle>
           <Nav>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#learningdesign</Trans>
+              <Trans>#pedagogy</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#MPI</Trans>
+              <Trans>#transition</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#Youtube</Trans>
+              <Trans>#english</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#models</Trans>
+              <Trans>#template</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#ADDIE</Trans>
+              <Trans>#assessment</Trans>
             </NavItem>
           </Nav>
         </Panel>
@@ -149,26 +164,10 @@ const Home: React.FC<Props> = props => {
   );
 };
 
-const WrapperFeatured = styled.div`
+const WrapperFeatured = styled(Flex)`
   display: flex;
   flex-direction: column;
   flex: 1;
-  margin-top: 8px;
 `;
 
-const withGetInbox = graphql<
-  {},
-  {
-    data: {
-      localActivities: any;
-    };
-  }
->(localActivities, {
-  options: (props: Props) => ({
-    variables: {
-      limit: 15
-    }
-  })
-}) as OperationOption<{}, {}>;
-
-export default compose(withGetInbox)(Home);
+export default Home;

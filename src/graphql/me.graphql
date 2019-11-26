@@ -3,12 +3,21 @@ query meQuery {
         email
         user {
             id
-            name
+            canonicalUrl
             preferredUsername
+            name
             location
             icon
             image
             summary
+            location
+            website
+            isLocal
+            isPublic
+            isDisabled
+            createdAt
+            updatedAt
+            lastActivity
         }
     }
 }

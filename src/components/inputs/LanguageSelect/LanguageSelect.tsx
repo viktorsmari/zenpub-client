@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { LocaleContext, locale_default } from '../../../containers/App/App';
 import Select from 'react-select';
+import { LocaleContext, locale_default } from '../../../containers/App/App';
 
 type LanguageSelectState = {
-  selectedKey?: string;
+  stateLocale: string;
 };
 
 type LanguageSelectProps = {
@@ -20,12 +20,16 @@ export const languageNames = {
   eu: 'Euskara'
 };
 
-let options: any[] = [];
+type LangKey = keyof typeof languageNames;
 
-Object.keys(languageNames).forEach(key => {
-  console.log(languageNames[key]);
-  options.push({ value: key, label: languageNames[key] });
-});
+// Object.keys(languageNames).forEach(key => {
+//   console.log(languageNames[key]);
+//   options.push({ value: key, label: languageNames[key] });
+// });
+const options = Object.keys(languageNames).map((key: LangKey) => ({
+  value: key,
+  label: languageNames[key]
+}));
 
 /**
  * LanguageSelect component.
@@ -36,7 +40,7 @@ export default class LanguageSelect extends React.Component<
   LanguageSelectState
 > {
   state = {
-    selectedKey: locale_default
+    stateLocale: locale_default
   };
   constructor(props) {
     super(props);
@@ -47,13 +51,23 @@ export default class LanguageSelect extends React.Component<
       <LocaleContext.Consumer>
         {({ setLocale, locale }) => (
           <Select
-            defaultValue={locale}
+            options={options}
+            defaultValue={options.find(_ => _.value === locale)}
             onChange={selectedKey => {
               console.log(locale);
-              setLocale(selectedKey.value);
-              this.setState({ selectedKey: selectedKey.value });
+              // setLocale(selectedKey.value);
+              // this.setState({ selectedKey: selectedKey.value });
+              const selection =
+                !!selectedKey && 'length' in selectedKey
+                  ? selectedKey[0]
+                  : selectedKey;
+              if (!selection) {
+                return;
+              }
+
+              setLocale(selection.value);
+              this.setState({ stateLocale: selection.value });
             }}
-            options={options}
           />
         )}
       </LocaleContext.Consumer>

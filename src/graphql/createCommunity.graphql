@@ -2,15 +2,14 @@
 
 input CommunityInput {
     name: String!
-    summary: String!
-    content: String!
+    summary: String
     preferredUsername: String!
-    primaryLanguage: String
     icon: String
+    image: String
 }
 
 mutation createCommunityMutation($community: CommunityInput!) {
-        createCommunity(community: $community) {
-          ...BasicCommunity
-        }
-      }
+    createCommunity(community: $community) {
+        ...BasicCommunity
+    }
+}

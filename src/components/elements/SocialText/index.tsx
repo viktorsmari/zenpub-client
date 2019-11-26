@@ -10,7 +10,7 @@ import EmojiPicker from 'emoji-picker-react';
 import OutsideClickHandler from 'react-outside-click-handler';
 import styled from 'styled-components';
 import { Textarea } from '@rebass/forms';
-import { Box, Flex } from 'rebass';
+import { Box, Flex } from 'rebass/styled-components';
 import { Smile, Send } from 'react-feather';
 const PickerWrap = styled.div`
   position: absolute;
@@ -26,9 +26,10 @@ const Wrapper = styled.div`
   width: 100%;
   position: relative;
 `;
-const SocialTextDiv = styled.div`
+const SocialTextDiv = styled(Flex)`
   position: relative;
   width: 100%;
+  align-items: center;
 `;
 const SocialTextTrigger = styled(Box)`
   cursor: pointer;
@@ -37,16 +38,21 @@ const SocialTextTrigger = styled(Box)`
 const SocialTextArea = styled(Textarea)`
   height: 60px;
   border-radius: 4px;
-  border: 1px solid ${props => props.theme.styles.colors.lightgray} !important;
+  border: 0px solid ${props => props.theme.colors.lightgray} !important;
   resize: none;
+  flex: 1;
   font-size: 16px !important;
+  &:focus {
+    outline: none;
+  }
   font-family: 'Open Sans', sans-serif !important;
 `;
 
 const SocialActions = styled(Flex)`
-  position: absolute;
-  right: 10px;
-  top: 16px;
+  // position: absolute;
+  // right: 10px;
+  // top: 16px;
+  width: 70px;
   .--rtl & {
     left: 10px;
     right: auto;
@@ -64,14 +70,14 @@ export const SocialText: React.FC<Props> = props => {
   const toggle = useCallback(() => setOpen(!isOpen), [isOpen]);
   const addEmoji = React.useCallback(
     (code, obj) => {
-      //  console.log(code, obj);
+      console.log(code, obj);
       if (!ref.current) {
         return;
       }
       const textarea = ref.current as HTMLTextAreaElement;
       const selectionStart = textarea.selectionStart;
       // const selectionEnd = textarea.selectionEnd
-      const offset = dropEmoji(textarea, obj.name);
+      const offset = dropEmoji(textarea, obj.emoji);
       const pos = selectionStart + offset;
       textarea.focus();
       // console.log([selectionStart,selectionEnd], offset, pos, [textarea.selectionStart, textarea.selectionEnd] )

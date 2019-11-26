@@ -2,7 +2,7 @@ import * as Sess from '.';
 import { Reducer } from 'redux';
 
 export const defaultInitialState: Sess.State = {
-  user: null
+  auth: null
 };
 
 export const reducer = (
@@ -10,11 +10,11 @@ export const reducer = (
 ): Reducer<Sess.State> => (old = initialState, action) => {
   if (Sess.login.is(action)) {
     return {
-      user: action.payload
+      auth: action.payload
     };
   } else if (Sess.logout.is(action)) {
     return {
-      user: null
+      auth: null
     };
   }
   return old;

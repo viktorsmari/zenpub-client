@@ -19,8 +19,14 @@ import {
 } from '../constants';
 
 import { onError } from 'apollo-link-error';
-import { RootMutationType, RootQueryType } from '../generated/graphqlapollo';
-import { OperationDefinitionNode, GraphQLError, FieldNode } from 'graphql';
+import {
+  OperationDefinitionNode,
+  GraphQLError,
+  FieldNode,
+  OperationTypeNode
+} from 'graphql';
+import { RootMutationType, RootQueryType } from '../graphql/types.generated';
+import { i18nMark } from '@lingui/react';
 
 // const { meQuery } = require('../graphql/me.graphql');
 interface Cfg {
@@ -35,17 +41,17 @@ export default async function initialise({ authToken }: Cfg) {
 
   const setTokenLink = new ApolloLink((operation, nextLink) => {
     const createSessionOpName: OperationName = 'createSession';
-    const createUserOpName: OperationName = 'createUser';
     const deleteSessionOpName: OperationName = 'deleteSession';
-    const opName = getOperationName(operation);
-    if (opName === deleteSessionOpName) {
+
+    const [opName] = getOperationNameAndType(operation);
+
+    if (opName && opName === deleteSessionOpName) {
       authToken = undefined;
     }
     return nextLink(operation).map(resp => {
-      if (opName === createUserOpName || opName === createSessionOpName) {
-        const authPyload: ResponseOf<
-          typeof createSessionOpName | typeof createUserOpName
-        > = resp.data && resp.data[opName];
+      if (opName === createSessionOpName) {
+        const authPyload: ResponseOf<typeof createSessionOpName> =
+          resp.data && resp.data[opName];
         authToken =
           authPyload && authPyload.token ? authPyload.token : undefined;
       }
@@ -69,7 +75,7 @@ export default async function initialise({ authToken }: Cfg) {
   });
 
   function handleError(message) {
-    alert(message); //TODO: nicer display of errors
+    //  alert(message); //TODO: nicer display of errors
   }
 
   function handleErrorGraphQL(message, locations, path) {
@@ -124,18 +130,18 @@ export default async function initialise({ authToken }: Cfg) {
     const interceptorOperationResponseHandlers: InterceptorOperationResponseHandler<
       OperationName
     >[] = [];
-    const defOpName = getOperationName(operation);
+    const [defOpName] = getOperationNameAndType(operation);
     if (defOpName) {
       for (const interceptor of operationInterceptors) {
         if (interceptor.operation === defOpName) {
           const interceptorAction = interceptor.request(operation);
           if (interceptorAction === BLOCK_REQUEST) {
+            const error = `Operation ${defOpName} Aborted`;
             interceptorOperationResponseHandlers.forEach(responseHandler =>
-              responseHandler(BLOCK_REQUEST)
+              responseHandler({ data: null, error })
             );
-            const error = new GraphQLError(`Operation ${defOpName} Aborted`);
             const result: FetchResult = {
-              errors: [error],
+              errors: [new GraphQLError(error)],
               data: null,
               context: operation.getContext(),
               extensions: operation.extensions
@@ -150,18 +156,50 @@ export default async function initialise({ authToken }: Cfg) {
 
     return nextLink(operation).map(result => {
       if (defOpName) {
-        interceptorOperationResponseHandlers.forEach(responseHandler =>
-          responseHandler(result.data && result.data[defOpName])
-        );
+        interceptorOperationResponseHandlers.forEach(responseHandler => {
+          let error: string | null = null;
+          let data: any = null;
+          if (result.errors) {
+            error = result.errors.map(err => err.message).join('\n');
+          } else {
+            data = result.data && result.data[defOpName];
+          }
+          responseHandler({ data, error });
+        });
       }
       return result;
     });
   });
 
+  const ALLOWED_ANON_MUTATIONS: OperationName[] = [
+    'createUser',
+    'createSession',
+    'confirmEmail',
+    'usernameAvailable'
+  ];
+  const alertBlockMutationsForAnonymousLink = new ApolloLink(
+    (operation, nextLink) => {
+      if (!authToken) {
+        const [opName, optype] = getOperationNameAndType(operation);
+        if (
+          opName &&
+          optype &&
+          optype === 'mutation' &&
+          !ALLOWED_ANON_MUTATIONS.includes(opName)
+        ) {
+          alert(i18nMark('You should log in for performing this operation!'));
+          return null;
+        }
+      }
+
+      return nextLink(operation);
+    }
+  );
   // used for graphql query and mutations
   const httpLink = ApolloLink.from(
     [
       IS_DEV ? apolloLogger : null,
+      alertBlockMutationsForAnonymousLink,
       oprationInterceptorLink,
       errorLink,
       authLink,
@@ -175,7 +213,6 @@ export default async function initialise({ authToken }: Cfg) {
   const absintheSocket = createAbsintheSocketLink(
     AbsintheSocket.create(new PhoenixSocket(PHOENIX_SOCKET_ENDPOINT))
   );
-
   // if the operation is a subscription then use
   // the absintheSocket otherwise use the httpLink
   const link = ApolloLink.split(
@@ -226,8 +263,11 @@ export type ResponseOf<
 
 export type InterceptorOperationResponseHandler<
   OpName extends OperationName
-> = (response: ResponseOf<OpName> | BlockRequest) => unknown;
-
+> = (response: InterceptorResultOf<OpName>) => unknown;
+export type InterceptorResultOf<OpName extends OperationName> = {
+  data: ResponseOf<OpName>;
+  error: null | string;
+};
 export type Interceptor<OpName extends OperationName> = {
   operation: OpName;
   request: (
@@ -237,28 +277,31 @@ export type Interceptor<OpName extends OperationName> = {
 export const BLOCK_REQUEST = Symbol();
 export type BlockRequest = typeof BLOCK_REQUEST;
 
-export const getOperationName = (
+export const getOperationNameAndType = (
   operation: Operation
-): OperationName | null => {
+): [OperationName, OperationTypeNode] | [] => {
   const opDefNodes = operation.query.definitions.filter(
     (def): def is OperationDefinitionNode => def.kind === 'OperationDefinition'
   );
-  const maybeOperationName = opDefNodes.reduce<string | undefined>(
-    (found, opDefNode) => {
-      if (!found) {
-        const maybeFieldNode = opDefNode.selectionSet.selections.find(
-          (selNode): selNode is FieldNode => selNode.kind === 'Field'
-        );
-        found = maybeFieldNode && maybeFieldNode.name.value;
-      }
-      return found;
-    },
-    undefined
-  );
 
-  if (!maybeOperationName) {
-    return null;
-  }
-  const opName = maybeOperationName as OperationName;
-  return opName;
+  const maybeOperationNameAndType = opDefNodes.reduce<
+    [OperationName, OperationTypeNode] | null
+  >((found, opDefNode) => {
+    if (!found) {
+      const maybeFieldNode =
+        opDefNode.selectionSet.selections.find(
+          (selNode): selNode is FieldNode => selNode.kind === 'Field'
+        ) || null;
+      const opType = opDefNode.operation;
+      found =
+        maybeFieldNode &&
+        ([maybeFieldNode.name.value, opType] as [
+          OperationName,
+          OperationTypeNode
+        ]);
+    }
+    return found;
+  }, null);
+
+  return maybeOperationNameAndType || [];
 };

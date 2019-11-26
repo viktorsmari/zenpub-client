@@ -1,78 +1,69 @@
 import * as React from 'react';
 import styled from '../../../themes/styled';
-import CollectionType from '../../../types/Collection';
 import { Link } from 'react-router-dom';
 import { Resource } from '../Icons';
-import { Flex, Text, Heading } from 'rebass';
+import { Flex, Text, Heading } from 'rebass/styled-components';
+// import { BasicCollectionFragment } from '../../../graphql/fragments/generated/basicCollection.generated';
 const PlaceholderImg = require('../Icons/collectionPlaceholder.png');
 
 interface CollectionProps {
-  collection: CollectionType;
-  openModal: any;
-  communityId: string;
+  collection: any;
 }
 /**
  * Collection component.
  */
+const Component: React.SFC<CollectionProps> = ({ collection }) => (
+  <Wrapper p={3}>
+    <Link
+      to={
+        collection.id
+          ? `/collections/${collection.id}`
+          : `/collections/federate?url=${encodeURI(collection.id)}`
+      }
+    >
+      <Img
+        style={{
+          backgroundImage: `url(${collection.icon || PlaceholderImg})`
+        }}
+      />
+      <Infos>
+        <Title>
+          {collection.name.length > 80
+            ? collection.name.replace(/^(.{76}[^\s]*).*/, '$1...')
+            : collection.name}
+        </Title>
 
-export default ({ collection, communityId, openModal }: CollectionProps) => {
-  return (
-    <Wrapper mb={2} p={2}>
-      <Link
-        to={
-          collection.localId
-            ? `/communities/${communityId}/collections/${collection.localId}`
-            : `/communities/${communityId}/collections/federate?url=${encodeURI(
-                collection.id
-              )}`
-        }
-      >
-        <Img
-          style={{
-            backgroundImage: `url(${collection.icon || PlaceholderImg})`
-          }}
-        />
-        <Infos>
-          <Title>
-            {collection.name.length > 80
-              ? collection.name.replace(/^(.{76}[^\s]*).*/, '$1...')
-              : collection.name}
-          </Title>
-          <Desc mt={2}>
-            {collection.summary.length > 320
-              ? collection.summary.replace(
-                  /^([\s\S]{316}[^\s]*)[\s\S]*/,
-                  '$1...'
-                )
-              : collection.summary}
-          </Desc>
-          <Actions>
-            <ActionItem>
-              <Resource
-                width={18}
-                height={18}
-                strokeWidth={2}
-                color={'#8b98a2'}
-              />
-              {(collection.resources && collection.resources.totalCount) || 0}{' '}
-            </ActionItem>
-          </Actions>
-        </Infos>
-      </Link>
-    </Wrapper>
-  );
-};
+        <Text variant="text" mt={2} mb={3}>
+          {collection.summary && collection.summary.length > 320
+            ? collection.summary.replace(/^([\s\S]{316}[^\s]*)[\s\S]*/, '$1...')
+            : collection.summary}
+        </Text>
+        <Actions>
+          <ActionItem>
+            <Resource
+              width={18}
+              height={18}
+              strokeWidth={2}
+              color={'#8b98a2'}
+            />
+            {(collection.resources && collection.resources.totalCount) || 0}{' '}
+          </ActionItem>
+        </Actions>
+      </Infos>
+    </Link>
+  </Wrapper>
+);
 
 const Actions = styled.div`
   display: inline-block;
   position: absolute;
-  bottom: 0;
+  bottom: -10px;
 `;
 const ActionItem = styled.div`
   display: inline-block;
   font-size: 14px;
   font-weight: 600;
-  color: ${props => props.theme.styles.colour.collectionIcon};
+  color: ${props => props.theme.colors.gray};
   text-transform: uppercase;
   & svg {
     vertical-align: sub;
@@ -88,7 +79,7 @@ const ActionItem = styled.div`
 const Wrapper = styled(Flex)`
   cursor: pointer;
   position: relative;
-  border-bottom: 4px solid ${props => props.theme.styles.colors.lighter};
+  border-bottom: 4px solid ${props => props.theme.colors.lighter};
   & a {
     display: flex;
     color: inherit;
@@ -98,7 +89,7 @@ const Wrapper = styled(Flex)`
   }
   &:hover {
     border-radius: 4px;
-    background: ${props => props.theme.styles.colors.lighter};
+    background: ${props => props.theme.colors.lighter};
   }
 `;
 const Img = styled.div`
@@ -123,13 +114,8 @@ const Infos = styled.div`
   position: relative;
 `;
 const Title = styled(Heading)`
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
   font-size: 20px;
 `;
-const Desc = styled(Text)`
-  color: ${props => props.theme.styles.colors.darkgray};
-  line-height: 20px;
-  margin-bottom: 26px !important;
-`;
 
-// export default Collection;
+export default Component;

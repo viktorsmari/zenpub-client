@@ -9,15 +9,16 @@ import {
   ContainerForm,
   Header
 } from '../Modal/modal';
-import { Heading } from 'rebass';
+import { Heading } from 'rebass/styled-components';
 import { Input, Textarea } from '@rebass/forms';
-import { Button } from 'rebass';
+import { Button } from 'rebass/styled-components';
 import { compose } from 'recompose';
 import { withFormik, FormikProps, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import Alert from '../../elements/Alert';
 import { graphql, OperationOption } from 'react-apollo';
-import Collection from '../../../types/Collection';
+import { UpdateCollectionMutationMutationVariables } from '../../../graphql/generated/updateCollection.generated';
+import { Collection } from '../../../graphql/types.generated';
 const {
   updateCollectionMutation
 } = require('../../../graphql/updateCollection.graphql');
@@ -44,6 +45,7 @@ interface MyFormProps {
   updateCollection: any;
   toggleModal: any;
   collection: Collection;
+  collectionUpdated(): unknown;
 }
 
 const withUpdateCollection = graphql<{}>(updateCollectionMutation, {
@@ -51,8 +53,11 @@ const withUpdateCollection = graphql<{}>(updateCollectionMutation, {
   // TODO enforce proper types for OperationOption
 } as OperationOption<{}, {}>);
 
-const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
+const CreateCommunityModal = (
+  props: Props & FormikProps<FormValues> & MyFormProps
+) => {
   const { toggleModal, modalIsOpen, errors, touched, isSubmitting } = props;
+
   return (
     <Modal isOpen={modalIsOpen} toggleModal={toggleModal}>
       <Container>
@@ -72,7 +77,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                 render={({ field }) => (
                   <>
                     <Input
-                      // placeholder="The name of the collection..."
+                      placeholder="The name of the collection..."
                       name={field.name}
                       value={field.value}
                       onChange={field.onChange}
@@ -94,7 +99,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
                 render={({ field }) => (
                   <>
                     <Textarea
-                      // placeholder="What the collection is about..."
+                      placeholder="What the collection is about..."
                       name={field.name}
                       value={field.value}
                       onChange={field.onChange}
@@ -152,13 +157,12 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
     image: Yup.string().url()
   }),
   handleSubmit: (values, { props, setSubmitting }) => {
-    const variables = {
-      collectionId: Number(props.collectionId),
+    const variables: UpdateCollectionMutationMutationVariables = {
+      collectionId: props.collectionId,
       collection: {
         name: values.name,
         preferredUsername: values.name,
         summary: values.summary,
-        content: values.summary,
         icon: values.image
       }
     };
@@ -168,6 +172,7 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
       })
       .then(res => {
         setSubmitting(false);
+        props.collectionUpdated();
         props.toggleModal();
       })
       .catch(err => console.log(err));

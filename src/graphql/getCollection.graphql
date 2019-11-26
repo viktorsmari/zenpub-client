@@ -1,21 +1,16 @@
 #import "./fragments/basicCollection.graphql"
+#import "./fragments/basicResource.graphql"
 
-query getCollection($id: Int!) {
-  collection(localId: $id) {
+query getCollection($id: String!) {
+  collection(collectionId: $id) {
     ...BasicCollection
     resources {
       totalCount
       edges {
         node {
-          id
-          localId
-          name
-          summary
-          url
-          icon
+          ...BasicResource
         }
       }
-      
     }
   }
 }

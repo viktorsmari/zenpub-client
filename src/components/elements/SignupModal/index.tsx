@@ -7,12 +7,30 @@ import * as Yup from 'yup';
 import { i18n } from '../../../containers/App/App';
 import Alert from '../../elements/Alert';
 import { Input } from '@rebass/forms';
-import { Heading } from 'rebass';
-import Button from '../Button/Button';
+import { Heading, Button } from 'rebass/styled-components';
 import Modal from '../Modal';
 import { Row, Container, Actions, ContainerForm, Header } from '../Modal/modal';
-import { useCreateUserMutationMutation } from '../../../generated/graphqlapollo';
+import { useCreateUserMutationMutation } from '../../../graphql/generated/createUser.generated';
 const checkUsername = require('../../../graphql/checkUsername.graphql');
+import Markdown from 'markdown-to-jsx';
+import axios from 'axios';
+
+import { INVITE_ONLY_TEXT } from './../../../constants';
+
+var terms_users = { data: '' };
+var terms_cookies = { data: '' };
+var terms_indexing = { data: '' };
+
+async function getTerms() {
+  try {
+    terms_users = await axios.get('https://moodle.net/terms/users.md');
+    terms_cookies = await axios.get('https://moodle.net/terms/cookies.md');
+    terms_indexing = await axios.get('https://moodle.net/terms/indexing.md');
+    // console.log(terms);
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 let tt = {
   login: i18nMark('Sign in'),
@@ -64,9 +82,10 @@ async function validateUsername(value, client) {
   }
 }
 
-const CreateCommunityModal = (props: Props) => {
+const SignupModal = (props: Props) => {
   const { toggleModal, modalIsOpen } = props;
   const [createUser /*, createUserResp*/] = useCreateUserMutationMutation();
+  getTerms();
   return (
     <ApolloConsumer>
       {client => (
@@ -81,6 +100,20 @@ const CreateCommunityModal = (props: Props) => {
               render={({ errors, touched, isSubmitting }) => {
                 return (
                   <Form>
+                    <Row>{INVITE_ONLY_TEXT}</Row>
+                    <Row>
+                      Please read the following. By signing up your are
+                      consenting to these agreements.
+                    </Row>
+                    <Row>
+                      <Markdown>{terms_users.data}</Markdown>
+                    </Row>
+                    <Row>
+                      <Markdown>{terms_cookies.data}</Markdown>
+                    </Row>
+                    <Row>
+                      <Markdown>{terms_indexing.data}</Markdown>
+                    </Row>
                     <Row>
                       <label>
                         <Trans>Email</Trans>
@@ -199,7 +232,7 @@ const CreateCommunityModal = (props: Props) => {
                       >
                         <Trans>Sign Up</Trans>
                       </Button>
-                      <Button onClick={toggleModal} secondary>
+                      <Button onClick={toggleModal} variant="outline">
                         <Trans>Cancel</Trans>
                       </Button>
                     </Actions>
@@ -212,7 +245,10 @@ const CreateCommunityModal = (props: Props) => {
                     email: values.email,
                     name: values.name,
                     password: values.password,
-                    preferredUsername: values.username
+                    preferredUsername: values.username,
+                    isPublic: true,
+                    wantsEmailDigest: false,
+                    wantsNotifications: false
                   }
                 };
                 return createUser({
@@ -257,4 +293,4 @@ const validationSchema = Yup.object().shape({
     .required('Password confirmation is required')
 });
 
-export default CreateCommunityModal;
+export default SignupModal;

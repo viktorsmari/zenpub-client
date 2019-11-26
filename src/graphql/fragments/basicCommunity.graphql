@@ -1,9 +1,23 @@
+#import "./basicUser.graphql"
+
 fragment BasicCommunity on Community {
     id
-    name
-    localId
-    summary
-    icon
+    canonicalUrl
     preferredUsername
-    followed
+    name
+    summary
+    creator { ...BasicUser }
+    icon
+    image
+    createdAt
+    updatedAt
+    lastActivity
+    isLocal
+    isPublic
+    isDisabled
+    myFollow { id }
+    collections { totalCount }
+    followers { totalCount }
+    threads { totalCount }
+    outbox { totalCount }
 }

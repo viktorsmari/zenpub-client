@@ -1,43 +1,39 @@
+#import "./basicUser.graphql"
+#import "./basicCommunity.graphql"
+#import "./basicCollection.graphql"
+#import "./basicResource.graphql"
+
+
+fragment BasicCommentWithInReplyTo on Comment {
+    ...BasicComment
+    inReplyTo { ...BasicComment }
+}
 fragment BasicComment on Comment {
-  localId
-  content
-  id
-  published
-  author {
-      name
-      id
-      icon
-      preferredUsername
-      localId
-  }
-  replies {
-      totalCount
-  }
-  inReplyTo {
-    localId
+    id
     content
-    author {
-      id
-      icon
-      name
-      localId
-      preferredUsername
+    isLocal
+    isPublic
+    isHidden
+    createdAt
+    updatedAt
+    myLike { id }
+    creator {
+        ...BasicUser
     }
-  }
-  likers {
-    totalCount
-  }
-  context {
-    __typename
-    ... on Community {
-      id
-      name
-      localId
+    likes   { totalCount }
+    thread  {
+        id
+        context {
+            __typename
+            ... on Community {
+                ...BasicCommunity
+            }
+          ... on Collection {
+                ...BasicCollection
+            }
+            ... on Resource {
+                ...BasicResource
+            }
+        }
     }
-      ... on Collection {
-      id
-      name
-      localId
-    }
-  }
 }

@@ -1,31 +1,33 @@
-import { InterceptorSrv, BLOCK_REQUEST, BlockRequest } from '../apollo/client';
 import { Store } from 'redux';
+import { InterceptorSrv, InterceptorResultOf } from '../apollo/client';
 import { login, logout } from '../redux/session';
-import { AuthPayload } from '../generated/graphqlapollo';
 
 export const integrateSessionApolloRedux = (
   intercSrv: InterceptorSrv,
   store: Store
 ) => {
-  intercSrv.add({
-    operation: 'createSession',
-    request: _ => doMaybeLogin
-  });
-
-  intercSrv.add({
-    operation: 'createUser',
-    request: _ => doMaybeLogin
-  });
-
-  const doMaybeLogin = (
-    resp: AuthPayload | BlockRequest | null | undefined
+  const setAuth = (
+    resp:
+      | InterceptorResultOf<'createSession'>
+      | InterceptorResultOf<'confirmEmail'>
   ) => {
-    if (resp !== BLOCK_REQUEST) {
-      resp
-        ? store.dispatch(login.create(resp))
-        : store.dispatch(logout.create());
+    if (!resp.error && resp.data && resp.data.me && resp.data.token) {
+      const payload = { me: resp.data.me, token: resp.data.token };
+      store.dispatch(login.create(payload));
+    } else {
+      store.dispatch(logout.create());
     }
   };
+  // @ts-ignore
+  intercSrv.add({
+    operation: 'confirmEmail',
+    request: _ => resp => setAuth(resp)
+  });
+
+  intercSrv.add({
+    operation: 'createSession',
+    request: _ => resp => setAuth(resp)
+  });
 
   intercSrv.add({
     operation: 'deleteSession',

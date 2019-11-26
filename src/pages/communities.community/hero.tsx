@@ -1,104 +1,106 @@
 import React, { SFC } from 'react';
-import { i18nMark } from '@lingui/react';
-import { i18n } from '../../containers/App/App';
-import { Box, Text, Flex } from 'rebass';
+import { Box, Text, Flex } from 'rebass/styled-components';
 import styled from '../../themes/styled';
 import Join from './Join';
 import { clearFix } from 'polished';
 import { Settings } from 'react-feather';
-const tt = {
-  text: {
-    more: i18nMark('More')
-  }
-};
+import media from 'styled-media-query';
+import { GetCommunityQueryQuery } from '../../graphql/generated/getCommunity.generated';
+import { SessionContext } from '../../context/global/sessionCtx';
+
 interface Props {
-  community: {
-    icon: string;
-    name: string;
-    summary: string;
-    members: any;
-    localId: number;
-    id: string;
-    preferredUsername: string;
-    followed: boolean;
-  };
-  showUsers(boolean): boolean;
+  community: GetCommunityQueryQuery['community'];
+  showUsers(boolean): unknown;
   editCommunity: any;
 }
 
-const HeroComp: SFC<Props> = ({ community, showUsers, editCommunity }) => (
-  <Box p={1} mb={2}>
-    <Hero>
-      <Background
-        id="header"
-        style={{ backgroundImage: `url(${community.icon})` }}
-      />
-      <HeroInfo>
-        <Title fontSize={5} mt={0} fontWeight={'bold'}>
-          {community.name}
-        </Title>
-        {community.preferredUsername ? (
-          <Username fontSize={2}>@{community.preferredUsername}</Username>
-        ) : null}
-        <Description mt={2} fontSize={2}>
-          {community.summary}
-        </Description>
+const HeroComp: SFC<Props> = ({ community, showUsers, editCommunity }) => {
+  const { auth } = React.useContext(SessionContext);
+  const isMine =
+    !!auth && !!community && auth.me.user.id === community.creator.id;
 
-        <Flex mt={3}>
-          <MembersTot onClick={() => showUsers(true)}>
-            {community.members.edges.slice(0, 3).map((a, i) => {
-              return (
-                <ImgTot
-                  key={i}
-                  style={{
-                    backgroundImage: `url(${a.node.icon ||
-                      `https://www.gravatar.com/avatar/${
-                        a.node.localId
-                      }?f=y&d=identicon`})`
-                  }}
+  return (
+    community && (
+      <Box p={1} mb={2}>
+        <Hero>
+          <Background
+            id="header"
+            style={{
+              backgroundImage: `url(${community.icon || community.image})`
+            }}
+          />
+          <HeroInfo>
+            <Title variant="heading" mt={0}>
+              {community.name}
+            </Title>
+            {community.preferredUsername ? (
+              <Username mt={2} fontSize={2}>
+                @{community.preferredUsername}
+              </Username>
+            ) : null}
+            <Summary variant="text" mt={2}>
+              {community.summary}
+            </Summary>
+
+            <Flex mt={3}>
+              <MembersTot onClick={() => showUsers(true)}>
+                {community.followers.edges.slice(0, 3).map((a, i) => {
+                  return (
+                    a && (
+                      <ImgTot
+                        key={i}
+                        style={{
+                          backgroundImage: `url(${a.node.creator.icon ||
+                            `https://www.gravatar.com/avatar/${
+                              a.node.id
+                            }?f=y&d=identicon`})`
+                        }}
+                      />
+                    )
+                  );
+                })}{' '}
+                <Tot>
+                  {community.followers.totalCount - 3 > 0
+                    ? `+ ${community.followers.totalCount - 3} More`
+                    : ``}
+                </Tot>
+              </MembersTot>
+              <Actions>
+                {isMine ? (
+                  <EditButton onClick={editCommunity}>
+                    <Settings size={18} color={'#f98012'} />
+                  </EditButton>
+                ) : null}
+                <Join
+                  id={community.id}
+                  followed={!!community.myFollow}
+                  externalId={community.id}
                 />
-              );
-            })}{' '}
-            <Tot>
-              {community.members.totalCount - 3 > 0
-                ? `+ ${community.members.totalCount - 3} ` +
-                  i18n._(tt.text.more)
-                : ``}
-            </Tot>
-          </MembersTot>
-          <Actions>
-            {community.localId === 7 ||
-            community.localId === 15 ||
-            community.followed == false ? null : (
-              <EditButton onClick={editCommunity}>
-                <Settings size={18} color={'#f98012'} />
-              </EditButton>
-            )}
-            <Join
-              id={community.localId}
-              followed={community.followed}
-              externalId={community.id}
-            />
-          </Actions>
-        </Flex>
-      </HeroInfo>
-    </Hero>
-  </Box>
-);
+              </Actions>
+            </Flex>
+          </HeroInfo>
+        </Hero>
+      </Box>
+    )
+  );
+};
+const Title = styled(Text)`
+  ${media.lessThan('medium')`
+font-size: 20px !important;
+`};
+`;
 
+const Summary = styled(Text)`
+  ${media.lessThan('medium')`
+    display: none;
+`};
+`;
 const Actions = styled(Flex)`
   align-items: center;
 `;
-const Title = styled(Text)`
-  color: ${props => props.theme.styles.colors.darkgray};
-`;
-
-const Description = styled(Text)`
-  color: ${props => props.theme.styles.colors.darkgray};
-`;
 
 const Username = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   font-weight: 500;
 `;
 
@@ -167,10 +169,10 @@ const EditButton = styled.span`
   width: 40px;
   height: 40px;
   vertical-align: bottom;
-  margin-rigth: 16px;
+  margin-right: 16px;
   border-radius: 40px;
   text-align: center;
-  border: 1px solid ${props => props.theme.styles.colors.orange};
+  border: 1px solid ${props => props.theme.colors.orange};
   cursor: pointer;
   & svg {
     text-align: center;
@@ -190,27 +192,22 @@ const Background = styled.div`
   // border-radius: 4px;
   background-size: cover;
   background-repeat: no-repeat;
-  background-color: #e6e6e6;
+  background-color: ${props => props.theme.colors.gray};
   position: relative;
   margin: 0 auto;
-  margin: -4px;
+  // margin: -4px;
+  border-radius: 4px;
   background-position: center center;
+  ${media.lessThan('medium')`
+    display: none;
+`};
 `;
 
 const HeroInfo = styled.div`
   padding: 16px;
-  & h2 {
-    margin: 0;
-    font-size: 24px !important;
-    line-height: 40px !important;
-    margin-bottom: 0px;
-    color: ${props => props.theme.styles.colour.communityTitle};
-  }
-  & p {
-    margin-top: 8px;
-    color: ${props => props.theme.styles.colour.communityNote};
-  }
-  & button {
+  ${media.lessThan('medium')`
+   padding: 8px;
+`} & button {
     span {
       vertical-align: sub;
       display: inline-block;

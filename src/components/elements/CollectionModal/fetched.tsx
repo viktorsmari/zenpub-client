@@ -12,10 +12,11 @@ import { i18n } from '../../../containers/App/App';
 import styled from '../../../themes/styled';
 import { Input, Textarea } from '@rebass/forms';
 import Alert from '../Alert';
-import Button, { LoaderButton } from '../Button/Button';
+import { Button } from 'rebass/styled-components';
 import { Actions, ContainerForm, CounterChars, Row } from '../Modal/modal';
 import ResourceCard from '../Resource/Resource';
-import { LocaleContext } from '../../../containers/App/App';
+// import { LocaleContext } from '../../../containers/App/App';
+import { CreateResourceMutationMutationVariables } from '../../../graphql/generated/createResource.generated';
 
 const {
   createResourceMutation
@@ -114,7 +115,7 @@ const Fetched = (props: Props & FormikProps<FormValues>) => (
             name="name"
             render={({ field }) => (
               <>
-                <Input
+                <SearchInput
                   placeholder={i18n._(tt.placeholders.name)}
                   name={field.name}
                   value={field.value}
@@ -169,37 +170,54 @@ const Fetched = (props: Props & FormikProps<FormValues>) => (
             props.touched.image && <Alert>{props.errors.image}</Alert>}
         </ContainerForm>
       </Row>
-      <LocaleContext.Consumer>
-        {value =>
-          value.contentDirection == 'ltr' ? (
-            <Actions>
-              <LoaderButton
-                loading={props.isSubmitting}
-                disabled={props.isSubmitting}
-                text={i18n._(tt.placeholders.submit)}
-                type="submit"
-                style={{ marginLeft: '10px' }}
-              />
-              <Button onClick={props.toggleModal} secondary>
-                <Trans>Cancel</Trans>
-              </Button>
-            </Actions>
-          ) : (
-            <Actions>
-              <Button onClick={props.toggleModal} secondary>
-                <Trans>Cancel</Trans>
-              </Button>
-              <LoaderButton
-                loading={props.isSubmitting}
-                disabled={props.isSubmitting}
-                text={i18n._(tt.placeholders.submit)}
-                type="submit"
-                style={{ marginLeft: '10px' }}
-              />
-            </Actions>
-          )
-        }
-      </LocaleContext.Consumer>
+
+      {/* // <LocaleContext.Consumer>
+      //   {value =>
+      //     value.contentDirection == 'ltr' ? (
+      //       <Actions>
+      //         <LoaderButton
+      //           loading={props.isSubmitting}
+      //           disabled={props.isSubmitting}
+      //           text={i18n._(tt.placeholders.submit)}
+      //           type="submit"
+      //           style={{ marginLeft: '10px' }}
+      //         />
+      //         <Button onClick={props.toggleModal} secondary>
+      //           <Trans>Cancel</Trans>
+      //         </Button>
+      //       </Actions>
+      //     ) : (
+      //       <Actions>
+      //         <Button onClick={props.toggleModal} secondary>
+      //           <Trans>Cancel</Trans>
+      //         </Button>
+      //         <LoaderButton
+      //           loading={props.isSubmitting}
+      //           disabled={props.isSubmitting}
+      //           text={i18n._(tt.placeholders.submit)}
+      //           type="submit"
+      //           style={{ marginLeft: '10px' }}
+      //         />
+      //       </Actions>
+      //     )
+      //   }
+      // </LocaleContext.Consumer> */}
+
+      <Actions>
+        <Button
+          loading={props.isSubmitting}
+          disabled={props.isSubmitting}
+          text={i18n._(tt.placeholders.submit)}
+          ml={2}
+          onClick={props.handleSubmit}
+          variant="primary"
+        >
+          <Trans>Publish</Trans>
+        </Button>
+        <Button onClick={props.toggleModal} variant="outline">
+          <Trans>Cancel</Trans>
+        </Button>
+      </Actions>
     </Form>
   </>
 );
@@ -220,8 +238,8 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
     image: Yup.string().url()
   }),
   handleSubmit: (values, { props, setSubmitting }) => {
-    const variables = {
-      resourceId: Number(props.collectionId),
+    const variables: CreateResourceMutationMutationVariables = {
+      collectionId: props.collectionId,
       resource: {
         name: values.name,
         summary: values.summary,
@@ -236,7 +254,6 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
           const fragment = gql`
             fragment Res on Collection {
               id
-              localId
               icon
               name
               content
@@ -246,7 +263,6 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
                 edges {
                   node {
                     id
-                    localId
                     name
                     summary
                     url
@@ -290,7 +306,13 @@ export default compose(withCreateResource)(ModalWithFormik);
 
 const Preview = styled.div`
   padding: 8px;
-  background: #eff2f5;
   padding-bottom: 1px;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+`;
+
+const SearchInput = styled(Input)`
+  height: 40px;
+  background: white;
+  border-radius: 2px;
+  border: 1px solid ${props => props.theme.colors.lightgray};
 `;

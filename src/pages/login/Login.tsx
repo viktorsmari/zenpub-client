@@ -1,39 +1,31 @@
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
-import { withTheme } from '@zendeskgarden/react-theming';
 import { clearFix } from 'polished';
 import * as React from 'react';
 import { graphql } from 'react-apollo';
-// import { Helmet } from 'react-helmet';
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
 import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
-import Button from '../../components/elements/Button/Button';
 import Link from '../../components/elements/Link/Link';
 import SignupModal from '../../components/elements/SignupModal';
 import { i18n } from '../../containers/App/App';
 import { SessionContext } from '../../context/global/sessionCtx';
-import styled, { ThemeInterface } from '../../themes/styled';
+import styled, { MoodleThemeInterface } from '../../themes/styled';
 import LoginForm from './LoginForm';
 import { ValidationField, ValidationObject, ValidationType } from './types';
-
+import { Button, Box, Text, Image } from 'rebass/styled-components';
 const { loginMutation } = require('../../graphql/login.graphql');
+import { Panel, WrapperPanel } from '../../sections/panel';
+const MnetLogin = require('./login.jpg');
+import { INSTANCE_DESCRIPTION } from './../../constants';
 
-const Signup = styled(Button)`
-  margin-top: 24px !important;
-  width: 100%;
-  color: #fff !important;
-  text-transform: uppercase
-  &:hover {
-    background: #d67218 !important;
-  }
-`;
-
-const Background = styled.div`
-  background-image: url('https://i.imgur.com/zpWmkgE.png');
-  background-size: contain;
+const Background = styled(Image)`
+  background-size: cover;
+  background-position: center center;
   background-repeat: no-repeat;
-  height: 490px;
+  width: 100%;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
 `;
 const Tagline = styled.h5`
   font-size: 16px;
@@ -42,6 +34,10 @@ const Tagline = styled.h5`
   color: #000000a1;
   font-weight: 500;
 `;
+
+const Infos = styled(Box)``;
+
+const Info = styled(Box)``;
 
 const Logo = styled.div`
   background: url(https://i.imgur.com/YdflNQp.png);
@@ -58,14 +54,14 @@ const LoginWrapper = styled.div`
   grid-template-areas: 'header header' 'form image' 'footer footer';
   ${media.lessThan('medium')`
     grid-template-columns: 1fr;
-    grid-template-areas: 'header' 'form' 'footer';
+    grid-template-areas: 'header' 'image' 'form' 'footer';
     padding: 16px
   `};
 `;
 
 const Container = styled.div`
   margin: 0 auto;
-  width: 900px;
+  max-width: 900px;
   margin-top: 60px;
 `;
 
@@ -87,16 +83,15 @@ const Form = styled.div`
   height: fit-content;
 `;
 
-const Image = styled.div`
-grid-area: image
-background: #fff;
-  border-radius: 4px;
-  height: inherit;
-  border: 1px solid #dddfe2;
-  text-align: left;
-  ${media.lessThan('medium')`
-  display: none;
-  `};
+const Right = styled(Box)`
+  grid-area: image .extra {
+    width: 100%;
+    margin-right: 0;
+  }
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 `;
 
 const Footer = styled.div`
@@ -130,6 +125,14 @@ padding-top: 24px;
 }
 `;
 
+const Browse = styled(Box)`
+  background: #fff;
+  a {
+    text-decoration: none;
+    color: ${props => props.theme.colors.darkgray};
+  }
+`;
+
 const Or = styled.div`
   position: relative;
   color: rgba(0, 0, 0, 0.5);
@@ -157,14 +160,14 @@ const Or = styled.div`
   }
 `;
 
-const ResetPass = styled.div`
-  margin-top: 8px;
+const ResetPass = styled(Text)`
   text-align: center;
-  font-size: 14px;
-  color: rgba(0, 0, 0, 0.45);
   text-decoration: underline;
-  margin-bottom: 16px;
   cursor: pointer;
+  a {
+    font-size: 14px;
+    color: inherit;
+  }
 `;
 
 /**
@@ -179,7 +182,7 @@ function RedirectIfAuthenticated({ component: Component, data, ...rest }) {
   return (
     <Route
       render={(props: RouteComponentProps & LoginProps) => {
-        if (sessionCtx.session.user) {
+        if (sessionCtx.auth) {
           return <Redirect to="/" />;
         }
         return <Login data={data} {...props} {...rest} />;
@@ -192,7 +195,7 @@ interface LoginProps extends RouteComponentProps {
   // setLocalUser: Function;
   login: Function;
   data: object;
-  theme: ThemeInterface;
+  theme: MoodleThemeInterface;
   handleSignup(): boolean;
   isOpen: boolean;
 }
@@ -257,27 +260,32 @@ class Login extends React.Component<LoginProps, LoginState> {
     }
 
     this.setState({ authenticating: true });
+    let error = '';
     try {
-      await this.props.login({
+      const resp = await this.props.login({
         variables: credentials
       });
+      if (resp.errors) {
+        error = resp.errors.map(err => err.message).join('\n');
+      }
     } catch (err) {
-      // alert(err);
+      error = i18n._(
+        i18nMark(
+          'Could not log in. Please check your credentials or use the link below to reset your password.'
+        )
+      );
+    }
+    if (error) {
       this.setState({
         authenticating: false,
         validation: [
           {
             field: null,
             type: ValidationType.warning,
-            message: i18n._(
-              i18nMark(
-                'Could not log in. Please check your credentials or use the link below to reset your password.'
-              )
-            )
+            message: error
           } as ValidationObject
         ]
       });
-      return;
     }
   }
 
@@ -299,9 +307,6 @@ class Login extends React.Component<LoginProps, LoginState> {
 
     return (
       <>
-        {/* <Helmet>
-          <title>{APP_NAME} - Share. Curate. Discuss.</title>
-        </Helmet> */}
         <Container>
           <LoginWrapper>
             <Header>
@@ -318,7 +323,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                   onInputChange={this.onLoginFormInputChange}
                   authenticating={this.state.authenticating}
                 />
-                <ResetPass>
+                <ResetPass variant="text" my={3} mt={2}>
                   <Link to="/reset">
                     <Trans>Trouble logging in?</Trans>
                   </Link>
@@ -327,23 +332,60 @@ class Login extends React.Component<LoginProps, LoginState> {
               <Or>
                 <Trans>Or</Trans>
               </Or>
-              <Signup onClick={this.props.handleSignup}>
-                <Trans>Sign up</Trans>
-              </Signup>
+              <Browse mt={3} p={3}>
+                <Text variant="heading" fontSize={3}>
+                  <Trans>Browse this MoodleNet instance</Trans>
+                </Text>
+                <Text variant="text" mt={2}>
+                  <Trans>
+                    Preview what people are sharing, curating, and discussing!
+                  </Trans>
+                </Text>
+                <Link to={'/discover'}>
+                  <Button mt={3} variant="outline">
+                    <Trans>Browse</Trans>
+                  </Button>
+                </Link>
+              </Browse>
             </FormWrapper>
-            <Image>
-              <Background />
-            </Image>
+            <Right>
+              <Link to="signup">
+                <Button
+                  mb={2}
+                  style={{ width: '100%', height: '50px' }}
+                  variant="outline"
+                  // onClick={this.props.handleSignup}
+                >
+                  <Trans>Sign up</Trans>
+                </Button>
+              </Link>
+              <WrapperPanel className="extra">
+                <Panel>
+                  <Background src={MnetLogin} />
+                  <Infos p={3}>
+                    <Info>
+                      <Text variant="suptitle">
+                        <Trans>Instance description</Trans>
+                      </Text>
+                      <Text mt={2} variant="text">
+                        <Trans>{INSTANCE_DESCRIPTION}</Trans>
+                      </Text>
+                    </Info>
+                  </Infos>
+                </Panel>
+              </WrapperPanel>
+            </Right>
+
             <Footer>
               <ul>
                 <li>
-                  <a href="https://new.moodle.net" target="blank">
+                  <a href="https://moodle.net" target="blank">
                     <Trans>About</Trans>
                   </a>
                 </li>
                 <li>
                   <a
-                    href="https://docs.moodle.org/dev/MoodleNet/Code_of_Conduct"
+                    href="https://moodle.net/terms/users/index.html"
                     target="blank"
                   >
                     <Trans>Code of Conduct</Trans>
@@ -382,13 +424,9 @@ class Login extends React.Component<LoginProps, LoginState> {
 }
 const withLogin = graphql(loginMutation, {
   name: 'login'
-  // TODO enforce proper types for OperationOption
 });
 
 export default compose(
-  withTheme,
-  // withUser,
-  // withSetLocalUser,
   withLogin,
   withState('isOpen', 'onOpen', false),
   withHandlers({

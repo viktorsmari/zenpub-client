@@ -1,6 +1,6 @@
 // View a Profile
 import * as React from 'react';
-import { compose, withState, withHandlers } from 'recompose';
+import { compose } from 'recompose';
 import { Trans } from '@lingui/macro';
 import { graphql, QueryControls, OperationOption } from 'react-apollo';
 import styled from '../../themes/styled';
@@ -15,56 +15,16 @@ import FollowingCollectionsLoadMore from '../../components/elements/Loadmore/fol
 import JoinedCommunitiesLoadMore from '../../components/elements/Loadmore/joinedCommunities';
 import HeroComp from './Hero';
 import { WrapperTab, OverlayTab } from '../communities.community/Community';
-import TimelineItem from '../../components/elements/TimelineItem';
+import TimelineItem from '../../components/elements/TimelineItem/index2';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timelineoutbox';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { WrapperPanel, Panel, PanelTitle, Nav } from '../../sections/panel';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { NavLink } from 'react-router-dom';
-
-enum TabsEnum {
-  Overview = 'Overview',
-  Communities = 'Joined communities',
-  Collections = 'Followed collections'
-}
+import { Me } from '../../graphql/types.generated';
 
 interface Data extends QueryControls {
-  me: {
-    user: {
-      name: string;
-      icon: string;
-      image: string;
-      location: string;
-      summary: string;
-      preferredUsername: string;
-      id: string;
-      localId: string;
-      outbox: {
-        edges: any[];
-        totalCount: number;
-        pageInfo: {
-          startCursor: number;
-          endCursor: number;
-        };
-      };
-      joinedCommunities: {
-        edges: any[];
-        totalCount: number;
-        pageInfo: {
-          startCursor: number;
-          endCursor: number;
-        };
-      };
-      followingCollections: {
-        edges: any[];
-        totalCount: number;
-        pageInfo: {
-          startCursor: number;
-          endCursor: number;
-        };
-      };
-    };
-  };
+  me: Me;
 }
 
 interface Props {
@@ -72,14 +32,7 @@ interface Props {
   handleCollection: any;
 }
 
-type State = {
-  tab: TabsEnum;
-};
-
-class CommunitiesFeatured extends React.Component<Props, State> {
-  state = {
-    tab: TabsEnum.Collections
-  };
+class CommunitiesFeatured extends React.Component<Props> {
   render() {
     return (
       <MainContainer>
@@ -124,87 +77,97 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                           </SuperTab>
                         </SuperTabList>
                         <TabPanel>
-                          <div>
+                          <>
                             {this.props.data.me.user.outbox.edges.map(
-                              (t, i) => (
-                                <TimelineItem
-                                  node={t.node}
-                                  user={t.node.user}
-                                  key={i}
-                                />
-                              )
+                              (t, i) =>
+                                t && (
+                                  <TimelineItem
+                                    context={t.node.context}
+                                    user={t.node.user}
+                                    verb={t.node.verb}
+                                    createdAt={t.node.createdAt}
+                                    key={i}
+                                  />
+                                )
                             )}
-                            <div style={{ padding: '8px' }}>
-                              <LoadMoreTimeline
-                                me
-                                fetchMore={this.props.data.fetchMore}
-                                community={this.props.data.me.user}
-                              />
-                            </div>
-                          </div>
+                            <LoadMoreTimeline
+                              me
+                              fetchMore={this.props.data.fetchMore}
+                              community={this.props.data.me.user}
+                            />
+                          </>
                         </TabPanel>
                         <TabPanel>
                           <ListCollections>
-                            {this.props.data.me.user.followingCollections.edges.map(
-                              (comm, i) => (
-                                <CollectionCard
-                                  key={i}
-                                  collection={comm.node}
-                                  openModal={this.props.handleCollection}
-                                  communityId={comm.node.community.localId}
-                                />
-                              )
-                            )}
-                          </ListCollections>
-                          <div style={{ padding: '8px' }}>
-                            <FollowingCollectionsLoadMore
-                              collections={
-                                this.props.data.me.user.followingCollections
-                              }
-                              fetchMore={this.props.data.fetchMore}
-                              me
-                            />
-                          </div>
-                        </TabPanel>
-                        <TabPanel
-                          label={`${TabsEnum.Communities}`}
-                          key={TabsEnum.Communities}
-                          style={{ height: '100%' }}
-                        >
-                          <>
-                            <List>
-                              {this.props.data.me.user.joinedCommunities.edges.map(
-                                (community, i) => (
-                                  <CommunityCard
+                            {this.props.data.me.user.followedCollections.edges.map(
+                              (collection, i) =>
+                                collection && (
+                                  <CollectionCard
                                     key={i}
-                                    summary={community.node.summary}
-                                    title={community.node.name}
-                                    collectionsCount={
-                                      community.node.collectionsCount
-                                    }
-                                    icon={community.node.icon || ''}
-                                    followed={community.node.followed}
-                                    id={community.node.localId}
-                                    externalId={community.node.id}
-                                    followersCount={
-                                      community.node.followersCount
-                                    }
-                                    threadsCount={
-                                      community.node.threads.totalCount
-                                    }
+                                    collection={collection.node.collection}
                                   />
                                 )
+                            )}
+                          </ListCollections>
+                          <FollowingCollectionsLoadMore
+                            collections={
+                              this.props.data.me.user.followedCollections
+                            }
+                            fetchMore={this.props.data.fetchMore}
+                            me
+                          />
+                        </TabPanel>
+                        <TabPanel style={{ height: '100%' }}>
+                          <>
+                            <List>
+                              {this.props.data.me.user.followedCommunities.edges.map(
+                                (community, i) =>
+                                  community &&
+                                  community && (
+                                    <CommunityCard
+                                      key={i}
+                                      summary={
+                                        community.node.community.summary || ''
+                                      }
+                                      title={
+                                        community.node.community.name || ''
+                                      }
+                                      collectionsCount={
+                                        community.node.community.collections
+                                          .totalCount
+                                      }
+                                      icon={
+                                        community.node.community.icon ||
+                                        community.node.community.image ||
+                                        ''
+                                      }
+                                      followed={
+                                        !!community.node.community.myFollow
+                                      }
+                                      id={community.node.community.id}
+                                      externalId={
+                                        community.node.community.canonicalUrl ||
+                                        ''
+                                      }
+                                      followersCount={
+                                        community.node.community.followers
+                                          .totalCount
+                                      }
+                                      threadsCount={
+                                        community.node.community.threads
+                                          .totalCount
+                                      }
+                                    />
+                                  )
                               )}
                             </List>
-                            <div style={{ padding: '8px' }}>
-                              <JoinedCommunitiesLoadMore
-                                me
-                                communities={
-                                  this.props.data.me.user.joinedCommunities
-                                }
-                                fetchMore={this.props.data.fetchMore}
-                              />
-                            </div>
+                            <JoinedCommunitiesLoadMore
+                              me
+                              communities={
+                                this.props.data.me.user.followedCommunities
+                              }
+                              fetchMore={this.props.data.fetchMore}
+                            />
                           </>
                         </TabPanel>
                       </Tabs>
@@ -234,11 +197,11 @@ class CommunitiesFeatured extends React.Component<Props, State> {
 }
 
 const Settings = styled(NavLink)`
-  color: ${props => props.theme.styles.colors.orange};
+  color: ${props => props.theme.colors.orange};
   display: block;
   width: 100%;
-  background: ${props => props.theme.styles.colors.lighter};
-  border: 2px solid ${props => props.theme.styles.colors.orange};
+  background: #fbfbf9;
+  border: 2px solid ${props => props.theme.colors.orange};
   cursor: pointer;
   height: 40px;
   text-align: center;
@@ -286,11 +249,4 @@ const withGetCollections = graphql<
   })
 }) as OperationOption<{}, {}>;
 
-export default compose(
-  withGetCollections,
-  withState('isOpenCollection', 'onOpenCollection', false),
-  withHandlers({
-    handleCollection: props => () =>
-      props.onOpenCollection(!props.isOpenCollection)
-  })
-)(CommunitiesFeatured);
+export default compose(withGetCollections)(CommunitiesFeatured);

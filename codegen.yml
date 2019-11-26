@@ -1,17 +1,30 @@
 overwrite: true
-schema: "https://home.next.moodle.net/api/graphql"
-documents: "src/**/!(*.client).graphql"
+schema: https://team.moodle.net/api/graphql
+# documents: src/graphql/main/home.next.moodle.net_schema.graphql
+documents: src/**/!(*.client).graphql
+
 generates:
-  src/generated/graphqlapollo.tsx:
+  graphql.schema.json:
     plugins:
-      - "typescript"
-      - "typescript-operations"
-      - "typescript-react-apollo"
-      - "fragment-matcher"
+      - introspection
+  src/graphql/types.generated.d.ts:
+    plugins:
+      - typescript
+      # - fragment-matcher
+      # - typescript-resolvers
+  src/graphql:
+    preset: near-operation-file
+    presetConfig:
+      extension: .generated.tsx
+      baseTypesPath: types.generated.d.ts
+      folder: generated/
+    plugins:
+      - typescript-operations
+      - typescript-react-apollo
     config:
+      exportFragmentSpreadSubTypes: true
+      preResolveTypes: true
+      avoidOptionals: false
       reactApolloVersion: 3
       withHooks: true
       withHOC: true
-  ./graphql.schema.json:
-    plugins:
-      - "introspection"

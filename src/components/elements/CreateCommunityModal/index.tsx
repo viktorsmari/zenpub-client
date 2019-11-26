@@ -5,12 +5,11 @@ import { Input, Textarea } from '@rebass/forms';
 import { Field, Form, Formik, FormikConfig } from 'formik';
 import * as React from 'react';
 import { useHistory } from 'react-router';
-import { Heading } from 'rebass';
+import { Heading } from 'rebass/styled-components';
 import * as Yup from 'yup';
 import { i18n } from '../../../containers/App/App';
-import { useCreateCommunityMutationMutation } from '../../../generated/graphqlapollo';
 import Alert from '../../elements/Alert';
-import Button from '../Button/Button';
+import { Button } from 'rebass/styled-components';
 import Modal from '../Modal';
 
 import {
@@ -21,6 +20,10 @@ import {
   Header,
   Row
 } from '../Modal/modal';
+import {
+  useCreateCommunityMutationMutation,
+  CreateCommunityMutationMutationVariables
+} from '../../../graphql/generated/createCommunity.generated';
 
 const tt = {
   placeholders: {
@@ -66,12 +69,11 @@ const CreateCommunityModal = (
 
   const submit = React.useCallback<FormikConfig<FormValues>['onSubmit']>(
     (values, { setSubmitting }) => {
-      const variables = {
+      const variables: CreateCommunityMutationMutationVariables = {
         community: {
           name: values.name,
           summary: values.summary,
-          icon: values.image,
-          content: values.summary,
+          image: values.image,
           preferredUsername: values.name.split(' ').join('_')
         }
       };
@@ -80,7 +82,9 @@ const CreateCommunityModal = (
       })
         .then(res => {
           setSubmitting(false);
-          history.push(`/communities/${res.data!.createCommunity!.localId}`);
+          res.data &&
+            res.data.createCommunity &&
+            history.push(`/communities/${res.data.createCommunity.id}`);
         })
         .catch(err => console.log(err));
     },
@@ -175,7 +179,7 @@ const CreateCommunityModal = (
                   >
                     <Trans>Create</Trans>
                   </Button>
-                  <Button onClick={toggleModal} secondary>
+                  <Button variant="outline" onClick={toggleModal}>
                     <Trans>Cancel</Trans>
                   </Button>
                 </Actions>

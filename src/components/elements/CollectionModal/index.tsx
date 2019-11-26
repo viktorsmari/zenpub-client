@@ -5,7 +5,6 @@ import { Field, Form, FormikProps, withFormik } from 'formik';
 import { clearFix } from 'polished';
 import * as React from 'react';
 import { graphql, OperationOption } from 'react-apollo';
-// import { LoaderButton } from '../Button/Button';
 import { compose, withState } from 'recompose';
 import * as Yup from 'yup';
 import { i18n } from '../../../containers/App/App';
@@ -85,7 +84,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
             <Field
               name="fetchUrl"
               render={({ field }) => (
-                <Input
+                <SearchInput
                   placeholder={i18n._(tt.placeholders.url)}
                   onChange={field.onChange}
                   name={field.name}
@@ -170,6 +169,13 @@ const WrapperLoader = styled.div`
   padding: 10px;
 `;
 
+const SearchInput = styled(Input)`
+  height: 40px;
+  background: white;
+  border-radius: 2px;
+  border: 1px solid ${props => props.theme.colors.lightgray};
+`;
+
 const Span = styled.button`
   position: absolute;
   right: 2px;
@@ -182,7 +188,7 @@ const Span = styled.button`
   height: 37px;
   cursor: pointer;
   &:hover {
-    background: ${props => props.theme.styles.colour.primary};
+    background: ${props => props.theme.colors.orange};
   }
   .--rtl & {
     left: 2px;

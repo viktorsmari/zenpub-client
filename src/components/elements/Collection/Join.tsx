@@ -1,17 +1,14 @@
 import gql from 'graphql-tag';
 import React from 'react';
 import { Trans } from '@lingui/macro';
-import { graphql, OperationOption } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import { compose, withState } from 'recompose';
-import styled from '../../../themes/styled';
-import { Text, Box } from 'rebass';
+// import styled from '../../../themes/styled';
+import { Button } from 'rebass/styled-components';
 import Loader from '../Loader/Loader';
-const {
-  joinCollectionMutation
-} = require('../../../graphql/joinCollection.graphql');
-const {
-  undoJoinCollectionMutation
-} = require('../../../graphql/undoJoinCollection.graphql');
+// import { Trans } from '@lingui/react';
+const { followMutation } = require('../../../graphql/follow.graphql');
+const { deleteMutation } = require('../../../graphql/delete.graphql');
 
 interface Props {
   joinCollection: any;
@@ -23,15 +20,15 @@ interface Props {
   onSubmitting: any;
 }
 
-const withJoinCollection = graphql<{}>(joinCollectionMutation, {
+const withJoinCollection = graphql(followMutation, {
   name: 'joinCollection'
   // TODO enforce proper types for OperationOption
-} as OperationOption<{}, {}>);
+});
 
-const withLeaveCollection = graphql<{}>(undoJoinCollectionMutation, {
+const withLeaveCollection = graphql(deleteMutation, {
   name: 'leaveCollection'
   // TODO enforce proper types for OperationOption
-} as OperationOption<{}, {}>);
+});
 
 const Join: React.FC<Props> = ({
   joinCollection,
@@ -44,27 +41,27 @@ const Join: React.FC<Props> = ({
 }) => {
   if (followed) {
     return (
-      <Span
-        ml={2}
+      <Button
+        variant="outline"
         unfollow
         onClick={() => {
           onSubmitting(true);
           return leaveCollection({
-            variables: { collectionId: id },
-            update: (proxy, { data: { undoJoinCollection } }) => {
+            variables: { contextId: id },
+            update: (proxy, { data }) => {
               const fragment = gql`
                 fragment Res on Collection {
                   followed
                 }
               `;
               let collection = proxy.readFragment({
-                id: `Collection:${externalId}`,
+                id: `Collection:${id}`,
                 fragment: fragment,
                 fragmentName: 'Res'
               });
-              collection.followed = !collection.followed;
+              collection.myFollow = null;
               proxy.writeFragment({
-                id: `Collection:${externalId}`,
+                id: `Collection:${id}`,
                 fragment: fragment,
                 fragmentName: 'Res',
                 data: collection
@@ -77,39 +74,31 @@ const Join: React.FC<Props> = ({
             .catch(err => console.log(err));
         }}
       >
-        {isSubmitting ? (
-          <Loader />
-        ) : (
-          <>
-            <Text fontSize={2}>
-              <Trans>Unfollow</Trans>
-            </Text>
-          </>
-        )}
-      </Span>
+        {isSubmitting ? <Loader /> : <Trans>Unfollow</Trans>}
+      </Button>
     );
   } else {
     return (
-      <Span
-        ml={2}
+      <Button
+        variant="primary"
         onClick={() => {
           onSubmitting(true);
           return joinCollection({
-            variables: { collectionId: id },
-            update: (proxy, { data: { joinCollection } }) => {
+            variables: { contextId: id },
+            update: (proxy, { data: { createFollow } }) => {
               const fragment = gql`
                 fragment Res on Collection {
-                  followed
+                  myFollow
                 }
               `;
               let collection = proxy.readFragment({
-                id: `Collection:${externalId}`,
+                id: `Collection:${id}`,
                 fragment: fragment,
                 fragmentName: 'Res'
               });
-              collection.followed = !collection.followed;
+              collection.myFollow = createFollow;
               proxy.writeFragment({
-                id: `Collection:${externalId}`,
+                id: `Collection:${id}`,
                 fragment: fragment,
                 fragmentName: 'Res',
                 data: collection
@@ -122,41 +111,11 @@ const Join: React.FC<Props> = ({
             .catch(err => console.log(err));
         }}
       >
-        {isSubmitting ? (
-          <Loader />
-        ) : (
-          <Text fontSize={2}>
-            <Trans>Follow</Trans>
-          </Text>
-        )}
-      </Span>
+        {isSubmitting ? <Loader /> : <Trans>Follow</Trans>}
+      </Button>
     );
   }
 };
-
-const Span = styled(Box)<{ unfollow?: boolean }>`
-  color: ${props =>
-    props.unfollow ? props.theme.styles.colors.darkgray : '#fff'};
-  background: ${props =>
-    props.unfollow ? 'transparent' : props.theme.styles.colors.orange};
-  cursor: pointer;
-  height: 40px;
-  width: 140px;
-  line-height: 40px;
-  border-radius: 3px;
-  text-align: center;
-  border: 1px solid
-    ${props =>
-      props.unfollow ? props => props.theme.styles.colors.orange : '#fff'};
-  &:hover {
-    color: ${props =>
-      props.unfollow ? props => 'white' : props.theme.styles.colors.darkgray};
-    background: ${props =>
-      props.unfollow
-        ? props.theme.styles.colors.orange
-        : props.theme.styles.colors.lightgray};
-  }
-`;
 
 export default compose(
   withJoinCollection,

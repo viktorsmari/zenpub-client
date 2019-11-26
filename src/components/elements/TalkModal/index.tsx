@@ -1,44 +1,29 @@
 import { i18nMark } from '@lingui/react';
 import * as React from 'react';
-import { Box, Flex } from 'rebass';
+import { Box, Flex } from 'rebass/styled-components';
 import { string } from 'yup';
 import { i18n } from '../../../containers/App/App';
 import CommentCmp from '../Comment/Comment';
-import {
-  Comment,
-  useCreateReplyMutationMutation
-} from '../../../generated/graphqlapollo';
 import styled from '../../../themes/styled';
 import { SessionContext } from '../../../context/global/sessionCtx';
 import Alert from '../../elements/Alert';
 import Modal from '../Modal';
 import SocialText from '../SocialText';
 import { LocaleContext } from '../../../containers/App/App';
+import { useCreateReplyMutationMutation } from '../../../graphql/generated/createReply.generated';
+import { BasicCommentFragment } from '../../../graphql/fragments/generated/basicComment.generated';
+import { Comment } from '../../../graphql/types.generated';
 
-const TextWrapper = styled(Flex)`
+export const TextWrapper = styled(Flex)`
   padding: 16px;
   align-items: center;
 `;
 
-// const Publish = styled(Button)`
-//   height: 40px;
-//   padding: 0 40px;
-//   color: white !important;
-//   font-size: 15px;
-//   border-radius: 20px;
-//   letter-spacing: 0.5px;
-//   cursor: pointer;
-//   &:hover {
-//     background: #ec7c16 !important;
-//     color: white !important;
-//   }
-// `;
-
-const Avatar = styled(Box)`
+export const Avatar = styled(Box)`
   min-width: 48px !important;
   height: 48px;
   border-radius: 48px;
-  background: ${props => props.theme.styles.colors.orange};
+  background: ${props => props.theme.colors.orange};
   background-repeat: no-repeat;
   background-size: cover;
 `;
@@ -56,10 +41,10 @@ const tt = {
 interface Props {
   toggleModal(_: boolean): unknown;
   modalIsOpen: boolean;
-  comment: Comment;
+  comment: BasicCommentFragment | Comment;
 }
 
-const CreateCommunityModal: React.FC<Props> = ({
+export const TalkModal: React.FC<Props> = ({
   comment,
   modalIsOpen,
   toggleModal
@@ -90,7 +75,8 @@ const CreateCommunityModal: React.FC<Props> = ({
       }
       reply({
         variables: {
-          id: comment.localId!,
+          inReplyToId: comment.id,
+          threadId: comment.thread.id,
           comment: { content: text }
         }
       });
@@ -100,21 +86,23 @@ const CreateCommunityModal: React.FC<Props> = ({
   );
   return (
     <Modal isOpen={modalIsOpen} toggleModal={() => toggleModal(false)}>
-      {/* <Container> */}
-      {/* <Form> */}
-      <CommentCmp comment={comment} noAction />
+      <CommentCmp comment={comment} noLink noAction />
       <TextWrapper>
         {localeCntx.contentDirection == 'ltr' ? (
           <Avatar
             style={{
-              backgroundImage: `url(${session.session.user!.me!.user!.icon!})`
+              backgroundImage: `url(${
+                session.auth ? session.auth.me.user.icon : ''
+              })`
             }}
             mr={2}
           />
         ) : (
           <Avatar
             style={{
-              backgroundImage: `url(${session.session.user!.me!.user!.icon!})`
+              backgroundImage: `url(${
+                session.auth ? session.auth.me.user.icon : ''
+              })`
             }}
             ml={2}
           />
@@ -126,10 +114,10 @@ const CreateCommunityModal: React.FC<Props> = ({
           submit={submit}
           onChange={oninput}
         />
-        {error && touched && <Alert>{error}</Alert>}
       </TextWrapper>
+      {error && touched && <Alert>{error}</Alert>}
     </Modal>
   );
 };
 
-export default CreateCommunityModal; // compose(withCreateCollection)(ModalWithFormik);
+export default TalkModal; // compose(withCreateCollection)(ModalWithFormik);

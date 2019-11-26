@@ -3,32 +3,36 @@ import { DateTime } from 'luxon';
 import { clearFix } from 'polished';
 import * as React from 'react';
 import { MessageCircle, Star } from 'react-feather';
-import { Box, Flex, Text } from 'rebass';
+import { Box, Flex, Text } from 'rebass/styled-components';
 import removeMd from 'remove-markdown';
 import styled from '../../../themes/styled';
 import Link from '../Link/Link';
 import Talk from '../TalkModal';
-import {
-  Comment,
-  useLikeCommentMutationMutation,
-  useUndoLikeCommentMutationMutation
-} from '../../../generated/graphqlapollo';
+import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
+import { useDeleteMutationMutation } from '../../../graphql/generated/delete.generated';
+import { BasicCommentFragment } from '../../../graphql/fragments/generated/basicComment.generated';
+import { Comment } from '../../../graphql/types.generated';
 
 interface EventProps {
-  comment: Comment;
+  comment: BasicCommentFragment | Comment;
   noAction?: boolean;
+  noLink?: boolean;
 }
 
-const CommentWrapper: React.FC<EventProps> = ({ comment, noAction }) => {
+const CommentWrapper: React.FC<EventProps> = ({
+  comment,
+  noAction,
+  noLink
+}) => {
   const FAKE________COMMENT_I_LIKE_IT = !!Math.round(Math.random());
-  const { author } = comment;
-  const [like /* , likeResult */] = useLikeCommentMutationMutation();
-  const [undoLike /* , likeResult */] = useUndoLikeCommentMutationMutation();
+  const { creator } = comment;
+  const [like /* , likeResult */] = useLikeMutationMutation();
+  const [undoLike /* , likeResult */] = useDeleteMutationMutation();
   const [iLikeIt, setiLikeIt] = React.useState(FAKE________COMMENT_I_LIKE_IT);
   const [isOpen, onOpen] = React.useState(false);
   const toggleLike = React.useCallback(
     () => {
-      const variables = { localId: comment.localId! };
+      const variables = { contextId: comment.id };
       (iLikeIt ? undoLike : like)({ variables });
       setiLikeIt(!iLikeIt);
     },
@@ -37,22 +41,22 @@ const CommentWrapper: React.FC<EventProps> = ({ comment, noAction }) => {
 
   return (
     <FeedItem>
-      <NavigateToThread to={`/thread/${comment!.localId}`} />
+      {noLink ? null : <NavigateToThread to={`/thread/${comment.id}`} />}
       <Member>
         <MemberItem mr={2}>
-          <Img src={(author && author.icon) || ''} />
+          <Img src={(creator && creator.icon) || ''} />
         </MemberItem>
         <MemberInfo>
-          {author ? (
+          {creator ? (
             <Name>
-              <Link to={'/user/' + author.localId}>
-                {author.name}{' '}
-                {author.preferredUsername && (
-                  <Username>@{author.preferredUsername}</Username>
+              <Link to={'/user/' + creator.id}>
+                {creator.name}{' '}
+                {creator.preferredUsername && (
+                  <Username>@{creator.preferredUsername}</Username>
                 )}
               </Link>
               <Spacer mx={2}>·</Spacer>{' '}
-              <Date>{DateTime.fromISO(comment!.published!).toRelative()}</Date>
+              <Date>{DateTime.fromISO(comment.createdAt).toRelative()}</Date>
             </Name>
           ) : (
             <Name>
@@ -61,32 +65,31 @@ const CommentWrapper: React.FC<EventProps> = ({ comment, noAction }) => {
           )}
           <>
             <Comment>
-              {comment!.content && comment!.content!.length > 320
-                ? removeMd(comment!.content).replace(
+              {comment.content && comment.content.length > 320
+                ? removeMd(comment.content).replace(
                     /^([\s\S]{316}[^\s]*)[\s\S]*/,
                     '$1...'
                   )
-                : removeMd(comment!.content)}
+                : removeMd(comment.content)}
             </Comment>
           </>
           {noAction ? null : (
             <Actions mt={2}>
               <Items>
-                <ActionItem>
-                  <ActionIcon onClick={() => onOpen(true)}>
+                <ActionItem onClick={() => onOpen(true)}>
+                  <ActionIcon>
                     <MessageCircle color="rgba(0,0,0,.4)" size="16" />
                   </ActionIcon>
-                  <Text ml={2}>{comment!.replies!.totalCount}</Text>
+                  <Text ml={2}>{/*TODO comment.replies.totalCount */}</Text>
                 </ActionItem>
-                <ActionItem ml={3}>
+                <ActionItem ml={3} onClick={toggleLike}>
                   <ActionIcon>
                     <Star
-                      onClick={toggleLike}
-                      color={iLikeIt ? 'yellow' : 'rgba(0,0,0,.4)'}
+                      color={iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'}
                       size="16"
                     />
                   </ActionIcon>
-                  <Text ml={2}>{comment!.likers!.totalCount}</Text>
+                  <Text ml={2}>{comment.likes.totalCount}</Text>
                 </ActionItem>
               </Items>
             </Actions>
@@ -110,7 +113,7 @@ const NavigateToThread = styled(Link)`
 `;
 
 const Date = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   font-weight: 500;
 `;
 
@@ -126,7 +129,7 @@ const Actions = styled(Flex)`
 const ActionItem = styled(Flex)`
   margin-right: 32px;
   align-items: center;
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   cursor: pointer;
   a {
     display: flex;
@@ -136,11 +139,11 @@ const ActionItem = styled(Flex)`
     div:first-of-type {
       background: #fffbf8;
       svg {
-        color: ${props => props.theme.styles.colors.orange};
+        color: ${props => props.theme.colors.orange};
       }
     }
     div:last-of-type {
-      color: ${props => props.theme.styles.colors.orange};
+      color: ${props => props.theme.colors.orange};
     }
   }
 `;
@@ -160,24 +163,24 @@ const ActionIcon = styled(Box)`
 `;
 
 const Username = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   margin: 0 8px;
   font-weight: 500;
 `;
 
 const Spacer = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   margin-right: 8px;
   font-weight: 500;
 `;
 
 // const SubText = styled(Text)`
 // font-size: 14px;
-// color:  ${props => props.theme.styles.colors.gray};
+// color:  ${props => props.theme.colors.gray};
 // > a {
 //   text-decoration: none;
 //   font-weight: 600
-//   color: ${props => props.theme.styles.colors.black} !important;
+//   color: ${props => props.theme.colors.black} !important;
 //   z-index: 9;
 //   position: relative;
 
@@ -189,7 +192,7 @@ const Spacer = styled(Text)`
 
 const Name = styled(Text)`
   font-weight: 600;
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -200,7 +203,7 @@ const Name = styled(Text)`
     display: flex;
     text-decoration: none;
     align-items: center;
-    color: ${props => props.theme.styles.colors.darkgray} !important;
+    color: ${props => props.theme.colors.darkgray} !important;
     z-index: 9;
     position: relative;
 
@@ -221,8 +224,9 @@ const MemberInfo = styled(Box)`
 
 const Comment = styled.div`
   margin-top: 6px;
+  word-break: break-all;
   & a {
-    color: ${props => props.theme.styles.colors.darkgray} !important;
+    color: ${props => props.theme.colors.darkgray} !important;
     font-weight: 400 !important;
     font-size: 14px;
     text-decoration: none;
@@ -282,15 +286,14 @@ const FeedItem = styled.div`
   margin-top: 0
   z-index: 10;
   position: relative;
-  background: #ffffff;
   position: relative;
-  border-bottom: 1px solid  ${props => props.theme.styles.colors.lightgray};
+  border-bottom: 1px solid  ${props => props.theme.colors.lightgray};
   a {
     text-decoration: none;
     color: inherit;
   }
   &:hover {
-    background: ${props => props.theme.styles.colors.lighter};
+    background: ${props => props.theme.colors.lighter};
   }
 
 `;

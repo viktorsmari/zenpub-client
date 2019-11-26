@@ -1,32 +1,32 @@
 #import "./fragments/basicCommunity.graphql"
 query getFeaturedCommunities(
-  $one: Int!
-  $two: Int!
-  $three: Int!
-  $four: Int!
-  $five: Int!
-  $six: Int!
-  $seven: Int!
+  $one: String!
+  $two: String!
+  $three: String!
+  $four: String!
+  # $five: String!
+  # $six: String!
+  # $seven: String!
   ) {
-  one: community(localId:$one) {
+  one: community(communityId:$one) {
     ...BasicCommunity
   }
-   two: community(localId:$two) {
+   two: community(communityId:$two) {
     ...BasicCommunity
   }
-   three: community(localId:$three) {
+   three: community(communityId:$three) {
     ...BasicCommunity
   }
-   four: community(localId:$four) {
+   four: community(communityId:$four) {
     ...BasicCommunity
   }
-   five: community(localId:$five) {
-    ...BasicCommunity
-  }
-   six: community(localId:$six) {
-    ...BasicCommunity
-  }
-   seven: community(localId:$seven) {
-    ...BasicCommunity
-  }
+  #  five: community(communityId:$five) {
+  #   ...BasicCommunity
+  # }
+  #  six: community(communityId:$six) {
+  #   ...BasicCommunity
+  # }
+  #  seven: community(communityId:$seven) {
+  #   ...BasicCommunity
+  # }
 }

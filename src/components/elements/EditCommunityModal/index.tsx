@@ -1,9 +1,8 @@
 import * as React from 'react';
 import Modal from '../Modal';
 import { Trans } from '@lingui/macro';
-import { Heading } from 'rebass';
+import { Heading, Button } from 'rebass/styled-components';
 import { Input, Textarea } from '@rebass/forms';
-import Button from '../Button/Button';
 import { compose } from 'recompose';
 import { withFormik, FormikProps, Form, Field } from 'formik';
 import * as Yup from 'yup';
@@ -16,11 +15,10 @@ import {
   ContainerForm,
   Header
 } from '../Modal/modal';
-
+// import { LocaleContext } from '../../../containers/App/App';
 import { graphql, OperationOption } from 'react-apollo';
-import Community from '../../../types/Community';
-import { LocaleContext } from '../../../containers/App/App';
-
+import { UpdateCommunityMutationMutationVariables } from '../../../graphql/generated/updateCommunity.generated';
+import { Community } from '../../../graphql/types.generated';
 const {
   updateCommunityMutation
 } = require('../../../graphql/updateCommunity.graphql');
@@ -56,7 +54,7 @@ const withUpdateCommunity = graphql<{}>(updateCommunityMutation, {
 
 const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
   const { toggleModal, modalIsOpen, errors, touched, isSubmitting } = props;
-  const localeCntx = React.useContext(LocaleContext);
+  // const localeCntx = React.useContext(LocaleContext);
 
   return (
     <Modal isOpen={modalIsOpen} toggleModal={toggleModal}>
@@ -129,7 +127,7 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
               {errors.image && touched.image && <Alert>{errors.image}</Alert>}
             </ContainerForm>
           </Row>
-          {localeCntx.contentDirection == 'ltr' ? (
+          {/* {localeCntx.contentDirection == 'ltr' ? (
             <Actions>
               <Button
                 disabled={isSubmitting}
@@ -154,15 +152,26 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
               >
                 <Trans>Save</Trans>
               </Button>
-            </Actions>
+            </Actions> */}
           )}
+          <Actions>
+            <Button disabled={isSubmitting} type="submit" variant="primary">
+              <Trans>Save</Trans>
+            </Button>
+            <Button onClick={toggleModal} mr={2} variant="outline">
+              <Trans>Cancel</Trans>
+            </Button>
+          </Actions>
         </Form>
       </Container>
     </Modal>
   );
 };
 
-const ModalWithFormik = withFormik<MyFormProps, FormValues>({
+const ModalWithFormik = withFormik<
+  MyFormProps & { communityUpdated(): unknown },
+  FormValues
+>({
   mapPropsToValues: props => ({
     name: props.community.name || '',
     summary: props.community.summary || '',
@@ -174,13 +183,12 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
     image: Yup.string().url()
   }),
   handleSubmit: (values, { props, setSubmitting }) => {
-    const variables = {
-      communityId: Number(props.communityId),
+    const variables: UpdateCommunityMutationMutationVariables = {
+      communityId: props.communityId,
       community: {
         name: values.name,
-        preferredUsername: values.name,
         summary: values.summary,
-        content: values.summary,
+        image: values.image,
         icon: values.image
       }
     };
@@ -191,6 +199,7 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
       .then(res => {
         setSubmitting(false);
         props.toggleModal();
+        props.communityUpdated();
       })
       .catch(err => console.log(err));
   }

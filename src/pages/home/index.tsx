@@ -1,44 +1,41 @@
 import { Trans } from '@lingui/macro';
 import React from 'react';
-import { graphql, QueryControls, OperationOption } from 'react-apollo';
+import { NavLink } from 'react-router-dom';
 // import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
-import { compose } from 'recompose';
 import Loader from '../../components/elements/Loader/Loader';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timelineUser';
 import { StickyTabList, SuperTab } from '../../components/elements/SuperTab';
-import TimelineItem from '../../components/elements/TimelineItem';
-import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
+import TimelineItem from '../../components/elements/TimelineItem/index2';
+import Empty from '../../components/elements/Empty';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
-const getMeInboxQuery = require('../../graphql/getMeInbox.graphql');
 import {
-  WrapperPanel,
+  Nav,
+  NavItem,
   Panel,
   PanelInner,
   PanelTitle,
-  Nav,
-  NavItem
+  WrapperPanel
 } from '../../sections/panel';
-import { NavLink } from 'react-router-dom';
+import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
+import { useGetMeInboxQuery } from '../../graphql/generated/getMeInbox.generated';
+import { useInterceptor } from '../../context/global/apolloInterceptorCtx';
 
-interface Data extends QueryControls {
-  me: {
-    user: {
-      name: string;
-      icon: string;
-      summary: string;
-      id: string;
-      localId: string;
-      inbox: any;
-    };
-  };
-}
+interface Props {}
 
-interface Props {
-  data: Data;
-}
+const Home: React.FC<Props> = () => {
+  const { data, loading, error, fetchMore, refetch } = useGetMeInboxQuery({
+    variables: {
+      limit: 15
+    }
+  });
+  useInterceptor({ operation: 'createReply', request: () => () => refetch() });
+  useInterceptor({ operation: 'like', request: () => () => refetch() });
+  useInterceptor({
+    operation: 'delete',
+    request: () => () => refetch()
+  });
 
-const Home: React.FC<Props> = props => {
   return (
     <MainContainer>
       <HomeBox>
@@ -49,31 +46,41 @@ const Home: React.FC<Props> = props => {
                 <SuperTab>
                   <h5>
                     <Trans>My MoodleNet timeline</Trans>
-                    {/* <Helmet>
-                      <title>My MoodleNet timeline</title>
-                    </Helmet> */}
                   </h5>
                 </SuperTab>
               </StickyTabList>
               <TabPanel>
-                {props.data.error ? (
-                  <span>
+                {error ? (
+                  <Empty>
                     <Trans>Error loading moodlenet timeline</Trans>
-                  </span>
-                ) : props.data.loading ? (
+                  </Empty>
+                ) : loading ? (
                   <Loader />
                 ) : (
-                  <div>
-                    {props.data.me.user.inbox.edges.map((t, i) => (
-                      <TimelineItem node={t.node} user={t.node.user} key={i} />
-                    ))}
-                    <div style={{ padding: '8px' }}>
-                      <LoadMoreTimeline
-                        fetchMore={props.data.fetchMore}
-                        community={props.data.me.user}
-                      />
+                  data &&
+                  data.me && (
+                    <div>
+                      {data.me.user.inbox.edges.map(
+                        userActivityEdge =>
+                          userActivityEdge && (
+                            <TimelineItem
+                              context={userActivityEdge.node.context}
+                              verb={userActivityEdge.node.verb}
+                              createdAt={userActivityEdge.node.createdAt}
+                              user={userActivityEdge.node.user}
+                              key={userActivityEdge.node.id}
+                            />
+                          )
+                      )}
+                      {data &&
+                        data.me && (
+                          <LoadMoreTimeline
+                            fetchMore={fetchMore}
+                            community={data.me.user}
+                          />
+                        )}
                     </div>
-                  </div>
+                  )
                 )}
               </TabPanel>
             </Tabs>
@@ -105,19 +112,4 @@ const Home: React.FC<Props> = props => {
   );
 };
 
-const withGetInbox = graphql<
-  {},
-  {
-    data: {
-      me: any;
-    };
-  }
->(getMeInboxQuery, {
-  options: (props: Props) => ({
-    variables: {
-      limit: 15
-    }
-  })
-}) as OperationOption<{}, {}>;
-
-export default compose(withGetInbox)(Home);
+export default Home;

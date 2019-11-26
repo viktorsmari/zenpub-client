@@ -1,18 +1,18 @@
 import React from 'react';
-import Stateless from './stateless';
-import { useGetThreadQuery } from '../../generated/graphqlapollo';
 import { useInterceptor } from '../../context/global/apolloInterceptorCtx';
+import { useGetThreadQuery } from '../../graphql/generated/getThread.generated';
+import Stateless from './stateless';
 export interface Props {
-  id: number;
+  threadId: string;
 }
-export const Thread: React.FC<Props> = ({ id }) => {
-  const threadQuery = useGetThreadQuery({ variables: { id } });
+export const Thread: React.FC<Props> = ({ threadId }) => {
+  const threadQuery = useGetThreadQuery({ variables: { threadId } });
   useInterceptor({
-    operation: 'undoLikeComment',
+    operation: 'delete',
     request: () => () => threadQuery.refetch()
   });
   useInterceptor({
-    operation: 'likeComment',
+    operation: 'like',
     request: () => () => threadQuery.refetch()
   });
   useInterceptor({

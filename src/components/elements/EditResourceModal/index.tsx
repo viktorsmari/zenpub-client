@@ -1,9 +1,8 @@
 import * as React from 'react';
 import Modal from '../Modal';
 import { Trans } from '@lingui/macro';
-import { Heading } from 'rebass';
+import { Button, Heading } from 'rebass/styled-components';
 import { Input, Textarea } from '@rebass/forms';
-import Button from '../Button/Button';
 import { compose } from 'recompose';
 import { withFormik, FormikProps, Form, Field } from 'formik';
 import * as Yup from 'yup';
@@ -22,6 +21,7 @@ import {
   ContainerForm,
   Header
 } from '../Modal/modal';
+import { UpdateResourceMutationMutationVariables } from '../../../graphql/generated/updateResource.generated';
 
 interface Props {
   toggleModal?: any;
@@ -209,8 +209,8 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
     image: Yup.string().url()
   }),
   handleSubmit: (values, { props, setSubmitting }) => {
-    const variables = {
-      resourceId: Number(props.id),
+    const variables: UpdateResourceMutationMutationVariables = {
+      resourceId: props.id,
       resource: {
         name: values.name,
         summary: values.summary,

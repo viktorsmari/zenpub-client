@@ -8,23 +8,14 @@ import Loader from '../../components/elements/Loader/Loader';
 import CollectionsLoadMore from '../../components/elements/Loadmore/followingCollections';
 // import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
+import { Me } from '../../graphql/types.generated';
 
 const {
   getFollowedCollections
 } = require('../../graphql/getFollowedCollections.graphql');
 
 interface Data extends QueryControls {
-  me: {
-    user: {
-      followingCollections: {
-        edges: any[];
-        pageInfo: {
-          startCursor: number;
-          endCursor: number;
-        };
-      };
-    };
-  };
+  me: Me;
 }
 
 interface Props {
@@ -47,20 +38,19 @@ class FollowingCollectionsComponent extends React.Component<Props> {
         </Helmet> */}
         <ListWrapper>
           <List>
-            {this.props.data.me.user.followingCollections.edges.map(
-              (comm, i) => (
-                <CollectionCard
-                  key={i}
-                  collection={comm.node}
-                  openModal={this.props.handleCollection}
-                  communityId={comm.node.community.localId}
-                />
-              )
+            {this.props.data.me.user.followedCollections.edges.map(
+              (collection, i) =>
+                collection && (
+                  <CollectionCard
+                    key={i}
+                    collection={collection.node.collection}
+                  />
+                )
             )}
           </List>
           <CollectionsLoadMore
             fetchMore={this.props.data.fetchMore}
-            collections={this.props.data.me.user.followingCollections}
+            collections={this.props.data.me.user.followedCollections}
             me
           />
         </ListWrapper>

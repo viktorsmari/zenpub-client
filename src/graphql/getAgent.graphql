@@ -4,114 +4,78 @@
 #import "./fragments/basicCommunity.graphql"
 #import "./fragments/basicUser.graphql"
 query getAgentQuery(
-  $id: Int!, 
-  $limitComm: Int, 
-  $endComm: Int, 
-  $limitColl: Int, 
-  $endColl: Int, 
-  $limitTimeline:Int, 
-  $endTimeline:Int
-  )  {
-    user(localId: $id) {
-        id
-        localId
-        name
-        preferredUsername
-        location
-        summary
-        icon
-        image
-        outbox (limit: $limitTimeline, after:$endTimeline) {
-          pageInfo {
-            startCursor
-            endCursor
+  $userId: String!
+  $limitComm: Int
+  $endComm: String
+  $limitColl: Int
+  $endColl: String
+  $limitTimeline: Int 
+  $endTimeline: String
+) {
+  user(userId: $userId) {
+    ...BasicUser
+    outbox (limit: $limitTimeline, after:$endTimeline) {
+      pageInfo { startCursor endCursor }
+      edges {
+        node {
+          id
+          canonicalUrl
+          verb
+          isLocal
+          isPublic
+          createdAt
+          user {
+            ...BasicUser
           }
-          edges {
-            node {
-              id
-              activityType
-              type
-              published
-              user {
-                ...BasicUser
-              }
-              object {
-                __typename
-                ... on Community {
-                  ...BasicCommunity
-                }
-                ... on Comment {
-                  ...BasicComment
-                }
-                ... on Collection {
-                  ...BasicCollection
-                }
-                  ... on Resource {
-                  ...BasicResource
-                }
-              }
+          context {
+            __typename
+            ... on Community  { ...BasicCommunity  }
+            ... on Collection { ...BasicCollection }
+            ... on Resource   { ...BasicResource   }
+            ... on Comment    { ...BasicCommentWithInReplyTo    }
+          }       
+        }
+      }
+    }
+    followedCommunities(limit: $limitComm, after:$endComm) {
+      pageInfo { startCursor endCursor }
+      edges {
+        node {
+          follow{
+            id
+            canonicalUrl
+            isLocal
+            isPublic
+            createdAt
+          }
+          community {
+            __typename
+            ... on Community {
+              ...BasicCommunity
             }
           }
         }
-        joinedCommunities(limit: $limitComm, after:$endComm) {
-          pageInfo {
-            startCursor
-            endCursor
+      }
+    }
+    followedCollections(limit: $limitColl, after:$endColl) {
+      pageInfo { startCursor endCursor }
+      edges {
+        node {
+          follow {
+            id
+            canonicalUrl
+            isLocal
+            isPublic
+            createdAt
           }
-          edges {
-            node {
-              id
-              name
-              localId
-              summary
-              icon
-              preferredUsername
-              followed
-              collections {
-                totalCount
-              }
-              members {
-                totalCount
-              }
-              threads {
-                totalCount
-              }
+          collection {
+            __typename
+            ... on Collection {
+              ...BasicCollection
             }
           }
         }
-        followingCollections(limit: $limitColl, after:$endColl) {
-            pageInfo {
-              startCursor
-              endCursor
-            }
-            edges {
-              node {
-                id
-                localId
-                preferredUsername
-                name
-                community {
-                  localId
-                  id
-                }
-                summary
-                icon
-                followed
-                followers {
-                  totalCount
-                }
-                resources {
-                  totalCount
-                }
-                threads {
-                  totalCount
-                }
-                # followersCount
-                # followingCount
-
-              }
-          }
-        }
+      }
+    }
   }
 }
-

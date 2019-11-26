@@ -2,14 +2,14 @@ import * as React from 'react';
 import { ContainerForm, Row } from '../../components/elements/Modal/modal';
 import LanguageSelect from '../../components/inputs/LanguageSelect/LanguageSelect';
 import { Trans } from '@lingui/macro';
-import { Box, Flex, Heading } from 'rebass';
+import { Box, Flex, Heading } from 'rebass/styled-components';
 import { ArrowLeft, ArrowRight } from 'react-feather';
 import media from 'styled-media-query';
 import styled from '../../themes/styled';
 import { LocaleContext } from '../../containers/App/App';
 
 const Header = styled(Flex)`
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
   svg {
     cursor: pointer;
   }

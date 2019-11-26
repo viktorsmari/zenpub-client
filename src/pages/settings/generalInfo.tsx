@@ -9,7 +9,7 @@ import media from 'styled-media-query';
 import Alert from '../../components/elements/Alert';
 import { Input, Textarea } from '@rebass/forms';
 import styled from '../../themes/styled';
-import { Heading, Button, Flex, Box } from 'rebass';
+import { Heading, Button, Flex, Box } from 'rebass/styled-components';
 const checkUsername = require('../../graphql/checkUsername.graphql');
 const {
   updateProfileMutation
@@ -100,11 +100,11 @@ const Actions = styled(Box)`
     width: 100%;
     height: 40px;
     cursor: pointer;
-    background: ${props => props.theme.styles.colors.orange};
+    background: ${props => props.theme.colors.orange};
   }
 `;
 const Header = styled(Flex)`
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
   svg {
     cursor: pointer;
   }
@@ -114,8 +114,8 @@ display: none;
 `;
 
 const ExRowUsername = styled(ExRow)`
-  border-top: 1px solid ${props => props.theme.styles.colors.lightgray};
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-top: 1px solid ${props => props.theme.colors.lightgray};
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
 `;
 
 const Component = (props: Props & FormikProps<FormValues>) => {
@@ -304,6 +304,7 @@ const Component = (props: Props & FormikProps<FormValues>) => {
           </ExRow> */}
             <Actions>
               <Button
+                type="submit"
                 disabled={isSubmitting || Object.keys(errors).length > 0}
                 style={{ width: '100%' }}
               >
@@ -338,7 +339,6 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
       profile: {
         name: values.name,
         image: values.image,
-        preferredUsername: values.username,
         summary: values.summary,
         location: values.location,
         icon: values.icon

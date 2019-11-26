@@ -1,33 +1,33 @@
 #import "./fragments/basicCollection.graphql"
 
 query getFeaturedCollections(
-  $one: Int!
-  $two: Int!
-  $three: Int!
-  $four: Int!
-  $five: Int!
-  $six: Int!
-  $seven: Int!
+  $one: String!
+  $two: String!
+  # $three: String!
+  # $four: String!
+  # $five: String!
+  # $six: String!
+  # $seven: String!
   ) {
-  one: collection(localId: $one) {
+  one: collection(collectionId: $one) {
     ...BasicCollection
   }
-   two: collection(localId: $two) {
+   two: collection(collectionId: $two) {
     ...BasicCollection
   }
-  three: collection(localId: $three) {
-    ...BasicCollection
-  }
-   four: collection(localId: $four) {
-    ...BasicCollection
-  }
-  five: collection(localId: $five) {
-    ...BasicCollection
-  }
-  six: collection(localId: $six) {
-    ...BasicCollection
-  }
-  seven: collection(localId: $seven) {
-    ...BasicCollection
-  }
+  # three: collection(collectionId: $three) {
+  #   ...BasicCollection
+  # }
+  #  four: collection(collectionId: $four) {
+  #   ...BasicCollection
+  # }
+  # five: collection(collectionId: $five) {
+  #   ...BasicCollection
+  # }
+  # six: collection(collectionId: $six) {
+  #   ...BasicCollection
+  # }
+  # seven: collection(collectionId: $seven) {
+  #   ...BasicCollection
+  # }
 }

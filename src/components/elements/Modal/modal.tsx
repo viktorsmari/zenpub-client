@@ -25,8 +25,8 @@ const Dialog = styled.div`
   background-color: #ffffff;
   padding: 0;
   margin: 40px auto;
-  position: absolute;
-  top: 20px;
+  position: fixed;
+  top: 10px;
   left: 50%;
   margin-left: -350px;
   border-radius: 3px;
@@ -57,14 +57,18 @@ const Action = styled.div`
 const Close = styled.div`
   float: right;
   cursor: pointer;
+  position: relative;
+  z-index: 999999;
 `;
 
 const Content = styled.div`
   ${clearFix()};
+  // overflow: auto;
+  max-height: 90vh;
 `;
 
 export const Container = styled.div`
-  font-family: ${props => props.theme.styles.fontFamily};
+  font-family: ${props => props.theme.fontFamily};
 `;
 export const Actions = styled.div`
   ${clearFix()};
@@ -102,10 +106,16 @@ export const CounterChars = styled.div`
 export const ContainerForm = styled.div`
   flex: 1;
   ${clearFix()};
+  input {
+    height: 40px;
+    background: white;
+    border-radius: 2px;
+    border: 1px solid ${props => props.theme.colors.lightgray};
+  }
 `;
 
 export const Header = styled.div`
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lighter};
+  border-bottom: 1px solid ${props => props.theme.colors.lighter};
   & h5 {
     text-align: center !important;
     margin: 0 !important;
@@ -114,7 +124,7 @@ export const Header = styled.div`
 
 export const Row = styled.div<{ big?: boolean }>`
   ${clearFix()};
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lighter};
+  border-bottom: 1px solid ${props => props.theme.colors.lighter};
   height: ${props => (props.big ? '180px' : 'auto')};
   display: flex;
   padding: 20px;

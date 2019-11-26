@@ -2,15 +2,15 @@ import * as React from 'react';
 import { graphql, OperationOption } from 'react-apollo';
 import { compose, withState } from 'recompose';
 // import media from 'styled-media-query';
-import { Flex, Box } from 'rebass';
+import { Flex, Box } from 'rebass/styled-components';
 import Loader from '../../components/elements/Loader/Loader';
 import Sidebar from './sidebarSettings';
 import styled from '../../themes/styled';
-import CommentType from '../../types/Comment';
 import GeneralInfo from './generalInfo';
 import Preferences from './preferences';
 import { HomeBox } from '../../sections/layoutUtils';
 import media from 'styled-media-query';
+import { Comment } from '../../graphql/types.generated';
 
 const getSettings = require('../../graphql/me.graphql');
 
@@ -25,7 +25,7 @@ const withGetSettings = graphql<
   {},
   {
     data: {
-      comment: CommentType;
+      comment: Comment;
     };
   }
 >(getSettings) as OperationOption<{}, {}>;
@@ -38,7 +38,7 @@ const Component = (props: Props) => {
     return <Loader />;
   }
   return (
-    <>
+    <Flex>
       <SidebarComponent
         style={
           props.switch === 'sidebar'
@@ -67,14 +67,14 @@ const Component = (props: Props) => {
           </FormWrapper>
         </SettingBox>
       ) : null}
-    </>
+    </Flex>
   );
 };
 
 const SettingBox = styled(HomeBox)`
-  border-right: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-right: 1px solid ${props => props.theme.colors.lightgray};
   ${media.lessThan('1005px')`
-border-left: 1px solid ${props => props.theme.styles.colors.lightgray};
+border-left: 1px solid ${props => props.theme.colors.lightgray};
   `};
 `;
 

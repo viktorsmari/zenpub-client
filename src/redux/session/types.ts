@@ -1,7 +1,10 @@
-import { AuthPayload } from '../../generated/graphqlapollo';
+import { Me } from '../../graphql/types.generated';
 
-export type User = AuthPayload | null;
+export type Auth = {
+  me: Me;
+  token: string;
+} | null;
 
 export interface State {
-  user: User;
+  auth: Auth;
 }

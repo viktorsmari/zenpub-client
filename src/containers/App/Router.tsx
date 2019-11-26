@@ -1,36 +1,43 @@
-import * as React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import styled from '../../themes/styled';
-import CommunitiesAll from '../../pages/communities.all/CommunitiesAll';
+import algoliasearch from 'algoliasearch/lite';
+import qs from 'qs';
+import React from 'react';
+import { connectStateResults, InstantSearch } from 'react-instantsearch-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from 'react-router-dom';
+import { Flex } from 'rebass/styled-components';
+import { SessionContext } from '../../context/global/sessionCtx';
 import CollectionsAll from '../../pages/collections.all';
+import MyCollections from '../../pages/collections.all/collectionsFollowed';
+import Collection from '../../pages/collections.collection/component';
+import CommunitiesAll from '../../pages/communities.all/CommunitiesAll';
+import MyCommunities from '../../pages/communities.all/communitiesJoined';
 import CommunitiesCommunity from '../../pages/communities.community/CommunitiesCommunity';
+import CreateNewPassword from '../../pages/CreateNewPassword';
+import Discover from '../../pages/discover';
+import Home from '../../pages/home';
 import Login from '../../pages/login/Login';
 import NotFound from '../../pages/not-found/NotFound';
-import ProtectedRoute from './ProtectedRoute';
-import SearchComp from '../../pages/search/Search';
-import Home from '../../pages/home';
-import Discover from '../../pages/discover';
 import Profile from '../../pages/Profile';
-import MyCommunities from '../../pages/communities.all/communitiesJoined';
-import MyCollections from '../../pages/collections.all/collectionsFollowed';
-import User from '../../pages/User';
-import Settings from '../../pages/settings';
 import Reset from '../../pages/Reset';
+import SearchComp from '../../pages/search/Search';
+import Settings from '../../pages/settings';
 import Thread from '../../pages/thread/component';
-import CreateNewPassword from '../../pages/CreateNewPassword';
-import qs from 'qs';
-
+import User from '../../pages/User';
+import Signup from '../../pages/Signup';
+import ConfirmAccount from '../../pages/Confirm';
 import {
+  Inner,
   MainWrapper,
-  WrapperDimension,
-  Inner
+  WrapperDimension
 } from '../../sections/layoutUtils';
-import { Flex } from 'rebass';
 import Sidebar from '../../sections/sidebar/sidebarHOC';
-import CollectionViewModal from '../../components/elements/CollectionViewModal';
-import algoliasearch from 'algoliasearch/lite';
-
-import { InstantSearch, connectStateResults } from 'react-instantsearch-dom';
+import SidebarNoLoggedWrapper from '../../sections/sidebar/sidebar_not_logged';
+import styled from '../../themes/styled';
+import MobileHeader from './mobileHeader';
 
 const Main = styled(Flex)`
   height: 100%;
@@ -66,7 +73,7 @@ const PageContainer = styled(Flex)`
 
 const createURL = state => `?${qs.stringify(state)}`;
 
-const searchStateToUrl = (props, searchState) => {
+const searchStateToUrl = (props, searchState, loggedin) => {
   if (searchState.query) {
     return `/search/${createURL(searchState)}`;
   } else if (
@@ -75,51 +82,88 @@ const searchStateToUrl = (props, searchState) => {
   ) {
     return props.location.pathname;
   } else if (props.location.pathname.includes('search') && !searchState.query) {
-    return '/';
+    return loggedin ? '/' : '/discover';
   }
 };
 
-const Content = connectStateResults(
-  ({ searchState }) =>
-    searchState && searchState.query ? (
+const Content = connectStateResults(({ searchState, onOpen }) => {
+  const { auth } = React.useContext(SessionContext);
+
+  return searchState && searchState.query ? (
+    <>
+      <MobileHeader onOpen={onOpen} />
       <Switch>
         <Route path="/search" component={SearchComp} />
       </Switch>
-    ) : (
+    </>
+  ) : (
+    <>
+      <MobileHeader onOpen={onOpen} />
       <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/discover" component={Discover} />
-        <Route exact path="/settings" component={Settings} />
-        <Route exact path="/communities" component={CommunitiesAll} />
-        <Route exact path="/mycommunities" component={MyCommunities} />
-        <Route exact path="/mycollections" component={MyCollections} />
+        <Route exact path="/" component={auth ? Home : Login} />
+        <Route exact path="/profile" component={auth ? Profile : Login} />
         <Route
           exact
-          path="/thread/:id"
+          path="/mycommunities"
+          component={auth ? MyCommunities : Login}
+        />
+        <Route exact path="/settings" component={auth ? Settings : Login} />
+        <Route
+          exact
+          path="/mycollections"
+          component={auth ? MyCollections : Login}
+        />
+
+        <Route exact path="/discover" component={Discover} />
+        <Route exact path="/communities" component={CommunitiesAll} />
+        <Route
+          exact
+          path="/communities/:communityId"
           render={route => {
-            const id = Number(route.match.params.id);
-            return <Thread id={id} />;
+            const communityId = route.match.params.communityId;
+            return (
+              <CommunitiesCommunity
+                url={route.match.url}
+                communityId={communityId}
+              />
+            );
           }}
         />
         <Route
           exact
-          path="/communities/:community"
-          component={CommunitiesCommunity}
+          path="/thread/:id"
+          render={route => {
+            const threadId = route.match.params.id;
+            return <Thread threadId={threadId} />;
+          }}
         />
         <Route
           exact
-          path="/communities/:community/collections/:collection"
-          component={CollectionViewModal}
+          path="/collections/:id"
+          render={route => {
+            const id = route.match.params.id;
+            return <Collection id={id} />;
+          }}
         />
-        <Route exact path="/collections" component={CollectionsAll} />
-        <Route exact path="/profile" component={Profile} />
-        <Route exact path="/user/:id" component={User} />
+        <Route
+          exact
+          path="/user/:id"
+          render={route => {
+            const userId = route.match.params.id;
+            return auth && auth.me.user.id === userId ? (
+              <Redirect to="/profile" />
+            ) : (
+              <User {...route} />
+            );
+          }}
+        />
         <Route path="/search" component={SearchComp} />
-
+        <Route exact path="/collections" component={CollectionsAll} />
         <Route component={NotFound} />
       </Switch>
-    )
-);
+    </>
+  );
+});
 
 const urlToSearchState = ({ search }) => qs.parse(search.slice(1));
 
@@ -127,82 +171,129 @@ const DEBOUNCE_TIME = 100;
 
 const searchClient = algoliasearch(
   'KVG4RFL0JJ',
-  '2b7ba2703d3f4bac126ea5765c2764eb'
+  '884f8371d98c8c9837cf76f85f4b5daa'
 );
 
-class App extends React.Component<any> {
-  state = {
-    searchState: urlToSearchState(this.props.location),
-    lastLocation: this.props.location
-  };
+// static getDerivedStateFromProps(props, state) {
+//   if (props.location !== state.lastLocation) {
+//     return {
+//       searchState: urlToSearchState(props.location),
+//       lastLocation: props.location
+//     };
+//   }
+//   return null;
+// }
+//   lastLocation: this.props.location,
+//   isSidebarOpen: false
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.location !== state.lastLocation) {
-      return {
-        searchState: urlToSearchState(props.location),
-        lastLocation: props.location
-      };
-    }
-
-    return null;
-  }
-
-  onSearchStateChange = searchState => {
-    clearTimeout(this['debouncedSetState']);
-
-    this['debouncedSetState'] = setTimeout(() => {
-      this.props.history.push(
-        searchStateToUrl(this.props, searchState),
-        searchState
-      );
-    }, DEBOUNCE_TIME);
-
-    this.setState({ searchState });
-  };
-
-  render() {
-    return (
-      <Flex alignItems={'center'}>
-        <InstantSearch
-          searchState={this.state.searchState}
-          onSearchStateChange={this.onSearchStateChange}
-          createURL={createURL}
-          searchClient={searchClient}
-          indexName="next_moodlenet"
-        >
-          <PageContainer>
-            <Sidebar />
-            <MainWrapper>
-              <WrapperDimension>
-                <Inner>
-                  <Content />
-                </Inner>
-              </WrapperDimension>
-            </MainWrapper>
-          </PageContainer>
-        </InstantSearch>
-      </Flex>
-    );
-  }
+export interface Props {
+  location: any;
+  history: any;
 }
+const App: React.FC<Props> = props => {
+  const [isSidebarOpen, setSidebarOpen] = React.useState(false);
+  const { auth } = React.useContext(SessionContext);
+  const [lastLocation, setLastLocation] = React.useState();
+  const onSidebarOpen = React.useCallback(
+    () => {
+      setSidebarOpen(!isSidebarOpen);
+    },
+    [isSidebarOpen]
+  );
+  const [searchState, setSearchState] = React.useState(
+    urlToSearchState(props.location)
+  );
+  const debouncedSetState = React.useRef<any>(null);
+  const onSearchStateChange = React.useCallback(
+    searchState => {
+      if (
+        lastLocation &&
+        !props.history.location.pathname.startsWith('/search/')
+      ) {
+        setSearchState({ search: '' });
+        setLastLocation(undefined);
+        return;
+      }
+      !lastLocation && setLastLocation(props.location.pathname);
+      clearTimeout(debouncedSetState.current);
+      debouncedSetState.current = setTimeout(() => {
+        if (searchState.query) {
+          props.history.push(
+            searchStateToUrl(props, searchState, !!auth),
+            searchState
+          );
+        } else {
+          props.history.push(lastLocation);
+          setLastLocation(undefined);
+        }
+      }, DEBOUNCE_TIME);
 
-export default p => (
-  <Main>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.1.1/themes/reset-min.css"
-    />
-    <Router>
-      <AppInner>
-        <Switch>
-          <Route exact path="/reset" component={Reset} />
-          <Route exact path="/reset/:token" component={CreateNewPassword} />
-          <Route exact path="/login" component={Login} />
+      setSearchState(searchState);
+    },
+    [props.history, searchState, props, debouncedSetState.current, lastLocation]
+  );
+  return (
+    <Flex alignItems={'center'}>
+      <InstantSearch
+        searchState={searchState}
+        onSearchStateChange={onSearchStateChange}
+        createURL={createURL}
+        searchClient={searchClient}
+        indexName="moodlenet_mothership"
+      >
+        <PageContainer>
+          {auth ? (
+            <Sidebar isOpen={isSidebarOpen} />
+          ) : location.pathname !== '/' ? (
+            <SidebarNoLoggedWrapper isOpen={isSidebarOpen} />
+          ) : null}
+          <MainWrapper>
+            <WrapperDimension
+              isLogin={!auth && location.pathname === '/' ? true : false}
+            >
+              <Inner>
+                <Content isOpen={isSidebarOpen} onOpen={onSidebarOpen} />
+              </Inner>
+            </WrapperDimension>
+          </MainWrapper>
+        </PageContainer>
+      </InstantSearch>
+    </Flex>
+  );
+};
 
-          <ProtectedRoute path="/" component={props => <App {...props} />} />
-          <Route component={NotFound} />
-        </Switch>
-      </AppInner>
-    </Router>
-  </Main>
-);
+export default _ => {
+  const { auth } = React.useContext(SessionContext);
+
+  return (
+    <Main>
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.1.1/themes/reset-min.css"
+      />
+      <Router>
+        <AppInner>
+          <Switch>
+            <Route
+              exact
+              path="/confirm-email/:token"
+              render={route =>
+                auth ? (
+                  <Redirect to="/" />
+                ) : (
+                  <ConfirmAccount token={route.match.params.token} />
+                )
+              }
+            />
+            <Route exact path="/reset" component={Reset} />
+            <Route exact path="/reset/:token" component={CreateNewPassword} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={Signup} />
+            <Route path="/" component={props => <App {...props} />} />
+            <Route component={NotFound} />
+          </Switch>
+        </AppInner>
+      </Router>
+    </Main>
+  );
+};

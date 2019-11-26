@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from '../../../themes/styled';
-import { Text, Heading, Box, Flex } from 'rebass';
+import { Text, Box, Flex } from 'rebass/styled-components';
 import { Layers, Users } from 'react-feather';
 import { LocaleContext } from '../../../containers/App/App';
 
@@ -10,6 +10,7 @@ const PlaceholderImg = require('../Icons/communityPlaceholder.png');
 interface Props {
   title: string;
   icon?: string;
+  image?: string;
   summary: string;
   id: string;
   followersCount: number;
@@ -23,6 +24,7 @@ const Community: React.FC<Props> = ({
   title,
   id,
   icon,
+  image,
   summary,
   followersCount,
   collectionsCount,
@@ -39,15 +41,15 @@ const Community: React.FC<Props> = ({
       <WrapperImage>
         <Img
           style={{
-            backgroundImage: `url(${icon || PlaceholderImg})`
+            backgroundImage: `url(${icon || image || PlaceholderImg})`
           }}
         />
       </WrapperImage>
-      <Heading>
+      <Text variant="heading" fontSize={3}>
         {title.length > 60 ? title.replace(/^(.{56}[^\s]*).*/, '$1...') : title}
-      </Heading>
+      </Text>
 
-      <Text>
+      <Text variant="text">
         {summary.length > 160
           ? summary.replace(/^([\s\S]{156}[^\s]*)[\s\S]*/, '$1...')
           : summary}
@@ -102,7 +104,7 @@ const Wrapper = styled(Box)`
   border-radius: 6px;
   padding-bottom: 0;
   &:hover {
-    background: ${props => props.theme.styles.colors.lighter};
+    background: ${props => props.theme.colors.lighter};
     text-decoration: none;
   }
   & a {

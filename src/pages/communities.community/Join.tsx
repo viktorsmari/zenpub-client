@@ -1,16 +1,12 @@
 import { Trans } from '@lingui/macro';
 import gql from 'graphql-tag';
 import React from 'react';
-import { graphql, OperationOption } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import { compose } from 'recompose';
-import styled from '../../themes/styled';
-import { Button } from 'rebass';
-const {
-  joinCommunityMutation
-} = require('../../graphql/joinCommunity.graphql');
-const {
-  undoJoinCommunityMutation
-} = require('../../graphql/undoJoinCommunity.graphql');
+// import styled from '../../themes/styled';
+import { Button } from 'rebass/styled-components';
+const { followMutation } = require('../../graphql/follow.graphql');
+const { deleteMutation } = require('../../graphql/delete.graphql');
 
 interface Props {
   joinCommunity: any;
@@ -20,15 +16,15 @@ interface Props {
   externalId: string;
 }
 
-const withJoinCommunity = graphql<{}>(joinCommunityMutation, {
+const withJoinCommunity = graphql(followMutation, {
   name: 'joinCommunity'
   // TODO enforce proper types for OperationOption
-} as OperationOption<{}, {}>);
+});
 
-const withLeaveCommunity = graphql<{}>(undoJoinCommunityMutation, {
+const withLeaveCommunity = graphql(deleteMutation, {
   name: 'leaveCommunity'
   // TODO enforce proper types for OperationOption
-} as OperationOption<{}, {}>);
+});
 
 const Join: React.FC<Props> = ({
   joinCommunity,
@@ -39,10 +35,11 @@ const Join: React.FC<Props> = ({
 }) => {
   if (followed) {
     return (
-      <Span
+      <Button
+        variant="outline"
         onClick={() =>
           leaveCommunity({
-            variables: { communityId: id },
+            variables: { contextId: id },
             update: (proxy, { data: { undoJoinCommunity } }) => {
               const fragment = gql`
                 fragment Res on Community {
@@ -70,14 +67,15 @@ const Join: React.FC<Props> = ({
         }
       >
         <Trans>Leave</Trans>
-      </Span>
+      </Button>
     );
   } else {
     return (
       <Button
+        variant="primary"
         onClick={() =>
           joinCommunity({
-            variables: { communityId: id },
+            variables: { contextId: id },
             update: (proxy, { data: { joinCommunity } }) => {
               const fragment = gql`
                 fragment Res on Community {
@@ -110,36 +108,42 @@ const Join: React.FC<Props> = ({
   }
 };
 
-const Span = styled.div`
-  color: ${props => props.theme.styles.colour.base2};
-  cursor: pointer;
-  text-align: center;
-  border-radius: 3px;
-  margin-left: 8px;
-  box-sizing: border-box;
-  display: inline-block;
-  padding: 4px 32px;
-  min-width: 0;
-  font-size: 16px;
-  border-radius: 4px;
-  border: 1px solid ${props => props.theme.styles.colors.orange};
-  font-size: 11px;
-  line-height: 29px;
-  color: ${props => props.theme.styles.colors.darkgray};
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  & svg {
-    margin-right: 4px;
-    vertical-align: text-top;
-    color: ${props => props.theme.styles.colors.orange};
-  }
-  .--rtl & {
-    margin-left: 0px;
-    margin-right: 8px;
-  }
-`;
+// const JoinButton = styled(Button)`
+//   border: 1px solid ${props => props.theme.colors.orange} !important;
+//   font-size: 11px !important;
+//   color: ${props => props.theme.colors.darkgray} !important;
+//   text-transform: uppercase !important;
+//   letter-spacing: 1px !important;
+//   background: transparent !important;
+//   cursor: pointer;
+//   height: 30px !important;
+//   border-radius: 2px !important;
+// `;
+
+// const Span = styled.div`
+//   cursor: pointer;
+//   text-align: center;
+//   border-radius: 3px;
+//   margin-left: 8px;
+//   box-sizing: border-box;
+//   display: inline-block;
+//   padding: 4px 32px;
+//   min-width: 0;
+//   font-size: 16px;
+//   border-radius: 4px;
+//   border: 1px solid ${props => props.theme.colors.orange};
+//   font-size: 11px;
+//   line-height: 29px;
+//   color: ${props => props.theme.colors.darkgray};
+//   font-weight: 600;
+//   letter-spacing: 1px;
+//   text-transform: uppercase;
+//   letter-spacing: 1px;
+// .--rtl & {
+//   margin-left: 0px;
+//   margin-right: 8px;
+// }
+// `;
 
 export default compose(
   withJoinCommunity,

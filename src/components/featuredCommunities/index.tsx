@@ -4,26 +4,26 @@ import { graphql, QueryControls, OperationOption } from 'react-apollo';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-const getFollowedCommunities = require('../../graphql/getFeaturedCommunities.graphql');
+const getFeaturedCommunities = require('../../graphql/getFeaturedCommunities.graphql');
 import Loader from '../../components/elements/Loader/Loader';
 import { Trans } from '@lingui/macro';
 import CommunitySmall from '../elements/Community/CommunitySmall';
 import styled from '../../themes/styled';
 import { ChevronLeft, Right } from '../elements/Icons';
 import { LocaleContext } from '../../containers/App/App';
-import { IS_DEV } from '../../constants';
+import { GRAPHQL_ENDPOINT } from '../../constants';
 
 export const Title = styled.div`
   font-size: 15px;
   font-weight: 700;
   padding: 8px;
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
   margin: 0;
   margin-bottom: 8px;
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
   & h5 {
     margin: 0;
-    color: ${props => props.theme.styles.colors.darkgray};
+    color: ${props => props.theme.colors.darkgray};
     display: inline-block;
     padding: 0;
     font-size: 12px;
@@ -40,13 +40,13 @@ export const RightContext = styled.div`
     display: inline-block;
     height: 30px;
     & svg {
-      color: ${props => props.theme.styles.colors.darkgray} !important;
+      color: ${props => props.theme.colors.darkgray} !important;
       vertical-align: middle;
       height: 30px;
     }
     &:hover {
       & svg {
-        color: ${props => props.theme.styles.colors.darkgray} !important;
+        color: ${props => props.theme.colors.darkgray} !important;
       }
     }
   }
@@ -170,7 +170,7 @@ class MultipleItems extends React.Component<Props> {
         </Title>
         {this.props.data.error ? (
           <span>
-            <Trans>Error loading featured communities</Trans>
+            <Trans>{/* Error loading featured communities */}</Trans>
           </span>
         ) : this.props.data.loading ? (
           <Loader />
@@ -204,21 +204,38 @@ class MultipleItems extends React.Component<Props> {
   }
 }
 
+const is_home =
+  GRAPHQL_ENDPOINT == 'https://home.moodle.net/api/graphql' ? true : false;
+
 const withGetInbox = graphql<
   {},
   {
     data: any;
   }
->(getFollowedCommunities, {
+>(getFeaturedCommunities, {
   options: {
     variables: {
-      one: IS_DEV ? 7 : 7,
-      two: IS_DEV ? 15 : 15,
-      three: IS_DEV ? 5369 : 7633,
-      four: IS_DEV ? 8083 : 5939,
-      five: IS_DEV ? 8806 : 4241,
-      six: IS_DEV ? 7933 : 2900,
-      seven: IS_DEV ? 2708 : 2708
+      one: is_home
+        ? '29443e0a-8091-48c3-8617-9bc91810e0d4'
+        : '4f59c147-37c2-4c56-9736-beb6b09792cf',
+      two: is_home
+        ? '47d994da-cd9c-4d05-b3b7-1363b54bdd5f'
+        : '4f59c147-37c2-4c56-9736-beb6b09792cf',
+      three: is_home
+        ? 'f546ae02-654c-4532-877f-de07fef9aa98'
+        : '4f59c147-37c2-4c56-9736-beb6b09792cf',
+      four: is_home
+        ? '24f47162-19e8-4044-863e-6e8b15e5658b'
+        : '4f59c147-37c2-4c56-9736-beb6b09792cf',
+      five: is_home
+        ? '24f47162-19e8-4044-863e-6e8b15e5658b'
+        : '4f59c147-37c2-4c56-9736-beb6b09792cf',
+      six: is_home
+        ? '24f47162-19e8-4044-863e-6e8b15e5658b'
+        : '4f59c147-37c2-4c56-9736-beb6b09792cf',
+      seven: is_home
+        ? '24f47162-19e8-4044-863e-6e8b15e5658b'
+        : '4f59c147-37c2-4c56-9736-beb6b09792cf'
     }
   }
 }) as OperationOption<{}, {}>;

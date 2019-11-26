@@ -1,17 +1,12 @@
 import React, { SFC } from 'react';
-import { Box, Text, Flex } from 'rebass';
+import { Box, Text, Flex } from 'rebass/styled-components';
 import { Globe } from '../../components/elements/Icons';
 import styled from '../../themes/styled';
+import media from 'styled-media-query';
+import { User } from '../../graphql/types.generated';
 
 interface Props {
-  user: {
-    name: string;
-    summary: string;
-    image: string;
-    icon: string;
-    preferredUsername: string;
-    location: string;
-  };
+  user: User;
 }
 
 const HeroComp: SFC<Props> = ({ user }) => (
@@ -22,8 +17,8 @@ const HeroComp: SFC<Props> = ({ user }) => (
       </title>
     </Helmet> */}
     <Hero>
-      <HeroBg src={user.image} />
-      <Flex>
+      <HeroBg src={user.icon || user.image || ''} />
+      <FlexProfile>
         <WrapperHero>
           <Img
             style={{
@@ -32,13 +27,15 @@ const HeroComp: SFC<Props> = ({ user }) => (
           />
         </WrapperHero>
         <HeroInfo>
-          <Title fontSize={5} mt={1} fontWeight={'bold'}>
+          <Text variant="heading" mt={1} fontWeight={'bold'}>
             {user.name}
-          </Title>
-          <Username fontSize={2}>@{user.preferredUsername}</Username>
-          <Description mt={2} fontSize={2}>
+          </Text>
+          <Username mt={2} fontSize={2}>
+            @{user.preferredUsername}
+          </Username>
+          <Text variant="text" mt={2}>
             {user.summary}
-          </Description>
+          </Text>
           {user.location ? (
             <Location mt={2}>
               <span>
@@ -48,30 +45,32 @@ const HeroComp: SFC<Props> = ({ user }) => (
             </Location>
           ) : null}
         </HeroInfo>
-      </Flex>
+      </FlexProfile>
     </Hero>
   </ProfileBox>
 );
 
 export default HeroComp;
 
+const FlexProfile = styled(Flex)`
+  ${media.lessThan('860px')`
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+`};
+`;
+
 const ProfileBox = styled(Box)`
   // overflow-y: overlay;
 `;
 
-const Title = styled(Text)`
-  color: ${props => props.theme.styles.colors.darkgray};
-`;
 const Username = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   font-weight: 500;
-`;
-const Description = styled(Text)`
-  color: ${props => props.theme.styles.colors.darkgray};
 `;
 
 const Location = styled(Text)`
-  color: ${props => props.theme.styles.colors.gray};
+  color: ${props => props.theme.colors.gray};
   font-weight: 500;
   line-height: 26px;
   font-size: 14px;
@@ -81,7 +80,7 @@ const Location = styled(Text)`
     display: inline-block;
     margin-right: 8px;
     & svg {
-      color: ${props => props.theme.styles.colors.gray};
+      color: ${props => props.theme.colors.gray};
       vertical-align: text-bottom;
     }
     .--rtl & {
@@ -116,7 +115,7 @@ const Img = styled.div`
   width: 120px;
   height: 120px;
   border-radius: 100px;
-  background: ${props => props.theme.styles.colour.secondary};
+  background: ${props => props.theme.colors.lightgray};
   border: 3px solid white;
   margin-bottom: 10px;
   background-size: cover;
@@ -132,7 +131,7 @@ const Hero = styled.div`
   position: relative;
   border-radius: 6px;
   & p {
-    color: ${props => props.theme.styles.colour.heroNote};
+    color: ${props => props.theme.colors.darkgray};
     padding: 0 24px;
     margin-left: 120px;
     margin: 0;

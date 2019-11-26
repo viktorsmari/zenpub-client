@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Text, Flex } from 'rebass';
+import { Box, Text, Flex } from 'rebass/styled-components';
 import styled from '../../themes/styled';
 import { Trans } from '@lingui/macro';
 
@@ -21,8 +21,8 @@ const SidebarComponent = styled(Flex)`
   padding: 0px;
   position: relative;
   overflow-y: auto;
-  border-left: 1px solid ${props => props.theme.styles.colors.lightgray};
-  border-right: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-left: 1px solid ${props => props.theme.colors.lightgray};
+  border-right: 1px solid ${props => props.theme.colors.lightgray};
 `;
 
 const InternalWrapper = styled(Box)``;
@@ -40,7 +40,7 @@ const SidebarOverflow = styled(Box)`
 `;
 
 const Nav = styled(Box)`
-  border-top: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-top: 1px solid ${props => props.theme.colors.lightgray};
   a {
     text-decoration: none;
   }
@@ -49,9 +49,9 @@ const Nav = styled(Box)`
 const NavItem = styled(Flex)`
   padding: 16px;
   cursor: pointer;
-  border-bottom: 1px solid ${props => props.theme.styles.colors.lightgray};
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
   &:hover {
-    background: ${props => props.theme.styles.colors.lightgray};
+    background: ${props => props.theme.colors.lightgray};
   }
   ${media.lessThan('1280px')`
   img {
@@ -61,7 +61,7 @@ const NavItem = styled(Flex)`
 `;
 
 const ItemTitle = styled(Text)`
-  color: ${props => props.theme.styles.colors.darkgray};
+  color: ${props => props.theme.colors.darkgray};
 //   ${ellipsis('220px')} 
 //   ${media.lessThan('1280px')`
 //   display: none;
