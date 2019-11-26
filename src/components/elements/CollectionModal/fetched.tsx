@@ -16,6 +16,7 @@ import { Button } from 'rebass/styled-components';
 import { Actions, ContainerForm, CounterChars, Row } from '../Modal/modal';
 import ResourceCard from '../Resource/Resource';
 import { CreateResourceMutationMutationVariables } from '../../../graphql/generated/createResource.generated';
+// import Thumb from "../DropzoneModal/thumb";
 
 const {
   createResourceMutation
@@ -47,6 +48,7 @@ interface FormValues {
   summary: string;
   image: string;
   url: string;
+  // file: File;
 }
 
 interface MyFormProps {
@@ -69,124 +71,142 @@ const tt = {
       'Please type or copy/paste a summary about the resource...'
     ),
     submit: i18nMark('Add'),
-    image: i18nMark('Enter the URL of an image to represent the resource')
+    image: i18nMark('Enter the URL of an image to represent the resource'),
+    noFilesSelected: i18nMark('No files selected')
   }
 };
 
-const Fetched = (props: Props & FormikProps<FormValues>) => (
-  <>
-    <Preview>
-      <ResourceCard
-        icon={props.values.image}
-        title={props.values.name}
-        summary={props.values.summary}
-        url={props.values.url}
-        preview
-      />
-    </Preview>
-    <Form>
-      <Row>
-        <label>
-          <Trans>Link</Trans>
-        </label>
-        <ContainerForm>
-          <Field
-            name="url"
-            render={({ field }) => (
-              <Input
-                placeholder={i18n._(tt.placeholders.url)}
-                name={field.name}
-                value={field.value}
-                onChange={field.onChange}
-              />
-            )}
-          />
-          {props.errors.url &&
-            props.touched.url && <Alert>{props.errors.url}</Alert>}
-        </ContainerForm>
-      </Row>
-      <Row>
-        <label>
-          <Trans>Name</Trans>
-        </label>
-        <ContainerForm>
-          <Field
-            name="name"
-            render={({ field }) => (
-              <>
-                <SearchInput
-                  placeholder={i18n._(tt.placeholders.name)}
+const Fetched = (props: Props & FormikProps<FormValues>) => {
+  return (
+    <>
+      <Preview>
+        <ResourceCard
+          icon={props.values.image}
+          title={props.values.name}
+          summary={props.values.summary}
+          url={props.values.url}
+          preview
+        />
+      </Preview>
+      <Form>
+        <Row>
+          <label>
+            <Trans>Link</Trans>
+          </label>
+          <ContainerForm>
+            <Field
+              name="url"
+              render={({ field }) => (
+                <Input
+                  placeholder={i18n._(tt.placeholders.url)}
                   name={field.name}
                   value={field.value}
                   onChange={field.onChange}
                 />
-                <CounterChars>{90 - field.value.length}</CounterChars>
-              </>
-            )}
-          />
-          {props.errors.name &&
-            props.touched.name && <Alert>{props.errors.name}</Alert>}
-        </ContainerForm>
-      </Row>
-      <Row big>
-        <label>
-          <Trans>Description</Trans>
-        </label>
-        <ContainerForm>
-          <Field
-            name="summary"
-            render={({ field }) => (
-              <>
-                <Textarea
-                  placeholder={i18n._(tt.placeholders.summary)}
+              )}
+            />
+            {props.errors.url &&
+              props.touched.url && <Alert>{props.errors.url}</Alert>}
+          </ContainerForm>
+        </Row>
+        <Row>
+          <label>
+            <Trans>Name</Trans>
+          </label>
+          <ContainerForm>
+            <Field
+              name="name"
+              render={({ field }) => (
+                <>
+                  <SearchInput
+                    placeholder={i18n._(tt.placeholders.name)}
+                    name={field.name}
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                  <CounterChars>{90 - field.value.length}</CounterChars>
+                </>
+              )}
+            />
+            {props.errors.name &&
+              props.touched.name && <Alert>{props.errors.name}</Alert>}
+          </ContainerForm>
+        </Row>
+        <Row big>
+          <label>
+            <Trans>Description</Trans>
+          </label>
+          <ContainerForm>
+            <Field
+              name="summary"
+              render={({ field }) => (
+                <>
+                  <Textarea
+                    placeholder={i18n._(tt.placeholders.summary)}
+                    name={field.name}
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                  <CounterChars>{1000 - field.value.length}</CounterChars>
+                </>
+              )}
+            />
+          </ContainerForm>
+        </Row>
+        <Row>
+          <label>
+            <Trans>Image</Trans>
+          </label>
+          <ContainerForm>
+            <Field
+              name="image"
+              render={({ field }) => (
+                <Input
+                  placeholder={i18n._(tt.placeholders.image)}
                   name={field.name}
                   value={field.value}
                   onChange={field.onChange}
                 />
-                <CounterChars>{1000 - field.value.length}</CounterChars>
-              </>
-            )}
-          />
-        </ContainerForm>
-      </Row>
-      <Row>
-        <label>
-          <Trans>Image</Trans>
-        </label>
-        <ContainerForm>
-          <Field
-            name="image"
-            render={({ field }) => (
-              <Input
-                placeholder={i18n._(tt.placeholders.image)}
-                name={field.name}
-                value={field.value}
-                onChange={field.onChange}
-              />
-            )}
-          />
-          {props.errors.image &&
-            props.touched.image && <Alert>{props.errors.image}</Alert>}
-        </ContainerForm>
-      </Row>
-      <Actions>
-        <Button
-          loading={props.isSubmitting}
-          disabled={props.isSubmitting}
-          text={i18n._(tt.placeholders.submit)}
-          ml={2}
-          onClick={props.handleSubmit}
-          variant="primary"
-        >
-          <Trans>Publish</Trans>
-        </Button>
-        <Button onClick={props.toggleModal} variant="outline">
-          <Trans>Cancel</Trans>
-        </Button>
-      </Actions>
-    </Form>
-  </>
-);
+              )}
+            />
+            <Field
+              name="image-upload"
+              render={({ field }) => (
+                <Input
+                  placeholder={i18n._(tt.placeholders.noFilesSelected)}
+                  name={field.name}
+                  value={field.value}
+                  onChange={event => {
+                    field.setFieldValue('file', event.currentTarget.files[0]);
+                  }}
+                  type="file"
+                />
+              )}
+            />
+            {/* <Thumb file={props.values.file} /> */}
+            {props.errors.image &&
+              props.touched.image && <Alert>{props.errors.image}</Alert>}
+          </ContainerForm>
+        </Row>
+        <Actions>
+          <Button
+            loading={props.isSubmitting}
+            disabled={props.isSubmitting}
+            text={i18n._(tt.placeholders.submit)}
+            ml={2}
+            onClick={props.handleSubmit}
+            variant="primary"
+          >
+            <Trans>Publish</Trans>
+          </Button>
+          <Button onClick={props.toggleModal} variant="outline">
+            <Trans>Cancel</Trans>
+          </Button>
+        </Actions>
+      </Form>
+    </>
+  );
+};
 
 const ModalWithFormik = withFormik<MyFormProps, FormValues>({
   mapPropsToValues: props => ({
