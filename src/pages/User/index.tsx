@@ -23,7 +23,7 @@ import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel, Panel, PanelTitle, Nav } from '../../sections/panel';
 import { Button } from 'rebass/styled-components';
 import styled from '../../themes/styled';
-import { User } from '../../graphql/types';
+import { User } from '../../graphql/types.generated';
 
 const Follow = styled(Button)`
   color: ${props => props.theme.colors.orange};

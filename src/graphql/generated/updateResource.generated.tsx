@@ -1,4 +1,4 @@
-import * as Types from '../types.d';
+import * as Types from '../types.generated.d';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -9,94 +9,46 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type UpdateResourceMutationMutationVariables = {
-  resource: Types.ResourceInput;
-  resourceId: Types.Scalars['String'];
+  resource: Types.ResourceInput,
+  resourceId: Types.Scalars['String']
 };
 
-export type UpdateResourceMutationMutation = {
-  __typename?: 'RootMutationType';
-} & {
-  updateResource: Types.Maybe<
-    { __typename?: 'Resource' } & Pick<
-      Types.Resource,
-      | 'id'
-      | 'name'
-      | 'summary'
-      | 'url'
-      | 'license'
-      | 'icon'
-      | 'createdAt'
-      | 'updatedAt'
-    >
-  >;
-};
+
+export type UpdateResourceMutationMutation = { __typename?: 'RootMutationType', updateResource: Types.Maybe<{ __typename?: 'Resource', id: string, name: string, summary: Types.Maybe<string>, url: Types.Maybe<string>, license: Types.Maybe<string>, icon: Types.Maybe<string>, createdAt: string, updatedAt: string }> };
+
 
 export const UpdateResourceMutationDocument = gql`
-  mutation updateResourceMutation(
-    $resource: ResourceInput!
-    $resourceId: String!
-  ) {
-    updateResource(resource: $resource, resourceId: $resourceId) {
-      id
-      name
-      summary
-      url
-      license
-      icon
-      createdAt
-      updatedAt
-    }
+    mutation updateResourceMutation($resource: ResourceInput!, $resourceId: String!) {
+  updateResource(resource: $resource, resourceId: $resourceId) {
+    id
+    name
+    summary
+    url
+    license
+    icon
+    createdAt
+    updatedAt
   }
-`;
-export type UpdateResourceMutationMutationFn = ApolloReactCommon.MutationFunction<
-  UpdateResourceMutationMutation,
-  UpdateResourceMutationMutationVariables
->;
-export type UpdateResourceMutationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    UpdateResourceMutationMutation,
-    UpdateResourceMutationMutationVariables
-  >,
-  'mutation'
->;
-
-export const UpdateResourceMutationComponent = (
-  props: UpdateResourceMutationComponentProps
-) => (
-  <ApolloReactComponents.Mutation<
-    UpdateResourceMutationMutation,
-    UpdateResourceMutationMutationVariables
-  >
-    mutation={UpdateResourceMutationDocument}
-    {...props}
-  />
-);
-
-export type UpdateResourceMutationProps<
-  TChildProps = {}
-> = ApolloReactHoc.MutateProps<
-  UpdateResourceMutationMutation,
-  UpdateResourceMutationMutationVariables
-> &
-  TChildProps;
-export function withUpdateResourceMutation<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    UpdateResourceMutationMutation,
-    UpdateResourceMutationMutationVariables,
-    UpdateResourceMutationProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    UpdateResourceMutationMutation,
-    UpdateResourceMutationMutationVariables,
-    UpdateResourceMutationProps<TChildProps>
-  >(UpdateResourceMutationDocument, {
-    alias: 'updateResourceMutation',
-    ...operationOptions
-  });
 }
+    `;
+export type UpdateResourceMutationMutationFn = ApolloReactCommon.MutationFunction<UpdateResourceMutationMutation, UpdateResourceMutationMutationVariables>;
+export type UpdateResourceMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UpdateResourceMutationMutation, UpdateResourceMutationMutationVariables>, 'mutation'>;
+
+    export const UpdateResourceMutationComponent = (props: UpdateResourceMutationComponentProps) => (
+      <ApolloReactComponents.Mutation<UpdateResourceMutationMutation, UpdateResourceMutationMutationVariables> mutation={UpdateResourceMutationDocument} {...props} />
+    );
+    
+export type UpdateResourceMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<UpdateResourceMutationMutation, UpdateResourceMutationMutationVariables> & TChildProps;
+export function withUpdateResourceMutation<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UpdateResourceMutationMutation,
+  UpdateResourceMutationMutationVariables,
+  UpdateResourceMutationProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, UpdateResourceMutationMutation, UpdateResourceMutationMutationVariables, UpdateResourceMutationProps<TChildProps>>(UpdateResourceMutationDocument, {
+      alias: 'updateResourceMutation',
+      ...operationOptions
+    });
+};
 
 /**
  * __useUpdateResourceMutationMutation__
@@ -116,174 +68,9 @@ export function withUpdateResourceMutation<TProps, TChildProps = {}>(
  *   },
  * });
  */
-export function useUpdateResourceMutationMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    UpdateResourceMutationMutation,
-    UpdateResourceMutationMutationVariables
-  >
-) {
-  return ApolloReactHooks.useMutation<
-    UpdateResourceMutationMutation,
-    UpdateResourceMutationMutationVariables
-  >(UpdateResourceMutationDocument, baseOptions);
-}
-export type UpdateResourceMutationMutationHookResult = ReturnType<
-  typeof useUpdateResourceMutationMutation
->;
-export type UpdateResourceMutationMutationResult = ApolloReactCommon.MutationResult<
-  UpdateResourceMutationMutation
->;
-export type UpdateResourceMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  UpdateResourceMutationMutation,
-  UpdateResourceMutationMutationVariables
->;
-
-export interface IntrospectionResultData {
-  __schema: {
-    types: {
-      kind: string;
-      name: string;
-      possibleTypes: {
-        name: string;
-      }[];
-    }[];
-  };
-}
-
-const result: IntrospectionResultData = {
-  __schema: {
-    types: [
-      {
-        kind: 'UNION',
-        name: 'ActivityContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Resource'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'FlagContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Resource'
-          },
-          {
-            name: 'User'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'LikeContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Resource'
-          },
-          {
-            name: 'User'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'ThreadContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Flag'
-          },
-          {
-            name: 'Resource'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'FollowContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Thread'
-          },
-          {
-            name: 'User'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'DeleteContext',
-        possibleTypes: [
-          {
-            name: 'Activity'
-          },
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Flag'
-          },
-          {
-            name: 'Follow'
-          },
-          {
-            name: 'Like'
-          },
-          {
-            name: 'Resource'
-          },
-          {
-            name: 'Thread'
-          },
-          {
-            name: 'User'
-          }
-        ]
+export function useUpdateResourceMutationMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateResourceMutationMutation, UpdateResourceMutationMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdateResourceMutationMutation, UpdateResourceMutationMutationVariables>(UpdateResourceMutationDocument, baseOptions);
       }
-    ]
-  }
-};
-
-export default result;
+export type UpdateResourceMutationMutationHookResult = ReturnType<typeof useUpdateResourceMutationMutation>;
+export type UpdateResourceMutationMutationResult = ApolloReactCommon.MutationResult<UpdateResourceMutationMutation>;
+export type UpdateResourceMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateResourceMutationMutation, UpdateResourceMutationMutationVariables>;

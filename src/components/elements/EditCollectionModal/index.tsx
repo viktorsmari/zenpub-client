@@ -17,8 +17,8 @@ import { withFormik, FormikProps, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import Alert from '../../elements/Alert';
 import { graphql, OperationOption } from 'react-apollo';
-import Collection from '../../../types/Collection';
 import { UpdateCollectionMutationMutationVariables } from '../../../graphql/generated/updateCollection.generated';
+import { Collection } from '../../../graphql/types.generated';
 const {
   updateCollectionMutation
 } = require('../../../graphql/updateCollection.graphql');

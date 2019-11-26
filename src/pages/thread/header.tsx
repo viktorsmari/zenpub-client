@@ -5,7 +5,7 @@ import { Trans } from '@lingui/macro';
 import { ChevronLeft } from 'react-feather';
 import { useHistory } from 'react-router';
 import Link from '../../components/elements/Link/Link';
-import { Community, Collection, Resource } from '../../graphql/types';
+import { Community, Collection, Resource } from '../../graphql/types.generated';
 
 const Img = styled(Image)`
   max-width: 30px;

@@ -25,7 +25,7 @@ import {
   FieldNode,
   OperationTypeNode
 } from 'graphql';
-import { RootMutationType, RootQueryType } from '../graphql/types';
+import { RootMutationType, RootQueryType } from '../graphql/types.generated';
 import { i18nMark } from '@lingui/react';
 
 // const { meQuery } = require('../graphql/me.graphql');

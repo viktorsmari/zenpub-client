@@ -10,11 +10,11 @@ import Loader from '../../components/elements/Loader/Loader';
 import CommunitiesLoadMore from '../../components/elements/Loadmore/community';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import styled from '../../themes/styled';
-import CommunityType from '../../types/Community';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel } from '../../sections/panel';
 import { Button, Flex } from 'rebass/styled-components';
 import { BasicCommunityFragment } from '../../graphql/fragments/generated/basicCommunity.generated';
+import { Community } from '../../graphql/types.generated';
 const { getCommunitiesQuery } = require('../../graphql/getCommunities.graphql');
 
 interface Data extends QueryControls {
@@ -193,7 +193,7 @@ const withGetCommunities = graphql<
   {},
   {
     data: {
-      communities: CommunityType[];
+      communities: Community[];
     };
   }
 >(getCommunitiesQuery, {

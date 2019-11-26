@@ -6,7 +6,7 @@ import * as Feather from 'react-feather';
 import { DateTime } from 'luxon';
 import Talk from '../TalkModal';
 import Link from '../Link/Link';
-import { Comment } from '../../../graphql/types';
+import { Comment } from '../../../graphql/types.generated';
 import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
 import { useDeleteMutationMutation } from '../../../graphql/generated/delete.generated';
 
