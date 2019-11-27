@@ -28,7 +28,6 @@ default:
     - yarn add-locale en_GB # make sure we have default language
     - yarn extract # extract latest strings from source into English PO file for localisation
     - if [ ! -z "$TX_TOKEN" ]; then pip install transifex-client ; else echo "Skipping..."; fi # install transifex cli, then push latest English PO file to transifex for translators, and finally pull all the latest localised PO files from transifex to be used by frontend
-    - if [ "$CI_COMMIT_REF_NAME" = "develop" && ! -z "$TX_TOKEN" ]; then tx push --source --no-interactive ; else echo "Skipping..."; fi # then push latest English PO file to transifex for translators
     - if [ ! -z "$TX_TOKEN" ]; then tx pull --force --no-interactive ; else echo "Skipping..."; fi #  pull all the latest localised PO files from transifex to be used by frontend
     - yarn compile # compile localisation PO files into .js files 
 
@@ -49,6 +48,7 @@ deploy-staging-next: # build and deploy develop branch to app.next.moodle.net
   only:
     - develop # Only run on specific branch
   script:
+      - if [ ! -z "$TX_TOKEN" ]; then tx push --source --no-interactive ; else echo "Skipping..."; fi # then push latest English PO file to transifex for translators (only need to run this once per new commit)
     - REACT_APP_GRAPHQL_ENDPOINT=https://team.moodle.net/api/graphql CI=false yarn build --prod # Build for prod, need to specify URL of backend API, and CI=false to avoid failing on warnings
     - rm -rf public # CRA and gitlab pages both use the public folder. Only do this in a build pipeline.
     - mv build public # Move build files to public dir for Gitlab Pages
