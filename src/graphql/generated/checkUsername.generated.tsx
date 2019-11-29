@@ -13,7 +13,10 @@ export type UsernameAvailableQueryVariables = {
 };
 
 
-export type UsernameAvailableQuery = { __typename?: 'RootQueryType', usernameAvailable: boolean };
+export type UsernameAvailableQuery = (
+  { __typename?: 'RootQueryType' }
+  & Pick<Types.RootQueryType, 'usernameAvailable'>
+);
 
 
 export const UsernameAvailableDocument = gql`
@@ -64,3 +67,11 @@ export function useUsernameAvailableLazyQuery(baseOptions?: ApolloReactHooks.Laz
 export type UsernameAvailableQueryHookResult = ReturnType<typeof useUsernameAvailableQuery>;
 export type UsernameAvailableLazyQueryHookResult = ReturnType<typeof useUsernameAvailableLazyQuery>;
 export type UsernameAvailableQueryResult = ApolloReactCommon.QueryResult<UsernameAvailableQuery, UsernameAvailableQueryVariables>;
+
+
+export interface UsernameAvailableQueryOperation {
+  operationName: 'usernameAvailable'
+  result: UsernameAvailableQuery
+  variables: UsernameAvailableQueryVariables
+  type: 'query'
+}

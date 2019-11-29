@@ -34,8 +34,21 @@ export type GetAgentQueryQueryVariables = {
 };
 
 
-export type GetAgentQueryQuery = { __typename?: 'RootQueryType', user: Types.Maybe<(
-    { __typename?: 'User', outbox: { __typename?: 'ActivitiesEdges', pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, edges: Array<Types.Maybe<{ __typename?: 'ActivitiesEdge', node: { __typename?: 'Activity', id: string, canonicalUrl: Types.Maybe<string>, verb: Types.ActivityVerb, isLocal: boolean, isPublic: boolean, createdAt: string, user: (
+export type GetAgentQueryQuery = (
+  { __typename?: 'RootQueryType' }
+  & { user: Types.Maybe<(
+    { __typename?: 'User' }
+    & { outbox: (
+      { __typename?: 'ActivitiesEdges' }
+      & { pageInfo: Types.Maybe<(
+        { __typename?: 'PageInfo' }
+        & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
+      )>, edges: Array<Types.Maybe<(
+        { __typename?: 'ActivitiesEdge' }
+        & { node: (
+          { __typename?: 'Activity' }
+          & Pick<Types.Activity, 'id' | 'canonicalUrl' | 'verb' | 'isLocal' | 'isPublic' | 'createdAt'>
+          & { user: (
             { __typename?: 'User' }
             & BasicUserFragment
           ), context: (
@@ -50,15 +63,49 @@ export type GetAgentQueryQuery = { __typename?: 'RootQueryType', user: Types.May
           ) | (
             { __typename?: 'Resource' }
             & BasicResourceFragment
-          ) } }>> }, followedCommunities: { __typename?: 'FollowedCommunitiesEdges', pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, edges: Array<Types.Maybe<{ __typename?: 'FollowedCommunitiesEdge', node: { __typename?: 'FollowedCommunity', follow: { __typename?: 'Follow', id: string, canonicalUrl: Types.Maybe<string>, isLocal: boolean, isPublic: boolean, createdAt: string }, community: (
+          ) }
+        ) }
+      )>> }
+    ), followedCommunities: (
+      { __typename?: 'FollowedCommunitiesEdges' }
+      & { pageInfo: Types.Maybe<(
+        { __typename?: 'PageInfo' }
+        & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
+      )>, edges: Array<Types.Maybe<(
+        { __typename?: 'FollowedCommunitiesEdge' }
+        & { node: (
+          { __typename?: 'FollowedCommunity' }
+          & { follow: (
+            { __typename?: 'Follow' }
+            & Pick<Types.Follow, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'createdAt'>
+          ), community: (
             { __typename: 'Community' }
             & BasicCommunityFragment
-          ) } }>> }, followedCollections: { __typename?: 'FollowedCollectionsEdges', pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, edges: Array<Types.Maybe<{ __typename?: 'FollowedCollectionsEdge', node: { __typename?: 'FollowedCollection', follow: { __typename?: 'Follow', id: string, canonicalUrl: Types.Maybe<string>, isLocal: boolean, isPublic: boolean, createdAt: string }, collection: (
+          ) }
+        ) }
+      )>> }
+    ), followedCollections: (
+      { __typename?: 'FollowedCollectionsEdges' }
+      & { pageInfo: Types.Maybe<(
+        { __typename?: 'PageInfo' }
+        & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
+      )>, edges: Array<Types.Maybe<(
+        { __typename?: 'FollowedCollectionsEdge' }
+        & { node: (
+          { __typename?: 'FollowedCollection' }
+          & { follow: (
+            { __typename?: 'Follow' }
+            & Pick<Types.Follow, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'createdAt'>
+          ), collection: (
             { __typename: 'Collection' }
             & BasicCollectionFragment
-          ) } }>> } }
+          ) }
+        ) }
+      )>> }
+    ) }
     & BasicUserFragment
-  )> };
+  )> }
+);
 
 
 export const GetAgentQueryDocument = gql`
@@ -201,3 +248,11 @@ export function useGetAgentQueryLazyQuery(baseOptions?: ApolloReactHooks.LazyQue
 export type GetAgentQueryQueryHookResult = ReturnType<typeof useGetAgentQueryQuery>;
 export type GetAgentQueryLazyQueryHookResult = ReturnType<typeof useGetAgentQueryLazyQuery>;
 export type GetAgentQueryQueryResult = ApolloReactCommon.QueryResult<GetAgentQueryQuery, GetAgentQueryQueryVariables>;
+
+
+export interface GetAgentQueryQueryOperation {
+  operationName: 'getAgentQuery'
+  result: GetAgentQueryQuery
+  variables: GetAgentQueryQueryVariables
+  type: 'query'
+}

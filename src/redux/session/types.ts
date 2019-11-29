@@ -1,10 +1,7 @@
-import { Me } from '../../graphql/types.generated';
+import { BasicAuthPayloadFragment } from '../../graphql/fragments/generated/basicAuthPayload.generated';
 
-export type Auth = {
-  me: Me;
-  token: string;
-} | null;
+export type Auth = BasicAuthPayloadFragment;
 
 export interface State {
-  auth: Auth;
+  auth: Auth | null;
 }

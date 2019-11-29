@@ -16,10 +16,36 @@ export type GetThreadQueryVariables = {
 };
 
 
-export type GetThreadQuery = { __typename?: 'RootQueryType', thread: Types.Maybe<{ __typename?: 'Thread', id: string, canonicalUrl: Types.Maybe<string>, isLocal: boolean, isPublic: boolean, isHidden: boolean, createdAt: string, updatedAt: string, lastActivity: string, context: { __typename?: 'Collection', id: string, icon: Types.Maybe<string>, name: string } | { __typename?: 'Community', id: string, icon: Types.Maybe<string>, name: string } | { __typename?: 'Flag' } | { __typename?: 'Resource', id: string, icon: Types.Maybe<string>, name: string }, myFollow: Types.Maybe<{ __typename?: 'Follow', id: string }>, comments: { __typename?: 'CommentsEdges', totalCount: number, edges: Array<Types.Maybe<{ __typename?: 'CommentsEdge', node: (
+export type GetThreadQuery = (
+  { __typename?: 'RootQueryType' }
+  & { thread: Types.Maybe<(
+    { __typename?: 'Thread' }
+    & Pick<Types.Thread, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'isHidden' | 'createdAt' | 'updatedAt' | 'lastActivity'>
+    & { context: (
+      { __typename?: 'Collection' }
+      & Pick<Types.Collection, 'id' | 'icon' | 'name'>
+    ) | (
+      { __typename?: 'Community' }
+      & Pick<Types.Community, 'id' | 'icon' | 'name'>
+    ) | { __typename?: 'Flag' } | (
+      { __typename?: 'Resource' }
+      & Pick<Types.Resource, 'id' | 'icon' | 'name'>
+    ), myFollow: Types.Maybe<(
+      { __typename?: 'Follow' }
+      & Pick<Types.Follow, 'id'>
+    )>, comments: (
+      { __typename?: 'CommentsEdges' }
+      & Pick<Types.CommentsEdges, 'totalCount'>
+      & { edges: Array<Types.Maybe<(
+        { __typename?: 'CommentsEdge' }
+        & { node: (
           { __typename?: 'Comment' }
           & BasicCommentWithInReplyToFragment
-        ) }>> } }> };
+        ) }
+      )>> }
+    ) }
+  )> }
+);
 
 
 export const GetThreadDocument = gql`
@@ -108,3 +134,11 @@ export function useGetThreadLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHo
 export type GetThreadQueryHookResult = ReturnType<typeof useGetThreadQuery>;
 export type GetThreadLazyQueryHookResult = ReturnType<typeof useGetThreadLazyQuery>;
 export type GetThreadQueryResult = ApolloReactCommon.QueryResult<GetThreadQuery, GetThreadQueryVariables>;
+
+
+export interface GetThreadQueryOperation {
+  operationName: 'getThread'
+  result: GetThreadQuery
+  variables: GetThreadQueryVariables
+  type: 'query'
+}

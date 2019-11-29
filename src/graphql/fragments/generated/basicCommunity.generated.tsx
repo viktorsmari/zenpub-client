@@ -5,10 +5,29 @@ import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from './basicUser.generated';
 
 
-export type BasicCommunityFragment = { __typename?: 'Community', id: string, canonicalUrl: Types.Maybe<string>, preferredUsername: string, name: string, summary: Types.Maybe<string>, icon: Types.Maybe<string>, image: Types.Maybe<string>, createdAt: string, updatedAt: string, lastActivity: string, isLocal: boolean, isPublic: boolean, isDisabled: boolean, creator: (
+export type BasicCommunityFragment = (
+  { __typename?: 'Community' }
+  & Pick<Types.Community, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'image' | 'createdAt' | 'updatedAt' | 'lastActivity' | 'isLocal' | 'isPublic' | 'isDisabled'>
+  & { creator: (
     { __typename?: 'User' }
     & BasicUserFragment
-  ), myFollow: Types.Maybe<{ __typename?: 'Follow', id: string }>, collections: { __typename?: 'CollectionsEdges', totalCount: number }, followers: { __typename?: 'FollowsEdges', totalCount: number }, threads: { __typename?: 'ThreadsEdges', totalCount: number }, outbox: { __typename?: 'ActivitiesEdges', totalCount: number } };
+  ), myFollow: Types.Maybe<(
+    { __typename?: 'Follow' }
+    & Pick<Types.Follow, 'id'>
+  )>, collections: (
+    { __typename?: 'CollectionsEdges' }
+    & Pick<Types.CollectionsEdges, 'totalCount'>
+  ), followers: (
+    { __typename?: 'FollowsEdges' }
+    & Pick<Types.FollowsEdges, 'totalCount'>
+  ), threads: (
+    { __typename?: 'ThreadsEdges' }
+    & Pick<Types.ThreadsEdges, 'totalCount'>
+  ), outbox: (
+    { __typename?: 'ActivitiesEdges' }
+    & Pick<Types.ActivitiesEdges, 'totalCount'>
+  ) }
+);
 
 export const BasicCommunityFragmentDoc = gql`
     fragment BasicCommunity on Community {

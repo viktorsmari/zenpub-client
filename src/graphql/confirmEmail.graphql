@@ -1,16 +1,6 @@
-#import "./fragments/basicUser.graphql"
+#import "./fragments/basicAuthPayload.graphql"
 mutation confirmEmailMutation($token: String!) {
     confirmEmail(token: $token) {
-        token
-        me {
-            email
-            wantsEmailDigest
-            wantsNotifications
-            isConfirmed
-            isInstanceAdmin
-            user {
-               ...BasicUser
-            }
-        }
+        ... BasicAuthPayload
     }
 }

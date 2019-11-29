@@ -18,10 +18,23 @@ export type CreateReplyMutationMutationVariables = {
 };
 
 
-export type CreateReplyMutationMutation = { __typename?: 'RootMutationType', createReply: Types.Maybe<{ __typename?: 'Comment', id: string, canonicalUrl: Types.Maybe<string>, content: string, isLocal: boolean, isPublic: boolean, isHidden: boolean, createdAt: string, updatedAt: string, inReplyTo: Types.Maybe<(
+export type CreateReplyMutationMutation = (
+  { __typename?: 'RootMutationType' }
+  & { createReply: Types.Maybe<(
+    { __typename?: 'Comment' }
+    & Pick<Types.Comment, 'id' | 'canonicalUrl' | 'content' | 'isLocal' | 'isPublic' | 'isHidden' | 'createdAt' | 'updatedAt'>
+    & { inReplyTo: Types.Maybe<(
       { __typename?: 'Comment' }
       & BasicCommentWithInReplyToFragment
-    )>, myLike: Types.Maybe<{ __typename?: 'Like', id: string }>, creator: { __typename?: 'User', id: string, preferredUsername: string, canonicalUrl: Types.Maybe<string>, isLocal: boolean, isPublic: boolean, isDisabled: boolean, icon: Types.Maybe<string>, name: Types.Maybe<string> } }> };
+    )>, myLike: Types.Maybe<(
+      { __typename?: 'Like' }
+      & Pick<Types.Like, 'id'>
+    )>, creator: (
+      { __typename?: 'User' }
+      & Pick<Types.User, 'id' | 'preferredUsername' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'isDisabled' | 'icon' | 'name'>
+    ) }
+  )> }
+);
 
 
 export const CreateReplyMutationDocument = gql`
@@ -98,3 +111,11 @@ export function useCreateReplyMutationMutation(baseOptions?: ApolloReactHooks.Mu
 export type CreateReplyMutationMutationHookResult = ReturnType<typeof useCreateReplyMutationMutation>;
 export type CreateReplyMutationMutationResult = ApolloReactCommon.MutationResult<CreateReplyMutationMutation>;
 export type CreateReplyMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateReplyMutationMutation, CreateReplyMutationMutationVariables>;
+
+
+export interface CreateReplyMutationMutationOperation {
+  operationName: 'createReplyMutation'
+  result: CreateReplyMutationMutation
+  variables: CreateReplyMutationMutationVariables
+  type: 'mutation'
+}

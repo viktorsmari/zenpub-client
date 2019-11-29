@@ -14,7 +14,13 @@ export type ResetPasswordMutationVariables = {
 };
 
 
-export type ResetPasswordMutation = { __typename?: 'RootMutationType', resetPassword: Types.Maybe<{ __typename?: 'AuthPayload', token: string }> };
+export type ResetPasswordMutation = (
+  { __typename?: 'RootMutationType' }
+  & { resetPassword: Types.Maybe<(
+    { __typename?: 'AuthPayload' }
+    & Pick<Types.AuthPayload, 'token'>
+  )> }
+);
 
 
 export const ResetPasswordDocument = gql`
@@ -67,3 +73,11 @@ export function useResetPasswordMutation(baseOptions?: ApolloReactHooks.Mutation
 export type ResetPasswordMutationHookResult = ReturnType<typeof useResetPasswordMutation>;
 export type ResetPasswordMutationResult = ApolloReactCommon.MutationResult<ResetPasswordMutation>;
 export type ResetPasswordMutationOptions = ApolloReactCommon.BaseMutationOptions<ResetPasswordMutation, ResetPasswordMutationVariables>;
+
+
+export interface ResetPasswordMutationOperation {
+  operationName: 'resetPassword'
+  result: ResetPasswordMutation
+  variables: ResetPasswordMutationVariables
+  type: 'mutation'
+}

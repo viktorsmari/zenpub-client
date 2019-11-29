@@ -29,8 +29,23 @@ export type GetMeInboxQueryVariables = {
 };
 
 
-export type GetMeInboxQuery = { __typename?: 'RootQueryType', me: Types.Maybe<{ __typename?: 'Me', user: (
-      { __typename?: 'User', inbox: { __typename?: 'ActivitiesEdges', pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, edges: Array<Types.Maybe<{ __typename?: 'ActivitiesEdge', node: { __typename: 'Activity', id: string, canonicalUrl: Types.Maybe<string>, verb: Types.ActivityVerb, isLocal: boolean, isPublic: boolean, createdAt: string, user: (
+export type GetMeInboxQuery = (
+  { __typename?: 'RootQueryType' }
+  & { me: Types.Maybe<(
+    { __typename?: 'Me' }
+    & { user: (
+      { __typename?: 'User' }
+      & { inbox: (
+        { __typename?: 'ActivitiesEdges' }
+        & { pageInfo: Types.Maybe<(
+          { __typename?: 'PageInfo' }
+          & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
+        )>, edges: Array<Types.Maybe<(
+          { __typename?: 'ActivitiesEdge' }
+          & { node: (
+            { __typename: 'Activity' }
+            & Pick<Types.Activity, 'id' | 'canonicalUrl' | 'verb' | 'isLocal' | 'isPublic' | 'createdAt'>
+            & { user: (
               { __typename?: 'User' }
               & BasicUserFragment
             ), context: (
@@ -45,9 +60,14 @@ export type GetMeInboxQuery = { __typename?: 'RootQueryType', me: Types.Maybe<{ 
             ) | (
               { __typename?: 'Resource' }
               & BasicResourceFragment
-            ) } }>> } }
+            ) }
+          ) }
+        )>> }
+      ) }
       & BasicUserFragment
-    ) }> };
+    ) }
+  )> }
+);
 
 
 export const GetMeInboxDocument = gql`
@@ -142,3 +162,11 @@ export function useGetMeInboxLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryH
 export type GetMeInboxQueryHookResult = ReturnType<typeof useGetMeInboxQuery>;
 export type GetMeInboxLazyQueryHookResult = ReturnType<typeof useGetMeInboxLazyQuery>;
 export type GetMeInboxQueryResult = ApolloReactCommon.QueryResult<GetMeInboxQuery, GetMeInboxQueryVariables>;
+
+
+export interface GetMeInboxQueryOperation {
+  operationName: 'getMeInbox'
+  result: GetMeInboxQuery
+  variables: GetMeInboxQueryVariables
+  type: 'query'
+}

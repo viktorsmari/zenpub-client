@@ -17,10 +17,13 @@ export type CreateResourceMutationMutationVariables = {
 };
 
 
-export type CreateResourceMutationMutation = { __typename?: 'RootMutationType', createResource: Types.Maybe<(
+export type CreateResourceMutationMutation = (
+  { __typename?: 'RootMutationType' }
+  & { createResource: Types.Maybe<(
     { __typename?: 'Resource' }
     & BasicResourceFragment
-  )> };
+  )> }
+);
 
 
 export const CreateResourceMutationDocument = gql`
@@ -73,3 +76,11 @@ export function useCreateResourceMutationMutation(baseOptions?: ApolloReactHooks
 export type CreateResourceMutationMutationHookResult = ReturnType<typeof useCreateResourceMutationMutation>;
 export type CreateResourceMutationMutationResult = ApolloReactCommon.MutationResult<CreateResourceMutationMutation>;
 export type CreateResourceMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateResourceMutationMutation, CreateResourceMutationMutationVariables>;
+
+
+export interface CreateResourceMutationMutationOperation {
+  operationName: 'createResourceMutation'
+  result: CreateResourceMutationMutation
+  variables: CreateResourceMutationMutationVariables
+  type: 'mutation'
+}

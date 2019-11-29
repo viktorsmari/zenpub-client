@@ -13,7 +13,14 @@ export type LikeMutationMutationVariables = {
 };
 
 
-export type LikeMutationMutation = { __typename?: 'RootMutationType', createLike: Types.Maybe<{ __typename?: 'Like', id: string, context: { __typename?: 'Collection' } | { __typename?: 'Comment' } | { __typename?: 'Resource' } | { __typename?: 'User' } }> };
+export type LikeMutationMutation = (
+  { __typename?: 'RootMutationType' }
+  & { createLike: Types.Maybe<(
+    { __typename?: 'Like' }
+    & Pick<Types.Like, 'id'>
+    & { context: { __typename?: 'Collection' } | { __typename?: 'Comment' } | { __typename?: 'Resource' } | { __typename?: 'User' } }
+  )> }
+);
 
 
 export const LikeMutationDocument = gql`
@@ -68,3 +75,11 @@ export function useLikeMutationMutation(baseOptions?: ApolloReactHooks.MutationH
 export type LikeMutationMutationHookResult = ReturnType<typeof useLikeMutationMutation>;
 export type LikeMutationMutationResult = ApolloReactCommon.MutationResult<LikeMutationMutation>;
 export type LikeMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<LikeMutationMutation, LikeMutationMutationVariables>;
+
+
+export interface LikeMutationMutationOperation {
+  operationName: 'likeMutation'
+  result: LikeMutationMutation
+  variables: LikeMutationMutationVariables
+  type: 'mutation'
+}

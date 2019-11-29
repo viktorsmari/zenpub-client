@@ -17,10 +17,35 @@ export type GetFollowedCommunitiesQueryQueryVariables = {
 };
 
 
-export type GetFollowedCommunitiesQueryQuery = { __typename?: 'RootQueryType', me: Types.Maybe<{ __typename?: 'Me', user: { __typename?: 'User', id: string, followedCommunities: { __typename?: 'FollowedCommunitiesEdges', pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, edges: Array<Types.Maybe<{ __typename?: 'FollowedCommunitiesEdge', node: { __typename?: 'FollowedCommunity', follow: { __typename?: 'Follow', id: string, canonicalUrl: Types.Maybe<string> }, community: (
+export type GetFollowedCommunitiesQueryQuery = (
+  { __typename?: 'RootQueryType' }
+  & { me: Types.Maybe<(
+    { __typename?: 'Me' }
+    & { user: (
+      { __typename?: 'User' }
+      & Pick<Types.User, 'id'>
+      & { followedCommunities: (
+        { __typename?: 'FollowedCommunitiesEdges' }
+        & { pageInfo: Types.Maybe<(
+          { __typename?: 'PageInfo' }
+          & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
+        )>, edges: Array<Types.Maybe<(
+          { __typename?: 'FollowedCommunitiesEdge' }
+          & { node: (
+            { __typename?: 'FollowedCommunity' }
+            & { follow: (
+              { __typename?: 'Follow' }
+              & Pick<Types.Follow, 'id' | 'canonicalUrl'>
+            ), community: (
               { __typename: 'Community' }
               & BasicCommunityFragment
-            ) } }>> } } }> };
+            ) }
+          ) }
+        )>> }
+      ) }
+    ) }
+  )> }
+);
 
 
 export const GetFollowedCommunitiesQueryDocument = gql`
@@ -96,3 +121,11 @@ export function useGetFollowedCommunitiesQueryLazyQuery(baseOptions?: ApolloReac
 export type GetFollowedCommunitiesQueryQueryHookResult = ReturnType<typeof useGetFollowedCommunitiesQueryQuery>;
 export type GetFollowedCommunitiesQueryLazyQueryHookResult = ReturnType<typeof useGetFollowedCommunitiesQueryLazyQuery>;
 export type GetFollowedCommunitiesQueryQueryResult = ApolloReactCommon.QueryResult<GetFollowedCommunitiesQueryQuery, GetFollowedCommunitiesQueryQueryVariables>;
+
+
+export interface GetFollowedCommunitiesQueryQueryOperation {
+  operationName: 'getFollowedCommunitiesQuery'
+  result: GetFollowedCommunitiesQueryQuery
+  variables: GetFollowedCommunitiesQueryQueryVariables
+  type: 'query'
+}
