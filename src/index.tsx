@@ -12,6 +12,7 @@ import { createLocalSessionKVStorage } from './util/keyvaluestore/localSessionSt
 import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { integrateToastNotifications } from './integrations/Toast-Notifications';
+import { createDynamicLinkEnv } from './util/apollo/dynamicLink';
 
 run();
 async function run() {
@@ -52,15 +53,18 @@ async function run() {
       width: 100%; }
       }
   `;
-  const KVlocalStorageCreate = createLocalSessionKVStorage('local');
-  const store = createStore({ createLocalKVStore: KVlocalStorageCreate });
+  const createLocalKVStore = createLocalSessionKVStorage('local');
+  const store = createStore({ createLocalKVStore });
   const initialState = store.getState();
   const authToken =
     (initialState.session.auth && initialState.session.auth.token) || undefined;
-  const apolloClient = await getApolloClient({ authToken });
-  //@ts-ignore
-  integrateSessionApolloRedux(apolloClient.opInterceptor, store);
-  integrateToastNotifications(apolloClient.opInterceptor, store);
+  const dynamicLinkEnv = createDynamicLinkEnv();
+
+  const appLink = dynamicLinkEnv.link;
+  const apolloClient = await getApolloClient({ authToken, appLink });
+
+  integrateSessionApolloRedux(dynamicLinkEnv.srv, store.dispatch);
+  integrateToastNotifications(dynamicLinkEnv.srv, store.dispatch);
   const ApolloApp = () => (
     <ApolloProvider client={apolloClient.client}>
       <ToastContainer
@@ -71,7 +75,8 @@ async function run() {
       />
       <ProvideContexts
         store={store}
-        apolloInterceptor={apolloClient.opInterceptor}
+        apolloInterceptor={apolloClient.opInterceptor as any}
+        dynamicLinkSrv={dynamicLinkEnv.srv}
       >
         <Global />
         <App />

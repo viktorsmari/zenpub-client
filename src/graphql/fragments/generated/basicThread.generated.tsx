@@ -5,10 +5,28 @@ import gql from 'graphql-tag';
 import { BasicCommentWithInReplyToFragmentDoc } from './basicComment.generated';
 
 
-export type BasicThreadFragment = { __typename?: 'Thread', id: string, isLocal: boolean, createdAt: string, updatedAt: string, lastActivity: string, myFollow: Types.Maybe<{ __typename?: 'Follow', id: string }>, comments: { __typename?: 'CommentsEdges', totalCount: number, pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, edges: Array<Types.Maybe<{ __typename?: 'CommentsEdge', cursor: string, node: (
+export type BasicThreadFragment = (
+  { __typename?: 'Thread' }
+  & Pick<Types.Thread, 'id' | 'isLocal' | 'createdAt' | 'updatedAt' | 'lastActivity'>
+  & { myFollow: Types.Maybe<(
+    { __typename?: 'Follow' }
+    & Pick<Types.Follow, 'id'>
+  )>, comments: (
+    { __typename?: 'CommentsEdges' }
+    & Pick<Types.CommentsEdges, 'totalCount'>
+    & { pageInfo: Types.Maybe<(
+      { __typename?: 'PageInfo' }
+      & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
+    )>, edges: Array<Types.Maybe<(
+      { __typename?: 'CommentsEdge' }
+      & Pick<Types.CommentsEdge, 'cursor'>
+      & { node: (
         { __typename?: 'Comment' }
         & BasicCommentWithInReplyToFragment
-      ) }>> } };
+      ) }
+    )>> }
+  ) }
+);
 
 export const BasicThreadFragmentDoc = gql`
     fragment BasicThread on Thread {

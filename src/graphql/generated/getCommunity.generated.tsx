@@ -30,7 +30,28 @@ export type GetCommunityQueryQueryVariables = {
 };
 
 
-export type GetCommunityQueryQuery = { __typename?: 'RootQueryType', community: Types.Maybe<{ __typename?: 'Community', id: string, canonicalUrl: Types.Maybe<string>, preferredUsername: string, name: string, summary: Types.Maybe<string>, icon: Types.Maybe<string>, image: Types.Maybe<string>, createdAt: string, updatedAt: string, lastActivity: string, isLocal: boolean, isPublic: boolean, isDisabled: boolean, creator: { __typename?: 'User', id: string }, myFollow: Types.Maybe<{ __typename?: 'Follow', id: string }>, outbox: { __typename?: 'ActivitiesEdges', pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, edges: Array<Types.Maybe<{ __typename?: 'ActivitiesEdge', node: { __typename?: 'Activity', id: string, canonicalUrl: Types.Maybe<string>, verb: Types.ActivityVerb, isLocal: boolean, isPublic: boolean, createdAt: string, user: (
+export type GetCommunityQueryQuery = (
+  { __typename?: 'RootQueryType' }
+  & { community: Types.Maybe<(
+    { __typename?: 'Community' }
+    & Pick<Types.Community, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'image' | 'createdAt' | 'updatedAt' | 'lastActivity' | 'isLocal' | 'isPublic' | 'isDisabled'>
+    & { creator: (
+      { __typename?: 'User' }
+      & Pick<Types.User, 'id'>
+    ), myFollow: Types.Maybe<(
+      { __typename?: 'Follow' }
+      & Pick<Types.Follow, 'id'>
+    )>, outbox: (
+      { __typename?: 'ActivitiesEdges' }
+      & { pageInfo: Types.Maybe<(
+        { __typename?: 'PageInfo' }
+        & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
+      )>, edges: Array<Types.Maybe<(
+        { __typename?: 'ActivitiesEdge' }
+        & { node: (
+          { __typename?: 'Activity' }
+          & Pick<Types.Activity, 'id' | 'canonicalUrl' | 'verb' | 'isLocal' | 'isPublic' | 'createdAt'>
+          & { user: (
             { __typename?: 'User' }
             & BasicUserFragment
           ), context: (
@@ -45,7 +66,58 @@ export type GetCommunityQueryQuery = { __typename?: 'RootQueryType', community: 
           ) | (
             { __typename?: 'Resource' }
             & BasicResourceFragment
-          ) } }>> }, followers: { __typename?: 'FollowsEdges', totalCount: number, pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, edges: Array<Types.Maybe<{ __typename?: 'FollowsEdge', node: { __typename?: 'Follow', id: string, canonicalUrl: Types.Maybe<string>, isLocal: boolean, isPublic: boolean, creator: { __typename?: 'User', id: string, icon: Types.Maybe<string> } } }>> }, collections: { __typename?: 'CollectionsEdges', totalCount: number, pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, edges: Array<Types.Maybe<{ __typename?: 'CollectionsEdge', node: { __typename?: 'Collection', id: string, canonicalUrl: Types.Maybe<string>, preferredUsername: string, name: string, summary: Types.Maybe<string>, icon: Types.Maybe<string>, myFollow: Types.Maybe<{ __typename?: 'Follow', id: string }>, likes: { __typename?: 'LikesEdges', totalCount: number }, followers: { __typename?: 'FollowsEdges', totalCount: number }, resources: { __typename?: 'ResourcesEdges', totalCount: number }, threads: { __typename?: 'ThreadsEdges', totalCount: number } } }>> } }> };
+          ) }
+        ) }
+      )>> }
+    ), followers: (
+      { __typename?: 'FollowsEdges' }
+      & Pick<Types.FollowsEdges, 'totalCount'>
+      & { pageInfo: Types.Maybe<(
+        { __typename?: 'PageInfo' }
+        & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
+      )>, edges: Array<Types.Maybe<(
+        { __typename?: 'FollowsEdge' }
+        & { node: (
+          { __typename?: 'Follow' }
+          & Pick<Types.Follow, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic'>
+          & { creator: (
+            { __typename?: 'User' }
+            & Pick<Types.User, 'id' | 'icon'>
+          ) }
+        ) }
+      )>> }
+    ), collections: (
+      { __typename?: 'CollectionsEdges' }
+      & Pick<Types.CollectionsEdges, 'totalCount'>
+      & { pageInfo: Types.Maybe<(
+        { __typename?: 'PageInfo' }
+        & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
+      )>, edges: Array<Types.Maybe<(
+        { __typename?: 'CollectionsEdge' }
+        & { node: (
+          { __typename?: 'Collection' }
+          & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon'>
+          & { myFollow: Types.Maybe<(
+            { __typename?: 'Follow' }
+            & Pick<Types.Follow, 'id'>
+          )>, likes: (
+            { __typename?: 'LikesEdges' }
+            & Pick<Types.LikesEdges, 'totalCount'>
+          ), followers: (
+            { __typename?: 'FollowsEdges' }
+            & Pick<Types.FollowsEdges, 'totalCount'>
+          ), resources: (
+            { __typename?: 'ResourcesEdges' }
+            & Pick<Types.ResourcesEdges, 'totalCount'>
+          ), threads: (
+            { __typename?: 'ThreadsEdges' }
+            & Pick<Types.ThreadsEdges, 'totalCount'>
+          ) }
+        ) }
+      )>> }
+    ) }
+  )> }
+);
 
 
 export const GetCommunityQueryDocument = gql`
@@ -207,3 +279,11 @@ export function useGetCommunityQueryLazyQuery(baseOptions?: ApolloReactHooks.Laz
 export type GetCommunityQueryQueryHookResult = ReturnType<typeof useGetCommunityQueryQuery>;
 export type GetCommunityQueryLazyQueryHookResult = ReturnType<typeof useGetCommunityQueryLazyQuery>;
 export type GetCommunityQueryQueryResult = ApolloReactCommon.QueryResult<GetCommunityQueryQuery, GetCommunityQueryQueryVariables>;
+
+
+export interface GetCommunityQueryQueryOperation {
+  operationName: 'getCommunityQuery'
+  result: GetCommunityQueryQuery
+  variables: GetCommunityQueryQueryVariables
+  type: 'query'
+}

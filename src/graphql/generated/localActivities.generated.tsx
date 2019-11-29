@@ -29,7 +29,22 @@ export type LocalActivitiesQueryVariables = {
 };
 
 
-export type LocalActivitiesQuery = { __typename?: 'RootQueryType', instance: Types.Maybe<{ __typename?: 'Instance', outbox: { __typename?: 'ActivitiesEdges', pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, edges: Array<Types.Maybe<{ __typename?: 'ActivitiesEdge', cursor: string, node: { __typename?: 'Activity', id: string, canonicalUrl: Types.Maybe<string>, verb: Types.ActivityVerb, isLocal: boolean, isPublic: boolean, createdAt: string, user: (
+export type LocalActivitiesQuery = (
+  { __typename?: 'RootQueryType' }
+  & { instance: Types.Maybe<(
+    { __typename?: 'Instance' }
+    & { outbox: (
+      { __typename?: 'ActivitiesEdges' }
+      & { pageInfo: Types.Maybe<(
+        { __typename?: 'PageInfo' }
+        & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
+      )>, edges: Array<Types.Maybe<(
+        { __typename?: 'ActivitiesEdge' }
+        & Pick<Types.ActivitiesEdge, 'cursor'>
+        & { node: (
+          { __typename?: 'Activity' }
+          & Pick<Types.Activity, 'id' | 'canonicalUrl' | 'verb' | 'isLocal' | 'isPublic' | 'createdAt'>
+          & { user: (
             { __typename?: 'User' }
             & BasicUserFragment
           ), context: (
@@ -44,7 +59,12 @@ export type LocalActivitiesQuery = { __typename?: 'RootQueryType', instance: Typ
           ) | (
             { __typename?: 'Resource' }
             & BasicResourceFragment
-          ) } }>> } }> };
+          ) }
+        ) }
+      )>> }
+    ) }
+  )> }
+);
 
 
 export const LocalActivitiesDocument = gql`
@@ -136,3 +156,11 @@ export function useLocalActivitiesLazyQuery(baseOptions?: ApolloReactHooks.LazyQ
 export type LocalActivitiesQueryHookResult = ReturnType<typeof useLocalActivitiesQuery>;
 export type LocalActivitiesLazyQueryHookResult = ReturnType<typeof useLocalActivitiesLazyQuery>;
 export type LocalActivitiesQueryResult = ApolloReactCommon.QueryResult<LocalActivitiesQuery, LocalActivitiesQueryVariables>;
+
+
+export interface LocalActivitiesQueryOperation {
+  operationName: 'localActivities'
+  result: LocalActivitiesQuery
+  variables: LocalActivitiesQueryVariables
+  type: 'query'
+}

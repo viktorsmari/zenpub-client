@@ -19,13 +19,24 @@ export type GetCollectionQueryVariables = {
 };
 
 
-export type GetCollectionQuery = { __typename?: 'RootQueryType', collection: Types.Maybe<(
-    { __typename?: 'Collection', resources: { __typename?: 'ResourcesEdges', totalCount: number, edges: Array<Types.Maybe<{ __typename?: 'ResourcesEdge', node: (
+export type GetCollectionQuery = (
+  { __typename?: 'RootQueryType' }
+  & { collection: Types.Maybe<(
+    { __typename?: 'Collection' }
+    & { resources: (
+      { __typename?: 'ResourcesEdges' }
+      & Pick<Types.ResourcesEdges, 'totalCount'>
+      & { edges: Array<Types.Maybe<(
+        { __typename?: 'ResourcesEdge' }
+        & { node: (
           { __typename?: 'Resource' }
           & BasicResourceFragment
-        ) }>> } }
+        ) }
+      )>> }
+    ) }
     & BasicCollectionFragment
-  )> };
+  )> }
+);
 
 
 export const GetCollectionDocument = gql`
@@ -87,3 +98,11 @@ export function useGetCollectionLazyQuery(baseOptions?: ApolloReactHooks.LazyQue
 export type GetCollectionQueryHookResult = ReturnType<typeof useGetCollectionQuery>;
 export type GetCollectionLazyQueryHookResult = ReturnType<typeof useGetCollectionLazyQuery>;
 export type GetCollectionQueryResult = ApolloReactCommon.QueryResult<GetCollectionQuery, GetCollectionQueryVariables>;
+
+
+export interface GetCollectionQueryOperation {
+  operationName: 'getCollection'
+  result: GetCollectionQuery
+  variables: GetCollectionQueryVariables
+  type: 'query'
+}

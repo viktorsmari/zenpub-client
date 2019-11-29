@@ -14,7 +14,17 @@ export type UpdateCollectionMutationMutationVariables = {
 };
 
 
-export type UpdateCollectionMutationMutation = { __typename?: 'RootMutationType', updateCollection: Types.Maybe<{ __typename?: 'Collection', id: string, canonicalUrl: Types.Maybe<string>, preferredUsername: string, name: string, summary: Types.Maybe<string>, icon: Types.Maybe<string>, createdAt: string, updatedAt: string, resources: { __typename?: 'ResourcesEdges', totalCount: number } }> };
+export type UpdateCollectionMutationMutation = (
+  { __typename?: 'RootMutationType' }
+  & { updateCollection: Types.Maybe<(
+    { __typename?: 'Collection' }
+    & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'createdAt' | 'updatedAt'>
+    & { resources: (
+      { __typename?: 'ResourcesEdges' }
+      & Pick<Types.ResourcesEdges, 'totalCount'>
+    ) }
+  )> }
+);
 
 
 export const UpdateCollectionMutationDocument = gql`
@@ -77,3 +87,11 @@ export function useUpdateCollectionMutationMutation(baseOptions?: ApolloReactHoo
 export type UpdateCollectionMutationMutationHookResult = ReturnType<typeof useUpdateCollectionMutationMutation>;
 export type UpdateCollectionMutationMutationResult = ApolloReactCommon.MutationResult<UpdateCollectionMutationMutation>;
 export type UpdateCollectionMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateCollectionMutationMutation, UpdateCollectionMutationMutationVariables>;
+
+
+export interface UpdateCollectionMutationMutationOperation {
+  operationName: 'updateCollectionMutation'
+  result: UpdateCollectionMutationMutation
+  variables: UpdateCollectionMutationMutationVariables
+  type: 'mutation'
+}

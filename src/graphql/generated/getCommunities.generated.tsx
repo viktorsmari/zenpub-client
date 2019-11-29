@@ -17,10 +17,19 @@ export type GetCommunitiesQueryQueryVariables = {
 };
 
 
-export type GetCommunitiesQueryQuery = { __typename?: 'RootQueryType', communities: { __typename?: 'CommunitiesNodes', pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, nodes: Array<Types.Maybe<(
+export type GetCommunitiesQueryQuery = (
+  { __typename?: 'RootQueryType' }
+  & { communities: (
+    { __typename?: 'CommunitiesNodes' }
+    & { pageInfo: Types.Maybe<(
+      { __typename?: 'PageInfo' }
+      & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
+    )>, nodes: Array<Types.Maybe<(
       { __typename?: 'Community' }
       & BasicCommunityFragment
-    )>> } };
+    )>> }
+  ) }
+);
 
 
 export const GetCommunitiesQueryDocument = gql`
@@ -80,3 +89,11 @@ export function useGetCommunitiesQueryLazyQuery(baseOptions?: ApolloReactHooks.L
 export type GetCommunitiesQueryQueryHookResult = ReturnType<typeof useGetCommunitiesQueryQuery>;
 export type GetCommunitiesQueryLazyQueryHookResult = ReturnType<typeof useGetCommunitiesQueryLazyQuery>;
 export type GetCommunitiesQueryQueryResult = ApolloReactCommon.QueryResult<GetCommunitiesQueryQuery, GetCommunitiesQueryQueryVariables>;
+
+
+export interface GetCommunitiesQueryQueryOperation {
+  operationName: 'getCommunitiesQuery'
+  result: GetCommunitiesQueryQuery
+  variables: GetCommunitiesQueryQueryVariables
+  type: 'query'
+}

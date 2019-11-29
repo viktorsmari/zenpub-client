@@ -1,5 +1,5 @@
 import { Trans } from '@lingui/macro';
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { NavLink } from 'react-router-dom';
 // import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
@@ -29,12 +29,23 @@ const Home: React.FC<Props> = () => {
       limit: 15
     }
   });
-  useInterceptor({ operation: 'createReply', request: () => () => refetch() });
-  useInterceptor({ operation: 'like', request: () => () => refetch() });
-  useInterceptor({
-    operation: 'delete',
-    request: () => () => refetch()
-  });
+  const refetchOnResp = useCallback(() => () => refetch(), [refetch]);
+  useInterceptor(
+    useMemo(
+      () => ({ operation: 'createReply', request: () => () => refetch() }),
+      [refetchOnResp]
+    )
+  );
+  useInterceptor(
+    useMemo(() => ({ operation: 'like', request: () => () => refetch() }), [
+      refetchOnResp
+    ])
+  );
+  useInterceptor(
+    useMemo(() => ({ operation: 'delete', request: () => () => refetch() }), [
+      refetchOnResp
+    ])
+  );
 
   return (
     <MainContainer>

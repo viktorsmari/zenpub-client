@@ -21,9 +21,10 @@ generates:
     plugins:
       - typescript-operations
       - typescript-react-apollo
+      - ./src/util/apollo/operation/codegen-plugin.js
     config:
       exportFragmentSpreadSubTypes: true
-      preResolveTypes: true
+      preResolveTypes: false
       avoidOptionals: false
       reactApolloVersion: 3
       withHooks: true

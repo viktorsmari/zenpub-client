@@ -13,7 +13,13 @@ export type FollowMutationMutationVariables = {
 };
 
 
-export type FollowMutationMutation = { __typename?: 'RootMutationType', createFollow: Types.Maybe<{ __typename?: 'Follow', id: string }> };
+export type FollowMutationMutation = (
+  { __typename?: 'RootMutationType' }
+  & { createFollow: Types.Maybe<(
+    { __typename?: 'Follow' }
+    & Pick<Types.Follow, 'id'>
+  )> }
+);
 
 
 export const FollowMutationDocument = gql`
@@ -65,3 +71,11 @@ export function useFollowMutationMutation(baseOptions?: ApolloReactHooks.Mutatio
 export type FollowMutationMutationHookResult = ReturnType<typeof useFollowMutationMutation>;
 export type FollowMutationMutationResult = ApolloReactCommon.MutationResult<FollowMutationMutation>;
 export type FollowMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<FollowMutationMutation, FollowMutationMutationVariables>;
+
+
+export interface FollowMutationMutationOperation {
+  operationName: 'followMutation'
+  result: FollowMutationMutation
+  variables: FollowMutationMutationVariables
+  type: 'mutation'
+}
