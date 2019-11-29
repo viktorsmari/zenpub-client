@@ -1,4 +1,4 @@
-import * as Types from '../types.d';
+import * as Types from '../types.generated.d';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -9,81 +9,41 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type CreateFlagMutationMutationVariables = {
-  contextId: Types.Scalars['String'];
-  message: Types.Scalars['String'];
+  contextId: Types.Scalars['String'],
+  message: Types.Scalars['String']
 };
 
-export type CreateFlagMutationMutation = { __typename?: 'RootMutationType' } & {
-  createFlag: Types.Maybe<
-    { __typename?: 'Flag' } & {
-      context:
-        | { __typename?: 'Collection' }
-        | { __typename?: 'Comment' }
-        | { __typename?: 'Community' }
-        | { __typename?: 'Resource' }
-        | { __typename?: 'User' };
-    }
-  >;
-};
+
+export type CreateFlagMutationMutation = { __typename?: 'RootMutationType', createFlag: Types.Maybe<{ __typename?: 'Flag', context: { __typename?: 'Collection' } | { __typename?: 'Comment' } | { __typename?: 'Community' } | { __typename?: 'Resource' } | { __typename?: 'User' } }> };
+
 
 export const CreateFlagMutationDocument = gql`
-  mutation createFlagMutation($contextId: String!, $message: String!) {
-    createFlag(contextId: $contextId, message: $message) {
-      context {
-        __typename
-      }
+    mutation createFlagMutation($contextId: String!, $message: String!) {
+  createFlag(contextId: $contextId, message: $message) {
+    context {
+      __typename
     }
   }
-`;
-export type CreateFlagMutationMutationFn = ApolloReactCommon.MutationFunction<
-  CreateFlagMutationMutation,
-  CreateFlagMutationMutationVariables
->;
-export type CreateFlagMutationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    CreateFlagMutationMutation,
-    CreateFlagMutationMutationVariables
-  >,
-  'mutation'
->;
-
-export const CreateFlagMutationComponent = (
-  props: CreateFlagMutationComponentProps
-) => (
-  <ApolloReactComponents.Mutation<
-    CreateFlagMutationMutation,
-    CreateFlagMutationMutationVariables
-  >
-    mutation={CreateFlagMutationDocument}
-    {...props}
-  />
-);
-
-export type CreateFlagMutationProps<
-  TChildProps = {}
-> = ApolloReactHoc.MutateProps<
-  CreateFlagMutationMutation,
-  CreateFlagMutationMutationVariables
-> &
-  TChildProps;
-export function withCreateFlagMutation<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    CreateFlagMutationMutation,
-    CreateFlagMutationMutationVariables,
-    CreateFlagMutationProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    CreateFlagMutationMutation,
-    CreateFlagMutationMutationVariables,
-    CreateFlagMutationProps<TChildProps>
-  >(CreateFlagMutationDocument, {
-    alias: 'createFlagMutation',
-    ...operationOptions
-  });
 }
+    `;
+export type CreateFlagMutationMutationFn = ApolloReactCommon.MutationFunction<CreateFlagMutationMutation, CreateFlagMutationMutationVariables>;
+export type CreateFlagMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateFlagMutationMutation, CreateFlagMutationMutationVariables>, 'mutation'>;
+
+    export const CreateFlagMutationComponent = (props: CreateFlagMutationComponentProps) => (
+      <ApolloReactComponents.Mutation<CreateFlagMutationMutation, CreateFlagMutationMutationVariables> mutation={CreateFlagMutationDocument} {...props} />
+    );
+    
+export type CreateFlagMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<CreateFlagMutationMutation, CreateFlagMutationMutationVariables> & TChildProps;
+export function withCreateFlagMutation<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  CreateFlagMutationMutation,
+  CreateFlagMutationMutationVariables,
+  CreateFlagMutationProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateFlagMutationMutation, CreateFlagMutationMutationVariables, CreateFlagMutationProps<TChildProps>>(CreateFlagMutationDocument, {
+      alias: 'createFlagMutation',
+      ...operationOptions
+    });
+};
 
 /**
  * __useCreateFlagMutationMutation__
@@ -103,174 +63,9 @@ export function withCreateFlagMutation<TProps, TChildProps = {}>(
  *   },
  * });
  */
-export function useCreateFlagMutationMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    CreateFlagMutationMutation,
-    CreateFlagMutationMutationVariables
-  >
-) {
-  return ApolloReactHooks.useMutation<
-    CreateFlagMutationMutation,
-    CreateFlagMutationMutationVariables
-  >(CreateFlagMutationDocument, baseOptions);
-}
-export type CreateFlagMutationMutationHookResult = ReturnType<
-  typeof useCreateFlagMutationMutation
->;
-export type CreateFlagMutationMutationResult = ApolloReactCommon.MutationResult<
-  CreateFlagMutationMutation
->;
-export type CreateFlagMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  CreateFlagMutationMutation,
-  CreateFlagMutationMutationVariables
->;
-
-export interface IntrospectionResultData {
-  __schema: {
-    types: {
-      kind: string;
-      name: string;
-      possibleTypes: {
-        name: string;
-      }[];
-    }[];
-  };
-}
-
-const result: IntrospectionResultData = {
-  __schema: {
-    types: [
-      {
-        kind: 'UNION',
-        name: 'ActivityContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Resource'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'FlagContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Resource'
-          },
-          {
-            name: 'User'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'LikeContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Resource'
-          },
-          {
-            name: 'User'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'ThreadContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Flag'
-          },
-          {
-            name: 'Resource'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'FollowContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Thread'
-          },
-          {
-            name: 'User'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'DeleteContext',
-        possibleTypes: [
-          {
-            name: 'Activity'
-          },
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Flag'
-          },
-          {
-            name: 'Follow'
-          },
-          {
-            name: 'Like'
-          },
-          {
-            name: 'Resource'
-          },
-          {
-            name: 'Thread'
-          },
-          {
-            name: 'User'
-          }
-        ]
+export function useCreateFlagMutationMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateFlagMutationMutation, CreateFlagMutationMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateFlagMutationMutation, CreateFlagMutationMutationVariables>(CreateFlagMutationDocument, baseOptions);
       }
-    ]
-  }
-};
-
-export default result;
+export type CreateFlagMutationMutationHookResult = ReturnType<typeof useCreateFlagMutationMutation>;
+export type CreateFlagMutationMutationResult = ApolloReactCommon.MutationResult<CreateFlagMutationMutation>;
+export type CreateFlagMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateFlagMutationMutation, CreateFlagMutationMutationVariables>;

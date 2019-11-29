@@ -38,11 +38,11 @@ interface Props {
 }
 
 const Resource: React.FC<Props> = props => {
-  console.log('Resource ID%O', props.localId);
+  console.log('Resource ID%O', props.id);
   return (
     <Wrapper>
       <MoreOptionsContainer>
-        <MoreOptions contextId={props.localId} myFlag={props.myFlag} />
+        <MoreOptions contextId={props.id} myFlag={props.myFlag} />
       </MoreOptionsContainer>{' '}
       <UrlLink target="blank" href={props.url}>
         <Img

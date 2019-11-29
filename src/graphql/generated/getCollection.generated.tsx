@@ -1,11 +1,11 @@
+import * as React from 'react';
 import * as Types from '../types.generated.d';
 
-import { BasicResourceFragment } from '../fragments/generated/basicResource.generated';
 import { BasicCollectionFragment } from '../fragments/generated/basicCollection.generated';
 import gql from 'graphql-tag';
 import { BasicCollectionFragmentDoc } from '../fragments/generated/basicCollection.generated';
 import { BasicResourceFragmentDoc } from '../fragments/generated/basicResource.generated';
-import * as React from 'react';
+import { BasicResourceFragment } from '../fragments/generated/basicResource.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
