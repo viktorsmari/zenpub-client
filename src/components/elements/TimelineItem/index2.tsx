@@ -15,7 +15,7 @@ import { BasicResourceFragment } from '../../../graphql/fragments/generated/basi
 import { BasicUserFragment } from '../../../graphql/fragments/generated/basicUser.generated';
 import { useDeleteMutationMutation } from '../../../graphql/generated/delete.generated';
 import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
-import { Comment, User } from '../../../graphql/types';
+import { Comment, User } from '../../../graphql/types.generated';
 import styled from '../../../themes/styled';
 import Link from '../Link/Link';
 import Actions from './Actions';
@@ -312,7 +312,7 @@ const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
   );
   return (
     <FeedItem>
-      {context.__typename}
+      {/* {context.__typename} */}
       <NavigateToThread to={`/thread/${context.id}`} />
       {context.__typename === 'Collection' ? (
         <CollectionItem
@@ -321,6 +321,7 @@ const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
           createdAt={createdAt}
           toggleLike={toggleLike}
           collection={context}
+          noAction
         /> // qui il context è risolto come Collection
       ) : context.__typename === 'Resource' ? (
         <ResourceItem
@@ -329,6 +330,7 @@ const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
           createdAt={createdAt}
           toggleLike={toggleLike}
           resource={context}
+          noAction
         /> // qui il context è risolto come Resource
       ) : context.__typename === 'Comment' ? (
         <CommentItem
@@ -345,6 +347,7 @@ const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
           createdAt={createdAt}
           toggleLike={toggleLike}
           community={context}
+          noAction
         /> // qui il context è risolto come Community
       ) : (
         <div>Unknown should never happen</div>

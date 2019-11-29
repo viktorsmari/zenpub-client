@@ -71,36 +71,42 @@ const CommunityPage: SFC<Props> = ({
             </SuperTabList>
             <TabPanel>
               {followed ? (
-                <WrapperBox p={3}>
-                  <SocialText
-                    onInput={setNewThreadTextInput}
-                    reference={socialTextRef}
-                    submit={addNewThread}
-                    placeholder="Start a new thread..."
-                  />
-                </WrapperBox>
+                <>
+                  <Overlay />
+                  <WrapperBox p={3}>
+                    <SocialText
+                      onInput={setNewThreadTextInput}
+                      reference={socialTextRef}
+                      submit={addNewThread}
+                      placeholder="Start a new thread..."
+                    />
+                  </WrapperBox>
+                </>
               ) : null}
               <div>
-                {community.inbox.edges.map((t, i) => (
-                  <TimelineItem
-                    context={t!.node.context}
-                    user={t!.node.user}
-                    verb={t!.node.verb}
-                    createdAt={t!.node.createdAt}
-                    key={i}
-                  />
-                ))}
+                {community.outbox.edges.map(
+                  (t, i) =>
+                    t && (
+                      <TimelineItem
+                        context={t.node.context}
+                        user={t.node.user}
+                        verb={t.node.verb}
+                        createdAt={t.node.createdAt}
+                        key={i}
+                      />
+                    )
+                )}
                 <LoadMoreTimeline fetchMore={fetchMore} community={community} />
               </div>
             </TabPanel>
             <TabPanel>
-              {followed ? (
-                <ButtonWrapper>
+              {
+                /*FIXME followed ? */ <ButtonWrapper>
                   <CreateCollection p={3} onClick={() => onOpen(true)} m={3}>
                     <Trans>Create a new collection</Trans>
                   </CreateCollection>
-                </ButtonWrapper>
-              ) : null}
+                </ButtonWrapper> /*FIXME : null */
+              }
               <div>{collections}</div>
             </TabPanel>
           </Tabs>
@@ -114,6 +120,8 @@ const CommunityPage: SFC<Props> = ({
     )
   );
 };
+
+const Overlay = styled(Box)``;
 
 export const Footer = styled.div`
   height: 30px;

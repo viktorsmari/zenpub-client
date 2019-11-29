@@ -25,7 +25,7 @@ import {
   FieldNode,
   OperationTypeNode
 } from 'graphql';
-import { RootMutationType, RootQueryType } from '../graphql/types';
+import { RootMutationType, RootQueryType } from '../graphql/types.generated';
 import { i18nMark } from '@lingui/react';
 
 // const { meQuery } = require('../graphql/me.graphql');
@@ -75,7 +75,7 @@ export default async function initialise({ authToken }: Cfg) {
   });
 
   function handleError(message) {
-    alert(message); //TODO: nicer display of errors
+    //  alert(message); //TODO: nicer display of errors
   }
 
   function handleErrorGraphQL(message, locations, path) {
@@ -174,6 +174,7 @@ export default async function initialise({ authToken }: Cfg) {
   const ALLOWED_ANON_MUTATIONS: OperationName[] = [
     'createUser',
     'createSession',
+    'confirmEmail',
     'usernameAvailable'
   ];
   const alertBlockMutationsForAnonymousLink = new ApolloLink(

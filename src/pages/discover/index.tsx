@@ -63,26 +63,32 @@ const Home: React.FC<Props> = props => {
               <TabPanel>
                 {error ? (
                   <Empty>
-                    <Trans>{error}</Trans>
+                    <Trans>{/* error */}</Trans>
                   </Empty>
                 ) : loading ? (
                   <Loader />
                 ) : (
-                  <div>
-                    {data!.instance!.outbox!.edges!.map(activity => (
-                      <TimelineItem
-                        verb={activity!.node.verb}
-                        context={activity!.node.context}
-                        user={activity!.node!.user!}
-                        key={activity!.node!.id!}
-                        createdAt={activity!.node.createdAt}
+                  data &&
+                  data.instance && (
+                    <div>
+                      {data.instance.outbox.edges.map(
+                        activity =>
+                          activity && (
+                            <TimelineItem
+                              verb={activity.node.verb}
+                              context={activity.node.context}
+                              user={activity.node.user}
+                              key={activity.node.id}
+                              createdAt={activity.node.createdAt}
+                            />
+                          )
+                      )}
+                      <LoadMoreTimeline
+                        fetchMore={fetchMore}
+                        outbox={data.instance.outbox}
                       />
-                    ))}
-                    <LoadMoreTimeline
-                      fetchMore={fetchMore}
-                      outbox={data!.instance!.outbox!}
-                    />
-                  </div>
+                    </div>
+                  )
                 )}
               </TabPanel>
             </Tabs>
@@ -114,19 +120,19 @@ const Home: React.FC<Props> = props => {
           </PanelTitle>
           <Nav>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#learningdesign</Trans>
+              <Trans>#pedagogy</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#MPI</Trans>
+              <Trans>#transition</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#Youtube</Trans>
+              <Trans>#english</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#models</Trans>
+              <Trans>#template</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#ADDIE</Trans>
+              <Trans>#assessment</Trans>
             </NavItem>
           </Nav>
         </Panel>
@@ -137,19 +143,19 @@ const Home: React.FC<Props> = props => {
           </PanelTitle>
           <Nav>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#learningdesign</Trans>
+              <Trans>#pedagogy</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#MPI</Trans>
+              <Trans>#transition</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#Youtube</Trans>
+              <Trans>#english</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#models</Trans>
+              <Trans>#template</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#ADDIE</Trans>
+              <Trans>#assessment</Trans>
             </NavItem>
           </Nav>
         </Panel>

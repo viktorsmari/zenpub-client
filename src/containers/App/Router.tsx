@@ -28,7 +28,7 @@ import Settings from '../../pages/settings';
 import Thread from '../../pages/thread/component';
 import User from '../../pages/User';
 import Signup from '../../pages/Signup';
-
+import ConfirmAccount from '../../pages/Confirm';
 import {
   Inner,
   MainWrapper,
@@ -171,7 +171,7 @@ const DEBOUNCE_TIME = 100;
 
 const searchClient = algoliasearch(
   'KVG4RFL0JJ',
-  '2b7ba2703d3f4bac126ea5765c2764eb'
+  '884f8371d98c8c9837cf76f85f4b5daa'
 );
 
 // static getDerivedStateFromProps(props, state) {
@@ -206,6 +206,14 @@ const App: React.FC<Props> = props => {
   const debouncedSetState = React.useRef<any>(null);
   const onSearchStateChange = React.useCallback(
     searchState => {
+      if (
+        lastLocation &&
+        !props.history.location.pathname.startsWith('/search/')
+      ) {
+        setSearchState({ search: '' });
+        setLastLocation(undefined);
+        return;
+      }
       !lastLocation && setLastLocation(props.location.pathname);
       clearTimeout(debouncedSetState.current);
       debouncedSetState.current = setTimeout(() => {
@@ -231,7 +239,7 @@ const App: React.FC<Props> = props => {
         onSearchStateChange={onSearchStateChange}
         createURL={createURL}
         searchClient={searchClient}
-        indexName="next_moodlenet_all"
+        indexName="moodlenet_mothership"
       >
         <PageContainer>
           {auth ? (
@@ -254,23 +262,38 @@ const App: React.FC<Props> = props => {
   );
 };
 
-export default _ => (
-  <Main>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.1.1/themes/reset-min.css"
-    />
-    <Router>
-      <AppInner>
-        <Switch>
-          <Route exact path="/reset" component={Reset} />
-          <Route exact path="/reset/:token" component={CreateNewPassword} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={Signup} />
-          <Route path="/" component={props => <App {...props} />} />
-          <Route component={NotFound} />
-        </Switch>
-      </AppInner>
-    </Router>
-  </Main>
-);
+export default _ => {
+  const { auth } = React.useContext(SessionContext);
+
+  return (
+    <Main>
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.1.1/themes/reset-min.css"
+      />
+      <Router>
+        <AppInner>
+          <Switch>
+            <Route
+              exact
+              path="/confirm-email/:token"
+              render={route =>
+                auth ? (
+                  <Redirect to="/" />
+                ) : (
+                  <ConfirmAccount token={route.match.params.token} />
+                )
+              }
+            />
+            <Route exact path="/reset" component={Reset} />
+            <Route exact path="/reset/:token" component={CreateNewPassword} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={Signup} />
+            <Route path="/" component={props => <App {...props} />} />
+            <Route component={NotFound} />
+          </Switch>
+        </AppInner>
+      </Router>
+    </Main>
+  );
+};

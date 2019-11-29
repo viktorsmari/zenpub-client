@@ -15,6 +15,7 @@ import Alert from '../Alert';
 import { Button } from 'rebass/styled-components';
 import { Actions, ContainerForm, CounterChars, Row } from '../Modal/modal';
 import ResourceCard from '../Resource/Resource';
+import { CreateResourceMutationMutationVariables } from '../../../graphql/generated/createResource.generated';
 
 const {
   createResourceMutation
@@ -203,8 +204,8 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
     image: Yup.string().url()
   }),
   handleSubmit: (values, { props, setSubmitting }) => {
-    const variables = {
-      resourceId: Number(props.collectionId),
+    const variables: CreateResourceMutationMutationVariables = {
+      collectionId: props.collectionId,
       resource: {
         name: values.name,
         summary: values.summary,
@@ -219,7 +220,6 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
           const fragment = gql`
             fragment Res on Collection {
               id
-              localId
               icon
               name
               content
@@ -229,7 +229,6 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
                 edges {
                   node {
                     id
-                    localId
                     name
                     summary
                     url

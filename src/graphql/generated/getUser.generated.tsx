@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import { BasicCollectionFragmentDoc } from '../fragments/generated/basicCollection.generated';
 import * as Types from '../types.d';
+=======
+import * as Types from '../types.generated.d';
+>>>>>>> develop
 
 import { BasicResourceFragment } from '../fragments/generated/basicResource.generated';
 import { BasicCollectionFragment } from '../fragments/generated/basicCollection.generated';
@@ -18,186 +22,122 @@ import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
+
+
+
+
+
 export type GetUserQueryVariables = {
-  limitComm?: Types.Maybe<Types.Scalars['Int']>;
-  endComm?: Types.Maybe<Types.Scalars['String']>;
-  limitColl?: Types.Maybe<Types.Scalars['Int']>;
-  endColl?: Types.Maybe<Types.Scalars['String']>;
-  limitTimeline?: Types.Maybe<Types.Scalars['Int']>;
-  endTimeline?: Types.Maybe<Types.Scalars['String']>;
+  limitComm?: Types.Maybe<Types.Scalars['Int']>,
+  endComm?: Types.Maybe<Types.Scalars['String']>,
+  limitColl?: Types.Maybe<Types.Scalars['Int']>,
+  endColl?: Types.Maybe<Types.Scalars['String']>,
+  limitTimeline?: Types.Maybe<Types.Scalars['Int']>,
+  endTimeline?: Types.Maybe<Types.Scalars['String']>
 };
 
-export type GetUserQuery = { __typename?: 'RootQueryType' } & {
-  me: Types.Maybe<
-    { __typename?: 'Me' } & {
-      user: { __typename?: 'User' } & {
-        followedCommunities: { __typename?: 'FollowedCommunitiesEdges' } & {
-          pageInfo: Types.Maybe<
-            { __typename?: 'PageInfo' } & Pick<
-              Types.PageInfo,
-              'startCursor' | 'endCursor'
-            >
-          >;
-          edges: Array<
-            Types.Maybe<
-              { __typename?: 'FollowedCommunitiesEdge' } & {
-                node: { __typename?: 'FollowedCommunity' } & {
-                  follow: { __typename?: 'Follow' } & Pick<
-                    Types.Follow,
-                    'id' | 'canonicalUrl'
-                  >;
-                  community: {
-                    __typename: 'Community';
-                  } & BasicCommunityFragment;
-                };
-              }
-            >
-          >;
-        };
-        outbox: { __typename?: 'ActivitiesEdges' } & {
-          pageInfo: Types.Maybe<
-            { __typename?: 'PageInfo' } & Pick<
-              Types.PageInfo,
-              'startCursor' | 'endCursor'
-            >
-          >;
-          edges: Array<
-            Types.Maybe<
-              { __typename?: 'ActivitiesEdge' } & {
-                node: { __typename?: 'Activity' } & Pick<
-                  Types.Activity,
-                  | 'id'
-                  | 'canonicalUrl'
-                  | 'verb'
-                  | 'isLocal'
-                  | 'isPublic'
-                  | 'createdAt'
-                > & {
-                    user: { __typename?: 'User' } & BasicUserFragment;
-                    context:
-                      | ({
-                          __typename?: 'Collection';
-                        } & BasicCollectionFragment)
-                      | ({
-                          __typename?: 'Comment';
-                        } & BasicCommentWithInReplyToFragment)
-                      | ({ __typename?: 'Community' } & BasicCommunityFragment)
-                      | ({ __typename?: 'Resource' } & BasicResourceFragment);
-                  };
-              }
-            >
-          >;
-        };
-        followedCollections: { __typename?: 'FollowedCollectionsEdges' } & {
-          pageInfo: Types.Maybe<
-            { __typename?: 'PageInfo' } & Pick<
-              Types.PageInfo,
-              'startCursor' | 'endCursor'
-            >
-          >;
-          edges: Array<
-            Types.Maybe<
-              { __typename?: 'FollowedCollectionsEdge' } & {
-                node: { __typename?: 'FollowedCollection' } & {
-                  follow: { __typename?: 'Follow' } & Pick<
-                    Types.Follow,
-                    'id' | 'canonicalUrl'
-                  >;
-                  collection: {
-                    __typename: 'Collection';
-                  } & BasicCollectionFragment;
-                };
-              }
-            >
-          >;
-        };
-      } & BasicUserFragment;
-    }
-  >;
-};
+
+export type GetUserQuery = { __typename?: 'RootQueryType', me: Types.Maybe<{ __typename?: 'Me', user: (
+      { __typename?: 'User', followedCommunities: { __typename?: 'FollowedCommunitiesEdges', pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, edges: Array<Types.Maybe<{ __typename?: 'FollowedCommunitiesEdge', node: { __typename?: 'FollowedCommunity', follow: { __typename?: 'Follow', id: string, canonicalUrl: Types.Maybe<string> }, community: (
+              { __typename: 'Community' }
+              & BasicCommunityFragment
+            ) } }>> }, outbox: { __typename?: 'ActivitiesEdges', pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, edges: Array<Types.Maybe<{ __typename?: 'ActivitiesEdge', node: { __typename?: 'Activity', id: string, canonicalUrl: Types.Maybe<string>, verb: Types.ActivityVerb, isLocal: boolean, isPublic: boolean, createdAt: string, user: (
+              { __typename?: 'User' }
+              & BasicUserFragment
+            ), context: (
+              { __typename?: 'Collection' }
+              & BasicCollectionFragment
+            ) | (
+              { __typename?: 'Comment' }
+              & BasicCommentWithInReplyToFragment
+            ) | (
+              { __typename?: 'Community' }
+              & BasicCommunityFragment
+            ) | (
+              { __typename?: 'Resource' }
+              & BasicResourceFragment
+            ) } }>> }, followedCollections: { __typename?: 'FollowedCollectionsEdges', pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, edges: Array<Types.Maybe<{ __typename?: 'FollowedCollectionsEdge', node: { __typename?: 'FollowedCollection', follow: { __typename?: 'Follow', id: string, canonicalUrl: Types.Maybe<string> }, collection: (
+              { __typename: 'Collection' }
+              & BasicCollectionFragment
+            ) } }>> } }
+      & BasicUserFragment
+    ) }> };
+
 
 export const GetUserDocument = gql`
-  query getUser(
-    $limitComm: Int
-    $endComm: String
-    $limitColl: Int
-    $endColl: String
-    $limitTimeline: Int
-    $endTimeline: String
-  ) {
-    me {
-      user {
-        ...BasicUser
-        followedCommunities(limit: $limitComm, after: $endComm) {
-          pageInfo {
-            startCursor
-            endCursor
-          }
-          edges {
-            node {
-              follow {
-                id
-                canonicalUrl
-              }
-              community {
-                __typename
-                ... on Community {
-                  ...BasicCommunity
-                }
-              }
-            }
-          }
+    query getUser($limitComm: Int, $endComm: String, $limitColl: Int, $endColl: String, $limitTimeline: Int, $endTimeline: String) {
+  me {
+    user {
+      ...BasicUser
+      followedCommunities(limit: $limitComm, after: $endComm) {
+        pageInfo {
+          startCursor
+          endCursor
         }
-        outbox(limit: $limitTimeline, after: $endTimeline) {
-          pageInfo {
-            startCursor
-            endCursor
-          }
-          edges {
-            node {
+        edges {
+          node {
+            follow {
               id
               canonicalUrl
-              verb
-              isLocal
-              isPublic
-              createdAt
-              user {
-                ...BasicUser
-              }
-              context {
-                __typename
-                ... on Community {
-                  ...BasicCommunity
-                }
-                ... on Collection {
-                  ...BasicCollection
-                }
-                ... on Resource {
-                  ...BasicResource
-                }
-                ... on Comment {
-                  ...BasicCommentWithInReplyTo
-                }
+            }
+            community {
+              __typename
+              ... on Community {
+                ...BasicCommunity
               }
             }
           }
         }
-        followedCollections(limit: $limitColl, after: $endColl) {
-          pageInfo {
-            startCursor
-            endCursor
-          }
-          edges {
-            node {
-              follow {
-                id
-                canonicalUrl
+      }
+      outbox(limit: $limitTimeline, after: $endTimeline) {
+        pageInfo {
+          startCursor
+          endCursor
+        }
+        edges {
+          node {
+            id
+            canonicalUrl
+            verb
+            isLocal
+            isPublic
+            createdAt
+            user {
+              ...BasicUser
+            }
+            context {
+              __typename
+              ... on Community {
+                ...BasicCommunity
               }
-              collection {
-                __typename
-                ... on Collection {
-                  ...BasicCollection
-                }
+              ... on Collection {
+                ...BasicCollection
+              }
+              ... on Resource {
+                ...BasicResource
+              }
+              ... on Comment {
+                ...BasicCommentWithInReplyTo
+              }
+            }
+          }
+        }
+      }
+      followedCollections(limit: $limitColl, after: $endColl) {
+        pageInfo {
+          startCursor
+          endCursor
+        }
+        edges {
+          node {
+            follow {
+              id
+              canonicalUrl
+            }
+            collection {
+              __typename
+              ... on Collection {
+                ...BasicCollection
               }
             }
           }
@@ -205,56 +145,35 @@ export const GetUserDocument = gql`
       }
     }
   }
-  ${BasicUserFragmentDoc}
-  ${BasicCommunityFragmentDoc}
-  ${BasicCollectionFragmentDoc}
-  ${BasicResourceFragmentDoc}
-  ${BasicCommentWithInReplyToFragmentDoc}
-`;
-export type GetUserComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<
-    GetUserQuery,
-    GetUserQueryVariables
-  >,
-  'query'
->;
-
-export const GetUserComponent = (props: GetUserComponentProps) => (
-  <ApolloReactComponents.Query<GetUserQuery, GetUserQueryVariables>
-    query={GetUserDocument}
-    {...props}
-  />
-);
-
-export type GetUserProps<TChildProps = {}> = ApolloReactHoc.DataProps<
-  GetUserQuery,
-  GetUserQueryVariables
-> &
-  TChildProps;
-export function withGetUser<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetUserQuery,
-    GetUserQueryVariables,
-    GetUserProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetUserQuery,
-    GetUserQueryVariables,
-    GetUserProps<TChildProps>
-  >(GetUserDocument, {
-    alias: 'getUser',
-    ...operationOptions
-  });
 }
+    ${BasicUserFragmentDoc}
+${BasicCommunityFragmentDoc}
+${BasicCollectionFragmentDoc}
+${BasicResourceFragmentDoc}
+${BasicCommentWithInReplyToFragmentDoc}`;
+export type GetUserComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetUserQuery, GetUserQueryVariables>, 'query'>;
+
+    export const GetUserComponent = (props: GetUserComponentProps) => (
+      <ApolloReactComponents.Query<GetUserQuery, GetUserQueryVariables> query={GetUserDocument} {...props} />
+    );
+    
+export type GetUserProps<TChildProps = {}> = ApolloReactHoc.DataProps<GetUserQuery, GetUserQueryVariables> & TChildProps;
+export function withGetUser<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  GetUserQuery,
+  GetUserQueryVariables,
+  GetUserProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, GetUserQuery, GetUserQueryVariables, GetUserProps<TChildProps>>(GetUserDocument, {
+      alias: 'getUser',
+      ...operationOptions
+    });
+};
 
 /**
  * __useGetUserQuery__
  *
  * To run a query within a React component, call `useGetUserQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * When your component renders, `useGetUserQuery` returns an object from Apollo Client that contains loading, error, and data properties 
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -271,181 +190,12 @@ export function withGetUser<TProps, TChildProps = {}>(
  *   },
  * });
  */
-export function useGetUserQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<
-    GetUserQuery,
-    GetUserQueryVariables
-  >
-) {
-  return ApolloReactHooks.useQuery<GetUserQuery, GetUserQueryVariables>(
-    GetUserDocument,
-    baseOptions
-  );
-}
-export function useGetUserLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
-    GetUserQuery,
-    GetUserQueryVariables
-  >
-) {
-  return ApolloReactHooks.useLazyQuery<GetUserQuery, GetUserQueryVariables>(
-    GetUserDocument,
-    baseOptions
-  );
-}
+export function useGetUserQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+        return ApolloReactHooks.useQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, baseOptions);
+      }
+export function useGetUserLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, baseOptions);
+        }
 export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
 export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
-export type GetUserQueryResult = ApolloReactCommon.QueryResult<
-  GetUserQuery,
-  GetUserQueryVariables
->;
-
-export interface IntrospectionResultData {
-  __schema: {
-    types: {
-      kind: string;
-      name: string;
-      possibleTypes: {
-        name: string;
-      }[];
-    }[];
-  };
-}
-
-const result: IntrospectionResultData = {
-  __schema: {
-    types: [
-      {
-        kind: 'UNION',
-        name: 'ActivityContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Resource'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'FlagContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Resource'
-          },
-          {
-            name: 'User'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'LikeContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Resource'
-          },
-          {
-            name: 'User'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'ThreadContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Flag'
-          },
-          {
-            name: 'Resource'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'FollowContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Thread'
-          },
-          {
-            name: 'User'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'DeleteContext',
-        possibleTypes: [
-          {
-            name: 'Activity'
-          },
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Flag'
-          },
-          {
-            name: 'Follow'
-          },
-          {
-            name: 'Like'
-          },
-          {
-            name: 'Resource'
-          },
-          {
-            name: 'Thread'
-          },
-          {
-            name: 'User'
-          }
-        ]
-      }
-    ]
-  }
-};
-
-export default result;
+export type GetUserQueryResult = ApolloReactCommon.QueryResult<GetUserQuery, GetUserQueryVariables>;

@@ -32,12 +32,10 @@ const Component: React.SFC<CollectionProps> = ({ collection }) => (
             ? collection.name.replace(/^(.{76}[^\s]*).*/, '$1...')
             : collection.name}
         </Title>
+
         <Text variant="text" mt={2} mb={3}>
-          {collection.summary!.length > 320
-            ? collection.summary!.replace(
-                /^([\s\S]{316}[^\s]*)[\s\S]*/,
-                '$1...'
-              )
+          {collection.summary && collection.summary.length > 320
+            ? collection.summary.replace(/^([\s\S]{316}[^\s]*)[\s\S]*/, '$1...')
             : collection.summary}
         </Text>
         <Actions>

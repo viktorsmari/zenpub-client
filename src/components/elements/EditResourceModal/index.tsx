@@ -19,6 +19,7 @@ import {
   ContainerForm,
   Header
 } from '../Modal/modal';
+import { UpdateResourceMutationMutationVariables } from '../../../graphql/generated/updateResource.generated';
 
 interface Props {
   toggleModal?: any;
@@ -187,8 +188,8 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
     image: Yup.string().url()
   }),
   handleSubmit: (values, { props, setSubmitting }) => {
-    const variables = {
-      resourceId: Number(props.id),
+    const variables: UpdateResourceMutationMutationVariables = {
+      resourceId: props.id,
       resource: {
         name: values.name,
         summary: values.summary,

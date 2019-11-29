@@ -9,7 +9,6 @@ import EditCommunityModal from '../../components/elements/EditCommunityModal';
 import Loader from '../../components/elements/Loader/Loader';
 import UsersModal from '../../components/elements/UsersModal';
 import '../../containers/App/basic.css';
-import { useInterceptor } from '../../context/global/apolloInterceptorCtx';
 import { useGetCommunityQueryQuery } from '../../graphql/generated/getCommunity.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import {
@@ -47,11 +46,6 @@ const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
     variables: { limit: 15, communityId }
   });
 
-  useInterceptor({
-    operation: 'createCollection',
-    request: () => () => communityQuery.refetch()
-  });
-
   let collections;
   if (communityQuery.error || !communityQuery.data) {
     collections = (
@@ -65,9 +59,9 @@ const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
     if (communityQuery.data.community.collections.totalCount) {
       collections = (
         <Box m={2}>
-          {communityQuery.data.community.collections.edges.map((e, i) => (
-            <CollectionCard key={i} collection={e!.node} />
-          ))}
+          {communityQuery.data.community.collections.edges.map(
+            (e, i) => e && <CollectionCard key={i} collection={e.node} />
+          )}
         </Box>
       );
     } else {
@@ -127,11 +121,7 @@ const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
                       collections={collections}
                       community={communityQuery.data.community}
                       id={communityQuery.data.community.id}
-                      followed={
-                        communityQuery.data.community.myFollow!.id
-                          ? true
-                          : false
-                      }
+                      followed={!!communityQuery.data.community.myFollow}
                       fetchMore={communityQuery.fetchMore}
                       refetch={() => communityQuery.refetch()}
                     />
@@ -140,7 +130,7 @@ const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
               />
               {/* <Route
                   path={`/communities/${
-                    community.localId
+                    community.id
                   }/collection/:collection`}
                   component={CollectionModal}
                 /> */}
@@ -169,19 +159,19 @@ const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
           </PanelTitle>
           <Nav>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#learningdesign</Trans>
+              <Trans>#pedagogy</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#MPI</Trans>
+              <Trans>#transition</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#Youtube</Trans>
+              <Trans>#english</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#models</Trans>
+              <Trans>#template</Trans>
             </NavItem>
             <NavItem mb={3} fontSize={1}>
-              <Trans>#ADDIE</Trans>
+              <Trans>#assessment</Trans>
             </NavItem>
           </Nav>
         </Panel>

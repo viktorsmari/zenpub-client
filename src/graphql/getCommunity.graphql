@@ -21,7 +21,7 @@ query getCommunityQuery($communityId: String!, $limit: Int, $end: String) {
         isPublic
         isDisabled
         myFollow { id }
-        inbox(limit: $limit, after: $end) {
+        outbox(limit: $limit, after: $end) {
             pageInfo { startCursor endCursor }
             edges {
                 node {
@@ -74,7 +74,7 @@ query getCommunityQuery($communityId: String!, $limit: Int, $end: String) {
                     followers { totalCount }
                     resources { totalCount }
                     threads   { totalCount }
-                    outbox    { totalCount }
+                    # outbox    { totalCount }
                 }
             }
         }

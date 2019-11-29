@@ -25,7 +25,9 @@ const HeroComp: SFC<Props> = ({ community, showUsers, editCommunity }) => {
         <Hero>
           <Background
             id="header"
-            style={{ backgroundImage: `url(${community.icon})` }}
+            style={{
+              backgroundImage: `url(${community.icon || community.image})`
+            }}
           />
           <HeroInfo>
             <Title variant="heading" mt={0}>
@@ -44,15 +46,17 @@ const HeroComp: SFC<Props> = ({ community, showUsers, editCommunity }) => {
               <MembersTot onClick={() => showUsers(true)}>
                 {community.followers.edges.slice(0, 3).map((a, i) => {
                   return (
-                    <ImgTot
-                      key={i}
-                      style={{
-                        backgroundImage: `url(${a!.node.creator.icon ||
-                          `https://www.gravatar.com/avatar/${
-                            a!.node.id
-                          }?f=y&d=identicon`})`
-                      }}
-                    />
+                    a && (
+                      <ImgTot
+                        key={i}
+                        style={{
+                          backgroundImage: `url(${a.node.creator.icon ||
+                            `https://www.gravatar.com/avatar/${
+                              a.node.id
+                            }?f=y&d=identicon`})`
+                        }}
+                      />
+                    )
                   );
                 })}{' '}
                 <Tot>
@@ -69,7 +73,7 @@ const HeroComp: SFC<Props> = ({ community, showUsers, editCommunity }) => {
                 ) : null}
                 <Join
                   id={community.id}
-                  followed={community.myFollow!.id ? true : false}
+                  followed={!!community.myFollow}
                   externalId={community.id}
                 />
               </Actions>

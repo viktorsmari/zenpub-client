@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import media from 'styled-media-query';
 import styled from '../../../themes/styled';
-import Community from '../../../types/Community';
 import { Text, Box } from 'rebass/styled-components';
+import { Community } from '../../../graphql/types.generated';
 const PlaceholderImg = require('../Icons/collectionPlaceholder.png');
 
 interface CommunityProps {
@@ -12,10 +12,12 @@ interface CommunityProps {
 const CommunitySmall: React.FC<CommunityProps> = ({ community }) => {
   return (
     <Wrapper py={1} mb={1} ml={3}>
-      <Link to={`/communities/${community.localId}`}>
+      <Link to={`/communities/${community.id}`}>
         <Img
           style={{
-            backgroundImage: `url(${community.icon || PlaceholderImg})`
+            backgroundImage: `url(${community.icon ||
+              community.image ||
+              PlaceholderImg})`
           }}
         />
         <Infos>

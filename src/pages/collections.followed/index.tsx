@@ -8,7 +8,7 @@ import Loader from '../../components/elements/Loader/Loader';
 import CollectionsLoadMore from '../../components/elements/Loadmore/followingCollections';
 // import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
-import { Me } from '../../graphql/types';
+import { Me } from '../../graphql/types.generated';
 
 const {
   getFollowedCollections
@@ -39,12 +39,13 @@ class FollowingCollectionsComponent extends React.Component<Props> {
         <ListWrapper>
           <List>
             {this.props.data.me.user.followedCollections.edges.map(
-              (collection, i) => (
-                <CollectionCard
-                  key={i}
-                  collection={collection!.node.collection}
-                />
-              )
+              (collection, i) =>
+                collection && (
+                  <CollectionCard
+                    key={i}
+                    collection={collection.node.collection}
+                  />
+                )
             )}
           </List>
           <CollectionsLoadMore

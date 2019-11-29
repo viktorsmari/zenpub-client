@@ -22,6 +22,7 @@ import {
   Header,
   Row
 } from '../Modal/modal';
+import { useHistory } from 'react-router';
 
 const tt = {
   placeholders: {
@@ -52,6 +53,7 @@ const CreateCollectionModal: React.FC<Props> = ({
   modalIsOpen,
   communityId
 }) => {
+  const history = useHistory();
   const [createCollection] = useCreateCollectionMutationMutation();
   const handleSubmit = React.useCallback<FormikConfig<FormValues>['onSubmit']>(
     (values, { setSubmitting }) => {
@@ -67,7 +69,9 @@ const CreateCollectionModal: React.FC<Props> = ({
       return createCollection({ variables })
         .then(res => {
           setSubmitting(false);
-          toggleModal();
+          res.data &&
+            res.data.createCollection &&
+            history.push(`/collections/${res.data.createCollection.id}`);
         })
         .catch(err => {
           setSubmitting(false);
@@ -214,7 +218,7 @@ export default CreateCollectionModal;
 //             node: {
 //               __typename: 'Collection',
 //               id: data.createCollection.id,
-//               localId: data.createCollection.localId,
+//               id: data.createCollection.id,
 //               name: data.createCollection.name,
 //               summary: data.createCollection.summary,
 //               preferredUsername: data.createCollection.preferredUsername,

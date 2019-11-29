@@ -28,7 +28,7 @@ interface Props {
   title: string;
   summary: string;
   url: string;
-  localId: string;
+  id: string;
   editResource(): boolean;
   isEditResourceOpen: boolean;
   preview?: boolean;
@@ -84,7 +84,7 @@ const Resource: React.FC<Props> = props => {
       <EditResourceModal
         toggleModal={props.editResource}
         modalIsOpen={props.isEditResourceOpen}
-        id={props.localId}
+        id={props.id}
         url={props.url}
         image={props.icon}
         name={props.title}

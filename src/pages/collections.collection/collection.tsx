@@ -6,11 +6,11 @@ import styled from '../../themes/styled';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import ResourceCard from '../../components/elements/Resource/Resource';
 // import { Resource } from '../../components/elements/Icons';
-import Link from '../../components/elements/Link/Link';
+// import Link from '../../components/elements/Link/Link';
 import media from 'styled-media-query';
 import { Button, Flex, Box } from 'rebass/styled-components';
 import {
-  Footer,
+  // Footer,
   WrapperTab,
   OverlayTab
 } from '../communities.community/Community';
@@ -52,36 +52,35 @@ const CommunityPage: SFC<Props> = ({
               }}
             >
               <Wrapper>
-                {collection.community.followed ? null : (
+                {/*FIXME collection.community.followed ? null : ( // BTW .followed does not exist no more.. it's spread around code
                   <Footer>
                     <Trans>Join the community</Trans>{' '}
-                    <Link to={'/communities/' + collection.community.localId}>
+                    <Link to={'/communities/' + collection.community.id}>
                       {community_name}
                     </Link>{' '}
                     <Trans>to add a resource</Trans>
                   </Footer>
-                )}
+                ) */}
                 <CollectionList>
-                  {collection.community.followed ? (
-                    isOpen === true ? (
-                      <ButtonWrapper>
-                        <Button m={3} onClick={() => onOpen(false)}>
-                          <Trans>Cancel</Trans>
-                        </Button>
-                      </ButtonWrapper>
-                    ) : (
-                      <ButtonWrapper>
-                        <Button m={3} onClick={() => onOpen(true)}>
-                          <Trans>Share a link</Trans>
-                        </Button>
-                      </ButtonWrapper>
-                    )
-                  ) : null}
+                  {/*FIXME collection.community.followed ? */ isOpen ===
+                  true ? (
+                    <ButtonWrapper>
+                      <Button m={3} onClick={() => onOpen(false)}>
+                        <Trans>Cancel</Trans>
+                      </Button>
+                    </ButtonWrapper>
+                  ) : (
+                    <ButtonWrapper>
+                      <Button m={3} onClick={() => onOpen(true)}>
+                        <Trans>Share a link</Trans>
+                      </Button>
+                    </ButtonWrapper>
+                  ) /*  : null */}
                   {isOpen === true ? (
                     <CollectionModal
                       toggleModal={onOpen}
                       modalIsOpen={isOpen}
-                      collectionId={collection.localId}
+                      collectionId={collection.id}
                       collectionExternalId={collection.id}
                     />
                   ) : null}
@@ -93,7 +92,7 @@ const CommunityPage: SFC<Props> = ({
                         title={edge.node.name}
                         summary={edge.node.summary}
                         url={edge.node.url}
-                        localId={edge.node.localId}
+                        id={edge.node.id}
                       />
                     ))
                   ) : (
