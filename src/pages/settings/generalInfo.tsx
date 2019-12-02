@@ -339,6 +339,18 @@ const Component: React.FC<Props> = ({
                       <Field
                         name="image"
                         render={({ field }) => (
+                          <Input
+                            // placeholder="Type a url of a background image..."
+                            name={field.name}
+                            value={field.value}
+                            onChange={field.onChange}
+                            onClick={() => onUploadOpen(true)}
+                          />
+                        )}
+                      />
+                      {/* <Field
+                        name="image"
+                        render={({ field }) => (
                           <>
                             <br />
                             <Input
@@ -347,14 +359,14 @@ const Component: React.FC<Props> = ({
                               value={field.value.name}
                               type="file"
                               onChange={field.onChange}
-                            />
-                            {/* <input id="file" name="file" type="file" onChange={(event) => {
+                            /> */}
+                      {/* <input id="file" name="file" type="file" onChange={(event) => {
                         setFieldValue("file", event.currentTarget.files[0]);
                       }} className="form-control" /> */}
-                            <p onClick={() => onUploadOpen(true)}>Upload</p>
-                          </>
-                        )}
-                      />
+                      {/* <p onClick={() => onUploadOpen(true)}>Upload</p>
+                          </> */}
+                      {/* )}
+                      /> */}
                       {errors.image &&
                         touched.image && <Alert>{errors.image}</Alert>}
                     </ContainerForm>
