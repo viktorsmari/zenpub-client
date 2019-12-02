@@ -15,10 +15,21 @@ export const SidebarWrapper: React.FC<Props> = ({ isOpen }) => {
     },
     [resp.refetch]
   );
-  useInterceptor({ operation: 'delete', request: _handle });
-  useInterceptor({ operation: 'createCommunity', request: _handle });
-  useInterceptor({ operation: 'follow', request: _handle });
-  useInterceptor({ operation: 'delete', request: _handle });
+
+  useInterceptor(
+    React.useMemo(() => ({ operation: 'delete', request: _handle }), [_handle])
+  );
+  useInterceptor(
+    React.useMemo(() => ({ operation: 'createCommunity', request: _handle }), [
+      _handle
+    ])
+  );
+  useInterceptor(
+    React.useMemo(() => ({ operation: 'follow', request: _handle }), [_handle])
+  );
+  useInterceptor(
+    React.useMemo(() => ({ operation: 'delete', request: _handle }), [_handle])
+  );
   return <Sidebar resp={resp} isOpen={isOpen} />;
 };
 

@@ -13,7 +13,17 @@ export type UpdateProfileMutationMutationVariables = {
 };
 
 
-export type UpdateProfileMutationMutation = { __typename?: 'RootMutationType', updateProfile: Types.Maybe<{ __typename?: 'Me', wantsEmailDigest: boolean, wantsNotifications: boolean, user: { __typename?: 'User', id: string, name: Types.Maybe<string>, summary: Types.Maybe<string>, icon: Types.Maybe<string>, image: Types.Maybe<string>, location: Types.Maybe<string>, website: Types.Maybe<string> } }> };
+export type UpdateProfileMutationMutation = (
+  { __typename?: 'RootMutationType' }
+  & { updateProfile: Types.Maybe<(
+    { __typename?: 'Me' }
+    & Pick<Types.Me, 'wantsEmailDigest' | 'wantsNotifications'>
+    & { user: (
+      { __typename?: 'User' }
+      & Pick<Types.User, 'id' | 'name' | 'summary' | 'icon' | 'image' | 'location' | 'website'>
+    ) }
+  )> }
+);
 
 
 export const UpdateProfileMutationDocument = gql`
@@ -75,3 +85,11 @@ export function useUpdateProfileMutationMutation(baseOptions?: ApolloReactHooks.
 export type UpdateProfileMutationMutationHookResult = ReturnType<typeof useUpdateProfileMutationMutation>;
 export type UpdateProfileMutationMutationResult = ApolloReactCommon.MutationResult<UpdateProfileMutationMutation>;
 export type UpdateProfileMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateProfileMutationMutation, UpdateProfileMutationMutationVariables>;
+
+
+export interface UpdateProfileMutationMutationOperation {
+  operationName: 'updateProfileMutation'
+  result: UpdateProfileMutationMutation
+  variables: UpdateProfileMutationMutationVariables
+  type: 'mutation'
+}

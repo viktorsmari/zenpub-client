@@ -15,17 +15,30 @@ import { BasicResourceFragmentDoc } from './basicResource.generated';
 
 
 export type BasicCommentWithInReplyToFragment = (
-  { __typename?: 'Comment', inReplyTo: Types.Maybe<(
+  { __typename?: 'Comment' }
+  & { inReplyTo: Types.Maybe<(
     { __typename?: 'Comment' }
     & BasicCommentFragment
   )> }
   & BasicCommentFragment
 );
 
-export type BasicCommentFragment = { __typename?: 'Comment', id: string, content: string, isLocal: boolean, isPublic: boolean, isHidden: boolean, createdAt: string, updatedAt: string, myLike: Types.Maybe<{ __typename?: 'Like', id: string }>, creator: (
+export type BasicCommentFragment = (
+  { __typename?: 'Comment' }
+  & Pick<Types.Comment, 'id' | 'content' | 'isLocal' | 'isPublic' | 'isHidden' | 'createdAt' | 'updatedAt'>
+  & { myLike: Types.Maybe<(
+    { __typename?: 'Like' }
+    & Pick<Types.Like, 'id'>
+  )>, creator: (
     { __typename?: 'User' }
     & BasicUserFragment
-  ), likes: { __typename?: 'LikesEdges', totalCount: number }, thread: { __typename?: 'Thread', id: string, context: (
+  ), likes: (
+    { __typename?: 'LikesEdges' }
+    & Pick<Types.LikesEdges, 'totalCount'>
+  ), thread: (
+    { __typename?: 'Thread' }
+    & Pick<Types.Thread, 'id'>
+    & { context: (
       { __typename?: 'Collection' }
       & BasicCollectionFragment
     ) | (
@@ -34,7 +47,9 @@ export type BasicCommentFragment = { __typename?: 'Comment', id: string, content
     ) | { __typename?: 'Flag' } | (
       { __typename?: 'Resource' }
       & BasicResourceFragment
-    ) } };
+    ) }
+  ) }
+);
 
 export const BasicCommentFragmentDoc = gql`
     fragment BasicComment on Comment {

@@ -14,7 +14,35 @@ export type GetSidebarQueryQueryVariables = {
 };
 
 
-export type GetSidebarQueryQuery = { __typename?: 'RootQueryType', me: Types.Maybe<{ __typename?: 'Me', user: { __typename?: 'User', id: string, canonicalUrl: Types.Maybe<string>, name: Types.Maybe<string>, preferredUsername: string, icon: Types.Maybe<string>, followedCommunities: { __typename?: 'FollowedCommunitiesEdges', pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, edges: Array<Types.Maybe<{ __typename?: 'FollowedCommunitiesEdge', node: { __typename?: 'FollowedCommunity', follow: { __typename?: 'Follow', id: string }, community: { __typename: 'Community', id: string, preferredUsername: string, name: string, icon: Types.Maybe<string> } } }>> } } }> };
+export type GetSidebarQueryQuery = (
+  { __typename?: 'RootQueryType' }
+  & { me: Types.Maybe<(
+    { __typename?: 'Me' }
+    & { user: (
+      { __typename?: 'User' }
+      & Pick<Types.User, 'id' | 'canonicalUrl' | 'name' | 'preferredUsername' | 'icon'>
+      & { followedCommunities: (
+        { __typename?: 'FollowedCommunitiesEdges' }
+        & { pageInfo: Types.Maybe<(
+          { __typename?: 'PageInfo' }
+          & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
+        )>, edges: Array<Types.Maybe<(
+          { __typename?: 'FollowedCommunitiesEdge' }
+          & { node: (
+            { __typename?: 'FollowedCommunity' }
+            & { follow: (
+              { __typename?: 'Follow' }
+              & Pick<Types.Follow, 'id'>
+            ), community: (
+              { __typename: 'Community' }
+              & Pick<Types.Community, 'id' | 'preferredUsername' | 'name' | 'icon'>
+            ) }
+          ) }
+        )>> }
+      ) }
+    ) }
+  )> }
+);
 
 
 export const GetSidebarQueryDocument = gql`
@@ -96,3 +124,11 @@ export function useGetSidebarQueryLazyQuery(baseOptions?: ApolloReactHooks.LazyQ
 export type GetSidebarQueryQueryHookResult = ReturnType<typeof useGetSidebarQueryQuery>;
 export type GetSidebarQueryLazyQueryHookResult = ReturnType<typeof useGetSidebarQueryLazyQuery>;
 export type GetSidebarQueryQueryResult = ApolloReactCommon.QueryResult<GetSidebarQueryQuery, GetSidebarQueryQueryVariables>;
+
+
+export interface GetSidebarQueryQueryOperation {
+  operationName: 'getSidebarQuery'
+  result: GetSidebarQueryQuery
+  variables: GetSidebarQueryQueryVariables
+  type: 'query'
+}

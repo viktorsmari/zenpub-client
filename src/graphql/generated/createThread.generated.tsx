@@ -17,10 +17,23 @@ export type CreateThreadMutationMutationVariables = {
 };
 
 
-export type CreateThreadMutationMutation = { __typename?: 'RootMutationType', createThread: Types.Maybe<{ __typename?: 'Comment', id: string, canonicalUrl: Types.Maybe<string>, content: string, isLocal: boolean, isPublic: boolean, isHidden: boolean, createdAt: string, updatedAt: string, inReplyTo: Types.Maybe<(
+export type CreateThreadMutationMutation = (
+  { __typename?: 'RootMutationType' }
+  & { createThread: Types.Maybe<(
+    { __typename?: 'Comment' }
+    & Pick<Types.Comment, 'id' | 'canonicalUrl' | 'content' | 'isLocal' | 'isPublic' | 'isHidden' | 'createdAt' | 'updatedAt'>
+    & { inReplyTo: Types.Maybe<(
       { __typename?: 'Comment' }
       & BasicCommentWithInReplyToFragment
-    )>, creator: { __typename?: 'User', name: Types.Maybe<string>, icon: Types.Maybe<string> }, thread: { __typename?: 'Thread', id: string } }> };
+    )>, creator: (
+      { __typename?: 'User' }
+      & Pick<Types.User, 'name' | 'icon'>
+    ), thread: (
+      { __typename?: 'Thread' }
+      & Pick<Types.Thread, 'id'>
+    ) }
+  )> }
+);
 
 
 export const CreateThreadMutationDocument = gql`
@@ -90,3 +103,11 @@ export function useCreateThreadMutationMutation(baseOptions?: ApolloReactHooks.M
 export type CreateThreadMutationMutationHookResult = ReturnType<typeof useCreateThreadMutationMutation>;
 export type CreateThreadMutationMutationResult = ApolloReactCommon.MutationResult<CreateThreadMutationMutation>;
 export type CreateThreadMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateThreadMutationMutation, CreateThreadMutationMutationVariables>;
+
+
+export interface CreateThreadMutationMutationOperation {
+  operationName: 'createThreadMutation'
+  result: CreateThreadMutationMutation
+  variables: CreateThreadMutationMutationVariables
+  type: 'mutation'
+}

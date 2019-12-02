@@ -13,7 +13,13 @@ export type FetchResourceMutationVariables = {
 };
 
 
-export type FetchResourceMutation = { __typename?: 'RootMutationType', fetchWebMetadata: Types.Maybe<{ __typename?: 'WebMetadata', image: Types.Maybe<string>, title: Types.Maybe<string>, author: Types.Maybe<string>, source: Types.Maybe<string>, resourceType: Types.Maybe<string>, summary: Types.Maybe<string>, embedCode: Types.Maybe<string>, language: Types.Maybe<string> }> };
+export type FetchResourceMutation = (
+  { __typename?: 'RootMutationType' }
+  & { fetchWebMetadata: Types.Maybe<(
+    { __typename?: 'WebMetadata' }
+    & Pick<Types.WebMetadata, 'image' | 'title' | 'author' | 'source' | 'resourceType' | 'summary' | 'embedCode' | 'language'>
+  )> }
+);
 
 
 export const FetchResourceDocument = gql`
@@ -72,3 +78,11 @@ export function useFetchResourceMutation(baseOptions?: ApolloReactHooks.Mutation
 export type FetchResourceMutationHookResult = ReturnType<typeof useFetchResourceMutation>;
 export type FetchResourceMutationResult = ApolloReactCommon.MutationResult<FetchResourceMutation>;
 export type FetchResourceMutationOptions = ApolloReactCommon.BaseMutationOptions<FetchResourceMutation, FetchResourceMutationVariables>;
+
+
+export interface FetchResourceMutationOperation {
+  operationName: 'fetchResource'
+  result: FetchResourceMutation
+  variables: FetchResourceMutationVariables
+  type: 'mutation'
+}

@@ -13,7 +13,17 @@ export type CreateUserMutationMutationVariables = {
 };
 
 
-export type CreateUserMutationMutation = { __typename?: 'RootMutationType', createUser: Types.Maybe<{ __typename?: 'Me', email: string, wantsEmailDigest: boolean, wantsNotifications: boolean, isConfirmed: boolean, user: { __typename?: 'User', id: string, preferredUsername: string, name: Types.Maybe<string>, summary: Types.Maybe<string>, location: Types.Maybe<string>, website: Types.Maybe<string> } }> };
+export type CreateUserMutationMutation = (
+  { __typename?: 'RootMutationType' }
+  & { createUser: Types.Maybe<(
+    { __typename?: 'Me' }
+    & Pick<Types.Me, 'email' | 'wantsEmailDigest' | 'wantsNotifications' | 'isConfirmed'>
+    & { user: (
+      { __typename?: 'User' }
+      & Pick<Types.User, 'id' | 'preferredUsername' | 'name' | 'summary' | 'location' | 'website'>
+    ) }
+  )> }
+);
 
 
 export const CreateUserMutationDocument = gql`
@@ -76,3 +86,11 @@ export function useCreateUserMutationMutation(baseOptions?: ApolloReactHooks.Mut
 export type CreateUserMutationMutationHookResult = ReturnType<typeof useCreateUserMutationMutation>;
 export type CreateUserMutationMutationResult = ApolloReactCommon.MutationResult<CreateUserMutationMutation>;
 export type CreateUserMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateUserMutationMutation, CreateUserMutationMutationVariables>;
+
+
+export interface CreateUserMutationMutationOperation {
+  operationName: 'createUserMutation'
+  result: CreateUserMutationMutation
+  variables: CreateUserMutationMutationVariables
+  type: 'mutation'
+}

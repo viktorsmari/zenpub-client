@@ -5,10 +5,39 @@ import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from './basicUser.generated';
 
 
-export type BasicCollectionFragment = { __typename?: 'Collection', id: string, canonicalUrl: Types.Maybe<string>, preferredUsername: string, name: string, summary: Types.Maybe<string>, icon: Types.Maybe<string>, isLocal: boolean, isPublic: boolean, createdAt: string, creator: (
+export type BasicCollectionFragment = (
+  { __typename?: 'Collection' }
+  & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'isLocal' | 'isPublic' | 'createdAt'>
+  & { creator: (
     { __typename?: 'User' }
     & BasicUserFragment
-  ), myLike: Types.Maybe<{ __typename?: 'Like', id: string }>, myFollow: Types.Maybe<{ __typename?: 'Follow', id: string }>, community: { __typename?: 'Community', id: string, canonicalUrl: Types.Maybe<string>, isLocal: boolean, isPublic: boolean, name: string, icon: Types.Maybe<string>, myFollow: Types.Maybe<{ __typename?: 'Follow', id: string }> }, resources: { __typename?: 'ResourcesEdges', totalCount: number }, followers: { __typename?: 'FollowsEdges', totalCount: number }, threads: { __typename?: 'ThreadsEdges', totalCount: number }, outbox: { __typename?: 'ActivitiesEdges', totalCount: number } };
+  ), myLike: Types.Maybe<(
+    { __typename?: 'Like' }
+    & Pick<Types.Like, 'id'>
+  )>, myFollow: Types.Maybe<(
+    { __typename?: 'Follow' }
+    & Pick<Types.Follow, 'id'>
+  )>, community: (
+    { __typename?: 'Community' }
+    & Pick<Types.Community, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'name' | 'icon'>
+    & { myFollow: Types.Maybe<(
+      { __typename?: 'Follow' }
+      & Pick<Types.Follow, 'id'>
+    )> }
+  ), resources: (
+    { __typename?: 'ResourcesEdges' }
+    & Pick<Types.ResourcesEdges, 'totalCount'>
+  ), followers: (
+    { __typename?: 'FollowsEdges' }
+    & Pick<Types.FollowsEdges, 'totalCount'>
+  ), threads: (
+    { __typename?: 'ThreadsEdges' }
+    & Pick<Types.ThreadsEdges, 'totalCount'>
+  ), outbox: (
+    { __typename?: 'ActivitiesEdges' }
+    & Pick<Types.ActivitiesEdges, 'totalCount'>
+  ) }
+);
 
 export const BasicCollectionFragmentDoc = gql`
     fragment BasicCollection on Collection {

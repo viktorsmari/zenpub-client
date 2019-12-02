@@ -17,10 +17,35 @@ export type GetFollowedCollectionsQueryVariables = {
 };
 
 
-export type GetFollowedCollectionsQuery = { __typename?: 'RootQueryType', me: Types.Maybe<{ __typename?: 'Me', user: { __typename?: 'User', id: string, canonicalUrl: Types.Maybe<string>, followedCollections: { __typename?: 'FollowedCollectionsEdges', pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, edges: Array<Types.Maybe<{ __typename?: 'FollowedCollectionsEdge', node: { __typename?: 'FollowedCollection', follow: { __typename?: 'Follow', id: string, canonicalUrl: Types.Maybe<string> }, collection: (
+export type GetFollowedCollectionsQuery = (
+  { __typename?: 'RootQueryType' }
+  & { me: Types.Maybe<(
+    { __typename?: 'Me' }
+    & { user: (
+      { __typename?: 'User' }
+      & Pick<Types.User, 'id' | 'canonicalUrl'>
+      & { followedCollections: (
+        { __typename?: 'FollowedCollectionsEdges' }
+        & { pageInfo: Types.Maybe<(
+          { __typename?: 'PageInfo' }
+          & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
+        )>, edges: Array<Types.Maybe<(
+          { __typename?: 'FollowedCollectionsEdge' }
+          & { node: (
+            { __typename?: 'FollowedCollection' }
+            & { follow: (
+              { __typename?: 'Follow' }
+              & Pick<Types.Follow, 'id' | 'canonicalUrl'>
+            ), collection: (
               { __typename: 'Collection' }
               & BasicCollectionFragment
-            ) } }>> } } }> };
+            ) }
+          ) }
+        )>> }
+      ) }
+    ) }
+  )> }
+);
 
 
 export const GetFollowedCollectionsDocument = gql`
@@ -97,3 +122,11 @@ export function useGetFollowedCollectionsLazyQuery(baseOptions?: ApolloReactHook
 export type GetFollowedCollectionsQueryHookResult = ReturnType<typeof useGetFollowedCollectionsQuery>;
 export type GetFollowedCollectionsLazyQueryHookResult = ReturnType<typeof useGetFollowedCollectionsLazyQuery>;
 export type GetFollowedCollectionsQueryResult = ApolloReactCommon.QueryResult<GetFollowedCollectionsQuery, GetFollowedCollectionsQueryVariables>;
+
+
+export interface GetFollowedCollectionsQueryOperation {
+  operationName: 'getFollowedCollections'
+  result: GetFollowedCollectionsQuery
+  variables: GetFollowedCollectionsQueryVariables
+  type: 'query'
+}

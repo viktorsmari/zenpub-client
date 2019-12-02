@@ -11,7 +11,10 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type LogoutMutationMutationVariables = {};
 
 
-export type LogoutMutationMutation = { __typename?: 'RootMutationType', deleteSession: Types.Maybe<boolean> };
+export type LogoutMutationMutation = (
+  { __typename?: 'RootMutationType' }
+  & Pick<Types.RootMutationType, 'deleteSession'>
+);
 
 
 export const LogoutMutationDocument = gql`
@@ -60,3 +63,11 @@ export function useLogoutMutationMutation(baseOptions?: ApolloReactHooks.Mutatio
 export type LogoutMutationMutationHookResult = ReturnType<typeof useLogoutMutationMutation>;
 export type LogoutMutationMutationResult = ApolloReactCommon.MutationResult<LogoutMutationMutation>;
 export type LogoutMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<LogoutMutationMutation, LogoutMutationMutationVariables>;
+
+
+export interface LogoutMutationMutationOperation {
+  operationName: 'logoutMutation'
+  result: LogoutMutationMutation
+  variables: LogoutMutationMutationVariables
+  type: 'mutation'
+}

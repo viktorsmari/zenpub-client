@@ -11,7 +11,17 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type MeQueryQueryVariables = {};
 
 
-export type MeQueryQuery = { __typename?: 'RootQueryType', me: Types.Maybe<{ __typename?: 'Me', email: string, user: { __typename?: 'User', id: string, canonicalUrl: Types.Maybe<string>, preferredUsername: string, name: Types.Maybe<string>, location: Types.Maybe<string>, icon: Types.Maybe<string>, image: Types.Maybe<string>, summary: Types.Maybe<string>, website: Types.Maybe<string>, isLocal: boolean, isPublic: boolean, isDisabled: boolean, createdAt: string, updatedAt: string, lastActivity: Types.Maybe<string> } }> };
+export type MeQueryQuery = (
+  { __typename?: 'RootQueryType' }
+  & { me: Types.Maybe<(
+    { __typename?: 'Me' }
+    & Pick<Types.Me, 'email'>
+    & { user: (
+      { __typename?: 'User' }
+      & Pick<Types.User, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'location' | 'icon' | 'image' | 'summary' | 'website' | 'isLocal' | 'isPublic' | 'isDisabled' | 'createdAt' | 'updatedAt' | 'lastActivity'>
+    ) }
+  )> }
+);
 
 
 export const MeQueryDocument = gql`
@@ -81,3 +91,11 @@ export function useMeQueryLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHook
 export type MeQueryQueryHookResult = ReturnType<typeof useMeQueryQuery>;
 export type MeQueryLazyQueryHookResult = ReturnType<typeof useMeQueryLazyQuery>;
 export type MeQueryQueryResult = ApolloReactCommon.QueryResult<MeQueryQuery, MeQueryQueryVariables>;
+
+
+export interface MeQueryQueryOperation {
+  operationName: 'meQuery'
+  result: MeQueryQuery
+  variables: MeQueryQueryVariables
+  type: 'query'
+}

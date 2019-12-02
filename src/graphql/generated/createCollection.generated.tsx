@@ -17,10 +17,13 @@ export type CreateCollectionMutationMutationVariables = {
 };
 
 
-export type CreateCollectionMutationMutation = { __typename?: 'RootMutationType', createCollection: Types.Maybe<(
+export type CreateCollectionMutationMutation = (
+  { __typename?: 'RootMutationType' }
+  & { createCollection: Types.Maybe<(
     { __typename?: 'Collection' }
     & BasicCollectionFragment
-  )> };
+  )> }
+);
 
 
 export const CreateCollectionMutationDocument = gql`
@@ -73,3 +76,11 @@ export function useCreateCollectionMutationMutation(baseOptions?: ApolloReactHoo
 export type CreateCollectionMutationMutationHookResult = ReturnType<typeof useCreateCollectionMutationMutation>;
 export type CreateCollectionMutationMutationResult = ApolloReactCommon.MutationResult<CreateCollectionMutationMutation>;
 export type CreateCollectionMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateCollectionMutationMutation, CreateCollectionMutationMutationVariables>;
+
+
+export interface CreateCollectionMutationMutationOperation {
+  operationName: 'createCollectionMutation'
+  result: CreateCollectionMutationMutation
+  variables: CreateCollectionMutationMutationVariables
+  type: 'mutation'
+}

@@ -14,7 +14,13 @@ export type UpdateCommunityMutationMutationVariables = {
 };
 
 
-export type UpdateCommunityMutationMutation = { __typename?: 'RootMutationType', updateCommunity: Types.Maybe<{ __typename?: 'Community', id: string, canonicalUrl: Types.Maybe<string>, preferredUsername: string, name: string, summary: Types.Maybe<string>, icon: Types.Maybe<string>, createdAt: string, updatedAt: string }> };
+export type UpdateCommunityMutationMutation = (
+  { __typename?: 'RootMutationType' }
+  & { updateCommunity: Types.Maybe<(
+    { __typename?: 'Community' }
+    & Pick<Types.Community, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'createdAt' | 'updatedAt'>
+  )> }
+);
 
 
 export const UpdateCommunityMutationDocument = gql`
@@ -74,3 +80,11 @@ export function useUpdateCommunityMutationMutation(baseOptions?: ApolloReactHook
 export type UpdateCommunityMutationMutationHookResult = ReturnType<typeof useUpdateCommunityMutationMutation>;
 export type UpdateCommunityMutationMutationResult = ApolloReactCommon.MutationResult<UpdateCommunityMutationMutation>;
 export type UpdateCommunityMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateCommunityMutationMutation, UpdateCommunityMutationMutationVariables>;
+
+
+export interface UpdateCommunityMutationMutationOperation {
+  operationName: 'updateCommunityMutation'
+  result: UpdateCommunityMutationMutation
+  variables: UpdateCommunityMutationMutationVariables
+  type: 'mutation'
+}

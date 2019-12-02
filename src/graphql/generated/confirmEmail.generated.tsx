@@ -1,8 +1,8 @@
 import * as Types from '../types.generated.d';
 
-import { BasicUserFragment } from '../fragments/generated/basicUser.generated';
+import { BasicAuthPayloadFragment } from '../fragments/generated/basicAuthPayload.generated';
 import gql from 'graphql-tag';
-import { BasicUserFragmentDoc } from '../fragments/generated/basicUser.generated';
+import { BasicAuthPayloadFragmentDoc } from '../fragments/generated/basicAuthPayload.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as React from 'react';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -16,29 +16,22 @@ export type ConfirmEmailMutationMutationVariables = {
 };
 
 
-export type ConfirmEmailMutationMutation = { __typename?: 'RootMutationType', confirmEmail: Types.Maybe<{ __typename?: 'AuthPayload', token: string, me: { __typename?: 'Me', email: string, wantsEmailDigest: boolean, wantsNotifications: boolean, isConfirmed: boolean, isInstanceAdmin: boolean, user: (
-        { __typename?: 'User' }
-        & BasicUserFragment
-      ) } }> };
+export type ConfirmEmailMutationMutation = (
+  { __typename?: 'RootMutationType' }
+  & { confirmEmail: Types.Maybe<(
+    { __typename?: 'AuthPayload' }
+    & BasicAuthPayloadFragment
+  )> }
+);
 
 
 export const ConfirmEmailMutationDocument = gql`
     mutation confirmEmailMutation($token: String!) {
   confirmEmail(token: $token) {
-    token
-    me {
-      email
-      wantsEmailDigest
-      wantsNotifications
-      isConfirmed
-      isInstanceAdmin
-      user {
-        ...BasicUser
-      }
-    }
+    ...BasicAuthPayload
   }
 }
-    ${BasicUserFragmentDoc}`;
+    ${BasicAuthPayloadFragmentDoc}`;
 export type ConfirmEmailMutationMutationFn = ApolloReactCommon.MutationFunction<ConfirmEmailMutationMutation, ConfirmEmailMutationMutationVariables>;
 export type ConfirmEmailMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<ConfirmEmailMutationMutation, ConfirmEmailMutationMutationVariables>, 'mutation'>;
 
@@ -81,3 +74,11 @@ export function useConfirmEmailMutationMutation(baseOptions?: ApolloReactHooks.M
 export type ConfirmEmailMutationMutationHookResult = ReturnType<typeof useConfirmEmailMutationMutation>;
 export type ConfirmEmailMutationMutationResult = ApolloReactCommon.MutationResult<ConfirmEmailMutationMutation>;
 export type ConfirmEmailMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<ConfirmEmailMutationMutation, ConfirmEmailMutationMutationVariables>;
+
+
+export interface ConfirmEmailMutationMutationOperation {
+  operationName: 'confirmEmailMutation'
+  result: ConfirmEmailMutationMutation
+  variables: ConfirmEmailMutationMutationVariables
+  type: 'mutation'
+}

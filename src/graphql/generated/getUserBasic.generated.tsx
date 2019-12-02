@@ -14,10 +14,17 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type GetUserBasicQueryVariables = {};
 
 
-export type GetUserBasicQuery = { __typename?: 'RootQueryType', me: Types.Maybe<{ __typename?: 'Me', email: string, user: (
+export type GetUserBasicQuery = (
+  { __typename?: 'RootQueryType' }
+  & { me: Types.Maybe<(
+    { __typename?: 'Me' }
+    & Pick<Types.Me, 'email'>
+    & { user: (
       { __typename?: 'User' }
       & BasicUserFragment
-    ) }> };
+    ) }
+  )> }
+);
 
 
 export const GetUserBasicDocument = gql`
@@ -72,3 +79,11 @@ export function useGetUserBasicLazyQuery(baseOptions?: ApolloReactHooks.LazyQuer
 export type GetUserBasicQueryHookResult = ReturnType<typeof useGetUserBasicQuery>;
 export type GetUserBasicLazyQueryHookResult = ReturnType<typeof useGetUserBasicLazyQuery>;
 export type GetUserBasicQueryResult = ApolloReactCommon.QueryResult<GetUserBasicQuery, GetUserBasicQueryVariables>;
+
+
+export interface GetUserBasicQueryOperation {
+  operationName: 'getUserBasic'
+  result: GetUserBasicQuery
+  variables: GetUserBasicQueryVariables
+  type: 'query'
+}
