@@ -12,6 +12,7 @@ import { useLikeMutationMutation } from '../../../graphql/generated/like.generat
 import { useDeleteMutationMutation } from '../../../graphql/generated/delete.generated';
 import { BasicCommentFragment } from '../../../graphql/fragments/generated/basicComment.generated';
 import { Comment } from '../../../graphql/types.generated';
+import MoreOptions from '../MoreOptions';
 
 interface EventProps {
   comment: BasicCommentFragment | Comment;
@@ -47,6 +48,12 @@ const CommentWrapper: React.FC<EventProps> = ({
           <Img src={(creator && creator.icon) || ''} />
         </MemberItem>
         <MemberInfo>
+          {typeof comment!.id == 'string' ? (
+            <MoreOptionsContainer>
+              {/* <MoreOptions contextId={comment.id} myFlag={comment.myFlag} /> */}
+              <MoreOptions contextId={comment.id} myFlag="false" />
+            </MoreOptionsContainer>
+          ) : null}
           {creator ? (
             <Name>
               <Link to={'/user/' + creator.id}>
@@ -296,4 +303,11 @@ const FeedItem = styled.div`
     background: ${props => props.theme.colors.lighter};
   }
 
+`;
+
+const MoreOptionsContainer = styled.div`
+  margin-left: 16px;
+  position: absolute;
+  right: 20px;
+  z-index: 20;
 `;

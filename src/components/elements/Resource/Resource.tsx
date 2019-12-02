@@ -19,6 +19,8 @@ import media from 'styled-media-query';
 import styled from '../../../themes/styled';
 import { Button, Heading, Text } from 'rebass/styled-components';
 import EditResourceModal from '../EditResourceModal';
+import MoreOptions from '../MoreOptions';
+
 const PlaceholderImg = require('../Icons/resourcePlaceholder.png');
 
 interface Props {
@@ -32,11 +34,16 @@ interface Props {
   preview?: boolean;
   isEditable?: boolean;
   coreIntegrationURL?: string;
+  myFlag: string | null;
 }
 
 const Resource: React.FC<Props> = props => {
+  console.log('Resource ID%O', props.id);
   return (
     <Wrapper>
+      <MoreOptionsContainer>
+        <MoreOptions contextId={props.id} myFlag={props.myFlag} />
+      </MoreOptionsContainer>{' '}
       <UrlLink target="blank" href={props.url}>
         <Img
           style={{ backgroundImage: `url(${props.icon || PlaceholderImg})` }}
@@ -205,6 +212,13 @@ const Actions = styled.div`
       color: inherit !important;
     }
   }
+`;
+
+const MoreOptionsContainer = styled.div`
+  margin-left: 16px;
+  position: absolute;
+  right: 20px;
+  z-index: 20;
 `;
 
 export default compose(

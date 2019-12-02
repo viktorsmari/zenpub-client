@@ -19,6 +19,7 @@ import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import Header from '../thread/header';
 import Empty from '../../components/elements/Empty';
 import { SessionContext } from '../../context/global/sessionCtx';
+import MoreOptions from '../../components/elements/MoreOptions';
 
 export interface Props {
   collectionQuery: GetCollectionQueryHookResult;
@@ -66,6 +67,13 @@ const Component: React.FC<Props> = ({
                         }}
                       />
                       <HeroInfo>
+                        <MoreOptionsContainer>
+                          <MoreOptions
+                            contextId={collection.data!.collection!.id}
+                            // myFlag={collection.myFlag}
+                            myFlag="false"
+                          />
+                        </MoreOptionsContainer>
                         <Title fontSize={5} fontWeight={'bold'}>
                           {collection.data.collection.name}
                         </Title>
@@ -223,6 +231,11 @@ const Background = styled.div`
   background-color: ${props => props.theme.colors.lightgray};
   position: relative;
   margin: 0 auto;
+`;
+
+const MoreOptionsContainer = styled.div`
+  float: right;
+  position: relative;
 `;
 
 export default compose(
