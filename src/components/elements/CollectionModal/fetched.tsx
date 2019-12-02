@@ -15,7 +15,6 @@ import Alert from '../Alert';
 import { Button } from 'rebass/styled-components';
 import { Actions, ContainerForm, CounterChars, Row } from '../Modal/modal';
 import ResourceCard from '../Resource/Resource';
-// import { LocaleContext } from '../../../containers/App/App';
 import { CreateResourceMutationMutationVariables } from '../../../graphql/generated/createResource.generated';
 
 const {
@@ -170,50 +169,16 @@ const Fetched = (props: Props & FormikProps<FormValues>) => (
             props.touched.image && <Alert>{props.errors.image}</Alert>}
         </ContainerForm>
       </Row>
-
-      {/* // <LocaleContext.Consumer>
-      //   {value =>
-      //     value.contentDirection == 'ltr' ? (
-      //       <Actions>
-      //         <LoaderButton
-      //           loading={props.isSubmitting}
-      //           disabled={props.isSubmitting}
-      //           text={i18n._(tt.placeholders.submit)}
-      //           type="submit"
-      //           style={{ marginLeft: '10px' }}
-      //         />
-      //         <Button onClick={props.toggleModal} secondary>
-      //           <Trans>Cancel</Trans>
-      //         </Button>
-      //       </Actions>
-      //     ) : (
-      //       <Actions>
-      //         <Button onClick={props.toggleModal} secondary>
-      //           <Trans>Cancel</Trans>
-      //         </Button>
-      //         <LoaderButton
-      //           loading={props.isSubmitting}
-      //           disabled={props.isSubmitting}
-      //           text={i18n._(tt.placeholders.submit)}
-      //           type="submit"
-      //           style={{ marginLeft: '10px' }}
-      //         />
-      //       </Actions>
-      //     )
-      //   }
-      // </LocaleContext.Consumer> */}
-
       <Actions>
-        <Button
+        <SubmitButton
           loading={props.isSubmitting}
           disabled={props.isSubmitting}
           text={i18n._(tt.placeholders.submit)}
-          ml={2}
           onClick={props.handleSubmit}
           variant="primary"
         >
           <Trans>Publish</Trans>
-        </Button>
+        </SubmitButton>
         <Button onClick={props.toggleModal} variant="outline">
           <Trans>Cancel</Trans>
         </Button>
@@ -315,4 +280,12 @@ const SearchInput = styled(Input)`
   background: white;
   border-radius: 2px;
   border: 1px solid ${props => props.theme.colors.lightgray};
+`;
+
+const SubmitButton = styled(Button)`
+  margin-left: 8px;
+  .--rtl & {
+    margin-right: 8px;
+    margin-left: 0px;
+  }
 `;

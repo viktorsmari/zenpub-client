@@ -274,7 +274,7 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
                           {value.contentDirection == 'ltr' ? (
                             <Image mr={2} width={'40px'} src={MnetLogo} />
                           ) : (
-                            <Image mr={2} width={'40px'} src={MnetLogo} />
+                            <Image ml={2} width={'40px'} src={MnetLogo} />
                           )}
                           <ItemTitle variant="link">
                             <Trans>My MoodleNet</Trans>

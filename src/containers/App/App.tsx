@@ -152,10 +152,11 @@ export default class App extends React.Component<{}, State> {
       );
     }
 
-    const direction = directionForLanguage(languageOfLocale(this.state.locale));
+    // const direction = directionForLanguage(languageOfLocale(this.state.locale));
 
     return (
-      <ThemeProvider rtl={direction === 'rtl'}>
+      // <ThemeProvider rtl={direction === 'rtl'}>
+      <ThemeProvider>
         <LocaleContext.Provider value={this.state}>
           <I18nProvider
             i18n={i18n}

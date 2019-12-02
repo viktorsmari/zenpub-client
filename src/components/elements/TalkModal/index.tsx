@@ -9,7 +9,6 @@ import { SessionContext } from '../../../context/global/sessionCtx';
 import Alert from '../../elements/Alert';
 import Modal from '../Modal';
 import SocialText from '../SocialText';
-import { LocaleContext } from '../../../containers/App/App';
 import { useCreateReplyMutationMutation } from '../../../graphql/generated/createReply.generated';
 import { BasicCommentFragment } from '../../../graphql/fragments/generated/basicComment.generated';
 import { Comment } from '../../../graphql/types.generated';
@@ -26,6 +25,11 @@ export const Avatar = styled(Box)`
   background: ${props => props.theme.colors.orange};
   background-repeat: no-repeat;
   background-size: cover;
+  margin-right: 8px;
+  .--rtl & {
+    margin-right: 0px;
+    margin-left: 8px;
+  }
 `;
 
 const tt = {
@@ -51,7 +55,6 @@ export const TalkModal: React.FC<Props> = ({
 }) => {
   const [reply /* ,replyResult */] = useCreateReplyMutationMutation();
   const session = React.useContext(SessionContext);
-  const localeCntx = React.useContext(LocaleContext);
   const [text, setText] = React.useState('');
   const [error, setError] = React.useState('');
   const [touched, setTouched] = React.useState(false);
@@ -88,24 +91,13 @@ export const TalkModal: React.FC<Props> = ({
     <Modal isOpen={modalIsOpen} toggleModal={() => toggleModal(false)}>
       <CommentCmp comment={comment} noLink noAction />
       <TextWrapper>
-        {localeCntx.contentDirection == 'ltr' ? (
-          <Avatar
-            style={{
-              backgroundImage: `url(${
-                session.auth ? session.auth.me.user.icon : ''
-              })`
-            }}
-            mr={2}
-          />
-        ) : (
-          <Avatar
-            style={{
-              backgroundImage: `url(${
-                session.auth ? session.auth.me.user.icon : ''
-              })`
-            }}
-            ml={2}
-          />
+        <Avatar
+          style={{
+            backgroundImage: `url(${
+              session.auth ? session.auth.me.user.icon : ''
+            })`
+          }}
+        />
         )}
         <SocialText
           placeholder={i18n._(tt.placeholders.name)}

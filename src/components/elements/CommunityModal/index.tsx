@@ -13,7 +13,6 @@ import { Heading } from 'rebass';
 import { Button } from 'rebass';
 import Modal from '../Modal';
 import { Input, Textarea } from '@rebass/forms';
-import { LocaleContext } from '../../../containers/App/App';
 import {
   Actions,
   Container,
@@ -22,6 +21,7 @@ import {
   Header,
   Row
 } from '../Modal/modal';
+import styled from '../../../themes/styled';
 
 const {
   createCollectionMutation
@@ -137,29 +137,14 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
               {errors.image && touched.image && <Alert>{errors.image}</Alert>}
             </ContainerForm>
           </Row>
-          <LocaleContext.Consumer>
-            {value =>
-              value.contentDirection == 'ltr' ? (
-                <Actions>
-                  <Button disabled={isSubmitting} type="submit" ml={2}>
-                    <Trans>Create</Trans>
-                  </Button>
-                  <Button onClick={toggleModal}>
-                    <Trans>Cancel</Trans>
-                  </Button>
-                </Actions>
-              ) : (
-                <Actions>
-                  <Button onClick={toggleModal} ml={2}>
-                    <Trans>Cancel</Trans>
-                  </Button>
-                  <Button disabled={isSubmitting} type="submit" ml={2}>
-                    <Trans>Create</Trans>
-                  </Button>
-                </Actions>
-              )
-            }
-          </LocaleContext.Consumer>
+          <Actions>
+            <SubmitButton disabled={isSubmitting} type="submit">
+              <Trans>Create</Trans>
+            </SubmitButton>
+            <Button onClick={toggleModal}>
+              <Trans>Cancel</Trans>
+            </Button>
+          </Actions>
         </Form>
       </Container>
     </Modal>
@@ -264,3 +249,11 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
 })(CreateCommunityModal);
 
 export default compose(withCreateCollection)(ModalWithFormik);
+
+const SubmitButton = styled(Button)`
+  margin-left: 8px;
+  .--rtl & {
+    margin-right: 8px;
+    margin-left: 0px;
+  }
+`;

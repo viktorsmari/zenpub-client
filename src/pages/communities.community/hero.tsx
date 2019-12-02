@@ -179,6 +179,10 @@ const EditButton = styled.span`
     vertical-align: text-bottom;
     color: inherit !important;
   }
+  .--rtl & {
+    margin-right: 0px;
+    margin-left: 16px;
+  }
 `;
 
 const Hero = styled.div`

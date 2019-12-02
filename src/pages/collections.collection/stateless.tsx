@@ -165,6 +165,10 @@ const EditButton = styled.span`
     vertical-align: text-bottom;
     color: inherit !important;
   }
+  .--rtl & {
+    margin-right: 0px;
+    margin-left: 16px;
+  }
 `;
 
 const HeroInfo = styled.div`
@@ -187,6 +191,10 @@ const HeroInfo = styled.div`
     font-size: 15px;
     margin-top: 8px;
     color: ${props => props.theme.colors.darkgray};
+  }
+  .--rtl & {
+    margin-right: 16px;
+    margin-left: 0px;
   }
 `;
 const HeroCont = styled.div`

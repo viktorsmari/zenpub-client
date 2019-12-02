@@ -18,6 +18,14 @@ display: none;
 `};
 `;
 
+const TabHeading = styled(Heading)`
+  margin-left: 8px;
+  .--rtl & {
+    margin-right: 8px;
+    margin-left: 0px;
+  }
+`;
+
 const Preferences = props => (
   <LocaleContext.Consumer>
     {value => (
@@ -36,15 +44,9 @@ const Preferences = props => (
               onClick={() => props.onSwitch('sidebar')}
             />
           )}
-          {value.contentDirection == 'ltr' ? (
-            <Heading ml={2}>
-              <Trans>Preferences</Trans>
-            </Heading>
-          ) : (
-            <Heading mr={2}>
-              <Trans>Preferences</Trans>
-            </Heading>
-          )}
+          <TabHeading>
+            <Trans>Preferences</Trans>
+          </TabHeading>
         </Header>
         <Row>
           <ContainerForm>

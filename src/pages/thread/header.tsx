@@ -70,7 +70,7 @@ const HeaderWrapper: React.FC<Props> = ({ context }) => {
             </Left>
             <Right>
               <Link to={`/communities/${context.id}`}>
-                <Img mr={2} src={context.icon} />
+                <Img ml={2} src={context.icon} />
                 <Text variant="suptitle">{context.name}</Text>
               </Link>
             </Right>

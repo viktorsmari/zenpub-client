@@ -118,6 +118,14 @@ const ExRowUsername = styled(ExRow)`
   border-bottom: 1px solid ${props => props.theme.colors.lightgray};
 `;
 
+const TabHeading = styled(Heading)`
+  margin-left: 8px;
+  .--rtl & {
+    margin-right: 8px;
+    margin-left: 0px;
+  }
+`;
+
 const Component = (props: Props & FormikProps<FormValues>) => {
   const { errors, touched, isSubmitting } = props;
   const localeCntx = React.useContext(LocaleContext);
@@ -140,15 +148,9 @@ const Component = (props: Props & FormikProps<FormValues>) => {
                 onClick={() => props.onSwitch('sidebar')}
               />
             )}
-            {localeCntx.contentDirection == 'ltr' ? (
-              <Heading ml={2}>
-                <Trans>General Information</Trans>
-              </Heading>
-            ) : (
-              <Heading mr={2}>
-                <Trans>General Information</Trans>
-              </Heading>
-            )}
+            <TabHeading>
+              <Trans>General Information</Trans>
+            </TabHeading>
           </Header>
           <Form>
             <ExRow>

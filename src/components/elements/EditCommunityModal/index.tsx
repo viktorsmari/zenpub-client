@@ -15,13 +15,13 @@ import {
   ContainerForm,
   Header
 } from '../Modal/modal';
-// import { LocaleContext } from '../../../containers/App/App';
 import { graphql, OperationOption } from 'react-apollo';
 import { UpdateCommunityMutationMutationVariables } from '../../../graphql/generated/updateCommunity.generated';
 import { Community } from '../../../graphql/types.generated';
 const {
   updateCommunityMutation
 } = require('../../../graphql/updateCommunity.graphql');
+import styled from '../../../themes/styled';
 
 interface Props {
   toggleModal?: any;
@@ -127,38 +127,16 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
               {errors.image && touched.image && <Alert>{errors.image}</Alert>}
             </ContainerForm>
           </Row>
-          {/* {localeCntx.contentDirection == 'ltr' ? (
-            <Actions>
-              <Button
-                disabled={isSubmitting}
-                type="submit"
-                style={{ marginLeft: '10px' }}
-              >
-                <Trans>Save</Trans>
-              </Button>
-              <Button onClick={toggleModal} secondary>
-                <Trans>Cancel</Trans>
-              </Button>
-            </Actions>
-          ) : (
-            <Actions>
-              <Button onClick={toggleModal} secondary>
-                <Trans>Cancel</Trans>
-              </Button>
-              <Button
-                disabled={isSubmitting}
-                type="submit"
-                style={{ marginLeft: '10px' }}
-              >
-                <Trans>Save</Trans>
-              </Button>
-            </Actions> */}
           )}
           <Actions>
-            <Button disabled={isSubmitting} type="submit" variant="primary">
+            <SubmitButton
+              disabled={isSubmitting}
+              type="submit"
+              variant="primary"
+            >
               <Trans>Save</Trans>
-            </Button>
-            <Button onClick={toggleModal} mr={2} variant="outline">
+            </SubmitButton>
+            <Button onClick={toggleModal} variant="outline">
               <Trans>Cancel</Trans>
             </Button>
           </Actions>
@@ -206,3 +184,11 @@ const ModalWithFormik = withFormik<
 })(CreateCommunityModal);
 
 export default compose(withUpdateCommunity)(ModalWithFormik);
+
+const SubmitButton = styled(Button)`
+  margin-left: 8px;
+  .--rtl & {
+    margin-right: 8px;
+    margin-left: 0px;
+  }
+`;

@@ -8,7 +8,7 @@ import { withFormik, FormikProps, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import Alert from '../../elements/Alert';
 import { graphql, OperationOption } from 'react-apollo';
-import { LocaleContext } from '../../../containers/App/App';
+import styled from '../../../themes/styled';
 
 const {
   updateResourceMutation
@@ -154,37 +154,14 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
               {errors.image && touched.image && <Alert>{errors.image}</Alert>}
             </ContainerForm>
           </Row>
-          <LocaleContext.Consumer>
-            {value =>
-              value.contentDirection == 'ltr' ? (
-                <Actions>
-                  <Button
-                    disabled={isSubmitting}
-                    type="submit"
-                    style={{ marginLeft: '10px' }}
-                  >
-                    <Trans>Save</Trans>
-                  </Button>
-                  <Button onClick={toggleModal} secondary>
-                    <Trans>Cancel</Trans>
-                  </Button>
-                </Actions>
-              ) : (
-                <Actions>
-                  <Button onClick={toggleModal} secondary>
-                    <Trans>Cancel</Trans>
-                  </Button>
-                  <Button
-                    disabled={isSubmitting}
-                    type="submit"
-                    style={{ marginLeft: '10px' }}
-                  >
-                    <Trans>Save</Trans>
-                  </Button>
-                </Actions>
-              )
-            }
-          </LocaleContext.Consumer>
+          <Actions>
+            <SubmitButton disabled={isSubmitting} type="submit">
+              <Trans>Save</Trans>
+            </SubmitButton>
+            <Button onClick={toggleModal} secondary>
+              <Trans>Cancel</Trans>
+            </Button>
+          </Actions>
         </Form>
       </Container>
     </Modal>
@@ -231,3 +208,11 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
 })(CreateCommunityModal);
 
 export default compose(withUpdateResource)(ModalWithFormik);
+
+const SubmitButton = styled(Button)`
+  margin-left: 10px;
+  .--rtl & {
+    margin-right: 10px;
+    margin-left: 0px;
+  }
+`;

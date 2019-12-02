@@ -2,7 +2,7 @@ import React from 'react';
 import { moodlenet } from '../themes';
 import { ThemeProvider as StyledTheme } from 'styled-components';
 
-const ThemeProvider = ({ rtl, children }) => {
+const ThemeProvider = ({ children }) => {
   return <StyledTheme theme={moodlenet}>{children}</StyledTheme>;
 };
 
