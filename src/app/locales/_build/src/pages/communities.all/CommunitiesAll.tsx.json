@@ -1,0 +1,11 @@
+{
+  "All communities": {
+    "origin": [["src/pages/communities.all/CommunitiesAll.tsx", 27]]
+  },
+  "Error loading communities": {
+    "origin": [["src/pages/communities.all/CommunitiesAll.tsx", 33]]
+  },
+  "Create a new community": {
+    "origin": [["src/pages/communities.all/CommunitiesAll.tsx", 37]]
+  }
+}

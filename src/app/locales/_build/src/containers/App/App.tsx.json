@@ -1,0 +1,5 @@
+{
+  "Sorry, we encountered a problem loading the app in your language.": {
+    "origin": [["src/containers/App/App.tsx", 100]]
+  }
+}

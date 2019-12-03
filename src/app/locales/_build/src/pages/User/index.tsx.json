@@ -1,0 +1,17 @@
+{
+  "Error loading user": {
+    "origin": [["src/pages/User/index.tsx", 50]]
+  },
+  "Recent activities": {
+    "origin": [["src/pages/User/index.tsx", 62]]
+  },
+  "Followed Collections": {
+    "origin": [["src/pages/User/index.tsx", 67]]
+  },
+  "Joined Communities": {
+    "origin": [["src/pages/User/index.tsx", 72]]
+  },
+  "Links": {
+    "origin": [["src/pages/User/index.tsx", 116]]
+  }
+}

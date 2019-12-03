@@ -1,0 +1,20 @@
+{
+  "Edit the collection details": {
+    "origin": [["src/components/elements/EditCollectionModal/index.tsx", 24]]
+  },
+  "Name": {
+    "origin": [["src/components/elements/EditCollectionModal/index.tsx", 30]]
+  },
+  "Description": {
+    "origin": [["src/components/elements/EditCollectionModal/index.tsx", 42]]
+  },
+  "Image": {
+    "origin": [["src/components/elements/EditCollectionModal/index.tsx", 53]]
+  },
+  "Save": {
+    "origin": [["src/components/elements/EditCollectionModal/index.tsx", 64]]
+  },
+  "Cancel": {
+    "origin": [["src/components/elements/EditCollectionModal/index.tsx", 67]]
+  }
+}

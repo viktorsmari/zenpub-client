@@ -1,0 +1,50 @@
+{
+  "Sign in": {
+    "origin": [["src/pages/Signup/index.tsx", 44]]
+  },
+  "eg. mary@moodlers.org": {
+    "origin": [["src/pages/Signup/index.tsx", 46]]
+  },
+  "eg. moodlerMary": {
+    "origin": [["src/pages/Signup/index.tsx", 47]]
+  },
+  "eg. Moodler Mary": {
+    "origin": [["src/pages/Signup/index.tsx", 48]]
+  },
+  "Choose your password": {
+    "origin": [["src/pages/Signup/index.tsx", 49]]
+  },
+  "Confirm your password": {
+    "origin": [["src/pages/Signup/index.tsx", 50]]
+  },
+  "Welcome": {
+    "origin": [["src/pages/Signup/index.tsx", 191]]
+  },
+  "Please confirm your email clicking on the link we sent you at": {
+    "origin": [["src/pages/Signup/index.tsx", 192]]
+  },
+  "Email": {
+    "origin": [["src/pages/Signup/index.tsx", 228]]
+  },
+  "Display Name": {
+    "origin": [["src/pages/Signup/index.tsx", 238]]
+  },
+  "Preferred username": {
+    "origin": [["src/pages/Signup/index.tsx", 248]]
+  },
+  "Password": {
+    "origin": [["src/pages/Signup/index.tsx", 260]]
+  },
+  "Confirm password": {
+    "origin": [["src/pages/Signup/index.tsx", 270]]
+  },
+  "Signup": {
+    "origin": [["src/pages/Signup/index.tsx", 280]]
+  },
+  "Something went wrong with registration": {
+    "origin": [["src/pages/Signup/index.tsx", 285]]
+  },
+  "Unknown error": {
+    "origin": [["src/pages/Signup/index.tsx", 288]]
+  }
+}

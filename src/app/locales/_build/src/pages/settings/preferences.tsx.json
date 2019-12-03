@@ -1,0 +1,8 @@
+{
+  "Preferences": {
+    "origin": [["src/pages/settings/preferences.tsx", 22]]
+  },
+  "Select language": {
+    "origin": [["src/pages/settings/preferences.tsx", 28]]
+  }
+}

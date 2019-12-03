@@ -1,0 +1,8 @@
+{
+  "Leave": {
+    "origin": [["src/pages/communities.community/Join.tsx", 46]]
+  },
+  "Join": {
+    "origin": [["src/pages/communities.community/Join.tsx", 76]]
+  }
+}

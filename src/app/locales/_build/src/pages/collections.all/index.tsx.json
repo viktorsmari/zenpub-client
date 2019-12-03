@@ -1,0 +1,8 @@
+{
+  "All collections": {
+    "origin": [["src/pages/collections.all/index.tsx", 25]]
+  },
+  "Error loading collections": {
+    "origin": [["src/pages/collections.all/index.tsx", 32]]
+  }
+}

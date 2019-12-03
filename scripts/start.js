@@ -1,4 +1,4 @@
-'use strict';
+
 
 // Do this as the first thing so that any code reading it knows the right env.
 process.env.BABEL_ENV = 'development';
@@ -89,7 +89,7 @@ fetch(`${url}`, {
     );
     result.data.__schema.types = filteredData;
     console.log(result.data)
-    fs.writeFile('./src/fragmentTypes.json', JSON.stringify(result.data), err => {
+    fs.writeFile('./src/app/fragmentTypes.json', JSON.stringify(result.data), err => {
       if (err) {
         console.error('Error writing fragmentTypes file', err);
       } else {

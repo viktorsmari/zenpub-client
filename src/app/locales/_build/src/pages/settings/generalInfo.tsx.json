@@ -1,0 +1,29 @@
+{
+  "General Information": {
+    "origin": [["src/pages/settings/generalInfo.tsx", 99]]
+  },
+  "Name": {
+    "origin": [["src/pages/settings/generalInfo.tsx", 106]]
+  },
+  "Preferred username": {
+    "origin": [
+      ["src/pages/settings/generalInfo.tsx", 120],
+      ["src/pages/settings/generalInfo.tsx", 128]
+    ]
+  },
+  "Location": {
+    "origin": [["src/pages/settings/generalInfo.tsx", 143]]
+  },
+  "Description": {
+    "origin": [["src/pages/settings/generalInfo.tsx", 157]]
+  },
+  "Avatar": {
+    "origin": [["src/pages/settings/generalInfo.tsx", 170]]
+  },
+  "Header image": {
+    "origin": [["src/pages/settings/generalInfo.tsx", 181]]
+  },
+  "Save": {
+    "origin": [["src/pages/settings/generalInfo.tsx", 192]]
+  }
+}

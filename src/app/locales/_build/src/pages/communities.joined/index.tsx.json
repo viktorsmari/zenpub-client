@@ -1,0 +1,8 @@
+{
+  "Error loading communities": {
+    "origin": [["src/pages/communities.joined/index.tsx", 16]]
+  },
+  "Create a new community": {
+    "origin": [["src/pages/communities.joined/index.tsx", 22]]
+  }
+}

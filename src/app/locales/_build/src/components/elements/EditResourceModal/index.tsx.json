@@ -1,0 +1,23 @@
+{
+  "Edit the resource details": {
+    "origin": [["src/components/elements/EditResourceModal/index.tsx", 23]]
+  },
+  "Link": {
+    "origin": [["src/components/elements/EditResourceModal/index.tsx", 29]]
+  },
+  "Name": {
+    "origin": [["src/components/elements/EditResourceModal/index.tsx", 40]]
+  },
+  "Description": {
+    "origin": [["src/components/elements/EditResourceModal/index.tsx", 54]]
+  },
+  "Image": {
+    "origin": [["src/components/elements/EditResourceModal/index.tsx", 67]]
+  },
+  "Save": {
+    "origin": [["src/components/elements/EditResourceModal/index.tsx", 78]]
+  },
+  "Cancel": {
+    "origin": [["src/components/elements/EditResourceModal/index.tsx", 81]]
+  }
+}

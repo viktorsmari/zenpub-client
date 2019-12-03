@@ -1,0 +1,53 @@
+{
+  "Instance timeline": {
+    "origin": [["src/pages/discover/index.tsx", 46]]
+  },
+  "{error}": {
+    "origin": [["src/pages/discover/index.tsx", 53]]
+  },
+  "Browse Home instance": {
+    "origin": [["src/pages/discover/index.tsx", 66]]
+  },
+  "All communities": {
+    "origin": [["src/pages/discover/index.tsx", 71]]
+  },
+  "All collections": {
+    "origin": [["src/pages/discover/index.tsx", 76]]
+  },
+  "Popular hashtags: network": {
+    "origin": [["src/pages/discover/index.tsx", 84]]
+  },
+  "#pedagogy": {
+    "origin": [
+      ["src/pages/discover/index.tsx", 88],
+      ["src/pages/discover/index.tsx", 111]
+    ]
+  },
+  "#transition": {
+    "origin": [
+      ["src/pages/discover/index.tsx", 91],
+      ["src/pages/discover/index.tsx", 114]
+    ]
+  },
+  "#english": {
+    "origin": [
+      ["src/pages/discover/index.tsx", 94],
+      ["src/pages/discover/index.tsx", 117]
+    ]
+  },
+  "#template": {
+    "origin": [
+      ["src/pages/discover/index.tsx", 97],
+      ["src/pages/discover/index.tsx", 120]
+    ]
+  },
+  "#assessment": {
+    "origin": [
+      ["src/pages/discover/index.tsx", 100],
+      ["src/pages/discover/index.tsx", 123]
+    ]
+  },
+  "Popular hashtags: local instance": {
+    "origin": [["src/pages/discover/index.tsx", 107]]
+  }
+}

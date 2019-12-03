@@ -1,0 +1,8 @@
+{
+  "Featured collections": {
+    "origin": [["src/components/featuredCollections/index.tsx", 62]]
+  },
+  "Error loading featured collections": {
+    "origin": [["src/components/featuredCollections/index.tsx", 74]]
+  }
+}

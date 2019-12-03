@@ -1,0 +1,11 @@
+{
+  "Enter your email": {
+    "origin": [["src/pages/login/LoginForm.tsx", 63]]
+  },
+  "Enter your password": {
+    "origin": [["src/pages/login/LoginForm.tsx", 70]]
+  },
+  "Sign in": {
+    "origin": [["src/pages/login/LoginForm.tsx", 77]]
+  }
+}

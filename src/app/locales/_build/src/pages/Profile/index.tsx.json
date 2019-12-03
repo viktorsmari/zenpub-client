@@ -1,0 +1,17 @@
+{
+  "Error loading user": {
+    "origin": [["src/pages/Profile/index.tsx", 31]]
+  },
+  "Timeline": {
+    "origin": [["src/pages/Profile/index.tsx", 48]]
+  },
+  "Followed Collections": {
+    "origin": [["src/pages/Profile/index.tsx", 53]]
+  },
+  "Joined Communities": {
+    "origin": [["src/pages/Profile/index.tsx", 58]]
+  },
+  "Links": {
+    "origin": [["src/pages/Profile/index.tsx", 100]]
+  }
+}

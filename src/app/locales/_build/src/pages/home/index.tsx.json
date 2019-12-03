@@ -1,0 +1,17 @@
+{
+  "My MoodleNet timeline": {
+    "origin": [["src/pages/home/index.tsx", 36]]
+  },
+  "Error loading moodlenet timeline": {
+    "origin": [["src/pages/home/index.tsx", 42]]
+  },
+  "Browse Home instance": {
+    "origin": [["src/pages/home/index.tsx", 56]]
+  },
+  "My communities": {
+    "origin": [["src/pages/home/index.tsx", 61]]
+  },
+  "My collections": {
+    "origin": [["src/pages/home/index.tsx", 66]]
+  }
+}

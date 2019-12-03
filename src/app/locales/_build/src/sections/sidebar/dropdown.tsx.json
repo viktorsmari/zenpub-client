@@ -1,0 +1,17 @@
+{
+  "Profile": {
+    "origin": [["src/sections/sidebar/dropdown.tsx", 63]]
+  },
+  "Settings": {
+    "origin": [["src/sections/sidebar/dropdown.tsx", 69]]
+  },
+  "Code of Conduct": {
+    "origin": [["src/sections/sidebar/dropdown.tsx", 75]]
+  },
+  "Feedback & Suggestions": {
+    "origin": [["src/sections/sidebar/dropdown.tsx", 81]]
+  },
+  "Sign out": {
+    "origin": [["src/sections/sidebar/dropdown.tsx", 100]]
+  }
+}
