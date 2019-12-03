@@ -14,8 +14,7 @@ const JoinedCommunitiesLoadMore: SFC<Props> = ({
   me,
   communities
 }) =>
-  null &&
-  /*FIXME*/ communities.pageInfo && (
+  communities.pageInfo && (
     <LoadMore
       onClick={() =>
         fetchMore({
