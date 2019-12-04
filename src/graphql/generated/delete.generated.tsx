@@ -13,7 +13,10 @@ export type DeleteMutationMutationVariables = {
 };
 
 
-export type DeleteMutationMutation = { __typename?: 'RootMutationType', delete: Types.Maybe<{ __typename?: 'Activity' } | { __typename?: 'Collection' } | { __typename?: 'Comment' } | { __typename?: 'Community' } | { __typename?: 'Flag' } | { __typename?: 'Follow' } | { __typename?: 'Like' } | { __typename?: 'Resource' } | { __typename?: 'Thread' } | { __typename?: 'User' }> };
+export type DeleteMutationMutation = (
+  { __typename?: 'RootMutationType' }
+  & { delete: Types.Maybe<{ __typename?: 'Activity' } | { __typename?: 'Collection' } | { __typename?: 'Comment' } | { __typename?: 'Community' } | { __typename?: 'Flag' } | { __typename?: 'Follow' } | { __typename?: 'Like' } | { __typename?: 'Resource' } | { __typename?: 'Thread' } | { __typename?: 'User' }> }
+);
 
 
 export const DeleteMutationDocument = gql`
@@ -65,3 +68,11 @@ export function useDeleteMutationMutation(baseOptions?: ApolloReactHooks.Mutatio
 export type DeleteMutationMutationHookResult = ReturnType<typeof useDeleteMutationMutation>;
 export type DeleteMutationMutationResult = ApolloReactCommon.MutationResult<DeleteMutationMutation>;
 export type DeleteMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteMutationMutation, DeleteMutationMutationVariables>;
+
+
+export interface DeleteMutationMutationOperation {
+  operationName: 'deleteMutation'
+  result: DeleteMutationMutation
+  variables: DeleteMutationMutationVariables
+  type: 'mutation'
+}

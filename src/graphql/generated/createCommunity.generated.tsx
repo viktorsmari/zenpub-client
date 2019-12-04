@@ -16,10 +16,13 @@ export type CreateCommunityMutationMutationVariables = {
 };
 
 
-export type CreateCommunityMutationMutation = { __typename?: 'RootMutationType', createCommunity: Types.Maybe<(
+export type CreateCommunityMutationMutation = (
+  { __typename?: 'RootMutationType' }
+  & { createCommunity: Types.Maybe<(
     { __typename?: 'Community' }
     & BasicCommunityFragment
-  )> };
+  )> }
+);
 
 
 export const CreateCommunityMutationDocument = gql`
@@ -71,3 +74,11 @@ export function useCreateCommunityMutationMutation(baseOptions?: ApolloReactHook
 export type CreateCommunityMutationMutationHookResult = ReturnType<typeof useCreateCommunityMutationMutation>;
 export type CreateCommunityMutationMutationResult = ApolloReactCommon.MutationResult<CreateCommunityMutationMutation>;
 export type CreateCommunityMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateCommunityMutationMutation, CreateCommunityMutationMutationVariables>;
+
+
+export interface CreateCommunityMutationMutationOperation {
+  operationName: 'createCommunityMutation'
+  result: CreateCommunityMutationMutation
+  variables: CreateCommunityMutationMutationVariables
+  type: 'mutation'
+}

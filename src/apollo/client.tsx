@@ -31,8 +31,9 @@ import { i18nMark } from '@lingui/react';
 // const { meQuery } = require('../graphql/me.graphql');
 interface Cfg {
   authToken?: string;
+  appLink: ApolloLink;
 }
-export default async function initialise({ authToken }: Cfg) {
+export default async function initialise({ authToken, appLink }: Cfg) {
   const fragmentMatcher = new IntrospectionFragmentMatcher({
     introspectionQueryResultData
   });
@@ -198,6 +199,7 @@ export default async function initialise({ authToken }: Cfg) {
   // used for graphql query and mutations
   const httpLink = ApolloLink.from(
     [
+      appLink,
       IS_DEV ? apolloLogger : null,
       alertBlockMutationsForAnonymousLink,
       oprationInterceptorLink,

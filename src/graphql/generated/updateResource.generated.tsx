@@ -14,7 +14,13 @@ export type UpdateResourceMutationMutationVariables = {
 };
 
 
-export type UpdateResourceMutationMutation = { __typename?: 'RootMutationType', updateResource: Types.Maybe<{ __typename?: 'Resource', id: string, name: string, summary: Types.Maybe<string>, url: Types.Maybe<string>, license: Types.Maybe<string>, icon: Types.Maybe<string>, createdAt: string, updatedAt: string }> };
+export type UpdateResourceMutationMutation = (
+  { __typename?: 'RootMutationType' }
+  & { updateResource: Types.Maybe<(
+    { __typename?: 'Resource' }
+    & Pick<Types.Resource, 'id' | 'name' | 'summary' | 'url' | 'license' | 'icon' | 'createdAt' | 'updatedAt'>
+  )> }
+);
 
 
 export const UpdateResourceMutationDocument = gql`
@@ -74,3 +80,11 @@ export function useUpdateResourceMutationMutation(baseOptions?: ApolloReactHooks
 export type UpdateResourceMutationMutationHookResult = ReturnType<typeof useUpdateResourceMutationMutation>;
 export type UpdateResourceMutationMutationResult = ApolloReactCommon.MutationResult<UpdateResourceMutationMutation>;
 export type UpdateResourceMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateResourceMutationMutation, UpdateResourceMutationMutationVariables>;
+
+
+export interface UpdateResourceMutationMutationOperation {
+  operationName: 'updateResourceMutation'
+  result: UpdateResourceMutationMutation
+  variables: UpdateResourceMutationMutationVariables
+  type: 'mutation'
+}

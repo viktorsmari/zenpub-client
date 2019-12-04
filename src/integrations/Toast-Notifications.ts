@@ -1,112 +1,133 @@
-import { InterceptorSrv } from '../apollo/client';
-import { Store } from 'redux';
-import { showToastMessage, ShowPayload } from '../redux/toastMsgs';
 import { i18nMark } from '@lingui/react';
+import { CreateCollectionMutationMutationOperation } from '../graphql/generated/createCollection.generated';
+import { CreateCommunityMutationMutationOperation } from '../graphql/generated/createCommunity.generated';
+import { CreateReplyMutationMutationOperation } from '../graphql/generated/createReply.generated';
+import { CreateUserMutationMutationOperation } from '../graphql/generated/createUser.generated';
+import { DeleteMutationMutationOperation } from '../graphql/generated/delete.generated';
+import { FollowMutationMutationOperation } from '../graphql/generated/follow.generated';
+import { LikeMutationMutationOperation } from '../graphql/generated/like.generated';
+import { LoginMutationMutationOperation } from '../graphql/generated/login.generated';
+import { ShowPayload, showToastMessage } from '../redux/toastMsgs';
+import { DynamicLinkSrv } from '../util/apollo/dynamicLink';
 
 export const integrateToastNotifications = (
-  intercSrv: InterceptorSrv,
-  store: Store
+  dynamicLinkSrv: DynamicLinkSrv,
+  dispatch: (msg: any) => unknown
 ) => {
-  //@ts-ignore
-  intercSrv.add({
-    operation: 'createLike',
-    request: () => _ => {
-      const ctx: string = (_.data && _.data.context.__typename) || '';
+  const showMessage = (payload: ShowPayload) =>
+    dispatch(showToastMessage.create(payload));
+  dynamicLinkSrv.addLinkOpResult<LoginMutationMutationOperation>(
+    'loginMutation',
+    resp => {
       showMessage(
-        _.error
-          ? {
-              content: i18nMark(`Could not perform like ${ctx}`),
-              options: { type: 'error' }
-            }
-          : { content: i18nMark(`${ctx} like sent!`) }
-      );
-    }
-  });
-
-  //@ts-ignore
-  intercSrv.add({
-    operation: 'delete',
-    request: () => _ => {
-      showMessage(
-        _.error
-          ? {
-              content: i18nMark(`Could not delete`),
-              options: { type: 'error' }
-            }
-          : { content: i18nMark(`delete performed!`) }
-      );
-    }
-  });
-
-  intercSrv.add({
-    operation: 'createUser',
-    request: () => _ =>
-      showMessage(
-        _.error
-          ? {
-              content: i18nMark(`Could send registration request`),
-              options: { type: 'error' }
-            }
-          : { content: i18nMark(`Registartion sent!`) }
-      )
-  });
-
-  intercSrv.add({
-    operation: 'createSession',
-    request: () => _ =>
-      showMessage(
-        _.error
+        resp.errors
           ? { content: i18nMark(`Could not login`), options: { type: 'error' } }
           : { content: i18nMark(`Logged in!`) }
-      )
-  });
+      );
+    }
+  );
 
-  intercSrv.add({
-    operation: 'createReply',
-    request: () => _ =>
+  dynamicLinkSrv.addLinkOpResult<LikeMutationMutationOperation>(
+    'likeMutation',
+    resp => {
+      const ctxTypeName: string =
+        (resp.data &&
+          resp.data.createLike &&
+          resp.data.createLike.context.__typename) ||
+        '';
       showMessage(
-        _.error
+        resp.errors
+          ? {
+              content: i18nMark(`Could not perform like ${ctxTypeName}`),
+              options: { type: 'error' }
+            }
+          : { content: i18nMark(`Logged in!`) }
+      );
+    }
+  );
+
+  dynamicLinkSrv.addLinkOpResult<DeleteMutationMutationOperation>(
+    'deleteMutation',
+    resp => {
+      const ctxTypeName: string =
+        (resp.data && resp.data.delete && resp.data.delete.__typename) || '';
+      showMessage(
+        resp.errors
+          ? {
+              content: i18nMark(`Could not delete ${ctxTypeName}`),
+              options: { type: 'error' }
+            }
+          : { content: i18nMark(`${ctxTypeName} deleted!`) }
+      );
+    }
+  );
+
+  dynamicLinkSrv.addLinkOpResult<CreateUserMutationMutationOperation>(
+    'createUserMutation',
+    resp => {
+      showMessage(
+        resp.errors
+          ? {
+              content: i18nMark(`Could not send registration request`),
+              options: { type: 'error' }
+            }
+          : { content: i18nMark(`Registration request sent!`) }
+      );
+    }
+  );
+
+  dynamicLinkSrv.addLinkOpResult<CreateReplyMutationMutationOperation>(
+    'createReplyMutation',
+    resp => {
+      showMessage(
+        resp.errors
           ? {
               content: i18nMark(`Could not perform reply`),
               options: { type: 'error' }
             }
           : { content: i18nMark(`Reply sent!`) }
-      )
-  });
+      );
+    }
+  );
 
-  intercSrv.add({
-    operation: 'createCommunity',
-    request: () => _ =>
+  dynamicLinkSrv.addLinkOpResult<CreateCommunityMutationMutationOperation>(
+    'createCommunityMutation',
+    resp => {
       showMessage(
-        _.error
+        resp.errors
           ? {
               content: i18nMark(`Could not create Community`),
               options: { type: 'error' }
             }
-          : { content: i18nMark(`Community created!`) }
-      )
-  });
+          : { content: i18nMark(`Community successfully created!`) }
+      );
+    }
+  );
 
-  intercSrv.add({
-    operation: 'createCollection',
-    request: () => _ =>
+  dynamicLinkSrv.addLinkOpResult<CreateCollectionMutationMutationOperation>(
+    'createCollectionMutation',
+    resp => {
       showMessage(
-        _.error
+        resp.errors
           ? {
               content: i18nMark(`Could not create Collection`),
               options: { type: 'error' }
             }
-          : { content: i18nMark(`Collection created!`) }
-      )
-  });
+          : { content: i18nMark(`Collection successfully created!`) }
+      );
+    }
+  );
 
-  intercSrv.add({
-    operation: 'createFollow',
-    request: () => _ => {
-      const ctx: string = (_.data && _.data.context.__typename) || '';
-
+  dynamicLinkSrv.addLinkOpResult<FollowMutationMutationOperation>(
+    'followMutation',
+    resp => {
+      const ctx: string =
+        (resp.data &&
+          resp.data.createFollow &&
+          resp.data.createFollow.__typename) ||
+        '';
       showMessage(
-        _.error
+        resp.errors
           ? {
               content: i18nMark(`Could not perform follow ${ctx}`),
               options: { type: 'error' }
@@ -114,8 +135,5 @@ export const integrateToastNotifications = (
           : { content: i18nMark(`Following ${ctx}!`) }
       );
     }
-  });
-
-  const showMessage = (payload: ShowPayload) =>
-    store.dispatch(showToastMessage.create(payload));
+  );
 };

@@ -1,6 +1,8 @@
 import * as Types from '../types.generated.d';
 
+import { BasicAuthPayloadFragment } from '../fragments/generated/basicAuthPayload.generated';
 import gql from 'graphql-tag';
+import { BasicAuthPayloadFragmentDoc } from '../fragments/generated/basicAuthPayload.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as React from 'react';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -8,40 +10,29 @@ import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
+
 export type LoginMutationMutationVariables = {
   email: Types.Scalars['String'],
   password: Types.Scalars['String']
 };
 
 
-export type LoginMutationMutation = { __typename?: 'RootMutationType', createSession: Types.Maybe<{ __typename?: 'AuthPayload', token: string, me: { __typename?: 'Me', email: string, wantsEmailDigest: boolean, wantsNotifications: boolean, isConfirmed: boolean, isInstanceAdmin: boolean, user: { __typename?: 'User', id: string, canonicalUrl: Types.Maybe<string>, preferredUsername: string, name: Types.Maybe<string>, summary: Types.Maybe<string>, location: Types.Maybe<string>, icon: Types.Maybe<string>, createdAt: string, updatedAt: string } } }> };
+export type LoginMutationMutation = (
+  { __typename?: 'RootMutationType' }
+  & { createSession: Types.Maybe<(
+    { __typename?: 'AuthPayload' }
+    & BasicAuthPayloadFragment
+  )> }
+);
 
 
 export const LoginMutationDocument = gql`
     mutation loginMutation($email: String!, $password: String!) {
   createSession(email: $email, password: $password) {
-    token
-    me {
-      email
-      wantsEmailDigest
-      wantsNotifications
-      isConfirmed
-      isInstanceAdmin
-      user {
-        id
-        canonicalUrl
-        preferredUsername
-        name
-        summary
-        location
-        icon
-        createdAt
-        updatedAt
-      }
-    }
+    ...BasicAuthPayload
   }
 }
-    `;
+    ${BasicAuthPayloadFragmentDoc}`;
 export type LoginMutationMutationFn = ApolloReactCommon.MutationFunction<LoginMutationMutation, LoginMutationMutationVariables>;
 export type LoginMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<LoginMutationMutation, LoginMutationMutationVariables>, 'mutation'>;
 
@@ -85,3 +76,11 @@ export function useLoginMutationMutation(baseOptions?: ApolloReactHooks.Mutation
 export type LoginMutationMutationHookResult = ReturnType<typeof useLoginMutationMutation>;
 export type LoginMutationMutationResult = ApolloReactCommon.MutationResult<LoginMutationMutation>;
 export type LoginMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<LoginMutationMutation, LoginMutationMutationVariables>;
+
+
+export interface LoginMutationMutationOperation {
+  operationName: 'loginMutation'
+  result: LoginMutationMutation
+  variables: LoginMutationMutationVariables
+  type: 'mutation'
+}

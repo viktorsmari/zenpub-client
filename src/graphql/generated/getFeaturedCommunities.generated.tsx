@@ -19,7 +19,9 @@ export type GetFeaturedCommunitiesQueryVariables = {
 };
 
 
-export type GetFeaturedCommunitiesQuery = { __typename?: 'RootQueryType', one: Types.Maybe<(
+export type GetFeaturedCommunitiesQuery = (
+  { __typename?: 'RootQueryType' }
+  & { one: Types.Maybe<(
     { __typename?: 'Community' }
     & BasicCommunityFragment
   )>, two: Types.Maybe<(
@@ -31,7 +33,8 @@ export type GetFeaturedCommunitiesQuery = { __typename?: 'RootQueryType', one: T
   )>, four: Types.Maybe<(
     { __typename?: 'Community' }
     & BasicCommunityFragment
-  )> };
+  )> }
+);
 
 
 export const GetFeaturedCommunitiesDocument = gql`
@@ -96,3 +99,11 @@ export function useGetFeaturedCommunitiesLazyQuery(baseOptions?: ApolloReactHook
 export type GetFeaturedCommunitiesQueryHookResult = ReturnType<typeof useGetFeaturedCommunitiesQuery>;
 export type GetFeaturedCommunitiesLazyQueryHookResult = ReturnType<typeof useGetFeaturedCommunitiesLazyQuery>;
 export type GetFeaturedCommunitiesQueryResult = ApolloReactCommon.QueryResult<GetFeaturedCommunitiesQuery, GetFeaturedCommunitiesQueryVariables>;
+
+
+export interface GetFeaturedCommunitiesQueryOperation {
+  operationName: 'getFeaturedCommunities'
+  result: GetFeaturedCommunitiesQuery
+  variables: GetFeaturedCommunitiesQueryVariables
+  type: 'query'
+}

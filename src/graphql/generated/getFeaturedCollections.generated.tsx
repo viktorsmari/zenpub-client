@@ -17,13 +17,16 @@ export type GetFeaturedCollectionsQueryVariables = {
 };
 
 
-export type GetFeaturedCollectionsQuery = { __typename?: 'RootQueryType', one: Types.Maybe<(
+export type GetFeaturedCollectionsQuery = (
+  { __typename?: 'RootQueryType' }
+  & { one: Types.Maybe<(
     { __typename?: 'Collection' }
     & BasicCollectionFragment
   )>, two: Types.Maybe<(
     { __typename?: 'Collection' }
     & BasicCollectionFragment
-  )> };
+  )> }
+);
 
 
 export const GetFeaturedCollectionsDocument = gql`
@@ -80,3 +83,11 @@ export function useGetFeaturedCollectionsLazyQuery(baseOptions?: ApolloReactHook
 export type GetFeaturedCollectionsQueryHookResult = ReturnType<typeof useGetFeaturedCollectionsQuery>;
 export type GetFeaturedCollectionsLazyQueryHookResult = ReturnType<typeof useGetFeaturedCollectionsLazyQuery>;
 export type GetFeaturedCollectionsQueryResult = ApolloReactCommon.QueryResult<GetFeaturedCollectionsQuery, GetFeaturedCollectionsQueryVariables>;
+
+
+export interface GetFeaturedCollectionsQueryOperation {
+  operationName: 'getFeaturedCollections'
+  result: GetFeaturedCollectionsQuery
+  variables: GetFeaturedCollectionsQueryVariables
+  type: 'query'
+}
