@@ -1,0 +1,12 @@
+mutation uploadFile($contextId: ID!,$upload: Upload!) {
+   uploadFile(contextId:$contextId, upload:$upload ){
+        id
+        metadata {
+            heightPx
+            pageCount
+            widthPx
+        }
+        url 
+    }
+    
+}

@@ -6,6 +6,8 @@ export type Scalars = {
   Boolean: boolean,
   Int: number,
   Float: number,
+  /** Represents an uploaded file. */
+  Upload: any,
 };
 
 export type ActivitiesEdge = {
@@ -359,6 +361,25 @@ export type CommunityUpdateInput = {
 /** A thing that can be deleted */
 export type DeleteContext = Activity | Collection | Comment | Community | Flag | Follow | Like | Resource | Thread | User;
 
+export type FileMetadata = {
+   __typename?: 'FileMetadata',
+  heightPx?: Maybe<Scalars['Int']>,
+  pageCount?: Maybe<Scalars['Int']>,
+  widthPx?: Maybe<Scalars['Int']>,
+};
+
+export type FileUpload = {
+   __typename?: 'FileUpload',
+  id: Scalars['ID'],
+  isPublic: Scalars['Boolean'],
+  mediaType?: Maybe<Scalars['String']>,
+  metadata?: Maybe<FileMetadata>,
+  parent: UploadParent,
+  size?: Maybe<Scalars['Int']>,
+  uploader: User,
+  url: Scalars['String'],
+};
+
 /** A report about objectionable content */
 export type Flag = {
    __typename?: 'Flag',
@@ -705,6 +726,8 @@ export type RootMutationType = {
   updateProfile?: Maybe<Me>,
   /** Update a resource */
   updateResource?: Maybe<Resource>,
+  /** Upload an avatar (icon in ActivityPub). Returns the full image. */
+  uploadFile?: Maybe<FileUpload>,
 };
 
 
@@ -833,6 +856,12 @@ export type RootMutationTypeUpdateProfileArgs = {
 export type RootMutationTypeUpdateResourceArgs = {
   resource: ResourceInput,
   resourceId: Scalars['String']
+};
+
+
+export type RootMutationTypeUploadFileArgs = {
+  contextId: Scalars['ID'],
+  upload: Scalars['Upload']
 };
 
 export type RootQueryType = {
@@ -1005,6 +1034,10 @@ export type UpdateProfileInput = {
   wantsNotifications?: Maybe<Scalars['Boolean']>,
   website?: Maybe<Scalars['String']>,
 };
+
+
+/** A parent of an upload */
+export type UploadParent = Collection | Comment | Community | Resource | User;
 
 /** User profile information */
 export type User = {
