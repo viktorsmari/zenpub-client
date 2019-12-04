@@ -1,8 +1,0 @@
-{
-  "Unfollow": {
-    "origin": [["src/components/elements/Collection/Join.tsx", 50]]
-  },
-  "Follow": {
-    "origin": [["src/components/elements/Collection/Join.tsx", 83]]
-  }
-}

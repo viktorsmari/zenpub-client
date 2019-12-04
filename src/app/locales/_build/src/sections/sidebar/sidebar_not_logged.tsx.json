@@ -1,8 +1,0 @@
-{
-  "Join MoodleNet": {
-    "origin": [["src/sections/sidebar/sidebar_not_logged.tsx", 152]]
-  },
-  "Discover": {
-    "origin": [["src/sections/sidebar/sidebar_not_logged.tsx", 160]]
-  }
-}

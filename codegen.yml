@@ -1,18 +1,18 @@
 overwrite: true
 schema: https://team.moodle.net/api/graphql
 # documents: src/graphql/main/home.next.moodle.net_schema.graphql
-documents: src/common/graphql/**/!(*.client).graphql
+documents: src/graphql/**/!(*.client).graphql
 
 generates:
-  src/common/graphql/schema.json:
+  src/graphql/schema.generated.json:
     plugins:
       - introspection
-  src/common/graphql/types.generated.ts:
+  src/graphql/types.generated.ts:
     plugins:
       - typescript
       - fragment-matcher
       - typescript-resolvers
-  src/common/graphql/:
+  src/graphql/:
     preset: near-operation-file
     presetConfig:
       extension: .generated.tsx

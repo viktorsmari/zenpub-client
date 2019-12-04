@@ -1,8 +1,0 @@
-{
-  "Featured communities": {
-    "origin": [["src/components/featuredCommunities/index.tsx", 100]]
-  },
-  "Error loading featured communities": {
-    "origin": [["src/components/featuredCommunities/index.tsx", 112]]
-  }
-}
