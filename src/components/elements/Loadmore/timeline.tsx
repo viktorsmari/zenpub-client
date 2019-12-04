@@ -9,8 +9,7 @@ interface Props {
 }
 
 const TimelineLoadMore: SFC<Props> = ({ fetchMore, community }) =>
-  null &&
-  /*FIXME*/ community.outbox.pageInfo && (
+  community.outbox.pageInfo && (
     <LoadMore
       onClick={() =>
         fetchMore({

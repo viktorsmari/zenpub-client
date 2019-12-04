@@ -5,7 +5,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 const getFeaturedCollections = require('../../graphql/getFeaturedCollections.graphql');
-import Loader from '../../components/elements/Loader/Loader';
+import Loader from '../elements/Loader/Loader';
 import { Trans } from '@lingui/macro';
 import CollectionSmall from '../elements/Collection/CollectionSmall';
 import { ChevronLeft, Right } from '../elements/Icons';

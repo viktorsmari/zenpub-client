@@ -1,4 +1,4 @@
-import * as Sess from '.';
+import * as Sess from '../session';
 import { Reducer } from 'redux';
 
 export const defaultInitialState: Sess.State = {

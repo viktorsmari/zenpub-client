@@ -1,4 +1,4 @@
-import * as Types from '../types.generated.d';
+import * as Types from '../types.generated';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -14,7 +14,13 @@ export type CreateFlagMutationMutationVariables = {
 };
 
 
-export type CreateFlagMutationMutation = { __typename?: 'RootMutationType', createFlag: Types.Maybe<{ __typename?: 'Flag', context: { __typename?: 'Collection' } | { __typename?: 'Comment' } | { __typename?: 'Community' } | { __typename?: 'Resource' } | { __typename?: 'User' } }> };
+export type CreateFlagMutationMutation = (
+  { __typename?: 'RootMutationType' }
+  & { createFlag: Types.Maybe<(
+    { __typename?: 'Flag' }
+    & { context: { __typename?: 'Collection' } | { __typename?: 'Comment' } | { __typename?: 'Community' } | { __typename?: 'Resource' } | { __typename?: 'User' } }
+  )> }
+);
 
 
 export const CreateFlagMutationDocument = gql`
@@ -69,3 +75,11 @@ export function useCreateFlagMutationMutation(baseOptions?: ApolloReactHooks.Mut
 export type CreateFlagMutationMutationHookResult = ReturnType<typeof useCreateFlagMutationMutation>;
 export type CreateFlagMutationMutationResult = ApolloReactCommon.MutationResult<CreateFlagMutationMutation>;
 export type CreateFlagMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateFlagMutationMutation, CreateFlagMutationMutationVariables>;
+
+
+export interface CreateFlagMutationMutationOperation {
+  operationName: 'createFlagMutation'
+  result: CreateFlagMutationMutation
+  variables: CreateFlagMutationMutationVariables
+  type: 'mutation'
+}

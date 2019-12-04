@@ -5,7 +5,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 const getFeaturedCommunities = require('../../graphql/getFeaturedCommunities.graphql');
-import Loader from '../../components/elements/Loader/Loader';
+import Loader from '../elements/Loader/Loader';
 import { Trans } from '@lingui/macro';
 import CommunitySmall from '../elements/Community/CommunitySmall';
 import styled from '../../themes/styled';

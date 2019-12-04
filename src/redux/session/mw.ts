@@ -1,5 +1,5 @@
 import { Middleware } from 'redux';
-import * as Sess from '.';
+import * as Sess from '../session';
 import { KVStore } from '../../util/keyvaluestore/types';
 import { State, Auth } from './types';
 

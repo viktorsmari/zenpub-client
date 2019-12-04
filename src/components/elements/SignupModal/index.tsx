@@ -5,7 +5,7 @@ import * as React from 'react';
 import { ApolloConsumer } from 'react-apollo';
 import * as Yup from 'yup';
 import { i18n } from '../../../containers/App/App';
-import Alert from '../../elements/Alert';
+import Alert from '../Alert';
 import { Input } from '@rebass/forms';
 import { Heading, Button } from 'rebass/styled-components';
 import Modal from '../Modal';
