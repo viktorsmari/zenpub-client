@@ -11,6 +11,7 @@
     "extract": "lingui extract --clean",
     "compile": "lingui compile",
     "docs": "typedoc --out docs src",
+    "storybook": "start-storybook",
     "gqlcode": "shx rm -fr src/graphql/generated && shx rm -fr src/graphql/fragments/generated && graphql-codegen --config ./codegen.yml",
     "gql:fetch-schema": "graphql get-schema --project"
   },
@@ -166,6 +167,7 @@
     "yup": "0.26.6"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "7.7.4",
     "@emotion/cache": "^10.0.14",
     "@emotion/core": "^10.0.14",
     "@emotion/styled": "^10.0.14",
@@ -175,13 +177,21 @@
     "@graphql-codegen/typescript": "1.8.1",
     "@graphql-codegen/typescript-operations": "1.8.1",
     "@graphql-codegen/typescript-react-apollo": "1.8.1",
+    "@graphql-codegen/typescript-resolvers": "1.9.1",
     "@lingui/loader": "2.7.4",
     "@playlyfe/gql": "2.6.2",
+    "@storybook/addon-actions": "5.2.8",
+    "@storybook/addon-knobs": "5.2.8",
+    "@storybook/addon-viewport": "5.2.8",
+    "@storybook/react": "5.2.8",
     "@types/graphql": "14.5.0",
     "@types/luxon": "1.15.2",
+    "babel-loader": "8.0.6",
+    "core-js": "2.6.10",
     "emotion-theming": "^10.0.14",
     "graphql-cli": "3.0.14",
     "html-webpack-plugin": "3.2.0",
+    "react-docgen-typescript-loader": "3.6.0",
     "shx": "0.3.2",
     "use-yarn": "2.2.0"
   }

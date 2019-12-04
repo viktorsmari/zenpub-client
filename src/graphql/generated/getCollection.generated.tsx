@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as Types from '../types.generated.d';
+import * as Types from '../types.generated';
 
 import { BasicCollectionFragment } from '../fragments/generated/basicCollection.generated';
 import gql from 'graphql-tag';

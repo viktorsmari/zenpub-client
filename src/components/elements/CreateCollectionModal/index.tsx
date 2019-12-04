@@ -12,7 +12,7 @@ import {
   CreateCollectionMutationMutationVariables,
   useCreateCollectionMutationMutation
 } from '../../../graphql/generated/createCollection.generated';
-import Alert from '../../elements/Alert';
+import Alert from '../Alert';
 import Modal from '../Modal';
 import {
   Actions,

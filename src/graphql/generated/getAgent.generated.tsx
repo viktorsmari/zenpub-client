@@ -1,5 +1,5 @@
 import { BasicCollectionFragmentDoc } from '../fragments/generated/basicCollection.generated';
-import * as Types from '../types.generated.d';
+import * as Types from '../types.generated';
 
 import { BasicResourceFragment } from '../fragments/generated/basicResource.generated';
 import { BasicCollectionFragment } from '../fragments/generated/basicCollection.generated';

@@ -1,4 +1,4 @@
-import * as Types from '../types.generated.d';
+import * as Types from '../types.generated';
 
 import { BasicCommunityFragment } from '../fragments/generated/basicCommunity.generated';
 import gql from 'graphql-tag';

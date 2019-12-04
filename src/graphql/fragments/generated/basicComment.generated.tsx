@@ -1,4 +1,4 @@
-import * as Types from '../../types.generated.d';
+import * as Types from '../../types.generated';
 
 import { BasicResourceFragment } from './basicResource.generated';
 import { BasicCollectionFragment } from './basicCollection.generated';

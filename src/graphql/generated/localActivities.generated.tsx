@@ -1,5 +1,5 @@
 import { BasicCommunityFragmentDoc } from '../fragments/generated/basicCommunity.generated';
-import * as Types from '../types.generated.d';
+import * as Types from '../types.generated';
 
 import { BasicCollectionFragment } from '../fragments/generated/basicCollection.generated';
 import { BasicCommunityFragment } from '../fragments/generated/basicCommunity.generated';

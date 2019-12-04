@@ -1,22 +1,22 @@
 overwrite: true
 schema: http://tdc.stg.tetco.sa/api/graphql
 # documents: src/graphql/main/home.next.moodle.net_schema.graphql
-documents: src/**/!(*.client).graphql
+documents: src/graphql/**/!(*.client).graphql
 
 generates:
-  graphql.schema.json:
+  src/graphql/schema.generated.json:
     plugins:
       - introspection
-  src/graphql/types.generated.d.ts:
+  src/graphql/types.generated.ts:
     plugins:
       - typescript
-      # - fragment-matcher
-      # - typescript-resolvers
-  src/graphql:
+      - fragment-matcher
+      - typescript-resolvers
+  src/graphql/:
     preset: near-operation-file
     presetConfig:
       extension: .generated.tsx
-      baseTypesPath: types.generated.d.ts
+      baseTypesPath: types.generated.ts
       folder: generated/
     plugins:
       - typescript-operations
