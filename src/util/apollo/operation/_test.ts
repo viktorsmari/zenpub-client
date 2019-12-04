@@ -1,7 +1,7 @@
 import { FetchResult, Operation } from 'apollo-link';
 import { GetFeaturedCollectionsQueryOperation } from '../../../graphql/generated/getFeaturedCollections.generated';
 import { LikeMutationMutationOperation } from '../../../graphql/generated/like.generated';
-import { ApolloLinkOp, isOp } from '.';
+import { ApolloLinkOp, isOp } from '../operation';
 
 export const link = new ApolloLinkOp<LikeMutationMutationOperation>(
   'likeMutation',

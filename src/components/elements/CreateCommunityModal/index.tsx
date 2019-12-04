@@ -8,7 +8,7 @@ import { useHistory } from 'react-router';
 import { Heading } from 'rebass/styled-components';
 import * as Yup from 'yup';
 import { i18n } from '../../../containers/App/App';
-import Alert from '../../elements/Alert';
+import Alert from '../Alert';
 import { Button } from 'rebass/styled-components';
 import Modal from '../Modal';
 import {

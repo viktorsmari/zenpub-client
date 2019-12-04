@@ -28,7 +28,7 @@ import {
 import { RootMutationType, RootQueryType } from '../graphql/types.generated';
 import { i18nMark } from '@lingui/react';
 
-// const { meQuery } = require('../graphql/me.graphql');
+// const { meQuery } = require('../../../graphql/me.graphql');
 interface Cfg {
   authToken?: string;
   appLink: ApolloLink;

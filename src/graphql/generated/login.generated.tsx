@@ -1,4 +1,4 @@
-import * as Types from '../types.generated.d';
+import * as Types from '../types.generated';
 
 import { BasicAuthPayloadFragment } from '../fragments/generated/basicAuthPayload.generated';
 import gql from 'graphql-tag';

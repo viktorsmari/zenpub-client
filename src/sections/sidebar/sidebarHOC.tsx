@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Sidebar from './';
+import Sidebar from '../sidebar';
 import { useGetSidebarQueryQuery } from '../../graphql/generated/getSidebar.generated';
 import { useInterceptor } from '../../context/global/apolloInterceptorCtx';
 

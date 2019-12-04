@@ -15,7 +15,7 @@ import { Button } from 'rebass/styled-components';
 import { compose } from 'recompose';
 import { withFormik, FormikProps, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import Alert from '../../elements/Alert';
+import Alert from '../Alert';
 import { graphql, OperationOption } from 'react-apollo';
 import { UpdateCollectionMutationMutationVariables } from '../../../graphql/generated/updateCollection.generated';
 import { Collection } from '../../../graphql/types.generated';

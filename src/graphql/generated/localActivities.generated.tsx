@@ -1,4 +1,4 @@
-import * as Types from '../types.generated.d';
+import * as Types from '../types.generated';
 
 import { BasicCommentWithInReplyToFragment } from '../fragments/generated/basicComment.generated';
 import { BasicCollectionFragment } from '../fragments/generated/basicCollection.generated';
