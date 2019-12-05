@@ -1,17 +1,14 @@
 import * as Types from '../types.generated';
 
-import { BasicResourceFragment } from '../fragments/generated/basicResource.generated';
 import { BasicCollectionFragment } from '../fragments/generated/basicCollection.generated';
 import gql from 'graphql-tag';
 import { BasicCollectionFragmentDoc } from '../fragments/generated/basicCollection.generated';
-import { BasicResourceFragmentDoc } from '../fragments/generated/basicResource.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
-
 
 
 export type GetCollectionQueryVariables = {
@@ -23,17 +20,6 @@ export type GetCollectionQuery = (
   { __typename?: 'RootQueryType' }
   & { collection: Types.Maybe<(
     { __typename?: 'Collection' }
-    & { resources: (
-      { __typename?: 'ResourcesEdges' }
-      & Pick<Types.ResourcesEdges, 'totalCount'>
-      & { edges: Array<Types.Maybe<(
-        { __typename?: 'ResourcesEdge' }
-        & { node: (
-          { __typename?: 'Resource' }
-          & BasicResourceFragment
-        ) }
-      )>> }
-    ) }
     & BasicCollectionFragment
   )> }
 );
@@ -43,18 +29,9 @@ export const GetCollectionDocument = gql`
     query getCollection($id: String!) {
   collection(collectionId: $id) {
     ...BasicCollection
-    resources {
-      totalCount
-      edges {
-        node {
-          ...BasicResource
-        }
-      }
-    }
   }
 }
-    ${BasicCollectionFragmentDoc}
-${BasicResourceFragmentDoc}`;
+    ${BasicCollectionFragmentDoc}`;
 export type GetCollectionComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetCollectionQuery, GetCollectionQueryVariables>, 'query'> & ({ variables: GetCollectionQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const GetCollectionComponent = (props: GetCollectionComponentProps) => (

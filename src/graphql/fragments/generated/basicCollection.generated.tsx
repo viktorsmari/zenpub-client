@@ -1,8 +1,11 @@
 import * as Types from '../../types.generated';
 
+import { BasicResourcesEdgesFragment } from './basicResourcesEdges.generated';
 import { BasicUserFragment } from './basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from './basicUser.generated';
+import { BasicResourcesEdgesFragmentDoc } from './basicResourcesEdges.generated';
+
 
 
 export type BasicCollectionFragment = (
@@ -26,7 +29,7 @@ export type BasicCollectionFragment = (
     )> }
   ), resources: (
     { __typename?: 'ResourcesEdges' }
-    & Pick<Types.ResourcesEdges, 'totalCount'>
+    & BasicResourcesEdgesFragment
   ), followers: (
     { __typename?: 'FollowsEdges' }
     & Pick<Types.FollowsEdges, 'totalCount'>
@@ -71,7 +74,7 @@ export const BasicCollectionFragmentDoc = gql`
     }
   }
   resources {
-    totalCount
+    ...BasicResourcesEdges
   }
   followers {
     totalCount
@@ -83,4 +86,5 @@ export const BasicCollectionFragmentDoc = gql`
     totalCount
   }
 }
-    ${BasicUserFragmentDoc}`;
+    ${BasicUserFragmentDoc}
+${BasicResourcesEdgesFragmentDoc}`;
