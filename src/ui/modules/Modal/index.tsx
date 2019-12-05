@@ -135,7 +135,7 @@ interface Props {
 
 const Modal: React.FC<Props> = ({ closeModal, children }) => {
   return (
-    <div>
+    <>
       <Background onClick={closeModal} />
       <Dialog>
         <Action>
@@ -145,7 +145,7 @@ const Modal: React.FC<Props> = ({ closeModal, children }) => {
         </Action>
         <Content>{children}</Content>
       </Dialog>
-    </div>
+    </>
   );
 };
 

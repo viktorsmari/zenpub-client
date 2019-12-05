@@ -12,6 +12,10 @@ export interface MoodleThemeInterface {
     lightgray: string;
     lighter: string;
     darkgray: string;
+    red: string;
+    green: string;
+    yellow: string;
+    blue: string;
   };
   text: {
     suptitle: {
@@ -50,6 +54,22 @@ export interface MoodleThemeInterface {
     };
     primary: {
       bg: string;
+    };
+    bad: {
+      bg: string;
+      color: string;
+    };
+    good: {
+      bg: string;
+      color: string;
+    };
+    warning: {
+      bg: string;
+      color: string;
+    };
+    info: {
+      bg: string;
+      color: string;
     };
   };
   buttons: {

@@ -16,7 +16,7 @@ import { createDynamicLinkEnv } from './util/apollo/dynamicLink';
 import * as Sentry from '@sentry/browser';
 import { SentryKey } from '../sentry';
 Sentry.init({
-  dsn: SentryKey
+  dsn: SentryKey || ''
 });
 
 run();

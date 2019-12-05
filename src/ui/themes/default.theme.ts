@@ -10,7 +10,11 @@ const themeLight: MoodleThemeInterface = {
     darkgray: '#3C3C3C',
     gray: 'rgba(0,0,0,.4)',
     lightgray: 'rgba(0,0,0,.1)',
-    lighter: '#F5F6F7'
+    lighter: '#F5F6F7',
+    red: '#ff5a5f',
+    green: '#2db783',
+    yellow: '#ffebb3',
+    blue: '#009fd9'
   },
   variants: {
     inReplyTo: {
@@ -18,6 +22,22 @@ const themeLight: MoodleThemeInterface = {
     },
     primary: {
       bg: '#000'
+    },
+    bad: {
+      bg: '#ff5a5f',
+      color: '#fff'
+    },
+    good: {
+      bg: '#2db783',
+      color: '#fff'
+    },
+    warning: {
+      bg: '#ffebb3',
+      color: '#8a5500'
+    },
+    info: {
+      bg: '#009fd9',
+      color: '#fff'
     }
   },
   text: {
