@@ -79,7 +79,7 @@ const Join: React.FC<Props> = ({
             update: (proxy, { data: { joinCommunity } }) => {
               const fragment = gql`
                 fragment Res on Community {
-                  followed
+                  myFollow
                 }
               `;
               let collection = proxy.readFragment({

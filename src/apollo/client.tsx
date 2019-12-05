@@ -1,32 +1,31 @@
-import { ApolloLink, Operation, Observable, FetchResult } from 'apollo-link';
-import { ApolloClient } from 'apollo-client';
+import * as AbsintheSocket from '@absinthe/socket';
+import { createAbsintheSocketLink } from '@absinthe/socket-apollo-link';
+import { hasSubscription } from '@jumpn/utils-graphql';
+import { i18nMark } from '@lingui/react';
 import {
   InMemoryCache,
   IntrospectionFragmentMatcher
 } from 'apollo-cache-inmemory';
+import { ApolloClient } from 'apollo-client';
+import { ApolloLink, Operation } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
-import { createAbsintheSocketLink } from '@absinthe/socket-apollo-link';
-import { Socket as PhoenixSocket } from 'phoenix';
+import { onError } from 'apollo-link-error';
 import { createHttpLink } from 'apollo-link-http';
-import { hasSubscription } from '@jumpn/utils-graphql';
 import apolloLogger from 'apollo-link-logger';
-import * as AbsintheSocket from '@absinthe/socket';
-const introspectionQueryResultData = require('../fragmentTypes.json');
+import { FieldNode, OperationDefinitionNode, OperationTypeNode } from 'graphql';
+import { Socket as PhoenixSocket } from 'phoenix';
 import {
   GRAPHQL_ENDPOINT,
-  PHOENIX_SOCKET_ENDPOINT,
-  IS_DEV
+  IS_DEV,
+  PHOENIX_SOCKET_ENDPOINT
 } from '../constants';
-
-import { onError } from 'apollo-link-error';
-import {
-  OperationDefinitionNode,
-  GraphQLError,
-  FieldNode,
-  OperationTypeNode
-} from 'graphql';
 import { RootMutationType, RootQueryType } from '../graphql/types.generated';
-import { i18nMark } from '@lingui/react';
+import { CreateUserMutationMutationOperation } from '../graphql/generated/createUser.generated';
+import { Name, getOpType } from '../util/apollo/operation';
+import { LoginMutationMutationOperation } from '../graphql/generated/login.generated';
+import { ConfirmEmailMutationMutationOperation } from '../graphql/generated/confirmEmail.generated';
+import { UsernameAvailableQueryOperation } from '../graphql/generated/checkUsername.generated';
+const introspectionQueryResultData = require('../fragmentTypes.json');
 
 // const { meQuery } = require('../../../graphql/me.graphql');
 interface Cfg {
@@ -51,8 +50,7 @@ export default async function initialise({ authToken, appLink }: Cfg) {
     }
     return nextLink(operation).map(resp => {
       if (opName === createSessionOpName) {
-        const authPyload: ResponseOf<typeof createSessionOpName> =
-          resp.data && resp.data[opName];
+        const authPyload = resp.data && resp.data[opName];
         authToken =
           authPyload && authPyload.token ? authPyload.token : undefined;
       }
@@ -118,75 +116,25 @@ export default async function initialise({ authToken, appLink }: Cfg) {
     };
   });
 
-  const operationInterceptors = new Set<Interceptor<OperationName>>();
-
-  const addInterceptor = (interc: Interceptor<OperationName>) => {
-    operationInterceptors.add(interc);
-    return () => {
-      operationInterceptors.delete(interc);
-    };
-  };
-
-  const oprationInterceptorLink = new ApolloLink((operation, nextLink) => {
-    const interceptorOperationResponseHandlers: InterceptorOperationResponseHandler<
-      OperationName
-    >[] = [];
-    const [defOpName] = getOperationNameAndType(operation);
-    if (defOpName) {
-      for (const interceptor of operationInterceptors) {
-        if (interceptor.operation === defOpName) {
-          const interceptorAction = interceptor.request(operation);
-          if (interceptorAction === BLOCK_REQUEST) {
-            const error = `Operation ${defOpName} Aborted`;
-            interceptorOperationResponseHandlers.forEach(responseHandler =>
-              responseHandler({ data: null, error })
-            );
-            const result: FetchResult = {
-              errors: [new GraphQLError(error)],
-              data: null,
-              context: operation.getContext(),
-              extensions: operation.extensions
-            };
-            return Observable.of(result);
-          } else if ('function' === typeof interceptorAction) {
-            interceptorOperationResponseHandlers.push(interceptorAction);
-          }
-        }
-      }
-    }
-
-    return nextLink(operation).map(result => {
-      if (defOpName) {
-        interceptorOperationResponseHandlers.forEach(responseHandler => {
-          let error: string | null = null;
-          let data: any = null;
-          if (result.errors) {
-            error = result.errors.map(err => err.message).join('\n');
-          } else {
-            data = result.data && result.data[defOpName];
-          }
-          responseHandler({ data, error });
-        });
-      }
-      return result;
-    });
-  });
-
-  const ALLOWED_ANON_MUTATIONS: OperationName[] = [
-    'createUser',
-    'createSession',
-    'confirmEmail',
+  const ALLOWED_ANONYMOUS_MUTATIONS: Name<
+    | CreateUserMutationMutationOperation
+    | LoginMutationMutationOperation
+    | ConfirmEmailMutationMutationOperation
+    | UsernameAvailableQueryOperation
+  >[] = [
+    'confirmEmailMutation',
+    'createUserMutation',
+    'loginMutation',
     'usernameAvailable'
   ];
   const alertBlockMutationsForAnonymousLink = new ApolloLink(
     (operation, nextLink) => {
       if (!authToken) {
-        const [opName, optype] = getOperationNameAndType(operation);
+        const optype = getOpType(operation);
         if (
-          opName &&
-          optype &&
           optype === 'mutation' &&
-          !ALLOWED_ANON_MUTATIONS.includes(opName)
+          //@ts-ignore
+          !ALLOWED_ANONYMOUS_MUTATIONS.includes(operation.operationName)
         ) {
           alert(i18nMark('You should log in for performing this operation!'));
           return null;
@@ -202,7 +150,6 @@ export default async function initialise({ authToken, appLink }: Cfg) {
       appLink,
       IS_DEV ? apolloLogger : null,
       alertBlockMutationsForAnonymousLink,
-      oprationInterceptorLink,
       errorLink,
       authLink,
       clientAwarenessHeadersLinkForNonApollo3Server,
@@ -240,44 +187,13 @@ export default async function initialise({ authToken, appLink }: Cfg) {
       }
     }
   });
-  const opInterceptor = {
-    add: addInterceptor
-  };
   return {
-    client,
-    opInterceptor
+    client
   };
-}
-export interface InterceptorSrv {
-  add: <OpName extends OperationName>(
-    interc: Interceptor<OpName>
-  ) => () => void;
 }
 export type MutationName = keyof RootMutationType;
 export type QueryName = keyof RootQueryType;
 export type OperationName = QueryName | MutationName;
-
-export type ResponseOf<
-  OpName extends OperationName
-> = OpName extends MutationName
-  ? RootMutationType[OpName]
-  : OpName extends QueryName ? RootQueryType[OpName] : never;
-
-export type InterceptorOperationResponseHandler<
-  OpName extends OperationName
-> = (response: InterceptorResultOf<OpName>) => unknown;
-export type InterceptorResultOf<OpName extends OperationName> = {
-  data: ResponseOf<OpName>;
-  error: null | string;
-};
-export type Interceptor<OpName extends OperationName> = {
-  operation: OpName;
-  request: (
-    operation: Operation
-  ) => InterceptorOperationResponseHandler<OpName> | void | BlockRequest;
-};
-export const BLOCK_REQUEST = Symbol();
-export type BlockRequest = typeof BLOCK_REQUEST;
 
 export const getOperationNameAndType = (
   operation: Operation

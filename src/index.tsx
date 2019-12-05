@@ -14,9 +14,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { integrateToastNotifications } from './integrations/Toast-Notifications';
 import { createDynamicLinkEnv } from './util/apollo/dynamicLink';
 import * as Sentry from '@sentry/browser';
-import { SentryKey } from '../sentry';
+import * as K from './constants';
 Sentry.init({
-  dsn: SentryKey || ''
+  dsn: K.SENTRY_KEY
 });
 
 run();
@@ -78,11 +78,7 @@ async function run() {
         autoClose={3000}
         newestOnTop
       />
-      <ProvideContexts
-        store={store}
-        apolloInterceptor={apolloClient.opInterceptor as any}
-        dynamicLinkSrv={dynamicLinkEnv.srv}
-      >
+      <ProvideContexts store={store} dynamicLinkSrv={dynamicLinkEnv.srv}>
         <Global />
         <App />
       </ProvideContexts>
