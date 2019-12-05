@@ -33,12 +33,12 @@ const Component: React.FC<Props> = ({
   editCollection,
   isEditCollectionOpen
 }) => {
-  const { auth } = React.useContext(SessionContext);
+  const { me } = React.useContext(SessionContext);
   const isMine =
-    !!auth &&
+    !!me &&
     !!collectionQuery.data &&
     !!collectionQuery.data.collection &&
-    auth.me.user.id === collectionQuery.data.collection.creator.id;
+    me.user.id === collectionQuery.data.collection.creator.id;
   return (
     <MainContainer>
       <HomeBox>

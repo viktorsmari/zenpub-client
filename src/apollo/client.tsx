@@ -7,32 +7,44 @@ import {
   IntrospectionFragmentMatcher
 } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
-import { ApolloLink, Operation } from 'apollo-link';
+import { ApolloLink } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 import { createHttpLink } from 'apollo-link-http';
 import apolloLogger from 'apollo-link-logger';
-import { FieldNode, OperationDefinitionNode, OperationTypeNode } from 'graphql';
 import { Socket as PhoenixSocket } from 'phoenix';
 import {
   GRAPHQL_ENDPOINT,
   IS_DEV,
   PHOENIX_SOCKET_ENDPOINT
 } from '../constants';
-import { RootMutationType, RootQueryType } from '../graphql/types.generated';
-import { CreateUserMutationMutationOperation } from '../graphql/generated/createUser.generated';
-import { Name, getOpType } from '../util/apollo/operation';
-import { LoginMutationMutationOperation } from '../graphql/generated/login.generated';
-import { ConfirmEmailMutationMutationOperation } from '../graphql/generated/confirmEmail.generated';
 import { UsernameAvailableQueryOperation } from '../graphql/generated/checkUsername.generated';
+import { ConfirmEmailMutationMutationOperation } from '../graphql/generated/confirmEmail.generated';
+import { CreateUserMutationMutationOperation } from '../graphql/generated/createUser.generated';
+import { LoginMutationMutationOperation } from '../graphql/generated/login.generated';
+import {
+  getOpType,
+  Name,
+  getOperationNameAndType
+} from '../util/apollo/operation';
+import { RootMutationType, RootQueryType } from '../graphql/types.generated';
+import { KVStore } from '../util/keyvaluestore/types';
 const introspectionQueryResultData = require('../fragmentTypes.json');
+
+export type MutationName = keyof RootMutationType;
+export type QueryName = keyof RootQueryType;
+export type OperationName = QueryName | MutationName;
 
 // const { meQuery } = require('../../../graphql/me.graphql');
 interface Cfg {
-  authToken?: string;
+  localKVStore: KVStore;
   appLink: ApolloLink;
 }
-export default async function initialise({ authToken, appLink }: Cfg) {
+
+const AUTH_TOKEN_KEY = 'AUTH_TOKEN';
+
+export default async function initialise({ localKVStore, appLink }: Cfg) {
+  let authToken = localKVStore.get(AUTH_TOKEN_KEY);
   const fragmentMatcher = new IntrospectionFragmentMatcher({
     introspectionQueryResultData
   });
@@ -43,16 +55,20 @@ export default async function initialise({ authToken, appLink }: Cfg) {
     const createSessionOpName: OperationName = 'createSession';
     const deleteSessionOpName: OperationName = 'deleteSession';
 
-    const [opName] = getOperationNameAndType(operation);
+    const [opName] = getOperationNameAndType<OperationName>(operation.query);
 
     if (opName && opName === deleteSessionOpName) {
       authToken = undefined;
+      localKVStore.del(AUTH_TOKEN_KEY);
     }
     return nextLink(operation).map(resp => {
       if (opName === createSessionOpName) {
         const authPyload = resp.data && resp.data[opName];
         authToken =
           authPyload && authPyload.token ? authPyload.token : undefined;
+        authToken
+          ? localKVStore.set(AUTH_TOKEN_KEY, authToken)
+          : localKVStore.del(AUTH_TOKEN_KEY);
       }
       return resp;
     });
@@ -191,35 +207,3 @@ export default async function initialise({ authToken, appLink }: Cfg) {
     client
   };
 }
-export type MutationName = keyof RootMutationType;
-export type QueryName = keyof RootQueryType;
-export type OperationName = QueryName | MutationName;
-
-export const getOperationNameAndType = (
-  operation: Operation
-): [OperationName, OperationTypeNode] | [] => {
-  const opDefNodes = operation.query.definitions.filter(
-    (def): def is OperationDefinitionNode => def.kind === 'OperationDefinition'
-  );
-
-  const maybeOperationNameAndType = opDefNodes.reduce<
-    [OperationName, OperationTypeNode] | null
-  >((found, opDefNode) => {
-    if (!found) {
-      const maybeFieldNode =
-        opDefNode.selectionSet.selections.find(
-          (selNode): selNode is FieldNode => selNode.kind === 'Field'
-        ) || null;
-      const opType = opDefNode.operation;
-      found =
-        maybeFieldNode &&
-        ([maybeFieldNode.name.value, opType] as [
-          OperationName,
-          OperationTypeNode
-        ]);
-    }
-    return found;
-  }, null);
-
-  return maybeOperationNameAndType || [];
-};

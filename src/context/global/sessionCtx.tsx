@@ -5,7 +5,7 @@ import { StateContext } from './stateCtx';
 
 export type SessionContextT = SessionState;
 
-export const SessionContext = createContext<SessionContextT>({ auth: null });
+export const SessionContext = createContext<SessionContextT>({ me: null });
 
 export const ProvideSessionCtx: React.FC = ({ children }) => {
   const { session } = useContext(StateContext);

@@ -59,14 +59,15 @@ async function run() {
       }
   `;
   const createLocalKVStore = createLocalSessionKVStorage('local');
-  const store = createStore({ createLocalKVStore });
-  const initialState = store.getState();
-  const authToken =
-    (initialState.session.auth && initialState.session.auth.token) || undefined;
+  const store = createStore({ localKVStore: createLocalKVStore('SESSION#') });
+
   const dynamicLinkEnv = createDynamicLinkEnv();
 
   const appLink = dynamicLinkEnv.link;
-  const apolloClient = await getApolloClient({ authToken, appLink });
+  const apolloClient = await getApolloClient({
+    localKVStore: createLocalKVStore('APOLLO#'),
+    appLink
+  });
 
   integrateSessionApolloRedux(dynamicLinkEnv.srv, store.dispatch);
   integrateToastNotifications(dynamicLinkEnv.srv, store.dispatch);
