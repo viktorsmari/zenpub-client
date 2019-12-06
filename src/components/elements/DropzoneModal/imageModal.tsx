@@ -5,13 +5,21 @@ import { Trans } from '@lingui/macro';
 import Modal from '../Modal';
 import styled from '../../../themes/styled';
 import { UploadCloud } from 'react-feather';
-import request from 'superagent';
+// import request from 'superagent';
 import { Heading, Button } from 'rebass/styled-components';
 import { Actions, Container, Header } from '../Modal/modal';
+import { useUploadImageMutation } from '../../../graphql/generated/uploadImage.generated';
+// import { createLink } from "apollo-absinthe-upload-link";
+
+// const {
+//   UploadFileMutation
+// } = require('../../../graphql/generated/uploadFile.generated');
 
 interface Props {
   isSubmitting?: boolean;
   onSubmitting?: any;
+  client: any;
+  contextId: string;
   // externalItemId: string;
   // itemId: string;
   toggleModal?: any;
@@ -22,13 +30,15 @@ interface Props {
 const ImageDropzoneModal: React.FC<Props> = ({
   isSubmitting,
   onSubmitting,
+  client,
   // externalItemId,
-  // itemId,
+  contextId,
   toggleModal,
   modalIsOpen
   // imagesOnly
 }) => {
   const [files, setFiles] = useState([] as any);
+  const [UploadImage] = useUploadImageMutation();
   // const [files, setFiles] = useState([]);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: 'image/*',
@@ -40,6 +50,36 @@ const ImageDropzoneModal: React.FC<Props> = ({
           })
         )
       );
+      // client.link=createLink({
+      //   uri: "http://tdc.stg.tetco.sa/api/graphql"
+      // });
+      console.log('acceptedFiles %O', acceptedFiles[0]);
+      const variables = {
+        contextId: contextId,
+        fieldType: Image,
+        upload: acceptedFiles[0]
+      };
+      UploadImage({
+        variables: variables
+      })
+        .then(res => {
+          // const req = request.post(res.url);
+          console.log('res %O', res);
+          // files.forEach(file => {
+          //   req.attach(file.name, file);
+          // });
+          // req.on('progress', event => {
+          //   /* the event is:
+          //   {
+          //     direction: "upload" or "download"
+          //     percent: 0 to 100 // may be missing if file size is unknown
+          //     total: // total file size, may be missing
+          //     loaded: // bytes downloaded or uploaded so far
+          //   } */
+          //   console.log('percent ' + event.percent);
+          // });
+        })
+        .catch(err => alert(err));
       console.log('files.length ' + files.length);
     }
   });
@@ -83,24 +123,52 @@ const ImageDropzoneModal: React.FC<Props> = ({
   //   // req.end(console.log('file ' + files));
   // }, []);
 
-  const handleSelect = useCallback(() => {
+  const handleSelect = useCallback(accepted => {
     // POST to a test endpoint for demo purposes
-    const req = request.post('https://httpbin.org/post');
+    // const req = request.post('https://httpbin.org/post');
 
-    files.forEach(file => {
-      req.attach(file.name, file);
-    });
-    req.on('progress', event => {
-      /* the event is:
-      {
-        direction: "upload" or "download"
-        percent: 0 to 100 // may be missing if file size is unknown
-        total: // total file size, may be missing
-        loaded: // bytes downloaded or uploaded so far
-      } */
-      console.log('percent ' + event.percent);
-    });
-    req.end(console.log('file ' + files));
+    // files.forEach(file => {
+    //   req.attach(file.name, file);
+    // });
+    // req.on('progress', event => {
+    //   /* the event is:
+    //   {
+    //     direction: "upload" or "download"
+    //     percent: 0 to 100 // may be missing if file size is unknown
+    //     total: // total file size, may be missing
+    //     loaded: // bytes downloaded or uploaded so far
+    //   } */
+    //   console.log('percent ' + event.percent);
+    // });
+    // req.end(console.log('file ' + files));
+    setFiles(files => [...files, ...accepted]);
+    // console.log('file %Ο', files);
+    const variables = {
+      contextId: contextId,
+      fieldType: 'Image',
+      upload: files[0]
+    };
+    UploadImage({
+      variables: variables
+    })
+      .then(res => {
+        // const req = request.post(res.url);
+        console.log('res %O', res);
+        // files.forEach(file => {
+        //   req.attach(file.name, file);
+        // });
+        // req.on('progress', event => {
+        //   /* the event is:
+        //   {
+        //     direction: "upload" or "download"
+        //     percent: 0 to 100 // may be missing if file size is unknown
+        //     total: // total file size, may be missing
+        //     loaded: // bytes downloaded or uploaded so far
+        //   } */
+        //   console.log('percent ' + event.percent);
+        // });
+      })
+      .catch(err => alert(err));
   }, []);
 
   // const { getRootProps, getInputProps, isDragActive } = useDropzone({

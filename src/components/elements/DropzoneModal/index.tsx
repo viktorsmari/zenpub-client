@@ -4,7 +4,7 @@ import { Trans } from '@lingui/macro';
 import { withPreviews, clearPreviews } from './with-previews';
 import styled from '../../../themes/styled';
 import { UploadCloud } from 'react-feather';
-import request from 'superagent';
+// import request from 'superagent';
 import { Heading, Button } from 'rebass/styled-components';
 import { Actions } from '../Modal/modal';
 
@@ -33,22 +33,22 @@ const DropzoneModal: React.FC<Props> = ({
     console.log('accepted ' + accepted);
     setFiles(files => [...files, ...accepted]);
     // POST to a test endpoint for demo purposes
-    const req = request.post('https://httpbin.org/post');
+    // const req = request.post('https://httpbin.org/post');
 
-    files.forEach(file => {
-      req.attach(file.name, file);
-    });
-    req.on('progress', event => {
-      /* the event is:
-      {
-        direction: "upload" or "download"
-        percent: 0 to 100 // may be missing if file size is unknown
-        total: // total file size, may be missing
-        loaded: // bytes downloaded or uploaded so far
-      } */
-      console.log('percent ' + event.percent);
-    });
-    req.end(console.log('file ' + files));
+    // files.forEach(file => {
+    //   req.attach(file.name, file);
+    // });
+    // req.on('progress', event => {
+    //   /* the event is:
+    //   {
+    //     direction: "upload" or "download"
+    //     percent: 0 to 100 // may be missing if file size is unknown
+    //     total: // total file size, may be missing
+    //     loaded: // bytes downloaded or uploaded so far
+    //   } */
+    //   console.log('percent ' + event.percent);
+    // });
+    // req.end(console.log('file ' + files));
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
