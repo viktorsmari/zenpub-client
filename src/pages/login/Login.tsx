@@ -46,7 +46,7 @@ const Info = styled(Box)``;
 const Logo = styled(Image)`
   width: auto;
   display: inline-block;
-  height: 150px;
+  height: auto;
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
