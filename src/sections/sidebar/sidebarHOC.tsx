@@ -1,7 +1,10 @@
 import * as React from 'react';
-import Sidebar from '../sidebar';
+import { CreateCommunityMutationMutationOperation } from '../../graphql/generated/createCommunity.generated';
+import { DeleteMutationMutationOperation } from '../../graphql/generated/delete.generated';
+import { FollowMutationMutationOperation } from '../../graphql/generated/follow.generated';
 import { useGetSidebarQueryQuery } from '../../graphql/generated/getSidebar.generated';
-import { useInterceptor } from '../../context/global/apolloInterceptorCtx';
+import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
+import Sidebar from '../sidebar';
 
 interface Props {
   isOpen: boolean;
@@ -9,26 +12,26 @@ interface Props {
 
 export const SidebarWrapper: React.FC<Props> = ({ isOpen }) => {
   const resp = useGetSidebarQueryQuery();
-  const _handle = React.useCallback(
-    () => () => {
+  useDynamicLinkOpResult<DeleteMutationMutationOperation>(
+    'deleteMutation',
+    () => {
       resp.refetch();
     },
     [resp.refetch]
   );
-
-  useInterceptor(
-    React.useMemo(() => ({ operation: 'delete', request: _handle }), [_handle])
+  useDynamicLinkOpResult<CreateCommunityMutationMutationOperation>(
+    'createCommunityMutation',
+    () => {
+      resp.refetch();
+    },
+    [resp.refetch]
   );
-  useInterceptor(
-    React.useMemo(() => ({ operation: 'createCommunity', request: _handle }), [
-      _handle
-    ])
-  );
-  useInterceptor(
-    React.useMemo(() => ({ operation: 'follow', request: _handle }), [_handle])
-  );
-  useInterceptor(
-    React.useMemo(() => ({ operation: 'delete', request: _handle }), [_handle])
+  useDynamicLinkOpResult<FollowMutationMutationOperation>(
+    'followMutation',
+    () => {
+      resp.refetch();
+    },
+    [resp.refetch]
   );
   return <Sidebar resp={resp} isOpen={isOpen} />;
 };

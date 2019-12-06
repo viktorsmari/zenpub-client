@@ -1,10 +1,10 @@
 import { FetchResult, Observable, Operation } from 'apollo-link';
+import { OperationTypeNode } from 'graphql';
 export type Variables = Record<string, any>;
 
-export type OpType = 'mutation' | 'query' | 'subscription';
 export interface OperationDef<
   Name extends string = string,
-  T extends OpType = OpType,
+  T extends OperationTypeNode = OperationTypeNode,
   Vars extends Variables = Variables,
   Res = any
 > {

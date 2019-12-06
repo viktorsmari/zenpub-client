@@ -1,16 +1,21 @@
 import { Trans } from '@lingui/macro';
-import React, { useCallback, useMemo } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 // import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
+import { Flex } from 'rebass/styled-components';
+import Empty from '../../components/elements/Empty';
 import Loader from '../../components/elements/Loader/Loader';
 import LoadMoreTimeline from '../../components/elements/Loadmore/localInstance';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem/index2';
 import FeaturedCollections from '../../components/featuredCollections';
 import FeaturedCommunities from '../../components/featuredCommunities';
+import { CreateReplyMutationMutationOperation } from '../../graphql/generated/createReply.generated';
+import { DeleteMutationMutationOperation } from '../../graphql/generated/delete.generated';
+import { LikeMutationMutationOperation } from '../../graphql/generated/like.generated';
+import { useLocalActivitiesQuery } from '../../graphql/generated/localActivities.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
-import { Flex } from 'rebass/styled-components';
 import {
   Nav,
   NavItem,
@@ -19,10 +24,8 @@ import {
   WrapperPanel
 } from '../../sections/panel';
 import styled from '../../themes/styled';
+import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-import { useLocalActivitiesQuery } from '../../graphql/generated/localActivities.generated';
-import { useInterceptor } from '../../context/global/apolloInterceptorCtx';
-import Empty from '../../components/elements/Empty';
 
 interface Props {}
 
@@ -32,21 +35,26 @@ const Home: React.FC<Props> = props => {
       limit: 15
     }
   });
-  const refetchOnResp = useCallback(() => () => refetch(), [refetch]);
-  useInterceptor(
-    useMemo(() => ({ operation: 'createReply', request: refetchOnResp }), [
-      refetchOnResp
-    ])
+  useDynamicLinkOpResult<CreateReplyMutationMutationOperation>(
+    'createReplyMutation',
+    () => {
+      refetch();
+    },
+    [refetch]
   );
-  useInterceptor(
-    useMemo(() => ({ operation: 'like', request: refetchOnResp }), [
-      refetchOnResp
-    ])
+  useDynamicLinkOpResult<LikeMutationMutationOperation>(
+    'likeMutation',
+    () => {
+      refetch();
+    },
+    [refetch]
   );
-  useInterceptor(
-    useMemo(() => ({ operation: 'delete', request: refetchOnResp }), [
-      refetchOnResp
-    ])
+  useDynamicLinkOpResult<DeleteMutationMutationOperation>(
+    'deleteMutation',
+    () => {
+      refetch();
+    },
+    [refetch]
   );
   return (
     <MainContainer>

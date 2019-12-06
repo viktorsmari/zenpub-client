@@ -1,5 +1,10 @@
 import { ApolloLink, FetchResult, Operation } from 'apollo-link';
-import { OperationDefinitionNode } from 'graphql';
+import {
+  OperationDefinitionNode,
+  OperationTypeNode,
+  FieldNode,
+  DocumentNode
+} from 'graphql';
 import {
   OperationDef,
   OpRequestHandler,
@@ -56,4 +61,33 @@ export const getOpType = (op: Operation) => {
   );
 
   return maybeOpDefNode && maybeOpDefNode.operation;
+};
+
+export const getOperationNameAndType = <OperationName extends string = string>(
+  query: DocumentNode
+): [OperationName, OperationTypeNode] | [] => {
+  const opDefNodes = query.definitions.filter(
+    (def): def is OperationDefinitionNode => def.kind === 'OperationDefinition'
+  );
+
+  const maybeOperationNameAndType = opDefNodes.reduce<
+    [OperationName, OperationTypeNode] | null
+  >((found, opDefNode) => {
+    if (!found) {
+      const maybeFieldNode =
+        opDefNode.selectionSet.selections.find(
+          (selNode): selNode is FieldNode => selNode.kind === 'Field'
+        ) || null;
+      const opType = opDefNode.operation;
+      found =
+        maybeFieldNode &&
+        ([maybeFieldNode.name.value, opType] as [
+          OperationName,
+          OperationTypeNode
+        ]);
+    }
+    return found;
+  }, null);
+
+  return maybeOperationNameAndType || [];
 };
