@@ -5,7 +5,7 @@ import { Input, Textarea } from '@rebass/forms';
 import { Field, Form, Formik } from 'formik';
 import * as React from 'react';
 import { Heading } from 'rebass/styled-components';
-import { i18n } from '../../../containers/App/App';
+// import { i18n } from '../../../containers/App/App';
 import Alert from '../../elements/Alert';
 import { Button } from 'rebass/styled-components';
 import Modal from '../Modal';
@@ -62,7 +62,7 @@ const CreateCommunityModal = (
       <Container>
         <Header>
           <Heading m={2}>
-            <Trans>Create a new community!!</Trans>
+            <Trans>Create a new community</Trans>
           </Heading>
         </Header>
         <Formik
@@ -80,7 +80,7 @@ const CreateCommunityModal = (
                       render={({ field }) => (
                         <>
                           <Input
-                            placeholder={i18n._(tt.placeholders.name)}
+                            // placeholder={i18n._(tt.placeholders.name)}
                             name={field.name}
                             value={field.value}
                             onChange={field.onChange}
@@ -106,7 +106,7 @@ const CreateCommunityModal = (
                         render: ({ field }) => (
                           <>
                             <Textarea
-                              placeholder={i18n._(tt.placeholders.summary)}
+                              //   placeholder={i18n._(tt.placeholders.summary)}
                               name={field.name}
                               value={field.value}
                               onChange={field.onChange}
@@ -129,7 +129,7 @@ const CreateCommunityModal = (
                       name="image"
                       render={({ field }) => (
                         <Input
-                          placeholder={i18n._(tt.placeholders.image)}
+                          //   placeholder={i18n._(tt.placeholders.image)}
                           name={field.name}
                           value={field.value}
                           onChange={field.onChange}
