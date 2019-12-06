@@ -410,7 +410,7 @@ class Login extends React.Component<LoginProps, LoginState> {
             <Footer>
               <PoweredBy href="https://moodle.net/" target="_blank">
                 <Moodlenet src={MoodlenetLogo} />
-                <PoweredByText>Powered By Moodlenet</PoweredByText>
+                <PoweredByText>Powered By MoodleNet</PoweredByText>
               </PoweredBy>
               <ul>
                 <li>

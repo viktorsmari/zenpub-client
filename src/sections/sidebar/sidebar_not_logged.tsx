@@ -8,7 +8,7 @@ import { Box, Flex, Image, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import styled from '../../themes/styled';
 
-const MnetLogo = require('./moodle-logo.png');
+const MamarLogo = require('./mamar_s.png');
 const SidebarComponent = styled(Flex)`
   flex-grow: 1;
   align-items: flex-end;
@@ -158,9 +158,9 @@ const Sidebar: React.FC<{ isOpen: boolean }> = isOpen => (
           <Nav pt={3}>
             <SidebarLink exact to={'/'}>
               <NavItem mb={3} alignItems={'center'}>
-                <Image mr={2} width={'40px'} src={MnetLogo} />
+                <Image mr={2} width={'40px'} src={MamarLogo} />
                 <ItemTitle variant="link">
-                  <Trans>Join MoodleNet</Trans>
+                  <Trans>Join Mamar</Trans>
                 </ItemTitle>
               </NavItem>
             </SidebarLink>
