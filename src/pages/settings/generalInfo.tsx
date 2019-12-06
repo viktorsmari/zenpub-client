@@ -15,9 +15,7 @@ const {
   updateProfileMutation
 } = require('../../graphql/updateProfile.graphql');
 import { SessionContext } from '../../context/global/sessionCtx';
-// import { useUploadImageMutation } from '../../graphql/generated/uploadImage.generated';
-// import { ApolloClient } from 'apollo-client';
-// import { createLink } from "apollo-absinthe-upload-link";
+import { useUploadImageMutation } from '../../graphql/generated/uploadImage.generated';
 
 import {
   Row,
@@ -171,51 +169,17 @@ const Component: React.FC<Props> = ({
     []
   );
 
-  //  const [UploadImage] = useUploadImageMutation();
+  const [UploadImage] = useUploadImageMutation();
 
   const testUpload = (event, client) => {
-    // client.link=createLink({
-    //   uri: "http://tdc.stg.tetco.sa/api/graphql"
-    // });
-
-    const formData = new FormData();
-    // formData.append('file',  event.target.files[0]);
-
-    formData.append(
-      'query',
-      `mutation uploadImage($contextId: ID!,$upload: Upload!) {
-      uploadImage(contextId:$contextId, upload:$upload ){
-           id
-           metadata {
-               heightPx   
-               widthPx
-           }
-           url 
-       }
-       
-   }`
-    );
-    formData.append(
-      'variables',
-      JSON.stringify({ upload: 'file', contextId: auth!.me.user.id })
-    );
-    formData.append('file', event.target.files[0]);
-
     console.log('file %O', event.target.files[0]);
-    // const variables = {
-    //   contextId: auth!.me.user.id,
-    //   upload: event.target.files[0],
-    //   fieldType: 'uploadImage'
+    console.log('Is instance of file? ', event.target.files[0] instanceof File);
+    const variables = {
+      contextId: auth!.me.user.id,
+      upload: event.target.files[0]
+    };
 
-    // };
-
-    fetch('http://tdc.stg.tetco.sa/api/graphql', {
-      method: 'POST',
-      body: formData
-    });
-    // UploadImage({
-    //   variables: formData
-    // });
+    UploadImage({ variables });
   };
 
   const initialValues = {
