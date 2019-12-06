@@ -16,7 +16,9 @@ import { ValidationField, ValidationObject, ValidationType } from './types';
 import { Button, Box, Text, Image } from 'rebass/styled-components';
 const { loginMutation } = require('../../graphql/login.graphql');
 import { Panel, WrapperPanel } from '../../sections/panel';
-const MnetLogin = require('./login.jpg');
+const MnetLogin = require('./tdc-teachers.png');
+const LogoLogin = require('./mamar_logo.png');
+const MoodlenetLogo = require('./moodlenet_logo.png');
 import { INSTANCE_DESCRIPTION } from './../../constants';
 
 const Background = styled(Image)`
@@ -27,24 +29,27 @@ const Background = styled(Image)`
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 `;
-const Tagline = styled.h5`
-  font-size: 16px;
-  margin-top: 8px;
-  margin-bottom: 40px;
-  color: #000000a1;
-  font-weight: 500;
-`;
+// const Tagline = styled.h5`
+//   font-size: 16px;
+//   margin-top: 8px;
+//   margin-bottom: 40px;
+//   color: #000000a1;
+//   font-weight: 500;
+// `;
 
-const Infos = styled(Box)``;
+const Infos = styled(Box)`
+  padding: 38px 16px;
+`;
 
 const Info = styled(Box)``;
 
-const Logo = styled.div`
-  background: url(https://i.imgur.com/YdflNQp.png);
-  width: 159px;
+const Logo = styled(Image)`
+  width: auto;
   display: inline-block;
-  height: 30px;
+  height: 150px;
   background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
 `;
 
 const LoginWrapper = styled.div`
@@ -62,7 +67,7 @@ const LoginWrapper = styled.div`
 const Container = styled.div`
   margin: 0 auto;
   max-width: 900px;
-  margin-top: 60px;
+  margin-top: 40px;
 `;
 
 const Header = styled.div`
@@ -72,6 +77,7 @@ const Header = styled.div`
 
 const FormWrapper = styled.div`
   grid-area: form;
+  margin-top: 16px;
 `;
 
 const Form = styled.div`
@@ -94,12 +100,36 @@ const Right = styled(Box)`
   }
 `;
 
+const PoweredBy = styled.a`
+  color: rgba(0, 0, 0, 0.45);
+  text-decoration: none;
+  font-size: 13px;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const PoweredByText = styled.span`
+  display: block;
+`;
+
+const Moodlenet = styled(Image)`
+  width: 120px;
+  display: inline-block;
+  height: auto;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+`;
+
 const Footer = styled.div`
 grid-area: footer
-margin-top: 100px;
-border-top: 1px solid rgba(0,0,0,.2);
+margin-top: 0px;
+margin-bottom: 20px;
+
 padding-top: 24px;
 & ul {
+  border-top: 1px solid rgba(0,0,0,.2);
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -109,6 +139,8 @@ padding-top: 24px;
   align-items: center;
   display: flex;
   flex: 1;
+  padding-top: 20px;
+  margin-top: 20px;
   ${clearFix()}
   & li {
     float: left;
@@ -310,10 +342,10 @@ class Login extends React.Component<LoginProps, LoginState> {
         <Container>
           <LoginWrapper>
             <Header>
-              <Logo />
-              <Tagline>
+              <Logo src={LogoLogin} />
+              {/* <Tagline>
                 <Trans>Share. Curate. Discuss.</Trans>
-              </Tagline>
+              </Tagline> */}
             </Header>
             <FormWrapper>
               <Form>
@@ -334,7 +366,7 @@ class Login extends React.Component<LoginProps, LoginState> {
               </Or>
               <Browse mt={3} p={3}>
                 <Text variant="heading" fontSize={3}>
-                  <Trans>Browse this MoodleNet instance</Trans>
+                  <Trans>Browse this instance without login</Trans>
                 </Text>
                 <Text variant="text" mt={2}>
                   <Trans>
@@ -349,7 +381,7 @@ class Login extends React.Component<LoginProps, LoginState> {
               </Browse>
             </FormWrapper>
             <Right>
-              <Link to="signup">
+              {/* <Link to="signup">
                 <Button
                   mb={2}
                   style={{ width: '100%', height: '50px' }}
@@ -358,11 +390,11 @@ class Login extends React.Component<LoginProps, LoginState> {
                 >
                   <Trans>Sign up</Trans>
                 </Button>
-              </Link>
+              </Link> */}
               <WrapperPanel className="extra">
                 <Panel>
                   <Background src={MnetLogin} />
-                  <Infos p={3}>
+                  <Infos>
                     <Info>
                       <Text variant="suptitle">
                         <Trans>Instance description</Trans>
@@ -375,8 +407,11 @@ class Login extends React.Component<LoginProps, LoginState> {
                 </Panel>
               </WrapperPanel>
             </Right>
-
             <Footer>
+              <PoweredBy href="https://moodle.net/" target="_blank">
+                <Moodlenet src={MoodlenetLogo} />
+                <PoweredByText>Powered By Moodlenet</PoweredByText>
+              </PoweredBy>
               <ul>
                 <li>
                   <a href="https://moodle.net" target="blank">
