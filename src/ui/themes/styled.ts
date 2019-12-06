@@ -15,9 +15,18 @@ export interface MoodleThemeInterface {
     red: string;
     green: string;
     yellow: string;
+    darkYellow: string;
     blue: string;
   };
   text: {
+    subhead: {
+      fontFamily: string;
+      fontSize: number;
+      color: string;
+      textTransform: string;
+      letterSpacing: string;
+      fontWeight: string;
+    };
     suptitle: {
       fontFamily: string;
       fontSize: number;
@@ -70,6 +79,9 @@ export interface MoodleThemeInterface {
     info: {
       bg: string;
       color: string;
+    };
+    avatar: {
+      borderRadius: string;
     };
   };
   buttons: {

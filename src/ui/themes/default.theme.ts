@@ -14,6 +14,7 @@ const themeLight: MoodleThemeInterface = {
     red: '#ff5a5f',
     green: '#2db783',
     yellow: '#ffebb3',
+    darkYellow: '#8a5500',
     blue: '#009fd9'
   },
   variants: {
@@ -38,9 +39,20 @@ const themeLight: MoodleThemeInterface = {
     info: {
       bg: '#009fd9',
       color: '#fff'
+    },
+    avatar: {
+      borderRadius: '100% !important'
     }
   },
   text: {
+    subhead: {
+      fontFamily: '"Open Sans", sans-serif',
+      fontSize: 2,
+      color: '#3C3C3C',
+      textTransform: 'capitalize',
+      letterSpacing: '0.5px',
+      fontWeight: '600'
+    },
     suptitle: {
       fontFamily: '"Open Sans", sans-serif',
       fontSize: 0,

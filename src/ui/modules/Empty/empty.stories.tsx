@@ -1,12 +1,10 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import SocialText from '.';
+import Empty from '.';
 import { themeDeco } from '../../styleguide/storiesThemeDecorator';
 
-storiesOf('Modules/SocialText', module)
+storiesOf('Modules/Empty', module)
   .addDecorator(themeDeco())
   .add('Simple', () => {
-    const submit = action('submit');
-    return <SocialText submit={submit} />;
+    return <Empty>Empty!</Empty>;
   });
