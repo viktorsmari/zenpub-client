@@ -15,7 +15,7 @@ import {
   OverlayTab
 } from '../communities.community/Community';
 import CollectionModal from '../../components/elements/CollectionModal';
-import DropzoneModal from '../../components/elements/DropzoneModal';
+//  import DropzoneModal from '../../components/elements/DropzoneModal';
 
 // import CollectionsLoadMore from 'src/components/elements/Loadmore/followingCollections';
 
@@ -34,7 +34,7 @@ const CommunityPage: SFC<Props> = ({
   resources
 }) => {
   const [isOpen, onOpen] = useState(false);
-  const [isUploadOpen, onUploadOpen] = useState(true);
+  // const [isUploadOpen, onUploadOpen] = useState(false);
   return (
     <WrapperTab>
       <OverlayTab>
@@ -87,7 +87,7 @@ const CommunityPage: SFC<Props> = ({
                       collectionExternalId={collection.id}
                     />
                   ) : null}
-                  {collection.community.followed ? (
+                  {/* {collection.community.followed ? (
                     isUploadOpen === true ? (
                       <ButtonWrapper>
                         <Button m={3} onClick={() => onUploadOpen(false)}>
@@ -96,7 +96,7 @@ const CommunityPage: SFC<Props> = ({
                       </ButtonWrapper>
                     ) : (
                       <ButtonWrapper>
-                        <Button m={3} onClick={() => onUploadOpen(true)}>
+                        <Button m={3} onClick={() => onUploadOpen(false)}>
                           <Trans>Upload a file</Trans>
                         </Button>
                       </ButtonWrapper>
@@ -109,7 +109,7 @@ const CommunityPage: SFC<Props> = ({
                       itemId={collection.localId}
                       externalItemId={collection.id}
                     />
-                  ) : null}
+                  ) : null} */}
 
                   {resources.totalCount > 0 ? (
                     resources.edges.map((edge, i) => (
