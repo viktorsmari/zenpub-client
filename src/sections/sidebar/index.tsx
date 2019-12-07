@@ -15,7 +15,8 @@ import { MoreHorizontal } from 'react-feather';
 import { GetSidebarQueryQueryResult } from '../../graphql/generated/getSidebar.generated';
 import Empty from '../../components/elements/Empty';
 
-const MnetLogo = require('./moodle-logo.png');
+// const MnetLogo = require('./moodle-logo.png');
+const MamarLogo = require('./mamar_s.png');
 const SidebarComponent = styled(Flex)`
   flex-grow: 1;
   align-items: flex-end;
@@ -272,9 +273,9 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
                       <SidebarLink exact to={'/'}>
                         <NavItem mb={3} alignItems={'center'}>
                           {value.contentDirection == 'ltr' ? (
-                            <Image mr={2} width={'40px'} src={MnetLogo} />
+                            <Image mr={2} width={'40px'} src={MamarLogo} />
                           ) : (
-                            <Image ml={2} width={'40px'} src={MnetLogo} />
+                            <Image ml={2} width={'40px'} src={MamarLogo} />
                           )}
                           <ItemTitle variant="link">
                             <Trans>My MoodleNet</Trans>
