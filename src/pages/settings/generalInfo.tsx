@@ -16,8 +16,6 @@ const {
 } = require('../../graphql/updateProfile.graphql');
 import { SessionContext } from '../../context/global/sessionCtx';
 // import { useUploadImageMutation } from '../../graphql/generated/uploadImage.generated';
-// const { useMutation } = require('@apollo/react-hooks');
-// const gql = require('graphql-tag');
 
 import {
   Row,
@@ -136,6 +134,7 @@ const Component: React.FC<Props> = ({
 }) => {
   // const { errors, touched, isSubmitting } = props;
   const [isUploadOpen, onUploadOpen] = React.useState(false);
+  const [uploadType, setUploadType] = React.useState('icon');
   const { auth } = React.useContext(SessionContext);
 
   const validationSchema = Yup.object().shape({
@@ -148,11 +147,11 @@ const Component: React.FC<Props> = ({
 
   const handleSubmit = React.useCallback<FormikConfig<FormValues>['onSubmit']>(
     (values, { setSubmitting }) => {
-      console.log('image ' + values.image.name);
+      // console.log('image ' + values.image.name);
       const variables = {
         profile: {
           name: values.name,
-          image: values.image.name,
+          image: values.image,
           summary: values.summary,
           location: values.location,
           icon: values.icon
@@ -171,22 +170,6 @@ const Component: React.FC<Props> = ({
     []
   );
 
-  // const [UploadImage] = useUploadImageMutation();
-
-  //   const MUTATION = gql`
-  //     mutation($contextId: ID!,$upload: Upload!) {
-  //       uploadImage(contextId: $contextId, upload:$file ){
-  //            id
-  //            metadata {
-  //                heightPx
-  //                widthPx
-  //            }
-  //            url
-  //        }
-  //       }
-  // `;
-
-  // const [mutate] = useMutation(MUTATION);
   // const [mutate] = useUploadImageMutation();
   // const testUpload = ({
   //   target: {
@@ -197,17 +180,6 @@ const Component: React.FC<Props> = ({
   //   validity.valid &&
   //   mutate({ variables: { contextId: auth!.me.user.id, upload: file } });
 
-  // const testUpload = (event, client) => {
-  //   console.log('file %O', event.target.files[0]);
-  //   console.log('Is instance of file? ', event.target.files[0] instanceof File);
-  //   const variables = {
-  //     contextId: auth!.me.user.id,
-  //     upload: event.target.files[0]
-  //   };
-
-  //   UploadImage({ variables });
-  // };
-
   const initialValues = {
     name: profile.user.name || '',
     summary: profile.user.summary || '',
@@ -216,10 +188,6 @@ const Component: React.FC<Props> = ({
     username: profile.user.preferredUsername || '',
     image: profile.user.image || ''
   };
-
-  // const Component = (props: Props & FormikProps<FormValues>) => {
-  //   const { errors, touched, isSubmitting } = props;
-  //   const [isUploadOpen, onUploadOpen] = React.useState(true);
 
   return (
     <ApolloConsumer>
@@ -365,7 +333,10 @@ const Component: React.FC<Props> = ({
                             name={field.name}
                             value={field.value}
                             onChange={field.onChange}
-                            onClick={() => onUploadOpen(true)}
+                            onClick={() => {
+                              onUploadOpen(true);
+                              setUploadType('icon');
+                            }}
                           />
                         )}
                       />
@@ -377,7 +348,6 @@ const Component: React.FC<Props> = ({
                       <label>
                         <Trans>Header image</Trans>
                       </label>
-                      {/* <p onClick={() => onUploadOpen(true)}>Add a Link</p> */}
                       <Field
                         name="image"
                         render={({ field }) => (
@@ -386,37 +356,23 @@ const Component: React.FC<Props> = ({
                             name={field.name}
                             value={field.value}
                             onChange={field.onChange}
-                            onClick={() => onUploadOpen(true)}
+                            onClick={() => {
+                              onUploadOpen(true);
+                              setUploadType('image');
+                            }}
                           />
                         )}
                       />
-                      {/* <Field
-                        name="image"
-                        render={({ field }) => (
-                          <>
-                            <br />
-                            <Input
-                              // placeholder="Type a url of a background image..."
-                              name={field.name}
-                              // value={field.value}
-                              type="file"
-                              // onChange={event => testUpload(event, client)}
-                              onChange={event => testUpload(event)}
-                            />
-                            
-                          </>
-                        )}
-                      /> */}
                       {errors.image &&
                         touched.image && <Alert>{errors.image}</Alert>}
                     </ContainerForm>
                   </ExRow>
                   {isUploadOpen === true ? (
                     <ImageDropzoneModal
-                      client={client}
                       contextId={auth!.me.user.id}
                       toggleModal={onUploadOpen}
                       modalIsOpen={isUploadOpen}
+                      uploadType={uploadType}
                     />
                   ) : null}
                   {/* <ExRow>

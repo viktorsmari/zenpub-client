@@ -26,7 +26,7 @@ import {
 } from 'graphql';
 import { RootMutationType, RootQueryType } from '../graphql/types.generated';
 import { i18nMark } from '@lingui/react';
-import { createUploadLink } from 'apollo-upload-client';
+import { createUploadLink } from './uploadLink.js';
 
 // const { meQuery } = require('../../../graphql/me.graphql');
 interface Cfg {
@@ -207,7 +207,7 @@ export default async function initialise({ authToken, appLink }: Cfg) {
       authLink,
       clientAwarenessHeadersLinkForNonApollo3Server,
       setTokenLink,
-      createUploadLink({ uri: GRAPHQL_ENDPOINT })
+      createUploadLink({ uri: GRAPHQL_ENDPOINT!! })
     ].filter(Boolean)
   );
 
