@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
+// import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Trans } from '@lingui/macro';
 // import { withPreviews, clearPreviews } from './with-previews';
@@ -8,7 +9,7 @@ import { UploadCloud } from 'react-feather';
 // import request from 'superagent';
 import { Heading, Button } from 'rebass/styled-components';
 import { Actions, Container, Header } from '../Modal/modal';
-import { useUploadImageMutation } from '../../../graphql/generated/uploadImage.generated';
+// import { useUploadImageMutation } from '../../../graphql/generated/uploadImage.generated';
 // import { createLink } from "apollo-absinthe-upload-link";
 
 // const {
@@ -38,7 +39,7 @@ const ImageDropzoneModal: React.FC<Props> = ({
   // imagesOnly
 }) => {
   const [files, setFiles] = useState([] as any);
-  const [UploadImage] = useUploadImageMutation();
+  // const [UploadImage] = useUploadImageMutation();
   // const [files, setFiles] = useState([]);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: 'image/*',
@@ -50,37 +51,35 @@ const ImageDropzoneModal: React.FC<Props> = ({
           })
         )
       );
-      // client.link=createLink({
-      //   uri: "http://tdc.stg.tetco.sa/api/graphql"
-      // });
-      console.log('acceptedFiles %O', acceptedFiles[0]);
-      const variables = {
-        contextId: contextId,
-        fieldType: Image,
-        upload: acceptedFiles[0]
-      };
-      UploadImage({
-        variables: variables
-      })
-        .then(res => {
-          // const req = request.post(res.url);
-          console.log('res %O', res);
-          // files.forEach(file => {
-          //   req.attach(file.name, file);
-          // });
-          // req.on('progress', event => {
-          //   /* the event is:
-          //   {
-          //     direction: "upload" or "download"
-          //     percent: 0 to 100 // may be missing if file size is unknown
-          //     total: // total file size, may be missing
-          //     loaded: // bytes downloaded or uploaded so far
-          //   } */
-          //   console.log('percent ' + event.percent);
-          // });
-        })
-        .catch(err => alert(err));
-      console.log('files.length ' + files.length);
+
+      //   console.log('acceptedFiles %O', acceptedFiles[0]);
+      //   const variables = {
+      //     contextId: contextId,
+      //     fieldType: Image,
+      //     upload: acceptedFiles[0]
+      //   };
+      //   UploadImage({
+      //     variables: variables
+      //   })
+      //     .then(res => {
+      //       // const req = request.post(res.url);
+      //       console.log('res %O', res);
+      //       // files.forEach(file => {
+      //       //   req.attach(file.name, file);
+      //       // });
+      //       // req.on('progress', event => {
+      //       //   /* the event is:
+      //       //   {
+      //       //     direction: "upload" or "download"
+      //       //     percent: 0 to 100 // may be missing if file size is unknown
+      //       //     total: // total file size, may be missing
+      //       //     loaded: // bytes downloaded or uploaded so far
+      //       //   } */
+      //       //   console.log('percent ' + event.percent);
+      //       // });
+      //     })
+      //     .catch(err => alert(err));
+      //   console.log('files.length ' + files.length);
     }
   });
 
@@ -123,53 +122,53 @@ const ImageDropzoneModal: React.FC<Props> = ({
   //   // req.end(console.log('file ' + files));
   // }, []);
 
-  const handleSelect = useCallback(accepted => {
-    // POST to a test endpoint for demo purposes
-    // const req = request.post('https://httpbin.org/post');
+  // const handleSelect = useCallback(accepted => {
+  //   // POST to a test endpoint for demo purposes
+  //   // const req = request.post('https://httpbin.org/post');
 
-    // files.forEach(file => {
-    //   req.attach(file.name, file);
-    // });
-    // req.on('progress', event => {
-    //   /* the event is:
-    //   {
-    //     direction: "upload" or "download"
-    //     percent: 0 to 100 // may be missing if file size is unknown
-    //     total: // total file size, may be missing
-    //     loaded: // bytes downloaded or uploaded so far
-    //   } */
-    //   console.log('percent ' + event.percent);
-    // });
-    // req.end(console.log('file ' + files));
-    setFiles(files => [...files, ...accepted]);
-    // console.log('file %Ο', files);
-    const variables = {
-      contextId: contextId,
-      fieldType: 'Image',
-      upload: files[0]
-    };
-    UploadImage({
-      variables: variables
-    })
-      .then(res => {
-        // const req = request.post(res.url);
-        console.log('res %O', res);
-        // files.forEach(file => {
-        //   req.attach(file.name, file);
-        // });
-        // req.on('progress', event => {
-        //   /* the event is:
-        //   {
-        //     direction: "upload" or "download"
-        //     percent: 0 to 100 // may be missing if file size is unknown
-        //     total: // total file size, may be missing
-        //     loaded: // bytes downloaded or uploaded so far
-        //   } */
-        //   console.log('percent ' + event.percent);
-        // });
-      })
-      .catch(err => alert(err));
-  }, []);
+  //   // files.forEach(file => {
+  //   //   req.attach(file.name, file);
+  //   // });
+  //   // req.on('progress', event => {
+  //   //   /* the event is:
+  //   //   {
+  //   //     direction: "upload" or "download"
+  //   //     percent: 0 to 100 // may be missing if file size is unknown
+  //   //     total: // total file size, may be missing
+  //   //     loaded: // bytes downloaded or uploaded so far
+  //   //   } */
+  //   //   console.log('percent ' + event.percent);
+  //   // });
+  //   // req.end(console.log('file ' + files));
+  //   setFiles(files => [...files, ...accepted]);
+  //   // console.log('file %Ο', files);
+  //   // const variables = {
+  //   //   contextId: contextId,
+  //   //   fieldType: 'Image',
+  //   //   upload: files[0]
+  //   // };
+  //   // UploadImage({
+  //   //   variables: variables
+  //   // })
+  //   //   .then(res => {
+  //   //     // const req = request.post(res.url);
+  //   //     console.log('res %O', res);
+  //   //     // files.forEach(file => {
+  //   //     //   req.attach(file.name, file);
+  //   //     // });
+  //   //     // req.on('progress', event => {
+  //   //     //   /* the event is:
+  //   //     //   {
+  //   //     //     direction: "upload" or "download"
+  //   //     //     percent: 0 to 100 // may be missing if file size is unknown
+  //   //     //     total: // total file size, may be missing
+  //   //     //     loaded: // bytes downloaded or uploaded so far
+  //   //     //   } */
+  //   //     //   console.log('percent ' + event.percent);
+  //   //     // });
+  //   //   })
+  //   //   .catch(err => alert(err));
+  // }, []);
 
   // const { getRootProps, getInputProps, isDragActive } = useDropzone({
   //   accept: 'image/*',
@@ -201,9 +200,9 @@ const ImageDropzoneModal: React.FC<Props> = ({
 
             <UploadCloud width={45} height={45} strokeWidth={2} />
             {isDragActive ? (
-              <p>Drop the files here ...</p>
+              <p>Drop the file here ...</p>
             ) : (
-              <p>Drag 'n' drop some files here, or click to select files</p>
+              <p>Drag 'n' drop a file here, or click to select file</p>
             )}
           </InfoContainer>
         </div>
@@ -212,7 +211,12 @@ const ImageDropzoneModal: React.FC<Props> = ({
             disabled={isSubmitting || files.length == 0 ? true : false}
             type="submit"
             style={{ marginLeft: '10px' }}
-            onClick={handleSelect}
+            // onClick={handleSelect}
+            onClick={() => {
+              toggleModal(false);
+              // clearPreviews(files);
+              setFiles([]);
+            }}
           >
             <Trans>OK</Trans>
           </Button>

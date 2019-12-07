@@ -15,7 +15,7 @@ const {
   updateProfileMutation
 } = require('../../graphql/updateProfile.graphql');
 import { SessionContext } from '../../context/global/sessionCtx';
-import { useUploadImageMutation } from '../../graphql/generated/uploadImage.generated';
+// import { useUploadImageMutation } from '../../graphql/generated/uploadImage.generated';
 // const { useMutation } = require('@apollo/react-hooks');
 // const gql = require('graphql-tag');
 
@@ -187,15 +187,15 @@ const Component: React.FC<Props> = ({
   // `;
 
   // const [mutate] = useMutation(MUTATION);
-  const [mutate] = useUploadImageMutation();
-  const testUpload = ({
-    target: {
-      validity,
-      files: [file]
-    }
-  }) =>
-    validity.valid &&
-    mutate({ variables: { contextId: auth!.me.user.id, upload: file } });
+  // const [mutate] = useUploadImageMutation();
+  // const testUpload = ({
+  //   target: {
+  //     validity,
+  //     files: [file]
+  //   }
+  // }) =>
+  //   validity.valid &&
+  //   mutate({ variables: { contextId: auth!.me.user.id, upload: file } });
 
   // const testUpload = (event, client) => {
   //   console.log('file %O', event.target.files[0]);
@@ -390,7 +390,7 @@ const Component: React.FC<Props> = ({
                           />
                         )}
                       />
-                      <Field
+                      {/* <Field
                         name="image"
                         render={({ field }) => (
                           <>
@@ -403,13 +403,10 @@ const Component: React.FC<Props> = ({
                               // onChange={event => testUpload(event, client)}
                               onChange={event => testUpload(event)}
                             />
-                            {/* <input id="file" name="file" type="file" onChange={(event) => {
-                        setFieldValue("file", event.currentTarget.files[0]);
-                      }} className="form-control" /> */}
-                            {/* <p onClick={() => onUploadOpen(true)}>Upload</p> */}
+                            
                           </>
                         )}
-                      />
+                      /> */}
                       {errors.image &&
                         touched.image && <Alert>{errors.image}</Alert>}
                     </ContainerForm>
