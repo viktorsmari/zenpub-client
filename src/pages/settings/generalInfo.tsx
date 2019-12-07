@@ -16,6 +16,8 @@ const {
 } = require('../../graphql/updateProfile.graphql');
 import { SessionContext } from '../../context/global/sessionCtx';
 import { useUploadImageMutation } from '../../graphql/generated/uploadImage.generated';
+// const { useMutation } = require('@apollo/react-hooks');
+// const gql = require('graphql-tag');
 
 import {
   Row,
@@ -135,7 +137,7 @@ const Component: React.FC<Props> = ({
   // const { errors, touched, isSubmitting } = props;
   const [isUploadOpen, onUploadOpen] = React.useState(false);
   const { auth } = React.useContext(SessionContext);
-  console.log('use id ', auth!.me.user.id);
+
   const validationSchema = Yup.object().shape({
     name: Yup.string().required(),
     summary: Yup.string(),
@@ -169,18 +171,42 @@ const Component: React.FC<Props> = ({
     []
   );
 
-  const [UploadImage] = useUploadImageMutation();
+  // const [UploadImage] = useUploadImageMutation();
 
-  const testUpload = (event, client) => {
-    console.log('file %O', event.target.files[0]);
-    console.log('Is instance of file? ', event.target.files[0] instanceof File);
-    const variables = {
-      contextId: auth!.me.user.id,
-      upload: event.target.files[0]
-    };
+  //   const MUTATION = gql`
+  //     mutation($contextId: ID!,$upload: Upload!) {
+  //       uploadImage(contextId: $contextId, upload:$file ){
+  //            id
+  //            metadata {
+  //                heightPx
+  //                widthPx
+  //            }
+  //            url
+  //        }
+  //       }
+  // `;
 
-    UploadImage({ variables });
-  };
+  // const [mutate] = useMutation(MUTATION);
+  const [mutate] = useUploadImageMutation();
+  const testUpload = ({
+    target: {
+      validity,
+      files: [file]
+    }
+  }) =>
+    validity.valid &&
+    mutate({ variables: { contextId: auth!.me.user.id, upload: file } });
+
+  // const testUpload = (event, client) => {
+  //   console.log('file %O', event.target.files[0]);
+  //   console.log('Is instance of file? ', event.target.files[0] instanceof File);
+  //   const variables = {
+  //     contextId: auth!.me.user.id,
+  //     upload: event.target.files[0]
+  //   };
+
+  //   UploadImage({ variables });
+  // };
 
   const initialValues = {
     name: profile.user.name || '',
@@ -374,8 +400,8 @@ const Component: React.FC<Props> = ({
                               name={field.name}
                               // value={field.value}
                               type="file"
-                              onChange={event => testUpload(event, client)}
-                              // onClick={(event)=>testUpload(event)}
+                              // onChange={event => testUpload(event, client)}
+                              onChange={event => testUpload(event)}
                             />
                             {/* <input id="file" name="file" type="file" onChange={(event) => {
                         setFieldValue("file", event.currentTarget.files[0]);
