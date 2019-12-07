@@ -15,6 +15,8 @@ import {
   OverlayTab
 } from '../communities.community/Community';
 import CollectionModal from '../../components/elements/CollectionModal';
+import DropzoneModal from '../../components/elements/DropzoneModal';
+
 // import CollectionsLoadMore from 'src/components/elements/Loadmore/followingCollections';
 
 interface Props {
@@ -32,6 +34,7 @@ const CommunityPage: SFC<Props> = ({
   resources
 }) => {
   const [isOpen, onOpen] = useState(false);
+  const [isUploadOpen, onUploadOpen] = useState(true);
   return (
     <WrapperTab>
       <OverlayTab>
@@ -84,6 +87,30 @@ const CommunityPage: SFC<Props> = ({
                       collectionExternalId={collection.id}
                     />
                   ) : null}
+                  {collection.community.followed ? (
+                    isUploadOpen === true ? (
+                      <ButtonWrapper>
+                        <Button m={3} onClick={() => onUploadOpen(false)}>
+                          <Trans>Cancel</Trans>
+                        </Button>
+                      </ButtonWrapper>
+                    ) : (
+                      <ButtonWrapper>
+                        <Button m={3} onClick={() => onUploadOpen(true)}>
+                          <Trans>Upload a file</Trans>
+                        </Button>
+                      </ButtonWrapper>
+                    )
+                  ) : null}
+                  {isUploadOpen === true ? (
+                    <DropzoneModal
+                      toggleModal={onUploadOpen}
+                      modalIsOpen={isUploadOpen}
+                      itemId={collection.localId}
+                      externalItemId={collection.id}
+                    />
+                  ) : null}
+
                   {resources.totalCount > 0 ? (
                     resources.edges.map((edge, i) => (
                       <ResourceCard

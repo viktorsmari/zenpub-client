@@ -2,7 +2,7 @@ import * as React from 'react';
 import { graphql, OperationOption, ApolloConsumer } from 'react-apollo';
 import { compose } from 'recompose';
 import { Trans } from '@lingui/macro';
-import { withFormik, FormikProps, Form, Field } from 'formik';
+import { Formik, FormikConfig, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import media from 'styled-media-query';
 
@@ -14,6 +14,8 @@ const checkUsername = require('../../graphql/checkUsername.graphql');
 const {
   updateProfileMutation
 } = require('../../graphql/updateProfile.graphql');
+import { SessionContext } from '../../context/global/sessionCtx';
+// import { useUploadImageMutation } from '../../graphql/generated/uploadImage.generated';
 
 import {
   Row,
@@ -22,6 +24,7 @@ import {
 } from '../../components/elements/Modal/modal';
 import { ArrowLeft, ArrowRight } from 'react-feather';
 import { LocaleContext } from '../../containers/App/App';
+import ImageDropzoneModal from '../../components/elements/DropzoneModal/imageModal';
 
 const withUpdateCommunity = graphql<{}>(updateProfileMutation, {
   name: 'updateProfile'
@@ -32,26 +35,28 @@ interface Props {
   errors: any;
   touched: any;
   isSubmitting: boolean;
+  setFieldValue: any;
   profile: any;
   history: any;
   onSwitch: any;
+  updateProfile: any;
 }
 
 interface FormValues {
   name: string;
   summary: string;
-  image: string;
+  image: any;
   icon: string;
   username: string;
   location: string;
 }
 
-interface MyFormProps {
-  updateProfile: any;
-  profile: any;
-  history: any;
-  onSwitch: any;
-}
+// interface MyFormProps {
+//   updateProfile: any;
+//   profile: any;
+//   history: any;
+//   onSwitch: any;
+// }
 
 async function validateUsername(value, client, username) {
   // TODO use the same function in signup & edit profile
@@ -126,9 +131,73 @@ const TabHeading = styled(Heading)`
   }
 `;
 
-const Component = (props: Props & FormikProps<FormValues>) => {
-  const { errors, touched, isSubmitting } = props;
+const Component: React.FC<Props> = ({
+  errors,
+  touched,
+  isSubmitting,
+  // setFieldValue,
+  profile,
+  history,
+  onSwitch,
+  updateProfile
+}) => {
+  // const { errors, touched, isSubmitting } = props;
+  const [isUploadOpen, onUploadOpen] = React.useState(false);
+  const [uploadType, setUploadType] = React.useState('icon');
+  const { auth } = React.useContext(SessionContext);
   const localeCntx = React.useContext(LocaleContext);
+
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required(),
+    summary: Yup.string(),
+    icon: Yup.string().url(),
+    image: Yup.string(),
+    location: Yup.string()
+  });
+
+  const handleSubmit = React.useCallback<FormikConfig<FormValues>['onSubmit']>(
+    (values, { setSubmitting }) => {
+      // console.log('image ' + values.image.name);
+      const variables = {
+        profile: {
+          name: values.name,
+          image: values.image,
+          summary: values.summary,
+          location: values.location,
+          icon: values.icon
+        }
+      };
+      return updateProfile({
+        variables: variables
+      })
+        .then(res => {
+          setSubmitting(false);
+          history.push('/profile');
+          // alert("New settings are saved"); //TODO: nicer display of errors
+        })
+        .catch(err => alert(err));
+    },
+    []
+  );
+
+  // const [mutate] = useUploadImageMutation();
+  // const testUpload = ({
+  //   target: {
+  //     validity,
+  //     files: [file]
+  //   }
+  // }) =>
+  //   validity.valid &&
+  //   mutate({ variables: { contextId: auth!.me.user.id, upload: file } });
+
+  const initialValues = {
+    name: profile.user.name || '',
+    summary: profile.user.summary || '',
+    location: profile.user.location || '',
+    icon: profile.user.icon || '',
+    username: profile.user.preferredUsername || '',
+    image: profile.user.image || ''
+  };
 
   return (
     <ApolloConsumer>
@@ -139,224 +208,253 @@ const Component = (props: Props & FormikProps<FormValues>) => {
               <ArrowLeft
                 size={32}
                 color="#f98012"
-                onClick={() => props.onSwitch('sidebar')}
+                onClick={() => onSwitch('sidebar')}
               />
             ) : (
               <ArrowRight
                 size={32}
                 color="#f98012"
-                onClick={() => props.onSwitch('sidebar')}
+                onClick={() => onSwitch('sidebar')}
               />
             )}
             <TabHeading>
               <Trans>General Information</Trans>
             </TabHeading>
           </Header>
-          <Form>
-            <ExRow>
-              <ContainerForm>
-                <label>
-                  <Trans>Name</Trans>
-                </label>
-                <Field
-                  name="name"
-                  render={({ field }) => (
-                    <>
-                      <Input
-                        // placeholder="The name of the community..."
-                        name={field.name}
-                        value={field.value}
-                        onChange={field.onChange}
+          <Formik
+            validationSchema={validationSchema}
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            render={({ errors, touched, isSubmitting, setFieldValue }) => {
+              return (
+                <Form>
+                  <ExRow>
+                    <ContainerForm>
+                      <label>
+                        <Trans>Name</Trans>
+                      </label>
+                      <Field
+                        name="name"
+                        render={({ field }) => (
+                          <>
+                            <Input
+                              // placeholder="The name of the community..."
+                              name={field.name}
+                              value={field.value}
+                              onChange={field.onChange}
+                            />
+                          </>
+                        )}
                       />
+                      {errors.name &&
+                        touched.name && <Alert>{errors.name}</Alert>}
+                    </ContainerForm>
+                  </ExRow>
+
+                  {profile.user.preferredUsername ? (
+                    <ExRowUsername>
+                      <ContainerForm>
+                        <label>
+                          <Trans>Preferred username</Trans>
+                        </label>
+                        <Heading>@{profile.user.preferredUsername}</Heading>
+                      </ContainerForm>
+                    </ExRowUsername>
+                  ) : (
+                    <>
+                      <ExRow>
+                        <ContainerForm>
+                          <label>
+                            <Trans>Preferred username</Trans>
+                          </label>
+                          <Field
+                            name="username"
+                            validate={val =>
+                              validateUsername(
+                                val,
+                                client,
+                                profile.user.preferredUsername
+                              )
+                            }
+                            render={({ field }) => (
+                              <>
+                                <Input
+                                  // placeholder="The name of the community..."
+                                  name={field.name}
+                                  value={field.value}
+                                  onChange={field.onChange}
+                                />
+                              </>
+                            )}
+                          />
+                          {errors.username && <Alert>{errors.username}</Alert>}
+                        </ContainerForm>
+                      </ExRow>
                     </>
                   )}
-                />
-                {errors.name && touched.name && <Alert>{errors.name}</Alert>}
-              </ContainerForm>
-            </ExRow>
 
-            {props.profile.user.preferredUsername ? (
-              <ExRowUsername>
-                <ContainerForm>
-                  <label>
-                    <Trans>Preferred username</Trans>
-                  </label>
-                  <Heading>@{props.profile.user.preferredUsername}</Heading>
-                </ContainerForm>
-              </ExRowUsername>
-            ) : (
-              <>
-                <ExRow>
-                  <ContainerForm>
-                    <label>
-                      <Trans>Preferred username</Trans>
-                    </label>
-                    <Field
-                      name="username"
-                      validate={val =>
-                        validateUsername(
-                          val,
-                          client,
-                          props.profile.user.preferredUsername
-                        )
-                      }
-                      render={({ field }) => (
-                        <>
+                  <ExRow>
+                    <ContainerForm>
+                      <label>
+                        <Trans>Location</Trans>
+                      </label>
+                      <Field
+                        name="location"
+                        render={({ field }) => (
+                          <>
+                            <Input
+                              // placeholder="The name of the community..."
+                              name={field.name}
+                              value={field.value}
+                              onChange={field.onChange}
+                            />
+                          </>
+                        )}
+                      />
+                      {errors.location &&
+                        touched.location && <Alert>{errors.location}</Alert>}
+                    </ContainerForm>
+                  </ExRow>
+                  <ExRow big>
+                    <ContainerForm>
+                      <label>
+                        <Trans>Description</Trans>
+                      </label>
+                      <Field
+                        name="summary"
+                        render={({ field }) => (
+                          <>
+                            <Textarea
+                              // placeholder="What the community is about..."
+                              name={field.name}
+                              value={field.value}
+                              onChange={field.onChange}
+                            />
+                            <CounterChars>
+                              {240 - field.value.length}
+                            </CounterChars>
+                          </>
+                        )}
+                      />
+                    </ContainerForm>
+                  </ExRow>
+                  <ExRow>
+                    <ContainerForm>
+                      <label>
+                        <Trans>Avatar</Trans>
+                      </label>
+                      <Field
+                        name="icon"
+                        render={({ field }) => (
                           <Input
-                            // placeholder="The name of the community..."
+                            // placeholder="Type a url of a background image..."
                             name={field.name}
                             value={field.value}
                             onChange={field.onChange}
+                            onClick={() => {
+                              onUploadOpen(true);
+                              setUploadType('icon');
+                            }}
                           />
-                        </>
-                      )}
-                    />
-                    {errors.username && <Alert>{errors.username}</Alert>}
-                  </ContainerForm>
-                </ExRow>
-              </>
-            )}
-
-            <ExRow>
-              <ContainerForm>
-                <label>
-                  <Trans>Location</Trans>
-                </label>
-                <Field
-                  name="location"
-                  render={({ field }) => (
-                    <>
-                      <Input
-                        // placeholder="The name of the community..."
-                        name={field.name}
-                        value={field.value}
-                        onChange={field.onChange}
+                        )}
                       />
-                    </>
-                  )}
-                />
-                {errors.location &&
-                  touched.location && <Alert>{errors.location}</Alert>}
-              </ContainerForm>
-            </ExRow>
-            <ExRow big>
-              <ContainerForm>
-                <label>
-                  <Trans>Description</Trans>
-                </label>
-                <Field
-                  name="summary"
-                  render={({ field }) => (
-                    <>
-                      <Textarea
-                        // placeholder="What the community is about..."
-                        name={field.name}
-                        value={field.value}
-                        onChange={field.onChange}
+                      {errors.icon && <Alert>{errors.icon}</Alert>}
+                    </ContainerForm>
+                  </ExRow>
+                  <ExRow>
+                    <ContainerForm>
+                      <label>
+                        <Trans>Header image</Trans>
+                      </label>
+                      <Field
+                        name="image"
+                        render={({ field }) => (
+                          <Input
+                            // placeholder="Type a url of a background image..."
+                            name={field.name}
+                            value={field.value}
+                            onChange={field.onChange}
+                            onClick={() => {
+                              onUploadOpen(true);
+                              setUploadType('image');
+                            }}
+                          />
+                        )}
                       />
-                      <CounterChars>{240 - field.value.length}</CounterChars>
-                    </>
-                  )}
-                />
-              </ContainerForm>
-            </ExRow>
-            <ExRow>
-              <ContainerForm>
-                <label>
-                  <Trans>Avatar</Trans>
-                </label>
-                <Field
-                  name="icon"
-                  render={({ field }) => (
-                    <Input
-                      // placeholder="Type a url of a background image..."
-                      name={field.name}
-                      value={field.value}
-                      onChange={field.onChange}
+                      {errors.image &&
+                        touched.image && <Alert>{errors.image}</Alert>}
+                    </ContainerForm>
+                  </ExRow>
+                  {isUploadOpen === true ? (
+                    <ImageDropzoneModal
+                      contextId={auth!.me.user.id}
+                      toggleModal={onUploadOpen}
+                      modalIsOpen={isUploadOpen}
+                      uploadType={uploadType}
                     />
-                  )}
-                />
-                {errors.icon && <Alert>{errors.icon}</Alert>}
-              </ContainerForm>
-            </ExRow>
-            <ExRow>
-              <ContainerForm>
-                <label>
-                  <Trans>Header image</Trans>
-                </label>
-                <Field
-                  name="image"
-                  render={({ field }) => (
-                    <Input
-                      // placeholder="Type a url of a background image..."
-                      name={field.name}
-                      value={field.value}
-                      onChange={field.onChange}
-                    />
-                  )}
-                />
-                {errors.image && touched.image && <Alert>{errors.image}</Alert>}
-              </ContainerForm>
-            </ExRow>
-            {/* <ExRow>
+                  ) : null}
+                  {/* <ExRow>
             <label>
               <Trans>Primary Language</Trans>
             </label>
             <LanguageSelect />
           </ExRow> */}
-            <Actions>
-              <Button
-                type="submit"
-                disabled={isSubmitting || Object.keys(errors).length > 0}
-                style={{ width: '100%' }}
-              >
-                <Trans>Save</Trans>
-              </Button>
-            </Actions>
-          </Form>
+                  <Actions>
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting || Object.keys(errors).length > 0}
+                      style={{ width: '100%' }}
+                    >
+                      <Trans>Save</Trans>
+                    </Button>
+                  </Actions>
+                </Form>
+              );
+            }}
+          />
         </>
       )}
     </ApolloConsumer>
   );
 };
 
-const ModalWithFormik = withFormik<MyFormProps, FormValues>({
-  mapPropsToValues: props => ({
-    name: props.profile.user.name || '',
-    summary: props.profile.user.summary || '',
-    location: props.profile.user.location || '',
-    icon: props.profile.user.icon || '',
-    username: props.profile.user.preferredUsername || '',
-    image: props.profile.user.image || ''
-  }),
-  validationSchema: Yup.object().shape({
-    name: Yup.string().required(),
-    summary: Yup.string(),
-    icon: Yup.string().url(),
-    image: Yup.string().url(),
-    location: Yup.string()
-  }),
-  handleSubmit: (values, { props, setSubmitting }) => {
-    const variables = {
-      profile: {
-        name: values.name,
-        image: values.image,
-        summary: values.summary,
-        location: values.location,
-        icon: values.icon
-      }
-    };
-    return props
-      .updateProfile({
-        variables: variables
-      })
-      .then(res => {
-        setSubmitting(false);
-        props.history.push('/profile');
-        // alert("New settings are saved"); //TODO: nicer display of errors
-      })
-      .catch(err => alert(err));
-  }
-})(Component);
+// const ModalWithFormik = withFormik<MyFormProps, FormValues>({
+//   mapPropsToValues: props => ({
+//     name: props.profile.user.name || '',
+//     summary: props.profile.user.summary || '',
+//     location: props.profile.user.location || '',
+//     icon: props.profile.user.icon || '',
+//     username: props.profile.user.preferredUsername || '',
+//     image: props.profile.user.image || ''
+//   }),
+//   validationSchema: Yup.object().shape({
+//     name: Yup.string().required(),
+//     summary: Yup.string(),
+//     icon: Yup.string().url(),
+//     image: Yup.string().url(),
+//     location: Yup.string()
+//   }),
+//   handleSubmit: (values, { props, setSubmitting }) => {
+//     const variables = {
+//       profile: {
+//         name: values.name,
+//         image: values.image,
+//         summary: values.summary,
+//         location: values.location,
+//         icon: values.icon
+//       }
+//     };
+//     return props
+//       .updateProfile({
+//         variables: variables
+//       })
+//       .then(res => {
+//         setSubmitting(false);
+//         props.history.push('/profile');
+//         // alert("New settings are saved"); //TODO: nicer display of errors
+//       })
+//       .catch(err => alert(err));
+//   }
+// })(Component);
 
-export default compose(withUpdateCommunity)(ModalWithFormik);
+export default compose(withUpdateCommunity)(Component);

@@ -48,7 +48,7 @@ export type Activity = {
 };
 
 /** Activity object */
-export type ActivityContext = Collection | Comment | Community | Resource;
+export type ActivityContext = Collection | Comment | Community | Flag | Follow | Like | Resource;
 
 /** Something a user does, in past tense */
 export enum ActivityVerb {
@@ -364,21 +364,43 @@ export type CommunityUpdateInput = {
 /** A thing that can be deleted */
 export type DeleteContext = Activity | Collection | Comment | Community | Flag | Follow | Like | Resource | Thread | User;
 
+/** More detailed metadata parsed from a file. */
+export type FileIntrinsics = {
+   __typename?: 'FileIntrinsics',
+  bitsPerPixel?: Maybe<Scalars['Int']>,
+  bitsPerSample?: Maybe<Scalars['Int']>,
+  blockAlign?: Maybe<Scalars['Int']>,
+  byteRate?: Maybe<Scalars['Int']>,
+  colorPlanes?: Maybe<Scalars['Int']>,
+  numColorPalette?: Maybe<Scalars['Int']>,
+  numFrames?: Maybe<Scalars['Int']>,
+  pageCount?: Maybe<Scalars['Int']>,
+};
+
+/** 
+ * Metadata associated with a file.
+ * 
+ * None of the parameters are required and are filled depending on the
+ * file type.
+ **/
 export type FileMetadata = {
    __typename?: 'FileMetadata',
   heightPx?: Maybe<Scalars['Int']>,
-  pageCount?: Maybe<Scalars['Int']>,
+  intrinsics?: Maybe<FileIntrinsics>,
+  numAudioChannels?: Maybe<Scalars['Int']>,
+  sampleRateHz?: Maybe<Scalars['Int']>,
   widthPx?: Maybe<Scalars['Int']>,
 };
 
+/** An uploaded file, may contain metadata. */
 export type FileUpload = {
    __typename?: 'FileUpload',
   id: Scalars['ID'],
   isPublic: Scalars['Boolean'],
-  mediaType?: Maybe<Scalars['String']>,
+  mediaType: Scalars['String'],
   metadata?: Maybe<FileMetadata>,
   parent: UploadParent,
-  size?: Maybe<Scalars['Int']>,
+  size: Scalars['Int'],
   uploader: User,
   url: Scalars['String'],
 };
@@ -589,6 +611,8 @@ export type Me = {
 export type PageInfo = {
    __typename?: 'PageInfo',
   endCursor: Scalars['String'],
+  hasNextPage?: Maybe<Scalars['Boolean']>,
+  hasPrevPage?: Maybe<Scalars['Boolean']>,
   startCursor: Scalars['String'],
 };
 
@@ -729,8 +753,11 @@ export type RootMutationType = {
   updateProfile?: Maybe<Me>,
   /** Update a resource */
   updateResource?: Maybe<Resource>,
-  /** Upload an avatar (icon in ActivityPub). Returns the full image. */
-  uploadFile?: Maybe<FileUpload>,
+  /** Upload a small icon, also known as an avatar. */
+  uploadIcon?: Maybe<FileUpload>,
+  /** Upload a large image, also known as a header. */
+  uploadImage?: Maybe<FileUpload>,
+  uploadResource?: Maybe<FileUpload>,
 };
 
 
@@ -862,7 +889,19 @@ export type RootMutationTypeUpdateResourceArgs = {
 };
 
 
-export type RootMutationTypeUploadFileArgs = {
+export type RootMutationTypeUploadIconArgs = {
+  contextId: Scalars['ID'],
+  upload: Scalars['Upload']
+};
+
+
+export type RootMutationTypeUploadImageArgs = {
+  contextId: Scalars['ID'],
+  upload: Scalars['Upload']
+};
+
+
+export type RootMutationTypeUploadResourceArgs = {
   contextId: Scalars['ID'],
   upload: Scalars['Upload']
 };
@@ -1196,6 +1235,15 @@ export type WebMetadata = {
             "name": "Community"
           },
           {
+            "name": "Flag"
+          },
+          {
+            "name": "Follow"
+          },
+          {
+            "name": "Like"
+          },
+          {
             "name": "Resource"
           }
         ]
@@ -1412,13 +1460,14 @@ export type ResolversTypes = {
   RootQueryType: ResolverTypeWrapper<{}>,
   String: ResolverTypeWrapper<Scalars['String']>,
   Activity: ResolverTypeWrapper<Omit<Activity, 'context'> & { context: ResolversTypes['ActivityContext'] }>,
-  ActivityContext: ResolversTypes['Collection'] | ResolversTypes['Comment'] | ResolversTypes['Community'] | ResolversTypes['Resource'],
+  ActivityContext: ResolversTypes['Collection'] | ResolversTypes['Comment'] | ResolversTypes['Community'] | ResolversTypes['Flag'] | ResolversTypes['Follow'] | ResolversTypes['Like'] | ResolversTypes['Resource'],
   Collection: ResolverTypeWrapper<Collection>,
   Community: ResolverTypeWrapper<Community>,
   Int: ResolverTypeWrapper<Scalars['Int']>,
   CollectionsEdges: ResolverTypeWrapper<CollectionsEdges>,
   CollectionsEdge: ResolverTypeWrapper<CollectionsEdge>,
   PageInfo: ResolverTypeWrapper<PageInfo>,
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
   User: ResolverTypeWrapper<User>,
   CommentsEdges: ResolverTypeWrapper<CommentsEdges>,
   CommentsEdge: ResolverTypeWrapper<CommentsEdge>,
@@ -1428,7 +1477,6 @@ export type ResolversTypes = {
   Flag: ResolverTypeWrapper<Omit<Flag, 'context'> & { context: ResolversTypes['FlagContext'] }>,
   FlagContext: ResolversTypes['Collection'] | ResolversTypes['Comment'] | ResolversTypes['Community'] | ResolversTypes['Resource'] | ResolversTypes['User'],
   Resource: ResolverTypeWrapper<Resource>,
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
   LikesEdges: ResolverTypeWrapper<LikesEdges>,
   LikesEdge: ResolverTypeWrapper<LikesEdge>,
   Like: ResolverTypeWrapper<Omit<Like, 'context'> & { context: ResolversTypes['LikeContext'] }>,
@@ -1475,6 +1523,7 @@ export type ResolversTypes = {
   Upload: ResolverTypeWrapper<Scalars['Upload']>,
   FileUpload: ResolverTypeWrapper<Omit<FileUpload, 'parent'> & { parent: ResolversTypes['UploadParent'] }>,
   FileMetadata: ResolverTypeWrapper<FileMetadata>,
+  FileIntrinsics: ResolverTypeWrapper<FileIntrinsics>,
   UploadParent: ResolversTypes['Collection'] | ResolversTypes['Comment'] | ResolversTypes['Community'] | ResolversTypes['Resource'] | ResolversTypes['User'],
 };
 
@@ -1483,13 +1532,14 @@ export type ResolversParentTypes = {
   RootQueryType: {},
   String: Scalars['String'],
   Activity: Omit<Activity, 'context'> & { context: ResolversParentTypes['ActivityContext'] },
-  ActivityContext: ResolversParentTypes['Collection'] | ResolversParentTypes['Comment'] | ResolversParentTypes['Community'] | ResolversParentTypes['Resource'],
+  ActivityContext: ResolversParentTypes['Collection'] | ResolversParentTypes['Comment'] | ResolversParentTypes['Community'] | ResolversParentTypes['Flag'] | ResolversParentTypes['Follow'] | ResolversParentTypes['Like'] | ResolversParentTypes['Resource'],
   Collection: Collection,
   Community: Community,
   Int: Scalars['Int'],
   CollectionsEdges: CollectionsEdges,
   CollectionsEdge: CollectionsEdge,
   PageInfo: PageInfo,
+  Boolean: Scalars['Boolean'],
   User: User,
   CommentsEdges: CommentsEdges,
   CommentsEdge: CommentsEdge,
@@ -1499,7 +1549,6 @@ export type ResolversParentTypes = {
   Flag: Omit<Flag, 'context'> & { context: ResolversParentTypes['FlagContext'] },
   FlagContext: ResolversParentTypes['Collection'] | ResolversParentTypes['Comment'] | ResolversParentTypes['Community'] | ResolversParentTypes['Resource'] | ResolversParentTypes['User'],
   Resource: Resource,
-  Boolean: Scalars['Boolean'],
   LikesEdges: LikesEdges,
   LikesEdge: LikesEdge,
   Like: Omit<Like, 'context'> & { context: ResolversParentTypes['LikeContext'] },
@@ -1546,6 +1595,7 @@ export type ResolversParentTypes = {
   Upload: Scalars['Upload'],
   FileUpload: Omit<FileUpload, 'parent'> & { parent: ResolversParentTypes['UploadParent'] },
   FileMetadata: FileMetadata,
+  FileIntrinsics: FileIntrinsics,
   UploadParent: ResolversParentTypes['Collection'] | ResolversParentTypes['Comment'] | ResolversParentTypes['Community'] | ResolversParentTypes['Resource'] | ResolversParentTypes['User'],
 };
 
@@ -1572,7 +1622,7 @@ export type ActivityResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type ActivityContextResolvers<ContextType = any, ParentType extends ResolversParentTypes['ActivityContext'] = ResolversParentTypes['ActivityContext']> = {
-  __resolveType: TypeResolveFn<'Collection' | 'Comment' | 'Community' | 'Resource', ParentType, ContextType>
+  __resolveType: TypeResolveFn<'Collection' | 'Comment' | 'Community' | 'Flag' | 'Follow' | 'Like' | 'Resource', ParentType, ContextType>
 };
 
 export type AuthPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthPayload'] = ResolversParentTypes['AuthPayload']> = {
@@ -1682,19 +1732,32 @@ export type DeleteContextResolvers<ContextType = any, ParentType extends Resolve
   __resolveType: TypeResolveFn<'Activity' | 'Collection' | 'Comment' | 'Community' | 'Flag' | 'Follow' | 'Like' | 'Resource' | 'Thread' | 'User', ParentType, ContextType>
 };
 
+export type FileIntrinsicsResolvers<ContextType = any, ParentType extends ResolversParentTypes['FileIntrinsics'] = ResolversParentTypes['FileIntrinsics']> = {
+  bitsPerPixel?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  bitsPerSample?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  blockAlign?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  byteRate?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  colorPlanes?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  numColorPalette?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  numFrames?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  pageCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+};
+
 export type FileMetadataResolvers<ContextType = any, ParentType extends ResolversParentTypes['FileMetadata'] = ResolversParentTypes['FileMetadata']> = {
   heightPx?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-  pageCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  intrinsics?: Resolver<Maybe<ResolversTypes['FileIntrinsics']>, ParentType, ContextType>,
+  numAudioChannels?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  sampleRateHz?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   widthPx?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
 };
 
 export type FileUploadResolvers<ContextType = any, ParentType extends ResolversParentTypes['FileUpload'] = ResolversParentTypes['FileUpload']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
   isPublic?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
-  mediaType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  mediaType?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   metadata?: Resolver<Maybe<ResolversTypes['FileMetadata']>, ParentType, ContextType>,
   parent?: Resolver<ResolversTypes['UploadParent'], ParentType, ContextType>,
-  size?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  size?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
   uploader?: Resolver<ResolversTypes['User'], ParentType, ContextType>,
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
 };
@@ -1843,6 +1906,8 @@ export type MeResolvers<ContextType = any, ParentType extends ResolversParentTyp
 
 export type PageInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
   endCursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  hasNextPage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
+  hasPrevPage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
   startCursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
 };
 
@@ -1902,7 +1967,9 @@ export type RootMutationTypeResolvers<ContextType = any, ParentType extends Reso
   updateCommunity?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType, RequireFields<RootMutationTypeUpdateCommunityArgs, 'community' | 'communityId'>>,
   updateProfile?: Resolver<Maybe<ResolversTypes['Me']>, ParentType, ContextType, RequireFields<RootMutationTypeUpdateProfileArgs, 'profile'>>,
   updateResource?: Resolver<Maybe<ResolversTypes['Resource']>, ParentType, ContextType, RequireFields<RootMutationTypeUpdateResourceArgs, 'resource' | 'resourceId'>>,
-  uploadFile?: Resolver<Maybe<ResolversTypes['FileUpload']>, ParentType, ContextType, RequireFields<RootMutationTypeUploadFileArgs, 'contextId' | 'upload'>>,
+  uploadIcon?: Resolver<Maybe<ResolversTypes['FileUpload']>, ParentType, ContextType, RequireFields<RootMutationTypeUploadIconArgs, 'contextId' | 'upload'>>,
+  uploadImage?: Resolver<Maybe<ResolversTypes['FileUpload']>, ParentType, ContextType, RequireFields<RootMutationTypeUploadImageArgs, 'contextId' | 'upload'>>,
+  uploadResource?: Resolver<Maybe<ResolversTypes['FileUpload']>, ParentType, ContextType, RequireFields<RootMutationTypeUploadResourceArgs, 'contextId' | 'upload'>>,
 };
 
 export type RootQueryTypeResolvers<ContextType = any, ParentType extends ResolversParentTypes['RootQueryType'] = ResolversParentTypes['RootQueryType']> = {
@@ -2015,6 +2082,7 @@ export type Resolvers<ContextType = any> = {
   CommunitiesNodes?: CommunitiesNodesResolvers<ContextType>,
   Community?: CommunityResolvers<ContextType>,
   DeleteContext?: DeleteContextResolvers,
+  FileIntrinsics?: FileIntrinsicsResolvers<ContextType>,
   FileMetadata?: FileMetadataResolvers<ContextType>,
   FileUpload?: FileUploadResolvers<ContextType>,
   Flag?: FlagResolvers<ContextType>,
