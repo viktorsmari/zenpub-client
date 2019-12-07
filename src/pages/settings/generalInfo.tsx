@@ -172,8 +172,6 @@ const Component: React.FC<Props> = ({
   const [UploadImage] = useUploadImageMutation();
 
   const testUpload = (event, client) => {
-    console.log('file %O', event.target.files[0]);
-    console.log('Is instance of file? ', event.target.files[0] instanceof File);
     const variables = {
       contextId: auth!.me.user.id,
       upload: event.target.files[0]
