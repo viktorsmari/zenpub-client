@@ -8,7 +8,7 @@ storiesOf('Modules/CreateCommunity', module)
   .addDecorator(themeDeco())
   .add('Standard submitting', () => (
     <Modal
-      toggleModal={action('close modal')}
+      closeModal={action('close modal')}
       onSubmit={action('send stuff')}
       isSubmitting
       initialValues={{
@@ -19,8 +19,8 @@ storiesOf('Modules/CreateCommunity', module)
     />
   ))
   .add('Standard not submitting', () => (
-    <Modal
-      toggleModal={action('close modal')}
-      onSubmit={action('send stuff')}
-    />
+    <Modal closeModal={action('close modal')} onSubmit={action('send stuff')} />
+  ))
+  .add('Standard not submitting', () => (
+    <Modal closeModal={action('close modal')} onSubmit={action('send stuff')} />
   ));

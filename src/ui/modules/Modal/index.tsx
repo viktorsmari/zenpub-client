@@ -1,5 +1,5 @@
 import { clearFix } from 'polished';
-import React from 'react';
+import React, { useCallback } from 'react';
 // import Icons from '../../atoms/icons.tsx'
 import styled from '../../../themes/styled';
 import { Box } from 'rebass/styled-components';
@@ -140,16 +140,17 @@ export const Row = styled.div<{ big?: boolean }>`
 `;
 
 interface Props {
-  closeModal: () => unknown;
+  closeModal: () => void;
 }
 
 const Modal: React.FC<Props> = ({ closeModal, children }) => {
+  const handleCloseModal = useCallback(() => closeModal(), [closeModal]);
   return (
     <>
-      <Background onClick={closeModal} />
+      <Background onClick={handleCloseModal} />
       <Dialog>
         <Action>
-          <Close onClick={closeModal}>
+          <Close onClick={handleCloseModal}>
             <X color="#fff" size={16} />
           </Close>
         </Action>

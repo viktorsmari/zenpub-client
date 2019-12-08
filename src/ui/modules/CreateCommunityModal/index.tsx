@@ -31,7 +31,7 @@ const tt = {
 };
 
 interface Props {
-  toggleModal: () => void;
+  closeModal: () => void;
   onSubmit: (formValues: FormValues) => void;
   isSubmitting?: boolean;
   initialValues?: FormValues;
@@ -40,21 +40,23 @@ interface Props {
 
 const CreateCommunityModal: React.FC<Props> = ({
   onSubmit,
-  toggleModal,
+  closeModal,
   isSubmitting = false,
   validationSchema = schema,
   initialValues = defaultValues
 }) => {
+  const handleCloseModal = React.useCallback(() => closeModal(), [closeModal]);
+
   const formik = useFormik<FormValues>({
     initialValues,
-    onSubmit,
+    onSubmit: vals => onSubmit(vals),
     validationSchema
   });
 
   React.useEffect(() => formik.setSubmitting(isSubmitting), [isSubmitting]);
 
   return (
-    <Modal closeModal={toggleModal}>
+    <Modal closeModal={handleCloseModal}>
       <Container>
         <Header>
           <Heading m={2}>
@@ -121,7 +123,7 @@ const CreateCommunityModal: React.FC<Props> = ({
           >
             <Trans>Create</Trans>
           </Button>
-          <Button variant="outline" onClick={toggleModal}>
+          <Button variant="outline" onClick={handleCloseModal}>
             <Trans>Cancel</Trans>
           </Button>
         </Actions>
