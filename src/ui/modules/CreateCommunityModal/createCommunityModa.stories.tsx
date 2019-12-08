@@ -3,22 +3,21 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import Modal from '.';
 import { themeDeco } from '../../styleguide/storiesThemeDecorator';
-import * as Yup from 'yup';
 
 storiesOf('Modules/CreateCommunity', module)
   .addDecorator(themeDeco())
-  .add('Standard', () => (
+  .add('Standard submitting', () => (
     <Modal
       toggleModal={action('close modal')}
-      validationSchema={validationSchema}
       submit={action('send stuff')}
+      isSubmitting
+      initialValues={{
+        image: 'http://test.com/img.jpg',
+        name: 'my-name',
+        summary: 'the summary'
+      }}
     />
+  ))
+  .add('Standard not submitting', () => (
+    <Modal toggleModal={action('close modal')} submit={action('send stuff')} />
   ));
-
-const validationSchema = Yup.object().shape({
-  name: Yup.string()
-    .max(60)
-    .required(),
-  summary: Yup.string().max(500),
-  image: Yup.string().url()
-});
