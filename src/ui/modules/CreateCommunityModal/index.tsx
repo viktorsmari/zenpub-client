@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
-import { useFormik } from 'formik';
 import { Button, Heading } from 'rebass/styled-components';
+import { useCreateCommunityForm } from '../../../common/hooks/createCommunity';
 import Alert from '../../elements/Alert';
 import Modal, {
   Actions,
@@ -13,12 +13,6 @@ import Modal, {
   Header,
   Row
 } from '../Modal';
-import {
-  defaultValues,
-  FormValues,
-  schema,
-  ValidationSchema
-} from './formValues';
 
 const tt = {
   placeholders: {
@@ -32,29 +26,11 @@ const tt = {
 
 interface Props {
   closeModal: () => void;
-  onSubmit: (formValues: FormValues) => void;
-  isSubmitting?: boolean;
-  initialValues?: FormValues;
-  validationSchema?: ValidationSchema;
 }
 
-const CreateCommunityModal: React.FC<Props> = ({
-  onSubmit,
-  closeModal,
-  isSubmitting = false,
-  validationSchema = schema,
-  initialValues = defaultValues
-}) => {
+const CreateCommunityModal: React.FC<Props> = ({ closeModal }) => {
   const handleCloseModal = React.useCallback(() => closeModal(), [closeModal]);
-
-  const formik = useFormik<FormValues>({
-    initialValues,
-    onSubmit: vals => onSubmit(vals),
-    validationSchema
-  });
-
-  React.useEffect(() => formik.setSubmitting(isSubmitting), [isSubmitting]);
-
+  const formik = useCreateCommunityForm();
   return (
     <Modal closeModal={handleCloseModal}>
       <Container>
@@ -68,7 +44,7 @@ const CreateCommunityModal: React.FC<Props> = ({
           <ContainerForm>
             <Input
               placeholder={tt.placeholders.name}
-              disabled={isSubmitting}
+              disabled={formik.isSubmitting}
               name="name"
               value={formik.values.name}
               onChange={formik.handleChange}
@@ -86,7 +62,7 @@ const CreateCommunityModal: React.FC<Props> = ({
           <ContainerForm>
             <Textarea
               placeholder={tt.placeholders.summary}
-              disabled={isSubmitting}
+              disabled={formik.isSubmitting}
               name="summary"
               value={formik.values.summary}
               onChange={formik.handleChange}
@@ -104,7 +80,7 @@ const CreateCommunityModal: React.FC<Props> = ({
           <ContainerForm>
             <Input
               placeholder={tt.placeholders.image}
-              disabled={isSubmitting}
+              disabled={formik.isSubmitting}
               name="image"
               value={formik.values.image}
               onChange={formik.handleChange}
@@ -116,7 +92,7 @@ const CreateCommunityModal: React.FC<Props> = ({
         </Row>
         <Actions>
           <Button
-            disabled={isSubmitting}
+            disabled={formik.isSubmitting}
             type="submit"
             style={{ marginLeft: '10px' }}
             onClick={formik.submitForm}
