@@ -14,7 +14,7 @@ export const asyncSubmitProviderDeco = <Vals, Resp>(
       action(`${name}: calling`)(...args);
       return new Promise(resolve =>
         setTimeout(() => {
-          action(`${name}: done`)();
+          action(`${name}: done`)(resp);
           resolve(resp);
         }, ms)
       );

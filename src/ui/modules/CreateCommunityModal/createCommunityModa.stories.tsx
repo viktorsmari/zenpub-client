@@ -9,7 +9,9 @@ import { asyncSubmitProviderDeco } from '../../../common/ctx-mock/submitProvider
 storiesOf('Modules/CreateCommunity', module)
   .addDecorator(themeDeco())
   .addDecorator(
-    asyncSubmitProviderDeco('Create Community', createCommunitySrv, undefined)
+    asyncSubmitProviderDeco('Create Community', createCommunitySrv, {
+      id: '#231-123-123'
+    })
   )
   .add('Standard', () => (
     <CreateCommunityModal closeModal={action('close modal')} />

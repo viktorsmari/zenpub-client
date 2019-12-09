@@ -23,7 +23,7 @@ export const validationSchema: ValidationSchema = Yup.object<
 });
 
 export const createCommunitySrv = createContext<
-  Submit<NewCommunityFormValues, void>
+  Submit<NewCommunityFormValues, { id: string }>
 >(alertRejectUnimplementedSubmit('createCommunitySrv'));
 
 export const initialValues: NewCommunityFormValues = {
