@@ -1,7 +1,7 @@
 import { clearFix } from 'polished';
 import React, { useCallback } from 'react';
-// import Icons from '../../atoms/icons.tsx'
-import styled from '../../../themes/styled';
+// import Icons from 'ui/atoms/icons.tsx'
+import styled from 'ui/themes/styled';
 import { Box } from 'rebass/styled-components';
 import { X } from 'react-feather';
 import media from 'styled-media-query';

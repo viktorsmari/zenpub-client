@@ -3,8 +3,8 @@ import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
 import { Button, Heading } from 'rebass/styled-components';
-import { useCreateCommunityForm } from '../../../common/hooks/createCommunity';
-import Alert from '../../elements/Alert';
+import { useCreateCommunityForm } from 'common/hooks/service/community/create';
+import Alert from 'ui/elements/Alert';
 import Modal, {
   Actions,
   Container,
@@ -12,7 +12,7 @@ import Modal, {
   CounterChars,
   Header,
   Row
-} from '../Modal';
+} from 'ui/modules/Modal';
 
 const tt = {
   placeholders: {

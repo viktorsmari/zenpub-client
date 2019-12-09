@@ -1,11 +1,11 @@
 import React from 'react';
 import { Context } from 'react';
 import { action } from '@storybook/addon-actions';
-import { Submit } from '../types';
+import { Service } from '../../types';
 
-export const asyncSubmitProviderDeco = <Vals, Resp>(
+export const StorybookAsyncServiceMockProviderDeco = <Vals, Resp>(
   name: string,
-  context: Context<Submit<Vals, Resp>>,
+  context: Context<Service<Vals, Resp>>,
   resp: Resp,
   ms = 1000
 ) => getStory => (

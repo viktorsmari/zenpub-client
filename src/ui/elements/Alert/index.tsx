@@ -1,6 +1,6 @@
 import * as React from 'react';
-import styled from '../../themes/styled';
 import { Box } from 'rebass/styled-components';
+import styled from 'ui/themes/styled';
 
 const Wrapper = styled(Box)`
   border-radius: 4px;

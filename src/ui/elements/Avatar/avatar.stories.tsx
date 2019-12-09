@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import Avatar from '.';
-import { themeDeco } from '../../styleguide/storiesThemeDecorator';
+import { themeDeco } from 'ui/styleguide/storiesThemeDecorator';
 import { Box } from 'rebass/styled-components';
 storiesOf('Elements/Avatar', module)
   .addDecorator(themeDeco())

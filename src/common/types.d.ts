@@ -55,4 +55,4 @@ export interface FormikHook<Values> {
   status?: any;
   submitCount: number;
 }
-export type Submit<FormValues, Resp> = (vals: FormValues) => Promise<Resp>;
+export type Service<Request, Response> = (req: Request) => Promise<Response>;

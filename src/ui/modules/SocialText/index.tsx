@@ -1,5 +1,5 @@
 import React, { useRef, useState, useCallback } from 'react';
-import { dropEmoji } from '../../lib/emoji';
+import { dropEmoji } from 'ui/lib/emoji';
 import EmojiPicker from 'emoji-picker-react';
 import OutsideClickHandler from 'react-outside-click-handler';
 import styled from 'styled-components';

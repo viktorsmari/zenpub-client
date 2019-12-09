@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import Community, { CommunitySmall } from '.';
-import { themeDeco } from '../../styleguide/storiesThemeDecorator';
+import { themeDeco } from 'ui/styleguide/storiesThemeDecorator';
 import { Box } from 'rebass/styled-components';
 
 let community = {

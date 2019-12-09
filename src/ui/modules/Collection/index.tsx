@@ -1,8 +1,8 @@
 import * as React from 'react';
-import styled from '../../../themes/styled';
+import styled from 'ui/themes/styled';
 import { Flex, Box, Text, Heading } from 'rebass/styled-components';
 import { FileText } from 'react-feather';
-import Avatar from '../../elements/Avatar';
+import Avatar from 'ui/elements/Avatar';
 
 interface CollectionProps {
   id: string;

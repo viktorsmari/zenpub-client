@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled from '../../themes/styled';
+import styled from 'ui/themes/styled';
 import { Box } from 'rebass/styled-components';
 
 const Wrapper = styled(Box)<{ bg?: string; size?: string }>`
