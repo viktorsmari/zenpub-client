@@ -2,7 +2,7 @@ import React, { useRef, useState, useCallback } from 'react';
 import { dropEmoji } from 'ui/lib/emoji';
 import EmojiPicker from 'emoji-picker-react';
 import OutsideClickHandler from 'react-outside-click-handler';
-import styled from 'styled-components';
+import styled from 'ui/themes/styled';
 import { Textarea } from '@rebass/forms';
 import { Box, Flex } from 'rebass/styled-components';
 import { Smile, Send } from 'react-feather';
@@ -39,9 +39,6 @@ const SocialTextArea = styled(Textarea)`
 `;
 
 const SocialActions = styled(Flex)`
-  // position: absolute;
-  // right: 10px;
-  // top: 16px;
   width: 70px;
 `;
 

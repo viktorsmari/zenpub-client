@@ -23,20 +23,20 @@ const Component: React.SFC<CollectionProps> = ({
 }) => (
   <Wrapper p={3}>
     <Avatar size="m" src={icon} />
-    <Infos>
+    <Infos ml={3}>
       <Title>
         {name.length > 80 ? name.replace(/^(.{76}[^\s]*).*/, '$1...') : name}
       </Title>
 
       <Text variant="text" mt={2} mb={3}>
-        {summary && summary.length > 320
-          ? summary.replace(/^([\s\S]{316}[^\s]*)[\s\S]*/, '$1...')
+        {summary && summary.length > 140
+          ? summary.replace(/^([\s\S]{140}[^\s]*)[\s\S]*/, '$1...')
           : summary}
       </Text>
       <Actions>
         <ActionItem>
           <FileText size={20} color={'#8b98a2'} />
-          <Text variant="suptitle">{totalResources}</Text>
+          <Text variant="suptitle">{totalResources} Collections</Text>
         </ActionItem>
       </Actions>
     </Infos>
@@ -94,9 +94,8 @@ const Wrapper = styled(Flex)`
   }
 `;
 
-const Infos = styled.div`
+const Infos = styled(Box)`
   flex: 1;
-  margin-left: 8px;
   position: relative;
 `;
 const Title = styled(Heading)`

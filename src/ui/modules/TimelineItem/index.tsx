@@ -3,8 +3,6 @@ import { DateTime } from 'luxon';
 import { clearFix } from 'polished';
 import * as React from 'react';
 import { SFC } from 'react';
-// import { Star } from 'react-feather';
-import { NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import removeMd from 'remove-markdown';
 import media from 'styled-media-query';
@@ -16,9 +14,9 @@ import { BasicUserFragment } from '../../../graphql/fragments/generated/basicUse
 import { useDeleteMutationMutation } from '../../../graphql/generated/delete.generated';
 import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
 import { Comment, User } from '../../../graphql/types.generated';
-import styled from '../../../themes/styled';
-import Link from '../Link/Link';
-import Actions from './Actions';
+import styled from 'ui/themes/styled';
+import { NavLink, Link } from 'react-router-dom';
+// import Actions from './Actions';
 import Preview from './preview';
 
 interface Props {
@@ -110,15 +108,12 @@ const CollectionItem: SFC<CollectionProps> = ({
           summary={collection.summary || ''}
           url={`/collections/${collection.id}`}
         />
-        {noAction ? null : (
+        {/* {noAction ? null : (
           <Actions
-            // totalReplies={collection.threads.totalCount as number}
-            // totalLikes={collection.likes.totalCount as number}
-            // comment={collection}
             toggleLike={() => toggleLike(collection)}
             iLikeIt={!!collection.myLike}
           />
-        )}
+        )} */}
       </Box>
     </MemberInfo>
   </Member>
@@ -246,15 +241,13 @@ const CommentItem: SFC<CommentProps> = ({
             )
           : removeMd(comment.content)}
       </Comment>
-      {noAction ? null : (
+      {/* {noAction ? null : (
         <Actions
-          // totalReplies={comment.thread.comments.totalCount}
-          // totalLikes={comment.likes.totalCount}
           comment={comment}
           toggleLike={() => toggleLike(comment)}
           iLikeIt={!!comment.myLike}
         />
-      )}
+      )} */}
     </MemberInfo>
   </Member>
 );

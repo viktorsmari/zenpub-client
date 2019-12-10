@@ -11,7 +11,8 @@ import Modal, {
   ContainerForm,
   CounterChars,
   Header,
-  Row
+  Row,
+  AlertWrapper
 } from 'ui/modules/Modal';
 
 const tt = {
@@ -51,7 +52,9 @@ const CreateCollectionModal: React.FC<Props> = ({ closeModal }) => {
             />
             <CounterChars>{60 - formik.values.name.length}</CounterChars>
             {formik.errors.name && (
-              <Alert variant="bad">{formik.errors.name}</Alert>
+              <AlertWrapper>
+                <Alert variant="bad">{formik.errors.name}</Alert>
+              </AlertWrapper>
             )}
           </ContainerForm>
         </Row>
@@ -69,7 +72,9 @@ const CreateCollectionModal: React.FC<Props> = ({ closeModal }) => {
             />
             <CounterChars>{500 - formik.values.summary.length}</CounterChars>
             {formik.errors.summary && (
-              <Alert variant="bad">{formik.errors.summary}</Alert>
+              <AlertWrapper>
+                <Alert variant="bad">{formik.errors.summary}</Alert>
+              </AlertWrapper>
             )}
           </ContainerForm>
         </Row>
@@ -86,7 +91,9 @@ const CreateCollectionModal: React.FC<Props> = ({ closeModal }) => {
               onChange={formik.handleChange}
             />
             {formik.errors.image && (
-              <Alert variant="bad">{formik.errors.image}</Alert>
+              <AlertWrapper>
+                <Alert variant="bad">{formik.errors.image}</Alert>
+              </AlertWrapper>
             )}
           </ContainerForm>
         </Row>

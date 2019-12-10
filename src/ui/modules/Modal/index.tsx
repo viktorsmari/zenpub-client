@@ -19,6 +19,12 @@ const Background = styled.div`
   cursor: pointer;
 `;
 
+export const AlertWrapper = styled.div`
+  margin-top: 4px;
+  z-index: 99999;
+  position: relative;
+`;
+
 const Dialog = styled.div`
   width: 700px;
   box-shadow: 0 2px 8px 3px rgba(0, 0, 0, 0.3);
@@ -26,7 +32,7 @@ const Dialog = styled.div`
   background-color: #ffffff;
   padding: 0;
   margin: 40px auto;
-  position: fixed;
+  position: absolute;
   top: 10px;
   left: 50%;
   margin-left: -350px;
@@ -39,14 +45,11 @@ const Dialog = styled.div`
     left: 8px;
     right: 8px;
     top: 8px;
-    // bottom: 8px;
   `};
 `;
 
 const Action = styled.div`
   ${clearFix()};
-  padding-top: 10px;
-  padding-right: 10px;
   position: relative;
 `;
 
@@ -67,8 +70,6 @@ const Close = styled(Box)`
 
 const Content = styled.div`
   ${clearFix()};
-  max-height: 90vh;
-  padding: 16px;
   font-family: ${props => props.theme.fontFamily};
 `;
 
@@ -116,6 +117,7 @@ export const ContainerForm = styled.div`
 `;
 
 export const Header = styled.div`
+  padding: 16px;
   border-bottom: 1px solid ${props => props.theme.colors.lighter};
   & h5 {
     text-align: center !important;

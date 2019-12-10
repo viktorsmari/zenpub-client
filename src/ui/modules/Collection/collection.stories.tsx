@@ -6,7 +6,7 @@ import { Box } from 'rebass/styled-components';
 
 let collection = {
   id: '1',
-  icon: 'https://picsum.photos/id/342/150/150',
+  icon: 'https://picsum.photos/id/200/200/200',
   name: 'awesome collection',
   summary:
     'More simply put, the difference is in the standards and documentation that accompanies the assets. With a guide on why and how to use them, design components because easier to use and clearer to discern.',
