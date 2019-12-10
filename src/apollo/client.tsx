@@ -29,6 +29,7 @@ import {
 } from '../util/apollo/operation';
 import { RootMutationType, RootQueryType } from '../graphql/types.generated';
 import { KVStore } from '../util/keyvaluestore/types';
+import { LogoutMutationMutationOperation } from '../graphql/generated/logout.generated';
 const introspectionQueryResultData = require('../fragmentTypes.json');
 
 export type MutationName = keyof RootMutationType;
@@ -135,12 +136,14 @@ export default async function initialise({ localKVStore, appLink }: Cfg) {
   const ALLOWED_ANONYMOUS_MUTATIONS: Name<
     | CreateUserMutationMutationOperation
     | LoginMutationMutationOperation
+    | LogoutMutationMutationOperation
     | ConfirmEmailMutationMutationOperation
     | UsernameAvailableQueryOperation
   >[] = [
     'confirmEmailMutation',
     'createUserMutation',
     'loginMutation',
+    'logoutMutation',
     'usernameAvailable'
   ];
   const alertBlockMutationsForAnonymousLink = new ApolloLink(
