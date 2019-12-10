@@ -18,6 +18,8 @@ interface Props {
   onSubmitting?: any;
   contextId: string;
   uploadType: string;
+  onImage: any;
+  onIcon: any;
   toggleModal?: any;
   modalIsOpen?: boolean;
 }
@@ -27,6 +29,8 @@ const ImageDropzoneModal: React.FC<Props> = ({
   onSubmitting,
   contextId,
   uploadType,
+  onImage,
+  onIcon,
   toggleModal,
   modalIsOpen
 }) => {
@@ -63,12 +67,16 @@ const ImageDropzoneModal: React.FC<Props> = ({
     [files]
   );
 
-  const handleSelect = () => {
+  const handleSelect = props => {
     const variables = { contextId: contextId, upload: files[0] };
     if (uploadType == 'icon') {
-      mutateIcon({ variables });
+      return mutateIcon({ variables }).then(res => {
+        onIcon(res.data!.uploadIcon!.url);
+      });
     } else {
-      mutateImage({ variables });
+      return mutateImage({ variables }).then(res => {
+        onImage(res.data!.uploadImage!.url);
+      });
     }
   };
 
@@ -113,9 +121,9 @@ const ImageDropzoneModal: React.FC<Props> = ({
             disabled={isSubmitting || files.length == 0 ? true : false}
             type="submit"
             style={{ marginLeft: '10px' }}
-            onClick={() => {
+            onClick={props => {
               toggleModal(false);
-              handleSelect();
+              handleSelect(props);
               setFiles([]);
             }}
           >
