@@ -39,10 +39,11 @@ export const integrateSessionApolloRedux = (
     setAuth
   );
 
-  dynamicLinkSrv.addLinkOpResult<LogoutMutationMutationOperation>(
+  dynamicLinkSrv.addLinkOp<LogoutMutationMutationOperation>(
     'logoutMutation',
-    () => {
+    (op, next) => {
       dispatch(logout.create());
+      return next(op);
     }
   );
 };

@@ -58,10 +58,11 @@ export default async function initialise({ localKVStore, appLink }: Cfg) {
 
     const [opName] = getOperationNameAndType<OperationName>(operation.query);
 
-    if (opName && opName === deleteSessionOpName) {
+    if (opName === deleteSessionOpName) {
       authToken = undefined;
       localKVStore.del(AUTH_TOKEN_KEY);
     }
+
     return nextLink(operation).map(resp => {
       if (opName === createSessionOpName) {
         const authPyload = resp.data && resp.data[opName];
@@ -166,13 +167,13 @@ export default async function initialise({ localKVStore, appLink }: Cfg) {
   // used for graphql query and mutations
   const httpLink = ApolloLink.from(
     [
-      appLink,
       IS_DEV ? apolloLogger : null,
       alertBlockMutationsForAnonymousLink,
       errorLink,
       authLink,
       clientAwarenessHeadersLinkForNonApollo3Server,
       setTokenLink,
+      appLink,
       createHttpLink({ uri: GRAPHQL_ENDPOINT })
     ].filter(Boolean)
   );
