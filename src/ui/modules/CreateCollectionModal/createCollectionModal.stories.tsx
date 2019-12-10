@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import CreateCollectionModal from '.';
 import { themeDeco } from 'ui/styleguide/storiesThemeDecorator';
-import { createCommunitySrv } from 'common/hooks/service/community/create';
+import { createCollectionSrv } from 'common/hooks/service/collection/create';
 import { StorybookAsyncServiceMockProviderDeco } from 'common/util/ctx-mock/submitProviderActionDeco';
 
 storiesOf('Modules/CreateCollection', module)
@@ -11,7 +11,7 @@ storiesOf('Modules/CreateCollection', module)
   .addDecorator(
     StorybookAsyncServiceMockProviderDeco(
       'Create Collection',
-      createCommunitySrv,
+      createCollectionSrv,
       {
         id: '#231-123-123'
       }

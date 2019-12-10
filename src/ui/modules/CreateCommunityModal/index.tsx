@@ -31,7 +31,9 @@ interface Props {
 
 const CreateCommunityModal: React.FC<Props> = ({ closeModal }) => {
   const handleCloseModal = React.useCallback(() => closeModal(), [closeModal]);
-  const formik = useCreateCommunityForm();
+  const [formik, result] = useCreateCommunityForm();
+  console.log(`formik`, formik, `\n`);
+  console.log(`result`, result, `\n\n`);
   return (
     <Modal closeModal={handleCloseModal}>
       <Container>

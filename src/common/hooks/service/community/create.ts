@@ -1,8 +1,10 @@
+import { FormikHook } from 'common/types';
 import { useFormik } from 'formik';
-import { createContext, useContext } from 'react';
+import {
+  CreateCommunityMutationMutationHookResult,
+  useCreateCommunityMutationMutation
+} from 'graphql/generated/createCommunity.generated';
 import * as Yup from 'yup';
-import { Service } from 'common/types';
-import { alertRejectUnimplementedService } from 'common/util/ctx-mock/alertUnimplementedSubmit';
 
 export interface NewCommunityFormValues {
   name: string;
@@ -22,22 +24,23 @@ export const formValuesSchema: FormValuesSchema = Yup.object<
   image: Yup.string().url()
 });
 
-export const createCommunitySrv = createContext<
-  Service<NewCommunityFormValues, { id: string }>
->(alertRejectUnimplementedService('createCommunitySrv CTX'));
-
 export const formInitialValues: NewCommunityFormValues = {
   name: '',
   summary: '',
   image: ''
 };
 
-export const useCreateCommunityForm = () => {
-  const createService = useContext(createCommunitySrv);
+export const useCreateCommunityForm = (): [
+  FormikHook<NewCommunityFormValues>,
+  CreateCommunityMutationMutationHookResult[1],
+  CreateCommunityMutationMutationHookResult[0]
+] => {
+  const [create, result] = useCreateCommunityMutationMutation();
   const formik = useFormik<NewCommunityFormValues>({
     initialValues: formInitialValues,
-    onSubmit: vals => createService(vals),
+    onSubmit: vals =>
+      create({ variables: { community: { ...vals, preferredUsername: '' } } }),
     validationSchema: formValuesSchema
   });
-  return formik;
+  return [formik, result, create];
 };
