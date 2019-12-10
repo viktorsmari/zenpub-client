@@ -9,8 +9,10 @@ interface SessionSrv {
   reducer: Reducer<Session.State, AnyAction>;
 }
 export const createSessionMW = (kvstore: KVStore): SessionSrv => {
-  const getStoredUser = (): Session.SessionUser => kvstore.get(SESSION_KEY);
-  const delStoredUser = (): Session.SessionUser => kvstore.del(SESSION_KEY);
+  const getStoredUser = (): Session.SessionUser | null =>
+    kvstore.get(SESSION_KEY);
+  const delStoredUser = (): Session.SessionUser | null =>
+    kvstore.del(SESSION_KEY);
   const setStoredUser = (me: Session.SessionUser): void =>
     kvstore.set(SESSION_KEY, me);
   const mw: Middleware = store => next => {
