@@ -38,7 +38,7 @@ const Background = styled(Image)`
 // `;
 
 const Infos = styled(Box)`
-  padding: 38px 16px;
+  padding: 16px;
 `;
 
 const Info = styled(Box)``;
@@ -77,7 +77,6 @@ const Header = styled.div`
 
 const FormWrapper = styled.div`
   grid-area: form;
-  margin-top: 16px;
 `;
 
 const Form = styled.div`
@@ -381,7 +380,7 @@ class Login extends React.Component<LoginProps, LoginState> {
               </Browse>
             </FormWrapper>
             <Right>
-              {/* <Link to="signup">
+              <Link to="signup">
                 <Button
                   mb={2}
                   style={{ width: '100%', height: '50px' }}
@@ -390,7 +389,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                 >
                   <Trans>Sign up</Trans>
                 </Button>
-              </Link> */}
+              </Link>
               <WrapperPanel className="extra">
                 <Panel>
                   <Background src={MnetLogin} />
