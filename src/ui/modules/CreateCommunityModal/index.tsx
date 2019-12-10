@@ -5,7 +5,7 @@ import { Input, Textarea } from '@rebass/forms';
 import { Field, Form, Formik } from 'formik';
 import * as React from 'react';
 import { Heading } from 'rebass/styled-components';
-// import { i18n } from '../../../containers/App/App';
+import { i18n } from '../../../containers/App/App';
 import Alert from '../../elements/Alert';
 import { Button } from 'rebass/styled-components';
 import Modal from '../Modal';
@@ -32,7 +32,7 @@ interface Props {
   toggleModal: () => unknown;
   modalIsOpen?: boolean;
   validationSchema: any;
-  submit: () => unknown;
+  submit: () => any;
 }
 
 interface FormValues {
@@ -80,7 +80,7 @@ const CreateCommunityModal = (
                       render={({ field }) => (
                         <>
                           <Input
-                            // placeholder={i18n._(tt.placeholders.name)}
+                            placeholder={i18n._(tt.placeholders.name)}
                             name={field.name}
                             value={field.value}
                             onChange={field.onChange}
@@ -100,24 +100,22 @@ const CreateCommunityModal = (
                     <Trans>Description</Trans>
                   </label>
                   <ContainerForm>
-                    {
-                      new Field({
-                        name: 'summary',
-                        render: ({ field }) => (
-                          <>
-                            <Textarea
-                              //   placeholder={i18n._(tt.placeholders.summary)}
-                              name={field.name}
-                              value={field.value}
-                              onChange={field.onChange}
-                            />
-                            <CounterChars>
-                              {500 - field.value.length}
-                            </CounterChars>
-                          </>
-                        )
-                      })
-                    }
+                    <Field
+                      name="summary"
+                      render={({ field }) => (
+                        <>
+                          <Textarea
+                            placeholder={i18n._(tt.placeholders.summary)}
+                            name={field.name}
+                            value={field.value}
+                            onChange={field.onChange}
+                          />
+                          <CounterChars>
+                            {500 - field.value.length}
+                          </CounterChars>
+                        </>
+                      )}
+                    />
                   </ContainerForm>
                 </Row>
                 <Row>
@@ -129,7 +127,7 @@ const CreateCommunityModal = (
                       name="image"
                       render={({ field }) => (
                         <Input
-                          //   placeholder={i18n._(tt.placeholders.image)}
+                          placeholder={i18n._(tt.placeholders.image)}
                           name={field.name}
                           value={field.value}
                           onChange={field.onChange}

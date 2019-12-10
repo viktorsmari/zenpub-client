@@ -130,24 +130,22 @@ const CreateCommunityModal = (
                     <Trans>Description</Trans>
                   </label>
                   <ContainerForm>
-                    {
-                      new Field({
-                        name: 'summary',
-                        render: ({ field }) => (
-                          <>
-                            <Textarea
-                              placeholder={i18n._(tt.placeholders.summary)}
-                              name={field.name}
-                              value={field.value}
-                              onChange={field.onChange}
-                            />
-                            <CounterChars>
-                              {500 - field.value.length}
-                            </CounterChars>
-                          </>
-                        )
-                      })
-                    }
+                    <Field
+                      name="summary"
+                      render={({ field }) => (
+                        <>
+                          <Textarea
+                            placeholder={i18n._(tt.placeholders.summary)}
+                            name={field.name}
+                            value={field.value}
+                            onChange={field.onChange}
+                          />
+                          <CounterChars>
+                            {500 - field.value.length}
+                          </CounterChars>
+                        </>
+                      )}
+                    />
                   </ContainerForm>
                 </Row>
                 <Row>
