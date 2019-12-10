@@ -3,7 +3,7 @@ import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
 import { Button, Heading } from 'rebass/styled-components';
-import { useCreateCollectionForm } from 'common/hooks/service/collection/create';
+import { useEditCommunityForm } from 'common/hooks/service/community/edit';
 import Alert from 'ui/elements/Alert';
 import Modal, {
   Actions,
@@ -16,11 +16,11 @@ import Modal, {
 
 const tt = {
   placeholders: {
-    name: i18nMark('Choose a name for the collection'),
+    name: i18nMark('Choose a name for the community'),
     summary: i18nMark(
-      'Please describe what the collection is for and what kind of resources it is likely to contain...'
+      'Please describe who might be interested in this community and what kind of collections it is likely to contain...'
     ),
-    image: i18nMark('Enter the URL of an image to represent the collection')
+    image: i18nMark('Enter the URL of an image to represent the community')
   }
 };
 
@@ -28,15 +28,15 @@ interface Props {
   closeModal: () => void;
 }
 
-const CreateCollectionModal: React.FC<Props> = ({ closeModal }) => {
+const EditCommunityModal: React.FC<Props> = ({ closeModal }) => {
   const handleCloseModal = React.useCallback(() => closeModal(), [closeModal]);
-  const formik = useCreateCollectionForm();
+  const formik = useEditCommunityForm();
   return (
     <Modal closeModal={handleCloseModal}>
       <Container>
         <Header>
           <Heading m={2}>
-            <Trans>Create a new collection</Trans>
+            <Trans>Edit the community details</Trans>
           </Heading>
         </Header>
         <Row>
@@ -108,4 +108,4 @@ const CreateCollectionModal: React.FC<Props> = ({ closeModal }) => {
   );
 };
 
-export default CreateCollectionModal;
+export default EditCommunityModal;

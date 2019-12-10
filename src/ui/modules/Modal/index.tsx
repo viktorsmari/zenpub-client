@@ -106,6 +106,13 @@ export const ContainerForm = styled.div`
     border-radius: 2px;
     border: 1px solid ${props => props.theme.colors.lightgray};
   }
+  textarea {
+    line-height: 20px;
+    background: white;
+    border-radius: 2px;
+    border: 1px solid ${props => props.theme.colors.lightgray};
+    font-family: ${props => props.theme.fontFamily};
+  }
 `;
 
 export const Header = styled.div`

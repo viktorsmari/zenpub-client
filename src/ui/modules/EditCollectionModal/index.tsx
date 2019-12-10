@@ -3,7 +3,7 @@ import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
 import { Button, Heading } from 'rebass/styled-components';
-import { useCreateCollectionForm } from 'common/hooks/service/collection/create';
+import { useEditCollectionForm } from 'common/hooks/service/collection/edit';
 import Alert from 'ui/elements/Alert';
 import Modal, {
   Actions,
@@ -16,7 +16,7 @@ import Modal, {
 
 const tt = {
   placeholders: {
-    name: i18nMark('Choose a name for the collection'),
+    name: i18nMark('Edit the name of the collection'),
     summary: i18nMark(
       'Please describe what the collection is for and what kind of resources it is likely to contain...'
     ),
@@ -28,15 +28,15 @@ interface Props {
   closeModal: () => void;
 }
 
-const CreateCollectionModal: React.FC<Props> = ({ closeModal }) => {
+const EditCollectionModal: React.FC<Props> = ({ closeModal }) => {
   const handleCloseModal = React.useCallback(() => closeModal(), [closeModal]);
-  const formik = useCreateCollectionForm();
+  const formik = useEditCollectionForm();
   return (
     <Modal closeModal={handleCloseModal}>
       <Container>
         <Header>
           <Heading m={2}>
-            <Trans>Create a new collection</Trans>
+            <Trans>Edit the collection details</Trans>
           </Heading>
         </Header>
         <Row>
@@ -108,4 +108,4 @@ const CreateCollectionModal: React.FC<Props> = ({ closeModal }) => {
   );
 };
 
-export default CreateCollectionModal;
+export default EditCollectionModal;
