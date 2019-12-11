@@ -49,7 +49,7 @@ export type GetUserQuery = { __typename?: 'RootQueryType', me: Types.Maybe<{ __t
             ) | (
               { __typename?: 'Community' }
               & BasicCommunityFragment
-            ) | (
+            ) | { __typename?: 'Flag' } | { __typename?: 'Follow' } | { __typename?: 'Like' } | (
               { __typename?: 'Resource' }
               & BasicResourceFragment
             ) } }>> }, followedCollections: { __typename?: 'FollowedCollectionsEdges', pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, edges: Array<Types.Maybe<{ __typename?: 'FollowedCollectionsEdge', node: { __typename?: 'FollowedCollection', follow: { __typename?: 'Follow', id: string, canonicalUrl: Types.Maybe<string> }, collection: (

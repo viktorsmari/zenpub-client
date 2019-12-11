@@ -42,7 +42,7 @@ export type GetCommunityQueryQuery = { __typename?: 'RootQueryType', community: 
           ) | (
             { __typename?: 'Community' }
             & BasicCommunityFragment
-          ) | (
+          ) | { __typename?: 'Flag' } | { __typename?: 'Follow' } | { __typename?: 'Like' } | (
             { __typename?: 'Resource' }
             & BasicResourceFragment
           ) } }>> }, followers: { __typename?: 'FollowsEdges', totalCount: number, pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, edges: Array<Types.Maybe<{ __typename?: 'FollowsEdge', node: { __typename?: 'Follow', id: string, canonicalUrl: Types.Maybe<string>, isLocal: boolean, isPublic: boolean, creator: { __typename?: 'User', id: string, icon: Types.Maybe<string> } } }>> }, collections: { __typename?: 'CollectionsEdges', totalCount: number, pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, edges: Array<Types.Maybe<{ __typename?: 'CollectionsEdge', node: { __typename?: 'Collection', id: string, canonicalUrl: Types.Maybe<string>, preferredUsername: string, name: string, summary: Types.Maybe<string>, icon: Types.Maybe<string>, myFollow: Types.Maybe<{ __typename?: 'Follow', id: string }>, likes: { __typename?: 'LikesEdges', totalCount: number }, followers: { __typename?: 'FollowsEdges', totalCount: number }, resources: { __typename?: 'ResourcesEdges', totalCount: number }, threads: { __typename?: 'ThreadsEdges', totalCount: number } } }>> } }> };

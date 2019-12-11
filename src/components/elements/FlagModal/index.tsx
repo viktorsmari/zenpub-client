@@ -11,7 +11,8 @@ import { i18n } from '../../../containers/App/App';
 // import { useCreateResourceFlagMutation } from '../../../graphql/generated/createResourceFlag.generated';
 // import { useCreateCommentFlagMutation } from '../../../graphql/generated/createCommentFlag.generated';
 import { useCreateFlagMutationMutation } from '../../../graphql/generated/createFlag.generated';
-import { useResolveFlagMutationMutation } from '../../../graphql/generated/resolveFlag.generated';
+// import { useResolveFlagMutationMutation } from '../../../graphql/generated/resolveFlag.generated';
+import { useDeleteMutationMutation } from '../../../graphql/generated/delete.generated';
 
 import styled from '../../../themes/styled';
 import Alert from '../../elements/Alert';
@@ -35,7 +36,8 @@ interface Props {
   closeModal(_: boolean): unknown;
   flagItem(_: boolean): unknown;
   modalIsOpen: boolean;
-  myFlag: string | null;
+  myFlag?: any;
+  isFlagged: boolean;
   // flag: string;
 }
 
@@ -44,10 +46,12 @@ const FlagModal: React.FC<Props> = ({
   myFlag,
   modalIsOpen,
   flagItem,
+  isFlagged,
   closeModal
 }) => {
   const [flag] = useCreateFlagMutationMutation();
-  const [undoflag] = useResolveFlagMutationMutation();
+  // const [undoflag] = useResolveFlagMutationMutation();
+  const [undoflag] = useDeleteMutationMutation();
   const [text, setText] = React.useState('');
   const [error, setError] = React.useState('');
   const [touched, setTouched] = React.useState(false);
@@ -83,12 +87,13 @@ const FlagModal: React.FC<Props> = ({
 
   const undoflagItem = React.useCallback(
     () => {
+      console.log('unflag ' + myFlag!.id);
       if (error) {
         return;
       }
       undoflag({
         variables: {
-          flagId: contextId!
+          contextId: myFlag!.id!
         }
       });
       flagItem(false);
@@ -108,7 +113,7 @@ const FlagModal: React.FC<Props> = ({
     >
       {/* <Container> */}
       {/* <Form> */}
-      {myFlag == null ? (
+      {!isFlagged ? (
         <Container>
           <Header>
             <Heading m={2}>

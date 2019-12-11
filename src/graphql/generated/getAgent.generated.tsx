@@ -47,7 +47,7 @@ export type GetAgentQueryQuery = { __typename?: 'RootQueryType', user: Types.May
           ) | (
             { __typename?: 'Community' }
             & BasicCommunityFragment
-          ) | (
+          ) | { __typename?: 'Flag' } | { __typename?: 'Follow' } | { __typename?: 'Like' } | (
             { __typename?: 'Resource' }
             & BasicResourceFragment
           ) } }>> }, followedCommunities: { __typename?: 'FollowedCommunitiesEdges', pageInfo: Types.Maybe<{ __typename?: 'PageInfo', startCursor: string, endCursor: string }>, edges: Array<Types.Maybe<{ __typename?: 'FollowedCommunitiesEdge', node: { __typename?: 'FollowedCommunity', follow: { __typename?: 'Follow', id: string, canonicalUrl: Types.Maybe<string>, isLocal: boolean, isPublic: boolean, createdAt: string }, community: (

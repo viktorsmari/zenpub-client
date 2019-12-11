@@ -6,6 +6,8 @@ export type Scalars = {
   Boolean: boolean,
   Int: number,
   Float: number,
+  /** Represents an uploaded file. */
+  Upload: any,
 };
 
 export type ActivitiesEdge = {
@@ -43,7 +45,7 @@ export type Activity = {
 };
 
 /** Activity object */
-export type ActivityContext = Collection | Comment | Community | Resource;
+export type ActivityContext = Collection | Comment | Community | Flag | Follow | Like | Resource;
 
 /** Something a user does, in past tense */
 export enum ActivityVerb {
@@ -89,6 +91,8 @@ export type Collection = {
   lastActivity: Scalars['String'],
   /** Likes users have given the collection */
   likes: LikesEdges,
+  /** The current user's flag of the collection, if any */
+  myFlag?: Maybe<Flag>,
   /** The current user's follow of this collection, if any */
   myFollow?: Maybe<Follow>,
   /** The current user's like of this collection, if any */
@@ -293,8 +297,12 @@ export type Community = {
    * updated or a thread or a comment was created or updated
  **/
   lastActivity: Scalars['String'],
+  /** The current user's flag of the community, if any */
+  myFlag?: Maybe<Flag>,
   /** The current user's follow of the community, if any */
   myFollow?: Maybe<Follow>,
+  /** The current user's like of this community, if any */
+  myLike?: Maybe<Like>,
   /** A name field */
   name: Scalars['String'],
   /** Activities in the community, most recently created first */
@@ -358,6 +366,47 @@ export type CommunityUpdateInput = {
 
 /** A thing that can be deleted */
 export type DeleteContext = Activity | Collection | Comment | Community | Flag | Follow | Like | Resource | Thread | User;
+
+/** More detailed metadata parsed from a file. */
+export type FileIntrinsics = {
+   __typename?: 'FileIntrinsics',
+  bitsPerPixel?: Maybe<Scalars['Int']>,
+  bitsPerSample?: Maybe<Scalars['Int']>,
+  blockAlign?: Maybe<Scalars['Int']>,
+  byteRate?: Maybe<Scalars['Int']>,
+  colorPlanes?: Maybe<Scalars['Int']>,
+  numColorPalette?: Maybe<Scalars['Int']>,
+  numFrames?: Maybe<Scalars['Int']>,
+  pageCount?: Maybe<Scalars['Int']>,
+};
+
+/** 
+ * Metadata associated with a file.
+ * 
+ * None of the parameters are required and are filled depending on the
+ * file type.
+ **/
+export type FileMetadata = {
+   __typename?: 'FileMetadata',
+  heightPx?: Maybe<Scalars['Int']>,
+  intrinsics?: Maybe<FileIntrinsics>,
+  numAudioChannels?: Maybe<Scalars['Int']>,
+  sampleRateHz?: Maybe<Scalars['Int']>,
+  widthPx?: Maybe<Scalars['Int']>,
+};
+
+/** An uploaded file, may contain metadata. */
+export type FileUpload = {
+   __typename?: 'FileUpload',
+  id: Scalars['ID'],
+  isPublic: Scalars['Boolean'],
+  mediaType: Scalars['String'],
+  metadata?: Maybe<FileMetadata>,
+  parent: UploadParent,
+  size: Scalars['Int'],
+  uploader: User,
+  url: Scalars['String'],
+};
 
 /** A report about objectionable content */
 export type Flag = {
@@ -565,6 +614,8 @@ export type Me = {
 export type PageInfo = {
    __typename?: 'PageInfo',
   endCursor: Scalars['String'],
+  hasNextPage?: Maybe<Scalars['Boolean']>,
+  hasPrevPage?: Maybe<Scalars['Boolean']>,
   startCursor: Scalars['String'],
 };
 
@@ -608,6 +659,8 @@ export type Resource = {
   license?: Maybe<Scalars['String']>,
   /** Users who like the resource, most recently liked first */
   likes: LikesEdges,
+  /** The current user's flag of the resource, if any */
+  myFlag?: Maybe<Flag>,
   /** The current user's like of the resource, if any */
   myLike?: Maybe<Like>,
   /** A name field */
@@ -705,6 +758,11 @@ export type RootMutationType = {
   updateProfile?: Maybe<Me>,
   /** Update a resource */
   updateResource?: Maybe<Resource>,
+  /** Upload a small icon, also known as an avatar. */
+  uploadIcon?: Maybe<FileUpload>,
+  /** Upload a large image, also known as a header. */
+  uploadImage?: Maybe<FileUpload>,
+  uploadResource?: Maybe<FileUpload>,
 };
 
 
@@ -833,6 +891,24 @@ export type RootMutationTypeUpdateProfileArgs = {
 export type RootMutationTypeUpdateResourceArgs = {
   resource: ResourceInput,
   resourceId: Scalars['String']
+};
+
+
+export type RootMutationTypeUploadIconArgs = {
+  contextId: Scalars['ID'],
+  upload: Scalars['Upload']
+};
+
+
+export type RootMutationTypeUploadImageArgs = {
+  contextId: Scalars['ID'],
+  upload: Scalars['Upload']
+};
+
+
+export type RootMutationTypeUploadResourceArgs = {
+  contextId: Scalars['ID'],
+  upload: Scalars['Upload']
 };
 
 export type RootQueryType = {
@@ -1006,6 +1082,10 @@ export type UpdateProfileInput = {
   website?: Maybe<Scalars['String']>,
 };
 
+
+/** A parent of an upload */
+export type UploadParent = Collection | Comment | Community | Resource | User;
+
 /** User profile information */
 export type User = {
    __typename?: 'User',
@@ -1044,6 +1124,8 @@ export type User = {
   likes: LikesEdges,
   /** Free text */
   location?: Maybe<Scalars['String']>,
+  /** The current user's flag of this user, if any */
+  myFlag?: Maybe<Flag>,
   /** The current user's follow of this user, if any */
   myFollow?: Maybe<Follow>,
   /** The current user's like of this user, if any */

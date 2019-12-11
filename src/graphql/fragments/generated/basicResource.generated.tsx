@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from './basicUser.generated';
 
 
-export type BasicResourceFragment = { __typename?: 'Resource', id: string, name: string, summary: Types.Maybe<string>, icon: Types.Maybe<string>, url: Types.Maybe<string>, license: Types.Maybe<string>, createdAt: string, updatedAt: string, myLike: Types.Maybe<{ __typename?: 'Like', id: string }>, likes: { __typename?: 'LikesEdges', totalCount: number }, creator: (
+export type BasicResourceFragment = { __typename?: 'Resource', id: string, name: string, summary: Types.Maybe<string>, icon: Types.Maybe<string>, url: Types.Maybe<string>, license: Types.Maybe<string>, createdAt: string, updatedAt: string, myLike: Types.Maybe<{ __typename?: 'Like', id: string }>, myFlag: Types.Maybe<{ __typename?: 'Flag', id: string }>, likes: { __typename?: 'LikesEdges', totalCount: number }, creator: (
     { __typename?: 'User' }
     & BasicUserFragment
   ), collection: { __typename?: 'Collection', id: string, name: string, preferredUsername: string, isLocal: boolean, isPublic: boolean, isDisabled: boolean, community: { __typename?: 'Community', id: string, canonicalUrl: Types.Maybe<string>, isLocal: boolean } } };
@@ -21,6 +21,9 @@ export const BasicResourceFragmentDoc = gql`
   createdAt
   updatedAt
   myLike {
+    id
+  }
+  myFlag {
     id
   }
   likes {

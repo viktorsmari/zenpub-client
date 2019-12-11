@@ -16,6 +16,7 @@ fragment BasicCommunity on Community {
     isPublic
     isDisabled
     myFollow { id }
+    myFlag { id }
     collections { totalCount }
     followers { totalCount }
     threads { totalCount }

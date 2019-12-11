@@ -40,6 +40,7 @@ const Component: React.FC<Props> = ({
     !!collection.data &&
     !!collection.data.collection &&
     auth.me.user.id === collection.data.collection.creator.id;
+
   return (
     <MainContainer>
       <HomeBox>
@@ -70,8 +71,7 @@ const Component: React.FC<Props> = ({
                         <MoreOptionsContainer>
                           <MoreOptions
                             contextId={collection.data!.collection!.id}
-                            // myFlag={collection.myFlag}
-                            myFlag="false"
+                            myFlag={collection.data.collection.myFlag}
                           />
                         </MoreOptionsContainer>
                         <Title fontSize={5} fontWeight={'bold'}>

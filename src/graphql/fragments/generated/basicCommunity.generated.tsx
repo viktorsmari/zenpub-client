@@ -8,7 +8,7 @@ import { BasicUserFragmentDoc } from './basicUser.generated';
 export type BasicCommunityFragment = { __typename?: 'Community', id: string, canonicalUrl: Types.Maybe<string>, preferredUsername: string, name: string, summary: Types.Maybe<string>, icon: Types.Maybe<string>, image: Types.Maybe<string>, createdAt: string, updatedAt: string, lastActivity: string, isLocal: boolean, isPublic: boolean, isDisabled: boolean, creator: (
     { __typename?: 'User' }
     & BasicUserFragment
-  ), myFollow: Types.Maybe<{ __typename?: 'Follow', id: string }>, collections: { __typename?: 'CollectionsEdges', totalCount: number }, followers: { __typename?: 'FollowsEdges', totalCount: number }, threads: { __typename?: 'ThreadsEdges', totalCount: number }, outbox: { __typename?: 'ActivitiesEdges', totalCount: number } };
+  ), myFollow: Types.Maybe<{ __typename?: 'Follow', id: string }>, myFlag: Types.Maybe<{ __typename?: 'Flag', id: string }>, collections: { __typename?: 'CollectionsEdges', totalCount: number }, followers: { __typename?: 'FollowsEdges', totalCount: number }, threads: { __typename?: 'ThreadsEdges', totalCount: number }, outbox: { __typename?: 'ActivitiesEdges', totalCount: number } };
 
 export const BasicCommunityFragmentDoc = gql`
     fragment BasicCommunity on Community {
@@ -29,6 +29,9 @@ export const BasicCommunityFragmentDoc = gql`
   isPublic
   isDisabled
   myFollow {
+    id
+  }
+  myFlag {
     id
   }
   collections {

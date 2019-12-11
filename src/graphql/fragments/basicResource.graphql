@@ -11,6 +11,7 @@ fragment BasicResource on Resource {
     createdAt
     updatedAt
     myLike { id }
+    myFlag { id }
     likes { totalCount }
     creator { ...BasicUser }
     collection {
