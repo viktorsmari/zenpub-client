@@ -131,6 +131,18 @@ const TabHeading = styled(Heading)`
   }
 `;
 
+const HeaderImg = styled.img`
+  display: block;
+  max-width: 100%;
+  margin-bottom: 10px;
+`;
+
+const AvatarImg = styled.img`
+  display: block;
+  max-width: 100%;
+  margin-bottom: 10px;
+`;
+
 const Component: React.FC<Props> = ({
   errors,
   touched,
@@ -141,9 +153,20 @@ const Component: React.FC<Props> = ({
   onSwitch,
   updateProfile
 }) => {
+  const initialValues = {
+    name: profile.user.name || '',
+    summary: profile.user.summary || '',
+    location: profile.user.location || '',
+    icon: profile.user.icon || '',
+    username: profile.user.preferredUsername || '',
+    image: profile.user.image || ''
+  };
+
   // const { errors, touched, isSubmitting } = props;
   const [isUploadOpen, onUploadOpen] = React.useState(false);
   const [uploadType, setUploadType] = React.useState('icon');
+  const [iconUrl, onIcon] = React.useState(initialValues.icon);
+  const [imageUrl, onImage] = React.useState(initialValues.image);
   const { auth } = React.useContext(SessionContext);
   const localeCntx = React.useContext(LocaleContext);
 
@@ -189,15 +212,6 @@ const Component: React.FC<Props> = ({
   // }) =>
   //   validity.valid &&
   //   mutate({ variables: { contextId: auth!.me.user.id, upload: file } });
-
-  const initialValues = {
-    name: profile.user.name || '',
-    summary: profile.user.summary || '',
-    location: profile.user.location || '',
-    icon: profile.user.icon || '',
-    username: profile.user.preferredUsername || '',
-    image: profile.user.image || ''
-  };
 
   return (
     <ApolloConsumer>
@@ -343,13 +357,14 @@ const Component: React.FC<Props> = ({
                       <label>
                         <Trans>Avatar</Trans>
                       </label>
+                      <AvatarImg src={iconUrl} />
                       <Field
                         name="icon"
                         render={({ field }) => (
                           <Input
                             // placeholder="Type a url of a background image..."
                             name={field.name}
-                            value={field.value}
+                            value={iconUrl}
                             onChange={field.onChange}
                             onClick={() => {
                               onUploadOpen(true);
@@ -366,13 +381,14 @@ const Component: React.FC<Props> = ({
                       <label>
                         <Trans>Header image</Trans>
                       </label>
+                      <HeaderImg src={imageUrl} />
                       <Field
                         name="image"
                         render={({ field }) => (
                           <Input
                             // placeholder="Type a url of a background image..."
                             name={field.name}
-                            value={field.value}
+                            value={imageUrl}
                             onChange={field.onChange}
                             onClick={() => {
                               onUploadOpen(true);
@@ -391,6 +407,8 @@ const Component: React.FC<Props> = ({
                       toggleModal={onUploadOpen}
                       modalIsOpen={isUploadOpen}
                       uploadType={uploadType}
+                      onIcon={onIcon}
+                      onImage={onImage}
                     />
                   ) : null}
                   {/* <ExRow>

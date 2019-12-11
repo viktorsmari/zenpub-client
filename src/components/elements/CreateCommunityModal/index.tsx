@@ -13,6 +13,7 @@ import { Button } from 'rebass/styled-components';
 import Modal from '../Modal';
 import styled from '../../../themes/styled';
 
+// import DropzoneArea from '../../components/elements/DropzoneModal';
 import {
   Actions,
   Container,

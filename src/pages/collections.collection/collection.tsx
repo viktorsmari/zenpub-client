@@ -15,7 +15,7 @@ import {
   OverlayTab
 } from '../communities.community/Community';
 import CollectionModal from '../../components/elements/CollectionModal';
-//  import DropzoneModal from '../../components/elements/DropzoneModal';
+// import DropzoneArea from '../../components/elements/DropzoneModal';
 
 // import CollectionsLoadMore from 'src/components/elements/Loadmore/followingCollections';
 
@@ -34,7 +34,7 @@ const CommunityPage: SFC<Props> = ({
   resources
 }) => {
   const [isOpen, onOpen] = useState(false);
-  // const [isUploadOpen, onUploadOpen] = useState(false);
+  // const [isUploadOpen, onUploadOpen] = useState(true);
   return (
     <WrapperTab>
       <OverlayTab>
@@ -103,7 +103,7 @@ const CommunityPage: SFC<Props> = ({
                     )
                   ) : null}
                   {isUploadOpen === true ? (
-                    <DropzoneModal
+                    <DropzoneArea
                       toggleModal={onUploadOpen}
                       modalIsOpen={isUploadOpen}
                       itemId={collection.localId}
