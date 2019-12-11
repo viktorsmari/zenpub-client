@@ -1,22 +1,19 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import CreateCommunityModal from '.';
+import { storiesOf } from '@storybook/react';
+import { apolloMockDeco, mockLink } from 'common/util/storybook/apolloDeco';
+import { CreateCommunityMutationMutationOperation } from 'graphql/generated/createCommunity.generated';
+import React from 'react';
 import { themeDeco } from 'ui/styleguide/storiesThemeDecorator';
-import { createCommunitySrv } from 'common/hooks/service/community/create';
-import { StorybookAsyncServiceMockProviderDeco } from 'common/util/ctx-mock/submitProviderActionDeco';
+import CreateCommunityModal from '.';
+import { basicCreateCommunityMutation } from 'common/data/mocks/gql/community/CreateCommunityMutation';
+
+const createCommunityMockLink = mockLink<
+  CreateCommunityMutationMutationOperation
+>('createCommunityMutation', () => ({ data: basicCreateCommunityMutation }));
 
 storiesOf('Modules/CreateCommunity', module)
   .addDecorator(themeDeco())
-  .addDecorator(
-    StorybookAsyncServiceMockProviderDeco(
-      'Create Community',
-      createCommunitySrv,
-      {
-        id: '#231-123-123'
-      }
-    )
-  )
+  .addDecorator(apolloMockDeco(createCommunityMockLink))
   .add('Standard', () => (
     <CreateCommunityModal closeModal={action('close modal')} />
   ));

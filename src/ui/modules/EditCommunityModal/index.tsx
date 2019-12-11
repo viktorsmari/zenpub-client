@@ -1,18 +1,26 @@
-import * as React from 'react';
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
+import {
+  EditCommunityFormValues,
+  editCommunityFormValuesSchema,
+  useEditCommunityFormValuesFromQueryResult
+} from 'common/forms/community/edit';
+import { useFormik } from 'formik';
+import { useGetCommunityQueryQuery } from 'graphql/generated/getCommunity.generated';
+import { useUpdateCommunityMutationMutation } from 'graphql/generated/updateCommunity.generated';
+import { Community } from 'graphql/types.generated';
+import * as React from 'react';
 import { Button, Heading } from 'rebass/styled-components';
-import { useEditCommunityForm } from 'common/hooks/service/community/edit';
 import Alert from 'ui/elements/Alert';
 import Modal, {
   Actions,
+  AlertWrapper,
   Container,
   ContainerForm,
   CounterChars,
   Header,
-  Row,
-  AlertWrapper
+  Row
 } from 'ui/modules/Modal';
 
 const tt = {
@@ -26,12 +34,21 @@ const tt = {
 };
 
 interface Props {
+  communityId: Community['id'];
   closeModal: () => void;
 }
 
-const EditCommunityModal: React.FC<Props> = ({ closeModal }) => {
+const EditCommunityModal: React.FC<Props> = ({ closeModal, communityId }) => {
+  const community = useGetCommunityQueryQuery({ variables: { communityId } });
+  const [create /* , result */] = useUpdateCommunityMutationMutation();
+  const formik = useFormik<EditCommunityFormValues>({
+    enableReinitialize: true,
+    onSubmit: vals => create({ variables: { community: vals, communityId } }),
+    validationSchema: editCommunityFormValuesSchema,
+    initialValues: useEditCommunityFormValuesFromQueryResult(community)
+  });
   const handleCloseModal = React.useCallback(() => closeModal(), [closeModal]);
-  const formik = useEditCommunityForm();
+
   return (
     <Modal closeModal={handleCloseModal}>
       <Container>

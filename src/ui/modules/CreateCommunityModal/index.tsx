@@ -1,18 +1,25 @@
-import * as React from 'react';
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
+import {
+  basicCreateCommunityInitialValues,
+  basicCreateCommunityFormValuesSchema,
+  getBasicCreateCommunityInput,
+  BasicCreateCommunityFormValues
+} from 'common/forms/community/basicCreate';
+import { useFormik } from 'formik';
+import { useCreateCommunityMutationMutation } from 'graphql/generated/createCommunity.generated';
+import * as React from 'react';
 import { Button, Heading } from 'rebass/styled-components';
-import { useCreateCommunityForm } from 'common/hooks/service/community/create';
 import Alert from 'ui/elements/Alert';
 import Modal, {
   Actions,
+  AlertWrapper,
   Container,
   ContainerForm,
   CounterChars,
   Header,
-  Row,
-  AlertWrapper
+  Row
 } from 'ui/modules/Modal';
 
 const tt = {
@@ -30,8 +37,15 @@ interface Props {
 }
 
 const CreateCommunityModal: React.FC<Props> = ({ closeModal }) => {
+  const [create /* , result */] = useCreateCommunityMutationMutation();
+  const formik = useFormik<BasicCreateCommunityFormValues>({
+    initialValues: basicCreateCommunityInitialValues,
+    onSubmit: vals =>
+      create({ variables: { community: getBasicCreateCommunityInput(vals) } }),
+    validationSchema: basicCreateCommunityFormValuesSchema
+  });
   const handleCloseModal = React.useCallback(() => closeModal(), [closeModal]);
-  const formik = useCreateCommunityForm();
+
   return (
     <Modal closeModal={handleCloseModal}>
       <Container>
