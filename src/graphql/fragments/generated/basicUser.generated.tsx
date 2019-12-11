@@ -11,6 +11,9 @@ export type BasicUserFragment = (
   )>, myLike: Types.Maybe<(
     { __typename?: 'Like' }
     & Pick<Types.Like, 'id'>
+  )>, myFlag: Types.Maybe<(
+    { __typename?: 'Flag' }
+    & Pick<Types.Flag, 'id'>
   )> }
 );
 
@@ -32,6 +35,9 @@ export const BasicUserFragmentDoc = gql`
     id
   }
   myLike {
+    id
+  }
+  myFlag {
     id
   }
 }

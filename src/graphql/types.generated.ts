@@ -94,6 +94,8 @@ export type Collection = {
   lastActivity: Scalars['String'],
   /** Likes users have given the collection */
   likes: LikesEdges,
+  /** The current user's flag of the collection, if any */
+  myFlag?: Maybe<Flag>,
   /** The current user's follow of this collection, if any */
   myFollow?: Maybe<Follow>,
   /** The current user's like of this collection, if any */
@@ -298,8 +300,12 @@ export type Community = {
    * updated or a thread or a comment was created or updated
  **/
   lastActivity: Scalars['String'],
+  /** The current user's flag of the community, if any */
+  myFlag?: Maybe<Flag>,
   /** The current user's follow of the community, if any */
   myFollow?: Maybe<Follow>,
+  /** The current user's like of this community, if any */
+  myLike?: Maybe<Like>,
   /** A name field */
   name: Scalars['String'],
   /** Activities in the community, most recently created first */
@@ -656,6 +662,8 @@ export type Resource = {
   license?: Maybe<Scalars['String']>,
   /** Users who like the resource, most recently liked first */
   likes: LikesEdges,
+  /** The current user's flag of the resource, if any */
+  myFlag?: Maybe<Flag>,
   /** The current user's like of the resource, if any */
   myLike?: Maybe<Like>,
   /** A name field */
@@ -1119,6 +1127,8 @@ export type User = {
   likes: LikesEdges,
   /** Free text */
   location?: Maybe<Scalars['String']>,
+  /** The current user's flag of this user, if any */
+  myFlag?: Maybe<Flag>,
   /** The current user's follow of this user, if any */
   myFollow?: Maybe<Follow>,
   /** The current user's like of this user, if any */
@@ -1644,6 +1654,7 @@ export type CollectionResolvers<ContextType = any, ParentType extends ResolversP
   isPublic?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   lastActivity?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   likes?: Resolver<ResolversTypes['LikesEdges'], ParentType, ContextType, CollectionLikesArgs>,
+  myFlag?: Resolver<Maybe<ResolversTypes['Flag']>, ParentType, ContextType>,
   myFollow?: Resolver<Maybe<ResolversTypes['Follow']>, ParentType, ContextType>,
   myLike?: Resolver<Maybe<ResolversTypes['Like']>, ParentType, ContextType>,
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
@@ -1719,7 +1730,9 @@ export type CommunityResolvers<ContextType = any, ParentType extends ResolversPa
   isLocal?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   isPublic?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   lastActivity?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  myFlag?: Resolver<Maybe<ResolversTypes['Flag']>, ParentType, ContextType>,
   myFollow?: Resolver<Maybe<ResolversTypes['Follow']>, ParentType, ContextType>,
+  myLike?: Resolver<Maybe<ResolversTypes['Like']>, ParentType, ContextType>,
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   outbox?: Resolver<ResolversTypes['ActivitiesEdges'], ParentType, ContextType, CommunityOutboxArgs>,
   preferredUsername?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
@@ -1924,6 +1937,7 @@ export type ResourceResolvers<ContextType = any, ParentType extends ResolversPar
   isPublic?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   license?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   likes?: Resolver<ResolversTypes['LikesEdges'], ParentType, ContextType, ResourceLikesArgs>,
+  myFlag?: Resolver<Maybe<ResolversTypes['Flag']>, ParentType, ContextType>,
   myLike?: Resolver<Maybe<ResolversTypes['Like']>, ParentType, ContextType>,
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   summary?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
@@ -2045,6 +2059,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   lastActivity?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   likes?: Resolver<ResolversTypes['LikesEdges'], ParentType, ContextType, UserLikesArgs>,
   location?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  myFlag?: Resolver<Maybe<ResolversTypes['Flag']>, ParentType, ContextType>,
   myFollow?: Resolver<Maybe<ResolversTypes['Follow']>, ParentType, ContextType>,
   myLike?: Resolver<Maybe<ResolversTypes['Like']>, ParentType, ContextType>,
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,

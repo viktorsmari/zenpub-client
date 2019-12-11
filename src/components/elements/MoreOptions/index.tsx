@@ -61,7 +61,7 @@ const Layer = styled.div`
 
 interface Props {
   contextId: string;
-  myFlag: string | null;
+  myFlag: any;
 }
 
 // const MoreOptions: React.FC<Props> = ({ contextId, myFlag }) => {
@@ -71,7 +71,7 @@ const MoreOptions: React.FC<Props> = ({ contextId, myFlag }) => {
   const closeMenu = React.useCallback(() => setMenuIsOpen(false), []);
   const openMenu = React.useCallback(() => setMenuIsOpen(true), []);
   const [isFlagged, flagItem] = React.useState(myFlag != null);
-
+  console.log('myFlag %O', myFlag != null);
   return (
     <>
       <MoreButton>
@@ -93,11 +93,7 @@ const MoreOptions: React.FC<Props> = ({ contextId, myFlag }) => {
                     <span>
                       <Flag size={18} color={'#333'} />
                     </span>
-                    {isFlagged != null ? (
-                      <Trans>Flag</Trans>
-                    ) : (
-                      <Trans>Unflag</Trans>
-                    )}
+                    {!isFlagged ? <Trans>Flag</Trans> : <Trans>Unflag</Trans>}
                   </Item>
                 </List>
               </OptionsMenu>
@@ -109,6 +105,7 @@ const MoreOptions: React.FC<Props> = ({ contextId, myFlag }) => {
       <FlagModal
         contextId={contextId}
         myFlag={myFlag}
+        isFlagged={isFlagged}
         flagItem={flagItem}
         closeModal={() => {
           onFlagOpen(false);
