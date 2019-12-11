@@ -1,18 +1,25 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import EditCommunityModal from '.';
+import { storiesOf } from '@storybook/react';
+import { apolloMockDeco, mockLink } from 'common/util/storybook/apolloDeco';
+import { GetCommunityQueryQueryOperation } from 'graphql/generated/getCommunity.generated';
+import React from 'react';
 import { themeDeco } from 'ui/styleguide/storiesThemeDecorator';
-import { editCommunitySrv } from 'common/hooks/service/community/edit';
-import { StorybookAsyncServiceMockProviderDeco } from 'common/util/ctx-mock/submitProviderActionDeco';
+import EditCommunityModal from '.';
+import { UpdateCommunityMutationMutationOperation } from 'graphql/generated/updateCommunity.generated';
+import { basicUpdateCommunityMutation } from 'common/data/mocks/gql/community/UpdateCommunityMutation';
+import { basicGetCommunityQuery } from 'common/data/mocks/gql/community/GetCommunityQuery';
+
+const getCommunityMockLink = mockLink<GetCommunityQueryQueryOperation>(
+  'getCommunityQuery',
+  () => ({ data: basicGetCommunityQuery })
+);
+const updateCommunityMockLink = mockLink<
+  UpdateCommunityMutationMutationOperation
+>('updateCommunityMutation', () => ({ data: basicUpdateCommunityMutation }));
 
 storiesOf('Modules/EditCommunity', module)
   .addDecorator(themeDeco())
-  .addDecorator(
-    StorybookAsyncServiceMockProviderDeco('Edit Community', editCommunitySrv, {
-      id: '#231-123-123'
-    })
-  )
+  .addDecorator(apolloMockDeco(getCommunityMockLink, updateCommunityMockLink))
   .add('Standard', () => (
-    <EditCommunityModal closeModal={action('close modal')} />
+    <EditCommunityModal closeModal={action('close modal')} communityId="#" />
   ));
