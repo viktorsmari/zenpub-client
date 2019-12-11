@@ -169,21 +169,6 @@ const Fetched = (props: Props & FormikProps<FormValues>) => {
                 />
               )}
             />
-            <Field
-              name="image-upload"
-              render={({ field }) => (
-                <Input
-                  placeholder={i18n._(tt.placeholders.noFilesSelected)}
-                  name={field.name}
-                  value={field.value}
-                  onChange={event => {
-                    field.setFieldValue('file', event.currentTarget.files[0]);
-                  }}
-                  type="file"
-                />
-              )}
-            />
-            {/* <Thumb file={props.values.file} /> */}
             {props.errors.image &&
               props.touched.image && <Alert>{props.errors.image}</Alert>}
           </ContainerForm>

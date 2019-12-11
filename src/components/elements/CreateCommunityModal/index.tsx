@@ -11,6 +11,7 @@ import { i18n } from '../../../containers/App/App';
 import Alert from '../Alert';
 import { Button } from 'rebass/styled-components';
 import Modal from '../Modal';
+// import DropzoneArea from '../../components/elements/DropzoneModal';
 import {
   Actions,
   Container,
