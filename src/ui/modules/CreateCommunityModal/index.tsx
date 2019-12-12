@@ -5,7 +5,6 @@ import { Input, Textarea } from '@rebass/forms';
 import { Field, Form, Formik } from 'formik';
 import * as React from 'react';
 import { Heading } from 'rebass/styled-components';
-import { i18n } from '../../../containers/App/App';
 import Alert from '../../elements/Alert';
 import { Button } from 'rebass/styled-components';
 import Modal from '../Modal';
@@ -17,6 +16,7 @@ import {
   Header,
   Row
 } from '../Modal';
+import { LocaleContext } from '../../../context/global/localizationCtx';
 
 const tt = {
   placeholders: {
@@ -46,6 +46,8 @@ interface FormValues {
 const CreateCommunityModal = (
   props: Props /*  & FormikProps<FormValues> */
 ) => {
+  const { i18n } = React.useContext(LocaleContext);
+
   const initialValues = React.useMemo<FormValues>(
     () => ({
       name: '',

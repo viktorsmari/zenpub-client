@@ -7,7 +7,6 @@ import * as React from 'react';
 import { useHistory } from 'react-router';
 import { Heading } from 'rebass/styled-components';
 import * as Yup from 'yup';
-import { i18n } from '../../../containers/App/App';
 import Alert from '../Alert';
 import { Button } from 'rebass/styled-components';
 import Modal from '../Modal';
@@ -23,6 +22,7 @@ import {
   useCreateCommunityMutationMutation,
   CreateCommunityMutationMutationVariables
 } from '../../../graphql/generated/createCommunity.generated';
+import { LocaleContext } from '../../../context/global/localizationCtx';
 
 const tt = {
   placeholders: {
@@ -50,6 +50,7 @@ interface FormValues {
 const CreateCommunityModal = (
   props: Props /*  & FormikProps<FormValues> */
 ) => {
+  const { i18n } = React.useContext(LocaleContext);
   const { toggleModal, modalIsOpen } = props;
   const history = useHistory();
   const [create /* , response */] = useCreateCommunityMutationMutation({});

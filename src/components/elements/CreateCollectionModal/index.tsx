@@ -7,7 +7,6 @@ import { Field, Form, Formik, FormikConfig } from 'formik';
 import * as React from 'react';
 import { Button, Heading } from 'rebass/styled-components';
 import * as Yup from 'yup';
-import { i18n } from '../../../containers/App/App';
 import {
   CreateCollectionMutationMutationVariables,
   useCreateCollectionMutationMutation
@@ -23,6 +22,7 @@ import {
   Row
 } from '../Modal/modal';
 import { useHistory } from 'react-router';
+import { LocaleContext } from '../../../context/global/localizationCtx';
 
 const tt = {
   placeholders: {
@@ -53,6 +53,8 @@ const CreateCollectionModal: React.FC<Props> = ({
   modalIsOpen,
   communityId
 }) => {
+  const { i18n } = React.useContext(LocaleContext);
+
   const history = useHistory();
   const [createCollection] = useCreateCollectionMutationMutation();
   const handleSubmit = React.useCallback<FormikConfig<FormValues>['onSubmit']>(

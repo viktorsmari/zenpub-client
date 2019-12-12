@@ -34,3 +34,23 @@ ${Object.keys(process.env)
     .join('\n')}
 -
 `);
+export const catalogs = {
+  en_GB: require(IS_DEV
+    ? './locales/en_GB/messages.po'
+    : './locales/en_GB/messages.js'),
+  en_US: require(IS_DEV
+    ? './locales/en_US/messages.po'
+    : './locales/en_US/messages.js'),
+  es_ES: require(IS_DEV
+    ? './locales/es_ES/messages.po'
+    : './locales/es_ES/messages.js'),
+  es_MX: require(IS_DEV
+    ? './locales/es_MX/messages.po'
+    : './locales/es_MX/messages.js'),
+  fr_FR: require(IS_DEV
+    ? './locales/fr_FR/messages.po'
+    : './locales/fr_FR/messages.js'),
+  eu: require(IS_DEV ? './locales/eu/messages.po' : './locales/eu/messages.js')
+};
+
+console.log(catalogs);

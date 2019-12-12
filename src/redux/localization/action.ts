@@ -1,6 +1,6 @@
 import { actionCtx } from '../../util/redux/Actions';
-import { Lang } from './types';
+import { Locale } from './types';
 
-export const setLang = actionCtx<'localization.setLang', Lang>(
+export const setLang = actionCtx<'localization.setLang', Locale>(
   'localization.setLang'
 );

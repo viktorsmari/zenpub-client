@@ -4,7 +4,6 @@ import { Field, Form, Formik } from 'formik';
 import * as React from 'react';
 import { ApolloConsumer } from 'react-apollo';
 import * as Yup from 'yup';
-import { i18n } from '../../../containers/App/App';
 import Alert from '../Alert';
 import { Input } from '@rebass/forms';
 import { Heading, Button } from 'rebass/styled-components';
@@ -16,6 +15,7 @@ import Markdown from 'markdown-to-jsx';
 import axios from 'axios';
 
 import { INVITE_ONLY_TEXT } from './../../../constants';
+import { LocaleContext } from '../../../context/global/localizationCtx';
 
 var terms_users = { data: '' };
 var terms_cookies = { data: '' };
@@ -83,6 +83,7 @@ async function validateUsername(value, client) {
 }
 
 const SignupModal = (props: Props) => {
+  const { i18n } = React.useContext(LocaleContext);
   const { toggleModal, modalIsOpen } = props;
   const [createUser /*, createUserResp*/] = useCreateUserMutationMutation();
   getTerms();

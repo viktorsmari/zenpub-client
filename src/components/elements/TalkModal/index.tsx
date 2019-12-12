@@ -2,7 +2,6 @@ import { i18nMark } from '@lingui/react';
 import * as React from 'react';
 import { Box, Flex } from 'rebass/styled-components';
 import { string } from 'yup';
-import { i18n } from '../../../containers/App/App';
 import CommentCmp from '../Comment/Comment';
 import styled from '../../../themes/styled';
 import { SessionContext } from '../../../context/global/sessionCtx';
@@ -12,6 +11,7 @@ import SocialText from '../SocialText';
 import { useCreateReplyMutationMutation } from '../../../graphql/generated/createReply.generated';
 import { BasicCommentFragment } from '../../../graphql/fragments/generated/basicComment.generated';
 import { Comment } from '../../../graphql/types.generated';
+import { LocaleContext } from '../../../context/global/localizationCtx';
 
 export const TextWrapper = styled(Flex)`
   padding: 16px;
@@ -48,6 +48,7 @@ export const TalkModal: React.FC<Props> = ({
   modalIsOpen,
   toggleModal
 }) => {
+  const { i18n } = React.useContext(LocaleContext);
   const [reply /* ,replyResult */] = useCreateReplyMutationMutation();
   const session = React.useContext(SessionContext);
   const [text, setText] = React.useState('');

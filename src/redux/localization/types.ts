@@ -1,5 +1,8 @@
-export type Lang = string;
+import { Catalogs } from '@lingui/core';
+
+export type Locale = string;
 
 export interface State {
-  lang: Lang;
+  locale: Locale;
+  catalogs: Catalogs;
 }

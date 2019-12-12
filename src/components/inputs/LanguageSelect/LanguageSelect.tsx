@@ -1,10 +1,8 @@
 import * as React from 'react';
 import Select from 'react-select';
-import { LocaleContext, locale_default } from '../../../containers/App/App';
-
-type LanguageSelectState = {
-  stateLocale: string;
-};
+import { LocaleContext } from '../../../context/global/localizationCtx';
+import { ActionContext } from '../../../context/global/actionCtx';
+import { setLang } from '../../../redux/localization';
 
 type LanguageSelectProps = {
   fullWidth?: boolean;
@@ -19,50 +17,36 @@ export const languageNames = {
   eu: 'Euskara'
 };
 
-type LangKey = keyof typeof languageNames;
+export const LanguageSelect: React.FC<LanguageSelectProps> = props => {
+  const { locale, locales } = React.useContext(LocaleContext);
+  const { dispatch } = React.useContext(ActionContext);
+  const options = React.useMemo(
+    () =>
+      locales.map(
+        loc => ({
+          value: loc,
+          label: languageNames[loc] || loc
+        }),
+        {}
+      ),
+    [locales]
+  );
+  return (
+    <Select
+      options={options}
+      defaultValue={options.find(_ => _.value === locale)}
+      onChange={selectedKey => {
+        const selection =
+          !!selectedKey && 'length' in selectedKey
+            ? selectedKey[0]
+            : selectedKey;
+        if (!selection) {
+          return;
+        }
 
-const options = Object.keys(languageNames).map((key: LangKey) => ({
-  value: key,
-  label: languageNames[key]
-}));
-
-/**
- * LanguageSelect component.
- * Allows the user to select the active locale being used in the application.
- */
-export default class LanguageSelect extends React.Component<
-  LanguageSelectProps,
-  LanguageSelectState
-> {
-  state = {
-    stateLocale: locale_default
-  };
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <LocaleContext.Consumer>
-        {({ setLocale, locale }) => (
-          <Select
-            options={options}
-            defaultValue={options.find(_ => _.value === locale)}
-            onChange={selectedKey => {
-              const selection =
-                !!selectedKey && 'length' in selectedKey
-                  ? selectedKey[0]
-                  : selectedKey;
-              if (!selection) {
-                return;
-              }
-
-              setLocale(selection.value);
-              this.setState({ stateLocale: selection.value });
-            }}
-          />
-        )}
-      </LocaleContext.Consumer>
-    );
-  }
-}
+        dispatch(setLang.create(selection.value));
+      }}
+    />
+  );
+};
+export default LanguageSelect;
