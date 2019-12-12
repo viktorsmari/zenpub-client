@@ -6,20 +6,19 @@ import { CreateCollectionMutationMutationOperation } from 'graphql/generated/cre
 import React from 'react';
 import { themeDeco } from 'ui/styleguide/storiesThemeDecorator';
 import CreateCollectionModal from '.';
-import { GetCollectionQueryOperation } from 'graphql/generated/getCollection.generated';
-import { basicGetCollectionQuery } from 'common/data/mocks/gql/collection/GetCollectionQuery';
 
 const createCollectionMockLink = mockLink<
   CreateCollectionMutationMutationOperation
 >('createCollectionMutation', () => ({ data: basicCreateCollectionMutation }));
-const getCollectionMockLink = mockLink<GetCollectionQueryOperation>(
-  'getCollection',
-  () => ({ data: basicGetCollectionQuery })
-);
 
+const apolloMock = apolloMockDeco(createCollectionMockLink);
 storiesOf('Modules/CreateCollection', module)
   .addDecorator(themeDeco())
-  .addDecorator(apolloMockDeco(createCollectionMockLink, getCollectionMockLink))
-  .add('Standard', () => (
-    <CreateCollectionModal closeModal={action('close modal')} communityId="#" />
-  ));
+  .add('Standard', () =>
+    apolloMock(() => (
+      <CreateCollectionModal
+        closeModal={action('close modal')}
+        communityId="#"
+      />
+    ))
+  );

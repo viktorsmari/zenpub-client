@@ -17,10 +17,18 @@ const updateCollectionMockLink = mockLink<
   UpdateCollectionMutationMutationOperation
 >('updateCollectionMutation', () => ({ data: basicUpdateCollectionMutation }));
 
+const apolloMock = apolloMockDeco(
+  getCollectionMockLink,
+  updateCollectionMockLink
+);
+
 storiesOf('Modules/EditCollection', module)
   .addDecorator(themeDeco())
-  .addDecorator(apolloMockDeco(getCollectionMockLink, updateCollectionMockLink))
-
-  .add('Standard', () => (
-    <EditCollectionModal closeModal={action('close modal')} collectionId="#" />
-  ));
+  .add('Standard', () =>
+    apolloMock(() => (
+      <EditCollectionModal
+        closeModal={action('close modal')}
+        collectionId="#"
+      />
+    ))
+  );

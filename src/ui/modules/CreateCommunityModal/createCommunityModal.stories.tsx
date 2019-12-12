@@ -11,9 +11,11 @@ const createCommunityMockLink = mockLink<
   CreateCommunityMutationMutationOperation
 >('createCommunityMutation', () => ({ data: basicCreateCommunityMutation }));
 
+const apolloMock = apolloMockDeco(createCommunityMockLink);
 storiesOf('Modules/CreateCommunity', module)
   .addDecorator(themeDeco())
-  .addDecorator(apolloMockDeco(createCommunityMockLink))
-  .add('Standard', () => (
-    <CreateCommunityModal closeModal={action('close modal')} />
-  ));
+  .add('Standard', () =>
+    apolloMock(() => (
+      <CreateCommunityModal closeModal={action('close modal')} />
+    ))
+  );

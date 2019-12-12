@@ -17,9 +17,14 @@ const updateCommunityMockLink = mockLink<
   UpdateCommunityMutationMutationOperation
 >('updateCommunityMutation', () => ({ data: basicUpdateCommunityMutation }));
 
+const apolloMock = apolloMockDeco(
+  getCommunityMockLink,
+  updateCommunityMockLink
+);
 storiesOf('Modules/EditCommunity', module)
   .addDecorator(themeDeco())
-  .addDecorator(apolloMockDeco(getCommunityMockLink, updateCommunityMockLink))
-  .add('Standard', () => (
-    <EditCommunityModal closeModal={action('close modal')} communityId="#" />
-  ));
+  .add('Standard', () =>
+    apolloMock(() => (
+      <EditCommunityModal closeModal={action('close modal')} communityId="#" />
+    ))
+  );
