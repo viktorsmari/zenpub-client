@@ -9,7 +9,6 @@ import { CreateKVStore } from '../util/keyvaluestore/types';
 import { createLocalizationMW } from './localization';
 import { createSessionMW } from './session';
 import { ToastMiddleware } from './toastMsgs';
-import { Catalogs } from '@lingui/core';
 
 export type State = ReturnType<typeof createAppStore> extends Store<infer S>
   ? S
@@ -17,17 +16,15 @@ export type State = ReturnType<typeof createAppStore> extends Store<infer S>
 
 interface Cfg {
   createLocalKVStore: CreateKVStore;
-  catalogs: Catalogs;
 }
-export const createAppStore = ({ createLocalKVStore, catalogs }: Cfg) => {
+export const createAppStore = ({ createLocalKVStore }: Cfg) => {
   const composeEnhancers =
     (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose();
   // const __DEV__ = (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
 
   const Session = createSessionMW(createLocalKVStore('SESSION#'));
   const Localization = createLocalizationMW(
-    createLocalKVStore('LOCALIZATION#'),
-    catalogs
+    createLocalKVStore('LOCALIZATION#')
   );
 
   const enhancer = composeEnhancers(
