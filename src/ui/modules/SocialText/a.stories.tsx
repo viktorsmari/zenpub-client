@@ -16,7 +16,7 @@ storiesOf('Modules/SocialText', module)
   .add('Simple', () => {
     const submit = action('submit');
     return (
-      <Wrapper m={3} width={'400px'} border>
+      <Wrapper border>
         <SocialText placeholder="type a message..." submit={submit} />
       </Wrapper>
     );

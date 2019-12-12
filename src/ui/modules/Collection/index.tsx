@@ -36,7 +36,7 @@ const Component: React.SFC<CollectionProps> = ({
       <Actions>
         <ActionItem>
           <FileText size={20} color={'#8b98a2'} />
-          <Text variant="suptitle">{totalResources} Collections</Text>
+          <Text variant="suptitle">{totalResources} resources</Text>
         </ActionItem>
       </Actions>
     </Infos>

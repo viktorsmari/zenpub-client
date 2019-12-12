@@ -11,7 +11,7 @@ const Wrapper = styled(Box)`
   font-size: 13px;
 `;
 const Alert: React.FC<{ variant: string }> = ({ variant, children }) => (
-  <Wrapper variant={variant}>{children}</Wrapper>
+  <Wrapper variant={variant || 'info'}>{children}</Wrapper>
 );
 
 export default Alert;
