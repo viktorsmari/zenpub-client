@@ -21,8 +21,8 @@ export const createLocalizationMW = (kvstore: KVStore): LocalizationSrv => {
       if (Localization.setLang.is(action)) {
         Settings.defaultLocale = action.payload.split('_')[0];
         setStoredLang(action.payload);
-        next(action);
       }
+      next(action);
     };
   };
   const initialLocale = getStoredLang() || defaultLang;
