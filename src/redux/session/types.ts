@@ -1,7 +1,7 @@
 import { BasicAuthPayloadFragment } from '../../graphql/fragments/generated/basicAuthPayload.generated';
 
-export type Auth = BasicAuthPayloadFragment;
+export type SessionUser = BasicAuthPayloadFragment['me'];
 
 export interface State {
-  auth: Auth | null;
+  me: SessionUser | null;
 }

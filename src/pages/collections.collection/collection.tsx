@@ -6,23 +6,25 @@ import styled from '../../themes/styled';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import ResourceCard from '../../components/elements/Resource/Resource';
 // import { Resource } from '../../components/elements/Icons';
-// import Link from '../../components/elements/Link/Link';
+import Link from '../../components/elements/Link/Link';
 import media from 'styled-media-query';
 import { Button, Flex, Box } from 'rebass/styled-components';
 import {
-  // Footer,
+  Footer,
   WrapperTab,
   OverlayTab
 } from '../communities.community/Community';
 import CollectionModal from '../../components/elements/CollectionModal';
 // import DropzoneArea from '../../components/elements/DropzoneModal';
 
+import { BasicCollectionFragment } from '../../graphql/fragments/generated/basicCollection.generated';
+import { BasicResourcesEdgesFragment } from '../../graphql/fragments/generated/basicResourcesEdges.generated';
 // import CollectionsLoadMore from 'src/components/elements/Loadmore/followingCollections';
 
 interface Props {
-  collection: any;
+  collection: BasicCollectionFragment;
   community_name: string;
-  resources: any;
+  resources: BasicResourcesEdgesFragment;
   fetchMore: any;
   type: string;
   addNewResource: any;
@@ -55,7 +57,7 @@ const CommunityPage: SFC<Props> = ({
               }}
             >
               <Wrapper>
-                {/*FIXME collection.community.followed ? null : ( // BTW .followed does not exist no more.. it's spread around code
+                {!collection.community.myFollow && (
                   <Footer>
                     <Trans>Join the community</Trans>{' '}
                     <Link to={'/communities/' + collection.community.id}>
@@ -63,30 +65,31 @@ const CommunityPage: SFC<Props> = ({
                     </Link>{' '}
                     <Trans>to add a resource</Trans>
                   </Footer>
-                ) */}
+                )}
                 <CollectionList>
-                  {/*FIXME collection.community.followed ? */ isOpen ===
-                  true ? (
-                    <ButtonWrapper>
-                      <Button m={3} onClick={() => onOpen(false)}>
-                        <Trans>Cancel</Trans>
-                      </Button>
-                    </ButtonWrapper>
-                  ) : (
-                    <ButtonWrapper>
-                      <Button m={3} onClick={() => onOpen(true)}>
-                        <Trans>Share a link</Trans>
-                      </Button>
-                    </ButtonWrapper>
-                  ) /*  : null */}
-                  {isOpen === true ? (
+                  {collection.community.myFollow ? (
+                    isOpen ? (
+                      <ButtonWrapper>
+                        <Button m={3} onClick={() => onOpen(false)}>
+                          <Trans>Cancel</Trans>
+                        </Button>
+                      </ButtonWrapper>
+                    ) : (
+                      <ButtonWrapper>
+                        <Button m={3} onClick={() => onOpen(true)}>
+                          <Trans>Share a link</Trans>
+                        </Button>
+                      </ButtonWrapper>
+                    )
+                  ) : null}
+                  {isOpen && (
                     <CollectionModal
                       toggleModal={onOpen}
                       modalIsOpen={isOpen}
                       collectionId={collection.id}
                       collectionExternalId={collection.id}
                     />
-                  ) : null}
+                  )}
                   {/* {collection.community.followed ? (
                     isUploadOpen === true ? (
                       <ButtonWrapper>
@@ -112,16 +115,19 @@ const CommunityPage: SFC<Props> = ({
                   ) : null} */}
 
                   {resources.totalCount > 0 ? (
-                    resources.edges.map((edge, i) => (
-                      <ResourceCard
-                        key={i}
-                        icon={edge.node.icon}
-                        title={edge.node.name}
-                        summary={edge.node.summary}
-                        url={edge.node.url}
-                        id={edge.node.id}
-                      />
-                    ))
+                    resources.edges.map(
+                      (edge, i) =>
+                        edge && (
+                          <ResourceCard
+                            key={i}
+                            icon={edge.node.icon}
+                            title={edge.node.name}
+                            summary={edge.node.summary}
+                            url={edge.node.url}
+                            id={edge.node.id}
+                          />
+                        )
+                    )
                   ) : (
                     <Empty>
                       <Trans>This collection is empty.</Trans>

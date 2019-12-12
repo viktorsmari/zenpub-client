@@ -26,7 +26,7 @@ export const integrateSessionApolloRedux = (
       'createSession' in resp.data
         ? resp.data.createSession
         : resp.data.confirmEmail;
-    dispatch(payload ? login.create(payload) : logout.create());
+    dispatch(payload ? login.create(payload.me) : logout.create());
   };
 
   dynamicLinkSrv.addLinkOpResult<ConfirmEmailMutationMutationOperation>(
@@ -39,10 +39,11 @@ export const integrateSessionApolloRedux = (
     setAuth
   );
 
-  dynamicLinkSrv.addLinkOpResult<LogoutMutationMutationOperation>(
+  dynamicLinkSrv.addLinkOp<LogoutMutationMutationOperation>(
     'logoutMutation',
-    () => {
+    (op, next) => {
       dispatch(logout.create());
+      return next(op);
     }
   );
 };

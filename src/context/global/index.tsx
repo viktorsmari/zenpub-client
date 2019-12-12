@@ -3,8 +3,6 @@ import { ProvideActionCtx } from './actionCtx';
 import { ProvideSessionCtx } from './sessionCtx';
 import { ProvideStateCtx } from './stateCtx';
 import { ProvideStoreCtx, StoreContextT } from './storeCtx';
-import { InterceptorSrv } from '../../apollo/client';
-import { ProvideApolloInterceptorCtx } from './apolloInterceptorCtx';
 import {
   ApolloDynamicLinkContext,
   DynamicLinkSrv
@@ -13,13 +11,11 @@ import {
 interface Props {
   children: React.ReactNode;
   store: StoreContextT;
-  apolloInterceptor: InterceptorSrv;
   dynamicLinkSrv: DynamicLinkSrv;
 }
 export const ProvideContexts: React.FC<Props> = ({
   children,
   store,
-  apolloInterceptor,
   dynamicLinkSrv
 }) => {
   return (
@@ -27,11 +23,9 @@ export const ProvideContexts: React.FC<Props> = ({
       <ProvideStateCtx>
         <ProvideActionCtx>
           <ProvideSessionCtx>
-            <ProvideApolloInterceptorCtx interceptor={apolloInterceptor}>
-              <ApolloDynamicLinkContext.Provider value={dynamicLinkSrv}>
-                {children}
-              </ApolloDynamicLinkContext.Provider>
-            </ProvideApolloInterceptorCtx>
+            <ApolloDynamicLinkContext.Provider value={dynamicLinkSrv}>
+              {children}
+            </ApolloDynamicLinkContext.Provider>
           </ProvideSessionCtx>
         </ProvideActionCtx>
       </ProvideStateCtx>

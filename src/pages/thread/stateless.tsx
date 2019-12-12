@@ -1,5 +1,5 @@
 import * as React from 'react';
-// import Comment from '../../components/elements/Comment/Comment';
+import Comment from '../../components/elements/Comment/Comment';
 import Loader from '../../components/elements/Loader/Loader';
 // import Thread from '../../components/elements/thread';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
@@ -55,7 +55,13 @@ const Component: React.FC<Props> = ({ threadQuery: thread }) => {
                     .reverse()
                     .map(
                       edge =>
-                        /*FIXME*/ null /*   edge && edge.node && <Comment key={edge.node.thread.id} comment={edge.node.thread} /> */
+                        edge &&
+                        edge.node && (
+                          <Comment
+                            key={edge.node.thread.id}
+                            comment={edge.node}
+                          />
+                        )
                     )}
               </>
             )}

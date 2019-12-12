@@ -1,14 +1,14 @@
 import * as Types from '../../types.generated';
 
-import { BasicResourceFragment } from './basicResource.generated';
 import { BasicCollectionFragment } from './basicCollection.generated';
 import { BasicCommunityFragment } from './basicCommunity.generated';
+import { BasicResourceFragment } from './basicResource.generated';
 import { BasicUserFragment } from './basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from './basicUser.generated';
+import { BasicResourceFragmentDoc } from './basicResource.generated';
 import { BasicCommunityFragmentDoc } from './basicCommunity.generated';
 import { BasicCollectionFragmentDoc } from './basicCollection.generated';
-import { BasicResourceFragmentDoc } from './basicResource.generated';
 
 
 
@@ -73,22 +73,22 @@ export const BasicCommentFragmentDoc = gql`
     id
     context {
       __typename
+      ... on Resource {
+        ...BasicResource
+      }
       ... on Community {
         ...BasicCommunity
       }
       ... on Collection {
         ...BasicCollection
       }
-      ... on Resource {
-        ...BasicResource
-      }
     }
   }
 }
     ${BasicUserFragmentDoc}
+${BasicResourceFragmentDoc}
 ${BasicCommunityFragmentDoc}
-${BasicCollectionFragmentDoc}
-${BasicResourceFragmentDoc}`;
+${BasicCollectionFragmentDoc}`;
 export const BasicCommentWithInReplyToFragmentDoc = gql`
     fragment BasicCommentWithInReplyTo on Comment {
   ...BasicComment

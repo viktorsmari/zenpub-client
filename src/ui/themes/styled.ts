@@ -12,8 +12,21 @@ export interface MoodleThemeInterface {
     lightgray: string;
     lighter: string;
     darkgray: string;
+    red: string;
+    green: string;
+    yellow: string;
+    darkYellow: string;
+    blue: string;
   };
   text: {
+    subhead: {
+      fontFamily: string;
+      fontSize: number;
+      color: string;
+      textTransform: string;
+      letterSpacing: string;
+      fontWeight: string;
+    };
     suptitle: {
       fontFamily: string;
       fontSize: number;
@@ -50,6 +63,25 @@ export interface MoodleThemeInterface {
     };
     primary: {
       bg: string;
+    };
+    bad: {
+      bg: string;
+      color: string;
+    };
+    good: {
+      bg: string;
+      color: string;
+    };
+    warning: {
+      bg: string;
+      color: string;
+    };
+    info: {
+      bg: string;
+      color: string;
+    };
+    avatar: {
+      borderRadius: string;
     };
   };
   buttons: {
