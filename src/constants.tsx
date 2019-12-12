@@ -13,7 +13,16 @@ export const INVITE_ONLY_TEXT =
 
 export const IS_DEV = NODE_ENV === 'development';
 
-export const locales = ['en_GB', 'en_US', 'es_ES', 'es_MX', 'fr_FR', 'eu'];
+export const languages = {
+  en_GB: 'English, British',
+  en_US: 'English, USA',
+  es_MX: 'Español, Méjico',
+  es_ES: 'Español, España',
+  fr_FR: 'Français, France',
+  eu: 'Euskara'
+};
+export type LocaleKey = keyof typeof languages;
+export const locales = Object.keys(languages) as LocaleKey[];
 IS_DEV &&
   console.log(`-environment-
 ${Object.keys(process.env)

@@ -1,5 +1,5 @@
-export type Locale = string;
+import { LocaleKey } from '../../constants';
 
 export interface State {
-  locale: Locale;
+  locale: LocaleKey;
 }

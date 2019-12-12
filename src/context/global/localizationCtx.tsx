@@ -8,21 +8,17 @@ import React, {
   useState
 } from 'react';
 import { StateContext } from './stateCtx';
-import { IS_DEV, locales } from '../../constants';
+import { IS_DEV, locales, LocaleKey } from '../../constants';
 
 export type LocaleContextT = {
-  locale: string | null;
-  selectedLocale: string;
+  locale: LocaleKey;
   i18n: I18n;
-  locales: string[];
 };
 
 export const i18n = setupI18n({ locales: locales });
 export const LocaleContext = createContext<LocaleContextT>({
   locale: locales[0],
-  selectedLocale: locales[0],
-  i18n,
-  locales
+  i18n
 });
 export const ProvideLocalizationCtx: React.FC = ({ children }) => {
   const {
@@ -33,34 +29,20 @@ export const ProvideLocalizationCtx: React.FC = ({ children }) => {
 
   useEffect(
     () => {
-      if (catalogs[locale]) {
+      if (!locales.includes(locale) || catalogs[locale]) {
         return;
       }
-      (async function() {
-        try {
-          let cat: Catalog;
-          if (IS_DEV) {
-            cat = await import(/* webpackMode: "lazy", webpackChunkName: "i18n-[index]" */
-            `@lingui/loader!../../locales/${locale}/messages.po`);
-          } else {
-            cat = await import(/* webpackMode: "lazy", webpackChunkName: "i18n-[index]" */
-            `../../locales/${locale}/messages.js`);
-          }
-          setCatalogs({ ...catalogs, [locale]: cat });
-        } catch (err) {
-          console.error(`Error loading Locale: ${locale}`, err);
-        }
-      })();
+      loadCatalog(locale)
+        .then(cat => setCatalogs({ ...catalogs, [locale]: cat }))
+        .catch(err => console.error(`Error loading Locale: ${locale}`, err));
     },
     [locale]
   );
 
   const localeContextValue = useMemo<LocaleContextT>(
     () => ({
-      locale: catalogs[locale] ? locale : null,
-      selectedLocale: locale,
-      i18n,
-      locales
+      locale: locale,
+      i18n
     }),
     [catalogs, locale, i18n]
   );
@@ -71,4 +53,14 @@ export const ProvideLocalizationCtx: React.FC = ({ children }) => {
       </LocaleContext.Provider>
     </I18nProvider>
   );
+};
+
+const loadCatalog = async (locale: string): Promise<Catalog> => {
+  if (IS_DEV) {
+    return import(/* webpackMode: "lazy", webpackChunkName: "i18n-[index]" */
+    `@lingui/loader!../../locales/${locale}/messages.po`);
+  } else {
+    return import(/* webpackMode: "lazy", webpackChunkName: "i18n-[index]" */
+    `../../locales/${locale}/messages.js`);
+  }
 };

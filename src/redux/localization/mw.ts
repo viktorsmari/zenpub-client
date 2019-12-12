@@ -1,6 +1,7 @@
 import { Settings } from 'luxon';
 import { AnyAction, Middleware, Reducer } from 'redux';
 import * as Localization from '.';
+import { locales, LocaleKey } from '../../constants';
 import { KVStore } from '../../util/keyvaluestore/types';
 
 const LOCALE_KEY = 'locale';
@@ -9,12 +10,11 @@ interface LocalizationSrv {
   mw: Middleware;
   reducer: Reducer<Localization.State, AnyAction>;
 }
-const defaultLang: Localization.Locale = 'en_GB';
+const defaultLang = locales[0];
 export const createLocalizationMW = (kvstore: KVStore): LocalizationSrv => {
-  const getStoredLang = (): Localization.Locale | null =>
-    kvstore.get(LOCALE_KEY);
+  const getStoredLang = (): LocaleKey | null => kvstore.get(LOCALE_KEY);
   // const delStoredLang = (): Localization.Lang | null => kvstore.del(LANG_KEY);
-  const setStoredLang = (locale: Localization.Locale): void =>
+  const setStoredLang = (locale: LocaleKey): void =>
     kvstore.set(LOCALE_KEY, locale);
   const mw: Middleware = store => next => {
     return action => {

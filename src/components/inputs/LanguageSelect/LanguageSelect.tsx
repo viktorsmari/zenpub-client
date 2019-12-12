@@ -3,34 +3,20 @@ import Select from 'react-select';
 import { LocaleContext } from '../../../context/global/localizationCtx';
 import { ActionContext } from '../../../context/global/actionCtx';
 import { setLang } from '../../../redux/localization';
+import { languages, locales } from '../../../constants';
 
 type LanguageSelectProps = {
   fullWidth?: boolean;
 } & React.SelectHTMLAttributes<object>;
 
-export const languageNames = {
-  en_GB: 'English, British',
-  en_US: 'English, USA',
-  es_MX: 'Español, Méjico',
-  es_ES: 'Español, España',
-  fr_FR: 'Français, France',
-  eu: 'Euskara'
-};
+const options = locales.map(loc => ({
+  value: loc,
+  label: languages[loc]
+}));
 
 export const LanguageSelect: React.FC<LanguageSelectProps> = props => {
-  const { locale, locales } = React.useContext(LocaleContext);
+  const { locale } = React.useContext(LocaleContext);
   const { dispatch } = React.useContext(ActionContext);
-  const options = React.useMemo(
-    () =>
-      locales.map(
-        loc => ({
-          value: loc,
-          label: languageNames[loc] || loc
-        }),
-        {}
-      ),
-    [locales]
-  );
   return (
     <Select
       options={options}

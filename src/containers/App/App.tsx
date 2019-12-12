@@ -1,23 +1,22 @@
-import { Trans } from '@lingui/macro';
+// import { Trans } from '@lingui/macro';
 import * as React from 'react';
-import { LocaleContext } from '../../context/global/localizationCtx';
+// import { LocaleContext } from '../../context/global/localizationCtx';
 import { ThemeProvider } from '../../styleguide/Wrapper';
 import '../../styles/loader.css';
 import '../../styles/social-icons.css';
 import Router from './Router';
 
 export const App: React.FC = () => {
-  const { locale, selectedLocale } = React.useContext(LocaleContext);
-  if (!locale) {
-    return (
-      <p>
-        <Trans>
-          Sorry, we encountered a problem loading the app in your language.
-        </Trans>
-        ( {selectedLocale} )
-      </p>
-    );
-  }
+  // const { locale } = React.useContext(LocaleContext);
+  // if (!locale) {
+  //   return (
+  //     <p>
+  //       <Trans>
+  //         Sorry, we encountered a problem loading the app in your language.
+  //       </Trans>
+  //     </p>
+  //   );
+  // }
 
   return (
     <ThemeProvider>
