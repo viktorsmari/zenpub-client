@@ -3,7 +3,6 @@ import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
 import { Button, Heading } from 'rebass/styled-components';
-import { useCreateCollectionForm } from 'common/hooks/service/collection/create';
 import Alert from 'ui/elements/Alert';
 import Modal, {
   Actions,
@@ -14,6 +13,15 @@ import Modal, {
   Row,
   AlertWrapper
 } from 'ui/modules/Modal';
+import { useCreateCollectionMutationMutation } from 'graphql/generated/createCollection.generated';
+import {
+  BasicCreateCollectionFormValues,
+  basicCreateCollectionInitialValues,
+  basicCreateCollectionFormValuesSchema,
+  getBasicCreateCollectionInput
+} from 'common/forms/collection/basicCreate';
+import { useFormik } from 'formik';
+import { Community } from 'graphql/types.generated';
 
 const tt = {
   placeholders: {
@@ -26,12 +34,27 @@ const tt = {
 };
 
 interface Props {
+  communityId: Community['id'];
   closeModal: () => void;
 }
 
-const CreateCollectionModal: React.FC<Props> = ({ closeModal }) => {
+const CreateCollectionModal: React.FC<Props> = ({
+  closeModal,
+  communityId
+}) => {
+  const [create /* , result */] = useCreateCollectionMutationMutation();
+  const formik = useFormik<BasicCreateCollectionFormValues>({
+    initialValues: basicCreateCollectionInitialValues,
+    onSubmit: vals =>
+      create({
+        variables: {
+          collection: getBasicCreateCollectionInput(vals),
+          communityId
+        }
+      }),
+    validationSchema: basicCreateCollectionFormValuesSchema
+  });
   const handleCloseModal = React.useCallback(() => closeModal(), [closeModal]);
-  const formik = useCreateCollectionForm();
   return (
     <Modal closeModal={handleCloseModal}>
       <Container>
