@@ -52,5 +52,3 @@ export const catalogs = {
     : './locales/fr_FR/messages.js'),
   eu: require(IS_DEV ? './locales/eu/messages.po' : './locales/eu/messages.js')
 };
-
-console.log(catalogs);

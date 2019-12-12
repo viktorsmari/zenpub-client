@@ -33,13 +33,15 @@ export const createLocalizationMW = (
         }
 
         Settings.defaultLocale = action.payload.split('_')[0];
-        Settings.defaultZoneName = 'UTC';
       }
       return next(action);
     };
   };
+  const initialLocale = getStoredLang() || defaultLang;
+  Settings.defaultLocale = initialLocale.split('_')[0];
+  Settings.defaultZoneName = 'UTC';
   const initialState: Localization.State = {
-    locale: getStoredLang() || defaultLang,
+    locale: initialLocale,
     catalogs
   };
   const reducer = Localization.makeReducer(initialState);
