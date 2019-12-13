@@ -61,17 +61,19 @@ const Resource: React.FC<Props> = props => {
               </Actions>
             )}
           </TitleWrapper>
-          <Url>{props.url}</Url>
-          <Summary>
-            {props.summary.split('\n').map(function(item, key) {
-              return (
-                <span key={key}>
-                  {item}
-                  <br />
-                </span>
-              );
-            })}
-          </Summary>
+          {props.url && <Url>{props.url}</Url>}
+          {props.summary && (
+            <Summary>
+              {props.summary.split('\n').map(function(item, key) {
+                return (
+                  <span key={key}>
+                    {item}
+                    <br />
+                  </span>
+                );
+              })}
+            </Summary>
+          )}
         </Info>
       </UrlLink>
       <EditResourceModal
