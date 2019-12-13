@@ -39,9 +39,6 @@ const SocialTextArea = styled(Textarea)`
 `;
 
 const SocialActions = styled(Flex)`
-  // position: absolute;
-  // right: 10px;
-  // top: 16px;
   width: 70px;
 `;
 

@@ -20,7 +20,8 @@
     "experimentalDecorators": true,
     "downlevelIteration": true,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "baseUrl": "./src"
   },
   "exclude": ["node_modules", "build", "scripts", "config"]
 }

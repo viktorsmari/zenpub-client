@@ -46,7 +46,7 @@ export const ProvideLocalizationCtx: React.FC = ({ children }) => {
     }),
     [locale, i18n]
   );
-  console.log('**', catalogs);
+
   return (
     <I18nProvider i18n={i18n} language={locale} catalogs={catalogs}>
       <LocaleContext.Provider value={localeContextValue}>

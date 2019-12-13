@@ -144,6 +144,7 @@ const CreateCommunityModal = (
                           <CounterChars>
                             {500 - field.value.length}
                           </CounterChars>
+                          {errors.summary && <Alert>{errors.summary}</Alert>}
                         </>
                       )}
                     />
