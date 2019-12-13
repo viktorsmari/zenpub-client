@@ -14,12 +14,12 @@ import Markdown from 'markdown-to-jsx';
 import styled from '../../themes/styled';
 import media from 'styled-media-query';
 import { clearFix } from 'polished';
-import { i18n } from '../../containers/App/App';
 import { Panel, WrapperPanel } from '../../sections/panel';
 import useAxios from 'axios-hooks';
 
 import { INVITE_ONLY_TEXT } from './../../constants';
 import { AlertCircle, Eye } from 'react-feather';
+import { LocaleContext } from '../../context/global/localizationCtx';
 
 // var terms_users = { data: '' };
 // var terms_cookies = { data: '' };
@@ -198,6 +198,7 @@ const Aware = styled(Flex)<{ green: boolean }>`
 `;
 
 const SignupModal = (props: Props) => {
+  const { i18n } = React.useContext(LocaleContext);
   const [createUser, createUserResp] = useCreateUserMutationMutation();
   const [terms_users] = useAxios('https://moodle.net/terms/users.md', {
     useCache: true

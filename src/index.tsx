@@ -59,7 +59,7 @@ async function run() {
       }
   `;
   const createLocalKVStore = createLocalSessionKVStorage('local');
-  const store = createStore({ localKVStore: createLocalKVStore('SESSION#') });
+  const store = createStore({ createLocalKVStore });
 
   const dynamicLinkEnv = createDynamicLinkEnv();
 

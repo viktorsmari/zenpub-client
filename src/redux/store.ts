@@ -5,7 +5,8 @@ import {
   createStore,
   Store
 } from 'redux';
-import { KVStore } from '../util/keyvaluestore/types';
+import { CreateKVStore } from '../util/keyvaluestore/types';
+import { createLocalizationMW } from './localization';
 import { createSessionMW } from './session';
 import { ToastMiddleware } from './toastMsgs';
 
@@ -14,21 +15,25 @@ export type State = ReturnType<typeof createAppStore> extends Store<infer S>
   : never;
 
 interface Cfg {
-  localKVStore: KVStore;
+  createLocalKVStore: CreateKVStore;
 }
-export const createAppStore = ({ localKVStore }: Cfg) => {
+export const createAppStore = ({ createLocalKVStore }: Cfg) => {
   const composeEnhancers =
     (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose();
   // const __DEV__ = (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
 
-  const Session = createSessionMW(localKVStore);
+  const Session = createSessionMW(createLocalKVStore('SESSION#'));
+  const Localization = createLocalizationMW(
+    createLocalKVStore('LOCALIZATION#')
+  );
 
   const enhancer = composeEnhancers(
-    applyMiddleware(Session.mw, ToastMiddleware)
+    applyMiddleware(Session.mw, Localization.mw, ToastMiddleware)
   );
 
   const reducer = combineReducers({
-    session: Session.reducer
+    session: Session.reducer,
+    localization: Localization.reducer
   });
 
   const store = createStore(reducer, enhancer);
