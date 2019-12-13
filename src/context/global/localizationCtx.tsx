@@ -41,11 +41,12 @@ export const ProvideLocalizationCtx: React.FC = ({ children }) => {
 
   const localeContextValue = useMemo<LocaleContextT>(
     () => ({
-      locale: locale,
+      locale,
       i18n
     }),
-    [catalogs, locale, i18n]
+    [locale, i18n]
   );
+  console.log('**', catalogs);
   return (
     <I18nProvider i18n={i18n} language={locale} catalogs={catalogs}>
       <LocaleContext.Provider value={localeContextValue}>
