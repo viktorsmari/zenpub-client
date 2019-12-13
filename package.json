@@ -11,7 +11,8 @@
     "extract": "lingui extract --clean",
     "compile": "lingui compile",
     "docs": "typedoc --out docs src",
-    "storybook": "start-storybook --docs",
+    "storybook": "start-storybook -p 4000 --docs",
+    "build-storybook": "build-storybook -c .storybook",
     "gqlcode": "shx rm -fr src/graphql/generated && shx rm -fr src/graphql/fragments/generated && graphql-codegen --config ./codegen.yml",
     "gql:fetch-schema": "graphql get-schema --project"
   },
