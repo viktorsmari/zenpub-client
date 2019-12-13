@@ -1,15 +1,15 @@
-import { BasicCollectionFragmentDoc } from '../fragments/generated/basicCollection.generated';
+import { BasicCommunityFragmentDoc } from '../fragments/generated/basicCommunity.generated';
 import * as Types from '../types.generated';
 
-import { BasicResourceFragment } from '../fragments/generated/basicResource.generated';
 import { BasicCollectionFragment } from '../fragments/generated/basicCollection.generated';
 import { BasicCommunityFragment } from '../fragments/generated/basicCommunity.generated';
+import { BasicResourceFragment } from '../fragments/generated/basicResource.generated';
 import { BasicUserFragment } from '../fragments/generated/basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from '../fragments/generated/basicUser.generated';
-import { BasicCommunityFragmentDoc } from '../fragments/generated/basicCommunity.generated';
-import { BasicCommentWithInReplyToFragment } from '../fragments/generated/basicComment.generated';
 import { BasicResourceFragmentDoc } from '../fragments/generated/basicResource.generated';
+import { BasicCommentWithInReplyToFragment } from '../fragments/generated/basicComment.generated';
+import { BasicCollectionFragmentDoc } from '../fragments/generated/basicCollection.generated';
 import { BasicCommentWithInReplyToFragmentDoc } from '../fragments/generated/basicComment.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -160,14 +160,14 @@ export const GetCommunityQueryDocument = gql`
           }
           context {
             __typename
+            ... on Resource {
+              ...BasicResource
+            }
             ... on Community {
               ...BasicCommunity
             }
             ... on Collection {
               ...BasicCollection
-            }
-            ... on Resource {
-              ...BasicResource
             }
             ... on Comment {
               ...BasicCommentWithInReplyTo
@@ -230,9 +230,9 @@ export const GetCommunityQueryDocument = gql`
   }
 }
     ${BasicUserFragmentDoc}
+${BasicResourceFragmentDoc}
 ${BasicCommunityFragmentDoc}
 ${BasicCollectionFragmentDoc}
-${BasicResourceFragmentDoc}
 ${BasicCommentWithInReplyToFragmentDoc}`;
 export type GetCommunityQueryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetCommunityQueryQuery, GetCommunityQueryQueryVariables>, 'query'> & ({ variables: GetCommunityQueryQueryVariables; skip?: boolean; } | { skip: boolean; });
 

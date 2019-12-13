@@ -29,63 +29,62 @@ export interface Props {
 }
 
 const Component: React.FC<Props> = ({
-  collectionQuery: collection,
+  collectionQuery,
   addNewResource,
   editCollection,
   isEditCollectionOpen
 }) => {
-  const { auth } = React.useContext(SessionContext);
+  const { me } = React.useContext(SessionContext);
   const isMine =
-    !!auth &&
-    !!collection.data &&
-    !!collection.data.collection &&
-    auth.me.user.id === collection.data.collection.creator.id;
-
+    !!me &&
+    !!collectionQuery.data &&
+    !!collectionQuery.data.collection &&
+    me.user.id === collectionQuery.data.collection.creator.id;
   return (
     <MainContainer>
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            {collection.loading ? (
+            {collectionQuery.loading ? (
               <Empty alignItems="center" mt={3}>
                 <Loader />
               </Empty>
-            ) : collection.error || !collection.data ? (
+            ) : collectionQuery.error || !collectionQuery.data ? (
               <Empty>
                 <Trans>Is it not possible to show the collection</Trans>
               </Empty>
             ) : (
-              collection.data.collection && (
+              collectionQuery.data.collection && (
                 <>
-                  <Header context={collection.data.collection.community} />
+                  <Header context={collectionQuery.data.collection.community} />
                   <HeroCont>
                     <Hero>
                       <Background
                         style={{
                           backgroundImage: `url(${
-                            collection.data.collection.icon
+                            collectionQuery.data.collection.icon
                           })`
                         }}
                       />
                       <HeroInfo>
                         <MoreOptionsContainer>
                           <MoreOptions
-                            contextId={collection.data!.collection!.id}
-                            myFlag={collection.data.collection.myFlag}
+                            contextId={collectionQuery.data!.collection!.id}
+                            myFlag={collectionQuery.data.collection.myFlag}
                           />
                         </MoreOptionsContainer>
                         <Title fontSize={5} fontWeight={'bold'}>
-                          {collection.data.collection.name}
+                          {collectionQuery.data.collection.name}
                         </Title>
-                        {collection.data.collection.preferredUsername ? (
+                        {collectionQuery.data.collection.preferredUsername ? (
                           <Username fontSize={1}>
-                            +{collection.data.collection.preferredUsername}
+                            +{collectionQuery.data.collection.preferredUsername}
                           </Username>
                         ) : null}
                         <Description fontSize={2} mt={2}>
-                          {collection.data.collection &&
-                            collection.data.collection.summary &&
-                            collection.data.collection.summary
+                          {collectionQuery.data.collection &&
+                            collectionQuery.data.collection.summary &&
+                            collectionQuery.data.collection.summary
                               .split('\n')
                               .map(function(item, key) {
                                 return (
@@ -103,9 +102,11 @@ const Component: React.FC<Props> = ({
                             </EditButton>
                           ) : null}
                           <Join
-                            followed={!!collection.data.collection.myFollow}
-                            id={collection.data.collection.id}
-                            externalId={collection.data.collection.id}
+                            followed={
+                              !!collectionQuery.data.collection.myFollow
+                            }
+                            id={collectionQuery.data.collection.id}
+                            externalId={collectionQuery.data.collection.id}
                           />
                         </ActionsHero>
                       </HeroInfo>
@@ -113,20 +114,22 @@ const Component: React.FC<Props> = ({
                   </HeroCont>
 
                   <CollectionPage
-                    collection={collection.data.collection}
-                    community_name={collection.data.collection.community.name}
-                    resources={collection.data.collection.resources}
+                    collection={collectionQuery.data.collection}
+                    community_name={
+                      collectionQuery.data.collection.community.name
+                    }
+                    resources={collectionQuery.data.collection.resources}
                     addNewResource={addNewResource}
-                    fetchMore={collection.fetchMore}
+                    fetchMore={collectionQuery.fetchMore}
                     type={'collection'}
                   />
                   <EditCollectionModal
                     toggleModal={editCollection}
                     modalIsOpen={isEditCollectionOpen}
-                    collectionId={collection.data.collection.id}
-                    collectionExternalId={collection.data.collection.id}
-                    collection={collection.data.collection}
-                    collectionUpdated={collection.refetch}
+                    collectionId={collectionQuery.data.collection.id}
+                    collectionExternalId={collectionQuery.data.collection.id}
+                    collection={collectionQuery.data.collection}
+                    collectionUpdated={collectionQuery.refetch}
                   />
                 </>
               )

@@ -14,8 +14,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { integrateToastNotifications } from './integrations/Toast-Notifications';
 import { createDynamicLinkEnv } from './util/apollo/dynamicLink';
 import * as Sentry from '@sentry/browser';
+import * as K from './constants';
 Sentry.init({
-  dsn: 'https://cee9deb57dce41a9963b0cb234076db6@sentry.io/1825990'
+  dsn: K.SENTRY_KEY
 });
 
 run();
@@ -58,14 +59,15 @@ async function run() {
       }
   `;
   const createLocalKVStore = createLocalSessionKVStorage('local');
-  const store = createStore({ createLocalKVStore });
-  const initialState = store.getState();
-  const authToken =
-    (initialState.session.auth && initialState.session.auth.token) || undefined;
+  const store = createStore({ localKVStore: createLocalKVStore('SESSION#') });
+
   const dynamicLinkEnv = createDynamicLinkEnv();
 
   const appLink = dynamicLinkEnv.link;
-  const apolloClient = await getApolloClient({ authToken, appLink });
+  const apolloClient = await getApolloClient({
+    localKVStore: createLocalKVStore('APOLLO#'),
+    appLink
+  });
 
   integrateSessionApolloRedux(dynamicLinkEnv.srv, store.dispatch);
   integrateToastNotifications(dynamicLinkEnv.srv, store.dispatch);
@@ -77,11 +79,7 @@ async function run() {
         autoClose={3000}
         newestOnTop
       />
-      <ProvideContexts
-        store={store}
-        apolloInterceptor={apolloClient.opInterceptor as any}
-        dynamicLinkSrv={dynamicLinkEnv.srv}
-      >
+      <ProvideContexts store={store} dynamicLinkSrv={dynamicLinkEnv.srv}>
         <Global />
         <App />
       </ProvideContexts>

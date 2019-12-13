@@ -37,7 +37,7 @@ import {
 import Sidebar from '../../sections/sidebar/sidebarHOC';
 import SidebarNoLoggedWrapper from '../../sections/sidebar/sidebar_not_logged';
 import styled from '../../themes/styled';
-import MobileHeader from './mobileHeader';
+// import MobileHeader from './mobileHeader';
 
 const Main = styled(Flex)`
   height: 100%;
@@ -87,35 +87,41 @@ const searchStateToUrl = (props, searchState, loggedin) => {
 };
 
 const Content = connectStateResults(({ searchState, onOpen }) => {
-  const { auth } = React.useContext(SessionContext);
+  const { me } = React.useContext(SessionContext);
 
   return searchState && searchState.query ? (
     <>
-      <MobileHeader onOpen={onOpen} />
+      {/* <MobileHeader onOpen={onOpen} /> */}
       <Switch>
         <Route path="/search" component={SearchComp} />
       </Switch>
     </>
   ) : (
     <>
-      <MobileHeader onOpen={onOpen} />
+      {/* <MobileHeader onOpen={onOpen} /> */}
       <Switch>
-        <Route exact path="/" component={auth ? Home : Login} />
-        <Route exact path="/profile" component={auth ? Profile : Login} />
+        <Route exact path="/" component={me ? Home : Login} />
+        <Route exact path="/profile" component={me ? Profile : Login} />
         <Route
           exact
           path="/mycommunities"
-          component={auth ? MyCommunities : Login}
+          component={me ? MyCommunities : Login}
         />
-        <Route exact path="/settings" component={auth ? Settings : Login} />
+        <Route exact path="/settings" component={me ? Settings : Login} />
         <Route
           exact
           path="/mycollections"
-          component={auth ? MyCollections : Login}
+          component={me ? MyCollections : Login}
         />
 
         <Route exact path="/discover" component={Discover} />
-        <Route exact path="/communities" component={CommunitiesAll} />
+        <Route
+          exact
+          path="/communities"
+          render={route => {
+            return <CommunitiesAll loggedin={!!me} />;
+          }}
+        />
         <Route
           exact
           path="/communities/:communityId"
@@ -150,7 +156,7 @@ const Content = connectStateResults(({ searchState, onOpen }) => {
           path="/user/:id"
           render={route => {
             const userId = route.match.params.id;
-            return auth && auth.me.user.id === userId ? (
+            return me && me.user.id === userId ? (
               <Redirect to="/profile" />
             ) : (
               <User {...route} />
@@ -192,7 +198,7 @@ export interface Props {
 }
 const App: React.FC<Props> = props => {
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
-  const { auth } = React.useContext(SessionContext);
+  const { me: auth } = React.useContext(SessionContext);
   const [lastLocation, setLastLocation] = React.useState();
   const onSidebarOpen = React.useCallback(
     () => {
@@ -263,7 +269,7 @@ const App: React.FC<Props> = props => {
 };
 
 export default _ => {
-  const { auth } = React.useContext(SessionContext);
+  const { me: auth } = React.useContext(SessionContext);
 
   return (
     <Main>

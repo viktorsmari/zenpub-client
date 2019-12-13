@@ -93,9 +93,7 @@ export const TalkModal: React.FC<Props> = ({
       <TextWrapper>
         <Avatar
           style={{
-            backgroundImage: `url(${
-              session.auth ? session.auth.me.user.icon : ''
-            })`
+            backgroundImage: `url(${session.me ? session.me.user.icon : ''})`
           }}
         />
         )}

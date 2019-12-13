@@ -44,3 +44,5 @@ yarn.lock
 src/fragmentTypes.json
 
 
+# sentry
+sentry.tsx

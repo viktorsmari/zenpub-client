@@ -167,8 +167,8 @@ const Component: React.FC<Props> = ({
   const [uploadType, setUploadType] = React.useState('icon');
   const [iconUrl, onIcon] = React.useState(initialValues.icon);
   const [imageUrl, onImage] = React.useState(initialValues.image);
-  const { auth } = React.useContext(SessionContext);
   const localeCntx = React.useContext(LocaleContext);
+  const { me } = React.useContext(SessionContext);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required(),
@@ -403,7 +403,7 @@ const Component: React.FC<Props> = ({
                   </ExRow>
                   {isUploadOpen === true ? (
                     <ImageDropzoneModal
-                      contextId={auth!.me.user.id}
+                      contextId={me!.user.id}
                       toggleModal={onUploadOpen}
                       modalIsOpen={isUploadOpen}
                       uploadType={uploadType}

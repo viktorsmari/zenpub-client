@@ -1,6 +1,5 @@
 #import "./basicUser.graphql"
 
-
 fragment BasicResource on Resource {
     id
     name

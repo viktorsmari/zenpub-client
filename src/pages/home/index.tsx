@@ -1,13 +1,14 @@
 import { Trans } from '@lingui/macro';
-import React, { useCallback, useMemo } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 // import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
+import Empty from '../../components/elements/Empty';
 import Loader from '../../components/elements/Loader/Loader';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timelineUser';
 import { StickyTabList, SuperTab } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem/index2';
-import Empty from '../../components/elements/Empty';
+import { useGetMeInboxQuery } from '../../graphql/generated/getMeInbox.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import {
   Nav,
@@ -17,9 +18,11 @@ import {
   PanelTitle,
   WrapperPanel
 } from '../../sections/panel';
+import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-import { useGetMeInboxQuery } from '../../graphql/generated/getMeInbox.generated';
-import { useInterceptor } from '../../context/global/apolloInterceptorCtx';
+import { CreateReplyMutationMutationOperation } from '../../graphql/generated/createReply.generated';
+import { LikeMutationMutationOperation } from '../../graphql/generated/like.generated';
+import { DeleteMutationMutationOperation } from '../../graphql/generated/delete.generated';
 
 interface Props {}
 
@@ -29,22 +32,26 @@ const Home: React.FC<Props> = () => {
       limit: 15
     }
   });
-  const refetchOnResp = useCallback(() => () => refetch(), [refetch]);
-  useInterceptor(
-    useMemo(
-      () => ({ operation: 'createReply', request: () => () => refetch() }),
-      [refetchOnResp]
-    )
+  useDynamicLinkOpResult<CreateReplyMutationMutationOperation>(
+    'createReplyMutation',
+    () => {
+      refetch();
+    },
+    [refetch]
   );
-  useInterceptor(
-    useMemo(() => ({ operation: 'like', request: () => () => refetch() }), [
-      refetchOnResp
-    ])
+  useDynamicLinkOpResult<LikeMutationMutationOperation>(
+    'likeMutation',
+    () => {
+      refetch();
+    },
+    [refetch]
   );
-  useInterceptor(
-    useMemo(() => ({ operation: 'delete', request: () => () => refetch() }), [
-      refetchOnResp
-    ])
+  useDynamicLinkOpResult<DeleteMutationMutationOperation>(
+    'deleteMutation',
+    () => {
+      refetch();
+    },
+    [refetch]
   );
 
   return (

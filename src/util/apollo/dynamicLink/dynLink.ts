@@ -1,12 +1,12 @@
 import { ApolloLink } from 'apollo-link';
-import { createContext, useContext, useEffect } from 'react';
+import { createContext, useContext, useEffect, useMemo } from 'react';
 import {
+  apolloLinkOp,
+  apolloLinkOpResult,
   Name,
   OperationDef,
-  OpResultWatcher,
-  apolloLinkOpResult,
   OpRequestHandler,
-  apolloLinkOp
+  OpResultWatcher
 } from '../operation';
 export interface DynamicLinkSrv {
   addLink: (link: ApolloLink) => () => void;
@@ -23,24 +23,30 @@ export interface DynamicLinkSrv {
 export const ApolloDynamicLinkContext = createContext<DynamicLinkSrv>(
   {} as DynamicLinkSrv
 );
-export const useDynamicLink = (link: ApolloLink) => {
+export const useDynamicLink = (link: ApolloLink, deps = []) => {
   const dynLinkCtx = useContext(ApolloDynamicLinkContext);
-  useEffect(
-    () => {
-      return dynLinkCtx.addLink(link);
-    },
-    [dynLinkCtx, link]
-  );
+  const unsubscribe = useMemo(() => dynLinkCtx.addLink(link), [
+    dynLinkCtx.addLink,
+    ...deps
+  ]);
+
+  useEffect(() => unsubscribe, [unsubscribe]);
+  return unsubscribe;
 };
 
-export const useDynamicLinkOpResult = (link: ApolloLink) => {
+export const useDynamicLinkOpResult = <D extends OperationDef>(
+  opName: Name<D>,
+  resWatcher: OpResultWatcher<D>,
+  deps: any[] = []
+) => {
   const dynLinkCtx = useContext(ApolloDynamicLinkContext);
-  useEffect(
-    () => {
-      return dynLinkCtx.addLink(link);
-    },
-    [dynLinkCtx, link]
+  const unsubscribe = useMemo(
+    () => dynLinkCtx.addLinkOpResult(opName, resWatcher),
+    [dynLinkCtx.addLink, ...deps]
   );
+
+  useEffect(() => unsubscribe, [unsubscribe]);
+  return unsubscribe;
 };
 
 export const createDynamicLinkEnv = () => {

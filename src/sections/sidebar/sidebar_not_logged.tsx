@@ -2,7 +2,7 @@ import { Trans } from '@lingui/macro';
 import { ellipsis } from 'polished';
 import * as React from 'react';
 import { Globe } from 'react-feather';
-import { SearchBox } from 'react-instantsearch-dom';
+// import { SearchBox } from 'react-instantsearch-dom';
 import { NavLink } from 'react-router-dom';
 import { Box, Flex, Image, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
@@ -66,22 +66,23 @@ const SidebarOverflow = styled(Box)`
   flex: 1;
 `;
 
-const Header = styled(Box)`
-  cursor: pointer;
-  img {
-    min-width: 36px;
-    height: 36px;
-    border-radius: 36px;
-  }
-  input {
-    margin: 0 8px !important;
-    border-radius: 100px;
-    border-width: 1px;
-    ${media.lessThan('1280px')`
-      display: none;
-    `};
-  }
-`;
+// const Header = styled(Box)`
+//   cursor: pointer;
+//   img {
+//     min-width: 36px;
+//     height: 36px;
+//     border-radius: 36px;
+//   }
+//   input {
+//     margin: 0 8px !important;
+//     border-radius: 100px;
+//     border-width: 1px;
+//     ${media.lessThan('1280px')`
+//       display: none;
+//     `};
+//   }
+// `;
+
 const Nav = styled(Box)`
   a {
     text-decoration: none;
@@ -139,22 +140,22 @@ const ItemTitle = styled(Text)`
 `};
 `;
 
-const Sbox = styled(Box)`
-  ${media.lessThan('1280px')`
-    display: none;
-  `};
-`;
+// const Sbox = styled(Box)`
+//   ${media.lessThan('1280px')`
+//     display: none;
+//   `};
+// `;
 
 const Sidebar: React.FC<{ isOpen: boolean }> = isOpen => (
   <SidebarComponent>
     <InternalWrapper isOpen={isOpen}>
       <SidebarFixed>
         <SidebarOverflow pt={3}>
-          <Header alignItems={'center'}>
+          {/* <Header alignItems={'center'}>
             <Sbox ml={2} mb={3}>
               <SearchBox />
             </Sbox>
-          </Header>
+          </Header> */}
           <Nav pt={3}>
             <SidebarLink exact to={'/'}>
               <NavItem mb={3} alignItems={'center'}>

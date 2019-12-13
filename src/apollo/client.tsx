@@ -1,39 +1,52 @@
-import { ApolloLink, Operation, Observable, FetchResult } from 'apollo-link';
-import { ApolloClient } from 'apollo-client';
+import * as AbsintheSocket from '@absinthe/socket';
+import { createAbsintheSocketLink } from '@absinthe/socket-apollo-link';
+import { hasSubscription } from '@jumpn/utils-graphql';
+import { i18nMark } from '@lingui/react';
 import {
   InMemoryCache,
   IntrospectionFragmentMatcher
 } from 'apollo-cache-inmemory';
+import { ApolloClient } from 'apollo-client';
+import { ApolloLink } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
-import { createAbsintheSocketLink } from '@absinthe/socket-apollo-link';
-import { Socket as PhoenixSocket } from 'phoenix';
-import { hasSubscription } from '@jumpn/utils-graphql';
+import { onError } from 'apollo-link-error';
+// import { createHttpLink } from 'apollo-link-http';
 import apolloLogger from 'apollo-link-logger';
-import * as AbsintheSocket from '@absinthe/socket';
-const introspectionQueryResultData = require('../fragmentTypes.json');
+import { Socket as PhoenixSocket } from 'phoenix';
 import {
   GRAPHQL_ENDPOINT,
-  PHOENIX_SOCKET_ENDPOINT,
-  IS_DEV
+  IS_DEV,
+  PHOENIX_SOCKET_ENDPOINT
 } from '../constants';
-
-import { onError } from 'apollo-link-error';
+import { UsernameAvailableQueryOperation } from '../graphql/generated/checkUsername.generated';
+import { ConfirmEmailMutationMutationOperation } from '../graphql/generated/confirmEmail.generated';
+import { CreateUserMutationMutationOperation } from '../graphql/generated/createUser.generated';
+import { LoginMutationMutationOperation } from '../graphql/generated/login.generated';
 import {
-  OperationDefinitionNode,
-  GraphQLError,
-  FieldNode,
-  OperationTypeNode
-} from 'graphql';
+  getOpType,
+  Name,
+  getOperationNameAndType
+} from '../util/apollo/operation';
 import { RootMutationType, RootQueryType } from '../graphql/types.generated';
-import { i18nMark } from '@lingui/react';
 import { createUploadLink } from './uploadLink.js';
+import { KVStore } from '../util/keyvaluestore/types';
+import { LogoutMutationMutationOperation } from '../graphql/generated/logout.generated';
+const introspectionQueryResultData = require('../fragmentTypes.json');
+
+export type MutationName = keyof RootMutationType;
+export type QueryName = keyof RootQueryType;
+export type OperationName = QueryName | MutationName;
 
 // const { meQuery } = require('../../../graphql/me.graphql');
 interface Cfg {
-  authToken?: string;
+  localKVStore: KVStore;
   appLink: ApolloLink;
 }
-export default async function initialise({ authToken, appLink }: Cfg) {
+
+const AUTH_TOKEN_KEY = 'AUTH_TOKEN';
+
+export default async function initialise({ localKVStore, appLink }: Cfg) {
+  let authToken = localKVStore.get(AUTH_TOKEN_KEY);
   const fragmentMatcher = new IntrospectionFragmentMatcher({
     introspectionQueryResultData
   });
@@ -44,17 +57,21 @@ export default async function initialise({ authToken, appLink }: Cfg) {
     const createSessionOpName: OperationName = 'createSession';
     const deleteSessionOpName: OperationName = 'deleteSession';
 
-    const [opName] = getOperationNameAndType(operation);
+    const [opName] = getOperationNameAndType<OperationName>(operation.query);
 
-    if (opName && opName === deleteSessionOpName) {
+    if (opName === deleteSessionOpName) {
       authToken = undefined;
+      localKVStore.del(AUTH_TOKEN_KEY);
     }
+
     return nextLink(operation).map(resp => {
       if (opName === createSessionOpName) {
-        const authPyload: ResponseOf<typeof createSessionOpName> =
-          resp.data && resp.data[opName];
+        const authPyload = resp.data && resp.data[opName];
         authToken =
           authPyload && authPyload.token ? authPyload.token : undefined;
+        authToken
+          ? localKVStore.set(AUTH_TOKEN_KEY, authToken)
+          : localKVStore.del(AUTH_TOKEN_KEY);
       }
       return resp;
     });
@@ -118,75 +135,27 @@ export default async function initialise({ authToken, appLink }: Cfg) {
     };
   });
 
-  const operationInterceptors = new Set<Interceptor<OperationName>>();
-
-  const addInterceptor = (interc: Interceptor<OperationName>) => {
-    operationInterceptors.add(interc);
-    return () => {
-      operationInterceptors.delete(interc);
-    };
-  };
-
-  const oprationInterceptorLink = new ApolloLink((operation, nextLink) => {
-    const interceptorOperationResponseHandlers: InterceptorOperationResponseHandler<
-      OperationName
-    >[] = [];
-    const [defOpName] = getOperationNameAndType(operation);
-    if (defOpName) {
-      for (const interceptor of operationInterceptors) {
-        if (interceptor.operation === defOpName) {
-          const interceptorAction = interceptor.request(operation);
-          if (interceptorAction === BLOCK_REQUEST) {
-            const error = `Operation ${defOpName} Aborted`;
-            interceptorOperationResponseHandlers.forEach(responseHandler =>
-              responseHandler({ data: null, error })
-            );
-            const result: FetchResult = {
-              errors: [new GraphQLError(error)],
-              data: null,
-              context: operation.getContext(),
-              extensions: operation.extensions
-            };
-            return Observable.of(result);
-          } else if ('function' === typeof interceptorAction) {
-            interceptorOperationResponseHandlers.push(interceptorAction);
-          }
-        }
-      }
-    }
-
-    return nextLink(operation).map(result => {
-      if (defOpName) {
-        interceptorOperationResponseHandlers.forEach(responseHandler => {
-          let error: string | null = null;
-          let data: any = null;
-          if (result.errors) {
-            error = result.errors.map(err => err.message).join('\n');
-          } else {
-            data = result.data && result.data[defOpName];
-          }
-          responseHandler({ data, error });
-        });
-      }
-      return result;
-    });
-  });
-
-  const ALLOWED_ANON_MUTATIONS: OperationName[] = [
-    'createUser',
-    'createSession',
-    'confirmEmail',
+  const ALLOWED_ANONYMOUS_MUTATIONS: Name<
+    | CreateUserMutationMutationOperation
+    | LoginMutationMutationOperation
+    | LogoutMutationMutationOperation
+    | ConfirmEmailMutationMutationOperation
+    | UsernameAvailableQueryOperation
+  >[] = [
+    'confirmEmailMutation',
+    'createUserMutation',
+    'loginMutation',
+    'logoutMutation',
     'usernameAvailable'
   ];
   const alertBlockMutationsForAnonymousLink = new ApolloLink(
     (operation, nextLink) => {
       if (!authToken) {
-        const [opName, optype] = getOperationNameAndType(operation);
+        const optype = getOpType(operation);
         if (
-          opName &&
-          optype &&
           optype === 'mutation' &&
-          !ALLOWED_ANON_MUTATIONS.includes(opName)
+          //@ts-ignore
+          !ALLOWED_ANONYMOUS_MUTATIONS.includes(operation.operationName)
         ) {
           alert(i18nMark('You should log in for performing this operation!'));
           return null;
@@ -199,14 +168,13 @@ export default async function initialise({ authToken, appLink }: Cfg) {
   // used for graphql query and mutations
   const httpLink = ApolloLink.from(
     [
-      appLink,
       IS_DEV ? apolloLogger : null,
       alertBlockMutationsForAnonymousLink,
-      oprationInterceptorLink,
       errorLink,
       authLink,
       clientAwarenessHeadersLinkForNonApollo3Server,
       setTokenLink,
+      appLink,
       createUploadLink({ uri: GRAPHQL_ENDPOINT!! })
     ].filter(Boolean)
   );
@@ -240,70 +208,7 @@ export default async function initialise({ authToken, appLink }: Cfg) {
       }
     }
   });
-  const opInterceptor = {
-    add: addInterceptor
-  };
   return {
-    client,
-    opInterceptor
+    client
   };
 }
-export interface InterceptorSrv {
-  add: <OpName extends OperationName>(
-    interc: Interceptor<OpName>
-  ) => () => void;
-}
-export type MutationName = keyof RootMutationType;
-export type QueryName = keyof RootQueryType;
-export type OperationName = QueryName | MutationName;
-
-export type ResponseOf<
-  OpName extends OperationName
-> = OpName extends MutationName
-  ? RootMutationType[OpName]
-  : OpName extends QueryName ? RootQueryType[OpName] : never;
-
-export type InterceptorOperationResponseHandler<
-  OpName extends OperationName
-> = (response: InterceptorResultOf<OpName>) => unknown;
-export type InterceptorResultOf<OpName extends OperationName> = {
-  data: ResponseOf<OpName>;
-  error: null | string;
-};
-export type Interceptor<OpName extends OperationName> = {
-  operation: OpName;
-  request: (
-    operation: Operation
-  ) => InterceptorOperationResponseHandler<OpName> | void | BlockRequest;
-};
-export const BLOCK_REQUEST = Symbol();
-export type BlockRequest = typeof BLOCK_REQUEST;
-
-export const getOperationNameAndType = (
-  operation: Operation
-): [OperationName, OperationTypeNode] | [] => {
-  const opDefNodes = operation.query.definitions.filter(
-    (def): def is OperationDefinitionNode => def.kind === 'OperationDefinition'
-  );
-
-  const maybeOperationNameAndType = opDefNodes.reduce<
-    [OperationName, OperationTypeNode] | null
-  >((found, opDefNode) => {
-    if (!found) {
-      const maybeFieldNode =
-        opDefNode.selectionSet.selections.find(
-          (selNode): selNode is FieldNode => selNode.kind === 'Field'
-        ) || null;
-      const opType = opDefNode.operation;
-      found =
-        maybeFieldNode &&
-        ([maybeFieldNode.name.value, opType] as [
-          OperationName,
-          OperationTypeNode
-        ]);
-    }
-    return found;
-  }, null);
-
-  return maybeOperationNameAndType || [];
-};

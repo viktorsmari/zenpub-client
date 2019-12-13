@@ -1,9 +1,10 @@
 import { clearFix } from 'polished';
 import React from 'react';
 // import Icons from '../../atoms/icons.tsx'
-import styled from 'styled-components';
+import styled from '../../../themes/styled';
+import { Box } from 'rebass/styled-components';
+import { X } from 'react-feather';
 import media from 'styled-media-query';
-import { Cross } from '../../Icons';
 const Background = styled.div`
   position: fixed;
   top: 0;
@@ -46,20 +47,29 @@ const Action = styled.div`
   ${clearFix()};
   padding-top: 10px;
   padding-right: 10px;
-  float: right;
+  position: relative;
 `;
 
-const Close = styled.div`
-  float: right;
+const Close = styled(Box)`
+  position: absolute;
+  right: -10px;
+  top: -10px;
   cursor: pointer;
-  position: relative;
+  background: ${props => props.theme.colors.orange};
+  width: 24px;
+  height: 24px;
+  border-radius: 40px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   z-index: 999999;
 `;
 
 const Content = styled.div`
   ${clearFix()};
-  // overflow: auto;
   max-height: 90vh;
+  padding: 16px;
+  font-family: ${props => props.theme.fontFamily};
 `;
 
 export const Container = styled.div`
@@ -135,17 +145,17 @@ interface Props {
 
 const Modal: React.FC<Props> = ({ closeModal, children }) => {
   return (
-    <div>
+    <>
       <Background onClick={closeModal} />
       <Dialog>
         <Action>
           <Close onClick={closeModal}>
-            <Cross width={20} height={20} strokeWidth={2} color="#333" />
+            <X color="#fff" size={16} />
           </Close>
         </Action>
         <Content>{children}</Content>
       </Dialog>
-    </div>
+    </>
   );
 };
 

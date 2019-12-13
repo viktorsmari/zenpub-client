@@ -14,59 +14,59 @@ msgstr ""
 "Plural-Forms: \n"
 
 #: src/pages/communities.community/CommunitiesCommunity.tsx:105
-#: src/pages/discover/index.tsx:105
-#: src/pages/discover/index.tsx:128
+#: src/pages/discover/index.tsx:104
+#: src/pages/discover/index.tsx:127
 msgid "#assessment"
 msgstr ""
 
 #: src/pages/communities.community/CommunitiesCommunity.tsx:99
-#: src/pages/discover/index.tsx:99
-#: src/pages/discover/index.tsx:122
+#: src/pages/discover/index.tsx:98
+#: src/pages/discover/index.tsx:121
 msgid "#english"
 msgstr ""
 
 #: src/pages/communities.community/CommunitiesCommunity.tsx:93
-#: src/pages/discover/index.tsx:93
-#: src/pages/discover/index.tsx:116
+#: src/pages/discover/index.tsx:92
+#: src/pages/discover/index.tsx:115
 msgid "#pedagogy"
 msgstr ""
 
 #: src/pages/communities.community/CommunitiesCommunity.tsx:102
-#: src/pages/discover/index.tsx:102
-#: src/pages/discover/index.tsx:125
+#: src/pages/discover/index.tsx:101
+#: src/pages/discover/index.tsx:124
 msgid "#template"
 msgstr ""
 
 #: src/pages/communities.community/CommunitiesCommunity.tsx:96
-#: src/pages/discover/index.tsx:96
-#: src/pages/discover/index.tsx:119
+#: src/pages/discover/index.tsx:95
+#: src/pages/discover/index.tsx:118
 msgid "#transition"
 msgstr ""
 
-#: src/components/elements/CollectionModal/fetched.tsx:25
+#: src/components/elements/CollectionModal/fetched.tsx:26
 #: src/components/elements/CollectionModal/index.tsx:19
 msgid "A name or title for the resource"
 msgstr ""
 
-#: src/pages/login/Login.tsx:362
+#: src/pages/login/Login.tsx:365
 msgid "About"
 msgstr ""
 
-#: src/components/elements/CollectionModal/fetched.tsx:27
+#: src/components/elements/CollectionModal/fetched.tsx:28
 msgid "Add"
 msgstr ""
 
 #: src/pages/collections.all/index.tsx:25
-#: src/pages/discover/index.tsx:81
+#: src/pages/discover/index.tsx:80
 msgid "All collections"
 msgstr ""
 
 #: src/pages/communities.all/CommunitiesAll.tsx:27
-#: src/pages/discover/index.tsx:76
+#: src/pages/discover/index.tsx:75
 msgid "All communities"
 msgstr ""
 
-#: src/pages/settings/generalInfo.tsx:179
+#: src/pages/settings/generalInfo.tsx:254
 msgid "Avatar"
 msgstr ""
 
@@ -79,30 +79,32 @@ msgstr ""
 msgid "Behavioural science"
 msgstr ""
 
-#: src/pages/login/Login.tsx:331
+#: src/pages/login/Login.tsx:330
 msgid "Browse"
 msgstr ""
 
-#: src/pages/discover/index.tsx:71
-#: src/pages/home/index.tsx:60
+#: src/pages/discover/index.tsx:70
+#: src/pages/home/index.tsx:61
 msgid "Browse Home instance"
 msgstr ""
 
-#: src/pages/login/Login.tsx:322
+#: src/pages/login/Login.tsx:321
 msgid "Browse this instance without login"
 msgstr ""
 
-#: src/components/elements/CollectionModal/fetched.tsx:85
+#: src/components/elements/CollectionModal/fetched.tsx:106
 #: src/components/elements/CommunityModal/index.tsx:75
 #: src/components/elements/CreateCollectionModal/index.tsx:96
-#: src/components/elements/CreateCommunityModal/index.tsx:107
+#: src/components/elements/CreateCommunityModal/index.tsx:105
+#: src/components/elements/DropzoneModal/imageModal.tsx:85
 #: src/components/elements/EditCollectionModal/index.tsx:68
 #: src/components/elements/EditCommunityModal/index.tsx:73
 #: src/components/elements/EditResourceModal/index.tsx:82
-#: src/components/elements/FlagModal/index.tsx:98
-#: src/components/elements/FlagModal/index.tsx:116
+#: src/components/elements/FlagModal/index.tsx:100
+#: src/components/elements/FlagModal/index.tsx:118
 #: src/components/elements/SignupModal/index.tsx:167
-#: src/pages/collections.collection/collection.tsx:39
+#: src/pages/collections.collection/collection.tsx:43
+#: src/ui/modules/CreateCommunityModal/index.tsx:77
 msgid "Cancel"
 msgstr ""
 
@@ -111,7 +113,8 @@ msgstr ""
 msgid "Choose a name for the collection"
 msgstr ""
 
-#: src/components/elements/CreateCommunityModal/index.tsx:19
+#: src/components/elements/CreateCommunityModal/index.tsx:20
+#: src/ui/modules/CreateCommunityModal/index.tsx:15
 msgid "Choose a name for the community"
 msgstr ""
 
@@ -120,7 +123,11 @@ msgstr ""
 msgid "Choose your password"
 msgstr ""
 
-#: src/pages/login/Login.tsx:367
+#: src/components/elements/DropzoneModal/index.tsx:78
+msgid "Clear"
+msgstr ""
+
+#: src/pages/login/Login.tsx:370
 #: src/sections/sidebar/dropdown.tsx:79
 msgid "Code of Conduct"
 msgstr ""
@@ -143,13 +150,14 @@ msgstr ""
 msgid "Confirm your password"
 msgstr ""
 
-#: src/pages/login/Login.tsx:273
+#: src/pages/login/Login.tsx:272
 msgid "Could not log in. Please check your credentials or use the link below to reset your password."
 msgstr ""
 
 #: src/components/elements/CommunityModal/index.tsx:72
 #: src/components/elements/CreateCollectionModal/index.tsx:93
-#: src/components/elements/CreateCommunityModal/index.tsx:104
+#: src/components/elements/CreateCommunityModal/index.tsx:102
+#: src/ui/modules/CreateCommunityModal/index.tsx:74
 msgid "Create"
 msgstr ""
 
@@ -159,16 +167,17 @@ msgstr ""
 
 #: src/components/elements/CommunityModal/index.tsx:36
 #: src/components/elements/CreateCollectionModal/index.tsx:52
-#: src/pages/communities.community/Community.tsx:64
+#: src/pages/communities.community/Community.tsx:63
 msgid "Create a new collection"
 msgstr ""
 
 #: src/pages/communities.all/CommunitiesAll.tsx:37
 #: src/pages/communities.joined/index.tsx:22
+#: src/ui/modules/CreateCommunityModal/index.tsx:33
 msgid "Create a new community"
 msgstr ""
 
-#: src/components/elements/CreateCommunityModal/index.tsx:60
+#: src/components/elements/CreateCommunityModal/index.tsx:61
 msgid "Create a new community!!"
 msgstr ""
 
@@ -176,20 +185,21 @@ msgstr ""
 msgid "Deleted user"
 msgstr ""
 
-#: src/components/elements/CollectionModal/fetched.tsx:61
+#: src/components/elements/CollectionModal/fetched.tsx:82
 #: src/components/elements/CommunityModal/index.tsx:54
 #: src/components/elements/CreateCollectionModal/index.tsx:72
-#: src/components/elements/CreateCommunityModal/index.tsx:78
+#: src/components/elements/CreateCommunityModal/index.tsx:79
 #: src/components/elements/EditCollectionModal/index.tsx:43
 #: src/components/elements/EditCommunityModal/index.tsx:45
 #: src/components/elements/EditResourceModal/index.tsx:55
-#: src/pages/settings/generalInfo.tsx:166
+#: src/pages/settings/generalInfo.tsx:239
+#: src/ui/modules/CreateCommunityModal/index.tsx:51
 msgid "Description"
 msgstr ""
 
-#: src/sections/sidebar/index.tsx:224
-#: src/sections/sidebar/index.tsx:226
-#: src/sections/sidebar/sidebar_not_logged.tsx:160
+#: src/sections/sidebar/index.tsx:223
+#: src/sections/sidebar/index.tsx:225
+#: src/sections/sidebar/sidebar_not_logged.tsx:156
 msgid "Discover"
 msgstr ""
 
@@ -229,16 +239,17 @@ msgstr ""
 msgid "Enter the URL of an image to represent the collection"
 msgstr ""
 
-#: src/components/elements/CreateCommunityModal/index.tsx:21
+#: src/components/elements/CreateCommunityModal/index.tsx:22
+#: src/ui/modules/CreateCommunityModal/index.tsx:17
 msgid "Enter the URL of an image to represent the community"
 msgstr ""
 
-#: src/components/elements/CollectionModal/fetched.tsx:28
+#: src/components/elements/CollectionModal/fetched.tsx:29
 #: src/components/elements/CollectionModal/index.tsx:22
 msgid "Enter the URL of an image to represent the resource"
 msgstr ""
 
-#: src/components/elements/CollectionModal/fetched.tsx:24
+#: src/components/elements/CollectionModal/fetched.tsx:25
 #: src/components/elements/CollectionModal/index.tsx:18
 msgid "Enter the URL of the resource"
 msgstr ""
@@ -262,11 +273,11 @@ msgstr ""
 msgid "Error loading communities"
 msgstr ""
 
-#: src/pages/home/index.tsx:44
+#: src/pages/home/index.tsx:45
 msgid "Error loading moodlenet timeline"
 msgstr ""
 
-#: src/sections/sidebar/index.tsx:193
+#: src/sections/sidebar/index.tsx:194
 msgid "Error loading the sidebar"
 msgstr ""
 
@@ -283,7 +294,7 @@ msgstr ""
 msgid "Featured communities"
 msgstr ""
 
-#: src/pages/login/Login.tsx:377
+#: src/pages/login/Login.tsx:380
 msgid "Feedback"
 msgstr ""
 
@@ -296,8 +307,8 @@ msgid "Fetch the resource"
 msgstr ""
 
 #: src/components/elements/FlagModal/index.tsx:33
-#: src/components/elements/FlagModal/index.tsx:86
-#: src/components/elements/MoreOptions/index.tsx:81
+#: src/components/elements/FlagModal/index.tsx:88
+#: src/components/elements/MoreOptions/index.tsx:82
 msgid "Flag"
 msgstr ""
 
@@ -315,13 +326,13 @@ msgstr ""
 msgid "Followed collections"
 msgstr ""
 
-#: src/pages/settings/generalInfo.tsx:108
+#: src/pages/settings/generalInfo.tsx:179
 #: src/pages/settings/sidebarSettings.tsx:88
 #: src/pages/settings/sidebarSettings.tsx:95
 msgid "General Information"
 msgstr ""
 
-#: src/pages/settings/generalInfo.tsx:190
+#: src/pages/settings/generalInfo.tsx:269
 msgid "Header image"
 msgstr ""
 
@@ -329,19 +340,20 @@ msgstr ""
 msgid "Humanities"
 msgstr ""
 
-#: src/components/elements/CollectionModal/fetched.tsx:72
-#: src/components/elements/CreateCommunityModal/index.tsx:94
+#: src/components/elements/CollectionModal/fetched.tsx:93
+#: src/components/elements/CreateCommunityModal/index.tsx:92
 #: src/components/elements/EditCollectionModal/index.tsx:54
 #: src/components/elements/EditCommunityModal/index.tsx:58
 #: src/components/elements/EditResourceModal/index.tsx:68
+#: src/ui/modules/CreateCommunityModal/index.tsx:64
 msgid "Image"
 msgstr ""
 
-#: src/pages/login/Login.tsx:344
+#: src/pages/login/Login.tsx:347
 msgid "Instance description"
 msgstr ""
 
-#: src/pages/discover/index.tsx:50
+#: src/pages/discover/index.tsx:49
 msgid "Instance timeline"
 msgstr ""
 
@@ -357,8 +369,12 @@ msgstr ""
 msgid "Join"
 msgstr ""
 
-#: src/sections/sidebar/sidebar_not_logged.tsx:152
+#: src/sections/sidebar/sidebar_not_logged.tsx:148
 msgid "Join Mamar"
+msgstr ""
+
+#: src/pages/collections.collection/collection.tsx:34
+msgid "Join the community"
 msgstr ""
 
 #: src/pages/Profile/index.tsx:58
@@ -374,7 +390,7 @@ msgstr ""
 msgid "Leave"
 msgstr ""
 
-#: src/components/elements/CollectionModal/fetched.tsx:38
+#: src/components/elements/CollectionModal/fetched.tsx:59
 #: src/components/elements/EditResourceModal/index.tsx:30
 msgid "Link"
 msgstr ""
@@ -395,41 +411,49 @@ msgstr ""
 msgid "Load more"
 msgstr ""
 
-#: src/pages/settings/generalInfo.tsx:152
+#: src/pages/settings/generalInfo.tsx:225
 msgid "Location"
 msgstr ""
 
-#: src/sections/sidebar/index.tsx:234
+#: src/sections/sidebar/index.tsx:233
 msgid "My MoodleNet"
 msgstr ""
 
-#: src/pages/home/index.tsx:38
+#: src/pages/home/index.tsx:39
 msgid "My MoodleNet timeline"
 msgstr ""
 
-#: src/pages/home/index.tsx:70
+#: src/pages/home/index.tsx:71
 msgid "My collections"
 msgstr ""
 
-#: src/pages/home/index.tsx:65
+#: src/pages/home/index.tsx:66
 msgid "My communities"
 msgstr ""
 
-#: src/components/elements/CollectionModal/fetched.tsx:48
+#: src/components/elements/CollectionModal/fetched.tsx:69
 #: src/components/elements/CommunityModal/index.tsx:42
 #: src/components/elements/CreateCollectionModal/index.tsx:59
 #: src/components/elements/EditCollectionModal/index.tsx:31
 #: src/components/elements/EditCommunityModal/index.tsx:31
 #: src/components/elements/EditResourceModal/index.tsx:41
-#: src/pages/settings/generalInfo.tsx:115
+#: src/pages/settings/generalInfo.tsx:187
 msgid "Name"
 msgstr ""
 
-#: src/pages/login/Login.tsx:372
+#: src/components/elements/CollectionModal/fetched.tsx:30
+msgid "No files selected"
+msgstr ""
+
+#: src/components/elements/DropzoneModal/imageModal.tsx:78
+msgid "OK"
+msgstr ""
+
+#: src/pages/login/Login.tsx:375
 msgid "Open source"
 msgstr ""
 
-#: src/pages/login/Login.tsx:318
+#: src/pages/login/Login.tsx:317
 msgid "Or"
 msgstr ""
 
@@ -456,11 +480,12 @@ msgstr ""
 msgid "Please describe what the collection is for and what kind of resources it is likely to contain..."
 msgstr ""
 
-#: src/components/elements/CreateCommunityModal/index.tsx:20
+#: src/components/elements/CreateCommunityModal/index.tsx:21
+#: src/ui/modules/CreateCommunityModal/index.tsx:16
 msgid "Please describe who might be interested in this community and what kind of collections it is likely to contain..."
 msgstr ""
 
-#: src/components/elements/CollectionModal/fetched.tsx:26
+#: src/components/elements/CollectionModal/fetched.tsx:27
 #: src/components/elements/CollectionModal/index.tsx:20
 msgid "Please type or copy/paste a summary about the resource..."
 msgstr ""
@@ -473,11 +498,11 @@ msgstr ""
 msgid "Popular hashtags"
 msgstr ""
 
-#: src/pages/discover/index.tsx:112
+#: src/pages/discover/index.tsx:111
 msgid "Popular hashtags: local instance"
 msgstr ""
 
-#: src/pages/discover/index.tsx:89
+#: src/pages/discover/index.tsx:88
 msgid "Popular hashtags: network"
 msgstr ""
 
@@ -496,17 +521,17 @@ msgid "Preferences"
 msgstr ""
 
 #: src/components/elements/SignupModal/index.tsx:130
-#: src/pages/settings/generalInfo.tsx:129
-#: src/pages/settings/generalInfo.tsx:137
+#: src/pages/settings/generalInfo.tsx:202
+#: src/pages/settings/generalInfo.tsx:210
 #: src/pages/Signup/index.tsx:260
 msgid "Preferred username"
 msgstr ""
 
-#: src/pages/login/Login.tsx:325
+#: src/pages/login/Login.tsx:324
 msgid "Preview what people are sharing, curating, and discussing!"
 msgstr ""
 
-#: src/pages/login/Login.tsx:382
+#: src/pages/login/Login.tsx:385
 msgid "Privacy notice"
 msgstr ""
 
@@ -514,7 +539,7 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-#: src/components/elements/CollectionModal/fetched.tsx:82
+#: src/components/elements/CollectionModal/fetched.tsx:103
 msgid "Publish"
 msgstr ""
 
@@ -527,7 +552,7 @@ msgstr ""
 msgid "Reset the password"
 msgstr ""
 
-#: src/pages/collections.collection/collection.tsx:23
+#: src/pages/collections.collection/collection.tsx:22
 msgid "Resources"
 msgstr ""
 
@@ -538,7 +563,7 @@ msgstr ""
 #: src/components/elements/EditCollectionModal/index.tsx:65
 #: src/components/elements/EditCommunityModal/index.tsx:70
 #: src/components/elements/EditResourceModal/index.tsx:79
-#: src/pages/settings/generalInfo.tsx:201
+#: src/pages/settings/generalInfo.tsx:286
 msgid "Save"
 msgstr ""
 
@@ -554,11 +579,15 @@ msgstr ""
 msgid "Search result"
 msgstr ""
 
+#: src/components/elements/DropzoneModal/imageModal.tsx:59
+msgid "Select Image"
+msgstr ""
+
 #: src/pages/settings/preferences.tsx:37
 msgid "Select language"
 msgstr ""
 
-#: src/components/elements/FlagModal/index.tsx:95
+#: src/components/elements/FlagModal/index.tsx:97
 msgid "Send"
 msgstr ""
 
@@ -572,7 +601,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: src/pages/collections.collection/collection.tsx:43
+#: src/pages/collections.collection/collection.tsx:47
 msgid "Share a link"
 msgstr ""
 
@@ -590,6 +619,10 @@ msgstr ""
 msgid "Sign out"
 msgstr ""
 
+#: src/pages/login/Login.tsx:338
+msgid "Sign up"
+msgstr ""
+
 #: src/pages/Signup/index.tsx:292
 msgid "Signup"
 msgstr ""
@@ -602,15 +635,15 @@ msgstr ""
 msgid "Sorry, we encountered a problem loading the app in your language."
 msgstr ""
 
-#: src/pages/login/Login.tsx:239
+#: src/pages/login/Login.tsx:238
 msgid "The email field cannot be empty"
 msgstr ""
 
-#: src/pages/login/Login.tsx:246
+#: src/pages/login/Login.tsx:245
 msgid "The password field cannot be empty"
 msgstr ""
 
-#: src/pages/collections.collection/collection.tsx:48
+#: src/pages/collections.collection/collection.tsx:54
 msgid "This collection is empty."
 msgstr ""
 
@@ -627,13 +660,13 @@ msgstr ""
 msgid "To Moodle!"
 msgstr ""
 
-#: src/pages/login/Login.tsx:313
+#: src/pages/login/Login.tsx:312
 msgid "Trouble logging in?"
 msgstr ""
 
-#: src/components/elements/FlagModal/index.tsx:104
-#: src/components/elements/FlagModal/index.tsx:113
-#: src/components/elements/MoreOptions/index.tsx:81
+#: src/components/elements/FlagModal/index.tsx:106
+#: src/components/elements/FlagModal/index.tsx:115
+#: src/components/elements/MoreOptions/index.tsx:82
 msgid "Unflag"
 msgstr ""
 
@@ -649,7 +682,7 @@ msgstr ""
 msgid "Welcome"
 msgstr ""
 
-#: src/apollo/client.tsx:142
+#: src/apollo/client.tsx:101
 msgid "You should log in for performing this operation!"
 msgstr ""
 
@@ -671,6 +704,10 @@ msgstr ""
 msgid "in"
 msgstr ""
 
+#: src/pages/collections.collection/collection.tsx:38
+msgid "to add a resource"
+msgstr ""
+
 #: src/pages/communities.community/CommunitiesCommunity.tsx:60
 msgid "{0}"
 msgstr ""
@@ -687,6 +724,6 @@ msgstr ""
 msgid "{0} a resource"
 msgstr ""
 
-#: src/pages/login/Login.tsx:347
+#: src/pages/login/Login.tsx:350
 msgid "{INSTANCE_DESCRIPTION}"
 msgstr ""
