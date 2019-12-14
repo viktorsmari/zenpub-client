@@ -3,17 +3,6 @@
     "types": [
       {
         "kind": "UNION",
-        "name": "UploadParent",
-        "possibleTypes": [
-          { "name": "Collection" },
-          { "name": "Comment" },
-          { "name": "Community" },
-          { "name": "Resource" },
-          { "name": "User" }
-        ]
-      },
-      {
-        "kind": "UNION",
         "name": "DeleteContext",
         "possibleTypes": [
           { "name": "Activity" },
@@ -30,7 +19,7 @@
       },
       {
         "kind": "UNION",
-        "name": "FlagContext",
+        "name": "UploadParent",
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Comment" },
@@ -61,6 +50,16 @@
       },
       {
         "kind": "UNION",
+        "name": "ThreadContext",
+        "possibleTypes": [
+          { "name": "Collection" },
+          { "name": "Community" },
+          { "name": "Flag" },
+          { "name": "Resource" }
+        ]
+      },
+      {
+        "kind": "UNION",
         "name": "ActivityContext",
         "possibleTypes": [
           { "name": "Collection" },
@@ -74,12 +73,13 @@
       },
       {
         "kind": "UNION",
-        "name": "ThreadContext",
+        "name": "FlagContext",
         "possibleTypes": [
           { "name": "Collection" },
+          { "name": "Comment" },
           { "name": "Community" },
-          { "name": "Flag" },
-          { "name": "Resource" }
+          { "name": "Resource" },
+          { "name": "User" }
         ]
       }
     ]

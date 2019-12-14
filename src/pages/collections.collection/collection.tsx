@@ -125,6 +125,7 @@ const CommunityPage: SFC<Props> = ({
                             summary={edge.node.summary}
                             url={edge.node.url}
                             id={edge.node.id}
+                            myFlag={edge.node.myFlag}
                           />
                         )
                     )

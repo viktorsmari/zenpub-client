@@ -127,7 +127,6 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
               {errors.image && touched.image && <Alert>{errors.image}</Alert>}
             </ContainerForm>
           </Row>
-          )}
           <Actions>
             <SubmitButton
               disabled={isSubmitting}
