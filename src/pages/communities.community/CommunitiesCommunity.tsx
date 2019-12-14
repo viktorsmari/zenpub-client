@@ -141,7 +141,7 @@ const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
           toggleModal={editCommunity}
           modalIsOpen={isEditCommunityOpen}
           communityId={communityQuery.data.community.id}
-          communityExternalId={communityQuery.data.community.id}
+          // communityExternalId={communityQuery.data.community.id}
           community={communityQuery.data.community}
           communityUpdated={communityQuery.refetch}
         />

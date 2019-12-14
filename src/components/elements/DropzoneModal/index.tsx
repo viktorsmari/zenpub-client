@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Trans } from '@lingui/macro';
 import { clearPreviews } from './with-previews';
 import styled from '../../../themes/styled';
 import { UploadCloud } from 'react-feather';
 // import request from 'superagent';
-import { Button } from 'rebass/styled-components';
-import { Actions } from '../Modal/modal';
+// import { Button } from 'rebass/styled-components';
+// import { Actions } from '../Modal/modal';
 
 const ThumbsContainer = styled.aside`
   display: flex;
@@ -41,6 +41,16 @@ const Img = styled.img`
   text-align: center;
 `;
 
+const Clear = styled.div`
+  display: inline-block;
+  cursor: pointer;
+  font-size: 10px;
+  padding: 2px 5px;
+  background-color: #eaeaea;
+  border-radius: 2px;
+  height: 17px;
+`;
+
 interface Props {
   // isSubmitting?: boolean;
   // onSubmitting?: any;
@@ -49,10 +59,14 @@ interface Props {
   // toggleModal?: any;
   // modalIsOpen?: boolean;
   // imagesOnly?: boolean;
+  // files: any,
+  onDropFile: any;
 }
 
 const DropzoneArea: React.FC<Props> = (
   {
+    // files,
+    // onDropFile
     // isSubmitting,
     // onSubmitting,
     // externalItemId,
@@ -63,9 +77,11 @@ const DropzoneArea: React.FC<Props> = (
   }
 ) => {
   const [files, setFiles] = useState([] as any);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: 'image/*',
     onDrop: acceptedFiles => {
+      // console.log('DROPZONE %O', acceptedFiles);
       setFiles(
         acceptedFiles.map(file =>
           Object.assign(file, {
@@ -73,6 +89,7 @@ const DropzoneArea: React.FC<Props> = (
           })
         )
       );
+      // onDropFile(acceptedFiles);
     }
   });
 
@@ -84,25 +101,44 @@ const DropzoneArea: React.FC<Props> = (
     </Thumb>
   ));
 
-  useEffect(
-    () => () => {
-      // Make sure to revoke the data uris to avoid memory leaks
-      files.forEach(file => URL.revokeObjectURL(file.preview));
-    },
-    [files]
-  );
+  // handleUpload = props => {
+  //   const variables = { contextId: contextId, upload: files[0] };
+  //   return mutateIcon({ variables }).then(res => {
+  //     onIcon(res.data!.uploadIcon!.url);
+  //   });
+  // }
+
+  // useEffect(
+  //   () => () => {
+  //     // Make sure to revoke the data uris to avoid memory leaks
+  //     files.forEach(file => URL.revokeObjectURL(file.preview));
+  //   },
+  //   [files]
+  // );
 
   // const { getRootProps, getInputProps, isDragActive } = useDropzone({
   //   // accept: 'image/*',
   //   multiple: false,
   //   onDrop: withPreviews(handleDrop)
   // });
-  useEffect(() => () => clearPreviews(files), [files]);
+  // useEffect(() => () => clearPreviews(files), [files]);
 
   return (
     <>
       <div {...getRootProps({ className: 'dropzone' })}>
-        <ThumbsContainer>{thumbs}</ThumbsContainer>
+        <ThumbsContainer>
+          {thumbs}
+          {files.length != 0 && (
+            <Clear
+              onClick={() => {
+                clearPreviews(files);
+                // setFiles([]);
+              }}
+            >
+              <Trans>Clear</Trans>
+            </Clear>
+          )}
+        </ThumbsContainer>
         <input {...getInputProps()} />
         <InfoContainer>
           <UploadCloud width={45} height={45} strokeWidth={2} />
@@ -113,16 +149,6 @@ const DropzoneArea: React.FC<Props> = (
           )}
         </InfoContainer>
       </div>
-      <Actions>
-        <Button
-          onClick={() => {
-            clearPreviews(files);
-            setFiles([]);
-          }}
-        >
-          <Trans>Clear</Trans>
-        </Button>
-      </Actions>
     </>
   );
 };

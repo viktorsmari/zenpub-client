@@ -3,7 +3,7 @@ import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
 import { Field, Form, Formik, FormikConfig } from 'formik';
-import * as React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { Heading } from 'rebass/styled-components';
 import * as Yup from 'yup';
@@ -11,7 +11,9 @@ import { i18n } from '../../../containers/App/App';
 import Alert from '../Alert';
 import { Button } from 'rebass/styled-components';
 import Modal from '../Modal';
-// import DropzoneArea from '../../components/elements/DropzoneModal';
+import DropzoneArea from '../DropzoneModal';
+import { useUploadIconMutation } from '../../../graphql/generated/uploadIcon.generated';
+
 import {
   Actions,
   Container,
@@ -54,6 +56,8 @@ const CreateCommunityModal = (
   const { toggleModal, modalIsOpen } = props;
   const history = useHistory();
   const [create /* , response */] = useCreateCommunityMutationMutation({});
+  const [files, setFiles] = useState([] as any);
+  const [mutateIcon] = useUploadIconMutation();
 
   const initialValues = React.useMemo<FormValues>(
     () => ({
@@ -66,6 +70,16 @@ const CreateCommunityModal = (
     }),
     []
   );
+  // useEffect(
+
+  //   () => () => {
+  //     console.log('FILES %O', files);
+  //   }
+  // );
+
+  const afterDrop = files => {
+    setFiles(files);
+  };
 
   const submit = React.useCallback<FormikConfig<FormValues>['onSubmit']>(
     (values, { setSubmitting }) => {
@@ -85,6 +99,13 @@ const CreateCommunityModal = (
           res.data &&
             res.data.createCommunity &&
             history.push(`/communities/${res.data.createCommunity.id}`);
+          console.log('FILES %O', files);
+          mutateIcon({
+            variables: {
+              contextId: res.data!.createCommunity!.id,
+              upload: files[0]
+            }
+          });
         })
         .catch(err => console.log(err));
     },
@@ -154,7 +175,7 @@ const CreateCommunityModal = (
                     <Trans>Image</Trans>
                   </label>
                   <ContainerForm>
-                    <Field
+                    {/* <Field
                       name="image"
                       render={({ field }) => (
                         <Input
@@ -164,6 +185,10 @@ const CreateCommunityModal = (
                           onChange={field.onChange}
                         />
                       )}
+                    /> */}
+                    <DropzoneArea
+                      // files = {files}
+                      onDropFile={afterDrop}
                     />
                     {errors.image &&
                       touched.image && <Alert>{errors.image}</Alert>}
