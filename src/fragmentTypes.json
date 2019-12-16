@@ -3,16 +3,6 @@
     "types": [
       {
         "kind": "UNION",
-        "name": "ThreadContext",
-        "possibleTypes": [
-          { "name": "Collection" },
-          { "name": "Community" },
-          { "name": "Flag" },
-          { "name": "Resource" }
-        ]
-      },
-      {
-        "kind": "UNION",
         "name": "DeleteContext",
         "possibleTypes": [
           { "name": "Activity" },
@@ -24,6 +14,16 @@
           { "name": "Like" },
           { "name": "Resource" },
           { "name": "Thread" },
+          { "name": "User" }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "LikeContext",
+        "possibleTypes": [
+          { "name": "Collection" },
+          { "name": "Comment" },
+          { "name": "Resource" },
           { "name": "User" }
         ]
       },
@@ -61,16 +61,6 @@
       },
       {
         "kind": "UNION",
-        "name": "LikeContext",
-        "possibleTypes": [
-          { "name": "Collection" },
-          { "name": "Comment" },
-          { "name": "Resource" },
-          { "name": "User" }
-        ]
-      },
-      {
-        "kind": "UNION",
         "name": "ActivityContext",
         "possibleTypes": [
           { "name": "Collection" },
@@ -79,6 +69,16 @@
           { "name": "Flag" },
           { "name": "Follow" },
           { "name": "Like" },
+          { "name": "Resource" }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "ThreadContext",
+        "possibleTypes": [
+          { "name": "Collection" },
+          { "name": "Community" },
+          { "name": "Flag" },
           { "name": "Resource" }
         ]
       }

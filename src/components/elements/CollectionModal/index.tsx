@@ -7,13 +7,13 @@ import * as React from 'react';
 import { graphql, OperationOption } from 'react-apollo';
 import { compose, withState } from 'recompose';
 import * as Yup from 'yup';
-import { i18n } from '../../../containers/App/App';
 import styled from '../../../themes/styled';
 import { Search } from '../Icons';
 import Loader from '../Loader/Loader';
 import { Row } from '../Modal/modal';
 import Fetched from './fetched';
 import { Input } from '@rebass/forms';
+import { LocaleContext } from '../../../context/global/localizationCtx';
 const tt = {
   placeholders: {
     url: i18nMark('Enter the URL of the resource'),
@@ -76,6 +76,8 @@ const withFetchResource = graphql<{}>(FETCH_RESOURCE, {
 } as OperationOption<{}, {}>);
 
 const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
+  const { i18n } = React.useContext(LocaleContext);
+
   return (
     <div>
       <Row>

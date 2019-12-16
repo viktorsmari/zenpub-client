@@ -3,17 +3,18 @@ import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
 import { Field, Form, Formik, FormikConfig } from 'formik';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 // import { useHistory } from 'react-router';
 import { Heading } from 'rebass/styled-components';
 import * as Yup from 'yup';
-import { i18n } from '../../../containers/App/App';
+// import { i18n } from '../../../containers/App/App';
 import Alert from '../Alert';
 import styled from '../../../themes/styled';
 import { Button } from 'rebass/styled-components';
 import Modal from '../Modal';
-import DropzoneArea from '../DropzoneModal';
+// import DropzoneArea from '../DropzoneModal';
 import { useUploadIconMutation } from '../../../graphql/generated/uploadIcon.generated';
+import { DropZone } from 'react-formik-ui';
 // import { Community } from '../../../graphql/types.generated';
 
 import {
@@ -61,6 +62,13 @@ const IconImg = styled.img`
   max-width: 100%;
   margin-bottom: 10px;
 `;
+const DropzoneContainer = styled.div`
+  .img-thumbnail {
+    display: block;
+    max-width: 100%;
+    margin-bottom: 10px;
+  }
+`;
 
 const EditCommunityModal = (props: Props /*  & FormikProps<FormValues> */) => {
   const {
@@ -72,7 +80,7 @@ const EditCommunityModal = (props: Props /*  & FormikProps<FormValues> */) => {
   } = props;
   // const history = useHistory();
   const [update /* , response */] = useUpdateCommunityMutationMutation({});
-  const [files, setFiles] = useState([] as any);
+  // const [files, setFiles] = useState([] as any);
   const [mutateIcon] = useUploadIconMutation();
   const [iconUrl, onIcon] = useState(community.icon);
 
@@ -89,22 +97,22 @@ const EditCommunityModal = (props: Props /*  & FormikProps<FormValues> */) => {
     []
   );
 
-  useEffect(
-    () => {
-      console.log('FILES %O', files);
-    },
-    [files]
-  );
+  // useEffect(
+  //   () => {
+  //     console.log('FILES %O', files);
+  //   },
+  //   [files]
+  // );
 
-  const afterDrop = files => {
-    setFiles(files);
-    // setFieldValue("files", values.files.concat(acceptedFiles));
-    console.log('afterDrop %O', files);
-  };
+  // const afterDrop = files => {
+  //   setFiles(files);
+  //   // setFieldValue("files", values.files.concat(acceptedFiles));
+  //   console.log('afterDrop %O', files);
+  // };
 
   const submit = React.useCallback<FormikConfig<FormValues>['onSubmit']>(
     (values, { setSubmitting }) => {
-      console.log('FILES Submit %O', files);
+      // console.log('FILES Submit %O', files);
       const variables: UpdateCommunityMutationMutationVariables = {
         communityId: communityId,
         community: {
@@ -121,8 +129,11 @@ const EditCommunityModal = (props: Props /*  & FormikProps<FormValues> */) => {
           setSubmitting(false);
           toggleModal;
           communityUpdated;
+          const fileToUpload = values.files.map(file => {
+            return file;
+          });
           return mutateIcon({
-            variables: { contextId: communityId, upload: files[0] }
+            variables: { contextId: communityId, upload: fileToUpload[0] }
           }).then(res => {
             onIcon(res.data!.uploadIcon!.url);
           });
@@ -160,7 +171,7 @@ const EditCommunityModal = (props: Props /*  & FormikProps<FormValues> */) => {
                       render={({ field }) => (
                         <>
                           <Input
-                            placeholder={i18n._(tt.placeholders.name)}
+                            placeholder={tt.placeholders.name}
                             name={field.name}
                             value={field.value}
                             onChange={field.onChange}
@@ -183,7 +194,7 @@ const EditCommunityModal = (props: Props /*  & FormikProps<FormValues> */) => {
                       render={({ field }) => (
                         <>
                           <Textarea
-                            placeholder={i18n._(tt.placeholders.summary)}
+                            placeholder={tt.placeholders.summary}
                             name={field.name}
                             value={field.value}
                             onChange={field.onChange}
@@ -213,7 +224,17 @@ const EditCommunityModal = (props: Props /*  & FormikProps<FormValues> */) => {
                         />
                       )}
                     /> */}
-                    <DropzoneArea onDropFile={afterDrop} />
+                    {/* <DropzoneArea onDropFile={afterDrop} /> */}
+                    <DropzoneContainer>
+                      <DropZone
+                        name="files"
+                        accept="image/*"
+                        label="File upload"
+                        placeholder="Try dropping some files here, or click to select files to upload."
+                        multiple={false}
+                        withClearButton
+                      />
+                    </DropzoneContainer>
                     {errors.image &&
                       touched.image && <Alert>{errors.image}</Alert>}
                   </ContainerForm>

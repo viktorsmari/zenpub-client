@@ -1,8 +1,8 @@
 import React from 'react';
-import styled from '../../../themes/styled';
+import styled from 'ui/themes/styled';
 import { Text, Box, Flex } from 'rebass/styled-components';
 import { Layers, Users } from 'react-feather';
-import Avatar from '../../elements/Avatar';
+import Avatar from 'ui/elements/Avatar';
 import media from 'styled-media-query';
 
 interface Props {

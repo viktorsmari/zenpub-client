@@ -1,6 +1,6 @@
 import * as React from 'react';
-import styled from '../../themes/styled';
 import { Box } from 'rebass/styled-components';
+import styled from 'ui/themes/styled';
 
 const Wrapper = styled(Box)`
   border-radius: 4px;
@@ -11,7 +11,7 @@ const Wrapper = styled(Box)`
   font-size: 13px;
 `;
 const Alert: React.FC<{ variant: string }> = ({ variant, children }) => (
-  <Wrapper variant={variant}>{children}</Wrapper>
+  <Wrapper variant={variant || 'info'}>{children}</Wrapper>
 );
 
 export default Alert;

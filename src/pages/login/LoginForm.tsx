@@ -2,7 +2,6 @@ import { i18nMark } from '@lingui/react';
 import * as React from 'react';
 import { Trans } from '@lingui/macro';
 import { Input } from '@rebass/forms';
-import { i18n } from '../../containers/App/App';
 import styled from '../../themes/styled';
 import { ValidationField, ValidationObject, ValidationType } from './types';
 import { Button } from 'rebass/styled-components';
@@ -88,7 +87,7 @@ export default class extends React.Component<LoginFormProps, LoginFormState> {
       >
         <Box p={3}>
           <Input
-            placeholder={i18n._(i18nMark('Enter your email'))}
+            placeholder={i18nMark('Enter your email')}
             value={this.state.email}
             validation={this.getValidation(ValidationField.email)}
             onChange={(evt: any) => {
@@ -101,7 +100,7 @@ export default class extends React.Component<LoginFormProps, LoginFormState> {
           <Spacer />
           <Input
             type="password"
-            placeholder={i18n._(i18nMark('Enter your password'))}
+            placeholder={i18nMark('Enter your password')}
             value={this.state.password}
             validation={this.getValidation(ValidationField.password)}
             onChange={(evt: any) => {

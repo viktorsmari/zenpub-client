@@ -1,18 +1,18 @@
 import { Trans } from '@lingui/macro';
 import { ellipsis } from 'polished';
 import * as React from 'react';
-import { Globe } from 'react-feather';
+import { Globe, MoreHorizontal } from 'react-feather';
 // import { SearchBox } from 'react-instantsearch-dom';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { NavLink } from 'react-router-dom';
-import { Box, Flex, Image, Text } from 'rebass/styled-components';
+import { Box, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import Loader from '../../components/elements/Loader/Loader';
 import styled from '../../themes/styled';
 import Dropdown from './dropdown';
-import { MoreHorizontal } from 'react-feather';
 import { GetSidebarQueryQueryResult } from '../../graphql/generated/getSidebar.generated';
 import Empty from '../../components/elements/Empty';
+import Avatar from 'ui/elements/Avatar';
 
 const MnetLogo = require('./moodle-logo.png');
 const SidebarComponent = styled(Flex)`
@@ -223,8 +223,10 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
                     <SearchBox />
                   </Sbox> */}
                   <NavItem alignItems="center" onClick={openMenu}>
-                    <Image
-                      src={data.me.user.icon}
+                    <Avatar
+                      initials={data.me.user.name!.substring(0, 2)}
+                      src={data.me!.user!.icon!}
+                      variant="avatar"
                       // name={props.data.me.user.name}
                     />
                     <HeaderName ml={2} variant="link">
@@ -248,7 +250,7 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
                 <Nav pt={3}>
                   <SidebarLink exact to={'/discover'}>
                     <NavItem mb={3} alignItems={'center'}>
-                      <Globe size={36} />
+                      <Globe size={40} />
                       <ItemTitle ml={2} variant="link">
                         <Trans>Discover</Trans>
                       </ItemTitle>
@@ -256,8 +258,8 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
                   </SidebarLink>
                   <SidebarLink exact to={'/'}>
                     <NavItem mb={3} alignItems={'center'}>
-                      <Image mr={2} width={'40px'} src={MnetLogo} />
-                      <ItemTitle variant="link">
+                      <Avatar src={MnetLogo} />
+                      <ItemTitle ml={2} variant="link">
                         <Trans>My MoodleNet</Trans>
                       </ItemTitle>
                     </NavItem>
@@ -277,8 +279,11 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
                           to={'/communities/' + community.id}
                         >
                           <NavItem alignItems={'center'} mb={2}>
-                            <Image mr={2} src={community.icon} />
-                            <ItemTitle variant="link">
+                            <Avatar
+                              initials={community.name.substr(0, 2)}
+                              src={community.icon!}
+                            />
+                            <ItemTitle ml={2} variant="link">
                               {community.name}
                             </ItemTitle>
                           </NavItem>

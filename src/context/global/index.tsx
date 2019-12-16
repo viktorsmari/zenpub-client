@@ -7,6 +7,7 @@ import {
   ApolloDynamicLinkContext,
   DynamicLinkSrv
 } from '../../util/apollo/dynamicLink';
+import { ProvideLocalizationCtx } from './localizationCtx';
 
 interface Props {
   children: React.ReactNode;
@@ -22,11 +23,13 @@ export const ProvideContexts: React.FC<Props> = ({
     <ProvideStoreCtx store={store}>
       <ProvideStateCtx>
         <ProvideActionCtx>
-          <ProvideSessionCtx>
-            <ApolloDynamicLinkContext.Provider value={dynamicLinkSrv}>
-              {children}
-            </ApolloDynamicLinkContext.Provider>
-          </ProvideSessionCtx>
+          <ProvideLocalizationCtx>
+            <ProvideSessionCtx>
+              <ApolloDynamicLinkContext.Provider value={dynamicLinkSrv}>
+                {children}
+              </ApolloDynamicLinkContext.Provider>
+            </ProvideSessionCtx>
+          </ProvideLocalizationCtx>
         </ProvideActionCtx>
       </ProvideStateCtx>
     </ProvideStoreCtx>
