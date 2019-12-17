@@ -12,9 +12,9 @@ variables:
   GIT_SUBMODULE_STRATEGY: recursive
   AWS_DEFAULT_REGION: eu-west-1 # The region of our S3 bucket
 
-stages:
-  - docs
-  - deploy
+#stages:
+#  - deploy
+#  - docs
 
 default:
   before_script:
@@ -42,9 +42,9 @@ default:
      - mv storybook-static docs/ui # include styleguide in build
      - if [ ! -z "$DOCS_STAGING_BUCKET" ]; then aws s3 sync docs/ s3://${DOCS_STAGING_BUCKET}/docs/client/ --delete --exclude .git --acl public-read ; else echo "Skipping..."; fi # also copy docs to (a different) S3-served website
      - if [ ! -z "$DOCS_STAGING_DISTRIBUTION_ID" ]; then aws cloudfront create-invalidation --distribution-id ${DOCS_STAGING_DISTRIBUTION_ID} --paths '/docs/client/*' ; else echo "Skipping..."; fi # invalidate the docs CloudFront's cache to serve the new version
-  artifacts:
-    paths:
-    - docs # The built files for Gitlab to serve
+   artifacts:
+		   paths:
+		   - docs # The built files for Gitlab to serve
 
 deploy-staging-next: # build and deploy develop branch to app.next.moodle.net
   stage: deploy
