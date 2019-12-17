@@ -37,7 +37,7 @@ docs: # build and deploy documentation
      - develop # Only run on staging branch
    script:
      - mkdir docs 
-     - yarn docs # generate TypeDocs
+     #- yarn docs # generate TypeDocs
      - yarn build-storybook # generate styleguide
      - mv storybook-static docs/ui # include styleguide in build
      - if [ ! -z "$DOCS_STAGING_BUCKET" ]; then aws s3 sync docs/ s3://${DOCS_STAGING_BUCKET}/docs/client/ --delete --exclude .git --acl public-read ; else echo "Skipping..."; fi # also copy docs to (a different) S3-served website
