@@ -7,8 +7,7 @@ import * as React from 'react';
 import { useHistory } from 'react-router';
 import { Heading } from 'rebass/styled-components';
 import * as Yup from 'yup';
-import { i18n } from '../../../containers/App/App';
-import Alert from '../../elements/Alert';
+import Alert from '../Alert';
 import { Button } from 'rebass/styled-components';
 import Modal from '../Modal';
 import {
@@ -23,6 +22,7 @@ import {
   useCreateCommunityMutationMutation,
   CreateCommunityMutationMutationVariables
 } from '../../../graphql/generated/createCommunity.generated';
+import { LocaleContext } from '../../../context/global/localizationCtx';
 
 const tt = {
   placeholders: {
@@ -50,6 +50,7 @@ interface FormValues {
 const CreateCommunityModal = (
   props: Props /*  & FormikProps<FormValues> */
 ) => {
+  const { i18n } = React.useContext(LocaleContext);
   const { toggleModal, modalIsOpen } = props;
   const history = useHistory();
   const [create /* , response */] = useCreateCommunityMutationMutation({});
@@ -81,7 +82,9 @@ const CreateCommunityModal = (
       })
         .then(res => {
           setSubmitting(false);
-          history.push(`/communities/${res.data!.createCommunity!.id}`);
+          res.data &&
+            res.data.createCommunity &&
+            history.push(`/communities/${res.data.createCommunity.id}`);
         })
         .catch(err => console.log(err));
     },
@@ -128,24 +131,23 @@ const CreateCommunityModal = (
                     <Trans>Description</Trans>
                   </label>
                   <ContainerForm>
-                    {
-                      new Field({
-                        name: 'summary',
-                        render: ({ field }) => (
-                          <>
-                            <Textarea
-                              placeholder={i18n._(tt.placeholders.summary)}
-                              name={field.name}
-                              value={field.value}
-                              onChange={field.onChange}
-                            />
-                            <CounterChars>
-                              {500 - field.value.length}
-                            </CounterChars>
-                          </>
-                        )
-                      })
-                    }
+                    <Field
+                      name="summary"
+                      render={({ field }) => (
+                        <>
+                          <Textarea
+                            placeholder={i18n._(tt.placeholders.summary)}
+                            name={field.name}
+                            value={field.value}
+                            onChange={field.onChange}
+                          />
+                          <CounterChars>
+                            {500 - field.value.length}
+                          </CounterChars>
+                          {errors.summary && <Alert>{errors.summary}</Alert>}
+                        </>
+                      )}
+                    />
                   </ContainerForm>
                 </Row>
                 <Row>

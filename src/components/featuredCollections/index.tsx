@@ -4,13 +4,13 @@ import { graphql, QueryControls, OperationOption } from 'react-apollo';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-const getFollowedCollections = require('../../graphql/getFeaturedCollections.graphql');
-import Loader from '../../components/elements/Loader/Loader';
+const getFeaturedCollections = require('../../graphql/getFeaturedCollections.graphql');
+import Loader from '../elements/Loader/Loader';
 import { Trans } from '@lingui/macro';
 import CollectionSmall from '../elements/Collection/CollectionSmall';
 import { ChevronLeft, Right } from '../elements/Icons';
 import { Title, RightContext } from '../featuredCommunities';
-import { IS_DEV } from '../../constants';
+import { GRAPHQL_ENDPOINT } from '../../constants';
 
 interface Data extends QueryControls {
   one: any;
@@ -95,7 +95,7 @@ class MultipleItems extends React.Component<Props> {
         </Title>
         {this.props.data.error ? (
           <span>
-            <Trans>Error loading featured collections</Trans>
+            <Trans>{/* Error loading featured collections */}</Trans>
           </span>
         ) : this.props.data.loading ? (
           <Loader />
@@ -129,21 +129,24 @@ class MultipleItems extends React.Component<Props> {
   }
 }
 
+const is_home =
+  GRAPHQL_ENDPOINT == 'https://home.moodle.net/api/graphql' ? true : false;
+
 const withGetInbox = graphql<
   {},
   {
     data: any;
   }
->(getFollowedCollections, {
+>(getFeaturedCollections, {
   options: {
     variables: {
-      one: IS_DEV ? '2510' : '4944',
-      two: IS_DEV ? '2374' : '5416',
-      three: IS_DEV ? '5487' : '5571',
-      four: IS_DEV ? '8092' : '5487',
-      five: IS_DEV ? '690' : '4944',
-      six: IS_DEV ? '3790' : '2374',
-      seven: IS_DEV ? '4848' : '5571'
+      one: is_home ? 'cd514675-e822-4041-84e8-a5493e57d7d1' : null,
+      two: is_home ? '0e745426-995f-4755-80a0-59df867fd6ab' : null
+      // three: IS_DEV ? '5487' : '5571',
+      // four: IS_DEV ? '8092' : '5487',
+      // five: IS_DEV ? '690' : '4944',
+      // six: IS_DEV ? '3790' : '2374',
+      // seven: IS_DEV ? '4848' : '5571'
     }
   }
 }) as OperationOption<{}, {}>;

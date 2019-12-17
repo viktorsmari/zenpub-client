@@ -1,4 +1,4 @@
-import * as Types from '../types.d';
+import * as Types from '../types.generated';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -9,95 +9,59 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type CreateUserMutationMutationVariables = {
-  user: Types.RegistrationInput;
+  user: Types.RegistrationInput
 };
 
-export type CreateUserMutationMutation = { __typename?: 'RootMutationType' } & {
-  createUser: Types.Maybe<
-    { __typename?: 'Me' } & Pick<
-      Types.Me,
-      'email' | 'wantsEmailDigest' | 'wantsNotifications' | 'isConfirmed'
-    > & {
-        user: { __typename?: 'User' } & Pick<
-          Types.User,
-          | 'id'
-          | 'preferredUsername'
-          | 'name'
-          | 'summary'
-          | 'location'
-          | 'website'
-        >;
-      }
-  >;
-};
 
-export const CreateUserMutationDocument = gql`
-  mutation createUserMutation($user: RegistrationInput!) {
-    createUser(user: $user) {
-      email
-      wantsEmailDigest
-      wantsNotifications
-      isConfirmed
-      user {
-        id
-        preferredUsername
-        name
-        summary
-        location
-        website
-      }
-    }
-  }
-`;
-export type CreateUserMutationMutationFn = ApolloReactCommon.MutationFunction<
-  CreateUserMutationMutation,
-  CreateUserMutationMutationVariables
->;
-export type CreateUserMutationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<
-    CreateUserMutationMutation,
-    CreateUserMutationMutationVariables
-  >,
-  'mutation'
->;
-
-export const CreateUserMutationComponent = (
-  props: CreateUserMutationComponentProps
-) => (
-  <ApolloReactComponents.Mutation<
-    CreateUserMutationMutation,
-    CreateUserMutationMutationVariables
-  >
-    mutation={CreateUserMutationDocument}
-    {...props}
-  />
+export type CreateUserMutationMutation = (
+  { __typename?: 'RootMutationType' }
+  & { createUser: Types.Maybe<(
+    { __typename?: 'Me' }
+    & Pick<Types.Me, 'email' | 'wantsEmailDigest' | 'wantsNotifications' | 'isConfirmed'>
+    & { user: (
+      { __typename?: 'User' }
+      & Pick<Types.User, 'id' | 'preferredUsername' | 'name' | 'summary' | 'location' | 'website'>
+    ) }
+  )> }
 );
 
-export type CreateUserMutationProps<
-  TChildProps = {}
-> = ApolloReactHoc.MutateProps<
-  CreateUserMutationMutation,
-  CreateUserMutationMutationVariables
-> &
-  TChildProps;
-export function withCreateUserMutation<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    CreateUserMutationMutation,
-    CreateUserMutationMutationVariables,
-    CreateUserMutationProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    CreateUserMutationMutation,
-    CreateUserMutationMutationVariables,
-    CreateUserMutationProps<TChildProps>
-  >(CreateUserMutationDocument, {
-    alias: 'createUserMutation',
-    ...operationOptions
-  });
+
+export const CreateUserMutationDocument = gql`
+    mutation createUserMutation($user: RegistrationInput!) {
+  createUser(user: $user) {
+    email
+    wantsEmailDigest
+    wantsNotifications
+    isConfirmed
+    user {
+      id
+      preferredUsername
+      name
+      summary
+      location
+      website
+    }
+  }
 }
+    `;
+export type CreateUserMutationMutationFn = ApolloReactCommon.MutationFunction<CreateUserMutationMutation, CreateUserMutationMutationVariables>;
+export type CreateUserMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateUserMutationMutation, CreateUserMutationMutationVariables>, 'mutation'>;
+
+    export const CreateUserMutationComponent = (props: CreateUserMutationComponentProps) => (
+      <ApolloReactComponents.Mutation<CreateUserMutationMutation, CreateUserMutationMutationVariables> mutation={CreateUserMutationDocument} {...props} />
+    );
+    
+export type CreateUserMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<CreateUserMutationMutation, CreateUserMutationMutationVariables> & TChildProps;
+export function withCreateUserMutation<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  CreateUserMutationMutation,
+  CreateUserMutationMutationVariables,
+  CreateUserMutationProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateUserMutationMutation, CreateUserMutationMutationVariables, CreateUserMutationProps<TChildProps>>(CreateUserMutationDocument, {
+      alias: 'createUserMutation',
+      ...operationOptions
+    });
+};
 
 /**
  * __useCreateUserMutationMutation__
@@ -116,174 +80,17 @@ export function withCreateUserMutation<TProps, TChildProps = {}>(
  *   },
  * });
  */
-export function useCreateUserMutationMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    CreateUserMutationMutation,
-    CreateUserMutationMutationVariables
-  >
-) {
-  return ApolloReactHooks.useMutation<
-    CreateUserMutationMutation,
-    CreateUserMutationMutationVariables
-  >(CreateUserMutationDocument, baseOptions);
-}
-export type CreateUserMutationMutationHookResult = ReturnType<
-  typeof useCreateUserMutationMutation
->;
-export type CreateUserMutationMutationResult = ApolloReactCommon.MutationResult<
-  CreateUserMutationMutation
->;
-export type CreateUserMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  CreateUserMutationMutation,
-  CreateUserMutationMutationVariables
->;
-
-export interface IntrospectionResultData {
-  __schema: {
-    types: {
-      kind: string;
-      name: string;
-      possibleTypes: {
-        name: string;
-      }[];
-    }[];
-  };
-}
-
-const result: IntrospectionResultData = {
-  __schema: {
-    types: [
-      {
-        kind: 'UNION',
-        name: 'ActivityContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Resource'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'FlagContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Resource'
-          },
-          {
-            name: 'User'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'LikeContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Resource'
-          },
-          {
-            name: 'User'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'ThreadContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Flag'
-          },
-          {
-            name: 'Resource'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'FollowContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Thread'
-          },
-          {
-            name: 'User'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'DeleteContext',
-        possibleTypes: [
-          {
-            name: 'Activity'
-          },
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Flag'
-          },
-          {
-            name: 'Follow'
-          },
-          {
-            name: 'Like'
-          },
-          {
-            name: 'Resource'
-          },
-          {
-            name: 'Thread'
-          },
-          {
-            name: 'User'
-          }
-        ]
+export function useCreateUserMutationMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateUserMutationMutation, CreateUserMutationMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateUserMutationMutation, CreateUserMutationMutationVariables>(CreateUserMutationDocument, baseOptions);
       }
-    ]
-  }
-};
+export type CreateUserMutationMutationHookResult = ReturnType<typeof useCreateUserMutationMutation>;
+export type CreateUserMutationMutationResult = ApolloReactCommon.MutationResult<CreateUserMutationMutation>;
+export type CreateUserMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateUserMutationMutation, CreateUserMutationMutationVariables>;
 
-export default result;
+
+export interface CreateUserMutationMutationOperation {
+  operationName: 'createUserMutation'
+  result: CreateUserMutationMutation
+  variables: CreateUserMutationMutationVariables
+  type: 'mutation'
+}

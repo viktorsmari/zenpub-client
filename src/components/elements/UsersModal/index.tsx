@@ -4,7 +4,7 @@ import styled from '../../../themes/styled';
 import media from 'styled-media-query';
 
 import { Trans } from '@lingui/macro';
-import Link from '../../elements/Link/Link';
+import Link from '../Link/Link';
 import { clearFix } from 'polished';
 import { Heading, Text } from 'rebass/styled-components';
 import { Container, Header } from '../Modal/modal';
@@ -27,7 +27,7 @@ const UsersModal = (props: Props) => {
         <Members>
           {members.map((edge, i) => (
             <Follower key={i}>
-              <Link to={'/user/' + edge.node.localId}>
+              <Link to={'/user/' + edge.node.id}>
                 <Img
                   style={{
                     backgroundImage: `url(${edge.node.icon})`

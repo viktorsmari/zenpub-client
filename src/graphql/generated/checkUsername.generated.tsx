@@ -1,4 +1,4 @@
-import * as Types from '../types.d';
+import * as Types from '../types.generated';
 
 import gql from 'graphql-tag';
 import * as React from 'react';
@@ -9,71 +9,44 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type UsernameAvailableQueryVariables = {
-  username: Types.Scalars['String'];
+  username: Types.Scalars['String']
 };
 
-export type UsernameAvailableQuery = { __typename?: 'RootQueryType' } & Pick<
-  Types.RootQueryType,
-  'usernameAvailable'
->;
 
-export const UsernameAvailableDocument = gql`
-  query usernameAvailable($username: String!) {
-    usernameAvailable(username: $username)
-  }
-`;
-export type UsernameAvailableComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<
-    UsernameAvailableQuery,
-    UsernameAvailableQueryVariables
-  >,
-  'query'
-> &
-  (
-    | { variables: UsernameAvailableQueryVariables; skip?: boolean }
-    | { skip: boolean });
-
-export const UsernameAvailableComponent = (
-  props: UsernameAvailableComponentProps
-) => (
-  <ApolloReactComponents.Query<
-    UsernameAvailableQuery,
-    UsernameAvailableQueryVariables
-  >
-    query={UsernameAvailableDocument}
-    {...props}
-  />
+export type UsernameAvailableQuery = (
+  { __typename?: 'RootQueryType' }
+  & Pick<Types.RootQueryType, 'usernameAvailable'>
 );
 
-export type UsernameAvailableProps<TChildProps = {}> = ApolloReactHoc.DataProps<
-  UsernameAvailableQuery,
-  UsernameAvailableQueryVariables
-> &
-  TChildProps;
-export function withUsernameAvailable<TProps, TChildProps = {}>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    UsernameAvailableQuery,
-    UsernameAvailableQueryVariables,
-    UsernameAvailableProps<TChildProps>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    UsernameAvailableQuery,
-    UsernameAvailableQueryVariables,
-    UsernameAvailableProps<TChildProps>
-  >(UsernameAvailableDocument, {
-    alias: 'usernameAvailable',
-    ...operationOptions
-  });
+
+export const UsernameAvailableDocument = gql`
+    query usernameAvailable($username: String!) {
+  usernameAvailable(username: $username)
 }
+    `;
+export type UsernameAvailableComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UsernameAvailableQuery, UsernameAvailableQueryVariables>, 'query'> & ({ variables: UsernameAvailableQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const UsernameAvailableComponent = (props: UsernameAvailableComponentProps) => (
+      <ApolloReactComponents.Query<UsernameAvailableQuery, UsernameAvailableQueryVariables> query={UsernameAvailableDocument} {...props} />
+    );
+    
+export type UsernameAvailableProps<TChildProps = {}> = ApolloReactHoc.DataProps<UsernameAvailableQuery, UsernameAvailableQueryVariables> & TChildProps;
+export function withUsernameAvailable<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UsernameAvailableQuery,
+  UsernameAvailableQueryVariables,
+  UsernameAvailableProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, UsernameAvailableQuery, UsernameAvailableQueryVariables, UsernameAvailableProps<TChildProps>>(UsernameAvailableDocument, {
+      alias: 'usernameAvailable',
+      ...operationOptions
+    });
+};
 
 /**
  * __useUsernameAvailableQuery__
  *
  * To run a query within a React component, call `useUsernameAvailableQuery` and pass it any options that fit your needs.
- * When your component renders, `useUsernameAvailableQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * When your component renders, `useUsernameAvailableQuery` returns an object from Apollo Client that contains loading, error, and data properties 
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -85,185 +58,20 @@ export function withUsernameAvailable<TProps, TChildProps = {}>(
  *   },
  * });
  */
-export function useUsernameAvailableQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<
-    UsernameAvailableQuery,
-    UsernameAvailableQueryVariables
-  >
-) {
-  return ApolloReactHooks.useQuery<
-    UsernameAvailableQuery,
-    UsernameAvailableQueryVariables
-  >(UsernameAvailableDocument, baseOptions);
-}
-export function useUsernameAvailableLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
-    UsernameAvailableQuery,
-    UsernameAvailableQueryVariables
-  >
-) {
-  return ApolloReactHooks.useLazyQuery<
-    UsernameAvailableQuery,
-    UsernameAvailableQueryVariables
-  >(UsernameAvailableDocument, baseOptions);
-}
-export type UsernameAvailableQueryHookResult = ReturnType<
-  typeof useUsernameAvailableQuery
->;
-export type UsernameAvailableLazyQueryHookResult = ReturnType<
-  typeof useUsernameAvailableLazyQuery
->;
-export type UsernameAvailableQueryResult = ApolloReactCommon.QueryResult<
-  UsernameAvailableQuery,
-  UsernameAvailableQueryVariables
->;
-
-export interface IntrospectionResultData {
-  __schema: {
-    types: {
-      kind: string;
-      name: string;
-      possibleTypes: {
-        name: string;
-      }[];
-    }[];
-  };
-}
-
-const result: IntrospectionResultData = {
-  __schema: {
-    types: [
-      {
-        kind: 'UNION',
-        name: 'ActivityContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Resource'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'FlagContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Resource'
-          },
-          {
-            name: 'User'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'LikeContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Resource'
-          },
-          {
-            name: 'User'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'ThreadContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Flag'
-          },
-          {
-            name: 'Resource'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'FollowContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Thread'
-          },
-          {
-            name: 'User'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'DeleteContext',
-        possibleTypes: [
-          {
-            name: 'Activity'
-          },
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Flag'
-          },
-          {
-            name: 'Follow'
-          },
-          {
-            name: 'Like'
-          },
-          {
-            name: 'Resource'
-          },
-          {
-            name: 'Thread'
-          },
-          {
-            name: 'User'
-          }
-        ]
+export function useUsernameAvailableQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<UsernameAvailableQuery, UsernameAvailableQueryVariables>) {
+        return ApolloReactHooks.useQuery<UsernameAvailableQuery, UsernameAvailableQueryVariables>(UsernameAvailableDocument, baseOptions);
       }
-    ]
-  }
-};
+export function useUsernameAvailableLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<UsernameAvailableQuery, UsernameAvailableQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<UsernameAvailableQuery, UsernameAvailableQueryVariables>(UsernameAvailableDocument, baseOptions);
+        }
+export type UsernameAvailableQueryHookResult = ReturnType<typeof useUsernameAvailableQuery>;
+export type UsernameAvailableLazyQueryHookResult = ReturnType<typeof useUsernameAvailableLazyQuery>;
+export type UsernameAvailableQueryResult = ApolloReactCommon.QueryResult<UsernameAvailableQuery, UsernameAvailableQueryVariables>;
 
-export default result;
+
+export interface UsernameAvailableQueryOperation {
+  operationName: 'usernameAvailable'
+  result: UsernameAvailableQuery
+  variables: UsernameAvailableQueryVariables
+  type: 'query'
+}

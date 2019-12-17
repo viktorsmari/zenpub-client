@@ -1,38 +1,49 @@
-import { Store } from 'redux';
-import { InterceptorSrv, InterceptorResultOf } from '../apollo/client';
+import { FetchResult } from 'apollo-link';
+import {
+  ConfirmEmailMutationMutation,
+  ConfirmEmailMutationMutationOperation
+} from '../graphql/generated/confirmEmail.generated';
+import {
+  LoginMutationMutation,
+  LoginMutationMutationOperation
+} from '../graphql/generated/login.generated';
+import { LogoutMutationMutationOperation } from '../graphql/generated/logout.generated';
 import { login, logout } from '../redux/session';
+import { DynamicLinkSrv } from '../util/apollo/dynamicLink';
 
 export const integrateSessionApolloRedux = (
-  intercSrv: InterceptorSrv,
-  store: Store
+  dynamicLinkSrv: DynamicLinkSrv,
+  dispatch: (msg: any) => unknown
 ) => {
   const setAuth = (
-    resp:
-      | InterceptorResultOf<'createSession'>
-      | InterceptorResultOf<'confirmEmail'>
+    resp: FetchResult<LoginMutationMutation | ConfirmEmailMutationMutation>
   ) => {
-    if (!resp.error && resp.data && resp.data.me && resp.data.token) {
-      const payload = { me: resp.data.me, token: resp.data.token };
-      store.dispatch(login.create(payload));
-    } else {
-      store.dispatch(logout.create());
+    if (resp.errors || !resp.data) {
+      dispatch(logout.create());
+      return;
     }
+    const payload =
+      'createSession' in resp.data
+        ? resp.data.createSession
+        : resp.data.confirmEmail;
+    dispatch(payload ? login.create(payload.me) : logout.create());
   };
-  // @ts-ignore
-  intercSrv.add({
-    operation: 'confirmEmail',
-    request: _ => resp => setAuth(resp)
-  });
 
-  intercSrv.add({
-    operation: 'createSession',
-    request: _ => resp => setAuth(resp)
-  });
+  dynamicLinkSrv.addLinkOpResult<ConfirmEmailMutationMutationOperation>(
+    'confirmEmailMutation',
+    setAuth
+  );
 
-  intercSrv.add({
-    operation: 'deleteSession',
-    request: _ => {
-      store.dispatch(logout.create());
+  dynamicLinkSrv.addLinkOpResult<LoginMutationMutationOperation>(
+    'loginMutation',
+    setAuth
+  );
+
+  dynamicLinkSrv.addLinkOp<LogoutMutationMutationOperation>(
+    'logoutMutation',
+    (op, next) => {
+      dispatch(logout.create());
+      return next(op);
     }
-  });
+  );
 };

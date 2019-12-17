@@ -15,9 +15,10 @@ import { Button } from 'rebass/styled-components';
 import { compose } from 'recompose';
 import { withFormik, FormikProps, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import Alert from '../../elements/Alert';
+import Alert from '../Alert';
 import { graphql, OperationOption } from 'react-apollo';
-import Collection from '../../../types/Collection';
+import { UpdateCollectionMutationMutationVariables } from '../../../graphql/generated/updateCollection.generated';
+import { Collection } from '../../../graphql/types.generated';
 const {
   updateCollectionMutation
 } = require('../../../graphql/updateCollection.graphql');
@@ -156,7 +157,7 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
     image: Yup.string().url()
   }),
   handleSubmit: (values, { props, setSubmitting }) => {
-    const variables = {
+    const variables: UpdateCollectionMutationMutationVariables = {
       collectionId: props.collectionId,
       collection: {
         name: values.name,

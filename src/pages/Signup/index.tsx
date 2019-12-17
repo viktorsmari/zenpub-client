@@ -14,12 +14,12 @@ import Markdown from 'markdown-to-jsx';
 import styled from '../../themes/styled';
 import media from 'styled-media-query';
 import { clearFix } from 'polished';
-import { i18n } from '../../containers/App/App';
 import { Panel, WrapperPanel } from '../../sections/panel';
 import useAxios from 'axios-hooks';
 
 import { INVITE_ONLY_TEXT } from './../../constants';
 import { AlertCircle, Eye } from 'react-feather';
+import { LocaleContext } from '../../context/global/localizationCtx';
 
 // var terms_users = { data: '' };
 // var terms_cookies = { data: '' };
@@ -198,256 +198,305 @@ const Aware = styled(Flex)<{ green: boolean }>`
 `;
 
 const SignupModal = (props: Props) => {
-  const [createUser /*, createUserResp*/] = useCreateUserMutationMutation();
-  const [terms_users] = useAxios('https://moodle.net/terms/users.md');
-  const [terms_cookies] = useAxios('https://moodle.net/terms/cookies.md');
-  const [terms_indexing] = useAxios('https://moodle.net/terms/indexing.md');
+  const { i18n } = React.useContext(LocaleContext);
+  const [createUser, createUserResp] = useCreateUserMutationMutation();
+  const [terms_users] = useAxios('https://moodle.net/terms/users.md', {
+    useCache: true
+  });
+  const [terms_cookies] = useAxios('https://moodle.net/terms/cookies.md', {
+    useCache: true
+  });
+  const [terms_indexing] = useAxios('https://moodle.net/terms/indexing.md', {
+    useCache: true
+  });
 
   return (
-    <ApolloConsumer>
-      {client => (
-        <Container>
-          <LoginWrapper>
-            <Header>
-              <Logo />
-              <Tagline>Share. Curate. Discuss.</Tagline>
-            </Header>
-            <FormWrapper>
-              <Formik
-                onSubmit={(values, { setSubmitting }) => {
-                  const variables = {
-                    user: {
-                      email: values.email,
-                      name: values.name,
-                      password: values.password,
-                      preferredUsername: values.username,
-                      wantsEmailDigest: false,
-                      wantsNotifications: false
-                    }
-                  };
-                  return createUser({
-                    variables: variables
-                  })
-                    .then(res => {
-                      setSubmitting(false);
+    <Container>
+      {createUserResp.data && createUserResp.data.createUser ? (
+        <Box mt={3}>
+          <p>
+            <Trans>Welcome</Trans>{' '}
+            {createUserResp.data.createUser.user.preferredUsername}
+          </p>
+          <p>
+            <Trans>
+              Please confirm your email clicking on the link we sent you at
+            </Trans>
+          </p>
+          <Alert color="darkorange">
+            {createUserResp.data.createUser.email}
+          </Alert>
+        </Box>
+      ) : (
+        <ApolloConsumer>
+          {client => (
+            <LoginWrapper>
+              <Header>
+                <Logo />
+                <Tagline>Share. Curate. Discuss.</Tagline>
+              </Header>
+              <FormWrapper>
+                <Formik
+                  onSubmit={(values, { setSubmitting }) => {
+                    const variables = {
+                      user: {
+                        email: values.email,
+                        name: values.name,
+                        password: values.password,
+                        preferredUsername: values.username,
+                        wantsEmailDigest: false,
+                        wantsNotifications: false
+                      }
+                    };
+                    return createUser({
+                      variables: variables
                     })
-                    .catch(err => {
-                      setSubmitting(false);
-                      alert(err);
-                      console.log(err);
-                    });
-                }}
-                render={({ errors, touched, isSubmitting }) => {
-                  return (
-                    <FormWrapper2>
-                      <Box>
-                        <label>
-                          <Trans>Email</Trans>
-                        </label>
-                        <>
-                          <Field
-                            name="email"
-                            render={({ field }) => (
-                              <Input
-                                placeholder={i18n._(tt.placeholders.email)}
-                                name={field.name}
-                                value={field.value}
-                                onChange={field.onChange}
-                              />
-                            )}
-                          />
-                          {errors.email &&
-                            touched.email && <Alert>{errors.email}</Alert>}
-                        </>
-                      </Box>
-                      <Box mt={3}>
-                        <label>
-                          <Trans>Display Name</Trans>
-                        </label>
-                        <>
-                          <Field
-                            name="name"
-                            render={({ field }) => (
-                              <Input
-                                placeholder={i18n._(tt.placeholders.name)}
-                                name={field.name}
-                                value={field.value}
-                                onChange={field.onChange}
-                              />
-                            )}
-                          />
-                          {errors.name &&
-                            touched.name && <Alert>{errors.name}</Alert>}
-                        </>
-                      </Box>
-                      <Box mt={3}>
-                        <label>
-                          <Trans>Preferred username</Trans>
-                        </label>
-                        <>
-                          <Field
-                            name="username"
-                            validate={val => validateUsername(val, client)}
-                            render={({ field }) => (
-                              <>
+                      .then(res => {
+                        setSubmitting(false);
+                      })
+                      .catch(err => {
+                        setSubmitting(false);
+                        alert(err);
+                        console.log(err);
+                      });
+                  }}
+                  render={({ errors, touched, isSubmitting }) => {
+                    return (
+                      <FormWrapper2>
+                        <Box>
+                          <label>
+                            <Trans>Email</Trans>
+                          </label>
+                          <>
+                            <Field
+                              name="email"
+                              render={({ field }) => (
                                 <Input
-                                  placeholder={i18n._(
-                                    tt.placeholders.preferredUsername
-                                  )}
+                                  placeholder={i18n._(tt.placeholders.email)}
                                   name={field.name}
                                   value={field.value}
                                   onChange={field.onChange}
                                 />
-                              </>
+                              )}
+                            />
+                            {errors.email &&
+                              touched.email && <Alert>{errors.email}</Alert>}
+                          </>
+                        </Box>
+                        <Box mt={3}>
+                          <label>
+                            <Trans>Display Name</Trans>
+                          </label>
+                          <>
+                            <Field
+                              name="name"
+                              render={({ field }) => (
+                                <Input
+                                  placeholder={i18n._(tt.placeholders.name)}
+                                  name={field.name}
+                                  value={field.value}
+                                  onChange={field.onChange}
+                                />
+                              )}
+                            />
+                            {errors.name &&
+                              touched.name && <Alert>{errors.name}</Alert>}
+                          </>
+                        </Box>
+                        <Box mt={3}>
+                          <label>
+                            <Trans>Preferred username</Trans>
+                          </label>
+                          <>
+                            <Field
+                              name="username"
+                              validate={val => validateUsername(val, client)}
+                              render={({ field }) => (
+                                <>
+                                  <Input
+                                    placeholder={i18n._(
+                                      tt.placeholders.preferredUsername
+                                    )}
+                                    name={field.name}
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                  />
+                                </>
+                              )}
+                            />
+                            {/* {errors.username &&
+                    touched.username && <Alert>{errors.username}</Alert>} */}
+                            {errors.username && (
+                              <Alert>{errors.username}</Alert>
                             )}
-                          />
-                          {/* {errors.username &&
-                touched.username && <Alert>{errors.username}</Alert>} */}
-                          {errors.username && <Alert>{errors.username}</Alert>}
-                        </>
-                      </Box>
-                      <Box mt={3}>
-                        <label>
-                          <Trans>Password</Trans>
-                        </label>
-                        <>
-                          <Field
-                            name="password"
-                            render={({ field }) => (
-                              <Input
-                                placeholder={i18n._(tt.placeholders.password)}
-                                type="password"
-                                name={field.name}
-                                value={field.value}
-                                onChange={field.onChange}
-                              />
-                            )}
-                          />
-                          {errors.password &&
-                            touched.password && (
-                              <Alert>{errors.password}</Alert>
-                            )}
-                        </>
-                      </Box>
-                      <Box mt={3}>
-                        <label>
-                          <Trans>Confirm password</Trans>
-                        </label>
-                        <>
-                          <Field
-                            name="passwordConfirm"
-                            render={({ field }) => (
-                              <Input
-                                placeholder={i18n._(
-                                  tt.placeholders.passwordConfirm
-                                )}
-                                type="password"
-                                name={field.name}
-                                value={field.value}
-                                onChange={field.onChange}
-                              />
-                            )}
-                          />
-                          {errors.passwordConfirm &&
-                            touched.passwordConfirm && (
-                              <Alert>{errors.passwordConfirm}</Alert>
-                            )}
-                        </>
-                      </Box>
-                      <Box mt={3}>
-                        <Button type="submit">
-                          <Trans>Signup</Trans>
-                        </Button>
-                      </Box>
-                    </FormWrapper2>
-                  );
-                }}
-                initialValues={initialFormValues}
-                validationSchema={validationSchema}
-              />
-            </FormWrapper>
-            <Right>
-              <Aware p={3}>
-                <Box mr={2}>
-                  <AlertCircle size="20" color="white" />
-                </Box>
-                <Text variant="suptitle">{INVITE_ONLY_TEXT}</Text>
-              </Aware>
-              <Aware green mt={3} p={3}>
-                <Box mr={2}>
-                  <Eye size="20" color="white" />
-                </Box>
-                <Text variant="suptitle">
-                  {' '}
-                  Please read the following. By signing up your are consenting
-                  to these agreements.
-                </Text>
-              </Aware>
-              <WrapperPanel className="extra">
-                <Panel>
-                  <Box p={3}>
-                    {terms_users.loading ? (
-                      'loading'
-                    ) : (
-                      <Markdown>{terms_users.data}</Markdown>
-                    )}
+                          </>
+                        </Box>
+                        <Box mt={3}>
+                          <label>
+                            <Trans>Password</Trans>
+                          </label>
+                          <>
+                            <Field
+                              name="password"
+                              render={({ field }) => (
+                                <Input
+                                  placeholder={i18n._(tt.placeholders.password)}
+                                  type="password"
+                                  name={field.name}
+                                  value={field.value}
+                                  onChange={field.onChange}
+                                />
+                              )}
+                            />
+                            {errors.password &&
+                              touched.password && (
+                                <Alert>{errors.password}</Alert>
+                              )}
+                          </>
+                        </Box>
+                        <Box mt={3}>
+                          <label>
+                            <Trans>Confirm password</Trans>
+                          </label>
+                          <>
+                            <Field
+                              name="passwordConfirm"
+                              render={({ field }) => (
+                                <Input
+                                  placeholder={i18n._(
+                                    tt.placeholders.passwordConfirm
+                                  )}
+                                  type="password"
+                                  name={field.name}
+                                  value={field.value}
+                                  onChange={field.onChange}
+                                />
+                              )}
+                            />
+                            {errors.passwordConfirm &&
+                              touched.passwordConfirm && (
+                                <Alert>{errors.passwordConfirm}</Alert>
+                              )}
+                          </>
+                        </Box>
+                        <Box mt={3}>
+                          <Button type="submit">
+                            <Trans>Signup</Trans>
+                          </Button>
+                        </Box>
+                        {createUserResp.loading && (
+                          <Box mt={3}>
+                            <Alert color="green">
+                              <Trans>Sending request</Trans>
+                            </Alert>
+                          </Box>
+                        )}
+                        {(createUserResp.data &&
+                          !createUserResp.data.createUser) ||
+                        createUserResp.error ? (
+                          <Box mt={3}>
+                            <Alert>
+                              <Trans>
+                                Something went wrong with registration
+                              </Trans>
+                              {createUserResp.error ? (
+                                <p>{createUserResp.error.message}</p>
+                              ) : (
+                                <Trans>Unknown error</Trans>
+                              )}
+                            </Alert>
+                          </Box>
+                        ) : null}
+                      </FormWrapper2>
+                    );
+                  }}
+                  initialValues={initialFormValues}
+                  validationSchema={validationSchema}
+                />
+              </FormWrapper>
+              <Right>
+                <Aware p={3}>
+                  <Box mr={2}>
+                    <AlertCircle size="20" color="white" />
                   </Box>
-                  <Box p={3}>
-                    {terms_cookies.loading ? (
-                      'loading'
-                    ) : (
-                      <Markdown>{terms_cookies.data}</Markdown>
-                    )}
+                  <Text variant="suptitle">{INVITE_ONLY_TEXT}</Text>
+                </Aware>
+                <Aware green mt={3} p={3}>
+                  <Box mr={2}>
+                    <Eye size="20" color="white" />
                   </Box>
-                  <Box p={3}>
-                    {terms_indexing.loading ? (
-                      'loading'
-                    ) : (
-                      <Markdown>{terms_indexing.data}</Markdown>
-                    )}
-                  </Box>
-                </Panel>
-              </WrapperPanel>
-            </Right>
-            <Footer>
-              <ul>
-                <li>
-                  <a href="https://moodle.net" target="blank">
-                    About
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://moodle.net/terms/users/index.html"
-                    target="blank"
-                  >
-                    Code of Conduct
-                  </a>
-                </li>
-                <li>
-                  <a href="https://gitlab.com/moodlenet" target="blank">
-                    Open source
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://changemap.co/moodle/moodlenet/"
-                    target="blank"
-                  >
-                    Feedback
-                  </a>
-                </li>
-                <li>
-                  <a href="https://moodle.com/privacy-notice" target="blank">
-                    Privacy notice
-                  </a>
-                </li>
-              </ul>
-            </Footer>
-          </LoginWrapper>
-        </Container>
+                  <Text variant="suptitle">
+                    {' '}
+                    Please read the following. By signing up your are consenting
+                    to these agreements.
+                  </Text>
+                </Aware>
+                <WrapperPanel className="extra">
+                  <Panel>
+                    <Box p={3}>
+                      {terms_users.loading ? (
+                        'loading'
+                      ) : (
+                        <Markdown>{terms_users.data}</Markdown>
+                      )}
+                    </Box>
+                    <Box p={3}>
+                      {terms_cookies.loading ? (
+                        'loading'
+                      ) : (
+                        <Markdown>{terms_cookies.data}</Markdown>
+                      )}
+                    </Box>
+                    <Box p={3}>
+                      {terms_indexing.loading ? (
+                        'loading'
+                      ) : (
+                        <Markdown>{terms_indexing.data}</Markdown>
+                      )}
+                    </Box>
+                  </Panel>
+                </WrapperPanel>
+              </Right>
+              <Footer>
+                <ul>
+                  <li>
+                    <a href="https://moodle.net" target="blank">
+                      About
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://moodle.net/terms/users/index.html"
+                      target="blank"
+                    >
+                      Code of Conduct
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://gitlab.com/moodlenet" target="blank">
+                      Open source
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://changemap.co/moodle/moodlenet/"
+                      target="blank"
+                    >
+                      Feedback
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://moodle.com/privacy-notice" target="blank">
+                      Privacy notice
+                    </a>
+                  </li>
+                </ul>
+              </Footer>
+            </LoginWrapper>
+          )}
+        </ApolloConsumer>
       )}
-    </ApolloConsumer>
+    </Container>
   );
 };
 

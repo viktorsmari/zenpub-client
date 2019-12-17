@@ -15,12 +15,14 @@ import {
   OverlayTab
 } from '../communities.community/Community';
 import CollectionModal from '../../components/elements/CollectionModal';
+import { BasicCollectionFragment } from '../../graphql/fragments/generated/basicCollection.generated';
+import { BasicResourcesEdgesFragment } from '../../graphql/fragments/generated/basicResourcesEdges.generated';
 // import CollectionsLoadMore from 'src/components/elements/Loadmore/followingCollections';
 
 interface Props {
-  collection: any;
+  collection: BasicCollectionFragment;
   community_name: string;
-  resources: any;
+  resources: BasicResourcesEdgesFragment;
   fetchMore: any;
   type: string;
   addNewResource: any;
@@ -52,18 +54,18 @@ const CommunityPage: SFC<Props> = ({
               }}
             >
               <Wrapper>
-                {collection.community.followed ? null : (
+                {!collection.community.myFollow && (
                   <Footer>
                     <Trans>Join the community</Trans>{' '}
-                    <Link to={'/communities/' + collection.community.localId}>
+                    <Link to={'/communities/' + collection.community.id}>
                       {community_name}
                     </Link>{' '}
                     <Trans>to add a resource</Trans>
                   </Footer>
                 )}
                 <CollectionList>
-                  {collection.community.followed ? (
-                    isOpen === true ? (
+                  {collection.community.myFollow ? (
+                    isOpen ? (
                       <ButtonWrapper>
                         <Button m={3} onClick={() => onOpen(false)}>
                           <Trans>Cancel</Trans>
@@ -77,25 +79,28 @@ const CommunityPage: SFC<Props> = ({
                       </ButtonWrapper>
                     )
                   ) : null}
-                  {isOpen === true ? (
+                  {isOpen && (
                     <CollectionModal
                       toggleModal={onOpen}
                       modalIsOpen={isOpen}
-                      collectionId={collection.localId}
+                      collectionId={collection.id}
                       collectionExternalId={collection.id}
                     />
-                  ) : null}
+                  )}
                   {resources.totalCount > 0 ? (
-                    resources.edges.map((edge, i) => (
-                      <ResourceCard
-                        key={i}
-                        icon={edge.node.icon}
-                        title={edge.node.name}
-                        summary={edge.node.summary}
-                        url={edge.node.url}
-                        localId={edge.node.localId}
-                      />
-                    ))
+                    resources.edges.map(
+                      (edge, i) =>
+                        edge && (
+                          <ResourceCard
+                            key={i}
+                            icon={edge.node.icon}
+                            title={edge.node.name}
+                            summary={edge.node.summary}
+                            url={edge.node.url}
+                            id={edge.node.id}
+                          />
+                        )
+                    )
                   ) : (
                     <Empty>
                       <Trans>This collection is empty.</Trans>

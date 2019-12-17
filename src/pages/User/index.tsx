@@ -23,7 +23,7 @@ import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel, Panel, PanelTitle, Nav } from '../../sections/panel';
 import { Button } from 'rebass/styled-components';
 import styled from '../../themes/styled';
-import { User } from '../../graphql/types';
+import { User } from '../../graphql/types.generated';
 
 const Follow = styled(Button)`
   color: ${props => props.theme.colors.orange};
@@ -96,15 +96,18 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                         </SuperTabList>
                         <TabPanel>
                           <div>
-                            {this.props.data.user.outbox.edges.map((t, i) => (
-                              <TimelineItem
-                                context={t!.node.context}
-                                user={t!.node.user}
-                                verb={t!.node.verb}
-                                createdAt={t!.node.createdAt}
-                                key={i}
-                              />
-                            ))}
+                            {this.props.data.user.outbox.edges.map(
+                              (t, i) =>
+                                t && (
+                                  <TimelineItem
+                                    context={t.node.context}
+                                    user={t.node.user}
+                                    verb={t.node.verb}
+                                    createdAt={t.node.createdAt}
+                                    key={i}
+                                  />
+                                )
+                            )}
                             <LoadMoreTimeline
                               fetchMore={this.props.data.fetchMore}
                               community={this.props.data.user}
@@ -115,12 +118,13 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                           <>
                             <ListCollections>
                               {this.props.data.user.followedCollections.edges.map(
-                                (collection, i) => (
-                                  <CollectionCard
-                                    key={i}
-                                    collection={collection!.node.collection}
-                                  />
-                                )
+                                (collection, i) =>
+                                  collection && (
+                                    <CollectionCard
+                                      key={i}
+                                      collection={collection.node.collection}
+                                    />
+                                  )
                               )}
                             </ListCollections>
                             <FollowingCollectionsLoadMore
@@ -139,35 +143,41 @@ class CommunitiesFeatured extends React.Component<Props, State> {
                           <>
                             <List>
                               {this.props.data.user.followedCommunities.edges.map(
-                                (community, i) => (
-                                  <CommunityCard
-                                    key={i}
-                                    summary={community!.node.community.summary!}
-                                    title={community!.node.community.name}
-                                    collectionsCount={
-                                      community!.node.community.collections
-                                        .totalCount
-                                    }
-                                    threadsCount={
-                                      community!.node.community.threads
-                                        .totalCount
-                                    }
-                                    icon={community!.node.community.icon || ''}
-                                    followed={
-                                      community!.node.community.myFollow!.id
-                                        ? true
-                                        : false
-                                    }
-                                    id={community!.node.community.id}
-                                    externalId={
-                                      community!.node.community.canonicalUrl!
-                                    }
-                                    followersCount={
-                                      community!.node.community.followers
-                                        .totalCount
-                                    }
-                                  />
-                                )
+                                (community, i) =>
+                                  community && (
+                                    <CommunityCard
+                                      key={i}
+                                      summary={
+                                        community.node.community.summary || ''
+                                      }
+                                      title={community.node.community.name}
+                                      collectionsCount={
+                                        community.node.community.collections
+                                          .totalCount
+                                      }
+                                      threadsCount={
+                                        community.node.community.threads
+                                          .totalCount
+                                      }
+                                      icon={
+                                        community.node.community.icon ||
+                                        community.node.community.image ||
+                                        ''
+                                      }
+                                      followed={
+                                        !!community.node.community.myFollow
+                                      }
+                                      id={community.node.community.id}
+                                      externalId={
+                                        community.node.community.canonicalUrl ||
+                                        ''
+                                      }
+                                      followersCount={
+                                        community.node.community.followers
+                                          .totalCount
+                                      }
+                                    />
+                                  )
                               )}
                             </List>
                             <JoinedCommunitiesLoadMore

@@ -6,7 +6,7 @@ import * as Feather from 'react-feather';
 import { DateTime } from 'luxon';
 import Talk from '../TalkModal';
 import Link from '../Link/Link';
-import { Comment } from '../../../graphql/types';
+import { Comment } from '../../../graphql/types.generated';
 import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
 import { useDeleteMutationMutation } from '../../../graphql/generated/delete.generated';
 
@@ -107,7 +107,7 @@ const Thread: SFC<Props> = ({ comment }) => {
   const [iLikeIt, setiLikeIt] = React.useState(FAKE________COMMENT_I_LIKE_IT);
   const toggleLike = React.useCallback(
     () => {
-      const variables = { contextId: comment.id! };
+      const variables = { contextId: comment.id };
       (iLikeIt ? undoLike : like)({ variables });
       setiLikeIt(!iLikeIt);
     },
@@ -116,29 +116,29 @@ const Thread: SFC<Props> = ({ comment }) => {
   return (
     <Wrapper px={3} py={3}>
       <Flex alignItems="center">
-        <Avatar src={comment.creator!.icon!} />
+        <Avatar src={comment.creator.icon || ''} />
         <Flex flexDirection="column">
           <Flex>
-            <Link to={'/user/' + comment.creator!.id!}>
+            <Link to={'/user/' + comment.creator.id}>
               <Text fontWeight={800} mx={2} fontSize={1}>
-                {comment.creator!.name}
+                {comment.creator.name || ''}
               </Text>
             </Link>
             <Spacer mx={2}>·</Spacer>{' '}
             <Date fontSize={1}>
-              {DateTime.fromISO(comment.createdAt!).toRelative()}
+              {DateTime.fromISO(comment.createdAt).toRelative()}
             </Date>
           </Flex>
-          <Link to={'/user/' + comment.creator!.id!}>
+          <Link to={'/user/' + comment.creator.id}>
             <Username mt={1} fontSize={1} mx={2}>
-              @{comment.creator!.name!}
+              @{comment.creator.name}
             </Username>
           </Link>
         </Flex>
       </Flex>
 
       <Message mt={2} fontSize={[3]}>
-        {comment.content!}
+        {comment.content}
       </Message>
 
       <Actions mt={2}>
@@ -147,7 +147,7 @@ const Thread: SFC<Props> = ({ comment }) => {
             <ActionIcon>
               <Feather.MessageCircle color="rgba(0,0,0,.4)" size="16" />
             </ActionIcon>
-            <Text ml={2}>{/*FIXME comment!.replies!.totalCount */}</Text>
+            <Text ml={2}>{/*FIXME comment.replies.totalCount */}</Text>
           </ActionItem>
           <ActionItem ml={3} onClick={toggleLike}>
             <ActionIcon>
@@ -156,7 +156,7 @@ const Thread: SFC<Props> = ({ comment }) => {
                 size="16"
               />
             </ActionIcon>
-            <Text ml={2}>{comment!.likes!.totalCount}</Text>
+            <Text ml={2}>{comment.likes.totalCount}</Text>
           </ActionItem>
         </Items>
       </Actions>

@@ -1,237 +1,90 @@
-import * as Types from '../../types.d';
+import * as Types from '../../types.generated';
 
+import { BasicResourcesEdgesFragment } from './basicResourcesEdges.generated';
 import { BasicUserFragment } from './basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from './basicUser.generated';
+import { BasicResourcesEdgesFragmentDoc } from './basicResourcesEdges.generated';
 
-export type BasicCollectionFragment = { __typename?: 'Collection' } & Pick<
-  Types.Collection,
-  | 'id'
-  | 'canonicalUrl'
-  | 'preferredUsername'
-  | 'name'
-  | 'summary'
-  | 'icon'
-  | 'createdAt'
-> & {
-    creator: { __typename?: 'User' } & BasicUserFragment;
-    myLike: Types.Maybe<{ __typename?: 'Like' } & Pick<Types.Like, 'id'>>;
-    myFollow: Types.Maybe<{ __typename?: 'Follow' } & Pick<Types.Follow, 'id'>>;
-    community: { __typename?: 'Community' } & Pick<
-      Types.Community,
-      'id' | 'canonicalUrl' | 'name' | 'icon'
-    > & {
-        myFollow: Types.Maybe<
-          { __typename?: 'Follow' } & Pick<Types.Follow, 'id'>
-        >;
-      };
-    resources: { __typename?: 'ResourcesEdges' } & Pick<
-      Types.ResourcesEdges,
-      'totalCount'
-    >;
-    followers: { __typename?: 'FollowsEdges' } & Pick<
-      Types.FollowsEdges,
-      'totalCount'
-    >;
-    threads: { __typename?: 'ThreadsEdges' } & Pick<
-      Types.ThreadsEdges,
-      'totalCount'
-    >;
-    outbox: { __typename?: 'ActivitiesEdges' } & Pick<
-      Types.ActivitiesEdges,
-      'totalCount'
-    >;
-  };
+
+
+export type BasicCollectionFragment = (
+  { __typename?: 'Collection' }
+  & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'isLocal' | 'isPublic' | 'createdAt'>
+  & { creator: (
+    { __typename?: 'User' }
+    & BasicUserFragment
+  ), myLike: Types.Maybe<(
+    { __typename?: 'Like' }
+    & Pick<Types.Like, 'id'>
+  )>, myFollow: Types.Maybe<(
+    { __typename?: 'Follow' }
+    & Pick<Types.Follow, 'id'>
+  )>, community: (
+    { __typename?: 'Community' }
+    & Pick<Types.Community, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'name' | 'icon'>
+    & { myFollow: Types.Maybe<(
+      { __typename?: 'Follow' }
+      & Pick<Types.Follow, 'id'>
+    )> }
+  ), resources: (
+    { __typename?: 'ResourcesEdges' }
+    & BasicResourcesEdgesFragment
+  ), followers: (
+    { __typename?: 'FollowsEdges' }
+    & Pick<Types.FollowsEdges, 'totalCount'>
+  ), threads: (
+    { __typename?: 'ThreadsEdges' }
+    & Pick<Types.ThreadsEdges, 'totalCount'>
+  ), outbox: (
+    { __typename?: 'ActivitiesEdges' }
+    & Pick<Types.ActivitiesEdges, 'totalCount'>
+  ) }
+);
 
 export const BasicCollectionFragmentDoc = gql`
-  fragment BasicCollection on Collection {
+    fragment BasicCollection on Collection {
+  id
+  canonicalUrl
+  preferredUsername
+  name
+  summary
+  creator {
+    ...BasicUser
+  }
+  icon
+  isLocal
+  isPublic
+  createdAt
+  myLike {
+    id
+  }
+  myFollow {
+    id
+  }
+  community {
     id
     canonicalUrl
-    preferredUsername
+    isLocal
+    isPublic
     name
-    summary
-    creator {
-      ...BasicUser
-    }
     icon
-    createdAt
-    myLike {
-      id
-    }
     myFollow {
       id
     }
-    community {
-      id
-      canonicalUrl
-      name
-      icon
-      myFollow {
-        id
-      }
-    }
-    resources {
-      totalCount
-    }
-    followers {
-      totalCount
-    }
-    threads {
-      totalCount
-    }
-    outbox {
-      totalCount
-    }
   }
-  ${BasicUserFragmentDoc}
-`;
-
-export interface IntrospectionResultData {
-  __schema: {
-    types: {
-      kind: string;
-      name: string;
-      possibleTypes: {
-        name: string;
-      }[];
-    }[];
-  };
+  resources {
+    ...BasicResourcesEdges
+  }
+  followers {
+    totalCount
+  }
+  threads {
+    totalCount
+  }
+  outbox {
+    totalCount
+  }
 }
-
-const result: IntrospectionResultData = {
-  __schema: {
-    types: [
-      {
-        kind: 'UNION',
-        name: 'ActivityContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Resource'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'FlagContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Resource'
-          },
-          {
-            name: 'User'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'LikeContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Resource'
-          },
-          {
-            name: 'User'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'ThreadContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Flag'
-          },
-          {
-            name: 'Resource'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'FollowContext',
-        possibleTypes: [
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Thread'
-          },
-          {
-            name: 'User'
-          }
-        ]
-      },
-      {
-        kind: 'UNION',
-        name: 'DeleteContext',
-        possibleTypes: [
-          {
-            name: 'Activity'
-          },
-          {
-            name: 'Collection'
-          },
-          {
-            name: 'Comment'
-          },
-          {
-            name: 'Community'
-          },
-          {
-            name: 'Flag'
-          },
-          {
-            name: 'Follow'
-          },
-          {
-            name: 'Like'
-          },
-          {
-            name: 'Resource'
-          },
-          {
-            name: 'Thread'
-          },
-          {
-            name: 'User'
-          }
-        ]
-      }
-    ]
-  }
-};
-
-export default result;
+    ${BasicUserFragmentDoc}
+${BasicResourcesEdgesFragmentDoc}`;

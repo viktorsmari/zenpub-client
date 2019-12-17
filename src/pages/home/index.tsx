@@ -3,11 +3,12 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 // import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
+import Empty from '../../components/elements/Empty';
 import Loader from '../../components/elements/Loader/Loader';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timelineUser';
 import { StickyTabList, SuperTab } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem/index2';
-import Empty from '../../components/elements/Empty';
+import { useGetMeInboxQuery } from '../../graphql/generated/getMeInbox.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import {
   Nav,
@@ -17,9 +18,11 @@ import {
   PanelTitle,
   WrapperPanel
 } from '../../sections/panel';
+import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-import { useGetMeInboxQuery } from '../../graphql/generated/getMeInbox.generated';
-import { useInterceptor } from '../../context/global/apolloInterceptorCtx';
+import { CreateReplyMutationMutationOperation } from '../../graphql/generated/createReply.generated';
+import { LikeMutationMutationOperation } from '../../graphql/generated/like.generated';
+import { DeleteMutationMutationOperation } from '../../graphql/generated/delete.generated';
 
 interface Props {}
 
@@ -29,12 +32,27 @@ const Home: React.FC<Props> = () => {
       limit: 15
     }
   });
-  useInterceptor({ operation: 'createReply', request: () => () => refetch() });
-  useInterceptor({ operation: 'like', request: () => () => refetch() });
-  useInterceptor({
-    operation: 'delete',
-    request: () => () => refetch()
-  });
+  useDynamicLinkOpResult<CreateReplyMutationMutationOperation>(
+    'createReplyMutation',
+    () => {
+      refetch();
+    },
+    [refetch]
+  );
+  useDynamicLinkOpResult<LikeMutationMutationOperation>(
+    'likeMutation',
+    () => {
+      refetch();
+    },
+    [refetch]
+  );
+  useDynamicLinkOpResult<DeleteMutationMutationOperation>(
+    'deleteMutation',
+    () => {
+      refetch();
+    },
+    [refetch]
+  );
 
   return (
     <MainContainer>
@@ -57,21 +75,30 @@ const Home: React.FC<Props> = () => {
                 ) : loading ? (
                   <Loader />
                 ) : (
-                  <div>
-                    {data!.me!.user!.inbox!.edges!.map(userActivityEdge => (
-                      <TimelineItem
-                        context={userActivityEdge!.node!.context}
-                        verb={userActivityEdge!.node!.verb}
-                        createdAt={userActivityEdge!.node!.createdAt}
-                        user={userActivityEdge!.node!.user!}
-                        key={userActivityEdge!.node!.id!}
-                      />
-                    ))}
-                    <LoadMoreTimeline
-                      fetchMore={fetchMore}
-                      community={data!.me!.user!}
-                    />
-                  </div>
+                  data &&
+                  data.me && (
+                    <div>
+                      {data.me.user.inbox.edges.map(
+                        userActivityEdge =>
+                          userActivityEdge && (
+                            <TimelineItem
+                              context={userActivityEdge.node.context}
+                              verb={userActivityEdge.node.verb}
+                              createdAt={userActivityEdge.node.createdAt}
+                              user={userActivityEdge.node.user}
+                              key={userActivityEdge.node.id}
+                            />
+                          )
+                      )}
+                      {data &&
+                        data.me && (
+                          <LoadMoreTimeline
+                            fetchMore={fetchMore}
+                            community={data.me.user}
+                          />
+                        )}
+                    </div>
+                  )
                 )}
               </TabPanel>
             </Tabs>

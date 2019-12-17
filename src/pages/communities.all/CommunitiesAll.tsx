@@ -1,7 +1,8 @@
 import { Trans } from '@lingui/macro';
 import * as React from 'react';
-import { graphql, QueryControls, OperationOption } from 'react-apollo';
+import { graphql, OperationOption, QueryControls } from 'react-apollo';
 import { TabPanel, Tabs } from 'react-tabs';
+import { Button, Flex } from 'rebass/styled-components';
 import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
 import CommunityCard from '../../components/elements/Community/Community';
@@ -9,20 +10,19 @@ import NewCommunityModal from '../../components/elements/CreateCommunityModal';
 import Loader from '../../components/elements/Loader/Loader';
 import CommunitiesLoadMore from '../../components/elements/Loadmore/community';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
-import styled from '../../themes/styled';
-import CommunityType from '../../types/Community';
+import { BasicCommunityFragment } from '../../graphql/fragments/generated/basicCommunity.generated';
+import { Community } from '../../graphql/types.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel } from '../../sections/panel';
-import { Button, Flex } from 'rebass/styled-components';
-import { BasicCommunityFragment } from '../../graphql/fragments/generated/basicCommunity.generated';
+import styled from '../../themes/styled';
 const { getCommunitiesQuery } = require('../../graphql/getCommunities.graphql');
 
 interface Data extends QueryControls {
   communities: {
     nodes: BasicCommunityFragment[];
-    pageInfo: {
-      startCursor: number;
-      endCursor: number;
+    pageInfo?: {
+      startCursor: string;
+      endCursor: string;
     };
   };
 }
@@ -31,6 +31,7 @@ interface Props {
   data: Data;
   handleNewCommunity(): boolean;
   isOpenCommunity: boolean;
+  loggedin: boolean;
 }
 
 class CommunitiesYours extends React.Component<Props> {
@@ -57,15 +58,17 @@ class CommunitiesYours extends React.Component<Props> {
                     <Loader />
                   ) : (
                     <>
-                      <ButtonWrapper>
-                        <CreateCollection
-                          p={3}
-                          onClick={() => this.props.handleNewCommunity()}
-                          m={3}
-                        >
-                          <Trans>Create a new community</Trans>
-                        </CreateCollection>
-                      </ButtonWrapper>
+                      {this.props.loggedin && (
+                        <ButtonWrapper>
+                          <CreateCollection
+                            p={3}
+                            onClick={() => this.props.handleNewCommunity()}
+                            m={3}
+                          >
+                            <Trans>Create a new community</Trans>
+                          </CreateCollection>
+                        </ButtonWrapper>
+                      )}
                       <List>
                         {this.props.data.communities.nodes.map(
                           (community, i) => {
@@ -74,7 +77,7 @@ class CommunitiesYours extends React.Component<Props> {
                                 key={i}
                                 summary={community.summary || ''}
                                 title={community.name}
-                                icon={community.icon || ''}
+                                icon={community.icon || community.image || ''}
                                 id={community.id}
                                 followed={!!community.myFollow}
                                 followersCount={community.followers.totalCount}
@@ -193,7 +196,7 @@ const withGetCommunities = graphql<
   {},
   {
     data: {
-      communities: CommunityType[];
+      communities: Community[];
     };
   }
 >(getCommunitiesQuery, {

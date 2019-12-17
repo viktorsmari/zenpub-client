@@ -1,8 +1,8 @@
-import * as Sess from '.';
+import * as Sess from '../session';
 import { Reducer } from 'redux';
 
 export const defaultInitialState: Sess.State = {
-  auth: null
+  me: null
 };
 
 export const reducer = (
@@ -10,11 +10,11 @@ export const reducer = (
 ): Reducer<Sess.State> => (old = initialState, action) => {
   if (Sess.login.is(action)) {
     return {
-      auth: action.payload
+      me: action.payload
     };
   } else if (Sess.logout.is(action)) {
     return {
-      auth: null
+      me: null
     };
   }
   return old;

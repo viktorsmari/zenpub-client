@@ -3,14 +3,19 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 // import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
+import { Flex } from 'rebass/styled-components';
+import Empty from '../../components/elements/Empty';
 import Loader from '../../components/elements/Loader/Loader';
 import LoadMoreTimeline from '../../components/elements/Loadmore/localInstance';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem/index2';
 import FeaturedCollections from '../../components/featuredCollections';
 import FeaturedCommunities from '../../components/featuredCommunities';
+import { CreateReplyMutationMutationOperation } from '../../graphql/generated/createReply.generated';
+import { DeleteMutationMutationOperation } from '../../graphql/generated/delete.generated';
+import { LikeMutationMutationOperation } from '../../graphql/generated/like.generated';
+import { useLocalActivitiesQuery } from '../../graphql/generated/localActivities.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
-import { Flex } from 'rebass/styled-components';
 import {
   Nav,
   NavItem,
@@ -19,10 +24,8 @@ import {
   WrapperPanel
 } from '../../sections/panel';
 import styled from '../../themes/styled';
+import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-import { useLocalActivitiesQuery } from '../../graphql/generated/localActivities.generated';
-import { useInterceptor } from '../../context/global/apolloInterceptorCtx';
-import Empty from '../../components/elements/Empty';
 
 interface Props {}
 
@@ -32,12 +35,27 @@ const Home: React.FC<Props> = props => {
       limit: 15
     }
   });
-  useInterceptor({ operation: 'createReply', request: () => () => refetch() });
-  useInterceptor({ operation: 'like', request: () => () => refetch() });
-  useInterceptor({
-    operation: 'delete',
-    request: () => () => refetch()
-  });
+  useDynamicLinkOpResult<CreateReplyMutationMutationOperation>(
+    'createReplyMutation',
+    () => {
+      refetch();
+    },
+    [refetch]
+  );
+  useDynamicLinkOpResult<LikeMutationMutationOperation>(
+    'likeMutation',
+    () => {
+      refetch();
+    },
+    [refetch]
+  );
+  useDynamicLinkOpResult<DeleteMutationMutationOperation>(
+    'deleteMutation',
+    () => {
+      refetch();
+    },
+    [refetch]
+  );
   return (
     <MainContainer>
       <HomeBox>
@@ -63,26 +81,32 @@ const Home: React.FC<Props> = props => {
               <TabPanel>
                 {error ? (
                   <Empty>
-                    <Trans>{error}</Trans>
+                    <Trans>{/* error */}</Trans>
                   </Empty>
                 ) : loading ? (
                   <Loader />
                 ) : (
-                  <div>
-                    {data!.instance!.outbox!.edges!.map(activity => (
-                      <TimelineItem
-                        verb={activity!.node.verb}
-                        context={activity!.node.context}
-                        user={activity!.node!.user!}
-                        key={activity!.node!.id!}
-                        createdAt={activity!.node.createdAt}
+                  data &&
+                  data.instance && (
+                    <div>
+                      {data.instance.outbox.edges.map(
+                        activity =>
+                          activity && (
+                            <TimelineItem
+                              verb={activity.node.verb}
+                              context={activity.node.context}
+                              user={activity.node.user}
+                              key={activity.node.id}
+                              createdAt={activity.node.createdAt}
+                            />
+                          )
+                      )}
+                      <LoadMoreTimeline
+                        fetchMore={fetchMore}
+                        outbox={data.instance.outbox}
                       />
-                    ))}
-                    <LoadMoreTimeline
-                      fetchMore={fetchMore}
-                      outbox={data!.instance!.outbox!}
-                    />
-                  </div>
+                    </div>
+                  )
                 )}
               </TabPanel>
             </Tabs>

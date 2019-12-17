@@ -1,33 +1,34 @@
-import { Middleware } from 'redux';
-import * as Sess from '.';
+import { Middleware, Reducer, AnyAction } from 'redux';
+import * as Session from './';
 import { KVStore } from '../../util/keyvaluestore/types';
-import { State, Auth } from './types';
 
-const SESSION_KEY = 'ME';
+const USER_KEY = 'User';
 
-interface Srv {
+interface SessionSrv {
   mw: Middleware;
-  initialState: State;
+  reducer: Reducer<Session.State, AnyAction>;
 }
-export const createSessionMW = (kvstore: KVStore): Srv => {
-  const getStoredUser = (): Auth => kvstore.get(SESSION_KEY);
-  const delStoredUser = (): Auth => kvstore.del(SESSION_KEY);
-  const setStoredUser = (user: Auth): void => kvstore.set(SESSION_KEY, user);
+export const createSessionMW = (kvstore: KVStore): SessionSrv => {
+  const getStoredUser = (): Session.SessionUser | null => kvstore.get(USER_KEY);
+  const delStoredUser = (): Session.SessionUser | null => kvstore.del(USER_KEY);
+  const setStoredUser = (me: Session.SessionUser): void =>
+    kvstore.set(USER_KEY, me);
   const mw: Middleware = store => next => {
     return action => {
-      if (Sess.login.is(action)) {
+      if (Session.login.is(action)) {
         setStoredUser(action.payload);
-      } else if (Sess.logout.is(action)) {
+      } else if (Session.logout.is(action)) {
         delStoredUser();
       }
       return next(action);
     };
   };
-  const initialState: State = {
-    auth: getStoredUser()
+  const initialState: Session.State = {
+    me: getStoredUser()
   };
+  const reducer = Session.reducer(initialState);
   return {
     mw,
-    initialState
+    reducer
   };
 };

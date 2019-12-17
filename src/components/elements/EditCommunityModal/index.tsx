@@ -6,7 +6,7 @@ import { Input, Textarea } from '@rebass/forms';
 import { compose } from 'recompose';
 import { withFormik, FormikProps, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import Alert from '../../elements/Alert';
+import Alert from '../Alert';
 import {
   Row,
   Container,
@@ -17,7 +17,8 @@ import {
 } from '../Modal/modal';
 
 import { graphql, OperationOption } from 'react-apollo';
-import Community from '../../../types/Community';
+import { UpdateCommunityMutationMutationVariables } from '../../../graphql/generated/updateCommunity.generated';
+import { Community } from '../../../graphql/types.generated';
 const {
   updateCommunityMutation
 } = require('../../../graphql/updateCommunity.graphql');
@@ -153,11 +154,10 @@ const ModalWithFormik = withFormik<
     image: Yup.string().url()
   }),
   handleSubmit: (values, { props, setSubmitting }) => {
-    const variables = {
+    const variables: UpdateCommunityMutationMutationVariables = {
       communityId: props.communityId,
       community: {
         name: values.name,
-        preferredUsername: values.name,
         summary: values.summary,
         image: values.image,
         icon: values.image
