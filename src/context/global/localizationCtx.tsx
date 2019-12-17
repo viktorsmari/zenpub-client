@@ -56,8 +56,7 @@ export const ProvideLocalizationCtx: React.FC = ({ children }) => {
     const htmlEl = document.querySelector('html');
     if (htmlEl) {
       const dir = directionForLanguage(locale);
-      console.log('locale  ' + dir);
-      htmlEl.style.direction = locale === 'ar_SA' ? 'rtl' : 'ltr';
+      htmlEl.style.direction = dir;
       htmlEl.classList.remove('--rtl', '--ltr');
       htmlEl.classList.add(`--${dir}`);
     }
