@@ -22,13 +22,13 @@ export type GetThreadQuery = (
     { __typename?: 'Thread' }
     & Pick<Types.Thread, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'isHidden' | 'createdAt' | 'updatedAt' | 'lastActivity'>
     & { context: (
-      { __typename?: 'Collection' }
+      { __typename: 'Collection' }
       & Pick<Types.Collection, 'id' | 'icon' | 'name'>
     ) | (
-      { __typename?: 'Community' }
+      { __typename: 'Community' }
       & Pick<Types.Community, 'id' | 'icon' | 'name'>
-    ) | { __typename?: 'Flag' } | (
-      { __typename?: 'Resource' }
+    ) | { __typename: 'Flag' } | (
+      { __typename: 'Resource' }
       & Pick<Types.Resource, 'id' | 'icon' | 'name'>
     ), myFollow: Types.Maybe<(
       { __typename?: 'Follow' }
