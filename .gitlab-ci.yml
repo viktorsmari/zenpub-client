@@ -31,17 +31,20 @@ default:
     - if [ ! -z "$TX_TOKEN" ]; then tx pull --force --no-interactive ; else echo "Skipping..."; fi #  pull all the latest localised PO files from transifex to be used by frontend
     - yarn compile # compile localisation PO files into .js files 
 
-# docs: # build and deploy documentation
-#   stage: docs
-#   only:
-#     - develop # Only run on staging branch
-#   script:
-#     - mkdir docs 
-#     - yarn docs # generate TypeDocs
-#     - cd .docz && yarn && cd .. && CI=false yarn docz:build && mv .docz/dist docs/ui # prepare Docz dependencies & generate new styleguide
-#     - if [ ! -z "$DOCS_STAGING_BUCKET" ]; then aws s3 sync docs/ s3://${DOCS_STAGING_BUCKET}/docs/client/ --delete --exclude .git --acl public-read ; else echo "Skipping..."; fi # also copy docs to (a different) S3-served website
-#     - if [ ! -z "$DOCS_STAGING_DISTRIBUTION_ID" ]; then aws cloudfront create-invalidation --distribution-id ${DOCS_STAGING_DISTRIBUTION_ID} --paths '/docs/client/*' ; else echo "Skipping..."; fi # invalidate the docs CloudFront's cache to serve the new version
-
+ docs: # build and deploy documentation
+   stage: docs
+   only:
+     - develop # Only run on staging branch
+   script:
+     - mkdir docs 
+     - yarn docs # generate TypeDocs
+     - yarn build-storybook # generate styleguide
+     - mv storybook-static docs/ui # include styleguide in build
+     - if [ ! -z "$DOCS_STAGING_BUCKET" ]; then aws s3 sync docs/ s3://${DOCS_STAGING_BUCKET}/docs/client/ --delete --exclude .git --acl public-read ; else echo "Skipping..."; fi # also copy docs to (a different) S3-served website
+     - if [ ! -z "$DOCS_STAGING_DISTRIBUTION_ID" ]; then aws cloudfront create-invalidation --distribution-id ${DOCS_STAGING_DISTRIBUTION_ID} --paths '/docs/client/*' ; else echo "Skipping..."; fi # invalidate the docs CloudFront's cache to serve the new version
+  artifacts:
+    paths:
+    - docs # The built files for Gitlab to serve
 
 deploy-staging-next: # build and deploy develop branch to app.next.moodle.net
   stage: deploy
