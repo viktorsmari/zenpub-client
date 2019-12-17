@@ -1,10 +1,3 @@
-/*  currently:
-NODE_ENV: "development"
-PUBLIC_URL: ""
-REACT_APP_GRAPHQL_ENDPOINT: "https://team.moodle.net/api/graphql"
-REACT_APP_PHOENIX_SOCKET_ENDPOINT: "ws://team.moodle.net/api/socket" 
-*/
-
 export const PHOENIX_SOCKET_ENDPOINT =
   process.env.REACT_APP_PHOENIX_SOCKET_ENDPOINT;
 export const GRAPHQL_ENDPOINT = process.env.REACT_APP_GRAPHQL_ENDPOINT;
@@ -19,17 +12,21 @@ export const INVITE_ONLY_TEXT =
 
 export const IS_DEV = NODE_ENV === 'development';
 
-// was process.env.REACT_APP_GRAPHQL_ENDPOINT === 'https://home.moodle.net/api/graphql'
-export const LOCAL_STORAGE_USER_ACCESS_TOKEN = IS_DEV
-  ? 'dev_user_access_token'
-  : 'user_access_token';
-
-export const LOCAL_STORAGE_SESSION = IS_DEV ? 'dev_moo_session' : 'moo_session';
-
+export const languages = {
+  en_GB: 'English, British',
+  en_US: 'English, USA',
+  es_MX: 'Español, Méjico',
+  es_ES: 'Español, España',
+  fr_FR: 'Français, France',
+  eu: 'Euskara',
+  ar_SA: 'العربية, المملكة العربية السعودية'
+};
+export type LocaleKey = keyof typeof languages;
+export const locales = Object.keys(languages) as LocaleKey[];
 IS_DEV &&
   console.log(`-environment-
 ${Object.keys(process.env)
     .map(key => `${key}=${process.env[key]}`)
     .join('\n')}
--
+-------------
 `);

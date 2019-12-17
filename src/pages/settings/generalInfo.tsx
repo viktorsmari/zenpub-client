@@ -23,7 +23,7 @@ import {
   ContainerForm
 } from '../../components/elements/Modal/modal';
 import { ArrowLeft, ArrowRight } from 'react-feather';
-import { LocaleContext } from '../../containers/App/App';
+import { LocaleContext } from '../../context/global/localizationCtx';
 import ImageDropzoneModal from '../../components/elements/DropzoneModal/imageModal';
 
 const withUpdateCommunity = graphql<{}>(updateProfileMutation, {
@@ -218,7 +218,7 @@ const Component: React.FC<Props> = ({
       {client => (
         <>
           <Header p={3} alignItems="center">
-            {localeCntx.contentDirection == 'ltr' ? (
+            {localeCntx.locale != 'ar_SA' ? (
               <ArrowLeft
                 size={32}
                 color="#f98012"

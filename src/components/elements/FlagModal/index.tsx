@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Textarea } from '@rebass/forms';
 import { Button, Heading, Flex } from 'rebass/styled-components';
 import { string } from 'yup';
-import { i18n } from '../../../containers/App/App';
+import { LocaleContext } from '../../../context/global/localizationCtx';
 // import { useCreateCommunityFlagMutation } from '../../../graphql/generated/createCommunityFlag.generated';
 // import { useCreateCollectionFlagMutation } from '../../../graphql/generated/createCollectionFlag.generated';
 // import { useCreateResourceFlagMutation } from '../../../graphql/generated/createResourceFlag.generated';
@@ -48,6 +48,7 @@ const FlagModal: React.FC<Props> = ({
   isFlagged,
   closeModal
 }) => {
+  const { i18n } = React.useContext(LocaleContext);
   const [flag] = useCreateFlagMutationMutation();
   // const [undoflag] = useResolveFlagMutationMutation();
   const [undoflag] = useDeleteMutationMutation();

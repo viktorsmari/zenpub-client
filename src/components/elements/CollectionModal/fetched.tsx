@@ -8,7 +8,6 @@ import * as React from 'react';
 import { graphql, OperationOption } from 'react-apollo';
 import { compose } from 'recompose';
 import * as Yup from 'yup';
-import { i18n } from '../../../containers/App/App';
 import styled from '../../../themes/styled';
 import { Input, Textarea } from '@rebass/forms';
 import Alert from '../Alert';
@@ -17,6 +16,7 @@ import { Actions, ContainerForm, CounterChars, Row } from '../Modal/modal';
 import ResourceCard from '../Resource/Resource';
 import { CreateResourceMutationMutationVariables } from '../../../graphql/generated/createResource.generated';
 // import Thumb from "../DropzoneModal/thumb";
+import { LocaleContext } from '../../../context/global/localizationCtx';
 
 const {
   createResourceMutation
@@ -98,6 +98,7 @@ const SubmitButton = styled(Button)`
 `;
 
 const Fetched = (props: Props & FormikProps<FormValues>) => {
+  const { i18n } = React.useContext(LocaleContext);
   return (
     <>
       <Preview>

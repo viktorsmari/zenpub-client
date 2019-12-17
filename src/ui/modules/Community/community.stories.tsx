@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import Community, { CommunitySmall } from '.';
-import { themeDeco } from '../../styleguide/storiesThemeDecorator';
+import { themeDeco } from 'ui/styleguide/storiesThemeDecorator';
 import { Box } from 'rebass/styled-components';
 
 let community = {
@@ -18,7 +18,7 @@ storiesOf('Modules/Community', module)
   .addDecorator(themeDeco())
   .add('Standard Community', () => (
     <div>
-      <Box m={2} width="240px">
+      <Box m={2}>
         <Community
           icon={community.icon}
           name={community.name}
@@ -34,7 +34,7 @@ storiesOf('Modules/Community', module)
   .addDecorator(themeDeco())
   .add('Community preview', () => (
     <div>
-      <Box m={2} width="200px">
+      <Box m={2}>
         <CommunitySmall icon={community.icon} name={community.name} />
       </Box>
     </div>

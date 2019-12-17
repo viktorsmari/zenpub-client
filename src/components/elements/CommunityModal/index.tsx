@@ -6,7 +6,7 @@ import { Field, Form, FormikProps, withFormik } from 'formik';
 import * as React from 'react';
 import { graphql, OperationOption } from 'react-apollo';
 import * as Yup from 'yup';
-import { i18n } from '../../../containers/App/App';
+import { LocaleContext } from '../../../context/global/localizationCtx';
 import { compose } from 'recompose';
 import Alert from '../../elements/Alert';
 import { Heading } from 'rebass';
@@ -68,6 +68,7 @@ const withCreateCollection = graphql<{}>(createCollectionMutation, {
 
 const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
   const { toggleModal, modalIsOpen, errors, touched, isSubmitting } = props;
+  const { i18n } = React.useContext(LocaleContext);
   return (
     <Modal isOpen={modalIsOpen} toggleModal={toggleModal}>
       <Container>

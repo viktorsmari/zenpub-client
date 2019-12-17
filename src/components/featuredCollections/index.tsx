@@ -10,7 +10,7 @@ import { Trans } from '@lingui/macro';
 import CollectionSmall from '../elements/Collection/CollectionSmall';
 import { ChevronLeft, Right } from '../elements/Icons';
 import { Title, RightContext } from '../featuredCommunities';
-import { LocaleContext } from '../../containers/App/App';
+import { LocaleContext } from '../../context/global/localizationCtx';
 import { GRAPHQL_ENDPOINT } from '../../constants';
 
 interface Data extends QueryControls {
@@ -82,7 +82,7 @@ class MultipleItems extends React.Component<Props> {
           </h5>
           <LocaleContext.Consumer>
             {value =>
-              value.contentDirection == 'ltr' ? (
+              value.locale != 'ar_SA' ? (
                 <RightContext>
                   <span onClick={this.previous}>
                     <ChevronLeft

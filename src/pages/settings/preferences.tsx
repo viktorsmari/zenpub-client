@@ -6,7 +6,7 @@ import { Box, Flex, Heading } from 'rebass/styled-components';
 import { ArrowLeft, ArrowRight } from 'react-feather';
 import media from 'styled-media-query';
 import styled from '../../themes/styled';
-import { LocaleContext } from '../../containers/App/App';
+import { LocaleContext } from '../../context/global/localizationCtx';
 
 const Header = styled(Flex)`
   border-bottom: 1px solid ${props => props.theme.colors.lightgray};
@@ -31,7 +31,7 @@ const Preferences = props => (
     {value => (
       <Box>
         <Header p={3} alignItems="center">
-          {value.contentDirection == 'ltr' ? (
+          {value.locale != 'ar_SA' ? (
             <ArrowLeft
               size={32}
               color="#f98012"

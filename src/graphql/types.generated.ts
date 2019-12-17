@@ -642,7 +642,7 @@ export type Resource = {
   canonicalUrl?: Maybe<Scalars['String']>,
   /** The collection this resource is a part of */
   collection: Collection,
-  /** When the collection was created */
+  /** When the resource was created */
   createdAt: Scalars['String'],
   /** The user who created the resource */
   creator: User,
@@ -670,7 +670,7 @@ export type Resource = {
   name: Scalars['String'],
   /** Possibly biographical information */
   summary?: Maybe<Scalars['String']>,
-  /** When the collection was last updated */
+  /** When the resource was last updated */
   updatedAt: Scalars['String'],
   /** A link to an external resource */
   url?: Maybe<Scalars['String']>,

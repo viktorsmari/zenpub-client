@@ -8,7 +8,6 @@ import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
 import Link from '../../components/elements/Link/Link';
 import SignupModal from '../../components/elements/SignupModal';
-import { i18n } from '../../containers/App/App';
 import { SessionContext } from '../../context/global/sessionCtx';
 import styled, { MoodleThemeInterface } from '../../themes/styled';
 import LoginForm from './LoginForm';
@@ -243,8 +242,6 @@ type CredentialsObject = {
 };
 
 class Login extends React.Component<LoginProps, LoginState> {
-  // static contextType = GlobCtx;
-  // context!: React.ContextType<typeof GlobCtx>;
   state = {
     redirectTo: null,
     authenticating: false,
@@ -258,14 +255,14 @@ class Login extends React.Component<LoginProps, LoginState> {
       validation.push({
         field: ValidationField.email,
         type: ValidationType.error,
-        message: i18n._(i18nMark('The email field cannot be empty'))
+        message: i18nMark('The email field cannot be empty')
       } as ValidationObject);
     }
     if (!credentials.password.length) {
       validation.push({
         field: ValidationField.password,
         type: ValidationType.error,
-        message: i18n._(i18nMark('The password field cannot be empty'))
+        message: i18nMark('The password field cannot be empty')
       } as ValidationObject);
     }
 
@@ -300,10 +297,8 @@ class Login extends React.Component<LoginProps, LoginState> {
         error = resp.errors.map(err => err.message).join('\n');
       }
     } catch (err) {
-      error = i18n._(
-        i18nMark(
-          'Could not log in. Please check your credentials or use the link below to reset your password.'
-        )
+      error = i18nMark(
+        'Could not log in. Please check your credentials or use the link below to reset your password.'
       );
     }
     if (error) {

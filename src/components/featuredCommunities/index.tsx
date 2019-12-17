@@ -10,7 +10,7 @@ import { Trans } from '@lingui/macro';
 import CommunitySmall from '../elements/Community/CommunitySmall';
 import styled from '../../themes/styled';
 import { ChevronLeft, Right } from '../elements/Icons';
-import { LocaleContext } from '../../containers/App/App';
+import { LocaleContext } from '../../context/global/localizationCtx';
 import { GRAPHQL_ENDPOINT } from '../../constants';
 
 export const Title = styled.div`
@@ -126,7 +126,7 @@ class MultipleItems extends React.Component<Props> {
           </h5>
           <LocaleContext.Consumer>
             {value =>
-              value.contentDirection == 'ltr' ? (
+              value.locale != 'ar_SA' ? (
                 <RightContext>
                   <span onClick={this.previous}>
                     <ChevronLeft
