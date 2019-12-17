@@ -1,6 +1,6 @@
 #import "./fragments/basicCollection.graphql"
 
-query getFeaturedCollections() {
+query getFeaturedCollections {
   instance {
     featuredCollections {
       pageInfo { startCursor endCursor }

@@ -1,6 +1,6 @@
 #import "./fragments/basicCommunity.graphql"
 
-query getFeaturedCommunities() {
+query getFeaturedCommunities {
   instance {
     featuredCommunities {
       pageInfo { startCursor endCursor }
