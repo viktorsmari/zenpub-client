@@ -63,7 +63,7 @@ const Resource: React.FC<Props> = props => {
           </TitleWrapper>
           <Url>{props.url}</Url>
           <Summary>
-            {props.summary.split('\n').map(function(item, key) {
+            {(props.summary || '').split('\n').map(function(item, key) {
               return (
                 <span key={key}>
                   {item}

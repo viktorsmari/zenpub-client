@@ -37,7 +37,7 @@ const Preview: React.FC<Props> = props => {
             <Title>{props.title}</Title>
           </TitleWrapper>
           <Text variant="text" mt={2}>
-            {props.summary.split('\n').map(function(item, key) {
+            {(props.summary || '').split('\n').map(function(item, key) {
               return (
                 <span key={key}>
                   {item}

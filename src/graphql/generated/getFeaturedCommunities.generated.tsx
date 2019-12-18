@@ -1,7 +1,9 @@
 import * as Types from '../types.generated';
 
 import { BasicCommunityFragment } from '../fragments/generated/basicCommunity.generated';
+import { BasicUserFragment } from '../fragments/generated/basicUser.generated';
 import gql from 'graphql-tag';
+import { BasicUserFragmentDoc } from '../fragments/generated/basicUser.generated';
 import { BasicCommunityFragmentDoc } from '../fragments/generated/basicCommunity.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -11,49 +13,73 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
-export type GetFeaturedCommunitiesQueryVariables = {
-  one: Types.Scalars['String'],
-  two: Types.Scalars['String'],
-  three: Types.Scalars['String'],
-  four: Types.Scalars['String']
-};
+
+export type GetFeaturedCommunitiesQueryVariables = {};
 
 
 export type GetFeaturedCommunitiesQuery = (
   { __typename?: 'RootQueryType' }
-  & { one: Types.Maybe<(
-    { __typename?: 'Community' }
-    & BasicCommunityFragment
-  )>, two: Types.Maybe<(
-    { __typename?: 'Community' }
-    & BasicCommunityFragment
-  )>, three: Types.Maybe<(
-    { __typename?: 'Community' }
-    & BasicCommunityFragment
-  )>, four: Types.Maybe<(
-    { __typename?: 'Community' }
-    & BasicCommunityFragment
+  & { instance: Types.Maybe<(
+    { __typename?: 'Instance' }
+    & { featuredCommunities: (
+      { __typename?: 'FeaturesEdges' }
+      & Pick<Types.FeaturesEdges, 'totalCount'>
+      & { pageInfo: Types.Maybe<(
+        { __typename?: 'PageInfo' }
+        & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
+      )>, edges: Array<Types.Maybe<(
+        { __typename?: 'FeaturesEdge' }
+        & Pick<Types.FeaturesEdge, 'cursor'>
+        & { node: (
+          { __typename?: 'Feature' }
+          & Pick<Types.Feature, 'id' | 'canonicalUrl' | 'isLocal' | 'createdAt'>
+          & { creator: (
+            { __typename?: 'User' }
+            & BasicUserFragment
+          ), context: { __typename: 'Collection' } | (
+            { __typename: 'Community' }
+            & BasicCommunityFragment
+          ) }
+        ) }
+      )>> }
+    ) }
   )> }
 );
 
 
 export const GetFeaturedCommunitiesDocument = gql`
-    query getFeaturedCommunities($one: String!, $two: String!, $three: String!, $four: String!) {
-  one: community(communityId: $one) {
-    ...BasicCommunity
-  }
-  two: community(communityId: $two) {
-    ...BasicCommunity
-  }
-  three: community(communityId: $three) {
-    ...BasicCommunity
-  }
-  four: community(communityId: $four) {
-    ...BasicCommunity
+    query getFeaturedCommunities {
+  instance {
+    featuredCommunities {
+      pageInfo {
+        startCursor
+        endCursor
+      }
+      totalCount
+      edges {
+        cursor
+        node {
+          id
+          canonicalUrl
+          isLocal
+          createdAt
+          creator {
+            ...BasicUser
+          }
+          context {
+            __typename
+            ... on Community {
+              ...BasicCommunity
+            }
+          }
+        }
+      }
+    }
   }
 }
-    ${BasicCommunityFragmentDoc}`;
-export type GetFeaturedCommunitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetFeaturedCommunitiesQuery, GetFeaturedCommunitiesQueryVariables>, 'query'> & ({ variables: GetFeaturedCommunitiesQueryVariables; skip?: boolean; } | { skip: boolean; });
+    ${BasicUserFragmentDoc}
+${BasicCommunityFragmentDoc}`;
+export type GetFeaturedCommunitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetFeaturedCommunitiesQuery, GetFeaturedCommunitiesQueryVariables>, 'query'>;
 
     export const GetFeaturedCommunitiesComponent = (props: GetFeaturedCommunitiesComponentProps) => (
       <ApolloReactComponents.Query<GetFeaturedCommunitiesQuery, GetFeaturedCommunitiesQueryVariables> query={GetFeaturedCommunitiesDocument} {...props} />
@@ -83,10 +109,6 @@ export function withGetFeaturedCommunities<TProps, TChildProps = {}>(operationOp
  * @example
  * const { data, loading, error } = useGetFeaturedCommunitiesQuery({
  *   variables: {
- *      one: // value for 'one'
- *      two: // value for 'two'
- *      three: // value for 'three'
- *      four: // value for 'four'
  *   },
  * });
  */
