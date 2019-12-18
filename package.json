@@ -13,7 +13,7 @@
     "docs": "typedoc --out docs src",
     "storybook": "start-storybook -p 4000 --docs",
     "build-storybook": "build-storybook -c .storybook",
-    "gqlcode": "shx rm -fr src/graphql/generated && shx rm -fr src/graphql/fragments/generated && graphql-codegen --config ./codegen.yml",
+    "gqlcode": "shx rm -fr src/graphql/generated && shx rm -fr src/graphql/fragments/generated && node ./codegen",
     "gql:fetch-schema": "graphql get-schema --project"
   },
   "lint-staged": {

@@ -79,7 +79,7 @@ export type GetUserQuery = (
             ) | (
               { __typename?: 'Community' }
               & BasicCommunityFragment
-            ) | (
+            ) | { __typename?: 'Flag' } | { __typename?: 'Follow' } | { __typename?: 'Like' } | (
               { __typename?: 'Resource' }
               & BasicResourceFragment
             ) }
