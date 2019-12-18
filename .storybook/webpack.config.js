@@ -1,5 +1,11 @@
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const path = require('path')
+
 module.exports = ({ config }) => {
+  const createCompiler = require('@storybook/addon-docs/mdx-compiler-plugin');
+  // use installed babel-loader which is v8.0-beta (which is meant to work with @babel/core@7)
+  config.module.rules[0].use[0].loader = require.resolve('babel-loader');
+
   config.module.rules.push(
     {
     test: /\.(ts|tsx)$/,
@@ -15,8 +21,8 @@ module.exports = ({ config }) => {
       },
       require.resolve("react-docgen-typescript-loader")
     ],
-  });
-  config.module.rules.push({
+  },
+  {
     test: /\.stories\.tsx?$/,
     loaders: [
       {
@@ -25,9 +31,44 @@ module.exports = ({ config }) => {
       },
     ],
     enforce: 'pre',
-  });
+  },
+  {
+    test: /\.stories\.mdx$/,
+    // exclude: [/node_modules/],
+    // include: [
+    //     path.resolve(__dirname, '../src/ui'),
+    // ],
+    use: [
+      {
+        loader: 'babel-loader',
+        options: {
+          plugins: ['@babel/plugin-transform-react-jsx']
+        }
+      },
+      {
+        loader: '@mdx-js/loader',
+        options: {
+          compilers: [createCompiler({})]
+        }
+      }
+    ],
+  },
+  );
+  // config.module.rules.push( {
+  //   test: /\.stories\.mdx$/,
+  //   exclude: [/node_modules/],
+  //   loaders: [
+  //     {
+  //       loader: require.resolve('@mdx-js/loader'),
+  //       options: {
+  //         compilers: [createCompiler({})]
+  //       }
+  //     }
+  //   ],
+  //   enforce: 'pre',
+  // },);
 
-  config.resolve.extensions.push('.ts', '.tsx');
+  config.resolve.extensions.push('.ts', '.tsx', '.mdx');
   config.resolve.plugins=[new TsconfigPathsPlugin({ configFile: "./tsconfig.json"  })]
   return config;
 };
