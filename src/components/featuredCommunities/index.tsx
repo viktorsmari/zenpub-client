@@ -1,16 +1,18 @@
-import React from 'react';
-import { compose } from 'recompose';
-import { graphql, QueryControls, OperationOption } from 'react-apollo';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-const getFeaturedCommunities = require('../../graphql/getFeaturedCommunities.graphql');
-import Loader from '../elements/Loader/Loader';
 import { Trans } from '@lingui/macro';
-import CommunitySmall from '../elements/Community/CommunitySmall';
-import styled from '../../themes/styled';
-import { ChevronLeft, Right } from '../elements/Icons';
+import { FetchResult } from 'apollo-link';
+import { GetFeaturedCommunitiesQueryResult } from 'graphql/generated/getFeaturedCommunities.generated';
+import React from 'react';
+import { graphql, OperationOption } from 'react-apollo';
+import Slider from 'react-slick';
+import { compose } from 'recompose';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
 import { GRAPHQL_ENDPOINT } from '../../constants';
+import styled from '../../themes/styled';
+import CommunitySmall from '../elements/Community/CommunitySmall';
+import { ChevronLeft, Right } from '../elements/Icons';
+import Loader from '../elements/Loader/Loader';
+const getFeaturedCommunities = require('../../graphql/getFeaturedCommunities.graphql');
 
 export const Title = styled.div`
   font-size: 15px;
@@ -52,18 +54,8 @@ export const RightContext = styled.div`
   float: right;
 `;
 
-interface Data extends QueryControls {
-  one: any;
-  two: any;
-  three: any;
-  four: any;
-  five: any;
-  six: any;
-  seven: any;
-}
-
 interface Props {
-  data: Data;
+  data: FetchResult<GetFeaturedCommunitiesQueryResult>['data'];
 }
 class MultipleItems extends React.Component<Props> {
   private slider: any;
@@ -132,7 +124,7 @@ class MultipleItems extends React.Component<Props> {
             </span>
           </RightContext>
         </Title>
-        {this.props.data.error ? (
+        {!this.props.data || !this.props.data.data || this.props.data.error ? (
           <span>
             <Trans>{/* Error loading featured communities */}</Trans>
           </span>
@@ -140,27 +132,15 @@ class MultipleItems extends React.Component<Props> {
           <Loader />
         ) : (
           <Slider ref={c => (this.slider = c)} {...settings}>
-            {this.props.data.one ? (
-              <CommunitySmall community={this.props.data.one} />
-            ) : null}
-            {this.props.data.two ? (
-              <CommunitySmall community={this.props.data.two} />
-            ) : null}
-            {this.props.data.three ? (
-              <CommunitySmall community={this.props.data.three} />
-            ) : null}
-            {this.props.data.four ? (
-              <CommunitySmall community={this.props.data.four} />
-            ) : null}
-            {this.props.data.five ? (
-              <CommunitySmall community={this.props.data.five} />
-            ) : null}
-            {this.props.data.six ? (
-              <CommunitySmall community={this.props.data.six} />
-            ) : null}
-            {this.props.data.seven ? (
-              <CommunitySmall community={this.props.data.seven} />
-            ) : null}
+            {this.props.data.data.instance
+              ? this.props.data.data.instance.featuredCommunities.edges.map(
+                  edge =>
+                    edge &&
+                    edge.node.context.__typename === 'Community' && (
+                      <CommunitySmall community={edge.node.context} />
+                    )
+                )
+              : null}
           </Slider>
         )}
       </>

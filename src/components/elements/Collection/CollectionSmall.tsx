@@ -1,13 +1,14 @@
+import { BasicCollectionFragment } from 'graphql/fragments/generated/basicCollection.generated';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { Box, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
+import { Collection } from '../../../graphql/types.generated';
 import styled from '../../../themes/styled';
 const PlaceholderImg = require('../Icons/collectionPlaceholder.png');
-import { Text, Box } from 'rebass/styled-components';
-import { Collection } from '../../../graphql/types.generated';
 
 interface CollectionProps {
-  collection: Collection;
+  collection: BasicCollectionFragment;
 }
 const Collection: React.FC<CollectionProps> = ({ collection }) => {
   return (

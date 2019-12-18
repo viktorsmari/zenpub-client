@@ -1,29 +1,21 @@
-import React from 'react';
-import { compose } from 'recompose';
-import { graphql, QueryControls, OperationOption } from 'react-apollo';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-const getFeaturedCollections = require('../../graphql/getFeaturedCollections.graphql');
-import Loader from '../elements/Loader/Loader';
 import { Trans } from '@lingui/macro';
+import { FetchResult } from 'apollo-link';
+import { GetFeaturedCollectionsQueryResult } from 'graphql/generated/getFeaturedCollections.generated';
+import React from 'react';
+import { graphql, OperationOption } from 'react-apollo';
+import Slider from 'react-slick';
+import { compose } from 'recompose';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
+import { GRAPHQL_ENDPOINT } from '../../constants';
 import CollectionSmall from '../elements/Collection/CollectionSmall';
 import { ChevronLeft, Right } from '../elements/Icons';
-import { Title, RightContext } from '../featuredCommunities';
-import { GRAPHQL_ENDPOINT } from '../../constants';
-
-interface Data extends QueryControls {
-  one: any;
-  two: any;
-  three: any;
-  four: any;
-  five: any;
-  six: any;
-  seven: any;
-}
+import Loader from '../elements/Loader/Loader';
+import { RightContext, Title } from '../featuredCommunities';
+const getFeaturedCollections = require('../../graphql/getFeaturedCollections.graphql');
 
 interface Props {
-  data: Data;
+  data: FetchResult<GetFeaturedCollectionsQueryResult>['data'];
 }
 
 class MultipleItems extends React.Component<Props> {
@@ -93,7 +85,7 @@ class MultipleItems extends React.Component<Props> {
             </span>
           </RightContext>
         </Title>
-        {this.props.data.error ? (
+        {!this.props.data || !this.props.data.data || this.props.data.error ? (
           <span>
             <Trans>{/* Error loading featured collections */}</Trans>
           </span>
@@ -101,27 +93,15 @@ class MultipleItems extends React.Component<Props> {
           <Loader />
         ) : (
           <Slider ref={c => (this.slider = c)} {...settings}>
-            {this.props.data.one ? (
-              <CollectionSmall collection={this.props.data.one} />
-            ) : null}
-            {this.props.data.two ? (
-              <CollectionSmall collection={this.props.data.two} />
-            ) : null}
-            {this.props.data.three ? (
-              <CollectionSmall collection={this.props.data.three} />
-            ) : null}
-            {this.props.data.four ? (
-              <CollectionSmall collection={this.props.data.four} />
-            ) : null}
-            {this.props.data.five ? (
-              <CollectionSmall collection={this.props.data.five} />
-            ) : null}
-            {this.props.data.six ? (
-              <CollectionSmall collection={this.props.data.six} />
-            ) : null}
-            {this.props.data.seven ? (
-              <CollectionSmall collection={this.props.data.seven} />
-            ) : null}
+            {this.props.data.data.instance
+              ? this.props.data.data.instance.featuredCollections.edges.map(
+                  edge =>
+                    edge &&
+                    edge.node.context.__typename === 'Collection' && (
+                      <CollectionSmall collection={edge.node.context} />
+                    )
+                )
+              : null}
           </Slider>
         )}
       </>

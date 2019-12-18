@@ -1,13 +1,13 @@
+import { BasicCommunityFragment } from 'graphql/fragments/generated/basicCommunity.generated';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { Box, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import styled from '../../../themes/styled';
-import { Text, Box } from 'rebass/styled-components';
-import { Community } from '../../../graphql/types.generated';
 const PlaceholderImg = require('../Icons/collectionPlaceholder.png');
 
 interface CommunityProps {
-  community: Community;
+  community: BasicCommunityFragment;
 }
 const CommunitySmall: React.FC<CommunityProps> = ({ community }) => {
   return (
