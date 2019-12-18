@@ -27,10 +27,10 @@ class MultipleItems extends React.Component<Props> {
     this.previous = this.previous.bind(this);
   }
   next() {
-    this.slider.slickNext();
+    this.slider && this.slider.slickNext();
   }
   previous() {
-    this.slider.slickPrev();
+    this.slider && this.slider.slickPrev();
   }
   render() {
     const settings = {
