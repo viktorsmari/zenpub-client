@@ -151,7 +151,7 @@ const InfoContainer = styled.div`
   background: ${props => props.theme.colors.lighter};
   border-radius: 2px;
   text-align: center;
-  padding: 10px 20px 0px;
+  padding: 10px 20px;
   font-style: italic;
   cursor: pointer;
   border: 2px dashed ${props => props.theme.colors.gray};

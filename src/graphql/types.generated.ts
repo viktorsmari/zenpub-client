@@ -370,6 +370,39 @@ export type CommunityUpdateInput = {
 /** A thing that can be deleted */
 export type DeleteContext = Activity | Collection | Comment | Community | Flag | Follow | Like | Resource | Thread | User;
 
+/** A featured piece of content */
+export type Feature = {
+   __typename?: 'Feature',
+  /** A url for the feature, may be to a remote instance */
+  canonicalUrl?: Maybe<Scalars['String']>,
+  /** The thing that is being featured */
+  context: FeatureContext,
+  /** When the feature was created */
+  createdAt: Scalars['String'],
+  /** The user who featured */
+  creator: User,
+  /** An instance-local UUID identifying the feature */
+  id: Scalars['String'],
+  /** Whether the feature is local to the instance */
+  isLocal: Scalars['Boolean'],
+};
+
+/** A thing that can be featured */
+export type FeatureContext = Collection | Community;
+
+export type FeaturesEdge = {
+   __typename?: 'FeaturesEdge',
+  cursor: Scalars['String'],
+  node: Feature,
+};
+
+export type FeaturesEdges = {
+   __typename?: 'FeaturesEdges',
+  edges: Array<Maybe<FeaturesEdge>>,
+  pageInfo?: Maybe<PageInfo>,
+  totalCount: Scalars['Int'],
+};
+
 /** More detailed metadata parsed from a file. */
 export type FileIntrinsics = {
    __typename?: 'FileIntrinsics',
@@ -422,7 +455,7 @@ export type Flag = {
   createdAt: Scalars['String'],
   /** The user who flagged */
   creator: User,
-  /** An instance-local UUID identifying the user */
+  /** An instance-local UUID identifying the flag */
   id: Scalars['String'],
   /** Whether the flag is local to the instance */
   isLocal: Scalars['Boolean'],
@@ -547,6 +580,8 @@ export type FollowsEdges = {
 export type Instance = {
    __typename?: 'Instance',
   description?: Maybe<Scalars['String']>,
+  featuredCollections: FeaturesEdges,
+  featuredCommunities: FeaturesEdges,
   hostname: Scalars['String'],
   /** A list of public activity on the local instance, most recent first */
   outbox: ActivitiesEdges,
@@ -721,11 +756,11 @@ export type RootMutationType = {
   createCollection?: Maybe<Collection>,
   /** Create a community */
   createCommunity?: Maybe<Community>,
-  /** Flag a user, community, collection, resource or comment, returning a flag id */
+  /** Flag a user, community, collection, resource or comment, returning the flag */
   createFlag?: Maybe<Flag>,
-  /** Follow a community, collection or thread returning a follow id */
+  /** Follow a community, collection or thread returning the follow */
   createFollow?: Maybe<Follow>,
-  /** Like a comment, collection, or resource returning a like id */
+  /** Like a comment, collection, or resource returning the like */
   createLike?: Maybe<Like>,
   /** Create a reply */
   createReply?: Maybe<Comment>,
@@ -1335,6 +1370,18 @@ export type WebMetadata = {
       },
       {
         "kind": "UNION",
+        "name": "FeatureContext",
+        "possibleTypes": [
+          {
+            "name": "Collection"
+          },
+          {
+            "name": "Community"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
         "name": "DeleteContext",
         "possibleTypes": [
           {
@@ -1517,6 +1564,10 @@ export type ResolversTypes = {
   CollectionsNodes: ResolverTypeWrapper<CollectionsNodes>,
   CommunitiesNodes: ResolverTypeWrapper<CommunitiesNodes>,
   Instance: ResolverTypeWrapper<Instance>,
+  FeaturesEdges: ResolverTypeWrapper<FeaturesEdges>,
+  FeaturesEdge: ResolverTypeWrapper<FeaturesEdge>,
+  Feature: ResolverTypeWrapper<Omit<Feature, 'context'> & { context: ResolversTypes['FeatureContext'] }>,
+  FeatureContext: ResolversTypes['Collection'] | ResolversTypes['Community'],
   Me: ResolverTypeWrapper<Me>,
   RootMutationType: ResolverTypeWrapper<{}>,
   AuthPayload: ResolverTypeWrapper<AuthPayload>,
@@ -1589,6 +1640,10 @@ export type ResolversParentTypes = {
   CollectionsNodes: CollectionsNodes,
   CommunitiesNodes: CommunitiesNodes,
   Instance: Instance,
+  FeaturesEdges: FeaturesEdges,
+  FeaturesEdge: FeaturesEdge,
+  Feature: Omit<Feature, 'context'> & { context: ResolversParentTypes['FeatureContext'] },
+  FeatureContext: ResolversParentTypes['Collection'] | ResolversParentTypes['Community'],
   Me: Me,
   RootMutationType: {},
   AuthPayload: AuthPayload,
@@ -1745,6 +1800,30 @@ export type DeleteContextResolvers<ContextType = any, ParentType extends Resolve
   __resolveType: TypeResolveFn<'Activity' | 'Collection' | 'Comment' | 'Community' | 'Flag' | 'Follow' | 'Like' | 'Resource' | 'Thread' | 'User', ParentType, ContextType>
 };
 
+export type FeatureResolvers<ContextType = any, ParentType extends ResolversParentTypes['Feature'] = ResolversParentTypes['Feature']> = {
+  canonicalUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  context?: Resolver<ResolversTypes['FeatureContext'], ParentType, ContextType>,
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  creator?: Resolver<ResolversTypes['User'], ParentType, ContextType>,
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  isLocal?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+};
+
+export type FeatureContextResolvers<ContextType = any, ParentType extends ResolversParentTypes['FeatureContext'] = ResolversParentTypes['FeatureContext']> = {
+  __resolveType: TypeResolveFn<'Collection' | 'Community', ParentType, ContextType>
+};
+
+export type FeaturesEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['FeaturesEdge'] = ResolversParentTypes['FeaturesEdge']> = {
+  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  node?: Resolver<ResolversTypes['Feature'], ParentType, ContextType>,
+};
+
+export type FeaturesEdgesResolvers<ContextType = any, ParentType extends ResolversParentTypes['FeaturesEdges'] = ResolversParentTypes['FeaturesEdges']> = {
+  edges?: Resolver<Array<Maybe<ResolversTypes['FeaturesEdge']>>, ParentType, ContextType>,
+  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+  totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
+};
+
 export type FileIntrinsicsResolvers<ContextType = any, ParentType extends ResolversParentTypes['FileIntrinsics'] = ResolversParentTypes['FileIntrinsics']> = {
   bitsPerPixel?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   bitsPerSample?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
@@ -1878,6 +1957,8 @@ export type FollowsEdgesResolvers<ContextType = any, ParentType extends Resolver
 
 export type InstanceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Instance'] = ResolversParentTypes['Instance']> = {
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  featuredCollections?: Resolver<ResolversTypes['FeaturesEdges'], ParentType, ContextType>,
+  featuredCommunities?: Resolver<ResolversTypes['FeaturesEdges'], ParentType, ContextType>,
   hostname?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   outbox?: Resolver<ResolversTypes['ActivitiesEdges'], ParentType, ContextType, InstanceOutboxArgs>,
 };
@@ -2097,6 +2178,10 @@ export type Resolvers<ContextType = any> = {
   CommunitiesNodes?: CommunitiesNodesResolvers<ContextType>,
   Community?: CommunityResolvers<ContextType>,
   DeleteContext?: DeleteContextResolvers,
+  Feature?: FeatureResolvers<ContextType>,
+  FeatureContext?: FeatureContextResolvers,
+  FeaturesEdge?: FeaturesEdgeResolvers<ContextType>,
+  FeaturesEdges?: FeaturesEdgesResolvers<ContextType>,
   FileIntrinsics?: FileIntrinsicsResolvers<ContextType>,
   FileMetadata?: FileMetadataResolvers<ContextType>,
   FileUpload?: FileUploadResolvers<ContextType>,
