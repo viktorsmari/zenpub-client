@@ -106,15 +106,26 @@ const EditCommunityModal = (props: Props /*  & FormikProps<FormValues> */) => {
           if (fileToUpload[0]) {
             mutateIcon({
               variables: { contextId: communityId, upload: fileToUpload[0] }
+            }).then(res => {
+              toggleModal && toggleModal();
+              communityUpdated();
             });
+          } else {
+            toggleModal && toggleModal();
+            communityUpdated();
           }
+          // .catch(err => console.log(err));
         })
         .catch(err => console.log(err));
     },
     [toggleModal, communityUpdated]
   );
   return (
-    <ModalWithUpload isOpen={modalIsOpen} toggleModal={toggleModal}>
+    <ModalWithUpload
+      isOpen={modalIsOpen}
+      toggleModal={toggleModal}
+      position="abs"
+    >
       <Container>
         <Header>
           <Heading m={2}>

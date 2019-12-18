@@ -113,7 +113,7 @@ const CreateCommunityModal = (
     []
   );
   return (
-    <Modal isOpen={modalIsOpen} toggleModal={toggleModal}>
+    <Modal isOpen={modalIsOpen} toggleModal={toggleModal} position="abs">
       <Container>
         <Header>
           <Heading m={2}>

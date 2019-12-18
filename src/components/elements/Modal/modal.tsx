@@ -25,7 +25,7 @@ const Dialog = styled.div`
   background-color: #ffffff;
   padding: 0;
   margin: 40px auto;
-  position: absolute;
+  position: fixed;
   top: 10px;
   left: 50%;
   margin-left: -350px;
@@ -139,13 +139,23 @@ interface Props {
   isOpen: boolean;
   toggleModal: any;
   collectionId: string;
+  position?: string;
 }
 
-const Modal: React.FC<Props> = ({ isOpen, toggleModal, children }) => {
+const Modal: React.FC<Props> = ({
+  isOpen,
+  toggleModal,
+  position,
+  children
+}) => {
   return isOpen ? (
     <div>
       <Background onClick={toggleModal} />
-      <Dialog>
+      <Dialog
+        style={
+          position == 'abs' ? { position: 'absolute' } : { position: 'fixed' }
+        }
+      >
         <Action>
           <Close onClick={toggleModal}>
             <Cross width={20} height={20} strokeWidth={2} color="#333" />

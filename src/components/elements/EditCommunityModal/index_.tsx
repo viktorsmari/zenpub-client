@@ -55,7 +55,7 @@ const withUpdateCommunity = graphql<{}>(updateCommunityMutation, {
 const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
   const { toggleModal, modalIsOpen, errors, touched, isSubmitting } = props;
   return (
-    <Modal isOpen={modalIsOpen} toggleModal={toggleModal}>
+    <Modal isOpen={modalIsOpen} toggleModal={toggleModal} position="abs">
       <Container>
         <Header>
           <Heading m={2}>
