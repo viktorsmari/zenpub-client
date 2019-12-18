@@ -37,9 +37,9 @@ export type GetFeaturedCollectionsQuery = (
             { __typename?: 'User' }
             & BasicUserFragment
           ), context: (
-            { __typename: 'Collection' }
+            { __typename?: 'Collection' }
             & BasicCollectionFragment
-          ) | { __typename: 'Community' } }
+          ) | { __typename?: 'Community' } }
         ) }
       )>> }
     ) }
