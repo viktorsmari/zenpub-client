@@ -9,7 +9,8 @@ docs
 doc
 website
 images
-assets
+#https://github.com/yarnpkg/yarn/issues/2803#issuecomment-415482919
+#assets
 
 # examples
 example

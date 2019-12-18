@@ -1,15 +1,14 @@
 // import { Trans } from '@lingui/macro';
 import * as React from 'react';
-import { LocaleContext } from '../../context/global/localizationCtx';
+// import { LocaleContext } from '../../context/global/localizationCtx';
 import { ThemeProvider } from '../../styleguide/Wrapper';
 import '../../styles/loader.css';
 import '../../styles/social-icons.css';
 import Router from './Router';
 
 export const App: React.FC = () => {
-  const { locale } = React.useContext(LocaleContext);
+  // const { locale } = React.useContext(LocaleContext);
   // const direction = (locale != 'ar_SA')? 'ltr' : 'rtl';
-  console.log('locale ' + locale);
   // if (!locale) {
   //   return (
   //     <p>

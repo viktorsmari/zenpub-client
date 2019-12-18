@@ -38,7 +38,6 @@ interface Props {
 }
 
 const Resource: React.FC<Props> = props => {
-  console.log('Resource ID%O', props.id);
   return (
     <Wrapper>
       <MoreOptionsContainer>

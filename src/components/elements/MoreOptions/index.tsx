@@ -71,7 +71,6 @@ const MoreOptions: React.FC<Props> = ({ contextId, myFlag }) => {
   const closeMenu = React.useCallback(() => setMenuIsOpen(false), []);
   const openMenu = React.useCallback(() => setMenuIsOpen(true), []);
   const [isFlagged, flagItem] = React.useState(myFlag != null);
-  console.log('myFlag %O', myFlag != null);
   return (
     <>
       <MoreButton>
