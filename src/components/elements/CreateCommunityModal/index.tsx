@@ -3,7 +3,7 @@ import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
 import { Field, Form, Formik, FormikConfig } from 'formik';
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router';
 import { Heading } from 'rebass/styled-components';
 import * as Yup from 'yup';
@@ -47,7 +47,8 @@ interface FormValues {
   summary: string;
   icon: string;
   image: string;
-  content: string;
+  files: [];
+  // content: string;
   preferredUsername: string;
 }
 const CreateCommunityModal = (
@@ -57,7 +58,6 @@ const CreateCommunityModal = (
   const { toggleModal, modalIsOpen } = props;
   const history = useHistory();
   const [create /* , response */] = useCreateCommunityMutationMutation({});
-  const [files, setFiles] = useState([] as any);
   const [mutateIcon] = useUploadIconMutation();
 
   const initialValues = React.useMemo<FormValues>(
@@ -66,29 +66,23 @@ const CreateCommunityModal = (
       summary: '',
       image: '',
       icon: '',
-      content: '',
+      files: [],
+      // content: '',
       preferredUsername: ''
     }),
     []
   );
-  // useEffect(
-
-  //   () => () => {
-  //     console.log('FILES %O', files);
-  //   }
-  // );
-
-  const afterDrop = files => {
-    setFiles(files);
-  };
 
   const submit = React.useCallback<FormikConfig<FormValues>['onSubmit']>(
     (values, { setSubmitting }) => {
+      const fileToUpload = values.files.map(file => {
+        return file;
+      });
       const variables: CreateCommunityMutationMutationVariables = {
         community: {
           name: values.name,
           summary: values.summary,
-          image: values.image,
+          // image: values.image,
           preferredUsername: values.name.split(' ').join('_')
         }
       };
@@ -96,17 +90,23 @@ const CreateCommunityModal = (
         variables: variables
       })
         .then(res => {
-          setSubmitting(false);
-          res.data &&
-            res.data.createCommunity &&
-            history.push(`/communities/${res.data.createCommunity.id}`);
-          console.log('FILES %O', files);
-          mutateIcon({
-            variables: {
-              contextId: res.data!.createCommunity!.id,
-              upload: files[0]
-            }
-          });
+          const createdCommunityId = res.data!.createCommunity!.id;
+          if (fileToUpload[0]) {
+            mutateIcon({
+              variables: {
+                contextId: createdCommunityId,
+                upload: fileToUpload[0]
+              }
+            }).then(() => {
+              setSubmitting(false);
+              history.push(`/communities/${createdCommunityId}`);
+            });
+          } else {
+            setSubmitting(false);
+            history.push(`/communities/${createdCommunityId}`);
+          }
+          // setSubmitting(false);
+          // {res.data && res.data.createCommunity && history.push(`/communities/${res.data.createCommunity.id}`);}
         })
         .catch(err => console.log(err));
     },
@@ -177,23 +177,7 @@ const CreateCommunityModal = (
                     <Trans>Image</Trans>
                   </label>
                   <ContainerForm>
-                    {/* <Field
-                      name="image"
-                      render={({ field }) => (
-                        <Input
-                          placeholder={i18n._(tt.placeholders.image)}
-                          name={field.name}
-                          value={field.value}
-                          onChange={field.onChange}
-                        />
-                      )}
-                    /> */}
-                    <DropzoneArea
-                      // files = {files}
-                      onDropFile={afterDrop}
-                    />
-                    {errors.image &&
-                      touched.image && <Alert>{errors.image}</Alert>}
+                    <DropzoneArea imageUrl={initialValues.icon} />
                   </ContainerForm>
                 </Row>
                 <Actions>
@@ -221,8 +205,8 @@ const validationSchema = Yup.object().shape({
   name: Yup.string()
     .max(60)
     .required(),
-  summary: Yup.string().max(500),
-  image: Yup.string().url()
+  summary: Yup.string().max(500)
+  // image: Yup.string().url()
 });
 
 export default CreateCommunityModal;

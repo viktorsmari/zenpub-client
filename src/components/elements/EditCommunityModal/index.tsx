@@ -3,19 +3,15 @@ import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
 import { Field, Form, Formik, FormikConfig } from 'formik';
-import React, { useState } from 'react';
-// import { useHistory } from 'react-router';
+import React from 'react';
 import { Heading } from 'rebass/styled-components';
 import * as Yup from 'yup';
-// import { i18n } from '../../../containers/App/App';
 import Alert from '../Alert';
-import styled from '../../../themes/styled';
 import { Button } from 'rebass/styled-components';
 import Modal from '../Modal';
-// import DropzoneArea from '../DropzoneModal';
+import DropzoneArea from '../DropzoneModal';
 import { useUploadIconMutation } from '../../../graphql/generated/uploadIcon.generated';
-import { DropZone } from 'react-formik-ui';
-// import { Community } from '../../../graphql/types.generated';
+import styled from '../../../themes/styled';
 
 import {
   Actions,
@@ -29,6 +25,10 @@ import {
   useUpdateCommunityMutationMutation,
   UpdateCommunityMutationMutationVariables
 } from '../../../graphql/generated/updateCommunity.generated';
+
+const ModalWithUpload = styled(Modal)`
+  position: absolute;
+`;
 
 const tt = {
   placeholders: {
@@ -57,18 +57,6 @@ interface FormValues {
   // content: string;
   // preferredUsername: string;
 }
-const IconImg = styled.img`
-  display: block;
-  max-width: 100%;
-  margin-bottom: 10px;
-`;
-const DropzoneContainer = styled.div`
-  .img-thumbnail {
-    display: block;
-    max-width: 100%;
-    margin-bottom: 10px;
-  }
-`;
 
 const EditCommunityModal = (props: Props /*  & FormikProps<FormValues> */) => {
   const {
@@ -78,11 +66,9 @@ const EditCommunityModal = (props: Props /*  & FormikProps<FormValues> */) => {
     community,
     communityUpdated
   } = props;
-  // const history = useHistory();
+
   const [update /* , response */] = useUpdateCommunityMutationMutation({});
-  // const [files, setFiles] = useState([] as any);
   const [mutateIcon] = useUploadIconMutation();
-  const [iconUrl, onIcon] = useState(community.icon);
 
   const initialValues = React.useMemo<FormValues>(
     () => ({
@@ -97,29 +83,16 @@ const EditCommunityModal = (props: Props /*  & FormikProps<FormValues> */) => {
     []
   );
 
-  // useEffect(
-  //   () => {
-  //     console.log('FILES %O', files);
-  //   },
-  //   [files]
-  // );
-
-  // const afterDrop = files => {
-  //   setFiles(files);
-  //   // setFieldValue("files", values.files.concat(acceptedFiles));
-  //   console.log('afterDrop %O', files);
-  // };
-
   const submit = React.useCallback<FormikConfig<FormValues>['onSubmit']>(
     (values, { setSubmitting }) => {
-      // console.log('FILES Submit %O', files);
       const variables: UpdateCommunityMutationMutationVariables = {
         communityId: communityId,
         community: {
           name: values.name,
           summary: values.summary
-          // image: values.image,
-          // icon: values.image
+          // ,
+          // image: res.data!.uploadIcon!.url,
+          // icon: res.data!.uploadIcon!.url
         }
       };
       update({
@@ -127,23 +100,21 @@ const EditCommunityModal = (props: Props /*  & FormikProps<FormValues> */) => {
       })
         .then(res => {
           setSubmitting(false);
-          toggleModal;
-          communityUpdated;
           const fileToUpload = values.files.map(file => {
             return file;
           });
-          return mutateIcon({
-            variables: { contextId: communityId, upload: fileToUpload[0] }
-          }).then(res => {
-            onIcon(res.data!.uploadIcon!.url);
-          });
+          if (fileToUpload[0]) {
+            mutateIcon({
+              variables: { contextId: communityId, upload: fileToUpload[0] }
+            });
+          }
         })
         .catch(err => console.log(err));
     },
-    []
+    [toggleModal, communityUpdated]
   );
   return (
-    <Modal isOpen={modalIsOpen} toggleModal={toggleModal}>
+    <ModalWithUpload isOpen={modalIsOpen} toggleModal={toggleModal}>
       <Container>
         <Header>
           <Heading m={2}>
@@ -212,31 +183,9 @@ const EditCommunityModal = (props: Props /*  & FormikProps<FormValues> */) => {
                     <Trans>Image</Trans>
                   </label>
                   <ContainerForm>
-                    {community.icon && <IconImg src={iconUrl} />}
-                    {/* <Field
-                      name="image"
-                      render={({ field }) => (
-                        <Input
-                          placeholder={i18n._(tt.placeholders.image)}
-                          name={field.name}
-                          value={field.value}
-                          onChange={field.onChange}
-                        />
-                      )}
-                    /> */}
-                    {/* <DropzoneArea onDropFile={afterDrop} /> */}
-                    <DropzoneContainer>
-                      <DropZone
-                        name="files"
-                        accept="image/*"
-                        label="File upload"
-                        placeholder="Try dropping some files here, or click to select files to upload."
-                        multiple={false}
-                        withClearButton
-                      />
-                    </DropzoneContainer>
-                    {errors.image &&
-                      touched.image && <Alert>{errors.image}</Alert>}
+                    <DropzoneArea imageUrl={initialValues.icon} />
+                    {/* {errors.image &&
+                      touched.image && <Alert>{errors.image}</Alert>} */}
                   </ContainerForm>
                 </Row>
                 <Actions>
@@ -256,7 +205,7 @@ const EditCommunityModal = (props: Props /*  & FormikProps<FormValues> */) => {
           }}
         />
       </Container>
-    </Modal>
+    </ModalWithUpload>
   );
 };
 
@@ -264,8 +213,8 @@ const validationSchema = Yup.object().shape({
   name: Yup.string()
     .max(60)
     .required(),
-  summary: Yup.string().max(500),
-  image: Yup.string().url()
+  summary: Yup.string().max(500)
+  // image: Yup.string().url()
 });
 
 export default EditCommunityModal;

@@ -310,7 +310,7 @@ const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
     },
     [like, undoLike]
   );
-  console.log('context %O', context);
+  // console.log('context %O', context);
   return (
     <FeedItem>
       {/* {context.__typename} */}

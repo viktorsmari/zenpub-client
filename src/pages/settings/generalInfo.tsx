@@ -170,7 +170,7 @@ const Component: React.FC<Props> = ({
 
   const handleSubmit = React.useCallback<FormikConfig<FormValues>['onSubmit']>(
     (values, { setSubmitting }) => {
-      // console.log('image ' + values.image.name);
+      console.log('image ' + values.icon);
       const variables = {
         profile: {
           name: values.name,
