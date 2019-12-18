@@ -15,9 +15,7 @@ import { ValidationField, ValidationObject, ValidationType } from './types';
 import { Button, Box, Text, Image } from 'rebass/styled-components';
 const { loginMutation } = require('../../graphql/login.graphql');
 import { Panel, WrapperPanel } from '../../sections/panel';
-const MnetLogin = require('./tdc-teachers.png');
-const LogoLogin = require('./mamar_logo.png');
-const MoodlenetLogo = require('./moodlenet_logo.png');
+const MnetLogin = require('./login.jpg');
 import { INSTANCE_DESCRIPTION } from './../../constants';
 
 const Background = styled(Image)`
@@ -28,27 +26,24 @@ const Background = styled(Image)`
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 `;
-// const Tagline = styled.h5`
-//   font-size: 16px;
-//   margin-top: 8px;
-//   margin-bottom: 40px;
-//   color: #000000a1;
-//   font-weight: 500;
-// `;
-
-const Infos = styled(Box)`
-  padding: 16px;
+const Tagline = styled.h5`
+  font-size: 16px;
+  margin-top: 8px;
+  margin-bottom: 40px;
+  color: #000000a1;
+  font-weight: 500;
 `;
+
+const Infos = styled(Box)``;
 
 const Info = styled(Box)``;
 
-const Logo = styled(Image)`
-  width: auto;
+const Logo = styled.div`
+  background: url(https://i.imgur.com/YdflNQp.png);
+  width: 159px;
   display: inline-block;
-  height: auto;
+  height: 30px;
   background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
 `;
 
 const LoginWrapper = styled.div`
@@ -66,7 +61,7 @@ const LoginWrapper = styled.div`
 const Container = styled.div`
   margin: 0 auto;
   max-width: 900px;
-  margin-top: 40px;
+  margin-top: 60px;
 `;
 
 const Header = styled.div`
@@ -98,36 +93,12 @@ const Right = styled(Box)`
   }
 `;
 
-const PoweredBy = styled.a`
-  color: rgba(0, 0, 0, 0.45);
-  text-decoration: none;
-  font-size: 13px;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-const PoweredByText = styled.span`
-  display: block;
-`;
-
-const Moodlenet = styled(Image)`
-  width: 120px;
-  display: inline-block;
-  height: auto;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-`;
-
 const Footer = styled.div`
 grid-area: footer
-margin-top: 0px;
-margin-bottom: 20px;
-
+margin-top: 100px;
+border-top: 1px solid rgba(0,0,0,.2);
 padding-top: 24px;
 & ul {
-  border-top: 1px solid rgba(0,0,0,.2);
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -137,8 +108,6 @@ padding-top: 24px;
   align-items: center;
   display: flex;
   flex: 1;
-  padding-top: 20px;
-  margin-top: 20px;
   ${clearFix()}
   & li {
     float: left;
@@ -336,10 +305,8 @@ class Login extends React.Component<LoginProps, LoginState> {
         <Container>
           <LoginWrapper>
             <Header>
-              <Logo src={LogoLogin} />
-              {/* <Tagline>
-                <Trans>Share. Curate. Discuss.</Trans>
-              </Tagline> */}
+              <Logo />
+              <Tagline>Share. Curate. Discuss.</Tagline>
             </Header>
             <FormWrapper>
               <Form>
@@ -360,7 +327,7 @@ class Login extends React.Component<LoginProps, LoginState> {
               </Or>
               <Browse mt={3} p={3}>
                 <Text variant="heading" fontSize={3}>
-                  <Trans>Browse this instance without login</Trans>
+                  <Trans>Browse this MoodleNet instance</Trans>
                 </Text>
                 <Text variant="text" mt={2}>
                   <Trans>
@@ -388,7 +355,7 @@ class Login extends React.Component<LoginProps, LoginState> {
               <WrapperPanel className="extra">
                 <Panel>
                   <Background src={MnetLogin} />
-                  <Infos>
+                  <Infos p={3}>
                     <Info>
                       <Text variant="suptitle">
                         <Trans>Instance description</Trans>
@@ -401,15 +368,12 @@ class Login extends React.Component<LoginProps, LoginState> {
                 </Panel>
               </WrapperPanel>
             </Right>
+
             <Footer>
-              <PoweredBy href="https://moodle.net/" target="_blank">
-                <Moodlenet src={MoodlenetLogo} />
-                <PoweredByText>Powered By MoodleNet</PoweredByText>
-              </PoweredBy>
               <ul>
                 <li>
                   <a href="https://moodle.net" target="blank">
-                    <Trans>About</Trans>
+                    About
                   </a>
                 </li>
                 <li>
@@ -417,12 +381,12 @@ class Login extends React.Component<LoginProps, LoginState> {
                     href="https://moodle.net/terms/users/index.html"
                     target="blank"
                   >
-                    <Trans>Code of Conduct</Trans>
+                    Code of Conduct
                   </a>
                 </li>
                 <li>
                   <a href="https://gitlab.com/moodlenet" target="blank">
-                    <Trans>Open source</Trans>
+                    Open source
                   </a>
                 </li>
                 <li>
@@ -430,12 +394,12 @@ class Login extends React.Component<LoginProps, LoginState> {
                     href="https://changemap.co/moodle/moodlenet/"
                     target="blank"
                   >
-                    <Trans>Feedback</Trans>
+                    Feedback
                   </a>
                 </li>
                 <li>
                   <a href="https://moodle.com/privacy-notice" target="blank">
-                    <Trans>Privacy notice</Trans>
+                    Privacy notice
                   </a>
                 </li>
               </ul>

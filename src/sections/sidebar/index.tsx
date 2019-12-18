@@ -14,8 +14,7 @@ import { GetSidebarQueryQueryResult } from '../../graphql/generated/getSidebar.g
 import Empty from '../../components/elements/Empty';
 import Avatar from 'ui/elements/Avatar';
 
-// const MnetLogo = require('./moodle-logo.png');
-const MamarLogo = require('./mamar_s.png');
+const MnetLogo = require('./moodle-logo.png');
 const SidebarComponent = styled(Flex)`
   flex-grow: 1;
   align-items: flex-end;
@@ -267,7 +266,7 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
                   </SidebarLink>
                   <SidebarLink exact to={'/'}>
                     <NavItem mb={3} alignItems={'center'}>
-                      <Avatar src={MamarLogo} />
+                      <Avatar src={MnetLogo} />
                       <ItemTitleDir variant="link">
                         <Trans>My MoodleNet</Trans>
                       </ItemTitleDir>

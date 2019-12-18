@@ -3,12 +3,12 @@ import { compose } from 'recompose';
 import { graphql, OperationOption } from 'react-apollo';
 import { Trans } from '@lingui/macro';
 import styled from '../../themes/styled';
-import { Button, Image } from 'rebass/styled-components';
+import { Button } from 'rebass/styled-components';
 import { Input } from '@rebass/forms';
 import { withFormik, FormikProps, Form, Field, FormikValues } from 'formik';
 import * as Yup from 'yup';
 const resetPasswordRequest = require('../../graphql/resetPasswordRequest.graphql');
-const LogoLogin = require('./mamar_logo.png');
+
 import Alert from '../../components/elements/Alert';
 
 const LoginWrapper = styled.div`
@@ -34,29 +34,18 @@ const Container = styled.div`
   }
 `;
 
-// const Logo = styled.div`
-//   background: url(https://i.imgur.com/YdflNQp.png);
-//   width: 159px;
-//   display: block;
-//   height: 30px;
-//   background-size: cover;
-//   margin: 0 auto;
-//   margin-bottom: 40px;
-// `;
-const Logo = styled(Image)`
-  width: auto;
-  display: inline-block;
-  height: auto;
+const Logo = styled.div`
+  background: url(https://i.imgur.com/YdflNQp.png);
+  width: 159px;
+  display: block;
+  height: 30px;
   background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
   margin: 0 auto;
   margin-bottom: 40px;
 `;
 
 const FormWrapper = styled.div`
   grid-area: form;
-  text-align: center;
 `;
 
 interface Props {
@@ -87,7 +76,7 @@ const ResetPasswordPage = (props: Props & FormikProps<FormikValues>) => {
       <Container>
         <LoginWrapper>
           <FormWrapper>
-            <Logo src={LogoLogin} />
+            <Logo />
             <Form>
               <Field
                 name="email"
