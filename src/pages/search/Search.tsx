@@ -13,6 +13,7 @@ import Preview from './preview';
 import { TabPanel, Tabs } from 'react-tabs';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import { Trans } from '@lingui/macro';
+// import { LocaleContext } from '../../containers/App/App';
 import styled from '../../themes/styled';
 import { Nav, Panel, PanelTitle, WrapperPanel } from '../../sections/panel';
 const urlParams = new URLSearchParams(window.location.search);

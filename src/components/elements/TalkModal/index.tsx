@@ -25,6 +25,11 @@ export const Avatar = styled(Box)`
   background: ${props => props.theme.colors.orange};
   background-repeat: no-repeat;
   background-size: cover;
+  margin-right: 8px;
+  .--rtl & {
+    margin-right: 0px;
+    margin-left: 8px;
+  }
 `;
 
 const tt = {
@@ -91,8 +96,8 @@ export const TalkModal: React.FC<Props> = ({
           style={{
             backgroundImage: `url(${session.me ? session.me.user.icon : ''})`
           }}
-          mr={2}
         />
+        )}
         <SocialText
           placeholder={i18n._(tt.placeholders.name)}
           name={'text'}

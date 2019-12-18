@@ -7,7 +7,7 @@ import Slider from 'react-slick';
 import { compose } from 'recompose';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
-import { GRAPHQL_ENDPOINT } from '../../constants';
+import { LocaleContext } from '../../context/global/localizationCtx';
 import styled from '../../themes/styled';
 import CommunitySmall from '../elements/Community/CommunitySmall';
 import { ChevronLeft, Right } from '../elements/Icons';
@@ -52,6 +52,11 @@ export const RightContext = styled.div`
     }
   }
   float: right;
+
+  .--rtl & {
+    flex-direction: row-reverse;
+    float: left;
+  }
 `;
 
 interface Props {
@@ -110,19 +115,49 @@ class MultipleItems extends React.Component<Props> {
           <h5>
             <Trans>Featured communities</Trans>{' '}
           </h5>
-          <RightContext>
-            <span onClick={this.previous}>
-              <ChevronLeft
-                width={26}
-                height={26}
-                strokeWidth={1}
-                color={'#333'}
-              />
-            </span>
-            <span onClick={this.next}>
-              <Right width={26} height={26} strokeWidth={1} color={'#333'} />
-            </span>
-          </RightContext>
+          <LocaleContext.Consumer>
+            {value =>
+              value.locale != 'ar_SA' ? (
+                <RightContext>
+                  <span onClick={this.previous}>
+                    <ChevronLeft
+                      width={26}
+                      height={26}
+                      strokeWidth={1}
+                      color={'#333'}
+                    />
+                  </span>
+                  <span onClick={this.next}>
+                    <Right
+                      width={26}
+                      height={26}
+                      strokeWidth={1}
+                      color={'#333'}
+                    />
+                  </span>
+                </RightContext>
+              ) : (
+                <RightContext>
+                  <span onClick={this.next}>
+                    <Right
+                      width={26}
+                      height={26}
+                      strokeWidth={1}
+                      color={'#333'}
+                    />
+                  </span>
+                  <span onClick={this.previous}>
+                    <ChevronLeft
+                      width={26}
+                      height={26}
+                      strokeWidth={1}
+                      color={'#333'}
+                    />
+                  </span>
+                </RightContext>
+              )
+            }
+          </LocaleContext.Consumer>
         </Title>
         {!this.props.data || !this.props.data.data || this.props.data.error ? (
           <span>
@@ -148,9 +183,6 @@ class MultipleItems extends React.Component<Props> {
   }
 }
 
-const is_home =
-  GRAPHQL_ENDPOINT == 'https://home.moodle.net/api/graphql' ? true : false;
-
 const withGetInbox = graphql<
   {},
   {
@@ -158,29 +190,7 @@ const withGetInbox = graphql<
   }
 >(getFeaturedCommunities, {
   options: {
-    variables: {
-      one: is_home
-        ? '29443e0a-8091-48c3-8617-9bc91810e0d4'
-        : '4f59c147-37c2-4c56-9736-beb6b09792cf',
-      two: is_home
-        ? '47d994da-cd9c-4d05-b3b7-1363b54bdd5f'
-        : '4f59c147-37c2-4c56-9736-beb6b09792cf',
-      three: is_home
-        ? 'f546ae02-654c-4532-877f-de07fef9aa98'
-        : '4f59c147-37c2-4c56-9736-beb6b09792cf',
-      four: is_home
-        ? '24f47162-19e8-4044-863e-6e8b15e5658b'
-        : '4f59c147-37c2-4c56-9736-beb6b09792cf',
-      five: is_home
-        ? '24f47162-19e8-4044-863e-6e8b15e5658b'
-        : '4f59c147-37c2-4c56-9736-beb6b09792cf',
-      six: is_home
-        ? '24f47162-19e8-4044-863e-6e8b15e5658b'
-        : '4f59c147-37c2-4c56-9736-beb6b09792cf',
-      seven: is_home
-        ? '24f47162-19e8-4044-863e-6e8b15e5658b'
-        : '4f59c147-37c2-4c56-9736-beb6b09792cf'
-    }
+    variables: {}
   }
 }) as OperationOption<{}, {}>;
 

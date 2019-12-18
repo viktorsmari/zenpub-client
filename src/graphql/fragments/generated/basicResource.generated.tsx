@@ -11,6 +11,9 @@ export type BasicResourceFragment = (
   & { myLike: Types.Maybe<(
     { __typename?: 'Like' }
     & Pick<Types.Like, 'id'>
+  )>, myFlag: Types.Maybe<(
+    { __typename?: 'Flag' }
+    & Pick<Types.Flag, 'id'>
   )>, likes: (
     { __typename?: 'LikesEdges' }
     & Pick<Types.LikesEdges, 'totalCount'>
@@ -38,6 +41,9 @@ export const BasicResourceFragmentDoc = gql`
   createdAt
   updatedAt
   myLike {
+    id
+  }
+  myFlag {
     id
   }
   likes {

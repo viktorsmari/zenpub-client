@@ -29,6 +29,7 @@ export const ProvideLocalizationCtx: React.FC = ({ children }) => {
 
   useEffect(
     () => {
+      setHTMLDirection();
       if (!locales.includes(locale) || catalogs[locale]) {
         return;
       }
@@ -46,6 +47,20 @@ export const ProvideLocalizationCtx: React.FC = ({ children }) => {
     }),
     [locale, i18n]
   );
+
+  const directionForLanguage = (locale): string => {
+    return locale === 'ar_SA' ? 'rtl' : 'ltr';
+  };
+
+  const setHTMLDirection = () => {
+    const htmlEl = document.querySelector('html');
+    if (htmlEl) {
+      const dir = directionForLanguage(locale);
+      htmlEl.style.direction = dir;
+      htmlEl.classList.remove('--rtl', '--ltr');
+      htmlEl.classList.add(`--${dir}`);
+    }
+  };
 
   return (
     <I18nProvider i18n={i18n} language={locale} catalogs={catalogs}>

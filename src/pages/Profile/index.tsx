@@ -180,7 +180,9 @@ class CommunitiesFeatured extends React.Component<Props> {
         </HomeBox>
         <WrapperPanel>
           <Panel>
-            <Settings to="/settings">Settings</Settings>
+            <Settings to="/settings">
+              <Trans>Settings</Trans>
+            </Settings>
           </Panel>
           <Panel>
             <PanelTitle fontSize={0} fontWeight={'bold'}>

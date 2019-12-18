@@ -139,6 +139,10 @@ const Join: React.FC<Props> = ({
 //   letter-spacing: 1px;
 //   text-transform: uppercase;
 //   letter-spacing: 1px;
+// .--rtl & {
+//   margin-left: 0px;
+//   margin-right: 8px;
+// }
 // `;
 
 export default compose(

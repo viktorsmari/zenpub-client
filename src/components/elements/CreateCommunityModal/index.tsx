@@ -10,6 +10,9 @@ import * as Yup from 'yup';
 import Alert from '../Alert';
 import { Button } from 'rebass/styled-components';
 import Modal from '../Modal';
+import styled from '../../../themes/styled';
+
+// import DropzoneArea from '../../components/elements/DropzoneModal';
 import {
   Actions,
   Container,
@@ -171,13 +174,9 @@ const CreateCommunityModal = (
                   </ContainerForm>
                 </Row>
                 <Actions>
-                  <Button
-                    disabled={isSubmitting}
-                    type="submit"
-                    style={{ marginLeft: '10px' }}
-                  >
+                  <SubmitButton disabled={isSubmitting} type="submit">
                     <Trans>Create</Trans>
-                  </Button>
+                  </SubmitButton>
                   <Button variant="outline" onClick={toggleModal}>
                     <Trans>Cancel</Trans>
                   </Button>
@@ -200,3 +199,11 @@ const validationSchema = Yup.object().shape({
 });
 
 export default CreateCommunityModal;
+
+const SubmitButton = styled(Button)`
+  margin-left: 10px;
+  .--rtl & {
+    margin-right: 10px;
+    margin-left: 0px;
+  }
+`;

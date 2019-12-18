@@ -7,7 +7,7 @@ import Slider from 'react-slick';
 import { compose } from 'recompose';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
-import { GRAPHQL_ENDPOINT } from '../../constants';
+import { LocaleContext } from '../../context/global/localizationCtx';
 import CollectionSmall from '../elements/Collection/CollectionSmall';
 import { ChevronLeft, Right } from '../elements/Icons';
 import Loader from '../elements/Loader/Loader';
@@ -71,19 +71,49 @@ class MultipleItems extends React.Component<Props> {
           <h5>
             <Trans>Featured collections</Trans>{' '}
           </h5>
-          <RightContext>
-            <span onClick={this.previous}>
-              <ChevronLeft
-                width={26}
-                height={26}
-                strokeWidth={1}
-                color={'inherit'}
-              />
-            </span>
-            <span onClick={this.next}>
-              <Right width={26} height={26} strokeWidth={1} color={'inherit'} />
-            </span>
-          </RightContext>
+          <LocaleContext.Consumer>
+            {value =>
+              value.locale != 'ar_SA' ? (
+                <RightContext>
+                  <span onClick={this.previous}>
+                    <ChevronLeft
+                      width={26}
+                      height={26}
+                      strokeWidth={1}
+                      color={'inherit'}
+                    />
+                  </span>
+                  <span onClick={this.next}>
+                    <Right
+                      width={26}
+                      height={26}
+                      strokeWidth={1}
+                      color={'inherit'}
+                    />
+                  </span>
+                </RightContext>
+              ) : (
+                <RightContext>
+                  <span onClick={this.next}>
+                    <Right
+                      width={26}
+                      height={26}
+                      strokeWidth={1}
+                      color={'inherit'}
+                    />
+                  </span>
+                  <span onClick={this.previous}>
+                    <ChevronLeft
+                      width={26}
+                      height={26}
+                      strokeWidth={1}
+                      color={'inherit'}
+                    />
+                  </span>
+                </RightContext>
+              )
+            }
+          </LocaleContext.Consumer>{' '}
         </Title>
         {!this.props.data || !this.props.data.data || this.props.data.error ? (
           <span>
@@ -109,9 +139,6 @@ class MultipleItems extends React.Component<Props> {
   }
 }
 
-const is_home =
-  GRAPHQL_ENDPOINT == 'https://home.moodle.net/api/graphql' ? true : false;
-
 const withGetInbox = graphql<
   {},
   {
@@ -119,15 +146,7 @@ const withGetInbox = graphql<
   }
 >(getFeaturedCollections, {
   options: {
-    variables: {
-      one: is_home ? 'cd514675-e822-4041-84e8-a5493e57d7d1' : null,
-      two: is_home ? '0e745426-995f-4755-80a0-59df867fd6ab' : null
-      // three: IS_DEV ? '5487' : '5571',
-      // four: IS_DEV ? '8092' : '5487',
-      // five: IS_DEV ? '690' : '4944',
-      // six: IS_DEV ? '3790' : '2374',
-      // seven: IS_DEV ? '4848' : '5571'
-    }
+    variables: {}
   }
 }) as OperationOption<{}, {}>;
 

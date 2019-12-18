@@ -1,5 +1,7 @@
 import { Trans } from '@lingui/macro';
 import React, { SFC, useState } from 'react';
+// import { i18nMark } from '@lingui/react';
+// import { i18n } from '../../containers/App/App';
 import { TabPanel, Tabs } from 'react-tabs';
 import { Box, Button, Flex } from 'rebass/styled-components';
 import CreateCollectionModal from '../../components/elements/CreateCollectionModal';
@@ -11,6 +13,11 @@ import { useCreateThreadMutationMutation } from '../../graphql/generated/createT
 import { GetCommunityQueryQuery } from '../../graphql/generated/getCommunity.generated';
 import styled from '../../themes/styled';
 
+// const tt = {
+//   placeholders: {
+//     thread: i18nMark('Start a new thread...')
+//   }
+// };
 interface Props {
   collections: any;
   followed: boolean;

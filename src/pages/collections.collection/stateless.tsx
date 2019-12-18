@@ -19,6 +19,7 @@ import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import Header from '../thread/header';
 import Empty from '../../components/elements/Empty';
 import { SessionContext } from '../../context/global/sessionCtx';
+import MoreOptions from '../../components/elements/MoreOptions';
 
 export interface Props {
   collectionQuery: GetCollectionQueryHookResult;
@@ -66,6 +67,12 @@ const Component: React.FC<Props> = ({
                         }}
                       />
                       <HeroInfo>
+                        <MoreOptionsContainer>
+                          <MoreOptions
+                            contextId={collectionQuery.data!.collection!.id}
+                            myFlag={collectionQuery.data.collection.myFlag}
+                          />
+                        </MoreOptionsContainer>
                         <Title fontSize={5} fontWeight={'bold'}>
                           {collectionQuery.data.collection.name}
                         </Title>
@@ -169,6 +176,10 @@ const EditButton = styled.span`
     vertical-align: text-bottom;
     color: inherit !important;
   }
+  .--rtl & {
+    margin-right: 0px;
+    margin-left: 16px;
+  }
 `;
 
 const HeroInfo = styled.div`
@@ -191,6 +202,10 @@ const HeroInfo = styled.div`
     font-size: 15px;
     margin-top: 8px;
     color: ${props => props.theme.colors.darkgray};
+  }
+  .--rtl & {
+    margin-right: 16px;
+    margin-left: 0px;
   }
 `;
 const HeroCont = styled.div`
@@ -219,6 +234,11 @@ const Background = styled.div`
   background-color: ${props => props.theme.colors.lightgray};
   position: relative;
   margin: 0 auto;
+`;
+
+const MoreOptionsContainer = styled.div`
+  float: right;
+  position: relative;
 `;
 
 export default compose(

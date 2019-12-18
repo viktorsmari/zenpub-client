@@ -12,6 +12,7 @@ export const basicCreateCollectionMutation: CreateCollectionMutationMutation = {
       isLocal: true,
       isPublic: true,
       myFollow: { __typename: 'Follow', id: '' },
+      myFlag: { __typename: 'Flag', id: '' },
       canonicalUrl: '',
       icon: ''
     },
@@ -30,6 +31,7 @@ export const basicCreateCollectionMutation: CreateCollectionMutationMutation = {
       isLocal: true,
       myFollow: { __typename: 'Follow', id: '' },
       myLike: { __typename: 'Like', id: '' },
+      myFlag: { __typename: 'Flag', id: '' },
       preferredUsername: '',
       updatedAt: ''
     },
@@ -43,6 +45,7 @@ export const basicCreateCollectionMutation: CreateCollectionMutationMutation = {
     outbox: { __typename: 'ActivitiesEdges', totalCount: 0 },
     preferredUsername: '',
     myFollow: null,
+    myFlag: null,
     threads: { __typename: 'ThreadsEdges', totalCount: 0 },
     resources: {
       __typename: 'ResourcesEdges',

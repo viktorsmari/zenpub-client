@@ -8,6 +8,8 @@ import { withFormik, FormikProps, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import Alert from '../Alert';
 import { graphql, OperationOption } from 'react-apollo';
+import styled from '../../../themes/styled';
+
 const {
   updateResourceMutation
 } = require('../../../graphql/updateResource.graphql');
@@ -153,13 +155,9 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
             </ContainerForm>
           </Row>
           <Actions>
-            <Button
-              disabled={isSubmitting}
-              type="submit"
-              style={{ marginLeft: '10px' }}
-            >
+            <SubmitButton disabled={isSubmitting} type="submit">
               <Trans>Save</Trans>
-            </Button>
+            </SubmitButton>
             <Button onClick={toggleModal} secondary>
               <Trans>Cancel</Trans>
             </Button>
@@ -210,3 +208,11 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
 })(CreateCommunityModal);
 
 export default compose(withUpdateResource)(ModalWithFormik);
+
+const SubmitButton = styled(Button)`
+  margin-left: 10px;
+  .--rtl & {
+    margin-right: 10px;
+    margin-left: 0px;
+  }
+`;

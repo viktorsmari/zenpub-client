@@ -20,12 +20,18 @@ export type BasicCollectionFragment = (
   )>, myFollow: Types.Maybe<(
     { __typename?: 'Follow' }
     & Pick<Types.Follow, 'id'>
+  )>, myFlag: Types.Maybe<(
+    { __typename?: 'Flag' }
+    & Pick<Types.Flag, 'id'>
   )>, community: (
     { __typename?: 'Community' }
     & Pick<Types.Community, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'name' | 'icon'>
     & { myFollow: Types.Maybe<(
       { __typename?: 'Follow' }
       & Pick<Types.Follow, 'id'>
+    )>, myFlag: Types.Maybe<(
+      { __typename?: 'Flag' }
+      & Pick<Types.Flag, 'id'>
     )> }
   ), resources: (
     { __typename?: 'ResourcesEdges' }
@@ -62,6 +68,9 @@ export const BasicCollectionFragmentDoc = gql`
   myFollow {
     id
   }
+  myFlag {
+    id
+  }
   community {
     id
     canonicalUrl
@@ -70,6 +79,9 @@ export const BasicCollectionFragmentDoc = gql`
     name
     icon
     myFollow {
+      id
+    }
+    myFlag {
       id
     }
   }

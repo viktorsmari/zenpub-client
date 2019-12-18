@@ -36,8 +36,8 @@ export type GetFeaturedCommunitiesQuery = (
           & { creator: (
             { __typename?: 'User' }
             & BasicUserFragment
-          ), context: { __typename: 'Collection' } | (
-            { __typename: 'Community' }
+          ), context: { __typename?: 'Collection' } | (
+            { __typename?: 'Community' }
             & BasicCommunityFragment
           ) }
         ) }

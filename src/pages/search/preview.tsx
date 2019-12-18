@@ -133,6 +133,10 @@ const Img = styled.div`
   margin: 0 auto;
   background-position: center center;
   margin-right: 8px;
+  .--rtl & {
+    margin-right: 0px;
+    margin-left: 8px;
+  }
 //   ${media.lessThan('medium')`
 //     margin: 0 auto;
 //     margin-bottom: 8px;

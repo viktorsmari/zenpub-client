@@ -20,6 +20,7 @@ export const basicGetCollectionQuery: GetCollectionQuery = {
       isLocal: true,
       myFollow: { __typename: 'Follow', id: '' },
       myLike: { __typename: 'Like', id: '' },
+      myFlag: { __typename: 'Flag', id: '' },
       preferredUsername: '',
       updatedAt: ''
     },
@@ -30,6 +31,7 @@ export const basicGetCollectionQuery: GetCollectionQuery = {
     outbox: { __typename: 'ActivitiesEdges', totalCount: 0 },
     preferredUsername: '',
     myFollow: null,
+    myFlag: null,
     canonicalUrl: null,
     icon: null,
     community: {
@@ -39,6 +41,7 @@ export const basicGetCollectionQuery: GetCollectionQuery = {
       isLocal: true,
       isPublic: true,
       myFollow: { __typename: 'Follow', id: '' },
+      myFlag: { __typename: 'Flag', id: '' },
       canonicalUrl: '',
       icon: ''
     },

@@ -15,13 +15,13 @@ import {
   ContainerForm,
   Header
 } from '../Modal/modal';
-
 import { graphql, OperationOption } from 'react-apollo';
 import { UpdateCommunityMutationMutationVariables } from '../../../graphql/generated/updateCommunity.generated';
 import { Community } from '../../../graphql/types.generated';
 const {
   updateCommunityMutation
 } = require('../../../graphql/updateCommunity.graphql');
+import styled from '../../../themes/styled';
 
 interface Props {
   toggleModal?: any;
@@ -54,6 +54,8 @@ const withUpdateCommunity = graphql<{}>(updateCommunityMutation, {
 
 const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
   const { toggleModal, modalIsOpen, errors, touched, isSubmitting } = props;
+  // const localeCntx = React.useContext(LocaleContext);
+
   return (
     <Modal isOpen={modalIsOpen} toggleModal={toggleModal}>
       <Container>
@@ -126,10 +128,14 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
             </ContainerForm>
           </Row>
           <Actions>
-            <Button disabled={isSubmitting} type="submit" variant="primary">
+            <SubmitButton
+              disabled={isSubmitting}
+              type="submit"
+              variant="primary"
+            >
               <Trans>Save</Trans>
-            </Button>
-            <Button onClick={toggleModal} mr={2} variant="outline">
+            </SubmitButton>
+            <Button onClick={toggleModal} variant="outline">
               <Trans>Cancel</Trans>
             </Button>
           </Actions>
@@ -177,3 +183,11 @@ const ModalWithFormik = withFormik<
 })(CreateCommunityModal);
 
 export default compose(withUpdateCommunity)(ModalWithFormik);
+
+const SubmitButton = styled(Button)`
+  margin-left: 8px;
+  .--rtl & {
+    margin-right: 8px;
+    margin-left: 0px;
+  }
+`;

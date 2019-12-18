@@ -14,7 +14,7 @@ const WrapperMenu = styled.div`
   border-radius: 0.25em;
   background-color: rgb(232, 232, 232);
   position: absolute;
-  top: 110px;
+  // top: 110px;
   left: 16px;
   z-index: 999999999999;
   ${media.lessThan('860px')`
@@ -38,6 +38,10 @@ const Item = styled(Text)`
   & span {
     display: inline-block;
     margin-right: 8px;
+    .--rtl & {
+      margin-right: 0px;
+      margin-left: 8px;
+    }
     & svg {
       vertical-align: sub;
     }
