@@ -310,10 +310,17 @@ const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
     },
     [like, undoLike]
   );
+  /*   const navigateTo = 
+  context.__typename === 'Collection' ? 'collections' :
+  context.__typename === 'Comment' ? 'thread' :
+  context.__typename === 'Community' ? 'communities' :
+  null
+ */
+
   return (
     <FeedItem>
       {/* {context.__typename} */}
-      <NavigateToThread to={`/thread/${context.id}`} />
+      {/* navigateTo && <NavigateToThread to={`/${navigateTo}/${context.id}`} /> */}
       {context.__typename === 'Collection' ? (
         <CollectionItem
           user={user}
@@ -359,14 +366,14 @@ const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
   );
 };
 
-const NavigateToThread = styled(Link)`
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 1;
-`;
+// const NavigateToThread = styled(Link)`
+//   position: absolute;
+//   left: 0;
+//   right: 0;
+//   top: 0;
+//   bottom: 0;
+//   z-index: 1;
+// `;
 
 const InReply = styled(Box)`
   color: ${props => props.theme.colors.gray};
