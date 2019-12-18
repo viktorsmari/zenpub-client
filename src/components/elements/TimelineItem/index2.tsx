@@ -349,9 +349,12 @@ const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
           community={context}
           noAction
         /> // qui il context è risolto come Community
-      ) : (
-        <div>Unknown should never happen</div>
-      )}
+      ) : null
+      /* 
+        implement other activity types
+        <div>Unknown should never happen {context.__typename}</div> 
+        */
+      }
     </FeedItem>
   );
 };
