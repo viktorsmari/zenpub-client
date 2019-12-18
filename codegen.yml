@@ -3,6 +3,9 @@ schema: ${REACT_APP_GRAPHQL_ENDPOINT}
 #schema: https://team.moodle.net/api/graphql
 # documents: src/graphql/main/home.next.moodle.net_schema.graphql
 documents: src/graphql/**/!(*.client).graphql
+require: 
+  - dotenv/config
+  
 generates:
   src/graphql/schema.generated.json:
     plugins:
