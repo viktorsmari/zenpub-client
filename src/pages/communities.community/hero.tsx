@@ -17,7 +17,6 @@ interface Props {
 const HeroComp: SFC<Props> = ({ community, showUsers, editCommunity }) => {
   const { me } = React.useContext(SessionContext);
   const isMine = !!me && !!community && me.user.id === community.creator.id;
-
   return (
     community && (
       <Box p={1} mb={2}>

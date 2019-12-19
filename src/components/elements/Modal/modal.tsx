@@ -155,13 +155,23 @@ interface Props {
   isOpen: boolean;
   toggleModal: any;
   collectionId: string;
+  position?: string;
 }
 
-const Modal: React.FC<Props> = ({ isOpen, toggleModal, children }) => {
+const Modal: React.FC<Props> = ({
+  isOpen,
+  toggleModal,
+  position,
+  children
+}) => {
   return isOpen ? (
     <div>
       <Background onClick={toggleModal} />
-      <Dialog>
+      <Dialog
+        style={
+          position == 'abs' ? { position: 'absolute' } : { position: 'fixed' }
+        }
+      >
         <Action>
           <Close onClick={toggleModal}>
             <Cross width={20} height={20} strokeWidth={2} color="#333" />

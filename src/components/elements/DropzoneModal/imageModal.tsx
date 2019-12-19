@@ -12,6 +12,7 @@ import { Heading, Button } from 'rebass/styled-components';
 import { Actions, Container, Header } from '../Modal/modal';
 import { useUploadImageMutation } from '../../../graphql/generated/uploadImage.generated';
 import { useUploadIconMutation } from '../../../graphql/generated/uploadIcon.generated';
+import { useFormikContext } from 'formik';
 
 interface Props {
   isSubmitting?: boolean;
@@ -34,6 +35,7 @@ const ImageDropzoneModal: React.FC<Props> = ({
   toggleModal,
   modalIsOpen
 }) => {
+  const { setFieldValue, setFieldTouched } = useFormikContext();
   const [files, setFiles] = useState([] as any);
   const [mutateIcon] = useUploadIconMutation();
   const [mutateImage] = useUploadImageMutation();
@@ -72,10 +74,14 @@ const ImageDropzoneModal: React.FC<Props> = ({
     if (uploadType == 'icon') {
       return mutateIcon({ variables }).then(res => {
         onIcon(res.data!.uploadIcon!.url);
+        setFieldValue('icon', res.data!.uploadIcon!.url);
+        setFieldTouched('icon', true);
       });
     } else {
       return mutateImage({ variables }).then(res => {
         onImage(res.data!.uploadImage!.url);
+        setFieldValue('image', res.data!.uploadImage!.url);
+        setFieldTouched('image', true);
       });
     }
   };

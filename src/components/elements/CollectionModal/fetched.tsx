@@ -15,7 +15,6 @@ import { Button } from 'rebass/styled-components';
 import { Actions, ContainerForm, CounterChars, Row } from '../Modal/modal';
 import ResourceCard from '../Resource/Resource';
 import { CreateResourceMutationMutationVariables } from '../../../graphql/generated/createResource.generated';
-// import Thumb from "../DropzoneModal/thumb";
 import { LocaleContext } from '../../../context/global/localizationCtx';
 
 const {
