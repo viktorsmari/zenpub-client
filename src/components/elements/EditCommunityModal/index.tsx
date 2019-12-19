@@ -1,193 +1,231 @@
-import * as React from 'react';
-import Modal from '../Modal';
+'use strict';
 import { Trans } from '@lingui/macro';
-import { Heading, Button } from 'rebass/styled-components';
+import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
-import { compose } from 'recompose';
-import { withFormik, FormikProps, Form, Field } from 'formik';
+import { Field, Form, Formik, FormikConfig } from 'formik';
+import React from 'react';
+import { Heading } from 'rebass/styled-components';
 import * as Yup from 'yup';
 import Alert from '../Alert';
-import {
-  Row,
-  Container,
-  Actions,
-  CounterChars,
-  ContainerForm,
-  Header
-} from '../Modal/modal';
-import { graphql, OperationOption } from 'react-apollo';
-import { UpdateCommunityMutationMutationVariables } from '../../../graphql/generated/updateCommunity.generated';
-import { Community } from '../../../graphql/types.generated';
-const {
-  updateCommunityMutation
-} = require('../../../graphql/updateCommunity.graphql');
+import { Button } from 'rebass/styled-components';
+import Modal from '../Modal';
+import DropzoneArea from '../DropzoneModal';
+import { useUploadIconMutation } from '../../../graphql/generated/uploadIcon.generated';
 import styled from '../../../themes/styled';
 
+import {
+  Actions,
+  Container,
+  ContainerForm,
+  CounterChars,
+  Header,
+  Row
+} from '../Modal/modal';
+import {
+  useUpdateCommunityMutationMutation,
+  UpdateCommunityMutationMutationVariables
+} from '../../../graphql/generated/updateCommunity.generated';
+
+const ModalWithUpload = styled(Modal)`
+  position: absolute;
+`;
+
+const tt = {
+  placeholders: {
+    name: i18nMark('Choose a name for the community'),
+    summary: i18nMark(
+      'Please describe who might be interested in this community and what kind of collections it is likely to contain...'
+    ),
+    image: i18nMark('Enter the URL of an image to represent the community')
+  }
+};
+
 interface Props {
-  toggleModal?: any;
+  toggleModal?: () => unknown;
   modalIsOpen?: boolean;
-  collectionId?: string;
-  collectionExternalId?: string;
-  errors: any;
-  touched: any;
-  isSubmitting: boolean;
+  communityId: string;
+  community: any;
+  communityUpdated: any;
 }
 
 interface FormValues {
   name: string;
   summary: string;
+  icon: string;
   image: string;
+  files: [];
+  // content: string;
+  // preferredUsername: string;
 }
 
-interface MyFormProps {
-  communityId: string;
-  collectionExternalId: string;
-  updateCommunity: any;
-  toggleModal: any;
-  community: Community;
-}
+const EditCommunityModal = (props: Props /*  & FormikProps<FormValues> */) => {
+  const {
+    toggleModal,
+    modalIsOpen,
+    communityId,
+    community,
+    communityUpdated
+  } = props;
 
-const withUpdateCommunity = graphql<{}>(updateCommunityMutation, {
-  name: 'updateCommunity'
-  // TODO enforce proper types for OperationOption
-} as OperationOption<{}, {}>);
+  const [update /* , response */] = useUpdateCommunityMutationMutation({});
+  const [mutateIcon] = useUploadIconMutation();
 
-const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
-  const { toggleModal, modalIsOpen, errors, touched, isSubmitting } = props;
-  // const localeCntx = React.useContext(LocaleContext);
+  const initialValues = React.useMemo<FormValues>(
+    () => ({
+      name: community.name || '',
+      summary: community.summary || '',
+      image: community.icon || '',
+      icon: community.icon || '',
+      files: []
+      // content: '',
+      // preferredUsername: ''
+    }),
+    []
+  );
 
+  const submit = React.useCallback<FormikConfig<FormValues>['onSubmit']>(
+    (values, { setSubmitting }) => {
+      const variables: UpdateCommunityMutationMutationVariables = {
+        communityId: communityId,
+        community: {
+          name: values.name,
+          summary: values.summary
+          // ,
+          // image: res.data!.uploadIcon!.url,
+          // icon: res.data!.uploadIcon!.url
+        }
+      };
+      update({
+        variables: variables
+      })
+        .then(res => {
+          setSubmitting(false);
+          const fileToUpload = values.files.map(file => {
+            return file;
+          });
+          if (fileToUpload[0]) {
+            mutateIcon({
+              variables: { contextId: communityId, upload: fileToUpload[0] }
+            }).then(res => {
+              toggleModal && toggleModal();
+              communityUpdated();
+            });
+          } else {
+            toggleModal && toggleModal();
+            communityUpdated();
+          }
+          // .catch(err => console.log(err));
+        })
+        .catch(err => console.log(err));
+    },
+    [toggleModal, communityUpdated]
+  );
   return (
-    <Modal isOpen={modalIsOpen} toggleModal={toggleModal}>
+    <ModalWithUpload
+      isOpen={modalIsOpen}
+      toggleModal={toggleModal}
+      position="abs"
+    >
       <Container>
         <Header>
           <Heading m={2}>
             <Trans>Edit the community details</Trans>
           </Heading>
         </Header>
-        <Form>
-          <Row>
-            <label>
-              <Trans>Name</Trans>
-            </label>
-            <ContainerForm>
-              <Field
-                name="name"
-                render={({ field }) => (
-                  <>
-                    <Input
-                      // placeholder="The name of the community..."
-                      name={field.name}
-                      value={field.value}
-                      onChange={field.onChange}
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={submit}
+          render={({
+            values,
+            errors,
+            touched,
+            isSubmitting,
+            setFieldValue
+          }) => {
+            return (
+              <Form>
+                <Row>
+                  <label>Name</label>
+                  <ContainerForm>
+                    <Field
+                      name="name"
+                      render={({ field }) => (
+                        <>
+                          <Input
+                            placeholder={tt.placeholders.name}
+                            name={field.name}
+                            value={field.value}
+                            onChange={field.onChange}
+                          />
+                          <CounterChars>{60 - field.value.length}</CounterChars>
+                        </>
+                      )}
                     />
-                    <CounterChars>{60 - field.value.length}</CounterChars>
-                  </>
-                )}
-              />
-              {errors.name && touched.name && <Alert>{errors.name}</Alert>}
-            </ContainerForm>
-          </Row>
-          <Row big>
-            <label>
-              <Trans>Description</Trans>
-            </label>
-            <ContainerForm>
-              <Field
-                name="summary"
-                render={({ field }) => (
-                  <>
-                    <Textarea
-                      // placeholder="What the community is about..."
-                      name={field.name}
-                      value={field.value}
-                      onChange={field.onChange}
+                    {errors.name &&
+                      touched.name && <Alert>{errors.name}</Alert>}
+                  </ContainerForm>
+                </Row>
+                <Row big>
+                  <label>
+                    <Trans>Description</Trans>
+                  </label>
+                  <ContainerForm>
+                    <Field
+                      name="summary"
+                      render={({ field }) => (
+                        <>
+                          <Textarea
+                            placeholder={tt.placeholders.summary}
+                            name={field.name}
+                            value={field.value}
+                            onChange={field.onChange}
+                          />
+                          <CounterChars>
+                            {500 - field.value.length}
+                          </CounterChars>
+                        </>
+                      )}
                     />
-                    <CounterChars>{500 - field.value.length}</CounterChars>
-                  </>
-                )}
-              />
-            </ContainerForm>
-          </Row>
-          <Row>
-            <label>
-              <Trans>Image</Trans>
-            </label>
-            <ContainerForm>
-              <Field
-                name="image"
-                render={({ field }) => (
-                  <Input
-                    // placeholder="Type a url of a background image..."
-                    name={field.name}
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
-                )}
-              />
-              {errors.image && touched.image && <Alert>{errors.image}</Alert>}
-            </ContainerForm>
-          </Row>
-          <Actions>
-            <SubmitButton
-              disabled={isSubmitting}
-              type="submit"
-              variant="primary"
-            >
-              <Trans>Save</Trans>
-            </SubmitButton>
-            <Button onClick={toggleModal} variant="outline">
-              <Trans>Cancel</Trans>
-            </Button>
-          </Actions>
-        </Form>
+                  </ContainerForm>
+                </Row>
+                <Row>
+                  <label>
+                    <Trans>Image</Trans>
+                  </label>
+                  <ContainerForm>
+                    <DropzoneArea imageUrl={initialValues.icon} />
+                    {/* {errors.image &&
+                      touched.image && <Alert>{errors.image}</Alert>} */}
+                  </ContainerForm>
+                </Row>
+                <Actions>
+                  <Button
+                    disabled={isSubmitting}
+                    type="submit"
+                    style={{ marginLeft: '10px' }}
+                  >
+                    <Trans>Save</Trans>
+                  </Button>
+                  <Button variant="outline" onClick={toggleModal}>
+                    <Trans>Cancel</Trans>
+                  </Button>
+                </Actions>
+              </Form>
+            );
+          }}
+        />
       </Container>
-    </Modal>
+    </ModalWithUpload>
   );
 };
 
-const ModalWithFormik = withFormik<
-  MyFormProps & { communityUpdated(): unknown },
-  FormValues
->({
-  mapPropsToValues: props => ({
-    name: props.community.name || '',
-    summary: props.community.summary || '',
-    image: props.community.icon || ''
-  }),
-  validationSchema: Yup.object().shape({
-    name: Yup.string().required(),
-    summary: Yup.string(),
-    image: Yup.string().url()
-  }),
-  handleSubmit: (values, { props, setSubmitting }) => {
-    const variables: UpdateCommunityMutationMutationVariables = {
-      communityId: props.communityId,
-      community: {
-        name: values.name,
-        summary: values.summary,
-        image: values.image,
-        icon: values.image
-      }
-    };
-    return props
-      .updateCommunity({
-        variables: variables
-      })
-      .then(res => {
-        setSubmitting(false);
-        props.toggleModal();
-        props.communityUpdated();
-      })
-      .catch(err => console.log(err));
-  }
-})(CreateCommunityModal);
+const validationSchema = Yup.object().shape({
+  name: Yup.string()
+    .max(60)
+    .required(),
+  summary: Yup.string().max(500)
+  // image: Yup.string().url()
+});
 
-export default compose(withUpdateCommunity)(ModalWithFormik);
-
-const SubmitButton = styled(Button)`
-  margin-left: 8px;
-  .--rtl & {
-    margin-right: 8px;
-    margin-left: 0px;
-  }
-`;
+export default EditCommunityModal;
