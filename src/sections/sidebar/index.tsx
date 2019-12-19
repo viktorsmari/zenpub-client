@@ -2,7 +2,7 @@ import { Trans } from '@lingui/macro';
 import { ellipsis } from 'polished';
 import * as React from 'react';
 import { Globe, MoreHorizontal } from 'react-feather';
-import { SearchBox } from 'react-instantsearch-dom';
+// import { SearchBox } from 'react-instantsearch-dom';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass/styled-components';
@@ -178,11 +178,19 @@ const Right = styled(Box)`
   `};
 `;
 
-const Sbox = styled(Box)`
-  ${media.lessThan('1280px')`
-    display: none;
-  `};
+const ItemTitleDir = styled(ItemTitle)`
+  margin-left: 8px;
+  .--rtl & {
+    margin-right: 8px;
+    margin-left: 0px;
+  }
 `;
+
+// const Sbox = styled(Box)`
+//   ${media.lessThan('1280px')`
+//     display: none;
+//   `};
+// `;
 
 // const HeaderProfile = styled(Flex)``
 
@@ -219,9 +227,9 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
             ) : !data.me ? null : (
               <>
                 <Header alignItems={'center'}>
-                  <Sbox ml={2} mb={3}>
+                  {/* <Sbox ml={2} mb={3}>
                     <SearchBox />
-                  </Sbox>
+                  </Sbox> */}
                   <NavItem alignItems="center" onClick={openMenu}>
                     <Avatar
                       initials={data.me.user.name!.substring(0, 2)}
@@ -251,17 +259,17 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
                   <SidebarLink exact to={'/discover'}>
                     <NavItem mb={3} alignItems={'center'}>
                       <Globe size={40} />
-                      <ItemTitle ml={2} variant="link">
+                      <ItemTitleDir variant="link">
                         <Trans>Discover</Trans>
-                      </ItemTitle>
+                      </ItemTitleDir>
                     </NavItem>
                   </SidebarLink>
                   <SidebarLink exact to={'/'}>
                     <NavItem mb={3} alignItems={'center'}>
                       <Avatar src={MnetLogo} />
-                      <ItemTitle ml={2} variant="link">
+                      <ItemTitleDir variant="link">
                         <Trans>My MoodleNet</Trans>
-                      </ItemTitle>
+                      </ItemTitleDir>
                     </NavItem>
                   </SidebarLink>
                 </Nav>
@@ -283,9 +291,9 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
                               initials={community.name.substr(0, 2)}
                               src={community.icon!}
                             />
-                            <ItemTitle ml={2} variant="link">
+                            <ItemTitleDir variant="link">
                               {community.name}
-                            </ItemTitle>
+                            </ItemTitleDir>
                           </NavItem>
                         </CommunityLink>
                       );

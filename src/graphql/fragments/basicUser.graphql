@@ -15,4 +15,5 @@ fragment BasicUser on User {
     lastActivity
     myFollow { id }
     myLike   { id }
+    myFlag { id }
 }

@@ -19,6 +19,7 @@ import Alert from '../Alert';
 import { graphql, OperationOption } from 'react-apollo';
 import { UpdateCollectionMutationMutationVariables } from '../../../graphql/generated/updateCollection.generated';
 import { Collection } from '../../../graphql/types.generated';
+import styled from '../../../themes/styled';
 const {
   updateCollectionMutation
 } = require('../../../graphql/updateCollection.graphql');
@@ -130,9 +131,9 @@ const CreateCommunityModal = (
             </ContainerForm>
           </Row>
           <Actions>
-            <Button disabled={isSubmitting} type="submit" ml={2}>
+            <SubmitButton disabled={isSubmitting} type="submit">
               <Trans>Save</Trans>
-            </Button>
+            </SubmitButton>
             <Button variant="outline" onClick={toggleModal}>
               <Trans>Cancel</Trans>
             </Button>
@@ -180,3 +181,11 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
 })(CreateCommunityModal);
 
 export default compose(withUpdateCollection)(ModalWithFormik);
+
+const SubmitButton = styled(Button)`
+  margin-left: 8px;
+  .--rtl & {
+    margin-right: 8px;
+    margin-left: 0px;
+  }
+`;

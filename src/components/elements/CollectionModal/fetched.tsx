@@ -15,6 +15,7 @@ import { Button } from 'rebass/styled-components';
 import { Actions, ContainerForm, CounterChars, Row } from '../Modal/modal';
 import ResourceCard from '../Resource/Resource';
 import { CreateResourceMutationMutationVariables } from '../../../graphql/generated/createResource.generated';
+// import Thumb from "../DropzoneModal/thumb";
 import { LocaleContext } from '../../../context/global/localizationCtx';
 
 const {
@@ -47,6 +48,7 @@ interface FormValues {
   summary: string;
   image: string;
   url: string;
+  // file: File;
 }
 
 interface MyFormProps {
@@ -69,9 +71,31 @@ const tt = {
       'Please type or copy/paste a summary about the resource...'
     ),
     submit: i18nMark('Add'),
-    image: i18nMark('Enter the URL of an image to represent the resource')
+    image: i18nMark('Enter the URL of an image to represent the resource'),
+    noFilesSelected: i18nMark('No files selected')
   }
 };
+
+const Preview = styled.div`
+  padding: 8px;
+  padding-bottom: 1px;
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+`;
+
+const SearchInput = styled(Input)`
+  height: 40px;
+  background: white;
+  border-radius: 2px;
+  border: 1px solid ${props => props.theme.colors.lightgray};
+`;
+
+const SubmitButton = styled(Button)`
+  margin-left: 8px;
+  .--rtl & {
+    margin-right: 8px;
+    margin-left: 0px;
+  }
+`;
 
 const Fetched = (props: Props & FormikProps<FormValues>) => {
   const { i18n } = React.useContext(LocaleContext);
@@ -172,16 +196,15 @@ const Fetched = (props: Props & FormikProps<FormValues>) => {
           </ContainerForm>
         </Row>
         <Actions>
-          <Button
+          <SubmitButton
             loading={props.isSubmitting}
             disabled={props.isSubmitting}
             text={i18n._(tt.placeholders.submit)}
-            ml={2}
             onClick={props.handleSubmit}
             variant="primary"
           >
             <Trans>Publish</Trans>
-          </Button>
+          </SubmitButton>
           <Button
             onClick={e => {
               e.preventDefault();
@@ -277,16 +300,3 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
 })(Fetched);
 
 export default compose(withCreateResource)(ModalWithFormik);
-
-const Preview = styled.div`
-  padding: 8px;
-  padding-bottom: 1px;
-  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
-`;
-
-const SearchInput = styled(Input)`
-  height: 40px;
-  background: white;
-  border-radius: 2px;
-  border: 1px solid ${props => props.theme.colors.lightgray};
-`;

@@ -19,6 +19,8 @@ import media from 'styled-media-query';
 import styled from '../../../themes/styled';
 import { Button, Heading, Text } from 'rebass/styled-components';
 import EditResourceModal from '../EditResourceModal';
+import MoreOptions from '../MoreOptions';
+
 const PlaceholderImg = require('../Icons/resourcePlaceholder.png');
 
 interface Props {
@@ -32,11 +34,15 @@ interface Props {
   preview?: boolean;
   isEditable?: boolean;
   coreIntegrationURL?: string;
+  myFlag: string | null;
 }
 
 const Resource: React.FC<Props> = props => {
   return (
     <Wrapper>
+      <MoreOptionsContainer>
+        <MoreOptions contextId={props.id} myFlag={props.myFlag} />
+      </MoreOptionsContainer>{' '}
       <UrlLink target="blank" href={props.url}>
         <Img
           style={{ backgroundImage: `url(${props.icon || PlaceholderImg})` }}
@@ -61,17 +67,19 @@ const Resource: React.FC<Props> = props => {
               </Actions>
             )}
           </TitleWrapper>
-          <Url>{props.url}</Url>
-          <Summary>
-            {(props.summary || '').split('\n').map(function(item, key) {
-              return (
-                <span key={key}>
-                  {item}
-                  <br />
-                </span>
-              );
-            })}
-          </Summary>
+          {props.url && <Url>{props.url}</Url>}
+          {props.summary && (
+            <Summary>
+              {props.summary.split('\n').map(function(item, key) {
+                return (
+                  <span key={key}>
+                    {item}
+                    <br />
+                  </span>
+                );
+              })}
+            </Summary>
+          )}
         </Info>
       </UrlLink>
       <EditResourceModal
@@ -111,6 +119,10 @@ const Info = styled.div`
   & a {
     text-decoration: none;
     color: inherit;
+  }
+  .--rtl & {
+    margin-left: 0px;
+    margin-right: 8px;
   }
 `;
 const Url = styled.div`
@@ -159,6 +171,9 @@ const Img = styled.div`
   margin: 0 auto;
   background-position: center center;
   margin-right: 20px;
+  .--rtl & {
+    margin-left: 20px;
+  }
   ${media.lessThan('medium')`
     margin: 0 auto;
     margin-bottom: 8px;
@@ -198,6 +213,13 @@ const Actions = styled.div`
       color: inherit !important;
     }
   }
+`;
+
+const MoreOptionsContainer = styled.div`
+  margin-left: 16px;
+  position: absolute;
+  right: 20px;
+  z-index: 20;
 `;
 
 export default compose(

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from '../../../themes/styled';
 import { Text, Box, Flex } from 'rebass/styled-components';
 import { Layers, Users } from 'react-feather';
+
 const PlaceholderImg = require('../Icons/communityPlaceholder.png');
 
 interface Props {
@@ -53,18 +54,18 @@ const Community: React.FC<Props> = ({
           : summary}
       </Text>
       <Flex my={2} color={'rgba(0,0,0,.4)'}>
-        <Flex mr={4} alignSelf="center" alignItems="center">
-          <Flex mr={2}>
+        <FlexDir alignSelf="center" alignItems="center">
+          <FlexInnerDir>
             <Users width={18} height={18} strokeWidth={2} />
-          </Flex>
+          </FlexInnerDir>
           <Text>{followersCount || 0}</Text>
-        </Flex>
-        <Flex mr={4} alignSelf="center" alignItems="center">
-          <Flex mr={2}>
+        </FlexDir>
+        <FlexDir alignSelf="center" alignItems="center">
+          <FlexInnerDir>
             <Layers width={18} height={18} strokeWidth={2} />
-          </Flex>
+          </FlexInnerDir>
           <Text>{collectionsCount || 0}</Text>
-        </Flex>
+        </FlexDir>
       </Flex>
     </Link>
   </Wrapper>
@@ -108,4 +109,20 @@ const Img = styled.div`
   background-repeat: no-repeat;
   margin-bottom: 8px;
   position: relative;
+`;
+
+const FlexDir = styled(Flex)`
+  margin-right: 16px;
+  .--rtl & {
+    margin-left: 16px;
+    margin-right: 0px;
+  }
+`;
+
+const FlexInnerDir = styled(Flex)`
+  margin-right: 8px;
+  .--rtl & {
+    margin-left: 8px;
+    margin-right: 0px;
+  }
 `;

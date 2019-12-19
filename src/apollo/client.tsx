@@ -10,7 +10,7 @@ import { ApolloClient } from 'apollo-client';
 import { ApolloLink } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
-import { createHttpLink } from 'apollo-link-http';
+// import { createHttpLink } from 'apollo-link-http';
 import apolloLogger from 'apollo-link-logger';
 import { Socket as PhoenixSocket } from 'phoenix';
 import {
@@ -28,6 +28,7 @@ import {
   getOperationNameAndType
 } from '../util/apollo/operation';
 import { RootMutationType, RootQueryType } from '../graphql/types.generated';
+import { createUploadLink } from './uploadLink.js';
 import { KVStore } from '../util/keyvaluestore/types';
 import { LogoutMutationMutationOperation } from '../graphql/generated/logout.generated';
 const introspectionQueryResultData = require('../fragmentTypes.json');
@@ -174,7 +175,7 @@ export default async function initialise({ localKVStore, appLink }: Cfg) {
       clientAwarenessHeadersLinkForNonApollo3Server,
       setTokenLink,
       appLink,
-      createHttpLink({ uri: GRAPHQL_ENDPOINT })
+      createUploadLink({ uri: GRAPHQL_ENDPOINT!! })
     ].filter(Boolean)
   );
 

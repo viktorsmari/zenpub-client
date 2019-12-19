@@ -37,7 +37,7 @@ import {
 import Sidebar from '../../sections/sidebar/sidebarHOC';
 import SidebarNoLoggedWrapper from '../../sections/sidebar/sidebar_not_logged';
 import styled from '../../themes/styled';
-import MobileHeader from './mobileHeader';
+// import MobileHeader from './mobileHeader';
 
 const Main = styled(Flex)`
   height: 100%;
@@ -91,14 +91,14 @@ const Content = connectStateResults(({ searchState, onOpen }) => {
 
   return searchState && searchState.query ? (
     <>
-      <MobileHeader onOpen={onOpen} />
+      {/* <MobileHeader onOpen={onOpen} /> */}
       <Switch>
         <Route path="/search" component={SearchComp} />
       </Switch>
     </>
   ) : (
     <>
-      <MobileHeader onOpen={onOpen} />
+      {/* <MobileHeader onOpen={onOpen} /> */}
       <Switch>
         <Route exact path="/" component={me ? Home : Login} />
         <Route exact path="/profile" component={me ? Profile : Login} />

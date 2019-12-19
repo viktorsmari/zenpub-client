@@ -192,6 +192,10 @@ const Span = styled.button`
   &:hover {
     background: ${props => props.theme.colors.orange};
   }
+  .--rtl & {
+    left: 2px;
+    right: auto;
+  }
 `;
 
 const ContainerForm = styled.div`

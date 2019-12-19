@@ -5,7 +5,9 @@ import { Trans } from '@lingui/macro';
 
 import media from 'styled-media-query';
 import { ellipsis } from 'polished';
-import { ChevronRight } from 'react-feather';
+import { ChevronRight, ChevronLeft } from 'react-feather';
+import { LocaleContext } from '../../context/global/localizationCtx';
+
 const SidebarComponent = styled(Flex)`
   flex-grow: 1;
   z-index: 3;
@@ -64,6 +66,11 @@ const ItemTitle = styled(Text)`
 //   ${media.lessThan('1280px')`
 //   display: none;
 // `};
+  margin-left: 8px;
+  .--rtl & {
+    margin-right: 8px;
+    margin-left: 0px;
+  }
 `;
 
 const Header = styled(Flex)`
@@ -85,39 +92,53 @@ const Sidebar = props => {
         <SidebarFixed>
           <SidebarOverflow>
             <Header alignItems={'center'}>
-              <Title>Settings</Title>
+              <Title>
+                <Trans>Settings</Trans>
+              </Title>
             </Header>
-            <Nav mt={3}>
-              <NavItem
-                style={
-                  props.switch === 'general'
-                    ? { background: 'rgba(0,0,0,.1)' }
-                    : { position: 'static' }
-                }
-                onClick={() => props.onSwitch('general')}
-                alignItems={'center'}
-              >
-                <ItemTitle ml={2} fontSize={2} fontWeight={600} width={1}>
-                  <Trans>General Information</Trans>
-                </ItemTitle>
-                <ChevronRight size={24} />
-              </NavItem>
-              <NavItem
-                style={
-                  props.switch === 'preferences'
-                    ? { background: 'rgba(0,0,0,.1)' }
-                    : { position: 'static' }
-                }
-                onClick={() => props.onSwitch('preferences')}
-                mb={3}
-                alignItems={'center'}
-              >
-                <ItemTitle ml={2} fontSize={2} fontWeight={600} width={1}>
-                  <Trans>Preferences</Trans>
-                </ItemTitle>
-                <ChevronRight size={24} />
-              </NavItem>
-            </Nav>
+            <LocaleContext.Consumer>
+              {value => (
+                <Nav mt={3}>
+                  <NavItem
+                    style={
+                      props.switch === 'general'
+                        ? { background: 'rgba(0,0,0,.1)' }
+                        : { position: 'static' }
+                    }
+                    onClick={() => props.onSwitch('general')}
+                    alignItems={'center'}
+                  >
+                    <ItemTitle ml={2} fontSize={2} fontWeight={600} width={1}>
+                      <Trans>General Information</Trans>
+                    </ItemTitle>
+                    {value.locale != 'ar_SA' ? (
+                      <ChevronRight size={24} />
+                    ) : (
+                      <ChevronLeft size={24} />
+                    )}
+                  </NavItem>
+                  <NavItem
+                    style={
+                      props.switch === 'preferences'
+                        ? { background: 'rgba(0,0,0,.1)' }
+                        : { position: 'static' }
+                    }
+                    onClick={() => props.onSwitch('preferences')}
+                    mb={3}
+                    alignItems={'center'}
+                  >
+                    <ItemTitle ml={2} fontSize={2} fontWeight={600} width={1}>
+                      <Trans>Preferences</Trans>
+                    </ItemTitle>
+                    {value.locale != 'ar_SA' ? (
+                      <ChevronRight size={24} />
+                    ) : (
+                      <ChevronLeft size={24} />
+                    )}
+                  </NavItem>
+                </Nav>
+              )}
+            </LocaleContext.Consumer>
           </SidebarOverflow>
         </SidebarFixed>
       </InternalWrapper>

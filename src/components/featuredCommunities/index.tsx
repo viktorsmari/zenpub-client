@@ -1,9 +1,10 @@
 import { Trans } from '@lingui/macro';
 import { useGetFeaturedCommunitiesQuery } from 'graphql/generated/getFeaturedCommunities.generated';
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import Slider, { Settings } from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
+import { LocaleContext } from '../../context/global/localizationCtx';
 import styled from '../../themes/styled';
 import CommunitySmall from '../elements/Community/CommunitySmall';
 import { ChevronLeft, Right } from '../elements/Icons';
@@ -47,30 +48,52 @@ export const RightContext = styled.div`
     }
   }
   float: right;
+
+  .--rtl & {
+    flex-direction: row-reverse;
+    float: left;
+  }
 `;
 
 const MultipleItems: React.FC = () => {
   const props = useGetFeaturedCommunitiesQuery();
   const sliderRef = useRef<Slider>();
+  const { RTL } = useContext(LocaleContext);
   return (
     <>
       <Title>
         <h5>
           <Trans>Featured communities</Trans>{' '}
         </h5>
-        <RightContext>
-          <span onClick={sliderRef.current && sliderRef.current.slickPrev}>
-            <ChevronLeft
-              width={26}
-              height={26}
-              strokeWidth={1}
-              color={'#333'}
-            />
-          </span>
-          <span onClick={sliderRef.current && sliderRef.current.slickNext}>
-            <Right width={26} height={26} strokeWidth={1} color={'#333'} />
-          </span>
-        </RightContext>
+        {RTL ? (
+          <RightContext>
+            <span onClick={sliderRef.current && sliderRef.current.slickNext}>
+              <Right width={26} height={26} strokeWidth={1} color={'#333'} />
+            </span>
+            <span onClick={sliderRef.current && sliderRef.current.slickPrev}>
+              <ChevronLeft
+                width={26}
+                height={26}
+                strokeWidth={1}
+                color={'#333'}
+              />
+            </span>
+          </RightContext>
+        ) : (
+          <RightContext>
+            <span onClick={sliderRef.current && sliderRef.current.slickPrev}>
+              <ChevronLeft
+                width={26}
+                height={26}
+                strokeWidth={1}
+                color={'#333'}
+              />
+            </span>
+            <span onClick={sliderRef.current && sliderRef.current.slickNext}>
+              <Right width={26} height={26} strokeWidth={1} color={'#333'} />
+            </span>
+          </RightContext>
+        )}
       </Title>
       {!props.data || !props.data.instance || props.error ? (
         <span>

@@ -1,9 +1,10 @@
 import { Trans } from '@lingui/macro';
 import { useGetFeaturedCollectionsQuery } from 'graphql/generated/getFeaturedCollections.generated';
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
+import { LocaleContext } from '../../context/global/localizationCtx';
 import CollectionSmall from '../elements/Collection/CollectionSmall';
 import { ChevronLeft, Right } from '../elements/Icons';
 import Loader from '../elements/Loader/Loader';
@@ -12,26 +13,42 @@ import { RightContext, Title } from '../featuredCommunities';
 const MultipleItems: React.FC = () => {
   const props = useGetFeaturedCollectionsQuery();
   const sliderRef = useRef<Slider>();
-
+  const { RTL } = useContext(LocaleContext);
   return (
     <>
       <Title>
         <h5>
           <Trans>Featured collections</Trans>{' '}
         </h5>
-        <RightContext>
-          <span onClick={sliderRef.current && sliderRef.current.slickPrev}>
-            <ChevronLeft
-              width={26}
-              height={26}
-              strokeWidth={1}
-              color={'inherit'}
-            />
-          </span>
-          <span onClick={sliderRef.current && sliderRef.current.slickNext}>
-            <Right width={26} height={26} strokeWidth={1} color={'inherit'} />
-          </span>
-        </RightContext>
+        {RTL ? (
+          <RightContext>
+            <span onClick={sliderRef.current && sliderRef.current.slickNext}>
+              <Right width={26} height={26} strokeWidth={1} color={'inherit'} />
+            </span>
+            <span onClick={sliderRef.current && sliderRef.current.slickPrev}>
+              <ChevronLeft
+                width={26}
+                height={26}
+                strokeWidth={1}
+                color={'inherit'}
+              />
+            </span>
+          </RightContext>
+        ) : (
+          <RightContext>
+            <span onClick={sliderRef.current && sliderRef.current.slickPrev}>
+              <ChevronLeft
+                width={26}
+                height={26}
+                strokeWidth={1}
+                color={'inherit'}
+              />
+            </span>
+            <span onClick={sliderRef.current && sliderRef.current.slickNext}>
+              <Right width={26} height={26} strokeWidth={1} color={'inherit'} />
+            </span>
+          </RightContext>
+        )}
       </Title>
       {!props.data || !props.data.instance || props.error ? (
         <span>

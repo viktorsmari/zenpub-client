@@ -17,7 +17,7 @@ const HeroComp: SFC<Props> = ({ user }) => (
       </title>
     </Helmet> */}
     <Hero>
-      <HeroBg src={user.icon || user.image || ''} />
+      <HeroBg src={user.image || user.icon || ''} />
       <FlexProfile>
         <WrapperHero>
           <Img
@@ -82,6 +82,10 @@ const Location = styled(Text)`
     & svg {
       color: ${props => props.theme.colors.gray};
       vertical-align: text-bottom;
+    }
+    .--rtl & {
+      margin-left: 8px;
+      margin-right: 0px;
     }
   }
 `;
