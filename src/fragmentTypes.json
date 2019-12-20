@@ -3,22 +3,17 @@
     "types": [
       {
         "kind": "UNION",
-        "name": "ThreadContext",
+        "name": "DeleteContext",
         "possibleTypes": [
-          { "name": "Collection" },
-          { "name": "Community" },
-          { "name": "Flag" },
-          { "name": "Resource" }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "FlagContext",
-        "possibleTypes": [
+          { "name": "Activity" },
           { "name": "Collection" },
           { "name": "Comment" },
           { "name": "Community" },
+          { "name": "Flag" },
+          { "name": "Follow" },
+          { "name": "Like" },
           { "name": "Resource" },
+          { "name": "Thread" },
           { "name": "User" }
         ]
       },
@@ -47,17 +42,27 @@
       },
       {
         "kind": "UNION",
-        "name": "DeleteContext",
+        "name": "FollowContext",
         "possibleTypes": [
-          { "name": "Activity" },
+          { "name": "Collection" },
+          { "name": "Community" },
+          { "name": "Thread" },
+          { "name": "User" }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "FeatureContext",
+        "possibleTypes": [{ "name": "Collection" }, { "name": "Community" }]
+      },
+      {
+        "kind": "UNION",
+        "name": "FlagContext",
+        "possibleTypes": [
           { "name": "Collection" },
           { "name": "Comment" },
           { "name": "Community" },
-          { "name": "Flag" },
-          { "name": "Follow" },
-          { "name": "Like" },
           { "name": "Resource" },
-          { "name": "Thread" },
           { "name": "User" }
         ]
       },
@@ -74,17 +79,12 @@
       },
       {
         "kind": "UNION",
-        "name": "FeatureContext",
-        "possibleTypes": [{ "name": "Collection" }, { "name": "Community" }]
-      },
-      {
-        "kind": "UNION",
-        "name": "FollowContext",
+        "name": "ThreadContext",
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Community" },
-          { "name": "Thread" },
-          { "name": "User" }
+          { "name": "Flag" },
+          { "name": "Resource" }
         ]
       }
     ]

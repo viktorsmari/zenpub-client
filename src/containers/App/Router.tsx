@@ -1,7 +1,7 @@
 import algoliasearch from 'algoliasearch/lite';
 import qs from 'qs';
 import React from 'react';
-import { connectStateResults, InstantSearch } from 'react-instantsearch-dom';
+import { InstantSearch } from 'react-instantsearch-dom';
 import {
   BrowserRouter as Router,
   Route,
@@ -37,7 +37,7 @@ import {
 import Sidebar from '../../sections/sidebar/sidebarHOC';
 import SidebarNoLoggedWrapper from '../../sections/sidebar/sidebar_not_logged';
 import styled from '../../themes/styled';
-// import MobileHeader from './mobileHeader';
+import MobileHeader from './mobileHeader';
 
 const Main = styled(Flex)`
   height: 100%;
@@ -86,19 +86,12 @@ const searchStateToUrl = (props, searchState, loggedin) => {
   }
 };
 
-const Content = connectStateResults(({ searchState, onOpen }) => {
+const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
   const { me } = React.useContext(SessionContext);
 
-  return searchState && searchState.query ? (
+  return (
     <>
-      {/* <MobileHeader onOpen={onOpen} /> */}
-      <Switch>
-        <Route path="/search" component={SearchComp} />
-      </Switch>
-    </>
-  ) : (
-    <>
-      {/* <MobileHeader onOpen={onOpen} /> */}
+      <MobileHeader onOpen={onOpen} />
       <Switch>
         <Route exact path="/" component={me ? Home : Login} />
         <Route exact path="/profile" component={me ? Profile : Login} />
@@ -169,7 +162,7 @@ const Content = connectStateResults(({ searchState, onOpen }) => {
       </Switch>
     </>
   );
-});
+};
 
 const urlToSearchState = ({ search }) => qs.parse(search.slice(1));
 
@@ -258,7 +251,7 @@ const App: React.FC<Props> = props => {
               isLogin={!auth && location.pathname === '/' ? true : false}
             >
               <Inner>
-                <Content isOpen={isSidebarOpen} onOpen={onSidebarOpen} />
+                <Content onOpen={onSidebarOpen} />
               </Inner>
             </WrapperDimension>
           </MainWrapper>
