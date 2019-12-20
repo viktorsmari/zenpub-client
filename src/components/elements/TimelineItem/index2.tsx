@@ -9,7 +9,10 @@ import { Box, Flex, Text } from 'rebass/styled-components';
 import removeMd from 'remove-markdown';
 import media from 'styled-media-query';
 import { BasicCollectionFragment } from '../../../graphql/fragments/generated/basicCollection.generated';
-import { BasicCommentWithInReplyToFragment } from '../../../graphql/fragments/generated/basicComment.generated';
+import {
+  BasicCommentWithInReplyToFragment,
+  BasicCommentFragment
+} from '../../../graphql/fragments/generated/basicComment.generated';
 import { BasicCommunityFragment } from '../../../graphql/fragments/generated/basicCommunity.generated';
 import { BasicResourceFragment } from '../../../graphql/fragments/generated/basicResource.generated';
 import { BasicUserFragment } from '../../../graphql/fragments/generated/basicUser.generated';
@@ -50,7 +53,7 @@ interface ResourceProps {
 }
 
 interface CommentProps {
-  comment: BasicCommentWithInReplyToFragment;
+  comment: BasicCommentWithInReplyToFragment | BasicCommentFragment;
   toggleLike: (likeable: Likeable) => unknown;
   noAction?: boolean;
   user: BasicUserFragment | User;
@@ -171,34 +174,36 @@ const CommentItem: SFC<CommentProps> = ({
   verb,
   user,
   createdAt
-}) => (
-  <Member>
-    <MemberItem mr={2}>
-      <Img src={user.icon || ''} />
-    </MemberItem>
-    <MemberInfo>
-      <Name>
-        <Link to={'/user/' + user.id}>
-          {user.name}{' '}
-          {user.preferredUsername ? (
-            <Username ml={2}>@{user.preferredUsername}</Username>
-          ) : null}
-        </Link>
-        <Spacer mr={2}>·</Spacer>{' '}
-        <Date>{DateTime.fromISO(createdAt).toRelative()}</Date>
-      </Name>
-      {comment.inReplyTo !== null ? (
-        <InReply my={2}>
+}) => {
+  const activityContext =
+    ('inReplyTo' in comment && comment.inReplyTo) || comment.thread.context;
+  return (
+    <Member>
+      <MemberItem mr={2}>
+        <Img src={user.icon || ''} />
+      </MemberItem>
+      <MemberInfo>
+        <Name>
+          <Link to={'/user/' + user.id}>
+            {user.name}{' '}
+            {user.preferredUsername ? (
+              <Username ml={2}>@{user.preferredUsername}</Username>
+            ) : null}
+          </Link>
+          <Spacer mr={2}>·</Spacer>{' '}
+          <Date>{DateTime.fromISO(createdAt).toRelative()}</Date>
+        </Name>
+        <ActivityContext my={2}>
           <MemberWrapped>
             {/* <MemberItem className={'miniavatar'} mr={2}> */}
-            {/* <Img src={comment.thread.context.creator.icon} /> */}
+            {/* <Img src={activityContext.creator.icon} /> */}
             {/* </MemberItem> */}
             <MemberInfo>
               {/* <Name>
             <Link
-              to={'/user/' + comment.thread.context.creator.id}
+              to={'/user/' + activityContext.creator.id}
             >
-              {comment.thread.context.creator.name}
+              {activityContext.creator.name}
             </Link>
             <Spacer mr={2}>·</Spacer>{' '}
             <Date>
@@ -206,58 +211,67 @@ const CommentItem: SFC<CommentProps> = ({
             </Date>
           </Name> */}
 
-              {comment.thread.context.__typename === 'Collection' ? (
+              {activityContext.__typename === 'Collection' ? (
                 <CollectionItem
-                  user={comment.thread.context.creator}
-                  createdAt={comment.thread.context.createdAt}
+                  user={activityContext.creator}
+                  createdAt={activityContext.createdAt}
                   noAction
                   verb={verb}
                   toggleLike={toggleLike}
-                  collection={comment.thread.context}
-                /> // qui il comment.thread.context è risolto come Collection
-              ) : comment.thread.context.__typename === 'Resource' ? (
+                  collection={activityContext}
+                /> // qui il activityContext è risolto come Collection
+              ) : activityContext.__typename === 'Resource' ? (
                 <ResourceItem
-                  user={comment.thread.context.creator}
-                  createdAt={comment.thread.context.createdAt}
+                  user={activityContext.creator}
+                  createdAt={activityContext.createdAt}
                   noAction
                   verb={verb}
                   toggleLike={toggleLike}
-                  resource={comment.thread.context}
-                /> // qui il comment.thread.context è risolto come Resource
-              ) : comment.thread.context.__typename === 'Community' ? (
+                  resource={activityContext}
+                /> // qui il activityContext è risolto come Resource
+              ) : activityContext.__typename === 'Community' ? (
                 <CommunityItem
-                  user={comment.thread.context.creator}
-                  createdAt={comment.thread.context.createdAt}
+                  user={activityContext.creator}
+                  createdAt={activityContext.createdAt}
                   noAction
                   verb={verb}
                   toggleLike={toggleLike}
-                  community={comment.thread.context}
+                  community={activityContext}
                 /> // qui il context è risolto come Community
+              ) : activityContext.__typename === 'Comment' ? (
+                <CommentItem
+                  user={activityContext.creator}
+                  createdAt={activityContext.createdAt}
+                  noAction
+                  verb={verb}
+                  toggleLike={toggleLike}
+                  comment={activityContext}
+                /> // qui il context è risolto come Comment
               ) : null}
             </MemberInfo>
           </MemberWrapped>
-        </InReply>
-      ) : null}
-      <Comment>
-        {comment.content && comment.content.length > 320
-          ? removeMd(comment.content).replace(
-              /^([\s\S]{316}[^\s]*)[\s\S]*/,
-              '$1...'
-            )
-          : removeMd(comment.content)}
-      </Comment>
-      {noAction ? null : (
-        <Actions
-          // totalReplies={comment.thread.comments.totalCount}
-          // totalLikes={comment.likes.totalCount}
-          comment={comment}
-          toggleLike={() => toggleLike(comment)}
-          iLikeIt={!!comment.myLike}
-        />
-      )}
-    </MemberInfo>
-  </Member>
-);
+        </ActivityContext>
+        <Comment>
+          {comment.content && comment.content.length > 320
+            ? removeMd(comment.content).replace(
+                /^([\s\S]{316}[^\s]*)[\s\S]*/,
+                '$1...'
+              )
+            : removeMd(comment.content)}
+        </Comment>
+        {noAction ? null : (
+          <Actions
+            // totalReplies={comment.thread.comments.totalCount}
+            // totalLikes={comment.likes.totalCount}
+            comment={comment}
+            toggleLike={() => toggleLike(comment)}
+            iLikeIt={!!comment.myLike}
+          />
+        )}
+      </MemberInfo>
+    </Member>
+  );
+};
 const CommunityItem: SFC<CommunityProps> = ({
   verb,
   community,
@@ -375,7 +389,7 @@ const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
 //   z-index: 1;
 // `;
 
-const InReply = styled(Box)`
+const ActivityContext = styled(Box)`
   color: ${props => props.theme.colors.gray};
   position: relative;
   opacity: 0.8
