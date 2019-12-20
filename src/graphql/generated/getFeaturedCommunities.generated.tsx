@@ -1,11 +1,11 @@
+import * as React from 'react';
 import * as Types from '../types.generated';
 
-import { BasicCommunityFragment } from '../fragments/generated/basicCommunity.generated';
 import { BasicUserFragment } from '../fragments/generated/basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from '../fragments/generated/basicUser.generated';
 import { BasicCommunityFragmentDoc } from '../fragments/generated/basicCommunity.generated';
-import * as React from 'react';
+import { BasicCommunityFragment } from '../fragments/generated/basicCommunity.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
@@ -36,8 +36,8 @@ export type GetFeaturedCommunitiesQuery = (
           & { creator: (
             { __typename?: 'User' }
             & BasicUserFragment
-          ), context: { __typename: 'Collection' } | (
-            { __typename: 'Community' }
+          ), context: { __typename?: 'Collection' } | (
+            { __typename?: 'Community' }
             & BasicCommunityFragment
           ) }
         ) }

@@ -42,7 +42,7 @@ const CommentWrapper: React.FC<EventProps> = ({
 
   return (
     <FeedItem>
-      {noLink ? null : <NavigateToThread to={`/thread/${comment.id}`} />}
+      {noLink ? null : <NavigateToThread to={`/thread/${comment.thread.id}`} />}
       <Member>
         <MemberItem mr={2}>
           <Img src={(creator && creator.icon) || ''} />
@@ -308,6 +308,7 @@ const FeedItem = styled.div`
 const MoreOptionsContainer = styled.div`
   margin-left: 16px;
   position: absolute;
-  right: 20px;
+  right: 45px;
   z-index: 20;
+  top: 12px;
 `;

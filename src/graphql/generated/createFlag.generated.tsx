@@ -18,7 +18,7 @@ export type CreateFlagMutationMutation = (
   { __typename?: 'RootMutationType' }
   & { createFlag: Types.Maybe<(
     { __typename?: 'Flag' }
-    & { context: { __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Resource' } | { __typename: 'User' } }
+    & { context: { __typename?: 'Collection' } | { __typename?: 'Comment' } | { __typename?: 'Community' } | { __typename?: 'Resource' } | { __typename?: 'User' } }
   )> }
 );
 

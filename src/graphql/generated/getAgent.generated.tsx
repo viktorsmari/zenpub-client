@@ -1,6 +1,6 @@
+import { BasicCommunityFragmentDoc } from '../fragments/generated/basicCommunity.generated';
 import * as Types from '../types.generated';
 
-import { BasicCommentWithInReplyToFragment } from '../fragments/generated/basicComment.generated';
 import { BasicCollectionFragment } from '../fragments/generated/basicCollection.generated';
 import { BasicCommunityFragment } from '../fragments/generated/basicCommunity.generated';
 import { BasicResourceFragment } from '../fragments/generated/basicResource.generated';
@@ -8,7 +8,7 @@ import { BasicUserFragment } from '../fragments/generated/basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from '../fragments/generated/basicUser.generated';
 import { BasicResourceFragmentDoc } from '../fragments/generated/basicResource.generated';
-import { BasicCommunityFragmentDoc } from '../fragments/generated/basicCommunity.generated';
+import { BasicCommentWithInReplyToFragment } from '../fragments/generated/basicComment.generated';
 import { BasicCollectionFragmentDoc } from '../fragments/generated/basicCollection.generated';
 import { BasicCommentWithInReplyToFragmentDoc } from '../fragments/generated/basicComment.generated';
 import * as React from 'react';
@@ -52,16 +52,16 @@ export type GetAgentQueryQuery = (
             { __typename?: 'User' }
             & BasicUserFragment
           ), context: (
-            { __typename: 'Collection' }
+            { __typename?: 'Collection' }
             & BasicCollectionFragment
           ) | (
-            { __typename: 'Comment' }
+            { __typename?: 'Comment' }
             & BasicCommentWithInReplyToFragment
           ) | (
-            { __typename: 'Community' }
+            { __typename?: 'Community' }
             & BasicCommunityFragment
-          ) | { __typename: 'Flag' } | { __typename: 'Follow' } | { __typename: 'Like' } | (
-            { __typename: 'Resource' }
+          ) | { __typename?: 'Flag' } | { __typename?: 'Follow' } | { __typename?: 'Like' } | (
+            { __typename?: 'Resource' }
             & BasicResourceFragment
           ) }
         ) }
