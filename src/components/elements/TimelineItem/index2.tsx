@@ -40,7 +40,7 @@ interface CollectionProps {
   noAction?: boolean;
   user: BasicUserFragment | User;
   createdAt;
-  verb: string;
+  verb?: string;
 }
 
 interface ResourceProps {
@@ -49,7 +49,7 @@ interface ResourceProps {
   noAction?: boolean;
   user: BasicUserFragment | User;
   createdAt: string;
-  verb: string;
+  verb?: string;
 }
 
 interface CommentProps {
@@ -58,7 +58,7 @@ interface CommentProps {
   noAction?: boolean;
   user: BasicUserFragment | User;
   createdAt: string;
-  verb: string;
+  verb?: string;
 }
 
 interface CommunityProps {
@@ -67,7 +67,7 @@ interface CommunityProps {
   noAction?: boolean;
   user: BasicUserFragment | User;
   createdAt: string;
-  verb: string;
+  verb?: string;
 }
 
 const CollectionItem: SFC<CollectionProps> = ({
@@ -95,18 +95,20 @@ const CollectionItem: SFC<CollectionProps> = ({
       </Name>
 
       <Box>
-        <SubText mt={1}>
-          <Trans>
-            {verb === 'CREATED' ? 'created' : 'updated'} a collection in
-          </Trans>{' '}
-          <NavLink
-            to={`/communities/${
-              collection.community ? collection.community.id : ''
-            }`}
-          >
-            @{collection.community ? collection.community.name : ''}
-          </NavLink>
-        </SubText>
+        {verb && (
+          <SubText mt={1}>
+            <Trans>
+              {verb === 'CREATED' ? 'created' : 'updated'} a collection in
+            </Trans>{' '}
+            <NavLink
+              to={`/communities/${
+                collection.community ? collection.community.id : ''
+              }`}
+            >
+              @{collection.community ? collection.community.name : ''}
+            </NavLink>
+          </SubText>
+        )}
         <Preview
           icon={collection.icon || ''}
           title={collection.name}
@@ -150,13 +152,16 @@ const ResourceItem: SFC<ResourceProps> = ({
         <Date>{DateTime.fromISO(createdAt).toRelative()}</Date>
       </Name>
       <Box>
-        <SubText mt={1}>
-          <Trans>{verb === 'CREATED' ? 'created' : 'updated'} a resource</Trans>{' '}
-          <Trans>in</Trans>{' '}
-          <NavLink to={`/collections/${resource.collection.id}`}>
-            +{resource.collection.name}
-          </NavLink>
-        </SubText>
+        {verb && (
+          <SubText mt={1}>
+            <Trans>
+              {verb === 'CREATED' ? 'created' : 'updated'} a resource in
+            </Trans>
+            <NavLink to={`/collections/${resource.collection.id}`}>
+              +{resource.collection.name}
+            </NavLink>
+          </SubText>
+        )}
         <Preview
           icon={resource.icon || ''}
           title={resource.name}
@@ -216,7 +221,6 @@ const CommentItem: SFC<CommentProps> = ({
                   user={activityContext.creator}
                   createdAt={activityContext.createdAt}
                   noAction
-                  verb={verb}
                   toggleLike={toggleLike}
                   collection={activityContext}
                 /> // qui il activityContext è risolto come Collection
@@ -225,7 +229,6 @@ const CommentItem: SFC<CommentProps> = ({
                   user={activityContext.creator}
                   createdAt={activityContext.createdAt}
                   noAction
-                  verb={verb}
                   toggleLike={toggleLike}
                   resource={activityContext}
                 /> // qui il activityContext è risolto come Resource
@@ -234,7 +237,6 @@ const CommentItem: SFC<CommentProps> = ({
                   user={activityContext.creator}
                   createdAt={activityContext.createdAt}
                   noAction
-                  verb={verb}
                   toggleLike={toggleLike}
                   community={activityContext}
                 /> // qui il context è risolto come Community
@@ -243,7 +245,6 @@ const CommentItem: SFC<CommentProps> = ({
                   user={activityContext.creator}
                   createdAt={activityContext.createdAt}
                   noAction
-                  verb={verb}
                   toggleLike={toggleLike}
                   comment={activityContext}
                 /> // qui il context è risolto come Comment
@@ -294,14 +295,16 @@ const CommunityItem: SFC<CommunityProps> = ({
         <Date>{DateTime.fromISO(createdAt).toRelative()}</Date>
       </Name>
       <Box>
-        <SubText mt={1}>
-          <Trans>
-            {verb === 'CREATED' ? 'created' : 'updated'} a community
-          </Trans>{' '}
-          <NavLink to={`/communities/${community.id}`}>
-            @{community.name}
-          </NavLink>
-        </SubText>
+        {verb && (
+          <SubText mt={1}>
+            <Trans>
+              {verb === 'CREATED' ? 'created' : 'updated'} a community
+            </Trans>
+            <NavLink to={`/communities/${community.id}`}>
+              @{community.name}
+            </NavLink>
+          </SubText>
+        )}
         <Preview
           icon={community.icon || ''}
           title={community.name}
