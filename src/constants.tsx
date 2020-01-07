@@ -24,6 +24,11 @@ export const languages = {
 export type LocaleKey = keyof typeof languages;
 export const locales = Object.keys(languages) as LocaleKey[];
 
+export const algoliaCreds = {
+  appId: 'KVG4RFL0JJ',
+  apiKey: '884f8371d98c8c9837cf76f85f4b5daa'
+};
+
 /* log ENV if DEV */
 IS_DEV &&
   console.log(`-environment-

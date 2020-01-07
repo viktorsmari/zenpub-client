@@ -29,7 +29,6 @@ export const ProvideLocalizationCtx: React.FC = ({ children }) => {
 
   const [catalogs, setCatalogs] = useState<Catalogs>({});
   const RTL = isLocaleRTL(locale);
-
   useEffect(
     () => {
       setHTMLDirection(RTL);
