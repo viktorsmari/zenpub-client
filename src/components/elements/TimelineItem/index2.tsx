@@ -9,7 +9,10 @@ import { Box, Flex, Text } from 'rebass/styled-components';
 import removeMd from 'remove-markdown';
 import media from 'styled-media-query';
 import { BasicCollectionFragment } from '../../../graphql/fragments/generated/basicCollection.generated';
-import { BasicCommentWithInReplyToFragment } from '../../../graphql/fragments/generated/basicComment.generated';
+import {
+  BasicCommentWithInReplyToFragment,
+  BasicCommentFragment
+} from '../../../graphql/fragments/generated/basicComment.generated';
 import { BasicCommunityFragment } from '../../../graphql/fragments/generated/basicCommunity.generated';
 import { BasicResourceFragment } from '../../../graphql/fragments/generated/basicResource.generated';
 import { BasicUserFragment } from '../../../graphql/fragments/generated/basicUser.generated';
@@ -37,7 +40,7 @@ interface CollectionProps {
   noAction?: boolean;
   user: BasicUserFragment | User;
   createdAt;
-  verb: string;
+  verb?: string;
 }
 
 interface ResourceProps {
@@ -46,16 +49,16 @@ interface ResourceProps {
   noAction?: boolean;
   user: BasicUserFragment | User;
   createdAt: string;
-  verb: string;
+  verb?: string;
 }
 
 interface CommentProps {
-  comment: BasicCommentWithInReplyToFragment;
+  comment: BasicCommentWithInReplyToFragment | BasicCommentFragment;
   toggleLike: (likeable: Likeable) => unknown;
   noAction?: boolean;
   user: BasicUserFragment | User;
   createdAt: string;
-  verb: string;
+  verb?: string;
 }
 
 interface CommunityProps {
@@ -64,7 +67,7 @@ interface CommunityProps {
   noAction?: boolean;
   user: BasicUserFragment | User;
   createdAt: string;
-  verb: string;
+  verb?: string;
 }
 
 const CollectionItem: SFC<CollectionProps> = ({
@@ -92,18 +95,20 @@ const CollectionItem: SFC<CollectionProps> = ({
       </Name>
 
       <Box>
-        <SubText mt={1}>
-          <Trans>
-            {verb === 'CREATED' ? 'created' : 'updated'} a collection in
-          </Trans>{' '}
-          <NavLink
-            to={`/communities/${
-              collection.community ? collection.community.id : ''
-            }`}
-          >
-            @{collection.community ? collection.community.name : ''}
-          </NavLink>
-        </SubText>
+        {verb && (
+          <SubText mt={1}>
+            <Trans>
+              {verb === 'CREATED' ? 'created' : 'updated'} a collection in
+            </Trans>{' '}
+            <NavLink
+              to={`/communities/${
+                collection.community ? collection.community.id : ''
+              }`}
+            >
+              @{collection.community ? collection.community.name : ''}
+            </NavLink>
+          </SubText>
+        )}
         <Preview
           icon={collection.icon || ''}
           title={collection.name}
@@ -147,13 +152,16 @@ const ResourceItem: SFC<ResourceProps> = ({
         <Date>{DateTime.fromISO(createdAt).toRelative()}</Date>
       </Name>
       <Box>
-        <SubText mt={1}>
-          <Trans>{verb === 'CREATED' ? 'created' : 'updated'} a resource</Trans>{' '}
-          <Trans>in</Trans>{' '}
-          <NavLink to={`/collections/${resource.collection.id}`}>
-            +{resource.collection.name}
-          </NavLink>
-        </SubText>
+        {verb && (
+          <SubText mt={1}>
+            <Trans>
+              {verb === 'CREATED' ? 'created' : 'updated'} a resource in
+            </Trans>
+            <NavLink to={`/collections/${resource.collection.id}`}>
+              +{resource.collection.name}
+            </NavLink>
+          </SubText>
+        )}
         <Preview
           icon={resource.icon || ''}
           title={resource.name}
@@ -171,34 +179,36 @@ const CommentItem: SFC<CommentProps> = ({
   verb,
   user,
   createdAt
-}) => (
-  <Member>
-    <MemberItem mr={2}>
-      <Img src={user.icon || ''} />
-    </MemberItem>
-    <MemberInfo>
-      <Name>
-        <Link to={'/user/' + user.id}>
-          {user.name}{' '}
-          {user.preferredUsername ? (
-            <Username ml={2}>@{user.preferredUsername}</Username>
-          ) : null}
-        </Link>
-        <Spacer mr={2}>·</Spacer>{' '}
-        <Date>{DateTime.fromISO(createdAt).toRelative()}</Date>
-      </Name>
-      {comment.inReplyTo !== null ? (
-        <InReply my={2}>
+}) => {
+  const activityContext =
+    ('inReplyTo' in comment && comment.inReplyTo) || comment.thread.context;
+  return (
+    <Member>
+      <MemberItem mr={2}>
+        <Img src={user.icon || ''} />
+      </MemberItem>
+      <MemberInfo>
+        <Name>
+          <Link to={'/user/' + user.id}>
+            {user.name}{' '}
+            {user.preferredUsername ? (
+              <Username ml={2}>@{user.preferredUsername}</Username>
+            ) : null}
+          </Link>
+          <Spacer mr={2}>·</Spacer>{' '}
+          <Date>{DateTime.fromISO(createdAt).toRelative()}</Date>
+        </Name>
+        <ActivityContext my={2}>
           <MemberWrapped>
             {/* <MemberItem className={'miniavatar'} mr={2}> */}
-            {/* <Img src={comment.thread.context.creator.icon} /> */}
+            {/* <Img src={activityContext.creator.icon} /> */}
             {/* </MemberItem> */}
             <MemberInfo>
               {/* <Name>
             <Link
-              to={'/user/' + comment.thread.context.creator.id}
+              to={'/user/' + activityContext.creator.id}
             >
-              {comment.thread.context.creator.name}
+              {activityContext.creator.name}
             </Link>
             <Spacer mr={2}>·</Spacer>{' '}
             <Date>
@@ -206,58 +216,63 @@ const CommentItem: SFC<CommentProps> = ({
             </Date>
           </Name> */}
 
-              {comment.thread.context.__typename === 'Collection' ? (
+              {activityContext.__typename === 'Collection' ? (
                 <CollectionItem
-                  user={comment.thread.context.creator}
-                  createdAt={comment.thread.context.createdAt}
+                  user={activityContext.creator}
+                  createdAt={activityContext.createdAt}
                   noAction
-                  verb={verb}
                   toggleLike={toggleLike}
-                  collection={comment.thread.context}
-                /> // qui il comment.thread.context è risolto come Collection
-              ) : comment.thread.context.__typename === 'Resource' ? (
+                  collection={activityContext}
+                /> // qui il activityContext è risolto come Collection
+              ) : activityContext.__typename === 'Resource' ? (
                 <ResourceItem
-                  user={comment.thread.context.creator}
-                  createdAt={comment.thread.context.createdAt}
+                  user={activityContext.creator}
+                  createdAt={activityContext.createdAt}
                   noAction
-                  verb={verb}
                   toggleLike={toggleLike}
-                  resource={comment.thread.context}
-                /> // qui il comment.thread.context è risolto come Resource
-              ) : comment.thread.context.__typename === 'Community' ? (
+                  resource={activityContext}
+                /> // qui il activityContext è risolto come Resource
+              ) : activityContext.__typename === 'Community' ? (
                 <CommunityItem
-                  user={comment.thread.context.creator}
-                  createdAt={comment.thread.context.createdAt}
+                  user={activityContext.creator}
+                  createdAt={activityContext.createdAt}
                   noAction
-                  verb={verb}
                   toggleLike={toggleLike}
-                  community={comment.thread.context}
+                  community={activityContext}
                 /> // qui il context è risolto come Community
+              ) : activityContext.__typename === 'Comment' ? (
+                <CommentItem
+                  user={activityContext.creator}
+                  createdAt={activityContext.createdAt}
+                  noAction
+                  toggleLike={toggleLike}
+                  comment={activityContext}
+                /> // qui il context è risolto come Comment
               ) : null}
             </MemberInfo>
           </MemberWrapped>
-        </InReply>
-      ) : null}
-      <Comment>
-        {comment.content && comment.content.length > 320
-          ? removeMd(comment.content).replace(
-              /^([\s\S]{316}[^\s]*)[\s\S]*/,
-              '$1...'
-            )
-          : removeMd(comment.content)}
-      </Comment>
-      {noAction ? null : (
-        <Actions
-          // totalReplies={comment.thread.comments.totalCount}
-          // totalLikes={comment.likes.totalCount}
-          comment={comment}
-          toggleLike={() => toggleLike(comment)}
-          iLikeIt={!!comment.myLike}
-        />
-      )}
-    </MemberInfo>
-  </Member>
-);
+        </ActivityContext>
+        <Comment>
+          {comment.content && comment.content.length > 320
+            ? removeMd(comment.content).replace(
+                /^([\s\S]{316}[^\s]*)[\s\S]*/,
+                '$1...'
+              )
+            : removeMd(comment.content)}
+        </Comment>
+        {noAction ? null : (
+          <Actions
+            // totalReplies={comment.thread.comments.totalCount}
+            // totalLikes={comment.likes.totalCount}
+            comment={comment}
+            toggleLike={() => toggleLike(comment)}
+            iLikeIt={!!comment.myLike}
+          />
+        )}
+      </MemberInfo>
+    </Member>
+  );
+};
 const CommunityItem: SFC<CommunityProps> = ({
   verb,
   community,
@@ -280,14 +295,16 @@ const CommunityItem: SFC<CommunityProps> = ({
         <Date>{DateTime.fromISO(createdAt).toRelative()}</Date>
       </Name>
       <Box>
-        <SubText mt={1}>
-          <Trans>
-            {verb === 'CREATED' ? 'created' : 'updated'} a community
-          </Trans>{' '}
-          <NavLink to={`/communities/${community.id}`}>
-            @{community.name}
-          </NavLink>
-        </SubText>
+        {verb && (
+          <SubText mt={1}>
+            <Trans>
+              {verb === 'CREATED' ? 'created' : 'updated'} a community
+            </Trans>
+            <NavLink to={`/communities/${community.id}`}>
+              @{community.name}
+            </NavLink>
+          </SubText>
+        )}
         <Preview
           icon={community.icon || ''}
           title={community.name}
@@ -310,11 +327,17 @@ const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
     },
     [like, undoLike]
   );
-  // console.log('context %O', context);
+  /*   const navigateTo = 
+  context.__typename === 'Collection' ? 'collections' :
+  context.__typename === 'Comment' ? 'thread' :
+  context.__typename === 'Community' ? 'communities' :
+  null
+ */
+
   return (
     <FeedItem>
-      {/* {context.__typename} */}
-      <NavigateToThread to={`/thread/${context.id}`} />
+      {/* context.__typename */}
+      {/* navigateTo && <NavigateToThread to={`/${navigateTo}/${context.id}`} /> */}
       {context.__typename === 'Collection' ? (
         <CollectionItem
           user={user}
@@ -360,16 +383,16 @@ const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
   );
 };
 
-const NavigateToThread = styled(Link)`
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 1;
-`;
+// const NavigateToThread = styled(Link)`
+//   position: absolute;
+//   left: 0;
+//   right: 0;
+//   top: 0;
+//   bottom: 0;
+//   z-index: 1;
+// `;
 
-const InReply = styled(Box)`
+const ActivityContext = styled(Box)`
   color: ${props => props.theme.colors.gray};
   position: relative;
   opacity: 0.8

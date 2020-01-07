@@ -23,6 +23,8 @@ export const languages = {
 };
 export type LocaleKey = keyof typeof languages;
 export const locales = Object.keys(languages) as LocaleKey[];
+
+/* log ENV if DEV */
 IS_DEV &&
   console.log(`-environment-
 ${Object.keys(process.env)
@@ -30,3 +32,4 @@ ${Object.keys(process.env)
     .join('\n')}
 -------------
 `);
+/***/

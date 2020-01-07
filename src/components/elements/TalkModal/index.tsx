@@ -97,7 +97,6 @@ export const TalkModal: React.FC<Props> = ({
             backgroundImage: `url(${session.me ? session.me.user.icon : ''})`
           }}
         />
-        )}
         <SocialText
           placeholder={i18n._(tt.placeholders.name)}
           name={'text'}

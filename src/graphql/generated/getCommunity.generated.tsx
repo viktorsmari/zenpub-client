@@ -1,6 +1,6 @@
+import { BasicCommunityFragmentDoc } from '../fragments/generated/basicCommunity.generated';
 import * as Types from '../types.generated';
 
-import { BasicCommentWithInReplyToFragment } from '../fragments/generated/basicComment.generated';
 import { BasicCollectionFragment } from '../fragments/generated/basicCollection.generated';
 import { BasicCommunityFragment } from '../fragments/generated/basicCommunity.generated';
 import { BasicResourceFragment } from '../fragments/generated/basicResource.generated';
@@ -8,7 +8,7 @@ import { BasicUserFragment } from '../fragments/generated/basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from '../fragments/generated/basicUser.generated';
 import { BasicResourceFragmentDoc } from '../fragments/generated/basicResource.generated';
-import { BasicCommunityFragmentDoc } from '../fragments/generated/basicCommunity.generated';
+import { BasicCommentWithInReplyToFragment } from '../fragments/generated/basicComment.generated';
 import { BasicCollectionFragmentDoc } from '../fragments/generated/basicCollection.generated';
 import { BasicCommentWithInReplyToFragmentDoc } from '../fragments/generated/basicComment.generated';
 import * as React from 'react';
@@ -69,6 +69,41 @@ export type GetCommunityQueryQuery = (
           ) }
         ) }
       )>> }
+    ), threads: (
+      { __typename?: 'ThreadsEdges' }
+      & { pageInfo: Types.Maybe<(
+        { __typename?: 'PageInfo' }
+        & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
+      )>, edges: Types.Maybe<Array<Types.Maybe<(
+        { __typename?: 'ThreadsEdge' }
+        & { node: (
+          { __typename?: 'Thread' }
+          & Pick<Types.Thread, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'isHidden' | 'createdAt' | 'updatedAt' | 'lastActivity'>
+          & { context: (
+            { __typename?: 'Collection' }
+            & Pick<Types.Collection, 'id' | 'icon' | 'name'>
+          ) | (
+            { __typename?: 'Community' }
+            & Pick<Types.Community, 'id' | 'icon' | 'name'>
+          ) | { __typename?: 'Flag' } | (
+            { __typename?: 'Resource' }
+            & Pick<Types.Resource, 'id' | 'icon' | 'name'>
+          ), myFollow: Types.Maybe<(
+            { __typename?: 'Follow' }
+            & Pick<Types.Follow, 'id'>
+          )>, comments: (
+            { __typename?: 'CommentsEdges' }
+            & Pick<Types.CommentsEdges, 'totalCount'>
+            & { edges: Array<Types.Maybe<(
+              { __typename?: 'CommentsEdge' }
+              & { node: (
+                { __typename?: 'Comment' }
+                & BasicCommentWithInReplyToFragment
+              ) }
+            )>> }
+          ) }
+        ) }
+      )>>> }
     ), followers: (
       { __typename?: 'FollowsEdges' }
       & Pick<Types.FollowsEdges, 'totalCount'>
@@ -171,6 +206,53 @@ export const GetCommunityQueryDocument = gql`
             }
             ... on Comment {
               ...BasicCommentWithInReplyTo
+            }
+          }
+        }
+      }
+    }
+    threads(limit: $limit, after: $end) {
+      pageInfo {
+        startCursor
+        endCursor
+      }
+      edges {
+        node {
+          id
+          canonicalUrl
+          isLocal
+          isPublic
+          isHidden
+          createdAt
+          updatedAt
+          lastActivity
+          context {
+            __typename
+            ... on Community {
+              id
+              icon
+              name
+            }
+            ... on Collection {
+              id
+              icon
+              name
+            }
+            ... on Resource {
+              id
+              icon
+              name
+            }
+          }
+          myFollow {
+            id
+          }
+          comments {
+            totalCount
+            edges {
+              node {
+                ...BasicCommentWithInReplyTo
+              }
             }
           }
         }

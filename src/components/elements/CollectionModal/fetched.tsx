@@ -204,7 +204,13 @@ const Fetched = (props: Props & FormikProps<FormValues>) => {
           >
             <Trans>Publish</Trans>
           </SubmitButton>
-          <Button onClick={props.toggleModal} variant="outline">
+          <Button
+            onClick={e => {
+              e.preventDefault();
+              props.toggleModal();
+            }}
+            variant="outline"
+          >
             <Trans>Cancel</Trans>
           </Button>
         </Actions>
@@ -247,7 +253,6 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
               id
               icon
               name
-              content
               summary
               resources {
                 totalCount

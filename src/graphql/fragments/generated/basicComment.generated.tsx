@@ -35,6 +35,9 @@ export type BasicCommentFragment = (
   ), likes: (
     { __typename?: 'LikesEdges' }
     & Pick<Types.LikesEdges, 'totalCount'>
+  ), flags: (
+    { __typename?: 'FlagsEdges' }
+    & Pick<Types.FlagsEdges, 'totalCount'>
   ), thread: (
     { __typename?: 'Thread' }
     & Pick<Types.Thread, 'id'>
@@ -67,6 +70,9 @@ export const BasicCommentFragmentDoc = gql`
     ...BasicUser
   }
   likes {
+    totalCount
+  }
+  flags {
     totalCount
   }
   thread {

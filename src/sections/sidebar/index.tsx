@@ -2,7 +2,7 @@ import { Trans } from '@lingui/macro';
 import { ellipsis } from 'polished';
 import * as React from 'react';
 import { Globe, MoreHorizontal } from 'react-feather';
-// import { SearchBox } from 'react-instantsearch-dom';
+import { SearchBox } from 'react-instantsearch-dom';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass/styled-components';
@@ -186,11 +186,11 @@ const ItemTitleDir = styled(ItemTitle)`
   }
 `;
 
-// const Sbox = styled(Box)`
-//   ${media.lessThan('1280px')`
-//     display: none;
-//   `};
-// `;
+const Sbox = styled(Box)`
+  ${media.lessThan('1280px')`
+    display: none;
+  `};
+`;
 
 // const HeaderProfile = styled(Flex)``
 
@@ -227,9 +227,9 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
             ) : !data.me ? null : (
               <>
                 <Header alignItems={'center'}>
-                  {/* <Sbox ml={2} mb={3}>
+                  <Sbox ml={2} mb={3}>
                     <SearchBox />
-                  </Sbox> */}
+                  </Sbox>
                   <NavItem alignItems="center" onClick={openMenu}>
                     <Avatar
                       initials={data.me.user.name!.substring(0, 2)}
