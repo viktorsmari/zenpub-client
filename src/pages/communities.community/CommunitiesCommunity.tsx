@@ -22,6 +22,8 @@ import styled from '../../themes/styled';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import CommunityPage from './Community';
 import Hero from './hero';
+import { useDynamicLinkOpResult } from 'util/apollo/dynamicLink';
+import { CreateReplyMutationMutationOperation } from 'graphql/generated/createReply.generated';
 
 interface Props {
   communityId: string;
@@ -45,6 +47,13 @@ const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
   const communityQuery = useGetCommunityQueryQuery({
     variables: { limit: 15, communityId }
   });
+  useDynamicLinkOpResult<CreateReplyMutationMutationOperation>(
+    'createReplyMutation',
+    () => {
+      communityQuery.refetch();
+    },
+    [communityQuery.refetch]
+  );
 
   let collections;
   if (communityQuery.error || !communityQuery.data) {
