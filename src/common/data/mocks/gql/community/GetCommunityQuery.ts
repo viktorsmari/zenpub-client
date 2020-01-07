@@ -25,6 +25,7 @@ export const basicGetCommunityQuery: GetCommunityQueryQuery = {
     isPublic: false,
     isLocal: false,
     outbox: { __typename: 'ActivitiesEdges', edges: [], pageInfo: null },
+    threads: { __typename: 'ThreadsEdges', edges: [], pageInfo: null },
     preferredUsername: '',
     updatedAt: '',
     lastActivity: '',
