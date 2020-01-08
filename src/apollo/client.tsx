@@ -18,10 +18,10 @@ import {
   IS_DEV,
   PHOENIX_SOCKET_ENDPOINT
 } from '../constants';
-import { UsernameAvailableQueryOperation } from '../graphql/generated/checkUsername.generated';
-import { ConfirmEmailMutationMutationOperation } from '../graphql/generated/confirmEmail.generated';
-import { CreateUserMutationMutationOperation } from '../graphql/generated/createUser.generated';
-import { LoginMutationMutationOperation } from '../graphql/generated/login.generated';
+import { UsernameAvailableQueryOperation } from '../graphql/checkUsername.generated';
+import { ConfirmEmailMutationMutationOperation } from '../graphql/confirmEmail.generated';
+import { CreateUserMutationMutationOperation } from '../graphql/createUser.generated';
+import { LoginMutationMutationOperation } from '../graphql/login.generated';
 import {
   getOpType,
   Name,
@@ -30,7 +30,7 @@ import {
 import { RootMutationType, RootQueryType } from '../graphql/types.generated';
 import { createUploadLink } from './uploadLink.js';
 import { KVStore } from '../util/keyvaluestore/types';
-import { LogoutMutationMutationOperation } from '../graphql/generated/logout.generated';
+import { LogoutMutationMutationOperation } from '../graphql/logout.generated';
 const introspectionQueryResultData = require('../fragmentTypes.json');
 
 export type MutationName = keyof RootMutationType;

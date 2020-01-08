@@ -13,7 +13,7 @@ import Join from '../../components/elements/Collection/Join';
 import { Settings } from 'react-feather';
 import { Text, Flex } from 'rebass/styled-components';
 import media from 'styled-media-query';
-import { GetCollectionQueryHookResult } from '../../graphql/generated/getCollection.generated';
+import { GetCollectionQueryHookResult } from '../../graphql/getCollection.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import Header from '../thread/header';

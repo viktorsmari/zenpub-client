@@ -13,7 +13,7 @@ import Modal, {
   Row,
   AlertWrapper
 } from 'ui/modules/Modal';
-import { useCreateCollectionMutationMutation } from 'graphql/generated/createCollection.generated';
+import { useCreateCollectionMutationMutation } from 'graphql/createCollection.generated';
 import {
   BasicCreateCollectionFormValues,
   basicCreateCollectionInitialValues,

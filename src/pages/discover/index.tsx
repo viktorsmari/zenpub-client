@@ -11,10 +11,10 @@ import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem/index2';
 import FeaturedCollections from '../../components/featuredCollections';
 import FeaturedCommunities from '../../components/featuredCommunities';
-import { CreateReplyMutationMutationOperation } from '../../graphql/generated/createReply.generated';
-import { DeleteMutationMutationOperation } from '../../graphql/generated/delete.generated';
-import { LikeMutationMutationOperation } from '../../graphql/generated/like.generated';
-import { useLocalActivitiesQuery } from '../../graphql/generated/localActivities.generated';
+import { CreateReplyMutationMutationOperation } from '../../graphql/createReply.generated';
+import { DeleteMutationMutationOperation } from '../../graphql/delete.generated';
+import { LikeMutationMutationOperation } from '../../graphql/like.generated';
+import { useLocalActivitiesQuery } from '../../graphql/localActivities.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import {
   Nav,

@@ -17,7 +17,7 @@ import {
 } from '../Modal/modal';
 
 import { graphql, OperationOption } from 'react-apollo';
-import { UpdateCommunityMutationMutationVariables } from '../../../graphql/generated/updateCommunity.generated';
+import { UpdateCommunityMutationMutationVariables } from '../../../graphql/updateCommunity.generated';
 import { Community } from '../../../graphql/types.generated';
 const {
   updateCommunityMutation

@@ -8,8 +8,8 @@ import {
   useEditCollectionFormValuesFromQueryResult
 } from 'common/forms/collection/edit';
 import { useFormik } from 'formik';
-import { useGetCollectionQuery } from 'graphql/generated/getCollection.generated';
-import { useUpdateCollectionMutationMutation } from 'graphql/generated/updateCollection.generated';
+import { useGetCollectionQuery } from 'graphql/getCollection.generated';
+import { useUpdateCollectionMutationMutation } from 'graphql/updateCollection.generated';
 import { Collection } from 'graphql/types.generated';
 import * as React from 'react';
 import { Button, Heading } from 'rebass/styled-components';
@@ -41,11 +41,11 @@ interface Props {
 
 const EditCollectionModal: React.FC<Props> = ({ closeModal, collectionId }) => {
   const collection = useGetCollectionQuery({ variables: { id: collectionId } });
-  const [create /* , result */] = useUpdateCollectionMutationMutation();
+  const [update /* , result */] = useUpdateCollectionMutationMutation();
   const formik = useFormik<EditCollectionFormValues>({
     enableReinitialize: true,
     onSubmit: vals =>
-      create({
+      update({
         variables: {
           collection: getCollectionInputFromFormValues(vals),
           collectionId

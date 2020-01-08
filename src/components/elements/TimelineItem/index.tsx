@@ -12,8 +12,8 @@
 // import Actions from './Actions';
 // import Preview from './preview';
 // import media from 'styled-media-query';
-// import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
-// import { useDeleteMutation } from '../../../graphql/generated/delete.generated';
+// import { useLikeMutationMutation } from '../../../graphql/like.generated';
+// import { useDeleteMutation } from '../../../graphql/delete.generated';
 
 // interface Props {
 //   userpage?: boolean;

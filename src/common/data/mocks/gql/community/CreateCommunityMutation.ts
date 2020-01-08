@@ -1,4 +1,4 @@
-import { CreateCommunityMutationMutation } from 'graphql/generated/createCommunity.generated';
+import { CreateCommunityMutationMutation } from 'graphql/createCommunity.generated';
 
 export const basicCreateCommunityMutation: CreateCommunityMutationMutation = {
   createCommunity: {
@@ -17,7 +17,14 @@ export const basicCreateCommunityMutation: CreateCommunityMutationMutation = {
       myLike: null,
       preferredUsername: '',
       updatedAt: '',
-      isLocal: true
+      isLocal: true,
+      canonicalUrl: '',
+      icon: '',
+      image: '',
+      lastActivity: '',
+      location: '',
+      name: '',
+      summary: ''
     },
     followers: { __typename: 'FollowsEdges', totalCount: 0 },
     id: '',

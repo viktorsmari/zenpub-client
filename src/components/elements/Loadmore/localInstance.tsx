@@ -2,7 +2,7 @@ import * as React from 'react';
 import { SFC } from 'react';
 import { Trans } from '@lingui/macro';
 import { LoadMore } from './timeline';
-import { LocalActivitiesQuery } from '../../../graphql/generated/localActivities.generated';
+import { LocalActivitiesQuery } from '../../../graphql/localActivities.generated';
 
 interface Props {
   outbox: any;

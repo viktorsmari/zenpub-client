@@ -9,7 +9,7 @@ import EditCommunityModal from '../../components/elements/EditCommunityModal';
 import Loader from '../../components/elements/Loader/Loader';
 import UsersModal from '../../components/elements/UsersModal';
 import '../../containers/App/basic.css';
-import { useGetCommunityQueryQuery } from '../../graphql/generated/getCommunity.generated';
+import { useGetCommunityQueryQuery } from '../../graphql/getCommunity.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import {
   Nav,
@@ -23,7 +23,7 @@ import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import CommunityPage from './Community';
 import Hero from './hero';
 import { useDynamicLinkOpResult } from 'util/apollo/dynamicLink';
-import { CreateReplyMutationMutationOperation } from 'graphql/generated/createReply.generated';
+import { CreateReplyMutationMutationOperation } from 'graphql/createReply.generated';
 
 interface Props {
   communityId: string;

@@ -10,7 +10,7 @@ import media from 'styled-media-query';
 import Loader from '../../components/elements/Loader/Loader';
 import styled from '../../themes/styled';
 import Dropdown from './dropdown';
-import { GetSidebarQueryQueryResult } from '../../graphql/generated/getSidebar.generated';
+import { GetSidebarQueryQueryResult } from '../../graphql/getSidebar.generated';
 import Empty from '../../components/elements/Empty';
 import Avatar from 'ui/elements/Avatar';
 

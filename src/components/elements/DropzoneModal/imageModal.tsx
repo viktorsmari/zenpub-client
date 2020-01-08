@@ -10,8 +10,8 @@ import { UploadCloud } from 'react-feather';
 // import request from 'superagent';
 import { Heading, Button } from 'rebass/styled-components';
 import { Actions, Container, Header } from '../Modal/modal';
-import { useUploadImageMutation } from '../../../graphql/generated/uploadImage.generated';
-import { useUploadIconMutation } from '../../../graphql/generated/uploadIcon.generated';
+import { useUploadImageMutation } from '../../../graphql/uploadImage.generated';
+import { useUploadIconMutation } from '../../../graphql/uploadIcon.generated';
 import { useFormikContext } from 'formik';
 
 interface Props {

@@ -3,7 +3,7 @@ import { MessageCircle, Star } from 'react-feather';
 import styled from '../../../themes/styled';
 import { Box, Flex } from 'rebass/styled-components';
 import TalkModal from '../TalkModal';
-import { BasicCommentFragment } from '../../../graphql/fragments/generated/basicComment.generated';
+import { BasicCommentFragment } from '../../../graphql/fragments/basicComment.generated';
 
 export interface Props {
   // totalReplies: number;

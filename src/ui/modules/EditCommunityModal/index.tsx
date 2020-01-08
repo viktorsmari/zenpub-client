@@ -1,14 +1,6 @@
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
-import {
-  EditCommunityFormValues,
-  editCommunityFormValuesSchema,
-  useEditCommunityFormValuesFromQueryResult
-} from 'common/forms/community/edit';
-import { useFormik } from 'formik';
-import { useGetCommunityQueryQuery } from 'graphql/generated/getCommunity.generated';
-import { useUpdateCommunityMutationMutation } from 'graphql/generated/updateCommunity.generated';
 import { Community } from 'graphql/types.generated';
 import * as React from 'react';
 import { Button, Heading } from 'rebass/styled-components';
@@ -22,6 +14,8 @@ import Modal, {
   Header,
   Row
 } from 'ui/modules/Modal';
+import { FormikHook } from 'common/types';
+import { throwUnimplementedFn } from 'common/util/ctx-mock/throwUnimplementedFn';
 
 const tt = {
   placeholders: {
@@ -38,19 +32,33 @@ interface Props {
   closeModal: () => void;
 }
 
-const EditCommunityModal: React.FC<Props> = ({ closeModal, communityId }) => {
-  const community = useGetCommunityQueryQuery({ variables: { communityId } });
-  const [create /* , result */] = useUpdateCommunityMutationMutation();
-  const formik = useFormik<EditCommunityFormValues>({
-    enableReinitialize: true,
-    onSubmit: vals => create({ variables: { community: vals, communityId } }),
-    validationSchema: editCommunityFormValuesSchema,
-    initialValues: useEditCommunityFormValuesFromQueryResult(community)
-  });
-  const handleCloseModal = React.useCallback(() => closeModal(), [closeModal]);
+export interface EditCommunityFormValues {
+  name: string;
+  summary: string;
+  image: string;
+}
+
+export interface EditCommunityFormContextCfg {
+  communityId: Community['id'];
+}
+export type EditCommunityFormContext = (
+  cfg: EditCommunityFormContextCfg
+) => {
+  formik: FormikHook<EditCommunityFormValues>;
+};
+export const EditCommunityFormContext = React.createContext<
+  EditCommunityFormContext
+>(throwUnimplementedFn<EditCommunityFormContext>('EditCommunityFormContext'));
+
+export const EditCommunityModal: React.FC<Props> = ({
+  closeModal,
+  communityId
+}) => {
+  const servizioContext = React.useContext(EditCommunityFormContext);
+  const { formik } = servizioContext({ communityId });
 
   return (
-    <Modal closeModal={handleCloseModal}>
+    <Modal closeModal={closeModal}>
       <Container>
         <Header>
           <Heading m={2}>
@@ -123,7 +131,7 @@ const EditCommunityModal: React.FC<Props> = ({ closeModal, communityId }) => {
           >
             <Trans>Create</Trans>
           </Button>
-          <Button variant="outline" onClick={handleCloseModal}>
+          <Button variant="outline" onClick={closeModal}>
             <Trans>Cancel</Trans>
           </Button>
         </Actions>

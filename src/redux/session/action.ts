@@ -1,5 +1,5 @@
 import { actionCtx } from '../../util/redux/Actions';
-import { BasicAuthPayloadFragment } from '../../graphql/fragments/generated/basicAuthPayload.generated';
+import { BasicAuthPayloadFragment } from '../../graphql/fragments/basicAuthPayload.generated';
 
 export const login = actionCtx<'session.login', BasicAuthPayloadFragment['me']>(
   'session.login'

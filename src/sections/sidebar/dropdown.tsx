@@ -3,7 +3,7 @@ import { Settings, User, Power } from 'react-feather';
 import styled from '../../themes/styled';
 import { Trans } from '@lingui/macro';
 import { useHistory } from 'react-router';
-import { useLogoutMutationMutation } from '../../graphql/generated/logout.generated';
+import { useLogoutMutationMutation } from '../../graphql/logout.generated';
 import { Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 

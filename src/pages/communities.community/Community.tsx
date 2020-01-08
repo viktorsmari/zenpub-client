@@ -10,8 +10,8 @@ import { SocialText } from '../../components/elements/SocialText';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem/index2';
 import FeedItem from '../../components/elements/Comment/Comment';
-import { useCreateThreadMutationMutation } from '../../graphql/generated/createThread.generated';
-import { GetCommunityQueryQuery } from '../../graphql/generated/getCommunity.generated';
+import { useCreateThreadMutationMutation } from '../../graphql/createThread.generated';
+import { GetCommunityQueryQuery } from '../../graphql/getCommunity.generated';
 import styled from '../../themes/styled';
 
 // const tt = {
