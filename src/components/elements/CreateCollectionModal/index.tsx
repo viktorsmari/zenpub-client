@@ -10,7 +10,7 @@ import * as Yup from 'yup';
 import {
   CreateCollectionMutationMutationVariables,
   useCreateCollectionMutationMutation
-} from '../../../graphql/generated/createCollection.generated';
+} from '../../../graphql/createCollection.generated';
 import Alert from '../Alert';
 import Modal from '../Modal';
 import {

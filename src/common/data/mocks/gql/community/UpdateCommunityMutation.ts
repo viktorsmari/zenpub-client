@@ -1,4 +1,4 @@
-import { UpdateCommunityMutationMutation } from 'graphql/generated/updateCommunity.generated';
+import { UpdateCommunityMutationMutation } from 'graphql/updateCommunity.generated';
 
 export const basicUpdateCommunityMutation: UpdateCommunityMutationMutation = {
   updateCommunity: {

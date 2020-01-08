@@ -1,4 +1,4 @@
-import { BasicCollectionFragment } from 'graphql/fragments/generated/basicCollection.generated';
+import { BasicCollectionFragment } from 'graphql/fragments/basicCollection.generated';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Text } from 'rebass/styled-components';

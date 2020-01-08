@@ -1,4 +1,4 @@
-import { CreateCollectionMutationMutation } from 'graphql/generated/createCollection.generated';
+import { CreateCollectionMutationMutation } from 'graphql/createCollection.generated';
 
 export const basicCreateCollectionMutation: CreateCollectionMutationMutation = {
   createCollection: {

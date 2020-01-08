@@ -1,8 +1,8 @@
 import React from 'react';
-import { CreateReplyMutationMutationOperation } from '../../graphql/generated/createReply.generated';
-import { DeleteMutationMutationOperation } from '../../graphql/generated/delete.generated';
-import { useGetThreadQuery } from '../../graphql/generated/getThread.generated';
-import { LikeMutationMutationOperation } from '../../graphql/generated/like.generated';
+import { CreateReplyMutationMutationOperation } from '../../graphql/createReply.generated';
+import { DeleteMutationMutationOperation } from '../../graphql/delete.generated';
+import { useGetThreadQuery } from '../../graphql/getThread.generated';
+import { LikeMutationMutationOperation } from '../../graphql/like.generated';
 import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import Stateless from './stateless';
 export interface Props {

@@ -1,4 +1,4 @@
-import { GetCommunityQueryQuery } from 'graphql/generated/getCommunity.generated';
+import { GetCommunityQueryQuery } from 'graphql/getCommunity.generated';
 
 export const basicGetCommunityQuery: GetCommunityQueryQuery = {
   community: {

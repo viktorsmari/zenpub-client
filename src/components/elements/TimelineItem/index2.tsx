@@ -8,16 +8,16 @@ import { NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import removeMd from 'remove-markdown';
 import media from 'styled-media-query';
-import { BasicCollectionFragment } from '../../../graphql/fragments/generated/basicCollection.generated';
+import { BasicCollectionFragment } from '../../../graphql/fragments/basicCollection.generated';
 import {
   BasicCommentWithInReplyToFragment,
   BasicCommentFragment
-} from '../../../graphql/fragments/generated/basicComment.generated';
-import { BasicCommunityFragment } from '../../../graphql/fragments/generated/basicCommunity.generated';
-import { BasicResourceFragment } from '../../../graphql/fragments/generated/basicResource.generated';
-import { BasicUserFragment } from '../../../graphql/fragments/generated/basicUser.generated';
-import { useDeleteMutationMutation } from '../../../graphql/generated/delete.generated';
-import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
+} from '../../../graphql/fragments/basicComment.generated';
+import { BasicCommunityFragment } from '../../../graphql/fragments/basicCommunity.generated';
+import { BasicResourceFragment } from '../../../graphql/fragments/basicResource.generated';
+import { BasicUserFragment } from '../../../graphql/fragments/basicUser.generated';
+import { useDeleteMutationMutation } from '../../../graphql/delete.generated';
+import { useLikeMutationMutation } from '../../../graphql/like.generated';
 import { Comment, User } from '../../../graphql/types.generated';
 import styled from '../../../themes/styled';
 import Link from '../Link/Link';

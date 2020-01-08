@@ -3,7 +3,7 @@ import styled from '../../../themes/styled';
 import { Link } from 'react-router-dom';
 import { Resource } from '../Icons';
 import { Flex, Text, Heading } from 'rebass/styled-components';
-// import { BasicCollectionFragment } from '../../../graphql/fragments/generated/basicCollection.generated';
+// import { BasicCollectionFragment } from '../../../graphql/fragments/basicCollection.generated';
 const PlaceholderImg = require('../Icons/collectionPlaceholder.png');
 
 interface CollectionProps {

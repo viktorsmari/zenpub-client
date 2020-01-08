@@ -5,7 +5,7 @@ import Join from './Join';
 import { clearFix } from 'polished';
 import { Settings } from 'react-feather';
 import media from 'styled-media-query';
-import { GetCommunityQueryQuery } from '../../graphql/generated/getCommunity.generated';
+import { GetCommunityQueryQuery } from '../../graphql/getCommunity.generated';
 import { SessionContext } from '../../context/global/sessionCtx';
 
 interface Props {

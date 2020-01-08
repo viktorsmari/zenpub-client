@@ -1,5 +1,5 @@
 import { Trans } from '@lingui/macro';
-import { useGetFeaturedCommunitiesQuery } from 'graphql/generated/getFeaturedCommunities.generated';
+import { useGetFeaturedCommunitiesQuery } from 'graphql/getFeaturedCommunities.generated';
 import React, { useRef, useContext } from 'react';
 import Slider, { Settings } from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';

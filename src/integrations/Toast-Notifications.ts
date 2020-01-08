@@ -1,12 +1,12 @@
 import { i18nMark } from '@lingui/react';
-import { CreateCollectionMutationMutationOperation } from '../graphql/generated/createCollection.generated';
-import { CreateCommunityMutationMutationOperation } from '../graphql/generated/createCommunity.generated';
-import { CreateReplyMutationMutationOperation } from '../graphql/generated/createReply.generated';
-import { CreateUserMutationMutationOperation } from '../graphql/generated/createUser.generated';
-import { DeleteMutationMutationOperation } from '../graphql/generated/delete.generated';
-import { FollowMutationMutationOperation } from '../graphql/generated/follow.generated';
-import { LikeMutationMutationOperation } from '../graphql/generated/like.generated';
-import { LoginMutationMutationOperation } from '../graphql/generated/login.generated';
+import { CreateCollectionMutationMutationOperation } from '../graphql/createCollection.generated';
+import { CreateCommunityMutationMutationOperation } from '../graphql/createCommunity.generated';
+import { CreateReplyMutationMutationOperation } from '../graphql/createReply.generated';
+import { CreateUserMutationMutationOperation } from '../graphql/createUser.generated';
+import { DeleteMutationMutationOperation } from '../graphql/delete.generated';
+import { FollowMutationMutationOperation } from '../graphql/follow.generated';
+import { LikeMutationMutationOperation } from '../graphql/like.generated';
+import { LoginMutationMutationOperation } from '../graphql/login.generated';
 import { ShowPayload, showToastMessage } from '../redux/toastMsgs';
 import { DynamicLinkSrv } from '../util/apollo/dynamicLink';
 

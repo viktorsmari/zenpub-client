@@ -10,7 +10,7 @@ import NewCommunityModal from '../../components/elements/CreateCommunityModal';
 import Loader from '../../components/elements/Loader/Loader';
 import CommunitiesLoadMore from '../../components/elements/Loadmore/community';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
-import { BasicCommunityFragment } from '../../graphql/fragments/generated/basicCommunity.generated';
+import { BasicCommunityFragment } from '../../graphql/fragments/basicCommunity.generated';
 import { Community } from '../../graphql/types.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel } from '../../sections/panel';

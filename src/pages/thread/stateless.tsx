@@ -5,7 +5,7 @@ import Loader from '../../components/elements/Loader/Loader';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import Header from './header';
-import { GetThreadQueryHookResult } from '../../graphql/generated/getThread.generated';
+import { GetThreadQueryHookResult } from '../../graphql/getThread.generated';
 import Empty from '../../components/elements/Empty';
 import { Trans } from '@lingui/macro';
 // import { Box } from 'rebass/styled-components';
