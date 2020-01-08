@@ -14,6 +14,9 @@ export type BasicCommunityFragment = (
   ), myFollow: Types.Maybe<(
     { __typename?: 'Follow' }
     & Pick<Types.Follow, 'id'>
+  )>, myFlag: Types.Maybe<(
+    { __typename?: 'Flag' }
+    & Pick<Types.Flag, 'id'>
   )>, collections: (
     { __typename?: 'CollectionsEdges' }
     & Pick<Types.CollectionsEdges, 'totalCount'>
@@ -48,6 +51,9 @@ export const BasicCommunityFragmentDoc = gql`
   isPublic
   isDisabled
   myFollow {
+    id
+  }
+  myFlag {
     id
   }
   collections {

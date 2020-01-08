@@ -1,11 +1,12 @@
 import gql from 'graphql-tag';
 import React from 'react';
+import { Trans } from '@lingui/macro';
 import { graphql } from 'react-apollo';
 import { compose, withState } from 'recompose';
 // import styled from '../../../themes/styled';
 import { Button } from 'rebass/styled-components';
 import Loader from '../Loader/Loader';
-import { Trans } from '@lingui/react';
+// import { Trans } from '@lingui/react';
 const { followMutation } = require('../../../graphql/follow.graphql');
 const { deleteMutation } = require('../../../graphql/delete.graphql');
 

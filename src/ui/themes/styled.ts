@@ -1,5 +1,4 @@
 import * as styledComponents from 'styled-components';
-import { ThemedStyledComponentsModule } from 'styled-components';
 
 export interface MoodleThemeInterface {
   breakpoints: string[];
@@ -125,7 +124,7 @@ const {
   keyframes,
   ThemeProvider,
   withTheme
-} = styledComponents as ThemedStyledComponentsModule<MoodleThemeInterface>;
+} = styledComponents;
 
 export { css, createGlobalStyle, keyframes, ThemeProvider, withTheme };
 

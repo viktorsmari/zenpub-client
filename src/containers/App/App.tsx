@@ -8,6 +8,7 @@ import Router from './Router';
 
 export const App: React.FC = () => {
   // const { locale } = React.useContext(LocaleContext);
+  // const direction = (locale != 'ar_SA')? 'ltr' : 'rtl';
   // if (!locale) {
   //   return (
   //     <p>

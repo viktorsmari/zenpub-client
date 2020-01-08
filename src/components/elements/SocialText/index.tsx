@@ -16,6 +16,10 @@ const PickerWrap = styled.div`
   position: absolute;
   right: 10px;
   top: 45px;
+  .--rtl & {
+    left: 10px;
+    right: auto;
+  }
   z-index: 9999;
 `;
 const Wrapper = styled.div`
@@ -49,6 +53,10 @@ const SocialActions = styled(Flex)`
   // right: 10px;
   // top: 16px;
   width: 70px;
+  .--rtl & {
+    left: 10px;
+    right: auto;
+  }
 `;
 
 export interface Props

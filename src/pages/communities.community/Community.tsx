@@ -1,5 +1,7 @@
 import { Trans } from '@lingui/macro';
 import React, { SFC, useState } from 'react';
+// import { i18nMark } from '@lingui/react';
+// import { i18n } from '../../containers/App/App';
 import { TabPanel, Tabs } from 'react-tabs';
 import { Box, Button, Flex } from 'rebass/styled-components';
 import CreateCollectionModal from '../../components/elements/CreateCollectionModal';
@@ -7,10 +9,16 @@ import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
 import { SocialText } from '../../components/elements/SocialText';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem/index2';
+import FeedItem from '../../components/elements/Comment/Comment';
 import { useCreateThreadMutationMutation } from '../../graphql/generated/createThread.generated';
 import { GetCommunityQueryQuery } from '../../graphql/generated/getCommunity.generated';
 import styled from '../../themes/styled';
 
+// const tt = {
+//   placeholders: {
+//     thread: i18nMark('Start a new thread...')
+//   }
+// };
 interface Props {
   collections: any;
   followed: boolean;
@@ -68,6 +76,11 @@ const CommunityPage: SFC<Props> = ({
                   <Trans>Collections</Trans>
                 </h5>
               </SuperTab>
+              <SuperTab>
+                <h5>
+                  <Trans>Discussions</Trans>
+                </h5>
+              </SuperTab>
             </SuperTabList>
             <TabPanel>
               {followed ? (
@@ -108,6 +121,44 @@ const CommunityPage: SFC<Props> = ({
                 </ButtonWrapper>
               ) : null}
               <div>{collections}</div>
+            </TabPanel>
+            <TabPanel>
+              {/* {followed ? (
+                <>
+                  <Overlay />
+                  <WrapperBox p={3}>
+                    <SocialText
+                      onInput={setNewThreadTextInput}
+                      reference={socialTextRef}
+                      submit={addNewThread}
+                      placeholder="Start a new thread..."
+                    />
+                  </WrapperBox>
+                </>
+              ) : null} */}
+              <div>
+                {community.threads &&
+                  community.threads.edges &&
+                  community.threads.edges.map(
+                    (t, i) =>
+                      t &&
+                      (t.node.comments &&
+                        t.node.comments.edges
+                          .reverse()
+                          .map(
+                            edge =>
+                              edge &&
+                              edge.node &&
+                              edge.node.inReplyTo == null && (
+                                <FeedItem
+                                  key={edge.node.thread.id}
+                                  comment={edge.node}
+                                />
+                              )
+                          ))
+                  )}
+                {/* <LoadMoreTimeline fetchMore={fetchMore} community={community} /> */}
+              </div>
             </TabPanel>
           </Tabs>
         </OverlayTab>

@@ -69,6 +69,10 @@ const ActionItem = styled.div`
     vertical-align: sub;
     color: inherit !important;
     margin-right: 4px;
+    .--rtl & {
+      margin-right: 0px;
+      margin-left: 4px;
+    }
   }
 `;
 
@@ -95,10 +99,18 @@ const Img = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   margin-right: 8px;
+  .--rtl & {
+    margin-right: 0px;
+    margin-left: 8px;
+  }
 `;
 const Infos = styled.div`
   flex: 1;
   margin-left: 8px;
+  .--rtl & {
+    margin-right: 8px;
+    margin-left: 0px;
+  }
   position: relative;
 `;
 const Title = styled(Heading)`

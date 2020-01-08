@@ -1,7 +1,9 @@
 import * as Types from '../types.generated';
 
 import { BasicCollectionFragment } from '../fragments/generated/basicCollection.generated';
+import { BasicUserFragment } from '../fragments/generated/basicUser.generated';
 import gql from 'graphql-tag';
+import { BasicUserFragmentDoc } from '../fragments/generated/basicUser.generated';
 import { BasicCollectionFragmentDoc } from '../fragments/generated/basicCollection.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -11,35 +13,73 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
-export type GetFeaturedCollectionsQueryVariables = {
-  one: Types.Scalars['String'],
-  two: Types.Scalars['String']
-};
+
+export type GetFeaturedCollectionsQueryVariables = {};
 
 
 export type GetFeaturedCollectionsQuery = (
   { __typename?: 'RootQueryType' }
-  & { one: Types.Maybe<(
-    { __typename?: 'Collection' }
-    & BasicCollectionFragment
-  )>, two: Types.Maybe<(
-    { __typename?: 'Collection' }
-    & BasicCollectionFragment
+  & { instance: Types.Maybe<(
+    { __typename?: 'Instance' }
+    & { featuredCollections: (
+      { __typename?: 'FeaturesEdges' }
+      & Pick<Types.FeaturesEdges, 'totalCount'>
+      & { pageInfo: Types.Maybe<(
+        { __typename?: 'PageInfo' }
+        & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
+      )>, edges: Array<Types.Maybe<(
+        { __typename?: 'FeaturesEdge' }
+        & Pick<Types.FeaturesEdge, 'cursor'>
+        & { node: (
+          { __typename?: 'Feature' }
+          & Pick<Types.Feature, 'id' | 'canonicalUrl' | 'isLocal' | 'createdAt'>
+          & { creator: (
+            { __typename?: 'User' }
+            & BasicUserFragment
+          ), context: (
+            { __typename: 'Collection' }
+            & BasicCollectionFragment
+          ) | { __typename: 'Community' } }
+        ) }
+      )>> }
+    ) }
   )> }
 );
 
 
 export const GetFeaturedCollectionsDocument = gql`
-    query getFeaturedCollections($one: String!, $two: String!) {
-  one: collection(collectionId: $one) {
-    ...BasicCollection
-  }
-  two: collection(collectionId: $two) {
-    ...BasicCollection
+    query getFeaturedCollections {
+  instance {
+    featuredCollections {
+      pageInfo {
+        startCursor
+        endCursor
+      }
+      totalCount
+      edges {
+        cursor
+        node {
+          id
+          canonicalUrl
+          isLocal
+          createdAt
+          creator {
+            ...BasicUser
+          }
+          context {
+            __typename
+            ... on Collection {
+              ...BasicCollection
+            }
+          }
+        }
+      }
+    }
   }
 }
-    ${BasicCollectionFragmentDoc}`;
-export type GetFeaturedCollectionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetFeaturedCollectionsQuery, GetFeaturedCollectionsQueryVariables>, 'query'> & ({ variables: GetFeaturedCollectionsQueryVariables; skip?: boolean; } | { skip: boolean; });
+    ${BasicUserFragmentDoc}
+${BasicCollectionFragmentDoc}`;
+export type GetFeaturedCollectionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetFeaturedCollectionsQuery, GetFeaturedCollectionsQueryVariables>, 'query'>;
 
     export const GetFeaturedCollectionsComponent = (props: GetFeaturedCollectionsComponentProps) => (
       <ApolloReactComponents.Query<GetFeaturedCollectionsQuery, GetFeaturedCollectionsQueryVariables> query={GetFeaturedCollectionsDocument} {...props} />
@@ -69,8 +109,6 @@ export function withGetFeaturedCollections<TProps, TChildProps = {}>(operationOp
  * @example
  * const { data, loading, error } = useGetFeaturedCollectionsQuery({
  *   variables: {
- *      one: // value for 'one'
- *      two: // value for 'two'
  *   },
  * });
  */

@@ -1,32 +1,28 @@
 #import "./fragments/basicCommunity.graphql"
-query getFeaturedCommunities(
-  $one: String!
-  $two: String!
-  $three: String!
-  $four: String!
-  # $five: String!
-  # $six: String!
-  # $seven: String!
-  ) {
-  one: community(communityId:$one) {
-    ...BasicCommunity
+
+query getFeaturedCommunities {
+  instance {
+    featuredCommunities {
+      pageInfo { startCursor endCursor }
+      totalCount
+      edges {
+        cursor
+        node {
+          id
+          canonicalUrl
+          isLocal
+          createdAt
+          creator {
+            ...BasicUser
+          }
+          context {
+            __typename
+            ... on Community {
+              ...BasicCommunity
+            }
+          }
+        }
+      }
+    }
   }
-   two: community(communityId:$two) {
-    ...BasicCommunity
-  }
-   three: community(communityId:$three) {
-    ...BasicCommunity
-  }
-   four: community(communityId:$four) {
-    ...BasicCommunity
-  }
-  #  five: community(communityId:$five) {
-  #   ...BasicCommunity
-  # }
-  #  six: community(communityId:$six) {
-  #   ...BasicCommunity
-  # }
-  #  seven: community(communityId:$seven) {
-  #   ...BasicCommunity
-  # }
 }

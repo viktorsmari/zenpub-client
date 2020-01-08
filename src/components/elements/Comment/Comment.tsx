@@ -12,6 +12,7 @@ import { useLikeMutationMutation } from '../../../graphql/generated/like.generat
 import { useDeleteMutationMutation } from '../../../graphql/generated/delete.generated';
 import { BasicCommentFragment } from '../../../graphql/fragments/generated/basicComment.generated';
 import { Comment } from '../../../graphql/types.generated';
+import MoreOptions from '../MoreOptions';
 
 interface EventProps {
   comment: BasicCommentFragment | Comment;
@@ -41,12 +42,18 @@ const CommentWrapper: React.FC<EventProps> = ({
 
   return (
     <FeedItem>
-      {noLink ? null : <NavigateToThread to={`/thread/${comment.id}`} />}
+      {noLink ? null : <NavigateToThread to={`/thread/${comment.thread.id}`} />}
       <Member>
         <MemberItem mr={2}>
           <Img src={(creator && creator.icon) || ''} />
         </MemberItem>
         <MemberInfo>
+          {typeof comment!.id == 'string' ? (
+            <MoreOptionsContainer>
+              {/* <MoreOptions contextId={comment.id} myFlag={comment.myFlag} /> */}
+              <MoreOptions contextId={comment.id} myFlag="false" />
+            </MoreOptionsContainer>
+          ) : null}
           {creator ? (
             <Name>
               <Link to={'/user/' + creator.id}>
@@ -248,6 +255,10 @@ const MemberItem = styled(Box)`
   vertical-align: inherit;
   margin-right: 8px;
   min-width: 48px;
+  .--rtl & {
+    margin-right: 0px;
+    margin-left: 8px;
+  }
 `;
 
 const Img = styled.img`
@@ -264,6 +275,10 @@ const Img = styled.img`
   text-overflow: ellipsis;
   vertical-align: text-top;
   margin-right: 8px;
+  .--rtl & {
+    margin-right: 0px;
+    margin-left: 8px;
+  }
 `;
 
 const FeedItem = styled.div`
@@ -288,4 +303,12 @@ const FeedItem = styled.div`
     background: ${props => props.theme.colors.lighter};
   }
 
+`;
+
+const MoreOptionsContainer = styled.div`
+  margin-left: 16px;
+  position: absolute;
+  right: 45px;
+  z-index: 20;
+  top: 12px;
 `;

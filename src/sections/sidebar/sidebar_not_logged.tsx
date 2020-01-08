@@ -82,6 +82,7 @@ const Header = styled(Box)`
     `};
   }
 `;
+
 const Nav = styled(Box)`
   a {
     text-decoration: none;

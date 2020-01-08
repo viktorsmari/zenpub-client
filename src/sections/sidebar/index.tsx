@@ -178,6 +178,14 @@ const Right = styled(Box)`
   `};
 `;
 
+const ItemTitleDir = styled(ItemTitle)`
+  margin-left: 8px;
+  .--rtl & {
+    margin-right: 8px;
+    margin-left: 0px;
+  }
+`;
+
 const Sbox = styled(Box)`
   ${media.lessThan('1280px')`
     display: none;
@@ -251,17 +259,17 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
                   <SidebarLink exact to={'/discover'}>
                     <NavItem mb={3} alignItems={'center'}>
                       <Globe size={40} />
-                      <ItemTitle ml={2} variant="link">
+                      <ItemTitleDir variant="link">
                         <Trans>Discover</Trans>
-                      </ItemTitle>
+                      </ItemTitleDir>
                     </NavItem>
                   </SidebarLink>
                   <SidebarLink exact to={'/'}>
                     <NavItem mb={3} alignItems={'center'}>
                       <Avatar src={MnetLogo} />
-                      <ItemTitle ml={2} variant="link">
+                      <ItemTitleDir variant="link">
                         <Trans>My MoodleNet</Trans>
-                      </ItemTitle>
+                      </ItemTitleDir>
                     </NavItem>
                   </SidebarLink>
                 </Nav>
@@ -283,9 +291,9 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
                               initials={community.name.substr(0, 2)}
                               src={community.icon!}
                             />
-                            <ItemTitle ml={2} variant="link">
+                            <ItemTitleDir variant="link">
                               {community.name}
-                            </ItemTitle>
+                            </ItemTitleDir>
                           </NavItem>
                         </CommunityLink>
                       );

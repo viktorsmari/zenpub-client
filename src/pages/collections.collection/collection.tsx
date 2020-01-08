@@ -15,6 +15,8 @@ import {
   OverlayTab
 } from '../communities.community/Community';
 import CollectionModal from '../../components/elements/CollectionModal';
+// import DropzoneArea from '../../components/elements/DropzoneModal';
+
 import { BasicCollectionFragment } from '../../graphql/fragments/generated/basicCollection.generated';
 import { BasicResourcesEdgesFragment } from '../../graphql/fragments/generated/basicResourcesEdges.generated';
 // import CollectionsLoadMore from 'src/components/elements/Loadmore/followingCollections';
@@ -34,6 +36,7 @@ const CommunityPage: SFC<Props> = ({
   resources
 }) => {
   const [isOpen, onOpen] = useState(false);
+  // const [isUploadOpen, onUploadOpen] = useState(true);
   return (
     <WrapperTab>
       <OverlayTab>
@@ -87,6 +90,30 @@ const CommunityPage: SFC<Props> = ({
                       collectionExternalId={collection.id}
                     />
                   )}
+                  {/* {collection.community.followed ? (
+                    isUploadOpen === true ? (
+                      <ButtonWrapper>
+                        <Button m={3} onClick={() => onUploadOpen(false)}>
+                          <Trans>Cancel</Trans>
+                        </Button>
+                      </ButtonWrapper>
+                    ) : (
+                      <ButtonWrapper>
+                        <Button m={3} onClick={() => onUploadOpen(false)}>
+                          <Trans>Upload a file</Trans>
+                        </Button>
+                      </ButtonWrapper>
+                    )
+                  ) : null}
+                  {isUploadOpen === true ? (
+                    <DropzoneArea
+                      toggleModal={onUploadOpen}
+                      modalIsOpen={isUploadOpen}
+                      itemId={collection.localId}
+                      externalItemId={collection.id}
+                    />
+                  ) : null} */}
+
                   {resources.totalCount > 0 ? (
                     resources.edges.map(
                       (edge, i) =>
@@ -98,6 +125,7 @@ const CommunityPage: SFC<Props> = ({
                             summary={edge.node.summary}
                             url={edge.node.url}
                             id={edge.node.id}
+                            myFlag={edge.node.myFlag}
                           />
                         )
                     )

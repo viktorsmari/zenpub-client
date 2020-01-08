@@ -7,6 +7,8 @@ import { DateTime } from 'luxon';
 import Talk from '../TalkModal';
 import Link from '../Link/Link';
 import { Comment } from '../../../graphql/types.generated';
+import MoreOptions from '../MoreOptions';
+
 import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
 import { useDeleteMutationMutation } from '../../../graphql/generated/delete.generated';
 
@@ -38,6 +40,10 @@ const Spacer = styled(Text)`
   color: ${props => props.theme.colors.gray};
   margin-right: 8px;
   font-weight: 500;
+  .--rtl & {
+    margin-right: 0px;
+    margin-left: 8px;
+  }
 `;
 
 const Date = styled(Text)`
@@ -95,6 +101,12 @@ const ActionIcon = styled(Box)`
   }
 `;
 
+const MoreOptionsContainer = styled.div`
+  margin-left: 16px;
+  position: absolute;
+  right: 20px;
+`;
+
 interface Props {
   comment: Comment;
 }
@@ -128,6 +140,12 @@ const Thread: SFC<Props> = ({ comment }) => {
             <Date fontSize={1}>
               {DateTime.fromISO(comment.createdAt).toRelative()}
             </Date>
+            {typeof comment!.id == 'number' ? (
+              <MoreOptionsContainer>
+                {/* <MoreOptions contextId={comment.id} myFlag={comment.myFlag} /> */}
+                <MoreOptions contextId={comment.id} myFlag="false" />
+              </MoreOptionsContainer>
+            ) : null}
           </Flex>
           <Link to={'/user/' + comment.creator.id}>
             <Username mt={1} fontSize={1} mx={2}>

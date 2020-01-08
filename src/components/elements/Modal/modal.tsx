@@ -47,6 +47,11 @@ const Action = styled.div`
   padding-top: 10px;
   padding-right: 10px;
   float: right;
+  .--rtl & {
+    float: left;
+    padding-right: 0px;
+    padding-left: 10px;
+  }
 `;
 
 const Close = styled.div`
@@ -73,6 +78,14 @@ export const Actions = styled.div`
   & button {
     float: right;
   }
+  .--rtl & {
+    padding-right: 0px;
+    padding-left: 10px;
+    text-align: left;
+  }
+  .--rtl & button {
+    float: left;
+  }
 `;
 
 export const CounterChars = styled.div`
@@ -85,6 +98,9 @@ export const CounterChars = styled.div`
   margin-top: 4px;
   color: #32302e;
   letter-spacing: 1px;
+  .--rtl & {
+    float: left;
+  }
 `;
 
 export const ContainerForm = styled.div`
@@ -139,13 +155,23 @@ interface Props {
   isOpen: boolean;
   toggleModal: any;
   collectionId: string;
+  position?: string;
 }
 
-const Modal: React.FC<Props> = ({ isOpen, toggleModal, children }) => {
+const Modal: React.FC<Props> = ({
+  isOpen,
+  toggleModal,
+  position,
+  children
+}) => {
   return isOpen ? (
     <div>
       <Background onClick={toggleModal} />
-      <Dialog>
+      <Dialog
+        style={
+          position == 'abs' ? { position: 'absolute' } : { position: 'fixed' }
+        }
+      >
         <Action>
           <Close onClick={toggleModal}>
             <Cross width={20} height={20} strokeWidth={2} color="#333" />

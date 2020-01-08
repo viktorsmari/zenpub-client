@@ -71,16 +71,16 @@ export type GetUserQuery = (
               { __typename?: 'User' }
               & BasicUserFragment
             ), context: (
-              { __typename?: 'Collection' }
+              { __typename: 'Collection' }
               & BasicCollectionFragment
             ) | (
-              { __typename?: 'Comment' }
+              { __typename: 'Comment' }
               & BasicCommentWithInReplyToFragment
             ) | (
-              { __typename?: 'Community' }
+              { __typename: 'Community' }
               & BasicCommunityFragment
-            ) | (
-              { __typename?: 'Resource' }
+            ) | { __typename: 'Flag' } | { __typename: 'Follow' } | { __typename: 'Like' } | (
+              { __typename: 'Resource' }
               & BasicResourceFragment
             ) }
           ) }

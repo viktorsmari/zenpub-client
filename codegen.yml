@@ -1,7 +1,7 @@
-overwrite: true
-schema: https://team.moodle.net/api/graphql
-# documents: src/graphql/main/home.next.moodle.net_schema.graphql
+schema: ${REACT_APP_GRAPHQL_ENDPOINT}
 documents: src/graphql/**/!(*.client).graphql
+overwrite: true
+watch: true
 
 generates:
   src/graphql/schema.generated.json:

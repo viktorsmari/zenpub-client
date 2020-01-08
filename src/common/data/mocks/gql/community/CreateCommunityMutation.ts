@@ -13,6 +13,7 @@ export const basicCreateCommunityMutation: CreateCommunityMutationMutation = {
       id: '',
       createdAt: '',
       myFollow: { __typename: 'Follow', id: '' },
+      myFlag: { __typename: 'Flag', id: '' },
       myLike: null,
       preferredUsername: '',
       updatedAt: '',
@@ -28,6 +29,7 @@ export const basicCreateCommunityMutation: CreateCommunityMutationMutation = {
     updatedAt: '',
     lastActivity: '',
     myFollow: null,
+    myFlag: null,
     canonicalUrl: null,
     icon: null,
     threads: { __typename: 'ThreadsEdges', totalCount: 0 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { ProvideActionCtx } from './actionCtx';
 import { ProvideSessionCtx } from './sessionCtx';
 import { ProvideStateCtx } from './stateCtx';
@@ -8,6 +9,7 @@ import {
   DynamicLinkSrv
 } from '../../util/apollo/dynamicLink';
 import { ProvideLocalizationCtx } from './localizationCtx';
+import { ProvideAlgoliaContext } from './algolia';
 
 interface Props {
   children: React.ReactNode;
@@ -26,7 +28,9 @@ export const ProvideContexts: React.FC<Props> = ({
           <ProvideLocalizationCtx>
             <ProvideSessionCtx>
               <ApolloDynamicLinkContext.Provider value={dynamicLinkSrv}>
-                {children}
+                <BrowserRouter>
+                  <ProvideAlgoliaContext>{children}</ProvideAlgoliaContext>
+                </BrowserRouter>
               </ApolloDynamicLinkContext.Provider>
             </ProvideSessionCtx>
           </ProvideLocalizationCtx>

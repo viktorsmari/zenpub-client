@@ -22,6 +22,7 @@ import {
   Row
 } from '../Modal/modal';
 import { useHistory } from 'react-router';
+import styled from '../../../themes/styled';
 import { LocaleContext } from '../../../context/global/localizationCtx';
 
 const tt = {
@@ -162,9 +163,9 @@ const CreateCollectionModal: React.FC<Props> = ({
                   </ContainerForm>
                 </Row>
                 <Actions>
-                  <Button disabled={isSubmitting} type="submit" ml={2}>
+                  <SubmitButton disabled={isSubmitting} type="submit">
                     <Trans>Create</Trans>
-                  </Button>
+                  </SubmitButton>
                   <Button variant="outline" onClick={toggleModal}>
                     <Trans>Cancel</Trans>
                   </Button>
@@ -192,6 +193,14 @@ const validationSchema = Yup.object().shape({
 });
 
 export default CreateCollectionModal;
+
+const SubmitButton = styled(Button)`
+  margin-left: 8px;
+  .--rtl & {
+    margin-right: 8px;
+    margin-left: 0px;
+  }
+`;
 
 // const ModalWithFormik = withFormik<MyFormProps, FormValues>({
 //   handleSubmit: (values, { props, setSubmitting }) => {

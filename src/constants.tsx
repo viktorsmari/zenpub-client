@@ -6,8 +6,7 @@ export const PUBLIC_URL = process.env.PUBLIC_URL;
 export const SENTRY_KEY = process.env.SENTRY_KEY || '';
 
 export const APP_NAME = 'MoodleNet';
-export const INSTANCE_DESCRIPTION =
-  'This instance of MoodleNet is currently invite-only.';
+export const INSTANCE_DESCRIPTION = 'This instance is currently invite-only.';
 export const INVITE_ONLY_TEXT =
   'Please note, signups on this instance are currently invite-only.';
 
@@ -19,10 +18,18 @@ export const languages = {
   es_MX: 'Español, Méjico',
   es_ES: 'Español, España',
   fr_FR: 'Français, France',
-  eu: 'Euskara'
+  eu: 'Euskara',
+  ar_SA: 'العربية, المملكة العربية السعودية'
 };
 export type LocaleKey = keyof typeof languages;
 export const locales = Object.keys(languages) as LocaleKey[];
+
+export const algoliaCreds = {
+  appId: 'KVG4RFL0JJ',
+  apiKey: '884f8371d98c8c9837cf76f85f4b5daa'
+};
+
+/* log ENV if DEV */
 IS_DEV &&
   console.log(`-environment-
 ${Object.keys(process.env)
@@ -30,3 +37,4 @@ ${Object.keys(process.env)
     .join('\n')}
 -------------
 `);
+/***/

@@ -35,17 +35,20 @@ export type BasicCommentFragment = (
   ), likes: (
     { __typename?: 'LikesEdges' }
     & Pick<Types.LikesEdges, 'totalCount'>
+  ), flags: (
+    { __typename?: 'FlagsEdges' }
+    & Pick<Types.FlagsEdges, 'totalCount'>
   ), thread: (
     { __typename?: 'Thread' }
     & Pick<Types.Thread, 'id'>
     & { context: (
-      { __typename?: 'Collection' }
+      { __typename: 'Collection' }
       & BasicCollectionFragment
     ) | (
-      { __typename?: 'Community' }
+      { __typename: 'Community' }
       & BasicCommunityFragment
-    ) | { __typename?: 'Flag' } | (
-      { __typename?: 'Resource' }
+    ) | { __typename: 'Flag' } | (
+      { __typename: 'Resource' }
       & BasicResourceFragment
     ) }
   ) }
@@ -67,6 +70,9 @@ export const BasicCommentFragmentDoc = gql`
     ...BasicUser
   }
   likes {
+    totalCount
+  }
+  flags {
     totalCount
   }
   thread {
