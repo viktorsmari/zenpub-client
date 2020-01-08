@@ -9,7 +9,7 @@ import { Input } from '@rebass/forms';
 import { Heading, Button } from 'rebass/styled-components';
 import Modal from '../Modal';
 import { Row, Container, Actions, ContainerForm, Header } from '../Modal/modal';
-import { useCreateUserMutationMutation } from '../../../graphql/generated/createUser.generated';
+import { useCreateUserMutationMutation } from '../../../graphql/createUser.generated';
 const checkUsername = require('../../../graphql/checkUsername.graphql');
 import Markdown from 'markdown-to-jsx';
 import axios from 'axios';

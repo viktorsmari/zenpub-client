@@ -1,7 +1,7 @@
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import { apolloMockDeco, mockLink } from 'common/util/storybook/apolloDeco';
-import { CreateCommunityMutationMutationOperation } from 'graphql/generated/createCommunity.generated';
+import { CreateCommunityMutationMutationOperation } from 'graphql/createCommunity.generated';
 import React from 'react';
 import { themeDeco } from 'ui/styleguide/storiesThemeDecorator';
 import CreateCommunityModal from '.';

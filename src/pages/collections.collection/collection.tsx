@@ -17,8 +17,8 @@ import {
 import CollectionModal from '../../components/elements/CollectionModal';
 // import DropzoneArea from '../../components/elements/DropzoneModal';
 
-import { BasicCollectionFragment } from '../../graphql/fragments/generated/basicCollection.generated';
-import { BasicResourcesEdgesFragment } from '../../graphql/fragments/generated/basicResourcesEdges.generated';
+import { BasicCollectionFragment } from '../../graphql/fragments/basicCollection.generated';
+import { BasicResourcesEdgesFragment } from '../../graphql/fragments/basicResourcesEdges.generated';
 // import CollectionsLoadMore from 'src/components/elements/Loadmore/followingCollections';
 
 interface Props {

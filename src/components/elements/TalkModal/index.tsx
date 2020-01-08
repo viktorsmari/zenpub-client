@@ -8,8 +8,8 @@ import { SessionContext } from '../../../context/global/sessionCtx';
 import Alert from '../Alert';
 import Modal from '../Modal';
 import SocialText from '../SocialText';
-import { useCreateReplyMutationMutation } from '../../../graphql/generated/createReply.generated';
-import { BasicCommentFragment } from '../../../graphql/fragments/generated/basicComment.generated';
+import { useCreateReplyMutationMutation } from '../../../graphql/createReply.generated';
+import { BasicCommentFragment } from '../../../graphql/fragments/basicComment.generated';
 import { Comment } from '../../../graphql/types.generated';
 import { LocaleContext } from '../../../context/global/localizationCtx';
 

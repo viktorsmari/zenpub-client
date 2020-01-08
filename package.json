@@ -13,7 +13,7 @@
     "docs": "typedoc --out docs src",
     "storybook": "start-storybook -p 4000 --docs",
     "build-storybook": "build-storybook -c .storybook",
-    "gqlcode": "shx rm -fr src/graphql/generated && shx rm -fr src/graphql/fragments/generated && node ./codegen",
+    "gqlcode": "node ./codegen",
     "gql:fetch-schema": "graphql get-schema --project"
   },
   "lint-staged": {
@@ -202,6 +202,7 @@
     "babel-loader": "8.0.6",
     "core-js": "2.6.10",
     "emotion-theming": "^10.0.14",
+    "glob": "7.1.6",
     "graphql-cli": "3.0.14",
     "html-webpack-plugin": "3.2.0",
     "react-docgen-typescript-loader": "3.6.0",

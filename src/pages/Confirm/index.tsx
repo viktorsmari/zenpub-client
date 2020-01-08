@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Box } from 'rebass/styled-components';
-import { useConfirmEmailMutationMutation } from '../../graphql/generated/confirmEmail.generated';
+import { useConfirmEmailMutationMutation } from '../../graphql/confirmEmail.generated';
 import styled from '../../themes/styled';
 
 const LoginWrapper = styled.div`

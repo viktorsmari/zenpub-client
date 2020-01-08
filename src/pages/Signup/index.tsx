@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import Alert from '../../components/elements/Alert';
 import { Input } from '@rebass/forms';
 import { Box, Text, Button, Flex } from 'rebass/styled-components';
-import { useCreateUserMutationMutation } from '../../graphql/generated/createUser.generated';
+import { useCreateUserMutationMutation } from '../../graphql/createUser.generated';
 const checkUsername = require('../../graphql/checkUsername.graphql');
 import Markdown from 'markdown-to-jsx';
 // import axios from 'axios';

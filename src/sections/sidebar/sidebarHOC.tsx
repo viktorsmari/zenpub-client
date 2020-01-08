@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { CreateCommunityMutationMutationOperation } from '../../graphql/generated/createCommunity.generated';
-import { DeleteMutationMutationOperation } from '../../graphql/generated/delete.generated';
-import { FollowMutationMutationOperation } from '../../graphql/generated/follow.generated';
-import { useGetSidebarQueryQuery } from '../../graphql/generated/getSidebar.generated';
+import { CreateCommunityMutationMutationOperation } from '../../graphql/createCommunity.generated';
+import { DeleteMutationMutationOperation } from '../../graphql/delete.generated';
+import { FollowMutationMutationOperation } from '../../graphql/follow.generated';
+import { useGetSidebarQueryQuery } from '../../graphql/getSidebar.generated';
 import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import Sidebar from '../sidebar';
 

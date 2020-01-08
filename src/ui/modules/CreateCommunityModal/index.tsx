@@ -8,7 +8,7 @@ import {
   BasicCreateCommunityFormValues
 } from 'common/forms/community/basicCreate';
 import { useFormik } from 'formik';
-import { useCreateCommunityMutationMutation } from 'graphql/generated/createCommunity.generated';
+import { useCreateCommunityMutationMutation } from 'graphql/createCommunity.generated';
 import * as React from 'react';
 import { Button, Heading } from 'rebass/styled-components';
 import Alert from 'ui/elements/Alert';

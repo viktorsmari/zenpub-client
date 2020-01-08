@@ -10,7 +10,7 @@ import Alert from '../Alert';
 import { Button } from 'rebass/styled-components';
 import Modal from '../Modal';
 import DropzoneArea from '../DropzoneModal';
-import { useUploadIconMutation } from '../../../graphql/generated/uploadIcon.generated';
+import { useUploadIconMutation } from '../../../graphql/uploadIcon.generated';
 import styled from '../../../themes/styled';
 
 import {
@@ -24,7 +24,7 @@ import {
 import {
   useUpdateCommunityMutationMutation,
   UpdateCommunityMutationMutationVariables
-} from '../../../graphql/generated/updateCommunity.generated';
+} from '../../../graphql/updateCommunity.generated';
 
 const ModalWithUpload = styled(Modal)`
   position: absolute;

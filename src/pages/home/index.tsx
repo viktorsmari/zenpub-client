@@ -8,7 +8,7 @@ import Loader from '../../components/elements/Loader/Loader';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timelineUser';
 import { StickyTabList, SuperTab } from '../../components/elements/SuperTab';
 import TimelineItem from '../../components/elements/TimelineItem/index2';
-import { useGetMeInboxQuery } from '../../graphql/generated/getMeInbox.generated';
+import { useGetMeInboxQuery } from '../../graphql/getMeInbox.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import {
   Nav,
@@ -20,9 +20,9 @@ import {
 } from '../../sections/panel';
 import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-import { CreateReplyMutationMutationOperation } from '../../graphql/generated/createReply.generated';
-import { LikeMutationMutationOperation } from '../../graphql/generated/like.generated';
-import { DeleteMutationMutationOperation } from '../../graphql/generated/delete.generated';
+import { CreateReplyMutationMutationOperation } from '../../graphql/createReply.generated';
+import { LikeMutationMutationOperation } from '../../graphql/like.generated';
+import { DeleteMutationMutationOperation } from '../../graphql/delete.generated';
 
 interface Props {}
 

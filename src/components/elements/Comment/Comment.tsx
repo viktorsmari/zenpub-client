@@ -8,9 +8,9 @@ import removeMd from 'remove-markdown';
 import styled from '../../../themes/styled';
 import Link from '../Link/Link';
 import Talk from '../TalkModal';
-import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
-import { useDeleteMutationMutation } from '../../../graphql/generated/delete.generated';
-import { BasicCommentFragment } from '../../../graphql/fragments/generated/basicComment.generated';
+import { useLikeMutationMutation } from '../../../graphql/like.generated';
+import { useDeleteMutationMutation } from '../../../graphql/delete.generated';
+import { BasicCommentFragment } from '../../../graphql/fragments/basicComment.generated';
 import { Comment } from '../../../graphql/types.generated';
 import MoreOptions from '../MoreOptions';
 

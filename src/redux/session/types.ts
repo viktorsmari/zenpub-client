@@ -1,4 +1,4 @@
-import { BasicAuthPayloadFragment } from '../../graphql/fragments/generated/basicAuthPayload.generated';
+import { BasicAuthPayloadFragment } from '../../graphql/fragments/basicAuthPayload.generated';
 
 export type SessionUser = BasicAuthPayloadFragment['me'];
 

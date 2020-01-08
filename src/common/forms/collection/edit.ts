@@ -1,4 +1,4 @@
-import { GetCollectionQuery } from 'graphql/generated/getCollection.generated';
+import { GetCollectionQuery } from 'graphql/getCollection.generated';
 import { useMemo } from 'react';
 import { QueryResult } from 'react-apollo';
 import * as Yup from 'yup';

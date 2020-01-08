@@ -9,8 +9,8 @@ import Link from '../Link/Link';
 import { Comment } from '../../../graphql/types.generated';
 import MoreOptions from '../MoreOptions';
 
-import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
-import { useDeleteMutationMutation } from '../../../graphql/generated/delete.generated';
+import { useLikeMutationMutation } from '../../../graphql/like.generated';
+import { useDeleteMutationMutation } from '../../../graphql/delete.generated';
 
 const Wrapper = styled(Box)`
   border-bottom: 1px solid ${props => props.theme.colors.lightgray};

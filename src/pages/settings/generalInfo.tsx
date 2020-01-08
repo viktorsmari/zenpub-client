@@ -15,7 +15,7 @@ const {
   updateProfileMutation
 } = require('../../graphql/updateProfile.graphql');
 import { SessionContext } from '../../context/global/sessionCtx';
-// import { useUploadImageMutation } from '../../graphql/generated/uploadImage.generated';
+// import { useUploadImageMutation } from '../../graphql/uploadImage.generated';
 
 import {
   Row,

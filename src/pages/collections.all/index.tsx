@@ -11,7 +11,7 @@ import styled from '../../themes/styled';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel } from '../../sections/panel';
-import { BasicCollectionFragment } from '../../graphql/fragments/generated/basicCollection.generated';
+import { BasicCollectionFragment } from '../../graphql/fragments/basicCollection.generated';
 import { Collection } from '../../graphql/types.generated';
 const { getCollectionsQuery } = require('../../graphql/getCollections.graphql');
 
