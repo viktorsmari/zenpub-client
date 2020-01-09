@@ -7,35 +7,41 @@ import media from 'styled-media-query';
 import { Trans } from '@lingui/react';
 import { throwUnimplementedFn } from 'common/util/ctx-mock/throwUnimplementedFn';
 import EditCommunityModal from 'ui/modules/EditCommunityModal';
-import { FormikHook } from 'common/types';
 
 interface Props {
   communityId: string;
 }
 
-export interface HeroContextData {
+export interface HeroCommunityContextData {
   community: {
     icon: string;
     name: string;
-    summary?: string;
+    summary: string;
     preferredUsername: string;
     totalMembers: number;
     following: boolean;
     canModify: boolean;
-    joinFormik: FormikHook<{}>;
+    toggleJoin: {
+      toggle(): any;
+      isSubmitting: boolean;
+    };
   } | null;
 }
 
-export type HeroContext = (cfg: { communityId: string }) => HeroContextData;
+export type HeroCommunityContext = (
+  cfg: { communityId: string }
+) => HeroCommunityContextData;
 
-export const HeroContext = React.createContext<HeroContext>(
-  throwUnimplementedFn<HeroContext>('HeroContext')
+export const HeroCommunityContext = React.createContext<HeroCommunityContext>(
+  throwUnimplementedFn<HeroCommunityContext>('HeroContext')
 );
 
 export const HeroCommunity: SFC<Props> = ({ communityId }) => {
   const [, setOpenMembers] = React.useState(false);
   const [isOpenSettings, setOpenSettings] = React.useState(false);
-  const { community: c } = React.useContext(HeroContext)({ communityId });
+  const { community: c } = React.useContext(HeroCommunityContext)({
+    communityId
+  });
   return !c ? (
     <Text>Loading...</Text>
   ) : (
@@ -72,8 +78,8 @@ export const HeroCommunity: SFC<Props> = ({ communityId }) => {
                 </EditButton>
               ) : null}
               <Button
-                disabled={c.joinFormik.isSubmitting}
-                onClick={c.joinFormik.submitForm}
+                disabled={c.toggleJoin.isSubmitting}
+                onClick={c.toggleJoin.toggle}
               >
                 {c.following ? <Trans>Leave</Trans> : <Trans>Join</Trans>}
               </Button>

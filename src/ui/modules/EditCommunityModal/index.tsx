@@ -38,23 +38,23 @@ export interface EditCommunityFormValues {
   image: string;
 }
 
-export interface EditCommunityFormContextCfg {
+export interface EditCommunityContextCfg {
   communityId: Community['id'];
 }
-export type EditCommunityFormContext = (
-  cfg: EditCommunityFormContextCfg
+export type EditCommunityContext = (
+  cfg: EditCommunityContextCfg
 ) => {
   formik: FormikHook<EditCommunityFormValues>;
 };
-export const EditCommunityFormContext = React.createContext<
-  EditCommunityFormContext
->(throwUnimplementedFn<EditCommunityFormContext>('EditCommunityFormContext'));
+export const EditCommunityContext = React.createContext<EditCommunityContext>(
+  throwUnimplementedFn<EditCommunityContext>('EditCommunityFormContext')
+);
 
 export const EditCommunityModal: React.FC<Props> = ({
   closeModal,
   communityId
 }) => {
-  const servizioContext = React.useContext(EditCommunityFormContext);
+  const servizioContext = React.useContext(EditCommunityContext);
   const { formik } = servizioContext({ communityId });
 
   return (

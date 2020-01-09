@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import { useGetCommunityForEditQuery } from './getCommunityForEdit.generated';
 import {
   EditCommunityFormValues,
-  EditCommunityFormContextCfg
+  EditCommunityContextCfg
 } from 'ui/modules/EditCommunityModal';
 
 export const validationSchema: Yup.ObjectSchema<
@@ -27,7 +27,7 @@ export const editCommunityFormInitialValues: EditCommunityFormValues = {
 
 export const useEditCommunityFormContext = ({
   communityId
-}: EditCommunityFormContextCfg) => {
+}: EditCommunityContextCfg) => {
   const community = useGetCommunityForEditQuery({ variables: { communityId } });
   const [create /* , result */] = useUpdateCommunityMutationMutation();
   const initialValues = useMemo<EditCommunityFormValues>(

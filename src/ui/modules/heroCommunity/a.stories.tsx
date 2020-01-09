@@ -1,18 +1,18 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 import { themeDeco } from 'ui/styleguide/storiesThemeDecorator';
-import { HeroCommunity, HeroContext } from '.';
+import { HeroCommunity, HeroCommunityContext } from '.';
 import { useFormik } from 'formik';
 import { action } from '@storybook/addon-actions';
 import {
-  EditCommunityFormContext,
+  EditCommunityContext,
   EditCommunityFormValues
 } from '../EditCommunityModal';
 
 storiesOf('Modules/HeroCommunity', module)
   .addDecorator(themeDeco())
   .add('Standard', () => {
-    const editProvider: EditCommunityFormContext = () => {
+    const editProvider: EditCommunityContext = () => {
       const formik = useFormik<EditCommunityFormValues>({
         initialValues: {
           image: '',
@@ -28,7 +28,7 @@ storiesOf('Modules/HeroCommunity', module)
       });
       return { formik };
     };
-    const heroContext: HeroContext = () => {
+    const heroContext: HeroCommunityContext = () => {
       return {
         community: {
           canModify: true,
@@ -38,20 +38,18 @@ storiesOf('Modules/HeroCommunity', module)
           preferredUsername: 'ninos',
           summary: '',
           totalMembers: 193,
-          joinFormik: useFormik<{}>({
-            initialValues: {},
-            onSubmit: () => {
-              action('submit')();
-            }
-          })
+          toggleJoin: {
+            toggle: action('submit'),
+            isSubmitting: false
+          }
         }
       };
     };
     return (
-      <HeroContext.Provider value={heroContext}>
-        <EditCommunityFormContext.Provider value={editProvider}>
+      <HeroCommunityContext.Provider value={heroContext}>
+        <EditCommunityContext.Provider value={editProvider}>
           <HeroCommunity communityId={'1'} />
-        </EditCommunityFormContext.Provider>
-      </HeroContext.Provider>
+        </EditCommunityContext.Provider>
+      </HeroCommunityContext.Provider>
     );
   });
