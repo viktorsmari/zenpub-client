@@ -2,7 +2,7 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 import { ActivityPreview, ActivityPreviewContext } from '.';
 
-storiesOf('Modules/Activity', module)
+storiesOf('Modules/ActivityPreview', module)
   .add('Resource/Community/Collection', () => {
     const activityPreviewContext: ActivityPreviewContext = () => {
       return {
