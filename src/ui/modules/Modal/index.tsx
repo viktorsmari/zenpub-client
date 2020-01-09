@@ -1,5 +1,6 @@
 import { clearFix } from 'polished';
 import React, { useCallback } from 'react';
+import ReactDOM from 'react-dom';
 // import Icons from 'ui/atoms/icons.tsx'
 import styled from 'ui/themes/styled';
 import { Box } from 'rebass/styled-components';
@@ -65,7 +66,7 @@ const Close = styled(Box)`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  z-index: 999999;
+  z-index: 999999999;
 `;
 
 const Content = styled.div`
@@ -148,6 +149,27 @@ export const Row = styled.div<{ big?: boolean }>`
   `};
 `;
 
+class Portal extends React.Component {
+  static el = (() => {
+    const _el = document.createElement('div');
+    _el.setAttribute('id', 'modalPortal');
+    _el.style.display = 'none';
+    document.body.appendChild(_el);
+    return _el;
+  })();
+  componentDidMount() {
+    Portal.el.style.display = 'block';
+  }
+
+  componentWillUnmount() {
+    Portal.el.style.display = 'none';
+  }
+
+  render() {
+    return ReactDOM.createPortal(this.props.children, Portal.el);
+  }
+}
+
 interface Props {
   closeModal: () => void;
 }
@@ -155,7 +177,7 @@ interface Props {
 const Modal: React.FC<Props> = ({ closeModal, children }) => {
   const handleCloseModal = useCallback(() => closeModal(), [closeModal]);
   return (
-    <>
+    <Portal>
       <Background onClick={handleCloseModal} />
       <Dialog>
         <Action>
@@ -165,7 +187,7 @@ const Modal: React.FC<Props> = ({ closeModal, children }) => {
         </Action>
         <Content>{children}</Content>
       </Dialog>
-    </>
+    </Portal>
   );
 };
 
