@@ -12,9 +12,11 @@ const PickerWrap = styled.div`
   top: 45px;
   z-index: 9999;
 `;
-const Wrapper = styled.div`
+const Wrapper = styled(Box)`
   width: 100%;
   position: relative;
+  border: 1px solid ${props => props.theme.colors.lightgray};
+  border-radius: 4px;
 `;
 const SocialTextDiv = styled(Flex)`
   position: relative;

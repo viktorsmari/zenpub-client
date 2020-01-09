@@ -31,30 +31,30 @@ const ActionsWrapper = ({
   const [talkModalVisible, showTalkModal] = React.useState(false);
   const { i18n } = React.useContext(LocaleContext);
   return (
-    <Actions mt={2}>
-      <Items>
-        {talkModalVisible && (
-          <SocialText
-            placeholder={i18n._(tt.placeholders.name)}
-            name={'text'}
-            defaultValue={''}
-            submit={() => console.log()}
-            onChange={() => console.log()}
-          />
-        )}
-        <ActionItem onClick={() => showTalkModal(true)}>
-          <ActionIcon>
-            <MessageCircle color="rgba(0,0,0,.4)" size="16" />
-          </ActionIcon>
-          <Text ml={1}>{totalReplies}</Text>
-        </ActionItem>
-        <ActionItem ml={4} onClick={toggleLike}>
-          <ActionIcon>
-            <Star color={iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'} size="16" />
-          </ActionIcon>
-          <Text ml={1}>{totalLikes}</Text>
-        </ActionItem>
-      </Items>
+    <Actions p={2} mt={2}>
+      {talkModalVisible && (
+        <SocialText
+          placeholder={i18n._(tt.placeholders.name)}
+          defaultValue={''}
+          submit={() => console.log('test')}
+        />
+      )}
+      <Box>
+        <Items>
+          <ActionItem onClick={() => showTalkModal(true)}>
+            <ActionIcon>
+              <MessageCircle color="rgba(0,0,0,.4)" size="16" />
+            </ActionIcon>
+            <Text ml={1}>{totalReplies}</Text>
+          </ActionItem>
+          <ActionItem ml={4} onClick={toggleLike}>
+            <ActionIcon>
+              <Star color={iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'} size="16" />
+            </ActionIcon>
+            <Text ml={1}>{totalLikes}</Text>
+          </ActionItem>
+        </Items>
+      </Box>
     </Actions>
   );
 };
@@ -63,9 +63,10 @@ const Items = styled(Flex)`
   flex: 1;
 `;
 
-const Actions = styled(Flex)`
+const Actions = styled(Box)`
   position: relative;
   z-index: 9999;
+  border-top: 1px solid ${props => props.theme.colors.lightgray};
 `;
 
 const ActionItem = styled(Flex)`
