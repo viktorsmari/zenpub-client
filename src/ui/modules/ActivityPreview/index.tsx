@@ -145,6 +145,7 @@ const Wrapper = styled(Box)`
   border-radius: 4px;
   margin-top: -24px;
   margin-left: 54px;
+  background: white;
 `;
 const FeedItem = styled(Box)`
   min-height: 30px;
@@ -158,9 +159,6 @@ const FeedItem = styled(Box)`
   margin-top: 0
   z-index: 10;
   position: relative;
-  background: #ffffff;
-  position: relative;
-  cursor: pointer;
   border-bottom: 1px solid  ${props => props.theme.colors.lightgray};
   a {
     text-decoration: none;
