@@ -15,7 +15,7 @@ interface Props {
   activityId;
 }
 
-interface ActivityPreviewContextData {
+export interface ActivityPreviewContextData {
   actor: {
     icon: string;
     id: string;

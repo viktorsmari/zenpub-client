@@ -1,0 +1,18 @@
+
+query getActivityPreview($activityId: String!) {
+    activity(activityId: $activityId) {
+        createdAt
+        id
+        verb
+        user {
+            icon
+            image
+            id
+            name
+            preferredUsername
+        }
+        context {
+            __typename
+        }
+    }
+}
