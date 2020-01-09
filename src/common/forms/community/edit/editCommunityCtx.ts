@@ -1,12 +1,12 @@
 import { useFormik } from 'formik';
 import { useUpdateCommunityMutationMutation } from 'graphql/updateCommunity.generated';
 import { useMemo } from 'react';
+import {
+  EditCommunityContext,
+  EditCommunityFormValues
+} from 'ui/modules/EditCommunityModal';
 import * as Yup from 'yup';
 import { useGetCommunityForEditQuery } from './getCommunityForEdit.generated';
-import {
-  EditCommunityFormValues,
-  EditCommunityContextCfg
-} from 'ui/modules/EditCommunityModal';
 
 export const validationSchema: Yup.ObjectSchema<
   EditCommunityFormValues
@@ -25,9 +25,10 @@ export const editCommunityFormInitialValues: EditCommunityFormValues = {
   image: ''
 };
 
-export const useEditCommunityFormContext = ({
-  communityId
-}: EditCommunityContextCfg) => {
+export const useEditCommunityFormContext: EditCommunityContext = ({
+  communityId,
+  callOnSuccess
+}) => {
   const community = useGetCommunityForEditQuery({ variables: { communityId } });
   const [create /* , result */] = useUpdateCommunityMutationMutation();
   const initialValues = useMemo<EditCommunityFormValues>(
@@ -43,7 +44,10 @@ export const useEditCommunityFormContext = ({
   );
   const formik = useFormik<EditCommunityFormValues>({
     enableReinitialize: true,
-    onSubmit: vals => create({ variables: { community: vals, communityId } }),
+    onSubmit: vals =>
+      create({ variables: { community: vals, communityId } }).then(
+        callOnSuccess
+      ),
     validationSchema,
     initialValues
   });

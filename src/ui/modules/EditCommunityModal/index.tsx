@@ -40,6 +40,7 @@ export interface EditCommunityFormValues {
 
 export interface EditCommunityContextCfg {
   communityId: Community['id'];
+  callOnSuccess(): any;
 }
 export type EditCommunityContext = (
   cfg: EditCommunityContextCfg
@@ -55,7 +56,10 @@ export const EditCommunityModal: React.FC<Props> = ({
   communityId
 }) => {
   const servizioContext = React.useContext(EditCommunityContext);
-  const { formik } = servizioContext({ communityId });
+  const { formik } = servizioContext({
+    communityId,
+    callOnSuccess: closeModal
+  });
 
   return (
     <Modal closeModal={closeModal}>
