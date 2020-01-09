@@ -2,7 +2,7 @@ import * as React from 'react';
 import media from 'styled-media-query';
 import styled from 'ui/themes/styled';
 import { Heading, Text } from 'rebass/styled-components';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 interface Props {
   context: {
@@ -10,6 +10,10 @@ interface Props {
     title: string;
     summary: string;
     url: string;
+    actor: {
+      id: string;
+      name: string;
+    };
   };
   type: string;
   comment: string;
@@ -20,7 +24,11 @@ const Preview: React.FC<Props> = ({ context, type, comment }) => {
     <Wrapper>
       {type === 'InReplyTo' ? (
         <>
-          <WrapperLink to={context.url}>
+          <InReply m={2} mb={0} variant="text">
+            In reply to{' '}
+            <Link to={'/user/' + context.actor.id}>@{context.actor.name}</Link>
+          </InReply>
+          {/* <WrapperLink className="connector" to={context.url}>
             <Img style={{ backgroundImage: `url(${context.icon})` }} />
             <Info>
               <TitleWrapper>
@@ -37,11 +45,9 @@ const Preview: React.FC<Props> = ({ context, type, comment }) => {
                 })}
               </Text>
             </Info>
-          </WrapperLink>
+          </WrapperLink> */}
           <WrapperLink to={context.url}>
-            <Comment ml={2} variant="text">
-              {comment}
-            </Comment>
+            <Comment variant="text">{comment}</Comment>
           </WrapperLink>
         </>
       ) : type !== 'Comment' ? (
@@ -72,6 +78,18 @@ const Preview: React.FC<Props> = ({ context, type, comment }) => {
   );
 };
 
+const InReply = styled(Text)`
+  padding-bottom: 0;
+  display: inline-block;
+  font-weight: 500;
+  font-size: 13px;
+  color: ${props => props.theme.colors.gray};
+  a {
+    color: ${props => props.theme.colors.orange} !important;
+    font-weight: 600;
+  }
+`;
+
 const Comment = styled(Text)`
   & a {
     color: ${props => props.theme.colors.darkgray} !important;
@@ -88,9 +106,9 @@ const WrapperLink = styled(NavLink)`
   position: relative;
   z-index: 999999;
   padding: 8px;
-  // margin-bottom: 8px;
-  // border-radius: 4px;
-  // border: 1px solid ${props => props.theme.colors.lightgray};
+  &.connector {
+    background: ${props => props.theme.colors.lightgray};
+  }
   &:hover {
     background: ${props => props.theme.colors.lightgray};
     text-decoration: none !important;
@@ -114,7 +132,6 @@ const Info = styled.div`
 `;
 
 const Wrapper = styled.div`
-  margin-bottom: 8px;
   ${media.lessThan('medium')`
   display: block;
   padding: 0;

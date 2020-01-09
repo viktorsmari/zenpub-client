@@ -31,7 +31,7 @@ const ActionsWrapper = ({
   const [talkModalVisible, showTalkModal] = React.useState(false);
   const { i18n } = React.useContext(LocaleContext);
   return (
-    <Actions p={2} mt={2}>
+    <Actions p={2}>
       {talkModalVisible && (
         <SocialText
           placeholder={i18n._(tt.placeholders.name)}

@@ -19,7 +19,11 @@ storiesOf('Modules/Activity', module)
           title: 'The best resource',
           summary:
             'A storybook decorator that allows you to use routing-aware components in your stories',
-          url: 'https://picsum.photos/80/80'
+          url: 'https://picsum.photos/80/80',
+          actor: {
+            id: '2',
+            name: 'Alec'
+          }
         },
         createdAt: '29-01-2020',
         type: 'Resource',
@@ -48,7 +52,11 @@ storiesOf('Modules/Activity', module)
           title: 'The best resource',
           summary:
             'A storybook decorator that allows you to use routing-aware components in your stories',
-          url: 'https://picsum.photos/80/80'
+          url: 'https://picsum.photos/80/80',
+          actor: {
+            id: '2',
+            name: 'Alec'
+          }
         },
         createdAt: '29-01-2020',
         type: 'InReplyTo',
@@ -77,7 +85,11 @@ storiesOf('Modules/Activity', module)
           title: 'The best resource',
           summary:
             'A storybook decorator that allows you to use routing-aware components in your stories',
-          url: 'https://picsum.photos/80/80'
+          url: 'https://picsum.photos/80/80',
+          actor: {
+            id: '2',
+            name: 'Alec'
+          }
         },
         createdAt: '29-01-2020',
         type: 'Comment',

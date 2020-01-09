@@ -308,6 +308,10 @@ interface ActivityContextData {
     title: string;
     summary: string;
     url: string;
+    actor: {
+      id: string;
+      name: string;
+    };
   };
   comment: string;
 }
@@ -331,13 +335,12 @@ export const ActivityContext = React.createContext<ActivityContext>(
 // );
 // Primary timeline item
 export const Activity: SFC<Props> = ({ activityId }) => {
-  const { actor, createdAt, type, verb, context, comment } = React.useContext(
+  const { actor, createdAt, type, context, comment } = React.useContext(
     ActivityContext
   )({ activityId });
   return (
     <FeedItem>
       <NavigateToThread to={`/thread/${activityId}`} />
-      <AdditionalInfo verb={verb} type={type} />
       <Actor actor={actor} createdAt={createdAt} />
       <Wrapper>
         <Preview context={context} type={type} comment={comment} />
@@ -368,11 +371,11 @@ const Actor = ({ actor, createdAt }) => (
   </Member>
 );
 
-const AdditionalInfo = ({ verb, type }) => (
-  <Text mb={2} variant="suptitle">
-    {verb + ' ' + type}
-  </Text>
-);
+// const AdditionalInfo = ({ verb, type }) => (
+//   <Text mb={2} variant="suptitle">
+//     {verb + ' ' + type}
+//   </Text>
+// );
 
 const NavigateToThread = styled(Link)`
   position: absolute;
@@ -513,7 +516,6 @@ const FeedItem = styled(Box)`
   padding: 16px;
   word-wrap: break-word;
   font-size: 14px;
-
   ${clearFix()};
   transition: background 0.5s ease;
   margin-top: 0
@@ -528,7 +530,7 @@ const FeedItem = styled(Box)`
   border-bottom: 1px solid  ${props => props.theme.colors.lightgray};
   a {
     text-decoration: none;
-    color: inherit !important;
+    // color: inherit !important;
     &:hover {
       text-decoration: underline
     }
