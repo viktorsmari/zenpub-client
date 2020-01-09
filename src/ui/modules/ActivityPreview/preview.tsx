@@ -4,14 +4,14 @@ import styled from 'ui/themes/styled';
 import { Heading, Text } from 'rebass/styled-components';
 import { NavLink, Link } from 'react-router-dom';
 
+export type ContextType = 'Comment' | 'Resource' | 'Collection' | 'Community';
+
 export type ActivityType =
+  | 'Updated'
+  | 'Created'
   | 'InReplyTo'
-  | 'Comment'
   | 'Like'
   | 'Follow'
-  | 'Resource'
-  | 'Collection'
-  | 'Community'
   | 'Flag';
 
 interface Props {
