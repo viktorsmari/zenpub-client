@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 import { themeDeco } from 'ui/styleguide/storiesThemeDecorator';
 import EditCommunityModal, {
-  EditCommunityFormContext,
+  EditCommunityContext,
   EditCommunityFormValues
 } from '.';
 import { useFormik } from 'formik';
@@ -11,7 +11,7 @@ import { useFormik } from 'formik';
 storiesOf('Modules/EditCommunity', module)
   .addDecorator(themeDeco())
   .add('Standard', () => {
-    const editProvider: EditCommunityFormContext = () => {
+    const editProvider: EditCommunityContext = () => {
       const formik = useFormik<EditCommunityFormValues>({
         initialValues: {
           image: '',
@@ -28,11 +28,11 @@ storiesOf('Modules/EditCommunity', module)
       return { formik };
     };
     return (
-      <EditCommunityFormContext.Provider value={editProvider}>
+      <EditCommunityContext.Provider value={editProvider}>
         <EditCommunityModal
           closeModal={action('close modal')}
           communityId="#"
         />
-      </EditCommunityFormContext.Provider>
+      </EditCommunityContext.Provider>
     );
   });

@@ -1,13 +1,14 @@
 // View a Community (with list of collections)
 
 import { Trans } from '@lingui/macro';
+import { CreateReplyMutationMutationOperation } from 'graphql/createReply.generated';
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { Box } from 'rebass/styled-components';
+import HeroCommunity from 'ui/modules/heroCommunity';
+import { useDynamicLinkOpResult } from 'util/apollo/dynamicLink';
 import CollectionCard from '../../components/elements/Collection/Collection';
-import EditCommunityModal from '../../components/elements/EditCommunityModal';
 import Loader from '../../components/elements/Loader/Loader';
-import UsersModal from '../../components/elements/UsersModal';
 import '../../containers/App/basic.css';
 import { useGetCommunityQueryQuery } from '../../graphql/getCommunity.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
@@ -21,9 +22,6 @@ import {
 import styled from '../../themes/styled';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import CommunityPage from './Community';
-import Hero from './hero';
-import { useDynamicLinkOpResult } from 'util/apollo/dynamicLink';
-import { CreateReplyMutationMutationOperation } from 'graphql/createReply.generated';
 
 interface Props {
   communityId: string;
@@ -36,14 +34,6 @@ interface Props {
 }
 
 const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
-  // const [tab, setTab] = React.useState(TabsEnum.Collections);
-
-  const [isEditCommunityOpen, setEditCommunityOpen] = React.useState(false);
-  const [isUsersOpen, showUsers] = React.useState(false);
-  const editCommunity = React.useCallback(
-    () => setEditCommunityOpen(!isEditCommunityOpen),
-    [isEditCommunityOpen]
-  );
   const communityQuery = useGetCommunityQueryQuery({
     variables: { limit: 15, communityId }
   });
@@ -114,11 +104,7 @@ const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <Hero
-              community={communityQuery.data.community}
-              showUsers={showUsers}
-              editCommunity={editCommunity}
-            />
+            <HeroCommunity communityId={communityQuery.data.community.id} />
             <Switch>
               <Route
                 path={url}
@@ -146,20 +132,6 @@ const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
             </Switch>
           </Wrapper>
         </WrapperCont>
-        <EditCommunityModal
-          toggleModal={editCommunity}
-          modalIsOpen={isEditCommunityOpen}
-          communityId={communityQuery.data.community.id}
-          // communityExternalId={communityQuery.data.community.id}
-          community={communityQuery.data.community}
-          communityUpdated={communityQuery.refetch}
-        />
-
-        <UsersModal
-          toggleModal={showUsers}
-          modalIsOpen={isUsersOpen}
-          members={communityQuery.data.community.followers.edges}
-        />
       </HomeBox>
       <WrapperPanel>
         <Panel>
