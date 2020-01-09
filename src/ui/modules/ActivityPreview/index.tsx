@@ -7,7 +7,7 @@ import media from 'styled-media-query';
 import styled from 'ui/themes/styled';
 import { Link } from 'react-router-dom';
 import Actions from './Actions';
-import Preview, { ActivityType } from './preview';
+import Preview, { ActivityType, ContextType } from './preview';
 import { throwUnimplementedFn } from 'common/util/ctx-mock/throwUnimplementedFn';
 import Avatar from 'ui/elements/Avatar';
 
@@ -23,8 +23,8 @@ export interface ActivityPreviewContextData {
     preferredUsername: string;
   };
   createdAt: string;
-  type: ActivityType;
-  verb: string;
+  type: ContextType;
+  verb: ActivityType;
   context: {
     icon: string;
     title: string;
@@ -47,14 +47,14 @@ export const ActivityPreviewContext = React.createContext<
 >(throwUnimplementedFn<ActivityPreviewContext>('Activity'));
 
 export const ActivityPreview: SFC<Props> = ({ activityId }) => {
-  const { actor, createdAt, type, context, comment } = React.useContext(
+  const { actor, createdAt, type, verb, context, comment } = React.useContext(
     ActivityPreviewContext
   )({ activityId });
   return (
     <FeedItem>
       <Actor actor={actor} createdAt={createdAt} />
       <Wrapper>
-        <Preview context={context} type={type} comment={comment} />
+        <Preview context={context} verb={verb} type={type} comment={comment} />
         <Actions
           totalReplies={13}
           totalLikes={13}

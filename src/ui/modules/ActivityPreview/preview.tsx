@@ -25,14 +25,15 @@ interface Props {
       name: string;
     };
   };
-  type: ActivityType;
+  type: ContextType;
+  verb: ActivityType;
   comment: string;
 }
 
-const Preview: React.FC<Props> = ({ context, type, comment }) => {
+const Preview: React.FC<Props> = ({ context, type, comment, verb }) => {
   return (
     <Wrapper>
-      {type === 'InReplyTo' ? (
+      {verb === 'InReplyTo' ? (
         <>
           <InReply m={2} mb={0} variant="text">
             In reply to{' '}

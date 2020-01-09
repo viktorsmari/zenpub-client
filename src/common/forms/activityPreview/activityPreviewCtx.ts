@@ -13,8 +13,8 @@ export const useActivityPreviewContext: ActivityPreviewContext = (
       preferredUsername: 'string'
     },
     createdAt: 'string',
-    type: 'Like',
-    verb: 'string',
+    type: 'Comment',
+    verb: 'Like',
     context: {
       icon: 'string',
       title: 'string',

@@ -26,8 +26,8 @@ storiesOf('Modules/ActivityPreview', module)
           }
         },
         createdAt: '29-01-2020',
-        type: 'Resource',
-        verb: 'create'
+        type: 'Comment',
+        verb: 'Created'
       };
     };
     return (
@@ -59,8 +59,8 @@ storiesOf('Modules/ActivityPreview', module)
           }
         },
         createdAt: '29-01-2020',
-        type: 'InReplyTo',
-        verb: 'create'
+        type: 'Resource',
+        verb: 'InReplyTo'
       };
     };
     return (
@@ -93,7 +93,7 @@ storiesOf('Modules/ActivityPreview', module)
         },
         createdAt: '29-01-2020',
         type: 'Comment',
-        verb: 'create'
+        verb: 'Created'
       };
     };
     return (
