@@ -4,6 +4,16 @@ import styled from 'ui/themes/styled';
 import { Heading, Text } from 'rebass/styled-components';
 import { NavLink, Link } from 'react-router-dom';
 
+export type ActivityType =
+  | 'InReplyTo'
+  | 'Comment'
+  | 'Like'
+  | 'Follow'
+  | 'Resource'
+  | 'Collection'
+  | 'Community'
+  | 'Flag';
+
 interface Props {
   context: {
     icon: string;
@@ -15,7 +25,7 @@ interface Props {
       name: string;
     };
   };
-  type: string;
+  type: ActivityType;
   comment: string;
 }
 
@@ -28,29 +38,13 @@ const Preview: React.FC<Props> = ({ context, type, comment }) => {
             In reply to{' '}
             <Link to={'/user/' + context.actor.id}>@{context.actor.name}</Link>
           </InReply>
-          {/* <WrapperLink className="connector" to={context.url}>
-            <Img style={{ backgroundImage: `url(${context.icon})` }} />
-            <Info>
-              <TitleWrapper>
-                <Title>{context.title}</Title>
-              </TitleWrapper>
-              <Text variant="text" mt={2}>
-                {(context.summary || '').split('\n').map(function(item, key) {
-                  return (
-                    <span key={key}>
-                      {item}
-                      <br />
-                    </span>
-                  );
-                })}
-              </Text>
-            </Info>
-          </WrapperLink> */}
           <WrapperLink to={context.url}>
             <Comment variant="text">{comment}</Comment>
           </WrapperLink>
         </>
-      ) : type !== 'Comment' ? (
+      ) : type === 'Resource' ||
+      type === 'Collection' ||
+      type === 'Community' ? (
         <WrapperLink to={context.url}>
           <Img style={{ backgroundImage: `url(${context.icon})` }} />
           <Info>
@@ -69,10 +63,18 @@ const Preview: React.FC<Props> = ({ context, type, comment }) => {
             </Text>
           </Info>
         </WrapperLink>
-      ) : (
+      ) : type === 'Comment' ? (
         <WrapperLink to={context.url}>
           <Comment variant="text">{comment}</Comment>
         </WrapperLink>
+      ) : type === 'Flag' ? (
+        <Text>This is a flag</Text>
+      ) : type === 'Follow' ? (
+        <Text>This is a follow</Text>
+      ) : type === 'Like' ? (
+        <Text>This is a Like</Text>
+      ) : (
+        <Text>This cannot happen</Text>
       )}
     </Wrapper>
   );
@@ -110,7 +112,7 @@ const WrapperLink = styled(NavLink)`
     background: ${props => props.theme.colors.lightgray};
   }
   &:hover {
-    background: ${props => props.theme.colors.lightgray};
+    background: rgb(245, 248, 250);
     text-decoration: none !important;
   }
 `;
@@ -168,12 +170,5 @@ const Title = styled(Heading)`
   line-height: 20px !important;
 `};
 `;
-// const Summary = styled(Text)`
-//   margin: 0 !important;
-//   margin-top: 4px;
-//   color: ${props => props.theme.colors.darkgray}
-//   font-size: 13px;
-//   line-height: 18px;
-// `;
 
 export default Preview;
