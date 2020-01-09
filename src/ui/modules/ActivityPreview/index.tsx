@@ -15,7 +15,7 @@ interface Props {
   activityId;
 }
 
-interface ActivityContextData {
+interface ActivityPreviewContextData {
   actor: {
     icon: string;
     id: string;
@@ -38,17 +38,17 @@ interface ActivityContextData {
   comment: string;
 }
 
-export type ActivityContext = (
+export type ActivityPreviewContext = (
   cfg: { activityId: string }
-) => ActivityContextData;
+) => ActivityPreviewContextData;
 
-export const ActivityContext = React.createContext<ActivityContext>(
-  throwUnimplementedFn<ActivityContext>('Activity')
-);
+export const ActivityPreviewContext = React.createContext<
+  ActivityPreviewContext
+>(throwUnimplementedFn<ActivityPreviewContext>('Activity'));
 
-export const Activity: SFC<Props> = ({ activityId }) => {
+export const ActivityPreview: SFC<Props> = ({ activityId }) => {
   const { actor, createdAt, type, context, comment } = React.useContext(
-    ActivityContext
+    ActivityPreviewContext
   )({ activityId });
   return (
     <FeedItem>

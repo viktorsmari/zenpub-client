@@ -1,10 +1,10 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
-import { Activity, ActivityContext } from '.';
+import { ActivityPreview, ActivityPreviewContext } from '.';
 
 storiesOf('Modules/Activity', module)
   .add('Resource/Community/Collection', () => {
-    const activityContext: ActivityContext = () => {
+    const activityPreviewContext: ActivityPreviewContext = () => {
       return {
         actor: {
           icon: 'https://picsum.photos/80/80',
@@ -31,13 +31,13 @@ storiesOf('Modules/Activity', module)
       };
     };
     return (
-      <ActivityContext.Provider value={activityContext}>
-        <Activity activityId={'1'} />
-      </ActivityContext.Provider>
+      <ActivityPreviewContext.Provider value={activityPreviewContext}>
+        <ActivityPreview activityId={'1'} />
+      </ActivityPreviewContext.Provider>
     );
   })
   .add('inReply', () => {
-    const activityContext: ActivityContext = () => {
+    const activityPreviewContext: ActivityPreviewContext = () => {
       return {
         actor: {
           icon: 'https://picsum.photos/80/80',
@@ -64,13 +64,13 @@ storiesOf('Modules/Activity', module)
       };
     };
     return (
-      <ActivityContext.Provider value={activityContext}>
-        <Activity activityId={'1'} />
-      </ActivityContext.Provider>
+      <ActivityPreviewContext.Provider value={activityPreviewContext}>
+        <ActivityPreview activityId={'1'} />
+      </ActivityPreviewContext.Provider>
     );
   })
   .add('Comment', () => {
-    const activityContext: ActivityContext = () => {
+    const activityPreviewContext: ActivityPreviewContext = () => {
       return {
         actor: {
           icon: 'https://picsum.photos/80/80',
@@ -97,8 +97,8 @@ storiesOf('Modules/Activity', module)
       };
     };
     return (
-      <ActivityContext.Provider value={activityContext}>
-        <Activity activityId={'1'} />
-      </ActivityContext.Provider>
+      <ActivityPreviewContext.Provider value={activityPreviewContext}>
+        <ActivityPreview activityId={'1'} />
+      </ActivityPreviewContext.Provider>
     );
   });
