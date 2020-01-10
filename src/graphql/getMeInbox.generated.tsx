@@ -30,23 +30,23 @@ export type GetMeInboxQueryVariables = {
 
 
 export type GetMeInboxQuery = (
-  { __typename?: 'RootQueryType' }
+  { __typename: 'RootQueryType' }
   & { me: Types.Maybe<(
-    { __typename?: 'Me' }
+    { __typename: 'Me' }
     & { user: (
-      { __typename?: 'User' }
+      { __typename: 'User' }
       & { inbox: (
-        { __typename?: 'ActivitiesEdges' }
+        { __typename: 'ActivitiesEdges' }
         & { pageInfo: Types.Maybe<(
-          { __typename?: 'PageInfo' }
+          { __typename: 'PageInfo' }
           & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
         )>, edges: Array<Types.Maybe<(
-          { __typename?: 'ActivitiesEdge' }
+          { __typename: 'ActivitiesEdge' }
           & { node: (
             { __typename: 'Activity' }
             & Pick<Types.Activity, 'id' | 'canonicalUrl' | 'verb' | 'isLocal' | 'isPublic' | 'createdAt'>
             & { user: (
-              { __typename?: 'User' }
+              { __typename: 'User' }
               & BasicUserFragment
             ), context: (
               { __typename: 'Collection' }

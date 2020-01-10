@@ -1,6 +1,7 @@
 import { UpdateCollectionMutationMutation } from 'graphql/updateCollection.generated';
 
 export const basicUpdateCollectionMutation: UpdateCollectionMutationMutation = {
+  __typename: 'RootMutationType',
   updateCollection: {
     __typename: 'Collection',
     name: 'name',

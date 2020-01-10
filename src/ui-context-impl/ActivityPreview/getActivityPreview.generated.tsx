@@ -14,12 +14,12 @@ export type GetActivityPreviewQueryVariables = {
 
 
 export type GetActivityPreviewQuery = (
-  { __typename?: 'RootQueryType' }
+  { __typename: 'RootQueryType' }
   & { activity: Types.Maybe<(
-    { __typename?: 'Activity' }
+    { __typename: 'Activity' }
     & Pick<Types.Activity, 'createdAt' | 'id' | 'verb'>
     & { user: (
-      { __typename?: 'User' }
+      { __typename: 'User' }
       & Pick<Types.User, 'icon' | 'image' | 'id' | 'name' | 'preferredUsername'>
     ), context: { __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Flag' } | { __typename: 'Follow' } | { __typename: 'Like' } | { __typename: 'Resource' } }
   )> }

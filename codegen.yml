@@ -34,3 +34,4 @@ generates:
       reactApolloVersion: 3
       withHooks: true
       withHOC: true
+      nonOptionalTypename: true

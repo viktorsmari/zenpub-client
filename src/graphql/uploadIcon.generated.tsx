@@ -15,12 +15,12 @@ export type UploadIconMutationVariables = {
 
 
 export type UploadIconMutation = (
-  { __typename?: 'RootMutationType' }
+  { __typename: 'RootMutationType' }
   & { uploadIcon: Types.Maybe<(
-    { __typename?: 'FileUpload' }
+    { __typename: 'FileUpload' }
     & Pick<Types.FileUpload, 'id' | 'url'>
     & { metadata: Types.Maybe<(
-      { __typename?: 'FileMetadata' }
+      { __typename: 'FileMetadata' }
       & Pick<Types.FileMetadata, 'heightPx' | 'widthPx'>
     )> }
   )> }

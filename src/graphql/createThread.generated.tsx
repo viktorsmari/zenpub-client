@@ -18,18 +18,18 @@ export type CreateThreadMutationMutationVariables = {
 
 
 export type CreateThreadMutationMutation = (
-  { __typename?: 'RootMutationType' }
+  { __typename: 'RootMutationType' }
   & { createThread: Types.Maybe<(
-    { __typename?: 'Comment' }
+    { __typename: 'Comment' }
     & Pick<Types.Comment, 'id' | 'canonicalUrl' | 'content' | 'isLocal' | 'isPublic' | 'isHidden' | 'createdAt' | 'updatedAt'>
     & { inReplyTo: Types.Maybe<(
-      { __typename?: 'Comment' }
+      { __typename: 'Comment' }
       & BasicCommentWithInReplyToFragment
     )>, creator: (
-      { __typename?: 'User' }
+      { __typename: 'User' }
       & Pick<Types.User, 'name' | 'icon'>
     ), thread: (
-      { __typename?: 'Thread' }
+      { __typename: 'Thread' }
       & Pick<Types.Thread, 'id'>
     ) }
   )> }

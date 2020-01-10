@@ -15,12 +15,12 @@ export type UpdateCollectionMutationMutationVariables = {
 
 
 export type UpdateCollectionMutationMutation = (
-  { __typename?: 'RootMutationType' }
+  { __typename: 'RootMutationType' }
   & { updateCollection: Types.Maybe<(
-    { __typename?: 'Collection' }
+    { __typename: 'Collection' }
     & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'createdAt' | 'updatedAt'>
     & { resources: (
-      { __typename?: 'ResourcesEdges' }
+      { __typename: 'ResourcesEdges' }
       & Pick<Types.ResourcesEdges, 'totalCount'>
     ) }
   )> }

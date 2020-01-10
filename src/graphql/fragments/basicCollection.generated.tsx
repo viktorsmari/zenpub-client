@@ -9,41 +9,41 @@ import { BasicResourcesEdgesFragmentDoc } from './basicResourcesEdges.generated'
 
 
 export type BasicCollectionFragment = (
-  { __typename?: 'Collection' }
+  { __typename: 'Collection' }
   & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'isLocal' | 'isPublic' | 'createdAt'>
   & { creator: (
-    { __typename?: 'User' }
+    { __typename: 'User' }
     & BasicUserFragment
   ), myLike: Types.Maybe<(
-    { __typename?: 'Like' }
+    { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
   )>, myFollow: Types.Maybe<(
-    { __typename?: 'Follow' }
+    { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
   )>, myFlag: Types.Maybe<(
-    { __typename?: 'Flag' }
+    { __typename: 'Flag' }
     & Pick<Types.Flag, 'id'>
   )>, community: (
-    { __typename?: 'Community' }
+    { __typename: 'Community' }
     & Pick<Types.Community, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'name' | 'icon'>
     & { myFollow: Types.Maybe<(
-      { __typename?: 'Follow' }
+      { __typename: 'Follow' }
       & Pick<Types.Follow, 'id'>
     )>, myFlag: Types.Maybe<(
-      { __typename?: 'Flag' }
+      { __typename: 'Flag' }
       & Pick<Types.Flag, 'id'>
     )> }
   ), resources: (
-    { __typename?: 'ResourcesEdges' }
+    { __typename: 'ResourcesEdges' }
     & BasicResourcesEdgesFragment
   ), followers: (
-    { __typename?: 'FollowsEdges' }
+    { __typename: 'FollowsEdges' }
     & Pick<Types.FollowsEdges, 'totalCount'>
   ), threads: (
-    { __typename?: 'ThreadsEdges' }
+    { __typename: 'ThreadsEdges' }
     & Pick<Types.ThreadsEdges, 'totalCount'>
   ), outbox: (
-    { __typename?: 'ActivitiesEdges' }
+    { __typename: 'ActivitiesEdges' }
     & Pick<Types.ActivitiesEdges, 'totalCount'>
   ) }
 );

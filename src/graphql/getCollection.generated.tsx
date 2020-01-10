@@ -17,9 +17,9 @@ export type GetCollectionQueryVariables = {
 
 
 export type GetCollectionQuery = (
-  { __typename?: 'RootQueryType' }
+  { __typename: 'RootQueryType' }
   & { collection: Types.Maybe<(
-    { __typename?: 'Collection' }
+    { __typename: 'Collection' }
     & BasicCollectionFragment
   )> }
 );

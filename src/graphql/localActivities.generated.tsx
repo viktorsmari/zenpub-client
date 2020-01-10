@@ -30,22 +30,22 @@ export type LocalActivitiesQueryVariables = {
 
 
 export type LocalActivitiesQuery = (
-  { __typename?: 'RootQueryType' }
+  { __typename: 'RootQueryType' }
   & { instance: Types.Maybe<(
-    { __typename?: 'Instance' }
+    { __typename: 'Instance' }
     & { outbox: (
-      { __typename?: 'ActivitiesEdges' }
+      { __typename: 'ActivitiesEdges' }
       & { pageInfo: Types.Maybe<(
-        { __typename?: 'PageInfo' }
+        { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
       )>, edges: Array<Types.Maybe<(
-        { __typename?: 'ActivitiesEdge' }
+        { __typename: 'ActivitiesEdge' }
         & Pick<Types.ActivitiesEdge, 'cursor'>
         & { node: (
-          { __typename?: 'Activity' }
+          { __typename: 'Activity' }
           & Pick<Types.Activity, 'id' | 'canonicalUrl' | 'verb' | 'isLocal' | 'isPublic' | 'createdAt'>
           & { user: (
-            { __typename?: 'User' }
+            { __typename: 'User' }
             & BasicUserFragment
           ), context: (
             { __typename: 'Collection' }

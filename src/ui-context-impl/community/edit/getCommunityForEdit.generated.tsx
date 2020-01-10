@@ -14,9 +14,9 @@ export type GetCommunityForEditQueryVariables = {
 
 
 export type GetCommunityForEditQuery = (
-  { __typename?: 'RootQueryType' }
+  { __typename: 'RootQueryType' }
   & { community: Types.Maybe<(
-    { __typename?: 'Community' }
+    { __typename: 'Community' }
     & Pick<Types.Community, 'id' | 'name' | 'summary' | 'image'>
   )> }
 );

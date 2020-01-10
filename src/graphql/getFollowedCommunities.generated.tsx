@@ -18,23 +18,23 @@ export type GetFollowedCommunitiesQueryQueryVariables = {
 
 
 export type GetFollowedCommunitiesQueryQuery = (
-  { __typename?: 'RootQueryType' }
+  { __typename: 'RootQueryType' }
   & { me: Types.Maybe<(
-    { __typename?: 'Me' }
+    { __typename: 'Me' }
     & { user: (
-      { __typename?: 'User' }
+      { __typename: 'User' }
       & Pick<Types.User, 'id'>
       & { followedCommunities: (
-        { __typename?: 'FollowedCommunitiesEdges' }
+        { __typename: 'FollowedCommunitiesEdges' }
         & { pageInfo: Types.Maybe<(
-          { __typename?: 'PageInfo' }
+          { __typename: 'PageInfo' }
           & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
         )>, edges: Array<Types.Maybe<(
-          { __typename?: 'FollowedCommunitiesEdge' }
+          { __typename: 'FollowedCommunitiesEdge' }
           & { node: (
-            { __typename?: 'FollowedCommunity' }
+            { __typename: 'FollowedCommunity' }
             & { follow: (
-              { __typename?: 'Follow' }
+              { __typename: 'Follow' }
               & Pick<Types.Follow, 'id' | 'canonicalUrl'>
             ), community: (
               { __typename: 'Community' }

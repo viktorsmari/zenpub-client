@@ -1,6 +1,7 @@
 import { CreateCollectionMutationMutation } from 'graphql/createCollection.generated';
 
 export const basicCreateCollectionMutation: CreateCollectionMutationMutation = {
+  __typename: 'RootMutationType',
   createCollection: {
     __typename: 'Collection',
     canonicalUrl: '',

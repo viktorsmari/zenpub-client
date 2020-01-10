@@ -6,28 +6,28 @@ import { BasicUserFragmentDoc } from './basicUser.generated';
 
 
 export type BasicCommunityFragment = (
-  { __typename?: 'Community' }
+  { __typename: 'Community' }
   & Pick<Types.Community, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'image' | 'createdAt' | 'updatedAt' | 'lastActivity' | 'isLocal' | 'isPublic' | 'isDisabled'>
   & { creator: (
-    { __typename?: 'User' }
+    { __typename: 'User' }
     & BasicUserFragment
   ), myFollow: Types.Maybe<(
-    { __typename?: 'Follow' }
+    { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
   )>, myFlag: Types.Maybe<(
-    { __typename?: 'Flag' }
+    { __typename: 'Flag' }
     & Pick<Types.Flag, 'id'>
   )>, collections: (
-    { __typename?: 'CollectionsEdges' }
+    { __typename: 'CollectionsEdges' }
     & Pick<Types.CollectionsEdges, 'totalCount'>
   ), followers: (
-    { __typename?: 'FollowsEdges' }
+    { __typename: 'FollowsEdges' }
     & Pick<Types.FollowsEdges, 'totalCount'>
   ), threads: (
-    { __typename?: 'ThreadsEdges' }
+    { __typename: 'ThreadsEdges' }
     & Pick<Types.ThreadsEdges, 'totalCount'>
   ), outbox: (
-    { __typename?: 'ActivitiesEdges' }
+    { __typename: 'ActivitiesEdges' }
     & Pick<Types.ActivitiesEdges, 'totalCount'>
   ) }
 );

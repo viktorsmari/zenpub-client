@@ -15,31 +15,31 @@ import { BasicCollectionFragmentDoc } from './basicCollection.generated';
 
 
 export type BasicCommentWithInReplyToFragment = (
-  { __typename?: 'Comment' }
+  { __typename: 'Comment' }
   & { inReplyTo: Types.Maybe<(
-    { __typename?: 'Comment' }
+    { __typename: 'Comment' }
     & BasicCommentFragment
   )> }
   & BasicCommentFragment
 );
 
 export type BasicCommentFragment = (
-  { __typename?: 'Comment' }
+  { __typename: 'Comment' }
   & Pick<Types.Comment, 'id' | 'content' | 'isLocal' | 'isPublic' | 'isHidden' | 'createdAt' | 'updatedAt'>
   & { myLike: Types.Maybe<(
-    { __typename?: 'Like' }
+    { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
   )>, creator: (
-    { __typename?: 'User' }
+    { __typename: 'User' }
     & BasicUserFragment
   ), likes: (
-    { __typename?: 'LikesEdges' }
+    { __typename: 'LikesEdges' }
     & Pick<Types.LikesEdges, 'totalCount'>
   ), flags: (
-    { __typename?: 'FlagsEdges' }
+    { __typename: 'FlagsEdges' }
     & Pick<Types.FlagsEdges, 'totalCount'>
   ), thread: (
-    { __typename?: 'Thread' }
+    { __typename: 'Thread' }
     & Pick<Types.Thread, 'id'>
     & { context: (
       { __typename: 'Collection' }

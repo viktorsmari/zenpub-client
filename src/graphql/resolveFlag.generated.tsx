@@ -14,9 +14,9 @@ export type ResolveFlagMutationMutationVariables = {
 
 
 export type ResolveFlagMutationMutation = (
-  { __typename?: 'RootMutationType' }
+  { __typename: 'RootMutationType' }
   & { resolveFlag: Types.Maybe<(
-    { __typename?: 'Flag' }
+    { __typename: 'Flag' }
     & { context: { __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Resource' } | { __typename: 'User' } }
   )> }
 );
