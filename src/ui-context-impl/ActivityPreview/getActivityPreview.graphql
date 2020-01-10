@@ -13,6 +13,158 @@ query getActivityPreview($activityId: String!) {
         }
         context {
             __typename
+
+            ... on Collection{
+                icon
+                name
+                summary
+                canonicalUrl
+                creator {
+                    id
+                    name
+                }
+            }
+
+            ... on Comment{
+                content
+                canonicalUrl
+                creator {
+                    id
+                    name
+                }
+                inReplyTo {
+                    content
+                    creator {
+                        id
+                        name
+                    }
+                }
+            }
+
+            ... on Community{
+                icon
+                name
+                summary
+                canonicalUrl
+                creator {
+                    id
+                    name
+                }
+            }
+
+            ... on Resource{
+                icon
+                name
+                summary
+                canonicalUrl
+                creator {
+                    id
+                    name
+                }
+            }
+
+            # ... on Flag{
+            #     context {
+            #         ... on Collection{
+            #             icon
+            #             name
+            #             summary
+            #             canonicalUrl
+            #             creator {
+            #                 id
+            #                 name
+            #             }
+            #         }
+            #         ... on Comment{
+            #             content
+            #             canonicalUrl
+            #             creator {
+            #                 id
+            #                 name
+            #             }
+            #         }
+            #         ... on Community{
+            #             icon
+            #             name
+            #             summary
+            #             canonicalUrl
+            #             creator {
+            #                 id
+            #                 name
+            #             }
+            #         }
+            #         ... on Resource{
+            #             icon
+            #             name
+            #             summary
+            #             canonicalUrl
+            #             creator {
+            #                 id
+            #                 name
+            #             }
+            #         }
+            #     }
+            # }
+
+            # ... on Like{
+            #     context {
+            #         ... on Collection{
+            #             icon
+            #             name
+            #             summary
+            #             canonicalUrl
+            #             creator {
+            #                 id
+            #                 name
+            #             }
+            #         }
+            #         ... on Comment{
+            #             content
+            #             canonicalUrl
+            #             creator {
+            #                 id
+            #                 name
+            #             }
+            #         }
+            #         ... on Resource{
+            #             icon
+            #             name
+            #             summary
+            #             canonicalUrl
+            #             creator {
+            #                 id
+            #                 name
+            #             }
+            #         }
+            #     }
+            # }
+
+
+            # ... on Follow{
+            #     context {
+            #         ... on Collection{
+            #             icon
+            #             name    
+            #             summary
+            #             canonicalUrl
+            #             creator {
+            #                 id
+            #                 name
+            #             }
+            #         }
+            #         ... on Community{
+            #             icon
+            #             name
+            #             summary
+            #             canonicalUrl
+            #             creator {
+            #                 id
+            #                 name
+            #             }
+            #         }
+            #     }
+            # }
+
         }
     }
 }

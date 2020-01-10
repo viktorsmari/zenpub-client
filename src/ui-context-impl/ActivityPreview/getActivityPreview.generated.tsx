@@ -21,7 +21,42 @@ export type GetActivityPreviewQuery = (
     & { user: (
       { __typename?: 'User' }
       & Pick<Types.User, 'icon' | 'image' | 'id' | 'name' | 'preferredUsername'>
-    ), context: { __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Flag' } | { __typename: 'Follow' } | { __typename: 'Like' } | { __typename: 'Resource' } }
+    ), context: (
+      { __typename: 'Collection' }
+      & Pick<Types.Collection, 'icon' | 'name' | 'summary' | 'canonicalUrl'>
+      & { creator: (
+        { __typename?: 'User' }
+        & Pick<Types.User, 'id' | 'name'>
+      ) }
+    ) | (
+      { __typename: 'Comment' }
+      & Pick<Types.Comment, 'content' | 'canonicalUrl'>
+      & { creator: (
+        { __typename?: 'User' }
+        & Pick<Types.User, 'id' | 'name'>
+      ), inReplyTo: Types.Maybe<(
+        { __typename?: 'Comment' }
+        & Pick<Types.Comment, 'content'>
+        & { creator: (
+          { __typename?: 'User' }
+          & Pick<Types.User, 'id' | 'name'>
+        ) }
+      )> }
+    ) | (
+      { __typename: 'Community' }
+      & Pick<Types.Community, 'icon' | 'name' | 'summary' | 'canonicalUrl'>
+      & { creator: (
+        { __typename?: 'User' }
+        & Pick<Types.User, 'id' | 'name'>
+      ) }
+    ) | { __typename: 'Flag' } | { __typename: 'Follow' } | { __typename: 'Like' } | (
+      { __typename: 'Resource' }
+      & Pick<Types.Resource, 'icon' | 'name' | 'summary' | 'canonicalUrl'>
+      & { creator: (
+        { __typename?: 'User' }
+        & Pick<Types.User, 'id' | 'name'>
+      ) }
+    ) }
   )> }
 );
 
@@ -41,6 +76,51 @@ export const GetActivityPreviewDocument = gql`
     }
     context {
       __typename
+      ... on Collection {
+        icon
+        name
+        summary
+        canonicalUrl
+        creator {
+          id
+          name
+        }
+      }
+      ... on Comment {
+        content
+        canonicalUrl
+        creator {
+          id
+          name
+        }
+        inReplyTo {
+          content
+          creator {
+            id
+            name
+          }
+        }
+      }
+      ... on Community {
+        icon
+        name
+        summary
+        canonicalUrl
+        creator {
+          id
+          name
+        }
+      }
+      ... on Resource {
+        icon
+        name
+        summary
+        canonicalUrl
+        creator {
+          id
+          name
+        }
+      }
     }
   }
 }

@@ -10,32 +10,35 @@ import Actions from './Actions';
 import Preview, { ActivityType, ContextType } from './preview';
 import { throwUnimplementedFn } from 'common/util/ctx-mock/throwUnimplementedFn';
 import Avatar from 'ui/elements/Avatar';
+import { Trans } from '@lingui/react';
 
 interface Props {
   activityId;
 }
 
 export interface ActivityPreviewContextData {
-  actor: {
-    icon: string;
-    id: string;
-    name: string;
-    preferredUsername: string;
-  };
-  createdAt: string;
-  type: ContextType;
-  verb: ActivityType;
-  context: {
-    icon: string;
-    title: string;
-    summary: string;
-    url: string;
+  activity: {
     actor: {
+      icon: string;
       id: string;
       name: string;
+      preferredUsername: string;
     };
-  };
-  comment: string;
+    createdAt: string;
+    type: ContextType;
+    verb: ActivityType;
+    context: {
+      icon: string;
+      title: string;
+      summary: string;
+      url: string;
+      actor: {
+        id: string;
+        name: string;
+      };
+    };
+    comment: string;
+  } | null;
 }
 
 export type ActivityPreviewContext = (
@@ -47,9 +50,11 @@ export const ActivityPreviewContext = React.createContext<
 >(throwUnimplementedFn<ActivityPreviewContext>('Activity'));
 
 export const ActivityPreview: SFC<Props> = ({ activityId }) => {
-  const { actor, createdAt, type, verb, context, comment } = React.useContext(
-    ActivityPreviewContext
-  )({ activityId });
+  const { activity } = React.useContext(ActivityPreviewContext)({ activityId });
+  if (!activity) {
+    return <Trans>loading ...</Trans>;
+  }
+  const { actor, createdAt, type, verb, context, comment } = activity;
   return (
     <FeedItem>
       <Actor actor={actor} createdAt={createdAt} />
