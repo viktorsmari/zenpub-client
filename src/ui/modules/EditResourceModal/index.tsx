@@ -3,7 +3,7 @@ import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
 import { Button, Heading } from 'rebass/styled-components';
-import { useEditResourceForm } from 'common/forms/resource/edit';
+import { useEditResourceForm } from 'ui-context-impl/resource/edit';
 import Alert from 'ui/elements/Alert';
 import Modal, {
   Actions,

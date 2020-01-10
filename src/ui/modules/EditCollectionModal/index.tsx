@@ -6,7 +6,7 @@ import {
   editCollectionFormValuesSchema,
   getCollectionInputFromFormValues,
   useEditCollectionFormValuesFromQueryResult
-} from 'common/forms/collection/edit';
+} from 'ui-context-impl/collection/edit';
 import { useFormik } from 'formik';
 import { useGetCollectionQuery } from 'graphql/getCollection.generated';
 import { useUpdateCollectionMutationMutation } from 'graphql/updateCollection.generated';

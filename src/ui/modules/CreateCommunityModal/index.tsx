@@ -6,7 +6,7 @@ import {
   basicCreateCommunityFormValuesSchema,
   getBasicCreateCommunityInput,
   BasicCreateCommunityFormValues
-} from 'common/forms/community/basicCreate';
+} from 'ui-context-impl/community/basicCreate';
 import { useFormik } from 'formik';
 import { useCreateCommunityMutationMutation } from 'graphql/createCommunity.generated';
 import * as React from 'react';

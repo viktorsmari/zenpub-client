@@ -19,7 +19,7 @@ import {
   basicCreateCollectionInitialValues,
   basicCreateCollectionFormValuesSchema,
   getBasicCreateCollectionInput
-} from 'common/forms/collection/basicCreate';
+} from 'ui-context-impl/collection/basicCreate';
 import { useFormik } from 'formik';
 import { Community } from 'graphql/types.generated';
 
