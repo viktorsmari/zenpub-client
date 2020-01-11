@@ -5,7 +5,7 @@ import { CreateReplyMutationMutationOperation } from 'graphql/createReply.genera
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { Box } from 'rebass/styled-components';
-import HeroCommunity from 'ui/modules/heroCommunity';
+import HeroCommunity from 'ui/modules/HeroCommunity';
 import { useDynamicLinkOpResult } from 'util/apollo/dynamicLink';
 import CollectionCard from '../../components/elements/Collection/Collection';
 import Loader from '../../components/elements/Loader/Loader';

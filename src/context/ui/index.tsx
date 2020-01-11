@@ -1,14 +1,18 @@
 import React from 'react';
-import { HeroCommunityContext } from 'ui/modules/heroCommunity';
-import { useHeroCommunityCtx } from 'common/forms/heroCommunity/heroCommuityCtx';
+import { HeroCommunityContext } from 'ui/modules/HeroCommunity';
+import { useHeroCommunityCtx } from 'ui-context-impl/HeroCommunity/heroCommuityCtx';
 import { EditCommunityContext } from 'ui/modules/EditCommunityModal';
-import { useEditCommunityFormContext } from 'common/forms/community/edit/editCommunityCtx';
+import { useEditCommunityFormContext } from 'ui-context-impl/community/edit/editCommunityCtx';
+import { ActivityPreviewContext } from 'ui/modules/ActivityPreview';
+import { useActivityPreviewContext } from 'ui-context-impl/ActivityPreview/activityPreviewCtx';
 
 export const ProvideUiCtx: React.FC = ({ children }) => {
   return (
     <HeroCommunityContext.Provider value={useHeroCommunityCtx}>
       <EditCommunityContext.Provider value={useEditCommunityFormContext}>
-        {children}
+        <ActivityPreviewContext.Provider value={useActivityPreviewContext}>
+          {children}
+        </ActivityPreviewContext.Provider>
       </EditCommunityContext.Provider>
     </HeroCommunityContext.Provider>
   );

@@ -6,6 +6,7 @@ fragment BasicResource on Resource {
     summary
     icon
     url
+    canonicalUrl
     license
     createdAt
     updatedAt

@@ -1,4 +1,4 @@
-import * as Types from '../../../../graphql/types.generated';
+import * as Types from '../../../graphql/types.generated';
 
 import gql from 'graphql-tag';
 import * as React from 'react';

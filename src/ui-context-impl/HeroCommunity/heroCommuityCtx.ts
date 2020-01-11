@@ -5,7 +5,7 @@ import { useContext, useMemo } from 'react';
 import {
   HeroCommunityContext,
   HeroCommunityContextData
-} from 'ui/modules/heroCommunity';
+} from 'ui/modules/HeroCommunity';
 import { useGetHeroCommunityQuery } from './getHeroCommunity.generated';
 
 export const useHeroCommunityCtx: HeroCommunityContext = ({ communityId }) => {

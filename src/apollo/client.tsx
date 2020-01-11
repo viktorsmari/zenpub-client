@@ -51,7 +51,15 @@ export default async function initialise({ localKVStore, appLink }: Cfg) {
     introspectionQueryResultData
   });
 
-  const cache = new InMemoryCache({ fragmentMatcher });
+  const cache = new InMemoryCache({
+    fragmentMatcher,
+    cacheRedirects: {
+      Query: {
+        activity: (_, args, { getCacheKey }) =>
+          getCacheKey({ __typename: 'Activity', id: args.activityId })
+      }
+    }
+  });
 
   const setTokenLink = new ApolloLink((operation, nextLink) => {
     const createSessionOpName: OperationName = 'createSession';
@@ -196,11 +204,11 @@ export default async function initialise({ localKVStore, appLink }: Cfg) {
     link,
     defaultOptions: {
       watchQuery: {
-        fetchPolicy: 'network-only',
+        fetchPolicy: 'cache-first',
         errorPolicy: 'ignore'
       },
       query: {
-        fetchPolicy: 'no-cache',
+        fetchPolicy: 'cache-first',
         errorPolicy: 'all'
       },
       mutate: {
