@@ -54,6 +54,7 @@ export const ActivityPreview: SFC<Props> = ({ activityId }) => {
   if (!activity) {
     return <Trans>loading ...</Trans>;
   }
+  console.log(activity);
   const { actor, createdAt, type, verb, context, comment } = activity;
   return (
     <FeedItem>
