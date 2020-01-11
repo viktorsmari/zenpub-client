@@ -3,45 +3,60 @@ import styled from 'ui/themes/styled';
 import { Flex, Box, Text, Heading } from 'rebass/styled-components';
 import { FileText } from 'react-feather';
 import Avatar from 'ui/elements/Avatar';
+import { throwUnimplementedFn } from 'common/util/ctx-mock/throwUnimplementedFn';
+import { NavLink } from 'react-router-dom';
 
-interface CollectionProps {
+interface Props {
+  collectionId: string;
+}
+
+export interface CollectionPreviewContextData {
   id: string;
   icon: string;
   name: string;
   summary: string;
   totalResources: number;
 }
-/**
- * Collection component.
- */
-const Component: React.SFC<CollectionProps> = ({
-  id,
-  icon,
-  name,
-  summary,
-  totalResources
-}) => (
-  <Wrapper p={3}>
-    <Avatar size="m" src={icon} />
-    <Infos ml={3}>
-      <Title>
-        {name.length > 80 ? name.replace(/^(.{76}[^\s]*).*/, '$1...') : name}
-      </Title>
 
-      <Text variant="text" mt={2} mb={3}>
-        {summary && summary.length > 140
-          ? summary.replace(/^([\s\S]{140}[^\s]*)[\s\S]*/, '$1...')
-          : summary}
-      </Text>
-      <Actions>
-        <ActionItem>
-          <FileText size={20} color={'#8b98a2'} />
-          <Text variant="suptitle">{totalResources} resources</Text>
-        </ActionItem>
-      </Actions>
-    </Infos>
-  </Wrapper>
-);
+export type CollectionPreviewContext = (
+  cfg: { collectionId: string }
+) => CollectionPreviewContextData;
+
+export const CollectionPreviewContext = React.createContext<
+  CollectionPreviewContext
+>(throwUnimplementedFn<CollectionPreviewContext>('CollectionPreview'));
+
+export const CollectionPreview: React.SFC<Props> = ({ collectionId }) => {
+  const { id, icon, name, summary, totalResources } = React.useContext(
+    CollectionPreviewContext
+  )({ collectionId });
+  return (
+    <WrapperLink to={'/collection/' + id}>
+      <Wrapper p={3}>
+        <Avatar size="m" src={icon} />
+        <Infos ml={3}>
+          <Title>
+            {name.length > 80
+              ? name.replace(/^(.{76}[^\s]*).*/, '$1...')
+              : name}
+          </Title>
+
+          <Text variant="text" mt={2} mb={3}>
+            {summary && summary.length > 140
+              ? summary.replace(/^([\s\S]{140}[^\s]*)[\s\S]*/, '$1...')
+              : summary}
+          </Text>
+          <Actions>
+            <ActionItem>
+              <FileText size={20} color={'#8b98a2'} />
+              <Text variant="suptitle">{totalResources} resources</Text>
+            </ActionItem>
+          </Actions>
+        </Infos>
+      </Wrapper>
+    </WrapperLink>
+  );
+};
 
 export const CollectionSmall: React.FC<{ icon: string; name: string }> = ({
   icon,
@@ -58,6 +73,10 @@ export const CollectionSmall: React.FC<{ icon: string; name: string }> = ({
     </WrapperSmall>
   );
 };
+
+const WrapperLink = styled(NavLink)`
+  text-decoration: none;
+`;
 
 const WrapperSmall = styled(Box)`
   cursor: pointer;
@@ -87,6 +106,7 @@ const ActionItem = styled(Flex)`
 const Wrapper = styled(Flex)`
   cursor: pointer;
   position: relative;
+  text-decoration: none;
   border-bottom: 4px solid ${props => props.theme.colors.lighter};
   &:hover {
     border-radius: 4px;
@@ -97,15 +117,17 @@ const Wrapper = styled(Flex)`
 const Infos = styled(Box)`
   flex: 1;
   position: relative;
+  div {
+    text-decoration: none;
+  }
 `;
 const Title = styled(Heading)`
   color: ${props => props.theme.colors.darkgray};
   font-size: 20px;
+  text-decoration: none;
 `;
 
 const TitleSmall = styled(Text)`
   color: ${props => props.theme.colors.darkgray};
   text-align: center;
 `;
-
-export default Component;

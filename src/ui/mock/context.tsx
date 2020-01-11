@@ -1,4 +1,7 @@
-import { RecentActivitiesContext } from 'ui/pages/community';
+import {
+  RecentActivitiesContext,
+  CollectionsContext
+} from 'ui/pages/community';
 import {
   EditCommunityContext,
   EditCommunityFormValues
@@ -7,12 +10,24 @@ import { useFormik } from 'formik';
 import { action } from '@storybook/addon-actions';
 import { HeroCommunityContext } from 'ui/modules/HeroCommunity';
 import { ActivityPreviewContext } from 'ui/modules/ActivityPreview';
+import { CollectionPreviewContext } from 'ui/modules/CollectionPreview';
 
 export const recentActivitiesContext: RecentActivitiesContext = () => {
   return {
     activities: [{ activityId: '1' }, { activityId: '2' }, { activityId: '3' }]
   };
 };
+
+export const collectionsContext: CollectionsContext = () => {
+  return {
+    collections: [
+      { collectionId: '1' },
+      { collectionId: '2' },
+      { collectionId: '3' }
+    ]
+  };
+};
+
 export const editProvider: EditCommunityContext = () => {
   const formik = useFormik<EditCommunityFormValues>({
     initialValues: {
@@ -37,13 +52,24 @@ export const heroContext: HeroCommunityContext = () => {
       icon: 'https://picsum.photos/800/300',
       name: 'Community nino',
       preferredUsername: 'ninos',
-      summary: '',
+      summary:
+        'Cooperation combined with network effects is more effective than capitalist competition',
       totalMembers: 193,
       toggleJoin: {
         toggle: action('submit'),
         isSubmitting: false
       }
     }
+  };
+};
+export const collectionPreviewContext: CollectionPreviewContext = () => {
+  return {
+    id: '1',
+    icon: 'https://picsum.photos/id/200/200/200',
+    name: 'awesome collection',
+    summary:
+      'More simply put, the difference is in the standards and documentation that accompanies the assets. With a guide on why and how to use them, design components because easier to use and clearer to discern.',
+    totalResources: 12
   };
 };
 export const activityPreviewContext: ActivityPreviewContext = () => {

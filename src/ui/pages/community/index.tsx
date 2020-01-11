@@ -12,6 +12,8 @@ import {
   Nav,
   NavItem
 } from 'ui/elements/Panel';
+import { NavLink, Switch, Route } from 'react-router-dom';
+import { CollectionPreview } from 'ui/modules/CollectionPreview';
 interface Props {
   communityId: string;
 }
@@ -23,8 +25,18 @@ export const Community: React.FC<Props> = ({ communityId }) => {
         <WrapperCont>
           <Wrapper>
             <HeroCommunity communityId={communityId} />
-
-            <RecentActivities communityId={communityId} />
+            <Menu />
+            <Switch>
+              <Route exact path="/">
+                <RecentActivities communityId={communityId} />
+              </Route>
+              <Route path="/collections">
+                <Collections communityId={communityId} />
+              </Route>
+              <Route path="/threads">
+                <div>threads</div>
+              </Route>
+            </Switch>
           </Wrapper>
         </WrapperCont>
       </HomeBox>
@@ -105,6 +117,67 @@ const RecentActivities = ({ communityId }) => {
   );
 };
 
+export interface CollectionsContextData {
+  collections: Array<{ collectionId: string }>;
+}
+
+export type CollectionsContext = (
+  cfg: { communityId: string }
+) => CollectionsContextData;
+
+export const CollectionsContext = React.createContext<CollectionsContext>(
+  throwUnimplementedFn<CollectionsContext>('CollectionsContext')
+);
+
+const Collections = ({ communityId }) => {
+  const { collections } = React.useContext(CollectionsContext)({
+    communityId
+  });
+  return !collections ? (
+    <Text>Loading</Text>
+  ) : (
+    <>
+      {collections.map((a, i) => (
+        <CollectionPreview collectionId={a.collectionId} key={i} />
+      ))}
+    </>
+  );
+};
+
+const Menu = () => (
+  <MenuWrapper p={3} pt={2} mb={3}>
+    <NavLink exact to={'/'}>
+      Recent activities
+    </NavLink>
+    <NavLink to={'/collections'}>Collections</NavLink>
+    <NavLink to={'/threads'}>Threads</NavLink>
+  </MenuWrapper>
+);
+
+const MenuWrapper = styled(Flex)`
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+  a {
+    font-weight: 800;
+    text-decoration: none;
+    margin-right: 24px;
+    color: ${props => props.theme.colors.gray};
+    letterspacing: '1px';
+    font-size: 16px;
+    &.active {
+      color: ${props => props.theme.colors.orange};
+      position: relative;
+      &:after {
+        position: absolute;
+        content: '';
+        display: block;
+        bottom: -16px;
+        width: 100%;
+        height: 2px;
+        background: ${props => props.theme.colors.orange};
+      }
+    }
+  }
+`;
 export const HomeBox = styled(Flex)`
   max-width: 600px;
   width: 100%;

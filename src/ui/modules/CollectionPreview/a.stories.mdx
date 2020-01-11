@@ -1,0 +1,19 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import { PropsTable } from '@storybook/components';
+import {collectionPreviewContext} from 'ui/mock/context'
+import { CollectionPreview, CollectionPreviewContext } from 'ui/modules/CollectionPreview';
+
+<Meta title="Modules|CollectionPreview" component={CollectionPreview}/>
+
+# CollectionPreview
+Let's define a story for the `Collection preview` module
+
+<Preview>
+  <Story name="collection preview module">
+    <CollectionPreviewContext.Provider value={collectionPreviewContext}>
+       <CollectionPreview collectionId={'1'} />
+    </CollectionPreviewContext.Provider>
+  </Story>
+</Preview>
+
+

@@ -57,9 +57,7 @@ export const HeroCommunity: SFC<Props> = ({ communityId }) => {
           <Title variant="heading" mt={0}>
             {c.name}
           </Title>
-          <Username mt={2} fontSize={2}>
-            @{c.preferredUsername}
-          </Username>
+          <Username fontSize={2}>@{c.preferredUsername}</Username>
           {c.summary && (
             <Summary variant="text" mt={2}>
               {c.summary}
