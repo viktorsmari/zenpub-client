@@ -5,7 +5,13 @@ import media from 'styled-media-query';
 import styled from 'ui/themes/styled';
 import { throwUnimplementedFn } from 'common/util/ctx-mock/throwUnimplementedFn';
 import { ActivityPreview } from 'ui/modules/ActivityPreview';
-
+import {
+  WrapperPanel,
+  PanelTitle,
+  Panel,
+  Nav,
+  NavItem
+} from 'ui/elements/Panel';
 interface Props {
   communityId: string;
 }
@@ -22,6 +28,52 @@ export const Community: React.FC<Props> = ({ communityId }) => {
           </Wrapper>
         </WrapperCont>
       </HomeBox>
+      <WrapperPanel>
+        <Panel>
+          <PanelTitle fontSize={0} fontWeight={'bold'}>
+            Popular hashtags
+          </PanelTitle>
+          <Nav>
+            <NavItem mb={3} fontSize={1}>
+              #pedagogy
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              #transition
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              #english
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              #template
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              #assessment
+            </NavItem>
+          </Nav>
+        </Panel>
+        <Panel>
+          <PanelTitle fontSize={0} fontWeight={'bold'}>
+            Popular categories
+          </PanelTitle>
+          <Nav>
+            <NavItem mb={3} fontSize={1}>
+              Humanities
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              Behavioural science
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              English
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              Romana
+            </NavItem>
+            <NavItem mb={3} fontSize={1}>
+              Postgraduate
+            </NavItem>
+          </Nav>
+        </Panel>
+      </WrapperPanel>
     </MainContainer>
   );
 };
@@ -70,9 +122,9 @@ export const HomeBox = styled(Flex)`
   ${media.lessThan('1005px')`
   max-width: 100%;
   `};
-  ${media.lessThan('1280px')`
-  top: 60px;
-  `};
+  // ${media.lessThan('1280px')`
+  // top: 60px;
+  // `};
 `;
 
 export const MainContainer = styled(Flex)`
@@ -99,8 +151,8 @@ export const WrapperCont = styled(Flex)`
   min-width: 0px;
   padding: 0px;
   position: relative;
-  border-right: 1px solid ${props => props.theme.colors.lightgray};
   background: white;
+  border-radius: 4px;
   z-index: 0;
 `;
 

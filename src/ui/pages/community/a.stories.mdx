@@ -1,0 +1,35 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import { PropsTable } from '@storybook/components';
+import { Community } from '.';
+import {recentActivitiesContext, editProvider, heroContext, activityPreviewContext} from 'ui/mock/context'
+import {RecentActivitiesContext } from '.';
+import {
+  EditCommunityContext,
+  EditCommunityFormValues
+} from 'ui/modules/EditCommunityModal';
+import { HeroCommunityContext } from 'ui/modules/HeroCommunity';
+import { ActivityPreviewContext } from 'ui/modules/ActivityPreview';
+
+
+
+<Meta title="Pages|Community" component={Community}/>
+
+
+# Community
+Let's define a story for the `community` page
+
+<Preview>
+  <Story name="community page">
+    <HeroCommunityContext.Provider value={heroContext}>
+      <EditCommunityContext.Provider value={editProvider}>
+        <RecentActivitiesContext.Provider value={recentActivitiesContext}>
+          <ActivityPreviewContext.Provider value={activityPreviewContext}>
+            <Community communityId={'1'} />
+          </ActivityPreviewContext.Provider>
+        </RecentActivitiesContext.Provider>
+      </EditCommunityContext.Provider>
+    </HeroCommunityContext.Provider>
+  </Story>
+</Preview>
+
+

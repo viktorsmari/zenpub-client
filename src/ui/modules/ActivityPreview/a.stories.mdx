@@ -1,0 +1,17 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import { PropsTable } from '@storybook/components';
+import {activityPreviewContext} from 'ui/mock/context'
+import { ActivityPreview, ActivityPreviewContext } from 'ui/modules/ActivityPreview';
+
+<Meta title="Modules|ActivityPreview" component={ActivityPreview}/>
+
+# ActivityPreview
+Let's define a story for the `Activity preview` module
+
+<Preview>
+  <Story name="community page">
+    <ActivityPreviewContext.Provider value={activityPreviewContext}>
+       <ActivityPreview activityId={'1'} />
+    </ActivityPreviewContext.Provider>
+  </Story>
+</Preview>
