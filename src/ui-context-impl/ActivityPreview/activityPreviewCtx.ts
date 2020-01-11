@@ -1,12 +1,12 @@
-import { ActivityVerb } from 'graphql/types.generated';
 import {
   ActivityPreviewContext,
   ActivityPreviewContextData
 } from 'ui/modules/ActivityPreview';
 import {
-  useGetActivityPreviewQuery,
-  GetActivityPreviewQuery
+  GetActivityPreviewQuery,
+  useGetActivityPreviewQuery
 } from './getActivityPreview.generated';
+import { ActivityVerb } from 'graphql/types.generated';
 
 export const useActivityPreviewContext: ActivityPreviewContext = ({
   activityId
@@ -53,12 +53,20 @@ const typeVerbContextComment = (
     context.__typename === 'Community' ||
     context.__typename === 'Resource'
   ) {
+    const verb =
+      context.__typename === 'Comment' && context.inReplyTo
+        ? 'InReplyTo'
+        : activity.verb === ActivityVerb.Created
+          ? 'Created'
+          : activity.verb === ActivityVerb.Updated
+            ? 'Updated'
+            : null;
+    if (!verb) {
+      throw `unknown activity.verb :${activity.verb}`;
+    }
     return {
       type: context.__typename,
-      verb:
-        context.__typename === 'Comment' && context.inReplyTo
-          ? 'InReplyTo'
-          : ActivityVerb[activity.verb],
+      verb,
       ...contextComment(context)
     };
   } else {
