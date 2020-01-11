@@ -65,10 +65,10 @@ export const HeroCommunity: SFC<Props> = ({ communityId }) => {
               {c.summary}
             </Summary>
           )}
-          <Flex mt={3}>
+          <Info mt={3}>
             <MembersTot onClick={() => setOpenMembers(true)}>
-              <Text>
-                {c.totalMembers} <Trans>Members</Trans>
+              <Text variant="suptitle">
+                <Total mr={2}>{c.totalMembers}</Total> <Trans>Members</Trans>
               </Text>
             </MembersTot>
             <Actions>
@@ -84,7 +84,7 @@ export const HeroCommunity: SFC<Props> = ({ communityId }) => {
                 {c.following ? <Trans>Leave</Trans> : <Trans>Join</Trans>}
               </Button>
             </Actions>
-          </Flex>
+          </Info>
         </HeroInfo>
       </Hero>
       {isOpenSettings && (
@@ -96,6 +96,14 @@ export const HeroCommunity: SFC<Props> = ({ communityId }) => {
     </Box>
   );
 };
+
+const Info = styled(Flex)`
+  align-items: center;
+`;
+const Total = styled(Text)`
+  color: ${props => props.theme.colors.orange};
+`;
+
 const Title = styled(Text)`
   ${media.lessThan('medium')`
 font-size: 20px !important;
@@ -116,9 +124,8 @@ const Username = styled(Text)`
   font-weight: 500;
 `;
 
-const MembersTot = styled.div`
+const MembersTot = styled(Flex)`
   margin-top: 0px;
-  font-size: 12px;
   cursor: pointer;
   cursor: pointer;
   flex: 1;
@@ -138,13 +145,12 @@ const MembersTot = styled.div`
   }
 `;
 
-const EditButton = styled.span`
+const EditButton = styled(Flex)`
   height: 40px;
   font-weight: 600;
   font-size: 13px;
   line-height: 38px;
   cursor: pointer;
-  display: inline-block;
   width: 40px;
   height: 40px;
   vertical-align: bottom;
@@ -153,6 +159,8 @@ const EditButton = styled.span`
   text-align: center;
   border: 1px solid ${props => props.theme.colors.orange};
   cursor: pointer;
+  align-items: center;
+  align-content: center;
   & svg {
     text-align: center;
     vertical-align: text-bottom;
