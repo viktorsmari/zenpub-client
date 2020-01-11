@@ -129,8 +129,11 @@ const MembersTot = styled(Flex)`
   cursor: pointer;
   cursor: pointer;
   flex: 1;
+  > div {
+    display: flex;
+  }
   ${clearFix()} & span {
-    margin-right: 8px;
+    margin-right: 4px;
     float: left;
     height: 32px;
     line-height: 32px;

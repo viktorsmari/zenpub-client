@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Flex, Text } from 'rebass/styled-components';
-import HeroCommunity from 'ui/modules/heroCommunity';
+import { HeroCommunity } from 'ui/modules/HeroCommunity';
 import media from 'styled-media-query';
 import styled from 'ui/themes/styled';
 import { throwUnimplementedFn } from 'common/util/ctx-mock/throwUnimplementedFn';
@@ -10,13 +10,14 @@ interface Props {
   communityId: string;
 }
 
-export const CommunitiesFeatured: React.FC<Props> = ({ communityId }) => {
+export const Community: React.FC<Props> = ({ communityId }) => {
   return (
     <MainContainer>
       <HomeBox>
         <WrapperCont>
           <Wrapper>
             <HeroCommunity communityId={communityId} />
+
             <RecentActivities communityId={communityId} />
           </Wrapper>
         </WrapperCont>
@@ -26,8 +27,7 @@ export const CommunitiesFeatured: React.FC<Props> = ({ communityId }) => {
 };
 
 export interface RecentActivitiesContextData {
-  map(arg0: (a: any, i: any) => any);
-  activities: [{ activityId: string }];
+  activities: Array<{ activityId: string }>;
 }
 
 export type RecentActivitiesContext = (
@@ -39,15 +39,17 @@ export const RecentActivitiesContext = React.createContext<
 >(throwUnimplementedFn<RecentActivitiesContext>('RecentActivities'));
 
 const RecentActivities = ({ communityId }) => {
-  const activities = React.useContext(RecentActivitiesContext)({
+  const { activities } = React.useContext(RecentActivitiesContext)({
     communityId
   });
   return !activities ? (
     <Text>Loading</Text>
   ) : (
-    activities.map((a, i) => (
-      <ActivityPreview activityId={a.activityId} key={i} />
-    ))
+    <>
+      {activities.map((a, i) => (
+        <ActivityPreview activityId={a.activityId} key={i} />
+      ))}
+    </>
   );
 };
 
@@ -127,4 +129,4 @@ export const Wrapper = styled(Flex)`
   }
 `;
 
-export default CommunitiesFeatured;
+export default Community;
