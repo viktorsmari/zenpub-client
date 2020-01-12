@@ -5,12 +5,11 @@ import { CreateReplyMutationMutationOperation } from 'graphql/createReply.genera
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { Box } from 'rebass/styled-components';
-import { HeroCommunityHOC } from 'ui-context-impl/HeroCommunity/heroCommuityHOC';
 import { useDynamicLinkOpResult } from 'util/apollo/dynamicLink';
 import CollectionCard from '../../components/elements/Collection/Collection';
 import Loader from '../../components/elements/Loader/Loader';
 import '../../containers/App/basic.css';
-import { useGetCommunityQueryQuery } from '../../graphql/getCommunity.generated';
+import { useGetCommunityQueryQuery } from 'graphql/getCommunity.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import {
   Nav,
@@ -22,6 +21,7 @@ import {
 import styled from '../../themes/styled';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import CommunityPage from './Community';
+import { HeroCommunityHOC } from 'HOC/ modules/HeroCommunity/heroCommuityHOC';
 
 interface Props {
   communityId: string;

@@ -28,13 +28,11 @@ export const editCommunityFormInitialValues: EditCommunityFormValues = {
 };
 export interface Props {
   communityId: Community['id'];
-  success(id: Community['id']): any;
   cancel(): any;
 }
 export const EditCommunityPanelHOC: SFC<Props> = ({
   cancel,
-  communityId,
-  success
+  communityId
 }: Props) => {
   const community = useGetCommunityForEditQuery({ variables: { communityId } });
   const [create /* , result */] = useUpdateCommunityMutationMutation();
@@ -51,10 +49,7 @@ export const EditCommunityPanelHOC: SFC<Props> = ({
   );
   const formik = useFormik<EditCommunityFormValues>({
     enableReinitialize: true,
-    onSubmit: vals =>
-      create({ variables: { community: vals, communityId } }).then(_ => {
-        _.data && _.data.updateCommunity && success(_.data.updateCommunity.id);
-      }),
+    onSubmit: vals => create({ variables: { community: vals, communityId } }),
     validationSchema,
     initialValues
   });
