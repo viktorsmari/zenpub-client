@@ -63,9 +63,9 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
         toggle: action('submit'),
         isSubmitting: false
       },
-      EditCommunityPanel: ({ done: cancel }) => (
+      EditCommunityPanel: ({ done }) => (
         <img
-          onClick={cancel}
+          onClick={done}
           src="https://via.placeholder.com/400x200.png?text=An editing panel"
         />
       )

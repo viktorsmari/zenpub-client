@@ -9,7 +9,7 @@ import { useDynamicLinkOpResult } from 'util/apollo/dynamicLink';
 import CollectionCard from '../../components/elements/Collection/Collection';
 import Loader from '../../components/elements/Loader/Loader';
 import '../../containers/App/basic.css';
-import { useGetCommunityQueryQuery } from '../../graphql/getCommunity.generated';
+import { useGetCommunityQueryQuery } from 'graphql/getCommunity.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import {
   Nav,
