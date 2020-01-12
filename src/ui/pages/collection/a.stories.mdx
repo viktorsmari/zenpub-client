@@ -24,11 +24,9 @@ Let's define a story for the `Collection` page
     <HeroCollectionContext.Provider value={heroCollectionContext}>
       <EditCollectionContext.Provider value={editCollectionContext}>
         <RecentActivitiesContext.Provider value={recentActivitiesContext}>
-          
           <ActivityPreviewContext.Provider value={activityPreviewContext}>
               <Collection collectionId={'1'} />
           </ActivityPreviewContext.Provider>
-          
         </RecentActivitiesContext.Provider>
       </EditCollectionContext.Provider>
     </HeroCollectionContext.Provider>

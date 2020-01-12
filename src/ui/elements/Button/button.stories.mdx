@@ -1,0 +1,41 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import { PropsTable } from '@storybook/components';
+import {editCollectionContext} from 'ui/mock/context'
+import { EditCollectionModal, EditCollectionContext } from 'ui/modules/EditCollectionModal';
+import { action } from '@storybook/addon-actions';
+import {Button} from 'rebass/styled-components'
+
+<Meta title="Elements|Button" />
+
+# Button
+Let's define a story for the `button` elements
+
+## Primary
+<Preview>
+  <Story name="Primary">
+    <Button variant="primary">Primary</Button>
+  </Story>
+</Preview>
+
+## Outline
+<Preview>
+  <Story name="Outline">
+    <Button variant="outline">Outline</Button>
+  </Story>
+</Preview>
+
+
+## Loading
+<Preview>
+  <Story name="loading">
+    <Button variant="outline">Outline</Button>
+  </Story>
+</Preview>
+
+
+## Link
+<Preview>
+  <Story name="link">
+    <Button variant="outline">Outline</Button>
+  </Story>
+</Preview>

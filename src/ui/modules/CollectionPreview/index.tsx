@@ -107,6 +107,7 @@ const Wrapper = styled(Flex)`
   cursor: pointer;
   position: relative;
   text-decoration: none;
+  background: #fff;
   border-bottom: 4px solid ${props => props.theme.colors.lighter};
   &:hover {
     border-radius: 4px;
