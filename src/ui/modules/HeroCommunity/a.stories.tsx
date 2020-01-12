@@ -17,11 +17,14 @@ storiesOf('Modules/HeroCommunity', module)
         summary: '',
         totalMembers: 193,
         toggleJoin: {
-          toggle: action('submit'),
+          toggle: action('Unjoin !'),
           isSubmitting: false
         },
-        EditCommunityPanel: () => (
-          <img src="https://via.placeholder.com/400x200.png?text=An editing panel" />
+        EditCommunityPanel: ({ cancel }) => (
+          <img
+            onClick={cancel}
+            src="https://via.placeholder.com/400x200.png?text=An editing panel"
+          />
         )
       }
     };

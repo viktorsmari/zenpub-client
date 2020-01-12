@@ -5,7 +5,7 @@ import { Settings } from 'react-feather';
 import { Box, Button, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import styled from 'ui/themes/styled';
-import Modal from 'components/elements/Modal';
+import Modal from 'ui/modules/Modal';
 
 export interface Props {
   community: {
@@ -74,7 +74,7 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
         </HeroInfo>
       </Hero>
       {isOpenSettings && (
-        <Modal>
+        <Modal closeModal={() => setOpenSettings(false)}>
           <c.EditCommunityPanel cancel={() => setOpenSettings(false)} />
         </Modal>
       )}
