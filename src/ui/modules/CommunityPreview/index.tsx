@@ -16,7 +16,7 @@ interface Props {
   threadsCount?: number;
 }
 
-const Community: React.FC<Props> = ({
+export const CommunityPreview: React.FC<Props> = ({
   name,
   icon,
   summary,
@@ -80,8 +80,6 @@ export const CommunitySmall: React.FC<{ icon: string; name: string }> = ({
   );
 };
 
-export default Community;
-
 const WrapperSmall = styled(Box)`
   cursor: pointer;
   position: relative;
@@ -119,6 +117,11 @@ const Wrapper = styled(Box)`
 `;
 const WrapperImage = styled.div`
   position: relative;
+  div {
+    width: 100%;
+    height: auto;
+    padding: 50%;
+  }
   &:hover {
     & span {
       display: block;
