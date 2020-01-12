@@ -108,7 +108,11 @@ const Wrapper = styled(Flex)`
   position: relative;
   text-decoration: none;
   background: #fff;
-  border-bottom: 4px solid ${props => props.theme.colors.lighter};
+  margin: 16px;
+  margin-top: 0;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px 0px rgba(0, 0, 0, 0.1);
+  // border-bottom: 4px solid ${props => props.theme.colors.lighter};
   &:hover {
     border-radius: 4px;
     background: ${props => props.theme.colors.lighter};
