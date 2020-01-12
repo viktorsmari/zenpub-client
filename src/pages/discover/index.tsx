@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom';
 // import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
 import { Flex } from 'rebass/styled-components';
-import { ActivityPreviewHOC } from 'ui-context-impl/ActivityPreview/activityPreviewHOC';
 import Empty from '../../components/elements/Empty';
 import Loader from '../../components/elements/Loader/Loader';
 import LoadMoreTimeline from '../../components/elements/Loadmore/localInstance';
@@ -26,6 +25,7 @@ import {
 import styled from '../../themes/styled';
 import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
+import { ActivityPreviewHOC } from 'HOC/ modules/ActivityPreview/activityPreviewHOC';
 
 interface Props {}
 

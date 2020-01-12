@@ -3,10 +3,10 @@ import { SessionContext } from 'context/global/sessionCtx';
 import { useDeleteMutationMutation } from 'graphql/delete.generated';
 import { useFollowMutationMutation } from 'graphql/follow.generated';
 import { SFC, useContext, useMemo } from 'react';
-import { EditCommunityPanelHOC } from 'ui-context-impl/community/edit/editCommunityPanelHOC';
 import HeroCommunity, { Props as HeroProps } from 'ui/modules/HeroCommunity';
 import { useGetHeroCommunityQuery } from './getHeroCommunity.generated';
 import { Community } from 'graphql/types.generated';
+import { EditCommunityPanelHOC } from '../EditCommunityPanel/editCommunityPanelHOC';
 
 export interface Props {
   communityId: Community['id'];
