@@ -1,16 +1,17 @@
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
-import {
-  EditCollectionFormValues,
-  editCollectionFormValuesSchema,
-  getCollectionInputFromFormValues,
-  useEditCollectionFormValuesFromQueryResult
-} from 'ui-context-impl/collection/edit';
-import { useFormik } from 'formik';
-import { useGetCollectionQuery } from 'graphql/getCollection.generated';
-import { useUpdateCollectionMutationMutation } from 'graphql/updateCollection.generated';
-import { Collection } from 'graphql/types.generated';
+// import {
+//   EditCollectionFormValues,
+//   editCollectionFormValuesSchema,
+//   getCollectionInputFromFormValues,
+//   useEditCollectionFormValuesFromQueryResult
+// } from 'ui-context-impl/collection/edit';
+// import { useFormik } from 'formik';
+// import { useGetCollectionQuery } from 'graphql/getCollection.generated';
+// import { useUpdateCollectionMutationMutation } from 'graphql/updateCollection.generated';
+import { FormikHook } from 'common/types';
+import { throwUnimplementedFn } from 'common/util/ctx-mock/throwUnimplementedFn';
 import * as React from 'react';
 import { Button, Heading } from 'rebass/styled-components';
 import Alert from 'ui/elements/Alert';
@@ -35,28 +36,37 @@ const tt = {
 };
 
 interface Props {
-  collectionId: Collection['id'];
+  collectionId: string;
   closeModal: () => void;
 }
 
-const EditCollectionModal: React.FC<Props> = ({ closeModal, collectionId }) => {
-  const collection = useGetCollectionQuery({ variables: { id: collectionId } });
-  const [update /* , result */] = useUpdateCollectionMutationMutation();
-  const formik = useFormik<EditCollectionFormValues>({
-    enableReinitialize: true,
-    onSubmit: vals =>
-      update({
-        variables: {
-          collection: getCollectionInputFromFormValues(vals),
-          collectionId
-        }
-      }),
-    validationSchema: editCollectionFormValuesSchema,
-    initialValues: useEditCollectionFormValuesFromQueryResult(collection)
-  });
-  const handleCloseModal = React.useCallback(() => closeModal(), [closeModal]);
+export interface EditCollectionFormValues {
+  name: string;
+  summary: string;
+  image: string;
+}
+
+export interface EditCollectionContextCfg {
+  collectionId: string;
+}
+
+export type EditCollectionContext = (
+  cfg: EditCollectionContextCfg
+) => {
+  formik: FormikHook<EditCollectionFormValues>;
+};
+export const EditCollectionContext = React.createContext<EditCollectionContext>(
+  throwUnimplementedFn<EditCollectionContext>('EditCollectionFormContext')
+);
+
+export const EditCollectionModal: React.FC<Props> = ({
+  closeModal,
+  collectionId
+}) => {
+  const servizioContext = React.useContext(EditCollectionContext);
+  const { formik } = servizioContext({ collectionId });
   return (
-    <Modal closeModal={handleCloseModal}>
+    <Modal closeModal={closeModal}>
       <Container>
         <Header>
           <Heading m={2}>
@@ -109,13 +119,13 @@ const EditCollectionModal: React.FC<Props> = ({ closeModal, collectionId }) => {
             <Input
               placeholder={tt.placeholders.icon}
               disabled={formik.isSubmitting}
-              name="icon"
-              value={formik.values.icon}
+              name="image"
+              value={formik.values.image}
               onChange={formik.handleChange}
             />
-            {formik.errors.icon && (
+            {formik.errors.image && (
               <AlertWrapper>
-                <Alert variant="bad">{formik.errors.icon}</Alert>
+                <Alert variant="bad">{formik.errors.image}</Alert>
               </AlertWrapper>
             )}
           </ContainerForm>
@@ -129,7 +139,7 @@ const EditCollectionModal: React.FC<Props> = ({ closeModal, collectionId }) => {
           >
             <Trans>Create</Trans>
           </Button>
-          <Button variant="outline" onClick={handleCloseModal}>
+          <Button variant="outline" onClick={closeModal}>
             <Trans>Cancel</Trans>
           </Button>
         </Actions>
@@ -137,5 +147,3 @@ const EditCollectionModal: React.FC<Props> = ({ closeModal, collectionId }) => {
     </Modal>
   );
 };
-
-export default EditCollectionModal;

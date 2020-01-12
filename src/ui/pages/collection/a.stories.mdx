@@ -1,0 +1,38 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import { PropsTable } from '@storybook/components';
+import { Collection } from '.';
+import {recentActivitiesContext, editCollectionContext, heroCollectionContext, activityPreviewContext} from 'ui/mock/context'
+import {RecentActivitiesContext, CollectionsContext } from '.';
+import {
+  EditCollectionContext,
+  EditCollectionFormValues
+} from 'ui/modules/EditCollectionModal';
+import { HeroCollectionContext } from 'ui/modules/HeroCollection';
+import { ActivityPreviewContext } from 'ui/modules/ActivityPreview';
+
+
+
+
+<Meta title="Pages|Collection" component={Collection}/>
+
+
+# Collection
+Let's define a story for the `Collection` page
+
+<Preview>
+  <Story name="Collection page">
+    <HeroCollectionContext.Provider value={heroCollectionContext}>
+      <EditCollectionContext.Provider value={editCollectionContext}>
+        <RecentActivitiesContext.Provider value={recentActivitiesContext}>
+          
+          <ActivityPreviewContext.Provider value={activityPreviewContext}>
+              <Collection collectionId={'1'} />
+          </ActivityPreviewContext.Provider>
+          
+        </RecentActivitiesContext.Provider>
+      </EditCollectionContext.Provider>
+    </HeroCollectionContext.Provider>
+  </Story>
+</Preview>
+
+

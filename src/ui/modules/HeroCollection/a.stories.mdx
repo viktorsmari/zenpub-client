@@ -1,0 +1,20 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import { PropsTable } from '@storybook/components';
+import {heroCollectionContext, editCollectionContext} from 'ui/mock/context'
+import { HeroCollection, HeroCollectionContext } from 'ui/modules/HeroCollection';
+import {EditCollectionContext} from 'ui/modules/EditCollectionModal'
+
+<Meta title="Modules|HeroCollection" component={HeroCollection}/>
+
+# HeroCollection
+Let's define a story for the `Hero collection preview` module
+
+<Preview>
+  <Story name="Hero collection module">
+    <HeroCollectionContext.Provider value={heroCollectionContext}>
+       <EditCollectionContext.Provider value={editCollectionContext}>
+          <HeroCollection activityId={'1'} />
+       </EditCollectionContext.Provider>
+    </HeroCollectionContext.Provider>
+  </Story>
+</Preview>

@@ -7,6 +7,7 @@ import media from 'styled-media-query';
 import { Trans } from '@lingui/react';
 import { throwUnimplementedFn } from 'common/util/ctx-mock/throwUnimplementedFn';
 import EditCommunityModal from 'ui/modules/EditCommunityModal';
+import SocialText from 'ui/modules/SocialText';
 
 interface Props {
   communityId: string;
@@ -45,8 +46,8 @@ export const HeroCommunity: SFC<Props> = ({ communityId }) => {
   return !c ? (
     <Text>Loading...</Text>
   ) : (
-    <Box p={1} mb={2}>
-      <Hero>
+    <>
+      <Hero p={1}>
         <Background
           id="header"
           style={{
@@ -84,6 +85,14 @@ export const HeroCommunity: SFC<Props> = ({ communityId }) => {
             </Actions>
           </Info>
         </HeroInfo>
+        <WrapSocialText px={3} pb={3} mb={2}>
+          {c.following && (
+            <SocialText
+              placeholder="Start a new thread..."
+              submit={() => console.log('test')}
+            />
+          )}
+        </WrapSocialText>
       </Hero>
       {isOpenSettings && (
         <EditCommunityModal
@@ -91,9 +100,13 @@ export const HeroCommunity: SFC<Props> = ({ communityId }) => {
           closeModal={() => setOpenSettings(false)}
         />
       )}
-    </Box>
+    </>
   );
 };
+
+const WrapSocialText = styled(Box)`
+  border-bottom: 3px solid ${props => props.theme.colors.lightgray};
+`;
 
 const Info = styled(Flex)`
   align-items: center;
@@ -173,9 +186,12 @@ const EditButton = styled(Flex)`
   }
 `;
 
-const Hero = styled.div`
+const Hero = styled(Box)`
   width: 100%;
   position: relative;
+  background: #fff;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
 `;
 
 const Background = styled.div`

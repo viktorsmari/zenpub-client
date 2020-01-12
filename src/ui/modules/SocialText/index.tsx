@@ -42,6 +42,7 @@ const SocialTextArea = styled(Textarea)`
 
 const SocialActions = styled(Flex)`
   width: 70px;
+  margin-right: 8px;
 `;
 
 export interface Props {

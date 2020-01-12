@@ -13,7 +13,7 @@ import Avatar from 'ui/elements/Avatar';
 import { Trans } from '@lingui/react';
 
 interface Props {
-  activityId;
+  activityId: string;
 }
 
 export interface ActivityPreviewContextData {

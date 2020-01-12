@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Flex, Text } from 'rebass/styled-components';
-import { HeroCommunity } from 'ui/modules/HeroCommunity';
+import { HeroCollection } from 'ui/modules/HeroCollection';
 import media from 'styled-media-query';
 import styled from 'ui/themes/styled';
 import { throwUnimplementedFn } from 'common/util/ctx-mock/throwUnimplementedFn';
@@ -13,25 +13,24 @@ import {
   NavItem
 } from 'ui/elements/Panel';
 import { NavLink, Switch, Route } from 'react-router-dom';
-import { CollectionPreview } from 'ui/modules/CollectionPreview';
 interface Props {
-  communityId: string;
+  collectionId: string;
 }
 
-export const Community: React.FC<Props> = ({ communityId }) => {
+export const Collection: React.FC<Props> = ({ collectionId }) => {
   return (
     <MainContainer>
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <HeroCommunity communityId={communityId} />
+            <HeroCollection collectionId={collectionId} />
             <Menu />
             <Switch>
               <Route exact path="/">
-                <RecentActivities communityId={communityId} />
+                <RecentActivities collectionId={collectionId} />
               </Route>
-              <Route path="/collections">
-                <Collections communityId={communityId} />
+              <Route path="/resources">
+                <div>resources</div>
               </Route>
               <Route path="/threads">
                 <div>threads</div>
@@ -95,16 +94,16 @@ export interface RecentActivitiesContextData {
 }
 
 export type RecentActivitiesContext = (
-  cfg: { communityId: string }
+  cfg: { collectionId: string }
 ) => RecentActivitiesContextData;
 
 export const RecentActivitiesContext = React.createContext<
   RecentActivitiesContext
 >(throwUnimplementedFn<RecentActivitiesContext>('RecentActivities'));
 
-const RecentActivities = ({ communityId }) => {
+const RecentActivities = ({ collectionId }) => {
   const { activities } = React.useContext(RecentActivitiesContext)({
-    communityId
+    collectionId
   });
   return !activities ? (
     <Text>Loading</Text>
@@ -117,44 +116,17 @@ const RecentActivities = ({ communityId }) => {
   );
 };
 
-export interface CollectionsContextData {
-  collections: Array<{ collectionId: string }>;
-}
-
-export type CollectionsContext = (
-  cfg: { communityId: string }
-) => CollectionsContextData;
-
-export const CollectionsContext = React.createContext<CollectionsContext>(
-  throwUnimplementedFn<CollectionsContext>('CollectionsContext')
-);
-
-const Collections = ({ communityId }) => {
-  const { collections } = React.useContext(CollectionsContext)({
-    communityId
-  });
-  return !collections ? (
-    <Text>Loading</Text>
-  ) : (
-    <>
-      {collections.map((a, i) => (
-        <CollectionPreview collectionId={a.collectionId} key={i} />
-      ))}
-    </>
-  );
-};
-
 const Menu = () => (
-  <MenuWrapper p={3} pt={0}>
+  <MenuWrapper p={3} pt={3}>
     <NavLink exact to={'/'}>
       Recent activities
     </NavLink>
-    <NavLink to={'/collections'}>Collections</NavLink>
-    <NavLink to={'/threads'}>Threads</NavLink>
+    <NavLink to={'/resources'}>Resources</NavLink>
   </MenuWrapper>
 );
 
 const MenuWrapper = styled(Flex)`
+  border-top: 3px solid ${props => props.theme.colors.lightgray};
   a {
     font-weight: 800;
     text-decoration: none;
@@ -169,7 +141,7 @@ const MenuWrapper = styled(Flex)`
         position: absolute;
         content: '';
         display: block;
-        top: -15px;
+        top: -19px;
         width: 100%;
         height: 3px;
         background: ${props => props.theme.colors.orange};
@@ -177,6 +149,7 @@ const MenuWrapper = styled(Flex)`
     }
   }
 `;
+
 export const HomeBox = styled(Flex)`
   max-width: 600px;
   width: 100%;
@@ -192,7 +165,7 @@ export const HomeBox = styled(Flex)`
   position: relative;
   z-index: 0;
   ${media.lessThan('1005px')`
-  max-width: 100%;
+    max-width: 100%;
   `};
   // ${media.lessThan('1280px')`
   // top: 60px;
@@ -252,5 +225,3 @@ export const Wrapper = styled(Flex)`
     line-height: 40px;
   }
 `;
-
-export default Community;

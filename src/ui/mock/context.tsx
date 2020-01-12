@@ -6,12 +6,16 @@ import {
   EditCommunityContext,
   EditCommunityFormValues
 } from 'ui/modules/EditCommunityModal';
+import {
+  EditCollectionContext,
+  EditCollectionFormValues
+} from 'ui/modules/EditCollectionModal';
 import { useFormik } from 'formik';
 import { action } from '@storybook/addon-actions';
 import { HeroCommunityContext } from 'ui/modules/HeroCommunity';
 import { ActivityPreviewContext } from 'ui/modules/ActivityPreview';
 import { CollectionPreviewContext } from 'ui/modules/CollectionPreview';
-
+import { HeroCollectionContext } from 'ui/modules/HeroCollection';
 export const recentActivitiesContext: RecentActivitiesContext = () => {
   return {
     activities: [{ activityId: '1' }, { activityId: '2' }, { activityId: '3' }]
@@ -28,7 +32,7 @@ export const collectionsContext: CollectionsContext = () => {
   };
 };
 
-export const editProvider: EditCommunityContext = () => {
+export const editCommunityContext: EditCommunityContext = () => {
   const formik = useFormik<EditCommunityFormValues>({
     initialValues: {
       image: '',
@@ -44,6 +48,24 @@ export const editProvider: EditCommunityContext = () => {
   });
   return { formik };
 };
+
+export const editCollectionContext: EditCollectionContext = () => {
+  const formik = useFormik<EditCollectionFormValues>({
+    initialValues: {
+      image: '',
+      name: 'name',
+      summary: 'summary'
+    },
+    onSubmit: () => {
+      action('submit')();
+      return new Promise((resolve, reject) => {
+        setTimeout(resolve, 3000);
+      });
+    }
+  });
+  return { formik };
+};
+
 export const heroContext: HeroCommunityContext = () => {
   return {
     community: {
@@ -62,6 +84,23 @@ export const heroContext: HeroCommunityContext = () => {
     }
   };
 };
+
+export const heroCollectionContext: HeroCollectionContext = () => {
+  return {
+    isMine: true,
+    myFollow: true,
+    icon: 'https://picsum.photos/800/300',
+    title: 'Favourite books',
+    preferredUsername: 'favbooks',
+    summary:
+      'Cooperation combined with network effects is more effective than capitalist competition',
+    toggleJoin: {
+      toggle: action('submit'),
+      isSubmitting: false
+    }
+  };
+};
+
 export const collectionPreviewContext: CollectionPreviewContext = () => {
   return {
     id: '1',
