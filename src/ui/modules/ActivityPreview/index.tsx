@@ -1,22 +1,17 @@
 // import { Trans } from '@lingui/react';
+import { Trans } from '@lingui/react';
 import { DateTime } from 'luxon';
 import { clearFix } from 'polished';
 import React, { SFC } from 'react';
+import { Link } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
+import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
-import { Link } from 'react-router-dom';
 import Actions from './Actions';
 import Preview, { ActivityType, ContextType } from './preview';
-import { throwUnimplementedFn } from 'common/util/ctx-mock/throwUnimplementedFn';
-import Avatar from 'ui/elements/Avatar';
-import { Trans } from '@lingui/react';
 
-interface Props {
-  activityId: string;
-}
-
-export interface ActivityPreviewContextData {
+export interface Props {
   activity: {
     actor: {
       icon: string;
@@ -41,20 +36,11 @@ export interface ActivityPreviewContextData {
   } | null;
 }
 
-export type ActivityPreviewContext = (
-  cfg: { activityId: string }
-) => ActivityPreviewContextData;
-
-export const ActivityPreviewContext = React.createContext<
-  ActivityPreviewContext
->(throwUnimplementedFn<ActivityPreviewContext>('Activity'));
-
-export const ActivityPreview: SFC<Props> = ({ activityId }) => {
-  const { activity } = React.useContext(ActivityPreviewContext)({ activityId });
+export const ActivityPreview: SFC<Props> = ({ activity }) => {
   if (!activity) {
     return <Trans>loading ...</Trans>;
   }
-  console.log(activity);
+  // console.log(activity);
   const { actor, createdAt, type, verb, context, comment } = activity;
   return (
     <FeedItem>

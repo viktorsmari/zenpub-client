@@ -1,20 +1,23 @@
-import {
-  ActivityPreviewContext,
-  ActivityPreviewContextData
-} from 'ui/modules/ActivityPreview';
+import React from 'react';
 import {
   GetActivityPreviewQuery,
   useGetActivityPreviewQuery
 } from './getActivityPreview.generated';
-import { ActivityVerb } from 'graphql/types.generated';
+import { ActivityVerb, Activity } from 'graphql/types.generated';
+import {
+  ActivityPreview,
+  Props as ActivityPreviewProps
+} from 'ui/modules/ActivityPreview';
+import { SFC } from 'react';
 
-export const useActivityPreviewContext: ActivityPreviewContext = ({
-  activityId
-}) => {
+export interface Props {
+  activityId: Activity['id'];
+}
+export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
   const activityQ = useGetActivityPreviewQuery({ variables: { activityId } });
   const activity = activityQ.data && activityQ.data.activity;
 
-  return {
+  const props: ActivityPreviewProps = {
     activity: activity
       ? {
           ...actor(activity),
@@ -23,12 +26,10 @@ export const useActivityPreviewContext: ActivityPreviewContext = ({
         }
       : null
   };
+  return <ActivityPreview {...props} />;
 };
 
-type _ActivityD = Exclude<
-  ActivityPreviewContextData['activity'],
-  null | undefined
->;
+type _ActivityD = Exclude<ActivityPreviewProps['activity'], null | undefined>;
 type _ActivityQ = Exclude<
   GetActivityPreviewQuery['activity'],
   null | undefined
@@ -62,7 +63,7 @@ const typeVerbContextComment = (
             ? 'Updated'
             : null;
     if (!verb) {
-      throw `unknown activity.verb :${activity.verb}`;
+      return err(`unknown activity.verb :${activity.verb}`);
     }
     return {
       type: context.__typename,
@@ -70,7 +71,7 @@ const typeVerbContextComment = (
       ...contextComment(context)
     };
   } else {
-    throw '';
+    return err(`unhandled context.__typename :${context.__typename}`);
   }
 };
 const contextComment = (
@@ -163,4 +164,9 @@ const contextComment = (
     //   }
     // }
   }
+};
+
+const err = (_: any) => {
+  alert(_);
+  throw new Error(`${_}`);
 };

@@ -1,38 +1,20 @@
-import {
-  RecentActivitiesContext,
-  CollectionsContext
-} from 'ui/pages/community';
-import {
-  EditCommunityContext,
-  EditCommunityFormValues
-} from 'ui/modules/EditCommunityModal';
-import {
-  EditCollectionContext,
-  EditCollectionFormValues
-} from 'ui/modules/EditCollectionModal';
-import { useFormik } from 'formik';
+import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { HeroCommunityContext } from 'ui/modules/HeroCommunity';
-import { ActivityPreviewContext } from 'ui/modules/ActivityPreview';
-import { CollectionPreviewContext } from 'ui/modules/CollectionPreview';
-import { HeroCollectionContext } from 'ui/modules/HeroCollection';
-export const recentActivitiesContext: RecentActivitiesContext = () => {
-  return {
-    activities: [{ activityId: '1' }, { activityId: '2' }, { activityId: '3' }]
-  };
-};
+import { useFormik } from 'formik';
+import { Props as ActivityPreviewProps } from 'ui/modules/ActivityPreview';
+import { Props as CollectionPreviewProps } from 'ui/modules/CollectionPreview';
+import {
+  EditCollectionFormValues,
+  Props as EditCollectionPanelProps
+} from 'ui/modules/EditCollectionPanel';
+import {
+  EditCommunityFormValues,
+  Props as EditCommunityProps
+} from 'ui/modules/EditCommunityPanel';
+import { Props as HeroCollectionProps } from 'ui/modules/HeroCollection';
+import { Props as HeroCommunityProps } from 'ui/modules/HeroCommunity';
 
-export const collectionsContext: CollectionsContext = () => {
-  return {
-    collections: [
-      { collectionId: '1' },
-      { collectionId: '2' },
-      { collectionId: '3' }
-    ]
-  };
-};
-
-export const editCommunityContext: EditCommunityContext = () => {
+export const getEditCommunityProps = (): EditCommunityProps => {
   const formik = useFormik<EditCommunityFormValues>({
     initialValues: {
       image: '',
@@ -46,10 +28,10 @@ export const editCommunityContext: EditCommunityContext = () => {
       });
     }
   });
-  return { formik };
+  return { formik, cancel: action('cancel') };
 };
 
-export const editCollectionContext: EditCollectionContext = () => {
+export const getEditCollectionProps = (): EditCollectionPanelProps => {
   const formik = useFormik<EditCollectionFormValues>({
     initialValues: {
       image: '',
@@ -63,10 +45,10 @@ export const editCollectionContext: EditCollectionContext = () => {
       });
     }
   });
-  return { formik };
+  return { formik, cancel: action('cancel') };
 };
 
-export const heroContext: HeroCommunityContext = () => {
+export const getHeroCommunityProps = (): HeroCommunityProps => {
   return {
     community: {
       canModify: true,
@@ -80,28 +62,42 @@ export const heroContext: HeroCommunityContext = () => {
       toggleJoin: {
         toggle: action('submit'),
         isSubmitting: false
-      }
+      },
+      EditCommunityPanel: ({ cancel }) => (
+        <img
+          onClick={cancel}
+          src="https://via.placeholder.com/400x200.png?text=An editing panel"
+        />
+      )
     }
   };
 };
 
-export const heroCollectionContext: HeroCollectionContext = () => {
+export const getHeroCollectionProps = (): HeroCollectionProps => {
   return {
-    isMine: true,
-    myFollow: true,
-    icon: 'https://picsum.photos/800/300',
-    title: 'Favourite books',
-    preferredUsername: 'favbooks',
-    summary:
-      'Cooperation combined with network effects is more effective than capitalist competition',
-    toggleJoin: {
-      toggle: action('submit'),
-      isSubmitting: false
+    collection: {
+      isMine: true,
+      myFollow: true,
+      icon: 'https://picsum.photos/800/300',
+      title: 'Favourite books',
+      preferredUsername: 'favbooks',
+      summary:
+        'Cooperation combined with network effects is more effective than capitalist competition',
+      toggleJoin: {
+        toggle: action('submit'),
+        isSubmitting: false
+      },
+      EditCollectionPanel: ({ cancel }) => (
+        <img
+          onClick={cancel}
+          src="https://via.placeholder.com/400x200.png?text=An editing panel"
+        />
+      )
     }
   };
 };
 
-export const collectionPreviewContext: CollectionPreviewContext = () => {
+export const getCollectionPreviewProps = (): CollectionPreviewProps => {
   return {
     id: '1',
     icon: 'https://picsum.photos/id/200/200/200',
@@ -111,7 +107,7 @@ export const collectionPreviewContext: CollectionPreviewContext = () => {
     totalResources: 12
   };
 };
-export const activityPreviewContext: ActivityPreviewContext = () => {
+export const getActivityPreviewProps = (): ActivityPreviewProps => {
   return {
     activity: {
       actor: {

@@ -15,8 +15,7 @@ import {
   Row
 } from 'ui/modules/Modal';
 
-export interface EditResourceFormValues {
-  url: string;
+export interface BasicCreateCommunityFormValues {
   name: string;
   summary: string;
   image: string;
@@ -24,45 +23,27 @@ export interface EditResourceFormValues {
 
 const tt = {
   placeholders: {
-    url: i18nMark('The url of the resource'),
     name: i18nMark('Choose a name for the community'),
     summary: i18nMark(
-      'Please describe who might be interested in this resource...'
+      'Please describe who might be interested in this community and what kind of collections it is likely to contain...'
     ),
-    image: i18nMark('Enter the URL of an image to represent the resource')
+    image: i18nMark('Enter the URL of an image to represent the community')
   }
 };
 
 interface Props {
   cancel(): any;
-  formik: FormikHook<EditResourceFormValues>;
+  formik: FormikHook<BasicCreateCommunityFormValues>;
 }
 
-const EditResourcePanel: React.FC<Props> = ({ cancel, formik }) => {
+export const CreateCommunityPanel: React.FC<Props> = ({ cancel, formik }) => {
   return (
     <Container>
       <Header>
         <Heading m={2}>
-          <Trans>Edit the resource details</Trans>
+          <Trans>Create a new community</Trans>
         </Heading>
       </Header>
-      <Row>
-        <label>Url</label>
-        <ContainerForm>
-          <Input
-            placeholder={tt.placeholders.url}
-            disabled={formik.isSubmitting}
-            name="url"
-            value={formik.values.url}
-            onChange={formik.handleChange}
-          />
-          {formik.errors.url && (
-            <AlertWrapper>
-              <Alert variant="bad">{formik.errors.url}</Alert>
-            </AlertWrapper>
-          )}
-        </ContainerForm>
-      </Row>
       <Row>
         <label>Name</label>
         <ContainerForm>
@@ -137,4 +118,4 @@ const EditResourcePanel: React.FC<Props> = ({ cancel, formik }) => {
   );
 };
 
-export default EditResourcePanel;
+export default CreateCommunityPanel;

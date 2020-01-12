@@ -5,7 +5,7 @@ import { CreateReplyMutationMutationOperation } from 'graphql/createReply.genera
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { Box } from 'rebass/styled-components';
-import HeroCommunity from 'ui/modules/HeroCommunity';
+import { HeroCommunityHOC } from 'ui-context-impl/HeroCommunity/heroCommuityHOC';
 import { useDynamicLinkOpResult } from 'util/apollo/dynamicLink';
 import CollectionCard from '../../components/elements/Collection/Collection';
 import Loader from '../../components/elements/Loader/Loader';
@@ -104,7 +104,7 @@ const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <HeroCommunity communityId={communityQuery.data.community.id} />
+            <HeroCommunityHOC communityId={communityQuery.data.community.id} />
             <Switch>
               <Route
                 path={url}

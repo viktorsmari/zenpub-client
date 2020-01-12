@@ -5,9 +5,9 @@ import { Layers, Users } from 'react-feather';
 import Avatar from 'ui/elements/Avatar';
 import media from 'styled-media-query';
 
-interface Props {
+export interface Props {
   name: string;
-  icon?: string;
+  icon: string;
   image?: string;
   summary: string;
   followersCount?: number;

@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 // import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
 import { Flex } from 'rebass/styled-components';
-import { ActivityPreview } from 'ui/modules/ActivityPreview';
+import { ActivityPreviewHOC } from 'ui-context-impl/ActivityPreview/activityPreviewHOC';
 import Empty from '../../components/elements/Empty';
 import Loader from '../../components/elements/Loader/Loader';
 import LoadMoreTimeline from '../../components/elements/Loadmore/localInstance';
@@ -92,7 +92,7 @@ const Home: React.FC<Props> = props => {
                       {data.instance.outbox.edges.map(
                         activity =>
                           activity && (
-                            <ActivityPreview
+                            <ActivityPreviewHOC
                               activityId={activity.node.id}
                               key={activity.node.id}
                             />

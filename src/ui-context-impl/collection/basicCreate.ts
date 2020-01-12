@@ -1,11 +1,6 @@
 import { CollectionInput } from 'graphql/types.generated';
 import * as Yup from 'yup';
-
-export interface BasicCreateCollectionFormValues {
-  name: string;
-  summary: string;
-  image: string;
-}
+import { BasicCreateCollectionFormValues } from 'ui/modules/CreateCollectionPanel';
 
 export type BasicCreateCollectionFormValuesSchema = Yup.ObjectSchema<
   BasicCreateCollectionFormValues

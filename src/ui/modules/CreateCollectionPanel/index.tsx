@@ -14,55 +14,34 @@ import {
   Header,
   Row
 } from 'ui/modules/Modal';
-
-export interface EditResourceFormValues {
-  url: string;
+export interface BasicCreateCollectionFormValues {
   name: string;
   summary: string;
   image: string;
 }
-
 const tt = {
   placeholders: {
-    url: i18nMark('The url of the resource'),
-    name: i18nMark('Choose a name for the community'),
+    name: i18nMark('Choose a name for the collection'),
     summary: i18nMark(
-      'Please describe who might be interested in this resource...'
+      'Please describe what the collection is for and what kind of resources it is likely to contain...'
     ),
-    image: i18nMark('Enter the URL of an image to represent the resource')
+    image: i18nMark('Enter the URL of an image to represent the collection')
   }
 };
 
 interface Props {
   cancel(): any;
-  formik: FormikHook<EditResourceFormValues>;
+  formik: FormikHook<BasicCreateCollectionFormValues>;
 }
 
-const EditResourcePanel: React.FC<Props> = ({ cancel, formik }) => {
+export const CreateCollectionPanel: React.FC<Props> = ({ cancel, formik }) => {
   return (
     <Container>
       <Header>
         <Heading m={2}>
-          <Trans>Edit the resource details</Trans>
+          <Trans>Create a new collection</Trans>
         </Heading>
       </Header>
-      <Row>
-        <label>Url</label>
-        <ContainerForm>
-          <Input
-            placeholder={tt.placeholders.url}
-            disabled={formik.isSubmitting}
-            name="url"
-            value={formik.values.url}
-            onChange={formik.handleChange}
-          />
-          {formik.errors.url && (
-            <AlertWrapper>
-              <Alert variant="bad">{formik.errors.url}</Alert>
-            </AlertWrapper>
-          )}
-        </ContainerForm>
-      </Row>
       <Row>
         <label>Name</label>
         <ContainerForm>
@@ -137,4 +116,4 @@ const EditResourcePanel: React.FC<Props> = ({ cancel, formik }) => {
   );
 };
 
-export default EditResourcePanel;
+export default CreateCollectionPanel;

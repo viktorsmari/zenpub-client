@@ -1,19 +1,14 @@
-import React, { SFC } from 'react';
-import { Box, Text, Flex, Button } from 'rebass/styled-components';
-import styled from 'ui/themes/styled';
-import { clearFix } from 'polished';
-import { Settings } from 'react-feather';
-import media from 'styled-media-query';
 import { Trans } from '@lingui/react';
-import { throwUnimplementedFn } from 'common/util/ctx-mock/throwUnimplementedFn';
-import EditCommunityModal from 'ui/modules/EditCommunityModal';
+import { clearFix } from 'polished';
+import React, { ComponentType, SFC } from 'react';
+import { Settings } from 'react-feather';
+import { Box, Button, Flex, Text } from 'rebass/styled-components';
+import media from 'styled-media-query';
 import SocialText from 'ui/modules/SocialText';
+import styled from 'ui/themes/styled';
+import Modal from 'ui/modules/Modal';
 
-interface Props {
-  communityId: string;
-}
-
-export interface HeroCommunityContextData {
+export interface Props {
   community: {
     icon: string;
     name: string;
@@ -26,23 +21,14 @@ export interface HeroCommunityContextData {
       toggle(): any;
       isSubmitting: boolean;
     };
+    EditCommunityPanel: ComponentType<{ cancel(): any }>;
   } | null;
 }
 
-export type HeroCommunityContext = (
-  cfg: { communityId: string }
-) => HeroCommunityContextData;
-
-export const HeroCommunityContext = React.createContext<HeroCommunityContext>(
-  throwUnimplementedFn<HeroCommunityContext>('HeroContext')
-);
-
-export const HeroCommunity: SFC<Props> = ({ communityId }) => {
+export const HeroCommunity: SFC<Props> = ({ community: c }) => {
   const [, setOpenMembers] = React.useState(false);
   const [isOpenSettings, setOpenSettings] = React.useState(false);
-  const { community: c } = React.useContext(HeroCommunityContext)({
-    communityId
-  });
+
   return !c ? (
     <Text>Loading...</Text>
   ) : (
@@ -95,10 +81,9 @@ export const HeroCommunity: SFC<Props> = ({ communityId }) => {
         </WrapSocialText>
       </Hero>
       {isOpenSettings && (
-        <EditCommunityModal
-          communityId={communityId}
-          closeModal={() => setOpenSettings(false)}
-        />
+        <Modal closeModal={() => setOpenSettings(false)}>
+          <c.EditCommunityPanel cancel={() => setOpenSettings(false)} />
+        </Modal>
       )}
     </>
   );

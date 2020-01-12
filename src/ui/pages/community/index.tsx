@@ -1,37 +1,60 @@
 import * as React from 'react';
-import { Flex, Text } from 'rebass/styled-components';
-import { HeroCommunity } from 'ui/modules/HeroCommunity';
+import { NavLink, Route, Switch } from 'react-router-dom';
+import { Flex } from 'rebass/styled-components';
 import media from 'styled-media-query';
-import styled from 'ui/themes/styled';
-import { throwUnimplementedFn } from 'common/util/ctx-mock/throwUnimplementedFn';
-import { ActivityPreview } from 'ui/modules/ActivityPreview';
 import {
-  WrapperPanel,
-  PanelTitle,
-  Panel,
   Nav,
-  NavItem
+  NavItem,
+  Panel,
+  PanelTitle,
+  WrapperPanel
 } from 'ui/elements/Panel';
-import { NavLink, Switch, Route } from 'react-router-dom';
-import { CollectionPreview } from 'ui/modules/CollectionPreview';
+import styled from 'ui/themes/styled';
+
+interface Collection {
+  id: any;
+}
+type CollectionBox = React.ComponentType<{ collection: Collection }>;
+
+interface Activity {
+  id: any;
+}
+type ActivityBox = React.ComponentType<{ activity: Activity }>;
+
 interface Props {
-  communityId: string;
+  activities: Activity[];
+  ActivityBox: ActivityBox;
+  collections: Collection[];
+  CollectionBox: CollectionBox;
+  HeroCommunityBox: React.ComponentType;
 }
 
-export const Community: React.FC<Props> = ({ communityId }) => {
+export const Community: React.FC<Props> = ({
+  activities,
+  ActivityBox,
+  HeroCommunityBox,
+  collections,
+  CollectionBox
+}) => {
   return (
     <MainContainer>
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <HeroCommunity communityId={communityId} />
+            <HeroCommunityBox />
             <Menu />
             <Switch>
               <Route exact path="/">
-                <RecentActivities communityId={communityId} />
+                <RecentActivities
+                  activities={activities}
+                  ActivityBox={ActivityBox}
+                />
               </Route>
               <Route path="/collections">
-                <Collections communityId={communityId} />
+                <Collections
+                  collections={collections}
+                  CollectionBox={CollectionBox}
+                />
               </Route>
               <Route path="/threads">
                 <div>threads</div>
@@ -90,55 +113,35 @@ export const Community: React.FC<Props> = ({ communityId }) => {
   );
 };
 
-export interface RecentActivitiesContextData {
-  activities: Array<{ activityId: string }>;
+export interface RecentActivitiesProps {
+  activities: Activity[];
+  ActivityBox: ActivityBox;
 }
-
-export type RecentActivitiesContext = (
-  cfg: { communityId: string }
-) => RecentActivitiesContextData;
-
-export const RecentActivitiesContext = React.createContext<
-  RecentActivitiesContext
->(throwUnimplementedFn<RecentActivitiesContext>('RecentActivities'));
-
-const RecentActivities = ({ communityId }) => {
-  const { activities } = React.useContext(RecentActivitiesContext)({
-    communityId
-  });
-  return !activities ? (
-    <Text>Loading</Text>
-  ) : (
+const RecentActivities: React.SFC<RecentActivitiesProps> = ({
+  activities,
+  ActivityBox
+}) => {
+  return (
     <>
-      {activities.map((a, i) => (
-        <ActivityPreview activityId={a.activityId} key={i} />
+      {activities.map(activity => (
+        <ActivityBox activity={activity} key={activity.id} />
       ))}
     </>
   );
 };
 
-export interface CollectionsContextData {
-  collections: Array<{ collectionId: string }>;
+export interface CollectionsProps {
+  collections: Collection[];
+  CollectionBox: CollectionBox;
 }
-
-export type CollectionsContext = (
-  cfg: { communityId: string }
-) => CollectionsContextData;
-
-export const CollectionsContext = React.createContext<CollectionsContext>(
-  throwUnimplementedFn<CollectionsContext>('CollectionsContext')
-);
-
-const Collections = ({ communityId }) => {
-  const { collections } = React.useContext(CollectionsContext)({
-    communityId
-  });
-  return !collections ? (
-    <Text>Loading</Text>
-  ) : (
+const Collections: React.SFC<CollectionsProps> = ({
+  collections,
+  CollectionBox
+}) => {
+  return (
     <>
-      {collections.map((a, i) => (
-        <CollectionPreview collectionId={a.collectionId} key={i} />
+      {collections.map(collection => (
+        <CollectionBox collection={collection} key={collection.id} />
       ))}
     </>
   );

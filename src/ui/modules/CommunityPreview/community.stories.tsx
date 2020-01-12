@@ -1,11 +1,10 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { CommunityPreview, CommunitySmall } from '.';
+import { CommunityPreview, CommunitySmall, Props } from '.';
 import { themeDeco } from 'ui/styleguide/storiesThemeDecorator';
 import { Box, Flex } from 'rebass/styled-components';
 
-let community = {
-  id: '1',
+let communityProps: Props = {
   icon: 'https://picsum.photos/id/32/150/150',
   name: 'awesome community',
   summary:
@@ -18,29 +17,11 @@ storiesOf('Modules/Community', module)
   .addDecorator(themeDeco())
   .add('Standard Community', () => (
     <Flex>
-      <CommunityPreview
-        icon={community.icon}
-        name={community.name}
-        summary={community.summary}
-        followersCount={community.followersCount}
-        collectionsCount={community.collectionsCount}
-      />
+      <CommunityPreview {...communityProps} />
 
-      <CommunityPreview
-        icon={community.icon}
-        name={community.name}
-        summary={community.summary}
-        followersCount={community.followersCount}
-        collectionsCount={community.collectionsCount}
-      />
+      <CommunityPreview {...communityProps} />
 
-      <CommunityPreview
-        icon={community.icon}
-        name={community.name}
-        summary={community.summary}
-        followersCount={community.followersCount}
-        collectionsCount={community.collectionsCount}
-      />
+      <CommunityPreview {...communityProps} />
     </Flex>
   ));
 
@@ -49,7 +30,7 @@ storiesOf('Modules/Community', module)
   .add('Community preview', () => (
     <div>
       <Box m={2}>
-        <CommunitySmall icon={community.icon} name={community.name} />
+        <CommunitySmall icon={communityProps.icon} name={communityProps.name} />
       </Box>
     </div>
   ));

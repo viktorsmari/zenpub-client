@@ -1,16 +1,11 @@
 import * as React from 'react';
-import styled from 'ui/themes/styled';
-import { Flex, Box, Text, Heading } from 'rebass/styled-components';
 import { FileText } from 'react-feather';
-import Avatar from 'ui/elements/Avatar';
-import { throwUnimplementedFn } from 'common/util/ctx-mock/throwUnimplementedFn';
 import { NavLink } from 'react-router-dom';
+import { Box, Flex, Heading, Text } from 'rebass/styled-components';
+import Avatar from 'ui/elements/Avatar';
+import styled from 'ui/themes/styled';
 
-interface Props {
-  collectionId: string;
-}
-
-export interface CollectionPreviewContextData {
+export interface Props {
   id: string;
   icon: string;
   name: string;
@@ -18,18 +13,13 @@ export interface CollectionPreviewContextData {
   totalResources: number;
 }
 
-export type CollectionPreviewContext = (
-  cfg: { collectionId: string }
-) => CollectionPreviewContextData;
-
-export const CollectionPreviewContext = React.createContext<
-  CollectionPreviewContext
->(throwUnimplementedFn<CollectionPreviewContext>('CollectionPreview'));
-
-export const CollectionPreview: React.SFC<Props> = ({ collectionId }) => {
-  const { id, icon, name, summary, totalResources } = React.useContext(
-    CollectionPreviewContext
-  )({ collectionId });
+export const CollectionPreview: React.SFC<Props> = ({
+  id,
+  icon,
+  name,
+  summary,
+  totalResources
+}) => {
   return (
     <WrapperLink to={'/collection/' + id}>
       <Wrapper p={3}>

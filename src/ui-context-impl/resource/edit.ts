@@ -3,13 +3,7 @@ import { createContext, useContext } from 'react';
 import * as Yup from 'yup';
 import { Service } from 'common/types';
 import { alertRejectUnimplementedService } from 'common/util/ctx-mock/alertUnimplementedSubmit';
-
-export interface EditResourceFormValues {
-  url: string;
-  name: string;
-  summary: string;
-  image: string;
-}
+import { EditResourceFormValues } from 'ui/modules/EditResourceModal';
 
 export type FormValuesSchema = Yup.ObjectSchema<EditResourceFormValues>;
 export const formValuesSchema: FormValuesSchema = Yup.object<

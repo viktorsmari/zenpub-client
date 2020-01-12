@@ -3,12 +3,6 @@ import { PropsTable } from '@storybook/components';
 import { Community } from '.';
 import {recentActivitiesContext, collectionsContext, collectionPreviewContext, editProvider, heroContext, activityPreviewContext} from 'ui/mock/context'
 import {RecentActivitiesContext, CollectionsContext } from '.';
-import {
-  EditCommunityContext,
-  EditCommunityFormValues
-} from 'ui/modules/EditCommunityModal';
-import { HeroCommunityContext } from 'ui/modules/HeroCommunity';
-import { ActivityPreviewContext } from 'ui/modules/ActivityPreview';
 import { CollectionPreviewContext } from 'ui/modules/CollectionPreview';
 
 
@@ -21,19 +15,28 @@ Let's define a story for the `community` page
 
 <Preview>
   <Story name="community page">
-    <HeroCommunityContext.Provider value={heroContext}>
-      <EditCommunityContext.Provider value={editProvider}>
-        <RecentActivitiesContext.Provider value={recentActivitiesContext}>
-          <CollectionsContext.Provider value={collectionsContext}>
-          <ActivityPreviewContext.Provider value={activityPreviewContext}>
-            <CollectionPreviewContext.Provider value={collectionPreviewContext}>
-              <Community communityId={'1'} />
-            </CollectionPreviewContext.Provider>
-          </ActivityPreviewContext.Provider>
-          </CollectionsContext.Provider>
-        </RecentActivitiesContext.Provider>
-      </EditCommunityContext.Provider>
-    </HeroCommunityContext.Provider>
+    <Community {...{
+        activities: [{id:1},{id:2},{id:3}],
+        collections:[{id:1},{id:2},{id:3}],
+        ActivityBox: ({ cancel }) => (
+          <img
+            onClick={cancel}
+            src="https://via.placeholder.com/400x100.png?text=ActivityBox"
+          />
+        ),
+        CollectionBox: ({ cancel }) => (
+          <img
+            onClick={cancel}
+            src="https://via.placeholder.com/400x200.png?text=CollectionBox"
+          />
+        ),
+        HeroCommunityBox: ({ cancel }) => (
+          <img
+            onClick={cancel}
+            src="https://via.placeholder.com/400x200.png?text=HeroCommunityBox"
+          />
+        )
+    }} />
   </Story>
 </Preview>
 

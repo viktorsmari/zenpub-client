@@ -1,12 +1,14 @@
+import React from 'react';
 import { useFormik } from 'formik';
 import { useUpdateCommunityMutationMutation } from 'graphql/updateCommunity.generated';
-import { useMemo } from 'react';
+import { useMemo, SFC } from 'react';
 import * as Yup from 'yup';
 import { useGetCommunityForEditQuery } from './getCommunityForEdit.generated';
 import {
   EditCommunityFormValues,
-  EditCommunityContextCfg
-} from 'ui/modules/EditCommunityModal';
+  EditCommunityPanel
+} from 'ui/modules/EditCommunityPanel';
+import { Community } from 'graphql/types.generated';
 
 export const validationSchema: Yup.ObjectSchema<
   EditCommunityFormValues
@@ -24,10 +26,14 @@ export const editCommunityFormInitialValues: EditCommunityFormValues = {
   summary: '',
   image: ''
 };
-
-export const useEditCommunityFormContext = ({
+export interface Props {
+  communityId: Community['id'];
+  cancel(): any;
+}
+export const EditCommunityPanelHOC: SFC<Props> = ({
+  cancel,
   communityId
-}: EditCommunityContextCfg) => {
+}: Props) => {
   const community = useGetCommunityForEditQuery({ variables: { communityId } });
   const [create /* , result */] = useUpdateCommunityMutationMutation();
   const initialValues = useMemo<EditCommunityFormValues>(
@@ -47,5 +53,5 @@ export const useEditCommunityFormContext = ({
     validationSchema,
     initialValues
   });
-  return { formik };
+  return <EditCommunityPanel cancel={cancel} formik={formik} />;
 };

@@ -1,39 +1,28 @@
-import React, { SFC } from 'react';
-import styled from 'ui/themes/styled';
-import { Flex, Text, Box, Button } from 'rebass/styled-components';
-import media from 'styled-media-query';
 import { clearFix } from 'polished';
+import React, { ComponentType, SFC } from 'react';
 import { Settings } from 'react-feather';
-import { throwUnimplementedFn } from 'common/util/ctx-mock/throwUnimplementedFn';
-import { EditCollectionModal } from 'ui/modules/EditCollectionModal';
+import { Box, Button, Flex, Text } from 'rebass/styled-components';
+import media from 'styled-media-query';
+import Modal from 'ui/modules/Modal';
+import styled from 'ui/themes/styled';
 
-interface Props {
-  collectionId: string;
+export interface Props {
+  collection: {
+    icon: string;
+    preferredUsername: string;
+    title: string;
+    summary: string;
+    isMine: boolean;
+    toggleJoin: {
+      toggle(): any;
+      isSubmitting: boolean;
+    };
+    myFollow: boolean;
+    EditCollectionPanel: ComponentType<{ cancel(): any }>;
+  } | null;
 }
 
-export interface HeroCollectionContextData {
-  icon: string;
-  preferredUsername: string;
-  title: string;
-  summary: string;
-  isMine: boolean;
-  toggleJoin: {
-    toggle(): any;
-    isSubmitting: boolean;
-  };
-  myFollow: boolean;
-}
-
-export type HeroCollectionContext = (
-  cfg: { collectionId: string }
-) => HeroCollectionContextData;
-
-export const HeroCollectionContext = React.createContext<HeroCollectionContext>(
-  throwUnimplementedFn<HeroCollectionContext>('Hero Collection')
-);
-
-export const HeroCollection: SFC<Props> = ({ collectionId }) => {
-  const c = React.useContext(HeroCollectionContext)({ collectionId });
+export const HeroCollection: SFC<Props> = ({ collection: c }) => {
   const [isOpenSettings, setOpenSettings] = React.useState(false);
   return !c ? (
     <Text>Loading...</Text>
@@ -65,10 +54,9 @@ export const HeroCollection: SFC<Props> = ({ collectionId }) => {
         </HeroInfo>
       </Hero>
       {isOpenSettings && (
-        <EditCollectionModal
-          collectionId={collectionId}
-          closeModal={() => setOpenSettings(false)}
-        />
+        <Modal closeModal={() => setOpenSettings(false)}>
+          <c.EditCollectionPanel cancel={() => setOpenSettings(false)} />
+        </Modal>
       )}
     </HeroCont>
   );

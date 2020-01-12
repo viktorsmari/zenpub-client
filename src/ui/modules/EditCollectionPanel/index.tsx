@@ -15,54 +15,35 @@ import {
   Row
 } from 'ui/modules/Modal';
 
-export interface EditResourceFormValues {
-  url: string;
+const tt = {
+  placeholders: {
+    name: i18nMark('Edit the name of the collection'),
+    summary: i18nMark(
+      'Please describe what the collection is for and what kind of resources it is likely to contain...'
+    ),
+    icon: i18nMark('Enter the URL of an icon to represent the collection')
+  }
+};
+
+export interface Props {
+  formik: FormikHook<EditCollectionFormValues>;
+  cancel(): any;
+}
+
+export interface EditCollectionFormValues {
   name: string;
   summary: string;
   image: string;
 }
 
-const tt = {
-  placeholders: {
-    url: i18nMark('The url of the resource'),
-    name: i18nMark('Choose a name for the community'),
-    summary: i18nMark(
-      'Please describe who might be interested in this resource...'
-    ),
-    image: i18nMark('Enter the URL of an image to represent the resource')
-  }
-};
-
-interface Props {
-  cancel(): any;
-  formik: FormikHook<EditResourceFormValues>;
-}
-
-const EditResourcePanel: React.FC<Props> = ({ cancel, formik }) => {
+export const EditCollectionPanel: React.FC<Props> = ({ cancel, formik }) => {
   return (
     <Container>
       <Header>
         <Heading m={2}>
-          <Trans>Edit the resource details</Trans>
+          <Trans>Edit the collection details</Trans>
         </Heading>
       </Header>
-      <Row>
-        <label>Url</label>
-        <ContainerForm>
-          <Input
-            placeholder={tt.placeholders.url}
-            disabled={formik.isSubmitting}
-            name="url"
-            value={formik.values.url}
-            onChange={formik.handleChange}
-          />
-          {formik.errors.url && (
-            <AlertWrapper>
-              <Alert variant="bad">{formik.errors.url}</Alert>
-            </AlertWrapper>
-          )}
-        </ContainerForm>
-      </Row>
       <Row>
         <label>Name</label>
         <ContainerForm>
@@ -103,11 +84,11 @@ const EditResourcePanel: React.FC<Props> = ({ cancel, formik }) => {
       </Row>
       <Row>
         <label>
-          <Trans>Image</Trans>
+          <Trans>Icon</Trans>
         </label>
         <ContainerForm>
           <Input
-            placeholder={tt.placeholders.image}
+            placeholder={tt.placeholders.icon}
             disabled={formik.isSubmitting}
             name="image"
             value={formik.values.image}
@@ -136,5 +117,3 @@ const EditResourcePanel: React.FC<Props> = ({ cancel, formik }) => {
     </Container>
   );
 };
-
-export default EditResourcePanel;

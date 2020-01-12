@@ -1,33 +1,45 @@
 import * as React from 'react';
-import { Flex, Text } from 'rebass/styled-components';
-import { HeroCollection } from 'ui/modules/HeroCollection';
+import { NavLink, Route, Switch } from 'react-router-dom';
+import { Flex } from 'rebass/styled-components';
 import media from 'styled-media-query';
-import styled from 'ui/themes/styled';
-import { throwUnimplementedFn } from 'common/util/ctx-mock/throwUnimplementedFn';
-import { ActivityPreview } from 'ui/modules/ActivityPreview';
 import {
-  WrapperPanel,
-  PanelTitle,
-  Panel,
   Nav,
-  NavItem
+  NavItem,
+  Panel,
+  PanelTitle,
+  WrapperPanel
 } from 'ui/elements/Panel';
-import { NavLink, Switch, Route } from 'react-router-dom';
+import styled from 'ui/themes/styled';
+
+interface Activity {
+  id: any;
+}
+type ActivityBox = React.ComponentType<{ activity: Activity }>;
+
 interface Props {
-  collectionId: string;
+  activities: Activity[];
+  ActivityBox: ActivityBox;
+  HeroCollectionBox: React.ComponentType;
 }
 
-export const Collection: React.FC<Props> = ({ collectionId }) => {
+export const Collection: React.FC<Props> = ({
+  HeroCollectionBox,
+  ActivityBox,
+  activities
+}) => {
   return (
     <MainContainer>
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <HeroCollection collectionId={collectionId} />
+            <HeroCollectionBox />
             <Menu />
             <Switch>
               <Route exact path="/">
-                <RecentActivities collectionId={collectionId} />
+                <RecentActivities
+                  ActivityBox={ActivityBox}
+                  activities={activities}
+                />
               </Route>
               <Route path="/resources">
                 <div>resources</div>
@@ -89,28 +101,19 @@ export const Collection: React.FC<Props> = ({ collectionId }) => {
   );
 };
 
-export interface RecentActivitiesContextData {
-  activities: Array<{ activityId: string }>;
+export interface RecentActivitiesProps {
+  activities: Activity[];
+  ActivityBox: ActivityBox;
 }
 
-export type RecentActivitiesContext = (
-  cfg: { collectionId: string }
-) => RecentActivitiesContextData;
-
-export const RecentActivitiesContext = React.createContext<
-  RecentActivitiesContext
->(throwUnimplementedFn<RecentActivitiesContext>('RecentActivities'));
-
-const RecentActivities = ({ collectionId }) => {
-  const { activities } = React.useContext(RecentActivitiesContext)({
-    collectionId
-  });
-  return !activities ? (
-    <Text>Loading</Text>
-  ) : (
+const RecentActivities: React.SFC<RecentActivitiesProps> = ({
+  activities,
+  ActivityBox
+}) => {
+  return (
     <>
-      {activities.map((a, i) => (
-        <ActivityPreview activityId={a.activityId} key={i} />
+      {activities.map(activity => (
+        <ActivityBox activity={activity} key={activity.id} />
       ))}
     </>
   );
