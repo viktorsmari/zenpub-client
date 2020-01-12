@@ -49,7 +49,7 @@ export const HeroCommunityHOC: SFC<Props> = ({ communityId }) => {
               ? unjoinMutationStatus.loading
               : joinMutationStatus.loading
           },
-          EditCommunityPanel: ({ cancel }) => (
+          EditCommunityPanel: ({ done: cancel }) => (
             <EditCommunityPanelHOC cancel={cancel} communityId={community.id} />
           )
         }

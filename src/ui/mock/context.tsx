@@ -63,7 +63,7 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
         toggle: action('submit'),
         isSubmitting: false
       },
-      EditCommunityPanel: ({ cancel }) => (
+      EditCommunityPanel: ({ done: cancel }) => (
         <img
           onClick={cancel}
           src="https://via.placeholder.com/400x200.png?text=An editing panel"
@@ -87,9 +87,9 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
         toggle: action('submit'),
         isSubmitting: false
       },
-      EditCollectionPanel: ({ cancel }) => (
+      EditCollectionPanel: ({ done }) => (
         <img
-          onClick={cancel}
+          onClick={done}
           src="https://via.placeholder.com/400x200.png?text=An editing panel"
         />
       )

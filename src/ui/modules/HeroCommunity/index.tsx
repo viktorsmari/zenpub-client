@@ -21,7 +21,7 @@ export interface Props {
       toggle(): any;
       isSubmitting: boolean;
     };
-    EditCommunityPanel: ComponentType<{ cancel(): any }>;
+    EditCommunityPanel: ComponentType<{ done(): any }>;
   } | null;
 }
 
@@ -82,7 +82,7 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
       </Hero>
       {isOpenSettings && (
         <Modal closeModal={() => setOpenSettings(false)}>
-          <c.EditCommunityPanel cancel={() => setOpenSettings(false)} />
+          <c.EditCommunityPanel done={() => setOpenSettings(false)} />
         </Modal>
       )}
     </>
