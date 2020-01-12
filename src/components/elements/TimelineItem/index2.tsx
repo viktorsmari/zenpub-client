@@ -117,11 +117,10 @@ const CollectionItem: SFC<CollectionProps> = ({
         />
         {noAction ? null : (
           <Actions
-            // totalReplies={collection.threads.totalCount as number}
-            // totalLikes={collection.likes.totalCount as number}
-            // comment={collection}
-            toggleLike={() => toggleLike(collection)}
-            iLikeIt={!!collection.myLike}
+            totalReplies={13}
+            totalLikes={13}
+            iLikeIt={true}
+            toggleLike={() => console.log('')}
           />
         )}
       </Box>
@@ -262,11 +261,10 @@ const CommentItem: SFC<CommentProps> = ({
         </Comment>
         {noAction ? null : (
           <Actions
-            // totalReplies={comment.thread.comments.totalCount}
-            // totalLikes={comment.likes.totalCount}
-            comment={comment}
-            toggleLike={() => toggleLike(comment)}
-            iLikeIt={!!comment.myLike}
+            totalReplies={13}
+            totalLikes={13}
+            iLikeIt={true}
+            toggleLike={() => console.log('')}
           />
         )}
       </MemberInfo>

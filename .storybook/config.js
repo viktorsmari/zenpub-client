@@ -4,10 +4,10 @@ import { themeDeco } from 'ui/styleguide/storiesThemeDecorator';
 import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
 import MoodleNetLogo from './assets/moodlenet.png';
 import { create } from '@storybook/theming';
+import StoryRouter from 'storybook-react-router';
 
 
 const theme = create({
-  base: 'dark',
   brandImage: MoodleNetLogo,
   brandTitle: 'MoodleNet',
   url: 'https://gitlab.com/moodlenet/clients/react'
@@ -30,6 +30,8 @@ addParameters({
 
 addDecorator(withA11y);
 addDecorator(themeDeco());
+addDecorator(StoryRouter())
+
 
 
 // automatically import all files ending in *.stories.tsx

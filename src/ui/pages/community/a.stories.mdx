@@ -1,0 +1,43 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import { PropsTable } from '@storybook/components';
+import { Community } from '.';
+import {recentActivitiesContext, collectionsContext, collectionPreviewContext, editProvider, heroContext, activityPreviewContext} from 'ui/mock/context'
+import {RecentActivitiesContext, CollectionsContext } from '.';
+import { CollectionPreviewContext } from 'ui/modules/CollectionPreview';
+
+
+
+<Meta title="Pages|Community" component={Community}/>
+
+
+# Community
+Let's define a story for the `community` page
+
+<Preview>
+  <Story name="community page">
+    <Community {...{
+        activities: [{id:1},{id:2},{id:3}],
+        collections:[{id:1},{id:2},{id:3}],
+        ActivityBox: ({ cancel }) => (
+          <img
+            onClick={cancel}
+            src="https://via.placeholder.com/400x100.png?text=ActivityBox"
+          />
+        ),
+        CollectionBox: ({ cancel }) => (
+          <img
+            onClick={cancel}
+            src="https://via.placeholder.com/400x200.png?text=CollectionBox"
+          />
+        ),
+        HeroCommunityBox: ({ cancel }) => (
+          <img
+            onClick={cancel}
+            src="https://via.placeholder.com/400x200.png?text=HeroCommunityBox"
+          />
+        )
+    }} />
+  </Story>
+</Preview>
+
+

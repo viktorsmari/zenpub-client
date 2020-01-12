@@ -4,11 +4,11 @@ import { NavLink } from 'react-router-dom';
 // import { Helmet } from 'react-helmet';
 import { TabPanel, Tabs } from 'react-tabs';
 import { Flex } from 'rebass/styled-components';
+import { ActivityPreviewHOC } from 'ui-context-impl/ActivityPreview/activityPreviewHOC';
 import Empty from '../../components/elements/Empty';
 import Loader from '../../components/elements/Loader/Loader';
 import LoadMoreTimeline from '../../components/elements/Loadmore/localInstance';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
-import TimelineItem from '../../components/elements/TimelineItem/index2';
 import FeaturedCollections from '../../components/featuredCollections';
 import FeaturedCommunities from '../../components/featuredCommunities';
 import { CreateReplyMutationMutationOperation } from '../../graphql/createReply.generated';
@@ -32,7 +32,7 @@ interface Props {}
 const Home: React.FC<Props> = props => {
   const { error, loading, refetch, data, fetchMore } = useLocalActivitiesQuery({
     variables: {
-      limit: 15
+      limit: 1
     }
   });
   useDynamicLinkOpResult<CreateReplyMutationMutationOperation>(
@@ -92,12 +92,9 @@ const Home: React.FC<Props> = props => {
                       {data.instance.outbox.edges.map(
                         activity =>
                           activity && (
-                            <TimelineItem
-                              verb={activity.node.verb}
-                              context={activity.node.context}
-                              user={activity.node.user}
+                            <ActivityPreviewHOC
+                              activityId={activity.node.id}
                               key={activity.node.id}
-                              createdAt={activity.node.createdAt}
                             />
                           )
                       )}
