@@ -18,7 +18,7 @@ export interface Props {
       isSubmitting: boolean;
     };
     myFollow: boolean;
-    EditCollectionPanel: ComponentType<{ cancel(): any; success(): any }>;
+    EditCollectionPanel: ComponentType<{ done(): any }>;
   } | null;
 }
 
@@ -55,10 +55,7 @@ export const HeroCollection: SFC<Props> = ({ collection: c }) => {
       </Hero>
       {isOpenSettings && (
         <Modal closeModal={() => setOpenSettings(false)}>
-          <c.EditCollectionPanel
-            success={() => setOpenSettings(false)}
-            cancel={() => setOpenSettings(false)}
-          />
+          <c.EditCollectionPanel done={() => setOpenSettings(false)} />
         </Modal>
       )}
     </HeroCont>

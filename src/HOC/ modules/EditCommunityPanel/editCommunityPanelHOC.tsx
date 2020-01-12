@@ -28,10 +28,10 @@ export const editCommunityFormInitialValues: EditCommunityFormValues = {
 };
 export interface Props {
   communityId: Community['id'];
-  cancel(): any;
+  done(): any;
 }
 export const EditCommunityPanelHOC: SFC<Props> = ({
-  cancel,
+  done,
   communityId
 }: Props) => {
   const community = useGetCommunityForEditQuery({ variables: { communityId } });
@@ -49,9 +49,10 @@ export const EditCommunityPanelHOC: SFC<Props> = ({
   );
   const formik = useFormik<EditCommunityFormValues>({
     enableReinitialize: true,
-    onSubmit: vals => create({ variables: { community: vals, communityId } }),
+    onSubmit: vals =>
+      create({ variables: { community: vals, communityId } }).then(done),
     validationSchema,
     initialValues
   });
-  return <EditCommunityPanel cancel={cancel} formik={formik} />;
+  return <EditCommunityPanel cancel={done} formik={formik} />;
 };

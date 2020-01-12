@@ -20,9 +20,9 @@ storiesOf('Modules/HeroCommunity', module)
           toggle: action('Unjoin !'),
           isSubmitting: false
         },
-        EditCommunityPanel: ({ cancel }) => (
+        EditCommunityPanel: ({ done }) => (
           <img
-            onClick={cancel}
+            onClick={done}
             src="https://via.placeholder.com/400x200.png?text=An editing panel"
           />
         )
