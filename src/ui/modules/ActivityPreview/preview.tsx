@@ -3,37 +3,32 @@ import media from 'styled-media-query';
 import styled from 'ui/themes/styled';
 import { Heading, Text } from 'rebass/styled-components';
 import { NavLink, Link } from 'react-router-dom';
+import { Context } from '.';
 
-export type ContextType = 'Comment' | 'Resource' | 'Collection' | 'Community';
-
-export type ActivityType =
-  | 'Updated'
-  | 'Created'
-  | 'InReplyTo'
-  | 'Like'
-  | 'Follow'
-  | 'Flag';
-
-interface Props {
-  context: {
-    icon: string;
-    title: string;
-    summary: string;
-    url: string;
-    actor: {
-      id: string;
-      name: string;
-    };
-  };
-  type: ContextType;
-  verb: ActivityType;
-  comment: string;
+export enum ContextType {
+  Comment,
+  Resource,
+  Collection,
+  Community,
+  Like,
+  Follow,
+  Flag
 }
 
-const Preview: React.FC<Props> = ({ context, type, comment, verb }) => {
+export enum ActivityVerb {
+  Updated,
+  Created,
+  InReplyTo
+}
+
+interface Props {
+  context: Context;
+}
+
+const Preview: React.FC<Props> = ({ context }) => {
   return (
     <Wrapper>
-      {verb === 'InReplyTo' ? (
+      {context.contextType === ContextType.Comment ? (
         <>
           <InReply m={2} mb={0} variant="text">
             In reply to{' '}

@@ -2,13 +2,14 @@ import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 import { themeDeco } from 'ui/styleguide/storiesThemeDecorator';
-import { HeroCommunity, Props } from '.';
+import { HeroCommunity, Props, Status } from '.';
 
 storiesOf('Modules/HeroCommunity', module)
   .addDecorator(themeDeco())
   .add('Standard', () => {
     const props: Props = {
       community: {
+        status: Status.Loaded,
         canModify: true,
         following: true,
         icon: 'https://picsum.photos/800/300',

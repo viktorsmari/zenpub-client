@@ -9,38 +9,119 @@ import media from 'styled-media-query';
 import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
 import Actions from './Actions';
-import Preview, { ActivityType, ContextType } from './preview';
+import Preview, { ActivityVerb, ContextType } from './preview';
+import { FormikHook } from 'common/types';
+
+export enum Status {
+  Loading,
+  Loaded
+}
+
+export interface Actor {
+  icon: string;
+  link: {
+    url: string;
+    external: boolean;
+  };
+  name: string;
+  preferredUsername: string;
+}
+export interface BaseActivity {
+  contextType: ContextType;
+  verb: ActivityVerb;
+  status: Status.Loaded;
+  createdAt: string;
+  actor: Actor;
+  inReplyToContext: {
+    type: ContextType;
+    verb: ActivityVerb;
+    context: ConcreteContext;
+    actor: Actor;
+  } | null;
+  replies: number;
+  replyFormik: FormikHook<{ replyMessage: string }>;
+}
+
+interface WithLike {
+  toggleLikeFormik: FormikHook<{}>;
+  totalLikes: number;
+  iLikeIt: boolean;
+}
+
+// interface WithFollow {
+//   toggleFollowFormik: FormikHook<{}>
+//   following: boolean
+// }
+
+interface ConcreteContext {
+  icon: string;
+  title: string;
+  summary: string;
+  link: {
+    url: string;
+    external: boolean;
+  };
+}
+
+export interface ActivityLoading {
+  status: Status.Loading;
+}
+
+export interface CommentContext extends BaseActivity, WithLike {
+  contextType: ContextType.Comment;
+  msgContent: string;
+}
+export interface ResourceContext
+  extends BaseActivity,
+    ConcreteContext,
+    WithLike {
+  contextType: ContextType.Resource;
+}
+export interface CollectionContext
+  extends BaseActivity,
+    ConcreteContext,
+    WithLike {
+  contextType: ContextType.Collection;
+}
+export interface CommunityContext
+  extends BaseActivity,
+    ConcreteContext,
+    WithLike {
+  contextType: ContextType.Community;
+}
+
+export interface LikeContext extends BaseActivity {
+  contextType: ContextType.Like;
+}
+export interface FlagContext extends BaseActivity {
+  contextType: ContextType.Flag;
+}
+export interface FollowContext extends BaseActivity {
+  contextType: ContextType.Follow;
+}
+
+export type Context =
+  | CommentContext
+  | ResourceContext
+  | CollectionContext
+  | CommunityContext
+  | LikeContext
+  | FlagContext
+  | FollowContext;
+
+export interface ActivityLoaded {
+  status: Status.Loaded;
+  context: Context;
+}
 
 export interface Props {
-  activity: {
-    actor: {
-      icon: string;
-      id: string;
-      name: string;
-      preferredUsername: string;
-    };
-    createdAt: string;
-    type: ContextType;
-    verb: ActivityType;
-    context: {
-      icon: string;
-      title: string;
-      summary: string;
-      url: string;
-      actor: {
-        id: string;
-        name: string;
-      };
-    };
-    comment: string;
-  } | null;
+  activity: ActivityLoaded | ActivityLoading;
 }
 
 export const ActivityPreview: SFC<Props> = ({ activity }) => {
-  if (!activity) {
+  if (activity.status === Status.Loading) {
     return <Trans>loading ...</Trans>;
   }
-  // console.log(activity);
   const { actor, createdAt, type, verb, context, comment } = activity;
   return (
     <FeedItem>

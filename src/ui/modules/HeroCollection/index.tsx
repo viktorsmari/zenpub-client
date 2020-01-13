@@ -6,25 +6,35 @@ import media from 'styled-media-query';
 import Modal from 'ui/modules/Modal';
 import styled from 'ui/themes/styled';
 
+export enum Status {
+  Loading,
+  Loaded
+}
+
+export interface CollectionLoading {
+  status: Status.Loading;
+}
+export interface CollectionLoaded {
+  status: Status.Loaded;
+  icon: string;
+  preferredUsername: string;
+  title: string;
+  summary: string;
+  isMine: boolean;
+  toggleJoin: {
+    toggle(): any;
+    isSubmitting: boolean;
+  };
+  myFollow: boolean;
+  EditCollectionPanel: ComponentType<{ done(): any }>;
+}
 export interface Props {
-  collection: {
-    icon: string;
-    preferredUsername: string;
-    title: string;
-    summary: string;
-    isMine: boolean;
-    toggleJoin: {
-      toggle(): any;
-      isSubmitting: boolean;
-    };
-    myFollow: boolean;
-    EditCollectionPanel: ComponentType<{ done(): any }>;
-  } | null;
+  collection: CollectionLoaded | CollectionLoading;
 }
 
 export const HeroCollection: SFC<Props> = ({ collection: c }) => {
   const [isOpenSettings, setOpenSettings] = React.useState(false);
-  return !c ? (
+  return c.status === Status.Loading ? (
     <Text>Loading...</Text>
   ) : (
     <HeroCont>

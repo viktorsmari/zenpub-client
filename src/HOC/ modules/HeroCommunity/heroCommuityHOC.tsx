@@ -3,7 +3,10 @@ import { SessionContext } from 'context/global/sessionCtx';
 import { useDeleteMutationMutation } from 'graphql/delete.generated';
 import { useFollowMutationMutation } from 'graphql/follow.generated';
 import { SFC, useContext, useMemo } from 'react';
-import HeroCommunity, { Props as HeroProps } from 'ui/modules/HeroCommunity';
+import HeroCommunity, {
+  Props as HeroProps,
+  Status
+} from 'ui/modules/HeroCommunity';
 import { useGetHeroCommunityQuery } from './getHeroCommunity.generated';
 import { Community } from 'graphql/types.generated';
 import { EditCommunityPanelHOC } from '../EditCommunityPanel/editCommunityPanelHOC';
@@ -26,11 +29,16 @@ export const HeroCommunityHOC: SFC<Props> = ({ communityId }) => {
         !communityQuery.data ||
         !communityQuery.data.community
       ) {
-        return { community: null };
+        return {
+          community: {
+            status: Status.Loading
+          }
+        };
       }
       const community = communityQuery.data.community;
       return {
         community: {
+          status: Status.Loaded,
           canModify: !session.me || session.me.user.id === community.creator.id,
           following: !!community.myFollow,
           icon: community.icon || community.image || '',

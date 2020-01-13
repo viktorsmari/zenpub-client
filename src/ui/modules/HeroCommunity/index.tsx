@@ -8,28 +8,40 @@ import SocialText from 'ui/modules/SocialText';
 import styled from 'ui/themes/styled';
 import Modal from 'ui/modules/Modal';
 
+export enum Status {
+  Loading,
+  Loaded
+}
+
+export interface CommunityLoaded {
+  status: Status.Loaded;
+  icon: string;
+  name: string;
+  summary: string;
+  preferredUsername: string;
+  totalMembers: number;
+  following: boolean;
+  canModify: boolean;
+  toggleJoin: {
+    toggle(): any;
+    isSubmitting: boolean;
+  };
+  EditCommunityPanel: ComponentType<{ done(): any }>;
+}
+
+export interface CommunityLoading {
+  status: Status.Loading;
+}
+
 export interface Props {
-  community: {
-    icon: string;
-    name: string;
-    summary: string;
-    preferredUsername: string;
-    totalMembers: number;
-    following: boolean;
-    canModify: boolean;
-    toggleJoin: {
-      toggle(): any;
-      isSubmitting: boolean;
-    };
-    EditCommunityPanel: ComponentType<{ done(): any }>;
-  } | null;
+  community: CommunityLoaded | CommunityLoading;
 }
 
 export const HeroCommunity: SFC<Props> = ({ community: c }) => {
   const [, setOpenMembers] = React.useState(false);
   const [isOpenSettings, setOpenSettings] = React.useState(false);
 
-  return !c ? (
+  return c.status === Status.Loading ? (
     <Text>Loading...</Text>
   ) : (
     <>

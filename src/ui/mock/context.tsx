@@ -11,8 +11,14 @@ import {
   EditCommunityFormValues,
   Props as EditCommunityProps
 } from 'ui/modules/EditCommunityPanel';
-import { Props as HeroCollectionProps } from 'ui/modules/HeroCollection';
-import { Props as HeroCommunityProps } from 'ui/modules/HeroCommunity';
+import {
+  Props as HeroCollectionProps,
+  Status as HeroCollectionStatus
+} from 'ui/modules/HeroCollection';
+import {
+  Props as HeroCommunityProps,
+  Status as HeroCommunityStatus
+} from 'ui/modules/HeroCommunity';
 
 export const getEditCommunityProps = (): EditCommunityProps => {
   const formik = useFormik<EditCommunityFormValues>({
@@ -51,6 +57,7 @@ export const getEditCollectionProps = (): EditCollectionPanelProps => {
 export const getHeroCommunityProps = (): HeroCommunityProps => {
   return {
     community: {
+      status: HeroCommunityStatus.Loaded,
       canModify: true,
       following: true,
       icon: 'https://picsum.photos/800/300',
@@ -76,6 +83,7 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
 export const getHeroCollectionProps = (): HeroCollectionProps => {
   return {
     collection: {
+      status: HeroCollectionStatus.Loaded,
       isMine: true,
       myFollow: true,
       icon: 'https://picsum.photos/800/300',
