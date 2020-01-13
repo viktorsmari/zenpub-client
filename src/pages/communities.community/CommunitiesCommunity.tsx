@@ -21,7 +21,7 @@ import {
 import styled from '../../themes/styled';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import CommunityPage from './Community';
-import { HeroCommunityHOC } from 'HOC/ modules/HeroCommunity/heroCommuityHOC';
+import { HeroCommunityHOC } from 'HOC/modules/HeroCommunity/heroCommuityHOC';
 
 interface Props {
   communityId: string;

@@ -25,7 +25,7 @@ import {
 import styled from '../../themes/styled';
 import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-import { ActivityPreviewHOC } from 'HOC/ modules/ActivityPreview/activityPreviewHOC';
+import { ActivityPreviewHOC } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
 
 interface Props {}
 
