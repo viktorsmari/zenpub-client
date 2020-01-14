@@ -67,6 +67,7 @@ storiesOf('Modules/ActivityPreview', module)
       activity: {
         status: Status.Loaded,
         context: {
+          concrete: true,
           actor: {
             icon: 'https://picsum.photos/80/80',
             link: {
@@ -109,6 +110,7 @@ storiesOf('Modules/ActivityPreview', module)
       activity: {
         status: Status.Loaded,
         context: {
+          concrete: true,
           actor: {
             icon: 'https://picsum.photos/80/80',
             link: {
@@ -151,6 +153,7 @@ storiesOf('Modules/ActivityPreview', module)
       activity: {
         status: Status.Loaded,
         context: {
+          concrete: true,
           actor: {
             icon: 'https://picsum.photos/80/80',
             link: {
@@ -193,6 +196,7 @@ storiesOf('Modules/ActivityPreview', module)
       activity: {
         status: Status.Loaded,
         context: {
+          concrete: true,
           actor: {
             icon: 'https://picsum.photos/80/80',
             link: {
@@ -249,6 +253,7 @@ storiesOf('Modules/ActivityPreview', module)
       activity: {
         status: Status.Loaded,
         context: {
+          concrete: true,
           actor: {
             icon: 'https://picsum.photos/80/80',
             link: {
@@ -305,6 +310,7 @@ storiesOf('Modules/ActivityPreview', module)
       activity: {
         status: Status.Loaded,
         context: {
+          concrete: true,
           actor: {
             icon: 'https://picsum.photos/80/80',
             link: {
@@ -361,6 +367,7 @@ storiesOf('Modules/ActivityPreview', module)
       activity: {
         status: Status.Loaded,
         context: {
+          concrete: true,
           actor: {
             icon: 'https://picsum.photos/80/80',
             link: {
@@ -417,6 +424,7 @@ storiesOf('Modules/ActivityPreview', module)
       activity: {
         status: Status.Loaded,
         context: {
+          concrete: true,
           actor: {
             icon: 'https://picsum.photos/80/80',
             link: {
@@ -486,8 +494,8 @@ storiesOf('Modules/ActivityPreview', module)
             "my niece is completely mystified by my computer in that:- she thought the monitor was the computer - i had to explain how dual monitors work - wow, you can charge your phone from it? she's like 12 and i feel old now",
           inReplyToContext: {
             type: ContextType.Community,
-            verb: ActivityVerb.Created,
             context: {
+              concrete: true,
               icon: 'https://picsum.photos/id/39/80/80',
               title: 'FairCoop Local nodes',
               link: {

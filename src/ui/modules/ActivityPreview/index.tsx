@@ -27,6 +27,7 @@ export interface Actor {
   preferredUsername: string;
 }
 export interface BaseActivity {
+  status: Status;
   contextType: ContextType;
   verb: ActivityVerb;
   createdAt: string;
@@ -56,6 +57,7 @@ export interface WithLike {
 // }
 
 interface ConcreteContext {
+  concrete: true;
   icon: string;
   title: string;
   link: {

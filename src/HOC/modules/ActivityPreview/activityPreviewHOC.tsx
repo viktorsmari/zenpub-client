@@ -167,7 +167,11 @@ const BaseCtxBuilder = (
     inReplyToContext: inReplyToContext(activity),
     replies: 0,
     verb,
-    replyFormik
+    replyFormik,
+    link: {
+      external: !activity.isLocal,
+      url: activity.canonicalUrl
+    }
   };
 };
 const inReplyToContext = (

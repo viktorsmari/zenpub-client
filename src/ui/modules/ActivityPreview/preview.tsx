@@ -3,7 +3,7 @@ import media from 'styled-media-query';
 import styled from 'ui/themes/styled';
 import { Text, Flex, Box } from 'rebass/styled-components';
 import { NavLink } from 'react-router-dom';
-import { Context } from '.';
+import { Context, BaseActivity } from '.';
 import { Trans } from '@lingui/react';
 import Avatar from 'ui/elements/Avatar';
 
@@ -27,7 +27,7 @@ interface Props {
   context: Context;
 }
 
-const SmallPreview = ({ context }) => (
+const SmallPreview = ({ context }: { context: Context }) => (
   <Flex alignItems="center">
     <Text mr={2} variant="link">
       {context.verb === ActivityVerb.Created &&
@@ -60,14 +60,16 @@ const SmallPreview = ({ context }) => (
         <Trans>Updated the resource</Trans>
       ) : null}
     </Text>
-    <WrapperPreview>
-      <Avatar src={context.icon} initials={context.title} />
-      <Title ml={2}>{context.title}</Title>
-    </WrapperPreview>
+    {'concrete' in context && (
+      <WrapperPreview>
+        <Avatar src={context.icon} initials={context.title} />
+        <Title ml={2}>{context.title}</Title>
+      </WrapperPreview>
+    )}
   </Flex>
 );
 
-const Preview: React.FC<Props> = ({ context }) => {
+const Preview: React.FC<Props> = ({ context }: { context: Context }) => {
   return (
     <Wrapper>
       <WrapperLink to={context.link.url}>
@@ -81,16 +83,26 @@ const Preview: React.FC<Props> = ({ context }) => {
   );
 };
 
-export const InReplyTo = ({ context }) => {
+export const InReplyTo = ({
+  context
+}: {
+  context: BaseActivity['inReplyToContext'];
+}) => {
   return (
-    <FlexPreview>
-      <NavLink to={context.context.link.url}>
-        <Flex>
-          <WrapperPreview>
-            <Avatar src={context.actor.icon} initials={context.actor.title} />
-            <Title ml={2}>{context.actor.name}</Title>
-          </WrapperPreview>
-          <TextConnector variant="link">
+    context && (
+      <FlexPreview>
+        <NavLink to={context.context.link.url}>
+          <Flex>
+            {context.actor && (
+              <WrapperPreview>
+                <Avatar
+                  src={context.actor.icon}
+                  initials={context.actor.name}
+                />
+                <Title ml={2}>{context.actor.name}</Title>
+              </WrapperPreview>
+            )}
+            {/* <TextConnector variant="link">
             {context.verb === ActivityVerb.Created &&
             context.type === ContextType.Follow ? (
               <Trans>followed</Trans>
@@ -120,17 +132,18 @@ export const InReplyTo = ({ context }) => {
             context.type === ContextType.Resource ? (
               <Trans>updated the resource</Trans>
             ) : null}
-          </TextConnector>
-          <WrapperPreview>
-            <Avatar
-              src={context.context.icon}
-              initials={context.context.title}
-            />
-            <Title ml={2}>{context.context.title}</Title>
-          </WrapperPreview>
-        </Flex>
-      </NavLink>
-    </FlexPreview>
+          </TextConnector> */}
+            <WrapperPreview>
+              <Avatar
+                src={context.context.icon}
+                initials={context.context.title}
+              />
+              <Title ml={2}>{context.context.title}</Title>
+            </WrapperPreview>
+          </Flex>
+        </NavLink>
+      </FlexPreview>
+    )
   );
 };
 

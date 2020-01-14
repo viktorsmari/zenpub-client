@@ -17,7 +17,7 @@ export type GetActivityPreviewQuery = (
   { __typename: 'RootQueryType' }
   & { activity: Types.Maybe<(
     { __typename: 'Activity' }
-    & Pick<Types.Activity, 'createdAt' | 'id' | 'verb'>
+    & Pick<Types.Activity, 'createdAt' | 'id' | 'verb' | 'isLocal' | 'canonicalUrl'>
     & { user: (
       { __typename: 'User' }
       & ActivityPreviewBaseUserFragment
@@ -370,6 +370,8 @@ export const GetActivityPreviewDocument = gql`
     createdAt
     id
     verb
+    isLocal
+    canonicalUrl
     user {
       ...ActivityPreviewBaseUser
     }

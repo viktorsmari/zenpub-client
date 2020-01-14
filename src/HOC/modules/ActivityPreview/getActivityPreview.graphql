@@ -4,6 +4,8 @@ query getActivityPreview($activityId: String!) {
         createdAt
         id
         verb
+        isLocal
+        canonicalUrl
         user {
             ...ActivityPreviewBaseUser
         }
