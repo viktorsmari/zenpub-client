@@ -127,11 +127,11 @@ export const ActivityPreview: SFC<Props> = ({ activity }) => {
   const { context } = activity;
   return (
     <FeedItem>
+      {context.verb === ActivityVerb.InReplyTo && (
+        <InReplyTo context={context.inReplyToContext} />
+      )}
       <Actor actor={context.actor} createdAt={context.createdAt} />
       <Contents>
-        {context.verb === ActivityVerb.InReplyTo && (
-          <InReplyTo context={context.inReplyToContext} />
-        )}
         <Wrapper mt={2}>
           <Preview context={context} />
           <Actions context={context} />

@@ -164,19 +164,23 @@ const FlexPreview = styled(Box)`
   align-items: center;
   border: 1px solid ${props => props.theme.colors.lightgray};
   background: #eceff2;
-  margin-top: 4px;
+  margin-bottom: 16px;
   padding: 8px;
   border-radius: 4px;
   position: relative;
-  & a:hover {
+  display: inline-block;
+  a {
     text-decoration: none;
+    &:hover {
+      text-decoration: none;
+    }
   }
   &:before {
     content: '';
     position: absolute;
     left: 10px;
-    height: 8px;
-    bottom: -9px;
+    height: 16px;
+    bottom: -17px;
     width: 3px;
     display: block;
     background: ${props => props.theme.colors.lightgray};
