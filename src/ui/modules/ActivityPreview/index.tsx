@@ -120,6 +120,24 @@ export interface Props {
   activity: ActivityLoaded | ActivityLoading;
 }
 
+export const ThreadActivityPreview: SFC<Props> = ({ activity }) => {
+  if (activity.status === Status.Loading) {
+    return <Trans>loading...</Trans>;
+  }
+  const { context } = activity;
+  return (
+    <FeedItem>
+      <Actor actor={context.actor} createdAt={context.createdAt} />
+      <Contents>
+        <Wrapper mt={2}>
+          <Preview context={context} />
+          <Actions context={context} />
+        </Wrapper>
+      </Contents>
+    </FeedItem>
+  );
+};
+
 export const ActivityPreview: SFC<Props> = ({ activity }) => {
   if (activity.status === Status.Loading) {
     return <Trans>loading...</Trans>;
