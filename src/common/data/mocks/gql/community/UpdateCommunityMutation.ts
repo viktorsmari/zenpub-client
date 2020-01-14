@@ -1,6 +1,7 @@
 import { UpdateCommunityMutationMutation } from 'graphql/updateCommunity.generated';
 
 export const basicUpdateCommunityMutation: UpdateCommunityMutationMutation = {
+  __typename: 'RootMutationType',
   updateCommunity: {
     __typename: 'Community',
     name: 'name',

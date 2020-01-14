@@ -6,25 +6,25 @@ import { BasicUserFragmentDoc } from './basicUser.generated';
 
 
 export type BasicResourceFragment = (
-  { __typename?: 'Resource' }
+  { __typename: 'Resource' }
   & Pick<Types.Resource, 'id' | 'name' | 'summary' | 'icon' | 'url' | 'canonicalUrl' | 'license' | 'createdAt' | 'updatedAt'>
   & { myLike: Types.Maybe<(
-    { __typename?: 'Like' }
+    { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
   )>, myFlag: Types.Maybe<(
-    { __typename?: 'Flag' }
+    { __typename: 'Flag' }
     & Pick<Types.Flag, 'id'>
   )>, likes: (
-    { __typename?: 'LikesEdges' }
+    { __typename: 'LikesEdges' }
     & Pick<Types.LikesEdges, 'totalCount'>
   ), creator: (
-    { __typename?: 'User' }
+    { __typename: 'User' }
     & BasicUserFragment
   ), collection: (
-    { __typename?: 'Collection' }
+    { __typename: 'Collection' }
     & Pick<Types.Collection, 'id' | 'name' | 'preferredUsername' | 'isLocal' | 'isPublic' | 'isDisabled'>
     & { community: (
-      { __typename?: 'Community' }
+      { __typename: 'Community' }
       & Pick<Types.Community, 'id' | 'canonicalUrl' | 'isLocal'>
     ) }
   ) }

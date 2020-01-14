@@ -34,15 +34,14 @@ export interface BaseActivity {
   actor: Actor;
   inReplyToContext: {
     type: ContextType;
-    verb: ActivityVerb;
     context: ConcreteContext;
-    actor: Actor;
+    actor: Actor | null;
   } | null;
-  replies: number;
+  replies: number | null;
   replyFormik: FormikHook<{ replyMessage: string }>;
 }
 
-interface WithLike {
+export interface WithLike {
   toggleLikeFormik: FormikHook<{}>;
   totalLikes: number;
   iLikeIt: boolean;

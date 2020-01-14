@@ -12,12 +12,12 @@ export type MeQueryQueryVariables = {};
 
 
 export type MeQueryQuery = (
-  { __typename?: 'RootQueryType' }
+  { __typename: 'RootQueryType' }
   & { me: Types.Maybe<(
-    { __typename?: 'Me' }
+    { __typename: 'Me' }
     & Pick<Types.Me, 'email'>
     & { user: (
-      { __typename?: 'User' }
+      { __typename: 'User' }
       & Pick<Types.User, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'location' | 'icon' | 'image' | 'summary' | 'website' | 'isLocal' | 'isPublic' | 'isDisabled' | 'createdAt' | 'updatedAt' | 'lastActivity'>
     ) }
   )> }

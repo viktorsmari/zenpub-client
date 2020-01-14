@@ -17,9 +17,9 @@ export type ConfirmEmailMutationMutationVariables = {
 
 
 export type ConfirmEmailMutationMutation = (
-  { __typename?: 'RootMutationType' }
+  { __typename: 'RootMutationType' }
   & { confirmEmail: Types.Maybe<(
-    { __typename?: 'AuthPayload' }
+    { __typename: 'AuthPayload' }
     & BasicAuthPayloadFragment
   )> }
 );

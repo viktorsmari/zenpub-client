@@ -18,9 +18,9 @@ export type LoginMutationMutationVariables = {
 
 
 export type LoginMutationMutation = (
-  { __typename?: 'RootMutationType' }
+  { __typename: 'RootMutationType' }
   & { createSession: Types.Maybe<(
-    { __typename?: 'AuthPayload' }
+    { __typename: 'AuthPayload' }
     & BasicAuthPayloadFragment
   )> }
 );

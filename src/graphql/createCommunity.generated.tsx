@@ -17,9 +17,9 @@ export type CreateCommunityMutationMutationVariables = {
 
 
 export type CreateCommunityMutationMutation = (
-  { __typename?: 'RootMutationType' }
+  { __typename: 'RootMutationType' }
   & { createCommunity: Types.Maybe<(
-    { __typename?: 'Community' }
+    { __typename: 'Community' }
     & BasicCommunityFragment
   )> }
 );

@@ -1,6 +1,7 @@
 import { GetCollectionQuery } from 'graphql/getCollection.generated';
 
 export const basicGetCollectionQuery: GetCollectionQuery = {
+  __typename: 'RootQueryType',
   collection: {
     __typename: 'Collection',
     name: 'name',

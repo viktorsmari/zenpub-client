@@ -14,9 +14,9 @@ export type FetchResourceMutationVariables = {
 
 
 export type FetchResourceMutation = (
-  { __typename?: 'RootMutationType' }
+  { __typename: 'RootMutationType' }
   & { fetchWebMetadata: Types.Maybe<(
-    { __typename?: 'WebMetadata' }
+    { __typename: 'WebMetadata' }
     & Pick<Types.WebMetadata, 'image' | 'title' | 'author' | 'source' | 'resourceType' | 'summary' | 'embedCode' | 'language'>
   )> }
 );

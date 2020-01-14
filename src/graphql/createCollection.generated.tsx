@@ -18,9 +18,9 @@ export type CreateCollectionMutationMutationVariables = {
 
 
 export type CreateCollectionMutationMutation = (
-  { __typename?: 'RootMutationType' }
+  { __typename: 'RootMutationType' }
   & { createCollection: Types.Maybe<(
-    { __typename?: 'Collection' }
+    { __typename: 'Collection' }
     & BasicCollectionFragment
   )> }
 );

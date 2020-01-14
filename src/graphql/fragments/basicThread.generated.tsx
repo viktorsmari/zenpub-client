@@ -6,22 +6,22 @@ import { BasicCommentWithInReplyToFragmentDoc } from './basicComment.generated';
 
 
 export type BasicThreadFragment = (
-  { __typename?: 'Thread' }
+  { __typename: 'Thread' }
   & Pick<Types.Thread, 'id' | 'isLocal' | 'createdAt' | 'updatedAt' | 'lastActivity'>
   & { myFollow: Types.Maybe<(
-    { __typename?: 'Follow' }
+    { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
   )>, comments: (
-    { __typename?: 'CommentsEdges' }
+    { __typename: 'CommentsEdges' }
     & Pick<Types.CommentsEdges, 'totalCount'>
     & { pageInfo: Types.Maybe<(
-      { __typename?: 'PageInfo' }
+      { __typename: 'PageInfo' }
       & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
     )>, edges: Array<Types.Maybe<(
-      { __typename?: 'CommentsEdge' }
+      { __typename: 'CommentsEdge' }
       & Pick<Types.CommentsEdge, 'cursor'>
       & { node: (
-        { __typename?: 'Comment' }
+        { __typename: 'Comment' }
         & BasicCommentWithInReplyToFragment
       ) }
     )>> }

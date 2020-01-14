@@ -14,18 +14,18 @@ export type GetHeroCommunityQueryVariables = {
 
 
 export type GetHeroCommunityQuery = (
-  { __typename?: 'RootQueryType' }
+  { __typename: 'RootQueryType' }
   & { community: Types.Maybe<(
-    { __typename?: 'Community' }
+    { __typename: 'Community' }
     & Pick<Types.Community, 'id' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'image'>
     & { followers: (
-      { __typename?: 'FollowsEdges' }
+      { __typename: 'FollowsEdges' }
       & Pick<Types.FollowsEdges, 'totalCount'>
     ), myFollow: Types.Maybe<(
-      { __typename?: 'Follow' }
+      { __typename: 'Follow' }
       & Pick<Types.Follow, 'id'>
     )>, creator: (
-      { __typename?: 'User' }
+      { __typename: 'User' }
       & Pick<Types.User, 'id'>
     ) }
   )> }

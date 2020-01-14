@@ -14,12 +14,12 @@ export type UpdateProfileMutationMutationVariables = {
 
 
 export type UpdateProfileMutationMutation = (
-  { __typename?: 'RootMutationType' }
+  { __typename: 'RootMutationType' }
   & { updateProfile: Types.Maybe<(
-    { __typename?: 'Me' }
+    { __typename: 'Me' }
     & Pick<Types.Me, 'wantsEmailDigest' | 'wantsNotifications'>
     & { user: (
-      { __typename?: 'User' }
+      { __typename: 'User' }
       & Pick<Types.User, 'id' | 'name' | 'summary' | 'icon' | 'image' | 'location' | 'website'>
     ) }
   )> }

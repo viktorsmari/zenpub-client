@@ -14,9 +14,9 @@ export type FollowMutationMutationVariables = {
 
 
 export type FollowMutationMutation = (
-  { __typename?: 'RootMutationType' }
+  { __typename: 'RootMutationType' }
   & { createFollow: Types.Maybe<(
-    { __typename?: 'Follow' }
+    { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
   )> }
 );

@@ -19,18 +19,18 @@ export type CreateReplyMutationMutationVariables = {
 
 
 export type CreateReplyMutationMutation = (
-  { __typename?: 'RootMutationType' }
+  { __typename: 'RootMutationType' }
   & { createReply: Types.Maybe<(
-    { __typename?: 'Comment' }
+    { __typename: 'Comment' }
     & Pick<Types.Comment, 'id' | 'canonicalUrl' | 'content' | 'isLocal' | 'isPublic' | 'isHidden' | 'createdAt' | 'updatedAt'>
     & { inReplyTo: Types.Maybe<(
-      { __typename?: 'Comment' }
+      { __typename: 'Comment' }
       & BasicCommentWithInReplyToFragment
     )>, myLike: Types.Maybe<(
-      { __typename?: 'Like' }
+      { __typename: 'Like' }
       & Pick<Types.Like, 'id'>
     )>, creator: (
-      { __typename?: 'User' }
+      { __typename: 'User' }
       & Pick<Types.User, 'id' | 'preferredUsername' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'isDisabled' | 'icon' | 'name'>
     ) }
   )> }

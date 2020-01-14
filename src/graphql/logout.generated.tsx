@@ -12,7 +12,7 @@ export type LogoutMutationMutationVariables = {};
 
 
 export type LogoutMutationMutation = (
-  { __typename?: 'RootMutationType' }
+  { __typename: 'RootMutationType' }
   & Pick<Types.RootMutationType, 'deleteSession'>
 );
 

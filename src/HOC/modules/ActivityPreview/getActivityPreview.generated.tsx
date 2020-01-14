@@ -14,53 +14,356 @@ export type GetActivityPreviewQueryVariables = {
 
 
 export type GetActivityPreviewQuery = (
-  { __typename?: 'RootQueryType' }
+  { __typename: 'RootQueryType' }
   & { activity: Types.Maybe<(
-    { __typename?: 'Activity' }
+    { __typename: 'Activity' }
     & Pick<Types.Activity, 'createdAt' | 'id' | 'verb'>
     & { user: (
-      { __typename?: 'User' }
-      & Pick<Types.User, 'icon' | 'image' | 'id' | 'name' | 'preferredUsername'>
+      { __typename: 'User' }
+      & ActivityPreviewBaseUserFragment
     ), context: (
       { __typename: 'Collection' }
-      & Pick<Types.Collection, 'icon' | 'name' | 'summary' | 'canonicalUrl'>
-      & { creator: (
-        { __typename?: 'User' }
-        & Pick<Types.User, 'id' | 'name'>
-      ) }
+      & ActivityPreviewCollectionCtxFragment
     ) | (
       { __typename: 'Comment' }
-      & Pick<Types.Comment, 'content' | 'canonicalUrl'>
-      & { creator: (
-        { __typename?: 'User' }
-        & Pick<Types.User, 'id' | 'name'>
-      ), inReplyTo: Types.Maybe<(
-        { __typename?: 'Comment' }
-        & Pick<Types.Comment, 'content'>
-        & { creator: (
-          { __typename?: 'User' }
-          & Pick<Types.User, 'id' | 'name'>
-        ) }
-      )> }
+      & ActivityPreviewCommentCtxExtendedFragment
     ) | (
       { __typename: 'Community' }
-      & Pick<Types.Community, 'icon' | 'name' | 'summary' | 'canonicalUrl'>
-      & { creator: (
-        { __typename?: 'User' }
-        & Pick<Types.User, 'id' | 'name'>
-      ) }
-    ) | { __typename: 'Flag' } | { __typename: 'Follow' } | { __typename: 'Like' } | (
+      & ActivityPreviewCommunityCtxFragment
+    ) | (
+      { __typename: 'Flag' }
+      & ActivityPreviewFlagCtxFragment
+    ) | (
+      { __typename: 'Follow' }
+      & ActivityPreviewFollowCtxFragment
+    ) | (
+      { __typename: 'Like' }
+      & ActivityPreviewLikeCtxFragment
+    ) | (
       { __typename: 'Resource' }
-      & Pick<Types.Resource, 'icon' | 'name' | 'summary' | 'canonicalUrl'>
-      & { creator: (
-        { __typename?: 'User' }
-        & Pick<Types.User, 'id' | 'name'>
-      ) }
+      & ActivityPreviewResourceCtxFragment
     ) }
   )> }
 );
 
+export type ActivityPreviewBaseUserFragment = (
+  { __typename: 'User' }
+  & Pick<Types.User, 'icon' | 'image' | 'id' | 'name' | 'preferredUsername' | 'isLocal' | 'canonicalUrl'>
+);
 
+export type ActivityPreviewCollectionCtxFragment = (
+  { __typename: 'Collection' }
+  & Pick<Types.Collection, 'id' | 'isLocal' | 'icon' | 'name' | 'summary' | 'canonicalUrl'>
+  & { creator: (
+    { __typename: 'User' }
+    & ActivityPreviewBaseUserFragment
+  ), likes: (
+    { __typename: 'LikesEdges' }
+    & Pick<Types.LikesEdges, 'totalCount'>
+  ), myLike: Types.Maybe<(
+    { __typename: 'Like' }
+    & Pick<Types.Like, 'id'>
+  )> }
+);
+
+export type ActivityPreviewCommentCtxExtendedFragment = (
+  { __typename: 'Comment' }
+  & { inReplyTo: Types.Maybe<(
+    { __typename: 'Comment' }
+    & ActivityPreviewCommentCtxBaseFragment
+  )>, likes: (
+    { __typename: 'LikesEdges' }
+    & Pick<Types.LikesEdges, 'totalCount'>
+  ), myLike: Types.Maybe<(
+    { __typename: 'Like' }
+    & Pick<Types.Like, 'id'>
+  )> }
+  & ActivityPreviewCommentCtxBaseFragment
+);
+
+export type ActivityPreviewCommentCtxBaseFragment = (
+  { __typename: 'Comment' }
+  & Pick<Types.Comment, 'id' | 'isLocal' | 'content' | 'canonicalUrl'>
+  & { creator: (
+    { __typename: 'User' }
+    & ActivityPreviewBaseUserFragment
+  ), thread: (
+    { __typename: 'Thread' }
+    & Pick<Types.Thread, 'id'>
+  ) }
+);
+
+export type ActivityPreviewCommunityCtxFragment = (
+  { __typename: 'Community' }
+  & Pick<Types.Community, 'id' | 'isLocal' | 'icon' | 'name' | 'summary' | 'canonicalUrl'>
+  & { creator: (
+    { __typename: 'User' }
+    & ActivityPreviewBaseUserFragment
+  ), myLike: Types.Maybe<(
+    { __typename: 'Like' }
+    & Pick<Types.Like, 'id'>
+  )> }
+);
+
+export type ActivityPreviewResourceCtxFragment = (
+  { __typename: 'Resource' }
+  & Pick<Types.Resource, 'id' | 'isLocal' | 'icon' | 'name' | 'summary' | 'canonicalUrl'>
+  & { creator: (
+    { __typename: 'User' }
+    & ActivityPreviewBaseUserFragment
+  ), likes: (
+    { __typename: 'LikesEdges' }
+    & Pick<Types.LikesEdges, 'totalCount'>
+  ), myLike: Types.Maybe<(
+    { __typename: 'Like' }
+    & Pick<Types.Like, 'id'>
+  )> }
+);
+
+export type ActivityPreviewFlagCtxFragment = (
+  { __typename: 'Flag' }
+  & Pick<Types.Flag, 'isLocal'>
+  & { context: (
+    { __typename: 'Collection' }
+    & ActivityPreviewCollectionCtxFragment
+  ) | (
+    { __typename: 'Comment' }
+    & ActivityPreviewCommentCtxBaseFragment
+  ) | (
+    { __typename: 'Community' }
+    & ActivityPreviewCommunityCtxFragment
+  ) | (
+    { __typename: 'Resource' }
+    & ActivityPreviewResourceCtxFragment
+  ) | { __typename: 'User' } }
+);
+
+export type ActivityPreviewLikeCtxFragment = (
+  { __typename: 'Like' }
+  & Pick<Types.Like, 'isLocal'>
+  & { context: (
+    { __typename: 'Collection' }
+    & ActivityPreviewCollectionCtxFragment
+  ) | (
+    { __typename: 'Comment' }
+    & ActivityPreviewCommentCtxBaseFragment
+  ) | (
+    { __typename: 'Resource' }
+    & ActivityPreviewResourceCtxFragment
+  ) | { __typename: 'User' } }
+);
+
+export type ActivityPreviewFollowCtxFragment = (
+  { __typename: 'Follow' }
+  & Pick<Types.Follow, 'isLocal'>
+  & { context: (
+    { __typename: 'Collection' }
+    & ActivityPreviewCollectionCtxFragment
+  ) | (
+    { __typename: 'Community' }
+    & ActivityPreviewCommunityCtxFragment
+  ) | { __typename: 'Thread' } | { __typename: 'User' } }
+);
+
+export type ActivityPreviewLikeMutationVariables = {
+  contextId: Types.Scalars['String']
+};
+
+
+export type ActivityPreviewLikeMutation = (
+  { __typename: 'RootMutationType' }
+  & { createLike: Types.Maybe<(
+    { __typename: 'Like' }
+    & ActivityPreviewLikeCtxFragment
+  )> }
+);
+
+export type ActivityPreviewUnlikeMutationVariables = {
+  contextId: Types.Scalars['String']
+};
+
+
+export type ActivityPreviewUnlikeMutation = (
+  { __typename: 'RootMutationType' }
+  & { delete: Types.Maybe<{ __typename: 'Activity' } | { __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Flag' } | { __typename: 'Follow' } | { __typename: 'Like' } | { __typename: 'Resource' } | { __typename: 'Thread' } | { __typename: 'User' }> }
+);
+
+export type ActivityPreviewCreateReplyMutationVariables = {
+  comment: Types.CommentInput,
+  inReplyToId: Types.Scalars['String'],
+  threadId: Types.Scalars['String']
+};
+
+
+export type ActivityPreviewCreateReplyMutation = (
+  { __typename: 'RootMutationType' }
+  & { createReply: Types.Maybe<(
+    { __typename: 'Comment' }
+    & ActivityPreviewCommentCtxBaseFragment
+  )> }
+);
+
+export type ActivityPreviewCreateThreadMutationVariables = {
+  contextId: Types.Scalars['String'],
+  comment: Types.CommentInput
+};
+
+
+export type ActivityPreviewCreateThreadMutation = (
+  { __typename: 'RootMutationType' }
+  & { createThread: Types.Maybe<(
+    { __typename: 'Comment' }
+    & ActivityPreviewCommentCtxBaseFragment
+  )> }
+);
+
+export const ActivityPreviewBaseUserFragmentDoc = gql`
+    fragment ActivityPreviewBaseUser on User {
+  icon
+  image
+  id
+  name
+  preferredUsername
+  isLocal
+  canonicalUrl
+}
+    `;
+export const ActivityPreviewCommentCtxBaseFragmentDoc = gql`
+    fragment ActivityPreviewCommentCtxBase on Comment {
+  id
+  isLocal
+  content
+  canonicalUrl
+  creator {
+    ...ActivityPreviewBaseUser
+  }
+  thread {
+    id
+  }
+}
+    ${ActivityPreviewBaseUserFragmentDoc}`;
+export const ActivityPreviewCommentCtxExtendedFragmentDoc = gql`
+    fragment ActivityPreviewCommentCtxExtended on Comment {
+  ...ActivityPreviewCommentCtxBase
+  inReplyTo {
+    ...ActivityPreviewCommentCtxBase
+  }
+  likes {
+    totalCount
+  }
+  myLike {
+    id
+  }
+}
+    ${ActivityPreviewCommentCtxBaseFragmentDoc}`;
+export const ActivityPreviewCollectionCtxFragmentDoc = gql`
+    fragment ActivityPreviewCollectionCtx on Collection {
+  id
+  isLocal
+  icon
+  name
+  summary
+  canonicalUrl
+  creator {
+    ...ActivityPreviewBaseUser
+  }
+  likes {
+    totalCount
+  }
+  myLike {
+    id
+  }
+}
+    ${ActivityPreviewBaseUserFragmentDoc}`;
+export const ActivityPreviewCommunityCtxFragmentDoc = gql`
+    fragment ActivityPreviewCommunityCtx on Community {
+  id
+  isLocal
+  icon
+  name
+  summary
+  canonicalUrl
+  creator {
+    ...ActivityPreviewBaseUser
+  }
+  myLike {
+    id
+  }
+}
+    ${ActivityPreviewBaseUserFragmentDoc}`;
+export const ActivityPreviewResourceCtxFragmentDoc = gql`
+    fragment ActivityPreviewResourceCtx on Resource {
+  id
+  isLocal
+  icon
+  name
+  summary
+  canonicalUrl
+  creator {
+    ...ActivityPreviewBaseUser
+  }
+  likes {
+    totalCount
+  }
+  myLike {
+    id
+  }
+}
+    ${ActivityPreviewBaseUserFragmentDoc}`;
+export const ActivityPreviewFlagCtxFragmentDoc = gql`
+    fragment ActivityPreviewFlagCtx on Flag {
+  isLocal
+  context {
+    ... on Collection {
+      ...ActivityPreviewCollectionCtx
+    }
+    ... on Comment {
+      ...ActivityPreviewCommentCtxBase
+    }
+    ... on Community {
+      ...ActivityPreviewCommunityCtx
+    }
+    ... on Resource {
+      ...ActivityPreviewResourceCtx
+    }
+  }
+}
+    ${ActivityPreviewCollectionCtxFragmentDoc}
+${ActivityPreviewCommentCtxBaseFragmentDoc}
+${ActivityPreviewCommunityCtxFragmentDoc}
+${ActivityPreviewResourceCtxFragmentDoc}`;
+export const ActivityPreviewLikeCtxFragmentDoc = gql`
+    fragment ActivityPreviewLikeCtx on Like {
+  isLocal
+  context {
+    ... on Collection {
+      ...ActivityPreviewCollectionCtx
+    }
+    ... on Comment {
+      ...ActivityPreviewCommentCtxBase
+    }
+    ... on Resource {
+      ...ActivityPreviewResourceCtx
+    }
+  }
+}
+    ${ActivityPreviewCollectionCtxFragmentDoc}
+${ActivityPreviewCommentCtxBaseFragmentDoc}
+${ActivityPreviewResourceCtxFragmentDoc}`;
+export const ActivityPreviewFollowCtxFragmentDoc = gql`
+    fragment ActivityPreviewFollowCtx on Follow {
+  isLocal
+  context {
+    ... on Collection {
+      ...ActivityPreviewCollectionCtx
+    }
+    ... on Community {
+      ...ActivityPreviewCommunityCtx
+    }
+  }
+}
+    ${ActivityPreviewCollectionCtxFragmentDoc}
+${ActivityPreviewCommunityCtxFragmentDoc}`;
 export const GetActivityPreviewDocument = gql`
     query getActivityPreview($activityId: String!) {
   activity(activityId: $activityId) {
@@ -68,63 +371,42 @@ export const GetActivityPreviewDocument = gql`
     id
     verb
     user {
-      icon
-      image
-      id
-      name
-      preferredUsername
+      ...ActivityPreviewBaseUser
     }
     context {
       __typename
       ... on Collection {
-        icon
-        name
-        summary
-        canonicalUrl
-        creator {
-          id
-          name
-        }
+        ...ActivityPreviewCollectionCtx
       }
       ... on Comment {
-        content
-        canonicalUrl
-        creator {
-          id
-          name
-        }
-        inReplyTo {
-          content
-          creator {
-            id
-            name
-          }
-        }
+        ...ActivityPreviewCommentCtxExtended
       }
       ... on Community {
-        icon
-        name
-        summary
-        canonicalUrl
-        creator {
-          id
-          name
-        }
+        ...ActivityPreviewCommunityCtx
       }
       ... on Resource {
-        icon
-        name
-        summary
-        canonicalUrl
-        creator {
-          id
-          name
-        }
+        ...ActivityPreviewResourceCtx
+      }
+      ... on Flag {
+        ...ActivityPreviewFlagCtx
+      }
+      ... on Like {
+        ...ActivityPreviewLikeCtx
+      }
+      ... on Follow {
+        ...ActivityPreviewFollowCtx
       }
     }
   }
 }
-    `;
+    ${ActivityPreviewBaseUserFragmentDoc}
+${ActivityPreviewCollectionCtxFragmentDoc}
+${ActivityPreviewCommentCtxExtendedFragmentDoc}
+${ActivityPreviewCommunityCtxFragmentDoc}
+${ActivityPreviewResourceCtxFragmentDoc}
+${ActivityPreviewFlagCtxFragmentDoc}
+${ActivityPreviewLikeCtxFragmentDoc}
+${ActivityPreviewFollowCtxFragmentDoc}`;
 export type GetActivityPreviewComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetActivityPreviewQuery, GetActivityPreviewQueryVariables>, 'query'> & ({ variables: GetActivityPreviewQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const GetActivityPreviewComponent = (props: GetActivityPreviewComponentProps) => (
@@ -168,6 +450,205 @@ export function useGetActivityPreviewLazyQuery(baseOptions?: ApolloReactHooks.La
 export type GetActivityPreviewQueryHookResult = ReturnType<typeof useGetActivityPreviewQuery>;
 export type GetActivityPreviewLazyQueryHookResult = ReturnType<typeof useGetActivityPreviewLazyQuery>;
 export type GetActivityPreviewQueryResult = ApolloReactCommon.QueryResult<GetActivityPreviewQuery, GetActivityPreviewQueryVariables>;
+export const ActivityPreviewLikeDocument = gql`
+    mutation activityPreviewLike($contextId: String!) {
+  createLike(contextId: $contextId) {
+    ...ActivityPreviewLikeCtx
+  }
+}
+    ${ActivityPreviewLikeCtxFragmentDoc}`;
+export type ActivityPreviewLikeMutationFn = ApolloReactCommon.MutationFunction<ActivityPreviewLikeMutation, ActivityPreviewLikeMutationVariables>;
+export type ActivityPreviewLikeComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<ActivityPreviewLikeMutation, ActivityPreviewLikeMutationVariables>, 'mutation'>;
+
+    export const ActivityPreviewLikeComponent = (props: ActivityPreviewLikeComponentProps) => (
+      <ApolloReactComponents.Mutation<ActivityPreviewLikeMutation, ActivityPreviewLikeMutationVariables> mutation={ActivityPreviewLikeDocument} {...props} />
+    );
+    
+export type ActivityPreviewLikeProps<TChildProps = {}> = ApolloReactHoc.MutateProps<ActivityPreviewLikeMutation, ActivityPreviewLikeMutationVariables> & TChildProps;
+export function withActivityPreviewLike<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ActivityPreviewLikeMutation,
+  ActivityPreviewLikeMutationVariables,
+  ActivityPreviewLikeProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, ActivityPreviewLikeMutation, ActivityPreviewLikeMutationVariables, ActivityPreviewLikeProps<TChildProps>>(ActivityPreviewLikeDocument, {
+      alias: 'activityPreviewLike',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useActivityPreviewLikeMutation__
+ *
+ * To run a mutation, you first call `useActivityPreviewLikeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useActivityPreviewLikeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [activityPreviewLikeMutation, { data, loading, error }] = useActivityPreviewLikeMutation({
+ *   variables: {
+ *      contextId: // value for 'contextId'
+ *   },
+ * });
+ */
+export function useActivityPreviewLikeMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<ActivityPreviewLikeMutation, ActivityPreviewLikeMutationVariables>) {
+        return ApolloReactHooks.useMutation<ActivityPreviewLikeMutation, ActivityPreviewLikeMutationVariables>(ActivityPreviewLikeDocument, baseOptions);
+      }
+export type ActivityPreviewLikeMutationHookResult = ReturnType<typeof useActivityPreviewLikeMutation>;
+export type ActivityPreviewLikeMutationResult = ApolloReactCommon.MutationResult<ActivityPreviewLikeMutation>;
+export type ActivityPreviewLikeMutationOptions = ApolloReactCommon.BaseMutationOptions<ActivityPreviewLikeMutation, ActivityPreviewLikeMutationVariables>;
+export const ActivityPreviewUnlikeDocument = gql`
+    mutation activityPreviewUnlike($contextId: String!) {
+  delete(contextId: $contextId) {
+    __typename
+  }
+}
+    `;
+export type ActivityPreviewUnlikeMutationFn = ApolloReactCommon.MutationFunction<ActivityPreviewUnlikeMutation, ActivityPreviewUnlikeMutationVariables>;
+export type ActivityPreviewUnlikeComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<ActivityPreviewUnlikeMutation, ActivityPreviewUnlikeMutationVariables>, 'mutation'>;
+
+    export const ActivityPreviewUnlikeComponent = (props: ActivityPreviewUnlikeComponentProps) => (
+      <ApolloReactComponents.Mutation<ActivityPreviewUnlikeMutation, ActivityPreviewUnlikeMutationVariables> mutation={ActivityPreviewUnlikeDocument} {...props} />
+    );
+    
+export type ActivityPreviewUnlikeProps<TChildProps = {}> = ApolloReactHoc.MutateProps<ActivityPreviewUnlikeMutation, ActivityPreviewUnlikeMutationVariables> & TChildProps;
+export function withActivityPreviewUnlike<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ActivityPreviewUnlikeMutation,
+  ActivityPreviewUnlikeMutationVariables,
+  ActivityPreviewUnlikeProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, ActivityPreviewUnlikeMutation, ActivityPreviewUnlikeMutationVariables, ActivityPreviewUnlikeProps<TChildProps>>(ActivityPreviewUnlikeDocument, {
+      alias: 'activityPreviewUnlike',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useActivityPreviewUnlikeMutation__
+ *
+ * To run a mutation, you first call `useActivityPreviewUnlikeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useActivityPreviewUnlikeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [activityPreviewUnlikeMutation, { data, loading, error }] = useActivityPreviewUnlikeMutation({
+ *   variables: {
+ *      contextId: // value for 'contextId'
+ *   },
+ * });
+ */
+export function useActivityPreviewUnlikeMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<ActivityPreviewUnlikeMutation, ActivityPreviewUnlikeMutationVariables>) {
+        return ApolloReactHooks.useMutation<ActivityPreviewUnlikeMutation, ActivityPreviewUnlikeMutationVariables>(ActivityPreviewUnlikeDocument, baseOptions);
+      }
+export type ActivityPreviewUnlikeMutationHookResult = ReturnType<typeof useActivityPreviewUnlikeMutation>;
+export type ActivityPreviewUnlikeMutationResult = ApolloReactCommon.MutationResult<ActivityPreviewUnlikeMutation>;
+export type ActivityPreviewUnlikeMutationOptions = ApolloReactCommon.BaseMutationOptions<ActivityPreviewUnlikeMutation, ActivityPreviewUnlikeMutationVariables>;
+export const ActivityPreviewCreateReplyDocument = gql`
+    mutation activityPreviewCreateReply($comment: CommentInput!, $inReplyToId: String!, $threadId: String!) {
+  createReply(comment: $comment, inReplyToId: $inReplyToId, threadId: $threadId) {
+    ...ActivityPreviewCommentCtxBase
+  }
+}
+    ${ActivityPreviewCommentCtxBaseFragmentDoc}`;
+export type ActivityPreviewCreateReplyMutationFn = ApolloReactCommon.MutationFunction<ActivityPreviewCreateReplyMutation, ActivityPreviewCreateReplyMutationVariables>;
+export type ActivityPreviewCreateReplyComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<ActivityPreviewCreateReplyMutation, ActivityPreviewCreateReplyMutationVariables>, 'mutation'>;
+
+    export const ActivityPreviewCreateReplyComponent = (props: ActivityPreviewCreateReplyComponentProps) => (
+      <ApolloReactComponents.Mutation<ActivityPreviewCreateReplyMutation, ActivityPreviewCreateReplyMutationVariables> mutation={ActivityPreviewCreateReplyDocument} {...props} />
+    );
+    
+export type ActivityPreviewCreateReplyProps<TChildProps = {}> = ApolloReactHoc.MutateProps<ActivityPreviewCreateReplyMutation, ActivityPreviewCreateReplyMutationVariables> & TChildProps;
+export function withActivityPreviewCreateReply<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ActivityPreviewCreateReplyMutation,
+  ActivityPreviewCreateReplyMutationVariables,
+  ActivityPreviewCreateReplyProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, ActivityPreviewCreateReplyMutation, ActivityPreviewCreateReplyMutationVariables, ActivityPreviewCreateReplyProps<TChildProps>>(ActivityPreviewCreateReplyDocument, {
+      alias: 'activityPreviewCreateReply',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useActivityPreviewCreateReplyMutation__
+ *
+ * To run a mutation, you first call `useActivityPreviewCreateReplyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useActivityPreviewCreateReplyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [activityPreviewCreateReplyMutation, { data, loading, error }] = useActivityPreviewCreateReplyMutation({
+ *   variables: {
+ *      comment: // value for 'comment'
+ *      inReplyToId: // value for 'inReplyToId'
+ *      threadId: // value for 'threadId'
+ *   },
+ * });
+ */
+export function useActivityPreviewCreateReplyMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<ActivityPreviewCreateReplyMutation, ActivityPreviewCreateReplyMutationVariables>) {
+        return ApolloReactHooks.useMutation<ActivityPreviewCreateReplyMutation, ActivityPreviewCreateReplyMutationVariables>(ActivityPreviewCreateReplyDocument, baseOptions);
+      }
+export type ActivityPreviewCreateReplyMutationHookResult = ReturnType<typeof useActivityPreviewCreateReplyMutation>;
+export type ActivityPreviewCreateReplyMutationResult = ApolloReactCommon.MutationResult<ActivityPreviewCreateReplyMutation>;
+export type ActivityPreviewCreateReplyMutationOptions = ApolloReactCommon.BaseMutationOptions<ActivityPreviewCreateReplyMutation, ActivityPreviewCreateReplyMutationVariables>;
+export const ActivityPreviewCreateThreadDocument = gql`
+    mutation activityPreviewCreateThread($contextId: String!, $comment: CommentInput!) {
+  createThread(comment: $comment, contextId: $contextId) {
+    ...ActivityPreviewCommentCtxBase
+  }
+}
+    ${ActivityPreviewCommentCtxBaseFragmentDoc}`;
+export type ActivityPreviewCreateThreadMutationFn = ApolloReactCommon.MutationFunction<ActivityPreviewCreateThreadMutation, ActivityPreviewCreateThreadMutationVariables>;
+export type ActivityPreviewCreateThreadComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<ActivityPreviewCreateThreadMutation, ActivityPreviewCreateThreadMutationVariables>, 'mutation'>;
+
+    export const ActivityPreviewCreateThreadComponent = (props: ActivityPreviewCreateThreadComponentProps) => (
+      <ApolloReactComponents.Mutation<ActivityPreviewCreateThreadMutation, ActivityPreviewCreateThreadMutationVariables> mutation={ActivityPreviewCreateThreadDocument} {...props} />
+    );
+    
+export type ActivityPreviewCreateThreadProps<TChildProps = {}> = ApolloReactHoc.MutateProps<ActivityPreviewCreateThreadMutation, ActivityPreviewCreateThreadMutationVariables> & TChildProps;
+export function withActivityPreviewCreateThread<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ActivityPreviewCreateThreadMutation,
+  ActivityPreviewCreateThreadMutationVariables,
+  ActivityPreviewCreateThreadProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, ActivityPreviewCreateThreadMutation, ActivityPreviewCreateThreadMutationVariables, ActivityPreviewCreateThreadProps<TChildProps>>(ActivityPreviewCreateThreadDocument, {
+      alias: 'activityPreviewCreateThread',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useActivityPreviewCreateThreadMutation__
+ *
+ * To run a mutation, you first call `useActivityPreviewCreateThreadMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useActivityPreviewCreateThreadMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [activityPreviewCreateThreadMutation, { data, loading, error }] = useActivityPreviewCreateThreadMutation({
+ *   variables: {
+ *      contextId: // value for 'contextId'
+ *      comment: // value for 'comment'
+ *   },
+ * });
+ */
+export function useActivityPreviewCreateThreadMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<ActivityPreviewCreateThreadMutation, ActivityPreviewCreateThreadMutationVariables>) {
+        return ApolloReactHooks.useMutation<ActivityPreviewCreateThreadMutation, ActivityPreviewCreateThreadMutationVariables>(ActivityPreviewCreateThreadDocument, baseOptions);
+      }
+export type ActivityPreviewCreateThreadMutationHookResult = ReturnType<typeof useActivityPreviewCreateThreadMutation>;
+export type ActivityPreviewCreateThreadMutationResult = ApolloReactCommon.MutationResult<ActivityPreviewCreateThreadMutation>;
+export type ActivityPreviewCreateThreadMutationOptions = ApolloReactCommon.BaseMutationOptions<ActivityPreviewCreateThreadMutation, ActivityPreviewCreateThreadMutationVariables>;
 
 
 export interface GetActivityPreviewQueryOperation {
@@ -175,4 +656,36 @@ export interface GetActivityPreviewQueryOperation {
   result: GetActivityPreviewQuery
   variables: GetActivityPreviewQueryVariables
   type: 'query'
+}
+
+
+export interface ActivityPreviewLikeMutationOperation {
+  operationName: 'activityPreviewLike'
+  result: ActivityPreviewLikeMutation
+  variables: ActivityPreviewLikeMutationVariables
+  type: 'mutation'
+}
+
+
+export interface ActivityPreviewUnlikeMutationOperation {
+  operationName: 'activityPreviewUnlike'
+  result: ActivityPreviewUnlikeMutation
+  variables: ActivityPreviewUnlikeMutationVariables
+  type: 'mutation'
+}
+
+
+export interface ActivityPreviewCreateReplyMutationOperation {
+  operationName: 'activityPreviewCreateReply'
+  result: ActivityPreviewCreateReplyMutation
+  variables: ActivityPreviewCreateReplyMutationVariables
+  type: 'mutation'
+}
+
+
+export interface ActivityPreviewCreateThreadMutationOperation {
+  operationName: 'activityPreviewCreateThread'
+  result: ActivityPreviewCreateThreadMutation
+  variables: ActivityPreviewCreateThreadMutationVariables
+  type: 'mutation'
 }

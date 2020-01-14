@@ -15,12 +15,12 @@ export type UploadResourceMutationVariables = {
 
 
 export type UploadResourceMutation = (
-  { __typename?: 'RootMutationType' }
+  { __typename: 'RootMutationType' }
   & { uploadResource: Types.Maybe<(
-    { __typename?: 'FileUpload' }
+    { __typename: 'FileUpload' }
     & Pick<Types.FileUpload, 'id' | 'url'>
     & { metadata: Types.Maybe<(
-      { __typename?: 'FileMetadata' }
+      { __typename: 'FileMetadata' }
       & Pick<Types.FileMetadata, 'heightPx' | 'widthPx'>
     )> }
   )> }

@@ -17,9 +17,9 @@ export type GetThreadQueryVariables = {
 
 
 export type GetThreadQuery = (
-  { __typename?: 'RootQueryType' }
+  { __typename: 'RootQueryType' }
   & { thread: Types.Maybe<(
-    { __typename?: 'Thread' }
+    { __typename: 'Thread' }
     & Pick<Types.Thread, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'isHidden' | 'createdAt' | 'updatedAt' | 'lastActivity'>
     & { context: (
       { __typename: 'Collection' }
@@ -31,15 +31,15 @@ export type GetThreadQuery = (
       { __typename: 'Resource' }
       & Pick<Types.Resource, 'id' | 'icon' | 'name'>
     ), myFollow: Types.Maybe<(
-      { __typename?: 'Follow' }
+      { __typename: 'Follow' }
       & Pick<Types.Follow, 'id'>
     )>, comments: (
-      { __typename?: 'CommentsEdges' }
+      { __typename: 'CommentsEdges' }
       & Pick<Types.CommentsEdges, 'totalCount'>
       & { edges: Array<Types.Maybe<(
-        { __typename?: 'CommentsEdge' }
+        { __typename: 'CommentsEdge' }
         & { node: (
-          { __typename?: 'Comment' }
+          { __typename: 'Comment' }
           & BasicCommentWithInReplyToFragment
         ) }
       )>> }
