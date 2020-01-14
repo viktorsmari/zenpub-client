@@ -2,12 +2,12 @@ import { Trans } from '@lingui/react';
 import { clearFix } from 'polished';
 import React, { ComponentType, SFC } from 'react';
 import { Settings } from 'react-feather';
-import { Box, Button, Flex, Text } from 'rebass/styled-components';
+import { Box, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import SocialText from 'ui/modules/SocialText';
 import styled from 'ui/themes/styled';
 import Modal from 'ui/modules/Modal';
-
+import Button from 'ui/elements/Button';
 export enum Status {
   Loading,
   Loaded
@@ -70,12 +70,18 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
             </MembersTot>
             <Actions>
               {c.canModify ? (
-                <EditButton onClick={() => setOpenSettings(true)}>
+                <Button
+                  onClick={() => setOpenSettings(true)}
+                  isIcon
+                  variant="outline"
+                >
                   <Settings size={18} color={'#f98012'} />
-                </EditButton>
+                </Button>
               ) : null}
               <Button
-                disabled={c.toggleJoin.isSubmitting}
+                ml={2}
+                variant="primary"
+                isDisabled={c.toggleJoin.isSubmitting}
                 onClick={c.toggleJoin.toggle}
               >
                 {c.following ? <Trans>Leave</Trans> : <Trans>Join</Trans>}
@@ -153,33 +159,6 @@ const MembersTot = styled(Flex)`
       margin-right: 0px;
       margin-left: 8px;
     }
-  }
-`;
-
-const EditButton = styled(Flex)`
-  height: 40px;
-  font-weight: 600;
-  font-size: 13px;
-  line-height: 38px;
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  vertical-align: bottom;
-  margin-right: 16px;
-  border-radius: 40px;
-  text-align: center;
-  border: 1px solid ${props => props.theme.colors.orange};
-  cursor: pointer;
-  align-items: center;
-  align-content: center;
-  & svg {
-    text-align: center;
-    vertical-align: text-bottom;
-    color: inherit !important;
-  }
-  .--rtl & {
-    margin-right: 0px;
-    margin-left: 16px;
   }
 `;
 
