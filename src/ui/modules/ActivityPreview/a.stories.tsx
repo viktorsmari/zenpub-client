@@ -1,91 +1,545 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
-import { ActivityPreview, Props } from '.';
+import { ActivityPreview, Props, Status } from '.';
+import { ActivityVerb, ContextType } from './preview';
+import { action } from '@storybook/addon-actions';
+import { useFormik } from 'formik';
 
 storiesOf('Modules/ActivityPreview', module)
-  .add('Resource/Community/Collection', () => {
-    const activityPreviewProps: Props = {
-      activity: {
-        actor: {
-          icon: 'https://picsum.photos/80/80',
-          id: '2',
-          name: 'Ivan',
-          preferredUsername: 'tata'
-        },
-        comment:
-          "my niece is completely mystified by my computer in that:- she thought the monitor was the computer - i had to explain how dual monitors work - wow, you can charge your phone from it? she's like 12 and i feel old now",
-        context: {
-          icon: 'https://picsum.photos/id/382/200/200',
-          title: 'The best resource',
-          summary:
-            'A storybook decorator that allows you to use routing-aware components in your stories',
-          url: 'https://picsum.photos/80/80',
-          actor: {
-            id: '2',
-            name: 'Alec'
-          }
-        },
-        createdAt: '29-01-2020',
-        type: 'Comment',
-        verb: 'Created'
-      }
-    };
-    return <ActivityPreview {...activityPreviewProps} />;
-  })
-  .add('inReply', () => {
-    const activityPreviewProps: Props = {
-      activity: {
-        actor: {
-          icon: 'https://picsum.photos/80/80',
-          id: '2',
-          name: 'Ivan',
-          preferredUsername: 'tata'
-        },
-        comment:
-          "my niece is completely mystified by my computer in that:- she thought the monitor was the computer - i had to explain how dual monitors work - wow, you can charge your phone from it? she's like 12 and i feel old now",
-        context: {
-          icon: 'https://picsum.photos/id/382/200/200',
-          title: 'The best resource',
-          summary:
-            'A storybook decorator that allows you to use routing-aware components in your stories',
-          url: 'https://picsum.photos/80/80',
-          actor: {
-            id: '2',
-            name: 'Alec'
-          }
-        },
-        createdAt: '29-01-2020',
-        type: 'Resource',
-        verb: 'InReplyTo'
-      }
-    };
-    return <ActivityPreview {...activityPreviewProps} />;
-  })
   .add('Comment', () => {
     const activityPreviewProps: Props = {
       activity: {
-        actor: {
-          icon: 'https://picsum.photos/80/80',
-          id: '2',
-          name: 'Ivan',
-          preferredUsername: 'tata'
-        },
-        comment:
-          "my niece is completely mystified by my computer in that:- she thought the monitor was the computer - i had to explain how dual monitors work - wow, you can charge your phone from it? she's like 12 and i feel old now",
+        status: Status.Loaded,
         context: {
-          icon: 'https://picsum.photos/id/382/200/200',
-          title: 'The best resource',
-          summary:
-            'A storybook decorator that allows you to use routing-aware components in your stories',
-          url: 'https://picsum.photos/80/80',
           actor: {
-            id: '2',
-            name: 'Alec'
-          }
-        },
-        createdAt: '29-01-2020',
-        type: 'Comment',
-        verb: 'Created'
+            icon: 'https://picsum.photos/80/80',
+            link: {
+              url: '1',
+              external: true
+            },
+            name: 'Ivan',
+            preferredUsername: 'tata'
+          },
+          inReplyToContext: null,
+          replies: 10,
+          totalLikes: 3,
+          replyFormik: useFormik<{ replyMessage: '' }>({
+            initialValues: { replyMessage: '' },
+            onSubmit: vals => {
+              action('submitting...')();
+              return new Promise(resolve =>
+                setTimeout(() => {
+                  action('submitted...')();
+                  resolve();
+                }, 2000)
+              );
+            }
+          }),
+          toggleLikeFormik: useFormik<{}>({
+            initialValues: {},
+            onSubmit: vals => {
+              action('submitting...')();
+              return new Promise(resolve =>
+                setTimeout(() => {
+                  action('submitted...')();
+                  resolve();
+                }, 2000)
+              );
+            }
+          }),
+          iLikeIt: true,
+          createdAt: '29-01-2020',
+          link: {
+            url: 'https://picsum.photos/80/80',
+            external: true
+          },
+          msgContent:
+            "my niece is completely mystified by my computer in that:- she thought the monitor was the computer - i had to explain how dual monitors work - wow, you can charge your phone from it? she's like 12 and i feel old now",
+          contextType: ContextType.Comment,
+          verb: ActivityVerb.Created
+        }
+      }
+    };
+    return <ActivityPreview {...activityPreviewProps} />;
+  })
+  .add('Follow', () => {
+    const activityPreviewProps: Props = {
+      activity: {
+        status: Status.Loaded,
+        context: {
+          actor: {
+            icon: 'https://picsum.photos/80/80',
+            link: {
+              url: '1',
+              external: true
+            },
+            name: 'Ivan',
+            preferredUsername: 'tata'
+          },
+          icon: 'https://picsum.photos/80/80',
+          title: 'AlecLoFabbro',
+          inReplyToContext: null,
+          replies: 10,
+          replyFormik: useFormik<{ replyMessage: '' }>({
+            initialValues: { replyMessage: '' },
+            onSubmit: vals => {
+              action('submitting...')();
+              return new Promise(resolve =>
+                setTimeout(() => {
+                  action('submitted...')();
+                  resolve();
+                }, 2000)
+              );
+            }
+          }),
+          createdAt: '29-01-2020',
+          link: {
+            url: 'https://picsum.photos/80/80',
+            external: true
+          },
+          contextType: ContextType.Follow,
+          verb: ActivityVerb.Created
+        }
+      }
+    };
+    return <ActivityPreview {...activityPreviewProps} />;
+  })
+  .add('Like', () => {
+    const activityPreviewProps: Props = {
+      activity: {
+        status: Status.Loaded,
+        context: {
+          actor: {
+            icon: 'https://picsum.photos/80/80',
+            link: {
+              url: '1',
+              external: true
+            },
+            name: 'Ivan',
+            preferredUsername: 'tata'
+          },
+          icon: 'https://picsum.photos/80/80',
+          title: 'Best resources to learn JS',
+          inReplyToContext: null,
+          replies: 10,
+          replyFormik: useFormik<{ replyMessage: '' }>({
+            initialValues: { replyMessage: '' },
+            onSubmit: vals => {
+              action('submitting...')();
+              return new Promise(resolve =>
+                setTimeout(() => {
+                  action('submitted...')();
+                  resolve();
+                }, 2000)
+              );
+            }
+          }),
+          createdAt: '29-01-2020',
+          link: {
+            url: 'https://picsum.photos/80/80',
+            external: true
+          },
+          contextType: ContextType.Like,
+          verb: ActivityVerb.Created
+        }
+      }
+    };
+    return <ActivityPreview {...activityPreviewProps} />;
+  })
+  .add('Flag', () => {
+    const activityPreviewProps: Props = {
+      activity: {
+        status: Status.Loaded,
+        context: {
+          actor: {
+            icon: 'https://picsum.photos/80/80',
+            link: {
+              url: '1',
+              external: true
+            },
+            name: 'Ivan',
+            preferredUsername: 'tata'
+          },
+          icon: 'https://picsum.photos/80/80',
+          title: 'Liceo Alberghiero Celletti',
+          inReplyToContext: null,
+          replies: 10,
+          replyFormik: useFormik<{ replyMessage: '' }>({
+            initialValues: { replyMessage: '' },
+            onSubmit: vals => {
+              action('submitting...')();
+              return new Promise(resolve =>
+                setTimeout(() => {
+                  action('submitted...')();
+                  resolve();
+                }, 2000)
+              );
+            }
+          }),
+          createdAt: '29-01-2020',
+          link: {
+            url: 'https://picsum.photos/80/80',
+            external: true
+          },
+          contextType: ContextType.Flag,
+          verb: ActivityVerb.Created
+        }
+      }
+    };
+    return <ActivityPreview {...activityPreviewProps} />;
+  })
+  .add('Create a community', () => {
+    const activityPreviewProps: Props = {
+      activity: {
+        status: Status.Loaded,
+        context: {
+          actor: {
+            icon: 'https://picsum.photos/80/80',
+            link: {
+              url: '1',
+              external: true
+            },
+            name: 'Ivan',
+            preferredUsername: 'tata'
+          },
+          icon: 'https://picsum.photos/80/80',
+          title: 'Liceo Alberghiero Celletti',
+          inReplyToContext: null,
+          replies: 10,
+          replyFormik: useFormik<{ replyMessage: '' }>({
+            initialValues: { replyMessage: '' },
+            onSubmit: vals => {
+              action('submitting...')();
+              return new Promise(resolve =>
+                setTimeout(() => {
+                  action('submitted...')();
+                  resolve();
+                }, 2000)
+              );
+            }
+          }),
+          iLikeIt: true,
+          totalLikes: 10,
+          toggleLikeFormik: useFormik<{ replyMessage: '' }>({
+            initialValues: { replyMessage: '' },
+            onSubmit: vals => {
+              action('submitting...')();
+              return new Promise(resolve =>
+                setTimeout(() => {
+                  action('submitted...')();
+                  resolve();
+                }, 2000)
+              );
+            }
+          }),
+          createdAt: '29-01-2020',
+          link: {
+            url: 'https://picsum.photos/80/80',
+            external: true
+          },
+          contextType: ContextType.Community,
+          verb: ActivityVerb.Created
+        }
+      }
+    };
+    return <ActivityPreview {...activityPreviewProps} />;
+  })
+  .add('Create a collection', () => {
+    const activityPreviewProps: Props = {
+      activity: {
+        status: Status.Loaded,
+        context: {
+          actor: {
+            icon: 'https://picsum.photos/80/80',
+            link: {
+              url: '1',
+              external: true
+            },
+            name: 'Ivan',
+            preferredUsername: 'tata'
+          },
+          icon: 'https://picsum.photos/80/80',
+          title: 'Liceo Alberghiero Celletti',
+          inReplyToContext: null,
+          replies: 10,
+          replyFormik: useFormik<{ replyMessage: '' }>({
+            initialValues: { replyMessage: '' },
+            onSubmit: vals => {
+              action('submitting...')();
+              return new Promise(resolve =>
+                setTimeout(() => {
+                  action('submitted...')();
+                  resolve();
+                }, 2000)
+              );
+            }
+          }),
+          iLikeIt: true,
+          totalLikes: 10,
+          toggleLikeFormik: useFormik<{ replyMessage: '' }>({
+            initialValues: { replyMessage: '' },
+            onSubmit: vals => {
+              action('submitting...')();
+              return new Promise(resolve =>
+                setTimeout(() => {
+                  action('submitted...')();
+                  resolve();
+                }, 2000)
+              );
+            }
+          }),
+          createdAt: '29-01-2020',
+          link: {
+            url: 'https://picsum.photos/80/80',
+            external: true
+          },
+          contextType: ContextType.Collection,
+          verb: ActivityVerb.Created
+        }
+      }
+    };
+    return <ActivityPreview {...activityPreviewProps} />;
+  })
+  .add('Update a resource', () => {
+    const activityPreviewProps: Props = {
+      activity: {
+        status: Status.Loaded,
+        context: {
+          actor: {
+            icon: 'https://picsum.photos/80/80',
+            link: {
+              url: '1',
+              external: true
+            },
+            name: 'Ivan',
+            preferredUsername: 'tata'
+          },
+          icon: 'https://picsum.photos/80/80',
+          title: 'Liceo Alberghiero Celletti',
+          inReplyToContext: null,
+          replies: 10,
+          replyFormik: useFormik<{ replyMessage: '' }>({
+            initialValues: { replyMessage: '' },
+            onSubmit: vals => {
+              action('submitting...')();
+              return new Promise(resolve =>
+                setTimeout(() => {
+                  action('submitted...')();
+                  resolve();
+                }, 2000)
+              );
+            }
+          }),
+          iLikeIt: true,
+          totalLikes: 10,
+          toggleLikeFormik: useFormik<{ replyMessage: '' }>({
+            initialValues: { replyMessage: '' },
+            onSubmit: vals => {
+              action('submitting...')();
+              return new Promise(resolve =>
+                setTimeout(() => {
+                  action('submitted...')();
+                  resolve();
+                }, 2000)
+              );
+            }
+          }),
+          createdAt: '29-01-2020',
+          link: {
+            url: 'https://picsum.photos/80/80',
+            external: true
+          },
+          contextType: ContextType.Resource,
+          verb: ActivityVerb.Updated
+        }
+      }
+    };
+    return <ActivityPreview {...activityPreviewProps} />;
+  })
+  .add('Updated a collection', () => {
+    const activityPreviewProps: Props = {
+      activity: {
+        status: Status.Loaded,
+        context: {
+          actor: {
+            icon: 'https://picsum.photos/80/80',
+            link: {
+              url: '1',
+              external: true
+            },
+            name: 'Ivan',
+            preferredUsername: 'tata'
+          },
+          icon: 'https://picsum.photos/80/80',
+          title: 'Liceo Alberghiero Celletti',
+          inReplyToContext: null,
+          replies: 10,
+          replyFormik: useFormik<{ replyMessage: '' }>({
+            initialValues: { replyMessage: '' },
+            onSubmit: vals => {
+              action('submitting...')();
+              return new Promise(resolve =>
+                setTimeout(() => {
+                  action('submitted...')();
+                  resolve();
+                }, 2000)
+              );
+            }
+          }),
+          iLikeIt: true,
+          totalLikes: 10,
+          toggleLikeFormik: useFormik<{ replyMessage: '' }>({
+            initialValues: { replyMessage: '' },
+            onSubmit: vals => {
+              action('submitting...')();
+              return new Promise(resolve =>
+                setTimeout(() => {
+                  action('submitted...')();
+                  resolve();
+                }, 2000)
+              );
+            }
+          }),
+          createdAt: '29-01-2020',
+          link: {
+            url: 'https://picsum.photos/80/80',
+            external: true
+          },
+          contextType: ContextType.Collection,
+          verb: ActivityVerb.Updated
+        }
+      }
+    };
+    return <ActivityPreview {...activityPreviewProps} />;
+  })
+  .add('Updated a community', () => {
+    const activityPreviewProps: Props = {
+      activity: {
+        status: Status.Loaded,
+        context: {
+          actor: {
+            icon: 'https://picsum.photos/80/80',
+            link: {
+              url: '1',
+              external: true
+            },
+            name: 'Ivan',
+            preferredUsername: 'tata'
+          },
+          icon: 'https://picsum.photos/80/80',
+          title: 'Liceo Alberghiero Celletti',
+          inReplyToContext: null,
+          replies: 10,
+          replyFormik: useFormik<{ replyMessage: '' }>({
+            initialValues: { replyMessage: '' },
+            onSubmit: vals => {
+              action('submitting...')();
+              return new Promise(resolve =>
+                setTimeout(() => {
+                  action('submitted...')();
+                  resolve();
+                }, 2000)
+              );
+            }
+          }),
+          iLikeIt: true,
+          totalLikes: 10,
+          toggleLikeFormik: useFormik<{ replyMessage: '' }>({
+            initialValues: { replyMessage: '' },
+            onSubmit: vals => {
+              action('submitting...')();
+              return new Promise(resolve =>
+                setTimeout(() => {
+                  action('submitted...')();
+                  resolve();
+                }, 2000)
+              );
+            }
+          }),
+          createdAt: '29-01-2020',
+          link: {
+            url: 'https://picsum.photos/80/80',
+            external: true
+          },
+          contextType: ContextType.Community,
+          verb: ActivityVerb.Updated
+        }
+      }
+    };
+    return <ActivityPreview {...activityPreviewProps} />;
+  })
+  .add('Reply to a community', () => {
+    const activityPreviewProps: Props = {
+      activity: {
+        status: Status.Loaded,
+        context: {
+          actor: {
+            icon: 'https://picsum.photos/id/393/80/80',
+            link: {
+              url: '1',
+              external: true
+            },
+            name: 'Ivan',
+            preferredUsername: 'tata'
+          },
+          msgContent:
+            "my niece is completely mystified by my computer in that:- she thought the monitor was the computer - i had to explain how dual monitors work - wow, you can charge your phone from it? she's like 12 and i feel old now",
+          inReplyToContext: {
+            type: ContextType.Community,
+            verb: ActivityVerb.Created,
+            context: {
+              icon: 'https://picsum.photos/id/39/80/80',
+              title: 'FairCoop Local nodes',
+              link: {
+                url: 'https://picsum.photos/80/80',
+                external: true
+              }
+            },
+            actor: {
+              icon: 'https://picsum.photos/id/20/80/80',
+              link: {
+                url: '1',
+                external: true
+              },
+              name: 'DougBelshaw',
+              preferredUsername: 'dougbelshaw'
+            }
+          },
+          replies: 10,
+          replyFormik: useFormik<{ replyMessage: '' }>({
+            initialValues: { replyMessage: '' },
+            onSubmit: vals => {
+              action('submitting...')();
+              return new Promise(resolve =>
+                setTimeout(() => {
+                  action('submitted...')();
+                  resolve();
+                }, 2000)
+              );
+            }
+          }),
+          iLikeIt: true,
+          totalLikes: 10,
+          toggleLikeFormik: useFormik<{ replyMessage: '' }>({
+            initialValues: { replyMessage: '' },
+            onSubmit: vals => {
+              action('submitting...')();
+              return new Promise(resolve =>
+                setTimeout(() => {
+                  action('submitted...')();
+                  resolve();
+                }, 2000)
+              );
+            }
+          }),
+          createdAt: '29-01-2020',
+          link: {
+            url: 'https://picsum.photos/80/80',
+            external: true
+          },
+          contextType: ContextType.Comment,
+          verb: ActivityVerb.InReplyTo
+        }
       }
     };
     return <ActivityPreview {...activityPreviewProps} />;

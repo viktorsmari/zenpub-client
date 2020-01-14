@@ -1,9 +1,11 @@
 import * as React from 'react';
 import media from 'styled-media-query';
 import styled from 'ui/themes/styled';
-import { Heading, Text } from 'rebass/styled-components';
-import { NavLink, Link } from 'react-router-dom';
+import { Text, Flex, Box } from 'rebass/styled-components';
+import { NavLink } from 'react-router-dom';
 import { Context } from '.';
+import { Trans } from '@lingui/react';
+import Avatar from 'ui/elements/Avatar';
 
 export enum ContextType {
   Comment,
@@ -25,66 +27,163 @@ interface Props {
   context: Context;
 }
 
+const SmallPreview = ({ context }) => (
+  <Flex alignItems="center">
+    <Text mr={2} variant="link">
+      {context.verb === ActivityVerb.Created &&
+      context.contextType === ContextType.Follow ? (
+        <Trans>Followed</Trans>
+      ) : context.verb === ActivityVerb.Created &&
+      context.contextType === ContextType.Like ? (
+        <Trans>Liked</Trans>
+      ) : context.verb === ActivityVerb.Created &&
+      context.contextType === ContextType.Flag ? (
+        <Trans>Flagged</Trans>
+      ) : context.verb === ActivityVerb.Created &&
+      context.contextType === ContextType.Collection ? (
+        <Trans>Created the collection</Trans>
+      ) : context.verb === ActivityVerb.Created &&
+      context.contextType === ContextType.Community ? (
+        <Trans>Created the community</Trans>
+      ) : context.verb === ActivityVerb.Created &&
+      context.contextType === ContextType.Resource ? (
+        <Trans>Created the resource</Trans>
+      ) : null}
+      {context.verb === ActivityVerb.Updated &&
+      context.contextType === ContextType.Collection ? (
+        <Trans>Updated the collection</Trans>
+      ) : context.verb === ActivityVerb.Updated &&
+      context.contextType === ContextType.Community ? (
+        <Trans>Updated the community</Trans>
+      ) : context.verb === ActivityVerb.Updated &&
+      context.contextType === ContextType.Resource ? (
+        <Trans>Updated the resource</Trans>
+      ) : null}
+    </Text>
+    <WrapperPreview>
+      <Avatar src={context.icon} initials={context.title} />
+      <Title ml={2}>{context.title}</Title>
+    </WrapperPreview>
+  </Flex>
+);
+
 const Preview: React.FC<Props> = ({ context }) => {
   return (
     <Wrapper>
-      {context.contextType === ContextType.Comment ? (
-        <>
-          <InReply m={2} mb={0} variant="text">
-            In reply to{' '}
-            <Link to={'/user/' + context.actor.id}>@{context.actor.name}</Link>
-          </InReply>
-          <WrapperLink to={context.url}>
-            <Comment variant="text">{comment}</Comment>
-          </WrapperLink>
-        </>
-      ) : type === 'Resource' ||
-      type === 'Collection' ||
-      type === 'Community' ? (
-        <WrapperLink to={context.url}>
-          <Img style={{ backgroundImage: `url(${context.icon})` }} />
-          <Info>
-            <TitleWrapper>
-              <Title>{context.title}</Title>
-            </TitleWrapper>
-            <Text variant="text" mt={2}>
-              {(context.summary || '').split('\n').map(function(item, key) {
-                return (
-                  <span key={key}>
-                    {item}
-                    <br />
-                  </span>
-                );
-              })}
-            </Text>
-          </Info>
-        </WrapperLink>
-      ) : type === 'Comment' ? (
-        <WrapperLink to={context.url}>
-          <Comment variant="text">{comment}</Comment>
-        </WrapperLink>
-      ) : type === 'Flag' ? (
-        <Text>This is a flag</Text>
-      ) : type === 'Follow' ? (
-        <Text>This is a follow</Text>
-      ) : type === 'Like' ? (
-        <Text>This is a Like</Text>
-      ) : (
-        <Text>This cannot happen</Text>
-      )}
+      <WrapperLink to={context.link.url}>
+        {context.contextType === ContextType.Comment ? (
+          <Comment variant="text">{context.msgContent}</Comment>
+        ) : (
+          <SmallPreview context={context} />
+        )}
+      </WrapperLink>
     </Wrapper>
   );
 };
 
-const InReply = styled(Text)`
-  padding-bottom: 0;
+export const InReplyTo = ({ context }) => {
+  return (
+    <FlexPreview>
+      <NavLink to={context.context.link.url}>
+        <Flex>
+          <WrapperPreview>
+            <Avatar src={context.actor.icon} initials={context.actor.title} />
+            <Title ml={2}>{context.actor.name}</Title>
+          </WrapperPreview>
+          <TextConnector variant="link">
+            {context.verb === ActivityVerb.Created &&
+            context.type === ContextType.Follow ? (
+              <Trans>followed</Trans>
+            ) : context.verb === ActivityVerb.Created &&
+            context.type === ContextType.Like ? (
+              <Trans>liked</Trans>
+            ) : context.verb === ActivityVerb.Created &&
+            context.type === ContextType.Flag ? (
+              <Trans>flagged</Trans>
+            ) : context.verb === ActivityVerb.Created &&
+            context.type === ContextType.Collection ? (
+              <Trans>created the collection</Trans>
+            ) : context.verb === ActivityVerb.Created &&
+            context.type === ContextType.Community ? (
+              <Trans>created the community</Trans>
+            ) : context.verb === ActivityVerb.Created &&
+            context.type === ContextType.Resource ? (
+              <Trans>created the resource</Trans>
+            ) : null}
+            {context.verb === ActivityVerb.Updated &&
+            context.type === ContextType.Collection ? (
+              <Trans>updated the collection</Trans>
+            ) : context.verb === ActivityVerb.Updated &&
+            context.type === ContextType.Community ? (
+              <Trans>updated the community</Trans>
+            ) : context.verb === ActivityVerb.Updated &&
+            context.type === ContextType.Resource ? (
+              <Trans>updated the resource</Trans>
+            ) : null}
+          </TextConnector>
+          <WrapperPreview>
+            <Avatar
+              src={context.context.icon}
+              initials={context.context.title}
+            />
+            <Title ml={2}>{context.context.title}</Title>
+          </WrapperPreview>
+        </Flex>
+      </NavLink>
+    </FlexPreview>
+  );
+};
+
+// const InReply = styled(Text)`
+//   padding-bottom: 0;
+//   display: inline-block;
+//   font-weight: 500;
+//   font-size: 13px;
+//   color: ${props => props.theme.colors.gray};
+//   a {
+//     color: ${props => props.theme.colors.orange} !important;
+//     font-weight: 600;
+//   }
+// `;
+
+const TextConnector = styled(Text)`
+  margin-left: 6px;
+  margin-right: 6px;
+  height: 30px;
+  line-height: 30px;
+`;
+const WrapperPreview = styled(Flex)`
+  div:first-of-type {
+    width: 28px;
+    height: 28px;
+  }
+  align-items: center;
+`;
+
+const FlexPreview = styled(Box)`
+  align-items: center;
+  border: 1px solid ${props => props.theme.colors.lightgray};
+  background: #eceff2;
+  margin-bottom: 16px;
+  padding: 8px;
+  border-radius: 4px;
+  position: relative;
   display: inline-block;
-  font-weight: 500;
-  font-size: 13px;
-  color: ${props => props.theme.colors.gray};
   a {
-    color: ${props => props.theme.colors.orange} !important;
-    font-weight: 600;
+    text-decoration: none;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  &:before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    height: 16px;
+    bottom: -17px;
+    width: 3px;
+    display: block;
+    background: ${props => props.theme.colors.lightgray};
   }
 `;
 
@@ -113,22 +212,6 @@ const WrapperLink = styled(NavLink)`
   }
 `;
 
-const TitleWrapper = styled.div`
-  display: flex;
-  & a {
-    flex: 1;
-  }
-`;
-const Info = styled.div`
-  flex: 1;
-  margin-left: 8px;
-
-  & a {
-    text-decoration: none;
-    color: inherit;
-  }
-`;
-
 const Wrapper = styled.div`
   ${media.lessThan('medium')`
   display: block;
@@ -141,26 +224,11 @@ const Wrapper = styled.div`
   `};
 `;
 
-const Img = styled.div`
-  background-size: cover;
-  background-repeat: none;
-  height: 120px;
-  width: 120px;
-  margin: 0 auto;
-  background-position: center center;
-  margin-right: 8px;
-  ${media.lessThan('medium')`
-    margin: 0 auto;
-    margin-bottom: 8px;
-    margin-top: 8px;
-  `};
-`;
-const Title = styled(Heading)`
-  margin: 0 !important;
-  font-size: 16px !important;
+const Title = styled(Text)`
+  font-size: 14px !important;
   line-height: 22px !important;
-  margin-top: 8px;
   flex: 1;
+  font-weight: 800;
   color: ${props => props.theme.colors.darkgray};
   ${media.lessThan('medium')`
   line-height: 20px !important;

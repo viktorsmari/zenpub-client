@@ -9,7 +9,7 @@ import media from 'styled-media-query';
 import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
 import Actions from './Actions';
-import Preview, { ActivityVerb, ContextType } from './preview';
+import Preview, { ActivityVerb, ContextType, InReplyTo } from './preview';
 import { FormikHook } from 'common/types';
 
 export enum Status {
@@ -29,9 +29,12 @@ export interface Actor {
 export interface BaseActivity {
   contextType: ContextType;
   verb: ActivityVerb;
-  status: Status.Loaded;
   createdAt: string;
   actor: Actor;
+  link: {
+    url: string;
+    external: boolean;
+  };
   inReplyToContext: {
     type: ContextType;
     context: ConcreteContext;
@@ -55,7 +58,6 @@ export interface WithLike {
 interface ConcreteContext {
   icon: string;
   title: string;
-  summary: string;
   link: {
     url: string;
     external: boolean;
@@ -89,13 +91,13 @@ export interface CommunityContext
   contextType: ContextType.Community;
 }
 
-export interface LikeContext extends BaseActivity {
+export interface LikeContext extends BaseActivity, ConcreteContext {
   contextType: ContextType.Like;
 }
-export interface FlagContext extends BaseActivity {
+export interface FlagContext extends BaseActivity, ConcreteContext {
   contextType: ContextType.Flag;
 }
-export interface FollowContext extends BaseActivity {
+export interface FollowContext extends BaseActivity, ConcreteContext {
   contextType: ContextType.Follow;
 }
 
@@ -119,21 +121,21 @@ export interface Props {
 
 export const ActivityPreview: SFC<Props> = ({ activity }) => {
   if (activity.status === Status.Loading) {
-    return <Trans>loading ...</Trans>;
+    return <Trans>loading...</Trans>;
   }
-  const { actor, createdAt, type, verb, context, comment } = activity;
+  const { context } = activity;
   return (
     <FeedItem>
-      <Actor actor={actor} createdAt={createdAt} />
-      <Wrapper>
-        <Preview context={context} verb={verb} type={type} comment={comment} />
-        <Actions
-          totalReplies={13}
-          totalLikes={13}
-          iLikeIt={true}
-          toggleLike={() => console.log('')}
-        />
-      </Wrapper>
+      {context.verb === ActivityVerb.InReplyTo && (
+        <InReplyTo context={context.inReplyToContext} />
+      )}
+      <Actor actor={context.actor} createdAt={context.createdAt} />
+      <Contents>
+        <Wrapper mt={2}>
+          <Preview context={context} />
+          <Actions context={context} />
+        </Wrapper>
+      </Contents>
     </FeedItem>
   );
 };
@@ -153,6 +155,11 @@ const Actor = ({ actor, createdAt }) => (
     </MemberInfo>
   </Member>
 );
+
+const Contents = styled(Box)`
+  margin-top: -30px;
+  margin-left: 54px;
+`;
 
 const Username = styled(Text)`
   color: ${props => props.theme.colors.gray};
@@ -176,7 +183,7 @@ const Spacer = styled(Text)`
 const Date = styled(Text)`
   color: ${props => props.theme.colors.gray};
   font-weight: 500;
-  font-size: 12px;
+  font-size: 14px;
 `;
 
 const Name = styled(Text)`
@@ -187,11 +194,7 @@ const Name = styled(Text)`
   align-items: center;
   font-size: 16px;
   margin-bottom: 2px;
-  ${media.lessThan('1280px')`
-  flex-direction: column;
-  align-items: normal;
- `};
-
+  flex-direction: row;
   a {
     font-weight: 800;
     display: flex;
@@ -215,8 +218,6 @@ const MemberInfo = styled(Box)`
 const Wrapper = styled(Box)`
   border: 1px solid ${props => props.theme.colors.lightgray};
   border-radius: 4px;
-  margin-top: -24px;
-  margin-left: 54px;
   background: white;
 `;
 const FeedItem = styled(Box)`
