@@ -1,6 +1,8 @@
 import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
 import { PropsTable } from '@storybook/components';
-import {Button} from 'rebass/styled-components'
+import Button from './'
+import {Settings} from 'react-feather'
+import { action } from '@storybook/addon-actions';
 
 <Meta title="Elements|Button" />
 
@@ -25,21 +27,19 @@ Let's define a story for the `button` elements
 ## Loading
 <Preview>
   <Story name="loading">
-    <Button variant="outline">Outline</Button>
-  </Story>
-</Preview>
-
-
-## Link
-<Preview>
-  <Story name="link">
-    <Button variant="outline">Outline</Button>
+    <div>
+    <Button variant="primary" isSubmitting>Loader</Button>
+    <hr />
+    <Button variant="outline" isSubmitting>Loader</Button>
+    </div>
   </Story>
 </Preview>
 
 ## Icon
 <Preview>
   <Story name="icon">
-    <Button variant="outline">Outline</Button>
+    <Button onClick={action('test')} isIcon variant="outline">
+      <Settings size={18} color="#222" />
+    </Button>
   </Story>
 </Preview>
