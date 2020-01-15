@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 import { ActivityPreview, Props } from '.';
-import { ActivityVerb, ContextType, Status } from './types';
+import { ActivityPreviewVerb, ContextType, Status } from './types';
 import { action } from '@storybook/addon-actions';
 import { useFormik } from 'formik';
 
@@ -56,7 +56,7 @@ storiesOf('Modules/ActivityPreview', module)
           msgContent:
             "my niece is completely mystified by my computer in that:- she thought the monitor was the computer - i had to explain how dual monitors work - wow, you can charge your phone from it? she's like 12 and i feel old now",
           contextType: ContextType.Comment,
-          verb: ActivityVerb.Created
+          verb: ActivityPreviewVerb.Created
         }
       }
     };
@@ -96,7 +96,7 @@ storiesOf('Modules/ActivityPreview', module)
             external: true
           },
           contextType: ContextType.Follow,
-          verb: ActivityVerb.Created
+          verb: ActivityPreviewVerb.Created
         }
       }
     };
@@ -136,7 +136,7 @@ storiesOf('Modules/ActivityPreview', module)
             external: true
           },
           contextType: ContextType.Like,
-          verb: ActivityVerb.Created
+          verb: ActivityPreviewVerb.Created
         }
       }
     };
@@ -176,7 +176,7 @@ storiesOf('Modules/ActivityPreview', module)
             external: true
           },
           contextType: ContextType.Flag,
-          verb: ActivityVerb.Created
+          verb: ActivityPreviewVerb.Created
         }
       }
     };
@@ -233,7 +233,7 @@ storiesOf('Modules/ActivityPreview', module)
             external: true
           },
           contextType: ContextType.Community,
-          verb: ActivityVerb.Created
+          verb: ActivityPreviewVerb.Created
         }
       }
     };
@@ -290,7 +290,7 @@ storiesOf('Modules/ActivityPreview', module)
             external: true
           },
           contextType: ContextType.Collection,
-          verb: ActivityVerb.Created
+          verb: ActivityPreviewVerb.Created
         }
       }
     };
@@ -347,7 +347,7 @@ storiesOf('Modules/ActivityPreview', module)
             external: true
           },
           contextType: ContextType.Resource,
-          verb: ActivityVerb.Updated
+          verb: ActivityPreviewVerb.Updated
         }
       }
     };
@@ -404,7 +404,7 @@ storiesOf('Modules/ActivityPreview', module)
             external: true
           },
           contextType: ContextType.Collection,
-          verb: ActivityVerb.Updated
+          verb: ActivityPreviewVerb.Updated
         }
       }
     };
@@ -461,7 +461,7 @@ storiesOf('Modules/ActivityPreview', module)
             external: true
           },
           contextType: ContextType.Community,
-          verb: ActivityVerb.Updated
+          verb: ActivityPreviewVerb.Updated
         }
       }
     };
@@ -537,7 +537,7 @@ storiesOf('Modules/ActivityPreview', module)
             external: true
           },
           contextType: ContextType.Comment,
-          verb: ActivityVerb.InReplyTo
+          verb: ActivityPreviewVerb.InReplyTo
         }
       }
     };

@@ -9,7 +9,7 @@ import media from 'styled-media-query';
 import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
 import Actions from './Actions';
-import { Status, ActivityVerb, Context } from './types';
+import { Status, ActivityPreviewVerb, Context } from './types';
 import { InReplyTo } from './preview';
 import Preview from './preview';
 
@@ -50,7 +50,7 @@ export const ActivityPreview: SFC<Props> = ({ activity }) => {
   const { context } = activity;
   return (
     <FeedItem>
-      {context.verb === ActivityVerb.InReplyTo && (
+      {context.verb === ActivityPreviewVerb.InReplyTo && (
         <InReplyTo context={context.inReplyToContext} />
       )}
       <Actor actor={context.actor} createdAt={context.createdAt} />

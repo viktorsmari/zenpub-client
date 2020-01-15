@@ -3,7 +3,12 @@ import media from 'styled-media-query';
 import styled from 'ui/themes/styled';
 import { Text, Flex, Box } from 'rebass/styled-components';
 import { NavLink } from 'react-router-dom';
-import { ActivityVerb, ContextType, BaseActivity, Context } from './types';
+import {
+  ActivityPreviewVerb,
+  ContextType,
+  BaseActivity,
+  Context
+} from './types';
 import { Trans } from '@lingui/react';
 import Avatar from 'ui/elements/Avatar';
 
@@ -14,32 +19,32 @@ interface Props {
 const SmallPreview = ({ context }: { context: Context }) => (
   <Flex alignItems="center">
     <Text mr={2} variant="link">
-      {context.verb === ActivityVerb.Created &&
+      {context.verb === ActivityPreviewVerb.Created &&
       context.contextType === ContextType.Follow ? (
         <Trans>Followed</Trans>
-      ) : context.verb === ActivityVerb.Created &&
+      ) : context.verb === ActivityPreviewVerb.Created &&
       context.contextType === ContextType.Like ? (
         <Trans>Liked</Trans>
-      ) : context.verb === ActivityVerb.Created &&
+      ) : context.verb === ActivityPreviewVerb.Created &&
       context.contextType === ContextType.Flag ? (
         <Trans>Flagged</Trans>
-      ) : context.verb === ActivityVerb.Created &&
+      ) : context.verb === ActivityPreviewVerb.Created &&
       context.contextType === ContextType.Collection ? (
         <Trans>Created the collection</Trans>
-      ) : context.verb === ActivityVerb.Created &&
+      ) : context.verb === ActivityPreviewVerb.Created &&
       context.contextType === ContextType.Community ? (
         <Trans>Created the community</Trans>
-      ) : context.verb === ActivityVerb.Created &&
+      ) : context.verb === ActivityPreviewVerb.Created &&
       context.contextType === ContextType.Resource ? (
         <Trans>Created the resource</Trans>
       ) : null}
-      {context.verb === ActivityVerb.Updated &&
+      {context.verb === ActivityPreviewVerb.Updated &&
       context.contextType === ContextType.Collection ? (
         <Trans>Updated the collection</Trans>
-      ) : context.verb === ActivityVerb.Updated &&
+      ) : context.verb === ActivityPreviewVerb.Updated &&
       context.contextType === ContextType.Community ? (
         <Trans>Updated the community</Trans>
-      ) : context.verb === ActivityVerb.Updated &&
+      ) : context.verb === ActivityPreviewVerb.Updated &&
       context.contextType === ContextType.Resource ? (
         <Trans>Updated the resource</Trans>
       ) : null}

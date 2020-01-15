@@ -10,7 +10,7 @@ export enum ContextType {
   Flag
 }
 
-export enum ActivityVerb {
+export enum ActivityPreviewVerb {
   Updated,
   Created,
   InReplyTo
@@ -31,7 +31,7 @@ export interface Actor {
 }
 export interface BaseActivity {
   contextType: ContextType;
-  verb: ActivityVerb;
+  verb: ActivityPreviewVerb;
   createdAt: string;
   actor: Actor;
   link: {

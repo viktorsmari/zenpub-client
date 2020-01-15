@@ -66,11 +66,12 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
       ) {
         return;
       } else {
+        console.log('l,ike', activity);
         const { myLike } = activity.context;
         if (myLike) {
           return unlikeMut({ variables: { contextId: myLike.id } });
         } else {
-          return likeMut({ variables: { contextId: activity.id } });
+          return likeMut({ variables: { contextId: activity.context.id } });
         }
       }
     }
@@ -238,6 +239,7 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
     },
     [activity]
   );
+  console.log(activity, props);
   return <UI.ActivityPreview {...props} />;
 };
 
@@ -263,14 +265,22 @@ const BaseCtxBuilder = (
   activity: NoMaybeActivity
 ): Omit<UIT.BaseActivity, 'replyFormik' | 'link'> => {
   const { user, createdAt, verb, context } = activity;
+  const _inReplyToContext = inReplyToContext(activity);
+  const _verb = verbMap[_inReplyToContext ? 'INREPLYTO' : verb];
+
   return {
     actor: getActor(user),
     contextType: UIT.ContextType[context.__typename],
     createdAt,
-    inReplyToContext: inReplyToContext(activity),
+    inReplyToContext: _inReplyToContext,
     replies: 0,
-    verb
+    verb: _verb
   };
+};
+const verbMap = {
+  CREATED: UIT.ActivityPreviewVerb.Created,
+  INREPLYTO: UIT.ActivityPreviewVerb.InReplyTo,
+  UPDATED: UIT.ActivityPreviewVerb.Updated
 };
 const inReplyToContext = (
   activity: NoMaybeActivity
