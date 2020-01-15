@@ -22,15 +22,15 @@ import { UsernameAvailableQueryOperation } from '../graphql/checkUsername.genera
 import { ConfirmEmailMutationMutationOperation } from '../graphql/confirmEmail.generated';
 import { CreateUserMutationMutationOperation } from '../graphql/createUser.generated';
 import { LoginMutationMutationOperation } from '../graphql/login.generated';
-import {
-  getOpType,
-  Name,
-  getOperationNameAndType
-} from '../util/apollo/operation';
-import { RootMutationType, RootQueryType } from '../graphql/types.generated';
-import { createUploadLink } from './uploadLink.js';
-import { KVStore } from '../util/keyvaluestore/types';
 import { LogoutMutationMutationOperation } from '../graphql/logout.generated';
+import { RootMutationType, RootQueryType } from '../graphql/types.generated';
+import {
+  getOperationNameAndType,
+  getOpType,
+  Name
+} from '../util/apollo/operation';
+import { KVStore } from '../util/keyvaluestore/types';
+import { createUploadLink } from './uploadLink.js';
 const introspectionQueryResultData = require('../fragmentTypes.json');
 
 export type MutationName = keyof RootMutationType;
@@ -57,6 +57,14 @@ export default async function initialise({ localKVStore, appLink }: Cfg) {
       Query: {
         activity: (_, args, { getCacheKey }) =>
           getCacheKey({ __typename: 'Activity', id: args.activityId })
+      }
+    },
+    dataIdFromObject: obj => {
+      if (obj.__typename === 'User' && 'userId' in obj) {
+        //@ts-ignore
+        return obj.userId;
+      } else {
+        return obj.id;
       }
     }
   });

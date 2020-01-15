@@ -57,10 +57,7 @@ const Component: React.FC<Props> = ({ threadQuery: thread }) => {
                       edge =>
                         edge &&
                         edge.node && (
-                          <Comment
-                            key={edge.node.thread.id}
-                            comment={edge.node}
-                          />
+                          <Comment key={edge.node.id} comment={edge.node} />
                         )
                     )}
               </>

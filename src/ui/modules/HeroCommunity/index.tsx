@@ -79,7 +79,6 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
                 </Button>
               ) : null}
               <Button
-                ml={2}
                 variant="primary"
                 isDisabled={c.toggleJoin.isSubmitting}
                 onClick={c.toggleJoin.toggle}

@@ -1,60 +1,67 @@
 
 query getActivityPreview($activityId: String!) {
     activity(activityId: $activityId) {
-        createdAt
-        id
-        verb
-        isLocal
-        canonicalUrl
-        user {
-            ...ActivityPreviewBaseUser
+        ...ActivityPreviewData
+    }
+}
+
+fragment ActivityPreviewData on Activity {
+    createdAt
+    id
+    verb
+    user {
+        ...ActivityPreviewBaseUser
+    }
+    context {
+        __typename
+
+        ... on Collection{
+            ...ActivityPreviewCollectionCtx
         }
-        context {
-            __typename
 
-            ... on Collection{
-                ...ActivityPreviewCollectionCtx
-            }
-
-            ... on Comment{
-                ...ActivityPreviewCommentCtxExtended
-            }
-
-            ... on Community{
-                ...ActivityPreviewCommunityCtx
-            }
-
-            ... on Resource{
-                ...ActivityPreviewResourceCtx
-            }
-
-            ... on Flag{
-                ...ActivityPreviewFlagCtx
-            }
-
-            ... on Like{
-                ...ActivityPreviewLikeCtx
-            }
-
-
-            ... on Follow{
-                ...ActivityPreviewFollowCtx
-            }
-
+        ... on Comment{
+            ...ActivityPreviewCommentCtxExtended
         }
+
+        ... on Community{
+            ...ActivityPreviewCommunityCtx
+        }
+
+        ... on Resource{
+            ...ActivityPreviewResourceCtx
+        }
+
+        ... on Flag{
+            ...ActivityPreviewFlagCtx
+        }
+
+        ... on Like{
+            ...ActivityPreviewLikeCtx
+        }
+
+
+        ... on Follow{
+            ...ActivityPreviewFollowCtx
+        }
+
     }
 }
 
 fragment ActivityPreviewBaseUser on User {
     icon
     image
-    id
-    name
+    userId: id 
+    userName: name
     preferredUsername
     isLocal
     canonicalUrl
 }
 
+fragment ActivityPreviewBaseThread on Thread {
+    id
+    isLocal
+    canonicalUrl
+}
 
 fragment ActivityPreviewCollectionCtx on Collection{
     id
@@ -85,6 +92,28 @@ fragment ActivityPreviewCommentCtxExtended on Comment{
     myLike{
         id
     }
+    thread {
+        ...ActivityPreviewBaseThread
+        context {
+        ... on Collection{
+            ...ActivityPreviewCollectionCtx
+        }
+
+        ... on Community{
+            ...ActivityPreviewCommunityCtx
+        }
+
+        ... on Resource{
+            ...ActivityPreviewResourceCtx
+        }
+
+        ... on Flag{
+            ...ActivityPreviewFlagCtx
+        }
+
+    }
+
+    }
 }
 fragment ActivityPreviewCommentCtxBase on Comment{
     id
@@ -95,7 +124,7 @@ fragment ActivityPreviewCommentCtxBase on Comment{
         ...ActivityPreviewBaseUser
     }
     thread {
-        id
+        ...ActivityPreviewBaseThread
     }
 }
 
@@ -124,6 +153,9 @@ fragment ActivityPreviewResourceCtx on Resource{
     name
     summary
     canonicalUrl
+    collection{
+        ...ActivityPreviewCollectionCtx
+    }
     creator {
         ...ActivityPreviewBaseUser
     }
@@ -150,6 +182,9 @@ fragment ActivityPreviewFlagCtx on Flag{
         ... on Resource{
             ...ActivityPreviewResourceCtx
         }
+        ... on User{
+            ...ActivityPreviewBaseUser
+        }
     }
 }
 
@@ -166,6 +201,9 @@ fragment ActivityPreviewLikeCtx on Like{
         ... on Resource{
             ...ActivityPreviewResourceCtx
         }
+        ... on User{
+            ...ActivityPreviewBaseUser
+        }
     }
 }
 
@@ -178,6 +216,12 @@ fragment ActivityPreviewFollowCtx on Follow{
         }
         ... on Community{
             ...ActivityPreviewCommunityCtx
+        }
+        ... on User{
+            ...ActivityPreviewBaseUser
+        }
+        ... on Thread{
+            ...ActivityPreviewBaseThread
         }
     }
 }

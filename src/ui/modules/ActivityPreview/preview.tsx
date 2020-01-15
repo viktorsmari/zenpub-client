@@ -3,25 +3,9 @@ import media from 'styled-media-query';
 import styled from 'ui/themes/styled';
 import { Text, Flex, Box } from 'rebass/styled-components';
 import { NavLink } from 'react-router-dom';
-import { Context, BaseActivity } from '.';
+import { ActivityVerb, ContextType, BaseActivity, Context } from './types';
 import { Trans } from '@lingui/react';
 import Avatar from 'ui/elements/Avatar';
-
-export enum ContextType {
-  Comment,
-  Resource,
-  Collection,
-  Community,
-  Like,
-  Follow,
-  Flag
-}
-
-export enum ActivityVerb {
-  Updated,
-  Created,
-  InReplyTo
-}
 
 interface Props {
   context: Context;
@@ -132,14 +116,14 @@ export const InReplyTo = ({
             context.type === ContextType.Resource ? (
               <Trans>updated the resource</Trans>
             ) : null}
-          </TextConnector> */}
+          </TextConnector>
             <WrapperPreview>
               <Avatar
                 src={context.context.icon}
                 initials={context.context.title}
               />
               <Title ml={2}>{context.context.title}</Title>
-            </WrapperPreview>
+            </WrapperPreview> */}
           </Flex>
         </NavLink>
       </FlexPreview>
@@ -159,12 +143,12 @@ export const InReplyTo = ({
 //   }
 // `;
 
-const TextConnector = styled(Text)`
-  margin-left: 6px;
-  margin-right: 6px;
-  height: 30px;
-  line-height: 30px;
-`;
+// const TextConnector = styled(Text)`
+//   margin-left: 6px;
+//   margin-right: 6px;
+//   height: 30px;
+//   line-height: 30px;
+// `;
 const WrapperPreview = styled(Flex)`
   div:first-of-type {
     width: 28px;

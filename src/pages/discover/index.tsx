@@ -32,7 +32,7 @@ interface Props {}
 const Home: React.FC<Props> = props => {
   const { error, loading, refetch, data, fetchMore } = useLocalActivitiesQuery({
     variables: {
-      limit: 1
+      limit: 15
     }
   });
   useDynamicLinkOpResult<CreateReplyMutationMutationOperation>(

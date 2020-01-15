@@ -1,7 +1,6 @@
-import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { useFormik } from 'formik';
-import { Props as ActivityPreviewProps } from 'ui/modules/ActivityPreview';
+import React from 'react';
 import { Props as CollectionPreviewProps } from 'ui/modules/CollectionPreview';
 import {
   EditCollectionFormValues,
@@ -113,33 +112,5 @@ export const getCollectionPreviewProps = (): CollectionPreviewProps => {
     summary:
       'More simply put, the difference is in the standards and documentation that accompanies the assets. With a guide on why and how to use them, design components because easier to use and clearer to discern.',
     totalResources: 12
-  };
-};
-export const getActivityPreviewProps = (): ActivityPreviewProps => {
-  return {
-    activity: {
-      actor: {
-        icon: 'https://picsum.photos/80/80',
-        id: '2',
-        name: 'Ivan',
-        preferredUsername: 'tata'
-      },
-      comment:
-        "my niece is completely mystified by my computer in that:- she thought the monitor was the computer - i had to explain how dual monitors work - wow, you can charge your phone from it? she's like 12 and i feel old now",
-      context: {
-        icon: 'https://picsum.photos/id/382/200/200',
-        title: 'The best resource',
-        summary:
-          'A storybook decorator that allows you to use routing-aware components in your stories',
-        url: 'https://picsum.photos/80/80',
-        actor: {
-          id: '2',
-          name: 'Alec'
-        }
-      },
-      createdAt: '29-01-2020',
-      type: 'Resource',
-      verb: 'InReplyTo'
-    }
   };
 };

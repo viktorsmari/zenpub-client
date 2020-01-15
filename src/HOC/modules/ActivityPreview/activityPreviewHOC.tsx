@@ -1,11 +1,10 @@
 import React, { useMemo } from 'react';
 import * as GQL from './getActivityPreview.generated';
-import { ActivityVerb, Activity } from 'graphql/types.generated';
+import { Activity } from 'graphql/types.generated';
 import * as UI from 'ui/modules/ActivityPreview';
 import { SFC } from 'react';
-import { ContextType } from 'ui/modules/ActivityPreview/preview';
+import * as UIT from 'ui/modules/ActivityPreview/types';
 import { useFormik } from 'formik';
-import { FormikHook } from 'common/types';
 
 export interface Props {
   activityId: Activity['id'];
@@ -25,106 +24,219 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
     createReplyMutStatus
   ] = GQL.useActivityPreviewCreateReplyMutation();
 
+  const activity = activityQ.data && activityQ.data.activity;
+  const replyFormik = useFormik<{ replyMessage: string }>({
+    initialValues: { replyMessage: '' },
+    onSubmit: ({ replyMessage }) => {
+      if (
+        !activity ||
+        createReplyMutStatus.loading ||
+        createThreadMutStatus.loading
+      ) {
+        return;
+      } else if (activity.context.__typename === 'Comment') {
+        const { thread, id } = activity.context;
+        return createReplyMut({
+          variables: {
+            threadId: thread.id,
+            inReplyToId: id,
+            comment: { content: replyMessage }
+          }
+        });
+      } else {
+        return createThreadMut({
+          variables: {
+            contextId: activity.id,
+            comment: { content: replyMessage }
+          }
+        });
+      }
+    }
+  });
+  const toggleLikeFormik = useFormik<{}>({
+    initialValues: {},
+    onSubmit: () => {
+      if (
+        !activity ||
+        'Like' === activity.context.__typename ||
+        'Flag' === activity.context.__typename ||
+        'Follow' === activity.context.__typename ||
+        likeMutStatus.loading ||
+        unlikeMutStatus.loading
+      ) {
+        return;
+      } else {
+        const { myLike } = activity.context;
+        if (myLike) {
+          return unlikeMut({ variables: { contextId: myLike.id } });
+        } else {
+          return likeMut({ variables: { contextId: activity.id } });
+        }
+      }
+    }
+  });
+
   const props = useMemo<UI.Props>(
     () => {
-      const activity = activityQ.data && activityQ.data.activity;
-      const replyFormik = useFormik<{ replyMessage: string }>({
-        initialValues: { replyMessage: '' },
-        onSubmit: ({ replyMessage }) => {
-          if (
-            !activity ||
-            createReplyMutStatus.loading ||
-            createThreadMutStatus.loading
-          ) {
-            return;
-          } else if (activity.context.__typename === 'Comment') {
-            const { thread, id } = activity.context;
-            return createReplyMut({
-              variables: {
-                threadId: thread.id,
-                inReplyToId: id,
-                comment: { content: replyMessage }
-              }
-            });
-          } else {
-            return createThreadMut({
-              variables: {
-                contextId: activity.id,
-                comment: { content: replyMessage }
-              }
-            });
-          }
-        }
-      });
-      const toggleLikeFormik = useFormik<{}>({
-        initialValues: {},
-        onSubmit: () => {
-          if (
-            !activity ||
-            'Like' === activity.context.__typename ||
-            'Flag' === activity.context.__typename ||
-            'Follow' === activity.context.__typename ||
-            likeMutStatus.loading ||
-            unlikeMutStatus.loading
-          ) {
-            return;
-          } else {
-            const { myLike } = activity.context;
-            if (myLike) {
-              return unlikeMut({ variables: { contextId: myLike.id } });
-            } else {
-              return likeMut({ variables: { contextId: activity.id } });
-            }
-          }
-        }
-      });
       if (!activity) {
         return {
           activity: {
-            status: UI.Status.Loading
+            status: UIT.Status.Loading
           }
         };
       } else {
-        let context: UI.Context;
+        let props: UI.Props;
         switch (activity.context.__typename) {
           case 'Comment': {
-            context = CommentCtxBuilder(activity.context);
+            props = {
+              activity: {
+                status: UIT.Status.Loaded,
+                context: {
+                  ...BaseCtxBuilder(activity),
+                  ...withLike(activity.context),
+                  toggleLikeFormik,
+                  msgContent: activity.context.content,
+                  contextType: UIT.ContextType.Comment,
+                  link: getSimpleLink(activity.context.thread),
+                  replyFormik
+                }
+              }
+            };
             break;
           }
           case 'Resource': {
-            context = ResourceCtxBuilder(activity.context);
+            props = {
+              activity: {
+                status: UIT.Status.Loaded,
+                context: {
+                  ...BaseCtxBuilder(activity),
+                  ...withLike(activity.context),
+                  toggleLikeFormik,
+                  replyFormik,
+                  concrete: true,
+                  contextType: UIT.ContextType.Resource,
+                  icon: activity.context.icon || '',
+                  link: getSimpleLink(activity.context.collection),
+                  title: activity.context.name
+                }
+              }
+            };
             break;
           }
           case 'Collection': {
-            context = CollectionCtxBuilder(activity.context);
+            props = {
+              activity: {
+                status: UIT.Status.Loaded,
+                context: {
+                  ...BaseCtxBuilder(activity),
+                  ...withLike(activity.context),
+                  toggleLikeFormik,
+                  replyFormik,
+                  concrete: true,
+                  contextType: UIT.ContextType.Collection,
+                  icon: activity.context.icon || '',
+                  link: getSimpleLink(activity.context),
+                  title: activity.context.name
+                }
+              }
+            };
             break;
           }
           case 'Community': {
-            context = CommunityCtxBuilder(activity.context);
+            props = {
+              activity: {
+                status: UIT.Status.Loaded,
+                context: {
+                  ...BaseCtxBuilder(activity),
+                  ...withLike(activity.context),
+                  toggleLikeFormik,
+                  replyFormik,
+                  concrete: true,
+                  contextType: UIT.ContextType.Community,
+                  icon: activity.context.icon || '',
+                  link: getSimpleLink(activity.context),
+                  title: activity.context.name
+                }
+              }
+            };
             break;
           }
           case 'Like': {
-            context = LikeCtxBuilder(activity.context);
+            const linkCtx =
+              activity.context.context.__typename === 'Comment'
+                ? activity.context.context.thread
+                : activity.context.context.__typename === 'User'
+                  ? {
+                      ...activity.context.context,
+                      id: activity.context.context.userId
+                    }
+                  : activity.context.context.__typename === 'Resource'
+                    ? activity.context.context.collection
+                    : activity.context.context;
+            props = {
+              activity: {
+                status: UIT.Status.Loaded,
+                context: {
+                  ...BaseCtxBuilder(activity),
+                  contextType: UIT.ContextType.Like,
+                  link: getSimpleLink(linkCtx),
+                  replyFormik
+                }
+              }
+            };
             break;
           }
           case 'Follow': {
-            context = FollowCtxBuilder(activity.context);
+            const linkCtx =
+              activity.context.context.__typename === 'User'
+                ? {
+                    ...activity.context.context,
+                    id: activity.context.context.userId
+                  }
+                : activity.context.context;
+            props = {
+              activity: {
+                status: UIT.Status.Loaded,
+                context: {
+                  ...BaseCtxBuilder(activity),
+                  contextType: UIT.ContextType.Follow,
+                  link: getSimpleLink(linkCtx),
+                  replyFormik
+                }
+              }
+            };
             break;
           }
           case 'Flag': {
-            context = FlagCtxBuilder(activity.context);
+            const linkCtx =
+              activity.context.context.__typename === 'Comment'
+                ? activity.context.context.thread
+                : activity.context.context.__typename === 'User'
+                  ? {
+                      ...activity.context.context,
+                      id: activity.context.context.userId
+                    }
+                  : activity.context.context.__typename === 'Resource'
+                    ? activity.context.context.collection
+                    : activity.context.context;
+            props = {
+              activity: {
+                status: UIT.Status.Loaded,
+                context: {
+                  ...BaseCtxBuilder(activity),
+                  contextType: UIT.ContextType.Flag,
+                  link: getSimpleLink(linkCtx),
+                  replyFormik
+                }
+              }
+            };
             break;
           }
         }
-        return {
-          activity: {
-            ...BaseCtxBuilder(activity, replyFormik),
-            context
-          }
-        };
+        return props;
       }
     },
-    [activityQ]
+    [activity]
   );
   return <UI.ActivityPreview {...props} />;
 };
@@ -147,56 +259,50 @@ const isSimpleContext = (
   context.__typename === 'Follow';
 
 type NoMaybeActivity = Exclude<GQL.GetActivityPreviewQuery['activity'], null>;
-const getActualContext = (activity: NoMaybeActivity) => {
-  if (isSimpleContext(activity.context)) {
-    return activity.context.context;
-  } else {
-    return activity.context;
-  }
-};
 const BaseCtxBuilder = (
-  activity: NoMaybeActivity,
-  replyFormik: UI.BaseActivity['replyFormik']
-): UI.BaseActivity => {
+  activity: NoMaybeActivity
+): Omit<UIT.BaseActivity, 'replyFormik' | 'link'> => {
   const { user, createdAt, verb, context } = activity;
   return {
     actor: getActor(user),
-    status: UI.Status.Loaded,
-    contextType: ContextType[context.__typename],
+    contextType: UIT.ContextType[context.__typename],
     createdAt,
     inReplyToContext: inReplyToContext(activity),
     replies: 0,
-    verb,
-    replyFormik,
-    link: {
-      external: !activity.isLocal,
-      url: activity.canonicalUrl
-    }
+    verb
   };
 };
 const inReplyToContext = (
   activity: NoMaybeActivity
-): UI.BaseActivity['inReplyToContext'] => {
-  let inReplyContextCtx: ConcreteContext | GQL.ActivityPreviewBaseUserFragment;
+): UIT.BaseActivity['inReplyToContext'] => {
   if (
-    !isSimpleContext(activity.context) &&
-    activity.context.__typename !== 'Comment'
+    !(
+      isSimpleContext(activity.context) ||
+      activity.context.__typename === 'Comment'
+    ) ||
+    (activity.context.__typename === 'Comment' && !activity.context.inReplyTo)
   ) {
     return null;
-  } else if (activity.context.__typename === 'Comment') {
-    if (!activity.context.inReplyTo) {
-      return null;
-    } else {
-      inReplyContextCtx = activity.context.inReplyTo;
-    }
-  } else {
-    inReplyContextCtx = activity.context.context;
   }
+  const ctx =
+    activity.context.__typename === 'Comment'
+      ? activity.context.thread
+      : activity.context.context.__typename === 'Resource'
+        ? activity.context.context.collection
+        : activity.context.context;
+  if (ctx.__typename === 'Comment') {
+    return null;
+  }
+  const link = getSimpleLink({
+    ...ctx,
+    id: ctx.__typename === 'User' ? ctx.userId : ctx.id
+  });
+  const inReplyContextCtx = {
+    link
+  };
 
-  const actor =
-    inReplyContextCtx && 'creator' in inReplyContextCtx
-      ? getActor(inReplyContextCtx.creator)
-      : null;
+  const actor = 'creator' in ctx ? getActor(ctx.creator) : null;
+
   return {
     actor,
     context: inReplyContextCtx,
@@ -206,94 +312,69 @@ const inReplyToContext = (
 };
 const getContextType = (
   type: NoMaybeActivity['context']['__typename']
-): ContextType => {
+): UIT.ContextType => {
   switch (type) {
     case 'Comment':
-      return ContextType.Comment;
+      return UIT.ContextType.Comment;
     case 'Resource':
-      return ContextType.Resource;
+      return UIT.ContextType.Resource;
     case 'Collection':
-      return ContextType.Collection;
+      return UIT.ContextType.Collection;
     case 'Community':
-      return ContextType.Community;
+      return UIT.ContextType.Community;
     case 'Like':
-      return ContextType.Like;
+      return UIT.ContextType.Like;
     case 'Follow':
-      return ContextType.Follow;
+      return UIT.ContextType.Follow;
     case 'Flag':
-      return ContextType.Flag;
+      return UIT.ContextType.Flag;
   }
 };
-const getActor = (usr: GQL.ActivityPreviewBaseUserFragment): UI.Actor => {
+const getActor = (usr: GQL.ActivityPreviewBaseUserFragment): UIT.Actor => {
   return {
     icon: usr.icon || usr.image || '',
-    name: usr.name || '',
+    name: usr.userName || '',
     preferredUsername: usr.preferredUsername,
-    link: usr.isLocal
-      ? {
-          external: false,
-          url: `/user/${usr.id}`
-        }
-      : {
-          external: true,
-          url: usr.canonicalUrl || ''
-        }
+    link: getSimpleLink({ ...usr, id: usr.userId })
   };
 };
+
+const linkPathMap = {
+  User: 'user',
+  Community: 'communities',
+  // Resource: 'resource',
+  Thread: 'thread',
+  Collection: 'collections'
+};
+
+const getSimpleLink = ({
+  __typename,
+  isLocal,
+  id,
+  canonicalUrl
+}: {
+  __typename: keyof typeof linkPathMap;
+  isLocal: boolean;
+  id: string;
+  canonicalUrl?: string | null | undefined;
+}) =>
+  isLocal
+    ? {
+        external: false,
+        url: `/${linkPathMap[__typename]}/${id}`
+      }
+    : {
+        external: true,
+        url: canonicalUrl || ''
+      };
 
 const withLike = (
-  toggleLikeFormik: FormikHook<{}>,
   ctx: ConcreteContext
-): UI.WithLike => {
-  const totalLikes = ctx.__typename === 'Community' ? 0 : ctx.likes.totalCount;
+): Omit<UIT.WithLike, 'toggleLikeFormik'> => {
+  const totalLikes =
+    ctx.__typename === 'Community' ? null : ctx.likes.totalCount;
   return {
     iLikeIt: !!ctx.myLike,
-    totalLikes,
-    toggleLikeFormik
-  };
-};
-
-type ConcreteType<T> = Omit<
-  T,
-  Exclude<keyof (UI.BaseActivity & UI.WithLike), 'contextType'>
->;
-const CommentCtxBuilder = (
-  context: GQL.ActivityPreviewCommentCtxFragment
-): ConcreteType<UI.CommentContext> => {
-  return {
-    contextType: ContextType.Comment,
-    msgContent: context.content
-  };
-};
-const ResourceCtxBuilder = (
-  context: GQL.ActivityPreviewResourceCtxFragment
-): ConcreteType<UI.ResourceContext> => {};
-const CollectionCtxBuilder = (
-  context: GQL.ActivityPreviewCollectionCtxFragment
-): ConcreteType<UI.CollectionContext> => {};
-const CommunityCtxBuilder = (
-  context: GQL.ActivityPreviewCommunityCtxFragment
-): ConcreteType<UI.CommunityContext> => {};
-
-type SimpleType<T> = Omit<T, Exclude<keyof UI.BaseActivity, 'contextType'>>;
-const LikeCtxBuilder = (
-  context: GQL.ActivityPreviewLikeCtxFragment
-): SimpleType<UI.LikeContext> => {
-  return {
-    contextType: ContextType.Like
-  };
-};
-const FollowCtxBuilder = (
-  context: GQL.ActivityPreviewFollowCtxFragment
-): SimpleType<UI.FollowContext> => {
-  return {
-    contextType: ContextType.Follow
-  };
-};
-const FlagCtxBuilder = (
-  context: GQL.ActivityPreviewFlagCtxFragment
-): SimpleType<UI.FlagContext> => {
-  return {
-    contextType: ContextType.Flag
+    totalLikes
   };
 };

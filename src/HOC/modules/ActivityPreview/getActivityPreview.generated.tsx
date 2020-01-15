@@ -17,38 +17,49 @@ export type GetActivityPreviewQuery = (
   { __typename: 'RootQueryType' }
   & { activity: Types.Maybe<(
     { __typename: 'Activity' }
-    & Pick<Types.Activity, 'createdAt' | 'id' | 'verb' | 'isLocal' | 'canonicalUrl'>
-    & { user: (
-      { __typename: 'User' }
-      & ActivityPreviewBaseUserFragment
-    ), context: (
-      { __typename: 'Collection' }
-      & ActivityPreviewCollectionCtxFragment
-    ) | (
-      { __typename: 'Comment' }
-      & ActivityPreviewCommentCtxExtendedFragment
-    ) | (
-      { __typename: 'Community' }
-      & ActivityPreviewCommunityCtxFragment
-    ) | (
-      { __typename: 'Flag' }
-      & ActivityPreviewFlagCtxFragment
-    ) | (
-      { __typename: 'Follow' }
-      & ActivityPreviewFollowCtxFragment
-    ) | (
-      { __typename: 'Like' }
-      & ActivityPreviewLikeCtxFragment
-    ) | (
-      { __typename: 'Resource' }
-      & ActivityPreviewResourceCtxFragment
-    ) }
+    & ActivityPreviewDataFragment
   )> }
+);
+
+export type ActivityPreviewDataFragment = (
+  { __typename: 'Activity' }
+  & Pick<Types.Activity, 'createdAt' | 'id' | 'verb'>
+  & { user: (
+    { __typename: 'User' }
+    & ActivityPreviewBaseUserFragment
+  ), context: (
+    { __typename: 'Collection' }
+    & ActivityPreviewCollectionCtxFragment
+  ) | (
+    { __typename: 'Comment' }
+    & ActivityPreviewCommentCtxExtendedFragment
+  ) | (
+    { __typename: 'Community' }
+    & ActivityPreviewCommunityCtxFragment
+  ) | (
+    { __typename: 'Flag' }
+    & ActivityPreviewFlagCtxFragment
+  ) | (
+    { __typename: 'Follow' }
+    & ActivityPreviewFollowCtxFragment
+  ) | (
+    { __typename: 'Like' }
+    & ActivityPreviewLikeCtxFragment
+  ) | (
+    { __typename: 'Resource' }
+    & ActivityPreviewResourceCtxFragment
+  ) }
 );
 
 export type ActivityPreviewBaseUserFragment = (
   { __typename: 'User' }
-  & Pick<Types.User, 'icon' | 'image' | 'id' | 'name' | 'preferredUsername' | 'isLocal' | 'canonicalUrl'>
+  & Pick<Types.User, 'icon' | 'image' | 'preferredUsername' | 'isLocal' | 'canonicalUrl'>
+  & { userId: Types.User['id'], userName: Types.User['name'] }
+);
+
+export type ActivityPreviewBaseThreadFragment = (
+  { __typename: 'Thread' }
+  & Pick<Types.Thread, 'id' | 'isLocal' | 'canonicalUrl'>
 );
 
 export type ActivityPreviewCollectionCtxFragment = (
@@ -77,7 +88,23 @@ export type ActivityPreviewCommentCtxExtendedFragment = (
   ), myLike: Types.Maybe<(
     { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
-  )> }
+  )>, thread: (
+    { __typename: 'Thread' }
+    & { context: (
+      { __typename: 'Collection' }
+      & ActivityPreviewCollectionCtxFragment
+    ) | (
+      { __typename: 'Community' }
+      & ActivityPreviewCommunityCtxFragment
+    ) | (
+      { __typename: 'Flag' }
+      & ActivityPreviewFlagCtxFragment
+    ) | (
+      { __typename: 'Resource' }
+      & ActivityPreviewResourceCtxFragment
+    ) }
+    & ActivityPreviewBaseThreadFragment
+  ) }
   & ActivityPreviewCommentCtxBaseFragment
 );
 
@@ -89,7 +116,7 @@ export type ActivityPreviewCommentCtxBaseFragment = (
     & ActivityPreviewBaseUserFragment
   ), thread: (
     { __typename: 'Thread' }
-    & Pick<Types.Thread, 'id'>
+    & ActivityPreviewBaseThreadFragment
   ) }
 );
 
@@ -108,7 +135,10 @@ export type ActivityPreviewCommunityCtxFragment = (
 export type ActivityPreviewResourceCtxFragment = (
   { __typename: 'Resource' }
   & Pick<Types.Resource, 'id' | 'isLocal' | 'icon' | 'name' | 'summary' | 'canonicalUrl'>
-  & { creator: (
+  & { collection: (
+    { __typename: 'Collection' }
+    & ActivityPreviewCollectionCtxFragment
+  ), creator: (
     { __typename: 'User' }
     & ActivityPreviewBaseUserFragment
   ), likes: (
@@ -135,7 +165,10 @@ export type ActivityPreviewFlagCtxFragment = (
   ) | (
     { __typename: 'Resource' }
     & ActivityPreviewResourceCtxFragment
-  ) | { __typename: 'User' } }
+  ) | (
+    { __typename: 'User' }
+    & ActivityPreviewBaseUserFragment
+  ) }
 );
 
 export type ActivityPreviewLikeCtxFragment = (
@@ -150,7 +183,10 @@ export type ActivityPreviewLikeCtxFragment = (
   ) | (
     { __typename: 'Resource' }
     & ActivityPreviewResourceCtxFragment
-  ) | { __typename: 'User' } }
+  ) | (
+    { __typename: 'User' }
+    & ActivityPreviewBaseUserFragment
+  ) }
 );
 
 export type ActivityPreviewFollowCtxFragment = (
@@ -162,7 +198,13 @@ export type ActivityPreviewFollowCtxFragment = (
   ) | (
     { __typename: 'Community' }
     & ActivityPreviewCommunityCtxFragment
-  ) | { __typename: 'Thread' } | { __typename: 'User' } }
+  ) | (
+    { __typename: 'Thread' }
+    & ActivityPreviewBaseThreadFragment
+  ) | (
+    { __typename: 'User' }
+    & ActivityPreviewBaseUserFragment
+  ) }
 );
 
 export type ActivityPreviewLikeMutationVariables = {
@@ -221,41 +263,13 @@ export const ActivityPreviewBaseUserFragmentDoc = gql`
     fragment ActivityPreviewBaseUser on User {
   icon
   image
-  id
-  name
+  userId: id
+  userName: name
   preferredUsername
   isLocal
   canonicalUrl
 }
     `;
-export const ActivityPreviewCommentCtxBaseFragmentDoc = gql`
-    fragment ActivityPreviewCommentCtxBase on Comment {
-  id
-  isLocal
-  content
-  canonicalUrl
-  creator {
-    ...ActivityPreviewBaseUser
-  }
-  thread {
-    id
-  }
-}
-    ${ActivityPreviewBaseUserFragmentDoc}`;
-export const ActivityPreviewCommentCtxExtendedFragmentDoc = gql`
-    fragment ActivityPreviewCommentCtxExtended on Comment {
-  ...ActivityPreviewCommentCtxBase
-  inReplyTo {
-    ...ActivityPreviewCommentCtxBase
-  }
-  likes {
-    totalCount
-  }
-  myLike {
-    id
-  }
-}
-    ${ActivityPreviewCommentCtxBaseFragmentDoc}`;
 export const ActivityPreviewCollectionCtxFragmentDoc = gql`
     fragment ActivityPreviewCollectionCtx on Collection {
   id
@@ -275,6 +289,28 @@ export const ActivityPreviewCollectionCtxFragmentDoc = gql`
   }
 }
     ${ActivityPreviewBaseUserFragmentDoc}`;
+export const ActivityPreviewBaseThreadFragmentDoc = gql`
+    fragment ActivityPreviewBaseThread on Thread {
+  id
+  isLocal
+  canonicalUrl
+}
+    `;
+export const ActivityPreviewCommentCtxBaseFragmentDoc = gql`
+    fragment ActivityPreviewCommentCtxBase on Comment {
+  id
+  isLocal
+  content
+  canonicalUrl
+  creator {
+    ...ActivityPreviewBaseUser
+  }
+  thread {
+    ...ActivityPreviewBaseThread
+  }
+}
+    ${ActivityPreviewBaseUserFragmentDoc}
+${ActivityPreviewBaseThreadFragmentDoc}`;
 export const ActivityPreviewCommunityCtxFragmentDoc = gql`
     fragment ActivityPreviewCommunityCtx on Community {
   id
@@ -299,6 +335,9 @@ export const ActivityPreviewResourceCtxFragmentDoc = gql`
   name
   summary
   canonicalUrl
+  collection {
+    ...ActivityPreviewCollectionCtx
+  }
   creator {
     ...ActivityPreviewBaseUser
   }
@@ -309,7 +348,8 @@ export const ActivityPreviewResourceCtxFragmentDoc = gql`
     id
   }
 }
-    ${ActivityPreviewBaseUserFragmentDoc}`;
+    ${ActivityPreviewCollectionCtxFragmentDoc}
+${ActivityPreviewBaseUserFragmentDoc}`;
 export const ActivityPreviewFlagCtxFragmentDoc = gql`
     fragment ActivityPreviewFlagCtx on Flag {
   isLocal
@@ -326,12 +366,52 @@ export const ActivityPreviewFlagCtxFragmentDoc = gql`
     ... on Resource {
       ...ActivityPreviewResourceCtx
     }
+    ... on User {
+      ...ActivityPreviewBaseUser
+    }
   }
 }
     ${ActivityPreviewCollectionCtxFragmentDoc}
 ${ActivityPreviewCommentCtxBaseFragmentDoc}
 ${ActivityPreviewCommunityCtxFragmentDoc}
-${ActivityPreviewResourceCtxFragmentDoc}`;
+${ActivityPreviewResourceCtxFragmentDoc}
+${ActivityPreviewBaseUserFragmentDoc}`;
+export const ActivityPreviewCommentCtxExtendedFragmentDoc = gql`
+    fragment ActivityPreviewCommentCtxExtended on Comment {
+  ...ActivityPreviewCommentCtxBase
+  inReplyTo {
+    ...ActivityPreviewCommentCtxBase
+  }
+  likes {
+    totalCount
+  }
+  myLike {
+    id
+  }
+  thread {
+    ...ActivityPreviewBaseThread
+    context {
+      ... on Collection {
+        ...ActivityPreviewCollectionCtx
+      }
+      ... on Community {
+        ...ActivityPreviewCommunityCtx
+      }
+      ... on Resource {
+        ...ActivityPreviewResourceCtx
+      }
+      ... on Flag {
+        ...ActivityPreviewFlagCtx
+      }
+    }
+  }
+}
+    ${ActivityPreviewCommentCtxBaseFragmentDoc}
+${ActivityPreviewBaseThreadFragmentDoc}
+${ActivityPreviewCollectionCtxFragmentDoc}
+${ActivityPreviewCommunityCtxFragmentDoc}
+${ActivityPreviewResourceCtxFragmentDoc}
+${ActivityPreviewFlagCtxFragmentDoc}`;
 export const ActivityPreviewLikeCtxFragmentDoc = gql`
     fragment ActivityPreviewLikeCtx on Like {
   isLocal
@@ -345,11 +425,15 @@ export const ActivityPreviewLikeCtxFragmentDoc = gql`
     ... on Resource {
       ...ActivityPreviewResourceCtx
     }
+    ... on User {
+      ...ActivityPreviewBaseUser
+    }
   }
 }
     ${ActivityPreviewCollectionCtxFragmentDoc}
 ${ActivityPreviewCommentCtxBaseFragmentDoc}
-${ActivityPreviewResourceCtxFragmentDoc}`;
+${ActivityPreviewResourceCtxFragmentDoc}
+${ActivityPreviewBaseUserFragmentDoc}`;
 export const ActivityPreviewFollowCtxFragmentDoc = gql`
     fragment ActivityPreviewFollowCtx on Follow {
   isLocal
@@ -360,44 +444,48 @@ export const ActivityPreviewFollowCtxFragmentDoc = gql`
     ... on Community {
       ...ActivityPreviewCommunityCtx
     }
+    ... on User {
+      ...ActivityPreviewBaseUser
+    }
+    ... on Thread {
+      ...ActivityPreviewBaseThread
+    }
   }
 }
     ${ActivityPreviewCollectionCtxFragmentDoc}
-${ActivityPreviewCommunityCtxFragmentDoc}`;
-export const GetActivityPreviewDocument = gql`
-    query getActivityPreview($activityId: String!) {
-  activity(activityId: $activityId) {
-    createdAt
-    id
-    verb
-    isLocal
-    canonicalUrl
-    user {
-      ...ActivityPreviewBaseUser
+${ActivityPreviewCommunityCtxFragmentDoc}
+${ActivityPreviewBaseUserFragmentDoc}
+${ActivityPreviewBaseThreadFragmentDoc}`;
+export const ActivityPreviewDataFragmentDoc = gql`
+    fragment ActivityPreviewData on Activity {
+  createdAt
+  id
+  verb
+  user {
+    ...ActivityPreviewBaseUser
+  }
+  context {
+    __typename
+    ... on Collection {
+      ...ActivityPreviewCollectionCtx
     }
-    context {
-      __typename
-      ... on Collection {
-        ...ActivityPreviewCollectionCtx
-      }
-      ... on Comment {
-        ...ActivityPreviewCommentCtxExtended
-      }
-      ... on Community {
-        ...ActivityPreviewCommunityCtx
-      }
-      ... on Resource {
-        ...ActivityPreviewResourceCtx
-      }
-      ... on Flag {
-        ...ActivityPreviewFlagCtx
-      }
-      ... on Like {
-        ...ActivityPreviewLikeCtx
-      }
-      ... on Follow {
-        ...ActivityPreviewFollowCtx
-      }
+    ... on Comment {
+      ...ActivityPreviewCommentCtxExtended
+    }
+    ... on Community {
+      ...ActivityPreviewCommunityCtx
+    }
+    ... on Resource {
+      ...ActivityPreviewResourceCtx
+    }
+    ... on Flag {
+      ...ActivityPreviewFlagCtx
+    }
+    ... on Like {
+      ...ActivityPreviewLikeCtx
+    }
+    ... on Follow {
+      ...ActivityPreviewFollowCtx
     }
   }
 }
@@ -409,6 +497,13 @@ ${ActivityPreviewResourceCtxFragmentDoc}
 ${ActivityPreviewFlagCtxFragmentDoc}
 ${ActivityPreviewLikeCtxFragmentDoc}
 ${ActivityPreviewFollowCtxFragmentDoc}`;
+export const GetActivityPreviewDocument = gql`
+    query getActivityPreview($activityId: String!) {
+  activity(activityId: $activityId) {
+    ...ActivityPreviewData
+  }
+}
+    ${ActivityPreviewDataFragmentDoc}`;
 export type GetActivityPreviewComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetActivityPreviewQuery, GetActivityPreviewQueryVariables>, 'query'> & ({ variables: GetActivityPreviewQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const GetActivityPreviewComponent = (props: GetActivityPreviewComponentProps) => (

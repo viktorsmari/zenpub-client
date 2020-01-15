@@ -5,8 +5,7 @@ import { Box, Flex, Text } from 'rebass/styled-components';
 import SocialText from '../SocialText';
 import { i18nMark } from '@lingui/react';
 import { LocaleContext } from '../../../context/global/localizationCtx';
-import { Context } from '.';
-import { ContextType } from './preview';
+import { Context, ContextType } from './types';
 
 const tt = {
   placeholders: {

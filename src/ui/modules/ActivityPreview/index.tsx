@@ -9,112 +9,16 @@ import media from 'styled-media-query';
 import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
 import Actions from './Actions';
-import Preview, { ActivityVerb, ContextType, InReplyTo } from './preview';
-import { FormikHook } from 'common/types';
-
-export enum Status {
-  Loading,
-  Loaded
-}
-
-export interface Actor {
-  icon: string;
-  link: {
-    url: string;
-    external: boolean;
-  };
-  name: string;
-  preferredUsername: string;
-}
-export interface BaseActivity {
-  status: Status;
-  contextType: ContextType;
-  verb: ActivityVerb;
-  createdAt: string;
-  actor: Actor;
-  link: {
-    url: string;
-    external: boolean;
-  };
-  inReplyToContext: {
-    type: ContextType;
-    context: ConcreteContext;
-    actor: Actor | null;
-  } | null;
-  replies: number | null;
-  replyFormik: FormikHook<{ replyMessage: string }>;
-}
-
-export interface WithLike {
-  toggleLikeFormik: FormikHook<{}>;
-  totalLikes: number;
-  iLikeIt: boolean;
-}
-
-// interface WithFollow {
-//   toggleFollowFormik: FormikHook<{}>
-//   following: boolean
-// }
-
-interface ConcreteContext {
-  concrete: true;
-  icon: string;
-  title: string;
-  link: {
-    url: string;
-    external: boolean;
-  };
-}
-
-export interface ActivityLoading {
-  status: Status.Loading;
-}
-
-export interface CommentContext extends BaseActivity, WithLike {
-  contextType: ContextType.Comment;
-  msgContent: string;
-}
-export interface ResourceContext
-  extends BaseActivity,
-    ConcreteContext,
-    WithLike {
-  contextType: ContextType.Resource;
-}
-export interface CollectionContext
-  extends BaseActivity,
-    ConcreteContext,
-    WithLike {
-  contextType: ContextType.Collection;
-}
-export interface CommunityContext
-  extends BaseActivity,
-    ConcreteContext,
-    WithLike {
-  contextType: ContextType.Community;
-}
-
-export interface LikeContext extends BaseActivity, ConcreteContext {
-  contextType: ContextType.Like;
-}
-export interface FlagContext extends BaseActivity, ConcreteContext {
-  contextType: ContextType.Flag;
-}
-export interface FollowContext extends BaseActivity, ConcreteContext {
-  contextType: ContextType.Follow;
-}
-
-export type Context =
-  | CommentContext
-  | ResourceContext
-  | CollectionContext
-  | CommunityContext
-  | LikeContext
-  | FlagContext
-  | FollowContext;
+import { Status, ActivityVerb, Context } from './types';
+import { InReplyTo } from './preview';
+import Preview from './preview';
 
 export interface ActivityLoaded {
   status: Status.Loaded;
   context: Context;
+}
+export interface ActivityLoading {
+  status: Status.Loading;
 }
 
 export interface Props {

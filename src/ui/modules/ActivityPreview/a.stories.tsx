@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
-import { ActivityPreview, Props, Status } from '.';
-import { ActivityVerb, ContextType } from './preview';
+import { ActivityPreview, Props } from '.';
+import { ActivityVerb, ContextType, Status } from './types';
 import { action } from '@storybook/addon-actions';
 import { useFormik } from 'formik';
 
@@ -23,13 +23,13 @@ storiesOf('Modules/ActivityPreview', module)
           inReplyToContext: null,
           replies: 10,
           totalLikes: 3,
-          replyFormik: useFormik<{ replyMessage: '' }>({
+          replyFormik: useFormik<{ replyMessage: string }>({
             initialValues: { replyMessage: '' },
             onSubmit: vals => {
-              action('submitting...')();
+              action(`submitting: ${vals.replyMessage}`)();
               return new Promise(resolve =>
                 setTimeout(() => {
-                  action('submitted...')();
+                  action(`submitted: ${vals.replyMessage}`)();
                   resolve();
                 }, 2000)
               );
@@ -67,7 +67,6 @@ storiesOf('Modules/ActivityPreview', module)
       activity: {
         status: Status.Loaded,
         context: {
-          concrete: true,
           actor: {
             icon: 'https://picsum.photos/80/80',
             link: {
@@ -77,8 +76,6 @@ storiesOf('Modules/ActivityPreview', module)
             name: 'Ivan',
             preferredUsername: 'tata'
           },
-          icon: 'https://picsum.photos/80/80',
-          title: 'AlecLoFabbro',
           inReplyToContext: null,
           replies: 10,
           replyFormik: useFormik<{ replyMessage: '' }>({
@@ -110,7 +107,6 @@ storiesOf('Modules/ActivityPreview', module)
       activity: {
         status: Status.Loaded,
         context: {
-          concrete: true,
           actor: {
             icon: 'https://picsum.photos/80/80',
             link: {
@@ -120,8 +116,6 @@ storiesOf('Modules/ActivityPreview', module)
             name: 'Ivan',
             preferredUsername: 'tata'
           },
-          icon: 'https://picsum.photos/80/80',
-          title: 'Best resources to learn JS',
           inReplyToContext: null,
           replies: 10,
           replyFormik: useFormik<{ replyMessage: '' }>({
@@ -153,7 +147,6 @@ storiesOf('Modules/ActivityPreview', module)
       activity: {
         status: Status.Loaded,
         context: {
-          concrete: true,
           actor: {
             icon: 'https://picsum.photos/80/80',
             link: {
@@ -163,8 +156,6 @@ storiesOf('Modules/ActivityPreview', module)
             name: 'Ivan',
             preferredUsername: 'tata'
           },
-          icon: 'https://picsum.photos/80/80',
-          title: 'Liceo Alberghiero Celletti',
           inReplyToContext: null,
           replies: 10,
           replyFormik: useFormik<{ replyMessage: '' }>({
@@ -495,9 +486,9 @@ storiesOf('Modules/ActivityPreview', module)
           inReplyToContext: {
             type: ContextType.Community,
             context: {
-              concrete: true,
-              icon: 'https://picsum.photos/id/39/80/80',
-              title: 'FairCoop Local nodes',
+              // concrete: true,
+              // icon: 'https://picsum.photos/id/39/80/80',
+              // title: 'FairCoop Local nodes',
               link: {
                 url: 'https://picsum.photos/80/80',
                 external: true
