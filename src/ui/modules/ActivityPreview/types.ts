@@ -38,17 +38,6 @@ export interface BaseActivity {
     url: string;
     external: boolean;
   };
-  inReplyToContext: {
-    type: ContextType;
-    // context: ConcreteContext;
-    context: {
-      link: {
-        url: string;
-        external: boolean;
-      };
-    };
-    actor: Actor | null;
-  } | null;
   replies: number | null;
   replyFormik: FormikHook<{ replyMessage: string }>;
 }
@@ -97,13 +86,13 @@ export interface CommunityContext
   contextType: ContextType.Community;
 }
 
-export interface LikeContext extends BaseActivity {
+export interface LikeContext extends BaseActivity, ConcreteContext {
   contextType: ContextType.Like;
 }
-export interface FlagContext extends BaseActivity {
+export interface FlagContext extends BaseActivity, ConcreteContext {
   contextType: ContextType.Flag;
 }
-export interface FollowContext extends BaseActivity {
+export interface FollowContext extends BaseActivity, ConcreteContext {
   contextType: ContextType.Follow;
 }
 

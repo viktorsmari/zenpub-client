@@ -9,9 +9,8 @@ import media from 'styled-media-query';
 import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
 import Actions from './Actions';
-import { Status, ActivityPreviewVerb, Context } from './types';
-import { InReplyTo } from './preview';
 import Preview from './preview';
+import { Context, Status } from './types';
 
 export interface ActivityLoaded {
   status: Status.Loaded;
@@ -50,9 +49,9 @@ export const ActivityPreview: SFC<Props> = ({ activity }) => {
   const { context } = activity;
   return (
     <FeedItem>
-      {context.verb === ActivityPreviewVerb.InReplyTo && (
+      {/* context.verb === ActivityPreviewVerb.InReplyTo && (
         <InReplyTo context={context.inReplyToContext} />
-      )}
+      ) */}
       <Actor actor={context.actor} createdAt={context.createdAt} />
       <Contents>
         <Wrapper mt={2}>

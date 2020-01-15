@@ -29,7 +29,10 @@ const ActionsWrapper = ({ context }: Props) => {
         <SocialText
           placeholder={i18n._(tt.placeholders.name)}
           defaultValue={''}
-          submit={context.replyFormik.submitForm}
+          submit={msg => {
+            context.replyFormik.setValues({ replyMessage: msg });
+            context.replyFormik.submitForm();
+          }}
         />
       )}
       <Box>

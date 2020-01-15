@@ -1,16 +1,11 @@
-import * as React from 'react';
-import media from 'styled-media-query';
-import styled from 'ui/themes/styled';
-import { Text, Flex, Box } from 'rebass/styled-components';
-import { NavLink } from 'react-router-dom';
-import {
-  ActivityPreviewVerb,
-  ContextType,
-  BaseActivity,
-  Context
-} from './types';
 import { Trans } from '@lingui/react';
+import * as React from 'react';
+import { NavLink } from 'react-router-dom';
+import { Flex, Text } from 'rebass/styled-components';
+import media from 'styled-media-query';
 import Avatar from 'ui/elements/Avatar';
+import styled from 'ui/themes/styled';
+import { ActivityPreviewVerb, Context, ContextType } from './types';
 
 interface Props {
   context: Context;
@@ -72,69 +67,69 @@ const Preview: React.FC<Props> = ({ context }: { context: Context }) => {
   );
 };
 
-export const InReplyTo = ({
-  context
-}: {
-  context: BaseActivity['inReplyToContext'];
-}) => {
-  return (
-    context && (
-      <FlexPreview>
-        <NavLink to={context.context.link.url}>
-          <Flex>
-            {context.actor && (
-              <WrapperPreview>
-                <Avatar
-                  src={context.actor.icon}
-                  initials={context.actor.name}
-                />
-                <Title ml={2}>{context.actor.name}</Title>
-              </WrapperPreview>
-            )}
-            {/* <TextConnector variant="link">
-            {context.verb === ActivityVerb.Created &&
-            context.type === ContextType.Follow ? (
-              <Trans>followed</Trans>
-            ) : context.verb === ActivityVerb.Created &&
-            context.type === ContextType.Like ? (
-              <Trans>liked</Trans>
-            ) : context.verb === ActivityVerb.Created &&
-            context.type === ContextType.Flag ? (
-              <Trans>flagged</Trans>
-            ) : context.verb === ActivityVerb.Created &&
-            context.type === ContextType.Collection ? (
-              <Trans>created the collection</Trans>
-            ) : context.verb === ActivityVerb.Created &&
-            context.type === ContextType.Community ? (
-              <Trans>created the community</Trans>
-            ) : context.verb === ActivityVerb.Created &&
-            context.type === ContextType.Resource ? (
-              <Trans>created the resource</Trans>
-            ) : null}
-            {context.verb === ActivityVerb.Updated &&
-            context.type === ContextType.Collection ? (
-              <Trans>updated the collection</Trans>
-            ) : context.verb === ActivityVerb.Updated &&
-            context.type === ContextType.Community ? (
-              <Trans>updated the community</Trans>
-            ) : context.verb === ActivityVerb.Updated &&
-            context.type === ContextType.Resource ? (
-              <Trans>updated the resource</Trans>
-            ) : null}
-          </TextConnector>
-            <WrapperPreview>
-              <Avatar
-                src={context.context.icon}
-                initials={context.context.title}
-              />
-              <Title ml={2}>{context.context.title}</Title>
-            </WrapperPreview> */}
-          </Flex>
-        </NavLink>
-      </FlexPreview>
-    )
-  );
-};
+// export const InReplyTo = ({
+//   context
+// }: {
+//   context: BaseActivity['inReplyToContext'];
+// }) => {
+//   return (
+//     context && (
+//       <FlexPreview>
+//         <NavLink to={context.context.link.url}>
+//           <Flex>
+//             {context.actor && (
+//               <WrapperPreview>
+//                 <Avatar
+//                   src={context.actor.icon}
+//                   initials={context.actor.name}
+//                 />
+//                 <Title ml={2}>{context.actor.name}</Title>
+//               </WrapperPreview>
+//             )}
+//             {/* <TextConnector variant="link">
+//             {context.verb === ActivityVerb.Created &&
+//             context.type === ContextType.Follow ? (
+//               <Trans>followed</Trans>
+//             ) : context.verb === ActivityVerb.Created &&
+//             context.type === ContextType.Like ? (
+//               <Trans>liked</Trans>
+//             ) : context.verb === ActivityVerb.Created &&
+//             context.type === ContextType.Flag ? (
+//               <Trans>flagged</Trans>
+//             ) : context.verb === ActivityVerb.Created &&
+//             context.type === ContextType.Collection ? (
+//               <Trans>created the collection</Trans>
+//             ) : context.verb === ActivityVerb.Created &&
+//             context.type === ContextType.Community ? (
+//               <Trans>created the community</Trans>
+//             ) : context.verb === ActivityVerb.Created &&
+//             context.type === ContextType.Resource ? (
+//               <Trans>created the resource</Trans>
+//             ) : null}
+//             {context.verb === ActivityVerb.Updated &&
+//             context.type === ContextType.Collection ? (
+//               <Trans>updated the collection</Trans>
+//             ) : context.verb === ActivityVerb.Updated &&
+//             context.type === ContextType.Community ? (
+//               <Trans>updated the community</Trans>
+//             ) : context.verb === ActivityVerb.Updated &&
+//             context.type === ContextType.Resource ? (
+//               <Trans>updated the resource</Trans>
+//             ) : null}
+//           </TextConnector>
+//             <WrapperPreview>
+//               <Avatar
+//                 src={context.context.icon}
+//                 initials={context.context.title}
+//               />
+//               <Title ml={2}>{context.context.title}</Title>
+//             </WrapperPreview> */}
+//           </Flex>
+//         </NavLink>
+//       </FlexPreview>
+//     )
+//   );
+// };
 
 // const InReply = styled(Text)`
 //   padding-bottom: 0;
@@ -162,32 +157,32 @@ const WrapperPreview = styled(Flex)`
   align-items: center;
 `;
 
-const FlexPreview = styled(Box)`
-  align-items: center;
-  border: 1px solid ${props => props.theme.colors.lightgray};
-  background: #eceff2;
-  margin-bottom: 16px;
-  padding: 8px;
-  border-radius: 4px;
-  position: relative;
-  display: inline-block;
-  a {
-    text-decoration: none;
-    &:hover {
-      text-decoration: none;
-    }
-  }
-  &:before {
-    content: '';
-    position: absolute;
-    left: 10px;
-    height: 16px;
-    bottom: -17px;
-    width: 3px;
-    display: block;
-    background: ${props => props.theme.colors.lightgray};
-  }
-`;
+// const FlexPreview = styled(Box)`
+//   align-items: center;
+//   border: 1px solid ${props => props.theme.colors.lightgray};
+//   background: #eceff2;
+//   margin-bottom: 16px;
+//   padding: 8px;
+//   border-radius: 4px;
+//   position: relative;
+//   display: inline-block;
+//   a {
+//     text-decoration: none;
+//     &:hover {
+//       text-decoration: none;
+//     }
+//   }
+//   &:before {
+//     content: '';
+//     position: absolute;
+//     left: 10px;
+//     height: 16px;
+//     bottom: -17px;
+//     width: 3px;
+//     display: block;
+//     background: ${props => props.theme.colors.lightgray};
+//   }
+// `;
 
 const Comment = styled(Text)`
   & a {

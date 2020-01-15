@@ -93,8 +93,12 @@ fragment ActivityPreviewCommentCtxExtended on Comment{
         id
     }
     thread {
-        ...ActivityPreviewBaseThread
-        context {
+        ...ActivityPreviewExtendedThread
+    }
+}
+fragment ActivityPreviewExtendedThread on Thread {
+    ...ActivityPreviewBaseThread
+    context {
         ... on Collection{
             ...ActivityPreviewCollectionCtx
         }
@@ -110,11 +114,9 @@ fragment ActivityPreviewCommentCtxExtended on Comment{
         ... on Flag{
             ...ActivityPreviewFlagCtx
         }
-
-    }
-
     }
 }
+
 fragment ActivityPreviewCommentCtxBase on Comment{
     id
     isLocal
@@ -196,7 +198,7 @@ fragment ActivityPreviewLikeCtx on Like{
             ...ActivityPreviewCollectionCtx
         }
         ... on Comment{
-            ...ActivityPreviewCommentCtxBase
+            ...ActivityPreviewCommentCtxExtended
         }
         ... on Resource{
             ...ActivityPreviewResourceCtx
@@ -221,7 +223,7 @@ fragment ActivityPreviewFollowCtx on Follow{
             ...ActivityPreviewBaseUser
         }
         ... on Thread{
-            ...ActivityPreviewBaseThread
+            ...ActivityPreviewExtendedThread
         }
     }
 }

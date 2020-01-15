@@ -90,22 +90,27 @@ export type ActivityPreviewCommentCtxExtendedFragment = (
     & Pick<Types.Like, 'id'>
   )>, thread: (
     { __typename: 'Thread' }
-    & { context: (
-      { __typename: 'Collection' }
-      & ActivityPreviewCollectionCtxFragment
-    ) | (
-      { __typename: 'Community' }
-      & ActivityPreviewCommunityCtxFragment
-    ) | (
-      { __typename: 'Flag' }
-      & ActivityPreviewFlagCtxFragment
-    ) | (
-      { __typename: 'Resource' }
-      & ActivityPreviewResourceCtxFragment
-    ) }
-    & ActivityPreviewBaseThreadFragment
+    & ActivityPreviewExtendedThreadFragment
   ) }
   & ActivityPreviewCommentCtxBaseFragment
+);
+
+export type ActivityPreviewExtendedThreadFragment = (
+  { __typename: 'Thread' }
+  & { context: (
+    { __typename: 'Collection' }
+    & ActivityPreviewCollectionCtxFragment
+  ) | (
+    { __typename: 'Community' }
+    & ActivityPreviewCommunityCtxFragment
+  ) | (
+    { __typename: 'Flag' }
+    & ActivityPreviewFlagCtxFragment
+  ) | (
+    { __typename: 'Resource' }
+    & ActivityPreviewResourceCtxFragment
+  ) }
+  & ActivityPreviewBaseThreadFragment
 );
 
 export type ActivityPreviewCommentCtxBaseFragment = (
@@ -179,7 +184,7 @@ export type ActivityPreviewLikeCtxFragment = (
     & ActivityPreviewCollectionCtxFragment
   ) | (
     { __typename: 'Comment' }
-    & ActivityPreviewCommentCtxBaseFragment
+    & ActivityPreviewCommentCtxExtendedFragment
   ) | (
     { __typename: 'Resource' }
     & ActivityPreviewResourceCtxFragment
@@ -200,7 +205,7 @@ export type ActivityPreviewFollowCtxFragment = (
     & ActivityPreviewCommunityCtxFragment
   ) | (
     { __typename: 'Thread' }
-    & ActivityPreviewBaseThreadFragment
+    & ActivityPreviewExtendedThreadFragment
   ) | (
     { __typename: 'User' }
     & ActivityPreviewBaseUserFragment
@@ -376,6 +381,29 @@ ${ActivityPreviewCommentCtxBaseFragmentDoc}
 ${ActivityPreviewCommunityCtxFragmentDoc}
 ${ActivityPreviewResourceCtxFragmentDoc}
 ${ActivityPreviewBaseUserFragmentDoc}`;
+export const ActivityPreviewExtendedThreadFragmentDoc = gql`
+    fragment ActivityPreviewExtendedThread on Thread {
+  ...ActivityPreviewBaseThread
+  context {
+    ... on Collection {
+      ...ActivityPreviewCollectionCtx
+    }
+    ... on Community {
+      ...ActivityPreviewCommunityCtx
+    }
+    ... on Resource {
+      ...ActivityPreviewResourceCtx
+    }
+    ... on Flag {
+      ...ActivityPreviewFlagCtx
+    }
+  }
+}
+    ${ActivityPreviewBaseThreadFragmentDoc}
+${ActivityPreviewCollectionCtxFragmentDoc}
+${ActivityPreviewCommunityCtxFragmentDoc}
+${ActivityPreviewResourceCtxFragmentDoc}
+${ActivityPreviewFlagCtxFragmentDoc}`;
 export const ActivityPreviewCommentCtxExtendedFragmentDoc = gql`
     fragment ActivityPreviewCommentCtxExtended on Comment {
   ...ActivityPreviewCommentCtxBase
@@ -389,29 +417,11 @@ export const ActivityPreviewCommentCtxExtendedFragmentDoc = gql`
     id
   }
   thread {
-    ...ActivityPreviewBaseThread
-    context {
-      ... on Collection {
-        ...ActivityPreviewCollectionCtx
-      }
-      ... on Community {
-        ...ActivityPreviewCommunityCtx
-      }
-      ... on Resource {
-        ...ActivityPreviewResourceCtx
-      }
-      ... on Flag {
-        ...ActivityPreviewFlagCtx
-      }
-    }
+    ...ActivityPreviewExtendedThread
   }
 }
     ${ActivityPreviewCommentCtxBaseFragmentDoc}
-${ActivityPreviewBaseThreadFragmentDoc}
-${ActivityPreviewCollectionCtxFragmentDoc}
-${ActivityPreviewCommunityCtxFragmentDoc}
-${ActivityPreviewResourceCtxFragmentDoc}
-${ActivityPreviewFlagCtxFragmentDoc}`;
+${ActivityPreviewExtendedThreadFragmentDoc}`;
 export const ActivityPreviewLikeCtxFragmentDoc = gql`
     fragment ActivityPreviewLikeCtx on Like {
   isLocal
@@ -420,7 +430,7 @@ export const ActivityPreviewLikeCtxFragmentDoc = gql`
       ...ActivityPreviewCollectionCtx
     }
     ... on Comment {
-      ...ActivityPreviewCommentCtxBase
+      ...ActivityPreviewCommentCtxExtended
     }
     ... on Resource {
       ...ActivityPreviewResourceCtx
@@ -431,7 +441,7 @@ export const ActivityPreviewLikeCtxFragmentDoc = gql`
   }
 }
     ${ActivityPreviewCollectionCtxFragmentDoc}
-${ActivityPreviewCommentCtxBaseFragmentDoc}
+${ActivityPreviewCommentCtxExtendedFragmentDoc}
 ${ActivityPreviewResourceCtxFragmentDoc}
 ${ActivityPreviewBaseUserFragmentDoc}`;
 export const ActivityPreviewFollowCtxFragmentDoc = gql`
@@ -448,14 +458,14 @@ export const ActivityPreviewFollowCtxFragmentDoc = gql`
       ...ActivityPreviewBaseUser
     }
     ... on Thread {
-      ...ActivityPreviewBaseThread
+      ...ActivityPreviewExtendedThread
     }
   }
 }
     ${ActivityPreviewCollectionCtxFragmentDoc}
 ${ActivityPreviewCommunityCtxFragmentDoc}
 ${ActivityPreviewBaseUserFragmentDoc}
-${ActivityPreviewBaseThreadFragmentDoc}`;
+${ActivityPreviewExtendedThreadFragmentDoc}`;
 export const ActivityPreviewDataFragmentDoc = gql`
     fragment ActivityPreviewData on Activity {
   createdAt

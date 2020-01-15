@@ -20,7 +20,6 @@ storiesOf('Modules/ActivityPreview', module)
             name: 'Ivan',
             preferredUsername: 'tata'
           },
-          inReplyToContext: null,
           replies: 10,
           totalLikes: 3,
           replyFormik: useFormik<{ replyMessage: string }>({
@@ -76,7 +75,6 @@ storiesOf('Modules/ActivityPreview', module)
             name: 'Ivan',
             preferredUsername: 'tata'
           },
-          inReplyToContext: null,
           replies: 10,
           replyFormik: useFormik<{ replyMessage: '' }>({
             initialValues: { replyMessage: '' },
@@ -96,7 +94,10 @@ storiesOf('Modules/ActivityPreview', module)
             external: true
           },
           contextType: ContextType.Follow,
-          verb: ActivityPreviewVerb.Created
+          verb: ActivityPreviewVerb.Created,
+          icon: 'https://picsum.photos/80/80',
+          title: 'Liceo Alberghiero Celletti',
+          concrete: true
         }
       }
     };
@@ -116,7 +117,6 @@ storiesOf('Modules/ActivityPreview', module)
             name: 'Ivan',
             preferredUsername: 'tata'
           },
-          inReplyToContext: null,
           replies: 10,
           replyFormik: useFormik<{ replyMessage: '' }>({
             initialValues: { replyMessage: '' },
@@ -136,7 +136,10 @@ storiesOf('Modules/ActivityPreview', module)
             external: true
           },
           contextType: ContextType.Like,
-          verb: ActivityPreviewVerb.Created
+          verb: ActivityPreviewVerb.Created,
+          icon: 'https://picsum.photos/80/80',
+          title: 'Liceo Alberghiero Celletti',
+          concrete: true
         }
       }
     };
@@ -156,7 +159,6 @@ storiesOf('Modules/ActivityPreview', module)
             name: 'Ivan',
             preferredUsername: 'tata'
           },
-          inReplyToContext: null,
           replies: 10,
           replyFormik: useFormik<{ replyMessage: '' }>({
             initialValues: { replyMessage: '' },
@@ -176,7 +178,10 @@ storiesOf('Modules/ActivityPreview', module)
             external: true
           },
           contextType: ContextType.Flag,
-          verb: ActivityPreviewVerb.Created
+          verb: ActivityPreviewVerb.Created,
+          icon: 'https://picsum.photos/80/80',
+          title: 'Liceo Alberghiero Celletti',
+          concrete: true
         }
       }
     };
@@ -199,7 +204,6 @@ storiesOf('Modules/ActivityPreview', module)
           },
           icon: 'https://picsum.photos/80/80',
           title: 'Liceo Alberghiero Celletti',
-          inReplyToContext: null,
           replies: 10,
           replyFormik: useFormik<{ replyMessage: '' }>({
             initialValues: { replyMessage: '' },
@@ -256,7 +260,6 @@ storiesOf('Modules/ActivityPreview', module)
           },
           icon: 'https://picsum.photos/80/80',
           title: 'Liceo Alberghiero Celletti',
-          inReplyToContext: null,
           replies: 10,
           replyFormik: useFormik<{ replyMessage: '' }>({
             initialValues: { replyMessage: '' },
@@ -313,7 +316,6 @@ storiesOf('Modules/ActivityPreview', module)
           },
           icon: 'https://picsum.photos/80/80',
           title: 'Liceo Alberghiero Celletti',
-          inReplyToContext: null,
           replies: 10,
           replyFormik: useFormik<{ replyMessage: '' }>({
             initialValues: { replyMessage: '' },
@@ -370,7 +372,6 @@ storiesOf('Modules/ActivityPreview', module)
           },
           icon: 'https://picsum.photos/80/80',
           title: 'Liceo Alberghiero Celletti',
-          inReplyToContext: null,
           replies: 10,
           replyFormik: useFormik<{ replyMessage: '' }>({
             initialValues: { replyMessage: '' },
@@ -427,7 +428,6 @@ storiesOf('Modules/ActivityPreview', module)
           },
           icon: 'https://picsum.photos/80/80',
           title: 'Liceo Alberghiero Celletti',
-          inReplyToContext: null,
           replies: 10,
           replyFormik: useFormik<{ replyMessage: '' }>({
             initialValues: { replyMessage: '' },
@@ -483,27 +483,6 @@ storiesOf('Modules/ActivityPreview', module)
           },
           msgContent:
             "my niece is completely mystified by my computer in that:- she thought the monitor was the computer - i had to explain how dual monitors work - wow, you can charge your phone from it? she's like 12 and i feel old now",
-          inReplyToContext: {
-            type: ContextType.Community,
-            context: {
-              // concrete: true,
-              // icon: 'https://picsum.photos/id/39/80/80',
-              // title: 'FairCoop Local nodes',
-              link: {
-                url: 'https://picsum.photos/80/80',
-                external: true
-              }
-            },
-            actor: {
-              icon: 'https://picsum.photos/id/20/80/80',
-              link: {
-                url: '1',
-                external: true
-              },
-              name: 'DougBelshaw',
-              preferredUsername: 'dougbelshaw'
-            }
-          },
           replies: 10,
           replyFormik: useFormik<{ replyMessage: '' }>({
             initialValues: { replyMessage: '' },
