@@ -5,7 +5,7 @@ import { Box, Flex, Text } from 'rebass/styled-components';
 import SocialText from '../SocialText';
 import { i18nMark } from '@lingui/react';
 import { LocaleContext } from '../../../context/global/localizationCtx';
-import { Context, ContextType } from './types';
+import { ActivityData, ContextType } from './types';
 
 const tt = {
   placeholders: {
@@ -17,7 +17,7 @@ const tt = {
   }
 };
 interface Props {
-  context: Context;
+  context: ActivityData;
 }
 
 const ActionsWrapper = ({ context }: Props) => {
@@ -41,7 +41,7 @@ const ActionsWrapper = ({ context }: Props) => {
             <ActionIcon>
               <MessageCircle color="rgba(0,0,0,.4)" size="16" />
             </ActionIcon>
-            <Text ml={1}>{context.replies}</Text>
+            {/* <Text ml={1}>{context.replies}</Text> */}
           </ActionItem>
           {context.contextType === ContextType.Comment ||
           context.contextType === ContextType.Resource ||

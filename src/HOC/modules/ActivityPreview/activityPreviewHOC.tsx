@@ -81,83 +81,73 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
     () => {
       if (!activity) {
         return {
-          activity: {
-            status: UIT.Status.Loading
-          }
+          status: UIT.Status.Loading
         };
       } else {
         let props: UI.Props;
         switch (activity.context.__typename) {
           case 'Comment': {
             props = {
-              activity: {
-                status: UIT.Status.Loaded,
-                context: {
-                  ...BaseCtxBuilder(activity),
-                  ...withLike(activity.context),
-                  toggleLikeFormik,
-                  msgContent: activity.context.content,
-                  contextType: UIT.ContextType.Comment,
-                  link: getSimpleLink(activity.context.thread),
-                  replyFormik
-                }
+              status: UIT.Status.Loaded,
+              context: {
+                ...BaseCtxBuilder(activity),
+                ...withLike(activity.context),
+                toggleLikeFormik,
+                msgContent: activity.context.content,
+                contextType: UIT.ContextType.Comment,
+                link: getSimpleLink(activity.context.thread),
+                replyFormik
               }
             };
             break;
           }
           case 'Resource': {
             props = {
-              activity: {
-                status: UIT.Status.Loaded,
-                context: {
-                  ...BaseCtxBuilder(activity),
-                  ...withLike(activity.context),
-                  toggleLikeFormik,
-                  replyFormik,
-                  concrete: true,
-                  contextType: UIT.ContextType.Resource,
-                  icon: activity.context.icon || '',
-                  link: getSimpleLink(activity.context.collection),
-                  title: activity.context.name
-                }
+              status: UIT.Status.Loaded,
+              context: {
+                ...BaseCtxBuilder(activity),
+                ...withLike(activity.context),
+                toggleLikeFormik,
+                replyFormik,
+                concrete: true,
+                contextType: UIT.ContextType.Resource,
+                icon: activity.context.icon || '',
+                link: getSimpleLink(activity.context.collection),
+                title: activity.context.name
               }
             };
             break;
           }
           case 'Collection': {
             props = {
-              activity: {
-                status: UIT.Status.Loaded,
-                context: {
-                  ...BaseCtxBuilder(activity),
-                  ...withLike(activity.context),
-                  toggleLikeFormik,
-                  replyFormik,
-                  concrete: true,
-                  contextType: UIT.ContextType.Collection,
-                  icon: activity.context.icon || '',
-                  link: getSimpleLink(activity.context),
-                  title: activity.context.name
-                }
+              status: UIT.Status.Loaded,
+              context: {
+                ...BaseCtxBuilder(activity),
+                ...withLike(activity.context),
+                toggleLikeFormik,
+                replyFormik,
+                concrete: true,
+                contextType: UIT.ContextType.Collection,
+                icon: activity.context.icon || '',
+                link: getSimpleLink(activity.context),
+                title: activity.context.name
               }
             };
             break;
           }
           case 'Community': {
             props = {
-              activity: {
-                status: UIT.Status.Loaded,
-                context: {
-                  ...BaseCtxBuilder(activity),
-                  ...withLike(activity.context),
-                  toggleLikeFormik,
-                  replyFormik,
-                  contextType: UIT.ContextType.Community,
-                  concrete: true,
-                  icon: activity.context.icon || '',
-                  link: getSimpleLink(activity.context),
-                  title: activity.context.name
-                }
+              status: UIT.Status.Loaded,
+              context: {
+                ...BaseCtxBuilder(activity),
+                ...withLike(activity.context),
+                toggleLikeFormik,
+                replyFormik,
+                contextType: UIT.ContextType.Community,
+                concrete: true,
+                icon: activity.context.icon || '',
+                link: getSimpleLink(activity.context),
+                title: activity.context.name
               }
             };
             break;
@@ -181,25 +171,23 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
                 : activity.context.context;
 
             props = {
-              activity: {
-                status: UIT.Status.Loaded,
-                context: {
-                  ...BaseCtxBuilder(activity),
-                  contextType: UIT.ContextType.Like,
-                  link: getSimpleLink(linkCtx),
-                  concrete: true,
-                  icon:
-                    likeContext.__typename === 'Flag'
-                      ? ''
-                      : likeContext.icon || '',
-                  title:
-                    'userName' in likeContext
-                      ? likeContext.userName || ''
-                      : 'name' in likeContext
-                        ? likeContext.name
-                        : likeContext.context.__typename,
-                  replyFormik
-                }
+              status: UIT.Status.Loaded,
+              context: {
+                ...BaseCtxBuilder(activity),
+                contextType: UIT.ContextType.Like,
+                link: getSimpleLink(linkCtx),
+                concrete: true,
+                icon:
+                  likeContext.__typename === 'Flag'
+                    ? ''
+                    : likeContext.icon || '',
+                title:
+                  'userName' in likeContext
+                    ? likeContext.userName || ''
+                    : 'name' in likeContext
+                      ? likeContext.name
+                      : likeContext.context.__typename,
+                replyFormik
               }
             };
             break;
@@ -217,25 +205,23 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
                 ? activity.context.context.context
                 : activity.context.context;
             props = {
-              activity: {
-                status: UIT.Status.Loaded,
-                context: {
-                  ...BaseCtxBuilder(activity),
-                  contextType: UIT.ContextType.Follow,
-                  link: getSimpleLink(linkCtx),
-                  concrete: true,
-                  icon:
-                    followContext.__typename === 'Flag'
-                      ? ''
-                      : followContext.icon || '',
-                  title:
-                    'userName' in followContext
-                      ? followContext.userName || ''
-                      : 'name' in followContext
-                        ? followContext.name
-                        : followContext.context.__typename,
-                  replyFormik
-                }
+              status: UIT.Status.Loaded,
+              context: {
+                ...BaseCtxBuilder(activity),
+                contextType: UIT.ContextType.Follow,
+                link: getSimpleLink(linkCtx),
+                concrete: true,
+                icon:
+                  followContext.__typename === 'Flag'
+                    ? ''
+                    : followContext.icon || '',
+                title:
+                  'userName' in followContext
+                    ? followContext.userName || ''
+                    : 'name' in followContext
+                      ? followContext.name
+                      : followContext.context.__typename,
+                replyFormik
               }
             };
             break;
@@ -257,21 +243,19 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
                 ? null
                 : activity.context.context;
             props = {
-              activity: {
-                status: UIT.Status.Loaded,
-                context: {
-                  ...BaseCtxBuilder(activity),
-                  contextType: UIT.ContextType.Flag,
-                  link: getSimpleLink(linkCtx),
-                  concrete: true,
-                  icon: (flagContext && flagContext.icon) || '',
-                  title: flagContext
-                    ? 'userName' in flagContext
-                      ? flagContext.userName || ''
-                      : flagContext.name
-                    : '',
-                  replyFormik
-                }
+              status: UIT.Status.Loaded,
+              context: {
+                ...BaseCtxBuilder(activity),
+                contextType: UIT.ContextType.Flag,
+                link: getSimpleLink(linkCtx),
+                concrete: true,
+                icon: (flagContext && flagContext.icon) || '',
+                title: flagContext
+                  ? 'userName' in flagContext
+                    ? flagContext.userName || ''
+                    : flagContext.name
+                  : '',
+                replyFormik
               }
             };
             break;
@@ -314,7 +298,6 @@ const BaseCtxBuilder = (
     actor: getActor(user),
     contextType: UIT.ContextType[context.__typename],
     createdAt,
-    replies: 0,
     verb: _verb
   };
 };

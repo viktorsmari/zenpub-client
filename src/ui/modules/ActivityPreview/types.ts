@@ -38,7 +38,6 @@ export interface BaseActivity {
     url: string;
     external: boolean;
   };
-  replies: number | null;
   replyFormik: FormikHook<{ replyMessage: string }>;
 }
 
@@ -53,7 +52,7 @@ export interface WithLike {
 //   following: boolean
 // }
 
-export interface ConcreteContext {
+export interface ConcreteActivityData {
   concrete: true;
   icon: string;
   title: string;
@@ -63,44 +62,44 @@ export interface ConcreteContext {
   };
 }
 
-export interface CommentContext extends BaseActivity, WithLike {
+export interface CommentActivityData extends BaseActivity, WithLike {
   contextType: ContextType.Comment;
   msgContent: string;
 }
-export interface ResourceContext
+export interface ResourceActivityData
   extends BaseActivity,
-    ConcreteContext,
+    ConcreteActivityData,
     WithLike {
   contextType: ContextType.Resource;
 }
-export interface CollectionContext
+export interface CollectionActivityData
   extends BaseActivity,
-    ConcreteContext,
+    ConcreteActivityData,
     WithLike {
   contextType: ContextType.Collection;
 }
-export interface CommunityContext
+export interface CommunityActivityData
   extends BaseActivity,
-    ConcreteContext,
+    ConcreteActivityData,
     WithLike {
   contextType: ContextType.Community;
 }
 
-export interface LikeContext extends BaseActivity, ConcreteContext {
+export interface LikeActivityData extends BaseActivity, ConcreteActivityData {
   contextType: ContextType.Like;
 }
-export interface FlagContext extends BaseActivity, ConcreteContext {
+export interface FlagActivityData extends BaseActivity, ConcreteActivityData {
   contextType: ContextType.Flag;
 }
-export interface FollowContext extends BaseActivity, ConcreteContext {
+export interface FollowActivityData extends BaseActivity, ConcreteActivityData {
   contextType: ContextType.Follow;
 }
 
-export type Context =
-  | CommentContext
-  | ResourceContext
-  | CollectionContext
-  | CommunityContext
-  | LikeContext
-  | FlagContext
-  | FollowContext;
+export type ActivityData =
+  | CommentActivityData
+  | ResourceActivityData
+  | CollectionActivityData
+  | CommunityActivityData
+  | LikeActivityData
+  | FlagActivityData
+  | FollowActivityData;

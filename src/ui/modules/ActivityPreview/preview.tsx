@@ -5,13 +5,13 @@ import { Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
-import { ActivityPreviewVerb, Context, ContextType } from './types';
+import { ActivityPreviewVerb, ActivityData, ContextType } from './types';
 
 interface Props {
-  context: Context;
+  context: ActivityData;
 }
 
-const SmallPreview = ({ context }: { context: Context }) => (
+const SmallPreview = ({ context }: { context: ActivityData }) => (
   <Flex alignItems="center">
     <Text mr={2} variant="link">
       {context.verb === ActivityPreviewVerb.Created &&
@@ -53,7 +53,7 @@ const SmallPreview = ({ context }: { context: Context }) => (
   </Flex>
 );
 
-const Preview: React.FC<Props> = ({ context }: { context: Context }) => {
+const Preview: React.FC<Props> = ({ context }: { context: ActivityData }) => {
   return (
     <Wrapper>
       <WrapperLink to={context.link.url}>

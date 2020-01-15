@@ -10,21 +10,19 @@ import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
 import Actions from './Actions';
 import Preview from './preview';
-import { Context, Status } from './types';
+import { ActivityData, Status } from './types';
 
 export interface ActivityLoaded {
   status: Status.Loaded;
-  context: Context;
+  context: ActivityData;
 }
 export interface ActivityLoading {
   status: Status.Loading;
 }
 
-export interface Props {
-  activity: ActivityLoaded | ActivityLoading;
-}
+export type Props = ActivityLoaded | ActivityLoading;
 
-export const ThreadActivityPreview: SFC<Props> = ({ activity }) => {
+export const ThreadActivityPreview: SFC<Props> = activity => {
   if (activity.status === Status.Loading) {
     return <Trans>loading...</Trans>;
   }
@@ -42,7 +40,7 @@ export const ThreadActivityPreview: SFC<Props> = ({ activity }) => {
   );
 };
 
-export const ActivityPreview: SFC<Props> = ({ activity }) => {
+export const ActivityPreview: SFC<Props> = activity => {
   if (activity.status === Status.Loading) {
     return <Trans>loading...</Trans>;
   }
