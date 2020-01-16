@@ -14,7 +14,7 @@ export type ResetPasswordRequestMutationVariables = {
 
 
 export type ResetPasswordRequestMutation = (
-  { __typename?: 'RootMutationType' }
+  { __typename: 'RootMutationType' }
   & Pick<Types.RootMutationType, 'resetPasswordRequest'>
 );
 

@@ -14,7 +14,7 @@ export type UsernameAvailableQueryVariables = {
 
 
 export type UsernameAvailableQuery = (
-  { __typename?: 'RootQueryType' }
+  { __typename: 'RootQueryType' }
   & Pick<Types.RootQueryType, 'usernameAvailable'>
 );
 

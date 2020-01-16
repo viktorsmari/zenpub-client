@@ -15,9 +15,9 @@ export type ResetPasswordMutationVariables = {
 
 
 export type ResetPasswordMutation = (
-  { __typename?: 'RootMutationType' }
+  { __typename: 'RootMutationType' }
   & { resetPassword: Types.Maybe<(
-    { __typename?: 'AuthPayload' }
+    { __typename: 'AuthPayload' }
     & Pick<Types.AuthPayload, 'token'>
   )> }
 );

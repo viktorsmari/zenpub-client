@@ -15,9 +15,9 @@ export type UpdateResourceMutationMutationVariables = {
 
 
 export type UpdateResourceMutationMutation = (
-  { __typename?: 'RootMutationType' }
+  { __typename: 'RootMutationType' }
   & { updateResource: Types.Maybe<(
-    { __typename?: 'Resource' }
+    { __typename: 'Resource' }
     & Pick<Types.Resource, 'id' | 'name' | 'summary' | 'url' | 'license' | 'icon' | 'createdAt' | 'updatedAt'>
   )> }
 );

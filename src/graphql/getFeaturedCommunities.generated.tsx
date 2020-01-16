@@ -18,23 +18,23 @@ export type GetFeaturedCommunitiesQueryVariables = {};
 
 
 export type GetFeaturedCommunitiesQuery = (
-  { __typename?: 'RootQueryType' }
+  { __typename: 'RootQueryType' }
   & { instance: Types.Maybe<(
-    { __typename?: 'Instance' }
+    { __typename: 'Instance' }
     & { featuredCommunities: (
-      { __typename?: 'FeaturesEdges' }
+      { __typename: 'FeaturesEdges' }
       & Pick<Types.FeaturesEdges, 'totalCount'>
       & { pageInfo: Types.Maybe<(
-        { __typename?: 'PageInfo' }
+        { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
       )>, edges: Array<Types.Maybe<(
-        { __typename?: 'FeaturesEdge' }
+        { __typename: 'FeaturesEdge' }
         & Pick<Types.FeaturesEdge, 'cursor'>
         & { node: (
-          { __typename?: 'Feature' }
+          { __typename: 'Feature' }
           & Pick<Types.Feature, 'id' | 'canonicalUrl' | 'isLocal' | 'createdAt'>
           & { creator: (
-            { __typename?: 'User' }
+            { __typename: 'User' }
             & BasicUserFragment
           ), context: { __typename: 'Collection' } | (
             { __typename: 'Community' }

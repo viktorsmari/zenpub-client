@@ -11,7 +11,7 @@ const Wrapper = styled(Box)<{ bg?: string; size?: string }>`
     props.size === 'm' ? '140px' : props.size === 'l' ? '200px' : '48px'};
   background-color: ${props =>
     props.bg ? 'transparent' : props.theme.colors.lightgray};
-  background-image: url(${props => props.bg});
+  background-image: url("${props => props.bg}");
   background-size: cover;
   background-position: center center;
   span {

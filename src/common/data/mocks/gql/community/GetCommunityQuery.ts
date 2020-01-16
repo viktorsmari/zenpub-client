@@ -1,6 +1,7 @@
 import { GetCommunityQueryQuery } from 'graphql/getCommunity.generated';
 
 export const basicGetCommunityQuery: GetCommunityQueryQuery = {
+  __typename: 'RootQueryType',
   community: {
     __typename: 'Community',
     name: 'name',

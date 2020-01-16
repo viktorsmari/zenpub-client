@@ -6,15 +6,15 @@ import { BasicResourceFragmentDoc } from './basicResource.generated';
 
 
 export type BasicResourcesEdgesFragment = (
-  { __typename?: 'ResourcesEdges' }
+  { __typename: 'ResourcesEdges' }
   & Pick<Types.ResourcesEdges, 'totalCount'>
   & { pageInfo: Types.Maybe<(
-    { __typename?: 'PageInfo' }
+    { __typename: 'PageInfo' }
     & Pick<Types.PageInfo, 'endCursor' | 'startCursor'>
   )>, edges: Array<Types.Maybe<(
-    { __typename?: 'ResourcesEdge' }
+    { __typename: 'ResourcesEdge' }
     & { node: (
-      { __typename?: 'Resource' }
+      { __typename: 'Resource' }
       & BasicResourceFragment
     ) }
   )>> }

@@ -1,0 +1,27 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import { PropsTable } from '@storybook/components';
+import { Collection } from '.';
+
+<Meta title="Pages|Collection" component={Collection}/>
+
+
+# Collection
+Let's define a story for the `Collection` page
+
+<Preview>
+  <Story name="Collection page">
+    <Collection 
+      activities={ [{id:1},{id:2},{id:3}]}
+      HeroCollectionBox={({cancel})=>(<img
+        onClick={cancel}
+        src="https://via.placeholder.com/400x200.png?text=HeroCollection"
+      />)}
+      ActivityBox={({cancel})=>(<img
+        onClick={cancel}
+        src="https://via.placeholder.com/400x100.png?text=ActivityBox"
+      />)}
+    />
+  </Story>
+</Preview>
+
+

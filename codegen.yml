@@ -1,7 +1,7 @@
 schema: ${REACT_APP_GRAPHQL_ENDPOINT}
 documents: src/**/!(*.client).graphql
 overwrite: true
-watch: true
+watch: false
 hooks:
   afterStart: 
     - node codegencleanup
@@ -34,3 +34,4 @@ generates:
       reactApolloVersion: 3
       withHooks: true
       withHOC: true
+      nonOptionalTypename: true

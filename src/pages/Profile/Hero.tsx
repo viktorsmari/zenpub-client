@@ -6,7 +6,10 @@ import media from 'styled-media-query';
 import { User } from '../../graphql/types.generated';
 
 interface Props {
-  user: User;
+  user: Pick<
+    User,
+    'image' | 'icon' | 'name' | 'summary' | 'preferredUsername' | 'location'
+  >;
 }
 
 const HeroComp: SFC<Props> = ({ user }) => (

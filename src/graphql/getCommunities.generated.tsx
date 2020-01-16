@@ -18,14 +18,14 @@ export type GetCommunitiesQueryQueryVariables = {
 
 
 export type GetCommunitiesQueryQuery = (
-  { __typename?: 'RootQueryType' }
+  { __typename: 'RootQueryType' }
   & { communities: (
-    { __typename?: 'CommunitiesNodes' }
+    { __typename: 'CommunitiesNodes' }
     & { pageInfo: Types.Maybe<(
-      { __typename?: 'PageInfo' }
+      { __typename: 'PageInfo' }
       & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
     )>, nodes: Array<Types.Maybe<(
-      { __typename?: 'Community' }
+      { __typename: 'Community' }
       & BasicCommunityFragment
     )>> }
   ) }

@@ -1,4 +1,5 @@
 import { Trans } from '@lingui/macro';
+import { ActivityPreviewHOC } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 // import { Helmet } from 'react-helmet';
@@ -7,8 +8,10 @@ import Empty from '../../components/elements/Empty';
 import Loader from '../../components/elements/Loader/Loader';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timelineUser';
 import { StickyTabList, SuperTab } from '../../components/elements/SuperTab';
-import TimelineItem from '../../components/elements/TimelineItem/index2';
+import { CreateReplyMutationMutationOperation } from '../../graphql/createReply.generated';
+import { DeleteMutationMutationOperation } from '../../graphql/delete.generated';
 import { useGetMeInboxQuery } from '../../graphql/getMeInbox.generated';
+import { LikeMutationMutationOperation } from '../../graphql/like.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import {
   Nav,
@@ -20,9 +23,6 @@ import {
 } from '../../sections/panel';
 import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-import { CreateReplyMutationMutationOperation } from '../../graphql/createReply.generated';
-import { LikeMutationMutationOperation } from '../../graphql/like.generated';
-import { DeleteMutationMutationOperation } from '../../graphql/delete.generated';
 
 interface Props {}
 
@@ -81,11 +81,8 @@ const Home: React.FC<Props> = () => {
                       {data.me.user.inbox.edges.map(
                         userActivityEdge =>
                           userActivityEdge && (
-                            <TimelineItem
-                              context={userActivityEdge.node.context}
-                              verb={userActivityEdge.node.verb}
-                              createdAt={userActivityEdge.node.createdAt}
-                              user={userActivityEdge.node.user}
+                            <ActivityPreviewHOC
+                              activityId={userActivityEdge.node.id}
                               key={userActivityEdge.node.id}
                             />
                           )

@@ -18,14 +18,14 @@ export type GetCollectionsQueryQueryVariables = {
 
 
 export type GetCollectionsQueryQuery = (
-  { __typename?: 'RootQueryType' }
+  { __typename: 'RootQueryType' }
   & { collections: (
-    { __typename?: 'CollectionsNodes' }
+    { __typename: 'CollectionsNodes' }
     & { pageInfo: Types.Maybe<(
-      { __typename?: 'PageInfo' }
+      { __typename: 'PageInfo' }
       & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
     )>, nodes: Array<Types.Maybe<(
-      { __typename?: 'Collection' }
+      { __typename: 'Collection' }
       & BasicCollectionFragment
     )>> }
   ) }

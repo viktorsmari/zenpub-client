@@ -6,13 +6,13 @@ import { BasicUserFragmentDoc } from './basicUser.generated';
 
 
 export type BasicAuthPayloadFragment = (
-  { __typename?: 'AuthPayload' }
+  { __typename: 'AuthPayload' }
   & Pick<Types.AuthPayload, 'token'>
   & { me: (
-    { __typename?: 'Me' }
+    { __typename: 'Me' }
     & Pick<Types.Me, 'email' | 'isConfirmed' | 'isInstanceAdmin' | 'wantsEmailDigest' | 'wantsNotifications'>
     & { user: (
-      { __typename?: 'User' }
+      { __typename: 'User' }
       & BasicUserFragment
     ) }
   ) }

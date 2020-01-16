@@ -15,9 +15,9 @@ export type UpdateCommunityMutationMutationVariables = {
 
 
 export type UpdateCommunityMutationMutation = (
-  { __typename?: 'RootMutationType' }
+  { __typename: 'RootMutationType' }
   & { updateCommunity: Types.Maybe<(
-    { __typename?: 'Community' }
+    { __typename: 'Community' }
     & Pick<Types.Community, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'createdAt' | 'updatedAt'>
   )> }
 );

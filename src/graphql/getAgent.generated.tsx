@@ -35,21 +35,21 @@ export type GetAgentQueryQueryVariables = {
 
 
 export type GetAgentQueryQuery = (
-  { __typename?: 'RootQueryType' }
+  { __typename: 'RootQueryType' }
   & { user: Types.Maybe<(
-    { __typename?: 'User' }
+    { __typename: 'User' }
     & { outbox: (
-      { __typename?: 'ActivitiesEdges' }
+      { __typename: 'ActivitiesEdges' }
       & { pageInfo: Types.Maybe<(
-        { __typename?: 'PageInfo' }
+        { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
       )>, edges: Array<Types.Maybe<(
-        { __typename?: 'ActivitiesEdge' }
+        { __typename: 'ActivitiesEdge' }
         & { node: (
-          { __typename?: 'Activity' }
+          { __typename: 'Activity' }
           & Pick<Types.Activity, 'id' | 'canonicalUrl' | 'verb' | 'isLocal' | 'isPublic' | 'createdAt'>
           & { user: (
-            { __typename?: 'User' }
+            { __typename: 'User' }
             & BasicUserFragment
           ), context: (
             { __typename: 'Collection' }
@@ -67,16 +67,16 @@ export type GetAgentQueryQuery = (
         ) }
       )>> }
     ), followedCommunities: (
-      { __typename?: 'FollowedCommunitiesEdges' }
+      { __typename: 'FollowedCommunitiesEdges' }
       & { pageInfo: Types.Maybe<(
-        { __typename?: 'PageInfo' }
+        { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
       )>, edges: Array<Types.Maybe<(
-        { __typename?: 'FollowedCommunitiesEdge' }
+        { __typename: 'FollowedCommunitiesEdge' }
         & { node: (
-          { __typename?: 'FollowedCommunity' }
+          { __typename: 'FollowedCommunity' }
           & { follow: (
-            { __typename?: 'Follow' }
+            { __typename: 'Follow' }
             & Pick<Types.Follow, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'createdAt'>
           ), community: (
             { __typename: 'Community' }
@@ -85,16 +85,16 @@ export type GetAgentQueryQuery = (
         ) }
       )>> }
     ), followedCollections: (
-      { __typename?: 'FollowedCollectionsEdges' }
+      { __typename: 'FollowedCollectionsEdges' }
       & { pageInfo: Types.Maybe<(
-        { __typename?: 'PageInfo' }
+        { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
       )>, edges: Array<Types.Maybe<(
-        { __typename?: 'FollowedCollectionsEdge' }
+        { __typename: 'FollowedCollectionsEdge' }
         & { node: (
-          { __typename?: 'FollowedCollection' }
+          { __typename: 'FollowedCollection' }
           & { follow: (
-            { __typename?: 'Follow' }
+            { __typename: 'Follow' }
             & Pick<Types.Follow, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'createdAt'>
           ), collection: (
             { __typename: 'Collection' }

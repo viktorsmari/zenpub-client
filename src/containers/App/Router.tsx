@@ -130,7 +130,7 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
             return me && me.user.id === userId ? (
               <Redirect to="/profile" />
             ) : (
-              <User {...route} />
+              <User userId={userId} />
             );
           }}
         />

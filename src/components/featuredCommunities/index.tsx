@@ -110,7 +110,10 @@ const MultipleItems: React.FC = () => {
             edge =>
               edge &&
               edge.node.context.__typename === 'Community' && (
-                <CommunitySmall community={edge.node.context} />
+                <CommunitySmall
+                  community={edge.node.context}
+                  key={edge.node.id}
+                />
               )
           )}
         </Slider>

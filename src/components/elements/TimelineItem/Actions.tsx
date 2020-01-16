@@ -1,48 +1,58 @@
 import * as React from 'react';
 import { MessageCircle, Star } from 'react-feather';
 import styled from '../../../themes/styled';
-import { Box, Flex } from 'rebass/styled-components';
-import TalkModal from '../TalkModal';
-import { BasicCommentFragment } from '../../../graphql/fragments/basicComment.generated';
+import { Box, Flex, Text } from 'rebass/styled-components';
+import SocialText from '../SocialText';
+import { i18nMark } from '@lingui/react';
+import { LocaleContext } from '../../../context/global/localizationCtx';
+
+const tt = {
+  placeholders: {
+    name: i18nMark('Post a reply'),
+    summary: i18nMark(
+      'Please describe what the collection is for and what kind of resources it is likely to contain...'
+    ),
+    image: i18nMark('Enter the URL of an image to represent the collection')
+  }
+};
 
 export interface Props {
-  // totalReplies: number;
-  // totalLikes: number;
+  totalReplies: number;
+  totalLikes: number;
   iLikeIt: boolean;
   toggleLike: () => unknown;
-  comment?: BasicCommentFragment;
 }
 const ActionsWrapper = ({
-  // totalReplies,
-  comment,
-  // totalLikes,
+  totalReplies,
+  totalLikes,
   iLikeIt,
   toggleLike
 }: Props) => {
   const [talkModalVisible, showTalkModal] = React.useState(false);
+  const { i18n } = React.useContext(LocaleContext);
   return (
     <Actions mt={2}>
       <Items>
-        {comment && (
-          <>
-            <TalkModal
-              modalIsOpen={talkModalVisible}
-              comment={comment}
-              toggleModal={showTalkModal}
-            />
-            <ActionItem onClick={() => showTalkModal(true)}>
-              <ActionIcon>
-                <MessageCircle color="rgba(0,0,0,.4)" size="16" />
-              </ActionIcon>
-              {/* <Text ml={1}>{totalReplies}</Text> */}
-            </ActionItem>
-          </>
+        {talkModalVisible && (
+          <SocialText
+            placeholder={i18n._(tt.placeholders.name)}
+            name={'text'}
+            defaultValue={''}
+            submit={() => console.log()}
+            onChange={() => console.log()}
+          />
         )}
+        <ActionItem onClick={() => showTalkModal(true)}>
+          <ActionIcon>
+            <MessageCircle color="rgba(0,0,0,.4)" size="16" />
+          </ActionIcon>
+          <Text ml={1}>{totalReplies}</Text>
+        </ActionItem>
         <ActionItem ml={4} onClick={toggleLike}>
           <ActionIcon>
             <Star color={iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'} size="16" />
           </ActionIcon>
-          {/* <Text ml={1}>{totalLikes}</Text> */}
+          <Text ml={1}>{totalLikes}</Text>
         </ActionItem>
       </Items>
     </Actions>

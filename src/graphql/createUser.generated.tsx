@@ -14,12 +14,12 @@ export type CreateUserMutationMutationVariables = {
 
 
 export type CreateUserMutationMutation = (
-  { __typename?: 'RootMutationType' }
+  { __typename: 'RootMutationType' }
   & { createUser: Types.Maybe<(
-    { __typename?: 'Me' }
+    { __typename: 'Me' }
     & Pick<Types.Me, 'email' | 'wantsEmailDigest' | 'wantsNotifications' | 'isConfirmed'>
     & { user: (
-      { __typename?: 'User' }
+      { __typename: 'User' }
       & Pick<Types.User, 'id' | 'preferredUsername' | 'name' | 'summary' | 'location' | 'website'>
     ) }
   )> }

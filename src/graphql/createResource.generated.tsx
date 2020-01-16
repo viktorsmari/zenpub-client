@@ -18,9 +18,9 @@ export type CreateResourceMutationMutationVariables = {
 
 
 export type CreateResourceMutationMutation = (
-  { __typename?: 'RootMutationType' }
+  { __typename: 'RootMutationType' }
   & { createResource: Types.Maybe<(
-    { __typename?: 'Resource' }
+    { __typename: 'Resource' }
     & BasicResourceFragment
   )> }
 );
