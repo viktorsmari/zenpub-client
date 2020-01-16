@@ -1,23 +1,20 @@
 import * as Types from './types.generated';
 
-import { BasicCommentWithInReplyToFragment } from './fragments/basicComment.generated';
 import { BasicCollectionFragment } from './fragments/basicCollection.generated';
-import { BasicResourceFragment } from './fragments/basicResource.generated';
+import { ActivityPreviewDataFragment } from '../HOC/modules/ActivityPreview/getActivityPreview.generated';
 import { BasicCommunityFragment } from './fragments/basicCommunity.generated';
 import { BasicUserFragment } from './fragments/basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from './fragments/basicUser.generated';
 import { BasicCommunityFragmentDoc } from './fragments/basicCommunity.generated';
-import { BasicResourceFragmentDoc } from './fragments/basicResource.generated';
+import { ActivityPreviewDataFragmentDoc } from '../HOC/modules/ActivityPreview/getActivityPreview.generated';
 import { BasicCollectionFragmentDoc } from './fragments/basicCollection.generated';
-import { BasicCommentWithInReplyToFragmentDoc } from './fragments/basicComment.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
-
 
 
 
@@ -66,23 +63,7 @@ export type GetUserQuery = (
           { __typename: 'ActivitiesEdge' }
           & { node: (
             { __typename: 'Activity' }
-            & Pick<Types.Activity, 'id' | 'canonicalUrl' | 'verb' | 'isLocal' | 'isPublic' | 'createdAt'>
-            & { user: (
-              { __typename: 'User' }
-              & BasicUserFragment
-            ), context: (
-              { __typename: 'Collection' }
-              & BasicCollectionFragment
-            ) | (
-              { __typename: 'Comment' }
-              & BasicCommentWithInReplyToFragment
-            ) | (
-              { __typename: 'Community' }
-              & BasicCommunityFragment
-            ) | { __typename: 'Flag' } | { __typename: 'Follow' } | { __typename: 'Like' } | (
-              { __typename: 'Resource' }
-              & BasicResourceFragment
-            ) }
+            & ActivityPreviewDataFragment
           ) }
         )>> }
       ), followedCollections: (
@@ -142,30 +123,7 @@ export const GetUserDocument = gql`
         }
         edges {
           node {
-            id
-            canonicalUrl
-            verb
-            isLocal
-            isPublic
-            createdAt
-            user {
-              ...BasicUser
-            }
-            context {
-              __typename
-              ... on Resource {
-                ...BasicResource
-              }
-              ... on Community {
-                ...BasicCommunity
-              }
-              ... on Collection {
-                ...BasicCollection
-              }
-              ... on Comment {
-                ...BasicCommentWithInReplyTo
-              }
-            }
+            ...ActivityPreviewData
           }
         }
       }
@@ -194,9 +152,8 @@ export const GetUserDocument = gql`
 }
     ${BasicUserFragmentDoc}
 ${BasicCommunityFragmentDoc}
-${BasicResourceFragmentDoc}
-${BasicCollectionFragmentDoc}
-${BasicCommentWithInReplyToFragmentDoc}`;
+${ActivityPreviewDataFragmentDoc}
+${BasicCollectionFragmentDoc}`;
 export type GetUserComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetUserQuery, GetUserQueryVariables>, 'query'>;
 
     export const GetUserComponent = (props: GetUserComponentProps) => (

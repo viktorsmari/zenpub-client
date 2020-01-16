@@ -1,15 +1,15 @@
 import { Trans } from '@lingui/macro';
+import { ActivityPreviewHOC } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
 import React, { SFC, useState } from 'react';
 // import { i18nMark } from '@lingui/react';
 // import { i18n } from '../../containers/App/App';
 import { TabPanel, Tabs } from 'react-tabs';
 import { Box, Button, Flex } from 'rebass/styled-components';
+import FeedItem from '../../components/elements/Comment/Comment';
 import CreateCollectionModal from '../../components/elements/CreateCollectionModal';
 import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
 import { SocialText } from '../../components/elements/SocialText';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
-import TimelineItem from '../../components/elements/TimelineItem/index2';
-import FeedItem from '../../components/elements/Comment/Comment';
 import { useCreateThreadMutationMutation } from '../../graphql/createThread.generated';
 import { GetCommunityQueryQuery } from '../../graphql/getCommunity.generated';
 import styled from '../../themes/styled';
@@ -100,12 +100,9 @@ const CommunityPage: SFC<Props> = ({
                 {community.outbox.edges.map(
                   (t, i) =>
                     t && (
-                      <TimelineItem
-                        context={t.node.context}
-                        user={t.node.user}
-                        verb={t.node.verb}
-                        createdAt={t.node.createdAt}
-                        key={i}
+                      <ActivityPreviewHOC
+                        activityId={t.node.id}
+                        key={t.node.id}
                       />
                     )
                 )}

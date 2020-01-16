@@ -1,15 +1,9 @@
 import * as Types from './types.generated';
 
 import { BasicCommentWithInReplyToFragment } from './fragments/basicComment.generated';
-import { BasicCollectionFragment } from './fragments/basicCollection.generated';
-import { BasicCommunityFragment } from './fragments/basicCommunity.generated';
-import { BasicResourceFragment } from './fragments/basicResource.generated';
-import { BasicUserFragment } from './fragments/basicUser.generated';
+import { ActivityPreviewDataFragment } from '../HOC/modules/ActivityPreview/getActivityPreview.generated';
 import gql from 'graphql-tag';
-import { BasicUserFragmentDoc } from './fragments/basicUser.generated';
-import { BasicResourceFragmentDoc } from './fragments/basicResource.generated';
-import { BasicCommunityFragmentDoc } from './fragments/basicCommunity.generated';
-import { BasicCollectionFragmentDoc } from './fragments/basicCollection.generated';
+import { ActivityPreviewDataFragmentDoc } from '../HOC/modules/ActivityPreview/getActivityPreview.generated';
 import { BasicCommentWithInReplyToFragmentDoc } from './fragments/basicComment.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -17,9 +11,6 @@ import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
-
-
-
 
 
 
@@ -50,23 +41,7 @@ export type GetCommunityQueryQuery = (
         { __typename: 'ActivitiesEdge' }
         & { node: (
           { __typename: 'Activity' }
-          & Pick<Types.Activity, 'id' | 'canonicalUrl' | 'verb' | 'isLocal' | 'isPublic' | 'createdAt'>
-          & { user: (
-            { __typename: 'User' }
-            & BasicUserFragment
-          ), context: (
-            { __typename: 'Collection' }
-            & BasicCollectionFragment
-          ) | (
-            { __typename: 'Comment' }
-            & BasicCommentWithInReplyToFragment
-          ) | (
-            { __typename: 'Community' }
-            & BasicCommunityFragment
-          ) | { __typename: 'Flag' } | { __typename: 'Follow' } | { __typename: 'Like' } | (
-            { __typename: 'Resource' }
-            & BasicResourceFragment
-          ) }
+          & ActivityPreviewDataFragment
         ) }
       )>> }
     ), threads: (
@@ -184,30 +159,7 @@ export const GetCommunityQueryDocument = gql`
       }
       edges {
         node {
-          id
-          canonicalUrl
-          verb
-          isLocal
-          isPublic
-          createdAt
-          user {
-            ...BasicUser
-          }
-          context {
-            __typename
-            ... on Resource {
-              ...BasicResource
-            }
-            ... on Community {
-              ...BasicCommunity
-            }
-            ... on Collection {
-              ...BasicCollection
-            }
-            ... on Comment {
-              ...BasicCommentWithInReplyTo
-            }
-          }
+          ...ActivityPreviewData
         }
       }
     }
@@ -311,10 +263,7 @@ export const GetCommunityQueryDocument = gql`
     }
   }
 }
-    ${BasicUserFragmentDoc}
-${BasicResourceFragmentDoc}
-${BasicCommunityFragmentDoc}
-${BasicCollectionFragmentDoc}
+    ${ActivityPreviewDataFragmentDoc}
 ${BasicCommentWithInReplyToFragmentDoc}`;
 export type GetCommunityQueryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetCommunityQueryQuery, GetCommunityQueryQueryVariables>, 'query'> & ({ variables: GetCommunityQueryQueryVariables; skip?: boolean; } | { skip: boolean; });
 
