@@ -5,7 +5,25 @@ import { Box, Flex, Text } from 'rebass/styled-components';
 import SocialText from '../SocialText';
 import { i18nMark } from '@lingui/react';
 import { LocaleContext } from '../../../context/global/localizationCtx';
-import { ActivityData, ContextType } from './types';
+import { FormikHook } from 'common/types';
+
+export interface LikeActions {
+  toggleLikeFormik: FormikHook<{}>;
+  totalLikes: number | null;
+  iLikeIt: boolean;
+}
+export interface ReplyActions {
+  replyFormik: FormikHook<{ replyMessage: string }>;
+}
+export interface ActionProps {
+  like: null | LikeActions;
+  reply: null | ReplyActions /* ,
+  follow?: {
+    toggleFollowFormik: FormikHook<{}>
+    following: boolean
+    followers: number
+  } */;
+}
 
 const tt = {
   placeholders: {
@@ -16,25 +34,23 @@ const tt = {
     image: i18nMark('Enter the URL of an image to represent the collection')
   }
 };
-interface Props {
-  context: ActivityData;
-}
 
-const ActionsWrapper = ({ context }: Props) => {
+const ActionsWrapper: React.SFC<ActionProps> = ({ like, reply }) => {
   const [talkModalVisible, showTalkModal] = React.useState(false);
   const { i18n } = React.useContext(LocaleContext);
   return (
     <Actions p={2}>
-      {talkModalVisible && (
-        <SocialText
-          placeholder={i18n._(tt.placeholders.name)}
-          defaultValue={''}
-          submit={msg => {
-            context.replyFormik.setValues({ replyMessage: msg });
-            context.replyFormik.submitForm();
-          }}
-        />
-      )}
+      {reply &&
+        talkModalVisible && (
+          <SocialText
+            placeholder={i18n._(tt.placeholders.name)}
+            defaultValue={''}
+            submit={msg => {
+              reply.replyFormik.setValues({ replyMessage: msg });
+              reply.replyFormik.submitForm();
+            }}
+          />
+        )}
       <Box>
         <Items>
           <ActionItem onClick={() => showTalkModal(!talkModalVisible)}>
@@ -43,20 +59,17 @@ const ActionsWrapper = ({ context }: Props) => {
             </ActionIcon>
             {/* <Text ml={1}>{context.replies}</Text> */}
           </ActionItem>
-          {context.contextType === ContextType.Comment ||
-          context.contextType === ContextType.Resource ||
-          context.contextType === ContextType.Collection ||
-          context.contextType === ContextType.Community ? (
-            <ActionItem ml={4} onClick={context.toggleLikeFormik.submitForm}>
+          {like && (
+            <ActionItem ml={4} onClick={like.toggleLikeFormik.submitForm}>
               <ActionIcon>
                 <Star
-                  color={context.iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'}
+                  color={like.iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'}
                   size="16"
                 />
               </ActionIcon>
-              <Text ml={1}>{context.totalLikes}</Text>
+              <Text ml={1}>{like.totalLikes}</Text>
             </ActionItem>
-          ) : null}
+          )}
         </Items>
       </Box>
     </Actions>

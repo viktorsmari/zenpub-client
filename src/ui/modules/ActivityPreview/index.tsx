@@ -8,16 +8,27 @@ import { Box, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
-import Actions from './Actions';
-import Preview from './preview';
-import { ActivityData, Status } from './types';
+import Actions, { ActionProps } from './Actions';
+import Preview, { Context, InReplyTo, InReplyToContext } from './preview';
+import { Actor } from './types';
 
-export interface ActivityLoaded {
+export enum Status {
+  Loading,
+  Loaded
+}
+export interface ActivityLoaded extends Activity {
   status: Status.Loaded;
-  context: ActivityData;
 }
 export interface ActivityLoading {
   status: Status.Loading;
+}
+
+export interface Activity {
+  createdAt: string;
+  actor: Actor;
+  context: Context;
+  inReplyToCtx?: InReplyToContext | null;
+  actions?: ActionProps | null;
 }
 
 export type Props = ActivityLoaded | ActivityLoading;
@@ -26,14 +37,13 @@ export const ThreadActivityPreview: SFC<Props> = activity => {
   if (activity.status === Status.Loading) {
     return <Trans>loading...</Trans>;
   }
-  const { context } = activity;
   return (
     <FeedItem>
-      <Actor actor={context.actor} createdAt={context.createdAt} />
+      <ActorComp actor={activity.actor} createdAt={activity.createdAt} />
       <Contents>
         <Wrapper mt={2}>
-          <Preview context={context} />
-          <Actions context={context} />
+          <Preview {...activity.context} />
+          {activity.actions && <Actions {...activity.actions} />}{' '}
         </Wrapper>
       </Contents>
     </FeedItem>
@@ -44,29 +54,30 @@ export const ActivityPreview: SFC<Props> = activity => {
   if (activity.status === Status.Loading) {
     return <Trans>loading...</Trans>;
   }
-  const { context } = activity;
   return (
     <FeedItem>
-      {/* context.verb === ActivityPreviewVerb.InReplyTo && (
-        <InReplyTo context={context.inReplyToContext} />
-      ) */}
-      <Actor actor={context.actor} createdAt={context.createdAt} />
+      {activity.inReplyToCtx && <InReplyTo {...activity.inReplyToCtx} />}
+      <ActorComp actor={activity.actor} createdAt={activity.createdAt} />
       <Contents>
         <Wrapper mt={2}>
-          <Preview context={context} />
-          <Actions context={context} />
+          <Preview {...activity.context} />
+          {activity.actions && <Actions {...activity.actions} />}
         </Wrapper>
       </Contents>
     </FeedItem>
   );
 };
 
-const Actor = ({ actor, createdAt }) => (
+export interface ActorProps {
+  actor: Actor;
+  createdAt: string;
+}
+const ActorComp: SFC<ActorProps> = ({ actor, createdAt }) => (
   <Member>
     <Avatar initials={actor.name} src={actor.icon} />
     <MemberInfo ml={2}>
       <Name>
-        <Link to={'/user/' + actor.id}>
+        <Link to={actor.link}>
           {actor.name}
           <Username ml={2}>@{actor.preferredUsername}</Username>
         </Link>
