@@ -207,7 +207,6 @@ export const HomeBox = styled(Flex)`
 
 export const MainContainer = styled(Flex)`
   align-items: stretch;
-  justify-content: space-between;
   flex-grow: 1;
   flex-direction: row;
   width: 100%;

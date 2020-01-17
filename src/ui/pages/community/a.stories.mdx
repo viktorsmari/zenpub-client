@@ -9,6 +9,29 @@ import { action } from '@storybook/addon-actions';
 import { ContextType, ContextVerb } from 'ui/modules/ActivityPreview/preview';
 import {ActivityPreview} from 'ui/modules/ActivityPreview'
 import { useFormik } from 'formik';
+import {WithSidebar} from "ui/templates/withSidebar"
+import {Sidebar} from 'ui/modules/Sidebar'
+
+
+export const SidebarProps= {
+status: Status.Loaded,
+communities: [
+ {
+   name: "Italian landscapes",
+   icon: "https://i.picsum.photos/id/237/200/300.jpg",
+   link: {
+     url: "/communities/1",
+     external: true
+   }
+ }
+],
+user: {
+  name: "Ivan",
+  icon: "https://i.picsum.photos/id/237/200/300.jpg",
+  
+},
+}
+
 
 export const communityProps = {
       community: {
@@ -124,4 +147,37 @@ Let's define a story for the `community` page
   </Story>
 </Preview>
 
+
+# Community with sidebar
+
+
+<Preview>
+  <Story name="community with sidebar page">
+    <WithSidebar
+      {...{SidebarBox: ({userId}) => (
+        <Sidebar sidebar={SidebarProps} />
+      )}}
+    >
+        <Community {...{
+            activities: [{id:1},{id:2},{id:3}],
+            collections:[{id:1},{id:2},{id:3}],
+            ActivityBox: ({ cancel }) => (
+             <ActivityPreview {...activityPreviewProps} />
+            ),
+            CollectionBox: ({ collectionId }) => (
+<CollectionPreview
+id="1"
+icon="https://i.picsum.photos/id/911/80/80.jpg"
+name="Beatiful landscapes"
+summary="There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle"
+totalResources={12}
+/>
+),
+HeroCommunityBox: ({ communityId }) => (
+<HeroCommunity {...communityProps}/>
+)
+}} />
+    </WithSidebar>
+  </Story>
+</Preview>
 
