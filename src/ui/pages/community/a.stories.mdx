@@ -1,13 +1,100 @@
-import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks';
 import { PropsTable } from '@storybook/components';
 import { Community } from '.';
 import {recentActivitiesContext, collectionsContext, collectionPreviewContext, editProvider, heroContext, activityPreviewContext} from 'ui/mock/context'
 import {RecentActivitiesContext, CollectionsContext } from '.';
-import { CollectionPreviewContext } from 'ui/modules/CollectionPreview';
+import { CollectionPreviewContext, CollectionPreview } from 'ui/modules/CollectionPreview';
+import { HeroCommunity, Status, Props } from 'ui/modules/HeroCommunity';
+import { action } from '@storybook/addon-actions';
+import { ContextType, ContextVerb } from 'ui/modules/ActivityPreview/preview';
+import {ActivityPreview} from 'ui/modules/ActivityPreview'
+import { useFormik } from 'formik';
+
+export const communityProps = {
+      community: {
+        status: Status.Loaded,
+        canModify: true,
+        following: true,
+        icon: 'https://picsum.photos/800/300',
+        name: 'Community nino',
+        preferredUsername: 'ninos',
+        summary: '',
+        totalMembers: 193,
+        toggleJoin: {
+          toggle: action('Unjoin !'),
+          isSubmitting: false
+        },
+        EditCommunityPanel: ({ done }) => (
+          <img
+            onClick={done}
+            src="https://via.placeholder.com/400x200.png?text=An editing panel"
+          />
+        )
+      }
+    };
+
+export  const activityPreviewProps = {
+      status: Status.Loaded,
+      actor: {
+        icon: 'https://picsum.photos/80/80',
+  link: '1',
+  name: 'Ivan',
+  preferredUsername: 'tata'
+  },
+      actions: {
+      like: {
+    totalLikes: 3,
+    toggleLikeFormik: useFormik<{}>({
+      initialValues: {},
+      onSubmit: vals => {
+        action('submitting...')();
+        return new Promise(resolve =>
+          setTimeout(() => {
+            action('submitted...')();
+            resolve();
+          }, 2000)
+        );
+      }
+    }),
+    iLikeIt: true
+  },
+  reply: {
+    replyFormik: useFormik<{}>({
+      initialValues: { replyMessage: '' },
+      onSubmit: vals => {
+        action(`submitting: ${vals.replyMessage}`)();
+        return new Promise(resolve =>
+          setTimeout(() => {
+            action(`submitted: ${vals.replyMessage}`)();
+            resolve();
+          }, 2000)
+        );
+      }
+    })
+  }
+  },
+      createdAt: '29-01-2020',
+      context: {
+        link: 'https://picsum.photos/80/80',
+        verb: ContextVerb.Created,
+        type: ContextType.Comment,
+        content: 'I hitch hiked up to Alaska in the summer of 1992, the same year he did. He and I were the same exact age. Heck, we could have crossed paths in the youth hostel in Anchorage, or passed one another hitch hiking. Who knows. He died while still young and idealistic. A pure state.'
+      } /* ,
+      inReplyToCtx: {
+        link: 'https://picsum.photos/80/80',
+        actor: {
+        icon: 'https://picsum.photos/80/80',
+  link: '1',
+  name: 'Ivan',
+  preferredUsername: 'tata'
+  }
+      } */
+    };
 
 
 
 <Meta title="Pages|Community" component={Community}/>
+
 
 
 # Community
@@ -19,23 +106,20 @@ Let's define a story for the `community` page
         activities: [{id:1},{id:2},{id:3}],
         collections:[{id:1},{id:2},{id:3}],
         ActivityBox: ({ cancel }) => (
-          <img
-            onClick={cancel}
-            src="https://via.placeholder.com/400x100.png?text=ActivityBox"
-          />
+          <ActivityPreview {...activityPreviewProps} />
         ),
-        CollectionBox: ({ cancel }) => (
-          <img
-            onClick={cancel}
-            src="https://via.placeholder.com/400x200.png?text=CollectionBox"
-          />
+        CollectionBox: ({ collectionId }) => (
+           <CollectionPreview
+              id="1"
+              icon="https://i.picsum.photos/id/911/80/80.jpg"
+              name="Beatiful landscapes"
+              summary="There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle"
+              totalResources={12}
+            />
         ),
-        HeroCommunityBox: ({ cancel }) => (
-          <img
-            onClick={cancel}
-            src="https://via.placeholder.com/400x200.png?text=HeroCommunityBox"
-          />
-        )
+        HeroCommunityBox: ({ communityId }) => (
+        <HeroCommunity {...communityProps}/>
+      )
     }} />
   </Story>
 </Preview>

@@ -57,7 +57,10 @@ export const Community: React.FC<Props> = ({
                 />
               </Route>
               <Route path="/threads">
-                <div>threads</div>
+                <RecentActivities
+                  activities={activities}
+                  ActivityBox={ActivityBox}
+                />
               </Route>
             </Switch>
           </Wrapper>
