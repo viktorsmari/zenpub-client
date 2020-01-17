@@ -31,6 +31,9 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
     onSubmit: ({ replyMessage }) => {
       if (
         !activity ||
+        'Like' === activity.context.__typename ||
+        'Flag' === activity.context.__typename ||
+        'Follow' === activity.context.__typename ||
         createReplyMutStatus.loading ||
         createThreadMutStatus.loading
       ) {
@@ -47,7 +50,7 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
       } else {
         return createThreadMut({
           variables: {
-            contextId: activity.id,
+            contextId: activity.context.id,
             comment: { content: replyMessage }
           }
         });
@@ -72,7 +75,7 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
         if (myLike) {
           return unlikeMut({ variables: { contextId: myLike.id } });
         } else {
-          return likeMut({ variables: { contextId: activity.id } });
+          return likeMut({ variables: { contextId: activity.context.id } });
         }
       }
     }
@@ -210,7 +213,7 @@ const getActions = (
   toggleLikeFormik: UIA.LikeActions['toggleLikeFormik']
 ): null | UIA.ActionProps => {
   const like: null | UIA.LikeActions =
-    'myLike' in context
+    'Community' !== context.__typename && 'myLike' in context
       ? {
           toggleLikeFormik,
           iLikeIt: !!context.myLike,
