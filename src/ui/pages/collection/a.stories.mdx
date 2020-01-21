@@ -1,6 +1,11 @@
 import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
 import { PropsTable } from '@storybook/components';
 import { Collection } from '.';
+import {HeroCollection} from 'ui/modules/HeroCollection'
+import {getHeroCollectionProps, getResourcePreviewProps} from 'ui/mock/context'
+import {ActivityPreview} from 'ui/modules/ActivityPreview'
+import {activityPreviewProps} from 'ui/pages/community/a.stories.mdx'
+import {ResourcePreview} from 'ui/modules/ResourcePreview'
 
 <Meta title="Pages|Collection" component={Collection}/>
 
@@ -12,14 +17,18 @@ Let's define a story for the `Collection` page
   <Story name="Collection page">
     <Collection 
       activities={ [{id:1},{id:2},{id:3}]}
-      HeroCollectionBox={({cancel})=>(<img
-        onClick={cancel}
-        src="https://via.placeholder.com/400x200.png?text=HeroCollection"
-      />)}
-      ActivityBox={({cancel})=>(<img
-        onClick={cancel}
-        src="https://via.placeholder.com/400x100.png?text=ActivityBox"
-      />)}
+      resources={ [{id:1},{id:2},{id:3}]}
+      HeroCollectionBox={({cancel})=>(
+        <HeroCollection
+        {...getHeroCollectionProps()}
+        />
+      )}
+      ActivityBox={({cancel})=>(
+        <ActivityPreview {...activityPreviewProps} />
+      )}
+      ResourceBox={() => (
+        <ResourcePreview {...getResourcePreviewProps()} />
+      )}
     />
   </Story>
 </Preview>

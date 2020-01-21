@@ -11,26 +11,7 @@ import {ActivityPreview} from 'ui/modules/ActivityPreview'
 import { useFormik } from 'formik';
 import {WithSidebar} from "ui/templates/withSidebar"
 import {Sidebar} from 'ui/modules/Sidebar'
-
-
-export const SidebarProps= {
-status: Status.Loaded,
-communities: [
- {
-   name: "Italian landscapes",
-   icon: "https://i.picsum.photos/id/237/200/300.jpg",
-   link: {
-     url: "/communities/1",
-     external: true
-   }
- }
-],
-user: {
-  name: "Ivan",
-  icon: "https://i.picsum.photos/id/237/200/300.jpg",
-  
-},
-}
+import {SidebarProps} from 'ui/modules/Sidebar/a.stories.mdx'
 
 
 export const communityProps = {
@@ -126,12 +107,16 @@ Let's define a story for the `community` page
 <Preview>
   <Story name="community page">
     <Community {...{
-        activities: [{id:1},{id:2},{id:3}],
-        collections:[{id:1},{id:2},{id:3}],
-        ActivityBox: ({ cancel }) => (
-          <ActivityPreview {...activityPreviewProps} />
-        ),
-        CollectionBox: ({ collectionId }) => (
+                threads: [{id:1},{id:2},{id:3}],
+                ThreadBox: ({threadId}) => (
+                    <ActivityPreview {...activityPreviewProps}  />
+                ),
+                activities: [{id:1},{id:2},{id:3}],
+                collections:[{id:1},{id:2},{id:3}],
+                ActivityBox: ({ cancel }) => (
+                    <ActivityPreview {...activityPreviewProps} />
+                ),
+                CollectionBox: ({ collectionId }) => (
            <CollectionPreview
               id="1"
               icon="https://i.picsum.photos/id/911/80/80.jpg"
@@ -142,7 +127,8 @@ Let's define a story for the `community` page
         ),
         HeroCommunityBox: ({ communityId }) => (
         <HeroCommunity {...communityProps}/>
-      )
+      ),
+      isFollowing:true
     }} />
   </Story>
 </Preview>
@@ -159,9 +145,13 @@ Let's define a story for the `community` page
       )}}
     >
         <Community {...{
+            threads: [{id:1},{id:2},{id:3}],
             activities: [{id:1},{id:2},{id:3}],
             collections:[{id:1},{id:2},{id:3}],
             ActivityBox: ({ cancel }) => (
+             <ActivityPreview {...activityPreviewProps} />
+            ),
+            ThreadBox: ({threadId}) => (
              <ActivityPreview {...activityPreviewProps} />
             ),
             CollectionBox: ({ collectionId }) => (

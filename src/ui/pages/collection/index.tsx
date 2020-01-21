@@ -14,18 +14,27 @@ import styled from 'ui/themes/styled';
 interface Activity {
   id: any;
 }
-type ActivityBox = React.ComponentType<{ activity: Activity }>;
 
+interface Resource {
+  id: any;
+}
+
+type ActivityBox = React.ComponentType<{ activity: Activity }>;
+type ResourceBox = React.ComponentType<{ resource: Resource }>;
 interface Props {
   activities: Activity[];
   ActivityBox: ActivityBox;
   HeroCollectionBox: React.ComponentType;
+  resources: Resource[];
+  ResourceBox: ResourceBox;
 }
 
 export const Collection: React.FC<Props> = ({
   HeroCollectionBox,
   ActivityBox,
-  activities
+  activities,
+  ResourceBox,
+  resources
 }) => {
   return (
     <MainContainer>
@@ -42,10 +51,10 @@ export const Collection: React.FC<Props> = ({
                 />
               </Route>
               <Route path="/resources">
-                <div>resources</div>
-              </Route>
-              <Route path="/threads">
-                <div>threads</div>
+                <ResourcesList
+                  ResourceBox={ResourceBox}
+                  resources={resources}
+                />
               </Route>
             </Switch>
           </Wrapper>
@@ -119,6 +128,22 @@ const RecentActivities: React.SFC<RecentActivitiesProps> = ({
   );
 };
 
+export interface ResourcesListProps {
+  resources: Resource[];
+  ResourceBox: ResourceBox;
+}
+
+const ResourcesList: React.SFC<ResourcesListProps> = ({
+  resources,
+  ResourceBox
+}) => (
+  <>
+    {resources.map(r => (
+      <ResourceBox resource={r} key={r.id} />
+    ))}
+  </>
+);
+
 const Menu = () => (
   <MenuWrapper p={3} pt={3}>
     <NavLink exact to={'/'}>
@@ -177,7 +202,6 @@ export const HomeBox = styled(Flex)`
 
 export const MainContainer = styled(Flex)`
   align-items: stretch;
-  justify-content: space-between;
   flex-grow: 1;
   flex-direction: row;
   width: 100%;

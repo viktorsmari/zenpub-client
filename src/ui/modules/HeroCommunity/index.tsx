@@ -4,7 +4,6 @@ import React, { ComponentType, SFC } from 'react';
 import { Settings } from 'react-feather';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
-import SocialText from 'ui/modules/SocialText';
 import styled from 'ui/themes/styled';
 import Modal from 'ui/modules/Modal';
 import Button from 'ui/elements/Button';
@@ -89,14 +88,6 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
             </Actions>
           </Info>
         </HeroInfo>
-        <WrapSocialText px={3} pb={3} mb={2}>
-          {c.following && (
-            <SocialText
-              placeholder="Start a new thread..."
-              submit={() => console.log('test')}
-            />
-          )}
-        </WrapSocialText>
       </Hero>
       {isOpenSettings && (
         <Modal closeModal={() => setOpenSettings(false)}>
@@ -106,10 +97,6 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
     </>
   );
 };
-
-const WrapSocialText = styled(Box)`
-  border-bottom: 3px solid ${props => props.theme.colors.lightgray};
-`;
 
 const Info = styled(Flex)`
   align-items: center;

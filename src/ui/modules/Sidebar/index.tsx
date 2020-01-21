@@ -9,7 +9,7 @@ import media from 'styled-media-query';
 import styled from '../../themes/styled';
 // import Dropdown from "./dropdown";
 import Avatar from 'ui/elements/Avatar';
-
+import { Dropdown } from './dropdown';
 const MnetLogo = require('./moodle-logo.png');
 
 export enum Status {
@@ -17,10 +17,13 @@ export enum Status {
   Loaded
 }
 
-const SidebarComponent = styled(Flex)``;
+const SidebarComponent = styled(Flex)`
+  width: 240px;
+`;
 
 const InternalWrapper = styled(Box)<{ isOpen: boolean }>`
   transition: 'all 250ms ease';
+flex: 1;
 // ${media.greaterThan('1281px')`
 //width: 300px !important;
 //`}
@@ -183,6 +186,8 @@ interface SidebarLoaded {
     name: string;
   };
   isOpen: boolean;
+  Search: React.ComponentType;
+  logout(): void;
 }
 
 export interface SidebarLoading {
@@ -194,7 +199,7 @@ export interface Props {
 }
 
 export const Sidebar: React.FC<Props> = ({ sidebar }) => {
-  const [, setMenuIsOpen] = React.useState(false);
+  const [isMenuOpen, setMenuIsOpen] = React.useState(false);
   const openMenu = React.useCallback(() => setMenuIsOpen(true), []);
   return (
     <SidebarComponent>
@@ -203,10 +208,15 @@ export const Sidebar: React.FC<Props> = ({ sidebar }) => {
           {sidebar.status === Status.Loading ? (
             <Text>Loading</Text>
           ) : (
-            <SidebarOverflow pt={3}>
+            <SidebarOverflow>
               <>
                 <Header alignItems={'center'}>
-                  <NavItem alignItems="center" onClick={openMenu}>
+                  <sidebar.Search />
+                  <NavItem
+                    sx={{ position: 'relative' }}
+                    alignItems="center"
+                    onClick={openMenu}
+                  >
                     <Avatar
                       size="s"
                       initials={sidebar.user.name.substring(0, 2)}
@@ -219,6 +229,7 @@ export const Sidebar: React.FC<Props> = ({ sidebar }) => {
                     <Right>
                       <ChevronDown size="20" />
                     </Right>
+                    {isMenuOpen && <Dropdown logout={sidebar.logout} />}
                   </NavItem>
                 </Header>
                 <Nav>

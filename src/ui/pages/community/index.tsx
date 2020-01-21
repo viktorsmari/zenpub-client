@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { NavLink, Route, Switch } from 'react-router-dom';
-import { Flex } from 'rebass/styled-components';
+import { Flex, Box } from 'rebass/styled-components';
 import media from 'styled-media-query';
+import SocialText from 'ui/modules/SocialText';
+
 import {
   Nav,
   NavItem,
@@ -23,10 +25,13 @@ type ActivityBox = React.ComponentType<{ activity: Activity }>;
 
 interface Props {
   activities: Activity[];
+  threads: Thread[];
+  ThreadBox: ThreadBox;
   ActivityBox: ActivityBox;
   collections: Collection[];
   CollectionBox: CollectionBox;
   HeroCommunityBox: React.ComponentType;
+  isFollowing: boolean;
 }
 
 export const Community: React.FC<Props> = ({
@@ -34,7 +39,10 @@ export const Community: React.FC<Props> = ({
   ActivityBox,
   HeroCommunityBox,
   collections,
-  CollectionBox
+  CollectionBox,
+  isFollowing,
+  threads,
+  ThreadBox
 }) => {
   return (
     <MainContainer>
@@ -56,10 +64,12 @@ export const Community: React.FC<Props> = ({
                   CollectionBox={CollectionBox}
                 />
               </Route>
-              <Route path="/threads">
-                <RecentActivities
-                  activities={activities}
-                  ActivityBox={ActivityBox}
+              <Route path="/discussions">
+                <Discussions
+                  threads={threads}
+                  isFollowing={isFollowing}
+                  submit={() => console.log('test')}
+                  ThreadBox={ThreadBox}
                 />
               </Route>
             </Switch>
@@ -133,6 +143,37 @@ const RecentActivities: React.SFC<RecentActivitiesProps> = ({
   );
 };
 
+type Thread = {
+  id: string;
+};
+
+type ThreadBox = React.ComponentType<{ thread: Thread }>;
+
+export interface DiscussionsProps {
+  isFollowing: boolean;
+  submit(): void;
+  threads: Thread[];
+  ThreadBox: ThreadBox;
+}
+
+const Discussions: React.SFC<DiscussionsProps> = ({
+  isFollowing,
+  submit,
+  threads,
+  ThreadBox
+}) => (
+  <>
+    <WrapSocialText mt={3} px={3} pb={3} mb={2}>
+      {isFollowing && (
+        <SocialText placeholder="Start a new thread..." submit={submit} />
+      )}
+    </WrapSocialText>
+    {threads.map(t => (
+      <ThreadBox thread={t} key={t.id} />
+    ))}
+  </>
+);
+
 export interface CollectionsProps {
   collections: Collection[];
   CollectionBox: CollectionBox;
@@ -151,59 +192,56 @@ const Collections: React.SFC<CollectionsProps> = ({
 };
 
 const Menu = () => (
-  <MenuWrapper p={3} pt={0}>
+  <MenuWrapper px={3} py={2}>
     <NavLink exact to={'/'}>
       Recent activities
     </NavLink>
     <NavLink to={'/collections'}>Collections</NavLink>
-    <NavLink to={'/threads'}>Threads</NavLink>
+    <NavLink to={'/discussions'}>Discussions</NavLink>
   </MenuWrapper>
 );
 
+const WrapSocialText = styled(Box)`
+  border-bottom: 3px solid ${props => props.theme.colors.lightgray};
+`;
+
 const MenuWrapper = styled(Flex)`
   a {
-    font-weight: 800;
+    font-weight: 700;
     text-decoration: none;
-    margin-right: 24px;
+    margin-right: 8px;
     color: ${props => props.theme.colors.gray};
     letterspacing: '1px';
-    font-size: 16px;
+    font-size: 14px;
+    padding: 4px 8px;
     &.active {
-      color: ${props => props.theme.colors.orange};
-      position: relative;
-      &:after {
-        position: absolute;
-        content: '';
-        display: block;
-        top: -15px;
-        width: 100%;
-        height: 3px;
-        background: ${props => props.theme.colors.orange};
-      }
+      color: #ffffff;
+      background: ${props => props.theme.colors.orange};
+      border-radius: 8px;
     }
   }
 `;
 export const HomeBox = styled(Flex)`
-  max-width: 600px;
-  width: 100%;
-  align-items: flex-start;
-  flex-shrink: 1;
-  flex-grow: 1;
-  flex-basis: auto;
-  flex-direction: column;
-  margin: 0px;
-  min-height: 0px;
-  min-width: 0px;
-  padding: 0px;
-  position: relative;
-  z-index: 0;
+      max-width: 600px;
+        width: 100%;
+        align-items: flex-start;
+        flex-shrink: 1;
+        flex-grow: 1;
+        flex-basis: auto;
+        flex-direction: column;
+        margin: 0px;
+        min-height: 0px;
+        min-width: 0px;
+        padding: 0px;
+        position: relative;
+        z-index: 0;
   ${media.lessThan('1005px')`
   max-width: 100%;
   `};
   // ${media.lessThan('1280px')`
   // top: 60px;
   // `};
-`;
+          `;
 
 export const MainContainer = styled(Flex)`
   align-items: stretch;
