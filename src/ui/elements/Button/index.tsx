@@ -2,7 +2,9 @@ import React, { SFC } from 'react';
 import styled from 'ui/themes/styled';
 import Loader from '../Loader';
 import { darken, lighten, transitions } from 'polished';
-import { Button, ButtonProps } from 'rebass/styled-components';
+// import { Button, ButtonProps } from 'rebass/styled-components';
+import { Button } from 'rebass/styled-components';
+import { ButtonProps } from 'rebass';
 
 const WrapperButton = styled(Button)<{ variant: string; isIcon: boolean }>`
   ${transitions('background, 0.2s')};
@@ -25,6 +27,7 @@ export interface Props extends ButtonProps {
 }
 
 const MNButton: SFC<Props> = props => (
+  //@ts-ignore
   <WrapperButton
     {...props}
     isSubmitting={props.isSubmitting}
