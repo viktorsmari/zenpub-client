@@ -9,9 +9,9 @@ import media from 'styled-media-query';
 import CollectionCard from '../../components/elements/Collection/Collection';
 import CommunityCard from '../../components/elements/Community/Community';
 import Loader from '../../components/elements/Loader/Loader';
-import FollowingCollectionsLoadMore from '../../components/elements/Loadmore/followingCollections';
-import JoinedCommunitiesLoadMore from '../../components/elements/Loadmore/joinedCommunities';
-import LoadMoreTimeline from '../../components/elements/Loadmore/timelineoutbox';
+// import FollowingCollectionsLoadMore from '../../components/elements/Loadmore/followingCollections';
+// import JoinedCommunitiesLoadMore from '../../components/elements/Loadmore/joinedCommunities';
+// import LoadMoreTimeline from '../../components/elements/Loadmore/timelineoutbox';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { Nav, Panel, PanelTitle, WrapperPanel } from '../../sections/panel';
@@ -30,7 +30,7 @@ const CommunitiesFeatured: React.SFC<Props> = () => {
       limitTimeline: 15
     }
   });
-  const { data, loading, error, fetchMore } = query;
+  const { data, loading, error /* , fetchMore */ } = query;
   return (
     <MainContainer>
       <HomeBox>
@@ -84,11 +84,11 @@ const CommunitiesFeatured: React.SFC<Props> = () => {
                                 />
                               )
                           )}
-                          <LoadMoreTimeline
+                          {/*  <LoadMoreTimeline
                             me
                             fetchMore={fetchMore}
                             community={data.me.user}
-                          />
+                          /> */}
                         </>
                       </TabPanel>
                       <TabPanel>
@@ -103,11 +103,11 @@ const CommunitiesFeatured: React.SFC<Props> = () => {
                               )
                           )}
                         </ListCollections>
-                        <FollowingCollectionsLoadMore
+                        {/* <FollowingCollectionsLoadMore
                           collections={data.me.user.followedCollections}
                           fetchMore={fetchMore}
                           me
-                        />
+                        /> */}
                       </TabPanel>
                       <TabPanel style={{ height: '100%' }}>
                         <>
@@ -151,11 +151,11 @@ const CommunitiesFeatured: React.SFC<Props> = () => {
                                 )
                             )}
                           </List>
-                          <JoinedCommunitiesLoadMore
+                          {/* <JoinedCommunitiesLoadMore
                             me
                             communities={data.me.user.followedCommunities}
                             fetchMore={fetchMore}
-                          />
+                          /> */}
                         </>
                       </TabPanel>
                     </Tabs>

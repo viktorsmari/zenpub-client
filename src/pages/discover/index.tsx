@@ -6,7 +6,7 @@ import { TabPanel, Tabs } from 'react-tabs';
 import { Flex } from 'rebass/styled-components';
 import Empty from '../../components/elements/Empty';
 import Loader from '../../components/elements/Loader/Loader';
-import LoadMoreTimeline from '../../components/elements/Loadmore/localInstance';
+// import LoadMoreTimeline from '../../components/elements/Loadmore/localInstance';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import FeaturedCollections from '../../components/featuredCollections';
 import FeaturedCommunities from '../../components/featuredCommunities';
@@ -30,7 +30,12 @@ import { ActivityPreviewHOC } from 'HOC/modules/ActivityPreview/activityPreviewH
 interface Props {}
 
 const Home: React.FC<Props> = props => {
-  const { error, loading, refetch, data, fetchMore } = useLocalActivitiesQuery({
+  const {
+    error,
+    loading,
+    refetch,
+    data /* , fetchMore */
+  } = useLocalActivitiesQuery({
     variables: {
       limit: 15
     }
@@ -98,10 +103,10 @@ const Home: React.FC<Props> = props => {
                             />
                           )
                       )}
-                      <LoadMoreTimeline
+                      {/* <LoadMoreTimeline
                         fetchMore={fetchMore}
                         outbox={data.instance.outbox}
-                      />
+                      /> */}
                     </div>
                   )
                 )}

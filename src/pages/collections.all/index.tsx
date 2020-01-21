@@ -5,7 +5,7 @@ import { TabPanel, Tabs } from 'react-tabs';
 import { compose } from 'recompose';
 import CollectionCard from '../../components/elements/Collection/Collection';
 import Loader from '../../components/elements/Loader/Loader';
-import CollectionsLoadMore from '../../components/elements/Loadmore/collections';
+// import CollectionsLoadMore from '../../components/elements/Loadmore/collections';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import styled from '../../themes/styled';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
@@ -63,10 +63,10 @@ class CommunitiesYours extends React.Component<Props> {
                             <CollectionCard key={i} collection={coll} />
                           ))}
                         </List>
-                        <CollectionsLoadMore
+                        {/* <CollectionsLoadMore
                           fetchMore={this.props.data.fetchMore}
                           collections={this.props.data.collections}
-                        />
+                        /> */}
                       </>
                     )}
                   </div>
