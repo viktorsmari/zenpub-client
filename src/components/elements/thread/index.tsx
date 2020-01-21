@@ -113,15 +113,13 @@ interface Props {
 
 const Thread: SFC<Props> = ({ comment }) => {
   const [isOpen, onOpen] = useState(false);
-  const FAKE________COMMENT_I_LIKE_IT = !!Math.round(Math.random());
   const [like /* , likeResult */] = useLikeMutationMutation();
   const [undoLike /* , likeResult */] = useDeleteMutationMutation();
-  const [iLikeIt, setiLikeIt] = React.useState(FAKE________COMMENT_I_LIKE_IT);
+  const iLikeIt = !!comment.myLike;
   const toggleLike = React.useCallback(
     () => {
       const variables = { contextId: comment.id };
       (iLikeIt ? undoLike : like)({ variables });
-      setiLikeIt(!iLikeIt);
     },
     [comment, iLikeIt]
   );
