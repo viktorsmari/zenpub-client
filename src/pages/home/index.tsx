@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 import { TabPanel, Tabs } from 'react-tabs';
 import Empty from '../../components/elements/Empty';
 import Loader from '../../components/elements/Loader/Loader';
-import LoadMoreTimeline from '../../components/elements/Loadmore/timelineUser';
+// import LoadMoreTimeline from '../../components/elements/Loadmore/timelineUser';
 import { StickyTabList, SuperTab } from '../../components/elements/SuperTab';
 import { CreateReplyMutationMutationOperation } from '../../graphql/createReply.generated';
 import { DeleteMutationMutationOperation } from '../../graphql/delete.generated';
@@ -27,11 +27,13 @@ import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 interface Props {}
 
 const Home: React.FC<Props> = () => {
-  const { data, loading, error, fetchMore, refetch } = useGetMeInboxQuery({
-    variables: {
-      limit: 15
+  const { data, loading, error, /* fetchMore, */ refetch } = useGetMeInboxQuery(
+    {
+      variables: {
+        limit: 15
+      }
     }
-  });
+  );
   useDynamicLinkOpResult<CreateReplyMutationMutationOperation>(
     'createReplyMutation',
     () => {
@@ -87,13 +89,13 @@ const Home: React.FC<Props> = () => {
                             />
                           )
                       )}
-                      {data &&
+                      {/* data &&
                         data.me && (
                           <LoadMoreTimeline
                             fetchMore={fetchMore}
                             community={data.me.user}
                           />
-                        )}
+                        ) */}
                     </div>
                   )
                 )}

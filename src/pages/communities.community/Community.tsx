@@ -7,7 +7,7 @@ import { TabPanel, Tabs } from 'react-tabs';
 import { Box, Button, Flex } from 'rebass/styled-components';
 import FeedItem from '../../components/elements/Comment/Comment';
 import CreateCollectionModal from '../../components/elements/CreateCollectionModal';
-import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
+// import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
 import { SocialText } from '../../components/elements/SocialText';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import { useCreateThreadMutationMutation } from '../../graphql/createThread.generated';
@@ -106,7 +106,7 @@ const CommunityPage: SFC<Props> = ({
                       />
                     )
                 )}
-                <LoadMoreTimeline fetchMore={fetchMore} community={community} />
+                {/* <LoadMoreTimeline fetchMore={fetchMore} community={community} /> */}
               </div>
             </TabPanel>
             <TabPanel>

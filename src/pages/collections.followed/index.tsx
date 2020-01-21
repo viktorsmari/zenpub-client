@@ -5,7 +5,7 @@ import { graphql, QueryControls } from 'react-apollo';
 import { compose, withHandlers, withState } from 'recompose';
 import CollectionCard from '../../components/elements/Collection/Collection';
 import Loader from '../../components/elements/Loader/Loader';
-import CollectionsLoadMore from '../../components/elements/Loadmore/followingCollections';
+// import CollectionsLoadMore from '../../components/elements/Loadmore/followingCollections';
 // import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
 import { Me } from '../../graphql/types.generated';
@@ -48,11 +48,11 @@ class FollowingCollectionsComponent extends React.Component<Props> {
                 )
             )}
           </List>
-          <CollectionsLoadMore
+          {/* <CollectionsLoadMore
             fetchMore={this.props.data.fetchMore}
             collections={this.props.data.me.user.followedCollections}
             me
-          />
+          /> */}
         </ListWrapper>
       </>
     );

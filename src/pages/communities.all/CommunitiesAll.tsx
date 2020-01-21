@@ -8,7 +8,7 @@ import media from 'styled-media-query';
 import CommunityCard from '../../components/elements/Community/Community';
 import NewCommunityModal from '../../components/elements/CreateCommunityModal';
 import Loader from '../../components/elements/Loader/Loader';
-import CommunitiesLoadMore from '../../components/elements/Loadmore/community';
+// import CommunitiesLoadMore from '../../components/elements/Loadmore/community';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import { BasicCommunityFragment } from '../../graphql/fragments/basicCommunity.generated';
 import { Community } from '../../graphql/types.generated';
@@ -91,10 +91,10 @@ class CommunitiesYours extends React.Component<Props> {
                           }
                         )}
                       </List>
-                      <CommunitiesLoadMore
+                      {/* <CommunitiesLoadMore
                         fetchMore={this.props.data.fetchMore}
                         communities={this.props.data.communities}
-                      />
+                      /> */}
                     </>
                   )}
                 </TabPanel>

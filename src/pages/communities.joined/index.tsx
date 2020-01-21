@@ -6,7 +6,7 @@ import compose from 'recompose/compose';
 import media from 'styled-media-query';
 import CommunityCard from '../../components/elements/Community/Community';
 import Loader from '../../components/elements/Loader/Loader';
-import CommunitiesLoadMore from '../../components/elements/Loadmore/joinedCommunities';
+// import CommunitiesLoadMore from '../../components/elements/Loadmore/joinedCommunities';
 // import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
 import { Me } from '../../graphql/types.generated';
@@ -74,11 +74,11 @@ class CommunitiesJoined extends React.Component<Props> {
                 )
             )}
           </List>
-          <CommunitiesLoadMore
+          {/* <CommunitiesLoadMore
             me
             fetchMore={this.props.data.fetchMore}
             communities={this.props.data.me.user.followedCommunities}
-          />
+          /> */}
         </Box>
       </>
     );
