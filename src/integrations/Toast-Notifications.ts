@@ -33,7 +33,8 @@ export const integrateToastNotifications = (
       const ctxTypeName: string =
         (resp.data &&
           resp.data.createLike &&
-          resp.data.createLike.context.__typename) ||
+          //FIXME https://gitlab.com/moodlenet/meta/issues/185
+          resp.data.createLike.context!.__typename) ||
         '';
       showMessage(
         resp.errors

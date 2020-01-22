@@ -29,6 +29,11 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
   const replyFormik = useFormik<{ replyMessage: string }>({
     initialValues: { replyMessage: '' },
     onSubmit: ({ replyMessage }) => {
+      //FIXME https://gitlab.com/moodlenet/meta/issues/185
+      if (!activity || !activity.context) {
+        return;
+      }
+
       if (
         !activity ||
         'Like' === activity.context.__typename ||
@@ -40,6 +45,12 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
         return;
       } else if (activity.context.__typename === 'Comment') {
         const { thread, id } = activity.context;
+
+        //FIXME https://gitlab.com/moodlenet/meta/issues/185
+        if (!thread) {
+          return;
+        }
+
         return createReplyMut({
           variables: {
             threadId: thread.id,
@@ -50,7 +61,10 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
       } else {
         return createThreadMut({
           variables: {
-            contextId: activity.context.id,
+            contextId:
+              activity.context.__typename == 'User'
+                ? activity.context.userId
+                : activity.context.id,
             comment: { content: replyMessage }
           }
         });
@@ -60,6 +74,11 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
   const toggleLikeFormik = useFormik<{}>({
     initialValues: {},
     onSubmit: () => {
+      //FIXME https://gitlab.com/moodlenet/meta/issues/185
+      if (!activity || !activity.context) {
+        return;
+      }
+
       if (
         !activity ||
         'Community' === activity.context.__typename ||
@@ -75,7 +94,14 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
         if (myLike) {
           return unlikeMut({ variables: { contextId: myLike.id } });
         } else {
-          return likeMut({ variables: { contextId: activity.context.id } });
+          return likeMut({
+            variables: {
+              contextId:
+                activity.context.__typename === 'User'
+                  ? activity.context.userId
+                  : activity.context.id
+            }
+          });
         }
       }
     }
@@ -88,7 +114,8 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
           status: UI.Status.Loading
         };
       } else {
-        const user = activity.user;
+        //FIXME https://gitlab.com/moodlenet/meta/issues/185
+        const user = activity.user!;
         const _baseProps: Pick<
           UI.ActivityLoaded,
           'status' | 'actor' | 'createdAt'
@@ -117,17 +144,37 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
 const getInReplyToCtx = ({
   context
 }: APGQL.ActivityPreviewDataFragment): null | UIP.InReplyToContext => {
+  //FIXME https://gitlab.com/moodlenet/meta/issues/185
+  if (!context) {
+    return null;
+  }
+
   if (context.__typename !== 'Comment') {
     return null;
   } else if (context.inReplyTo) {
-    const actor = getActor(context.inReplyTo.creator);
+    //FIXME https://gitlab.com/moodlenet/meta/issues/185
+    const actor = getActor(context.inReplyTo.creator!);
     return {
-      actor: getActor(context.inReplyTo.creator),
-      link: getSimpleLink(context.inReplyTo.thread),
+      //FIXME https://gitlab.com/moodlenet/meta/issues/185
+      actor: getActor(context.inReplyTo.creator!),
+      //FIXME https://gitlab.com/moodlenet/meta/issues/185
+      link: getSimpleLink(context.inReplyTo.thread!),
       desc: context.inReplyTo.content,
       icon: actor.icon
     };
-  } else if (context.thread.context.__typename === 'Flag') {
+  }
+  //FIXME https://gitlab.com/moodlenet/meta/issues/185
+  else if (context.thread!.context!.__typename === 'Flag') {
+    //FIXME https://gitlab.com/moodlenet/meta/issues/185
+    if (
+      !context.thread ||
+      !context.thread.context ||
+      context.thread.context.__typename !== 'Flag' ||
+      !context.thread.context.context
+    ) {
+      return null;
+    }
+
     const type =
       context.thread.context.context.__typename === 'Collection'
         ? UIP.ContextType.Collection
@@ -149,7 +196,8 @@ const getInReplyToCtx = ({
       actor:
         context.thread.context.context.__typename === 'User'
           ? null
-          : getActor(context.thread.context.context.creator),
+          : //FIXME https://gitlab.com/moodlenet/meta/issues/185
+            getActor(context.thread.context.context.creator!),
       link: getSimpleLink(
         context.thread.context.context.__typename === 'User'
           ? {
@@ -157,9 +205,11 @@ const getInReplyToCtx = ({
               id: context.thread.context.context.userId
             }
           : context.thread.context.context.__typename === 'Resource'
-            ? context.thread.context.context.collection
+            ? //FIXME https://gitlab.com/moodlenet/meta/issues/185
+              context.thread.context.context.collection!
             : context.thread.context.context.__typename === 'Comment'
-              ? context.thread.context.context.thread
+              ? //FIXME https://gitlab.com/moodlenet/meta/issues/185
+                context.thread.context.context.thread!
               : context.thread.context.context
       ),
       icon:
@@ -168,8 +218,10 @@ const getInReplyToCtx = ({
         context.thread.context.context.__typename === 'Resource' ||
         context.thread.context.context.__typename === 'User'
           ? context.thread.context.context.icon || ''
-          : context.thread.context.context.creator.icon ||
-            context.thread.context.context.creator.image ||
+          : //FIXME https://gitlab.com/moodlenet/meta/issues/185
+            context.thread.context.context.creator!.icon ||
+            //FIXME https://gitlab.com/moodlenet/meta/issues/185
+            context.thread.context.context.creator!.image ||
             '',
       desc:
         context.thread.context.context.__typename === 'Collection' ||
@@ -182,6 +234,15 @@ const getInReplyToCtx = ({
             : context.thread.context.context.content
     };
   } else {
+    //FIXME https://gitlab.com/moodlenet/meta/issues/185
+    if (
+      !context.thread ||
+      !context.thread.context ||
+      !context.thread.context.__typename
+    ) {
+      return null;
+    }
+
     const type =
       context.thread.context.__typename === 'Collection'
         ? UIP.ContextType.Collection
@@ -194,11 +255,24 @@ const getInReplyToCtx = ({
       console.error(context);
       throw new Error(`Type Error: can't extract thread.context type`);
     }
+
+    //FIXME https://gitlab.com/moodlenet/meta/issues/185
+    if (
+      !context.thread.context ||
+      !('creator' in context.thread.context) ||
+      !context.thread.context.creator ||
+      (context.thread.context.__typename === 'Resource' &&
+        !context.thread.context.collection)
+    ) {
+      return null;
+    }
+
     return {
       actor: getActor(context.thread.context.creator),
       link: getSimpleLink(
         context.thread.context.__typename === 'Resource'
-          ? context.thread.context.collection
+          ? //FIXME https://gitlab.com/moodlenet/meta/issues/185
+            context.thread.context.collection!
           : context.thread.context
       ),
       desc: context.thread.context.name,
@@ -217,7 +291,8 @@ const getActions = (
       ? {
           toggleLikeFormik,
           iLikeIt: !!context.myLike,
-          totalLikes: 'likes' in context ? context.likes.totalCount : null
+          //FIXME https://gitlab.com/moodlenet/meta/issues/185
+          totalLikes: 'likes' in context ? context.likes!.totalCount : null
         }
       : null;
 
@@ -249,6 +324,14 @@ const verbMap = {
 const getContext = (
   activity: APGQL.ActivityPreviewDataFragment
 ): [UIP.Context, GQLConcreteContext] => {
+  //FIXME https://gitlab.com/moodlenet/meta/issues/185
+  if (!activity.context) {
+    console.error(activity);
+    throw new Error(
+      `Inconsistent data activity.context===null  (https://gitlab.com/moodlenet/meta/issues/185)`
+    );
+  }
+
   const verbType: null | VerbMapKey =
     activity.context.__typename === 'Flag' ||
     activity.context.__typename === 'Like' ||
@@ -273,10 +356,18 @@ const getContext = (
       : activity.context.__typename === 'Flag' ||
         activity.context.__typename === 'Follow' ||
         activity.context.__typename === 'Like'
-        ? activity.context.context.__typename === 'Thread' // if VERB'ed ona a thread we should go deeper
-          ? activity.context.context.context.__typename === 'Flag' // if it's thread about a flag go deeper
-            ? activity.context.context.context.context // simple thread's flag's concrete object ctx
-            : activity.context.context.context // if not VERB'ed ona a thread use that context
+        ? //FIXME https://gitlab.com/moodlenet/meta/issues/185
+          //@ts-ignore
+          activity.context.context.__typename === 'Thread' // if VERB'ed ona a thread we should go deeper
+          ? //FIXME https://gitlab.com/moodlenet/meta/issues/185
+            //@ts-ignore
+            activity.context.context.context.__typename === 'Flag' // if it's thread about a flag go deeper
+            ? //FIXME https://gitlab.com/moodlenet/meta/issues/185
+              //@ts-ignore
+              activity.context.context.context.context // simple thread's flag's concrete object ctx
+            : //FIXME https://gitlab.com/moodlenet/meta/issues/185
+              //@ts-ignore
+              activity.context.context.context // if not VERB'ed ona a thread use that context
           : activity.context.context
         : null; // activity.context: never
   if (!gqlContext) {
@@ -295,6 +386,8 @@ const getContext = (
       : gqlContext.__typename === 'Comment'
         ? {
             verb: verbMap[verbType],
+            //FIXME https://gitlab.com/moodlenet/meta/issues/185
+            //@ts-ignore
             link: getSimpleLink(gqlContext.thread),
             type: UIP.ContextType.Comment,
             content: gqlContext.content
@@ -310,6 +403,8 @@ const getContext = (
           : gqlContext.__typename === 'Resource'
             ? {
                 verb: verbMap[verbType],
+                //FIXME https://gitlab.com/moodlenet/meta/issues/185
+                //@ts-ignore
                 link: getSimpleLink(gqlContext.collection),
                 type: UIP.ContextType.Resource,
                 icon: gqlContext.icon || '',

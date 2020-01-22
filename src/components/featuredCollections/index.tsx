@@ -56,20 +56,24 @@ const MultipleItems: React.FC = () => {
         </span>
       ) : props.loading ? (
         <Loader />
-      ) : (
+      ) : //FIXME https://gitlab.com/moodlenet/meta/issues/185
+      !props.data.instance.featuredCollections ? null : (
         <Slider
           ref={c => (sliderRef.current = c || undefined)}
           {...sliderSettings}
         >
           {props.data.instance.featuredCollections.edges.map(
             edge =>
-              edge &&
-              edge.node.context.__typename === 'Collection' && (
-                <CollectionSmall
-                  collection={edge.node.context}
-                  key={edge.node.id}
-                />
-              )
+              //FIXME https://gitlab.com/moodlenet/meta/issues/185
+              // edge &&
+              !edge || !edge.node.context
+                ? null
+                : edge.node.context.__typename === 'Collection' && (
+                    <CollectionSmall
+                      collection={edge.node.context}
+                      key={edge.node.id}
+                    />
+                  )
           )}
         </Slider>
       )}

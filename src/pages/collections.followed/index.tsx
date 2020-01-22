@@ -38,7 +38,8 @@ class FollowingCollectionsComponent extends React.Component<Props> {
         </Helmet> */}
         <ListWrapper>
           <List>
-            {this.props.data.me.user.followedCollections.edges.map(
+            {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+            this.props.data.me.user.followedCollections!.edges.map(
               (collection, i) =>
                 collection && (
                   <CollectionCard

@@ -73,20 +73,27 @@ class CommunitiesYours extends React.Component<Props> {
                         {this.props.data.communities.nodes.map(
                           (community, i) => {
                             return (
-                              <CommunityCard
-                                key={i}
-                                summary={community.summary || ''}
-                                title={community.name}
-                                icon={community.icon || community.image || ''}
-                                id={community.id}
-                                followed={!!community.myFollow}
-                                followersCount={community.followers.totalCount}
-                                collectionsCount={
-                                  community.collections.totalCount
-                                }
-                                externalId={community.id}
-                                threadsCount={community.threads.totalCount}
-                              />
+                              /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                              !community.followers ||
+                                !community.collections ||
+                                !community.threads ? null : (
+                                <CommunityCard
+                                  key={i}
+                                  summary={community.summary || ''}
+                                  title={community.name}
+                                  icon={community.icon || community.image || ''}
+                                  id={community.id}
+                                  followed={!!community.myFollow}
+                                  followersCount={
+                                    community.followers.totalCount
+                                  }
+                                  collectionsCount={
+                                    community.collections.totalCount
+                                  }
+                                  externalId={community.id}
+                                  threadsCount={community.threads.totalCount}
+                                />
+                              )
                             );
                           }
                         )}

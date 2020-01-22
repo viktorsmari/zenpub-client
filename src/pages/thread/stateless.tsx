@@ -51,8 +51,9 @@ const Component: React.FC<Props> = ({ threadQuery: thread }) => {
                   <Thread comment={thread.data.thread} /> */}
 
                 {thread.data.thread &&
-                  thread.data.thread.comments.edges
-                    .reverse()
+                  /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                  thread.data.thread
+                    .comments!.edges.reverse()
                     .map(
                       edge =>
                         edge &&

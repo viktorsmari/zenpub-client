@@ -57,17 +57,20 @@ const CommunityPage: SFC<Props> = ({
               }}
             >
               <Wrapper>
-                {!collection.community.myFollow && (
-                  <Footer>
-                    <Trans>Join the community</Trans>{' '}
-                    <Link to={'/communities/' + collection.community.id}>
-                      {community_name}
-                    </Link>{' '}
-                    <Trans>to add a resource</Trans>
-                  </Footer>
-                )}
+                {//FIXME https://gitlab.com/moodlenet/meta/issues/185
+                collection.community &&
+                  !collection.community.myFollow && (
+                    <Footer>
+                      <Trans>Join the community</Trans>{' '}
+                      <Link to={'/communities/' + collection.community.id}>
+                        {community_name}
+                      </Link>{' '}
+                      <Trans>to add a resource</Trans>
+                    </Footer>
+                  )}
                 <CollectionList>
-                  {collection.community.myFollow ? (
+                  {//FIXME https://gitlab.com/moodlenet/meta/issues/185
+                  collection.community && collection.community.myFollow ? (
                     isOpen ? (
                       <ButtonWrapper>
                         <Button m={3} onClick={() => onOpen(false)}>
