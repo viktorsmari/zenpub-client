@@ -94,7 +94,8 @@ const Home: React.FC<Props> = props => {
                   data &&
                   data.instance && (
                     <div>
-                      {data.instance.outbox.edges.map(
+                      {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                      data.instance.outbox!.edges!.map(
                         activity =>
                           activity && (
                             <ActivityPreviewHOC

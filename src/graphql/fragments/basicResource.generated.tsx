@@ -14,20 +14,20 @@ export type BasicResourceFragment = (
   )>, myFlag: Types.Maybe<(
     { __typename: 'Flag' }
     & Pick<Types.Flag, 'id'>
-  )>, likes: (
+  )>, likes: Types.Maybe<(
     { __typename: 'LikesEdges' }
     & Pick<Types.LikesEdges, 'totalCount'>
-  ), creator: (
+  )>, creator: Types.Maybe<(
     { __typename: 'User' }
     & BasicUserFragment
-  ), collection: (
+  )>, collection: Types.Maybe<(
     { __typename: 'Collection' }
     & Pick<Types.Collection, 'id' | 'name' | 'preferredUsername' | 'isLocal' | 'isPublic' | 'isDisabled'>
-    & { community: (
+    & { community: Types.Maybe<(
       { __typename: 'Community' }
       & Pick<Types.Community, 'id' | 'canonicalUrl' | 'isLocal'>
-    ) }
-  ) }
+    )> }
+  )> }
 );
 
 export const BasicResourceFragmentDoc = gql`

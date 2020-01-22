@@ -97,7 +97,8 @@ const CommunityPage: SFC<Props> = ({
                 </>
               ) : null}
               <div>
-                {community.outbox.edges.map(
+                {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                community.outbox!.edges!.map(
                   (t, i) =>
                     t && (
                       <ActivityPreviewHOC
@@ -140,19 +141,20 @@ const CommunityPage: SFC<Props> = ({
                     (t, i) =>
                       t &&
                       (t.node.comments &&
-                        t.node.comments.edges
-                          .reverse()
-                          .map(
-                            edge =>
-                              edge &&
-                              edge.node &&
-                              edge.node.inReplyTo == null && (
-                                <FeedItem
-                                  key={edge.node.thread.id}
-                                  comment={edge.node}
-                                />
-                              )
-                          ))
+                        t.node.comments.edges.reverse().map(
+                          edge =>
+                            edge &&
+                            edge.node &&
+                            edge.node.inReplyTo == null && (
+                              <FeedItem
+                                key={
+                                  /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                                  edge.node.thread!.id
+                                }
+                                comment={edge.node}
+                              />
+                            )
+                        ))
                   )}
                 {/* <LoadMoreTimeline fetchMore={fetchMore} community={community} /> */}
               </div>

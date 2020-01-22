@@ -36,7 +36,7 @@ export type GetUserQuery = (
     { __typename: 'Me' }
     & { user: (
       { __typename: 'User' }
-      & { followedCommunities: (
+      & { followedCommunities: Types.Maybe<(
         { __typename: 'FollowedCommunitiesEdges' }
         & { pageInfo: Types.Maybe<(
           { __typename: 'PageInfo' }
@@ -54,19 +54,19 @@ export type GetUserQuery = (
             ) }
           ) }
         )>> }
-      ), outbox: (
+      )>, outbox: Types.Maybe<(
         { __typename: 'ActivitiesEdges' }
         & { pageInfo: Types.Maybe<(
           { __typename: 'PageInfo' }
           & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-        )>, edges: Array<Types.Maybe<(
+        )>, edges: Types.Maybe<Array<Types.Maybe<(
           { __typename: 'ActivitiesEdge' }
           & { node: (
             { __typename: 'Activity' }
             & ActivityPreviewDataFragment
           ) }
-        )>> }
-      ), followedCollections: (
+        )>>> }
+      )>, followedCollections: Types.Maybe<(
         { __typename: 'FollowedCollectionsEdges' }
         & { pageInfo: Types.Maybe<(
           { __typename: 'PageInfo' }
@@ -84,7 +84,7 @@ export type GetUserQuery = (
             ) }
           ) }
         )>> }
-      ) }
+      )> }
       & BasicUserFragment
     ) }
   )> }

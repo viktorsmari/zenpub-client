@@ -39,70 +39,75 @@ const CommentWrapper: React.FC<EventProps> = ({
   );
 
   return (
-    <FeedItem>
-      {noLink ? null : <NavigateToThread to={`/thread/${comment.thread.id}`} />}
-      <Member>
-        <MemberItem mr={2}>
-          <Img src={(creator && creator.icon) || ''} />
-        </MemberItem>
-        <MemberInfo>
-          {typeof comment!.id == 'string' ? (
-            <MoreOptionsContainer>
-              {/* <MoreOptions contextId={comment.id} myFlag={comment.myFlag} /> */}
-              <MoreOptions contextId={comment.id} myFlag="false" />
-            </MoreOptionsContainer>
-          ) : null}
-          {creator ? (
-            <Name>
-              <Link to={'/user/' + creator.id}>
-                {creator.name}{' '}
-                {creator.preferredUsername && (
-                  <Username>@{creator.preferredUsername}</Username>
-                )}
-              </Link>
-              <Spacer mx={2}>·</Spacer>{' '}
-              <Date>{DateTime.fromISO(comment.createdAt).toRelative()}</Date>
-            </Name>
-          ) : (
-            <Name>
-              <Trans>Deleted user</Trans>
-            </Name>
-          )}
-          <>
-            <Comment>
-              {comment.content && comment.content.length > 320
-                ? removeMd(comment.content).replace(
-                    /^([\s\S]{316}[^\s]*)[\s\S]*/,
-                    '$1...'
-                  )
-                : removeMd(comment.content)}
-            </Comment>
-          </>
-          {noAction ? null : (
-            <Actions mt={2}>
-              <Items>
-                <ActionItem onClick={() => onOpen(true)}>
-                  <ActionIcon>
-                    <MessageCircle color="rgba(0,0,0,.4)" size="16" />
-                  </ActionIcon>
-                  <Text ml={2}>{/*TODO comment.replies.totalCount */}</Text>
-                </ActionItem>
-                <ActionItem ml={3} onClick={toggleLike}>
-                  <ActionIcon>
-                    <Star
-                      color={iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'}
-                      size="16"
-                    />
-                  </ActionIcon>
-                  <Text ml={2}>{comment.likes.totalCount}</Text>
-                </ActionItem>
-              </Items>
-            </Actions>
-          )}
-        </MemberInfo>
-      </Member>
-      <Talk toggleModal={onOpen} modalIsOpen={isOpen} comment={comment} />
-    </FeedItem>
+    //FIXME https://gitlab.com/moodlenet/meta/issues/185
+    !comment.thread || !comment.likes ? null : (
+      <FeedItem>
+        {noLink ? null : (
+          <NavigateToThread to={`/thread/${comment.thread.id}`} />
+        )}
+        <Member>
+          <MemberItem mr={2}>
+            <Img src={(creator && creator.icon) || ''} />
+          </MemberItem>
+          <MemberInfo>
+            {typeof comment!.id == 'string' ? (
+              <MoreOptionsContainer>
+                {/* <MoreOptions contextId={comment.id} myFlag={comment.myFlag} /> */}
+                <MoreOptions contextId={comment.id} myFlag="false" />
+              </MoreOptionsContainer>
+            ) : null}
+            {creator ? (
+              <Name>
+                <Link to={'/user/' + creator.id}>
+                  {creator.name}{' '}
+                  {creator.preferredUsername && (
+                    <Username>@{creator.preferredUsername}</Username>
+                  )}
+                </Link>
+                <Spacer mx={2}>·</Spacer>{' '}
+                <Date>{DateTime.fromISO(comment.createdAt).toRelative()}</Date>
+              </Name>
+            ) : (
+              <Name>
+                <Trans>Deleted user</Trans>
+              </Name>
+            )}
+            <>
+              <Comment>
+                {comment.content && comment.content.length > 320
+                  ? removeMd(comment.content).replace(
+                      /^([\s\S]{316}[^\s]*)[\s\S]*/,
+                      '$1...'
+                    )
+                  : removeMd(comment.content)}
+              </Comment>
+            </>
+            {noAction ? null : (
+              <Actions mt={2}>
+                <Items>
+                  <ActionItem onClick={() => onOpen(true)}>
+                    <ActionIcon>
+                      <MessageCircle color="rgba(0,0,0,.4)" size="16" />
+                    </ActionIcon>
+                    <Text ml={2}>{/*TODO comment.replies.totalCount */}</Text>
+                  </ActionItem>
+                  <ActionItem ml={3} onClick={toggleLike}>
+                    <ActionIcon>
+                      <Star
+                        color={iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'}
+                        size="16"
+                      />
+                    </ActionIcon>
+                    <Text ml={2}>{comment.likes.totalCount}</Text>
+                  </ActionItem>
+                </Items>
+              </Actions>
+            )}
+          </MemberInfo>
+        </Member>
+        <Talk toggleModal={onOpen} modalIsOpen={isOpen} comment={comment} />
+      </FeedItem>
+    )
   );
 };
 

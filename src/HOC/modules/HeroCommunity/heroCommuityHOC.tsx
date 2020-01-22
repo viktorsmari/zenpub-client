@@ -39,12 +39,15 @@ export const HeroCommunityHOC: SFC<Props> = ({ communityId }) => {
       return {
         community: {
           status: Status.Loaded,
-          canModify: !session.me || session.me.user.id === community.creator.id,
+          //FIXME https://gitlab.com/moodlenet/meta/issues/185
+          canModify:
+            !session.me || session.me.user.id === community.creator!.id,
           following: !!community.myFollow,
           icon: community.icon || community.image || '',
           name: community.name,
           preferredUsername: community.preferredUsername,
-          totalMembers: community.followers.totalCount,
+          //FIXME https://gitlab.com/moodlenet/meta/issues/185
+          totalMembers: community.followers!.totalCount,
           summary: community.summary || '',
           toggleJoin: {
             toggle: () =>

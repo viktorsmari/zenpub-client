@@ -24,7 +24,7 @@ export type GetFollowedCommunitiesQueryQuery = (
     & { user: (
       { __typename: 'User' }
       & Pick<Types.User, 'id'>
-      & { followedCommunities: (
+      & { followedCommunities: Types.Maybe<(
         { __typename: 'FollowedCommunitiesEdges' }
         & { pageInfo: Types.Maybe<(
           { __typename: 'PageInfo' }
@@ -42,7 +42,7 @@ export type GetFollowedCommunitiesQueryQuery = (
             ) }
           ) }
         )>> }
-      ) }
+      )> }
     ) }
   )> }
 );

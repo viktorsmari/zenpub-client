@@ -39,7 +39,8 @@ const TimelineLoadMore: SFC<Props> = ({ fetchMore, outbox }) =>
                         previousLocalActivityQ.instance.outbox),
                       edges: [
                         ...(previousLocalActivityQ.instance &&
-                          previousLocalActivityQ.instance.outbox.edges),
+                          //FIXME https://gitlab.com/moodlenet/meta/issues/185
+                          previousLocalActivityQ.instance.outbox!.edges),
                         ...newNodes
                       ],
                       pageInfo

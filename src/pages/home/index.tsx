@@ -80,7 +80,8 @@ const Home: React.FC<Props> = () => {
                   data &&
                   data.me && (
                     <div>
-                      {data.me.user.inbox.edges.map(
+                      {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                      data.me.user.inbox!.edges!.map(
                         userActivityEdge =>
                           userActivityEdge && (
                             <ActivityPreviewHOC

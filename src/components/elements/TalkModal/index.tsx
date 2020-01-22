@@ -80,7 +80,8 @@ export const TalkModal: React.FC<Props> = ({
       reply({
         variables: {
           inReplyToId: comment.id,
-          threadId: comment.thread.id,
+          //FIXME https://gitlab.com/moodlenet/meta/issues/185
+          threadId: comment.thread!.id,
           comment: { content: text }
         }
       });

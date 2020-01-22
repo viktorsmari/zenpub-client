@@ -101,20 +101,24 @@ const MultipleItems: React.FC = () => {
         </span>
       ) : props.loading ? (
         <Loader />
-      ) : (
+      ) : //FIXME https://gitlab.com/moodlenet/meta/issues/185
+      !props.data.instance.featuredCommunities ? null : (
         <Slider
           ref={c => (sliderRef.current = c || undefined)}
           {...sliderSettings}
         >
           {props.data.instance.featuredCommunities.edges.map(
             edge =>
-              edge &&
-              edge.node.context.__typename === 'Community' && (
-                <CommunitySmall
-                  community={edge.node.context}
-                  key={edge.node.id}
-                />
-              )
+              //FIXME https://gitlab.com/moodlenet/meta/issues/185
+              // edge &&
+              !edge || !edge.node.context
+                ? null
+                : edge.node.context.__typename === 'Community' && (
+                    <CommunitySmall
+                      community={edge.node.context}
+                      key={edge.node.id}
+                    />
+                  )
           )}
         </Slider>
       )}

@@ -39,7 +39,8 @@ const Component: React.FC<Props> = ({
     !!me &&
     !!collectionQuery.data &&
     !!collectionQuery.data.collection &&
-    me.user.id === collectionQuery.data.collection.creator.id;
+    //FIXME https://gitlab.com/moodlenet/meta/issues/185
+    me.user.id === collectionQuery.data.collection.creator!.id;
   return (
     <MainContainer>
       <HomeBox>
@@ -56,7 +57,10 @@ const Component: React.FC<Props> = ({
             ) : (
               collectionQuery.data.collection && (
                 <>
-                  <Header context={collectionQuery.data.collection.community} />
+                  {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */}
+                  <Header
+                    context={collectionQuery.data.collection.community!}
+                  />
                   <HeroCont>
                     <Hero>
                       <Background
@@ -69,7 +73,7 @@ const Component: React.FC<Props> = ({
                       <HeroInfo>
                         <MoreOptionsContainer>
                           <MoreOptions
-                            contextId={collectionQuery.data!.collection!.id}
+                            contextId={collectionQuery.data.collection.id}
                             myFlag={collectionQuery.data.collection.myFlag}
                           />
                         </MoreOptionsContainer>
@@ -116,9 +120,13 @@ const Component: React.FC<Props> = ({
                   <CollectionPage
                     collection={collectionQuery.data.collection}
                     community_name={
-                      collectionQuery.data.collection.community.name
+                      /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                      collectionQuery.data.collection.community!.name
                     }
-                    resources={collectionQuery.data.collection.resources}
+                    resources={
+                      /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                      collectionQuery.data.collection.resources!
+                    }
                     addNewResource={addNewResource}
                     fetchMore={collectionQuery.fetchMore}
                     type={'collection'}

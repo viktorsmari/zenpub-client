@@ -88,7 +88,8 @@ const CommunitiesFeatured: React.SFC<Props> = ({ userId }) => {
                       </SuperTabList>
                       <TabPanel>
                         <div>
-                          {data.user.outbox.edges.map(
+                          {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                          data.user.outbox!.edges!.map(
                             (t, i) =>
                               t && (
                                 <ActivityPreviewHOC
@@ -106,7 +107,8 @@ const CommunitiesFeatured: React.SFC<Props> = ({ userId }) => {
                       <TabPanel>
                         <>
                           <ListCollections>
-                            {data.user.followedCollections.edges.map(
+                            {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                            data.user.followedCollections!.edges.map(
                               (collection, i) =>
                                 collection && (
                                   <CollectionCard
@@ -129,7 +131,8 @@ const CommunitiesFeatured: React.SFC<Props> = ({ userId }) => {
                       >
                         <>
                           <List>
-                            {data.user.followedCommunities.edges.map(
+                            {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                            data.user.followedCommunities!.edges.map(
                               (community, i) =>
                                 community && (
                                   <CommunityCard
@@ -139,11 +142,13 @@ const CommunitiesFeatured: React.SFC<Props> = ({ userId }) => {
                                     }
                                     title={community.node.community.name}
                                     collectionsCount={
-                                      community.node.community.collections
+                                      /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                                      community.node.community.collections!
                                         .totalCount
                                     }
                                     threadsCount={
-                                      community.node.community.threads
+                                      /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                                      community.node.community.threads!
                                         .totalCount
                                     }
                                     icon={
@@ -160,7 +165,8 @@ const CommunitiesFeatured: React.SFC<Props> = ({ userId }) => {
                                       ''
                                     }
                                     followersCount={
-                                      community.node.community.followers
+                                      /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                                      community.node.community.followers!
                                         .totalCount
                                     }
                                   />

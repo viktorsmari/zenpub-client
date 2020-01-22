@@ -26,25 +26,25 @@ export type GetCommunityQueryQuery = (
   & { community: Types.Maybe<(
     { __typename: 'Community' }
     & Pick<Types.Community, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'image' | 'createdAt' | 'updatedAt' | 'lastActivity' | 'isLocal' | 'isPublic' | 'isDisabled'>
-    & { creator: (
+    & { creator: Types.Maybe<(
       { __typename: 'User' }
       & Pick<Types.User, 'id'>
-    ), myFollow: Types.Maybe<(
+    )>, myFollow: Types.Maybe<(
       { __typename: 'Follow' }
       & Pick<Types.Follow, 'id'>
-    )>, outbox: (
+    )>, outbox: Types.Maybe<(
       { __typename: 'ActivitiesEdges' }
       & { pageInfo: Types.Maybe<(
         { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-      )>, edges: Array<Types.Maybe<(
+      )>, edges: Types.Maybe<Array<Types.Maybe<(
         { __typename: 'ActivitiesEdge' }
         & { node: (
           { __typename: 'Activity' }
           & ActivityPreviewDataFragment
         ) }
-      )>> }
-    ), threads: (
+      )>>> }
+    )>, threads: Types.Maybe<(
       { __typename: 'ThreadsEdges' }
       & { pageInfo: Types.Maybe<(
         { __typename: 'PageInfo' }
@@ -54,7 +54,7 @@ export type GetCommunityQueryQuery = (
         & { node: (
           { __typename: 'Thread' }
           & Pick<Types.Thread, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'isHidden' | 'createdAt' | 'updatedAt' | 'lastActivity'>
-          & { context: (
+          & { context: Types.Maybe<(
             { __typename: 'Collection' }
             & Pick<Types.Collection, 'id' | 'icon' | 'name'>
           ) | (
@@ -63,10 +63,10 @@ export type GetCommunityQueryQuery = (
           ) | { __typename: 'Flag' } | (
             { __typename: 'Resource' }
             & Pick<Types.Resource, 'id' | 'icon' | 'name'>
-          ), myFollow: Types.Maybe<(
+          )>, myFollow: Types.Maybe<(
             { __typename: 'Follow' }
             & Pick<Types.Follow, 'id'>
-          )>, comments: (
+          )>, comments: Types.Maybe<(
             { __typename: 'CommentsEdges' }
             & Pick<Types.CommentsEdges, 'totalCount'>
             & { edges: Array<Types.Maybe<(
@@ -76,10 +76,10 @@ export type GetCommunityQueryQuery = (
                 & BasicCommentWithInReplyToFragment
               ) }
             )>> }
-          ) }
+          )> }
         ) }
       )>>> }
-    ), followers: (
+    )>, followers: Types.Maybe<(
       { __typename: 'FollowsEdges' }
       & Pick<Types.FollowsEdges, 'totalCount'>
       & { pageInfo: Types.Maybe<(
@@ -90,13 +90,13 @@ export type GetCommunityQueryQuery = (
         & { node: (
           { __typename: 'Follow' }
           & Pick<Types.Follow, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic'>
-          & { creator: (
+          & { creator: Types.Maybe<(
             { __typename: 'User' }
             & Pick<Types.User, 'id' | 'icon'>
-          ) }
+          )> }
         ) }
       )>> }
-    ), collections: (
+    )>, collections: Types.Maybe<(
       { __typename: 'CollectionsEdges' }
       & Pick<Types.CollectionsEdges, 'totalCount'>
       & { pageInfo: Types.Maybe<(
@@ -110,22 +110,22 @@ export type GetCommunityQueryQuery = (
           & { myFollow: Types.Maybe<(
             { __typename: 'Follow' }
             & Pick<Types.Follow, 'id'>
-          )>, likes: (
+          )>, likes: Types.Maybe<(
             { __typename: 'LikesEdges' }
             & Pick<Types.LikesEdges, 'totalCount'>
-          ), followers: (
+          )>, followers: Types.Maybe<(
             { __typename: 'FollowsEdges' }
             & Pick<Types.FollowsEdges, 'totalCount'>
-          ), resources: (
+          )>, resources: Types.Maybe<(
             { __typename: 'ResourcesEdges' }
             & Pick<Types.ResourcesEdges, 'totalCount'>
-          ), threads: (
+          )>, threads: Types.Maybe<(
             { __typename: 'ThreadsEdges' }
             & Pick<Types.ThreadsEdges, 'totalCount'>
-          ) }
+          )> }
         ) }
       )>> }
-    ) }
+    )> }
   )> }
 );
 

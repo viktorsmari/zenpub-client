@@ -11,10 +11,10 @@ import { BasicResourcesEdgesFragmentDoc } from './basicResourcesEdges.generated'
 export type BasicCollectionFragment = (
   { __typename: 'Collection' }
   & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'isLocal' | 'isPublic' | 'createdAt'>
-  & { creator: (
+  & { creator: Types.Maybe<(
     { __typename: 'User' }
     & BasicUserFragment
-  ), myLike: Types.Maybe<(
+  )>, myLike: Types.Maybe<(
     { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
   )>, myFollow: Types.Maybe<(
@@ -23,7 +23,7 @@ export type BasicCollectionFragment = (
   )>, myFlag: Types.Maybe<(
     { __typename: 'Flag' }
     & Pick<Types.Flag, 'id'>
-  )>, community: (
+  )>, community: Types.Maybe<(
     { __typename: 'Community' }
     & Pick<Types.Community, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'name' | 'icon'>
     & { myFollow: Types.Maybe<(
@@ -33,19 +33,19 @@ export type BasicCollectionFragment = (
       { __typename: 'Flag' }
       & Pick<Types.Flag, 'id'>
     )> }
-  ), resources: (
+  )>, resources: Types.Maybe<(
     { __typename: 'ResourcesEdges' }
     & BasicResourcesEdgesFragment
-  ), followers: (
+  )>, followers: Types.Maybe<(
     { __typename: 'FollowsEdges' }
     & Pick<Types.FollowsEdges, 'totalCount'>
-  ), threads: (
+  )>, threads: Types.Maybe<(
     { __typename: 'ThreadsEdges' }
     & Pick<Types.ThreadsEdges, 'totalCount'>
-  ), outbox: (
+  )>, outbox: Types.Maybe<(
     { __typename: 'ActivitiesEdges' }
     & Pick<Types.ActivitiesEdges, 'totalCount'>
-  ) }
+  )> }
 );
 
 export const BasicCollectionFragmentDoc = gql`

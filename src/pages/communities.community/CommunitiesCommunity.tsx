@@ -55,10 +55,12 @@ const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
   } else if (communityQuery.loading) {
     collections = <Loader />;
   } else if (communityQuery.data.community) {
-    if (communityQuery.data.community.collections.totalCount) {
+    /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+    if (communityQuery.data.community.collections!.totalCount) {
       collections = (
         <Box m={2}>
-          {communityQuery.data.community.collections.edges.map(
+          {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+          communityQuery.data.community.collections!.edges.map(
             (e, i) => e && <CollectionCard key={i} collection={e.node} />
           )}
         </Box>

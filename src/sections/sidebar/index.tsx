@@ -274,7 +274,8 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
                   </SidebarLink>
                 </Nav>
                 <Nav>
-                  {data.me.user.followedCommunities.edges.map(
+                  {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                  data.me.user.followedCommunities!.edges.map(
                     userJoinedCommunitiesEdge => {
                       if (!userJoinedCommunitiesEdge) {
                         return null;
