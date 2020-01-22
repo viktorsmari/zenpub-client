@@ -29,10 +29,10 @@ export type CreateReplyMutationMutation = (
     )>, myLike: Types.Maybe<(
       { __typename: 'Like' }
       & Pick<Types.Like, 'id'>
-    )>, creator: (
+    )>, creator: Types.Maybe<(
       { __typename: 'User' }
       & Pick<Types.User, 'id' | 'preferredUsername' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'isDisabled' | 'icon' | 'name'>
-    ) }
+    )> }
   )> }
 );
 

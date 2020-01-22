@@ -21,7 +21,7 @@ export type GetFeaturedCollectionsQuery = (
   { __typename: 'RootQueryType' }
   & { instance: Types.Maybe<(
     { __typename: 'Instance' }
-    & { featuredCollections: (
+    & { featuredCollections: Types.Maybe<(
       { __typename: 'FeaturesEdges' }
       & Pick<Types.FeaturesEdges, 'totalCount'>
       & { pageInfo: Types.Maybe<(
@@ -33,16 +33,16 @@ export type GetFeaturedCollectionsQuery = (
         & { node: (
           { __typename: 'Feature' }
           & Pick<Types.Feature, 'id' | 'canonicalUrl' | 'isLocal' | 'createdAt'>
-          & { creator: (
+          & { creator: Types.Maybe<(
             { __typename: 'User' }
             & BasicUserFragment
-          ), context: (
+          )>, context: Types.Maybe<(
             { __typename: 'Collection' }
             & BasicCollectionFragment
-          ) | { __typename: 'Community' } }
+          ) | { __typename: 'Community' }> }
         ) }
       )>> }
-    ) }
+    )> }
   )> }
 );
 

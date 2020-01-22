@@ -26,19 +26,19 @@ export type GetMeInboxQuery = (
     { __typename: 'Me' }
     & { user: (
       { __typename: 'User' }
-      & { inbox: (
+      & { inbox: Types.Maybe<(
         { __typename: 'ActivitiesEdges' }
         & { pageInfo: Types.Maybe<(
           { __typename: 'PageInfo' }
           & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-        )>, edges: Array<Types.Maybe<(
+        )>, edges: Types.Maybe<Array<Types.Maybe<(
           { __typename: 'ActivitiesEdge' }
           & { node: (
             { __typename: 'Activity' }
             & ActivityPreviewDataFragment
           ) }
-        )>> }
-      ) }
+        )>>> }
+      )> }
       & BasicUserFragment
     ) }
   )> }

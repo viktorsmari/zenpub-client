@@ -24,10 +24,10 @@ export type GetCollectionsQueryQuery = (
     & { pageInfo: Types.Maybe<(
       { __typename: 'PageInfo' }
       & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-    )>, nodes: Array<Types.Maybe<(
+    )>, nodes: Types.Maybe<Array<Types.Maybe<(
       { __typename: 'Collection' }
       & BasicCollectionFragment
-    )>> }
+    )>>> }
   ) }
 );
 

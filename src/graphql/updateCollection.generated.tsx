@@ -19,10 +19,10 @@ export type UpdateCollectionMutationMutation = (
   & { updateCollection: Types.Maybe<(
     { __typename: 'Collection' }
     & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'createdAt' | 'updatedAt'>
-    & { resources: (
+    & { resources: Types.Maybe<(
       { __typename: 'ResourcesEdges' }
       & Pick<Types.ResourcesEdges, 'totalCount'>
-    ) }
+    )> }
   )> }
 );
 

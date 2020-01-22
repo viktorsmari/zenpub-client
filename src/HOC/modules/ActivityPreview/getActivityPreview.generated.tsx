@@ -24,10 +24,10 @@ export type GetActivityPreviewQuery = (
 export type ActivityPreviewDataFragment = (
   { __typename: 'Activity' }
   & Pick<Types.Activity, 'createdAt' | 'id' | 'verb'>
-  & { user: (
+  & { user: Types.Maybe<(
     { __typename: 'User' }
     & ActivityPreviewBaseUserFragment
-  ), context: (
+  )>, context: Types.Maybe<(
     { __typename: 'Collection' }
     & ActivityPreviewCollectionCtxFragment
   ) | (
@@ -48,7 +48,7 @@ export type ActivityPreviewDataFragment = (
   ) | (
     { __typename: 'Resource' }
     & ActivityPreviewResourceCtxFragment
-  ) }
+  ) | { __typename: 'User' }> }
 );
 
 export type ActivityPreviewBaseUserFragment = (
@@ -65,13 +65,13 @@ export type ActivityPreviewBaseThreadFragment = (
 export type ActivityPreviewCollectionCtxFragment = (
   { __typename: 'Collection' }
   & Pick<Types.Collection, 'id' | 'isLocal' | 'icon' | 'name' | 'summary' | 'canonicalUrl'>
-  & { creator: (
+  & { creator: Types.Maybe<(
     { __typename: 'User' }
     & ActivityPreviewBaseUserFragment
-  ), likes: (
+  )>, likes: Types.Maybe<(
     { __typename: 'LikesEdges' }
     & Pick<Types.LikesEdges, 'totalCount'>
-  ), myLike: Types.Maybe<(
+  )>, myLike: Types.Maybe<(
     { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
   )> }
@@ -82,22 +82,22 @@ export type ActivityPreviewCommentCtxExtendedFragment = (
   & { inReplyTo: Types.Maybe<(
     { __typename: 'Comment' }
     & ActivityPreviewCommentCtxBaseFragment
-  )>, likes: (
+  )>, likes: Types.Maybe<(
     { __typename: 'LikesEdges' }
     & Pick<Types.LikesEdges, 'totalCount'>
-  ), myLike: Types.Maybe<(
+  )>, myLike: Types.Maybe<(
     { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
-  )>, thread: (
+  )>, thread: Types.Maybe<(
     { __typename: 'Thread' }
     & ActivityPreviewExtendedThreadFragment
-  ) }
+  )> }
   & ActivityPreviewCommentCtxBaseFragment
 );
 
 export type ActivityPreviewExtendedThreadFragment = (
   { __typename: 'Thread' }
-  & { context: (
+  & { context: Types.Maybe<(
     { __typename: 'Collection' }
     & ActivityPreviewCollectionCtxFragment
   ) | (
@@ -109,29 +109,29 @@ export type ActivityPreviewExtendedThreadFragment = (
   ) | (
     { __typename: 'Resource' }
     & ActivityPreviewResourceCtxFragment
-  ) }
+  )> }
   & ActivityPreviewBaseThreadFragment
 );
 
 export type ActivityPreviewCommentCtxBaseFragment = (
   { __typename: 'Comment' }
   & Pick<Types.Comment, 'id' | 'isLocal' | 'content' | 'canonicalUrl'>
-  & { creator: (
+  & { creator: Types.Maybe<(
     { __typename: 'User' }
     & ActivityPreviewBaseUserFragment
-  ), thread: (
+  )>, thread: Types.Maybe<(
     { __typename: 'Thread' }
     & ActivityPreviewBaseThreadFragment
-  ) }
+  )> }
 );
 
 export type ActivityPreviewCommunityCtxFragment = (
   { __typename: 'Community' }
   & Pick<Types.Community, 'id' | 'isLocal' | 'icon' | 'name' | 'summary' | 'canonicalUrl'>
-  & { creator: (
+  & { creator: Types.Maybe<(
     { __typename: 'User' }
     & ActivityPreviewBaseUserFragment
-  ), myLike: Types.Maybe<(
+  )>, myLike: Types.Maybe<(
     { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
   )> }
@@ -140,16 +140,16 @@ export type ActivityPreviewCommunityCtxFragment = (
 export type ActivityPreviewResourceCtxFragment = (
   { __typename: 'Resource' }
   & Pick<Types.Resource, 'id' | 'isLocal' | 'icon' | 'name' | 'summary' | 'canonicalUrl'>
-  & { collection: (
+  & { collection: Types.Maybe<(
     { __typename: 'Collection' }
     & ActivityPreviewCollectionCtxFragment
-  ), creator: (
+  )>, creator: Types.Maybe<(
     { __typename: 'User' }
     & ActivityPreviewBaseUserFragment
-  ), likes: (
+  )>, likes: Types.Maybe<(
     { __typename: 'LikesEdges' }
     & Pick<Types.LikesEdges, 'totalCount'>
-  ), myLike: Types.Maybe<(
+  )>, myLike: Types.Maybe<(
     { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
   )> }
@@ -158,7 +158,7 @@ export type ActivityPreviewResourceCtxFragment = (
 export type ActivityPreviewFlagCtxFragment = (
   { __typename: 'Flag' }
   & Pick<Types.Flag, 'isLocal'>
-  & { context: (
+  & { context: Types.Maybe<(
     { __typename: 'Collection' }
     & ActivityPreviewCollectionCtxFragment
   ) | (
@@ -173,31 +173,31 @@ export type ActivityPreviewFlagCtxFragment = (
   ) | (
     { __typename: 'User' }
     & ActivityPreviewBaseUserFragment
-  ) }
+  )> }
 );
 
 export type ActivityPreviewLikeCtxFragment = (
   { __typename: 'Like' }
   & Pick<Types.Like, 'isLocal'>
-  & { context: (
+  & { context: Types.Maybe<(
     { __typename: 'Collection' }
     & ActivityPreviewCollectionCtxFragment
   ) | (
     { __typename: 'Comment' }
     & ActivityPreviewCommentCtxExtendedFragment
-  ) | (
+  ) | { __typename: 'Community' } | (
     { __typename: 'Resource' }
     & ActivityPreviewResourceCtxFragment
   ) | (
     { __typename: 'User' }
     & ActivityPreviewBaseUserFragment
-  ) }
+  )> }
 );
 
 export type ActivityPreviewFollowCtxFragment = (
   { __typename: 'Follow' }
   & Pick<Types.Follow, 'isLocal'>
-  & { context: (
+  & { context: Types.Maybe<(
     { __typename: 'Collection' }
     & ActivityPreviewCollectionCtxFragment
   ) | (
@@ -209,7 +209,7 @@ export type ActivityPreviewFollowCtxFragment = (
   ) | (
     { __typename: 'User' }
     & ActivityPreviewBaseUserFragment
-  ) }
+  )> }
 );
 
 export type ActivityPreviewLikeMutationVariables = {

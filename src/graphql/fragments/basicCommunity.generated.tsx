@@ -8,28 +8,28 @@ import { BasicUserFragmentDoc } from './basicUser.generated';
 export type BasicCommunityFragment = (
   { __typename: 'Community' }
   & Pick<Types.Community, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'image' | 'createdAt' | 'updatedAt' | 'lastActivity' | 'isLocal' | 'isPublic' | 'isDisabled'>
-  & { creator: (
+  & { creator: Types.Maybe<(
     { __typename: 'User' }
     & BasicUserFragment
-  ), myFollow: Types.Maybe<(
+  )>, myFollow: Types.Maybe<(
     { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
   )>, myFlag: Types.Maybe<(
     { __typename: 'Flag' }
     & Pick<Types.Flag, 'id'>
-  )>, collections: (
+  )>, collections: Types.Maybe<(
     { __typename: 'CollectionsEdges' }
     & Pick<Types.CollectionsEdges, 'totalCount'>
-  ), followers: (
+  )>, followers: Types.Maybe<(
     { __typename: 'FollowsEdges' }
     & Pick<Types.FollowsEdges, 'totalCount'>
-  ), threads: (
+  )>, threads: Types.Maybe<(
     { __typename: 'ThreadsEdges' }
     & Pick<Types.ThreadsEdges, 'totalCount'>
-  ), outbox: (
+  )>, outbox: Types.Maybe<(
     { __typename: 'ActivitiesEdges' }
     & Pick<Types.ActivitiesEdges, 'totalCount'>
-  ) }
+  )> }
 );
 
 export const BasicCommunityFragmentDoc = gql`

@@ -24,7 +24,7 @@ export type GetFollowedCollectionsQuery = (
     & { user: (
       { __typename: 'User' }
       & Pick<Types.User, 'id' | 'canonicalUrl'>
-      & { followedCollections: (
+      & { followedCollections: Types.Maybe<(
         { __typename: 'FollowedCollectionsEdges' }
         & { pageInfo: Types.Maybe<(
           { __typename: 'PageInfo' }
@@ -42,7 +42,7 @@ export type GetFollowedCollectionsQuery = (
             ) }
           ) }
         )>> }
-      ) }
+      )> }
     ) }
   )> }
 );

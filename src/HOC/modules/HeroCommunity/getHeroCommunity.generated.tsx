@@ -18,16 +18,16 @@ export type GetHeroCommunityQuery = (
   & { community: Types.Maybe<(
     { __typename: 'Community' }
     & Pick<Types.Community, 'id' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'image'>
-    & { followers: (
+    & { followers: Types.Maybe<(
       { __typename: 'FollowsEdges' }
       & Pick<Types.FollowsEdges, 'totalCount'>
-    ), myFollow: Types.Maybe<(
+    )>, myFollow: Types.Maybe<(
       { __typename: 'Follow' }
       & Pick<Types.Follow, 'id'>
-    )>, creator: (
+    )>, creator: Types.Maybe<(
       { __typename: 'User' }
       & Pick<Types.User, 'id'>
-    ) }
+    )> }
   )> }
 );
 

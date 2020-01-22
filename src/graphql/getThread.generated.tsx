@@ -21,7 +21,7 @@ export type GetThreadQuery = (
   & { thread: Types.Maybe<(
     { __typename: 'Thread' }
     & Pick<Types.Thread, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'isHidden' | 'createdAt' | 'updatedAt' | 'lastActivity'>
-    & { context: (
+    & { context: Types.Maybe<(
       { __typename: 'Collection' }
       & Pick<Types.Collection, 'id' | 'icon' | 'name'>
     ) | (
@@ -30,10 +30,10 @@ export type GetThreadQuery = (
     ) | { __typename: 'Flag' } | (
       { __typename: 'Resource' }
       & Pick<Types.Resource, 'id' | 'icon' | 'name'>
-    ), myFollow: Types.Maybe<(
+    )>, myFollow: Types.Maybe<(
       { __typename: 'Follow' }
       & Pick<Types.Follow, 'id'>
-    )>, comments: (
+    )>, comments: Types.Maybe<(
       { __typename: 'CommentsEdges' }
       & Pick<Types.CommentsEdges, 'totalCount'>
       & { edges: Array<Types.Maybe<(
@@ -43,7 +43,7 @@ export type GetThreadQuery = (
           & BasicCommentWithInReplyToFragment
         ) }
       )>> }
-    ) }
+    )> }
   )> }
 );
 

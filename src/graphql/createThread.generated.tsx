@@ -25,13 +25,13 @@ export type CreateThreadMutationMutation = (
     & { inReplyTo: Types.Maybe<(
       { __typename: 'Comment' }
       & BasicCommentWithInReplyToFragment
-    )>, creator: (
+    )>, creator: Types.Maybe<(
       { __typename: 'User' }
       & Pick<Types.User, 'name' | 'icon'>
-    ), thread: (
+    )>, thread: Types.Maybe<(
       { __typename: 'Thread' }
       & Pick<Types.Thread, 'id'>
-    ) }
+    )> }
   )> }
 );
 

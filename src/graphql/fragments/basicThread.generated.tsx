@@ -11,7 +11,7 @@ export type BasicThreadFragment = (
   & { myFollow: Types.Maybe<(
     { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
-  )>, comments: (
+  )>, comments: Types.Maybe<(
     { __typename: 'CommentsEdges' }
     & Pick<Types.CommentsEdges, 'totalCount'>
     & { pageInfo: Types.Maybe<(
@@ -25,7 +25,7 @@ export type BasicThreadFragment = (
         & BasicCommentWithInReplyToFragment
       ) }
     )>> }
-  ) }
+  )> }
 );
 
 export const BasicThreadFragmentDoc = gql`

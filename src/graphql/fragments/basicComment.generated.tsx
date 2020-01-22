@@ -29,19 +29,19 @@ export type BasicCommentFragment = (
   & { myLike: Types.Maybe<(
     { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
-  )>, creator: (
+  )>, creator: Types.Maybe<(
     { __typename: 'User' }
     & BasicUserFragment
-  ), likes: (
+  )>, likes: Types.Maybe<(
     { __typename: 'LikesEdges' }
     & Pick<Types.LikesEdges, 'totalCount'>
-  ), flags: (
+  )>, flags: Types.Maybe<(
     { __typename: 'FlagsEdges' }
     & Pick<Types.FlagsEdges, 'totalCount'>
-  ), thread: (
+  )>, thread: Types.Maybe<(
     { __typename: 'Thread' }
     & Pick<Types.Thread, 'id'>
-    & { context: (
+    & { context: Types.Maybe<(
       { __typename: 'Collection' }
       & BasicCollectionFragment
     ) | (
@@ -50,8 +50,8 @@ export type BasicCommentFragment = (
     ) | { __typename: 'Flag' } | (
       { __typename: 'Resource' }
       & BasicResourceFragment
-    ) }
-  ) }
+    )> }
+  )> }
 );
 
 export const BasicCommentFragmentDoc = gql`
