@@ -39,11 +39,24 @@ fragment ActivityPreviewData on Activity {
             ...ActivityPreviewLikeCtx
         }
 
-
         ... on Follow{
             ...ActivityPreviewFollowCtx
         }
 
+        ... on User{
+            ...ActivityPreviewUserCtx
+        }
+
+    }
+}
+
+fragment ActivityPreviewUserCtx on User {
+    ...ActivityPreviewBaseUser
+    likes{
+        totalCount
+    }
+    myLike{
+        id
     }
 }
 
