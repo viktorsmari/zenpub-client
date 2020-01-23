@@ -1,0 +1,15 @@
+#import "HOC/modules/HeroCollection/HeroCollection.graphql"
+#import "HOC/modules/ActivityPreview/getActivityPreview.graphql"
+
+query collectionPage($collectionId: String!) {
+  collection(collectionId:$collectionId){
+    ...HeroCollectionData
+    outbox{
+      edges{
+        node{
+          ...ActivityPreviewData
+        }
+      }
+    }
+  }
+}

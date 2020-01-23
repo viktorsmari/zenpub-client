@@ -11,15 +11,14 @@ Let's define a story for the `Collection` page
 <Preview>
   <Story name="Collection page">
     <Collection 
-      activities={ [{id:1},{id:2},{id:3}]}
-      HeroCollectionBox={({cancel})=>(<img
-        onClick={cancel}
-        src="https://via.placeholder.com/400x200.png?text=HeroCollection"
-      />)}
-      ActivityBox={({cancel})=>(<img
-        onClick={cancel}
-        src="https://via.placeholder.com/400x100.png?text=ActivityBox"
-      />)}
+      HeroCollectionBox={<img src="https://via.placeholder.com/400x200.png?text=HeroCollection"/>}
+      ActivityBoxes={[
+        <img src="https://via.placeholder.com/400x100.png?text=ActivityBox 1" key="1" />,
+        <img src="https://via.placeholder.com/400x100.png?text=ActivityBox 2" key="2" />,
+        <img src="https://via.placeholder.com/400x100.png?text=ActivityBox 3" key="3" />,
+        <img src="https://via.placeholder.com/400x100.png?text=ActivityBox 4" key="4" />,
+        <img src="https://via.placeholder.com/400x100.png?text=ActivityBox 5" key="5" />,
+      ]}
     />
   </Story>
 </Preview>
