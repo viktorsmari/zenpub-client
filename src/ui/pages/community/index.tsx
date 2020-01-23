@@ -25,14 +25,14 @@ export interface Props {
   ActivityBoxes: JSX.Element[];
   CollectionBoxes: JSX.Element[];
   HeroCommunityBox: JSX.Element;
-  currentPath: string;
+  basePath: string;
 }
 
 export const Community: React.FC<Props> = ({
   ActivityBoxes,
   HeroCommunityBox,
   CollectionBoxes,
-  currentPath
+  basePath
 }) => {
   return (
     <MainContainer>
@@ -40,15 +40,13 @@ export const Community: React.FC<Props> = ({
         <WrapperCont>
           <Wrapper>
             {HeroCommunityBox}
-            <Menu currentPath={currentPath} />
+            <Menu basePath={basePath} />
             <Switch>
-              <Route exact path={`${currentPath}`}>
+              <Route exact path={`${basePath}`}>
                 {ActivityBoxes}
               </Route>
-              <Route path={`${currentPath}/collections`}>
-                {CollectionBoxes}
-              </Route>
-              <Route path={`${currentPath}/threads`}>
+              <Route path={`${basePath}/collections`}>{CollectionBoxes}</Route>
+              <Route path={`${basePath}/threads`}>
                 <div>threads</div>
               </Route>
             </Switch>
@@ -139,13 +137,13 @@ export const Community: React.FC<Props> = ({
 //   );
 // };
 
-const Menu = ({ currentPath }: { currentPath: string }) => (
+const Menu = ({ basePath }: { basePath: string }) => (
   <MenuWrapper p={3} pt={0}>
-    <NavLink exact to={`${currentPath}`}>
+    <NavLink exact to={`${basePath}`}>
       Recent activities
     </NavLink>
-    <NavLink to={`${currentPath}/collections`}>Collections</NavLink>
-    <NavLink to={`${currentPath}/threads`}>Threads</NavLink>
+    <NavLink to={`${basePath}/collections`}>Collections</NavLink>
+    <NavLink to={`${basePath}/threads`}>Threads</NavLink>
   </MenuWrapper>
 );
 
