@@ -25,7 +25,7 @@ export interface CollectionLoaded {
     toggle(): any;
     isSubmitting: boolean;
   };
-  myFollow: boolean;
+  following: boolean;
   EditCollectionPanel: ComponentType<{ done(): any }>;
 }
 export interface Props {
@@ -58,7 +58,7 @@ export const HeroCollection: SFC<Props> = ({ collection: c }) => {
               disabled={c.toggleJoin.isSubmitting}
               onClick={c.toggleJoin.toggle}
             >
-              {c.myFollow ? 'Leave' : 'Join'}
+              {c.following ? 'Leave' : 'Join'}
             </Button>
           </ActionsHero>
         </HeroInfo>
@@ -71,7 +71,7 @@ export const HeroCollection: SFC<Props> = ({ collection: c }) => {
     </HeroCont>
   );
 };
-
+export default HeroCollection;
 const Title = styled(Text)`
   color: ${props => props.theme.colors.darkgray};
 `;

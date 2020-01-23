@@ -84,7 +84,7 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
     collection: {
       status: HeroCollectionStatus.Loaded,
       isMine: true,
-      myFollow: true,
+      following: true,
       icon: 'https://picsum.photos/800/300',
       title: 'Favourite books',
       preferredUsername: 'favbooks',

@@ -20,7 +20,7 @@ export const validationSchema: Yup.ObjectSchema<
   icon: Yup.string().url()
 });
 
-export const editcollectionFormInitialValues: EditCollectionFormValues = {
+export const editCollectionFormInitialValues: EditCollectionFormValues = {
   name: '',
   summary: '',
   icon: ''
@@ -29,7 +29,7 @@ export interface Props {
   collectionId: Collection['id'];
   done(): any;
 }
-export const EditcollectionPanelHOC: SFC<Props> = ({
+export const EditCollectionPanelHOC: SFC<Props> = ({
   done,
   collectionId
 }: Props) => {
@@ -45,7 +45,7 @@ export const EditcollectionPanelHOC: SFC<Props> = ({
             name: collectionQ.data.collection.name,
             summary: collectionQ.data.collection.summary || ''
           }
-        : editcollectionFormInitialValues,
+        : editCollectionFormInitialValues,
     [collectionQ]
   );
   const formik = useFormik<EditCollectionFormValues>({
