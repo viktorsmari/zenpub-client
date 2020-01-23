@@ -32,7 +32,7 @@ export const CollectionPreviewHOC: SFC<Props> = ({ id }) => {
       const props: CollectionPreviewProps = {
         icon: icon || '',
         link: {
-          url: isLocal ? `/collection/${id}` : canonicalUrl || '',
+          url: isLocal ? `/collections/${id}` : canonicalUrl || '',
           external: !isLocal
         },
         name: name,
