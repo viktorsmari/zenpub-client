@@ -1,10 +1,10 @@
+import { CollectionPageHOC } from 'HOC/pages/collection/CollectionPageHOC';
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
 import { SessionContext } from '../../context/global/sessionCtx';
 import CollectionsAll from '../../pages/collections.all';
 import MyCollections from '../../pages/collections.all/collectionsFollowed';
-import Collection from '../../pages/collections.collection/component';
 import CommunitiesAll from '../../pages/communities.all/CommunitiesAll';
 import MyCommunities from '../../pages/communities.all/communitiesJoined';
 import CommunitiesCommunity from '../../pages/communities.community/CommunitiesCommunity';
@@ -115,10 +115,10 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
         />
         <Route
           exact
-          path="/collections/:id"
+          path="/collections/:id/:tab?"
           render={route => {
             const id = route.match.params.id;
-            return <Collection id={id} />;
+            return <CollectionPageHOC collectionId={id} />;
           }}
         />
 

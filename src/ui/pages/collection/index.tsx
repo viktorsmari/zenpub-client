@@ -19,11 +19,13 @@ import styled from 'ui/themes/styled';
 export interface Props {
   ActivityBoxes: JSX.Element[];
   HeroCollectionBox: JSX.Element;
+  basePath: string;
 }
 
 export const Collection: React.FC<Props> = ({
   HeroCollectionBox,
-  ActivityBoxes
+  ActivityBoxes,
+  basePath
 }) => {
   return (
     <MainContainer>
@@ -31,15 +33,15 @@ export const Collection: React.FC<Props> = ({
         <WrapperCont>
           <Wrapper>
             {HeroCollectionBox}
-            <Menu />
+            <Menu basePath={basePath} />
             <Switch>
-              <Route exact path="/">
+              <Route exact path={`${basePath}/`}>
                 {ActivityBoxes}
               </Route>
-              <Route path="/resources">
+              <Route path={`${basePath}/resources`}>
                 <div>resources</div>
               </Route>
-              <Route path="/threads">
+              <Route path={`${basePath}/threads`}>
                 <div>threads</div>
               </Route>
             </Switch>
@@ -114,12 +116,12 @@ export default Collection;
 //   );
 // };
 
-const Menu = () => (
+const Menu = ({ basePath }: { basePath: string }) => (
   <MenuWrapper p={3} pt={3}>
-    <NavLink exact to={'/'}>
+    <NavLink exact to={`${basePath}`}>
       Recent activities
     </NavLink>
-    <NavLink to={'/resources'}>Resources</NavLink>
+    <NavLink to={`${basePath}/resources`}>Resources</NavLink>
   </MenuWrapper>
 );
 

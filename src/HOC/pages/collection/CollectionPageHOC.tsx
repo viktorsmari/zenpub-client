@@ -31,7 +31,8 @@ export const CollectionPageHOC: SFC<Props> = ({ collectionId }) => {
           if (!edge) {
             return null;
           }
-          return <ActivityPreviewHOC activityId={edge.node.id} />;
+          const id = edge.node.id;
+          return <ActivityPreviewHOC activityId={id} key={id} />;
         })
         .filter((_): _ is JSX.Element => !!_);
       const HeroCollectionBox = (
@@ -40,7 +41,8 @@ export const CollectionPageHOC: SFC<Props> = ({ collectionId }) => {
 
       const props: CollectionPageProps = {
         ActivityBoxes,
-        HeroCollectionBox
+        HeroCollectionBox,
+        basePath: `/collections/${collectionId}`
       };
       return props;
     },
