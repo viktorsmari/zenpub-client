@@ -32,7 +32,8 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
           if (!edge) {
             return null;
           }
-          return <ActivityPreviewHOC activityId={edge.node.id} />;
+          const id = edge.node.id;
+          return <ActivityPreviewHOC activityId={id} key={id} />;
         })
         .filter((_): _ is JSX.Element => !!_);
       const CollectionBoxes = collectionEdges
@@ -40,7 +41,8 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
           if (!edge) {
             return null;
           }
-          return <CollectionPreviewHOC id={edge.node.id} />;
+          const id = edge.node.id;
+          return <CollectionPreviewHOC id={id} key={id} />;
         })
         .filter((_): _ is JSX.Element => !!_);
       const HeroCommunityBox = <HeroCommunityHOC communityId={id} />;
