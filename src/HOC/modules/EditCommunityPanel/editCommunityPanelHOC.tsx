@@ -35,7 +35,7 @@ export const EditCommunityPanelHOC: SFC<Props> = ({
   communityId
 }: Props) => {
   const community = useGetCommunityForEditQuery({ variables: { communityId } });
-  const [create /* , result */] = useUpdateCommunityMutationMutation();
+  const [update /* , result */] = useUpdateCommunityMutationMutation();
   const initialValues = useMemo<EditCommunityFormValues>(
     () =>
       community.data && community.data.community
@@ -50,7 +50,7 @@ export const EditCommunityPanelHOC: SFC<Props> = ({
   const formik = useFormik<EditCommunityFormValues>({
     enableReinitialize: true,
     onSubmit: vals =>
-      create({ variables: { community: vals, communityId } }).then(done),
+      update({ variables: { community: vals, communityId } }).then(done),
     validationSchema,
     initialValues
   });

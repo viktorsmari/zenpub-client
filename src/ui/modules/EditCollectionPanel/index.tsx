@@ -33,7 +33,7 @@ export interface Props {
 export interface EditCollectionFormValues {
   name: string;
   summary: string;
-  image: string;
+  icon: string;
 }
 
 export const EditCollectionPanel: React.FC<Props> = ({ cancel, formik }) => {
@@ -90,13 +90,13 @@ export const EditCollectionPanel: React.FC<Props> = ({ cancel, formik }) => {
           <Input
             placeholder={tt.placeholders.icon}
             disabled={formik.isSubmitting}
-            name="image"
-            value={formik.values.image}
+            name="icon"
+            value={formik.values.icon}
             onChange={formik.handleChange}
           />
-          {formik.errors.image && (
+          {formik.errors.icon && (
             <AlertWrapper>
-              <Alert variant="bad">{formik.errors.image}</Alert>
+              <Alert variant="bad">{formik.errors.icon}</Alert>
             </AlertWrapper>
           )}
         </ContainerForm>
