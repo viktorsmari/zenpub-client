@@ -11,51 +11,39 @@ import {
 } from 'ui/elements/Panel';
 import styled from 'ui/themes/styled';
 
-interface Collection {
-  id: any;
-}
-type CollectionBox = React.ComponentType<{ collection: Collection }>;
+// interface Collection {
+//   id: any;
+// }
+// type CollectionBox = React.ComponentType<{ collection: Collection }>;
 
-interface Activity {
-  id: any;
-}
-type ActivityBox = React.ComponentType<{ activity: Activity }>;
+// interface Activity {
+//   id: any;
+// }
+// type ActivityBox = React.ComponentType<{ activity: Activity }>;
 
-interface Props {
-  activities: Activity[];
-  ActivityBox: ActivityBox;
-  collections: Collection[];
-  CollectionBox: CollectionBox;
-  HeroCommunityBox: React.ComponentType;
+export interface Props {
+  ActivityBoxes: JSX.Element[];
+  CollectionBoxes: JSX.Element[];
+  HeroCommunityBox: JSX.Element;
 }
 
 export const Community: React.FC<Props> = ({
-  activities,
-  ActivityBox,
+  ActivityBoxes,
   HeroCommunityBox,
-  collections,
-  CollectionBox
+  CollectionBoxes
 }) => {
   return (
     <MainContainer>
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <HeroCommunityBox />
+            {HeroCommunityBox}
             <Menu />
             <Switch>
               <Route exact path="/">
-                <RecentActivities
-                  activities={activities}
-                  ActivityBox={ActivityBox}
-                />
+                {ActivityBoxes}
               </Route>
-              <Route path="/collections">
-                <Collections
-                  collections={collections}
-                  CollectionBox={CollectionBox}
-                />
-              </Route>
+              <Route path="/collections">{CollectionBoxes}</Route>
               <Route path="/threads">
                 <div>threads</div>
               </Route>
@@ -113,39 +101,39 @@ export const Community: React.FC<Props> = ({
   );
 };
 
-export interface RecentActivitiesProps {
-  activities: Activity[];
-  ActivityBox: ActivityBox;
-}
-const RecentActivities: React.SFC<RecentActivitiesProps> = ({
-  activities,
-  ActivityBox
-}) => {
-  return (
-    <>
-      {activities.map(activity => (
-        <ActivityBox activity={activity} key={activity.id} />
-      ))}
-    </>
-  );
-};
+// export interface RecentActivitiesProps {
+//   activities: Activity[];
+//   ActivityBox: ActivityBox;
+// }
+// const RecentActivities: React.SFC<RecentActivitiesProps> = ({
+//   activities,
+//   ActivityBox
+// }) => {
+//   return (
+//     <>
+//       {activities.map(activity => (
+//         <ActivityBox activity={activity} key={activity.id} />
+//       ))}
+//     </>
+//   );
+// };
 
-export interface CollectionsProps {
-  collections: Collection[];
-  CollectionBox: CollectionBox;
-}
-const Collections: React.SFC<CollectionsProps> = ({
-  collections,
-  CollectionBox
-}) => {
-  return (
-    <>
-      {collections.map(collection => (
-        <CollectionBox collection={collection} key={collection.id} />
-      ))}
-    </>
-  );
-};
+// export interface CollectionsProps {
+//   collections: Collection[];
+//   CollectionBox: CollectionBox;
+// }
+// const Collections: React.SFC<CollectionsProps> = ({
+//   collections,
+//   CollectionBox
+// }) => {
+//   return (
+//     <>
+//       {collections.map(collection => (
+//         <CollectionBox collection={collection} key={collection.id} />
+//       ))}
+//     </>
+//   );
+// };
 
 const Menu = () => (
   <MenuWrapper p={3} pt={0}>
