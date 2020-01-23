@@ -11,35 +11,30 @@ import {
 } from 'ui/elements/Panel';
 import styled from 'ui/themes/styled';
 
-interface Activity {
-  id: any;
-}
-type ActivityBox = React.ComponentType<{ activity: Activity }>;
+// interface Activity {
+//   id: any;
+// }
+// type ActivityBox = React.ComponentType<{ activity: Activity }>;
 
-interface Props {
-  activities: Activity[];
-  ActivityBox: ActivityBox;
-  HeroCollectionBox: React.ComponentType;
+export interface Props {
+  ActivityBoxes: JSX.Element[];
+  HeroCollectionBox: JSX.Element;
 }
 
 export const Collection: React.FC<Props> = ({
   HeroCollectionBox,
-  ActivityBox,
-  activities
+  ActivityBoxes
 }) => {
   return (
     <MainContainer>
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <HeroCollectionBox />
+            {HeroCollectionBox}
             <Menu />
             <Switch>
               <Route exact path="/">
-                <RecentActivities
-                  ActivityBox={ActivityBox}
-                  activities={activities}
-                />
+                {ActivityBoxes}
               </Route>
               <Route path="/resources">
                 <div>resources</div>
@@ -100,24 +95,24 @@ export const Collection: React.FC<Props> = ({
     </MainContainer>
   );
 };
+export default Collection;
+// export interface RecentActivitiesProps {
+//   activities: Activity[];
+//   ActivityBox: ActivityBox;
+// }
 
-export interface RecentActivitiesProps {
-  activities: Activity[];
-  ActivityBox: ActivityBox;
-}
-
-const RecentActivities: React.SFC<RecentActivitiesProps> = ({
-  activities,
-  ActivityBox
-}) => {
-  return (
-    <>
-      {activities.map(activity => (
-        <ActivityBox activity={activity} key={activity.id} />
-      ))}
-    </>
-  );
-};
+// const RecentActivities: React.SFC<RecentActivitiesProps> = ({
+//   activities,
+//   ActivityBox
+// }) => {
+//   return (
+//     <>
+//       {activities.map(activity => (
+//         <ActivityBox activity={activity} key={activity.id} />
+//       ))}
+//     </>
+//   );
+// };
 
 const Menu = () => (
   <MenuWrapper p={3} pt={3}>

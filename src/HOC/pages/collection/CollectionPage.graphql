@@ -1,0 +1,23 @@
+#import "HOC/modules/HeroCollection/getHeroCommunity.graphql"
+#import "HOC/modules/CollectionPreview/CollectionPreview.graphql"
+#import "HOC/modules/ActivityPreview/getActivityPreview.graphql"
+
+query collection($communityId: String!) {
+  community(communityId:$communityId){
+    ...HeroCommunityData
+    collections{
+      edges{
+        node{
+          ...CollectionPreviewData
+        }
+      }
+    }
+    outbox{
+      edges{
+        node{
+          ...ActivityPreviewData
+        }
+      }
+    }
+  }
+}
