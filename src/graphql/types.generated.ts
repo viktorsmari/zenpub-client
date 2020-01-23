@@ -94,6 +94,8 @@ export type Collection = {
    * thread or a comment was created or updated
  **/
   lastActivity: Scalars['String'],
+  /** Total number of likers, including those we can't see */
+  likerCount?: Maybe<Scalars['Int']>,
   /** Likes users have given the collection */
   likes?: Maybe<LikesEdges>,
   /** The current user's flag of the collection, if any */
@@ -225,6 +227,8 @@ export type Comment = {
   isLocal: Scalars['Boolean'],
   /** Whether the comment is publically visible */
   isPublic: Scalars['Boolean'],
+  /** Total number of likers, including those we can't see */
+  likerCount?: Maybe<Scalars['Int']>,
   /** Users who like the comment, most recently liked first */
   likes?: Maybe<LikesEdges>,
   /** The current user's like of this comment, if any */
@@ -306,6 +310,8 @@ export type Community = {
    * updated or a thread or a comment was created or updated
  **/
   lastActivity: Scalars['String'],
+  /** Total number of likers, including those we can't see */
+  likerCount?: Maybe<Scalars['Int']>,
   /** The current user's flag of the community, if any */
   myFlag?: Maybe<Flag>,
   /** The current user's follow of the community, if any */
@@ -1087,6 +1093,8 @@ export type Thread = {
   context?: Maybe<ThreadContext>,
   /** When the thread was created */
   createdAt: Scalars['String'],
+  /** Total number of followers, including those we can't see */
+  followerCount?: Maybe<Scalars['Int']>,
   /** Users following the collection, most recently followed first */
   followers?: Maybe<FollowsEdges>,
   /** An instance-local UUID identifying the thread */
@@ -1190,6 +1198,8 @@ export type User = {
   isPublic: Scalars['Boolean'],
   /** The last time the user did anything */
   lastActivity?: Maybe<Scalars['String']>,
+  /** Total number of likers, including those we can't see */
+  likerCount?: Maybe<Scalars['Int']>,
   /** The likes a user has created */
   likes?: Maybe<LikesEdges>,
   /** Free text */
@@ -1755,6 +1765,7 @@ export type CollectionResolvers<ContextType = any, ParentType extends ResolversP
   isLocal?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   isPublic?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   lastActivity?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  likerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   likes?: Resolver<Maybe<ResolversTypes['LikesEdges']>, ParentType, ContextType, CollectionLikesArgs>,
   myFlag?: Resolver<Maybe<ResolversTypes['Flag']>, ParentType, ContextType>,
   myFollow?: Resolver<Maybe<ResolversTypes['Follow']>, ParentType, ContextType>,
@@ -1796,6 +1807,7 @@ export type CommentResolvers<ContextType = any, ParentType extends ResolversPare
   isHidden?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   isLocal?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   isPublic?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  likerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   likes?: Resolver<Maybe<ResolversTypes['LikesEdges']>, ParentType, ContextType, CommentLikesArgs>,
   myLike?: Resolver<Maybe<ResolversTypes['Like']>, ParentType, ContextType>,
   thread?: Resolver<Maybe<ResolversTypes['Thread']>, ParentType, ContextType>,
@@ -1834,6 +1846,7 @@ export type CommunityResolvers<ContextType = any, ParentType extends ResolversPa
   isLocal?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   isPublic?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   lastActivity?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  likerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   myFlag?: Resolver<Maybe<ResolversTypes['Flag']>, ParentType, ContextType>,
   myFollow?: Resolver<Maybe<ResolversTypes['Follow']>, ParentType, ContextType>,
   myLike?: Resolver<Maybe<ResolversTypes['Like']>, ParentType, ContextType>,
@@ -2141,6 +2154,7 @@ export type ThreadResolvers<ContextType = any, ParentType extends ResolversParen
   comments?: Resolver<Maybe<ResolversTypes['CommentsEdges']>, ParentType, ContextType, ThreadCommentsArgs>,
   context?: Resolver<Maybe<ResolversTypes['ThreadContext']>, ParentType, ContextType>,
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  followerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   followers?: Resolver<Maybe<ResolversTypes['FollowsEdges']>, ParentType, ContextType, ThreadFollowersArgs>,
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   isHidden?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
@@ -2191,6 +2205,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   isLocal?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   isPublic?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   lastActivity?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  likerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   likes?: Resolver<Maybe<ResolversTypes['LikesEdges']>, ParentType, ContextType, UserLikesArgs>,
   location?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   myFlag?: Resolver<Maybe<ResolversTypes['Flag']>, ParentType, ContextType>,
