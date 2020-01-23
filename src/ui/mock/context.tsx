@@ -39,7 +39,7 @@ export const getEditCommunityProps = (): EditCommunityProps => {
 export const getEditCollectionProps = (): EditCollectionPanelProps => {
   const formik = useFormik<EditCollectionFormValues>({
     initialValues: {
-      image: '',
+      icon: '',
       name: 'name',
       summary: 'summary'
     },
