@@ -47,7 +47,8 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
       const props: CommunityProps = {
         ActivityBoxes,
         CollectionBoxes,
-        HeroCommunityBox
+        HeroCommunityBox,
+        currentPath: `/communities/${id}`
       };
       return props;
     },
