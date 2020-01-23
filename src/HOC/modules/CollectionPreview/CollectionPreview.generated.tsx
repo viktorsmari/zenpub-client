@@ -17,13 +17,13 @@ export type CollectionPreviewQuery = (
   { __typename: 'RootQueryType' }
   & { collection: Types.Maybe<(
     { __typename: 'Collection' }
-    & CollectionPreviewFragment
+    & CollectionPreviewDataFragment
   )> }
 );
 
-export type CollectionPreviewFragment = (
+export type CollectionPreviewDataFragment = (
   { __typename: 'Collection' }
-  & Pick<Types.Collection, 'canonicalUrl' | 'name' | 'icon' | 'summary' | 'isLocal' | 'followerCount'>
+  & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'name' | 'icon' | 'summary' | 'isLocal' | 'followerCount'>
   & { followers: Types.Maybe<(
     { __typename: 'FollowsEdges' }
     & { edges: Array<Types.Maybe<(
@@ -39,8 +39,9 @@ export type CollectionPreviewFragment = (
   )> }
 );
 
-export const CollectionPreviewFragmentDoc = gql`
-    fragment CollectionPreview on Collection {
+export const CollectionPreviewDataFragmentDoc = gql`
+    fragment CollectionPreviewData on Collection {
+  id
   canonicalUrl
   name
   icon
@@ -65,10 +66,10 @@ export const CollectionPreviewFragmentDoc = gql`
 export const CollectionPreviewDocument = gql`
     query collectionPreview($id: String!) {
   collection(collectionId: $id) {
-    ...CollectionPreview
+    ...CollectionPreviewData
   }
 }
-    ${CollectionPreviewFragmentDoc}`;
+    ${CollectionPreviewDataFragmentDoc}`;
 export type CollectionPreviewComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CollectionPreviewQuery, CollectionPreviewQueryVariables>, 'query'> & ({ variables: CollectionPreviewQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const CollectionPreviewComponent = (props: CollectionPreviewComponentProps) => (

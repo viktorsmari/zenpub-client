@@ -17,42 +17,51 @@ export type GetHeroCommunityQuery = (
   { __typename: 'RootQueryType' }
   & { community: Types.Maybe<(
     { __typename: 'Community' }
-    & Pick<Types.Community, 'id' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'image'>
-    & { followers: Types.Maybe<(
-      { __typename: 'FollowsEdges' }
-      & Pick<Types.FollowsEdges, 'totalCount'>
-    )>, myFollow: Types.Maybe<(
-      { __typename: 'Follow' }
-      & Pick<Types.Follow, 'id'>
-    )>, creator: Types.Maybe<(
-      { __typename: 'User' }
-      & Pick<Types.User, 'id'>
-    )> }
+    & HeroCommunityDataFragment
   )> }
 );
 
+export type HeroCommunityDataFragment = (
+  { __typename: 'Community' }
+  & Pick<Types.Community, 'id' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'image'>
+  & { followers: Types.Maybe<(
+    { __typename: 'FollowsEdges' }
+    & Pick<Types.FollowsEdges, 'totalCount'>
+  )>, myFollow: Types.Maybe<(
+    { __typename: 'Follow' }
+    & Pick<Types.Follow, 'id'>
+  )>, creator: Types.Maybe<(
+    { __typename: 'User' }
+    & Pick<Types.User, 'id'>
+  )> }
+);
 
-export const GetHeroCommunityDocument = gql`
-    query getHeroCommunity($communityId: String!) {
-  community(communityId: $communityId) {
+export const HeroCommunityDataFragmentDoc = gql`
+    fragment HeroCommunityData on Community {
+  id
+  preferredUsername
+  name
+  summary
+  icon
+  image
+  followers {
+    totalCount
+  }
+  myFollow {
     id
-    preferredUsername
-    name
-    summary
-    icon
-    image
-    followers {
-      totalCount
-    }
-    myFollow {
-      id
-    }
-    creator {
-      id
-    }
+  }
+  creator {
+    id
   }
 }
     `;
+export const GetHeroCommunityDocument = gql`
+    query getHeroCommunity($communityId: String!) {
+  community(communityId: $communityId) {
+    ...HeroCommunityData
+  }
+}
+    ${HeroCommunityDataFragmentDoc}`;
 export type GetHeroCommunityComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetHeroCommunityQuery, GetHeroCommunityQueryVariables>, 'query'> & ({ variables: GetHeroCommunityQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const GetHeroCommunityComponent = (props: GetHeroCommunityComponentProps) => (

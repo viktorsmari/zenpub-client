@@ -1,11 +1,12 @@
 
 query collectionPreview($id: String!) {
   collection(collectionId: $id) {
-    ...CollectionPreview
+    ...CollectionPreviewData
   }
 }
 
-fragment CollectionPreview on Collection {
+fragment CollectionPreviewData on Collection {
+  id,
   canonicalUrl,
   name,
   icon,

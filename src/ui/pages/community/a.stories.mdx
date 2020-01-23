@@ -16,26 +16,17 @@ Let's define a story for the `community` page
 <Preview>
   <Story name="community page">
     <Community {...{
-        activities: [{id:1},{id:2},{id:3}],
-        collections:[{id:1},{id:2},{id:3}],
-        ActivityBox: ({ cancel }) => (
-          <img
-            onClick={cancel}
-            src="https://via.placeholder.com/400x100.png?text=ActivityBox"
-          />
-        ),
-        CollectionBox: ({ cancel }) => (
-          <img
-            onClick={cancel}
-            src="https://via.placeholder.com/400x200.png?text=CollectionBox"
-          />
-        ),
-        HeroCommunityBox: ({ cancel }) => (
-          <img
-            onClick={cancel}
-            src="https://via.placeholder.com/400x200.png?text=HeroCommunityBox"
-          />
-        )
+        ActivityBoxes: [
+          (<img key={1} src="https://via.placeholder.com/400x200.png?text=ActivityBox 1" />),
+          (<img key={2} src="https://via.placeholder.com/400x200.png?text=ActivityBox 2" />),
+          (<img key={3} src="https://via.placeholder.com/400x200.png?text=ActivityBox 3" />),
+        ],
+        CollectionBoxes: [
+          (<img key={1} src="https://via.placeholder.com/400x200.png?text=CollectionBox 1" />),
+          (<img key={2} src="https://via.placeholder.com/400x200.png?text=CollectionBox 2" />),
+          (<img key={3} src="https://via.placeholder.com/400x200.png?text=CollectionBox 3" />),
+        ],
+        HeroCommunityBox: (<img src="https://via.placeholder.com/400x200.png?text=HeroCommunityBox" />)
     }} />
   </Story>
 </Preview>
