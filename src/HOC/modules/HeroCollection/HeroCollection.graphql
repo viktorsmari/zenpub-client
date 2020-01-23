@@ -1,0 +1,19 @@
+
+query heroCollection($collectionId: String!) {
+    collection(collectionId: $collectionId) {
+        ...HeroCollectionData
+    }
+}
+
+fragment HeroCollectionData on Collection  {
+    id
+    preferredUsername
+    name
+    summary
+    icon
+    followers {
+        totalCount
+    }
+    myFollow { id }
+    creator { id }
+}
