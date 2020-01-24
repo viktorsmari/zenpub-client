@@ -281,7 +281,7 @@ const getInReplyToCtx = ({
   }
 };
 
-const getActions = (
+export const getActions = (
   context: GQLConcreteContext,
   replyFormik: UIA.ReplyActions['replyFormik'],
   toggleLikeFormik: UIA.LikeActions['toggleLikeFormik']
@@ -426,7 +426,9 @@ const getContext = (
   return [context, gqlContext];
 };
 
-const getActor = (usr: APGQL.ActivityPreviewBaseUserFragment): UIT.Actor => {
+export const getActor = (
+  usr: APGQL.ActivityPreviewBaseUserFragment
+): UIT.Actor => {
   return {
     icon: usr.icon || usr.image || '',
     name: usr.userName || usr.preferredUsername,

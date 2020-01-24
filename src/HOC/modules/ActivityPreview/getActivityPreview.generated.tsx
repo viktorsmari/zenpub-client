@@ -110,24 +110,6 @@ export type ActivityPreviewCommentCtxExtendedFragment = (
   & ActivityPreviewCommentCtxBaseFragment
 );
 
-export type ActivityPreviewExtendedThreadFragment = (
-  { __typename: 'Thread' }
-  & { context: Types.Maybe<(
-    { __typename: 'Collection' }
-    & ActivityPreviewCollectionCtxFragment
-  ) | (
-    { __typename: 'Community' }
-    & ActivityPreviewCommunityCtxFragment
-  ) | (
-    { __typename: 'Flag' }
-    & ActivityPreviewFlagCtxFragment
-  ) | (
-    { __typename: 'Resource' }
-    & ActivityPreviewResourceCtxFragment
-  )> }
-  & ActivityPreviewBaseThreadFragment
-);
-
 export type ActivityPreviewCommentCtxBaseFragment = (
   { __typename: 'Comment' }
   & Pick<Types.Comment, 'id' | 'isLocal' | 'content' | 'canonicalUrl'>
@@ -227,6 +209,24 @@ export type ActivityPreviewFollowCtxFragment = (
   )> }
 );
 
+export type ActivityPreviewExtendedThreadFragment = (
+  { __typename: 'Thread' }
+  & { context: Types.Maybe<(
+    { __typename: 'Collection' }
+    & ActivityPreviewCollectionCtxFragment
+  ) | (
+    { __typename: 'Community' }
+    & ActivityPreviewCommunityCtxFragment
+  ) | (
+    { __typename: 'Flag' }
+    & ActivityPreviewFlagCtxFragment
+  ) | (
+    { __typename: 'Resource' }
+    & ActivityPreviewResourceCtxFragment
+  )> }
+  & ActivityPreviewBaseThreadFragment
+);
+
 export type ActivityPreviewLikeMutationVariables = {
   contextId: Types.Scalars['String']
 };
@@ -247,7 +247,7 @@ export type ActivityPreviewUnlikeMutationVariables = {
 
 export type ActivityPreviewUnlikeMutation = (
   { __typename: 'RootMutationType' }
-  & { delete: Types.Maybe<{ __typename: 'Activity' } | { __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Flag' } | { __typename: 'Follow' } | { __typename: 'Like' } | { __typename: 'Resource' } | { __typename: 'Thread' } | { __typename: 'User' }> }
+  & { delete: Types.Maybe<{ __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Feature' } | { __typename: 'Flag' } | { __typename: 'Follow' } | { __typename: 'Like' } | { __typename: 'Resource' } | { __typename: 'Thread' } | { __typename: 'User' }> }
 );
 
 export type ActivityPreviewCreateReplyMutationVariables = {

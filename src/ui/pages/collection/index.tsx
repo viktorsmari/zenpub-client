@@ -11,13 +11,9 @@ import {
 } from 'ui/elements/Panel';
 import styled from 'ui/themes/styled';
 
-// interface Activity {
-//   id: any;
-// }
-// type ActivityBox = React.ComponentType<{ activity: Activity }>;
-
 export interface Props {
   ActivityBoxes: JSX.Element[];
+  ResourceBoxes: JSX.Element[];
   HeroCollectionBox: JSX.Element;
   basePath: string;
 }
@@ -25,6 +21,7 @@ export interface Props {
 export const Collection: React.FC<Props> = ({
   HeroCollectionBox,
   ActivityBoxes,
+  ResourceBoxes,
   basePath
 }) => {
   return (
@@ -38,12 +35,7 @@ export const Collection: React.FC<Props> = ({
               <Route exact path={`${basePath}/`}>
                 {ActivityBoxes}
               </Route>
-              <Route path={`${basePath}/resources`}>
-                <div>resources</div>
-              </Route>
-              <Route path={`${basePath}/threads`}>
-                <div>threads</div>
-              </Route>
+              <Route path={`${basePath}/resources`}>{ResourceBoxes}</Route>
             </Switch>
           </Wrapper>
         </WrapperCont>
@@ -174,7 +166,6 @@ export const HomeBox = styled(Flex)`
 
 export const MainContainer = styled(Flex)`
   align-items: stretch;
-  justify-content: space-between;
   flex-grow: 1;
   flex-direction: row;
   width: 100%;

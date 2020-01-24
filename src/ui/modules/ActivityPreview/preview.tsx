@@ -7,6 +7,8 @@ import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
 import { Actor } from './types';
 import { Box } from 'rebass';
+import { ellipsis } from 'polished';
+
 export enum ContextVerb {
   Updated,
   Created,
@@ -51,7 +53,7 @@ export type Context = CommentContext | ConcreteContext | UserContext;
 
 const SmallPreview: React.SFC<ConcreteContext> = context => (
   <Flex alignItems="center">
-    <Text mr={2} variant="link">
+    <TextPreview display="inline-block" mr={2} variant="link">
       {context.verb === ContextVerb.Follow ? (
         <Trans>Followed</Trans>
       ) : context.verb === ContextVerb.Like ? (
@@ -77,11 +79,8 @@ const SmallPreview: React.SFC<ConcreteContext> = context => (
       context.type === ContextType.Resource ? (
         <Trans>Updated the resource</Trans>
       ) : null}
-    </Text>
-    <WrapperPreview>
-      <Avatar src={context.icon} initials={context.title} />
-      <Title ml={2}>{context.title}</Title>
-    </WrapperPreview>
+      <B>{context.title}</B>
+    </TextPreview>
   </Flex>
 );
 
@@ -160,6 +159,11 @@ export const InReplyTo: React.SFC<InReplyToContext> = context => {
   );
 };
 
+const TextPreview = styled(Text)`
+  font-weight: 500;
+  ${ellipsis('480px')};
+`;
+
 // const InReply = styled(Text)`
 //   padding-bottom: 0;
 //   display: inline-block;
@@ -179,6 +183,10 @@ export const InReplyTo: React.SFC<InReplyToContext> = context => {
 //   line-height: 30px;
 // `;
 const WrapperPreview = styled(Flex)`
+  display: inline-block;
+  div {
+    display: inline-block;
+  }
   div:first-of-type {
     width: 28px;
     height: 28px;
@@ -242,23 +250,20 @@ const Wrapper = styled.div`
   ${media.lessThan('medium')`
   display: block;
   padding: 0;
-  padding: 20px;
-  a {
-    
-    }
-  }
   `};
+`;
+
+const B = styled.b`
+  font-weight: 800;
+  margin-left: 4px;
 `;
 
 const Title = styled(Text)`
   font-size: 14px !important;
-  line-height: 22px !important;
   flex: 1;
+  display: inline-block;
   font-weight: 800;
   color: ${props => props.theme.colors.darkgray};
-  ${media.lessThan('medium')`
-  line-height: 20px !important;
-`};
 `;
 
 export default Preview;

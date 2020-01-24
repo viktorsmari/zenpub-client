@@ -24,8 +24,8 @@ export const CollectionPageHOC: SFC<Props> = ({ collectionId }) => {
       ) {
         return null;
       }
-      const activityEdges = collectionQ.data.collection.outbox.edges;
 
+      const activityEdges = collectionQ.data.collection.outbox.edges;
       const ActivityBoxes = activityEdges
         .map(edge => {
           if (!edge) {
@@ -38,10 +38,12 @@ export const CollectionPageHOC: SFC<Props> = ({ collectionId }) => {
       const HeroCollectionBox = (
         <HeroCollectionHOC collectionId={collectionId} />
       );
-
+      const resourcesEdges = collectionQ.data.collection;
+      const ResourceBoxes = 1;
       const props: CollectionPageProps = {
         ActivityBoxes,
         HeroCollectionBox,
+        ResourceBoxes,
         basePath: `/collections/${collectionId}`
       };
       return props;

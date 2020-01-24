@@ -97,6 +97,18 @@ const themeLight: MoodleThemeInterface = {
       textTransform: 'uppercase',
       letterSpacing: '1px'
     },
+    danger: {
+      fontWeight: '600',
+      height: '40px',
+      px: 4,
+      backgroundColor: '#ff5a5f',
+      color: '#fff',
+      borderRadius: '4px',
+      fontSize: '12px',
+      cursor: 'pointer',
+      textTransform: 'uppercase',
+      letterSpacing: '1px'
+    },
     outline: {
       fontWeight: '600',
       height: '40px',

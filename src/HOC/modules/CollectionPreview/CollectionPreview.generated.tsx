@@ -23,7 +23,7 @@ export type CollectionPreviewQuery = (
 
 export type CollectionPreviewDataFragment = (
   { __typename: 'Collection' }
-  & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'name' | 'icon' | 'summary' | 'isLocal' | 'followerCount'>
+  & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'name' | 'icon' | 'summary' | 'isLocal' | 'followerCount' | 'resourceCount'>
   & { followers: Types.Maybe<(
     { __typename: 'FollowsEdges' }
     & { edges: Array<Types.Maybe<(
@@ -48,6 +48,7 @@ export const CollectionPreviewDataFragmentDoc = gql`
   summary
   isLocal
   followerCount
+  resourceCount
   followers {
     edges {
       node {
