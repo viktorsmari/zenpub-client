@@ -6,7 +6,6 @@
         "name": "ThreadContext",
         "possibleTypes": [
           { "name": "Collection" },
-          { "name": "Comment" },
           { "name": "Community" },
           { "name": "Flag" },
           { "name": "Resource" }
@@ -54,6 +53,7 @@
         "name": "ActivityContext",
         "possibleTypes": [
           { "name": "Collection" },
+          { "name": "Comment" },
           { "name": "Community" },
           { "name": "Flag" },
           { "name": "Follow" },
