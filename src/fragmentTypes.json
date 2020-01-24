@@ -11,7 +11,6 @@
         "name": "ActivityContext",
         "possibleTypes": [
           { "name": "Collection" },
-          { "name": "Comment" },
           { "name": "Community" },
           { "name": "Flag" },
           { "name": "Follow" },
@@ -22,16 +21,10 @@
       },
       {
         "kind": "UNION",
-        "name": "DeleteContext",
+        "name": "FollowContext",
         "possibleTypes": [
-          { "name": "Activity" },
           { "name": "Collection" },
-          { "name": "Comment" },
           { "name": "Community" },
-          { "name": "Flag" },
-          { "name": "Follow" },
-          { "name": "Like" },
-          { "name": "Resource" },
           { "name": "Thread" },
           { "name": "User" }
         ]
@@ -82,10 +75,12 @@
         "kind": "UNION",
         "name": "UploadParent",
         "possibleTypes": [
+          { "name": "Activity" },
           { "name": "Collection" },
           { "name": "Comment" },
           { "name": "Community" },
           { "name": "Resource" },
+          { "name": "Thread" },
           { "name": "User" }
         ]
       }

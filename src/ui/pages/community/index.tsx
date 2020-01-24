@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { NavLink, Route, Switch } from 'react-router-dom';
-import { Flex } from 'rebass/styled-components';
+import { Flex, Box } from 'rebass/styled-components';
 import media from 'styled-media-query';
+import SocialText from 'ui/modules/SocialText';
+
 import {
   Nav,
   NavItem,
@@ -10,6 +12,7 @@ import {
   WrapperPanel
 } from 'ui/elements/Panel';
 import styled from 'ui/themes/styled';
+import { FormikHook } from 'common/types';
 
 // interface Collection {
 //   id: any;
@@ -25,15 +28,20 @@ export interface Props {
   ActivityBoxes: JSX.Element[];
   CollectionBoxes: JSX.Element[];
   HeroCommunityBox: JSX.Element;
+  ThreadBoxes: JSX.Element[];
   basePath: string;
+  newThreadFormik?: FormikHook<{ text: string }>;
 }
 
 export const Community: React.FC<Props> = ({
   ActivityBoxes,
   HeroCommunityBox,
   CollectionBoxes,
-  basePath
+  basePath,
+  newThreadFormik,
+  ThreadBoxes
 }) => {
+  console.log(ThreadBoxes);
   return (
     <MainContainer>
       <HomeBox>
@@ -46,8 +54,19 @@ export const Community: React.FC<Props> = ({
                 {ActivityBoxes}
               </Route>
               <Route path={`${basePath}/collections`}>{CollectionBoxes}</Route>
-              <Route path={`${basePath}/threads`}>
-                <div>threads</div>
+              <Route path={`${basePath}/discussions`}>
+                <WrapSocialText mt={3} px={3} pb={3} mb={2}>
+                  {newThreadFormik && (
+                    <SocialText
+                      placeholder="Start a new thread..."
+                      submit={text => {
+                        newThreadFormik.values.text = text;
+                        newThreadFormik.submitForm();
+                      }}
+                    />
+                  )}
+                </WrapSocialText>
+                {ThreadBoxes}
               </Route>
             </Switch>
           </Wrapper>
@@ -143,58 +162,54 @@ const Menu = ({ basePath }: { basePath: string }) => (
       Recent activities
     </NavLink>
     <NavLink to={`${basePath}/collections`}>Collections</NavLink>
-    <NavLink to={`${basePath}/threads`}>Threads</NavLink>
+    <NavLink to={`${basePath}/discussions`}>Discussions</NavLink>
   </MenuWrapper>
 );
 
+const WrapSocialText = styled(Box)`
+  border-bottom: 3px solid ${props => props.theme.colors.lightgray};
+`;
+
 const MenuWrapper = styled(Flex)`
   a {
-    font-weight: 800;
+    font-weight: 700;
     text-decoration: none;
-    margin-right: 24px;
+    margin-right: 8px;
     color: ${props => props.theme.colors.gray};
     letterspacing: '1px';
-    font-size: 16px;
+    font-size: 14px;
+    padding: 4px 8px;
     &.active {
-      color: ${props => props.theme.colors.orange};
-      position: relative;
-      &:after {
-        position: absolute;
-        content: '';
-        display: block;
-        top: -15px;
-        width: 100%;
-        height: 3px;
-        background: ${props => props.theme.colors.orange};
-      }
+      color: #ffffff;
+      background: ${props => props.theme.colors.orange};
+      border-radius: 8px;
     }
   }
 `;
 export const HomeBox = styled(Flex)`
-  max-width: 600px;
-  width: 100%;
-  align-items: flex-start;
-  flex-shrink: 1;
-  flex-grow: 1;
-  flex-basis: auto;
-  flex-direction: column;
-  margin: 0px;
-  min-height: 0px;
-  min-width: 0px;
-  padding: 0px;
-  position: relative;
-  z-index: 0;
+      max-width: 600px;
+        width: 100%;
+        align-items: flex-start;
+        flex-shrink: 1;
+        flex-grow: 1;
+        flex-basis: auto;
+        flex-direction: column;
+        margin: 0px;
+        min-height: 0px;
+        min-width: 0px;
+        padding: 0px;
+        position: relative;
+        z-index: 0;
   ${media.lessThan('1005px')`
   max-width: 100%;
   `};
   // ${media.lessThan('1280px')`
   // top: 60px;
   // `};
-`;
+          `;
 
 export const MainContainer = styled(Flex)`
   align-items: stretch;
-  justify-content: space-between;
   flex-grow: 1;
   flex-direction: row;
   width: 100%;

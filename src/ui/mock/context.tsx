@@ -18,6 +18,7 @@ import {
   Props as HeroCommunityProps,
   Status as HeroCommunityStatus
 } from 'ui/modules/HeroCommunity';
+import { Props as ResourcePreviewProps } from 'ui/modules/ResourcePreview';
 
 export const getEditCommunityProps = (): EditCommunityProps => {
   const formik = useFormik<EditCommunityFormValues>({
@@ -115,5 +116,17 @@ export const getCollectionPreviewProps = (): CollectionPreviewProps => {
     summary:
       'More simply put, the difference is in the standards and documentation that accompanies the assets. With a guide on why and how to use them, design components because easier to use and clearer to discern.'
     // totalResources: 12
+  };
+};
+
+export const getResourcePreviewProps = (): ResourcePreviewProps => {
+  return {
+    id: '1',
+    icon: 'https://picsum.photos/id/200/200/200',
+    name: 'awesome collection',
+    link:
+      'https://medium.com/giveth/introducing-the-commons-stack-scalable-infrastructure-for-community-collaboration-6886eb97413e',
+    summary:
+      'More simply put, the difference is in the standards and documentation that accompanies the assets. With a guide on why and how to use them, design components because easier to use and clearer to discern.'
   };
 };

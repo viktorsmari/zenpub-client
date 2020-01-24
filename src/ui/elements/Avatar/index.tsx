@@ -5,10 +5,22 @@ import { Box } from 'rebass/styled-components';
 const Wrapper = styled(Box)<{ bg?: string; size?: string }>`
   font-family: ${props => props.theme.fontFamily};
   border-radius: 4px;
-  width: ${props =>
-    props.size === 'm' ? '140px' : props.size === 'l' ? '200px' : '48px'};
+  min-width: ${props =>
+    props.size === 'm'
+      ? '140px'
+      : props.size === 'l'
+        ? '200px'
+        : props.size === 's'
+          ? '36px'
+          : '48px'};
   height: ${props =>
-    props.size === 'm' ? '140px' : props.size === 'l' ? '200px' : '48px'};
+    props.size === 'm'
+      ? '140px'
+      : props.size === 'l'
+        ? '200px'
+        : props.size === 's'
+          ? '36px'
+          : '48px'};
   background-color: ${props =>
     props.bg ? 'transparent' : props.theme.colors.lightgray};
   background-image: url("${props => props.bg}");
