@@ -4,6 +4,15 @@
 query collectionPage($collectionId: String!) {
   collection(collectionId:$collectionId){
     ...HeroCollectionData
+    resourceCount
+    resources{
+      edges{
+        node{
+          ...CollectionPageResource
+          createdAt
+        }
+      }
+    }
     outbox{
       edges{
         node{
@@ -13,3 +22,27 @@ query collectionPage($collectionId: String!) {
     }
   }
 }
+
+fragment CollectionPageResource on Resource {
+  ...ActivityPreviewResourceCtx
+  createdAt
+}
+mutation collectionPageResourceLike($contextId: String!) {
+    createLike(contextId: $contextId){
+        ...ActivityPreviewLikeCtx
+    }
+}
+
+mutation collectionPageResourceUnlike($contextId: String!) {
+    delete(contextId: $contextId){
+        __typename
+    }
+}
+
+
+mutation collectionPageResourceCreateReply( $comment: CommentInput!, $inReplyToId: String!, $threadId: String!) {
+    createReply(comment: $comment, inReplyToId: $inReplyToId, threadId: $threadId){
+        ...ActivityPreviewCommentCtxBase
+    }
+}
+

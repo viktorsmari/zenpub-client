@@ -11,19 +11,18 @@ import {
 } from 'ui/elements/Panel';
 import styled from 'ui/themes/styled';
 
-// interface Activity {
-//   id: any;
-// }
-// type ActivityBox = React.ComponentType<{ activity: Activity }>;
-
 export interface Props {
   ActivityBoxes: JSX.Element[];
+  ResourceBoxes: JSX.Element[];
   HeroCollectionBox: JSX.Element;
+  basePath: string;
 }
 
 export const Collection: React.FC<Props> = ({
   HeroCollectionBox,
-  ActivityBoxes
+  ActivityBoxes,
+  ResourceBoxes,
+  basePath
 }) => {
   return (
     <MainContainer>
@@ -31,17 +30,12 @@ export const Collection: React.FC<Props> = ({
         <WrapperCont>
           <Wrapper>
             {HeroCollectionBox}
-            <Menu />
+            <Menu basePath={basePath} />
             <Switch>
-              <Route exact path="/">
+              <Route exact path={`${basePath}/`}>
                 {ActivityBoxes}
               </Route>
-              <Route path="/resources">
-                <div>resources</div>
-              </Route>
-              <Route path="/threads">
-                <div>threads</div>
-              </Route>
+              <Route path={`${basePath}/resources`}>{ResourceBoxes}</Route>
             </Switch>
           </Wrapper>
         </WrapperCont>
@@ -114,12 +108,12 @@ export default Collection;
 //   );
 // };
 
-const Menu = () => (
+const Menu = ({ basePath }: { basePath: string }) => (
   <MenuWrapper p={3} pt={3}>
-    <NavLink exact to={'/'}>
+    <NavLink exact to={`${basePath}`}>
       Recent activities
     </NavLink>
-    <NavLink to={'/resources'}>Resources</NavLink>
+    <NavLink to={`${basePath}/resources`}>Resources</NavLink>
   </MenuWrapper>
 );
 
@@ -172,7 +166,6 @@ export const HomeBox = styled(Flex)`
 
 export const MainContainer = styled(Flex)`
   align-items: stretch;
-  justify-content: space-between;
   flex-grow: 1;
   flex-direction: row;
   width: 100%;
