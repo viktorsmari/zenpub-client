@@ -13,6 +13,7 @@ fragment CollectionPreviewData on Collection {
   summary,
   isLocal,
   followerCount,
+  resourceCount,
   followers{
     edges{
       node{

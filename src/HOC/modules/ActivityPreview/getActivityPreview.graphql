@@ -109,27 +109,6 @@ fragment ActivityPreviewCommentCtxExtended on Comment{
         ...ActivityPreviewExtendedThread
     }
 }
-fragment ActivityPreviewExtendedThread on Thread {
-    ...ActivityPreviewBaseThread
-    context {
-        ... on Collection{
-            ...ActivityPreviewCollectionCtx
-        }
-
-        ... on Community{
-            ...ActivityPreviewCommunityCtx
-        }
-
-        ... on Resource{
-            ...ActivityPreviewResourceCtx
-        }
-
-        ... on Flag{
-            ...ActivityPreviewFlagCtx
-        }
-    }
-}
-
 fragment ActivityPreviewCommentCtxBase on Comment{
     id
     isLocal
@@ -240,6 +219,28 @@ fragment ActivityPreviewFollowCtx on Follow{
         }
     }
 }
+
+fragment ActivityPreviewExtendedThread on Thread {
+    ...ActivityPreviewBaseThread
+    context {
+        ... on Collection{
+            ...ActivityPreviewCollectionCtx
+        }
+
+        ... on Community{
+            ...ActivityPreviewCommunityCtx
+        }
+
+        ... on Resource{
+            ...ActivityPreviewResourceCtx
+        }
+
+        ... on Flag{
+            ...ActivityPreviewFlagCtx
+        }
+    }
+}
+
 
 mutation activityPreviewLike($contextId: String!) {
     createLike(contextId: $contextId){

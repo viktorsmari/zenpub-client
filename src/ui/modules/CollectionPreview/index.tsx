@@ -13,7 +13,7 @@ export interface Props {
   icon: string;
   name: string;
   summary: string;
-  totalResources: number;
+  totalResources: number | null;
 }
 
 export const CollectionPreview: React.SFC<Props> = ({
@@ -42,7 +42,9 @@ export const CollectionPreview: React.SFC<Props> = ({
           <Actions>
             <ActionItem>
               <FileText size={20} color={'#8b98a2'} />
-              <Text variant="suptitle">{totalResources} resources</Text>
+              {totalResources && (
+                <Text variant="suptitle">{totalResources} resources</Text>
+              )}
             </ActionItem>
           </Actions>
         </Infos>

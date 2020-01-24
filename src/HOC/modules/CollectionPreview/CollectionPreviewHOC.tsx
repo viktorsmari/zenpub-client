@@ -27,7 +27,8 @@ export const CollectionPreviewHOC: SFC<Props> = ({ id }) => {
         isLocal,
         canonicalUrl,
         name,
-        summary
+        summary,
+        resourceCount
       } = collectionQ.data.collection;
       const props: CollectionPreviewProps = {
         icon: icon || '',
@@ -36,7 +37,8 @@ export const CollectionPreviewHOC: SFC<Props> = ({ id }) => {
           external: !isLocal
         },
         name: name,
-        summary: summary || ''
+        summary: summary || '',
+        totalResources: resourceCount || null
       };
       return props;
     },

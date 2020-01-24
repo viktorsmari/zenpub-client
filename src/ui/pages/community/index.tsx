@@ -30,7 +30,7 @@ export interface Props {
   HeroCommunityBox: JSX.Element;
   ThreadBoxes: JSX.Element[];
   basePath: string;
-  newThreadFormik?: FormikHook<{ text: string }>;
+  newThreadFormik: null | FormikHook<{ text: string }>;
 }
 
 export const Community: React.FC<Props> = ({
