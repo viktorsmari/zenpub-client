@@ -41,7 +41,6 @@ export const Community: React.FC<Props> = ({
   newThreadFormik,
   ThreadBoxes
 }) => {
-  console.log(ThreadBoxes);
   return (
     <MainContainer>
       <HomeBox>
