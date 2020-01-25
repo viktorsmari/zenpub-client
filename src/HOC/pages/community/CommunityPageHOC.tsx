@@ -7,7 +7,7 @@ import {
 } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
 import { CollectionPreviewHOC } from 'HOC/modules/CollectionPreview/CollectionPreviewHOC';
 import { HeroCommunityHOC } from 'HOC/modules/HeroCommunity/heroCommuityHOC';
-import React, { SFC, useMemo } from 'react';
+import React, { SFC, useMemo, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   ActivityPreview,
@@ -24,6 +24,9 @@ export interface Props {
 export const CommunityPageHOC: SFC<Props> = ({ id }) => {
   const history = useHistory();
   const communityQ = CPGQL.useCommunityPageQuery({ variables: { id } });
+  useEffect(() => {
+    communityQ.refetch();
+  }, []);
   const [
     createThreadMut,
     createThreadMutStatus
@@ -101,7 +104,7 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
             return null;
           }
           const thread = edge.node;
-          return <ThreadActivity thread={thread} />;
+          return <ThreadActivity thread={thread} key={thread.id} />;
         })
         .filter((_): _ is JSX.Element => !!_);
 
