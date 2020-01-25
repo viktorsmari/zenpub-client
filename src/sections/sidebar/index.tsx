@@ -248,7 +248,9 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
                   {menuIsOpen ? (
                     <>
                       <OutsideClickHandler onOutsideClick={closeMenu}>
-                        <Dropdown />
+                        <div onClick={closeMenu}>
+                          <Dropdown />
+                        </div>
                       </OutsideClickHandler>
                       <Layer />
                     </>
