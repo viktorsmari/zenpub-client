@@ -79,7 +79,7 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
               ) : null}
               <Button
                 ml={2}
-                variant={c.following ? 'danger' : 'primary'}
+                variant={c.following ? 'outline' : 'primary'}
                 isDisabled={c.toggleJoin.isSubmitting}
                 onClick={c.toggleJoin.toggle}
               >

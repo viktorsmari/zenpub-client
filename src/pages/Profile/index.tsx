@@ -14,7 +14,7 @@ import Loader from '../../components/elements/Loader/Loader';
 // import LoadMoreTimeline from '../../components/elements/Loadmore/timelineoutbox';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
-import { Nav, Panel, PanelTitle, WrapperPanel } from '../../sections/panel';
+import { Nav, Panel, PanelTitle, WrapperPanel } from 'ui/elements/Panel';
 import styled from '../../themes/styled';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { OverlayTab, WrapperTab } from '../communities.community/Community';

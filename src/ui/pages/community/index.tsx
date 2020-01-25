@@ -3,7 +3,8 @@ import { NavLink, Route, Switch } from 'react-router-dom';
 import { Flex, Box } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import SocialText from 'ui/modules/SocialText';
-
+import { Trans } from '@lingui/react';
+import Button from 'ui/elements/Button';
 import {
   Nav,
   NavItem,
@@ -52,7 +53,16 @@ export const Community: React.FC<Props> = ({
               <Route exact path={`${basePath}`}>
                 {ActivityBoxes}
               </Route>
-              <Route path={`${basePath}/collections`}>{CollectionBoxes}</Route>
+              <Route path={`${basePath}/collections`}>
+                <>
+                  <WrapButton mt={3} px={3} pb={3} mb={2}>
+                    <Button variant="outline">
+                      <Trans>Create a new collection</Trans>
+                    </Button>
+                  </WrapButton>
+                  {CollectionBoxes}
+                </>
+              </Route>
               <Route path={`${basePath}/discussions`}>
                 <WrapSocialText mt={3} px={3} pb={3} mb={2}>
                   {newThreadFormik && (
@@ -164,6 +174,14 @@ const Menu = ({ basePath }: { basePath: string }) => (
     <NavLink to={`${basePath}/discussions`}>Discussions</NavLink>
   </MenuWrapper>
 );
+
+const WrapButton = styled(Flex)`
+  border-bottom: 3px solid ${props => props.theme.colors.lightgray};
+  button {
+    width: 100%;
+    height: 50px;
+  }
+`;
 
 const WrapSocialText = styled(Box)`
   border-bottom: 3px solid ${props => props.theme.colors.lightgray};

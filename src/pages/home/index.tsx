@@ -17,10 +17,9 @@ import {
   Nav,
   NavItem,
   Panel,
-  PanelInner,
   PanelTitle,
   WrapperPanel
-} from '../../sections/panel';
+} from 'ui/elements/Panel';
 import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 
@@ -106,25 +105,23 @@ const Home: React.FC<Props> = () => {
         </WrapperCont>
       </HomeBox>
       <WrapperPanel>
-        <PanelInner>
-          <Panel>
-            <PanelTitle fontSize={0} fontWeight={'bold'}>
-              <Trans>Browse Home instance</Trans>
-            </PanelTitle>
-            <Nav>
-              <NavItem mb={4} fontSize={1} fontWeight={'bold'}>
-                <NavLink to="/mycommunities">
-                  <Trans>My communities</Trans>
-                </NavLink>
-              </NavItem>
-              <NavItem fontSize={1} fontWeight={'bold'}>
-                <NavLink to="/mycollections">
-                  <Trans>My collections</Trans>
-                </NavLink>
-              </NavItem>
-            </Nav>
-          </Panel>
-        </PanelInner>
+        <Panel>
+          <PanelTitle fontSize={0} fontWeight={'bold'}>
+            <Trans>Browse Home instance</Trans>
+          </PanelTitle>
+          <Nav>
+            <NavItem mb={4} fontSize={1} fontWeight={'bold'}>
+              <NavLink to="/mycommunities">
+                <Trans>My communities</Trans>
+              </NavLink>
+            </NavItem>
+            <NavItem fontSize={1} fontWeight={'bold'}>
+              <NavLink to="/mycollections">
+                <Trans>My collections</Trans>
+              </NavLink>
+            </NavItem>
+          </Nav>
+        </Panel>
       </WrapperPanel>
     </MainContainer>
   );
