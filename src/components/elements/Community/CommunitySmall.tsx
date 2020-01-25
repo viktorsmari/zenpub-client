@@ -35,6 +35,9 @@ const CommunitySmall: React.FC<CommunityProps> = ({ community }) => {
 const Wrapper = styled(Box)`
   cursor: pointer;
   position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 4px;
   ${media.lessThan('medium')`
   display: block;
 `} & a {

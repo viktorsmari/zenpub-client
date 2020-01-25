@@ -9,7 +9,7 @@ import media from 'styled-media-query';
 import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
 import Actions, { ActionProps } from './Actions';
-import Preview, { Context, InReplyTo, InReplyToContext } from './preview';
+import Preview, { Context, InReplyToContext } from './preview';
 import { Actor } from './types';
 
 export enum Status {
@@ -56,7 +56,7 @@ export const ActivityPreview: SFC<Props> = activity => {
   }
   return (
     <FeedItem>
-      {activity.inReplyToCtx && <InReplyTo {...activity.inReplyToCtx} />}
+      {/* {activity.inReplyToCtx && <InReplyTo {...activity.inReplyToCtx} />} */}
       <ActorComp actor={activity.actor} createdAt={activity.createdAt} />
       <Contents>
         <Wrapper mt={2}>
