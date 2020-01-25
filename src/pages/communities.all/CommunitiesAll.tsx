@@ -141,8 +141,7 @@ const CreateCollection = styled(Button)`
     background: ${props => props.theme.colors.lightgray};
   }
 `;
-
-export const WrapperCont = styled.div`
+export const WrapperCont = styled(Flex)`
   width: 100%;
   margin: 0 auto;
   height: 100%;
@@ -158,12 +157,12 @@ export const WrapperCont = styled.div`
   min-width: 0px;
   padding: 0px;
   position: relative;
-  border-right: 1px solid ${props => props.theme.colors.lightgray};
   background: white;
+  border-radius: 4px;
   z-index: 0;
 `;
 
-export const Wrapper = styled.div`
+export const Wrapper = styled(Flex)`
   display: flex;
   flex-direction: column;
   flex: 1;
