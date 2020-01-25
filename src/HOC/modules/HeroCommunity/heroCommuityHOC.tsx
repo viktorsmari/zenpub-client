@@ -54,8 +54,11 @@ export const HeroCommunityHOC: SFC<Props> = ({ communityId }) => {
               community.myFollow
                 ? unjoinMutation({
                     variables: { contextId: community.myFollow.id }
-                  })
-                : joinMutation({ variables: { contextId: community.id } }),
+                  }).then(() => communityQuery.refetch)
+                : joinMutation({ variables: { contextId: community.id } }).then(
+                    () => communityQuery.refetch()
+                  ),
+
             isSubmitting: community.myFollow
               ? unjoinMutationStatus.loading
               : joinMutationStatus.loading

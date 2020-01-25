@@ -52,8 +52,10 @@ export const HeroCollectionHOC: SFC<Props> = ({ collectionId }) => {
               collection.myFollow
                 ? unjoinMutation({
                     variables: { contextId: collection.myFollow.id }
-                  })
-                : joinMutation({ variables: { contextId: collection.id } }),
+                  }).then(() => collectionQuery.refetch())
+                : joinMutation({
+                    variables: { contextId: collection.id }
+                  }).then(() => collectionQuery.refetch()),
             isSubmitting: collection.myFollow
               ? unjoinMutationStatus.loading
               : joinMutationStatus.loading

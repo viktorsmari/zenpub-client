@@ -58,7 +58,7 @@ export const HeroCollection: SFC<Props> = ({ collection: c }) => {
               disabled={c.toggleJoin.isSubmitting}
               onClick={c.toggleJoin.toggle}
             >
-              {c.following ? 'Leave' : 'Join'}
+              {c.following ? 'Unfollow' : 'Follow'}
             </Button>
           </ActionsHero>
         </HeroInfo>
