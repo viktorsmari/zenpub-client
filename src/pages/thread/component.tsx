@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CreateReplyMutationMutationOperation } from '../../graphql/createReply.generated';
 import { DeleteMutationMutationOperation } from '../../graphql/delete.generated';
 import { useGetThreadQuery } from '../../graphql/getThread.generated';
@@ -10,7 +10,9 @@ export interface Props {
 }
 export const Thread: React.FC<Props> = ({ threadId }) => {
   const threadQuery = useGetThreadQuery({ variables: { threadId } });
-
+  useEffect(() => {
+    threadQuery.refetch();
+  }, []);
   useDynamicLinkOpResult<CreateReplyMutationMutationOperation>(
     'createReplyMutation',
     () => {

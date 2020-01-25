@@ -77,16 +77,15 @@ export type CollectionPageResourceUnlikeMutation = (
   & { delete: Types.Maybe<{ __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Feature' } | { __typename: 'Flag' } | { __typename: 'Follow' } | { __typename: 'Like' } | { __typename: 'Resource' } | { __typename: 'Thread' } | { __typename: 'User' }> }
 );
 
-export type CollectionPageResourceCreateReplyMutationVariables = {
-  comment: Types.CommentInput,
-  inReplyToId: Types.Scalars['String'],
-  threadId: Types.Scalars['String']
+export type CollectionPageResourceCreateThreadMutationVariables = {
+  contextId: Types.Scalars['String'],
+  comment: Types.CommentInput
 };
 
 
-export type CollectionPageResourceCreateReplyMutation = (
+export type CollectionPageResourceCreateThreadMutation = (
   { __typename: 'RootMutationType' }
-  & { createReply: Types.Maybe<(
+  & { createThread: Types.Maybe<(
     { __typename: 'Comment' }
     & ActivityPreviewCommentCtxBaseFragment
   )> }
@@ -264,57 +263,56 @@ export function useCollectionPageResourceUnlikeMutation(baseOptions?: ApolloReac
 export type CollectionPageResourceUnlikeMutationHookResult = ReturnType<typeof useCollectionPageResourceUnlikeMutation>;
 export type CollectionPageResourceUnlikeMutationResult = ApolloReactCommon.MutationResult<CollectionPageResourceUnlikeMutation>;
 export type CollectionPageResourceUnlikeMutationOptions = ApolloReactCommon.BaseMutationOptions<CollectionPageResourceUnlikeMutation, CollectionPageResourceUnlikeMutationVariables>;
-export const CollectionPageResourceCreateReplyDocument = gql`
-    mutation collectionPageResourceCreateReply($comment: CommentInput!, $inReplyToId: String!, $threadId: String!) {
-  createReply(comment: $comment, inReplyToId: $inReplyToId, threadId: $threadId) {
+export const CollectionPageResourceCreateThreadDocument = gql`
+    mutation collectionPageResourceCreateThread($contextId: String!, $comment: CommentInput!) {
+  createThread(comment: $comment, contextId: $contextId) {
     ...ActivityPreviewCommentCtxBase
   }
 }
     ${ActivityPreviewCommentCtxBaseFragmentDoc}`;
-export type CollectionPageResourceCreateReplyMutationFn = ApolloReactCommon.MutationFunction<CollectionPageResourceCreateReplyMutation, CollectionPageResourceCreateReplyMutationVariables>;
-export type CollectionPageResourceCreateReplyComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CollectionPageResourceCreateReplyMutation, CollectionPageResourceCreateReplyMutationVariables>, 'mutation'>;
+export type CollectionPageResourceCreateThreadMutationFn = ApolloReactCommon.MutationFunction<CollectionPageResourceCreateThreadMutation, CollectionPageResourceCreateThreadMutationVariables>;
+export type CollectionPageResourceCreateThreadComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CollectionPageResourceCreateThreadMutation, CollectionPageResourceCreateThreadMutationVariables>, 'mutation'>;
 
-    export const CollectionPageResourceCreateReplyComponent = (props: CollectionPageResourceCreateReplyComponentProps) => (
-      <ApolloReactComponents.Mutation<CollectionPageResourceCreateReplyMutation, CollectionPageResourceCreateReplyMutationVariables> mutation={CollectionPageResourceCreateReplyDocument} {...props} />
+    export const CollectionPageResourceCreateThreadComponent = (props: CollectionPageResourceCreateThreadComponentProps) => (
+      <ApolloReactComponents.Mutation<CollectionPageResourceCreateThreadMutation, CollectionPageResourceCreateThreadMutationVariables> mutation={CollectionPageResourceCreateThreadDocument} {...props} />
     );
     
-export type CollectionPageResourceCreateReplyProps<TChildProps = {}> = ApolloReactHoc.MutateProps<CollectionPageResourceCreateReplyMutation, CollectionPageResourceCreateReplyMutationVariables> & TChildProps;
-export function withCollectionPageResourceCreateReply<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+export type CollectionPageResourceCreateThreadProps<TChildProps = {}> = ApolloReactHoc.MutateProps<CollectionPageResourceCreateThreadMutation, CollectionPageResourceCreateThreadMutationVariables> & TChildProps;
+export function withCollectionPageResourceCreateThread<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  CollectionPageResourceCreateReplyMutation,
-  CollectionPageResourceCreateReplyMutationVariables,
-  CollectionPageResourceCreateReplyProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, CollectionPageResourceCreateReplyMutation, CollectionPageResourceCreateReplyMutationVariables, CollectionPageResourceCreateReplyProps<TChildProps>>(CollectionPageResourceCreateReplyDocument, {
-      alias: 'collectionPageResourceCreateReply',
+  CollectionPageResourceCreateThreadMutation,
+  CollectionPageResourceCreateThreadMutationVariables,
+  CollectionPageResourceCreateThreadProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, CollectionPageResourceCreateThreadMutation, CollectionPageResourceCreateThreadMutationVariables, CollectionPageResourceCreateThreadProps<TChildProps>>(CollectionPageResourceCreateThreadDocument, {
+      alias: 'collectionPageResourceCreateThread',
       ...operationOptions
     });
 };
 
 /**
- * __useCollectionPageResourceCreateReplyMutation__
+ * __useCollectionPageResourceCreateThreadMutation__
  *
- * To run a mutation, you first call `useCollectionPageResourceCreateReplyMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCollectionPageResourceCreateReplyMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCollectionPageResourceCreateThreadMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCollectionPageResourceCreateThreadMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [collectionPageResourceCreateReplyMutation, { data, loading, error }] = useCollectionPageResourceCreateReplyMutation({
+ * const [collectionPageResourceCreateThreadMutation, { data, loading, error }] = useCollectionPageResourceCreateThreadMutation({
  *   variables: {
+ *      contextId: // value for 'contextId'
  *      comment: // value for 'comment'
- *      inReplyToId: // value for 'inReplyToId'
- *      threadId: // value for 'threadId'
  *   },
  * });
  */
-export function useCollectionPageResourceCreateReplyMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CollectionPageResourceCreateReplyMutation, CollectionPageResourceCreateReplyMutationVariables>) {
-        return ApolloReactHooks.useMutation<CollectionPageResourceCreateReplyMutation, CollectionPageResourceCreateReplyMutationVariables>(CollectionPageResourceCreateReplyDocument, baseOptions);
+export function useCollectionPageResourceCreateThreadMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CollectionPageResourceCreateThreadMutation, CollectionPageResourceCreateThreadMutationVariables>) {
+        return ApolloReactHooks.useMutation<CollectionPageResourceCreateThreadMutation, CollectionPageResourceCreateThreadMutationVariables>(CollectionPageResourceCreateThreadDocument, baseOptions);
       }
-export type CollectionPageResourceCreateReplyMutationHookResult = ReturnType<typeof useCollectionPageResourceCreateReplyMutation>;
-export type CollectionPageResourceCreateReplyMutationResult = ApolloReactCommon.MutationResult<CollectionPageResourceCreateReplyMutation>;
-export type CollectionPageResourceCreateReplyMutationOptions = ApolloReactCommon.BaseMutationOptions<CollectionPageResourceCreateReplyMutation, CollectionPageResourceCreateReplyMutationVariables>;
+export type CollectionPageResourceCreateThreadMutationHookResult = ReturnType<typeof useCollectionPageResourceCreateThreadMutation>;
+export type CollectionPageResourceCreateThreadMutationResult = ApolloReactCommon.MutationResult<CollectionPageResourceCreateThreadMutation>;
+export type CollectionPageResourceCreateThreadMutationOptions = ApolloReactCommon.BaseMutationOptions<CollectionPageResourceCreateThreadMutation, CollectionPageResourceCreateThreadMutationVariables>;
 
 
 export interface CollectionPageQueryOperation {
@@ -341,9 +339,9 @@ export interface CollectionPageResourceUnlikeMutationOperation {
 }
 
 
-export interface CollectionPageResourceCreateReplyMutationOperation {
-  operationName: 'collectionPageResourceCreateReply'
-  result: CollectionPageResourceCreateReplyMutation
-  variables: CollectionPageResourceCreateReplyMutationVariables
+export interface CollectionPageResourceCreateThreadMutationOperation {
+  operationName: 'collectionPageResourceCreateThread'
+  result: CollectionPageResourceCreateThreadMutation
+  variables: CollectionPageResourceCreateThreadMutationVariables
   type: 'mutation'
 }

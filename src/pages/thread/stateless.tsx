@@ -52,15 +52,13 @@ const Component: React.FC<Props> = ({ threadQuery: thread }) => {
 
                 {thread.data.thread &&
                   /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                  thread.data.thread
-                    .comments!.edges.reverse()
-                    .map(
-                      edge =>
-                        edge &&
-                        edge.node && (
-                          <Comment key={edge.node.id} comment={edge.node} />
-                        )
-                    )}
+                  thread.data.thread.comments!.edges.map(
+                    edge =>
+                      edge &&
+                      edge.node && (
+                        <Comment key={edge.node.id} comment={edge.node} />
+                      )
+                  )}
               </>
             )}
           </Wrapper>

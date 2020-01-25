@@ -2,6 +2,7 @@ import { useFormik } from 'formik';
 import { Community } from 'graphql/types.generated';
 import {
   ActivityPreviewHOC,
+  ActivityPreviewCtx,
   getActions,
   getActor
 } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
@@ -104,7 +105,9 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
             return null;
           }
           const thread = edge.node;
-          return <ThreadActivity thread={thread} key={thread.id} />;
+          return (
+            <ThreadActivity thread={thread} key={thread.id} communityId={id} />
+          );
         })
         .filter((_): _ is JSX.Element => !!_);
 
@@ -123,12 +126,27 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
     },
     [communityQ]
   );
-  return communityPageProps && <CommunityPage {...communityPageProps} />;
+  const apctx: ActivityPreviewCtx = {
+    refetchQueries: [
+      {
+        query: CPGQL.CommunityPageDocument,
+        variables: { id }
+      }
+    ]
+  };
+  return (
+    communityPageProps && (
+      <ActivityPreviewCtx.Provider value={apctx}>
+        <CommunityPage {...communityPageProps} />
+      </ActivityPreviewCtx.Provider>
+    )
+  );
 };
 
-const ThreadActivity: SFC<{ thread: CPGQL.ComunityPageThreadFragment }> = ({
-  thread
-}) => {
+const ThreadActivity: SFC<{
+  thread: CPGQL.ComunityPageThreadFragment;
+  communityId: Community['id'];
+}> = ({ thread, communityId }) => {
   if (
     !thread.comments ||
     !thread.comments.edges.length ||
@@ -151,7 +169,12 @@ const ThreadActivity: SFC<{ thread: CPGQL.ComunityPageThreadFragment }> = ({
     createReplyMut,
     createReplyMutStatus
   ] = CPGQL.useCommunityPageThreadCreateReplyMutation();
-
+  const refetchQueries = [
+    {
+      query: CPGQL.CommunityPageDocument,
+      variables: { id: communityId }
+    }
+  ];
   const replyThreadFormik = useFormik<{ replyMessage: string }>({
     initialValues: { replyMessage: '' },
     onSubmit: ({ replyMessage }) => {
@@ -163,7 +186,8 @@ const ThreadActivity: SFC<{ thread: CPGQL.ComunityPageThreadFragment }> = ({
           threadId: thread.id,
           inReplyToId: comment.id,
           comment: { content: replyMessage }
-        }
+        },
+        refetchQueries
       });
     }
   });
@@ -175,12 +199,16 @@ const ThreadActivity: SFC<{ thread: CPGQL.ComunityPageThreadFragment }> = ({
       }
       const { myLike } = comment;
       if (myLike) {
-        return unlikeMut({ variables: { contextId: myLike.id } });
+        return unlikeMut({
+          variables: { contextId: myLike.id },
+          refetchQueries
+        });
       } else {
         return likeMut({
           variables: {
             contextId: comment.id
-          }
+          },
+          refetchQueries
         });
       }
     }

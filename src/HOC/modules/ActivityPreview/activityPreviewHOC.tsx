@@ -1,16 +1,25 @@
 import { useFormik } from 'formik';
 import * as GQL from 'graphql/types.generated';
-import React, { SFC, useMemo } from 'react';
+import React, { SFC, useMemo, createContext, useContext } from 'react';
 import * as UI from 'ui/modules/ActivityPreview';
 import * as UIA from 'ui/modules/ActivityPreview/Actions';
 import * as UIP from 'ui/modules/ActivityPreview/preview';
 import * as UIT from 'ui/modules/ActivityPreview/types';
 import * as APGQL from './getActivityPreview.generated';
+import { PureQueryOptions } from 'apollo-client';
+
+export interface ActivityPreviewCtx {
+  refetchQueries: Array<string | PureQueryOptions>;
+}
+export const ActivityPreviewCtx = createContext<ActivityPreviewCtx>({
+  refetchQueries: []
+});
 
 export interface Props {
   activityId: GQL.Activity['id'];
 }
 export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
+  const ctx = useContext(ActivityPreviewCtx);
   const activityQ = APGQL.useGetActivityPreviewQuery({
     variables: { activityId }
   });
@@ -56,7 +65,8 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
             threadId: thread.id,
             inReplyToId: id,
             comment: { content: replyMessage }
-          }
+          },
+          refetchQueries: ctx.refetchQueries
         });
       } else {
         return createThreadMut({
@@ -66,7 +76,8 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
                 ? activity.context.userId
                 : activity.context.id,
             comment: { content: replyMessage }
-          }
+          },
+          refetchQueries: ctx.refetchQueries
         });
       }
     }
@@ -92,7 +103,10 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
       } else {
         const { myLike } = activity.context;
         if (myLike) {
-          return unlikeMut({ variables: { contextId: myLike.id } });
+          return unlikeMut({
+            variables: { contextId: myLike.id },
+            refetchQueries: ctx.refetchQueries
+          });
         } else {
           return likeMut({
             variables: {
@@ -100,7 +114,8 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
                 activity.context.__typename === 'User'
                   ? activity.context.userId
                   : activity.context.id
-            }
+            },
+            refetchQueries: ctx.refetchQueries
           });
         }
       }

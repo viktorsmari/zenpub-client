@@ -39,10 +39,8 @@ mutation collectionPageResourceUnlike($contextId: String!) {
     }
 }
 
-
-mutation collectionPageResourceCreateReply( $comment: CommentInput!, $inReplyToId: String!, $threadId: String!) {
-    createReply(comment: $comment, inReplyToId: $inReplyToId, threadId: $threadId){
+mutation collectionPageResourceCreateThread($contextId: String!, $comment: CommentInput!) {
+    createThread(comment:$comment, contextId: $contextId){
         ...ActivityPreviewCommentCtxBase
     }
 }
-

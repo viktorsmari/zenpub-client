@@ -141,7 +141,7 @@ const CommunityPage: SFC<Props> = ({
                     (t, i) =>
                       t &&
                       (t.node.comments &&
-                        t.node.comments.edges.reverse().map(
+                        t.node.comments.edges.map(
                           edge =>
                             edge &&
                             edge.node &&

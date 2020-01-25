@@ -3,10 +3,11 @@ import { Collection } from 'graphql/types.generated';
 import {
   ActivityPreviewHOC,
   getActions,
-  getActor
+  getActor,
+  ActivityPreviewCtx
 } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
 import { HeroCollectionHOC } from 'HOC/modules/HeroCollection/HeroCollectionHOC';
-import React, { SFC, useMemo } from 'react';
+import React, { SFC, useMemo, useEffect } from 'react';
 import {
   ActivityPreview,
   Props as ActivityPreviewProps,
@@ -19,16 +20,22 @@ import CollectionPage, {
 import {
   CollectionPageResourceFragment,
   useCollectionPageQuery,
-  useCollectionPageResourceCreateReplyMutation,
+  useCollectionPageResourceCreateThreadMutation,
   useCollectionPageResourceLikeMutation,
-  useCollectionPageResourceUnlikeMutation
+  useCollectionPageResourceUnlikeMutation,
+  CollectionPageDocument
 } from './CollectionPage.generated';
+import { useHistory } from 'react-router-dom';
 
 export interface Props {
   collectionId: Collection['id'];
 }
 export const CollectionPageHOC: SFC<Props> = ({ collectionId }) => {
   const collectionQ = useCollectionPageQuery({ variables: { collectionId } });
+  useEffect(() => {
+    collectionQ.refetch();
+  }, []);
+
   const collectionPageProps = useMemo<CollectionPageProps | null>(
     () => {
       if (
@@ -63,7 +70,13 @@ export const CollectionPageHOC: SFC<Props> = ({ collectionId }) => {
             return null;
           }
           const resource = edge.node;
-          return <ResourceActivity resource={resource} key={resource.id} />;
+          return (
+            <ResourceActivity
+              resource={resource}
+              key={resource.id}
+              collectionId={collectionId}
+            />
+          );
         })
         .filter((_): _ is JSX.Element => !!_);
       const props: CollectionPageProps = {
@@ -76,37 +89,70 @@ export const CollectionPageHOC: SFC<Props> = ({ collectionId }) => {
     },
     [collectionQ]
   );
-  return collectionPageProps && <CollectionPage {...collectionPageProps} />;
+  const apctx: ActivityPreviewCtx = {
+    refetchQueries: [
+      {
+        query: CollectionPageDocument,
+        variables: { collectionId }
+      }
+    ]
+  };
+  return (
+    collectionPageProps && (
+      <ActivityPreviewCtx.Provider value={apctx}>
+        <CollectionPage {...collectionPageProps} />
+      </ActivityPreviewCtx.Provider>
+    )
+  );
 };
 
-const ResourceActivity: SFC<{ resource: CollectionPageResourceFragment }> = ({
-  resource
-}) => {
+const ResourceActivity: SFC<{
+  resource: CollectionPageResourceFragment;
+  collectionId: Collection['id'];
+}> = ({ resource, collectionId }) => {
   if (!resource.creator) {
     return null;
   }
+  const history = useHistory();
   const [likeMut, likeMutStatus] = useCollectionPageResourceLikeMutation();
   const [
     unlikeMut,
     unlikeMutStatus
   ] = useCollectionPageResourceUnlikeMutation();
   const [
-    createReplyMut,
-    createReplyMutStatus
-  ] = useCollectionPageResourceCreateReplyMutation();
-
+    createThreadMut,
+    createThreadMutStatus
+  ] = useCollectionPageResourceCreateThreadMutation();
+  const refetchQueries = [
+    {
+      query: CollectionPageDocument,
+      variables: { collectionId }
+    }
+  ];
   const commentResourceFormik = useFormik<{ replyMessage: string }>({
     initialValues: { replyMessage: '' },
     onSubmit: ({ replyMessage }) => {
-      if (createReplyMutStatus.loading) {
+      if (createThreadMutStatus.loading) {
         return;
       }
-      return createReplyMut({
+      return createThreadMut({
         variables: {
-          threadId: resource.id,
-          inReplyToId: resource.id,
-          comment: { content: replyMessage }
+          comment: { content: replyMessage },
+          contextId: resource.id
+        } /* ,
+        refetchQueries */
+      }).then(resp => {
+        if (
+          !(
+            resp.data &&
+            resp.data.createThread &&
+            resp.data.createThread.thread
+          )
+        ) {
+          return;
         }
+        const threadId = resp.data.createThread.thread.id;
+        history.push(`/thread/${threadId}`);
       });
     }
   });
@@ -118,12 +164,16 @@ const ResourceActivity: SFC<{ resource: CollectionPageResourceFragment }> = ({
       }
       const { myLike } = resource;
       if (myLike) {
-        return unlikeMut({ variables: { contextId: myLike.id } });
+        return unlikeMut({
+          variables: { contextId: myLike.id },
+          refetchQueries
+        });
       } else {
         return likeMut({
           variables: {
             contextId: resource.id
-          }
+          },
+          refetchQueries
         });
       }
     }
