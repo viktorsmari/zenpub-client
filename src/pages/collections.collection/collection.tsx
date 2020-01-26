@@ -15,7 +15,7 @@ import {
   OverlayTab
 } from '../communities.community/Community';
 import CollectionModal from '../../components/elements/CollectionModal';
-// import DropzoneArea from '../../components/elements/DropzoneModal';
+import UploadResourcePanelHOC from '../../HOC/modules/AddResource/UploadResource';
 
 import { BasicCollectionFragment } from '../../graphql/fragments/basicCollection.generated';
 import { BasicResourcesEdgesFragment } from '../../graphql/fragments/basicResourcesEdges.generated';
@@ -36,7 +36,7 @@ const CommunityPage: SFC<Props> = ({
   resources
 }) => {
   const [isOpen, onOpen] = useState(false);
-  // const [isUploadOpen, onUploadOpen] = useState(true);
+  const [isUploadOpen, onUploadOpen] = useState(false);
   return (
     <WrapperTab>
       <OverlayTab>
@@ -71,52 +71,80 @@ const CommunityPage: SFC<Props> = ({
                 <CollectionList>
                   {//FIXME https://gitlab.com/moodlenet/meta/issues/185
                   collection.community && collection.community.myFollow ? (
-                    isOpen ? (
+                    isOpen && !isUploadOpen ? (
                       <ButtonWrapper>
-                        <Button m={3} onClick={() => onOpen(false)}>
+                        <Button
+                          m={3}
+                          onClick={() => {
+                            onOpen(false);
+                            onUploadOpen(false);
+                          }}
+                        >
                           <Trans>Cancel</Trans>
                         </Button>
                       </ButtonWrapper>
                     ) : (
                       <ButtonWrapper>
-                        <Button m={3} onClick={() => onOpen(true)}>
+                        <Button
+                          m={3}
+                          onClick={() => {
+                            onOpen(true);
+                            onUploadOpen(false);
+                          }}
+                        >
                           <Trans>Share a link</Trans>
                         </Button>
                       </ButtonWrapper>
                     )
                   ) : null}
-                  {isOpen && (
-                    <CollectionModal
-                      toggleModal={onOpen}
-                      modalIsOpen={isOpen}
-                      collectionId={collection.id}
-                      collectionExternalId={collection.id}
-                    />
-                  )}
-                  {/* {collection.community.followed ? (
-                    isUploadOpen === true ? (
+                  {//FIXME https://gitlab.com/moodlenet/meta/issues/185
+                  collection.community && collection.community.myFollow ? (
+                    isUploadOpen && !isOpen ? (
                       <ButtonWrapper>
-                        <Button m={3} onClick={() => onUploadOpen(false)}>
+                        <Button
+                          m={3}
+                          onClick={() => {
+                            onUploadOpen(false);
+                            onOpen(false);
+                          }}
+                        >
                           <Trans>Cancel</Trans>
                         </Button>
                       </ButtonWrapper>
                     ) : (
                       <ButtonWrapper>
-                        <Button m={3} onClick={() => onUploadOpen(false)}>
-                          <Trans>Upload a file</Trans>
+                        <Button
+                          m={3}
+                          onClick={() => {
+                            onUploadOpen(true);
+                            onOpen(false);
+                          }}
+                        >
+                          <Trans>Upload file</Trans>
                         </Button>
                       </ButtonWrapper>
                     )
                   ) : null}
-                  {isUploadOpen === true ? (
-                    <DropzoneArea
-                      toggleModal={onUploadOpen}
-                      modalIsOpen={isUploadOpen}
-                      itemId={collection.localId}
-                      externalItemId={collection.id}
-                    />
-                  ) : null} */}
-
+                  {isOpen &&
+                    !isUploadOpen && (
+                      <CollectionModal
+                        toggleModal={() => onOpen(false)}
+                        modalIsOpen={isOpen}
+                        cancel={isOpen}
+                        collectionId={collection.id}
+                        collectionExternalId={collection.id}
+                      />
+                    )}
+                  {isUploadOpen &&
+                    !isOpen && (
+                      <UploadResourcePanelHOC
+                        // toggleModal={onOpen}
+                        // modalIsOpen={isOpen}
+                        done={() => onUploadOpen(false)}
+                        collectionId={collection.id}
+                        // collectionExternalId={collection.id}
+                      />
+                    )}
                   {resources.totalCount > 0 ? (
                     resources.edges.map(
                       (edge, i) =>

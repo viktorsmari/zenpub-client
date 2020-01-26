@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 // import { Trans } from '@lingui/macro';
 // import { clearPreviews } from './with-previews';
 import styled from '../../../themes/styled';
 import { UploadCloud } from 'react-feather';
-import { useFormikContext } from 'formik';
+// import { useFormikContext } from 'formik';
 
 const ThumbsContainer = styled.aside`
   display: flex;
@@ -47,86 +47,94 @@ const Img = styled.img`
 //   background-color: #eaeaea;
 //   border-radius: 2px;
 //   height: 17px;
+//   float: right;
 // `;
 
 interface Props {
-  imageUrl: any;
+  initialUrl: any;
+  uploadType?: string;
+  formikForm?: any;
 }
 
-const DropzoneArea: React.FC<Props> = ({ imageUrl }) => {
-  const { setFieldValue, setFieldTouched } = useFormikContext();
-  // const [files, setFiles] = useState([] as any);
-  const [iconUrl, onIcon] = useState(imageUrl);
+const DropzoneArea: React.FC<Props> = ({
+  initialUrl,
+  uploadType,
+  formikForm
+}) => {
+  // const { setFieldValue, setFieldTouched } = useFormikContext();
+  const [files, setFiles] = useState([] as any);
+  const [fileUrl, onFile] = useState(initialUrl);
+
+  const acceptedTypes =
+    uploadType != 'resource'
+      ? 'image/*'
+      : '.pdf, .rtf, .docx, .doc, .odt, .ott, .xls, .xlsx, .ods, .ots, .csv, .ppt, .pps, .pptx, .odp, .otp, .odg, .otg, .odc, .ogg, .mp3, .flac, .m4a, .wav, .mp4, .mkv, .flv, .avi, .gif, .jpg, .jpeg, .png, .svg, .webm, .eps, .tex, .mbz';
+
+  // const clearPreviews = files => {
+  //   if (files.length != 0) {
+  //     files.forEach(file => {onIcon(fileUrl); URL.revokeObjectURL(file.preview)});
+
+  //   } else {
+  //     onIcon(fileUrl);
+  //     formikForm.setFieldValue('image', '');
+  //     formikForm.setFieldTouched('image', true);
+  //   }
+  // };
+
+  useEffect(
+    () => {
+      return () => {
+        files.forEach(file => URL.revokeObjectURL(file.preview));
+      };
+    },
+    [files]
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    accept: 'image/*',
+    accept: acceptedTypes,
     onDrop: acceptedFiles => {
-      setFieldValue('files', acceptedFiles);
-      setFieldTouched('files', true);
-      acceptedFiles.map(file => onIcon(URL.createObjectURL(file)));
+      formikForm.setFieldValue('files', acceptedFiles);
+      formikForm.setFieldTouched('files', true);
+      setFiles(acceptedFiles);
+
+      acceptedFiles.map(file => onFile(URL.createObjectURL(file)));
+      console.log(files);
     }
   });
 
-  // const thumbs = files.map(file => (
-  //   <Thumb key={file.name}>
-  //     <ThumbInner>
-  //       <Img src={file.preview} />
-  //     </ThumbInner>
-  //   </Thumb>
-  // ));
-
-  // handleUpload = props => {
-  //   const variables = { contextId: contextId, upload: files[0] };
-  //   return mutateIcon({ variables }).then(res => {
-  //     onIcon(res.data!.uploadIcon!.url);
-  //   });
-  // }
-
-  // useEffect(
-  //   () => () => {
-  //     // Make sure to revoke the data uris to avoid memory leaks
-  //     files.forEach(file => URL.revokeObjectURL(file.preview));
-  //   },
-  //   [files]
-  // );
-
-  // const { getRootProps, getInputProps, isDragActive } = useDropzone({
-  //   // accept: 'image/*',
-  //   multiple: false,
-  //   onDrop: withPreviews(handleDrop)
-  // });
-  // useEffect(() => () => clearPreviews(files), [files]);
-
   return (
     <>
+      {/* {files.length != 0 || iconUrl != '' ? (
+        <Clear
+          onClick={() => {
+            clearPreviews(files);
+            setFiles([]);
+          }}
+        >
+          Clear
+        </Clear>
+      ) : null} */}
       <div {...getRootProps({ className: 'dropzone' })}>
-        <ThumbsContainer>
-          <Thumb key={iconUrl}>
-            <ThumbInner>
-              <Img src={iconUrl} />
-            </ThumbInner>
-          </Thumb>
-        </ThumbsContainer>
-        {/* <ThumbsContainer> */}
-        {/* {thumbs} */}
-        {/* {files.length != 0 && (
-            <Clear
-              onClick={() => {
-                clearPreviews(files);
-                // setFiles([]);
-              }}
-            >
-              <Trans>Clear</Trans>
-            </Clear>
-          )}
-        </ThumbsContainer> */}
+        {uploadType != 'resource' ? (
+          <ThumbsContainer>
+            <Thumb key={fileUrl}>
+              <ThumbInner>
+                <Img src={fileUrl} />
+              </ThumbInner>
+            </Thumb>
+          </ThumbsContainer>
+        ) : null}
+        {uploadType == 'resource' && files.length != 0 ? (
+          <FileName>{files[0].name}</FileName>
+        ) : null}
+
         <input {...getInputProps()} />
         <InfoContainer>
           <UploadCloud width={45} height={45} strokeWidth={2} />
           {isDragActive ? (
-            <p>Drop the files here ...</p>
+            <p>Drop the file here ...</p>
           ) : (
-            <p>Drag 'n' drop some files here, or click to select files</p>
+            <p>Drag 'n' drop a file here, or click to select file</p>
           )}
         </InfoContainer>
       </div>
@@ -145,6 +153,13 @@ const InfoContainer = styled.div`
   cursor: pointer;
   border: 2px dashed ${props => props.theme.colors.gray};
   margin: 0px;
+`;
+
+const FileName = styled.p`
+  margin-bottom: 10px;
+  font-weight: bold;
+  text-align: right;
+  font-style: italic;
 `;
 
 // const ClearButton = styled.button`

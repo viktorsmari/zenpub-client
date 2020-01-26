@@ -177,7 +177,7 @@ const CreateCommunityModal = (
                     <Trans>Image</Trans>
                   </label>
                   <ContainerForm>
-                    <DropzoneArea imageUrl={initialValues.icon} />
+                    <DropzoneArea initialUrl={initialValues.icon} />
                   </ContainerForm>
                 </Row>
                 <Actions>
