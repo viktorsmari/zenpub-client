@@ -1,13 +1,14 @@
 import { useFormik } from 'formik';
 import { Collection } from 'graphql/types.generated';
 import {
+  ActivityPreviewCtx,
   ActivityPreviewHOC,
   getActions,
-  getActor,
-  ActivityPreviewCtx
+  getActor
 } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
 import { HeroCollectionHOC } from 'HOC/modules/HeroCollection/HeroCollectionHOC';
-import React, { SFC, useMemo, useEffect } from 'react';
+import React, { SFC, useEffect, useMemo } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   ActivityPreview,
   Props as ActivityPreviewProps,
@@ -18,14 +19,13 @@ import CollectionPage, {
   Props as CollectionPageProps
 } from 'ui/pages/collection';
 import {
+  CollectionPageDocument,
   CollectionPageResourceFragment,
   useCollectionPageQuery,
   useCollectionPageResourceCreateThreadMutation,
   useCollectionPageResourceLikeMutation,
-  useCollectionPageResourceUnlikeMutation,
-  CollectionPageDocument
+  useCollectionPageResourceUnlikeMutation
 } from './CollectionPage.generated';
-import { useHistory } from 'react-router-dom';
 
 export interface Props {
   collectionId: Collection['id'];
@@ -36,10 +36,7 @@ export const CollectionPageHOC: SFC<Props> = ({ collectionId }) => {
     collectionQ.refetch();
   }, []);
 
-  const data = useMemo<{
-    collectionPageProps: CollectionPageProps;
-    followingCommunity: boolean;
-  } | null>(
+  const data = useMemo<CollectionPageProps | null>(
     () => {
       if (
         collectionQ.error ||
@@ -55,10 +52,6 @@ export const CollectionPageHOC: SFC<Props> = ({ collectionId }) => {
       }
 
       const activityEdges = collectionQ.data.collection.outbox.edges;
-      const followingCommunity = !!(
-        collectionQ.data.collection.community &&
-        collectionQ.data.collection.community.myFollow
-      );
       const ActivityBoxes = activityEdges
         .map(edge => {
           if (!edge) {
@@ -79,7 +72,6 @@ export const CollectionPageHOC: SFC<Props> = ({ collectionId }) => {
           const resource = edge.node;
           return (
             <ResourceActivity
-              hideActions={!followingCommunity}
               resource={resource}
               key={resource.id}
               collectionId={collectionId}
@@ -93,14 +85,14 @@ export const CollectionPageHOC: SFC<Props> = ({ collectionId }) => {
         ResourceBoxes,
         basePath: `/collections/${collectionId}`
       };
-      return { collectionPageProps: props, followingCommunity };
+      return props;
     },
     [collectionQ]
   );
   if (!data) {
     return null;
   }
-  const { collectionPageProps, followingCommunity } = data;
+  const collectionPageProps = data;
 
   const apctx: ActivityPreviewCtx = {
     refetchQueries: [
@@ -108,8 +100,7 @@ export const CollectionPageHOC: SFC<Props> = ({ collectionId }) => {
         query: CollectionPageDocument,
         variables: { collectionId }
       }
-    ],
-    hideActions: !followingCommunity
+    ]
   };
 
   return (
@@ -122,8 +113,7 @@ export const CollectionPageHOC: SFC<Props> = ({ collectionId }) => {
 const ResourceActivity: SFC<{
   resource: CollectionPageResourceFragment;
   collectionId: Collection['id'];
-  hideActions: boolean;
-}> = ({ resource, collectionId, hideActions }) => {
+}> = ({ resource, collectionId }) => {
   if (!resource.creator) {
     return null;
   }
@@ -204,9 +194,7 @@ const ResourceActivity: SFC<{
     },
     createdAt: resource.createdAt,
     status: ActivityPreviewStatus.Loaded,
-    actions: hideActions
-      ? null
-      : getActions(resource, commentResourceFormik, toggleLikeFormik)
+    actions: getActions(resource, commentResourceFormik, toggleLikeFormik)
   };
 
   return <ActivityPreview {...props} />;

@@ -26,7 +26,7 @@ export type ActivityPreviewDataFragment = (
   & Pick<Types.Activity, 'createdAt' | 'id' | 'verb'>
   & { user: Types.Maybe<(
     { __typename: 'User' }
-    & ActivityPreviewBaseUserFragment
+    & ActivityPreviewUserCtxFragment
   )>, context: Types.Maybe<(
     { __typename: 'Collection' }
     & ActivityPreviewCollectionCtxFragment
@@ -56,20 +56,18 @@ export type ActivityPreviewDataFragment = (
 
 export type ActivityPreviewUserCtxFragment = (
   { __typename: 'User' }
-  & { likes: Types.Maybe<(
+  & Pick<Types.User, 'icon' | 'image' | 'preferredUsername' | 'isLocal' | 'canonicalUrl'>
+  & { userId: Types.User['id'], userName: Types.User['name'] }
+  & { myFollow: Types.Maybe<(
+    { __typename: 'Follow' }
+    & Pick<Types.Follow, 'id'>
+  )>, likes: Types.Maybe<(
     { __typename: 'LikesEdges' }
     & Pick<Types.LikesEdges, 'totalCount'>
   )>, myLike: Types.Maybe<(
     { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
   )> }
-  & ActivityPreviewBaseUserFragment
-);
-
-export type ActivityPreviewBaseUserFragment = (
-  { __typename: 'User' }
-  & Pick<Types.User, 'icon' | 'image' | 'preferredUsername' | 'isLocal' | 'canonicalUrl'>
-  & { userId: Types.User['id'], userName: Types.User['name'] }
 );
 
 export type ActivityPreviewBaseThreadFragment = (
@@ -80,9 +78,16 @@ export type ActivityPreviewBaseThreadFragment = (
 export type ActivityPreviewCollectionCtxFragment = (
   { __typename: 'Collection' }
   & Pick<Types.Collection, 'id' | 'isLocal' | 'icon' | 'name' | 'summary' | 'canonicalUrl'>
-  & { creator: Types.Maybe<(
+  & { community: Types.Maybe<(
+    { __typename: 'Community' }
+    & Pick<Types.Community, 'id'>
+    & { myFollow: Types.Maybe<(
+      { __typename: 'Follow' }
+      & Pick<Types.Follow, 'id'>
+    )> }
+  )>, creator: Types.Maybe<(
     { __typename: 'User' }
-    & ActivityPreviewBaseUserFragment
+    & ActivityPreviewUserCtxFragment
   )>, likes: Types.Maybe<(
     { __typename: 'LikesEdges' }
     & Pick<Types.LikesEdges, 'totalCount'>
@@ -115,7 +120,7 @@ export type ActivityPreviewCommentCtxBaseFragment = (
   & Pick<Types.Comment, 'id' | 'isLocal' | 'content' | 'canonicalUrl'>
   & { creator: Types.Maybe<(
     { __typename: 'User' }
-    & ActivityPreviewBaseUserFragment
+    & ActivityPreviewUserCtxFragment
   )>, thread: Types.Maybe<(
     { __typename: 'Thread' }
     & ActivityPreviewBaseThreadFragment
@@ -125,9 +130,12 @@ export type ActivityPreviewCommentCtxBaseFragment = (
 export type ActivityPreviewCommunityCtxFragment = (
   { __typename: 'Community' }
   & Pick<Types.Community, 'id' | 'isLocal' | 'icon' | 'name' | 'summary' | 'canonicalUrl'>
-  & { creator: Types.Maybe<(
+  & { myFollow: Types.Maybe<(
+    { __typename: 'Follow' }
+    & Pick<Types.Follow, 'id'>
+  )>, creator: Types.Maybe<(
     { __typename: 'User' }
-    & ActivityPreviewBaseUserFragment
+    & ActivityPreviewUserCtxFragment
   )>, myLike: Types.Maybe<(
     { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
@@ -142,7 +150,7 @@ export type ActivityPreviewResourceCtxFragment = (
     & ActivityPreviewCollectionCtxFragment
   )>, creator: Types.Maybe<(
     { __typename: 'User' }
-    & ActivityPreviewBaseUserFragment
+    & ActivityPreviewUserCtxFragment
   )>, likes: Types.Maybe<(
     { __typename: 'LikesEdges' }
     & Pick<Types.LikesEdges, 'totalCount'>
@@ -169,7 +177,7 @@ export type ActivityPreviewFlagCtxFragment = (
     & ActivityPreviewResourceCtxFragment
   ) | (
     { __typename: 'User' }
-    & ActivityPreviewBaseUserFragment
+    & ActivityPreviewUserCtxFragment
   )> }
 );
 
@@ -187,7 +195,7 @@ export type ActivityPreviewLikeCtxFragment = (
     & ActivityPreviewResourceCtxFragment
   ) | (
     { __typename: 'User' }
-    & ActivityPreviewBaseUserFragment
+    & ActivityPreviewUserCtxFragment
   )> }
 );
 
@@ -205,7 +213,7 @@ export type ActivityPreviewFollowCtxFragment = (
     & ActivityPreviewExtendedThreadFragment
   ) | (
     { __typename: 'User' }
-    & ActivityPreviewBaseUserFragment
+    & ActivityPreviewUserCtxFragment
   )> }
 );
 
@@ -279,8 +287,8 @@ export type ActivityPreviewCreateThreadMutation = (
   )> }
 );
 
-export const ActivityPreviewBaseUserFragmentDoc = gql`
-    fragment ActivityPreviewBaseUser on User {
+export const ActivityPreviewUserCtxFragmentDoc = gql`
+    fragment ActivityPreviewUserCtx on User {
   icon
   image
   userId: id
@@ -288,6 +296,15 @@ export const ActivityPreviewBaseUserFragmentDoc = gql`
   preferredUsername
   isLocal
   canonicalUrl
+  myFollow {
+    id
+  }
+  likes {
+    totalCount
+  }
+  myLike {
+    id
+  }
 }
     `;
 export const ActivityPreviewCollectionCtxFragmentDoc = gql`
@@ -298,8 +315,14 @@ export const ActivityPreviewCollectionCtxFragmentDoc = gql`
   name
   summary
   canonicalUrl
+  community {
+    id
+    myFollow {
+      id
+    }
+  }
   creator {
-    ...ActivityPreviewBaseUser
+    ...ActivityPreviewUserCtx
   }
   likes {
     totalCount
@@ -308,7 +331,7 @@ export const ActivityPreviewCollectionCtxFragmentDoc = gql`
     id
   }
 }
-    ${ActivityPreviewBaseUserFragmentDoc}`;
+    ${ActivityPreviewUserCtxFragmentDoc}`;
 export const ActivityPreviewBaseThreadFragmentDoc = gql`
     fragment ActivityPreviewBaseThread on Thread {
   id
@@ -323,13 +346,13 @@ export const ActivityPreviewCommentCtxBaseFragmentDoc = gql`
   content
   canonicalUrl
   creator {
-    ...ActivityPreviewBaseUser
+    ...ActivityPreviewUserCtx
   }
   thread {
     ...ActivityPreviewBaseThread
   }
 }
-    ${ActivityPreviewBaseUserFragmentDoc}
+    ${ActivityPreviewUserCtxFragmentDoc}
 ${ActivityPreviewBaseThreadFragmentDoc}`;
 export const ActivityPreviewCommunityCtxFragmentDoc = gql`
     fragment ActivityPreviewCommunityCtx on Community {
@@ -339,14 +362,17 @@ export const ActivityPreviewCommunityCtxFragmentDoc = gql`
   name
   summary
   canonicalUrl
+  myFollow {
+    id
+  }
   creator {
-    ...ActivityPreviewBaseUser
+    ...ActivityPreviewUserCtx
   }
   myLike {
     id
   }
 }
-    ${ActivityPreviewBaseUserFragmentDoc}`;
+    ${ActivityPreviewUserCtxFragmentDoc}`;
 export const ActivityPreviewResourceCtxFragmentDoc = gql`
     fragment ActivityPreviewResourceCtx on Resource {
   id
@@ -359,7 +385,7 @@ export const ActivityPreviewResourceCtxFragmentDoc = gql`
     ...ActivityPreviewCollectionCtx
   }
   creator {
-    ...ActivityPreviewBaseUser
+    ...ActivityPreviewUserCtx
   }
   likes {
     totalCount
@@ -369,7 +395,7 @@ export const ActivityPreviewResourceCtxFragmentDoc = gql`
   }
 }
     ${ActivityPreviewCollectionCtxFragmentDoc}
-${ActivityPreviewBaseUserFragmentDoc}`;
+${ActivityPreviewUserCtxFragmentDoc}`;
 export const ActivityPreviewFlagCtxFragmentDoc = gql`
     fragment ActivityPreviewFlagCtx on Flag {
   isLocal
@@ -387,7 +413,7 @@ export const ActivityPreviewFlagCtxFragmentDoc = gql`
       ...ActivityPreviewResourceCtx
     }
     ... on User {
-      ...ActivityPreviewBaseUser
+      ...ActivityPreviewUserCtx
     }
   }
 }
@@ -395,7 +421,7 @@ export const ActivityPreviewFlagCtxFragmentDoc = gql`
 ${ActivityPreviewCommentCtxBaseFragmentDoc}
 ${ActivityPreviewCommunityCtxFragmentDoc}
 ${ActivityPreviewResourceCtxFragmentDoc}
-${ActivityPreviewBaseUserFragmentDoc}`;
+${ActivityPreviewUserCtxFragmentDoc}`;
 export const ActivityPreviewExtendedThreadFragmentDoc = gql`
     fragment ActivityPreviewExtendedThread on Thread {
   ...ActivityPreviewBaseThread
@@ -451,14 +477,14 @@ export const ActivityPreviewLikeCtxFragmentDoc = gql`
       ...ActivityPreviewResourceCtx
     }
     ... on User {
-      ...ActivityPreviewBaseUser
+      ...ActivityPreviewUserCtx
     }
   }
 }
     ${ActivityPreviewCollectionCtxFragmentDoc}
 ${ActivityPreviewCommentCtxExtendedFragmentDoc}
 ${ActivityPreviewResourceCtxFragmentDoc}
-${ActivityPreviewBaseUserFragmentDoc}`;
+${ActivityPreviewUserCtxFragmentDoc}`;
 export const ActivityPreviewFollowCtxFragmentDoc = gql`
     fragment ActivityPreviewFollowCtx on Follow {
   isLocal
@@ -470,7 +496,7 @@ export const ActivityPreviewFollowCtxFragmentDoc = gql`
       ...ActivityPreviewCommunityCtx
     }
     ... on User {
-      ...ActivityPreviewBaseUser
+      ...ActivityPreviewUserCtx
     }
     ... on Thread {
       ...ActivityPreviewExtendedThread
@@ -479,26 +505,15 @@ export const ActivityPreviewFollowCtxFragmentDoc = gql`
 }
     ${ActivityPreviewCollectionCtxFragmentDoc}
 ${ActivityPreviewCommunityCtxFragmentDoc}
-${ActivityPreviewBaseUserFragmentDoc}
+${ActivityPreviewUserCtxFragmentDoc}
 ${ActivityPreviewExtendedThreadFragmentDoc}`;
-export const ActivityPreviewUserCtxFragmentDoc = gql`
-    fragment ActivityPreviewUserCtx on User {
-  ...ActivityPreviewBaseUser
-  likes {
-    totalCount
-  }
-  myLike {
-    id
-  }
-}
-    ${ActivityPreviewBaseUserFragmentDoc}`;
 export const ActivityPreviewDataFragmentDoc = gql`
     fragment ActivityPreviewData on Activity {
   createdAt
   id
   verb
   user {
-    ...ActivityPreviewBaseUser
+    ...ActivityPreviewUserCtx
   }
   context {
     __typename
@@ -528,15 +543,14 @@ export const ActivityPreviewDataFragmentDoc = gql`
     }
   }
 }
-    ${ActivityPreviewBaseUserFragmentDoc}
+    ${ActivityPreviewUserCtxFragmentDoc}
 ${ActivityPreviewCollectionCtxFragmentDoc}
 ${ActivityPreviewCommentCtxExtendedFragmentDoc}
 ${ActivityPreviewCommunityCtxFragmentDoc}
 ${ActivityPreviewResourceCtxFragmentDoc}
 ${ActivityPreviewFlagCtxFragmentDoc}
 ${ActivityPreviewLikeCtxFragmentDoc}
-${ActivityPreviewFollowCtxFragmentDoc}
-${ActivityPreviewUserCtxFragmentDoc}`;
+${ActivityPreviewFollowCtxFragmentDoc}`;
 export const GetActivityPreviewDocument = gql`
     query getActivityPreview($activityId: String!) {
   activity(activityId: $activityId) {

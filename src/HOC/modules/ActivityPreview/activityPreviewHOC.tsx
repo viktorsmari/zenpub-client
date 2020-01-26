@@ -10,11 +10,9 @@ import { PureQueryOptions } from 'apollo-client';
 
 export interface ActivityPreviewCtx {
   refetchQueries: Array<string | PureQueryOptions>;
-  hideActions: boolean;
 }
 export const ActivityPreviewCtx = createContext<ActivityPreviewCtx>({
-  refetchQueries: [],
-  hideActions: false
+  refetchQueries: []
 });
 
 export interface Props {
@@ -142,9 +140,7 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
           actor: getActor(user)
         };
         const [context, gqlContext] = getContext(activity);
-        const actions = ctx.hideActions
-          ? null
-          : getActions(gqlContext, replyFormik, toggleLikeFormik);
+        const actions = getActions(gqlContext, replyFormik, toggleLikeFormik);
         const inReplyToCtx = getInReplyToCtx(activity);
         const props: UI.ActivityLoaded = {
           ..._baseProps,
@@ -305,6 +301,9 @@ export const getActions = (
   replyFormik: UIA.ReplyActions['replyFormik'],
   toggleLikeFormik: UIA.LikeActions['toggleLikeFormik']
 ): null | UIA.ActionProps => {
+  if (!doesItFollow(context)) {
+    return null;
+  }
   const like: null | UIA.LikeActions =
     'Community' !== context.__typename && 'myLike' in context
       ? {
@@ -326,11 +325,11 @@ export const getActions = (
 };
 
 type GQLConcreteContext =
-  | APGQL.ActivityPreviewCommentCtxBaseFragment
+  | APGQL.ActivityPreviewCommentCtxExtendedFragment
   | APGQL.ActivityPreviewResourceCtxFragment
   | APGQL.ActivityPreviewCollectionCtxFragment
   | APGQL.ActivityPreviewCommunityCtxFragment
-  | APGQL.ActivityPreviewBaseUserFragment;
+  | APGQL.ActivityPreviewUserCtxFragment;
 
 type VerbMapKey = keyof typeof verbMap;
 const verbMap = {
@@ -446,7 +445,7 @@ const getContext = (
 };
 
 export const getActor = (
-  usr: APGQL.ActivityPreviewBaseUserFragment
+  usr: APGQL.ActivityPreviewUserCtxFragment
 ): UIT.Actor => {
   return {
     icon: usr.icon || usr.image || '',
@@ -475,3 +474,27 @@ const getSimpleLink = ({
   id: string;
   // canonicalUrl?: string | null | undefined;
 }) => `/${linkPathMap[__typename]}/${id}`;
+
+const doesItFollow = (context: GQLConcreteContext): boolean => {
+  if (context.__typename === 'Community') {
+    return !!context.myFollow;
+  } else if (context.__typename === 'Collection') {
+    return !!(context.community && context.community.myFollow);
+  } else if (context.__typename === 'Resource') {
+    return !!(
+      context.collection &&
+      context.collection.community &&
+      context.collection.community.myFollow
+    );
+  } else if (context.__typename === 'User') {
+    return !!context.myFollow;
+  } else if (context.__typename === 'Comment') {
+    return !!(
+      context.thread &&
+      context.thread.context &&
+      context.thread.context.__typename !== 'Flag' &&
+      doesItFollow(context.thread.context)
+    );
+  }
+  return false;
+};

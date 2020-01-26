@@ -1,14 +1,14 @@
 import { useFormik } from 'formik';
 import { Community } from 'graphql/types.generated';
 import {
-  ActivityPreviewHOC,
   ActivityPreviewCtx,
+  ActivityPreviewHOC,
   getActions,
   getActor
 } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
 import { CollectionPreviewHOC } from 'HOC/modules/CollectionPreview/CollectionPreviewHOC';
 import { HeroCommunityHOC } from 'HOC/modules/HeroCommunity/heroCommuityHOC';
-import React, { SFC, useMemo, useEffect } from 'react';
+import React, { SFC, useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   ActivityPreview,
@@ -60,10 +60,7 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
       });
     }
   });
-  const data = useMemo<{
-    communityPageProps: CommunityProps;
-    following: boolean;
-  } | null>(
+  const data = useMemo<CommunityProps | null>(
     () => {
       if (
         communityQ.error ||
@@ -79,7 +76,6 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
       ) {
         return null;
       }
-      const following = !!communityQ.data.community.myFollow;
       const outboxEdges = communityQ.data.community.outbox.edges;
       const ActivityBoxes = outboxEdges
         .map(edge => {
@@ -110,12 +106,7 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
           }
           const thread = edge.node;
           return (
-            <ThreadActivity
-              hideActions={!following}
-              thread={thread}
-              key={thread.id}
-              communityId={id}
-            />
+            <ThreadActivity thread={thread} key={thread.id} communityId={id} />
           );
         })
         .filter((_): _ is JSX.Element => !!_);
@@ -131,22 +122,21 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
         basePath: `/communities/${id}`,
         newThreadFormik: myFollow ? newThreadFormik : null
       };
-      return { communityPageProps: props, following };
+      return props;
     },
     [communityQ]
   );
   if (!data) {
     return null;
   }
-  const { communityPageProps, following } = data;
+  const communityPageProps = data;
   const apctx: ActivityPreviewCtx = {
     refetchQueries: [
       {
         query: CPGQL.CommunityPageDocument,
         variables: { id }
       }
-    ],
-    hideActions: !following
+    ]
   };
   return (
     <ActivityPreviewCtx.Provider value={apctx}>
@@ -158,8 +148,7 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
 const ThreadActivity: SFC<{
   thread: CPGQL.ComunityPageThreadFragment;
   communityId: Community['id'];
-  hideActions: boolean;
-}> = ({ thread, communityId, hideActions }) => {
+}> = ({ thread, communityId }) => {
   if (
     !thread.comments ||
     !thread.comments.edges.length ||
@@ -237,9 +226,7 @@ const ThreadActivity: SFC<{
     },
     createdAt: comment.createdAt,
     status: ActivityPreviewStatus.Loaded,
-    actions: hideActions
-      ? null
-      : getActions(comment, replyThreadFormik, toggleLikeFormik)
+    actions: getActions(comment, replyThreadFormik, toggleLikeFormik)
   };
 
   return <ActivityPreview {...props} />;
