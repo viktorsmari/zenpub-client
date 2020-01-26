@@ -117,7 +117,7 @@ export type ActivityPreviewCommentCtxExtendedFragment = (
 
 export type ActivityPreviewCommentCtxBaseFragment = (
   { __typename: 'Comment' }
-  & Pick<Types.Comment, 'id' | 'isLocal' | 'content' | 'canonicalUrl'>
+  & Pick<Types.Comment, 'id' | 'isLocal' | 'content' | 'canonicalUrl' | 'createdAt'>
   & { creator: Types.Maybe<(
     { __typename: 'User' }
     & ActivityPreviewUserCtxFragment
@@ -345,6 +345,7 @@ export const ActivityPreviewCommentCtxBaseFragmentDoc = gql`
   isLocal
   content
   canonicalUrl
+  createdAt
   creator {
     ...ActivityPreviewUserCtx
   }

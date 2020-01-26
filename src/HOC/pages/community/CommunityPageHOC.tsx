@@ -18,6 +18,7 @@ import {
 import * as UIP from 'ui/modules/ActivityPreview/preview';
 import CommunityPage, { Props as CommunityProps } from 'ui/pages/community';
 import * as CPGQL from './CommunityPage.generated';
+import { PureQueryOptions } from 'apollo-client';
 
 export interface Props {
   id: Community['id'];
@@ -105,8 +106,19 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
             return null;
           }
           const thread = edge.node;
+          const refetchQueries = [
+            {
+              query: CPGQL.CommunityPageDocument,
+              variables: { id }
+            }
+          ];
+
           return (
-            <ThreadActivity thread={thread} key={thread.id} communityId={id} />
+            <ThreadActivity
+              thread={thread}
+              key={thread.id}
+              refetchQueries={refetchQueries}
+            />
           );
         })
         .filter((_): _ is JSX.Element => !!_);
@@ -145,10 +157,10 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
   );
 };
 
-const ThreadActivity: SFC<{
+export const ThreadActivity: SFC<{
   thread: CPGQL.ComunityPageThreadFragment;
-  communityId: Community['id'];
-}> = ({ thread, communityId }) => {
+  refetchQueries?: Array<string | PureQueryOptions>;
+}> = ({ thread, refetchQueries }) => {
   if (
     !thread.comments ||
     !thread.comments.edges.length ||
@@ -171,12 +183,7 @@ const ThreadActivity: SFC<{
     createReplyMut,
     createReplyMutStatus
   ] = CPGQL.useCommunityPageThreadCreateReplyMutation();
-  const refetchQueries = [
-    {
-      query: CPGQL.CommunityPageDocument,
-      variables: { id: communityId }
-    }
-  ];
+
   const replyThreadFormik = useFormik<{ replyMessage: string }>({
     initialValues: { replyMessage: '' },
     onSubmit: ({ replyMessage }) => {

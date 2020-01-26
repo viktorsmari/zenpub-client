@@ -120,6 +120,7 @@ fragment ActivityPreviewCommentCtxBase on Comment{
     isLocal
     content
     canonicalUrl
+    createdAt
     creator {
         ...ActivityPreviewUserCtx
     }
