@@ -10,7 +10,7 @@ fragment ActivityPreviewData on Activity {
     id
     verb
     user {
-        ...ActivityPreviewBaseUser
+        ...ActivityPreviewUserCtx
     }
     context {
         __typename
@@ -51,7 +51,16 @@ fragment ActivityPreviewData on Activity {
 }
 
 fragment ActivityPreviewUserCtx on User {
-    ...ActivityPreviewBaseUser
+    icon
+    image
+    userId: id 
+    userName: name
+    preferredUsername
+    isLocal
+    canonicalUrl
+    myFollow {
+        id
+    }
     likes{
         totalCount
     }
@@ -60,15 +69,6 @@ fragment ActivityPreviewUserCtx on User {
     }
 }
 
-fragment ActivityPreviewBaseUser on User {
-    icon
-    image
-    userId: id 
-    userName: name
-    preferredUsername
-    isLocal
-    canonicalUrl
-}
 
 fragment ActivityPreviewBaseThread on Thread {
     id
@@ -83,8 +83,14 @@ fragment ActivityPreviewCollectionCtx on Collection{
     name
     summary
     canonicalUrl
+    community{
+        id
+        myFollow{
+            id
+        }
+    }
     creator {
-        ...ActivityPreviewBaseUser
+        ...ActivityPreviewUserCtx
     }
     likes{
         totalCount
@@ -115,7 +121,7 @@ fragment ActivityPreviewCommentCtxBase on Comment{
     content
     canonicalUrl
     creator {
-        ...ActivityPreviewBaseUser
+        ...ActivityPreviewUserCtx
     }
     thread {
         ...ActivityPreviewBaseThread
@@ -129,8 +135,11 @@ fragment ActivityPreviewCommunityCtx on Community{
     name
     summary
     canonicalUrl
+    myFollow{
+        id
+    }
     creator {
-        ...ActivityPreviewBaseUser
+        ...ActivityPreviewUserCtx
     }
     # likes{
     #     totalCount
@@ -151,7 +160,7 @@ fragment ActivityPreviewResourceCtx on Resource{
         ...ActivityPreviewCollectionCtx
     }
     creator {
-        ...ActivityPreviewBaseUser
+        ...ActivityPreviewUserCtx
     }
     likes{
         totalCount
@@ -177,7 +186,7 @@ fragment ActivityPreviewFlagCtx on Flag{
             ...ActivityPreviewResourceCtx
         }
         ... on User{
-            ...ActivityPreviewBaseUser
+            ...ActivityPreviewUserCtx
         }
     }
 }
@@ -196,7 +205,7 @@ fragment ActivityPreviewLikeCtx on Like{
             ...ActivityPreviewResourceCtx
         }
         ... on User{
-            ...ActivityPreviewBaseUser
+            ...ActivityPreviewUserCtx
         }
     }
 }
@@ -212,7 +221,7 @@ fragment ActivityPreviewFollowCtx on Follow{
             ...ActivityPreviewCommunityCtx
         }
         ... on User{
-            ...ActivityPreviewBaseUser
+            ...ActivityPreviewUserCtx
         }
         ... on Thread{
             ...ActivityPreviewExtendedThread
