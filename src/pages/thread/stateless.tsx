@@ -6,7 +6,7 @@ import { GetThreadQueryHookResult } from '../../graphql/getThread.generated';
 // import Thread from '../../components/elements/thread';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-import Header from './header';
+import Header, { Preview } from './header';
 // import { Box } from 'rebass/styled-components';
 
 export interface Props {
@@ -49,6 +49,7 @@ const Component: React.FC<Props> = ({ threadQuery: thread, ThreadBoxes }) => {
                   </Box>
                   ) : null}
                   <Thread comment={thread.data.thread} /> */}
+                {context && <Preview context={context} />}
                 {ThreadBoxes}
               </>
             )}

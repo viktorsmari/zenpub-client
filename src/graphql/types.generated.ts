@@ -809,8 +809,6 @@ export type RootMutationType = {
   deleteSession?: Maybe<Scalars['Boolean']>,
   /** Fetch metadata from webpage */
   fetchWebMetadata?: Maybe<WebMetadata>,
-  /** Follow a community, collection or a user by their canonical url returning the follow */
-  followRemoteActor?: Maybe<Follow>,
   /** Reset password */
   resetPassword?: Maybe<AuthPayload>,
   /** Reset password request */
@@ -919,11 +917,6 @@ export type RootMutationTypeDeleteSelfArgs = {
 
 
 export type RootMutationTypeFetchWebMetadataArgs = {
-  url: Scalars['String']
-};
-
-
-export type RootMutationTypeFollowRemoteActorArgs = {
   url: Scalars['String']
 };
 
@@ -2138,7 +2131,6 @@ export type RootMutationTypeResolvers<ContextType = any, ParentType extends Reso
   deleteSelf?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationTypeDeleteSelfArgs, 'iAmSure'>>,
   deleteSession?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
   fetchWebMetadata?: Resolver<Maybe<ResolversTypes['WebMetadata']>, ParentType, ContextType, RequireFields<RootMutationTypeFetchWebMetadataArgs, 'url'>>,
-  followRemoteActor?: Resolver<Maybe<ResolversTypes['Follow']>, ParentType, ContextType, RequireFields<RootMutationTypeFollowRemoteActorArgs, 'url'>>,
   resetPassword?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<RootMutationTypeResetPasswordArgs, 'password' | 'token'>>,
   resetPasswordRequest?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationTypeResetPasswordRequestArgs, 'email'>>,
   resolveFlag?: Resolver<Maybe<ResolversTypes['Flag']>, ParentType, ContextType, RequireFields<RootMutationTypeResolveFlagArgs, 'flagId'>>,

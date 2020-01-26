@@ -22,7 +22,7 @@ export const ResourcePreview: React.SFC<Props> = ({
   link
 }) => {
   return (
-    <WrapperLink to={'/collection/' + id}>
+    <WrapperLink to={'/collections/' + id}>
       <Wrapper p={3}>
         <Avatar size="m" src={icon} />
         <Infos ml={3}>

@@ -128,7 +128,7 @@ const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
               {/* <Route
                   path={`/communities/${
                     community.id
-                  }/collection/:collection`}
+                  }/collections/:collection`}
                   component={CollectionModal}
                 /> */}
             </Switch>

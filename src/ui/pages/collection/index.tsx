@@ -2,6 +2,8 @@ import * as React from 'react';
 import { NavLink, Route, Switch } from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
 import media from 'styled-media-query';
+import { Trans } from '@lingui/react';
+
 import {
   Nav,
   NavItem,
@@ -10,6 +12,7 @@ import {
   WrapperPanel
 } from 'ui/elements/Panel';
 import styled from 'ui/themes/styled';
+import Button from 'ui/elements/Button';
 
 export interface Props {
   ActivityBoxes: JSX.Element[];
@@ -35,7 +38,16 @@ export const Collection: React.FC<Props> = ({
               <Route exact path={`${basePath}/`}>
                 {ActivityBoxes}
               </Route>
-              <Route path={`${basePath}/resources`}>{ResourceBoxes}</Route>
+              <Route path={`${basePath}/resources`}>
+                <>
+                  <WrapButton mt={3} px={3} pb={3} mb={2}>
+                    <Button variant="outline">
+                      <Trans>Create a new resource</Trans>
+                    </Button>
+                  </WrapButton>
+                  {ResourceBoxes}
+                </>
+              </Route>
             </Switch>
           </Wrapper>
         </WrapperCont>
@@ -116,6 +128,14 @@ const Menu = ({ basePath }: { basePath: string }) => (
     <NavLink to={`${basePath}/resources`}>Resources</NavLink>
   </MenuWrapper>
 );
+
+const WrapButton = styled(Flex)`
+  border-bottom: 3px solid ${props => props.theme.colors.lightgray};
+  button {
+    width: 100%;
+    height: 50px;
+  }
+`;
 
 const MenuWrapper = styled(Flex)`
   border-top: 3px solid ${props => props.theme.colors.lightgray};
