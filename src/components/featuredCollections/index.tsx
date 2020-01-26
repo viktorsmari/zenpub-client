@@ -9,6 +9,7 @@ import CollectionSmall from '../elements/Collection/CollectionSmall';
 import { ChevronLeft, Right } from '../elements/Icons';
 import Loader from '../elements/Loader/Loader';
 import { RightContext, Title } from '../featuredCommunities';
+import { Box } from 'rebass';
 
 const MultipleItems: React.FC = () => {
   const props = useGetFeaturedCollectionsQuery();
@@ -50,33 +51,35 @@ const MultipleItems: React.FC = () => {
           </RightContext>
         )}
       </Title>
-      {!props.data || !props.data.instance || props.error ? (
-        <span>
-          <Trans>{/* Error loading featured collections */}</Trans>
-        </span>
-      ) : props.loading ? (
-        <Loader />
-      ) : //FIXME https://gitlab.com/moodlenet/meta/issues/185
-      !props.data.instance.featuredCollections ? null : (
-        <Slider
-          ref={c => (sliderRef.current = c || undefined)}
-          {...sliderSettings}
-        >
-          {props.data.instance.featuredCollections.edges.map(
-            edge =>
-              //FIXME https://gitlab.com/moodlenet/meta/issues/185
-              // edge &&
-              !edge || !edge.node.context
-                ? null
-                : edge.node.context.__typename === 'Collection' && (
-                    <CollectionSmall
-                      collection={edge.node.context}
-                      key={edge.node.id}
-                    />
-                  )
-          )}
-        </Slider>
-      )}
+      <Box p={2}>
+        {!props.data || !props.data.instance || props.error ? (
+          <span>
+            <Trans>{/* Error loading featured collections */}</Trans>
+          </span>
+        ) : props.loading ? (
+          <Loader />
+        ) : //FIXME https://gitlab.com/moodlenet/meta/issues/185
+        !props.data.instance.featuredCollections ? null : (
+          <Slider
+            ref={c => (sliderRef.current = c || undefined)}
+            {...sliderSettings}
+          >
+            {props.data.instance.featuredCollections.edges.map(
+              edge =>
+                //FIXME https://gitlab.com/moodlenet/meta/issues/185
+                // edge &&
+                !edge || !edge.node.context
+                  ? null
+                  : edge.node.context.__typename === 'Collection' && (
+                      <CollectionSmall
+                        collection={edge.node.context}
+                        key={edge.node.id}
+                      />
+                    )
+            )}
+          </Slider>
+        )}
+      </Box>
     </>
   );
 };

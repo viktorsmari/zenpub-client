@@ -5,13 +5,14 @@ import { Box, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import styled from '../../../themes/styled';
 const PlaceholderImg = require('../Icons/collectionPlaceholder.png');
+import { ellipsis } from 'polished';
 
 interface CommunityProps {
   community: BasicCommunityFragment;
 }
 const CommunitySmall: React.FC<CommunityProps> = ({ community }) => {
   return (
-    <Wrapper py={1} mb={1} ml={3}>
+    <Wrapper py={1} mb={2} ml={3}>
       <Link to={`/communities/${community.id}`}>
         <Img
           style={{
@@ -21,7 +22,7 @@ const CommunitySmall: React.FC<CommunityProps> = ({ community }) => {
           }}
         />
         <Infos>
-          <Title fontSize={1} my={1} fontWeight={600}>
+          <Title fontSize={1} my={2} fontWeight={600}>
             {community.name.length > 80
               ? community.name.replace(/^(.{76}[^\s]*).*/, '$1...')
               : community.name}
@@ -35,8 +36,8 @@ const CommunitySmall: React.FC<CommunityProps> = ({ community }) => {
 const Wrapper = styled(Box)`
   cursor: pointer;
   position: relative;
-  width: 120px;
-  height: 120px;
+  max-width: 200px;
+  max-height: 200px;
   border-radius: 4px;
   ${media.lessThan('medium')`
   display: block;
@@ -57,6 +58,7 @@ const Img = styled.div`
 const Infos = styled.div``;
 const Title = styled(Text)`
   color: ${props => props.theme.colors.darkgray};
+  ${ellipsis('200px')};
 `;
 
 export default CommunitySmall;

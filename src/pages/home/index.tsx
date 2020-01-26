@@ -2,17 +2,15 @@ import { Trans } from '@lingui/macro';
 import { ActivityPreviewHOC } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-// import { Helmet } from 'react-helmet';
-import { TabPanel, Tabs } from 'react-tabs';
 import Empty from '../../components/elements/Empty';
 import Loader from '../../components/elements/Loader/Loader';
-// import LoadMoreTimeline from '../../components/elements/Loadmore/timelineUser';
-import { StickyTabList, SuperTab } from '../../components/elements/SuperTab';
+
 import { CreateReplyMutationMutationOperation } from '../../graphql/createReply.generated';
 import { DeleteMutationMutationOperation } from '../../graphql/delete.generated';
 import { useGetMeInboxQuery } from '../../graphql/getMeInbox.generated';
 import { LikeMutationMutationOperation } from '../../graphql/like.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
+import { Text } from 'rebass/styled-components';
 import {
   Nav,
   NavItem,
@@ -60,47 +58,45 @@ const Home: React.FC<Props> = () => {
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <Tabs>
-              <StickyTabList>
-                <SuperTab>
-                  <h5>
-                    <Trans>My MoodleNet timeline</Trans>
-                  </h5>
-                </SuperTab>
-              </StickyTabList>
-              <TabPanel>
-                {error ? (
-                  <Empty>
-                    <Trans>Error loading moodlenet timeline</Trans>
-                  </Empty>
-                ) : loading ? (
-                  <Loader />
-                ) : (
-                  data &&
-                  data.me && (
-                    <div>
-                      {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                      data.me.user.inbox!.edges!.map(
-                        userActivityEdge =>
-                          userActivityEdge && (
-                            <ActivityPreviewHOC
-                              activityId={userActivityEdge.node.id}
-                              key={userActivityEdge.node.id}
-                            />
-                          )
-                      )}
-                      {/* data &&
+            <Text
+              mb={3}
+              sx={{ borderBottom: '1px solid #dadada' }}
+              p={3}
+              variant="suptitle"
+            >
+              <Trans>My MoodleNet timeline</Trans>
+            </Text>
+
+            {error ? (
+              <Empty>
+                <Trans>Error loading moodlenet timeline</Trans>
+              </Empty>
+            ) : loading ? (
+              <Loader />
+            ) : (
+              data &&
+              data.me && (
+                <div>
+                  {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                  data.me.user.inbox!.edges!.map(
+                    userActivityEdge =>
+                      userActivityEdge && (
+                        <ActivityPreviewHOC
+                          activityId={userActivityEdge.node.id}
+                          key={userActivityEdge.node.id}
+                        />
+                      )
+                  )}
+                  {/* data &&
                         data.me && (
                           <LoadMoreTimeline
                             fetchMore={fetchMore}
                             community={data.me.user}
                           />
                         ) */}
-                    </div>
-                  )
-                )}
-              </TabPanel>
-            </Tabs>
+                </div>
+              )
+            )}
           </Wrapper>
         </WrapperCont>
       </HomeBox>

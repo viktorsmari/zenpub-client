@@ -6,13 +6,14 @@ import media from 'styled-media-query';
 import { Collection } from '../../../graphql/types.generated';
 import styled from '../../../themes/styled';
 const PlaceholderImg = require('../Icons/collectionPlaceholder.png');
+import { ellipsis } from 'polished';
 
 interface CollectionProps {
   collection: BasicCollectionFragment;
 }
 const Collection: React.FC<CollectionProps> = ({ collection }) => {
   return (
-    <Wrapper py={1} mb={1} ml={3}>
+    <Wrapper py={1} mb={2} ml={3}>
       <Link to={`/collections/${collection.id}`}>
         <Img
           style={{
@@ -34,6 +35,9 @@ const Collection: React.FC<CollectionProps> = ({ collection }) => {
 const Wrapper = styled(Box)`
   cursor: pointer;
   position: relative;
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 4px;
   ${media.lessThan('medium')`
   display: block;
 `} & a {
@@ -43,17 +47,17 @@ const Wrapper = styled(Box)`
   }
 `;
 const Img = styled.div`
-  width: 120px;
-  height: 120px;
-  border-radius: 120px;
+  width: 100%;
+  height: auto;
+  padding: 50%;
+  border-radiu: 100%;
   background-size: cover;
   background-repeat: no-repeat;
-  margin: 0 auto;
 `;
 const Infos = styled.div``;
 const Title = styled(Text)`
   color: ${props => props.theme.colors.darkgray};
-  text-align: center;
+  ${ellipsis('200px')};
 `;
 
 export default Collection;

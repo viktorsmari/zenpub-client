@@ -43,6 +43,10 @@ const FlexOuter = styled(Flex)`
   border-radius: 6px;
   box-shadow: 0 4px 10px 0px rgba(0, 0, 0, 0.1);
   padding: 16px;
+  a {
+    text-decoration: none;
+    display: flex;
+  }
 `;
 
 const LinkImg = styled(Img)`
@@ -63,21 +67,21 @@ export interface Props {
 }
 
 export const Preview: React.FC<Props> = ({ context }) => (
-  <Link
-    to={
-      context.__typename === 'Community'
-        ? `/communities/${context.id}`
-        : `/collection/${context.id}`
-    }
-  >
-    <FlexOuter>
+  <FlexOuter>
+    <Link
+      to={
+        context.__typename === 'Community'
+          ? `/communities/${context.id}`
+          : `/collection/${context.id}`
+      }
+    >
       <LinkImg src={context.icon} />
       <Box>
         <Text variant="heading">{context.name}</Text>
         <Text variant="text">{context.summary}</Text>
       </Box>
-    </FlexOuter>
-  </Link>
+    </Link>
+  </FlexOuter>
 );
 
 const HeaderWrapper: React.FC<Props> = ({ context }) => {

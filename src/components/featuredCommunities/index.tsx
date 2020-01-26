@@ -9,6 +9,7 @@ import styled from '../../themes/styled';
 import CommunitySmall from '../elements/Community/CommunitySmall';
 import { ChevronLeft, Right } from '../elements/Icons';
 import Loader from '../elements/Loader/Loader';
+import { Box } from 'rebass';
 
 export const Title = styled.div`
   font-size: 15px;
@@ -81,32 +82,34 @@ const MultipleItems: React.FC = () => {
           </span>
         </RightContext>
       </Title>
-      {!props.data || !props.data.instance || props.error ? (
-        <span>
-          <Trans>{/* Error loading featured communities */}</Trans>
-        </span>
-      ) : props.loading ? (
-        <Loader />
-      ) : //FIXME https://gitlab.com/moodlenet/meta/issues/185
-      !props.data.instance.featuredCommunities ? null : (
-        <Slider
-          ref={c => (sliderRef.current = c || undefined)}
-          {...sliderSettings}
-        >
-          {props.data.instance.featuredCommunities.edges.map(
-            (edge, i) =>
-              //FIXME https://gitlab.com/moodlenet/meta/issues/185
-              // edge &&
-              !edge || !edge.node.context
-                ? null
-                : edge.node.context.__typename === 'Community' && (
-                    <div>
-                      <CommunitySmall community={edge.node.context} key={i} />
-                    </div>
-                  )
-          )}
-        </Slider>
-      )}
+      <Box p={2}>
+        {!props.data || !props.data.instance || props.error ? (
+          <span>
+            <Trans>{/* Error loading featured communities */}</Trans>
+          </span>
+        ) : props.loading ? (
+          <Loader />
+        ) : //FIXME https://gitlab.com/moodlenet/meta/issues/185
+        !props.data.instance.featuredCommunities ? null : (
+          <Slider
+            ref={c => (sliderRef.current = c || undefined)}
+            {...sliderSettings}
+          >
+            {props.data.instance.featuredCommunities.edges.map(
+              (edge, i) =>
+                //FIXME https://gitlab.com/moodlenet/meta/issues/185
+                // edge &&
+                !edge || !edge.node.context
+                  ? null
+                  : edge.node.context.__typename === 'Community' && (
+                      <div>
+                        <CommunitySmall community={edge.node.context} key={i} />
+                      </div>
+                    )
+            )}
+          </Slider>
+        )}
+      </Box>
     </>
   );
 };

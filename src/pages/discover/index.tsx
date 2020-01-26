@@ -4,12 +4,12 @@ import { NavLink } from 'react-router-dom';
 import media from 'styled-media-query';
 
 // import { Helmet } from 'react-helmet';
-import { TabPanel, Tabs } from 'react-tabs';
-import { Flex } from 'rebass/styled-components';
+// import { TabPanel, Tabs } from 'react-tabs';
+import { Flex, Text } from 'rebass/styled-components';
 import Empty from '../../components/elements/Empty';
 import Loader from '../../components/elements/Loader/Loader';
 // import LoadMoreTimeline from '../../components/elements/Loadmore/localInstance';
-import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
+// import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import FeaturedCollections from '../../components/featuredCollections';
 import FeaturedCommunities from '../../components/featuredCommunities';
 import { CreateReplyMutationMutationOperation } from '../../graphql/createReply.generated';
@@ -74,47 +74,36 @@ const Home: React.FC<Props> = props => {
             <FeaturedCommunities />
           </WrapperFeatured>
           <Wrapper>
-            <Tabs>
-              <SuperTabList>
-                <SuperTab>
-                  <h5>
-                    <Trans>Instance timeline</Trans>
-                    {/* <Helmet>
-                      <title>Instance timeline</title>
-                    </Helmet> */}
-                  </h5>
-                </SuperTab>
-              </SuperTabList>
-              <TabPanel>
-                {error ? (
-                  <Empty>
-                    <Trans>{/* error */}</Trans>
-                  </Empty>
-                ) : loading ? (
-                  <Loader />
-                ) : (
-                  data &&
-                  data.instance && (
-                    <div>
-                      {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                      data.instance.outbox!.edges!.map(
-                        activity =>
-                          activity && (
-                            <ActivityPreviewHOC
-                              activityId={activity.node.id}
-                              key={activity.node.id}
-                            />
-                          )
-                      )}
-                      {/* <LoadMoreTimeline
+            <Text p={2} variant="suptitle">
+              <Trans>Instance timeline</Trans>
+            </Text>
+            {error ? (
+              <Empty>
+                <Trans>{/* error */}</Trans>
+              </Empty>
+            ) : loading ? (
+              <Loader />
+            ) : (
+              data &&
+              data.instance && (
+                <div>
+                  {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                  data.instance.outbox!.edges!.map(
+                    activity =>
+                      activity && (
+                        <ActivityPreviewHOC
+                          activityId={activity.node.id}
+                          key={activity.node.id}
+                        />
+                      )
+                  )}
+                  {/* <LoadMoreTimeline
                         fetchMore={fetchMore}
                         outbox={data.instance.outbox}
                       /> */}
-                    </div>
-                  )
-                )}
-              </TabPanel>
-            </Tabs>
+                </div>
+              )
+            )}
           </Wrapper>
         </WrapperCont>
       </HomeBox>
@@ -191,6 +180,8 @@ const WrapperFeatured = styled(Flex)`
   display: flex;
   flex-direction: column;
   flex: 1;
+  background: white;
+  border-radius: 8px;
 `;
 
 export const HomeBox = styled(Flex)`
@@ -238,8 +229,6 @@ export const WrapperCont = styled(Flex)`
   min-width: 0px;
   padding: 0px;
   position: relative;
-  background: white;
-  border-radius: 4px;
   z-index: 0;
 `;
 
@@ -247,6 +236,9 @@ export const Wrapper = styled(Flex)`
   display: flex;
   flex-direction: column;
   flex: 1;
+  margin-top: 8px;
+  background: white;
+  border-radius: 8px;
   & ul {
     display: block;
 
