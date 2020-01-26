@@ -40,7 +40,7 @@ export const HeroCollectionHOC: SFC<Props> = ({ collectionId }) => {
         collection: {
           status: Status.Loaded,
           //FIXME https://gitlab.com/moodlenet/meta/issues/185
-          isMine: !session.me || session.me.user.id === collection.creator!.id,
+          isMine: !!session.me && session.me.user.id === collection.creator!.id,
           following: !!collection.myFollow,
           icon: collection.icon || '',
           title: collection.name,

@@ -41,7 +41,7 @@ export const HeroCommunityHOC: SFC<Props> = ({ communityId }) => {
           status: Status.Loaded,
           //FIXME https://gitlab.com/moodlenet/meta/issues/185
           canModify:
-            !session.me || session.me.user.id === community.creator!.id,
+            !!session.me && session.me.user.id === community.creator!.id,
           following: !!community.myFollow,
           icon: community.icon || community.image || '',
           name: community.name,
@@ -78,5 +78,6 @@ export const HeroCommunityHOC: SFC<Props> = ({ communityId }) => {
       unjoinMutationStatus
     ]
   );
+  console.log(heroProps);
   return <HeroCommunity {...heroProps} />;
 };
