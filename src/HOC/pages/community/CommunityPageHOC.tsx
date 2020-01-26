@@ -60,7 +60,10 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
       });
     }
   });
-  const communityPageProps = useMemo<CommunityProps | null>(
+  const data = useMemo<{
+    communityPageProps: CommunityProps;
+    following: boolean;
+  } | null>(
     () => {
       if (
         communityQ.error ||
@@ -76,6 +79,7 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
       ) {
         return null;
       }
+      const following = !!communityQ.data.community.myFollow;
       const outboxEdges = communityQ.data.community.outbox.edges;
       const ActivityBoxes = outboxEdges
         .map(edge => {
@@ -106,7 +110,12 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
           }
           const thread = edge.node;
           return (
-            <ThreadActivity thread={thread} key={thread.id} communityId={id} />
+            <ThreadActivity
+              hideActions={!following}
+              thread={thread}
+              key={thread.id}
+              communityId={id}
+            />
           );
         })
         .filter((_): _ is JSX.Element => !!_);
@@ -122,31 +131,35 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
         basePath: `/communities/${id}`,
         newThreadFormik: myFollow ? newThreadFormik : null
       };
-      return props;
+      return { communityPageProps: props, following };
     },
     [communityQ]
   );
+  if (!data) {
+    return null;
+  }
+  const { communityPageProps, following } = data;
   const apctx: ActivityPreviewCtx = {
     refetchQueries: [
       {
         query: CPGQL.CommunityPageDocument,
         variables: { id }
       }
-    ]
+    ],
+    hideActions: !following
   };
   return (
-    communityPageProps && (
-      <ActivityPreviewCtx.Provider value={apctx}>
-        <CommunityPage {...communityPageProps} />
-      </ActivityPreviewCtx.Provider>
-    )
+    <ActivityPreviewCtx.Provider value={apctx}>
+      <CommunityPage {...communityPageProps} />
+    </ActivityPreviewCtx.Provider>
   );
 };
 
 const ThreadActivity: SFC<{
   thread: CPGQL.ComunityPageThreadFragment;
   communityId: Community['id'];
-}> = ({ thread, communityId }) => {
+  hideActions: boolean;
+}> = ({ thread, communityId, hideActions }) => {
   if (
     !thread.comments ||
     !thread.comments.edges.length ||
@@ -224,7 +237,9 @@ const ThreadActivity: SFC<{
     },
     createdAt: comment.createdAt,
     status: ActivityPreviewStatus.Loaded,
-    actions: getActions(comment, replyThreadFormik, toggleLikeFormik)
+    actions: hideActions
+      ? null
+      : getActions(comment, replyThreadFormik, toggleLikeFormik)
   };
 
   return <ActivityPreview {...props} />;

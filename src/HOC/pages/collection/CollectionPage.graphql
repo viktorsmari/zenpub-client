@@ -5,6 +5,12 @@ query collectionPage($collectionId: String!) {
   collection(collectionId:$collectionId){
     ...HeroCollectionData
     resourceCount
+    community{
+      id
+      myFollow{
+        id
+      }
+    }
     resources{
       edges{
         node{

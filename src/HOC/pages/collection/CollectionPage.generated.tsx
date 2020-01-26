@@ -24,7 +24,14 @@ export type CollectionPageQuery = (
   & { collection: Types.Maybe<(
     { __typename: 'Collection' }
     & Pick<Types.Collection, 'resourceCount'>
-    & { resources: Types.Maybe<(
+    & { community: Types.Maybe<(
+      { __typename: 'Community' }
+      & Pick<Types.Community, 'id'>
+      & { myFollow: Types.Maybe<(
+        { __typename: 'Follow' }
+        & Pick<Types.Follow, 'id'>
+      )> }
+    )>, resources: Types.Maybe<(
       { __typename: 'ResourcesEdges' }
       & { edges: Array<Types.Maybe<(
         { __typename: 'ResourcesEdge' }
@@ -102,6 +109,12 @@ export const CollectionPageDocument = gql`
   collection(collectionId: $collectionId) {
     ...HeroCollectionData
     resourceCount
+    community {
+      id
+      myFollow {
+        id
+      }
+    }
     resources {
       edges {
         node {

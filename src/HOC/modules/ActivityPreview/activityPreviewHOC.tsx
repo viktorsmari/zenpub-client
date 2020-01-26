@@ -10,9 +10,11 @@ import { PureQueryOptions } from 'apollo-client';
 
 export interface ActivityPreviewCtx {
   refetchQueries: Array<string | PureQueryOptions>;
+  hideActions: boolean;
 }
 export const ActivityPreviewCtx = createContext<ActivityPreviewCtx>({
-  refetchQueries: []
+  refetchQueries: [],
+  hideActions: false
 });
 
 export interface Props {
@@ -140,7 +142,9 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
           actor: getActor(user)
         };
         const [context, gqlContext] = getContext(activity);
-        const actions = getActions(gqlContext, replyFormik, toggleLikeFormik);
+        const actions = ctx.hideActions
+          ? null
+          : getActions(gqlContext, replyFormik, toggleLikeFormik);
         const inReplyToCtx = getInReplyToCtx(activity);
         const props: UI.ActivityLoaded = {
           ..._baseProps,

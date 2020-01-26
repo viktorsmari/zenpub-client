@@ -36,7 +36,10 @@ export const CollectionPageHOC: SFC<Props> = ({ collectionId }) => {
     collectionQ.refetch();
   }, []);
 
-  const collectionPageProps = useMemo<CollectionPageProps | null>(
+  const data = useMemo<{
+    collectionPageProps: CollectionPageProps;
+    followingCommunity: boolean;
+  } | null>(
     () => {
       if (
         collectionQ.error ||
@@ -52,6 +55,10 @@ export const CollectionPageHOC: SFC<Props> = ({ collectionId }) => {
       }
 
       const activityEdges = collectionQ.data.collection.outbox.edges;
+      const followingCommunity = !!(
+        collectionQ.data.collection.community &&
+        collectionQ.data.collection.community.myFollow
+      );
       const ActivityBoxes = activityEdges
         .map(edge => {
           if (!edge) {
@@ -72,6 +79,7 @@ export const CollectionPageHOC: SFC<Props> = ({ collectionId }) => {
           const resource = edge.node;
           return (
             <ResourceActivity
+              hideActions={!followingCommunity}
               resource={resource}
               key={resource.id}
               collectionId={collectionId}
@@ -85,31 +93,37 @@ export const CollectionPageHOC: SFC<Props> = ({ collectionId }) => {
         ResourceBoxes,
         basePath: `/collections/${collectionId}`
       };
-      return props;
+      return { collectionPageProps: props, followingCommunity };
     },
     [collectionQ]
   );
+  if (!data) {
+    return null;
+  }
+  const { collectionPageProps, followingCommunity } = data;
+
   const apctx: ActivityPreviewCtx = {
     refetchQueries: [
       {
         query: CollectionPageDocument,
         variables: { collectionId }
       }
-    ]
+    ],
+    hideActions: !followingCommunity
   };
+
   return (
-    collectionPageProps && (
-      <ActivityPreviewCtx.Provider value={apctx}>
-        <CollectionPage {...collectionPageProps} />
-      </ActivityPreviewCtx.Provider>
-    )
+    <ActivityPreviewCtx.Provider value={apctx}>
+      <CollectionPage {...collectionPageProps} />
+    </ActivityPreviewCtx.Provider>
   );
 };
 
 const ResourceActivity: SFC<{
   resource: CollectionPageResourceFragment;
   collectionId: Collection['id'];
-}> = ({ resource, collectionId }) => {
+  hideActions: boolean;
+}> = ({ resource, collectionId, hideActions }) => {
   if (!resource.creator) {
     return null;
   }
@@ -190,7 +204,9 @@ const ResourceActivity: SFC<{
     },
     createdAt: resource.createdAt,
     status: ActivityPreviewStatus.Loaded,
-    actions: getActions(resource, commentResourceFormik, toggleLikeFormik)
+    actions: hideActions
+      ? null
+      : getActions(resource, commentResourceFormik, toggleLikeFormik)
   };
 
   return <ActivityPreview {...props} />;
