@@ -4,7 +4,7 @@ import Loader from '../../components/elements/Loader/Loader';
 // import Thread from '../../components/elements/thread';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-import Header from './header';
+import Header, { Preview } from './header';
 import { GetThreadQueryHookResult } from '../../graphql/getThread.generated';
 import Empty from '../../components/elements/Empty';
 import { Trans } from '@lingui/macro';
@@ -49,6 +49,8 @@ const Component: React.FC<Props> = ({ threadQuery: thread }) => {
                   </Box>
                   ) : null}
                   <Thread comment={thread.data.thread} /> */}
+
+                {context && <Preview context={context} />}
 
                 {thread.data.thread &&
                   /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */

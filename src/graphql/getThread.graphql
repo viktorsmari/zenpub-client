@@ -11,9 +11,9 @@ query getThread($threadId: String!) {
         lastActivity
         context {
             __typename
-            ... on Community { id icon name}
-            ... on Collection { id icon name}
-            ... on Resource { id icon name}
+            ... on Community { id icon name summary}
+            ... on Collection { id icon name summary}
+            ... on Resource { id icon name summary}
      
         }
         myFollow { id }

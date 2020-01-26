@@ -1,25 +1,23 @@
 import * as React from 'react';
 import styled from '../../themes/styled';
-import { Flex, Text, Image } from 'rebass/styled-components';
 import { Trans } from '@lingui/macro';
 import { ChevronLeft, ChevronRight } from 'react-feather';
 import { useHistory } from 'react-router';
 import Link from '../../components/elements/Link/Link';
 import { Community, Collection, Resource } from '../../graphql/types.generated';
 import { LocaleContext } from '../../context/global/localizationCtx';
+import { Image, Text, Box, Flex } from 'rebass/styled-components';
 
 const Img = styled(Image)`
-  max-width: 30px;
-  height: 30px;
   border-radius: 3px;
 `;
-const Right = styled(Flex)`
-  align-items: center;
-  a {
-    display: flex;
-    align-items: center;
-  }
-`;
+// const Right = styled(Flex)`
+//   align-items: center;
+//   a {
+//     display: flex;
+//     align-items: center;
+//   }
+// `;
 const Left = styled(Flex)`
   flex: auto;
 `;
@@ -38,8 +36,19 @@ const Header = styled(Flex)`
   }
 `;
 
+const FlexOuter = styled(Flex)`
+  background: #fff;
+  margin: 16px;
+  /* margin-top: 0; */
+  border-radius: 6px;
+  box-shadow: 0 4px 10px 0px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+`;
+
 const LinkImg = styled(Img)`
   margin-right: 8px;
+  width: 140px;
+  height: 140px;
   .--rtl & {
     margin-right: 0px;
     margin-left: 8px;
@@ -47,8 +56,30 @@ const LinkImg = styled(Img)`
 `;
 
 export interface Props {
-  context: Pick<Community | Collection | Resource, 'id' | 'name' | 'icon'>;
+  context: Pick<
+    Community | Collection | Resource,
+    'id' | 'name' | 'icon' | 'summary' | '__typename'
+  >;
 }
+
+export const Preview: React.FC<Props> = ({ context }) => (
+  <Link
+    to={
+      context.__typename === 'Community'
+        ? `/communities/${context.id}`
+        : `/collection/${context.id}`
+    }
+  >
+    <FlexOuter>
+      <LinkImg src={context.icon} />
+      <Box>
+        <Text variant="heading">{context.name}</Text>
+        <Text variant="text">{context.summary}</Text>
+      </Box>
+    </FlexOuter>
+  </Link>
+);
+
 const HeaderWrapper: React.FC<Props> = ({ context }) => {
   const history = useHistory();
   return (
@@ -65,12 +96,12 @@ const HeaderWrapper: React.FC<Props> = ({ context }) => {
               <Trans>Back</Trans>
             </Text>
           </Left>
-          <Right>
+          {/* <Right>
             <Link to={`/communities/${context.id}`}>
               <LinkImg src={context.icon} />
               <Text variant="suptitle">{context.name}</Text>
             </Link>
-          </Right>
+          </Right> */}
         </Header>
       )}
     </LocaleContext.Consumer>

@@ -23,13 +23,13 @@ export type GetThreadQuery = (
     & Pick<Types.Thread, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'isHidden' | 'createdAt' | 'updatedAt' | 'lastActivity'>
     & { context: Types.Maybe<(
       { __typename: 'Collection' }
-      & Pick<Types.Collection, 'id' | 'icon' | 'name'>
+      & Pick<Types.Collection, 'id' | 'icon' | 'name' | 'summary'>
     ) | (
       { __typename: 'Community' }
-      & Pick<Types.Community, 'id' | 'icon' | 'name'>
+      & Pick<Types.Community, 'id' | 'icon' | 'name' | 'summary'>
     ) | { __typename: 'Flag' } | (
       { __typename: 'Resource' }
-      & Pick<Types.Resource, 'id' | 'icon' | 'name'>
+      & Pick<Types.Resource, 'id' | 'icon' | 'name' | 'summary'>
     )>, myFollow: Types.Maybe<(
       { __typename: 'Follow' }
       & Pick<Types.Follow, 'id'>
@@ -65,16 +65,19 @@ export const GetThreadDocument = gql`
         id
         icon
         name
+        summary
       }
       ... on Collection {
         id
         icon
         name
+        summary
       }
       ... on Resource {
         id
         icon
         name
+        summary
       }
     }
     myFollow {
