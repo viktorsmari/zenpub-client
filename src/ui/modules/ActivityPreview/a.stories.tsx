@@ -2,7 +2,7 @@ import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import { useFormik } from 'formik';
 import React from 'react';
-import { ActivityPreview, Props, Status } from '.';
+import { ActivityPreview, BigActivityPreview, Props, Status } from '.';
 import { ContextType, ContextVerb } from './preview';
 
 const getActions = () => ({
@@ -206,7 +206,8 @@ storiesOf('Modules/ActivityPreview', module)
         link: 'https://picsum.photos/80/80',
         verb: ContextVerb.Created,
         type: ContextType.Comment,
-        content: 'a message'
+        content:
+          'Sono chiamati alle urne cinque milioni e mezzo di elettori. Si vota dalle 7 alle 23. A nord il risultato si gioca in parte intorno al voto disgiunto fra centrodestra e centrosinistra. Anche a sud si vota con uno schema bipolare. I grillini sono fuori dai giochi. Attesa per gli effetti dei risultati sulla tenuta del governo. Salvini infrange il silenzio con un tweet su Bibbiano. Bonaccini: "Oggi vinciamo noi, oggi vince lEmilia-Romagna"'
       } /* ,
       inReplyToCtx: {
         link: 'https://picsum.photos/80/80',
@@ -214,5 +215,5 @@ storiesOf('Modules/ActivityPreview', module)
       } */
     };
 
-    return <ActivityPreview {...activityPreviewProps} />;
+    return <BigActivityPreview {...activityPreviewProps} />;
   });

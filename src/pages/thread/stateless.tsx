@@ -8,6 +8,7 @@ import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import Header, { Preview } from './header';
 // import { Box } from 'rebass/styled-components';
+import { Box } from 'rebass/styled-components';
 
 export interface Props {
   threadQuery: GetThreadQueryHookResult;
@@ -22,6 +23,7 @@ const Component: React.FC<Props> = ({ threadQuery: thread, ThreadBoxes }) => {
       ctx.__typename === 'Collection' ||
       ctx.__typename === 'Community') &&
     ctx;
+
   return (
     <MainContainer>
       <HomeBox>
@@ -50,6 +52,7 @@ const Component: React.FC<Props> = ({ threadQuery: thread, ThreadBoxes }) => {
                   ) : null}
                   <Thread comment={thread.data.thread} /> */}
                 {context && <Preview context={context} />}
+                <Box />
                 {ThreadBoxes}
               </>
             )}

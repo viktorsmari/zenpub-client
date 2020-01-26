@@ -2,7 +2,7 @@ import * as React from 'react';
 import { MessageCircle, Star } from 'react-feather';
 import styled from '../../../themes/styled';
 import { Box, Flex, Text } from 'rebass/styled-components';
-import SocialText from '../SocialText';
+import SocialText from 'ui/modules/SocialText';
 import { i18nMark } from '@lingui/react';
 import { LocaleContext } from '../../../context/global/localizationCtx';
 import { FormikHook } from 'common/types';
@@ -53,7 +53,7 @@ const ActionsWrapper: React.SFC<ActionProps> = ({ like, reply }) => {
         )}
       <Box>
         <Items>
-          <ActionItem onClick={() => showTalkModal(!talkModalVisible)}>
+          <ActionItem ml={1} onClick={() => showTalkModal(!talkModalVisible)}>
             <ActionIcon>
               <MessageCircle color="rgba(0,0,0,.4)" size="16" />
             </ActionIcon>

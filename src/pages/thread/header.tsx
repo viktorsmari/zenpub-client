@@ -76,9 +76,11 @@ export const Preview: React.FC<Props> = ({ context }) => (
       }
     >
       <LinkImg src={context.icon} />
-      <Box>
+      <Box ml={2}>
         <Text variant="heading">{context.name}</Text>
-        <Text variant="text">{context.summary}</Text>
+        <Text mt={2} variant="text">
+          {context.summary}
+        </Text>
       </Box>
     </Link>
   </FlexOuter>

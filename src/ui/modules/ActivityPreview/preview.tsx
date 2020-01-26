@@ -221,7 +221,7 @@ const FlexPreview = styled(Box)`
   }
 `;
 
-const Comment = styled(Text)`
+export const Comment = styled(Text)`
   & a {
     color: ${props => props.theme.colors.darkgray} !important;
     font-weight: 400 !important;
