@@ -1,8 +1,8 @@
 import * as Types from './types.generated';
 
-import { BasicCommentWithInReplyToFragment } from './fragments/basicComment.generated';
+import { ComunityPageThreadFragment } from '../HOC/pages/community/CommunityPage.generated';
 import gql from 'graphql-tag';
-import { BasicCommentWithInReplyToFragmentDoc } from './fragments/basicComment.generated';
+import { ComunityPageThreadFragmentDoc } from '../HOC/pages/community/CommunityPage.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -20,30 +20,7 @@ export type GetThreadQuery = (
   { __typename: 'RootQueryType' }
   & { thread: Types.Maybe<(
     { __typename: 'Thread' }
-    & Pick<Types.Thread, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'isHidden' | 'createdAt' | 'updatedAt' | 'lastActivity'>
-    & { context: Types.Maybe<(
-      { __typename: 'Collection' }
-      & Pick<Types.Collection, 'id' | 'icon' | 'name' | 'summary'>
-    ) | (
-      { __typename: 'Community' }
-      & Pick<Types.Community, 'id' | 'icon' | 'name' | 'summary'>
-    ) | { __typename: 'Flag' } | (
-      { __typename: 'Resource' }
-      & Pick<Types.Resource, 'id' | 'icon' | 'name' | 'summary'>
-    )>, myFollow: Types.Maybe<(
-      { __typename: 'Follow' }
-      & Pick<Types.Follow, 'id'>
-    )>, comments: Types.Maybe<(
-      { __typename: 'CommentsEdges' }
-      & Pick<Types.CommentsEdges, 'totalCount'>
-      & { edges: Array<Types.Maybe<(
-        { __typename: 'CommentsEdge' }
-        & { node: (
-          { __typename: 'Comment' }
-          & BasicCommentWithInReplyToFragment
-        ) }
-      )>> }
-    )> }
+    & ComunityPageThreadFragment
   )> }
 );
 
@@ -51,49 +28,10 @@ export type GetThreadQuery = (
 export const GetThreadDocument = gql`
     query getThread($threadId: String!) {
   thread(threadId: $threadId) {
-    id
-    canonicalUrl
-    isLocal
-    isPublic
-    isHidden
-    createdAt
-    updatedAt
-    lastActivity
-    context {
-      __typename
-      ... on Community {
-        id
-        icon
-        name
-        summary
-      }
-      ... on Collection {
-        id
-        icon
-        name
-        summary
-      }
-      ... on Resource {
-        id
-        icon
-        name
-        summary
-      }
-    }
-    myFollow {
-      id
-    }
-    comments {
-      totalCount
-      edges {
-        node {
-          ...BasicCommentWithInReplyTo
-        }
-      }
-    }
+    ...ComunityPageThread
   }
 }
-    ${BasicCommentWithInReplyToFragmentDoc}`;
+    ${ComunityPageThreadFragmentDoc}`;
 export type GetThreadComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetThreadQuery, GetThreadQueryVariables>, 'query'> & ({ variables: GetThreadQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const GetThreadComponent = (props: GetThreadComponentProps) => (
