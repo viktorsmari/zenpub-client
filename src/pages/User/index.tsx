@@ -55,16 +55,10 @@ const CommunitiesFeatured: React.SFC<Props> = ({ userId }) => {
   const { /* fetchMore, */ data, loading, error } = query;
   const [follow, followStatus] = useFollowMutationMutation();
   const [unfollow, unfollowStatus] = useDeleteMutationMutation();
+  const togglingFollow = followStatus.loading || unfollowStatus.loading;
   const toggleFollow = React.useCallback(
     () => {
-      if (
-        !(
-          !followStatus.loading &&
-          !unfollowStatus.loading &&
-          query.data &&
-          query.data.user
-        )
-      ) {
+      if (!(!togglingFollow && query.data && query.data.user)) {
         return;
       }
       if (query.data.user.myFollow) {
@@ -77,7 +71,7 @@ const CommunitiesFeatured: React.SFC<Props> = ({ userId }) => {
         );
       }
     },
-    [query.data]
+    [query.data, togglingFollow]
   );
   return (
     <MainContainer>

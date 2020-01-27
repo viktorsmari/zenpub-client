@@ -19,7 +19,7 @@ storiesOf('Modules/HeroCommunity', module)
         totalMembers: 193,
         toggleJoin: {
           toggle: action('Unjoin !'),
-          isSubmitting: false
+          isSubmitting: true
         },
         EditCommunityPanel: ({ done }) => (
           <img
