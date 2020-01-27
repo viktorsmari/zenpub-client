@@ -1,11 +1,12 @@
-import { GetCommunityQueryQuery } from 'graphql/generated/getCommunity.generated';
+import { GetCommunityQueryQuery } from 'graphql/getCommunity.generated';
 
 export const basicGetCommunityQuery: GetCommunityQueryQuery = {
+  __typename: 'RootQueryType',
   community: {
     __typename: 'Community',
     name: 'name',
     summary: 'summary',
-    image: 'image',
+    image: '',
     collections: {
       __typename: 'CollectionsEdges',
       totalCount: 0,

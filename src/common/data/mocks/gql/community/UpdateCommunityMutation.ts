@@ -1,6 +1,7 @@
-import { UpdateCommunityMutationMutation } from 'graphql/generated/updateCommunity.generated';
+import { UpdateCommunityMutationMutation } from 'graphql/updateCommunity.generated';
 
 export const basicUpdateCommunityMutation: UpdateCommunityMutationMutation = {
+  __typename: 'RootMutationType',
   updateCommunity: {
     __typename: 'Community',
     name: 'name',
@@ -10,6 +11,7 @@ export const basicUpdateCommunityMutation: UpdateCommunityMutationMutation = {
     preferredUsername: '',
     updatedAt: '',
     canonicalUrl: null,
-    icon: null
+    icon: '',
+    image: ''
   }
 };

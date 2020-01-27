@@ -95,6 +95,19 @@ export interface MoodleThemeInterface {
       textTransform: string;
       letterSpacing: string;
     };
+    danger: {
+      fontWeight: string;
+      borderRadius: string;
+      height: string;
+      color: string;
+      px: number;
+      fontSize: string;
+      backgroundColor: string;
+      cursor: string;
+      textTransform: string;
+      letterSpacing: string;
+    };
+
     outline: {
       fontWeight: string;
       borderRadius: string;

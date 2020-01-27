@@ -17,7 +17,7 @@ import { withFormik, FormikProps, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import Alert from '../Alert';
 import { graphql, OperationOption } from 'react-apollo';
-import { UpdateCollectionMutationMutationVariables } from '../../../graphql/generated/updateCollection.generated';
+import { UpdateCollectionMutationMutationVariables } from '../../../graphql/updateCollection.generated';
 import { Collection } from '../../../graphql/types.generated';
 import styled from '../../../themes/styled';
 const {

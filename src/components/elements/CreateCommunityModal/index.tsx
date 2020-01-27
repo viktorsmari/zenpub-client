@@ -11,7 +11,7 @@ import Alert from '../Alert';
 import { Button } from 'rebass/styled-components';
 import Modal from '../Modal';
 import DropzoneArea from '../DropzoneModal';
-import { useUploadIconMutation } from '../../../graphql/generated/uploadIcon.generated';
+import { useUploadIconMutation } from '../../../graphql/uploadIcon.generated';
 import styled from '../../../themes/styled';
 import {
   Actions,
@@ -24,7 +24,7 @@ import {
 import {
   useCreateCommunityMutationMutation,
   CreateCommunityMutationMutationVariables
-} from '../../../graphql/generated/createCommunity.generated';
+} from '../../../graphql/createCommunity.generated';
 import { LocaleContext } from '../../../context/global/localizationCtx';
 
 const tt = {
@@ -117,7 +117,7 @@ const CreateCommunityModal = (
       <Container>
         <Header>
           <Heading m={2}>
-            <Trans>Create a new community!!</Trans>
+            <Trans>Create a new community</Trans>
           </Heading>
         </Header>
         <Formik

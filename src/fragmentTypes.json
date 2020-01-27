@@ -3,33 +3,12 @@
     "types": [
       {
         "kind": "UNION",
-        "name": "FlagContext",
-        "possibleTypes": [
-          { "name": "Collection" },
-          { "name": "Comment" },
-          { "name": "Community" },
-          { "name": "Resource" },
-          { "name": "User" }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "LikeContext",
-        "possibleTypes": [
-          { "name": "Collection" },
-          { "name": "Comment" },
-          { "name": "Resource" },
-          { "name": "User" }
-        ]
-      },
-      {
-        "kind": "UNION",
         "name": "DeleteContext",
         "possibleTypes": [
-          { "name": "Activity" },
           { "name": "Collection" },
           { "name": "Comment" },
           { "name": "Community" },
+          { "name": "Feature" },
           { "name": "Flag" },
           { "name": "Follow" },
           { "name": "Like" },
@@ -40,11 +19,15 @@
       },
       {
         "kind": "UNION",
-        "name": "FollowContext",
+        "name": "ActivityContext",
         "possibleTypes": [
           { "name": "Collection" },
+          { "name": "Comment" },
           { "name": "Community" },
-          { "name": "Thread" },
+          { "name": "Flag" },
+          { "name": "Follow" },
+          { "name": "Like" },
+          { "name": "Resource" },
           { "name": "User" }
         ]
       },
@@ -61,15 +44,23 @@
       },
       {
         "kind": "UNION",
-        "name": "ActivityContext",
+        "name": "FollowContext",
+        "possibleTypes": [
+          { "name": "Collection" },
+          { "name": "Community" },
+          { "name": "Thread" },
+          { "name": "User" }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "FlagContext",
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Comment" },
           { "name": "Community" },
-          { "name": "Flag" },
-          { "name": "Follow" },
-          { "name": "Like" },
-          { "name": "Resource" }
+          { "name": "Resource" },
+          { "name": "User" }
         ]
       },
       {
@@ -86,6 +77,17 @@
         "kind": "UNION",
         "name": "FeatureContext",
         "possibleTypes": [{ "name": "Collection" }, { "name": "Community" }]
+      },
+      {
+        "kind": "UNION",
+        "name": "LikeContext",
+        "possibleTypes": [
+          { "name": "Collection" },
+          { "name": "Comment" },
+          { "name": "Community" },
+          { "name": "Resource" },
+          { "name": "User" }
+        ]
       }
     ]
   }

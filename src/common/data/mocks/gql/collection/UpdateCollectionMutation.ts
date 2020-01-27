@@ -1,6 +1,7 @@
-import { UpdateCollectionMutationMutation } from 'graphql/generated/updateCollection.generated';
+import { UpdateCollectionMutationMutation } from 'graphql/updateCollection.generated';
 
 export const basicUpdateCollectionMutation: UpdateCollectionMutationMutation = {
+  __typename: 'RootMutationType',
   updateCollection: {
     __typename: 'Collection',
     name: 'name',
@@ -10,7 +11,7 @@ export const basicUpdateCollectionMutation: UpdateCollectionMutationMutation = {
     preferredUsername: '',
     updatedAt: '',
     canonicalUrl: null,
-    icon: null,
+    icon: '',
     resources: { __typename: 'ResourcesEdges', totalCount: 0 }
   }
 };

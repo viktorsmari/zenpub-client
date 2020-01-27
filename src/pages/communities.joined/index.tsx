@@ -6,7 +6,7 @@ import compose from 'recompose/compose';
 import media from 'styled-media-query';
 import CommunityCard from '../../components/elements/Community/Community';
 import Loader from '../../components/elements/Loader/Loader';
-import CommunitiesLoadMore from '../../components/elements/Loadmore/joinedCommunities';
+// import CommunitiesLoadMore from '../../components/elements/Loadmore/joinedCommunities';
 // import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
 import { Me } from '../../graphql/types.generated';
@@ -48,7 +48,8 @@ class CommunitiesJoined extends React.Component<Props> {
             </CreateCollection>
           </ButtonWrapper>
           <List p={2}>
-            {this.props.data.me.user.followedCommunities.edges.map(
+            {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+            this.props.data.me.user!.followedCommunities!.edges.map(
               (community, i) =>
                 community && (
                   <CommunityCard
@@ -56,7 +57,8 @@ class CommunitiesJoined extends React.Component<Props> {
                     summary={community.node.community.summary || ''}
                     title={community.node.community.name || ''}
                     collectionsCount={
-                      community.node.community.collections.totalCount
+                      /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                      community.node.community.collections!.totalCount
                     }
                     icon={
                       community.node.community.icon ||
@@ -67,18 +69,23 @@ class CommunitiesJoined extends React.Component<Props> {
                     id={community.node.community.id}
                     externalId={community.node.community.canonicalUrl || ''}
                     followersCount={
-                      community.node.community.followers.totalCount
+                      /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+
+                      community.node.community.followers!.totalCount
                     }
-                    threadsCount={community.node.community.threads.totalCount}
+                    threadsCount={
+                      /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                      community.node.community.threads!.totalCount
+                    }
                   />
                 )
             )}
           </List>
-          <CommunitiesLoadMore
+          {/* <CommunitiesLoadMore
             me
             fetchMore={this.props.data.fetchMore}
             communities={this.props.data.me.user.followedCommunities}
-          />
+          /> */}
         </Box>
       </>
     );

@@ -1,8 +1,13 @@
 schema: ${REACT_APP_GRAPHQL_ENDPOINT}
-documents: src/graphql/**/!(*.client).graphql
+documents: src/**/!(*.client).graphql
 overwrite: true
-watch: true
-
+watch: false
+hooks:
+  afterStart: 
+    - node codegencleanup
+  onWatchTriggered:
+    - node codegencleanup
+     
 generates:
   src/graphql/schema.generated.json:
     plugins:
@@ -17,7 +22,7 @@ generates:
     presetConfig:
       extension: .generated.tsx
       baseTypesPath: types.generated.ts
-      folder: generated/
+      # folder: generated/
     plugins:
       - typescript-operations
       - typescript-react-apollo
@@ -29,3 +34,4 @@ generates:
       reactApolloVersion: 3
       withHooks: true
       withHOC: true
+      nonOptionalTypename: true

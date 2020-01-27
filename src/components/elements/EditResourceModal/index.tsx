@@ -21,7 +21,7 @@ import {
   ContainerForm,
   Header
 } from '../Modal/modal';
-import { UpdateResourceMutationMutationVariables } from '../../../graphql/generated/updateResource.generated';
+import { UpdateResourceMutationMutationVariables } from '../../../graphql/updateResource.generated';
 
 interface Props {
   toggleModal?: any;

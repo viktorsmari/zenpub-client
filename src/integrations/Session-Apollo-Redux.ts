@@ -2,12 +2,12 @@ import { FetchResult } from 'apollo-link';
 import {
   ConfirmEmailMutationMutation,
   ConfirmEmailMutationMutationOperation
-} from '../graphql/generated/confirmEmail.generated';
+} from '../graphql/confirmEmail.generated';
 import {
   LoginMutationMutation,
   LoginMutationMutationOperation
-} from '../graphql/generated/login.generated';
-import { LogoutMutationMutationOperation } from '../graphql/generated/logout.generated';
+} from '../graphql/login.generated';
+import { LogoutMutationMutationOperation } from '../graphql/logout.generated';
 import { login, logout } from '../redux/session';
 import { DynamicLinkSrv } from '../util/apollo/dynamicLink';
 

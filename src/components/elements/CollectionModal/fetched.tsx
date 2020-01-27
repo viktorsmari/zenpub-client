@@ -14,7 +14,7 @@ import Alert from '../Alert';
 import { Button } from 'rebass/styled-components';
 import { Actions, ContainerForm, CounterChars, Row } from '../Modal/modal';
 import ResourceCard from '../Resource/Resource';
-import { CreateResourceMutationMutationVariables } from '../../../graphql/generated/createResource.generated';
+import { CreateResourceMutationMutationVariables } from '../../../graphql/createResource.generated';
 import { LocaleContext } from '../../../context/global/localizationCtx';
 
 const {

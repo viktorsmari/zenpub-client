@@ -1,19 +1,19 @@
+import { Trans } from '@lingui/macro';
 import * as React from 'react';
-import Comment from '../../components/elements/Comment/Comment';
+import Empty from '../../components/elements/Empty';
 import Loader from '../../components/elements/Loader/Loader';
+import { GetThreadQueryHookResult } from '../../graphql/getThread.generated';
 // import Thread from '../../components/elements/thread';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-import Header from './header';
-import { GetThreadQueryHookResult } from '../../graphql/generated/getThread.generated';
-import Empty from '../../components/elements/Empty';
-import { Trans } from '@lingui/macro';
+import Header, { Preview } from './header';
 // import { Box } from 'rebass/styled-components';
 
 export interface Props {
   threadQuery: GetThreadQueryHookResult;
+  ThreadBoxes: JSX.Element[];
 }
-const Component: React.FC<Props> = ({ threadQuery: thread }) => {
+const Component: React.FC<Props> = ({ threadQuery: thread, ThreadBoxes }) => {
   const ctx =
     !!thread.data && !!thread.data.thread && thread.data.thread.context;
   const context =
@@ -22,6 +22,7 @@ const Component: React.FC<Props> = ({ threadQuery: thread }) => {
       ctx.__typename === 'Collection' ||
       ctx.__typename === 'Community') &&
     ctx;
+
   return (
     <MainContainer>
       <HomeBox>
@@ -49,20 +50,8 @@ const Component: React.FC<Props> = ({ threadQuery: thread }) => {
                   </Box>
                   ) : null}
                   <Thread comment={thread.data.thread} /> */}
-
-                {thread.data.thread &&
-                  thread.data.thread.comments.edges
-                    .reverse()
-                    .map(
-                      edge =>
-                        edge &&
-                        edge.node && (
-                          <Comment
-                            key={edge.node.thread.id}
-                            comment={edge.node}
-                          />
-                        )
-                    )}
+                {context && <Preview context={context} />}
+                {ThreadBoxes}
               </>
             )}
           </Wrapper>

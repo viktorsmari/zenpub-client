@@ -8,16 +8,16 @@ import { NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import removeMd from 'remove-markdown';
 import media from 'styled-media-query';
-import { BasicCollectionFragment } from '../../../graphql/fragments/generated/basicCollection.generated';
+import { BasicCollectionFragment } from '../../../graphql/fragments/basicCollection.generated';
 import {
   BasicCommentWithInReplyToFragment,
   BasicCommentFragment
-} from '../../../graphql/fragments/generated/basicComment.generated';
-import { BasicCommunityFragment } from '../../../graphql/fragments/generated/basicCommunity.generated';
-import { BasicResourceFragment } from '../../../graphql/fragments/generated/basicResource.generated';
-import { BasicUserFragment } from '../../../graphql/fragments/generated/basicUser.generated';
-import { useDeleteMutationMutation } from '../../../graphql/generated/delete.generated';
-import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
+} from '../../../graphql/fragments/basicComment.generated';
+import { BasicCommunityFragment } from '../../../graphql/fragments/basicCommunity.generated';
+import { BasicResourceFragment } from '../../../graphql/fragments/basicResource.generated';
+import { BasicUserFragment } from '../../../graphql/fragments/basicUser.generated';
+import { useDeleteMutationMutation } from '../../../graphql/delete.generated';
+import { useLikeMutationMutation } from '../../../graphql/like.generated';
 import { Comment, User } from '../../../graphql/types.generated';
 import styled from '../../../themes/styled';
 import Link from '../Link/Link';
@@ -117,11 +117,10 @@ const CollectionItem: SFC<CollectionProps> = ({
         />
         {noAction ? null : (
           <Actions
-            // totalReplies={collection.threads.totalCount as number}
-            // totalLikes={collection.likes.totalCount as number}
-            // comment={collection}
-            toggleLike={() => toggleLike(collection)}
-            iLikeIt={!!collection.myLike}
+            totalReplies={13}
+            totalLikes={13}
+            iLikeIt={true}
+            toggleLike={() => console.log('')}
           />
         )}
       </Box>
@@ -135,43 +134,45 @@ const ResourceItem: SFC<ResourceProps> = ({
   user,
   createdAt,
   verb
-}) => (
-  <Member>
-    <MemberItem mr={2}>
-      <Img src={user.icon || ''} />
-    </MemberItem>
-    <MemberInfo>
-      <Name>
-        <Link to={'/user/' + user.id}>
-          {user.name}{' '}
-          {user.preferredUsername ? (
-            <Username ml={2}>@{user.preferredUsername}</Username>
-          ) : null}
-        </Link>
-        <Spacer mr={2}>·</Spacer>{' '}
-        <Date>{DateTime.fromISO(createdAt).toRelative()}</Date>
-      </Name>
-      <Box>
-        {verb && (
-          <SubText mt={1}>
-            <Trans>
-              {verb === 'CREATED' ? 'created' : 'updated'} a resource in
-            </Trans>
-            <NavLink to={`/collections/${resource.collection.id}`}>
-              +{resource.collection.name}
-            </NavLink>
-          </SubText>
-        )}
-        <Preview
-          icon={resource.icon || ''}
-          title={resource.name}
-          summary={resource.summary || ''}
-          url={`/collections/${resource.collection.id}`}
-        />
-      </Box>
-    </MemberInfo>
-  </Member>
-);
+}) =>
+  //FIXME https://gitlab.com/moodlenet/meta/issues/185
+  !resource.collection ? null : (
+    <Member>
+      <MemberItem mr={2}>
+        <Img src={user.icon || ''} />
+      </MemberItem>
+      <MemberInfo>
+        <Name>
+          <Link to={'/user/' + user.id}>
+            {user.name}{' '}
+            {user.preferredUsername ? (
+              <Username ml={2}>@{user.preferredUsername}</Username>
+            ) : null}
+          </Link>
+          <Spacer mr={2}>·</Spacer>{' '}
+          <Date>{DateTime.fromISO(createdAt).toRelative()}</Date>
+        </Name>
+        <Box>
+          {verb && (
+            <SubText mt={1}>
+              <Trans>
+                {verb === 'CREATED' ? 'created' : 'updated'} a resource in
+              </Trans>
+              <NavLink to={`/collections/${resource.collection.id}`}>
+                +{resource.collection.name}
+              </NavLink>
+            </SubText>
+          )}
+          <Preview
+            icon={resource.icon || ''}
+            title={resource.name}
+            summary={resource.summary || ''}
+            url={`/collections/${resource.collection.id}`}
+          />
+        </Box>
+      </MemberInfo>
+    </Member>
+  );
 const CommentItem: SFC<CommentProps> = ({
   toggleLike,
   noAction,
@@ -181,7 +182,9 @@ const CommentItem: SFC<CommentProps> = ({
   createdAt
 }) => {
   const activityContext =
-    ('inReplyTo' in comment && comment.inReplyTo) || comment.thread.context;
+    ('inReplyTo' in comment && comment.inReplyTo) ||
+    //FIXME https://gitlab.com/moodlenet/meta/issues/185
+    comment.thread!.context!;
   return (
     <Member>
       <MemberItem mr={2}>
@@ -218,7 +221,8 @@ const CommentItem: SFC<CommentProps> = ({
 
               {activityContext.__typename === 'Collection' ? (
                 <CollectionItem
-                  user={activityContext.creator}
+                  //FIXME https://gitlab.com/moodlenet/meta/issues/185
+                  user={activityContext.creator!}
                   createdAt={activityContext.createdAt}
                   noAction
                   toggleLike={toggleLike}
@@ -226,7 +230,8 @@ const CommentItem: SFC<CommentProps> = ({
                 /> // qui il activityContext è risolto come Collection
               ) : activityContext.__typename === 'Resource' ? (
                 <ResourceItem
-                  user={activityContext.creator}
+                  //FIXME https://gitlab.com/moodlenet/meta/issues/185
+                  user={activityContext.creator!}
                   createdAt={activityContext.createdAt}
                   noAction
                   toggleLike={toggleLike}
@@ -234,7 +239,8 @@ const CommentItem: SFC<CommentProps> = ({
                 /> // qui il activityContext è risolto come Resource
               ) : activityContext.__typename === 'Community' ? (
                 <CommunityItem
-                  user={activityContext.creator}
+                  //FIXME https://gitlab.com/moodlenet/meta/issues/185
+                  user={activityContext.creator!}
                   createdAt={activityContext.createdAt}
                   noAction
                   toggleLike={toggleLike}
@@ -242,7 +248,8 @@ const CommentItem: SFC<CommentProps> = ({
                 /> // qui il context è risolto come Community
               ) : activityContext.__typename === 'Comment' ? (
                 <CommentItem
-                  user={activityContext.creator}
+                  //FIXME https://gitlab.com/moodlenet/meta/issues/185
+                  user={activityContext.creator!}
                   createdAt={activityContext.createdAt}
                   noAction
                   toggleLike={toggleLike}
@@ -262,11 +269,10 @@ const CommentItem: SFC<CommentProps> = ({
         </Comment>
         {noAction ? null : (
           <Actions
-            // totalReplies={comment.thread.comments.totalCount}
-            // totalLikes={comment.likes.totalCount}
-            comment={comment}
-            toggleLike={() => toggleLike(comment)}
-            iLikeIt={!!comment.myLike}
+            totalReplies={13}
+            totalLikes={13}
+            iLikeIt={true}
+            toggleLike={() => console.log('')}
           />
         )}
       </MemberInfo>

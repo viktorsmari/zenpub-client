@@ -4,7 +4,7 @@ import { Trans } from '@lingui/macro';
 import { Input } from '@rebass/forms';
 import styled from '../../themes/styled';
 import { ValidationField, ValidationObject, ValidationType } from './types';
-import { Button } from 'rebass/styled-components';
+import Button from 'ui/elements/Button';
 import { Box } from 'rebass/styled-components';
 
 const LoginForm = styled.form`
@@ -110,7 +110,12 @@ export default class extends React.Component<LoginFormProps, LoginFormState> {
               onInputChange(ValidationField.password, evt.target.value);
             }}
           />
-          <Button mt={3} style={{ width: '100%' }} variant="primary">
+          <Button
+            isSubmitting={this.props.authenticating}
+            mt={3}
+            style={{ width: '100%' }}
+            variant="primary"
+          >
             <Trans>Sign in</Trans>{' '}
           </Button>
         </Box>

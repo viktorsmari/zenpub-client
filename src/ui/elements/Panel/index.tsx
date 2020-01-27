@@ -3,7 +3,7 @@ import { Box, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 
 export const WrapperPanel = styled(Flex)`
-  margin-right: 16px;
+  margin-right: 8px;
   width: 350px;
   align-items: stretch;
   border: 0 solid black;
@@ -17,9 +17,10 @@ export const WrapperPanel = styled(Flex)`
   padding: 0px;
   position: relative;
   z-index: 0;
-  margin-top: 16px !important;
+  margin-left: 8px;
+  // margin-top: 16px !important;
   font-family: ${props => props.theme.fontFamily};
-  margin-right: 10px;
+  // margin-right: 10px;
   &.extra {
     width: 100%;
   }
@@ -62,7 +63,7 @@ export const Panel = styled(Box)`
   padding: 0px;
   position: relative;
   z-index: 0;
-  margin-bottom: 16px !important;
+  margin-bottom: 8px !important;
 `;
 
 export const PanelTitle = styled(Text)`

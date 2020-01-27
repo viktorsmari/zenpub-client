@@ -1,15 +1,15 @@
 // View a Community (with list of collections)
 
 import { Trans } from '@lingui/macro';
+import { CreateReplyMutationMutationOperation } from 'graphql/createReply.generated';
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { Box } from 'rebass/styled-components';
+import { useDynamicLinkOpResult } from 'util/apollo/dynamicLink';
 import CollectionCard from '../../components/elements/Collection/Collection';
-import EditCommunityModal from '../../components/elements/EditCommunityModal';
 import Loader from '../../components/elements/Loader/Loader';
-import UsersModal from '../../components/elements/UsersModal';
 import '../../containers/App/basic.css';
-import { useGetCommunityQueryQuery } from '../../graphql/generated/getCommunity.generated';
+import { useGetCommunityQueryQuery } from 'graphql/getCommunity.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import {
   Nav,
@@ -21,7 +21,7 @@ import {
 import styled from '../../themes/styled';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import CommunityPage from './Community';
-import Hero from './hero';
+import { HeroCommunityHOC } from 'HOC/modules/HeroCommunity/heroCommuityHOC';
 
 interface Props {
   communityId: string;
@@ -34,17 +34,16 @@ interface Props {
 }
 
 const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
-  // const [tab, setTab] = React.useState(TabsEnum.Collections);
-
-  const [isEditCommunityOpen, setEditCommunityOpen] = React.useState(false);
-  const [isUsersOpen, showUsers] = React.useState(false);
-  const editCommunity = React.useCallback(
-    () => setEditCommunityOpen(!isEditCommunityOpen),
-    [isEditCommunityOpen]
-  );
   const communityQuery = useGetCommunityQueryQuery({
     variables: { limit: 15, communityId }
   });
+  useDynamicLinkOpResult<CreateReplyMutationMutationOperation>(
+    'createReplyMutation',
+    () => {
+      communityQuery.refetch();
+    },
+    [communityQuery.refetch]
+  );
 
   let collections;
   if (communityQuery.error || !communityQuery.data) {
@@ -56,10 +55,12 @@ const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
   } else if (communityQuery.loading) {
     collections = <Loader />;
   } else if (communityQuery.data.community) {
-    if (communityQuery.data.community.collections.totalCount) {
+    /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+    if (communityQuery.data.community.collections!.totalCount) {
       collections = (
         <Box m={2}>
-          {communityQuery.data.community.collections.edges.map(
+          {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+          communityQuery.data.community.collections!.edges.map(
             (e, i) => e && <CollectionCard key={i} collection={e.node} />
           )}
         </Box>
@@ -105,11 +106,7 @@ const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <Hero
-              community={communityQuery.data.community}
-              showUsers={showUsers}
-              editCommunity={editCommunity}
-            />
+            <HeroCommunityHOC communityId={communityQuery.data.community.id} />
             <Switch>
               <Route
                 path={url}
@@ -131,26 +128,12 @@ const CommunitiesFeatured: React.FC<Props> = ({ communityId, url }) => {
               {/* <Route
                   path={`/communities/${
                     community.id
-                  }/collection/:collection`}
+                  }/collections/:collection`}
                   component={CollectionModal}
                 /> */}
             </Switch>
           </Wrapper>
         </WrapperCont>
-        <EditCommunityModal
-          toggleModal={editCommunity}
-          modalIsOpen={isEditCommunityOpen}
-          communityId={communityQuery.data.community.id}
-          // communityExternalId={communityQuery.data.community.id}
-          community={communityQuery.data.community}
-          communityUpdated={communityQuery.refetch}
-        />
-
-        <UsersModal
-          toggleModal={showUsers}
-          modalIsOpen={isUsersOpen}
-          members={communityQuery.data.community.followers.edges}
-        />
       </HomeBox>
       <WrapperPanel>
         <Panel>

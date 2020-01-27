@@ -9,8 +9,8 @@ import Link from '../Link/Link';
 import { Comment } from '../../../graphql/types.generated';
 import MoreOptions from '../MoreOptions';
 
-import { useLikeMutationMutation } from '../../../graphql/generated/like.generated';
-import { useDeleteMutationMutation } from '../../../graphql/generated/delete.generated';
+import { useLikeMutationMutation } from '../../../graphql/like.generated';
+import { useDeleteMutationMutation } from '../../../graphql/delete.generated';
 
 const Wrapper = styled(Box)`
   border-bottom: 1px solid ${props => props.theme.colors.lightgray};
@@ -113,73 +113,73 @@ interface Props {
 
 const Thread: SFC<Props> = ({ comment }) => {
   const [isOpen, onOpen] = useState(false);
-  const FAKE________COMMENT_I_LIKE_IT = !!Math.round(Math.random());
   const [like /* , likeResult */] = useLikeMutationMutation();
   const [undoLike /* , likeResult */] = useDeleteMutationMutation();
-  const [iLikeIt, setiLikeIt] = React.useState(FAKE________COMMENT_I_LIKE_IT);
+  const iLikeIt = !!comment.myLike;
   const toggleLike = React.useCallback(
     () => {
       const variables = { contextId: comment.id };
       (iLikeIt ? undoLike : like)({ variables });
-      setiLikeIt(!iLikeIt);
     },
     [comment, iLikeIt]
   );
   return (
-    <Wrapper px={3} py={3}>
-      <Flex alignItems="center">
-        <Avatar src={comment.creator.icon || ''} />
-        <Flex flexDirection="column">
-          <Flex>
+    //FIXME https://gitlab.com/moodlenet/meta/issues/185
+    !comment.creator || !comment.likes ? null : (
+      <Wrapper px={3} py={3}>
+        <Flex alignItems="center">
+          <Avatar src={comment.creator.icon || ''} />
+          <Flex flexDirection="column">
+            <Flex>
+              <Link to={'/user/' + comment.creator.id}>
+                <Text fontWeight={800} mx={2} fontSize={1}>
+                  {comment.creator.name || ''}
+                </Text>
+              </Link>
+              <Spacer mx={2}>·</Spacer>{' '}
+              <Date fontSize={1}>
+                {DateTime.fromISO(comment.createdAt).toRelative()}
+              </Date>
+              {typeof comment!.id == 'number' ? (
+                <MoreOptionsContainer>
+                  {/* <MoreOptions contextId={comment.id} myFlag={comment.myFlag} /> */}
+                  <MoreOptions contextId={comment.id} myFlag="false" />
+                </MoreOptionsContainer>
+              ) : null}
+            </Flex>
             <Link to={'/user/' + comment.creator.id}>
-              <Text fontWeight={800} mx={2} fontSize={1}>
-                {comment.creator.name || ''}
-              </Text>
+              <Username mt={1} fontSize={1} mx={2}>
+                @{comment.creator.name}
+              </Username>
             </Link>
-            <Spacer mx={2}>·</Spacer>{' '}
-            <Date fontSize={1}>
-              {DateTime.fromISO(comment.createdAt).toRelative()}
-            </Date>
-            {typeof comment!.id == 'number' ? (
-              <MoreOptionsContainer>
-                {/* <MoreOptions contextId={comment.id} myFlag={comment.myFlag} /> */}
-                <MoreOptions contextId={comment.id} myFlag="false" />
-              </MoreOptionsContainer>
-            ) : null}
           </Flex>
-          <Link to={'/user/' + comment.creator.id}>
-            <Username mt={1} fontSize={1} mx={2}>
-              @{comment.creator.name}
-            </Username>
-          </Link>
         </Flex>
-      </Flex>
 
-      <Message mt={2} fontSize={[3]}>
-        {comment.content}
-      </Message>
+        <Message mt={2} fontSize={[3]}>
+          {comment.content}
+        </Message>
 
-      <Actions mt={2}>
-        <Items>
-          <ActionItem onClick={() => onOpen(true)}>
-            <ActionIcon>
-              <Feather.MessageCircle color="rgba(0,0,0,.4)" size="16" />
-            </ActionIcon>
-            <Text ml={2}>{/*FIXME comment.replies.totalCount */}</Text>
-          </ActionItem>
-          <ActionItem ml={3} onClick={toggleLike}>
-            <ActionIcon>
-              <Feather.Star
-                color={iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'}
-                size="16"
-              />
-            </ActionIcon>
-            <Text ml={2}>{comment.likes.totalCount}</Text>
-          </ActionItem>
-        </Items>
-      </Actions>
+        <Actions mt={2}>
+          <Items>
+            <ActionItem onClick={() => onOpen(true)}>
+              <ActionIcon>
+                <Feather.MessageCircle color="rgba(0,0,0,.4)" size="16" />
+              </ActionIcon>
+              <Text ml={2}>{/*FIXME comment.replies.totalCount */}</Text>
+            </ActionItem>
+            <ActionItem ml={3} onClick={toggleLike}>
+              <ActionIcon>
+                <Feather.Star
+                  color={iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'}
+                  size="16"
+                />
+              </ActionIcon>
+              <Text ml={2}>{comment.likes.totalCount}</Text>
+            </ActionItem>
+          </Items>
+        </Actions>
 
-      {/* <Actions alignItems="center" mt={3} py={3}>
+        {/* <Actions alignItems="center" mt={3} py={3}>
         <Icon mr={5} className="tooltip" onClick={() => onOpen(true)}>
           <Feather.MessageCircle color={'rgba(0,0,0,.4)'} size="20" />
         </Icon>
@@ -187,8 +187,9 @@ const Thread: SFC<Props> = ({ comment }) => {
           <Feather.Star color={'rgba(0,0,0,.4)'} size="20" />
         </Icon>
       </Actions> */}
-      <Talk toggleModal={onOpen} modalIsOpen={isOpen} comment={comment} />
-    </Wrapper>
+        <Talk toggleModal={onOpen} modalIsOpen={isOpen} comment={comment} />
+      </Wrapper>
+    )
   );
 };
 

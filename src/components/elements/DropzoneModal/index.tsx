@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 // import { Trans } from '@lingui/macro';
 // import { clearPreviews } from './with-previews';
 import styled from '../../../themes/styled';
 import { UploadCloud } from 'react-feather';
-import { useFormikContext } from 'formik';
+// import { useFormikContext } from 'formik';
 
 const ThumbsContainer = styled.aside`
   display: flex;
@@ -47,58 +47,61 @@ const Img = styled.img`
 //   background-color: #eaeaea;
 //   border-radius: 2px;
 //   height: 17px;
+//   float: right;
 // `;
 
 interface Props {
   imageUrl: any;
+  formikForm?: any;
 }
 
-const DropzoneArea: React.FC<Props> = ({ imageUrl }) => {
-  const { setFieldValue, setFieldTouched } = useFormikContext();
-  // const [files, setFiles] = useState([] as any);
+const DropzoneArea: React.FC<Props> = ({ imageUrl, formikForm }) => {
+  // const { setFieldValue, setFieldTouched } = useFormikContext();
+  const [files, setFiles] = useState([] as any);
   const [iconUrl, onIcon] = useState(imageUrl);
+
+  // const clearPreviews = files => {
+  //   if (files.length != 0) {
+  //     files.forEach(file => {onIcon(imageUrl); URL.revokeObjectURL(file.preview)});
+
+  //   } else {
+  //     onIcon(imageUrl);
+  //     formikForm.setFieldValue('image', '');
+  //     formikForm.setFieldTouched('image', true);
+  //   }
+  // };
+
+  useEffect(
+    () => {
+      return () => {
+        files.forEach(file => URL.revokeObjectURL(file.preview));
+      };
+    },
+    [files]
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: 'image/*',
     onDrop: acceptedFiles => {
-      setFieldValue('files', acceptedFiles);
-      setFieldTouched('files', true);
+      formikForm.setFieldValue('files', acceptedFiles);
+      formikForm.setFieldTouched('files', true);
+      setFiles(acceptedFiles);
       acceptedFiles.map(file => onIcon(URL.createObjectURL(file)));
     }
   });
 
-  // const thumbs = files.map(file => (
-  //   <Thumb key={file.name}>
-  //     <ThumbInner>
-  //       <Img src={file.preview} />
-  //     </ThumbInner>
-  //   </Thumb>
-  // ));
-
-  // handleUpload = props => {
-  //   const variables = { contextId: contextId, upload: files[0] };
-  //   return mutateIcon({ variables }).then(res => {
-  //     onIcon(res.data!.uploadIcon!.url);
-  //   });
-  // }
-
-  // useEffect(
-  //   () => () => {
-  //     // Make sure to revoke the data uris to avoid memory leaks
-  //     files.forEach(file => URL.revokeObjectURL(file.preview));
-  //   },
-  //   [files]
-  // );
-
-  // const { getRootProps, getInputProps, isDragActive } = useDropzone({
-  //   // accept: 'image/*',
-  //   multiple: false,
-  //   onDrop: withPreviews(handleDrop)
-  // });
-  // useEffect(() => () => clearPreviews(files), [files]);
-
   return (
     <>
+      {/* {files.length != 0 || iconUrl != '' ? (
+        <Clear
+          onClick={() => {
+            clearPreviews(files);
+            setFiles([]);
+          }}
+        >
+          Clear
+        </Clear>
+      ) : null} */}
       <div {...getRootProps({ className: 'dropzone' })}>
         <ThumbsContainer>
           <Thumb key={iconUrl}>
@@ -107,26 +110,13 @@ const DropzoneArea: React.FC<Props> = ({ imageUrl }) => {
             </ThumbInner>
           </Thumb>
         </ThumbsContainer>
-        {/* <ThumbsContainer> */}
-        {/* {thumbs} */}
-        {/* {files.length != 0 && (
-            <Clear
-              onClick={() => {
-                clearPreviews(files);
-                // setFiles([]);
-              }}
-            >
-              <Trans>Clear</Trans>
-            </Clear>
-          )}
-        </ThumbsContainer> */}
         <input {...getInputProps()} />
         <InfoContainer>
           <UploadCloud width={45} height={45} strokeWidth={2} />
           {isDragActive ? (
-            <p>Drop the files here ...</p>
+            <p>Drop the file here ...</p>
           ) : (
-            <p>Drag 'n' drop some files here, or click to select files</p>
+            <p>Drag 'n' drop a file here, or click to select file</p>
           )}
         </InfoContainer>
       </div>

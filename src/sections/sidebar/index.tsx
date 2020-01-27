@@ -10,7 +10,7 @@ import media from 'styled-media-query';
 import Loader from '../../components/elements/Loader/Loader';
 import styled from '../../themes/styled';
 import Dropdown from './dropdown';
-import { GetSidebarQueryQueryResult } from '../../graphql/generated/getSidebar.generated';
+import { GetSidebarQueryQueryResult } from '../../graphql/getSidebar.generated';
 import Empty from '../../components/elements/Empty';
 import Avatar from 'ui/elements/Avatar';
 
@@ -248,7 +248,9 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
                   {menuIsOpen ? (
                     <>
                       <OutsideClickHandler onOutsideClick={closeMenu}>
-                        <Dropdown />
+                        <div onClick={closeMenu}>
+                          <Dropdown />
+                        </div>
                       </OutsideClickHandler>
                       <Layer />
                     </>
@@ -274,7 +276,8 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
                   </SidebarLink>
                 </Nav>
                 <Nav>
-                  {data.me.user.followedCommunities.edges.map(
+                  {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                  data.me.user.followedCommunities!.edges.map(
                     userJoinedCommunitiesEdge => {
                       if (!userJoinedCommunitiesEdge) {
                         return null;
@@ -289,7 +292,7 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
                           <NavItem alignItems={'center'} mb={2}>
                             <Avatar
                               initials={community.name.substr(0, 2)}
-                              src={community.icon!}
+                              src={community.image!}
                             />
                             <ItemTitleDir variant="link">
                               {community.name}

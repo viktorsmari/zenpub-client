@@ -1,6 +1,7 @@
-import { GetCollectionQuery } from 'graphql/generated/getCollection.generated';
+import { GetCollectionQuery } from 'graphql/getCollection.generated';
 
 export const basicGetCollectionQuery: GetCollectionQuery = {
+  __typename: 'RootQueryType',
   collection: {
     __typename: 'Collection',
     name: 'name',
@@ -33,7 +34,7 @@ export const basicGetCollectionQuery: GetCollectionQuery = {
     myFollow: null,
     myFlag: null,
     canonicalUrl: null,
-    icon: null,
+    icon: '',
     community: {
       __typename: 'Community',
       name: '',

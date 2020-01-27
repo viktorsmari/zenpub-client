@@ -15,10 +15,9 @@ import {
   OverlayTab
 } from '../communities.community/Community';
 import CollectionModal from '../../components/elements/CollectionModal';
-// import DropzoneArea from '../../components/elements/DropzoneModal';
 
-import { BasicCollectionFragment } from '../../graphql/fragments/generated/basicCollection.generated';
-import { BasicResourcesEdgesFragment } from '../../graphql/fragments/generated/basicResourcesEdges.generated';
+import { BasicCollectionFragment } from '../../graphql/fragments/basicCollection.generated';
+import { BasicResourcesEdgesFragment } from '../../graphql/fragments/basicResourcesEdges.generated';
 // import CollectionsLoadMore from 'src/components/elements/Loadmore/followingCollections';
 
 interface Props {
@@ -36,7 +35,6 @@ const CommunityPage: SFC<Props> = ({
   resources
 }) => {
   const [isOpen, onOpen] = useState(false);
-  // const [isUploadOpen, onUploadOpen] = useState(true);
   return (
     <WrapperTab>
       <OverlayTab>
@@ -57,17 +55,20 @@ const CommunityPage: SFC<Props> = ({
               }}
             >
               <Wrapper>
-                {!collection.community.myFollow && (
-                  <Footer>
-                    <Trans>Join the community</Trans>{' '}
-                    <Link to={'/communities/' + collection.community.id}>
-                      {community_name}
-                    </Link>{' '}
-                    <Trans>to add a resource</Trans>
-                  </Footer>
-                )}
+                {//FIXME https://gitlab.com/moodlenet/meta/issues/185
+                collection.community &&
+                  !collection.community.myFollow && (
+                    <Footer>
+                      <Trans>Join the community</Trans>{' '}
+                      <Link to={'/communities/' + collection.community.id}>
+                        {community_name}
+                      </Link>{' '}
+                      <Trans>to add a resource</Trans>
+                    </Footer>
+                  )}
                 <CollectionList>
-                  {collection.community.myFollow ? (
+                  {//FIXME https://gitlab.com/moodlenet/meta/issues/185
+                  collection.community && collection.community.myFollow ? (
                     isOpen ? (
                       <ButtonWrapper>
                         <Button m={3} onClick={() => onOpen(false)}>
@@ -90,30 +91,6 @@ const CommunityPage: SFC<Props> = ({
                       collectionExternalId={collection.id}
                     />
                   )}
-                  {/* {collection.community.followed ? (
-                    isUploadOpen === true ? (
-                      <ButtonWrapper>
-                        <Button m={3} onClick={() => onUploadOpen(false)}>
-                          <Trans>Cancel</Trans>
-                        </Button>
-                      </ButtonWrapper>
-                    ) : (
-                      <ButtonWrapper>
-                        <Button m={3} onClick={() => onUploadOpen(false)}>
-                          <Trans>Upload a file</Trans>
-                        </Button>
-                      </ButtonWrapper>
-                    )
-                  ) : null}
-                  {isUploadOpen === true ? (
-                    <DropzoneArea
-                      toggleModal={onUploadOpen}
-                      modalIsOpen={isUploadOpen}
-                      itemId={collection.localId}
-                      externalItemId={collection.id}
-                    />
-                  ) : null} */}
-
                   {resources.totalCount > 0 ? (
                     resources.edges.map(
                       (edge, i) =>
