@@ -5,9 +5,12 @@ import {
   useCollectionEditPanelQuery,
   useUpdateCollectionMutation
 } from './CollectionEdit.generated';
-import { EditCollectionFormValues } from 'ui/modules/EditCollectionPanel';
+import { useUploadIconMutation } from 'graphql/uploadIcon.generated';
+import {
+  EditCollectionFormValues,
+  EditCollectionPanel
+} from 'ui/modules/EditCollectionPanel';
 import { Collection } from 'graphql/types.generated';
-import { EditCollectionPanel } from 'ui/modules/EditCollectionPanel';
 
 export const validationSchema: Yup.ObjectSchema<
   EditCollectionFormValues
@@ -23,7 +26,8 @@ export const validationSchema: Yup.ObjectSchema<
 export const editCollectionFormInitialValues: EditCollectionFormValues = {
   name: '',
   summary: '',
-  icon: ''
+  icon: '',
+  files: []
 };
 export interface Props {
   collectionId: Collection['id'];
@@ -33,30 +37,101 @@ export const EditCollectionPanelHOC: SFC<Props> = ({
   done,
   collectionId
 }: Props) => {
-  const collectionQ = useCollectionEditPanelQuery({
+  // <<<<<<< HEAD
+  //   const collectionQ = useCollectionEditPanelQuery({
+  //     variables: { collectionId }
+  //   });
+  //   const [update /* , result */] = useUpdateCollectionMutation();
+  //   const initialValues = useMemo<EditCollectionFormValues>(
+  //     () =>
+  //       collectionQ.data && collectionQ.data.collection
+  //         ? {
+  //             icon: collectionQ.data.collection.icon || '',
+  //             name: collectionQ.data.collection.name,
+  //             summary: collectionQ.data.collection.summary || ''
+  //           }
+  //         : editCollectionFormInitialValues,
+  //     [collectionQ]
+  //   );
+  //   const formik = useFormik<EditCollectionFormValues>({
+  //     enableReinitialize: true,
+  //     onSubmit: vals =>
+  //       update({
+  //         variables: {
+  //           collection: { ...vals, preferredUsername: vals.name },
+  //           collectionId
+  //         }
+  //       }).then(done),
+  // =======
+  const collection = useCollectionEditPanelQuery({
     variables: { collectionId }
   });
   const [update /* , result */] = useUpdateCollectionMutation();
+  const [mutateIcon] = useUploadIconMutation();
   const initialValues = useMemo<EditCollectionFormValues>(
     () =>
-      collectionQ.data && collectionQ.data.collection
+      collection.data && collection.data.collection
         ? {
-            icon: collectionQ.data.collection.icon || '',
-            name: collectionQ.data.collection.name,
-            summary: collectionQ.data.collection.summary || ''
+            icon: collection.data.collection.icon || '',
+            name: collection.data.collection.name,
+            summary: collection.data.collection.summary || '',
+            files: []
           }
         : editCollectionFormInitialValues,
-    [collectionQ]
+    [collection]
   );
+
+  const uploadIcon = file =>
+    mutateIcon({
+      variables: { contextId: collectionId, upload: file }
+    })
+      .then(res => {
+        return (
+          (res && res.data && res.data.uploadIcon && res.data.uploadIcon.url) ||
+          ''
+        );
+      })
+      .catch(err => console.log(err));
+
   const formik = useFormik<EditCollectionFormValues>({
     enableReinitialize: true,
-    onSubmit: vals =>
-      update({
-        variables: {
-          collection: { ...vals, preferredUsername: vals.name },
-          collectionId
-        }
-      }).then(done),
+    onSubmit: vals => {
+      const file = vals.files!.map(file => {
+        return file;
+      })[0];
+      if (file) {
+        uploadIcon(file)
+          .then(uploadedIcon => {
+            update({
+              variables: {
+                collection: {
+                  icon: uploadedIcon || '',
+                  name: vals.name,
+                  summary: vals.summary,
+                  preferredUsername: vals.name
+                },
+                collectionId
+              }
+            });
+          })
+          .then(done)
+          .catch(err => console.log(err));
+      } else {
+        update({
+          variables: {
+            collection: {
+              icon: vals.icon,
+              name: vals.name,
+              summary: vals.summary,
+              preferredUsername: vals.name
+            },
+            collectionId
+          }
+        })
+          .then(done)
+          .catch(err => console.log(err));
+      }
+    },
     validationSchema,
     initialValues
   });

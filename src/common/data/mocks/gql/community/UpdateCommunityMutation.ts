@@ -11,6 +11,7 @@ export const basicUpdateCommunityMutation: UpdateCommunityMutationMutation = {
     preferredUsername: '',
     updatedAt: '',
     canonicalUrl: null,
-    icon: null
+    icon: '',
+    image: ''
   }
 };

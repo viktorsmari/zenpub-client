@@ -292,7 +292,7 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
                           <NavItem alignItems={'center'} mb={2}>
                             <Avatar
                               initials={community.name.substr(0, 2)}
-                              src={community.icon!}
+                              src={community.image!}
                             />
                             <ItemTitleDir variant="link">
                               {community.name}

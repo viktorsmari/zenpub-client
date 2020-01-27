@@ -1,6 +1,12 @@
 import { CollectionInput } from 'graphql/types.generated';
 import * as Yup from 'yup';
-import { BasicCreateCollectionFormValues } from 'ui/modules/CreateCollectionPanel';
+// import { BasicCreateCollectionFormValues } from 'ui/modules/CreateCollectionPanel';
+
+export interface BasicCreateCollectionFormValues {
+  name: string;
+  summary: string;
+  icon: string;
+}
 
 export type BasicCreateCollectionFormValuesSchema = Yup.ObjectSchema<
   BasicCreateCollectionFormValues
@@ -13,13 +19,13 @@ export const basicCreateCollectionFormValuesSchema: BasicCreateCollectionFormVal
     .max(60)
     .required(),
   summary: Yup.string().max(500),
-  image: Yup.string().url()
+  icon: Yup.string().url()
 });
 
 export const basicCreateCollectionInitialValues: BasicCreateCollectionFormValues = {
   name: '',
   summary: '',
-  image: ''
+  icon: ''
 };
 
 export const getBasicCreateCollectionInput = (

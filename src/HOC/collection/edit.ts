@@ -2,12 +2,13 @@ import { GetCollectionQuery } from 'graphql/getCollection.generated';
 import { useMemo } from 'react';
 import { QueryResult } from 'react-apollo';
 import * as Yup from 'yup';
-import { CollectionInput } from 'graphql/types.generated';
+import { CollectionUpdateInput } from 'graphql/types.generated';
 
 export interface EditCollectionFormValues {
   name: string;
   summary: string;
   icon: string;
+  preferredUsername?: string;
 }
 
 export type EditCollectionFormValuesSchema = Yup.ObjectSchema<
@@ -27,7 +28,8 @@ export const editCollectionFormValuesSchema: EditCollectionFormValuesSchema = Yu
 export const editCollectionFormInitialValues: EditCollectionFormValues = {
   name: '',
   summary: '',
-  icon: ''
+  icon: '',
+  preferredUsername: ''
 };
 
 export const useEditCollectionFormValuesFromQueryResult = (
@@ -39,7 +41,8 @@ export const useEditCollectionFormValuesFromQueryResult = (
         ? {
             icon: qres.data.collection.icon || '',
             name: qres.data.collection.name,
-            summary: qres.data.collection.summary || ''
+            summary: qres.data.collection.summary || '',
+            preferredUsername: qres.data.collection.preferredUsername
           }
         : editCollectionFormInitialValues,
     [qres]
@@ -47,9 +50,9 @@ export const useEditCollectionFormValuesFromQueryResult = (
 
 export const getCollectionInputFromFormValues = (
   vals: EditCollectionFormValues
-): CollectionInput => ({
+): CollectionUpdateInput => ({
   icon: vals.icon || '',
   name: vals.name,
   summary: vals.summary || '',
-  preferredUsername: ''
+  preferredUsername: vals.name
 });

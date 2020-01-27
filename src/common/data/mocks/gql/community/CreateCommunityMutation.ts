@@ -6,7 +6,7 @@ export const basicCreateCommunityMutation: CreateCommunityMutationMutation = {
     __typename: 'Community',
     name: 'name',
     summary: 'summary',
-    image: 'image',
+    image: '',
     collections: { __typename: 'CollectionsEdges', totalCount: 0 },
     createdAt: '',
     creator: {

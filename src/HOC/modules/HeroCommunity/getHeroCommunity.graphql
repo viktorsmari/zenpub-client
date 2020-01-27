@@ -18,3 +18,15 @@ fragment HeroCommunityData on Community  {
     myFollow { id }
     creator { id }
 }
+
+#Kat
+        # id
+        # preferredUsername
+        # name
+        # summary
+        # image
+        # followers {
+        #     totalCount
+        # }
+        # myFollow { id }
+        # creator { id }
