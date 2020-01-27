@@ -384,7 +384,7 @@ const Component: React.FC<Props> = ({
                             type="button"
                             onClick={e => {
                               onUploadOpen(true);
-                              setUploadType('icon');
+                              setUploadType('image');
                             }}
                           >
                             {imageUrl != '' ? (
