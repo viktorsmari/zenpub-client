@@ -79,7 +79,7 @@ export const EditCommunityPanelHOC: SFC<Props> = ({
             update({
               variables: {
                 community: {
-                  icon: uploadedImage || '',
+                  image: uploadedImage || '',
                   name: vals.name,
                   summary: vals.summary
                 },
@@ -93,7 +93,7 @@ export const EditCommunityPanelHOC: SFC<Props> = ({
         update({
           variables: {
             community: {
-              icon: vals.image,
+              image: vals.image,
               name: vals.name,
               summary: vals.summary
             },

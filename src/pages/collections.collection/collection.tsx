@@ -15,6 +15,7 @@ import {
   OverlayTab
 } from '../communities.community/Community';
 import CollectionModal from '../../components/elements/CollectionModal';
+import UploadResourcePanelHOC from '../../HOC/modules/AddResource/UploadResourceHOC';
 
 import { BasicCollectionFragment } from '../../graphql/fragments/basicCollection.generated';
 import { BasicResourcesEdgesFragment } from '../../graphql/fragments/basicResourcesEdges.generated';
@@ -35,6 +36,7 @@ const CommunityPage: SFC<Props> = ({
   resources
 }) => {
   const [isOpen, onOpen] = useState(false);
+  const [isUploadOpen, onUploadOpen] = useState(false);
   return (
     <WrapperTab>
       <OverlayTab>
@@ -85,10 +87,37 @@ const CommunityPage: SFC<Props> = ({
                   ) : null}
                   {isOpen && (
                     <CollectionModal
-                      toggleModal={onOpen}
+                      toggleModal={() => onOpen(false)}
                       modalIsOpen={isOpen}
+                      cancel={isOpen}
                       collectionId={collection.id}
                       collectionExternalId={collection.id}
+                    />
+                  )}
+                  {//FIXME https://gitlab.com/moodlenet/meta/issues/185
+                  collection.community && collection.community.myFollow ? (
+                    isUploadOpen ? (
+                      <ButtonWrapper>
+                        <Button m={3} onClick={() => onUploadOpen(false)}>
+                          <Trans>Cancel</Trans>
+                        </Button>
+                      </ButtonWrapper>
+                    ) : (
+                      <ButtonWrapper>
+                        <Button m={3} onClick={() => onUploadOpen(true)}>
+                          <Trans>Upload file</Trans>
+                        </Button>
+                      </ButtonWrapper>
+                    )
+                  ) : null}
+
+                  {isUploadOpen && (
+                    <UploadResourcePanelHOC
+                      // toggleModal={onOpen}
+                      // modalIsOpen={isOpen}
+                      done={() => onUploadOpen(false)}
+                      collectionId={collection.id}
+                      // collectionExternalId={collection.id}
                     />
                   )}
                   {resources.totalCount > 0 ? (

@@ -89,7 +89,7 @@ export const CreateCollectionPanel: React.FC<Props> = ({ cancel, formik }) => {
           <Trans>Image</Trans>
         </label>
         <ContainerForm>
-          <DropzoneArea imageUrl={formik.values.icon} formikForm={formik} />
+          <DropzoneArea initialUrl={formik.values.icon} formikForm={formik} />
           {/* <Input
             placeholder={tt.placeholders.image}
             disabled={formik.isSubmitting}
