@@ -20,17 +20,20 @@ export interface Props {
   ResourceBoxes: JSX.Element[];
   HeroCollectionBox: JSX.Element;
   EditCollectionPanel: React.ComponentType<{ done(): any }>;
+  UploadResourcePanel: React.ComponentType<{ done(): any }>;
   basePath: string;
 }
 
 export const Collection: React.FC<Props> = ({
   HeroCollectionBox,
   EditCollectionPanel,
+  UploadResourcePanel,
   ActivityBoxes,
   ResourceBoxes,
   basePath
 }) => {
   const [isOpenEditCollection, setOpenEditCollection] = React.useState(false);
+  const [isUploadOpen, onUploadOpen] = React.useState(false);
   return (
     <MainContainer>
       {isOpenEditCollection && (
@@ -50,10 +53,38 @@ export const Collection: React.FC<Props> = ({
               <Route path={`${basePath}/resources`}>
                 <>
                   <WrapButton mt={3} px={3} pb={3} mb={2}>
-                    <Button variant="outline">
+                    <Button
+                      onClick={() => {
+                        return true;
+                      }}
+                      variant="outline"
+                    >
                       <Trans>Create a new resource</Trans>
                     </Button>
                   </WrapButton>
+                  {isUploadOpen ? (
+                    <WrapButton mt={3} px={3} pb={3} mb={2}>
+                      <Button
+                        onClick={() => onUploadOpen(false)}
+                        variant="outline"
+                      >
+                        <Trans>Cancel</Trans>
+                      </Button>
+                    </WrapButton>
+                  ) : (
+                    <WrapButton mt={3} px={3} pb={3} mb={2}>
+                      <Button
+                        onClick={() => onUploadOpen(true)}
+                        variant="outline"
+                      >
+                        <Trans>Upload file</Trans>
+                      </Button>
+                    </WrapButton>
+                  )}
+
+                  {isUploadOpen && (
+                    <UploadResourcePanel done={() => onUploadOpen(false)} />
+                  )}
                   {ResourceBoxes}
                 </>
               </Route>
