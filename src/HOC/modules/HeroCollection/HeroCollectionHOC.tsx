@@ -47,6 +47,10 @@ export const HeroCollectionHOC: SFC<Props> = ({ collectionId }) => {
           preferredUsername: collection.preferredUsername,
           //FIXME https://gitlab.com/moodlenet/meta/issues/185
           summary: collection.summary || '',
+          // FIXME Alec, not sure this is clean enuf pls doublecheck
+          communityName: collection.community!.name,
+          communityId: collection.community!.id,
+          communityIcon: collection.community!.icon || '',
           toggleJoin: {
             toggle: () =>
               collection.myFollow

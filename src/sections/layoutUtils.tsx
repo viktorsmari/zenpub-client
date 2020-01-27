@@ -44,7 +44,7 @@ export const MainWrapper = styled(Flex)`
   z-index: 0;
   margin-top:16px;
   // border-left: 1px solid ${props => props.theme.colors.lightgray};
-  margin-left: 0px;
+  margin-left: 8px;
   ${media.lessThan('medium')`
   width: 100%;
 `};

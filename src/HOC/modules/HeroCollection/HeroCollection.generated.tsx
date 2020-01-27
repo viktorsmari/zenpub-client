@@ -24,7 +24,10 @@ export type HeroCollectionQuery = (
 export type HeroCollectionDataFragment = (
   { __typename: 'Collection' }
   & Pick<Types.Collection, 'id' | 'preferredUsername' | 'name' | 'summary' | 'icon'>
-  & { followers: Types.Maybe<(
+  & { community: Types.Maybe<(
+    { __typename: 'Community' }
+    & Pick<Types.Community, 'id' | 'name' | 'icon'>
+  )>, followers: Types.Maybe<(
     { __typename: 'FollowsEdges' }
     & Pick<Types.FollowsEdges, 'totalCount'>
   )>, myFollow: Types.Maybe<(
@@ -43,6 +46,11 @@ export const HeroCollectionDataFragmentDoc = gql`
   name
   summary
   icon
+  community {
+    id
+    name
+    icon
+  }
   followers {
     totalCount
   }

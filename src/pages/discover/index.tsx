@@ -74,7 +74,12 @@ const Home: React.FC<Props> = props => {
             <FeaturedCommunities />
           </WrapperFeatured>
           <Wrapper>
-            <Text p={2} variant="suptitle">
+            <Text
+              mb={3}
+              sx={{ borderBottom: '1px solid #dadada' }}
+              p={3}
+              variant="suptitle"
+            >
               <Trans>Instance timeline</Trans>
             </Text>
             {error ? (
@@ -182,6 +187,7 @@ const WrapperFeatured = styled(Flex)`
   flex: 1;
   background: white;
   border-radius: 8px;
+  box-shadow: 0 1px 4px 0px rgba(0, 0, 0, 0.1);
 `;
 
 export const HomeBox = styled(Flex)`
@@ -239,6 +245,7 @@ export const Wrapper = styled(Flex)`
   margin-top: 8px;
   background: white;
   border-radius: 8px;
+  box-shadow: 0 1px 4px 0px rgba(0, 0, 0, 0.1);
   & ul {
     display: block;
 
