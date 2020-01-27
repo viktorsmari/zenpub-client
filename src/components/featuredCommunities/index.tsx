@@ -60,7 +60,6 @@ const MultipleItems: React.FC = () => {
   const props = useGetFeaturedCommunitiesQuery();
   const sliderRef = useRef<Slider>();
   // const { RTL } = useContext(LocaleContext);
-  console.log(props);
   return (
     <>
       <Title>
@@ -102,8 +101,8 @@ const MultipleItems: React.FC = () => {
                 !edge || !edge.node.context
                   ? null
                   : edge.node.context.__typename === 'Community' && (
-                      <div>
-                        <CommunitySmall community={edge.node.context} key={i} />
+                      <div key={i}>
+                        <CommunitySmall community={edge.node.context} />
                       </div>
                     )
             )}
