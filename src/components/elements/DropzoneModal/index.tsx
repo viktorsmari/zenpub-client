@@ -90,6 +90,26 @@ const DropzoneArea: React.FC<Props> = ({
     [files]
   );
 
+  // const clearPreviews = files => {
+  //   if (files.length != 0) {
+  //     files.forEach(file => {onIcon(imageUrl); URL.revokeObjectURL(file.preview)});
+
+  //   } else {
+  //     onIcon(imageUrl);
+  //     formikForm.setFieldValue('image', '');
+  //     formikForm.setFieldTouched('image', true);
+  //   }
+  // };
+
+  useEffect(
+    () => {
+      return () => {
+        files.forEach(file => URL.revokeObjectURL(file.preview));
+      };
+    },
+    [files]
+  );
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: acceptedTypes,
     onDrop: acceptedFiles => {
@@ -98,7 +118,7 @@ const DropzoneArea: React.FC<Props> = ({
       setFiles(acceptedFiles);
 
       acceptedFiles.map(file => onFile(URL.createObjectURL(file)));
-      console.log(files);
+      // console.log(files);
     }
   });
 

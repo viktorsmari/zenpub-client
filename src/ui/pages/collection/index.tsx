@@ -2,6 +2,9 @@ import * as React from 'react';
 import { NavLink, Route, Switch } from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
 import media from 'styled-media-query';
+import { Trans } from '@lingui/react';
+import Modal from 'ui/modules/Modal';
+
 import {
   Nav,
   NavItem,
@@ -10,42 +13,49 @@ import {
   WrapperPanel
 } from 'ui/elements/Panel';
 import styled from 'ui/themes/styled';
+import Button from 'ui/elements/Button';
 
-interface Activity {
-  id: any;
-}
-type ActivityBox = React.ComponentType<{ activity: Activity }>;
-
-interface Props {
-  activities: Activity[];
-  ActivityBox: ActivityBox;
-  HeroCollectionBox: React.ComponentType;
+export interface Props {
+  ActivityBoxes: JSX.Element[];
+  ResourceBoxes: JSX.Element[];
+  HeroCollectionBox: JSX.Element;
+  EditCollectionPanel: React.ComponentType<{ done(): any }>;
+  basePath: string;
 }
 
 export const Collection: React.FC<Props> = ({
   HeroCollectionBox,
-  ActivityBox,
-  activities
+  EditCollectionPanel,
+  ActivityBoxes,
+  ResourceBoxes,
+  basePath
 }) => {
+  const [isOpenEditCollection, setOpenEditCollection] = React.useState(false);
   return (
     <MainContainer>
+      {isOpenEditCollection && (
+        <Modal closeModal={() => setOpenEditCollection(false)}>
+          <EditCollectionPanel done={() => setOpenEditCollection(false)} />
+        </Modal>
+      )}
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <HeroCollectionBox />
-            <Menu />
+            {HeroCollectionBox}
+            <Menu basePath={basePath} />
             <Switch>
-              <Route exact path="/">
-                <RecentActivities
-                  ActivityBox={ActivityBox}
-                  activities={activities}
-                />
+              <Route exact path={`${basePath}/`}>
+                {ActivityBoxes}
               </Route>
-              <Route path="/resources">
-                <div>resources</div>
-              </Route>
-              <Route path="/threads">
-                <div>threads</div>
+              <Route path={`${basePath}/resources`}>
+                <>
+                  <WrapButton mt={3} px={3} pb={3} mb={2}>
+                    <Button variant="outline">
+                      <Trans>Create a new resource</Trans>
+                    </Button>
+                  </WrapButton>
+                  {ResourceBoxes}
+                </>
               </Route>
             </Switch>
           </Wrapper>
@@ -100,33 +110,41 @@ export const Collection: React.FC<Props> = ({
     </MainContainer>
   );
 };
+export default Collection;
+// export interface RecentActivitiesProps {
+//   activities: Activity[];
+//   ActivityBox: ActivityBox;
+// }
 
-export interface RecentActivitiesProps {
-  activities: Activity[];
-  ActivityBox: ActivityBox;
-}
+// const RecentActivities: React.SFC<RecentActivitiesProps> = ({
+//   activities,
+//   ActivityBox
+// }) => {
+//   return (
+//     <>
+//       {activities.map(activity => (
+//         <ActivityBox activity={activity} key={activity.id} />
+//       ))}
+//     </>
+//   );
+// };
 
-const RecentActivities: React.SFC<RecentActivitiesProps> = ({
-  activities,
-  ActivityBox
-}) => {
-  return (
-    <>
-      {activities.map(activity => (
-        <ActivityBox activity={activity} key={activity.id} />
-      ))}
-    </>
-  );
-};
-
-const Menu = () => (
+const Menu = ({ basePath }: { basePath: string }) => (
   <MenuWrapper p={3} pt={3}>
-    <NavLink exact to={'/'}>
+    <NavLink exact to={`${basePath}`}>
       Recent activities
     </NavLink>
-    <NavLink to={'/resources'}>Resources</NavLink>
+    <NavLink to={`${basePath}/resources`}>Resources</NavLink>
   </MenuWrapper>
 );
+
+const WrapButton = styled(Flex)`
+  border-bottom: 3px solid ${props => props.theme.colors.lightgray};
+  button {
+    width: 100%;
+    height: 50px;
+  }
+`;
 
 const MenuWrapper = styled(Flex)`
   border-top: 3px solid ${props => props.theme.colors.lightgray};
@@ -177,7 +195,6 @@ export const HomeBox = styled(Flex)`
 
 export const MainContainer = styled(Flex)`
   align-items: stretch;
-  justify-content: space-between;
   flex-grow: 1;
   flex-direction: row;
   width: 100%;

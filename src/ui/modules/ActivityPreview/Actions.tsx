@@ -2,8 +2,8 @@ import * as React from 'react';
 import { MessageCircle, Star } from 'react-feather';
 import styled from '../../../themes/styled';
 import { Box, Flex, Text } from 'rebass/styled-components';
-import SocialText from '../SocialText';
-import { i18nMark } from '@lingui/react';
+import SocialText from 'ui/modules/SocialText';
+import { i18nMark, Trans } from '@lingui/react';
 import { LocaleContext } from '../../../context/global/localizationCtx';
 import { FormikHook } from 'common/types';
 
@@ -53,11 +53,17 @@ const ActionsWrapper: React.SFC<ActionProps> = ({ like, reply }) => {
         )}
       <Box>
         <Items>
-          <ActionItem onClick={() => showTalkModal(!talkModalVisible)}>
+          <ActionItem ml={1} onClick={() => showTalkModal(!talkModalVisible)}>
             <ActionIcon>
               <MessageCircle color="rgba(0,0,0,.4)" size="16" />
             </ActionIcon>
-            {/* <Text ml={1}>{context.replies}</Text> */}
+            <Text
+              ml={1}
+              variant={'suptitle'}
+              sx={{ textTransform: 'capitalize' }}
+            >
+              <Trans>Comment</Trans>
+            </Text>
           </ActionItem>
           {like && (
             <ActionItem ml={4} onClick={like.toggleLikeFormik.submitForm}>
@@ -67,7 +73,13 @@ const ActionsWrapper: React.SFC<ActionProps> = ({ like, reply }) => {
                   size="16"
                 />
               </ActionIcon>
-              <Text ml={1}>{like.totalLikes}</Text>
+              <Text
+                variant={'suptitle'}
+                sx={{ textTransform: 'capitalize' }}
+                ml={1}
+              >
+                {like.totalLikes + ' '} <Trans>Like</Trans>
+              </Text>
             </ActionItem>
           )}
         </Items>

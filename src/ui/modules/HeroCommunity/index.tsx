@@ -4,7 +4,6 @@ import React, { ComponentType, SFC } from 'react';
 import { Settings } from 'react-feather';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
-import SocialText from 'ui/modules/SocialText';
 import styled from 'ui/themes/styled';
 import Modal from 'ui/modules/Modal';
 import Button from 'ui/elements/Button';
@@ -15,7 +14,7 @@ export enum Status {
 
 export interface CommunityLoaded {
   status: Status.Loaded;
-  icon: string;
+  image: string;
   name: string;
   summary: string;
   preferredUsername: string;
@@ -49,7 +48,7 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
         <Background
           id="header"
           style={{
-            backgroundImage: `url(${c.icon})`
+            backgroundImage: `url(${c.image})`
           }}
         />
         <HeroInfo>
@@ -70,16 +69,19 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
             </MembersTot>
             <Actions>
               {c.canModify ? (
-                <Button
-                  onClick={() => setOpenSettings(true)}
-                  isIcon
-                  variant="outline"
-                >
-                  <Settings size={18} color={'#f98012'} />
-                </Button>
+                <SettingsButton>
+                  <Button
+                    onClick={() => setOpenSettings(true)}
+                    isIcon
+                    variant="outline"
+                  >
+                    <Settings size={18} color={'#f98012'} />
+                  </Button>
+                </SettingsButton>
               ) : null}
               <Button
-                variant="primary"
+                ml={2}
+                variant={c.following ? 'outline' : 'primary'}
                 isDisabled={c.toggleJoin.isSubmitting}
                 onClick={c.toggleJoin.toggle}
               >
@@ -88,14 +90,6 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
             </Actions>
           </Info>
         </HeroInfo>
-        <WrapSocialText px={3} pb={3} mb={2}>
-          {c.following && (
-            <SocialText
-              placeholder="Start a new thread..."
-              submit={() => console.log('test')}
-            />
-          )}
-        </WrapSocialText>
       </Hero>
       {isOpenSettings && (
         <Modal closeModal={() => setOpenSettings(false)}>
@@ -105,10 +99,6 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
     </>
   );
 };
-
-const WrapSocialText = styled(Box)`
-  border-bottom: 3px solid ${props => props.theme.colors.lightgray};
-`;
 
 const Info = styled(Flex)`
   align-items: center;
@@ -195,6 +185,15 @@ const HeroInfo = styled.div`
       height: 30px;
       margin-right: 4px;
     }
+  }
+`;
+
+const SettingsButton = styled.div`
+  margin-right: 16px;
+
+  .--rtl & {
+    margin-right: 0px;
+    margin-left: 16px;
   }
 `;
 

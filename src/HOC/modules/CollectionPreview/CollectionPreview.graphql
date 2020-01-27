@@ -1,0 +1,30 @@
+
+query collectionPreview($id: String!) {
+  collection(collectionId: $id) {
+    ...CollectionPreviewData
+  }
+}
+
+fragment CollectionPreviewData on Collection {
+  id,
+  canonicalUrl,
+  name,
+  icon,
+  summary,
+  isLocal,
+  followerCount,
+  resourceCount,
+  followers{
+    edges{
+      node{
+        creator{
+          name,
+          preferredUsername,
+          icon,
+          image,
+          id
+        }
+      }
+    }
+  }
+}

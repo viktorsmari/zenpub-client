@@ -1,7 +1,6 @@
 input CollectionUpdateInput {
     icon: String
     name: String!
-    preferredUsername: String!
     summary: String
 }
 

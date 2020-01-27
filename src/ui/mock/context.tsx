@@ -18,6 +18,7 @@ import {
   Props as HeroCommunityProps,
   Status as HeroCommunityStatus
 } from 'ui/modules/HeroCommunity';
+import { Props as ResourcePreviewProps } from 'ui/modules/ResourcePreview';
 
 export const getEditCommunityProps = (): EditCommunityProps => {
   const formik = useFormik<EditCommunityFormValues>({
@@ -39,7 +40,7 @@ export const getEditCommunityProps = (): EditCommunityProps => {
 export const getEditCollectionProps = (): EditCollectionPanelProps => {
   const formik = useFormik<EditCollectionFormValues>({
     initialValues: {
-      image: '',
+      icon: '',
       name: 'name',
       summary: 'summary'
     },
@@ -59,7 +60,7 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
       status: HeroCommunityStatus.Loaded,
       canModify: true,
       following: true,
-      icon: 'https://picsum.photos/800/300',
+      image: 'https://picsum.photos/800/300',
       name: 'Community nino',
       preferredUsername: 'ninos',
       summary:
@@ -84,10 +85,13 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
     collection: {
       status: HeroCollectionStatus.Loaded,
       isMine: true,
-      myFollow: true,
+      following: true,
       icon: 'https://picsum.photos/800/300',
       title: 'Favourite books',
       preferredUsername: 'favbooks',
+      communityIcon: 'https://picsum.photos/800/300',
+      communityId: '2',
+      communityName: 'Super community',
       summary:
         'Cooperation combined with network effects is more effective than capitalist competition',
       toggleJoin: {
@@ -106,11 +110,26 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
 
 export const getCollectionPreviewProps = (): CollectionPreviewProps => {
   return {
-    id: '1',
+    link: {
+      url: '#',
+      external: false
+    },
     icon: 'https://picsum.photos/id/200/200/200',
     name: 'awesome collection',
     summary:
       'More simply put, the difference is in the standards and documentation that accompanies the assets. With a guide on why and how to use them, design components because easier to use and clearer to discern.',
     totalResources: 12
+  };
+};
+
+export const getResourcePreviewProps = (): ResourcePreviewProps => {
+  return {
+    id: '1',
+    icon: 'https://picsum.photos/id/200/200/200',
+    name: 'awesome collection',
+    link:
+      'https://medium.com/giveth/introducing-the-commons-stack-scalable-infrastructure-for-community-collaboration-6886eb97413e',
+    summary:
+      'More simply put, the difference is in the standards and documentation that accompanies the assets. With a guide on why and how to use them, design components because easier to use and clearer to discern.'
   };
 };

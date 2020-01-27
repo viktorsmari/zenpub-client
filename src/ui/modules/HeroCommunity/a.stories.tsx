@@ -12,7 +12,7 @@ storiesOf('Modules/HeroCommunity', module)
         status: Status.Loaded,
         canModify: true,
         following: true,
-        icon: 'https://picsum.photos/800/300',
+        image: 'https://picsum.photos/800/300',
         name: 'Community nino',
         preferredUsername: 'ninos',
         summary: '',

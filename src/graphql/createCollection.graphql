@@ -4,7 +4,7 @@ input CollectionInput {
     name: String!
     summary: String
     preferredUsername: String!
-    icon: String!
+    icon: String
 }
 
 mutation createCollectionMutation($communityId: String!, $collection: CollectionInput!) {

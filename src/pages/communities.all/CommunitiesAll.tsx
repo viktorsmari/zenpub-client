@@ -6,7 +6,7 @@ import { Button, Flex } from 'rebass/styled-components';
 import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
 import CommunityCard from '../../components/elements/Community/Community';
-import NewCommunityModal from '../../components/elements/CreateCommunityModal';
+import { CreateCommunityPanelHOC } from '../../HOC/modules/CreateCommunityPanel/createCommunityPanelHOC';
 import Loader from '../../components/elements/Loader/Loader';
 // import CommunitiesLoadMore from '../../components/elements/Loadmore/community';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
@@ -15,6 +15,7 @@ import { Community } from '../../graphql/types.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel } from '../../sections/panel';
 import styled from '../../themes/styled';
+import Modal from 'ui/modules/Modal';
 const { getCommunitiesQuery } = require('../../graphql/getCommunities.graphql');
 
 interface Data extends QueryControls {
@@ -110,10 +111,13 @@ class CommunitiesYours extends React.Component<Props> {
           </WrapperCont>
         </HomeBox>
         <WrapperPanel />
-        <NewCommunityModal
-          toggleModal={this.props.handleNewCommunity}
-          modalIsOpen={this.props.isOpenCommunity}
-        />
+        {this.props.isOpenCommunity && (
+          <Modal closeModal={() => this.props.handleNewCommunity()}>
+            <CreateCommunityPanelHOC
+              done={() => this.props.handleNewCommunity()}
+            />
+          </Modal>
+        )}
       </MainContainer>
     );
   }
@@ -141,8 +145,7 @@ const CreateCollection = styled(Button)`
     background: ${props => props.theme.colors.lightgray};
   }
 `;
-
-export const WrapperCont = styled.div`
+export const WrapperCont = styled(Flex)`
   width: 100%;
   margin: 0 auto;
   height: 100%;
@@ -158,12 +161,12 @@ export const WrapperCont = styled.div`
   min-width: 0px;
   padding: 0px;
   position: relative;
-  border-right: 1px solid ${props => props.theme.colors.lightgray};
   background: white;
+  border-radius: 4px;
   z-index: 0;
 `;
 
-export const Wrapper = styled.div`
+export const Wrapper = styled(Flex)`
   display: flex;
   flex-direction: column;
   flex: 1;

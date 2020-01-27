@@ -4,6 +4,7 @@ import { Input, Textarea } from '@rebass/forms';
 import { FormikHook } from 'common/types';
 import * as React from 'react';
 import { Button, Heading } from 'rebass/styled-components';
+import DropzoneArea from '../../../components/elements/DropzoneModal';
 import Alert from 'ui/elements/Alert';
 import {
   Actions,
@@ -33,7 +34,8 @@ export interface Props {
 export interface EditCollectionFormValues {
   name: string;
   summary: string;
-  image: string;
+  icon: string;
+  files?: [];
 }
 
 export const EditCollectionPanel: React.FC<Props> = ({ cancel, formik }) => {
@@ -87,18 +89,21 @@ export const EditCollectionPanel: React.FC<Props> = ({ cancel, formik }) => {
           <Trans>Icon</Trans>
         </label>
         <ContainerForm>
+          {/* 
           <Input
             placeholder={tt.placeholders.icon}
             disabled={formik.isSubmitting}
-            name="image"
-            value={formik.values.image}
+            name="icon"
+            value={formik.values.icon}
             onChange={formik.handleChange}
           />
-          {formik.errors.image && (
+          {formik.errors.icon && (
             <AlertWrapper>
-              <Alert variant="bad">{formik.errors.image}</Alert>
+              <Alert variant="bad">{formik.errors.icon}</Alert>
             </AlertWrapper>
           )}
+        */}
+          <DropzoneArea initialUrl={formik.values.icon} formikForm={formik} />
         </ContainerForm>
       </Row>
       <Actions>
@@ -108,7 +113,7 @@ export const EditCollectionPanel: React.FC<Props> = ({ cancel, formik }) => {
           style={{ marginLeft: '10px' }}
           onClick={formik.submitForm}
         >
-          <Trans>Create</Trans>
+          <Trans>Save</Trans>
         </Button>
         <Button variant="outline" onClick={cancel}>
           <Trans>Cancel</Trans>
@@ -117,3 +122,5 @@ export const EditCollectionPanel: React.FC<Props> = ({ cancel, formik }) => {
     </Container>
   );
 };
+
+export default EditCollectionPanel;

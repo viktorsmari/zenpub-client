@@ -1,16 +1,32 @@
 
 query getHeroCommunity($communityId: String!) {
     community(communityId: $communityId) {
-        id
-        preferredUsername
-        name
-        summary
-        icon
-        image
-        followers {
-            totalCount
-        }
-        myFollow { id }
-        creator { id }
+        ...HeroCommunityData
     }
 }
+
+fragment HeroCommunityData on Community  {
+    id
+    preferredUsername
+    name
+    summary
+    icon
+    image
+    followers {
+        totalCount
+    }
+    myFollow { id }
+    creator { id }
+}
+
+#Kat
+        # id
+        # preferredUsername
+        # name
+        # summary
+        # image
+        # followers {
+        #     totalCount
+        # }
+        # myFollow { id }
+        # creator { id }

@@ -6,7 +6,8 @@ import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import { TabPanel, Tabs } from 'react-tabs';
 import media from 'styled-media-query';
-import CollectionCard from '../../components/elements/Collection/Collection';
+// import CollectionCard from '../../components/elements/Collection/Collection';
+import { CollectionPreview } from 'ui/modules/CollectionPreview';
 import CommunityCard from '../../components/elements/Community/Community';
 import Loader from '../../components/elements/Loader/Loader';
 // import FollowingCollectionsLoadMore from '../../components/elements/Loadmore/followingCollections';
@@ -14,7 +15,7 @@ import Loader from '../../components/elements/Loader/Loader';
 // import LoadMoreTimeline from '../../components/elements/Loadmore/timelineoutbox';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
-import { Nav, Panel, PanelTitle, WrapperPanel } from '../../sections/panel';
+import { Nav, Panel, PanelTitle, WrapperPanel } from 'ui/elements/Panel';
 import styled from '../../themes/styled';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { OverlayTab, WrapperTab } from '../communities.community/Community';
@@ -96,12 +97,27 @@ const CommunitiesFeatured: React.SFC<Props> = () => {
                         <ListCollections>
                           {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
                           data.me.user.followedCollections!.edges.map(
-                            (collection, i) =>
-                              collection && (
-                                <CollectionCard
-                                  key={i}
-                                  collection={collection.node.collection}
-                                />
+                            (coll, i) =>
+                              coll && (
+                                <div key={i}>
+                                  <CollectionPreview
+                                    icon={coll.node.collection.icon!}
+                                    name={coll.node.collection.name}
+                                    summary={coll.node.collection.summary!}
+                                    link={{
+                                      url:
+                                        'collection/' + coll.node.collection.id,
+                                      external: false
+                                    }}
+                                    totalResources={
+                                      coll.node.collection.resources!.totalCount
+                                    }
+                                  />
+                                </div>
+                                // <CollectionCard
+                                //   key={i}
+                                //   collection={collection.node.collection}
+                                // />
                               )
                           )}
                         </ListCollections>
@@ -222,6 +238,7 @@ export const ListCollections = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   width: 100%;
+  margin-top: 16px;
 `;
 
 export default CommunitiesFeatured;

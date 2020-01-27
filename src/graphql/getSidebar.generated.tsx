@@ -35,7 +35,7 @@ export type GetSidebarQueryQuery = (
               & Pick<Types.Follow, 'id'>
             ), community: (
               { __typename: 'Community' }
-              & Pick<Types.Community, 'id' | 'preferredUsername' | 'name' | 'icon'>
+              & Pick<Types.Community, 'id' | 'preferredUsername' | 'name' | 'image'>
             ) }
           ) }
         )>> }
@@ -70,7 +70,7 @@ export const GetSidebarQueryDocument = gql`
                 id
                 preferredUsername
                 name
-                icon
+                image
               }
             }
           }

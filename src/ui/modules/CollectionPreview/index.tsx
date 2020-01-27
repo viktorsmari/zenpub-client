@@ -6,22 +6,25 @@ import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
 
 export interface Props {
-  id: string;
+  link: {
+    url: string;
+    external: boolean;
+  };
   icon: string;
   name: string;
   summary: string;
-  totalResources: number;
+  totalResources: number | null;
 }
 
 export const CollectionPreview: React.SFC<Props> = ({
-  id,
+  link,
   icon,
   name,
   summary,
   totalResources
 }) => {
   return (
-    <WrapperLink to={'/collection/' + id}>
+    <WrapperLink to={link.url}>
       <Wrapper p={3}>
         <Avatar size="m" src={icon} />
         <Infos ml={3}>
@@ -39,7 +42,9 @@ export const CollectionPreview: React.SFC<Props> = ({
           <Actions>
             <ActionItem>
               <FileText size={20} color={'#8b98a2'} />
-              <Text variant="suptitle">{totalResources} resources</Text>
+              {totalResources && (
+                <Text variant="suptitle">{totalResources} resources</Text>
+              )}
             </ActionItem>
           </Actions>
         </Infos>

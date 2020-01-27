@@ -4,6 +4,7 @@ import { Input, Textarea } from '@rebass/forms';
 import { FormikHook } from 'common/types';
 import * as React from 'react';
 import { Button, Heading } from 'rebass/styled-components';
+import DropzoneArea from '../../../components/elements/DropzoneModal';
 import Alert from 'ui/elements/Alert';
 import {
   Actions,
@@ -14,11 +15,7 @@ import {
   Header,
   Row
 } from 'ui/modules/Modal';
-export interface BasicCreateCollectionFormValues {
-  name: string;
-  summary: string;
-  image: string;
-}
+
 const tt = {
   placeholders: {
     name: i18nMark('Choose a name for the collection'),
@@ -32,6 +29,13 @@ const tt = {
 interface Props {
   cancel(): any;
   formik: FormikHook<BasicCreateCollectionFormValues>;
+}
+
+export interface BasicCreateCollectionFormValues {
+  name: string;
+  summary: string;
+  icon: string;
+  files?: [];
 }
 
 export const CreateCollectionPanel: React.FC<Props> = ({ cancel, formik }) => {
@@ -85,7 +89,8 @@ export const CreateCollectionPanel: React.FC<Props> = ({ cancel, formik }) => {
           <Trans>Image</Trans>
         </label>
         <ContainerForm>
-          <Input
+          <DropzoneArea initialUrl={formik.values.icon} formikForm={formik} />
+          {/* <Input
             placeholder={tt.placeholders.image}
             disabled={formik.isSubmitting}
             name="image"
@@ -96,7 +101,7 @@ export const CreateCollectionPanel: React.FC<Props> = ({ cancel, formik }) => {
             <AlertWrapper>
               <Alert variant="bad">{formik.errors.image}</Alert>
             </AlertWrapper>
-          )}
+          )} */}
         </ContainerForm>
       </Row>
       <Actions>

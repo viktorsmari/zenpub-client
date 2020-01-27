@@ -117,7 +117,7 @@ const CreateCommunityModal = (
       <Container>
         <Header>
           <Heading m={2}>
-            <Trans>Create a new community!!</Trans>
+            <Trans>Create a new community</Trans>
           </Heading>
         </Header>
         <Formik

@@ -1,8 +1,10 @@
 import React, { SFC } from 'react';
 import styled from 'ui/themes/styled';
-import { Button } from 'rebass/styled-components';
 import Loader from '../Loader';
 import { darken, lighten, transitions } from 'polished';
+// import { Button, ButtonProps } from 'rebass/styled-components';
+import { Button } from 'rebass/styled-components';
+import { ButtonProps } from 'rebass';
 
 const WrapperButton = styled(Button)<{ variant: string; isIcon: boolean }>`
   ${transitions('background, 0.2s')};
@@ -17,16 +19,15 @@ const WrapperButton = styled(Button)<{ variant: string; isIcon: boolean }>`
   }
 `;
 
-export interface Props {
+export interface Props extends ButtonProps {
   isSubmitting?: boolean;
   variant: string;
   isDisabled?: boolean;
   isIcon?: boolean;
-  onClick(): void;
-  // children: ComponentType
 }
 
 const MNButton: SFC<Props> = props => (
+  //@ts-ignore
   <WrapperButton
     {...props}
     isSubmitting={props.isSubmitting}

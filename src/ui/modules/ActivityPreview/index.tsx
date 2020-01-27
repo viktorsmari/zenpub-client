@@ -9,8 +9,21 @@ import media from 'styled-media-query';
 import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
 import Actions, { ActionProps } from './Actions';
-import Preview, { Context, InReplyTo, InReplyToContext } from './preview';
+import Preview, { Context, ContextType, InReplyToContext } from './preview';
 import { Actor } from './types';
+import SocialText from 'ui/modules/SocialText';
+import { i18nMark } from '@lingui/react';
+import { LocaleContext } from '../../../context/global/localizationCtx';
+
+const tt = {
+  placeholders: {
+    name: i18nMark('Post a reply'),
+    summary: i18nMark(
+      'Please describe what the collection is for and what kind of resources it is likely to contain...'
+    ),
+    image: i18nMark('Enter the URL of an image to represent the collection')
+  }
+};
 
 export enum Status {
   Loading,
@@ -56,7 +69,7 @@ export const ActivityPreview: SFC<Props> = activity => {
   }
   return (
     <FeedItem>
-      {activity.inReplyToCtx && <InReplyTo {...activity.inReplyToCtx} />}
+      {/* {activity.inReplyToCtx && <InReplyTo {...activity.inReplyToCtx} />} */}
       <ActorComp actor={activity.actor} createdAt={activity.createdAt} />
       <Contents>
         <Wrapper mt={2}>
@@ -67,6 +80,42 @@ export const ActivityPreview: SFC<Props> = activity => {
     </FeedItem>
   );
 };
+
+export const BigActivityPreview: SFC<Props> = activity => {
+  if (activity.status === Status.Loading) {
+    return <Trans>loading...</Trans>;
+  }
+  const { i18n } = React.useContext(LocaleContext);
+  return (
+    <FeedItem>
+      {/* {activity.inReplyToCtx && <InReplyTo {...activity.inReplyToCtx} />} */}
+      <ActorComp actor={activity.actor} createdAt={activity.createdAt} />
+      <Contents>
+        <Box>
+          <Comment variant="text">
+            {activity.context.type === ContextType.Comment
+              ? activity.context.content
+              : ''}
+          </Comment>
+          {/* {activity.actions && <Actions {...activity.actions} />} */}
+          <Box mt={3}>
+            <SocialText
+              placeholder={i18n._(tt.placeholders.name)}
+              defaultValue={''}
+              submit={msg => {
+                () => console.log(msg);
+              }}
+            />
+          </Box>
+        </Box>
+      </Contents>
+    </FeedItem>
+  );
+};
+
+const Comment = styled(Text)`
+  font-size: 32px;
+`;
 
 export interface ActorProps {
   actor: Actor;

@@ -1,16 +1,25 @@
 import { useFormik } from 'formik';
 import * as GQL from 'graphql/types.generated';
-import React, { SFC, useMemo } from 'react';
+import React, { SFC, useMemo, createContext, useContext } from 'react';
 import * as UI from 'ui/modules/ActivityPreview';
 import * as UIA from 'ui/modules/ActivityPreview/Actions';
 import * as UIP from 'ui/modules/ActivityPreview/preview';
 import * as UIT from 'ui/modules/ActivityPreview/types';
 import * as APGQL from './getActivityPreview.generated';
+import { PureQueryOptions } from 'apollo-client';
+
+export interface ActivityPreviewCtx {
+  refetchQueries: Array<string | PureQueryOptions>;
+}
+export const ActivityPreviewCtx = createContext<ActivityPreviewCtx>({
+  refetchQueries: []
+});
 
 export interface Props {
   activityId: GQL.Activity['id'];
 }
 export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
+  const ctx = useContext(ActivityPreviewCtx);
   const activityQ = APGQL.useGetActivityPreviewQuery({
     variables: { activityId }
   });
@@ -56,7 +65,8 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
             threadId: thread.id,
             inReplyToId: id,
             comment: { content: replyMessage }
-          }
+          },
+          refetchQueries: ctx.refetchQueries
         });
       } else {
         return createThreadMut({
@@ -66,7 +76,8 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
                 ? activity.context.userId
                 : activity.context.id,
             comment: { content: replyMessage }
-          }
+          },
+          refetchQueries: ctx.refetchQueries
         });
       }
     }
@@ -92,7 +103,10 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
       } else {
         const { myLike } = activity.context;
         if (myLike) {
-          return unlikeMut({ variables: { contextId: myLike.id } });
+          return unlikeMut({
+            variables: { contextId: myLike.id },
+            refetchQueries: ctx.refetchQueries
+          });
         } else {
           return likeMut({
             variables: {
@@ -100,7 +114,8 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
                 activity.context.__typename === 'User'
                   ? activity.context.userId
                   : activity.context.id
-            }
+            },
+            refetchQueries: ctx.refetchQueries
           });
         }
       }
@@ -281,11 +296,14 @@ const getInReplyToCtx = ({
   }
 };
 
-const getActions = (
+export const getActions = (
   context: GQLConcreteContext,
   replyFormik: UIA.ReplyActions['replyFormik'],
   toggleLikeFormik: UIA.LikeActions['toggleLikeFormik']
 ): null | UIA.ActionProps => {
+  if (!doesItFollow(context)) {
+    return null;
+  }
   const like: null | UIA.LikeActions =
     'Community' !== context.__typename && 'myLike' in context
       ? {
@@ -307,11 +325,11 @@ const getActions = (
 };
 
 type GQLConcreteContext =
-  | APGQL.ActivityPreviewCommentCtxBaseFragment
+  | APGQL.ActivityPreviewCommentCtxExtendedFragment
   | APGQL.ActivityPreviewResourceCtxFragment
   | APGQL.ActivityPreviewCollectionCtxFragment
   | APGQL.ActivityPreviewCommunityCtxFragment
-  | APGQL.ActivityPreviewBaseUserFragment;
+  | APGQL.ActivityPreviewUserCtxFragment;
 
 type VerbMapKey = keyof typeof verbMap;
 const verbMap = {
@@ -381,7 +399,8 @@ const getContext = (
           link: getSimpleLink(gqlContext),
           type: UIP.ContextType.Collection,
           icon: gqlContext.icon || '',
-          title: gqlContext.name
+          title: gqlContext.name,
+          summary: gqlContext.summary || ''
         }
       : gqlContext.__typename === 'Comment'
         ? {
@@ -398,7 +417,8 @@ const getContext = (
               link: getSimpleLink(gqlContext),
               type: UIP.ContextType.Community,
               icon: gqlContext.icon || '',
-              title: gqlContext.name
+              title: gqlContext.name,
+              summary: gqlContext.summary || ''
             }
           : gqlContext.__typename === 'Resource'
             ? {
@@ -408,7 +428,8 @@ const getContext = (
                 link: getSimpleLink(gqlContext.collection),
                 type: UIP.ContextType.Resource,
                 icon: gqlContext.icon || '',
-                title: gqlContext.name
+                title: gqlContext.name,
+                summary: gqlContext.summary || ''
               }
             : gqlContext.__typename === 'User'
               ? {
@@ -416,6 +437,7 @@ const getContext = (
                   link: getSimpleLink({ ...gqlContext, id: gqlContext.userId }),
                   type: UIP.ContextType.Resource,
                   icon: gqlContext.icon || gqlContext.image || '',
+                  summary: gqlContext.summary || '',
                   title: gqlContext.userName || gqlContext.preferredUsername
                 }
               : null; // gqlContext: never
@@ -426,7 +448,9 @@ const getContext = (
   return [context, gqlContext];
 };
 
-const getActor = (usr: APGQL.ActivityPreviewBaseUserFragment): UIT.Actor => {
+export const getActor = (
+  usr: APGQL.ActivityPreviewUserCtxFragment
+): UIT.Actor => {
   return {
     icon: usr.icon || usr.image || '',
     name: usr.userName || usr.preferredUsername,
@@ -454,3 +478,27 @@ const getSimpleLink = ({
   id: string;
   // canonicalUrl?: string | null | undefined;
 }) => `/${linkPathMap[__typename]}/${id}`;
+
+const doesItFollow = (context: GQLConcreteContext): boolean => {
+  if (context.__typename === 'Community') {
+    return !!context.myFollow;
+  } else if (context.__typename === 'Collection') {
+    return !!(context.community && context.community.myFollow);
+  } else if (context.__typename === 'Resource') {
+    return !!(
+      context.collection &&
+      context.collection.community &&
+      context.collection.community.myFollow
+    );
+  } else if (context.__typename === 'User') {
+    return !!context.myFollow;
+  } else if (context.__typename === 'Comment') {
+    return !!(
+      context.thread &&
+      context.thread.context &&
+      context.thread.context.__typename !== 'Flag' &&
+      doesItFollow(context.thread.context)
+    );
+  }
+  return false;
+};

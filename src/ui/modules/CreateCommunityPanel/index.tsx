@@ -4,6 +4,7 @@ import { Input, Textarea } from '@rebass/forms';
 import { FormikHook } from 'common/types';
 import * as React from 'react';
 import { Button, Heading } from 'rebass/styled-components';
+import DropzoneArea from '../../../components/elements/DropzoneModal';
 import Alert from 'ui/elements/Alert';
 import {
   Actions,
@@ -15,12 +16,6 @@ import {
   Row
 } from 'ui/modules/Modal';
 
-export interface BasicCreateCommunityFormValues {
-  name: string;
-  summary: string;
-  image: string;
-}
-
 const tt = {
   placeholders: {
     name: i18nMark('Choose a name for the community'),
@@ -31,9 +26,16 @@ const tt = {
   }
 };
 
-interface Props {
+export interface Props {
   cancel(): any;
   formik: FormikHook<BasicCreateCommunityFormValues>;
+}
+
+export interface BasicCreateCommunityFormValues {
+  name: string;
+  summary: string;
+  image: string;
+  files?: [];
 }
 
 export const CreateCommunityPanel: React.FC<Props> = ({ cancel, formik }) => {
@@ -87,7 +89,8 @@ export const CreateCommunityPanel: React.FC<Props> = ({ cancel, formik }) => {
           <Trans>Image</Trans>
         </label>
         <ContainerForm>
-          <Input
+          <DropzoneArea initialUrl={formik.values.image} formikForm={formik} />
+          {/* <Input
             placeholder={tt.placeholders.image}
             disabled={formik.isSubmitting}
             name="image"
@@ -98,7 +101,7 @@ export const CreateCommunityPanel: React.FC<Props> = ({ cancel, formik }) => {
             <AlertWrapper>
               <Alert variant="bad">{formik.errors.image}</Alert>
             </AlertWrapper>
-          )}
+          )} */}
         </ContainerForm>
       </Row>
       <Actions>

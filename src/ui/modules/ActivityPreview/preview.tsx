@@ -1,12 +1,14 @@
 import { Trans } from '@lingui/react';
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Flex, Text } from 'rebass/styled-components';
+import { Flex, Text, Heading } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
 import { Actor } from './types';
 import { Box } from 'rebass';
+import { ellipsis } from 'polished';
+
 export enum ContextVerb {
   Updated,
   Created,
@@ -36,6 +38,7 @@ export interface ConcreteContext extends IContext {
     | ContextType.User;
   icon: string;
   title: string;
+  summary: string;
 }
 
 export interface CommentContext extends IContext {
@@ -50,8 +53,8 @@ export interface UserContext extends IContext, Actor {
 export type Context = CommentContext | ConcreteContext | UserContext;
 
 const SmallPreview: React.SFC<ConcreteContext> = context => (
-  <Flex alignItems="center">
-    <Text mr={2} variant="link">
+  <FlexSmallPreview alignItems="center">
+    <TextPreview display="inline-block" mr={2} variant="link">
       {context.verb === ContextVerb.Follow ? (
         <Trans>Followed</Trans>
       ) : context.verb === ContextVerb.Like ? (
@@ -77,12 +80,9 @@ const SmallPreview: React.SFC<ConcreteContext> = context => (
       context.type === ContextType.Resource ? (
         <Trans>Updated the resource</Trans>
       ) : null}
-    </Text>
-    <WrapperPreview>
-      <Avatar src={context.icon} initials={context.title} />
-      <Title ml={2}>{context.title}</Title>
-    </WrapperPreview>
-  </Flex>
+      <B>{context.title}</B>
+    </TextPreview>
+  </FlexSmallPreview>
 );
 
 const Preview: React.FC<Context> = context => {
@@ -100,10 +100,66 @@ const Preview: React.FC<Context> = context => {
         ) : (
           <SmallPreview {...context} />
         )}
+        {context.verb === ContextVerb.Created ? (
+          <Overview {...context} />
+        ) : null}
       </WrapperLink>
     </Wrapper>
   );
 };
+
+const Overview: React.FC<Context> = context => {
+  return context.type === ContextType.Resource ||
+    context.type === ContextType.Community ||
+    context.type === ContextType.Collection ? (
+    <WrapperOverview>
+      <Avatar size="m" src={context.icon} />
+      <Infos ml={3}>
+        <TitleOverview>{context.title}</TitleOverview>
+
+        <Text variant="text" mt={2} mb={3}>
+          {context.summary}
+        </Text>
+        {/* <Actions>
+            <ActionItem>
+              <FileText size={20} color={'#8b98a2'} />
+              
+            </ActionItem>
+          </Actions> */}
+      </Infos>
+    </WrapperOverview>
+  ) : null;
+};
+
+const FlexSmallPreview = styled(Flex)`
+  padding: 16px 8px;
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+`;
+
+const WrapperOverview = styled(Flex)`
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
+  padding: 8px;
+  &:hover {
+    border-radius: 4px;
+    background: ${props => props.theme.colors.lighter};
+  }
+`;
+
+const Infos = styled(Box)`
+  flex: 1;
+  position: relative;
+  div {
+    text-decoration: none;
+  }
+`;
+
+const TitleOverview = styled(Heading)`
+  color: ${props => props.theme.colors.darkgray};
+  font-size: 20px;
+  text-decoration: none;
+`;
 
 export type InReplyToContext = {
   actor: null | Actor;
@@ -160,6 +216,11 @@ export const InReplyTo: React.SFC<InReplyToContext> = context => {
   );
 };
 
+const TextPreview = styled(Text)`
+  font-weight: 500;
+  ${ellipsis('480px')};
+`;
+
 // const InReply = styled(Text)`
 //   padding-bottom: 0;
 //   display: inline-block;
@@ -179,6 +240,10 @@ export const InReplyTo: React.SFC<InReplyToContext> = context => {
 //   line-height: 30px;
 // `;
 const WrapperPreview = styled(Flex)`
+  display: inline-block;
+  div {
+    display: inline-block;
+  }
   div:first-of-type {
     width: 28px;
     height: 28px;
@@ -213,7 +278,8 @@ const FlexPreview = styled(Box)`
   }
 `;
 
-const Comment = styled(Text)`
+export const Comment = styled(Text)`
+  padding: 8px;
   & a {
     color: ${props => props.theme.colors.darkgray} !important;
     font-weight: 400 !important;
@@ -224,11 +290,9 @@ const Comment = styled(Text)`
 `;
 
 const WrapperLink = styled(NavLink)`
-  display: flex;
   text-decoration: none;
   position: relative;
   z-index: 999999;
-  padding: 8px;
   &.connector {
     background: ${props => props.theme.colors.lightgray};
   }
@@ -242,23 +306,20 @@ const Wrapper = styled.div`
   ${media.lessThan('medium')`
   display: block;
   padding: 0;
-  padding: 20px;
-  a {
-    
-    }
-  }
   `};
+`;
+
+const B = styled.b`
+  font-weight: 800;
+  margin-left: 4px;
 `;
 
 const Title = styled(Text)`
   font-size: 14px !important;
-  line-height: 22px !important;
   flex: 1;
+  display: inline-block;
   font-weight: 800;
   color: ${props => props.theme.colors.darkgray};
-  ${media.lessThan('medium')`
-  line-height: 20px !important;
-`};
 `;
 
 export default Preview;

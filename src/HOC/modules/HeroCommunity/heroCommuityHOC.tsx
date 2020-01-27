@@ -41,9 +41,10 @@ export const HeroCommunityHOC: SFC<Props> = ({ communityId }) => {
           status: Status.Loaded,
           //FIXME https://gitlab.com/moodlenet/meta/issues/185
           canModify:
-            !session.me || session.me.user.id === community.creator!.id,
+            !!session.me && session.me.user.id === community.creator!.id,
           following: !!community.myFollow,
-          icon: community.icon || community.image || '',
+          // icon: community.icon || community.image || '',
+          image: community.image || '',
           name: community.name,
           preferredUsername: community.preferredUsername,
           //FIXME https://gitlab.com/moodlenet/meta/issues/185
@@ -54,8 +55,11 @@ export const HeroCommunityHOC: SFC<Props> = ({ communityId }) => {
               community.myFollow
                 ? unjoinMutation({
                     variables: { contextId: community.myFollow.id }
-                  })
-                : joinMutation({ variables: { contextId: community.id } }),
+                  }).then(() => communityQuery.refetch)
+                : joinMutation({ variables: { contextId: community.id } }).then(
+                    () => communityQuery.refetch()
+                  ),
+
             isSubmitting: community.myFollow
               ? unjoinMutationStatus.loading
               : joinMutationStatus.loading
@@ -75,5 +79,6 @@ export const HeroCommunityHOC: SFC<Props> = ({ communityId }) => {
       unjoinMutationStatus
     ]
   );
+  console.log(heroProps);
   return <HeroCommunity {...heroProps} />;
 };

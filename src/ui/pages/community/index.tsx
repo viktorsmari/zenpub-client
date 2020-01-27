@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { NavLink, Route, Switch } from 'react-router-dom';
-import { Flex } from 'rebass/styled-components';
+import { Flex, Box } from 'rebass/styled-components';
 import media from 'styled-media-query';
+import SocialText from 'ui/modules/SocialText';
+import { Trans } from '@lingui/react';
+import Button from 'ui/elements/Button';
 import {
   Nav,
   NavItem,
@@ -10,54 +13,84 @@ import {
   WrapperPanel
 } from 'ui/elements/Panel';
 import styled from 'ui/themes/styled';
+import { FormikHook } from 'common/types';
+import Modal from 'ui/modules/Modal';
 
-interface Collection {
-  id: any;
-}
-type CollectionBox = React.ComponentType<{ collection: Collection }>;
+// interface Collection {
+//   id: any;
+// }
+// type CollectionBox = React.ComponentType<{ collection: Collection }>;
 
-interface Activity {
-  id: any;
-}
-type ActivityBox = React.ComponentType<{ activity: Activity }>;
+// interface Activity {
+//   id: any;
+// }
+// type ActivityBox = React.ComponentType<{ activity: Activity }>;
 
-interface Props {
-  activities: Activity[];
-  ActivityBox: ActivityBox;
-  collections: Collection[];
-  CollectionBox: CollectionBox;
-  HeroCommunityBox: React.ComponentType;
+export interface Props {
+  ActivityBoxes: JSX.Element[];
+  CollectionBoxes: JSX.Element[];
+  HeroCommunityBox: JSX.Element;
+  ThreadBoxes: JSX.Element[];
+  basePath: string;
+  newThreadFormik: null | FormikHook<{ text: string }>;
+  CreateCollectionPanel: React.ComponentType<{ done(): any }>;
 }
 
 export const Community: React.FC<Props> = ({
-  activities,
-  ActivityBox,
+  ActivityBoxes,
   HeroCommunityBox,
-  collections,
-  CollectionBox
+  CollectionBoxes,
+  basePath,
+  newThreadFormik,
+  ThreadBoxes,
+  CreateCollectionPanel
 }) => {
+  const [isOpenCreateCollection, setOpenCreateCollection] = React.useState(
+    false
+  );
+
   return (
     <MainContainer>
+      {isOpenCreateCollection && (
+        <Modal closeModal={() => setOpenCreateCollection(false)}>
+          <CreateCollectionPanel done={() => setOpenCreateCollection(false)} />
+        </Modal>
+      )}
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <HeroCommunityBox />
-            <Menu />
+            {HeroCommunityBox}
+            <Menu basePath={basePath} />
             <Switch>
-              <Route exact path="/">
-                <RecentActivities
-                  activities={activities}
-                  ActivityBox={ActivityBox}
-                />
+              <Route exact path={`${basePath}`}>
+                {ActivityBoxes}
               </Route>
-              <Route path="/collections">
-                <Collections
-                  collections={collections}
-                  CollectionBox={CollectionBox}
-                />
+              <Route path={`${basePath}/collections`}>
+                <>
+                  <WrapButton mt={3} px={3} pb={3} mb={2}>
+                    <Button
+                      variant="outline"
+                      onClick={() => setOpenCreateCollection(true)}
+                    >
+                      <Trans>Create a new collection</Trans>
+                    </Button>
+                  </WrapButton>
+                  {CollectionBoxes}
+                </>
               </Route>
-              <Route path="/threads">
-                <div>threads</div>
+              <Route path={`${basePath}/discussions`}>
+                <WrapSocialText mt={3} px={3} pb={3} mb={2}>
+                  {newThreadFormik && (
+                    <SocialText
+                      placeholder="Start a new thread..."
+                      submit={text => {
+                        newThreadFormik.values.text = text;
+                        newThreadFormik.submitForm();
+                      }}
+                    />
+                  )}
+                </WrapSocialText>
+                {ThreadBoxes}
               </Route>
             </Switch>
           </Wrapper>
@@ -113,98 +146,102 @@ export const Community: React.FC<Props> = ({
   );
 };
 
-export interface RecentActivitiesProps {
-  activities: Activity[];
-  ActivityBox: ActivityBox;
-}
-const RecentActivities: React.SFC<RecentActivitiesProps> = ({
-  activities,
-  ActivityBox
-}) => {
-  return (
-    <>
-      {activities.map(activity => (
-        <ActivityBox activity={activity} key={activity.id} />
-      ))}
-    </>
-  );
-};
+// export interface RecentActivitiesProps {
+//   activities: Activity[];
+//   ActivityBox: ActivityBox;
+// }
+// const RecentActivities: React.SFC<RecentActivitiesProps> = ({
+//   activities,
+//   ActivityBox
+// }) => {
+//   return (
+//     <>
+//       {activities.map(activity => (
+//         <ActivityBox activity={activity} key={activity.id} />
+//       ))}
+//     </>
+//   );
+// };
 
-export interface CollectionsProps {
-  collections: Collection[];
-  CollectionBox: CollectionBox;
-}
-const Collections: React.SFC<CollectionsProps> = ({
-  collections,
-  CollectionBox
-}) => {
-  return (
-    <>
-      {collections.map(collection => (
-        <CollectionBox collection={collection} key={collection.id} />
-      ))}
-    </>
-  );
-};
+// export interface CollectionsProps {
+//   collections: Collection[];
+//   CollectionBox: CollectionBox;
+// }
+// const Collections: React.SFC<CollectionsProps> = ({
+//   collections,
+//   CollectionBox
+// }) => {
+//   return (
+//     <>
+//       {collections.map(collection => (
+//         <CollectionBox collection={collection} key={collection.id} />
+//       ))}
+//     </>
+//   );
+// };
 
-const Menu = () => (
+const Menu = ({ basePath }: { basePath: string }) => (
   <MenuWrapper p={3} pt={0}>
-    <NavLink exact to={'/'}>
+    <NavLink exact to={`${basePath}`}>
       Recent activities
     </NavLink>
-    <NavLink to={'/collections'}>Collections</NavLink>
-    <NavLink to={'/threads'}>Threads</NavLink>
+    <NavLink to={`${basePath}/collections`}>Collections</NavLink>
+    <NavLink to={`${basePath}/discussions`}>Discussions</NavLink>
   </MenuWrapper>
 );
 
+const WrapButton = styled(Flex)`
+  border-bottom: 3px solid ${props => props.theme.colors.lightgray};
+  button {
+    width: 100%;
+    height: 50px;
+  }
+`;
+
+const WrapSocialText = styled(Box)`
+  border-bottom: 3px solid ${props => props.theme.colors.lightgray};
+`;
+
 const MenuWrapper = styled(Flex)`
   a {
-    font-weight: 800;
+    font-weight: 700;
     text-decoration: none;
-    margin-right: 24px;
+    margin-right: 8px;
     color: ${props => props.theme.colors.gray};
     letterspacing: '1px';
-    font-size: 16px;
+    font-size: 14px;
+    padding: 4px 8px;
     &.active {
-      color: ${props => props.theme.colors.orange};
-      position: relative;
-      &:after {
-        position: absolute;
-        content: '';
-        display: block;
-        top: -15px;
-        width: 100%;
-        height: 3px;
-        background: ${props => props.theme.colors.orange};
-      }
+      color: #ffffff;
+      background: ${props => props.theme.colors.orange};
+      border-radius: 8px;
     }
   }
 `;
 export const HomeBox = styled(Flex)`
-  max-width: 600px;
-  width: 100%;
-  align-items: flex-start;
-  flex-shrink: 1;
-  flex-grow: 1;
-  flex-basis: auto;
-  flex-direction: column;
-  margin: 0px;
-  min-height: 0px;
-  min-width: 0px;
-  padding: 0px;
-  position: relative;
-  z-index: 0;
+      max-width: 600px;
+        width: 100%;
+        align-items: flex-start;
+        flex-shrink: 1;
+        flex-grow: 1;
+        flex-basis: auto;
+        flex-direction: column;
+        margin: 0px;
+        min-height: 0px;
+        min-width: 0px;
+        padding: 0px;
+        position: relative;
+        z-index: 0;
   ${media.lessThan('1005px')`
   max-width: 100%;
   `};
   // ${media.lessThan('1280px')`
   // top: 60px;
   // `};
-`;
+          `;
 
 export const MainContainer = styled(Flex)`
   align-items: stretch;
-  justify-content: space-between;
   flex-grow: 1;
   flex-direction: row;
   width: 100%;

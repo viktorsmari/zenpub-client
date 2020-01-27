@@ -5,7 +5,11 @@ import { Box, Button, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import Modal from 'ui/modules/Modal';
 import styled from 'ui/themes/styled';
-
+import { ChevronLeft } from 'react-feather';
+import { Trans } from '@lingui/macro';
+import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router';
+import Avatar from 'ui/elements/Avatar';
 export enum Status {
   Loading,
   Loaded
@@ -21,11 +25,14 @@ export interface CollectionLoaded {
   title: string;
   summary: string;
   isMine: boolean;
+  communityId: string;
+  communityName: string;
+  communityIcon: string;
   toggleJoin: {
     toggle(): any;
     isSubmitting: boolean;
   };
-  myFollow: boolean;
+  following: boolean;
   EditCollectionPanel: ComponentType<{ done(): any }>;
 }
 export interface Props {
@@ -38,6 +45,12 @@ export const HeroCollection: SFC<Props> = ({ collection: c }) => {
     <Text>Loading...</Text>
   ) : (
     <HeroCont>
+      <HeaderWrapper
+        id={c.communityId}
+        name={c.communityName}
+        icon={c.communityIcon}
+      />
+
       <Hero>
         <Background style={{ backgroundImage: `url(${c.icon})` }} />
         <HeroInfo>
@@ -58,7 +71,7 @@ export const HeroCollection: SFC<Props> = ({ collection: c }) => {
               disabled={c.toggleJoin.isSubmitting}
               onClick={c.toggleJoin.toggle}
             >
-              {c.myFollow ? 'Leave' : 'Join'}
+              {c.following ? 'Unfollow' : 'Follow'}
             </Button>
           </ActionsHero>
         </HeroInfo>
@@ -71,6 +84,70 @@ export const HeroCollection: SFC<Props> = ({ collection: c }) => {
     </HeroCont>
   );
 };
+
+const HeaderWrapper: React.FC<{ id: string; name: string; icon: string }> = ({
+  id,
+  name,
+  icon
+}) => {
+  const history = useHistory();
+  return (
+    <Header>
+      <Left onClick={() => history.goBack()}>
+        <ChevronLeft size="24" />
+        <Text>
+          <Trans>Back</Trans>
+        </Text>
+      </Left>
+      <Right>
+        <Link to={`/communities/${id}`}>
+          <LinkImg>
+            <Avatar size="s" src={icon} />
+          </LinkImg>
+          <Text variant="suptitle">{name}</Text>
+        </Link>
+      </Right>
+    </Header>
+  );
+};
+
+export default HeroCollection;
+
+const LinkImg = styled(Box)`
+  margin-right: 8px;
+  .--rtl & {
+    margin-right: 0px;
+    margin-left: 8px;
+  }
+`;
+const Right = styled(Flex)`
+  align-items: center;
+  a {
+    display: flex;
+    align-items: center;
+  }
+`;
+const Left = styled(Flex)`
+  flex: auto;
+  align-items: center;
+  svg {
+    margin: 0;
+  }
+`;
+
+const Header = styled(Flex)`
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+  height: 50px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  cursor: pointer;
+  a {
+    display: flex;
+    flex: 1;
+    text-decoration: none;
+  }
+`;
 
 const Title = styled(Text)`
   color: ${props => props.theme.colors.darkgray};
@@ -107,6 +184,7 @@ const EditButton = styled(Flex)`
     text-align: center;
     vertical-align: text-bottom;
     color: inherit !important;
+    margin: 0 auto;
   }
   .--rtl & {
     margin-right: 0px;
