@@ -1,6 +1,6 @@
 import * as Types from '../../../graphql/types.generated';
 
-import { ActivityPreviewDataFragment } from '../../modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewDataFragment, ActivityPreviewResourceCtxFragment, ActivityPreviewLikeCtxFragment, ActivityPreviewCommentCtxBaseFragment, ActivityPreviewResourceCtxFragmentDoc, ActivityPreviewLikeCtxFragmentDoc, ActivityPreviewCommentCtxBaseFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
 import { HeroCollectionDataFragment } from '../../modules/HeroCollection/HeroCollection.generated';
 import gql from 'graphql-tag';
 import { HeroCollectionDataFragmentDoc } from '../../modules/HeroCollection/HeroCollection.generated';

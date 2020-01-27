@@ -7,8 +7,8 @@ query getHeroCommunity($communityId: String!) {
 
 fragment HeroCommunityData on Community  {
     id
-    preferredUsername
     displayUsername
+    name
     summary
     icon
     image

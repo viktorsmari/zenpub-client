@@ -46,7 +46,7 @@ export const HeroCommunityHOC: SFC<Props> = ({ communityId }) => {
           // icon: community.icon || community.image || '',
           image: community.image || '',
           name: community.name,
-          preferredUsername: community.preferredUsername,
+          displayUsername: community.displayUsername,
           //FIXME https://gitlab.com/moodlenet/meta/issues/185
           totalMembers: community.followers!.totalCount,
           summary: community.summary || '',

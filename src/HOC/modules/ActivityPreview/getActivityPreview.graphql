@@ -54,6 +54,7 @@ fragment ActivityPreviewUserCtx on User {
     icon
     image
     userId: id 
+    userName: name
     displayUsername
     preferredUsername
     isLocal
@@ -81,6 +82,7 @@ fragment ActivityPreviewCollectionCtx on Collection{
     id
     isLocal
     icon
+    name
     displayUsername
     summary
     canonicalUrl
@@ -134,6 +136,7 @@ fragment ActivityPreviewCommunityCtx on Community{
     id
     isLocal
     icon
+    name
     displayUsername
     summary
     canonicalUrl

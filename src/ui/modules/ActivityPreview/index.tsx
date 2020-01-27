@@ -128,7 +128,7 @@ const ActorComp: SFC<ActorProps> = ({ actor, createdAt }) => (
       <Name>
         <Link to={actor.link}>
           {actor.name}
-          <Username ml={2}>@{actor.preferredUsername}</Username>
+          <Username ml={2}>@{actor.displayUsername}</Username>
         </Link>
         <Spacer mr={2}>·</Spacer>
         <Date>{DateTime.fromISO(createdAt).toRelative()}</Date>

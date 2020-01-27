@@ -21,7 +21,7 @@ export interface CollectionLoading {
 export interface CollectionLoaded {
   status: Status.Loaded;
   icon: string;
-  preferredUsername: string;
+  displayUsername: string;
   title: string;
   summary: string;
   isMine: boolean;
@@ -57,7 +57,7 @@ export const HeroCollection: SFC<Props> = ({ collection: c }) => {
           <Title fontSize={5} fontWeight={'bold'}>
             {c.title}
           </Title>
-          <Username fontSize={2}>+{c.preferredUsername}</Username>
+          <Username fontSize={2}>+{c.displayUsername}</Username>
           <Description fontSize={2} mt={2}>
             {c.summary}
           </Description>
