@@ -71,7 +71,8 @@ storiesOf('Modules/ActivityPreview', module)
         type: ContextType.Community,
         verb: ContextVerb.Follow,
         icon: 'https://picsum.photos/80/80',
-        title: 'Liceo Alberghiero Celletti'
+        title: 'Liceo Alberghiero Celletti',
+        summary: 'test'
       }
     };
 
@@ -88,6 +89,7 @@ storiesOf('Modules/ActivityPreview', module)
         type: ContextType.Community,
         verb: ContextVerb.Like,
         icon: 'https://picsum.photos/80/80',
+        summary: 'test',
         title: 'Liceo Alberghiero Celletti'
       }
     };
@@ -105,7 +107,8 @@ storiesOf('Modules/ActivityPreview', module)
         type: ContextType.Resource,
         verb: ContextVerb.Flag,
         icon: 'https://picsum.photos/80/80',
-        title: 'Liceo Alberghiero Celletti'
+        title: 'Liceo Alberghiero Celletti',
+        summary: 'test'
       }
     };
 
@@ -122,7 +125,8 @@ storiesOf('Modules/ActivityPreview', module)
         type: ContextType.Community,
         verb: ContextVerb.Created,
         icon: 'https://picsum.photos/80/80',
-        title: 'Liceo Alberghiero Celletti'
+        title: 'Liceo Alberghiero Celletti',
+        summary: 'test'
       }
     };
 
@@ -138,6 +142,7 @@ storiesOf('Modules/ActivityPreview', module)
         link: 'https://picsum.photos/80/80',
         icon: 'https://picsum.photos/80/80',
         title: 'Liceo Alberghiero Celletti',
+        summary: 'test',
         type: ContextType.Collection,
         verb: ContextVerb.Created
       }
@@ -155,6 +160,7 @@ storiesOf('Modules/ActivityPreview', module)
         link: 'https://picsum.photos/80/80',
         icon: 'https://picsum.photos/80/80',
         title: 'Liceo Alberghiero Celletti',
+        summary: 'test',
         type: ContextType.Resource,
         verb: ContextVerb.Updated
       }
@@ -172,6 +178,7 @@ storiesOf('Modules/ActivityPreview', module)
         link: 'https://picsum.photos/80/80',
         icon: 'https://picsum.photos/80/80',
         title: 'Liceo Alberghiero Celletti',
+        summary: 'test',
         type: ContextType.Collection,
         verb: ContextVerb.Updated
       }
@@ -189,6 +196,7 @@ storiesOf('Modules/ActivityPreview', module)
         link: 'https://picsum.photos/80/80',
         icon: 'https://picsum.photos/80/80',
         title: 'Liceo Alberghiero Celletti',
+        summary: 'test',
         type: ContextType.Community,
         verb: ContextVerb.Updated
       }

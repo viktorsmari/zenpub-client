@@ -56,7 +56,7 @@ export type ActivityPreviewDataFragment = (
 
 export type ActivityPreviewUserCtxFragment = (
   { __typename: 'User' }
-  & Pick<Types.User, 'icon' | 'image' | 'preferredUsername' | 'isLocal' | 'canonicalUrl'>
+  & Pick<Types.User, 'icon' | 'image' | 'preferredUsername' | 'isLocal' | 'summary' | 'canonicalUrl'>
   & { userId: Types.User['id'], userName: Types.User['name'] }
   & { myFollow: Types.Maybe<(
     { __typename: 'Follow' }
@@ -295,6 +295,7 @@ export const ActivityPreviewUserCtxFragmentDoc = gql`
   userName: name
   preferredUsername
   isLocal
+  summary
   canonicalUrl
   myFollow {
     id

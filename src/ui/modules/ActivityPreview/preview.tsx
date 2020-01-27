@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/react';
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Flex, Text } from 'rebass/styled-components';
+import { Flex, Text, Heading } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
@@ -38,6 +38,7 @@ export interface ConcreteContext extends IContext {
     | ContextType.User;
   icon: string;
   title: string;
+  summary: string;
 }
 
 export interface CommentContext extends IContext {
@@ -52,7 +53,7 @@ export interface UserContext extends IContext, Actor {
 export type Context = CommentContext | ConcreteContext | UserContext;
 
 const SmallPreview: React.SFC<ConcreteContext> = context => (
-  <Flex alignItems="center">
+  <FlexSmallPreview alignItems="center">
     <TextPreview display="inline-block" mr={2} variant="link">
       {context.verb === ContextVerb.Follow ? (
         <Trans>Followed</Trans>
@@ -81,7 +82,7 @@ const SmallPreview: React.SFC<ConcreteContext> = context => (
       ) : null}
       <B>{context.title}</B>
     </TextPreview>
-  </Flex>
+  </FlexSmallPreview>
 );
 
 const Preview: React.FC<Context> = context => {
@@ -99,10 +100,66 @@ const Preview: React.FC<Context> = context => {
         ) : (
           <SmallPreview {...context} />
         )}
+        {context.verb === ContextVerb.Created ? (
+          <Overview {...context} />
+        ) : null}
       </WrapperLink>
     </Wrapper>
   );
 };
+
+const Overview: React.FC<Context> = context => {
+  return context.type === ContextType.Resource ||
+    context.type === ContextType.Community ||
+    context.type === ContextType.Collection ? (
+    <WrapperOverview>
+      <Avatar size="m" src={context.icon} />
+      <Infos ml={3}>
+        <TitleOverview>{context.title}</TitleOverview>
+
+        <Text variant="text" mt={2} mb={3}>
+          {context.summary}
+        </Text>
+        {/* <Actions>
+            <ActionItem>
+              <FileText size={20} color={'#8b98a2'} />
+              
+            </ActionItem>
+          </Actions> */}
+      </Infos>
+    </WrapperOverview>
+  ) : null;
+};
+
+const FlexSmallPreview = styled(Flex)`
+  padding: 16px 8px;
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+`;
+
+const WrapperOverview = styled(Flex)`
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
+  padding: 8px;
+  &:hover {
+    border-radius: 4px;
+    background: ${props => props.theme.colors.lighter};
+  }
+`;
+
+const Infos = styled(Box)`
+  flex: 1;
+  position: relative;
+  div {
+    text-decoration: none;
+  }
+`;
+
+const TitleOverview = styled(Heading)`
+  color: ${props => props.theme.colors.darkgray};
+  font-size: 20px;
+  text-decoration: none;
+`;
 
 export type InReplyToContext = {
   actor: null | Actor;
@@ -222,6 +279,7 @@ const FlexPreview = styled(Box)`
 `;
 
 export const Comment = styled(Text)`
+  padding: 8px;
   & a {
     color: ${props => props.theme.colors.darkgray} !important;
     font-weight: 400 !important;
@@ -232,11 +290,9 @@ export const Comment = styled(Text)`
 `;
 
 const WrapperLink = styled(NavLink)`
-  display: flex;
   text-decoration: none;
   position: relative;
   z-index: 999999;
-  padding: 8px;
   &.connector {
     background: ${props => props.theme.colors.lightgray};
   }

@@ -399,7 +399,8 @@ const getContext = (
           link: getSimpleLink(gqlContext),
           type: UIP.ContextType.Collection,
           icon: gqlContext.icon || '',
-          title: gqlContext.name
+          title: gqlContext.name,
+          summary: gqlContext.summary || ''
         }
       : gqlContext.__typename === 'Comment'
         ? {
@@ -416,7 +417,8 @@ const getContext = (
               link: getSimpleLink(gqlContext),
               type: UIP.ContextType.Community,
               icon: gqlContext.icon || '',
-              title: gqlContext.name
+              title: gqlContext.name,
+              summary: gqlContext.summary || ''
             }
           : gqlContext.__typename === 'Resource'
             ? {
@@ -426,7 +428,8 @@ const getContext = (
                 link: getSimpleLink(gqlContext.collection),
                 type: UIP.ContextType.Resource,
                 icon: gqlContext.icon || '',
-                title: gqlContext.name
+                title: gqlContext.name,
+                summary: gqlContext.summary || ''
               }
             : gqlContext.__typename === 'User'
               ? {
@@ -434,6 +437,7 @@ const getContext = (
                   link: getSimpleLink({ ...gqlContext, id: gqlContext.userId }),
                   type: UIP.ContextType.Resource,
                   icon: gqlContext.icon || gqlContext.image || '',
+                  summary: gqlContext.summary || '',
                   title: gqlContext.userName || gqlContext.preferredUsername
                 }
               : null; // gqlContext: never

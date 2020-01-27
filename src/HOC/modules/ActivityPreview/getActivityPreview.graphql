@@ -57,6 +57,7 @@ fragment ActivityPreviewUserCtx on User {
     userName: name
     preferredUsername
     isLocal
+    summary
     canonicalUrl
     myFollow {
         id

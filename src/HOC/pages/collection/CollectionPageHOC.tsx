@@ -190,7 +190,8 @@ const ResourceActivity: SFC<{
       link: `/thread/${resource.id}`,
       verb: UIP.ContextVerb.Created,
       title: resource.name,
-      icon: resource.icon || ''
+      icon: resource.icon || '',
+      summary: resource.summary || ''
     },
     createdAt: resource.createdAt,
     status: ActivityPreviewStatus.Loaded,
