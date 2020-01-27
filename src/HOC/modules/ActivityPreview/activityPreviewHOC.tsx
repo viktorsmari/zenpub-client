@@ -245,7 +245,7 @@ const getInReplyToCtx = ({
           ? context.thread.context.context.name
           : context.thread.context.context.__typename === 'User'
             ? context.thread.context.context.userName ||
-              context.thread.context.context.preferredUsername
+              context.thread.context.context.displayUsername
             : context.thread.context.context.content
     };
   } else {
@@ -399,7 +399,7 @@ const getContext = (
           link: getSimpleLink(gqlContext),
           type: UIP.ContextType.Collection,
           icon: gqlContext.icon || '',
-          title: gqlContext.name,
+          title: gqlContext.displayUsername,
           summary: gqlContext.summary || ''
         }
       : gqlContext.__typename === 'Comment'
@@ -417,7 +417,7 @@ const getContext = (
               link: getSimpleLink(gqlContext),
               type: UIP.ContextType.Community,
               icon: gqlContext.icon || '',
-              title: gqlContext.name,
+              title: gqlContext.displayUsername,
               summary: gqlContext.summary || ''
             }
           : gqlContext.__typename === 'Resource'
@@ -437,8 +437,8 @@ const getContext = (
                   link: getSimpleLink({ ...gqlContext, id: gqlContext.userId }),
                   type: UIP.ContextType.Resource,
                   icon: gqlContext.icon || gqlContext.image || '',
-                  summary: gqlContext.summary || '',
-                  title: gqlContext.userName || gqlContext.preferredUsername
+                  summary: '',
+                  title: gqlContext.displayUsername
                 }
               : null; // gqlContext: never
   if (!context) {
@@ -454,7 +454,7 @@ export const getActor = (
   return {
     icon: usr.icon || usr.image || '',
     name: usr.userName || usr.preferredUsername,
-    preferredUsername: usr.preferredUsername,
+    displayUsername: usr.displayUsername,
     link: getSimpleLink({ ...usr, id: usr.userId })
   };
 };
