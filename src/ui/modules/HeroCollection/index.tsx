@@ -1,7 +1,7 @@
 import { clearFix } from 'polished';
 import React, { ComponentType, SFC } from 'react';
 import { Settings } from 'react-feather';
-import { Box, Button, Flex, Text } from 'rebass/styled-components';
+import { Box, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import Modal from 'ui/modules/Modal';
 import styled from 'ui/themes/styled';
@@ -10,6 +10,7 @@ import { Trans } from '@lingui/macro';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import Avatar from 'ui/elements/Avatar';
+import Button from 'ui/elements/Button';
 export enum Status {
   Loading,
   Loaded
@@ -63,13 +64,21 @@ export const HeroCollection: SFC<Props> = ({ collection: c }) => {
           </Description>
           <ActionsHero mt={3} alignItems={'center'}>
             {c.isMine ? (
-              <EditButton onClick={() => setOpenSettings(true)}>
-                <Settings size={18} color={'#f98012'} />
-              </EditButton>
+              <SettingsButton>
+                <Button
+                  onClick={() => setOpenSettings(true)}
+                  isIcon
+                  variant="outline"
+                >
+                  <Settings size={18} color={'#f98012'} />
+                </Button>
+              </SettingsButton>
             ) : null}
             <Button
+              variant={c.following ? 'outline' : 'primary'}
               disabled={c.toggleJoin.isSubmitting}
               onClick={c.toggleJoin.toggle}
+              isSubmitting={c.toggleJoin.isSubmitting}
             >
               {c.following ? 'Unfollow' : 'Follow'}
             </Button>
@@ -112,6 +121,15 @@ const HeaderWrapper: React.FC<{ id: string; name: string; icon: string }> = ({
 };
 
 export default HeroCollection;
+
+const SettingsButton = styled.div`
+  margin-right: 16px;
+
+  .--rtl & {
+    margin-right: 0px;
+    margin-left: 16px;
+  }
+`;
 
 const LinkImg = styled(Box)`
   margin-right: 8px;
@@ -163,34 +181,6 @@ const Username = styled(Text)`
 `;
 
 const ActionsHero = styled(Flex)``;
-
-const EditButton = styled(Flex)`
-  height: 40px;
-  font-weight: 600;
-  font-size: 13px;
-  line-height: 38px;
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  vertical-align: bottom;
-  margin-right: 16px;
-  border-radius: 40px;
-  text-align: center;
-  border: 1px solid ${props => props.theme.colors.orange};
-  cursor: pointer;
-  align-items: center;
-  align-content: center;
-  & svg {
-    text-align: center;
-    vertical-align: text-bottom;
-    color: inherit !important;
-    margin: 0 auto;
-  }
-  .--rtl & {
-    margin-right: 0px;
-    margin-left: 16px;
-  }
-`;
 
 const HeroInfo = styled.div`
   flex: 1;
