@@ -1,6 +1,6 @@
 import * as Types from '../../../graphql/types.generated';
 
-import { ActivityPreviewDataFragment, ActivityPreviewResourceCtxFragment, ActivityPreviewLikeCtxFragment, ActivityPreviewCommentCtxBaseFragment, ActivityPreviewResourceCtxFragmentDoc, ActivityPreviewLikeCtxFragmentDoc, ActivityPreviewCommentCtxBaseFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewDataFragment } from '../../modules/ActivityPreview/getActivityPreview.generated';
 import { HeroCollectionDataFragment } from '../../modules/HeroCollection/HeroCollection.generated';
 import gql from 'graphql-tag';
 import { HeroCollectionDataFragmentDoc } from '../../modules/HeroCollection/HeroCollection.generated';
@@ -81,7 +81,7 @@ export type CollectionPageResourceUnlikeMutationVariables = {
 
 export type CollectionPageResourceUnlikeMutation = (
   { __typename: 'RootMutationType' }
-  & { delete: Types.Maybe<{ __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Feature' } | { __typename: 'Flag' } | { __typename: 'Follow' } | { __typename: 'Like' } | { __typename: 'Resource' } | { __typename: 'Thread' } | { __typename: 'User' }> }
+  & { delete: Types.Maybe<{ __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Feature' } | { __typename: 'Follow' } | { __typename: 'Like' } | { __typename: 'Resource' } | { __typename: 'Thread' } | { __typename: 'User' }> }
 );
 
 export type CollectionPageResourceCreateThreadMutationVariables = {

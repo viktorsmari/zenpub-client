@@ -437,7 +437,7 @@ const getContext = (
                   link: getSimpleLink({ ...gqlContext, id: gqlContext.userId }),
                   type: UIP.ContextType.Resource,
                   icon: gqlContext.icon || gqlContext.image || '',
-                  summary: gqlContext.summary || '',
+                  summary: '',
                   title: gqlContext.userName || gqlContext.preferredUsername
                 }
               : null; // gqlContext: never

@@ -56,8 +56,8 @@ export type ActivityPreviewDataFragment = (
 
 export type ActivityPreviewUserCtxFragment = (
   { __typename: 'User' }
-  & Pick<Types.User, 'icon' | 'image' | 'preferredUsername' | 'isLocal' | 'summary' | 'canonicalUrl'>
-  & { userId: Types.User['id'], userName: Types.User['name'] }
+  & Pick<Types.User, 'icon' | 'image' | 'displayUsername' | 'preferredUsername' | 'isLocal' | 'summary' | 'canonicalUrl'>
+  & { userId: Types.User['id'] }
   & { myFollow: Types.Maybe<(
     { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
@@ -77,7 +77,7 @@ export type ActivityPreviewBaseThreadFragment = (
 
 export type ActivityPreviewCollectionCtxFragment = (
   { __typename: 'Collection' }
-  & Pick<Types.Collection, 'id' | 'isLocal' | 'icon' | 'name' | 'summary' | 'canonicalUrl'>
+  & Pick<Types.Collection, 'id' | 'isLocal' | 'icon' | 'displayUsername' | 'summary' | 'canonicalUrl'>
   & { community: Types.Maybe<(
     { __typename: 'Community' }
     & Pick<Types.Community, 'id'>
@@ -129,7 +129,7 @@ export type ActivityPreviewCommentCtxBaseFragment = (
 
 export type ActivityPreviewCommunityCtxFragment = (
   { __typename: 'Community' }
-  & Pick<Types.Community, 'id' | 'isLocal' | 'icon' | 'name' | 'summary' | 'canonicalUrl'>
+  & Pick<Types.Community, 'id' | 'isLocal' | 'icon' | 'displayUsername' | 'summary' | 'canonicalUrl'>
   & { myFollow: Types.Maybe<(
     { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
@@ -255,7 +255,7 @@ export type ActivityPreviewUnlikeMutationVariables = {
 
 export type ActivityPreviewUnlikeMutation = (
   { __typename: 'RootMutationType' }
-  & { delete: Types.Maybe<{ __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Feature' } | { __typename: 'Flag' } | { __typename: 'Follow' } | { __typename: 'Like' } | { __typename: 'Resource' } | { __typename: 'Thread' } | { __typename: 'User' }> }
+  & { delete: Types.Maybe<{ __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Feature' } | { __typename: 'Follow' } | { __typename: 'Like' } | { __typename: 'Resource' } | { __typename: 'Thread' } | { __typename: 'User' }> }
 );
 
 export type ActivityPreviewCreateReplyMutationVariables = {
@@ -292,7 +292,7 @@ export const ActivityPreviewUserCtxFragmentDoc = gql`
   icon
   image
   userId: id
-  userName: name
+  displayUsername
   preferredUsername
   isLocal
   summary
@@ -313,7 +313,7 @@ export const ActivityPreviewCollectionCtxFragmentDoc = gql`
   id
   isLocal
   icon
-  name
+  displayUsername
   summary
   canonicalUrl
   community {
@@ -361,7 +361,7 @@ export const ActivityPreviewCommunityCtxFragmentDoc = gql`
   id
   isLocal
   icon
-  name
+  displayUsername
   summary
   canonicalUrl
   myFollow {

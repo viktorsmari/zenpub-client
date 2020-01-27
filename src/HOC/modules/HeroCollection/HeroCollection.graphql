@@ -8,12 +8,12 @@ query heroCollection($collectionId: String!) {
 fragment HeroCollectionData on Collection  {
     id
     preferredUsername
-    name
+    displayUsername
     summary
     icon
     community {
         id
-        name
+        displayUsername
         icon
     }
     followers {
