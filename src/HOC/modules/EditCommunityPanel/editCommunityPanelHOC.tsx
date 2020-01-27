@@ -19,7 +19,7 @@ export const validationSchema: Yup.ObjectSchema<
     .max(60)
     .required(),
   summary: Yup.string().max(500),
-  image: Yup.string().url()
+  image: Yup.string() //.url()
 });
 
 export const editCommunityFormInitialValues: EditCommunityFormValues = {
