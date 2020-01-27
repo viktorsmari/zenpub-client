@@ -21,7 +21,7 @@ query getSidebarQuery($limitComm: Int, $endComm: String) {
                                 preferredUsername
                                 name
                                 # summary
-                                icon
+                                image
                                 # isLocal
                                 # isPublic
                                 # isDisabled

@@ -14,7 +14,7 @@ export enum Status {
 
 export interface CommunityLoaded {
   status: Status.Loaded;
-  icon: string;
+  image: string;
   name: string;
   summary: string;
   preferredUsername: string;
@@ -48,7 +48,7 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
         <Background
           id="header"
           style={{
-            backgroundImage: `url(${c.icon})`
+            backgroundImage: `url(${c.image})`
           }}
         />
         <HeroInfo>
@@ -69,13 +69,15 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
             </MembersTot>
             <Actions>
               {c.canModify ? (
-                <Button
-                  onClick={() => setOpenSettings(true)}
-                  isIcon
-                  variant="outline"
-                >
-                  <Settings size={18} color={'#f98012'} />
-                </Button>
+                <SettingsButton>
+                  <Button
+                    onClick={() => setOpenSettings(true)}
+                    isIcon
+                    variant="outline"
+                  >
+                    <Settings size={18} color={'#f98012'} />
+                  </Button>
+                </SettingsButton>
               ) : null}
               <Button
                 ml={2}
@@ -183,6 +185,15 @@ const HeroInfo = styled.div`
       height: 30px;
       margin-right: 4px;
     }
+  }
+`;
+
+const SettingsButton = styled.div`
+  margin-right: 16px;
+
+  .--rtl & {
+    margin-right: 0px;
+    margin-left: 16px;
   }
 `;
 

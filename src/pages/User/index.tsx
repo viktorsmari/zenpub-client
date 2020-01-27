@@ -6,7 +6,8 @@ import { ActivityPreviewHOC } from 'HOC/modules/ActivityPreview/activityPreviewH
 import * as React from 'react';
 import { TabPanel, Tabs } from 'react-tabs';
 import { Button } from 'rebass/styled-components';
-import CollectionCard from '../../components/elements/Collection/Collection';
+// import CollectionCard from '../../components/elements/Collection/Collection';
+import { CollectionPreview } from 'ui/modules/CollectionPreview';
 import CommunityCard from '../../components/elements/Community/Community';
 import Loader from '../../components/elements/Loader/Loader';
 // import FollowingCollectionsLoadMore from '../../components/elements/Loadmore/followingCollections';
@@ -109,12 +110,25 @@ const CommunitiesFeatured: React.SFC<Props> = ({ userId }) => {
                           <ListCollections>
                             {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
                             data.user.followedCollections!.edges.map(
-                              (collection, i) =>
-                                collection && (
-                                  <CollectionCard
-                                    key={i}
-                                    collection={collection.node.collection}
-                                  />
+                              (coll, i) =>
+                                coll && (
+                                  <div key={i}>
+                                    <CollectionPreview
+                                      icon={coll.node.collection.icon!}
+                                      name={coll.node.collection.name}
+                                      summary={coll.node.collection.summary!}
+                                      link={{
+                                        url:
+                                          'collection/' +
+                                          coll.node.collection.id,
+                                        external: false
+                                      }}
+                                      totalResources={
+                                        coll.node.collection.resources!
+                                          .totalCount
+                                      }
+                                    />
+                                  </div>
                                 )
                             )}
                           </ListCollections>

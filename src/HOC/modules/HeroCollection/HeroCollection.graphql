@@ -11,6 +11,11 @@ fragment HeroCollectionData on Collection  {
     name
     summary
     icon
+    community {
+        id
+        name
+        icon
+    }
     followers {
         totalCount
     }

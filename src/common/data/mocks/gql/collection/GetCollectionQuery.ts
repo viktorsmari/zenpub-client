@@ -34,7 +34,7 @@ export const basicGetCollectionQuery: GetCollectionQuery = {
     myFollow: null,
     myFlag: null,
     canonicalUrl: null,
-    icon: null,
+    icon: '',
     community: {
       __typename: 'Community',
       name: '',

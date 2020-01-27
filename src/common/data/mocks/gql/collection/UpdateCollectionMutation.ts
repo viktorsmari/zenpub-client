@@ -11,7 +11,7 @@ export const basicUpdateCollectionMutation: UpdateCollectionMutationMutation = {
     preferredUsername: '',
     updatedAt: '',
     canonicalUrl: null,
-    icon: null,
+    icon: '',
     resources: { __typename: 'ResourcesEdges', totalCount: 0 }
   }
 };

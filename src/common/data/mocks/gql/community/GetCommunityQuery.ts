@@ -6,7 +6,7 @@ export const basicGetCommunityQuery: GetCommunityQueryQuery = {
     __typename: 'Community',
     name: 'name',
     summary: 'summary',
-    image: 'image',
+    image: '',
     collections: {
       __typename: 'CollectionsEdges',
       totalCount: 0,

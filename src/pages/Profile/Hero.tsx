@@ -20,7 +20,7 @@ const HeroComp: SFC<Props> = ({ user }) => (
       </title>
     </Helmet> */}
     <Hero>
-      <HeroBg src={user.image || user.icon || ''} />
+      <HeroBg src={user.image || 'https://picsum.photos/id/1021/800/300'} />
       <FlexProfile>
         <WrapperHero>
           <Img
@@ -97,8 +97,9 @@ const HeroBg = styled.div<{ src: string }>`
   height: 250px;
   border-top-right-radius: 6px;
   border-top-left-radius: 6px;
-  background: #333;
-  background-image: url(${props => (props.src ? props.src : '#333')});
+  background: ${props => props.theme.colors.lightgray};
+  background-image: url(${props =>
+    props.src ? props.src : props.theme.colors.lightgray});
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;

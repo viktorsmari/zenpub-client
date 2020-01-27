@@ -4,6 +4,7 @@ import { Input, Textarea } from '@rebass/forms';
 import { FormikHook } from 'common/types';
 import * as React from 'react';
 import { Button, Heading } from 'rebass/styled-components';
+import DropzoneArea from '../../../components/elements/DropzoneModal';
 import Alert from 'ui/elements/Alert';
 import {
   Actions,
@@ -34,6 +35,7 @@ export interface EditCommunityFormValues {
   name: string;
   summary: string;
   image: string;
+  files?: [];
 }
 
 export const EditCommunityPanel: React.FC<Props> = ({ cancel, formik }) => {
@@ -87,7 +89,8 @@ export const EditCommunityPanel: React.FC<Props> = ({ cancel, formik }) => {
           <Trans>Image</Trans>
         </label>
         <ContainerForm>
-          <Input
+          <DropzoneArea imageUrl={formik.values.image} formikForm={formik} />
+          {/* <Input
             placeholder={tt.placeholders.image}
             disabled={formik.isSubmitting}
             name="image"
@@ -98,7 +101,7 @@ export const EditCommunityPanel: React.FC<Props> = ({ cancel, formik }) => {
             <AlertWrapper>
               <Alert variant="bad">{formik.errors.image}</Alert>
             </AlertWrapper>
-          )}
+          )} */}
         </ContainerForm>
       </Row>
       <Actions>

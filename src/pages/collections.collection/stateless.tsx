@@ -7,7 +7,8 @@ import { clearFix } from 'polished';
 import styled from '../../themes/styled';
 import { compose, withState, withHandlers } from 'recompose';
 import Loader from '../../components/elements/Loader/Loader';
-import EditCollectionModal from '../../components/elements/EditCollectionModal';
+// import EditCollectionModal from '../../components/elements/EditCollectionModal';
+import { EditCollectionPanelHOC } from '../../HOC/modules/EditCollectionPanel/editCollectionPanelHOC';
 import CollectionPage from './collection';
 import Join from '../../components/elements/Collection/Join';
 import { Settings } from 'react-feather';
@@ -20,6 +21,7 @@ import Header from '../thread/header';
 import Empty from '../../components/elements/Empty';
 import { SessionContext } from '../../context/global/sessionCtx';
 import MoreOptions from '../../components/elements/MoreOptions';
+import Modal from 'ui/modules/Modal';
 
 export interface Props {
   collectionQuery: GetCollectionQueryHookResult;
@@ -131,14 +133,22 @@ const Component: React.FC<Props> = ({
                     fetchMore={collectionQuery.fetchMore}
                     type={'collection'}
                   />
-                  <EditCollectionModal
+                  {isEditCollectionOpen && (
+                    <Modal closeModal={editCollection}>
+                      <EditCollectionPanelHOC
+                        collectionId={collectionQuery.data.collection.id}
+                        done={editCollection}
+                      />
+                    </Modal>
+                  )}
+                  {/* <EditCollectionModal
                     toggleModal={editCollection}
                     modalIsOpen={isEditCollectionOpen}
                     collectionId={collectionQuery.data.collection.id}
                     collectionExternalId={collectionQuery.data.collection.id}
                     collection={collectionQuery.data.collection}
                     collectionUpdated={collectionQuery.refetch}
-                  />
+                  /> */}
                 </>
               )
             )}
