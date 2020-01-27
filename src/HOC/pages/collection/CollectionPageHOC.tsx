@@ -26,6 +26,7 @@ import {
   useCollectionPageResourceLikeMutation,
   useCollectionPageResourceUnlikeMutation
 } from './CollectionPage.generated';
+import { EditCollectionPanelHOC } from 'HOC/modules/EditCollectionPanel/editCollectionPanelHOC';
 
 export interface Props {
   collectionId: Collection['id'];
@@ -79,10 +80,14 @@ export const CollectionPageHOC: SFC<Props> = ({ collectionId }) => {
           );
         })
         .filter((_): _ is JSX.Element => !!_);
+      const EditCollectionPanel: CollectionPageProps['EditCollectionPanel'] = ({
+        done
+      }) => <EditCollectionPanelHOC done={done} collectionId={collectionId} />;
       const props: CollectionPageProps = {
         ActivityBoxes,
         HeroCollectionBox,
         ResourceBoxes,
+        EditCollectionPanel,
         basePath: `/collections/${collectionId}`
       };
       return props;
