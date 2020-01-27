@@ -63,13 +63,14 @@ export const CreateCommunityPanelHOC: SFC<Props> = ({ done }: Props) => {
                 upload: fileToUpload[0]
               }
             })
-              .then(() => {
-                history.push(`/communities/${createdCommunityId}`);
-              })
+              .then(() => createdCommunityId)
               .catch(err => console.log(err));
           }
+          return createdCommunityId;
         })
-        .then(done)
+        .then(createdCommunityId => {
+          history.push(`/communities/${createdCommunityId}`);
+        })
         .catch(err => console.log(err)),
     validationSchema,
     initialValues
