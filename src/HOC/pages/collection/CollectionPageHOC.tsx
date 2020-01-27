@@ -187,7 +187,7 @@ const ResourceActivity: SFC<{
     actor: getActor(resource.creator),
     context: {
       type: UIP.ContextType.Resource,
-      link: `/thread/${resource.id}`,
+      link: resource.collection ? `/collections/${resource.collection.id}` : '',
       verb: UIP.ContextVerb.Created,
       title: resource.name,
       icon: resource.icon || ''

@@ -17,6 +17,7 @@ import {
 } from 'ui/modules/ActivityPreview';
 import * as UIP from 'ui/modules/ActivityPreview/preview';
 import CommunityPage, { Props as CommunityProps } from 'ui/pages/community';
+import { CreateCollectionPanelHOC } from 'HOC/modules/CreateCollectionPanel/createCollectionPanelHOC';
 import * as CPGQL from './CommunityPage.generated';
 import { PureQueryOptions } from 'apollo-client';
 
@@ -124,9 +125,12 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
         .filter((_): _ is JSX.Element => !!_);
 
       const HeroCommunityBox = <HeroCommunityHOC communityId={id} />;
-
+      const CreateCollectionPanel: CommunityProps['CreateCollectionPanel'] = ({
+        done
+      }) => <CreateCollectionPanelHOC done={done} communityId={id} />;
       const myFollow = communityQ.data.community.myFollow;
       const props: CommunityProps = {
+        CreateCollectionPanel,
         ActivityBoxes,
         CollectionBoxes,
         HeroCommunityBox,
