@@ -54,12 +54,14 @@ interface Props {
   initialUrl: any;
   uploadType?: string;
   formikForm?: any;
+  touchedField?: string;
 }
 
 const DropzoneArea: React.FC<Props> = ({
   initialUrl,
   uploadType,
-  formikForm
+  formikForm,
+  touchedField
 }) => {
   // const { setFieldValue, setFieldTouched } = useFormikContext();
   const [files, setFiles] = useState([] as any);
@@ -113,12 +115,11 @@ const DropzoneArea: React.FC<Props> = ({
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: acceptedTypes,
     onDrop: acceptedFiles => {
-      formikForm.setFieldValue('files', acceptedFiles);
-      formikForm.setFieldTouched('files', true);
+      const uploadField = touchedField ? touchedField : 'files';
+      formikForm.setFieldValue(uploadField, acceptedFiles);
+      formikForm.setFieldTouched(uploadField, true);
       setFiles(acceptedFiles);
-
       acceptedFiles.map(file => onFile(URL.createObjectURL(file)));
-      // console.log(files);
     }
   });
 

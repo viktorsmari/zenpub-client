@@ -27,7 +27,7 @@ import {
   useCollectionPageResourceUnlikeMutation
 } from './CollectionPage.generated';
 import { EditCollectionPanelHOC } from 'HOC/modules/EditCollectionPanel/editCollectionPanelHOC';
-import UploadResourcePanelHOC from 'HOC/modules/AddResource/UploadResource';
+import UploadResourcePanelHOC from 'HOC/modules/AddResource/UploadResourceHOC';
 
 export interface Props {
   collectionId: Collection['id'];

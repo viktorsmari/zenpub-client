@@ -39,7 +39,7 @@ export interface ResourceFormValues {
   url: string;
   name: string;
   summary: string;
-  image: string;
+  icon: string;
   resourceFiles?: [];
   imageFiles?: [];
 }
@@ -57,6 +57,7 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
             initialUrl={formik.values.url}
             formikForm={formik}
             uploadType="resource"
+            touchedField="resourceFiles"
           />
         </ContainerForm>
       </Row>
@@ -102,7 +103,11 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
           <Trans>Image</Trans>
         </label>
         <ContainerForm>
-          <DropzoneArea initialUrl={formik.values.image} formikForm={formik} />
+          <DropzoneArea
+            initialUrl={formik.values.icon}
+            formikForm={formik}
+            touchedField="imageFiles"
+          />
         </ContainerForm>
       </Row>
       <Actions>

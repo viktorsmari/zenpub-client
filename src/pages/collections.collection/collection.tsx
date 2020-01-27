@@ -15,7 +15,7 @@ import {
   OverlayTab
 } from '../communities.community/Community';
 import CollectionModal from '../../components/elements/CollectionModal';
-import UploadResourcePanelHOC from '../../HOC/modules/AddResource/UploadResource';
+import UploadResourcePanelHOC from '../../HOC/modules/AddResource/UploadResourceHOC';
 
 import { BasicCollectionFragment } from '../../graphql/fragments/basicCollection.generated';
 import { BasicResourcesEdgesFragment } from '../../graphql/fragments/basicResourcesEdges.generated';
