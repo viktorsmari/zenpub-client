@@ -21,6 +21,8 @@ import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { OverlayTab, WrapperTab } from '../communities.community/Community';
 import { List, ListCollections } from '../Profile';
 import HeroComp from '../Profile/Hero';
+import { useFollowMutationMutation } from 'graphql/follow.generated';
+import { useDeleteMutationMutation } from 'graphql/delete.generated';
 
 const Follow = styled(Button)`
   color: ${props => props.theme.colors.orange};
@@ -51,7 +53,32 @@ const CommunitiesFeatured: React.SFC<Props> = ({ userId }) => {
     }
   });
   const { /* fetchMore, */ data, loading, error } = query;
-
+  const [follow, followStatus] = useFollowMutationMutation();
+  const [unfollow, unfollowStatus] = useDeleteMutationMutation();
+  const toggleFollow = React.useCallback(
+    () => {
+      if (
+        !(
+          !followStatus.loading &&
+          !unfollowStatus.loading &&
+          query.data &&
+          query.data.user
+        )
+      ) {
+        return;
+      }
+      if (query.data.user.myFollow) {
+        unfollow({
+          variables: { contextId: query.data.user.myFollow.id }
+        }).then(() => query.refetch());
+      } else {
+        follow({ variables: { contextId: query.data.user.id } }).then(() =>
+          query.refetch()
+        );
+      }
+    },
+    [query.data]
+  );
   return (
     <MainContainer>
       <HomeBox>
@@ -110,21 +137,21 @@ const CommunitiesFeatured: React.SFC<Props> = ({ userId }) => {
                           <ListCollections>
                             {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
                             data.user.followedCollections!.edges.map(
-                              (coll, i) =>
-                                coll && (
+                              (edge, i) =>
+                                edge && (
                                   <div key={i}>
                                     <CollectionPreview
-                                      icon={coll.node.collection.icon!}
-                                      name={coll.node.collection.name}
-                                      summary={coll.node.collection.summary!}
+                                      icon={edge.node.collection.icon!}
+                                      name={edge.node.collection.name}
+                                      summary={edge.node.collection.summary!}
                                       link={{
                                         url:
-                                          'collection/' +
-                                          coll.node.collection.id,
+                                          '/collections/' +
+                                          edge.node.collection.id,
                                         external: false
                                       }}
                                       totalResources={
-                                        coll.node.collection.resources!
+                                        edge.node.collection.resources!
                                           .totalCount
                                       }
                                     />
@@ -203,9 +230,15 @@ const CommunitiesFeatured: React.SFC<Props> = ({ userId }) => {
       </HomeBox>
       <WrapperPanel>
         <Panel>
-          <Follow variant={'outline'}>
-            <Trans>Follow</Trans>
-          </Follow>
+          {data && data.user ? (
+            <Follow variant={'outline'} onClick={toggleFollow}>
+              {data.user.myFollow ? (
+                <Trans>Unfollow</Trans>
+              ) : (
+                <Trans>Follow</Trans>
+              )}
+            </Follow>
+          ) : null}
         </Panel>
         <Panel>
           <PanelTitle fontSize={0} fontWeight={'bold'}>

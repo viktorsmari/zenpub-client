@@ -175,7 +175,7 @@ const Component: React.FC<Props> = ({
   const validationSchema = Yup.object().shape({
     name: Yup.string().required(),
     summary: Yup.string(),
-    icon: Yup.string().url(),
+    icon: Yup.string(), //.url(),
     image: Yup.string().url(),
     location: Yup.string()
   });
