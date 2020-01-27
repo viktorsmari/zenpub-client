@@ -60,7 +60,7 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
       status: HeroCommunityStatus.Loaded,
       canModify: true,
       following: true,
-      icon: 'https://picsum.photos/800/300',
+      image: 'https://picsum.photos/800/300',
       name: 'Community nino',
       preferredUsername: 'ninos',
       summary:

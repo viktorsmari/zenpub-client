@@ -14,6 +14,7 @@ import {
 } from 'ui/elements/Panel';
 import styled from 'ui/themes/styled';
 import { FormikHook } from 'common/types';
+import Modal from 'ui/modules/Modal';
 
 // interface Collection {
 //   id: any;
@@ -32,6 +33,7 @@ export interface Props {
   ThreadBoxes: JSX.Element[];
   basePath: string;
   newThreadFormik: null | FormikHook<{ text: string }>;
+  CreateCollectionPanel: React.ComponentType<{ done(): any }>;
 }
 
 export const Community: React.FC<Props> = ({
@@ -40,10 +42,20 @@ export const Community: React.FC<Props> = ({
   CollectionBoxes,
   basePath,
   newThreadFormik,
-  ThreadBoxes
+  ThreadBoxes,
+  CreateCollectionPanel
 }) => {
+  const [isOpenCreateCollection, setOpenCreateCollection] = React.useState(
+    false
+  );
+
   return (
     <MainContainer>
+      {isOpenCreateCollection && (
+        <Modal closeModal={() => setOpenCreateCollection(false)}>
+          <CreateCollectionPanel done={() => setOpenCreateCollection(false)} />
+        </Modal>
+      )}
       <HomeBox>
         <WrapperCont>
           <Wrapper>
@@ -56,7 +68,10 @@ export const Community: React.FC<Props> = ({
               <Route path={`${basePath}/collections`}>
                 <>
                   <WrapButton mt={3} px={3} pb={3} mb={2}>
-                    <Button variant="outline">
+                    <Button
+                      variant="outline"
+                      onClick={() => setOpenCreateCollection(true)}
+                    >
                       <Trans>Create a new collection</Trans>
                     </Button>
                   </WrapButton>

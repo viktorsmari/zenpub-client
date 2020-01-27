@@ -3,6 +3,7 @@ import { NavLink, Route, Switch } from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import { Trans } from '@lingui/react';
+import Modal from 'ui/modules/Modal';
 
 import {
   Nav,
@@ -18,17 +19,25 @@ export interface Props {
   ActivityBoxes: JSX.Element[];
   ResourceBoxes: JSX.Element[];
   HeroCollectionBox: JSX.Element;
+  EditCollectionPanel: React.ComponentType<{ done(): any }>;
   basePath: string;
 }
 
 export const Collection: React.FC<Props> = ({
   HeroCollectionBox,
+  EditCollectionPanel,
   ActivityBoxes,
   ResourceBoxes,
   basePath
 }) => {
+  const [isOpenEditCollection, setOpenEditCollection] = React.useState(false);
   return (
     <MainContainer>
+      {isOpenEditCollection && (
+        <Modal closeModal={() => setOpenEditCollection(false)}>
+          <EditCollectionPanel done={() => setOpenEditCollection(false)} />
+        </Modal>
+      )}
       <HomeBox>
         <WrapperCont>
           <Wrapper>

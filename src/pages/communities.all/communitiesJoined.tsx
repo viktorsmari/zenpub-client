@@ -2,12 +2,13 @@ import { Trans } from '@lingui/macro';
 import * as React from 'react';
 import { TabPanel, Tabs } from 'react-tabs';
 import { compose, withHandlers, withState } from 'recompose';
-import NewCommunityModal from '../../components/elements/CreateCommunityModal';
+import { CreateCommunityPanelHOC } from '../../HOC/modules/CreateCommunityPanel/createCommunityPanelHOC';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import CommunitiesJoined from '../communities.joined';
 import { Wrapper, WrapperCont } from './CommunitiesAll';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel } from '../../sections/panel';
+import Modal from 'ui/modules/Modal';
 
 interface Props {
   handleNewCommunity(): boolean;
@@ -39,10 +40,17 @@ class CommunitiesYours extends React.Component<Props> {
           </WrapperCont>
         </HomeBox>
         <WrapperPanel />
-        <NewCommunityModal
+        {this.props.isOpenCommunity && (
+          <Modal closeModal={() => this.props.handleNewCommunity()}>
+            <CreateCommunityPanelHOC
+              done={() => this.props.handleNewCommunity()}
+            />
+          </Modal>
+        )}
+        {/* <NewCommunityModal
           toggleModal={this.props.handleNewCommunity}
           modalIsOpen={this.props.isOpenCommunity}
-        />
+        /> */}
       </MainContainer>
     );
   }

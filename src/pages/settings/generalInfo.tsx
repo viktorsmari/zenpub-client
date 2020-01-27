@@ -135,12 +135,14 @@ const HeaderImg = styled.img`
   display: block;
   max-width: 100%;
   margin-bottom: 10px;
+  max-height: 400px;
 `;
 
 const AvatarImg = styled.img`
   display: block;
   max-width: 100%;
   margin-bottom: 10px;
+  max-height: 400px;
 `;
 
 const Component: React.FC<Props> = ({
@@ -174,7 +176,7 @@ const Component: React.FC<Props> = ({
     name: Yup.string().required(),
     summary: Yup.string(),
     icon: Yup.string().url(),
-    image: Yup.string(),
+    image: Yup.string().url(),
     location: Yup.string()
   });
 
@@ -202,16 +204,6 @@ const Component: React.FC<Props> = ({
     },
     []
   );
-
-  // const [mutate] = useUploadImageMutation();
-  // const testUpload = ({
-  //   target: {
-  //     validity,
-  //     files: [file]
-  //   }
-  // }) =>
-  //   validity.valid &&
-  //   mutate({ variables: { contextId: auth!.me.user.id, upload: file } });
 
   return (
     <ApolloConsumer>
@@ -361,16 +353,19 @@ const Component: React.FC<Props> = ({
                       <Field
                         name="icon"
                         render={({ field }) => (
-                          <Input
-                            // placeholder="Type a url of a background image..."
-                            name={field.name}
-                            value={iconUrl}
-                            onChange={field.onChange}
-                            onClick={() => {
+                          <Button
+                            type="button"
+                            onClick={e => {
                               onUploadOpen(true);
                               setUploadType('icon');
                             }}
-                          />
+                          >
+                            {iconUrl != '' ? (
+                              <Trans>Change</Trans>
+                            ) : (
+                              <Trans>Upload</Trans>
+                            )}
+                          </Button>
                         )}
                       />
                       {errors.icon && <Alert>{errors.icon}</Alert>}
@@ -385,16 +380,19 @@ const Component: React.FC<Props> = ({
                       <Field
                         name="image"
                         render={({ field }) => (
-                          <Input
-                            // placeholder="Type a url of a background image..."
-                            name={field.name}
-                            value={imageUrl}
-                            onChange={field.onChange}
-                            onClick={() => {
+                          <Button
+                            type="button"
+                            onClick={e => {
                               onUploadOpen(true);
-                              setUploadType('image');
+                              setUploadType('icon');
                             }}
-                          />
+                          >
+                            {imageUrl != '' ? (
+                              <Trans>Change</Trans>
+                            ) : (
+                              <Trans>Upload</Trans>
+                            )}
+                          </Button>
                         )}
                       />
                       {errors.image &&
