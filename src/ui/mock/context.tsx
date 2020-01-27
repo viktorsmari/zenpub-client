@@ -89,6 +89,9 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
       icon: 'https://picsum.photos/800/300',
       title: 'Favourite books',
       preferredUsername: 'favbooks',
+      communityIcon: 'https://picsum.photos/800/300',
+      communityId: '2',
+      communityName: 'Super community',
       summary:
         'Cooperation combined with network effects is more effective than capitalist competition',
       toggleJoin: {
