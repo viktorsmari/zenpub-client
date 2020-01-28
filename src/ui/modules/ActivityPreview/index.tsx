@@ -137,7 +137,7 @@ const ActorComp: SFC<ActorProps> = ({ actor, createdAt }) => (
       <Name>
         <Link to={actor.link}>
           {actor.name}
-          <Username ml={2}>@{actor.displayUsername}</Username>
+          {/* <Username ml={2}>@{actor.name}</Username> */}
         </Link>
         <Spacer mr={2}>·</Spacer>
         <Date>{DateTime.fromISO(createdAt).toRelative()}</Date>
@@ -151,16 +151,16 @@ const Contents = styled(Box)`
   margin-left: 55px;
 `;
 
-const Username = styled(Text)`
-  color: ${props => props.theme.colors.gray};
-  margin: 0 8px;
-  font-weight: 500;
-  font-size: 13px;
+// const Username = styled(Text)`
+//   color: ${props => props.theme.colors.gray};
+//   margin: 0 8px;
+//   font-weight: 500;
+//   font-size: 13px;
 
-  ${media.lessThan('1280px')`
-  display: none;
- `};
-`;
+//   ${media.lessThan('1280px')`
+//   display: none;
+//  `};
+// `;
 
 const Spacer = styled(Text)`
   color: ${props => props.theme.colors.gray};

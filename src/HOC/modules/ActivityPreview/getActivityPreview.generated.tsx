@@ -56,7 +56,7 @@ export type ActivityPreviewDataFragment = (
 
 export type ActivityPreviewUserCtxFragment = (
   { __typename: 'User' }
-  & Pick<Types.User, 'icon' | 'image' | 'displayUsername' | 'preferredUsername' | 'isLocal' | 'summary' | 'canonicalUrl'>
+  & Pick<Types.User, 'icon' | 'image' | 'isLocal' | 'summary' | 'canonicalUrl'>
   & { userId: Types.User['id'], userName: Types.User['name'] }
   & { myFollow: Types.Maybe<(
     { __typename: 'Follow' }
@@ -77,7 +77,7 @@ export type ActivityPreviewBaseThreadFragment = (
 
 export type ActivityPreviewCollectionCtxFragment = (
   { __typename: 'Collection' }
-  & Pick<Types.Collection, 'id' | 'isLocal' | 'icon' | 'name' | 'displayUsername' | 'summary' | 'canonicalUrl'>
+  & Pick<Types.Collection, 'id' | 'isLocal' | 'icon' | 'name' | 'summary' | 'canonicalUrl'>
   & { community: Types.Maybe<(
     { __typename: 'Community' }
     & Pick<Types.Community, 'id'>
@@ -129,7 +129,7 @@ export type ActivityPreviewCommentCtxBaseFragment = (
 
 export type ActivityPreviewCommunityCtxFragment = (
   { __typename: 'Community' }
-  & Pick<Types.Community, 'id' | 'isLocal' | 'icon' | 'name' | 'displayUsername' | 'summary' | 'canonicalUrl'>
+  & Pick<Types.Community, 'id' | 'isLocal' | 'icon' | 'name' | 'summary' | 'canonicalUrl'>
   & { myFollow: Types.Maybe<(
     { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
@@ -293,8 +293,6 @@ export const ActivityPreviewUserCtxFragmentDoc = gql`
   image
   userId: id
   userName: name
-  displayUsername
-  preferredUsername
   isLocal
   summary
   canonicalUrl
@@ -315,7 +313,6 @@ export const ActivityPreviewCollectionCtxFragmentDoc = gql`
   isLocal
   icon
   name
-  displayUsername
   summary
   canonicalUrl
   community {
@@ -364,7 +361,6 @@ export const ActivityPreviewCommunityCtxFragmentDoc = gql`
   isLocal
   icon
   name
-  displayUsername
   summary
   canonicalUrl
   myFollow {
