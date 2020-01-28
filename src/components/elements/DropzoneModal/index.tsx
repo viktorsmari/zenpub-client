@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
-// import { Trans } from '@lingui/macro';
-// import { clearPreviews } from './with-previews';
+import { Trans } from '@lingui/macro';
 import styled from '../../../themes/styled';
 import { UploadCloud } from 'react-feather';
-// import { useFormikContext } from 'formik';
 
 const ThumbsContainer = styled.aside`
   display: flex;
@@ -39,17 +37,6 @@ const Img = styled.img`
   text-align: center;
 `;
 
-// const Clear = styled.div`
-//   display: inline-block;
-//   cursor: pointer;
-//   font-size: 10px;
-//   padding: 2px 5px;
-//   background-color: #eaeaea;
-//   border-radius: 2px;
-//   height: 17px;
-//   float: right;
-// `;
-
 interface Props {
   initialUrl: any;
   uploadType?: string;
@@ -72,17 +59,6 @@ const DropzoneArea: React.FC<Props> = ({
       ? 'image/*'
       : '.pdf, .rtf, .docx, .doc, .odt, .ott, .xls, .xlsx, .ods, .ots, .csv, .ppt, .pps, .pptx, .odp, .otp, .odg, .otg, .odc, .ogg, .mp3, .flac, .m4a, .wav, .mp4, .mkv, .flv, .avi, .gif, .jpg, .jpeg, .png, .svg, .webm, .eps, .tex, .mbz';
 
-  // const clearPreviews = files => {
-  //   if (files.length != 0) {
-  //     files.forEach(file => {onIcon(fileUrl); URL.revokeObjectURL(file.preview)});
-
-  //   } else {
-  //     onIcon(fileUrl);
-  //     formikForm.setFieldValue('image', '');
-  //     formikForm.setFieldTouched('image', true);
-  //   }
-  // };
-
   useEffect(
     () => {
       return () => {
@@ -91,17 +67,6 @@ const DropzoneArea: React.FC<Props> = ({
     },
     [files]
   );
-
-  // const clearPreviews = files => {
-  //   if (files.length != 0) {
-  //     files.forEach(file => {onIcon(imageUrl); URL.revokeObjectURL(file.preview)});
-
-  //   } else {
-  //     onIcon(imageUrl);
-  //     formikForm.setFieldValue('image', '');
-  //     formikForm.setFieldTouched('image', true);
-  //   }
-  // };
 
   useEffect(
     () => {
@@ -125,16 +90,6 @@ const DropzoneArea: React.FC<Props> = ({
 
   return (
     <>
-      {/* {files.length != 0 || iconUrl != '' ? (
-        <Clear
-          onClick={() => {
-            clearPreviews(files);
-            setFiles([]);
-          }}
-        >
-          Clear
-        </Clear>
-      ) : null} */}
       <div {...getRootProps({ className: 'dropzone' })}>
         {uploadType != 'resource' ? (
           <ThumbsContainer>
@@ -153,9 +108,13 @@ const DropzoneArea: React.FC<Props> = ({
         <InfoContainer>
           <UploadCloud width={45} height={45} strokeWidth={2} />
           {isDragActive ? (
-            <p>Drop the file here ...</p>
+            <Info>
+              <Trans>Drop the file here ...</Trans>
+            </Info>
           ) : (
-            <p>Drag 'n' drop a file here, or click to select file</p>
+            <Info>
+              <Trans>Drag 'n' drop a file here, or click to select file</Trans>
+            </Info>
           )}
         </InfoContainer>
       </div>
@@ -181,6 +140,11 @@ const FileName = styled.p`
   font-weight: bold;
   text-align: right;
   font-style: italic;
+`;
+
+const Info = styled.p`
+  margin-top: 0px;
+  margin-bottom: 5px;
 `;
 
 // const ClearButton = styled.button`

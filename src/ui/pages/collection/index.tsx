@@ -59,7 +59,7 @@ export const Collection: React.FC<Props> = ({
                       }}
                       variant="outline"
                     >
-                      <Trans>Create a new resource</Trans>
+                      <Trans>Add new url</Trans>
                     </Button>
                   </WrapButton>
                   {isUploadOpen ? (
@@ -77,7 +77,7 @@ export const Collection: React.FC<Props> = ({
                         onClick={() => onUploadOpen(true)}
                         variant="outline"
                       >
-                        <Trans>Upload file</Trans>
+                        <Trans>Add new resource</Trans>
                       </Button>
                     </WrapButton>
                   )}
