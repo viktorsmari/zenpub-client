@@ -75,8 +75,7 @@ export const Preview: React.FC<Props> = ({ context }) => (
           : context.__typename === 'Collection'
             ? `/collections/${context.id}`
             : context.__typename === 'Resource'
-              ? //@ts-ignore
-                `/collections/${context.collection.id}`
+              ? `/collections/${(context as any).collection.id}`
               : ''
       }
     >
