@@ -62,7 +62,7 @@ function Result(props) {
         icon={hit.icon || hit.image}
         title={hit.name}
         summary={hit.summary}
-        url={hit.id || hit.canonicalUrl}
+        url={hit.canonicalUrl}
         type={hit.index_type}
         coreIntegrationURL={
           moodle_core_download_url
