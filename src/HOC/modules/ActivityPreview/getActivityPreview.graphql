@@ -157,6 +157,7 @@ fragment ActivityPreviewResourceCtx on Resource{
     name
     summary
     canonicalUrl
+    url
     collection{
         ...ActivityPreviewCollectionCtx
     }

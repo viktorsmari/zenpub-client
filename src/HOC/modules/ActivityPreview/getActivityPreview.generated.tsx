@@ -144,7 +144,7 @@ export type ActivityPreviewCommunityCtxFragment = (
 
 export type ActivityPreviewResourceCtxFragment = (
   { __typename: 'Resource' }
-  & Pick<Types.Resource, 'id' | 'isLocal' | 'icon' | 'name' | 'summary' | 'canonicalUrl'>
+  & Pick<Types.Resource, 'id' | 'isLocal' | 'icon' | 'name' | 'summary' | 'canonicalUrl' | 'url'>
   & { collection: Types.Maybe<(
     { __typename: 'Collection' }
     & ActivityPreviewCollectionCtxFragment
@@ -382,6 +382,7 @@ export const ActivityPreviewResourceCtxFragmentDoc = gql`
   name
   summary
   canonicalUrl
+  url
   collection {
     ...ActivityPreviewCollectionCtx
   }
