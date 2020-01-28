@@ -51,14 +51,46 @@ const Img = styled.img`
 // `;
 
 interface Props {
-  imageUrl: any;
+  initialUrl: any;
+  uploadType?: string;
   formikForm?: any;
+  touchedField?: string;
 }
 
-const DropzoneArea: React.FC<Props> = ({ imageUrl, formikForm }) => {
+const DropzoneArea: React.FC<Props> = ({
+  initialUrl,
+  uploadType,
+  formikForm,
+  touchedField
+}) => {
   // const { setFieldValue, setFieldTouched } = useFormikContext();
   const [files, setFiles] = useState([] as any);
-  const [iconUrl, onIcon] = useState(imageUrl);
+  const [fileUrl, onFile] = useState(initialUrl);
+
+  const acceptedTypes =
+    uploadType != 'resource'
+      ? 'image/*'
+      : '.pdf, .rtf, .docx, .doc, .odt, .ott, .xls, .xlsx, .ods, .ots, .csv, .ppt, .pps, .pptx, .odp, .otp, .odg, .otg, .odc, .ogg, .mp3, .flac, .m4a, .wav, .mp4, .mkv, .flv, .avi, .gif, .jpg, .jpeg, .png, .svg, .webm, .eps, .tex, .mbz';
+
+  // const clearPreviews = files => {
+  //   if (files.length != 0) {
+  //     files.forEach(file => {onIcon(fileUrl); URL.revokeObjectURL(file.preview)});
+
+  //   } else {
+  //     onIcon(fileUrl);
+  //     formikForm.setFieldValue('image', '');
+  //     formikForm.setFieldTouched('image', true);
+  //   }
+  // };
+
+  useEffect(
+    () => {
+      return () => {
+        files.forEach(file => URL.revokeObjectURL(file.preview));
+      };
+    },
+    [files]
+  );
 
   // const clearPreviews = files => {
   //   if (files.length != 0) {
@@ -81,12 +113,13 @@ const DropzoneArea: React.FC<Props> = ({ imageUrl, formikForm }) => {
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    accept: 'image/*',
+    accept: acceptedTypes,
     onDrop: acceptedFiles => {
-      formikForm.setFieldValue('files', acceptedFiles);
-      formikForm.setFieldTouched('files', true);
+      const uploadField = touchedField ? touchedField : 'files';
+      formikForm.setFieldValue(uploadField, acceptedFiles);
+      formikForm.setFieldTouched(uploadField, true);
       setFiles(acceptedFiles);
-      acceptedFiles.map(file => onIcon(URL.createObjectURL(file)));
+      acceptedFiles.map(file => onFile(URL.createObjectURL(file)));
     }
   });
 
@@ -103,13 +136,19 @@ const DropzoneArea: React.FC<Props> = ({ imageUrl, formikForm }) => {
         </Clear>
       ) : null} */}
       <div {...getRootProps({ className: 'dropzone' })}>
-        <ThumbsContainer>
-          <Thumb key={iconUrl}>
-            <ThumbInner>
-              <Img src={iconUrl} />
-            </ThumbInner>
-          </Thumb>
-        </ThumbsContainer>
+        {uploadType != 'resource' ? (
+          <ThumbsContainer>
+            <Thumb key={fileUrl}>
+              <ThumbInner>
+                <Img src={fileUrl} />
+              </ThumbInner>
+            </Thumb>
+          </ThumbsContainer>
+        ) : null}
+        {uploadType == 'resource' && files.length != 0 ? (
+          <FileName>{files[0].name}</FileName>
+        ) : null}
+
         <input {...getInputProps()} />
         <InfoContainer>
           <UploadCloud width={45} height={45} strokeWidth={2} />
@@ -135,6 +174,13 @@ const InfoContainer = styled.div`
   cursor: pointer;
   border: 2px dashed ${props => props.theme.colors.gray};
   margin: 0px;
+`;
+
+const FileName = styled.p`
+  margin-bottom: 10px;
+  font-weight: bold;
+  text-align: right;
+  font-style: italic;
 `;
 
 // const ClearButton = styled.button`

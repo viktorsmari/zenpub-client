@@ -194,7 +194,7 @@ const EditCommunityModal = (props: Props /*  & FormikProps<FormValues> */) => {
                     <Trans>Image</Trans>
                   </label>
                   <ContainerForm>
-                    <DropzoneArea imageUrl={initialValues.icon} />
+                    <DropzoneArea initialUrl={initialValues.icon} />
                     {/* {errors.image &&
                       touched.image && <Alert>{errors.image}</Alert>} */}
                   </ContainerForm>
