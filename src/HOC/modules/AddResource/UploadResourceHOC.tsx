@@ -61,13 +61,7 @@ export const UploadResourceHOC: SFC<Props> = ({
             icon: vals.icon,
             url: vals.url
           }
-        },
-        refetchQueries: [
-          {
-            query: CollectionPageDocument,
-            variables: { collectionId }
-          }
-        ]
+        }
       })
         .then(res => {
           const createdResourceId = res.data!.createResource!.id;
@@ -92,7 +86,13 @@ export const UploadResourceHOC: SFC<Props> = ({
                     variables: {
                       contextId: createdResourceId,
                       upload: iconToUpload[0]
-                    }
+                    },
+                    refetchQueries: [
+                      {
+                        query: CollectionPageDocument,
+                        variables: { collectionId }
+                      }
+                    ]
                   });
                 }
               })
