@@ -40,8 +40,8 @@ export interface Activity {
   createdAt: string;
   actor: Actor;
   context: Context;
-  inReplyToCtx?: InReplyToContext | null;
-  actions?: ActionProps | null;
+  inReplyToCtx: InReplyToContext | null;
+  actions: ActionProps | null;
 }
 
 export type Props = ActivityLoaded | ActivityLoading;
@@ -97,16 +97,25 @@ export const BigActivityPreview: SFC<Props> = activity => {
               ? activity.context.content
               : ''}
           </Comment>
-          {/* {activity.actions && <Actions {...activity.actions} />} */}
-          <Box mt={3}>
-            <SocialText
-              placeholder={i18n._(tt.placeholders.name)}
-              defaultValue={''}
-              submit={msg => {
-                () => console.log(msg);
-              }}
-            />
-          </Box>
+          {activity.actions &&
+            activity.actions.reply && (
+              <Box mt={3}>
+                <SocialText
+                  placeholder={i18n._(tt.placeholders.name)}
+                  defaultValue={''}
+                  submit={msg => {
+                    if (!(activity.actions && activity.actions.reply)) {
+                      //FIXME: don't know why TS complains without this check
+                      //       despite the check is made up
+                      //       at element render option level
+                      return;
+                    }
+                    activity.actions.reply.replyFormik.values.replyMessage = msg;
+                    activity.actions.reply.replyFormik.submitForm();
+                  }}
+                />
+              </Box>
+            )}
         </Box>
       </Contents>
     </FeedItem>

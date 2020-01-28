@@ -219,7 +219,8 @@ const ResourceActivity: SFC<{
     },
     createdAt: resource.createdAt,
     status: ActivityPreviewStatus.Loaded,
-    actions: getActions(resource, commentResourceFormik, toggleLikeFormik)
+    actions: getActions(resource, commentResourceFormik, toggleLikeFormik),
+    inReplyToCtx: null
   };
 
   return <ActivityPreview {...props} />;

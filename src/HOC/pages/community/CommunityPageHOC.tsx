@@ -237,7 +237,8 @@ export const ThreadActivity: SFC<{
     },
     createdAt: comment.createdAt,
     status: ActivityPreviewStatus.Loaded,
-    actions: getActions(comment, replyThreadFormik, toggleLikeFormik)
+    actions: getActions(comment, replyThreadFormik, toggleLikeFormik),
+    inReplyToCtx: null
   };
 
   return <ActivityPreview {...props} />;
