@@ -60,33 +60,41 @@ export const Collection: React.FC<Props> = ({
               </Route>
               <Route path={`${basePath}/resources`}>
                 <>
-                  <WrapButton mt={3} px={3} pb={3} mb={2}>
+                  <WrapButton px={3} pb={3} mb={2}>
                     <Button
+                      mr={2}
                       onClick={() => setOpenShareLink(true)}
                       variant="outline"
                     >
                       <Trans>Share link</Trans>
                     </Button>
+                    <Button
+                      onClick={() => onUploadOpen(true)}
+                      variant="outline"
+                    >
+                      <Trans>Add new resource</Trans>
+                    </Button>
                   </WrapButton>
-                  {isUploadOpen ? (
-                    <WrapButton mt={3} px={3} pb={3} mb={2}>
-                      <Button
-                        onClick={() => onUploadOpen(false)}
-                        variant="outline"
-                      >
-                        <Trans>Cancel</Trans>
-                      </Button>
-                    </WrapButton>
+                  {/* {isUploadOpen ? (
+                    // <WrapButton mt={3} px={3} pb={3} mb={2}>
+                    //   <Button
+                    //     onClick={() => onUploadOpen(false)}
+                    //     variant="outline"
+                    //   >
+                    //     <Trans>Cancel</Trans>
+                    //   </Button>
+                    // </WrapButton>
                   ) : (
-                    <WrapButton mt={3} px={3} pb={3} mb={2}>
-                      <Button
-                        onClick={() => onUploadOpen(true)}
-                        variant="outline"
-                      >
-                        <Trans>Add new resource</Trans>
-                      </Button>
-                    </WrapButton>
-                  )}
+                    // <WrapButton mt={3} px={3} pb={3} mb={2}>
+                    //   <Button
+                    //     onClick={() => onUploadOpen(true)}
+                    //     variant="outline"
+                    //   >
+                    //     <Trans>Add new resource</Trans>
+                    //   </Button>
+                    // </WrapButton>
+                    null
+                  )} */}
 
                   {isUploadOpen && (
                     <UploadResourcePanel done={() => onUploadOpen(false)} />
@@ -176,7 +184,7 @@ const Menu = ({ basePath }: { basePath: string }) => (
 );
 
 const WrapButton = styled(Flex)`
-  border-bottom: 3px solid ${props => props.theme.colors.lightgray};
+  // border-bottom: 3px solid ${props => props.theme.colors.lightgray};
   button {
     width: 100%;
     height: 50px;
