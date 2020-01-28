@@ -31,7 +31,10 @@ const CommunitiesFeatured: React.SFC<Props> = () => {
       limitTimeline: 15
     }
   });
-  const { data, loading, error /* , fetchMore */ } = query;
+  const { data, loading, error /* , fetchMore */, refetch } = query;
+  React.useEffect(() => {
+    refetch();
+  }, []);
   return (
     <MainContainer>
       <HomeBox>

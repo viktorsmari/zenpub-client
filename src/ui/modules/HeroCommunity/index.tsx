@@ -126,6 +126,7 @@ const Actions = styled(Flex)`
 const Username = styled(Text)`
   color: ${props => props.theme.colors.gray};
   font-weight: 500;
+  text-transform: lowercase;
 `;
 
 const MembersTot = styled(Flex)`

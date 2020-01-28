@@ -215,7 +215,8 @@ const ResourceActivity: SFC<{
       verb: UIP.ContextVerb.Created,
       title: resource.name,
       icon: resource.icon || '',
-      summary: resource.summary || ''
+      summary: resource.summary || '',
+      resourceUrl: resource.url || resource.canonicalUrl || ''
     },
     createdAt: resource.createdAt,
     status: ActivityPreviewStatus.Loaded,

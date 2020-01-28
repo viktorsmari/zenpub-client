@@ -428,7 +428,8 @@ const getContext = (
                 type: UIP.ContextType.Resource,
                 icon: gqlContext.icon || '',
                 title: gqlContext.name,
-                summary: gqlContext.summary || ''
+                summary: gqlContext.summary || '',
+                resourceUrl: gqlContext.url || ''
               }
             : gqlContext.__typename === 'User'
               ? {

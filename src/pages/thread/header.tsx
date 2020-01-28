@@ -72,7 +72,11 @@ export const Preview: React.FC<Props> = ({ context }) => (
       to={
         context.__typename === 'Community'
           ? `/communities/${context.id}`
-          : `/collections/${context.id}`
+          : context.__typename === 'Collection'
+            ? `/collections/${context.id}`
+            : context.__typename === 'Resource'
+              ? `/collections/${(context as any).collection.id}`
+              : ''
       }
     >
       <LinkImg src={context.icon} />
