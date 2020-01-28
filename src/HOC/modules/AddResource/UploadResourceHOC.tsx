@@ -9,6 +9,7 @@ import {
   ResourceFormValues,
   UploadResource
 } from 'ui/modules/AddResource/UploadResource';
+import { CollectionPageDocument } from 'HOC/pages/collection/CollectionPage.generated';
 // import { Resource } from 'graphql/types.generated';
 
 export const validationSchema: Yup.ObjectSchema<
@@ -60,7 +61,13 @@ export const UploadResourceHOC: SFC<Props> = ({
             icon: vals.icon,
             url: vals.url
           }
-        }
+        },
+        refetchQueries: [
+          {
+            query: CollectionPageDocument,
+            variables: { collectionId }
+          }
+        ]
       }).then(res => {
         const createdResourceId = res.data!.createResource!.id;
 

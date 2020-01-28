@@ -62,7 +62,7 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
       following: true,
       image: 'https://picsum.photos/800/300',
       name: 'Community nino',
-      preferredUsername: 'ninos',
+      displayUsername: 'ninos',
       summary:
         'Cooperation combined with network effects is more effective than capitalist competition',
       totalMembers: 193,
@@ -88,7 +88,7 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
       following: true,
       icon: 'https://picsum.photos/800/300',
       title: 'Favourite books',
-      preferredUsername: 'favbooks',
+      displayUsername: 'favbooks',
       communityIcon: 'https://picsum.photos/800/300',
       communityId: '2',
       communityName: 'Super community',

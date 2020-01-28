@@ -65,7 +65,7 @@ class CommunitiesYours extends React.Component<Props> {
                             name={coll.name}
                             summary={coll.summary!}
                             link={{
-                              url: 'collection/' + coll.id,
+                              url: 'collections/' + coll.id,
                               external: false
                             }}
                             totalResources={coll.resources!.totalCount}

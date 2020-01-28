@@ -23,7 +23,7 @@ export type GetHeroCommunityQuery = (
 
 export type HeroCommunityDataFragment = (
   { __typename: 'Community' }
-  & Pick<Types.Community, 'id' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'image'>
+  & Pick<Types.Community, 'id' | 'displayUsername' | 'name' | 'summary' | 'icon' | 'image'>
   & { followers: Types.Maybe<(
     { __typename: 'FollowsEdges' }
     & Pick<Types.FollowsEdges, 'totalCount'>
@@ -39,7 +39,7 @@ export type HeroCommunityDataFragment = (
 export const HeroCommunityDataFragmentDoc = gql`
     fragment HeroCommunityData on Community {
   id
-  preferredUsername
+  displayUsername
   name
   summary
   icon

@@ -19,6 +19,7 @@ export interface Props {
   ActivityBoxes: JSX.Element[];
   ResourceBoxes: JSX.Element[];
   HeroCollectionBox: JSX.Element;
+  ShareLinkModalPanel: React.ComponentType<{ done(): any }>;
   EditCollectionPanel: React.ComponentType<{ done(): any }>;
   UploadResourcePanel: React.ComponentType<{ done(): any }>;
   basePath: string;
@@ -26,6 +27,7 @@ export interface Props {
 
 export const Collection: React.FC<Props> = ({
   HeroCollectionBox,
+  ShareLinkModalPanel,
   EditCollectionPanel,
   UploadResourcePanel,
   ActivityBoxes,
@@ -33,12 +35,18 @@ export const Collection: React.FC<Props> = ({
   basePath
 }) => {
   const [isOpenEditCollection, setOpenEditCollection] = React.useState(false);
+  const [isShareLinkOpen, setOpenShareLink] = React.useState(false);
   const [isUploadOpen, onUploadOpen] = React.useState(false);
   return (
     <MainContainer>
       {isOpenEditCollection && (
-        <Modal closeModal={() => setOpenEditCollection(false)}>
+        <Modal closeModal={() => setOpenShareLink(false)}>
           <EditCollectionPanel done={() => setOpenEditCollection(false)} />
+        </Modal>
+      )}
+      {isShareLinkOpen && (
+        <Modal closeModal={() => setOpenShareLink(false)}>
+          <ShareLinkModalPanel done={() => setOpenShareLink(false)} />
         </Modal>
       )}
       <HomeBox>
@@ -54,12 +62,10 @@ export const Collection: React.FC<Props> = ({
                 <>
                   <WrapButton mt={3} px={3} pb={3} mb={2}>
                     <Button
-                      onClick={() => {
-                        return true;
-                      }}
+                      onClick={() => setOpenShareLink(true)}
                       variant="outline"
                     >
-                      <Trans>Add new url</Trans>
+                      <Trans>Share link</Trans>
                     </Button>
                   </WrapButton>
                   {isUploadOpen ? (

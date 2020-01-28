@@ -17,7 +17,7 @@ export interface CommunityLoaded {
   image: string;
   name: string;
   summary: string;
-  preferredUsername: string;
+  displayUsername: string;
   totalMembers: number;
   following: boolean;
   canModify: boolean;
@@ -55,7 +55,7 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
           <Title variant="heading" mt={0}>
             {c.name}
           </Title>
-          <Username fontSize={2}>@{c.preferredUsername}</Username>
+          <Username fontSize={1}>@{c.displayUsername}</Username>
           {c.summary && (
             <Summary variant="text" mt={2}>
               {c.summary}
@@ -82,6 +82,7 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
               <Button
                 ml={2}
                 variant={c.following ? 'outline' : 'primary'}
+                isSubmitting={c.toggleJoin.isSubmitting}
                 isDisabled={c.toggleJoin.isSubmitting}
                 onClick={c.toggleJoin.toggle}
               >

@@ -29,6 +29,11 @@ export const algoliaCreds = {
   apiKey: '884f8371d98c8c9837cf76f85f4b5daa'
 };
 
+export const max_file_size = '10MB';
+
+export const accepted_file_types =
+  '.pdf, .rtf, .docx, .doc, .odt, .ott, .xls, .xlsx, .ods, .ots, .csv, .ppt, .pps, .pptx, .odp, .otp, .odg, .otg, .odc, .ogg, .mp3, .flac, .m4a, .wav, .mp4, .mkv, .flv, .avi, .gif, .jpg, .jpeg, .png, .svg, .webm, .eps, .tex, .mbz';
+
 /* log ENV if DEV */
 IS_DEV &&
   console.log(`-environment-

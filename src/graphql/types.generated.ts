@@ -395,7 +395,7 @@ export type CommunityUpdateInput = {
 };
 
 /** A thing that can be deleted */
-export type DeleteContext = Collection | Comment | Community | Feature | Flag | Follow | Like | Resource | Thread | User;
+export type DeleteContext = Collection | Comment | Community | Feature | Follow | Like | Resource | Thread | User;
 
 /** A featured piece of content */
 export type Feature = {
@@ -1470,9 +1470,6 @@ export type WebMetadata = {
             "name": "Feature"
           },
           {
-            "name": "Flag"
-          },
-          {
             "name": "Follow"
           },
           {
@@ -1649,7 +1646,7 @@ export type ResolversTypes = {
   CommentInput: CommentInput,
   ResourceInput: ResourceInput,
   RegistrationInput: RegistrationInput,
-  DeleteContext: ResolversTypes['Collection'] | ResolversTypes['Comment'] | ResolversTypes['Community'] | ResolversTypes['Feature'] | ResolversTypes['Flag'] | ResolversTypes['Follow'] | ResolversTypes['Like'] | ResolversTypes['Resource'] | ResolversTypes['Thread'] | ResolversTypes['User'],
+  DeleteContext: ResolversTypes['Collection'] | ResolversTypes['Comment'] | ResolversTypes['Community'] | ResolversTypes['Feature'] | ResolversTypes['Follow'] | ResolversTypes['Like'] | ResolversTypes['Resource'] | ResolversTypes['Thread'] | ResolversTypes['User'],
   WebMetadata: ResolverTypeWrapper<WebMetadata>,
   CollectionUpdateInput: CollectionUpdateInput,
   CommunityUpdateInput: CommunityUpdateInput,
@@ -1725,7 +1722,7 @@ export type ResolversParentTypes = {
   CommentInput: CommentInput,
   ResourceInput: ResourceInput,
   RegistrationInput: RegistrationInput,
-  DeleteContext: ResolversParentTypes['Collection'] | ResolversParentTypes['Comment'] | ResolversParentTypes['Community'] | ResolversParentTypes['Feature'] | ResolversParentTypes['Flag'] | ResolversParentTypes['Follow'] | ResolversParentTypes['Like'] | ResolversParentTypes['Resource'] | ResolversParentTypes['Thread'] | ResolversParentTypes['User'],
+  DeleteContext: ResolversParentTypes['Collection'] | ResolversParentTypes['Comment'] | ResolversParentTypes['Community'] | ResolversParentTypes['Feature'] | ResolversParentTypes['Follow'] | ResolversParentTypes['Like'] | ResolversParentTypes['Resource'] | ResolversParentTypes['Thread'] | ResolversParentTypes['User'],
   WebMetadata: WebMetadata,
   CollectionUpdateInput: CollectionUpdateInput,
   CommunityUpdateInput: CommunityUpdateInput,
@@ -1880,7 +1877,7 @@ export type CommunityResolvers<ContextType = any, ParentType extends ResolversPa
 };
 
 export type DeleteContextResolvers<ContextType = any, ParentType extends ResolversParentTypes['DeleteContext'] = ResolversParentTypes['DeleteContext']> = {
-  __resolveType: TypeResolveFn<'Collection' | 'Comment' | 'Community' | 'Feature' | 'Flag' | 'Follow' | 'Like' | 'Resource' | 'Thread' | 'User', ParentType, ContextType>
+  __resolveType: TypeResolveFn<'Collection' | 'Comment' | 'Community' | 'Feature' | 'Follow' | 'Like' | 'Resource' | 'Thread' | 'User', ParentType, ContextType>
 };
 
 export type FeatureResolvers<ContextType = any, ParentType extends ResolversParentTypes['Feature'] = ResolversParentTypes['Feature']> = {

@@ -3,6 +3,7 @@ import { useDropzone } from 'react-dropzone';
 import { Trans } from '@lingui/macro';
 import styled from '../../../themes/styled';
 import { UploadCloud } from 'react-feather';
+import { accepted_file_types } from '../../../constants';
 
 const ThumbsContainer = styled.aside`
   display: flex;
@@ -55,9 +56,7 @@ const DropzoneArea: React.FC<Props> = ({
   const [fileUrl, onFile] = useState(initialUrl);
 
   const acceptedTypes =
-    uploadType != 'resource'
-      ? 'image/*'
-      : '.pdf, .rtf, .docx, .doc, .odt, .ott, .xls, .xlsx, .ods, .ots, .csv, .ppt, .pps, .pptx, .odp, .otp, .odg, .otg, .odc, .ogg, .mp3, .flac, .m4a, .wav, .mp4, .mkv, .flv, .avi, .gif, .jpg, .jpeg, .png, .svg, .webm, .eps, .tex, .mbz';
+    uploadType != 'resource' ? 'image/*' : accepted_file_types;
 
   useEffect(
     () => {
