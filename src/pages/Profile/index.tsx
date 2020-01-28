@@ -106,7 +106,8 @@ const CommunitiesFeatured: React.SFC<Props> = () => {
                                     summary={coll.node.collection.summary!}
                                     link={{
                                       url:
-                                        'collection/' + coll.node.collection.id,
+                                        'collections/' +
+                                        coll.node.collection.id,
                                       external: false
                                     }}
                                     totalResources={
