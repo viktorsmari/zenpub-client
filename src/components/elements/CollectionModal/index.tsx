@@ -75,7 +75,7 @@ const withFetchResource = graphql<{}>(FETCH_RESOURCE, {
   // TODO enforce proper types for OperationOption
 } as OperationOption<{}, {}>);
 
-const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
+const ShareLinkModal = (props: Props & FormikProps<FormValues>) => {
   const { i18n } = React.useContext(LocaleContext);
 
   return (
@@ -156,7 +156,7 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
         setSubmitting(false);
       });
   }
-})(CreateCommunityModal);
+})(ShareLinkModal);
 
 export default compose(
   withFetchResource,
