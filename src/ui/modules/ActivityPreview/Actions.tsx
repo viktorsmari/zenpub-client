@@ -39,7 +39,7 @@ const ActionsWrapper: React.SFC<ActionProps> = ({ like, reply }) => {
   const [talkModalVisible, showTalkModal] = React.useState(false);
   const { i18n } = React.useContext(LocaleContext);
   return (
-    <Actions p={2}>
+    <Actions mt={3}>
       {reply &&
         talkModalVisible && (
           <SocialText
@@ -53,9 +53,9 @@ const ActionsWrapper: React.SFC<ActionProps> = ({ like, reply }) => {
         )}
       <Box>
         <Items>
-          <ActionItem ml={1} onClick={() => showTalkModal(!talkModalVisible)}>
+          <ActionItem onClick={() => showTalkModal(!talkModalVisible)}>
             <ActionIcon>
-              <MessageCircle color="rgba(0,0,0,.4)" size="16" />
+              <MessageCircle strokeWidth="1" color="rgba(0,0,0,.4)" size="20" />
             </ActionIcon>
             <Text
               ml={1}
@@ -70,7 +70,8 @@ const ActionsWrapper: React.SFC<ActionProps> = ({ like, reply }) => {
               <ActionIcon>
                 <Star
                   color={like.iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'}
-                  size="16"
+                  strokeWidth="1"
+                  size="20"
                 />
               </ActionIcon>
               <Text
@@ -96,7 +97,7 @@ const Actions = styled(Box)`
   position: relative;
   background: white;
   z-index: 9999;
-  border-top: 1px solid ${props => props.theme.colors.lightgray};
+  // border-top: 1px solid ${props => props.theme.colors.lightgray};
 `;
 
 const ActionItem = styled(Flex)`
