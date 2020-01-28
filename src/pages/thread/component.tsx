@@ -1,4 +1,19 @@
-import React, { useEffect, useMemo, SFC } from 'react';
+import { PureQueryOptions } from 'apollo-client';
+import { useFormik } from 'formik';
+import { Thread as GQLThread } from 'graphql/types.generated';
+import {
+  getActions,
+  getActor
+} from 'HOC/modules/ActivityPreview/activityPreviewHOC';
+import { ActivityPreviewCommentCtxExtendedFragment } from 'HOC/modules/ActivityPreview/getActivityPreview.generated';
+import React, { SFC, useEffect, useMemo } from 'react';
+import {
+  ActivityPreview,
+  BigActivityPreview,
+  Props as ActivityPreviewProps,
+  Status as ActivityPreviewStatus
+} from 'ui/modules/ActivityPreview';
+import * as UIP from 'ui/modules/ActivityPreview/preview';
 import {
   CreateReplyMutationMutationOperation,
   useCreateReplyMutationMutation
@@ -8,8 +23,8 @@ import {
   useDeleteMutationMutation
 } from '../../graphql/delete.generated';
 import {
-  useGetThreadQuery,
-  GetThreadDocument
+  GetThreadDocument,
+  useGetThreadQuery
 } from '../../graphql/getThread.generated';
 import {
   LikeMutationMutationOperation,
@@ -17,20 +32,6 @@ import {
 } from '../../graphql/like.generated';
 import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import Stateless from './stateless';
-import { PureQueryOptions } from 'apollo-client';
-import { ActivityPreviewCommentCtxExtendedFragment } from 'HOC/modules/ActivityPreview/getActivityPreview.generated';
-import {
-  ActivityPreview,
-  Props as ActivityPreviewProps,
-  Status as ActivityPreviewStatus
-} from 'ui/modules/ActivityPreview';
-import * as UIP from 'ui/modules/ActivityPreview/preview';
-import {
-  getActor,
-  getActions
-} from 'HOC/modules/ActivityPreview/activityPreviewHOC';
-import { useFormik } from 'formik';
-import { Thread as GQLThread } from 'graphql/types.generated';
 export interface Props {
   threadId: string;
 }
@@ -75,10 +76,15 @@ export const Thread: React.FC<Props> = ({ threadId }) => {
       const comments = threadQuery.data.thread.comments;
       return comments.edges
         .map(
-          edge =>
+          (edge, index) =>
             edge &&
             edge.node && (
-              <CommentActivity threadId={thread.id} comment={edge.node} />
+              <CommentActivity
+                root={index === 0}
+                threadId={thread.id}
+                comment={edge.node}
+                key={edge.node.id}
+              />
             )
         )
         .filter((_): _ is JSX.Element => !!_);
@@ -92,9 +98,10 @@ export const Thread: React.FC<Props> = ({ threadId }) => {
 export default Thread;
 
 export const CommentActivity: SFC<{
+  root: boolean;
   threadId: GQLThread['id'];
   comment: ActivityPreviewCommentCtxExtendedFragment;
-}> = ({ threadId, comment }) => {
+}> = ({ threadId, comment, root }) => {
   if (!comment.creator) {
     return null;
   }
@@ -161,6 +168,9 @@ export const CommentActivity: SFC<{
     status: ActivityPreviewStatus.Loaded,
     actions: getActions(comment, replyThreadFormik, toggleLikeFormik)
   };
-
-  return <ActivityPreview {...props} />;
+  return !root ? (
+    <ActivityPreview {...props} />
+  ) : (
+    <BigActivityPreview {...props} />
+  );
 };
