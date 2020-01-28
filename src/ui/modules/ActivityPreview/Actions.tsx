@@ -46,6 +46,7 @@ const ActionsWrapper: React.SFC<ActionProps> = ({ like, reply }) => {
             placeholder={i18n._(tt.placeholders.name)}
             defaultValue={''}
             submit={msg => {
+              showTalkModal(false);
               reply.replyFormik.setValues({ replyMessage: msg });
               reply.replyFormik.submitForm();
             }}
@@ -95,7 +96,7 @@ const Items = styled(Flex)`
 
 const Actions = styled(Box)`
   position: relative;
-  background: white;
+  // background: white;
   z-index: 9999;
   // border-top: 1px solid ${props => props.theme.colors.lightgray};
 `;

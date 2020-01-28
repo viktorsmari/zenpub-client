@@ -244,8 +244,7 @@ const getInReplyToCtx = ({
         context.thread.context.context.__typename === 'Resource'
           ? context.thread.context.context.name
           : context.thread.context.context.__typename === 'User'
-            ? context.thread.context.context.userName ||
-              context.thread.context.context.displayUsername
+            ? context.thread.context.context.userName || ''
             : context.thread.context.context.content
     };
   } else {
@@ -399,7 +398,7 @@ const getContext = (
           link: getSimpleLink(gqlContext),
           type: UIP.ContextType.Collection,
           icon: gqlContext.icon || '',
-          title: gqlContext.displayUsername,
+          title: gqlContext.name,
           summary: gqlContext.summary || ''
         }
       : gqlContext.__typename === 'Comment'
@@ -417,7 +416,7 @@ const getContext = (
               link: getSimpleLink(gqlContext),
               type: UIP.ContextType.Community,
               icon: gqlContext.icon || '',
-              title: gqlContext.displayUsername,
+              title: gqlContext.name,
               summary: gqlContext.summary || ''
             }
           : gqlContext.__typename === 'Resource'
@@ -429,7 +428,8 @@ const getContext = (
                 type: UIP.ContextType.Resource,
                 icon: gqlContext.icon || '',
                 title: gqlContext.name,
-                summary: gqlContext.summary || ''
+                summary: gqlContext.summary || '',
+                resourceUrl: gqlContext.url || ''
               }
             : gqlContext.__typename === 'User'
               ? {
@@ -438,7 +438,7 @@ const getContext = (
                   type: UIP.ContextType.Resource,
                   icon: gqlContext.icon || gqlContext.image || '',
                   summary: '',
-                  title: gqlContext.displayUsername
+                  title: gqlContext.userName || ''
                 }
               : null; // gqlContext: never
   if (!context) {
@@ -453,8 +453,7 @@ export const getActor = (
 ): UIT.Actor => {
   return {
     icon: usr.icon || usr.image || '',
-    name: usr.userName || usr.preferredUsername,
-    displayUsername: usr.displayUsername,
+    name: usr.userName || '',
     link: getSimpleLink({ ...usr, id: usr.userId })
   };
 };

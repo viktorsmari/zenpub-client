@@ -17,7 +17,7 @@ export interface CommunityLoaded {
   image: string;
   name: string;
   summary: string;
-  displayUsername: string;
+  fullName: string;
   totalMembers: number;
   following: boolean;
   canModify: boolean;
@@ -55,7 +55,7 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
           <Title variant="heading" mt={0}>
             {c.name}
           </Title>
-          <Username fontSize={1}>@{c.displayUsername}</Username>
+          <Username fontSize={1}>@{c.fullName}</Username>
           {c.summary && (
             <Summary variant="text" mt={2}>
               {c.summary}

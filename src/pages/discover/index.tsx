@@ -1,5 +1,5 @@
 import { Trans } from '@lingui/macro';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import media from 'styled-media-query';
 
@@ -42,6 +42,9 @@ const Home: React.FC<Props> = props => {
       limit: 15
     }
   });
+  useEffect(() => {
+    refetch();
+  }, []);
   useDynamicLinkOpResult<CreateReplyMutationMutationOperation>(
     'createReplyMutation',
     () => {

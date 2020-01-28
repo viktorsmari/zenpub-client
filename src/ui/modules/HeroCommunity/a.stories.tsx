@@ -14,7 +14,7 @@ storiesOf('Modules/HeroCommunity', module)
         following: true,
         image: 'https://picsum.photos/800/300',
         name: 'Community nino',
-        displayUsername: 'ninos',
+        fullName: 'ninos@instance.com',
         summary: '',
         totalMembers: 193,
         toggleJoin: {

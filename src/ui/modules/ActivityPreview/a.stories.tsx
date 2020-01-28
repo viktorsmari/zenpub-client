@@ -40,8 +40,7 @@ const getActions = () => ({
 const getActor = () => ({
   icon: 'https://picsum.photos/80/80',
   link: '1',
-  name: 'Ivan',
-  displayUsername: 'tata'
+  name: 'Ivan'
 });
 storiesOf('Modules/ActivityPreview', module)
   .add('Comment', () => {
