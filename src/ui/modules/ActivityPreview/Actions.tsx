@@ -46,6 +46,7 @@ const ActionsWrapper: React.SFC<ActionProps> = ({ like, reply }) => {
             placeholder={i18n._(tt.placeholders.name)}
             defaultValue={''}
             submit={msg => {
+              showTalkModal(false);
               reply.replyFormik.setValues({ replyMessage: msg });
               reply.replyFormik.submitForm();
             }}
