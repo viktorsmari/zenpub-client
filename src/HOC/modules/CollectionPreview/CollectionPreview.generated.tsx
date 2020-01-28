@@ -23,7 +23,7 @@ export type CollectionPreviewQuery = (
 
 export type CollectionPreviewDataFragment = (
   { __typename: 'Collection' }
-  & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'displayUsername' | 'icon' | 'summary' | 'isLocal' | 'followerCount' | 'resourceCount'>
+  & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'icon' | 'name' | 'summary' | 'isLocal' | 'followerCount' | 'resourceCount'>
   & { followers: Types.Maybe<(
     { __typename: 'FollowsEdges' }
     & { edges: Array<Types.Maybe<(
@@ -32,7 +32,7 @@ export type CollectionPreviewDataFragment = (
         { __typename: 'Follow' }
         & { creator: Types.Maybe<(
           { __typename: 'User' }
-          & Pick<Types.User, 'displayUsername' | 'preferredUsername' | 'icon' | 'image' | 'id'>
+          & Pick<Types.User, 'name' | 'icon' | 'image' | 'id'>
         )> }
       ) }
     )>> }
@@ -43,8 +43,8 @@ export const CollectionPreviewDataFragmentDoc = gql`
     fragment CollectionPreviewData on Collection {
   id
   canonicalUrl
-  displayUsername
   icon
+  name
   summary
   isLocal
   followerCount
@@ -53,8 +53,7 @@ export const CollectionPreviewDataFragmentDoc = gql`
     edges {
       node {
         creator {
-          displayUsername
-          preferredUsername
+          name
           icon
           image
           id

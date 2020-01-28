@@ -43,8 +43,8 @@ export const HeroCollectionHOC: SFC<Props> = ({ collectionId }) => {
           isMine: !!session.me && session.me.user.id === collection.creator!.id,
           following: !!collection.myFollow,
           icon: collection.icon || '',
-          title: collection.name,
-          displayUsername: collection.displayUsername,
+          name: collection.name,
+          fullName: collection.displayUsername,
           //FIXME https://gitlab.com/moodlenet/meta/issues/185
           summary: collection.summary || '',
           // FIXME Alec, not sure this is clean enuf pls doublecheck

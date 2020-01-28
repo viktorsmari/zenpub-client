@@ -22,7 +22,7 @@ export const basicGetCollectionQuery: GetCollectionQuery = {
       myFollow: { __typename: 'Follow', id: '' },
       myLike: { __typename: 'Like', id: '' },
       myFlag: { __typename: 'Flag', id: '' },
-      preferredUsername: '',
+      displayUsername: '',
       updatedAt: ''
     },
     followers: { __typename: 'FollowsEdges', totalCount: 0 },

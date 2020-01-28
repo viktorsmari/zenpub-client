@@ -8,7 +8,7 @@ import { User } from '../../graphql/types.generated';
 interface Props {
   user: Pick<
     User,
-    'image' | 'icon' | 'name' | 'summary' | 'preferredUsername' | 'location'
+    'image' | 'icon' | 'name' | 'summary' | 'displayUsername' | 'location'
   >;
 }
 
@@ -34,7 +34,7 @@ const HeroComp: SFC<Props> = ({ user }) => (
             {user.name}
           </Text>
           <Username mt={2} fontSize={2}>
-            @{user.preferredUsername}
+            @{user.displayUsername}
           </Username>
           <Text variant="text" mt={2}>
             {user.summary}
