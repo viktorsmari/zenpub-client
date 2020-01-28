@@ -34,12 +34,18 @@ export interface ConcreteContext extends IContext {
   type:
     | ContextType.Collection
     | ContextType.Community
-    | ContextType.Resource
-    | ContextType.User;
+    | ContextType.User
+    | ContextType.Resource;
   icon: string;
   title: string;
   summary: string;
+  resourceUrl?: string;
 }
+
+// export interface ResourceContext extends ConcreteContext {
+//   resourceUrl: string
+//   type: ContextType.Resource
+// }
 
 export interface CommentContext extends IContext {
   type: ContextType.Comment;
@@ -86,34 +92,42 @@ const SmallPreview: React.SFC<ConcreteContext> = context => (
 );
 
 const Preview: React.FC<Context> = context => {
-  const { link } = context;
+  // const { link } = context;
   return (
     <Wrapper>
-      <WrapperLink to={link}>
-        {context.type === ContextType.Comment ? (
-          <Comment mt={2} variant="text">
-            {context.content}
-          </Comment>
-        ) : context.type === ContextType.User ? (
-          <pre>
-            USER:
-            {JSON.stringify(context, null, 4)}
-          </pre>
-        ) : (
-          <SmallPreview {...context} />
-        )}
-        {context.verb === ContextVerb.Created ? (
-          <Overview {...context} />
-        ) : null}
-      </WrapperLink>
+      {context.type === ContextType.Comment ? (
+        <Comment mt={2} variant="text">
+          {context.content}
+        </Comment>
+      ) : context.type === ContextType.User ? (
+        <pre>
+          USER:
+          {JSON.stringify(context, null, 4)}
+        </pre>
+      ) : (
+        <SmallPreview {...context} />
+      )}
+      {context.verb === ContextVerb.Created ? <Overview {...context} /> : null}
     </Wrapper>
   );
 };
 
 const Overview: React.FC<Context> = context => {
-  return context.type === ContextType.Resource ||
-    context.type === ContextType.Community ||
-    context.type === ContextType.Collection ? (
+  return context.type === ContextType.Resource ? (
+    <WrapperLink target="blank" href={context.resourceUrl}>
+      <WrapperOverview mt={3}>
+        <Avatar size="m" src={context.icon} />
+        <Infos ml={3}>
+          <TitleOverview>{context.title}</TitleOverview>
+
+          <Text variant="text" mt={2} mb={3}>
+            {context.summary}
+          </Text>
+        </Infos>
+      </WrapperOverview>
+    </WrapperLink>
+  ) : context.type === ContextType.Community ||
+  context.type === ContextType.Collection ? (
     <WrapperOverview mt={3}>
       <Avatar size="m" src={context.icon} />
       <Infos ml={3}>
@@ -123,11 +137,11 @@ const Overview: React.FC<Context> = context => {
           {context.summary}
         </Text>
         {/* <Actions>
-            <ActionItem>
-              <FileText size={20} color={'#8b98a2'} />
-              
-            </ActionItem>
-          </Actions> */}
+                <ActionItem>
+                  <FileText size={20} color={'#8b98a2'} />
+                  
+                </ActionItem>
+              </Actions> */}
       </Infos>
     </WrapperOverview>
   ) : null;
@@ -294,7 +308,7 @@ export const Comment = styled(Text)`
   }
 `;
 
-const WrapperLink = styled(NavLink)`
+const WrapperLink = styled.a`
   text-decoration: none;
   position: relative;
   z-index: 999999;

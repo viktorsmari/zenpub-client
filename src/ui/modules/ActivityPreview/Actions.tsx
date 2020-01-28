@@ -96,7 +96,7 @@ const Items = styled(Flex)`
 
 const Actions = styled(Box)`
   position: relative;
-  background: white;
+  // background: white;
   z-index: 9999;
   // border-top: 1px solid ${props => props.theme.colors.lightgray};
 `;
