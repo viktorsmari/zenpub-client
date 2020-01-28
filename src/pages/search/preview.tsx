@@ -39,8 +39,8 @@ const Resource: React.FC<Props> = props => {
         target="blank"
         href={
           props.type === 'Community'
-            ? '/community/' + props.url
-            : '/collection/' + props.url
+            ? '/communities/' + props.url
+            : '/collections/' + props.url
         }
       >
         <Avatar size="m" src={props.icon || PlaceholderImg} />
