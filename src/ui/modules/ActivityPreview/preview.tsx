@@ -114,7 +114,7 @@ const Preview: React.FC<Context> = context => {
 
 const Overview: React.FC<Context> = context => {
   return context.type === ContextType.Resource ? (
-    <WrapperLink target="blank" href={context.resourceUrl}>
+    <WrapperLink onClick={() => window.open(context.resourceUrl)}>
       <WrapperOverview mt={3}>
         <Avatar size="m" src={context.icon} />
         <Infos ml={3}>
@@ -160,8 +160,7 @@ const WrapperOverview = styled(Flex)`
   border: 1px solid ${props => props.theme.colors.lightgray};
   border-radius: 6px;
   &:hover {
-    border-radius: 4px;
-    background: ${props => props.theme.colors.lighter};
+    background: #ebeef2;
   }
 `;
 
@@ -308,10 +307,22 @@ export const Comment = styled(Text)`
   }
 `;
 
-const WrapperLink = styled.a`
-  text-decoration: none;
-  position: relative;
-  z-index: 999999;
+const WrapperLink = styled.button`
+  background: transparent;
+  border: none;
+  margin: 0;
+  -webkit-appearance: none;
+  padding: 0;
+  display: block;
+  text-align: left;
+  outline: none;
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    outline: none;
+  }
+  width: 100%;
   &.connector {
     background: ${props => props.theme.colors.lightgray};
   }
