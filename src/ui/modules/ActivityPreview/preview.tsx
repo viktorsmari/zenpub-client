@@ -114,7 +114,7 @@ const Preview: React.FC<Context> = context => {
 
 const Overview: React.FC<Context> = context => {
   return context.type === ContextType.Resource ? (
-    <WrapperLink onClick={() => window.open(context.resourceUrl)}>
+    <WrapperLink target="blank" href={context.resourceUrl}>
       <WrapperOverview mt={3}>
         <Avatar size="m" src={context.icon} />
         <Infos ml={3}>
@@ -128,25 +128,33 @@ const Overview: React.FC<Context> = context => {
     </WrapperLink>
   ) : context.type === ContextType.Community ||
   context.type === ContextType.Collection ? (
-    <WrapperOverview mt={3}>
-      <Avatar size="m" src={context.icon} />
-      <Infos ml={3}>
-        <TitleOverview>{context.title}</TitleOverview>
+    <WrapperLinkGeneral to={context.link}>
+      <WrapperOverview mt={3}>
+        <Avatar size="m" src={context.icon} />
+        <Infos ml={3}>
+          <TitleOverview>{context.title}</TitleOverview>
 
-        <Text variant="text" mt={2} mb={3}>
-          {context.summary}
-        </Text>
-        {/* <Actions>
+          <Text variant="text" mt={2} mb={3}>
+            {context.summary}
+          </Text>
+          {/* <Actions>
                 <ActionItem>
                   <FileText size={20} color={'#8b98a2'} />
                   
                 </ActionItem>
               </Actions> */}
-      </Infos>
-    </WrapperOverview>
+        </Infos>
+      </WrapperOverview>
+    </WrapperLinkGeneral>
   ) : null;
 };
 
+const WrapperLinkGeneral = styled(NavLink)`
+  text-decoration: none;
+  &:hover {
+    text-decoration: none !important;
+  }
+`;
 const FlexSmallPreview = styled(Flex)`
   // padding: 16px 8px;
   // border-bottom: 1px solid ${props => props.theme.colors.lightgray};
@@ -307,22 +315,10 @@ export const Comment = styled(Text)`
   }
 `;
 
-const WrapperLink = styled.button`
-  background: transparent;
-  border: none;
-  margin: 0;
-  -webkit-appearance: none;
-  padding: 0;
-  display: block;
-  text-align: left;
-  outline: none;
-  &:focus {
-    outline: none;
-  }
-  &:active {
-    outline: none;
-  }
-  width: 100%;
+const WrapperLink = styled.a`
+  text-decoration: none;
+  position: relative;
+  z-index: 999999;
   &.connector {
     background: ${props => props.theme.colors.lightgray};
   }
