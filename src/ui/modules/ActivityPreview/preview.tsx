@@ -53,7 +53,7 @@ export interface UserContext extends IContext, Actor {
 export type Context = CommentContext | ConcreteContext | UserContext;
 
 const SmallPreview: React.SFC<ConcreteContext> = context => (
-  <FlexSmallPreview alignItems="center">
+  <FlexSmallPreview mt={2} alignItems="center">
     <TextPreview display="inline-block" mr={2} variant="link">
       {context.verb === ContextVerb.Follow ? (
         <Trans>Followed</Trans>
@@ -91,7 +91,9 @@ const Preview: React.FC<Context> = context => {
     <Wrapper>
       <WrapperLink to={link}>
         {context.type === ContextType.Comment ? (
-          <Comment variant="text">{context.content}</Comment>
+          <Comment mt={2} variant="text">
+            {context.content}
+          </Comment>
         ) : context.type === ContextType.User ? (
           <pre>
             USER:
@@ -112,7 +114,7 @@ const Overview: React.FC<Context> = context => {
   return context.type === ContextType.Resource ||
     context.type === ContextType.Community ||
     context.type === ContextType.Collection ? (
-    <WrapperOverview>
+    <WrapperOverview mt={3}>
       <Avatar size="m" src={context.icon} />
       <Infos ml={3}>
         <TitleOverview>{context.title}</TitleOverview>
@@ -132,15 +134,17 @@ const Overview: React.FC<Context> = context => {
 };
 
 const FlexSmallPreview = styled(Flex)`
-  padding: 16px 8px;
-  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+  // padding: 16px 8px;
+  // border-bottom: 1px solid ${props => props.theme.colors.lightgray};
 `;
 
 const WrapperOverview = styled(Flex)`
   cursor: pointer;
   position: relative;
   text-decoration: none;
-  padding: 8px;
+  padding: 12px;
+  border: 1px solid ${props => props.theme.colors.lightgray};
+  border-radius: 6px;
   &:hover {
     border-radius: 4px;
     background: ${props => props.theme.colors.lighter};
@@ -279,7 +283,8 @@ const FlexPreview = styled(Box)`
 `;
 
 export const Comment = styled(Text)`
-  padding: 8px;
+  // padding: 8px;
+
   & a {
     color: ${props => props.theme.colors.darkgray} !important;
     font-weight: 400 !important;

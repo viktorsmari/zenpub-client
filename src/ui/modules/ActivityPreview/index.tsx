@@ -54,7 +54,7 @@ export const ThreadActivityPreview: SFC<Props> = activity => {
     <FeedItem>
       <ActorComp actor={activity.actor} createdAt={activity.createdAt} />
       <Contents>
-        <Wrapper mt={2}>
+        <Wrapper>
           <Preview {...activity.context} />
           {activity.actions && <Actions {...activity.actions} />}{' '}
         </Wrapper>
@@ -72,7 +72,7 @@ export const ActivityPreview: SFC<Props> = activity => {
       {/* {activity.inReplyToCtx && <InReplyTo {...activity.inReplyToCtx} />} */}
       <ActorComp actor={activity.actor} createdAt={activity.createdAt} />
       <Contents>
-        <Wrapper mt={2}>
+        <Wrapper>
           <Preview {...activity.context} />
           {activity.actions && <Actions {...activity.actions} />}
         </Wrapper>
@@ -139,32 +139,33 @@ const ActorComp: SFC<ActorProps> = ({ actor, createdAt }) => (
 
 const Contents = styled(Box)`
   margin-top: -30px;
-  margin-left: 54px;
+  margin-left: 55px;
 `;
 
 const Username = styled(Text)`
   color: ${props => props.theme.colors.gray};
   margin: 0 8px;
   font-weight: 500;
+  font-size: 13px;
 
-//   ${media.lessThan('1280px')`
-//   display: none;
-//  `};
+  ${media.lessThan('1280px')`
+  display: none;
+ `};
 `;
 
 const Spacer = styled(Text)`
   color: ${props => props.theme.colors.gray};
   margin-right: 8px;
   font-weight: 500;
-//   ${media.lessThan('1280px')`
-//   display: none;
-//  `};
+  ${media.lessThan('1280px')`
+  display: none;
+ `};
 `;
 
 const Date = styled(Text)`
   color: ${props => props.theme.colors.gray};
   font-weight: 500;
-  font-size: 14px;
+  font-size: 13px;
 `;
 
 const Name = styled(Text)`
@@ -197,8 +198,8 @@ const MemberInfo = styled(Box)`
 `;
 
 const Wrapper = styled(Box)`
-  border: 1px solid ${props => props.theme.colors.lightgray};
-  border-radius: 4px;
+  // border: 1px solid ${props => props.theme.colors.lightgray};
+  // border-radius: 4px;
   background: white;
 `;
 const FeedItem = styled(Box)`
