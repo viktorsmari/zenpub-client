@@ -4,7 +4,7 @@ import * as Types from '../../../graphql/types.generated';
 import { HeroCollectionDataFragment } from '../../modules/HeroCollection/HeroCollection.generated';
 import gql from 'graphql-tag';
 import { HeroCollectionDataFragmentDoc } from '../../modules/HeroCollection/HeroCollection.generated';
-import { ActivityPreviewDataFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewDataFragmentDoc, ActivityPreviewResourceCtxFragment, ActivityPreviewLikeCtxFragment, ActivityPreviewCommentCtxBaseFragment, ActivityPreviewResourceCtxFragmentDoc, ActivityPreviewLikeCtxFragmentDoc, ActivityPreviewCommentCtxBaseFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
 import { ActivityPreviewDataFragment } from '../../modules/ActivityPreview/getActivityPreview.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';

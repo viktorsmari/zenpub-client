@@ -1,4 +1,4 @@
-import { ActivityPreviewDataFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewDataFragmentDoc, ActivityPreviewCommentCtxExtendedFragment, ActivityPreviewExtendedThreadFragment, ActivityPreviewLikeCtxFragment, ActivityPreviewCommentCtxBaseFragment, ActivityPreviewExtendedThreadFragmentDoc, ActivityPreviewCommentCtxExtendedFragmentDoc, ActivityPreviewLikeCtxFragmentDoc, ActivityPreviewCommentCtxBaseFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
 import * as Types from '../../../graphql/types.generated';
 
 import { CollectionPreviewDataFragment } from '../../modules/CollectionPreview/CollectionPreview.generated';
