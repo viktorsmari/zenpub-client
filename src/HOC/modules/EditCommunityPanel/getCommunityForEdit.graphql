@@ -3,6 +3,6 @@ query getCommunityForEdit($communityId: String!) {
         id
         name
         summary
-        image
+        icon
     }
 }

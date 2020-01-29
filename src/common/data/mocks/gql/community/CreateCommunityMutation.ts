@@ -6,7 +6,6 @@ export const basicCreateCommunityMutation: CreateCommunityMutationMutation = {
     __typename: 'Community',
     name: 'name',
     summary: 'summary',
-    image: '',
     collections: { __typename: 'CollectionsEdges', totalCount: 0 },
     createdAt: '',
     creator: {
@@ -39,7 +38,7 @@ export const basicCreateCommunityMutation: CreateCommunityMutationMutation = {
     myFollow: null,
     myFlag: null,
     canonicalUrl: null,
-    icon: null,
+    icon: '',
     threads: { __typename: 'ThreadsEdges', totalCount: 0 }
   }
 };

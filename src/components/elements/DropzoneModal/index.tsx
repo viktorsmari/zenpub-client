@@ -72,17 +72,6 @@ const DropzoneArea: React.FC<Props> = ({
       ? 'image/*'
       : '.pdf, .rtf, .docx, .doc, .odt, .ott, .xls, .xlsx, .ods, .ots, .csv, .ppt, .pps, .pptx, .odp, .otp, .odg, .otg, .odc, .ogg, .mp3, .flac, .m4a, .wav, .mp4, .mkv, .flv, .avi, .gif, .jpg, .jpeg, .png, .svg, .webm, .eps, .tex, .mbz';
 
-  // const clearPreviews = files => {
-  //   if (files.length != 0) {
-  //     files.forEach(file => {onIcon(fileUrl); URL.revokeObjectURL(file.preview)});
-
-  //   } else {
-  //     onIcon(fileUrl);
-  //     formikForm.setFieldValue('image', '');
-  //     formikForm.setFieldTouched('image', true);
-  //   }
-  // };
-
   useEffect(
     () => {
       return () => {
@@ -91,17 +80,6 @@ const DropzoneArea: React.FC<Props> = ({
     },
     [files]
   );
-
-  // const clearPreviews = files => {
-  //   if (files.length != 0) {
-  //     files.forEach(file => {onIcon(imageUrl); URL.revokeObjectURL(file.preview)});
-
-  //   } else {
-  //     onIcon(imageUrl);
-  //     formikForm.setFieldValue('image', '');
-  //     formikForm.setFieldTouched('image', true);
-  //   }
-  // };
 
   useEffect(
     () => {
@@ -125,16 +103,6 @@ const DropzoneArea: React.FC<Props> = ({
 
   return (
     <>
-      {/* {files.length != 0 || iconUrl != '' ? (
-        <Clear
-          onClick={() => {
-            clearPreviews(files);
-            setFiles([]);
-          }}
-        >
-          Clear
-        </Clear>
-      ) : null} */}
       <div {...getRootProps({ className: 'dropzone' })}>
         {uploadType != 'resource' ? (
           <ThumbsContainer>
@@ -182,12 +150,3 @@ const FileName = styled.p`
   text-align: right;
   font-style: italic;
 `;
-
-// const ClearButton = styled.button`
-//   width: 100px;
-//   cursor: pointer;
-//   border: 1px solid ${props => props.theme.colors.gray};
-//   margin-left: 20px;
-//   padding: 10px;
-//   border-radius: 2px;
-// `;

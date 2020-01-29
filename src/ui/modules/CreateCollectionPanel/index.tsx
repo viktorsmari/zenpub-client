@@ -22,7 +22,7 @@ const tt = {
     summary: i18nMark(
       'Please describe what the collection is for and what kind of resources it is likely to contain...'
     ),
-    image: i18nMark('Enter the URL of an image to represent the collection')
+    icon: i18nMark('Enter the URL of an image to represent the collection')
   }
 };
 

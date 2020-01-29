@@ -1,11 +1,11 @@
+import * as React from 'react';
 import * as Types from './types.generated';
 
-import { BasicCommentWithInReplyToFragment } from './fragments/basicComment.generated';
 import { ActivityPreviewDataFragment } from '../HOC/modules/ActivityPreview/getActivityPreview.generated';
 import gql from 'graphql-tag';
 import { ActivityPreviewDataFragmentDoc } from '../HOC/modules/ActivityPreview/getActivityPreview.generated';
 import { BasicCommentWithInReplyToFragmentDoc } from './fragments/basicComment.generated';
-import * as React from 'react';
+import { BasicCommentWithInReplyToFragment } from './fragments/basicComment.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
@@ -25,7 +25,7 @@ export type GetCommunityQueryQuery = (
   { __typename: 'RootQueryType' }
   & { community: Types.Maybe<(
     { __typename: 'Community' }
-    & Pick<Types.Community, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'image' | 'createdAt' | 'updatedAt' | 'lastActivity' | 'isLocal' | 'isPublic' | 'isDisabled'>
+    & Pick<Types.Community, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'createdAt' | 'updatedAt' | 'lastActivity' | 'isLocal' | 'isPublic' | 'isDisabled'>
     & { creator: Types.Maybe<(
       { __typename: 'User' }
       & Pick<Types.User, 'id'>
@@ -139,7 +139,6 @@ export const GetCommunityQueryDocument = gql`
     name
     summary
     icon
-    image
     createdAt
     creator {
       id

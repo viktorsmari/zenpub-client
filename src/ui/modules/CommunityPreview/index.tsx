@@ -8,7 +8,6 @@ import media from 'styled-media-query';
 export interface Props {
   name: string;
   icon: string;
-  image?: string;
   summary: string;
   followersCount?: number;
   collectionsCount?: number;

@@ -60,11 +60,7 @@ class CommunitiesJoined extends React.Component<Props> {
                       /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
                       community.node.community.collections!.totalCount
                     }
-                    icon={
-                      community.node.community.icon ||
-                      community.node.community.image ||
-                      ''
-                    }
+                    icon={community.node.community.icon || ''}
                     followed={!!community.node.community.myFollow}
                     id={community.node.community.id}
                     externalId={community.node.community.canonicalUrl || ''}

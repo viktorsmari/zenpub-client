@@ -186,11 +186,7 @@ const CommunitiesFeatured: React.SFC<Props> = ({ userId }) => {
                                       community.node.community.threads!
                                         .totalCount
                                     }
-                                    icon={
-                                      community.node.community.icon ||
-                                      community.node.community.image ||
-                                      ''
-                                    }
+                                    icon={community.node.community.icon || ''}
                                     followed={
                                       !!community.node.community.myFollow
                                     }

@@ -23,7 +23,7 @@ export type GetHeroCommunityQuery = (
 
 export type HeroCommunityDataFragment = (
   { __typename: 'Community' }
-  & Pick<Types.Community, 'id' | 'displayUsername' | 'name' | 'summary' | 'icon' | 'image'>
+  & Pick<Types.Community, 'id' | 'displayUsername' | 'name' | 'summary' | 'icon'>
   & { followers: Types.Maybe<(
     { __typename: 'FollowsEdges' }
     & Pick<Types.FollowsEdges, 'totalCount'>
@@ -43,7 +43,6 @@ export const HeroCommunityDataFragmentDoc = gql`
   name
   summary
   icon
-  image
   followers {
     totalCount
   }

@@ -10,7 +10,7 @@ storiesOf('Modules/EditCommunity', module)
   .add('Standard', () => {
     const formik = useFormik<EditCommunityFormValues>({
       initialValues: {
-        image: 'https://picsum.photos/800/30',
+        icon: 'https://picsum.photos/800/30',
         name: 'name',
         summary: 'summary'
       },
