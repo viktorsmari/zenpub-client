@@ -58,6 +58,8 @@ const Infos = styled.div``;
 const Title = styled(Text)`
   color: ${props => props.theme.colors.darkgray};
   ${ellipsis('200px')};
+  display: block;
+  text-align: center;
 `;
 
 export default Collection;

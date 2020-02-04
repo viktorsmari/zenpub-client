@@ -22,8 +22,8 @@ export interface CollectionLoading {
 export interface CollectionLoaded {
   status: Status.Loaded;
   icon: string;
-  displayUsername: string;
-  title: string;
+  name: string;
+  fullName: string;
   summary: string;
   isMine: boolean;
   communityId: string;
@@ -56,10 +56,10 @@ export const HeroCollection: SFC<Props> = ({ collection: c }) => {
         <Background style={{ backgroundImage: `url(${c.icon})` }} />
         <HeroInfo>
           <Title fontSize={5} fontWeight={'bold'}>
-            {c.title}
+            {c.name}
           </Title>
           <Username mt={1} fontSize={2}>
-            +{c.displayUsername}
+            +{c.fullName}
           </Username>
           <Description fontSize={2} mt={2}>
             {c.summary}
@@ -181,6 +181,7 @@ const Username = styled(Text)`
   color: ${props => props.theme.colors.gray};
   font-weight: 500;
   font-size: 14px;
+  text-transform: lowercase;
 `;
 
 const ActionsHero = styled(Flex)``;

@@ -85,10 +85,7 @@ const CollectionItem: SFC<CollectionProps> = ({
     <MemberInfo>
       <Name>
         <Link to={'/user/' + user.id}>
-          {user.name}{' '}
-          {user.preferredUsername ? (
-            <Username ml={2}>@{user.preferredUsername}</Username>
-          ) : null}
+          {user.name} <Username ml={2}>@{user.displayUsername}</Username>
         </Link>
         <Spacer mr={2}>·</Spacer>{' '}
         <Date>{DateTime.fromISO(createdAt).toRelative()}</Date>
@@ -144,10 +141,7 @@ const ResourceItem: SFC<ResourceProps> = ({
       <MemberInfo>
         <Name>
           <Link to={'/user/' + user.id}>
-            {user.name}{' '}
-            {user.preferredUsername ? (
-              <Username ml={2}>@{user.preferredUsername}</Username>
-            ) : null}
+            {user.name} <Username ml={2}>@{user.displayUsername}</Username>
           </Link>
           <Spacer mr={2}>·</Spacer>{' '}
           <Date>{DateTime.fromISO(createdAt).toRelative()}</Date>
@@ -193,10 +187,7 @@ const CommentItem: SFC<CommentProps> = ({
       <MemberInfo>
         <Name>
           <Link to={'/user/' + user.id}>
-            {user.name}{' '}
-            {user.preferredUsername ? (
-              <Username ml={2}>@{user.preferredUsername}</Username>
-            ) : null}
+            {user.name} <Username ml={2}>@{user.displayUsername}</Username>
           </Link>
           <Spacer mr={2}>·</Spacer>{' '}
           <Date>{DateTime.fromISO(createdAt).toRelative()}</Date>
@@ -292,10 +283,7 @@ const CommunityItem: SFC<CommunityProps> = ({
     <MemberInfo>
       <Name>
         <Link to={'/user/' + user.id}>
-          {user.name}{' '}
-          {user.preferredUsername ? (
-            <Username ml={2}>@{user.preferredUsername}</Username>
-          ) : null}
+          {user.name} <Username ml={2}>@{user.displayUsername}</Username>
         </Link>
         <Spacer mr={2}>·</Spacer>{' '}
         <Date>{DateTime.fromISO(createdAt).toRelative()}</Date>

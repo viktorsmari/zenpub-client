@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/macro';
 import { ActivityPreviewHOC } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import Empty from '../../components/elements/Empty';
 import Loader from '../../components/elements/Loader/Loader';
@@ -31,6 +31,9 @@ const Home: React.FC<Props> = () => {
       }
     }
   );
+  useEffect(() => {
+    refetch();
+  }, []);
   useDynamicLinkOpResult<CreateReplyMutationMutationOperation>(
     'createReplyMutation',
     () => {
