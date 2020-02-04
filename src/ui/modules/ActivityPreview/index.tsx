@@ -67,31 +67,31 @@ export const ActivityPreview: SFC<Props> = activity => {
   if (activity.status === Status.Loading) {
     return <Trans>loading...</Trans>;
   }
+
   return (
-    <WrapperLink
-      to={
-        activity.context.type === ContextType.Community
-          ? activity.context.link
-          : activity.context.type === ContextType.Collection
+    <FeedItem>
+      <WrapperLink
+        to={
+          activity.context.type === ContextType.Community
             ? activity.context.link
-            : activity.context.type === ContextType.Resource
+            : activity.context.type === ContextType.Collection
               ? activity.context.link
-              : activity.context.type === ContextType.Comment
+              : activity.context.type === ContextType.Resource
                 ? activity.context.link
-                : 'user/'
-      }
-    >
-      <FeedItem>
-        {/* {activity.inReplyToCtx && <InReplyTo {...activity.inReplyToCtx} />} */}
-        <ActorComp actor={activity.actor} createdAt={activity.createdAt} />
-        <Contents>
-          <Wrapper>
-            <Preview {...activity.context} />
-            {activity.actions && <Actions {...activity.actions} />}
-          </Wrapper>
-        </Contents>
-      </FeedItem>
-    </WrapperLink>
+                : activity.context.type === ContextType.Comment
+                  ? activity.context.link
+                  : 'user/'
+        }
+      />
+      {/* {activity.inReplyToCtx && <InReplyTo {...activity.inReplyToCtx} />} */}
+      <ActorComp actor={activity.actor} createdAt={activity.createdAt} />
+      <Contents>
+        <Wrapper>
+          <Preview {...activity.context} />
+          {activity.actions && <Actions {...activity.actions} />}
+        </Wrapper>
+      </Contents>
+    </FeedItem>
   );
 };
 
@@ -138,6 +138,11 @@ export const BigActivityPreview: SFC<Props> = activity => {
 
 const WrapperLink = styled(NavLink)`
   text-decoration: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 `;
 
 const Comment = styled(Text)`

@@ -128,25 +128,33 @@ const Overview: React.FC<Context> = context => {
     </WrapperLink>
   ) : context.type === ContextType.Community ||
   context.type === ContextType.Collection ? (
-    <WrapperOverview mt={3}>
-      <Avatar size="m" src={context.icon} />
-      <Infos ml={3}>
-        <TitleOverview>{context.title}</TitleOverview>
+    <WrapperLinkGeneral to={context.link}>
+      <WrapperOverview mt={3}>
+        <Avatar size="m" src={context.icon} />
+        <Infos ml={3}>
+          <TitleOverview>{context.title}</TitleOverview>
 
-        <Text variant="text" mt={2} mb={3}>
-          {context.summary}
-        </Text>
-        {/* <Actions>
+          <Text variant="text" mt={2} mb={3}>
+            {context.summary}
+          </Text>
+          {/* <Actions>
                 <ActionItem>
                   <FileText size={20} color={'#8b98a2'} />
                   
                 </ActionItem>
               </Actions> */}
-      </Infos>
-    </WrapperOverview>
+        </Infos>
+      </WrapperOverview>
+    </WrapperLinkGeneral>
   ) : null;
 };
 
+const WrapperLinkGeneral = styled(NavLink)`
+  text-decoration: none;
+  &:hover {
+    text-decoration: none !important;
+  }
+`;
 const FlexSmallPreview = styled(Flex)`
   // padding: 16px 8px;
   // border-bottom: 1px solid ${props => props.theme.colors.lightgray};
@@ -160,8 +168,7 @@ const WrapperOverview = styled(Flex)`
   border: 1px solid ${props => props.theme.colors.lightgray};
   border-radius: 6px;
   &:hover {
-    border-radius: 4px;
-    background: ${props => props.theme.colors.lighter};
+    background: #ebeef2;
   }
 `;
 

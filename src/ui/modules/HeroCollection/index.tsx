@@ -181,6 +181,7 @@ const Username = styled(Text)`
   color: ${props => props.theme.colors.gray};
   font-weight: 500;
   font-size: 14px;
+  text-transform: lowercase;
 `;
 
 const ActionsHero = styled(Flex)``;
