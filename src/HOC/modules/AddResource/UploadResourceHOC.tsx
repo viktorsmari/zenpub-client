@@ -62,45 +62,52 @@ export const UploadResourceHOC: SFC<Props> = ({
             url: vals.url
           }
         }
-      })
-        .then(res => {
-          const createdResourceId = res.data!.createResource!.id;
+      }).then(res => {
+        const createdResourceId = res.data!.createResource!.id;
 
-          const fileToUpload = vals!.resourceFiles!.map(file => {
-            return file;
-          });
-          const iconToUpload = vals!.imageFiles!.map(file => {
-            return file;
-          });
-          console.log('fileToUpload %', vals);
-          if (fileToUpload[0]) {
-            mutateResource({
-              variables: {
-                contextId: createdResourceId,
-                upload: fileToUpload[0]
+        const fileToUpload = vals!.resourceFiles!.map(file => {
+          return file;
+        });
+        const iconToUpload = vals!.imageFiles!.map(file => {
+          return file;
+        });
+        if (fileToUpload[0]) {
+          mutateResource({
+            variables: {
+              contextId: createdResourceId,
+              upload: fileToUpload[0]
+            }
+          })
+            .then(() => {
+              if (iconToUpload[0]) {
+                mutateIcon({
+                  variables: {
+                    contextId: createdResourceId,
+                    upload: iconToUpload[0]
+                  }
+                });
               }
             })
-              .then(() => {
-                if (iconToUpload[0]) {
-                  mutateIcon({
-                    variables: {
-                      contextId: createdResourceId,
-                      upload: iconToUpload[0]
-                    },
-                    refetchQueries: [
-                      {
-                        query: CollectionPageDocument,
-                        variables: { collectionId }
-                      }
-                    ]
-                  });
-                }
-              })
-              .catch(err => console.log(err));
-          }
-        })
+            .then(() => {
+              if (iconToUpload[0]) {
+                mutateIcon({
+                  variables: {
+                    contextId: createdResourceId,
+                    upload: iconToUpload[0]
+                  },
+                  refetchQueries: [
+                    {
+                      query: CollectionPageDocument,
+                      variables: { collectionId }
+                    }
+                  ]
+                });
+              }
+            })
+            .catch(err => console.log(err));
+        }
+      }),
 
-        .then(done),
     validationSchema,
     initialValues
   });

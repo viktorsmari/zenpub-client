@@ -105,7 +105,7 @@ const CommunityPage: SFC<Props> = ({
                     ) : (
                       <ButtonWrapper>
                         <Button m={3} onClick={() => onUploadOpen(true)}>
-                          <Trans>Upload file</Trans>
+                          <Trans>Upload a file</Trans>
                         </Button>
                       </ButtonWrapper>
                     )
@@ -113,11 +113,8 @@ const CommunityPage: SFC<Props> = ({
 
                   {isUploadOpen && (
                     <UploadResourcePanelHOC
-                      // toggleModal={onOpen}
-                      // modalIsOpen={isOpen}
                       done={() => onUploadOpen(false)}
                       collectionId={collection.id}
-                      // collectionExternalId={collection.id}
                     />
                   )}
                   {resources.totalCount > 0 ? (

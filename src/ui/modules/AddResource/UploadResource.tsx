@@ -129,19 +129,6 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
           <Loader />
         </WrapperLoader>
       ) : null}
-      {/* {formik.fetched ? (
-            <Fetched
-              url={props.url}
-              name={props.name}
-              image={props.image}
-              summary={props.summary}
-              collectionId={props.collectionId}
-              toggleModal={props.toggleModal}
-              collectionExternalId={props.collectionExternalId}
-              isFetched={props.isFetched}
-              onUrl={props.onUrl}
-            />
-          ) : null} */}
     </div>
   );
 };
