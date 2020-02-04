@@ -16,7 +16,7 @@ export const basicCreateCommunityMutation: CreateCommunityMutationMutation = {
       myFollow: { __typename: 'Follow', id: '' },
       myFlag: { __typename: 'Flag', id: '' },
       myLike: null,
-      preferredUsername: '',
+      displayUsername: '',
       updatedAt: '',
       isLocal: true,
       canonicalUrl: '',

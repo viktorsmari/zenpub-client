@@ -105,20 +105,17 @@ const ImageDropzoneModal: React.FC<Props> = ({
         <div {...getRootProps({ className: 'dropzone' })}>
           <input {...getInputProps()} />
           <InfoContainer>
-            {/* {files.map(file => (
-              <img
-                key={file.name}
-                src={file.preview}
-                style={{ maxWidth: 200, display: 'block' }}
-                alt=""
-              />
-            ))} */}
-
             <UploadCloud width={45} height={45} strokeWidth={2} />
             {isDragActive ? (
-              <p>Drop the file here ...</p>
+              <Info>
+                <Trans>Drop the file here ...</Trans>
+              </Info>
             ) : (
-              <p>Drag 'n' drop a file here, or click to select file</p>
+              <Info>
+                <Trans>
+                  Drag 'n' drop a file here, or click to select file
+                </Trans>
+              </Info>
             )}
           </InfoContainer>
         </div>
@@ -195,6 +192,11 @@ const Img = styled.img`
   height: auto;
   margin: auto;
   text-align: center;
+`;
+
+const Info = styled.p`
+  margin-top: 0px;
+  margin-bottom: 5px;
 `;
 
 // const ClearButton = styled.button`

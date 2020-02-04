@@ -36,7 +36,7 @@ export const HeroCommunityHOC: SFC<Props> = ({ communityId }) => {
         };
       }
       const community = communityQuery.data.community;
-      return {
+      const props: HeroProps = {
         community: {
           status: Status.Loaded,
           //FIXME https://gitlab.com/moodlenet/meta/issues/185
@@ -46,7 +46,7 @@ export const HeroCommunityHOC: SFC<Props> = ({ communityId }) => {
           // icon: community.icon || community.image || '',
           image: community.image || '',
           name: community.name,
-          preferredUsername: community.preferredUsername,
+          fullName: community.displayUsername,
           //FIXME https://gitlab.com/moodlenet/meta/issues/185
           totalMembers: community.followers!.totalCount,
           summary: community.summary || '',
@@ -55,7 +55,7 @@ export const HeroCommunityHOC: SFC<Props> = ({ communityId }) => {
               community.myFollow
                 ? unjoinMutation({
                     variables: { contextId: community.myFollow.id }
-                  }).then(() => communityQuery.refetch)
+                  }).then(() => communityQuery.refetch())
                 : joinMutation({ variables: { contextId: community.id } }).then(
                     () => communityQuery.refetch()
                   ),
@@ -69,6 +69,7 @@ export const HeroCommunityHOC: SFC<Props> = ({ communityId }) => {
           )
         }
       };
+      return props;
     },
     [
       communityQuery,

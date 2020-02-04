@@ -55,7 +55,6 @@ fragment ActivityPreviewUserCtx on User {
     image
     userId: id 
     userName: name
-    preferredUsername
     isLocal
     summary
     canonicalUrl
@@ -158,6 +157,7 @@ fragment ActivityPreviewResourceCtx on Resource{
     name
     summary
     canonicalUrl
+    url
     collection{
         ...ActivityPreviewCollectionCtx
     }

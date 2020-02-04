@@ -8,8 +8,8 @@ query collectionPreview($id: String!) {
 fragment CollectionPreviewData on Collection {
   id,
   canonicalUrl,
-  name,
   icon,
+  name,
   summary,
   isLocal,
   followerCount,
@@ -19,7 +19,6 @@ fragment CollectionPreviewData on Collection {
       node{
         creator{
           name,
-          preferredUsername,
           icon,
           image,
           id

@@ -21,6 +21,8 @@ import Settings from '../../pages/settings';
 import Signup from '../../pages/Signup';
 import Thread from '../../pages/thread/component';
 import User from '../../pages/User';
+// import media from 'styled-media-query';
+
 import {
   Inner,
   MainWrapper,

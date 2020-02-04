@@ -42,11 +42,11 @@ export const MainWrapper = styled(Flex)`
   padding: 0px;
   position: relative;
   z-index: 0;
-  margin-top:16px;
-  // border-left: 1px solid ${props => props.theme.colors.lightgray};
+  margin-top: 16px;
   margin-left: 8px;
-  ${media.lessThan('medium')`
+  ${media.lessThan('1280px')`
   width: 100%;
+  margin: 0
 `};
 `;
 

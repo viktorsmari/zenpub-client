@@ -3,7 +3,7 @@ import { Trans } from '@lingui/react';
 import { DateTime } from 'luxon';
 import { clearFix } from 'polished';
 import React, { SFC } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import Avatar from 'ui/elements/Avatar';
@@ -40,8 +40,8 @@ export interface Activity {
   createdAt: string;
   actor: Actor;
   context: Context;
-  inReplyToCtx?: InReplyToContext | null;
-  actions?: ActionProps | null;
+  inReplyToCtx: InReplyToContext | null;
+  actions: ActionProps | null;
 }
 
 export type Props = ActivityLoaded | ActivityLoading;
@@ -54,7 +54,7 @@ export const ThreadActivityPreview: SFC<Props> = activity => {
     <FeedItem>
       <ActorComp actor={activity.actor} createdAt={activity.createdAt} />
       <Contents>
-        <Wrapper mt={2}>
+        <Wrapper>
           <Preview {...activity.context} />
           {activity.actions && <Actions {...activity.actions} />}{' '}
         </Wrapper>
@@ -68,16 +68,30 @@ export const ActivityPreview: SFC<Props> = activity => {
     return <Trans>loading...</Trans>;
   }
   return (
-    <FeedItem>
-      {/* {activity.inReplyToCtx && <InReplyTo {...activity.inReplyToCtx} />} */}
-      <ActorComp actor={activity.actor} createdAt={activity.createdAt} />
-      <Contents>
-        <Wrapper mt={2}>
-          <Preview {...activity.context} />
-          {activity.actions && <Actions {...activity.actions} />}
-        </Wrapper>
-      </Contents>
-    </FeedItem>
+    <WrapperLink
+      to={
+        activity.context.type === ContextType.Community
+          ? activity.context.link
+          : activity.context.type === ContextType.Collection
+            ? activity.context.link
+            : activity.context.type === ContextType.Resource
+              ? activity.context.link
+              : activity.context.type === ContextType.Comment
+                ? activity.context.link
+                : 'user/'
+      }
+    >
+      <FeedItem>
+        {/* {activity.inReplyToCtx && <InReplyTo {...activity.inReplyToCtx} />} */}
+        <ActorComp actor={activity.actor} createdAt={activity.createdAt} />
+        <Contents>
+          <Wrapper>
+            <Preview {...activity.context} />
+            {activity.actions && <Actions {...activity.actions} />}
+          </Wrapper>
+        </Contents>
+      </FeedItem>
+    </WrapperLink>
   );
 };
 
@@ -97,21 +111,34 @@ export const BigActivityPreview: SFC<Props> = activity => {
               ? activity.context.content
               : ''}
           </Comment>
-          {/* {activity.actions && <Actions {...activity.actions} />} */}
-          <Box mt={3}>
-            <SocialText
-              placeholder={i18n._(tt.placeholders.name)}
-              defaultValue={''}
-              submit={msg => {
-                () => console.log(msg);
-              }}
-            />
-          </Box>
+          {activity.actions &&
+            activity.actions.reply && (
+              <Box mt={3}>
+                <SocialText
+                  placeholder={i18n._(tt.placeholders.name)}
+                  defaultValue={''}
+                  submit={msg => {
+                    if (!(activity.actions && activity.actions.reply)) {
+                      //FIXME: don't know why TS complains without this check
+                      //       despite the check is made up
+                      //       at element render option level
+                      return;
+                    }
+                    activity.actions.reply.replyFormik.values.replyMessage = msg;
+                    activity.actions.reply.replyFormik.submitForm();
+                  }}
+                />
+              </Box>
+            )}
         </Box>
       </Contents>
     </FeedItem>
   );
 };
+
+const WrapperLink = styled(NavLink)`
+  text-decoration: none;
+`;
 
 const Comment = styled(Text)`
   font-size: 32px;
@@ -128,10 +155,10 @@ const ActorComp: SFC<ActorProps> = ({ actor, createdAt }) => (
       <Name>
         <Link to={actor.link}>
           {actor.name}
-          <Username ml={2}>@{actor.preferredUsername}</Username>
+          {/* <Username ml={2}>@{actor.name}</Username> */}
         </Link>
-        <Spacer mr={2}>·</Spacer>
-        <Date>{DateTime.fromISO(createdAt).toRelative()}</Date>
+        <Spacer mx={2}>·</Spacer>
+        <Date>{DateTime.fromSQL(createdAt).toRelative()}</Date>
       </Name>
     </MemberInfo>
   </Member>
@@ -139,32 +166,33 @@ const ActorComp: SFC<ActorProps> = ({ actor, createdAt }) => (
 
 const Contents = styled(Box)`
   margin-top: -30px;
-  margin-left: 54px;
+  margin-left: 55px;
 `;
 
-const Username = styled(Text)`
-  color: ${props => props.theme.colors.gray};
-  margin: 0 8px;
-  font-weight: 500;
+// const Username = styled(Text)`
+//   color: ${props => props.theme.colors.gray};
+//   margin: 0 8px;
+//   font-weight: 500;
+//   font-size: 13px;
 
 //   ${media.lessThan('1280px')`
 //   display: none;
 //  `};
-`;
+// `;
 
 const Spacer = styled(Text)`
   color: ${props => props.theme.colors.gray};
   margin-right: 8px;
   font-weight: 500;
-//   ${media.lessThan('1280px')`
-//   display: none;
-//  `};
+  ${media.lessThan('1280px')`
+  display: none;
+ `};
 `;
 
 const Date = styled(Text)`
   color: ${props => props.theme.colors.gray};
   font-weight: 500;
-  font-size: 14px;
+  font-size: 13px;
 `;
 
 const Name = styled(Text)`
@@ -196,11 +224,7 @@ const MemberInfo = styled(Box)`
   margin-top: -4px;
 `;
 
-const Wrapper = styled(Box)`
-  border: 1px solid ${props => props.theme.colors.lightgray};
-  border-radius: 4px;
-  background: white;
-`;
+const Wrapper = styled(Box)``;
 const FeedItem = styled(Box)`
   min-height: 30px;
   position: relative;
@@ -208,6 +232,9 @@ const FeedItem = styled(Box)`
   padding: 16px;
   word-wrap: break-word;
   font-size: 14px;
+  &:hover {
+    background: ${props => props.theme.colors.lighter};
+  }
   ${clearFix()};
   transition: background 0.5s ease;
   margin-top: 0

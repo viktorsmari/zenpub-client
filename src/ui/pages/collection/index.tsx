@@ -19,23 +19,34 @@ export interface Props {
   ActivityBoxes: JSX.Element[];
   ResourceBoxes: JSX.Element[];
   HeroCollectionBox: JSX.Element;
+  ShareLinkModalPanel: React.ComponentType<{ done(): any }>;
   EditCollectionPanel: React.ComponentType<{ done(): any }>;
+  UploadResourcePanel: React.ComponentType<{ done(): any }>;
   basePath: string;
 }
 
 export const Collection: React.FC<Props> = ({
   HeroCollectionBox,
+  ShareLinkModalPanel,
   EditCollectionPanel,
+  UploadResourcePanel,
   ActivityBoxes,
   ResourceBoxes,
   basePath
 }) => {
   const [isOpenEditCollection, setOpenEditCollection] = React.useState(false);
+  const [isShareLinkOpen, setOpenShareLink] = React.useState(false);
+  const [isUploadOpen, setUploadOpen] = React.useState(false);
   return (
     <MainContainer>
       {isOpenEditCollection && (
-        <Modal closeModal={() => setOpenEditCollection(false)}>
+        <Modal closeModal={() => setOpenShareLink(false)}>
           <EditCollectionPanel done={() => setOpenEditCollection(false)} />
+        </Modal>
+      )}
+      {isShareLinkOpen && (
+        <Modal closeModal={() => setOpenShareLink(false)}>
+          <ShareLinkModalPanel done={() => setOpenShareLink(false)} />
         </Modal>
       )}
       <HomeBox>
@@ -49,11 +60,24 @@ export const Collection: React.FC<Props> = ({
               </Route>
               <Route path={`${basePath}/resources`}>
                 <>
-                  <WrapButton mt={3} px={3} pb={3} mb={2}>
-                    <Button variant="outline">
-                      <Trans>Create a new resource</Trans>
+                  <WrapButton px={3} pb={3} mb={2}>
+                    <Button
+                      mr={2}
+                      onClick={() => setOpenShareLink(true)}
+                      variant="outline"
+                    >
+                      <Trans>Share link</Trans>
+                    </Button>
+                    <Button
+                      onClick={() => setUploadOpen(true)}
+                      variant="outline"
+                    >
+                      <Trans>Add new resource</Trans>
                     </Button>
                   </WrapButton>
+                  {isUploadOpen && (
+                    <UploadResourcePanel done={() => setUploadOpen(false)} />
+                  )}
                   {ResourceBoxes}
                 </>
               </Route>
@@ -139,7 +163,7 @@ const Menu = ({ basePath }: { basePath: string }) => (
 );
 
 const WrapButton = styled(Flex)`
-  border-bottom: 3px solid ${props => props.theme.colors.lightgray};
+  // border-bottom: 3px solid ${props => props.theme.colors.lightgray};
   button {
     width: 100%;
     height: 50px;

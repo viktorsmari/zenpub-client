@@ -14,12 +14,12 @@ storiesOf('Modules/HeroCommunity', module)
         following: true,
         image: 'https://picsum.photos/800/300',
         name: 'Community nino',
-        preferredUsername: 'ninos',
+        fullName: 'ninos@instance.com',
         summary: '',
         totalMembers: 193,
         toggleJoin: {
           toggle: action('Unjoin !'),
-          isSubmitting: false
+          isSubmitting: true
         },
         EditCommunityPanel: ({ done }) => (
           <img

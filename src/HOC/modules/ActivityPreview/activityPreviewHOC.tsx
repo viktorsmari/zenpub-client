@@ -244,8 +244,7 @@ const getInReplyToCtx = ({
         context.thread.context.context.__typename === 'Resource'
           ? context.thread.context.context.name
           : context.thread.context.context.__typename === 'User'
-            ? context.thread.context.context.userName ||
-              context.thread.context.context.preferredUsername
+            ? context.thread.context.context.userName || ''
             : context.thread.context.context.content
     };
   } else {
@@ -429,7 +428,8 @@ const getContext = (
                 type: UIP.ContextType.Resource,
                 icon: gqlContext.icon || '',
                 title: gqlContext.name,
-                summary: gqlContext.summary || ''
+                summary: gqlContext.summary || '',
+                resourceUrl: gqlContext.url || ''
               }
             : gqlContext.__typename === 'User'
               ? {
@@ -437,8 +437,8 @@ const getContext = (
                   link: getSimpleLink({ ...gqlContext, id: gqlContext.userId }),
                   type: UIP.ContextType.Resource,
                   icon: gqlContext.icon || gqlContext.image || '',
-                  summary: gqlContext.summary || '',
-                  title: gqlContext.userName || gqlContext.preferredUsername
+                  summary: '',
+                  title: gqlContext.userName || ''
                 }
               : null; // gqlContext: never
   if (!context) {
@@ -453,8 +453,7 @@ export const getActor = (
 ): UIT.Actor => {
   return {
     icon: usr.icon || usr.image || '',
-    name: usr.userName || usr.preferredUsername,
-    preferredUsername: usr.preferredUsername,
+    name: usr.userName || '',
     link: getSimpleLink({ ...usr, id: usr.userId })
   };
 };

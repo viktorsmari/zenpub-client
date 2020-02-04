@@ -10,21 +10,16 @@ import {
   Configure
 } from 'react-instantsearch-dom';
 import Preview from './preview';
-import { TabPanel, Tabs } from 'react-tabs';
-import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import { Trans } from '@lingui/macro';
 // import { LocaleContext } from '../../containers/App/App';
 import styled from '../../themes/styled';
-import { Nav, Panel, PanelTitle, WrapperPanel } from '../../sections/panel';
+import { Nav, Panel, PanelTitle, WrapperPanel } from 'ui/elements/Panel';
 const urlParams = new URLSearchParams(window.location.search);
 const moodle_core_download_url = decodeURI(
   urlParams.get('moodle_core_download_url') || ''
 );
 
 const WrapperResult = styled(Box)`
-  :hover {
-    background: ${props => props.theme.colors.lighter};
-  }
   border-bottom: 1px solid ${props => props.theme.colors.lightgray};
 `;
 const SupText = styled(Text)`
@@ -67,7 +62,7 @@ function Result(props) {
         icon={hit.icon || hit.image}
         title={hit.name}
         summary={hit.summary}
-        url={hit.url || hit.canonicalUrl}
+        url={hit.canonicalUrl}
         type={hit.index_type}
         coreIntegrationURL={
           moodle_core_download_url
@@ -109,22 +104,19 @@ export default class extends React.Component {
           <WrapperCont>
             <Wrapper>
               <Configure hitsPerPage={8} />
-              <Flex>
-                <Tabs style={{ flex: 1 }}>
-                  <SuperTabList>
-                    <SuperTab>
-                      <h5>
-                        <Trans>Search result</Trans>
-                      </h5>
-                    </SuperTab>
-                  </SuperTabList>
-                  <TabPanel>
-                    <Box>
-                      <CustomInfiniteHits />
-                    </Box>
-                  </TabPanel>
-                </Tabs>
-              </Flex>
+              <Box>
+                <Text
+                  mb={3}
+                  sx={{ borderBottom: '1px solid #dadada' }}
+                  p={3}
+                  variant="suptitle"
+                >
+                  <Trans>Search result</Trans>
+                </Text>
+                <Box>
+                  <CustomInfiniteHits />
+                </Box>
+              </Box>
             </Wrapper>
           </WrapperCont>
         </HomeBox>

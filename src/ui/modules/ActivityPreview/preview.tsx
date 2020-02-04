@@ -34,12 +34,18 @@ export interface ConcreteContext extends IContext {
   type:
     | ContextType.Collection
     | ContextType.Community
-    | ContextType.Resource
-    | ContextType.User;
+    | ContextType.User
+    | ContextType.Resource;
   icon: string;
   title: string;
   summary: string;
+  resourceUrl?: string;
 }
+
+// export interface ResourceContext extends ConcreteContext {
+//   resourceUrl: string
+//   type: ContextType.Resource
+// }
 
 export interface CommentContext extends IContext {
   type: ContextType.Comment;
@@ -53,7 +59,7 @@ export interface UserContext extends IContext, Actor {
 export type Context = CommentContext | ConcreteContext | UserContext;
 
 const SmallPreview: React.SFC<ConcreteContext> = context => (
-  <FlexSmallPreview alignItems="center">
+  <FlexSmallPreview mt={2} alignItems="center">
     <TextPreview display="inline-block" mr={2} variant="link">
       {context.verb === ContextVerb.Follow ? (
         <Trans>Followed</Trans>
@@ -86,33 +92,43 @@ const SmallPreview: React.SFC<ConcreteContext> = context => (
 );
 
 const Preview: React.FC<Context> = context => {
-  const { link } = context;
+  // const { link } = context;
   return (
     <Wrapper>
-      <WrapperLink to={link}>
-        {context.type === ContextType.Comment ? (
-          <Comment variant="text">{context.content}</Comment>
-        ) : context.type === ContextType.User ? (
-          <pre>
-            USER:
-            {JSON.stringify(context, null, 4)}
-          </pre>
-        ) : (
-          <SmallPreview {...context} />
-        )}
-        {context.verb === ContextVerb.Created ? (
-          <Overview {...context} />
-        ) : null}
-      </WrapperLink>
+      {context.type === ContextType.Comment ? (
+        <Comment mt={2} variant="text">
+          {context.content}
+        </Comment>
+      ) : context.type === ContextType.User ? (
+        <pre>
+          USER:
+          {JSON.stringify(context, null, 4)}
+        </pre>
+      ) : (
+        <SmallPreview {...context} />
+      )}
+      {context.verb === ContextVerb.Created ? <Overview {...context} /> : null}
     </Wrapper>
   );
 };
 
 const Overview: React.FC<Context> = context => {
-  return context.type === ContextType.Resource ||
-    context.type === ContextType.Community ||
-    context.type === ContextType.Collection ? (
-    <WrapperOverview>
+  return context.type === ContextType.Resource ? (
+    <WrapperLink target="blank" href={context.resourceUrl}>
+      <WrapperOverview mt={3}>
+        <Avatar size="m" src={context.icon} />
+        <Infos ml={3}>
+          <TitleOverview>{context.title}</TitleOverview>
+
+          <Text variant="text" mt={2} mb={3}>
+            {context.summary}
+          </Text>
+        </Infos>
+      </WrapperOverview>
+    </WrapperLink>
+  ) : context.type === ContextType.Community ||
+  context.type === ContextType.Collection ? (
+    <WrapperOverview mt={3}>
       <Avatar size="m" src={context.icon} />
       <Infos ml={3}>
         <TitleOverview>{context.title}</TitleOverview>
@@ -121,26 +137,28 @@ const Overview: React.FC<Context> = context => {
           {context.summary}
         </Text>
         {/* <Actions>
-            <ActionItem>
-              <FileText size={20} color={'#8b98a2'} />
-              
-            </ActionItem>
-          </Actions> */}
+                <ActionItem>
+                  <FileText size={20} color={'#8b98a2'} />
+                  
+                </ActionItem>
+              </Actions> */}
       </Infos>
     </WrapperOverview>
   ) : null;
 };
 
 const FlexSmallPreview = styled(Flex)`
-  padding: 16px 8px;
-  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+  // padding: 16px 8px;
+  // border-bottom: 1px solid ${props => props.theme.colors.lightgray};
 `;
 
 const WrapperOverview = styled(Flex)`
   cursor: pointer;
   position: relative;
   text-decoration: none;
-  padding: 8px;
+  padding: 12px;
+  border: 1px solid ${props => props.theme.colors.lightgray};
+  border-radius: 6px;
   &:hover {
     border-radius: 4px;
     background: ${props => props.theme.colors.lighter};
@@ -279,7 +297,8 @@ const FlexPreview = styled(Box)`
 `;
 
 export const Comment = styled(Text)`
-  padding: 8px;
+  // padding: 8px;
+
   & a {
     color: ${props => props.theme.colors.darkgray} !important;
     font-weight: 400 !important;
@@ -289,7 +308,7 @@ export const Comment = styled(Text)`
   }
 `;
 
-const WrapperLink = styled(NavLink)`
+const WrapperLink = styled.a`
   text-decoration: none;
   position: relative;
   z-index: 999999;

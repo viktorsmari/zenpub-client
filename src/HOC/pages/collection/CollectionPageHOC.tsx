@@ -27,6 +27,8 @@ import {
   useCollectionPageResourceUnlikeMutation
 } from './CollectionPage.generated';
 import { EditCollectionPanelHOC } from 'HOC/modules/EditCollectionPanel/editCollectionPanelHOC';
+import UploadResourcePanelHOC from 'HOC/modules/AddResource/UploadResourceHOC';
+import ShareLinkModal from 'components/elements/CollectionModal';
 
 export interface Props {
   collectionId: Collection['id'];
@@ -83,11 +85,28 @@ export const CollectionPageHOC: SFC<Props> = ({ collectionId }) => {
       const EditCollectionPanel: CollectionPageProps['EditCollectionPanel'] = ({
         done
       }) => <EditCollectionPanelHOC done={done} collectionId={collectionId} />;
+      const UploadResourcePanel: CollectionPageProps['UploadResourcePanel'] = ({
+        done
+      }) => <UploadResourcePanelHOC done={done} collectionId={collectionId} />;
+      const ShareLinkModalPanel: CollectionPageProps['ShareLinkModalPanel'] = ({
+        done
+      }) => {
+        return (
+          <ShareLinkModal
+            toggleModal={done}
+            modalIsOpen={true}
+            collectionId={collectionId}
+            collectionExternalId={collectionId}
+          />
+        );
+      };
       const props: CollectionPageProps = {
         ActivityBoxes,
+        ShareLinkModalPanel,
         HeroCollectionBox,
         ResourceBoxes,
         EditCollectionPanel,
+        UploadResourcePanel,
         basePath: `/collections/${collectionId}`
       };
       return props;
@@ -200,7 +219,8 @@ const ResourceActivity: SFC<{
     },
     createdAt: resource.createdAt,
     status: ActivityPreviewStatus.Loaded,
-    actions: getActions(resource, commentResourceFormik, toggleLikeFormik)
+    actions: getActions(resource, commentResourceFormik, toggleLikeFormik),
+    inReplyToCtx: null
   };
 
   return <ActivityPreview {...props} />;

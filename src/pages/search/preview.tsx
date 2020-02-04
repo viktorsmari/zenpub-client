@@ -12,11 +12,12 @@
  */
 
 import * as React from 'react';
-import media from 'styled-media-query';
+
 import styled from '../../themes/styled';
-import { Heading, Text, Button } from 'rebass/styled-components';
+import { Heading, Box, Flex, Text, Button } from 'rebass/styled-components';
 // import { NavLink } from 'react-router-dom';
 import { Trans } from '@lingui/macro';
+import Avatar from 'ui/elements/Avatar';
 
 const PlaceholderImg = require('../../components/elements/Icons/resourcePlaceholder.png');
 
@@ -31,30 +32,23 @@ interface Props {
 }
 
 const Resource: React.FC<Props> = props => {
+  console.log(props);
   return (
-    <Wrapper>
+    <Wrapper p={3}>
       <WrapperLink target="blank" href={props.url}>
-        <Img
-          style={{
-            backgroundImage: `url(${props.icon ||
-              props.image ||
-              PlaceholderImg})`
-          }}
-        />
-        <Info>
-          <TitleWrapper>
-            <Title>{props.title}</Title>
-          </TitleWrapper>
-          <Text variant="text" mt={2}>
-            {(props.summary || '').split('\n').map(function(item, key) {
-              return (
-                <span key={key}>
-                  {item}
-                  <br />
-                </span>
-              );
-            })}
+        <Avatar size="m" src={props.icon || PlaceholderImg} />
+        <Infos ml={3}>
+          <Title>
+            {props.title.length > 80
+              ? props.title.replace(/^(.{76}[^\s]*).*/, '$1...')
+              : props.title}
+          </Title>
+          <Text variant="text" mt={2} mb={3}>
+            {props.summary && props.summary.length > 140
+              ? props.summary.replace(/^([\s\S]{140}[^\s]*)[\s\S]*/, '$1...')
+              : props.summary}
           </Text>
+
           <Type variant="suptitle">{props.type}</Type>
           {!props.coreIntegrationURL ? null : (
             <Actions>
@@ -65,7 +59,7 @@ const Resource: React.FC<Props> = props => {
               </a>
             </Actions>
           )}
-        </Info>
+        </Infos>
       </WrapperLink>
     </Wrapper>
   );
@@ -100,68 +94,33 @@ const WrapperLink = styled.a`
   }
 `;
 
-const TitleWrapper = styled.div`
-  display: flex;
-  & a {
-    flex: 1;
+const Wrapper = styled(Flex)`
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
+  background: #fff;
+  margin: 16px;
+  margin-top: 0;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px 0px rgba(0, 0, 0, 0.1);
+  // border-bottom: 4px solid ${props => props.theme.colors.lighter};
+  &:hover {
+    border-radius: 4px;
+    background: ${props => props.theme.colors.lighter};
   }
 `;
-const Info = styled.div`
+
+const Infos = styled(Box)`
   flex: 1;
-  margin-left: 8px;
-
-  & a {
+  position: relative;
+  div {
     text-decoration: none;
-    color: inherit;
   }
-`;
-
-const Wrapper = styled.div`
-//   ${media.lessThan('medium')`
-//   display: block;
-//   padding: 0;
-//   padding: 20px;
-//   `};
-`;
-
-const Img = styled.div`
-  background-size: cover;
-  background-repeat: none;
-  height: 60px;
-  width: 60px;
-  border-radius: 4px;
-  margin: 0 auto;
-  background-position: center center;
-  margin-right: 8px;
-  .--rtl & {
-    margin-right: 0px;
-    margin-left: 8px;
-  }
-//   ${media.lessThan('medium')`
-//     margin: 0 auto;
-//     margin-bottom: 8px;
-//     margin-top: 8px;
-//   `};
 `;
 const Title = styled(Heading)`
-  margin: 0 !important;
-  font-size: 16px !important;
-  line-height: 22px !important;
-  margin-top: 8px;
-  flex: 1;
   color: ${props => props.theme.colors.darkgray};
-//   ${media.lessThan('medium')`
-//   text-align: center;
-//   padding: 0 8px;
-//   line-height: 24px !important;
-// `};
+  font-size: 20px;
+  text-decoration: none;
 `;
-// const Summary = styled(Text)`
-//   margin: 0 !important;
-//   margin-top: 4px;
-//   color: ${props => props.theme.colors.darkgray}
-//   font-size: 13px;
-//   line-height: 18px;
-// `;
 
 export default Resource;

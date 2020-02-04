@@ -31,7 +31,10 @@ const CommunitiesFeatured: React.SFC<Props> = () => {
       limitTimeline: 15
     }
   });
-  const { data, loading, error /* , fetchMore */ } = query;
+  const { data, loading, error /* , fetchMore */, refetch } = query;
+  React.useEffect(() => {
+    refetch();
+  }, []);
   return (
     <MainContainer>
       <HomeBox>
@@ -106,7 +109,8 @@ const CommunitiesFeatured: React.SFC<Props> = () => {
                                     summary={coll.node.collection.summary!}
                                     link={{
                                       url:
-                                        'collection/' + coll.node.collection.id,
+                                        'collections/' +
+                                        coll.node.collection.id,
                                       external: false
                                     }}
                                     totalResources={

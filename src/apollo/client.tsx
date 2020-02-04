@@ -12,6 +12,7 @@ import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 // import { createHttpLink } from 'apollo-link-http';
 import apolloLogger from 'apollo-link-logger';
+import { ResetPasswordRequestMutationOperation } from 'graphql/resetPasswordRequest.generated';
 import { Socket as PhoenixSocket } from 'phoenix';
 import {
   GRAPHQL_ENDPOINT,
@@ -157,7 +158,9 @@ export default async function initialise({ localKVStore, appLink }: Cfg) {
     | LogoutMutationMutationOperation
     | ConfirmEmailMutationMutationOperation
     | UsernameAvailableQueryOperation
+    | ResetPasswordRequestMutationOperation
   >[] = [
+    'resetPasswordRequest',
     'confirmEmailMutation',
     'createUserMutation',
     'loginMutation',

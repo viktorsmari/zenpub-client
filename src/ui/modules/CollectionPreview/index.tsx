@@ -125,6 +125,7 @@ const Title = styled(Heading)`
   color: ${props => props.theme.colors.darkgray};
   font-size: 20px;
   text-decoration: none;
+  word-break: break-all;
 `;
 
 const TitleSmall = styled(Text)`

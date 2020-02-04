@@ -56,7 +56,7 @@ export type ActivityPreviewDataFragment = (
 
 export type ActivityPreviewUserCtxFragment = (
   { __typename: 'User' }
-  & Pick<Types.User, 'icon' | 'image' | 'preferredUsername' | 'isLocal' | 'summary' | 'canonicalUrl'>
+  & Pick<Types.User, 'icon' | 'image' | 'isLocal' | 'summary' | 'canonicalUrl'>
   & { userId: Types.User['id'], userName: Types.User['name'] }
   & { myFollow: Types.Maybe<(
     { __typename: 'Follow' }
@@ -144,7 +144,7 @@ export type ActivityPreviewCommunityCtxFragment = (
 
 export type ActivityPreviewResourceCtxFragment = (
   { __typename: 'Resource' }
-  & Pick<Types.Resource, 'id' | 'isLocal' | 'icon' | 'name' | 'summary' | 'canonicalUrl'>
+  & Pick<Types.Resource, 'id' | 'isLocal' | 'icon' | 'name' | 'summary' | 'canonicalUrl' | 'url'>
   & { collection: Types.Maybe<(
     { __typename: 'Collection' }
     & ActivityPreviewCollectionCtxFragment
@@ -255,7 +255,7 @@ export type ActivityPreviewUnlikeMutationVariables = {
 
 export type ActivityPreviewUnlikeMutation = (
   { __typename: 'RootMutationType' }
-  & { delete: Types.Maybe<{ __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Feature' } | { __typename: 'Flag' } | { __typename: 'Follow' } | { __typename: 'Like' } | { __typename: 'Resource' } | { __typename: 'Thread' } | { __typename: 'User' }> }
+  & { delete: Types.Maybe<{ __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Feature' } | { __typename: 'Follow' } | { __typename: 'Like' } | { __typename: 'Resource' } | { __typename: 'Thread' } | { __typename: 'User' }> }
 );
 
 export type ActivityPreviewCreateReplyMutationVariables = {
@@ -293,7 +293,6 @@ export const ActivityPreviewUserCtxFragmentDoc = gql`
   image
   userId: id
   userName: name
-  preferredUsername
   isLocal
   summary
   canonicalUrl
@@ -383,6 +382,7 @@ export const ActivityPreviewResourceCtxFragmentDoc = gql`
   name
   summary
   canonicalUrl
+  url
   collection {
     ...ActivityPreviewCollectionCtx
   }

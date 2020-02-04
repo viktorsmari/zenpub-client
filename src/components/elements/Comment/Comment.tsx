@@ -60,9 +60,7 @@ const CommentWrapper: React.FC<EventProps> = ({
               <Name>
                 <Link to={'/user/' + creator.id}>
                   {creator.name}{' '}
-                  {creator.preferredUsername && (
-                    <Username>@{creator.preferredUsername}</Username>
-                  )}
+                  {<Username>@{creator.displayUsername}</Username>}
                 </Link>
                 <Spacer mx={2}>·</Spacer>{' '}
                 <Date>{DateTime.fromISO(comment.createdAt).toRelative()}</Date>

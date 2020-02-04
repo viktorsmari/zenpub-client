@@ -103,7 +103,7 @@ export const EditCollectionPanel: React.FC<Props> = ({ cancel, formik }) => {
             </AlertWrapper>
           )}
         */}
-          <DropzoneArea imageUrl={formik.values.icon} formikForm={formik} />
+          <DropzoneArea initialUrl={formik.values.icon} formikForm={formik} />
         </ContainerForm>
       </Row>
       <Actions>
