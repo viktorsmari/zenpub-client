@@ -90,18 +90,6 @@ export const EditCommunityPanel: React.FC<Props> = ({ cancel, formik }) => {
         </label>
         <ContainerForm>
           <DropzoneArea initialUrl={formik.values.image} formikForm={formik} />
-          {/* <Input
-            placeholder={tt.placeholders.image}
-            disabled={formik.isSubmitting}
-            name="image"
-            value={formik.values.image}
-            onChange={formik.handleChange}
-          />
-          {formik.errors.image && (
-            <AlertWrapper>
-              <Alert variant="bad">{formik.errors.image}</Alert>
-            </AlertWrapper>
-          )} */}
         </ContainerForm>
       </Row>
       <Actions>

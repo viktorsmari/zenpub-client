@@ -35,14 +35,7 @@ const Resource: React.FC<Props> = props => {
   console.log(props);
   return (
     <Wrapper p={3}>
-      <WrapperLink
-        target="blank"
-        href={
-          props.type === 'Community'
-            ? '/communities/' + props.url
-            : '/collections/' + props.url
-        }
-      >
+      <WrapperLink target="blank" href={props.url}>
         <Avatar size="m" src={props.icon || PlaceholderImg} />
         <Infos ml={3}>
           <Title>
