@@ -49,12 +49,6 @@ export const Collection: React.FC<Props> = ({
           <ShareLinkModalPanel done={() => setOpenShareLink(false)} />
         </Modal>
       )}
-
-      {isUploadOpen && (
-        <Modal closeModal={() => setUploadOpen(false)}>
-          <UploadResourcePanel done={() => setUploadOpen(false)} />
-        </Modal>
-      )}
       <HomeBox>
         <WrapperCont>
           <Wrapper>
@@ -81,6 +75,9 @@ export const Collection: React.FC<Props> = ({
                       <Trans>Add new resource</Trans>
                     </Button>
                   </WrapButton>
+                  {isUploadOpen && (
+                    <UploadResourcePanel done={() => setUploadOpen(false)} />
+                  )}
                   {ResourceBoxes}
                 </>
               </Route>
