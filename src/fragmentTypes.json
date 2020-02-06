@@ -3,6 +3,43 @@
     "types": [
       {
         "kind": "UNION",
+        "name": "FlagContext",
+        "possibleTypes": [
+          { "name": "Collection" },
+          { "name": "Comment" },
+          { "name": "Community" },
+          { "name": "Resource" },
+          { "name": "User" }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "FeatureContext",
+        "possibleTypes": [{ "name": "Collection" }, { "name": "Community" }]
+      },
+      {
+        "kind": "UNION",
+        "name": "UploadParent",
+        "possibleTypes": [
+          { "name": "Collection" },
+          { "name": "Comment" },
+          { "name": "Community" },
+          { "name": "Resource" },
+          { "name": "User" }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "ThreadContext",
+        "possibleTypes": [
+          { "name": "Collection" },
+          { "name": "Community" },
+          { "name": "Flag" },
+          { "name": "Resource" }
+        ]
+      },
+      {
+        "kind": "UNION",
         "name": "FollowContext",
         "possibleTypes": [
           { "name": "Collection" },
@@ -28,22 +65,6 @@
       },
       {
         "kind": "UNION",
-        "name": "LikeContext",
-        "possibleTypes": [
-          { "name": "Collection" },
-          { "name": "Comment" },
-          { "name": "Community" },
-          { "name": "Resource" },
-          { "name": "User" }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "FeatureContext",
-        "possibleTypes": [{ "name": "Collection" }, { "name": "Community" }]
-      },
-      {
-        "kind": "UNION",
         "name": "ActivityContext",
         "possibleTypes": [
           { "name": "Collection" },
@@ -58,34 +79,13 @@
       },
       {
         "kind": "UNION",
-        "name": "UploadParent",
+        "name": "LikeContext",
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Comment" },
           { "name": "Community" },
           { "name": "Resource" },
           { "name": "User" }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "FlagContext",
-        "possibleTypes": [
-          { "name": "Collection" },
-          { "name": "Comment" },
-          { "name": "Community" },
-          { "name": "Resource" },
-          { "name": "User" }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "ThreadContext",
-        "possibleTypes": [
-          { "name": "Collection" },
-          { "name": "Community" },
-          { "name": "Flag" },
-          { "name": "Resource" }
         ]
       }
     ]
