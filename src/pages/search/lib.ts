@@ -4,10 +4,12 @@ import {
   SearchFollowedCommunityFragment,
   useSearchFollowLocalMutation,
   useSearchFollowRemoteMutation,
-  useSearchUnfollowMutation
+  useSearchUnfollowMutation,
+  SearchHostIndexAndMyFollowingsDocument
 } from './SearchData.generated';
 import { Hit } from './Hits';
 import { useMemo, useCallback } from 'react';
+import { GetSidebarQueryDocument } from 'graphql/getSidebar.generated';
 
 type Q = SearchHostIndexAndMyFollowingsQuery;
 export const useHit = (info: Q, hit: Hit) => {
@@ -45,9 +47,21 @@ export const useHit = (info: Q, hit: Hit) => {
         return;
       }
       if (isLocal) {
-        followLocal({ variables: { contextId: followCtxId } });
+        followLocal({
+          variables: { contextId: followCtxId },
+          refetchQueries: [
+            { query: GetSidebarQueryDocument },
+            { query: SearchHostIndexAndMyFollowingsDocument }
+          ]
+        });
       } else {
-        followRemote({ variables: { url: followCtxId } });
+        followRemote({
+          variables: { url: followCtxId },
+          refetchQueries: [
+            { query: GetSidebarQueryDocument },
+            { query: SearchHostIndexAndMyFollowingsDocument }
+          ]
+        });
       }
     },
     [followLocal, followRemote, isLocal, hit, followContextId]
@@ -58,7 +72,13 @@ export const useHit = (info: Q, hit: Hit) => {
       if (mutating || !followId) {
         return;
       }
-      unfollowHit({ variables: { contextId: followId } });
+      unfollowHit({
+        variables: { contextId: followId },
+        refetchQueries: [
+          { query: GetSidebarQueryDocument },
+          { query: SearchHostIndexAndMyFollowingsDocument }
+        ]
+      });
     },
     [followLocal, followRemote, isLocal, hit, followId]
   );
@@ -77,7 +97,6 @@ export const useHit = (info: Q, hit: Hit) => {
     [isFollowing, isFollowable, follow, unfollow, mutating, isLocal]
   );
 };
-
 export const isHitLocal = (hit: Hit, info: Q) => {
   if (!info.instance) {
     return null;
