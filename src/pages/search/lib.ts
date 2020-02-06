@@ -34,11 +34,11 @@ export const useHit = (info: Q, hit: Hit) => {
     isLocal === null ? null : hitFollowContextId(hit, isLocal);
   const isFollowable = !!followContextId;
 
-  const followId = useMemo(
-    () => hitFollowId(hit, followingCommunities, followingCollections),
+  const followingId = useMemo(
+    () => hitFollowingId(hit, followingCommunities, followingCollections),
     [followingCollections, followingCommunities, hit]
   );
-  const isFollowing = !!followId;
+  const isFollowing = !!followingId;
 
   const follow = useCallback(
     () => {
@@ -69,18 +69,18 @@ export const useHit = (info: Q, hit: Hit) => {
 
   const unfollow = useCallback(
     () => {
-      if (mutating || !followId) {
+      if (mutating || !followingId) {
         return;
       }
       unfollowHit({
-        variables: { contextId: followId },
+        variables: { contextId: followingId },
         refetchQueries: [
           { query: GetSidebarQueryDocument },
           { query: SearchHostIndexAndMyFollowingsDocument }
         ]
       });
     },
-    [followLocal, followRemote, isLocal, hit, followId]
+    [followLocal, followRemote, isLocal, hit, followingId]
   );
 
   return useMemo(
@@ -105,6 +105,10 @@ export const isHitLocal = (hit: Hit, info: Q) => {
 };
 
 export const hitFollowContextId = (hit: Hit, isLocal: boolean) => {
+  if (hit.index_type !== 'Community' && hit.index_type !== 'Collection') {
+    return null;
+  }
+
   if (isLocal) {
     return hit.index_instance_object_id;
   } else {
@@ -112,7 +116,7 @@ export const hitFollowContextId = (hit: Hit, isLocal: boolean) => {
   }
 };
 
-export const hitFollowId = (
+export const hitFollowingId = (
   hit: Hit,
   followingCommunities: SearchFollowedCommunityFragment[],
   followingCollections: SearchFollowedCollectionFragment[]
