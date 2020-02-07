@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
-import { FormikHook } from 'common/types';
+import { FormikHook } from 'ui/@types/types';
 import * as React from 'react';
 import { Button, Heading } from 'rebass/styled-components';
 import Alert from 'ui/elements/Alert';
