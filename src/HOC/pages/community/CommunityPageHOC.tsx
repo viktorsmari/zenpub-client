@@ -8,7 +8,10 @@ import {
 import { getActivityActions } from 'HOC/modules/ActivityPreview/lib/getActivityActions';
 import { getActivityActor } from 'HOC/modules/ActivityPreview/lib/getActivityActor';
 import { CollectionPreviewHOC } from 'HOC/modules/CollectionPreview/CollectionPreviewHOC';
-import { CreateCollectionPanelHOC } from 'HOC/modules/CreateCollectionPanel/createCollectionPanelHOC';
+import {
+  CreateCollectionPanelHOC,
+  CreateCollectionPanelCtx
+} from 'HOC/modules/CreateCollectionPanel/createCollectionPanelHOC';
 import { HeroCommunityHOC } from 'HOC/modules/HeroCommunity/heroCommuityHOC';
 import React, { SFC, useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -99,6 +102,12 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
           return <CollectionPreviewHOC id={id} key={id} />;
         })
         .filter((_): _ is JSX.Element => !!_);
+      const refetchQueries = [
+        {
+          query: CPGQL.CommunityPageDocument,
+          variables: { id }
+        }
+      ];
 
       const threadEdges = communityQ.data.community.threads.edges;
       const ThreadBoxes = threadEdges
@@ -107,12 +116,6 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
             return null;
           }
           const thread = edge.node;
-          const refetchQueries = [
-            {
-              query: CPGQL.CommunityPageDocument,
-              variables: { id }
-            }
-          ];
 
           return (
             <ThreadActivity
@@ -127,7 +130,11 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
       const HeroCommunityBox = <HeroCommunityHOC communityId={id} />;
       const CreateCollectionPanel: CommunityProps['CreateCollectionPanel'] = ({
         done
-      }) => <CreateCollectionPanelHOC done={done} communityId={id} />;
+      }) => (
+        <CreateCollectionPanelCtx.Provider value={{ refetchQueries }}>
+          <CreateCollectionPanelHOC done={done} communityId={id} />
+        </CreateCollectionPanelCtx.Provider>
+      );
       const myFollow = communityQ.data.community.myFollow;
       const props: CommunityProps = {
         CreateCollectionPanel,
