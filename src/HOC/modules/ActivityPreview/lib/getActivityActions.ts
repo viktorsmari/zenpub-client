@@ -14,8 +14,10 @@ export const getActivityActions = (
       ? {
           toggleLikeFormik,
           iLikeIt: !!context.myLike,
-          //FIXME https://gitlab.com/moodlenet/meta/issues/185
-          totalLikes: 'likes' in context ? context.likes!.totalCount : null
+          totalLikes:
+            'likes' in context
+              ? context.likes && context.likes.totalCount
+              : null
         }
       : null;
 

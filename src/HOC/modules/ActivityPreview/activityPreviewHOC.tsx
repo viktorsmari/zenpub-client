@@ -8,6 +8,8 @@ import { useActivityReplyFormik } from './lib/useActivityReplyFormik';
 import { useActivityToggleLikeFormik } from './lib/useActivityToggleLikeFormik';
 import { getActivityActor } from './lib/getActivityActor';
 import { getActivityActions } from './lib/getActivityActions';
+import { getActivityVerbType } from './lib/getActivityVerbType';
+import { getActivityGqlConcreteContext } from './lib/getActivityGqlConcreteContext';
 import { getActivityContext } from './lib/getActivityContext';
 
 export interface ActivityPreviewCtx {
@@ -34,8 +36,17 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
           status: UI.Status.Loading
         };
       } else {
-        //FIXME https://gitlab.com/moodlenet/meta/issues/185
-        const user = activity.user!;
+        const user = activity.user;
+        const activityContext = activity.context;
+        if (!(user && activityContext)) {
+          console.error(
+            'ActivityPreviewHOC: user or activityContext :null',
+            activity
+          );
+          return {
+            status: UI.Status.Loading
+          };
+        }
         const _baseProps: Pick<
           UI.ActivityLoaded,
           'status' | 'actor' | 'createdAt'
@@ -44,13 +55,37 @@ export const ActivityPreviewHOC: SFC<Props> = ({ activityId }) => {
           createdAt: activity.createdAt,
           actor: getActivityActor(user)
         };
-        const [context, gqlContext] = getActivityContext(activity);
+        const gqlContext = getActivityGqlConcreteContext(activityContext);
+        const verbType = getActivityVerbType(activity);
+        if (!(gqlContext && verbType)) {
+          console.error(
+            `ActivityPreviewHOC: can't provide concreteContext or verb`,
+            activity,
+            gqlContext,
+            verbType
+          );
+          return {
+            status: UI.Status.Loading
+          };
+        }
+        const context = getActivityContext(gqlContext, verbType);
+        if (!context) {
+          console.error(
+            `ActivityPreviewHOC: can't provide context`,
+            activity,
+            gqlContext,
+            verbType
+          );
+          return {
+            status: UI.Status.Loading
+          };
+        }
         const actions = getActivityActions(
           gqlContext,
           replyFormik,
           toggleLikeFormik
         );
-        const inReplyToCtx = getActivityInReplyContext(activity);
+        const inReplyToCtx = getActivityInReplyContext(activityContext);
         const props: UI.ActivityLoaded = {
           ..._baseProps,
           context,
