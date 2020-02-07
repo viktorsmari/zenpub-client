@@ -2,10 +2,9 @@ import * as UIP from 'ui/modules/ActivityPreview/preview';
 import * as APGQL from '../getActivityPreview.generated';
 import { getActivityActor } from './getActivityActor';
 import { getActivitySimpleLink } from './getActivitySimpleLink';
-export const getActivityInReplyContext = ({
-  context
-}: APGQL.ActivityPreviewDataFragment): null | UIP.InReplyToContext => {
-  //FIXME https://gitlab.com/moodlenet/meta/issues/185
+export const getActivityInReplyContext = (
+  context: APGQL.ActivityPreviewDataFragment['context']
+): null | UIP.InReplyToContext => {
   if (!context) {
     return null;
   }
