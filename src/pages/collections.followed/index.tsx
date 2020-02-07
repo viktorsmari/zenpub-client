@@ -1,45 +1,37 @@
 import { Trans } from '@lingui/macro';
+import { useGetFollowedCollectionsQuery } from 'graphql/getFollowedCollections.generated';
 import * as React from 'react';
-import { graphql, QueryControls } from 'react-apollo';
-// import { Helmet } from 'react-helmet';
-import { compose, withHandlers, withState } from 'recompose';
 import CollectionCard from '../../components/elements/Collection/Collection';
 import Loader from '../../components/elements/Loader/Loader';
 // import CollectionsLoadMore from '../../components/elements/Loadmore/followingCollections';
 // import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
-import { Me } from '../../graphql/types.generated';
 
-const {
-  getFollowedCollections
-} = require('../../graphql/getFollowedCollections.graphql');
+export const FollowingCollectionsComponent: React.SFC = () => {
+  const { data, error, loading } = useGetFollowedCollectionsQuery({
+    variables: {
+      limit: 15
+    }
+  });
 
-interface Data extends QueryControls {
-  me: Me;
-}
-
-interface Props {
-  data: Data;
-  handleCollection: any;
-}
-
-class FollowingCollectionsComponent extends React.Component<Props> {
-  render() {
-    return this.props.data.error ? (
-      <span>
-        <Trans>Error loading collections</Trans>
-      </span>
-    ) : this.props.data.loading ? (
-      <Loader />
-    ) : (
-      <>
-        {/* <Helmet>
+  return (!data && !loading) || error ? (
+    <span>
+      <Trans>Error loading collections</Trans>
+    </span>
+  ) : !data || loading ? (
+    <Loader />
+  ) : (
+    <>
+      {/* <Helmet>
           <title>{APP_NAME} > Followed collections</title>
         </Helmet> */}
-        <ListWrapper>
-          <List>
-            {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-            this.props.data.me.user.followedCollections!.edges.map(
+      <ListWrapper>
+        <List>
+          {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+          data.me &&
+            data.me.user.followedCollections &&
+            data.me.user.followedCollections &&
+            data.me.user.followedCollections.edges.map(
               (collection, i) =>
                 collection && (
                   <CollectionCard
@@ -48,17 +40,16 @@ class FollowingCollectionsComponent extends React.Component<Props> {
                   />
                 )
             )}
-          </List>
-          {/* <CollectionsLoadMore
-            fetchMore={this.props.data.fetchMore}
-            collections={this.props.data.me.user.followedCollections}
+        </List>
+        {/* <CollectionsLoadMore
+            fetchMore={data.fetchMore}
+            collections={data.me.user.followedCollections}
             me
           /> */}
-        </ListWrapper>
-      </>
-    );
-  }
-}
+      </ListWrapper>
+    </>
+  );
+};
 
 const ListWrapper = styled.div``;
 
@@ -67,21 +58,3 @@ const List = styled.div`
   grid-template-columns: 1fr;
   padding-top: 0;
 `;
-
-const withGetFollowingCollections = graphql(getFollowedCollections, {
-  options: (props: Props) => ({
-    fetchPolicy: 'cache-first',
-    variables: {
-      limit: 15
-    }
-  })
-});
-
-export default compose(
-  withGetFollowingCollections,
-  withState('isOpenCollection', 'onOpenCollection', false),
-  withHandlers({
-    handleCollection: props => () =>
-      props.onOpenCollection(!props.isOpenCollection)
-  })
-)(FollowingCollectionsComponent);

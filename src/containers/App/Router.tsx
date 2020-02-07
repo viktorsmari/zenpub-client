@@ -4,10 +4,10 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
 import { SessionContext } from '../../context/global/sessionCtx';
-import CollectionsAll from '../../pages/collections.all';
+import { CollectionsYours } from '../../pages/collections.all';
 import MyCollections from '../../pages/collections.all/collectionsFollowed';
-import CommunitiesAll from '../../pages/communities.all/CommunitiesAll';
-import MyCommunities from '../../pages/communities.all/communitiesJoined';
+import { CommunitiesAll } from '../../pages/communities.all/CommunitiesAll';
+import { CommunitiesYours } from '../../pages/communities.all/communitiesJoined';
 import ConfirmAccount from '../../pages/Confirm';
 import CreateNewPassword from '../../pages/CreateNewPassword';
 import Discover from '../../pages/discover';
@@ -77,7 +77,7 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
         <Route
           exact
           path="/mycommunities"
-          component={me ? MyCommunities : Login}
+          component={me ? CommunitiesYours : Login}
         />
         <Route exact path="/settings" component={me ? Settings : Login} />
         <Route
@@ -132,7 +132,7 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
           }}
         />
         <Route path="/search" component={SearchComp} />
-        <Route exact path="/collections" component={CollectionsAll} />
+        <Route exact path="/collections" component={CollectionsYours} />
         <Route component={NotFound} />
       </Switch>
     </>

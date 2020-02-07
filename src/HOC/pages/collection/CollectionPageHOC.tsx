@@ -92,7 +92,7 @@ export const CollectionPageHOC: SFC<Props> = ({ collectionId }) => {
         done
       }) => {
         return (
-          <ShareLinkModal
+          <Shar321eLinkModal
             toggleModal={done}
             modalIsOpen={true}
             collectionId={collectionId}
