@@ -1,7 +1,7 @@
 import React from 'react';
 import { Context } from 'react';
 import { action } from '@storybook/addon-actions';
-import { Service } from '../../types';
+export type Service<Request, Response> = (req: Request) => Promise<Response>;
 
 export const StorybookAsyncServiceMockProviderDeco = <Vals, Resp>(
   name: string,
