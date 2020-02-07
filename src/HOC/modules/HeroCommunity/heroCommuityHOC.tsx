@@ -43,8 +43,7 @@ export const HeroCommunityHOC: SFC<Props> = ({ communityId }) => {
           canModify:
             !!session.me && session.me.user.id === community.creator!.id,
           following: !!community.myFollow,
-          // icon: community.icon || community.image || '',
-          image: community.image || '',
+          icon: community.icon || '',
           name: community.name,
           fullName: community.displayUsername,
           //FIXME https://gitlab.com/moodlenet/meta/issues/185

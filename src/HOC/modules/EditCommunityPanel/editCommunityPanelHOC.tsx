@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import { useUpdateCommunityMutationMutation } from 'graphql/updateCommunity.generated';
-import { useUploadImageMutation } from 'graphql/uploadImage.generated';
+import { useUploadIconMutation } from 'graphql/uploadIcon.generated';
 import { useMemo, SFC } from 'react';
 import * as Yup from 'yup';
 import { useGetCommunityForEditQuery } from './getCommunityForEdit.generated';
@@ -19,13 +19,13 @@ export const validationSchema: Yup.ObjectSchema<
     .max(60)
     .required(),
   summary: Yup.string().max(500),
-  image: Yup.string() //.url()
+  icon: Yup.string() //.url()
 });
 
 export const editCommunityFormInitialValues: EditCommunityFormValues = {
   name: '',
   summary: '',
-  image: '',
+  icon: '',
   files: []
 };
 export interface Props {
@@ -38,12 +38,12 @@ export const EditCommunityPanelHOC: SFC<Props> = ({
 }: Props) => {
   const community = useGetCommunityForEditQuery({ variables: { communityId } });
   const [update /* , result */] = useUpdateCommunityMutationMutation();
-  const [mutateImage] = useUploadImageMutation();
+  const [mutateIcon] = useUploadIconMutation();
   const initialValues = useMemo<EditCommunityFormValues>(
     () =>
       community.data && community.data.community
         ? {
-            image: community.data.community.image || '',
+            icon: community.data.community.icon || '',
             name: community.data.community.name,
             summary: community.data.community.summary || '',
             files: []
@@ -52,16 +52,13 @@ export const EditCommunityPanelHOC: SFC<Props> = ({
     [community]
   );
 
-  const uploadImage = file =>
-    mutateImage({
+  const uploadIcon = file =>
+    mutateIcon({
       variables: { contextId: communityId, upload: file }
     })
       .then(res => {
         return (
-          (res &&
-            res.data &&
-            res.data.uploadImage &&
-            res.data.uploadImage.url) ||
+          (res && res.data && res.data.uploadIcon && res.data.uploadIcon.url) ||
           ''
         );
       })
@@ -74,12 +71,12 @@ export const EditCommunityPanelHOC: SFC<Props> = ({
         return file;
       })[0];
       if (file) {
-        uploadImage(file)
-          .then(uploadedImage => {
+        uploadIcon(file)
+          .then(uploadedIcon => {
             update({
               variables: {
                 community: {
-                  image: uploadedImage || '',
+                  icon: uploadedIcon || '',
                   name: vals.name,
                   summary: vals.summary
                 },
@@ -93,7 +90,7 @@ export const EditCommunityPanelHOC: SFC<Props> = ({
         update({
           variables: {
             community: {
-              image: vals.image,
+              icon: vals.icon,
               name: vals.name,
               summary: vals.summary
             },

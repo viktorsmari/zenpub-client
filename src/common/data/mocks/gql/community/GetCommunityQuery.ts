@@ -6,7 +6,6 @@ export const basicGetCommunityQuery: GetCommunityQueryQuery = {
     __typename: 'Community',
     name: 'name',
     summary: 'summary',
-    image: '',
     collections: {
       __typename: 'CollectionsEdges',
       totalCount: 0,
@@ -32,6 +31,6 @@ export const basicGetCommunityQuery: GetCommunityQueryQuery = {
     lastActivity: '',
     myFollow: null,
     canonicalUrl: null,
-    icon: null
+    icon: ''
   }
 };

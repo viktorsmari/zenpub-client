@@ -18,13 +18,13 @@ export const validationSchema: Yup.ObjectSchema<
     .max(60)
     .required(),
   summary: Yup.string().max(500),
-  image: Yup.string().url()
+  icon: Yup.string().url()
 });
 
 export const createCommunityFormInitialValues: BasicCreateCommunityFormValues = {
   name: '',
   summary: '',
-  image: '',
+  icon: '',
   files: []
 };
 export interface Props {

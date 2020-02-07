@@ -1,12 +1,12 @@
+import { ActivityPreviewDataFragmentDoc, ActivityPreviewCommentCtxExtendedFragment, ActivityPreviewExtendedThreadFragment, ActivityPreviewLikeCtxFragment, ActivityPreviewCommentCtxBaseFragment, ActivityPreviewExtendedThreadFragmentDoc, ActivityPreviewCommentCtxExtendedFragmentDoc, ActivityPreviewLikeCtxFragmentDoc, ActivityPreviewCommentCtxBaseFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
 import * as Types from '../../../graphql/types.generated';
 
-import { ActivityPreviewDataFragment, ActivityPreviewCommentCtxExtendedFragment, ActivityPreviewExtendedThreadFragment, ActivityPreviewLikeCtxFragment, ActivityPreviewCommentCtxBaseFragment, ActivityPreviewExtendedThreadFragmentDoc, ActivityPreviewCommentCtxExtendedFragmentDoc, ActivityPreviewLikeCtxFragmentDoc, ActivityPreviewCommentCtxBaseFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
 import { CollectionPreviewDataFragment } from '../../modules/CollectionPreview/CollectionPreview.generated';
 import { HeroCommunityDataFragment } from '../../modules/HeroCommunity/getHeroCommunity.generated';
 import gql from 'graphql-tag';
 import { HeroCommunityDataFragmentDoc } from '../../modules/HeroCommunity/getHeroCommunity.generated';
 import { CollectionPreviewDataFragmentDoc } from '../../modules/CollectionPreview/CollectionPreview.generated';
-import { ActivityPreviewDataFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewDataFragment } from '../../modules/ActivityPreview/getActivityPreview.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';

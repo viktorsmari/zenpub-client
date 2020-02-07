@@ -31,14 +31,14 @@ const tt = {
     summary: i18nMark(
       'Please describe what the collection is for and what kind of resources it is likely to contain...'
     ),
-    image: i18nMark('Enter the URL of an image to represent the collection')
+    icon: i18nMark('Enter the URL of an image to represent the collection')
   }
 };
 
 interface FormValues {
   name: string;
   summary: string;
-  image: string;
+  icon: string;
 }
 
 interface Props {
@@ -65,7 +65,7 @@ const CreateCollectionModal: React.FC<Props> = ({
         collection: {
           name: values.name,
           summary: values.summary,
-          icon: values.image || undefined,
+          icon: values.icon || undefined,
           preferredUsername: values.name.split(' ').join('_')
         }
       };
@@ -148,18 +148,18 @@ const CreateCollectionModal: React.FC<Props> = ({
                   <label>Image</label>
                   <ContainerForm>
                     <Field
-                      name="image"
+                      name="icon"
                       render={({ field }) => (
                         <Input
-                          placeholder={i18n._(tt.placeholders.image)}
+                          placeholder={i18n._(tt.placeholders.icon)}
                           name={field.name}
                           value={field.value}
                           onChange={field.onChange}
                         />
                       )}
                     />
-                    {errors.image &&
-                      touched.image && <Alert>{errors.image}</Alert>}
+                    {errors.icon &&
+                      touched.icon && <Alert>{errors.icon}</Alert>}
                   </ContainerForm>
                 </Row>
                 <Actions>
@@ -182,14 +182,14 @@ const CreateCollectionModal: React.FC<Props> = ({
 const initialValues: FormValues = {
   name: '',
   summary: '',
-  image: ''
+  icon: ''
 };
 const validationSchema = Yup.object().shape({
   name: Yup.string()
     .max(80)
     .required(),
   summary: Yup.string().max(500),
-  image: Yup.string().url()
+  icon: Yup.string().url()
 });
 
 export default CreateCollectionModal;
@@ -201,88 +201,3 @@ const SubmitButton = styled(Button)`
     margin-left: 0px;
   }
 `;
-
-// const ModalWithFormik = withFormik<MyFormProps, FormValues>({
-//   handleSubmit: (values, { props, setSubmitting }) => {
-//     const variables = {
-//       communityId: Number(props.communityId),
-//       collection: {
-//         name: values.name,
-//         summary: values.summary,
-//         icon: values.image,
-//         content: values.summary,
-//         preferredUsername: values.name.split(' ').join('_')
-//       }
-//     };
-//     return props
-//       .createCollection({
-//         variables: variables,
-//         update: (store, { data }) => {
-//           const community = store.readQuery({
-//             query: getCommunityQuery,
-//             variables: {
-//               context: props.communityId,
-//               limit: 15
-//             }
-//           });
-//           const newCollection = {
-//             node: {
-//               __typename: 'Collection',
-//               id: data.createCollection.id,
-//               id: data.createCollection.id,
-//               name: data.createCollection.name,
-//               summary: data.createCollection.summary,
-//               preferredUsername: data.createCollection.preferredUsername,
-//               icon: data.createCollection.icon,
-//               followed: data.createCollection.followed,
-//               followers: {
-//                 totalCount: 1,
-//                 __typename: 'CollectionFollowersConnection'
-//               },
-//               inbox: {
-//                 totalCount: 0,
-//                 edges: {
-//                   node: {
-//                     id: 1011,
-//                     __typename: 'Activity'
-//                   },
-//                   __typename: 'CollectionActivitiesEdge'
-//                 },
-//                 __typename: 'CollectionInboxConnection'
-//               },
-//               resources: {
-//                 totalCount: 0,
-//                 edges: {
-//                   node: {
-//                     id: 1010,
-//                     __typename: 'Resource'
-//                   },
-//                   __typename: 'CollectionResourcesEdge'
-//                 },
-//                 __typename: 'CollectionResourcesConnection'
-//               },
-//               threads: {
-//                 totalCount: 0,
-//                 __typename: 'CollectionThreadsConnection'
-//               }
-//             },
-//             __typename: 'CommunityCollectionsEdge'
-//           };
-//           community.community.collections.edges.unshift(newCollection);
-//           community.community.collections.totalCount++;
-//           store.writeQuery({
-//             query: getCommunityQuery,
-//             variables: {
-//               context: props.communityId
-//             },
-//             data: community
-//           });
-//         }
-//       })
-//       .then(res => {
-//         props.toggleModal();
-//         setSubmitting(false);
-//       })
-//       .catch(err => console.log(err));
-//   }
-// })(CreateCollectionModal);

@@ -82,7 +82,7 @@ class CommunitiesYours extends React.Component<Props> {
                                   key={i}
                                   summary={community.summary || ''}
                                   title={community.name}
-                                  icon={community.icon || community.image || ''}
+                                  icon={community.icon || ''}
                                   id={community.id}
                                   followed={!!community.myFollow}
                                   followersCount={

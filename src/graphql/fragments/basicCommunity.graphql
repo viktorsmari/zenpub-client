@@ -8,7 +8,6 @@ fragment BasicCommunity on Community {
     summary
     creator { ...BasicUser }
     icon
-    image
     createdAt
     updatedAt
     lastActivity

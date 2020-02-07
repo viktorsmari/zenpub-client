@@ -22,7 +22,7 @@ const tt = {
     summary: i18nMark(
       'Please describe who might be interested in this community and what kind of collections it is likely to contain...'
     ),
-    image: i18nMark('Enter the URL of an image to represent the community')
+    icon: i18nMark('Enter the URL of an image to represent the community')
   }
 };
 
@@ -34,7 +34,7 @@ export interface Props {
 export interface EditCommunityFormValues {
   name: string;
   summary: string;
-  image: string;
+  icon: string;
   files?: [];
 }
 
@@ -89,7 +89,19 @@ export const EditCommunityPanel: React.FC<Props> = ({ cancel, formik }) => {
           <Trans>Image</Trans>
         </label>
         <ContainerForm>
-          <DropzoneArea initialUrl={formik.values.image} formikForm={formik} />
+          <DropzoneArea initialUrl={formik.values.icon} formikForm={formik} />
+          {/* <Input
+            placeholder={tt.placeholders.image}
+            disabled={formik.isSubmitting}
+            name="image"
+            value={formik.values.image}
+            onChange={formik.handleChange}
+          />
+          {formik.errors.image && (
+            <AlertWrapper>
+              <Alert variant="bad">{formik.errors.image}</Alert>
+            </AlertWrapper>
+          )} */}
         </ContainerForm>
       </Row>
       <Actions>

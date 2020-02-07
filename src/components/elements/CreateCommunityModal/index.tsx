@@ -33,7 +33,7 @@ const tt = {
     summary: i18nMark(
       'Please describe who might be interested in this community and what kind of collections it is likely to contain...'
     ),
-    image: i18nMark('Enter the URL of an image to represent the community')
+    icon: i18nMark('Enter the URL of an image to represent the community')
   }
 };
 
@@ -46,7 +46,6 @@ interface FormValues {
   name: string;
   summary: string;
   icon: string;
-  image: string;
   files: [];
   // content: string;
   preferredUsername: string;
@@ -64,7 +63,6 @@ const CreateCommunityModal = (
     () => ({
       name: '',
       summary: '',
-      image: '',
       icon: '',
       files: [],
       // content: '',

@@ -18,7 +18,7 @@ export type UpdateCommunityMutationMutation = (
   { __typename: 'RootMutationType' }
   & { updateCommunity: Types.Maybe<(
     { __typename: 'Community' }
-    & Pick<Types.Community, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'image' | 'icon' | 'createdAt' | 'updatedAt'>
+    & Pick<Types.Community, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'createdAt' | 'updatedAt'>
   )> }
 );
 
@@ -31,7 +31,6 @@ export const UpdateCommunityMutationDocument = gql`
     preferredUsername
     name
     summary
-    image
     icon
     createdAt
     updatedAt
