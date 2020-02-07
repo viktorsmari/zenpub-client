@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
-import { FormikHook } from 'common/types';
+import { FormikHook } from 'ui/@types/types';
 import * as React from 'react';
 import { LocaleContext } from '../../../context/global/localizationCtx';
 import styled from '../../../themes/styled';
