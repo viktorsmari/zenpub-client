@@ -1,7 +1,10 @@
 // View a Profile
 import { Trans } from '@lingui/macro';
-import { useGetUserQuery } from 'graphql/getUser.generated';
-import { ActivityPreviewHOC } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
+import { useGetUserQuery, GetUserDocument } from 'graphql/getUser.generated';
+import {
+  ActivityPreviewHOC,
+  ActivityPreviewCtx
+} from 'HOC/modules/ActivityPreview/activityPreviewHOC';
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import { TabPanel, Tabs } from 'react-tabs';
@@ -31,7 +34,7 @@ const CommunitiesFeatured: React.SFC<Props> = () => {
       limitTimeline: 15
     }
   });
-  const { data, loading, error /* , fetchMore */, refetch } = query;
+  const { data, loading, error /* , fetchMore */, refetch, variables } = query;
   React.useEffect(() => {
     refetch();
   }, []);
@@ -78,7 +81,13 @@ const CommunitiesFeatured: React.SFC<Props> = () => {
                         </SuperTab>
                       </SuperTabList>
                       <TabPanel>
-                        <>
+                        <ActivityPreviewCtx.Provider
+                          value={{
+                            refetchQueries: [
+                              { query: GetUserDocument, variables }
+                            ]
+                          }}
+                        >
                           {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
                           data.me.user.outbox!.edges!.map(
                             t =>
@@ -94,7 +103,7 @@ const CommunitiesFeatured: React.SFC<Props> = () => {
                             fetchMore={fetchMore}
                             community={data.me.user}
                           /> */}
-                        </>
+                        </ActivityPreviewCtx.Provider>
                       </TabPanel>
                       <TabPanel>
                         <ListCollections>
