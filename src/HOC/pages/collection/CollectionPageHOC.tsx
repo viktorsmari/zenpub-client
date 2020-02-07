@@ -1,11 +1,14 @@
+import ShareLinkModal from 'components/elements/CollectionModal';
 import { useFormik } from 'formik';
 import { Collection } from 'graphql/types.generated';
 import {
   ActivityPreviewCtx,
-  ActivityPreviewHOC,
-  getActions,
-  getActor
+  ActivityPreviewHOC
 } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
+import { getActivityActions } from 'HOC/modules/ActivityPreview/lib/getActivityActions';
+import { getActivityActor } from 'HOC/modules/ActivityPreview/lib/getActivityActor';
+import UploadResourcePanelHOC from 'HOC/modules/AddResource/UploadResourceHOC';
+import { EditCollectionPanelHOC } from 'HOC/modules/EditCollectionPanel/editCollectionPanelHOC';
 import { HeroCollectionHOC } from 'HOC/modules/HeroCollection/HeroCollectionHOC';
 import React, { SFC, useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -26,9 +29,6 @@ import {
   useCollectionPageResourceLikeMutation,
   useCollectionPageResourceUnlikeMutation
 } from './CollectionPage.generated';
-import { EditCollectionPanelHOC } from 'HOC/modules/EditCollectionPanel/editCollectionPanelHOC';
-import UploadResourcePanelHOC from 'HOC/modules/AddResource/UploadResourceHOC';
-import ShareLinkModal from 'components/elements/CollectionModal';
 
 export interface Props {
   collectionId: Collection['id'];
@@ -208,7 +208,7 @@ const ResourceActivity: SFC<{
   });
 
   const props: ActivityPreviewProps = {
-    actor: getActor(resource.creator),
+    actor: getActivityActor(resource.creator),
     context: {
       type: UIP.ContextType.Resource,
       link: resource.collection ? `/collections/${resource.collection.id}` : '',
@@ -220,7 +220,11 @@ const ResourceActivity: SFC<{
     },
     createdAt: resource.createdAt,
     status: ActivityPreviewStatus.Loaded,
-    actions: getActions(resource, commentResourceFormik, toggleLikeFormik),
+    actions: getActivityActions(
+      resource,
+      commentResourceFormik,
+      toggleLikeFormik
+    ),
     inReplyToCtx: null
   };
 

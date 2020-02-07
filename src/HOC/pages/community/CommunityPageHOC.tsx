@@ -1,12 +1,14 @@
+import { PureQueryOptions } from 'apollo-client';
 import { useFormik } from 'formik';
 import { Community } from 'graphql/types.generated';
 import {
   ActivityPreviewCtx,
-  ActivityPreviewHOC,
-  getActions,
-  getActor
+  ActivityPreviewHOC
 } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
+import { getActivityActions } from 'HOC/modules/ActivityPreview/lib/getActivityActions';
+import { getActivityActor } from 'HOC/modules/ActivityPreview/lib/getActivityActor';
 import { CollectionPreviewHOC } from 'HOC/modules/CollectionPreview/CollectionPreviewHOC';
+import { CreateCollectionPanelHOC } from 'HOC/modules/CreateCollectionPanel/createCollectionPanelHOC';
 import { HeroCommunityHOC } from 'HOC/modules/HeroCommunity/heroCommuityHOC';
 import React, { SFC, useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -17,9 +19,7 @@ import {
 } from 'ui/modules/ActivityPreview';
 import * as UIP from 'ui/modules/ActivityPreview/preview';
 import CommunityPage, { Props as CommunityProps } from 'ui/pages/community';
-import { CreateCollectionPanelHOC } from 'HOC/modules/CreateCollectionPanel/createCollectionPanelHOC';
 import * as CPGQL from './CommunityPage.generated';
-import { PureQueryOptions } from 'apollo-client';
 
 export interface Props {
   id: Community['id'];
@@ -228,7 +228,7 @@ export const ThreadActivity: SFC<{
   });
 
   const props: ActivityPreviewProps = {
-    actor: getActor(comment.creator),
+    actor: getActivityActor(comment.creator),
     context: {
       type: UIP.ContextType.Comment,
       content: comment.content,
@@ -237,7 +237,7 @@ export const ThreadActivity: SFC<{
     },
     createdAt: comment.createdAt,
     status: ActivityPreviewStatus.Loaded,
-    actions: getActions(comment, replyThreadFormik, toggleLikeFormik),
+    actions: getActivityActions(comment, replyThreadFormik, toggleLikeFormik),
     inReplyToCtx: null
   };
 
