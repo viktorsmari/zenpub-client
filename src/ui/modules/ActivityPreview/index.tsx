@@ -14,7 +14,12 @@ import { Actor } from './types';
 import SocialText from 'ui/modules/SocialText';
 import { i18nMark } from '@lingui/react';
 import { LocaleContext } from '../../../context/global/localizationCtx';
-
+import { MoreHorizontal } from 'react-feather';
+import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
+import Modal from 'ui/modules/Modal';
+import { Flag, Upload, Copy } from 'react-feather';
+import { Input, Label } from '@rebass/forms';
+import Button from 'ui/elements/Button';
 const tt = {
   placeholders: {
     name: i18nMark('Post a reply'),
@@ -68,6 +73,8 @@ export const ActivityPreview: SFC<Props> = activity => {
     return <Trans>loading...</Trans>;
   }
 
+  const [isOpen, onOpen] = React.useState(false);
+  const [isEnterUrlOpen, onEnterUrlOpen] = React.useState(false);
   return (
     <FeedItem>
       <WrapperLink
@@ -91,6 +98,40 @@ export const ActivityPreview: SFC<Props> = activity => {
           {activity.actions && <Actions {...activity.actions} />}
         </Wrapper>
       </Contents>
+      <More>
+        <MoreHorizontal
+          onClick={() => onOpen(true)}
+          size={20}
+          color={'rgb(101, 119, 134)'}
+        />
+        {isOpen && (
+          <Dropdown cb={onOpen}>
+            <DropdownItem>
+              <Flag size={20} color={'rgb(101, 119, 134)'} />
+              <Text sx={{ flex: 1 }} ml={2}>
+                Flag item
+              </Text>
+            </DropdownItem>
+            {activity.context.type === ContextType.Resource && (
+              <>
+                <DropdownItem onClick={() => onEnterUrlOpen(true)}>
+                  <Upload size={20} color={'rgb(101, 119, 134)'} />
+                  <Text sx={{ flex: 1 }} ml={2}>
+                    Add to Moodle
+                  </Text>
+                </DropdownItem>
+                <DropdownItem>
+                  <Copy size={20} color={'rgb(101, 119, 134)'} />
+                  <Text sx={{ flex: 1 }} ml={2}>
+                    Copy link
+                  </Text>
+                </DropdownItem>
+              </>
+            )}
+          </Dropdown>
+        )}
+      </More>
+      {isEnterUrlOpen && <EnterUrl close={onEnterUrlOpen} />}
     </FeedItem>
   );
 };
@@ -136,6 +177,30 @@ export const BigActivityPreview: SFC<Props> = activity => {
   );
 };
 
+const EnterUrl = ({ close }) => (
+  <Modal closeModal={() => close(false)}>
+    <Box p={3}>
+      <Label htmlFor="name">Moodle url</Label>
+      <Input
+        sx={{ border: '1px solid #dadada' }}
+        id="name"
+        name="name"
+        placeholder="Type the moodle url..."
+      />
+      <Button mt={2} variant="primary">
+        Send to Moodle
+      </Button>
+    </Box>
+  </Modal>
+);
+
+const More = styled(Box)`
+  position: absolute;
+  right: 8px;
+  top: 16px;
+  cursor: pointer;
+`;
+
 const WrapperLink = styled(NavLink)`
   text-decoration: none;
   position: absolute;
@@ -157,7 +222,7 @@ const ActorComp: SFC<ActorProps> = ({ actor, createdAt }) => (
   <Member>
     <Avatar initials={actor.name} src={actor.icon} />
     <MemberInfo ml={2}>
-      <Name>
+      <Name mt={1}>
         <Link to={actor.link}>
           {actor.name}
           {/* <Username ml={2}>@{actor.name}</Username> */}
