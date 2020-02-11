@@ -30,7 +30,7 @@ export const resourceFormInitialValues: ResourceFormValues = {
   name: '',
   summary: '',
   icon: '',
-  license: accepted_license_types[0],
+  license: accepted_license_types[1],
   acceptedLicenses: accepted_license_types,
   resourceFiles: [],
   imageFiles: []
