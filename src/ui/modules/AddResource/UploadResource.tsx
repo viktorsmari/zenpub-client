@@ -117,9 +117,17 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
         </ContainerForm>
       </Row>
       <Row>
-        <label>
-          <Trans>CC License</Trans>
-        </label>
+        <LabelWrapper>
+          <label>
+            <Trans>CC License</Trans>
+          </label>
+          <Link
+            href="https://blog.moodle.net/2019/free-cultural-works/"
+            target="blank"
+          >
+            <Trans>Confused? Read this!</Trans>
+          </Link>
+        </LabelWrapper>
         <ContainerForm>
           <RadioButton
             type="radio"
@@ -189,6 +197,15 @@ export default UploadResource;
 
 const WrapperLoader = styled.div`
   padding: 10px;
+`;
+
+const LabelWrapper = styled.div`
+  width: 200px;
+`;
+
+const Link = styled.a`
+  display: block;
+  font-size: 13px;
 `;
 
 const Label = styled.label`
