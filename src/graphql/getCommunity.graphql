@@ -13,7 +13,6 @@ query getCommunityQuery($communityId: String!, $limit: Int, $end: String) {
         name
         summary
         icon
-        image
         createdAt
         creator { id }
         updatedAt

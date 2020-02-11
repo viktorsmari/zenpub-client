@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
-import { FormikHook } from 'common/types';
+import { FormikHook } from 'ui/@types/types';
 import * as React from 'react';
 import { Button, Heading } from 'rebass/styled-components';
 import DropzoneArea from '../../../components/elements/DropzoneModal';
@@ -22,7 +22,7 @@ const tt = {
     summary: i18nMark(
       'Please describe what the collection is for and what kind of resources it is likely to contain...'
     ),
-    image: i18nMark('Enter the URL of an image to represent the collection')
+    icon: i18nMark('Enter the URL of an image to represent the collection')
   }
 };
 

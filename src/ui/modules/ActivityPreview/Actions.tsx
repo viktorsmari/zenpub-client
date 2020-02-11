@@ -5,7 +5,7 @@ import { Box, Flex, Text } from 'rebass/styled-components';
 import SocialText from 'ui/modules/SocialText';
 import { i18nMark, Trans } from '@lingui/react';
 import { LocaleContext } from '../../../context/global/localizationCtx';
-import { FormikHook } from 'common/types';
+import { FormikHook } from 'ui/@types/types';
 
 export interface LikeActions {
   toggleLikeFormik: FormikHook<{}>;

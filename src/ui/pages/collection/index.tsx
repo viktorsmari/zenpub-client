@@ -36,7 +36,7 @@ export const Collection: React.FC<Props> = ({
 }) => {
   const [isOpenEditCollection, setOpenEditCollection] = React.useState(false);
   const [isShareLinkOpen, setOpenShareLink] = React.useState(false);
-  const [isUploadOpen, onUploadOpen] = React.useState(false);
+  const [isUploadOpen, setUploadOpen] = React.useState(false);
   return (
     <MainContainer>
       {isOpenEditCollection && (
@@ -69,35 +69,14 @@ export const Collection: React.FC<Props> = ({
                       <Trans>Share link</Trans>
                     </Button>
                     <Button
-                      onClick={() => onUploadOpen(true)}
+                      onClick={() => setUploadOpen(true)}
                       variant="outline"
                     >
                       <Trans>Add new resource</Trans>
                     </Button>
                   </WrapButton>
-                  {/* {isUploadOpen ? (
-                    // <WrapButton mt={3} px={3} pb={3} mb={2}>
-                    //   <Button
-                    //     onClick={() => onUploadOpen(false)}
-                    //     variant="outline"
-                    //   >
-                    //     <Trans>Cancel</Trans>
-                    //   </Button>
-                    // </WrapButton>
-                  ) : (
-                    // <WrapButton mt={3} px={3} pb={3} mb={2}>
-                    //   <Button
-                    //     onClick={() => onUploadOpen(true)}
-                    //     variant="outline"
-                    //   >
-                    //     <Trans>Add new resource</Trans>
-                    //   </Button>
-                    // </WrapButton>
-                    null
-                  )} */}
-
                   {isUploadOpen && (
-                    <UploadResourcePanel done={() => onUploadOpen(false)} />
+                    <UploadResourcePanel done={() => setUploadOpen(false)} />
                   )}
                   {ResourceBoxes}
                 </>

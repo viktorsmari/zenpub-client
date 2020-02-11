@@ -25,7 +25,7 @@ export type GetCommunityQueryQuery = (
   { __typename: 'RootQueryType' }
   & { community: Types.Maybe<(
     { __typename: 'Community' }
-    & Pick<Types.Community, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'image' | 'createdAt' | 'updatedAt' | 'lastActivity' | 'isLocal' | 'isPublic' | 'isDisabled'>
+    & Pick<Types.Community, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'createdAt' | 'updatedAt' | 'lastActivity' | 'isLocal' | 'isPublic' | 'isDisabled'>
     & { creator: Types.Maybe<(
       { __typename: 'User' }
       & Pick<Types.User, 'id'>
@@ -139,7 +139,6 @@ export const GetCommunityQueryDocument = gql`
     name
     summary
     icon
-    image
     createdAt
     creator {
       id

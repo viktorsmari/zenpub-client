@@ -14,7 +14,7 @@ export enum Status {
 
 export interface CommunityLoaded {
   status: Status.Loaded;
-  image: string;
+  icon: string;
   name: string;
   summary: string;
   fullName: string;
@@ -48,7 +48,7 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
         <Background
           id="header"
           style={{
-            backgroundImage: `url(${c.image})`
+            backgroundImage: `url(${c.icon})`
           }}
         />
         <HeroInfo>

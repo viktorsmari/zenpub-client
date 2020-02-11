@@ -1,11 +1,9 @@
 import { PureQueryOptions } from 'apollo-client';
 import { useFormik } from 'formik';
 import { Thread as GQLThread } from 'graphql/types.generated';
-import {
-  getActions,
-  getActor
-} from 'HOC/modules/ActivityPreview/activityPreviewHOC';
 import { ActivityPreviewCommentCtxExtendedFragment } from 'HOC/modules/ActivityPreview/getActivityPreview.generated';
+import { getActivityActions } from 'HOC/modules/ActivityPreview/lib/getActivityActions';
+import { getActivityActor } from 'HOC/modules/ActivityPreview/lib/getActivityActor';
 import React, { SFC, useEffect, useMemo } from 'react';
 import {
   ActivityPreview,
@@ -157,7 +155,7 @@ export const CommentActivity: SFC<{
   });
 
   const props: ActivityPreviewProps = {
-    actor: getActor(comment.creator),
+    actor: getActivityActor(comment.creator),
     context: {
       type: UIP.ContextType.Comment,
       content: comment.content,
@@ -166,7 +164,7 @@ export const CommentActivity: SFC<{
     },
     createdAt: comment.createdAt,
     status: ActivityPreviewStatus.Loaded,
-    actions: getActions(comment, replyThreadFormik, toggleLikeFormik),
+    actions: getActivityActions(comment, replyThreadFormik, toggleLikeFormik),
     inReplyToCtx: null
   };
   return !root ? (

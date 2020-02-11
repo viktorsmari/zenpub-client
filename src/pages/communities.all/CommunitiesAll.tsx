@@ -1,43 +1,55 @@
 import { Trans } from '@lingui/macro';
+import {
+  useGetCommunitiesQueryQuery,
+  GetCommunitiesQueryDocument
+} from 'graphql/getCommunities.generated';
 import * as React from 'react';
-import { graphql, OperationOption, QueryControls } from 'react-apollo';
 import { TabPanel, Tabs } from 'react-tabs';
 import { Button, Flex } from 'rebass/styled-components';
-import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
+import Modal from 'ui/modules/Modal';
 import CommunityCard from '../../components/elements/Community/Community';
-import { CreateCommunityPanelHOC } from '../../HOC/modules/CreateCommunityPanel/createCommunityPanelHOC';
 import Loader from '../../components/elements/Loader/Loader';
 // import CommunitiesLoadMore from '../../components/elements/Loadmore/community';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
-import { BasicCommunityFragment } from '../../graphql/fragments/basicCommunity.generated';
-import { Community } from '../../graphql/types.generated';
+import {
+  CreateCommunityPanelHOC,
+  CreateCommunityPanelCtx
+} from '../../HOC/modules/CreateCommunityPanel/createCommunityPanelHOC';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel } from '../../sections/panel';
 import styled from '../../themes/styled';
-import Modal from 'ui/modules/Modal';
-const { getCommunitiesQuery } = require('../../graphql/getCommunities.graphql');
-
-interface Data extends QueryControls {
-  communities: {
-    nodes: BasicCommunityFragment[];
-    pageInfo?: {
-      startCursor: string;
-      endCursor: string;
-    };
-  };
-}
 
 interface Props {
-  data: Data;
-  handleNewCommunity(): boolean;
-  isOpenCommunity: boolean;
   loggedin: boolean;
 }
 
-class CommunitiesYours extends React.Component<Props> {
-  render() {
-    return (
+export const CommunitiesAll: React.SFC<Props> = ({ loggedin }) => {
+  const {
+    data,
+    error,
+    loading,
+    variables,
+    refetch
+  } = useGetCommunitiesQueryQuery({
+    variables: {
+      limit: 15
+    }
+  });
+  const [isOpenCommunity, onOpenCommunity] = React.useState(false);
+  const handleNewCommunity = React.useCallback(
+    () => onOpenCommunity(!isOpenCommunity),
+    [isOpenCommunity]
+  );
+  React.useEffect(() => {
+    refetch();
+  }, []);
+  return (
+    <CreateCommunityPanelCtx.Provider
+      value={{
+        refetchQueries: [{ query: GetCommunitiesQueryDocument, variables }]
+      }}
+    >
       <MainContainer>
         <HomeBox>
           <WrapperCont>
@@ -51,19 +63,19 @@ class CommunitiesYours extends React.Component<Props> {
                   </SuperTab>
                 </SuperTabList>
                 <TabPanel>
-                  {this.props.data.error ? (
+                  {(!data && !loading) || error ? (
                     <span>
                       <Trans>Error loading communities</Trans>
                     </span>
-                  ) : this.props.data.loading ? (
+                  ) : loading || !data ? (
                     <Loader />
                   ) : (
                     <>
-                      {this.props.loggedin && (
+                      {loggedin && (
                         <ButtonWrapper>
                           <CreateCollection
                             p={3}
-                            onClick={() => this.props.handleNewCommunity()}
+                            onClick={() => handleNewCommunity()}
                             m={3}
                           >
                             <Trans>Create a new community</Trans>
@@ -71,18 +83,20 @@ class CommunitiesYours extends React.Component<Props> {
                         </ButtonWrapper>
                       )}
                       <List>
-                        {this.props.data.communities.nodes.map(
-                          (community, i) => {
+                        {data &&
+                          data.communities.nodes &&
+                          data.communities.nodes.map((community, i) => {
                             return (
+                              community &&
                               /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                              !community.followers ||
-                                !community.collections ||
-                                !community.threads ? null : (
+                              (!community.followers ||
+                              !community.collections ||
+                              !community.threads ? null : (
                                 <CommunityCard
                                   key={i}
                                   summary={community.summary || ''}
                                   title={community.name}
-                                  icon={community.icon || community.image || ''}
+                                  icon={community.icon || ''}
                                   id={community.id}
                                   followed={!!community.myFollow}
                                   followersCount={
@@ -94,14 +108,13 @@ class CommunitiesYours extends React.Component<Props> {
                                   externalId={community.id}
                                   threadsCount={community.threads.totalCount}
                                 />
-                              )
+                              ))
                             );
-                          }
-                        )}
+                          })}
                       </List>
                       {/* <CommunitiesLoadMore
-                        fetchMore={this.props.data.fetchMore}
-                        communities={this.props.data.communities}
+                        fetchMore={data.fetchMore}
+                        communities={data.communities}
                       /> */}
                     </>
                   )}
@@ -111,17 +124,15 @@ class CommunitiesYours extends React.Component<Props> {
           </WrapperCont>
         </HomeBox>
         <WrapperPanel />
-        {this.props.isOpenCommunity && (
-          <Modal closeModal={() => this.props.handleNewCommunity()}>
-            <CreateCommunityPanelHOC
-              done={() => this.props.handleNewCommunity()}
-            />
+        {isOpenCommunity && (
+          <Modal closeModal={() => handleNewCommunity()}>
+            <CreateCommunityPanelHOC done={() => handleNewCommunity()} />
           </Modal>
         )}
       </MainContainer>
-    );
-  }
-}
+    </CreateCommunityPanelCtx.Provider>
+  );
+};
 
 const ButtonWrapper = styled(Flex)`
   border-bottom: 1px solid ${props => props.theme.colors.lightgray};
@@ -201,27 +212,3 @@ export const List = styled.div`
   grid-template-columns: 1fr;
   `};
 `;
-
-const withGetCommunities = graphql<
-  {},
-  {
-    data: {
-      communities: Community[];
-    };
-  }
->(getCommunitiesQuery, {
-  options: (props: Props) => ({
-    variables: {
-      limit: 15
-    }
-  })
-}) as OperationOption<{}, {}>;
-
-export default compose(
-  withGetCommunities,
-  withState('isOpenCommunity', 'onOpenCommunity', false),
-  withHandlers({
-    handleNewCommunity: props => () =>
-      props.onOpenCommunity(!props.isOpenCommunity)
-  })
-)(CommunitiesYours);

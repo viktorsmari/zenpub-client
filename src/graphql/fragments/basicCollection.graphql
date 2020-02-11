@@ -22,7 +22,6 @@ fragment BasicCollection on Collection {
         isPublic
         name
         icon
-        image
         myFollow { id }
         myFlag { id }
     }

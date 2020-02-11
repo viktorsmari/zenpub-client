@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
-import { FormikHook } from 'common/types';
+import { FormikHook } from 'ui/@types/types';
 import * as React from 'react';
 import { LocaleContext } from '../../../context/global/localizationCtx';
 import styled from '../../../themes/styled';
@@ -17,6 +17,10 @@ import {
 // import { clearFix } from 'polished';
 import DropzoneArea from '../../../components/elements/DropzoneModal';
 import Alert from 'ui/elements/Alert';
+
+const Cc0Icon = require('./cc-zero.png');
+const ByIcon = require('./by.png');
+const BySaIcon = require('./by-sa.png');
 
 const tt = {
   placeholders: {
@@ -40,6 +44,8 @@ export interface ResourceFormValues {
   name: string;
   summary: string;
   icon: string;
+  license: string;
+  acceptedLicenses?: string[];
   resourceFiles?: [];
   imageFiles?: [];
 }
@@ -110,6 +116,52 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
           />
         </ContainerForm>
       </Row>
+      <Row>
+        <label>
+          <Trans>CC License</Trans>
+        </label>
+        <ContainerForm>
+          <RadioButton
+            type="radio"
+            name="license"
+            id={formik.values.acceptedLicenses![0]}
+            value={formik.values.acceptedLicenses![0]}
+            checked={
+              formik.values.license === formik.values.acceptedLicenses![0]
+            }
+            onChange={formik.handleChange}
+          />
+          <Cc0Label htmlFor={formik.values.acceptedLicenses![0]}>
+            {formik.values.acceptedLicenses![0]}
+          </Cc0Label>
+          <RadioButton
+            type="radio"
+            name="license"
+            id={formik.values.acceptedLicenses![1]}
+            value={formik.values.acceptedLicenses![1]}
+            checked={
+              formik.values.license === formik.values.acceptedLicenses![1]
+            }
+            onChange={formik.handleChange}
+          />
+          <ByLabel htmlFor={formik.values.acceptedLicenses![1]}>
+            {formik.values.acceptedLicenses![1]}
+          </ByLabel>
+          <RadioButton
+            type="radio"
+            name="license"
+            id={formik.values.acceptedLicenses![2]}
+            value={formik.values.acceptedLicenses![2]}
+            checked={
+              formik.values.license === formik.values.acceptedLicenses![2]
+            }
+            onChange={formik.handleChange}
+          />
+          <BySaLabel htmlFor={formik.values.acceptedLicenses![2]}>
+            {formik.values.acceptedLicenses![2]}
+          </BySaLabel>
+        </ContainerForm>
+      </Row>
       <Actions>
         <SubmitButton
           disabled={formik.isSubmitting}
@@ -129,19 +181,6 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
           <Loader />
         </WrapperLoader>
       ) : null}
-      {/* {formik.fetched ? (
-            <Fetched
-              url={props.url}
-              name={props.name}
-              image={props.image}
-              summary={props.summary}
-              collectionId={props.collectionId}
-              toggleModal={props.toggleModal}
-              collectionExternalId={props.collectionExternalId}
-              isFetched={props.isFetched}
-              onUrl={props.onUrl}
-            />
-          ) : null} */}
     </div>
   );
 };
@@ -152,21 +191,42 @@ const WrapperLoader = styled.div`
   padding: 10px;
 `;
 
-// const ContainerForm = styled.div`
-//   flex: 1;
-//   ${clearFix()};
-//   position: relative;
-//   & form {
-//     width: 100%;
-//   }
-// `;
+const Label = styled.label`
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 115px !important;
+  line-height: 38px !important;
+  display: inline-block;
+  background-size: contain;
+  margin-right: 5px;
+  border: 4px solid transparent;
+  text-indent: -9999px;
+  cursor: pointer;
+  border-radius: 5px;
+`;
 
-// const ThumbImg = styled.img`
-//   display: block;
-//   max-width: 100%;
-//   margin-bottom: 10px;
-//   max-height: 200px;
-// `;
+const Cc0Label = styled(Label)`
+  background-image: url(${Cc0Icon});
+`;
+
+const ByLabel = styled(Label)`
+  background-image: url(${ByIcon});
+`;
+
+const BySaLabel = styled(Label)`
+  background-image: url(${BySaIcon});
+`;
+
+const RadioButton = styled.input`
+  position: absolute;
+  left: -9999px;
+  &:hover + ${Cc0Label}, &:hover + ${ByLabel}, &:hover + ${BySaLabel} {
+    border: 4px solid #97a395;
+  }
+  &:checked + ${Cc0Label}, &:checked + ${ByLabel}, &:checked + ${BySaLabel} {
+    border: 4px solid #67d654;
+  }
+`;
 
 const FormInput = styled(Input)`
   height: 40px;

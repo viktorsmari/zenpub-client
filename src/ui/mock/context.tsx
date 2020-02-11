@@ -23,7 +23,7 @@ import { Props as ResourcePreviewProps } from 'ui/modules/ResourcePreview';
 export const getEditCommunityProps = (): EditCommunityProps => {
   const formik = useFormik<EditCommunityFormValues>({
     initialValues: {
-      image: '',
+      icon: '',
       name: 'name',
       summary: 'summary'
     },
@@ -60,7 +60,7 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
       status: HeroCommunityStatus.Loaded,
       canModify: true,
       following: true,
-      image: 'https://picsum.photos/800/300',
+      icon: 'https://picsum.photos/800/300',
       name: 'Community nino',
       fullName: 'ninos@abc.com',
       summary:

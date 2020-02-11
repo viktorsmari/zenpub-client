@@ -7,7 +7,7 @@ import { BasicUserFragmentDoc } from './basicUser.generated';
 
 export type BasicCommunityFragment = (
   { __typename: 'Community' }
-  & Pick<Types.Community, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'image' | 'createdAt' | 'updatedAt' | 'lastActivity' | 'isLocal' | 'isPublic' | 'isDisabled'>
+  & Pick<Types.Community, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'createdAt' | 'updatedAt' | 'lastActivity' | 'isLocal' | 'isPublic' | 'isDisabled'>
   & { creator: Types.Maybe<(
     { __typename: 'User' }
     & BasicUserFragment
@@ -43,7 +43,6 @@ export const BasicCommunityFragmentDoc = gql`
     ...BasicUser
   }
   icon
-  image
   createdAt
   updatedAt
   lastActivity

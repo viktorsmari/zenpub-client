@@ -15,7 +15,10 @@ import FeaturedCommunities from '../../components/featuredCommunities';
 import { CreateReplyMutationMutationOperation } from '../../graphql/createReply.generated';
 import { DeleteMutationMutationOperation } from '../../graphql/delete.generated';
 import { LikeMutationMutationOperation } from '../../graphql/like.generated';
-import { useLocalActivitiesQuery } from '../../graphql/localActivities.generated';
+import {
+  useLocalActivitiesQuery,
+  LocalActivitiesDocument
+} from '../../graphql/localActivities.generated';
 // import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import {
   Nav,
@@ -27,7 +30,10 @@ import {
 import styled from 'ui/themes/styled';
 import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 // import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-import { ActivityPreviewHOC } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
+import {
+  ActivityPreviewHOC,
+  ActivityPreviewCtx
+} from 'HOC/modules/ActivityPreview/activityPreviewHOC';
 
 interface Props {}
 
@@ -36,6 +42,7 @@ const Home: React.FC<Props> = props => {
     error,
     loading,
     refetch,
+    variables,
     data /* , fetchMore */
   } = useLocalActivitiesQuery({
     variables: {
@@ -66,6 +73,7 @@ const Home: React.FC<Props> = props => {
     },
     [refetch]
   );
+  console.log(data);
   return (
     <MainContainer>
       <HomeBox>
@@ -94,22 +102,30 @@ const Home: React.FC<Props> = props => {
             ) : (
               data &&
               data.instance && (
-                <div>
-                  {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                  data.instance.outbox!.edges!.map(
-                    activity =>
-                      activity && (
-                        <ActivityPreviewHOC
-                          activityId={activity.node.id}
-                          key={activity.node.id}
-                        />
-                      )
-                  )}
-                  {/* <LoadMoreTimeline
-                        fetchMore={fetchMore}
-                        outbox={data.instance.outbox}
-                      /> */}
-                </div>
+                <ActivityPreviewCtx.Provider
+                  value={{
+                    refetchQueries: [
+                      { query: LocalActivitiesDocument, variables }
+                    ]
+                  }}
+                >
+                  <div>
+                    {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                    data.instance.outbox!.edges!.map(
+                      activity =>
+                        activity && (
+                          <ActivityPreviewHOC
+                            activityId={activity.node.id}
+                            key={activity.node.id}
+                          />
+                        )
+                    )}
+                    {/* <LoadMoreTimeline
+                          fetchMore={fetchMore}
+                          outbox={data.instance.outbox}
+                        /> */}
+                  </div>
+                </ActivityPreviewCtx.Provider>
               )
             )}
           </Wrapper>

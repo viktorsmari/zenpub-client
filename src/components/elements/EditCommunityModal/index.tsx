@@ -36,7 +36,7 @@ const tt = {
     summary: i18nMark(
       'Please describe who might be interested in this community and what kind of collections it is likely to contain...'
     ),
-    image: i18nMark('Enter the URL of an image to represent the community')
+    icon: i18nMark('Enter the URL of an image to represent the community')
   }
 };
 
@@ -52,13 +52,10 @@ interface FormValues {
   name: string;
   summary: string;
   icon: string;
-  image: string;
   files: [];
-  // content: string;
-  // preferredUsername: string;
 }
 
-const EditCommunityModal = (props: Props /*  & FormikProps<FormValues> */) => {
+const EditCommunityModal = (props: Props) => {
   const {
     toggleModal,
     modalIsOpen,
@@ -74,11 +71,8 @@ const EditCommunityModal = (props: Props /*  & FormikProps<FormValues> */) => {
     () => ({
       name: community.name || '',
       summary: community.summary || '',
-      image: community.icon || '',
       icon: community.icon || '',
       files: []
-      // content: '',
-      // preferredUsername: ''
     }),
     []
   );
@@ -90,9 +84,6 @@ const EditCommunityModal = (props: Props /*  & FormikProps<FormValues> */) => {
         community: {
           name: values.name,
           summary: values.summary
-          // ,
-          // image: res.data!.uploadIcon!.url,
-          // icon: res.data!.uploadIcon!.url
         }
       };
       update({

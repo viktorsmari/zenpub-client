@@ -1,12 +1,17 @@
+import { PureQueryOptions } from 'apollo-client';
 import { useFormik } from 'formik';
 import { Community } from 'graphql/types.generated';
 import {
   ActivityPreviewCtx,
-  ActivityPreviewHOC,
-  getActions,
-  getActor
+  ActivityPreviewHOC
 } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
+import { getActivityActions } from 'HOC/modules/ActivityPreview/lib/getActivityActions';
+import { getActivityActor } from 'HOC/modules/ActivityPreview/lib/getActivityActor';
 import { CollectionPreviewHOC } from 'HOC/modules/CollectionPreview/CollectionPreviewHOC';
+import {
+  CreateCollectionPanelHOC,
+  CreateCollectionPanelCtx
+} from 'HOC/modules/CreateCollectionPanel/createCollectionPanelHOC';
 import { HeroCommunityHOC } from 'HOC/modules/HeroCommunity/heroCommuityHOC';
 import React, { SFC, useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -17,9 +22,7 @@ import {
 } from 'ui/modules/ActivityPreview';
 import * as UIP from 'ui/modules/ActivityPreview/preview';
 import CommunityPage, { Props as CommunityProps } from 'ui/pages/community';
-import { CreateCollectionPanelHOC } from 'HOC/modules/CreateCollectionPanel/createCollectionPanelHOC';
 import * as CPGQL from './CommunityPage.generated';
-import { PureQueryOptions } from 'apollo-client';
 
 export interface Props {
   id: Community['id'];
@@ -99,6 +102,12 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
           return <CollectionPreviewHOC id={id} key={id} />;
         })
         .filter((_): _ is JSX.Element => !!_);
+      const refetchQueries = [
+        {
+          query: CPGQL.CommunityPageDocument,
+          variables: { id }
+        }
+      ];
 
       const threadEdges = communityQ.data.community.threads.edges;
       const ThreadBoxes = threadEdges
@@ -107,12 +116,6 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
             return null;
           }
           const thread = edge.node;
-          const refetchQueries = [
-            {
-              query: CPGQL.CommunityPageDocument,
-              variables: { id }
-            }
-          ];
 
           return (
             <ThreadActivity
@@ -127,7 +130,11 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
       const HeroCommunityBox = <HeroCommunityHOC communityId={id} />;
       const CreateCollectionPanel: CommunityProps['CreateCollectionPanel'] = ({
         done
-      }) => <CreateCollectionPanelHOC done={done} communityId={id} />;
+      }) => (
+        <CreateCollectionPanelCtx.Provider value={{ refetchQueries }}>
+          <CreateCollectionPanelHOC done={done} communityId={id} />
+        </CreateCollectionPanelCtx.Provider>
+      );
       const myFollow = communityQ.data.community.myFollow;
       const props: CommunityProps = {
         CreateCollectionPanel,
@@ -228,7 +235,7 @@ export const ThreadActivity: SFC<{
   });
 
   const props: ActivityPreviewProps = {
-    actor: getActor(comment.creator),
+    actor: getActivityActor(comment.creator),
     context: {
       type: UIP.ContextType.Comment,
       content: comment.content,
@@ -237,7 +244,7 @@ export const ThreadActivity: SFC<{
     },
     createdAt: comment.createdAt,
     status: ActivityPreviewStatus.Loaded,
-    actions: getActions(comment, replyThreadFormik, toggleLikeFormik),
+    actions: getActivityActions(comment, replyThreadFormik, toggleLikeFormik),
     inReplyToCtx: null
   };
 

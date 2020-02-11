@@ -9,7 +9,6 @@ const PlaceholderImg = require('../Icons/communityPlaceholder.png');
 interface Props {
   title: string;
   icon?: string;
-  image?: string;
   summary: string;
   id: string;
   followersCount: number;
@@ -23,7 +22,6 @@ const Community: React.FC<Props> = ({
   title,
   id,
   icon,
-  image,
   summary,
   followersCount,
   collectionsCount,
@@ -40,7 +38,7 @@ const Community: React.FC<Props> = ({
       <WrapperImage>
         <Img
           style={{
-            backgroundImage: `url(${icon || image || PlaceholderImg})`
+            backgroundImage: `url(${icon || PlaceholderImg})`
           }}
         />
       </WrapperImage>

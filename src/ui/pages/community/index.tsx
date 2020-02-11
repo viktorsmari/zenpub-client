@@ -13,7 +13,7 @@ import {
   WrapperPanel
 } from 'ui/elements/Panel';
 import styled from 'ui/themes/styled';
-import { FormikHook } from 'common/types';
+import { FormikHook } from 'ui/@types/types';
 import Modal from 'ui/modules/Modal';
 
 // interface Collection {

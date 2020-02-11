@@ -11,6 +11,7 @@ import {
 } from 'ui/modules/AddResource/UploadResource';
 import { CollectionPageDocument } from 'HOC/pages/collection/CollectionPage.generated';
 // import { Resource } from 'graphql/types.generated';
+import { accepted_license_types } from '../../../constants';
 
 export const validationSchema: Yup.ObjectSchema<
   ResourceFormValues
@@ -20,7 +21,8 @@ export const validationSchema: Yup.ObjectSchema<
     .max(90)
     .required(),
   summary: Yup.string().max(1000),
-  icon: Yup.string().url()
+  icon: Yup.string().url(),
+  license: Yup.string()
 });
 
 export const resourceFormInitialValues: ResourceFormValues = {
@@ -28,6 +30,8 @@ export const resourceFormInitialValues: ResourceFormValues = {
   name: '',
   summary: '',
   icon: '',
+  license: accepted_license_types[0],
+  acceptedLicenses: accepted_license_types,
   resourceFiles: [],
   imageFiles: []
 };
@@ -59,48 +63,56 @@ export const UploadResourceHOC: SFC<Props> = ({
             name: vals.name,
             summary: vals.summary,
             icon: vals.icon,
-            url: vals.url
+            url: vals.url,
+            license: vals.license
           }
         }
-      })
-        .then(res => {
-          const createdResourceId = res.data!.createResource!.id;
+      }).then(res => {
+        const createdResourceId = res.data!.createResource!.id;
 
-          const fileToUpload = vals!.resourceFiles!.map(file => {
-            return file;
-          });
-          const iconToUpload = vals!.imageFiles!.map(file => {
-            return file;
-          });
-          console.log('fileToUpload %', vals);
-          if (fileToUpload[0]) {
-            mutateResource({
-              variables: {
-                contextId: createdResourceId,
-                upload: fileToUpload[0]
+        const fileToUpload = vals!.resourceFiles!.map(file => {
+          return file;
+        });
+        const iconToUpload = vals!.imageFiles!.map(file => {
+          return file;
+        });
+        if (fileToUpload[0]) {
+          mutateResource({
+            variables: {
+              contextId: createdResourceId,
+              upload: fileToUpload[0]
+            }
+          })
+            .then(() => {
+              if (iconToUpload[0]) {
+                mutateIcon({
+                  variables: {
+                    contextId: createdResourceId,
+                    upload: iconToUpload[0]
+                  }
+                });
               }
             })
-              .then(() => {
-                if (iconToUpload[0]) {
-                  mutateIcon({
-                    variables: {
-                      contextId: createdResourceId,
-                      upload: iconToUpload[0]
-                    },
-                    refetchQueries: [
-                      {
-                        query: CollectionPageDocument,
-                        variables: { collectionId }
-                      }
-                    ]
-                  });
-                }
-              })
-              .catch(err => console.log(err));
-          }
-        })
+            .then(() => {
+              if (iconToUpload[0]) {
+                mutateIcon({
+                  variables: {
+                    contextId: createdResourceId,
+                    upload: iconToUpload[0]
+                  },
+                  refetchQueries: [
+                    {
+                      query: CollectionPageDocument,
+                      variables: { collectionId }
+                    }
+                  ]
+                });
+              }
+            })
+            .catch(err => console.log(err));
+        }
+      }),
 
-        .then(done),
     validationSchema,
     initialValues
   });

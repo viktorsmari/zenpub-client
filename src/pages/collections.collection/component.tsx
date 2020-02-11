@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useGetCollectionQuery } from '../../graphql/getCollection.generated';
 import Stateless from './stateless';
 import { useDynamicLinkOpResult } from 'util/apollo/dynamicLink';
@@ -15,6 +15,9 @@ export const Thread: React.FC<Props> = ({ id }) => {
     },
     [collectionQuery.refetch]
   );
+  useEffect(() => {
+    collectionQuery.refetch();
+  }, []);
   return <Stateless collectionQuery={collectionQuery} />;
 };
 

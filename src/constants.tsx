@@ -29,6 +29,14 @@ export const algoliaCreds = {
   apiKey: '884f8371d98c8c9837cf76f85f4b5daa'
 };
 
+export const max_file_size = '10MB';
+
+export const accepted_file_types =
+  '.pdf, .rtf, .docx, .doc, .odt, .ott, .xls, .xlsx, .ods, .ots, .csv, .ppt, .pps, .pptx, .odp, .otp, .odg, .otg, .odc, .ogg, .mp3, .flac, .m4a, .wav, .mp4, .mkv, .flv, .avi, .gif, .jpg, .jpeg, .png, .svg, .webm, .eps, .tex, .mbz';
+
+export const accepted_license_types = ['CC0', 'CC BY', 'CC BY-SA'];
+export const accepted_license_versions = ['1.0', '2.0', '3.0', '4.0'];
+
 /* log ENV if DEV */
 IS_DEV &&
   console.log(`-environment-

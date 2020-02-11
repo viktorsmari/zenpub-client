@@ -17,7 +17,7 @@ export type GetCommunityForEditQuery = (
   { __typename: 'RootQueryType' }
   & { community: Types.Maybe<(
     { __typename: 'Community' }
-    & Pick<Types.Community, 'id' | 'name' | 'summary' | 'image'>
+    & Pick<Types.Community, 'id' | 'name' | 'summary' | 'icon'>
   )> }
 );
 
@@ -28,7 +28,7 @@ export const GetCommunityForEditDocument = gql`
     id
     name
     summary
-    image
+    icon
   }
 }
     `;

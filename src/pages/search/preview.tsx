@@ -18,21 +18,70 @@ import { Heading, Box, Flex, Text, Button } from 'rebass/styled-components';
 // import { NavLink } from 'react-router-dom';
 import { Trans } from '@lingui/macro';
 import Avatar from 'ui/elements/Avatar';
+import { Hit } from './Hits';
+import { useHit } from './lib';
+import { SearchHostIndexAndMyFollowingsQuery } from './SearchData.generated';
 
 const PlaceholderImg = require('../../components/elements/Icons/resourcePlaceholder.png');
 
+// interface Props {
+//   icon: string;
+//   image?: string;
+//   title: string;
+//   summary: string;
+//   url: string;
+//   type: string;
+//   coreIntegrationURL?: any;
+// }
+// icon={hit.icon || hit.image}
+// title={hit.name}
+// summary={hit.summary}
+// url={hit.url || hit.canonicalUrl || ''}
+// type={hit.index_type}
+// coreIntegrationURL={
+//   moodle_core_download_url
+//     ? moodle_core_download_url +
+//       `&sourceurl=` +
+//       encodeURIComponent(hit.url) +
+//       `&moodleneturl=` +
+//       encodeURIComponent(hit.canonicalUrl||'') +
+//       `&name=` +
+//       encodeURIComponent(hit.name) +
+//       `&description=` +
+//       encodeURIComponent(hit.summary)
+//     : null
+// }
+
 interface Props {
-  icon: string;
-  image?: string;
-  title: string;
-  summary: string;
-  url: string;
-  type: string;
-  coreIntegrationURL?: any;
+  hit: Hit;
+  moodle_core_download_url: string;
+  myInfo: SearchHostIndexAndMyFollowingsQuery;
 }
 
-const Resource: React.FC<Props> = props => {
-  console.log(props);
+const Resource: React.FC<Props> = ({
+  hit,
+  moodle_core_download_url,
+  myInfo
+}) => {
+  const props = {
+    icon: hit.icon || hit.image,
+    title: hit.name,
+    summary: hit.summary,
+    url: hit.url || hit.canonicalUrl || '',
+    type: hit.index_type,
+    coreIntegrationURL: moodle_core_download_url
+      ? moodle_core_download_url +
+        `&sourceurl=` +
+        encodeURIComponent(hit.url) +
+        `&moodleneturl=` +
+        encodeURIComponent(hit.canonicalUrl || '') +
+        `&name=` +
+        encodeURIComponent(hit.name) +
+        `&description=` +
+        encodeURIComponent(hit.summary)
+      : null
+  };
+  const hitCtl = useHit(myInfo, hit);
   return (
     <Wrapper p={3}>
       <WrapperLink target="blank" href={props.url}>
@@ -61,6 +110,17 @@ const Resource: React.FC<Props> = props => {
           )}
         </Infos>
       </WrapperLink>
+      {hitCtl.isFollowable &&
+        !hitCtl.isFollowing && (
+          <Button variant="outline" onClick={hitCtl.follow}>
+            <Trans>Follow</Trans>
+          </Button>
+        )}
+      {hitCtl.isFollowing && (
+        <Button variant="outline" onClick={hitCtl.unfollow}>
+          <Trans>Unfollow</Trans>
+        </Button>
+      )}
     </Wrapper>
   );
 };

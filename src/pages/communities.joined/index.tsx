@@ -1,55 +1,43 @@
 import { Trans } from '@lingui/macro';
+import { GetFollowedCommunitiesQueryQueryHookResult } from 'graphql/getFollowedCommunities.generated';
 import * as React from 'react';
-import { graphql, QueryControls, OperationOption } from 'react-apollo';
-import { Flex, Box, Button } from 'rebass/styled-components';
-import compose from 'recompose/compose';
+import { Box, Button, Flex } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import CommunityCard from '../../components/elements/Community/Community';
 import Loader from '../../components/elements/Loader/Loader';
-// import CommunitiesLoadMore from '../../components/elements/Loadmore/joinedCommunities';
-// import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
-import { Me } from '../../graphql/types.generated';
-
-const {
-  getFollowedCommunitiesQuery
-} = require('../../graphql/getFollowedCommunities.graphql');
-
-interface Data extends QueryControls {
-  me: Me;
-}
 
 interface Props {
-  data: Data;
   handleNewCommunity(): void;
+  queryRes: GetFollowedCommunitiesQueryQueryHookResult;
 }
-
-class CommunitiesJoined extends React.Component<Props> {
-  render() {
-    return this.props.data.error ? (
-      <span>
-        <Trans>Error loading communities</Trans>
-      </span>
-    ) : this.props.data.loading ? (
-      <Loader />
-    ) : (
-      <>
-        {/* <Helmet>
+export const CommunitiesJoined: React.SFC<Props> = ({
+  handleNewCommunity,
+  queryRes
+}) => {
+  const { data, loading, error } = queryRes;
+  return (!data && !loading) || error ? (
+    <span>
+      <Trans>Error loading communities</Trans>
+    </span>
+  ) : loading || !data ? (
+    <Loader />
+  ) : (
+    <>
+      {/* <Helmet>
           <title>{APP_NAME} > Joined communities</title>
         </Helmet> */}
-        <Box>
-          <ButtonWrapper>
-            <CreateCollection
-              p={3}
-              onClick={() => this.props.handleNewCommunity()}
-              m={3}
-            >
-              <Trans>Create a new community</Trans>
-            </CreateCollection>
-          </ButtonWrapper>
-          <List p={2}>
-            {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-            this.props.data.me.user!.followedCommunities!.edges.map(
+      <Box>
+        <ButtonWrapper>
+          <CreateCollection p={3} onClick={() => handleNewCommunity()} m={3}>
+            <Trans>Create a new community</Trans>
+          </CreateCollection>
+        </ButtonWrapper>
+        <List p={2}>
+          {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+          data.me &&
+            data.me.user.followedCommunities &&
+            data.me.user.followedCommunities.edges.map(
               (community, i) =>
                 community && (
                   <CommunityCard
@@ -60,11 +48,7 @@ class CommunitiesJoined extends React.Component<Props> {
                       /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
                       community.node.community.collections!.totalCount
                     }
-                    icon={
-                      community.node.community.icon ||
-                      community.node.community.image ||
-                      ''
-                    }
+                    icon={community.node.community.icon || ''}
                     followed={!!community.node.community.myFollow}
                     id={community.node.community.id}
                     externalId={community.node.community.canonicalUrl || ''}
@@ -80,17 +64,16 @@ class CommunitiesJoined extends React.Component<Props> {
                   />
                 )
             )}
-          </List>
-          {/* <CommunitiesLoadMore
+        </List>
+        {/* <CommunitiesLoadMore
             me
-            fetchMore={this.props.data.fetchMore}
-            communities={this.props.data.me.user.followedCommunities}
+            fetchMore={data.fetchMore}
+            communities={data.me.user.followedCommunities}
           /> */}
-        </Box>
-      </>
-    );
-  }
-}
+      </Box>
+    </>
+  );
+};
 
 const ButtonWrapper = styled(Flex)`
   border-bottom: 1px solid ${props => props.theme.colors.lightgray};
@@ -124,21 +107,3 @@ const List = styled(Box)`
   grid-template-columns: 1fr;
   `};
 `;
-
-const withGetCommunities = graphql<
-  {},
-  {
-    data: {
-      me: any;
-    };
-  }
->(getFollowedCommunitiesQuery, {
-  options: (props: Props) => ({
-    fetchPolicy: 'cache-first',
-    variables: {
-      limit: 15
-    }
-  })
-}) as OperationOption<{}, {}>;
-
-export default compose(withGetCommunities)(CommunitiesJoined);
