@@ -18,9 +18,10 @@ import {
 import DropzoneArea from '../../../components/elements/DropzoneModal';
 import Alert from 'ui/elements/Alert';
 
-const Cc0Icon = require('./cc-zero.png');
-const ByIcon = require('./by.png');
-const BySaIcon = require('./by-sa.png');
+// these icons must match the types and order of the `accepted_license_types` configured in constants.tsx
+const LicenseIcon0 = require('./cc-zero.png');
+const LicenseIcon1 = require('./by.png');
+const LicenseIcon2 = require('./by-sa.png');
 
 const tt = {
   placeholders: {
@@ -139,9 +140,9 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
             }
             onChange={formik.handleChange}
           />
-          <Cc0Label htmlFor={formik.values.acceptedLicenses![0]}>
+          <LicenseLabel0 htmlFor={formik.values.acceptedLicenses![0]}>
             {formik.values.acceptedLicenses![0]}
-          </Cc0Label>
+          </LicenseLabel0>
           <RadioButton
             type="radio"
             name="license"
@@ -152,9 +153,9 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
             }
             onChange={formik.handleChange}
           />
-          <ByLabel htmlFor={formik.values.acceptedLicenses![1]}>
+          <LicenseLabel1 htmlFor={formik.values.acceptedLicenses![1]}>
             {formik.values.acceptedLicenses![1]}
-          </ByLabel>
+          </LicenseLabel1>
           <RadioButton
             type="radio"
             name="license"
@@ -165,9 +166,9 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
             }
             onChange={formik.handleChange}
           />
-          <BySaLabel htmlFor={formik.values.acceptedLicenses![2]}>
+          <LicenseLabel2 htmlFor={formik.values.acceptedLicenses![2]}>
             {formik.values.acceptedLicenses![2]}
-          </BySaLabel>
+          </LicenseLabel2>
         </ContainerForm>
       </Row>
       <Actions>
@@ -222,25 +223,35 @@ const Label = styled.label`
   border-radius: 5px;
 `;
 
-const Cc0Label = styled(Label)`
-  background-image: url(${Cc0Icon});
+const LicenseLabel0 = styled(Label)`
+  background-image: url(${LicenseIcon0});
 `;
 
-const ByLabel = styled(Label)`
-  background-image: url(${ByIcon});
+const LicenseLabel1 = styled(Label)`
+  background-image: url(${LicenseIcon1});
 `;
 
-const BySaLabel = styled(Label)`
-  background-image: url(${BySaIcon});
+const LicenseLabel2 = styled(Label)`
+  background-image: url(${LicenseIcon2});
 `;
 
 const RadioButton = styled.input`
   position: absolute;
   left: -9999px;
-  &:hover + ${Cc0Label}, &:hover + ${ByLabel}, &:hover + ${BySaLabel} {
+  &:hover
+    + ${LicenseLabel0},
+    &:hover
+    + ${LicenseLabel1},
+    &:hover
+    + ${LicenseLabel2} {
     border: 4px solid #97a395;
   }
-  &:checked + ${Cc0Label}, &:checked + ${ByLabel}, &:checked + ${BySaLabel} {
+  &:checked
+    + ${LicenseLabel0},
+    &:checked
+    + ${LicenseLabel1},
+    &:checked
+    + ${LicenseLabel2} {
     border: 4px solid #67d654;
   }
 `;
