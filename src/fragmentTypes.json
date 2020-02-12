@@ -3,7 +3,7 @@
     "types": [
       {
         "kind": "UNION",
-        "name": "FlagContext",
+        "name": "UploadParent",
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Comment" },
@@ -20,6 +20,7 @@
           { "name": "Comment" },
           { "name": "Community" },
           { "name": "Feature" },
+          { "name": "Flag" },
           { "name": "Follow" },
           { "name": "Like" },
           { "name": "Resource" },
@@ -29,21 +30,28 @@
       },
       {
         "kind": "UNION",
-        "name": "ActivityContext",
+        "name": "FlagContext",
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Comment" },
           { "name": "Community" },
-          { "name": "Flag" },
-          { "name": "Follow" },
-          { "name": "Like" },
           { "name": "Resource" },
           { "name": "User" }
         ]
       },
       {
         "kind": "UNION",
-        "name": "UploadParent",
+        "name": "ThreadContext",
+        "possibleTypes": [
+          { "name": "Collection" },
+          { "name": "Community" },
+          { "name": "Flag" },
+          { "name": "Resource" }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "LikeContext",
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Comment" },
@@ -64,26 +72,19 @@
       },
       {
         "kind": "UNION",
-        "name": "ThreadContext",
-        "possibleTypes": [
-          { "name": "Collection" },
-          { "name": "Community" },
-          { "name": "Flag" },
-          { "name": "Resource" }
-        ]
-      },
-      {
-        "kind": "UNION",
         "name": "FeatureContext",
         "possibleTypes": [{ "name": "Collection" }, { "name": "Community" }]
       },
       {
         "kind": "UNION",
-        "name": "LikeContext",
+        "name": "ActivityContext",
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Comment" },
           { "name": "Community" },
+          { "name": "Flag" },
+          { "name": "Follow" },
+          { "name": "Like" },
           { "name": "Resource" },
           { "name": "User" }
         ]

@@ -37,32 +37,6 @@ export const EditCollectionPanelHOC: SFC<Props> = ({
   done,
   collectionId
 }: Props) => {
-  // <<<<<<< HEAD
-  //   const collectionQ = useCollectionEditPanelQuery({
-  //     variables: { collectionId }
-  //   });
-  //   const [update /* , result */] = useUpdateCollectionMutation();
-  //   const initialValues = useMemo<EditCollectionFormValues>(
-  //     () =>
-  //       collectionQ.data && collectionQ.data.collection
-  //         ? {
-  //             icon: collectionQ.data.collection.icon || '',
-  //             name: collectionQ.data.collection.name,
-  //             summary: collectionQ.data.collection.summary || ''
-  //           }
-  //         : editCollectionFormInitialValues,
-  //     [collectionQ]
-  //   );
-  //   const formik = useFormik<EditCollectionFormValues>({
-  //     enableReinitialize: true,
-  //     onSubmit: vals =>
-  //       update({
-  //         variables: {
-  //           collection: { ...vals, preferredUsername: vals.name },
-  //           collectionId
-  //         }
-  //       }).then(done),
-  // =======
   const collection = useCollectionEditPanelQuery({
     variables: { collectionId }
   });

@@ -126,27 +126,25 @@ const ActionsWrapper: React.SFC<ActionProps> = ({ like, reply }) => {
             {isEnterUrlOpen && <EnterUrl close={onEnterUrlOpen} />}
             {isOpen && (
               <Dropdown orientation="bottom" cb={onOpen}>
+                {/* {activity.context.type === ContextType.Resource && ( */}
+                <DropdownItem onClick={() => onEnterUrlOpen(true)}>
+                  <Upload size={20} color={'rgb(101, 119, 134)'} />
+                  <Text sx={{ flex: 1 }} ml={2}>
+                    Add to Moodle
+                  </Text>
+                </DropdownItem>
+                <DropdownItem>
+                  <Copy size={20} color={'rgb(101, 119, 134)'} />
+                  <Text sx={{ flex: 1 }} ml={2}>
+                    Copy link
+                  </Text>
+                </DropdownItem>
                 <DropdownItem>
                   <Flag size={20} color={'rgb(101, 119, 134)'} />
                   <Text sx={{ flex: 1 }} ml={2}>
-                    Flag item
+                    <Trans>Flag this resource</Trans>
                   </Text>
                 </DropdownItem>
-                {/* {activity.context.type === ContextType.Resource && ( */}
-                <>
-                  <DropdownItem onClick={() => onEnterUrlOpen(true)}>
-                    <Upload size={20} color={'rgb(101, 119, 134)'} />
-                    <Text sx={{ flex: 1 }} ml={2}>
-                      Add to Moodle
-                    </Text>
-                  </DropdownItem>
-                  <DropdownItem>
-                    <Copy size={20} color={'rgb(101, 119, 134)'} />
-                    <Text sx={{ flex: 1 }} ml={2}>
-                      Copy link
-                    </Text>
-                  </DropdownItem>
-                </>
                 {/* )} */}
               </Dropdown>
             )}

@@ -20,5 +20,6 @@ fragment HeroCollectionData on Collection  {
         totalCount
     }
     myFollow { id }
+    myFlag { id }
     creator { id }
 }

@@ -35,8 +35,10 @@ export interface CollectionLoaded {
     toggle(): any;
     isSubmitting: boolean;
   };
+  flagged: boolean;
   following: boolean;
   EditCollectionPanel: ComponentType<{ done(): any }>;
+  FlagModal: ComponentType<{ done(): any }>;
 }
 export interface Props {
   collection: CollectionLoaded | CollectionLoading;
@@ -45,6 +47,8 @@ export interface Props {
 export const HeroCollection: SFC<Props> = ({ collection: c }) => {
   const [isOpenSettings, setOpenSettings] = React.useState(false);
   const [isOpenDropdown, setOpenDropdown] = React.useState(false);
+  const [isOpenFlag, setOpenFlag] = React.useState(false);
+
   return c.status === Status.Loading ? (
     <Text>Loading...</Text>
   ) : (
@@ -76,14 +80,14 @@ export const HeroCollection: SFC<Props> = ({ collection: c }) => {
                     <DropdownItem onClick={() => setOpenSettings(true)}>
                       <Settings size={20} color={'rgb(101, 119, 134)'} />
                       <Text sx={{ flex: 1 }} ml={2}>
-                        Edit the community
+                        <Trans>Edit the collection</Trans>
                       </Text>
                     </DropdownItem>
                   )}
-                  <DropdownItem>
+                  <DropdownItem onClick={() => setOpenFlag(true)}>
                     <Flag size={20} color={'rgb(101, 119, 134)'} />
                     <Text sx={{ flex: 1 }} ml={2}>
-                      Flag item
+                      <Trans>Flag this collection</Trans>
                     </Text>
                   </DropdownItem>
                 </Dropdown>
@@ -103,6 +107,11 @@ export const HeroCollection: SFC<Props> = ({ collection: c }) => {
       {isOpenSettings && (
         <Modal closeModal={() => setOpenSettings(false)}>
           <c.EditCollectionPanel done={() => setOpenSettings(false)} />
+        </Modal>
+      )}
+      {isOpenFlag && (
+        <Modal closeModal={() => setOpenFlag(false)}>
+          <c.FlagModal done={() => setOpenFlag(false)} />
         </Modal>
       )}
     </HeroCont>

@@ -105,7 +105,7 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
                     <DropdownItem>
                       <Flag size={20} color={'rgb(101, 119, 134)'} />
                       <Text sx={{ flex: 1 }} ml={2}>
-                        Flag item
+                        Flag this community
                       </Text>
                     </DropdownItem>
                   </Dropdown>

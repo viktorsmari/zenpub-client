@@ -90,6 +90,7 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
       status: HeroCollectionStatus.Loaded,
       isMine: true,
       following: true,
+      flagged: false,
       icon: 'https://picsum.photos/800/300',
       name: 'Favourite books',
       fullName: 'favbooks@abc.com',
@@ -107,7 +108,10 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
           onClick={done}
           src="https://via.placeholder.com/400x200.png?text=An editing panel"
         />
-      )
+      ),
+      FlagModal: ({ done }) => {
+        return <></>;
+      }
     }
   };
 };

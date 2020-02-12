@@ -33,6 +33,9 @@ export type HeroCollectionDataFragment = (
   )>, myFollow: Types.Maybe<(
     { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
+  )>, myFlag: Types.Maybe<(
+    { __typename: 'Flag' }
+    & Pick<Types.Flag, 'id'>
   )>, creator: Types.Maybe<(
     { __typename: 'User' }
     & Pick<Types.User, 'id'>
@@ -55,6 +58,9 @@ export const HeroCollectionDataFragmentDoc = gql`
     totalCount
   }
   myFollow {
+    id
+  }
+  myFlag {
     id
   }
   creator {
