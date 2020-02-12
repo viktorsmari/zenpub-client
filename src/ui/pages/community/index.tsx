@@ -174,13 +174,13 @@ const MenuWrapper = styled(Flex)`
     text-decoration: none;
     margin-right: 8px;
     color: ${props => props.theme.colors.gray};
-    letterspacing: '1px';
-    font-size: 14px;
+    letterspacing: 1px;
+    font-size: 13px;
     padding: 4px 8px;
     &.active {
       color: #ffffff;
       background: ${props => props.theme.colors.orange};
-      border-radius: 8px;
+      border-radius: 4px;
     }
   }
 `;

@@ -154,30 +154,21 @@ const WrapButton = styled(Flex)`
 `;
 
 const MenuWrapper = styled(Flex)`
-  border-top: 3px solid ${props => props.theme.colors.lightgray};
   a {
-    font-weight: 800;
+    font-weight: 700;
     text-decoration: none;
-    margin-right: 24px;
+    margin-right: 8px;
     color: ${props => props.theme.colors.gray};
-    letterspacing: '1px';
-    font-size: 16px;
+    letterspacing: 1px;
+    font-size: 13px;
+    padding: 4px 8px;
     &.active {
-      color: ${props => props.theme.colors.orange};
-      position: relative;
-      &:after {
-        position: absolute;
-        content: '';
-        display: block;
-        top: -19px;
-        width: 100%;
-        height: 3px;
-        background: ${props => props.theme.colors.orange};
-      }
+      color: #ffffff;
+      background: ${props => props.theme.colors.orange};
+      border-radius: 4px;
     }
   }
 `;
-
 export const HomeBox = styled(Flex)`
   max-width: 600px;
   width: 100%;
