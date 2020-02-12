@@ -135,23 +135,6 @@ export const Collection: React.FC<Props> = ({
   );
 };
 export default Collection;
-// export interface RecentActivitiesProps {
-//   activities: Activity[];
-//   ActivityBox: ActivityBox;
-// }
-
-// const RecentActivities: React.SFC<RecentActivitiesProps> = ({
-//   activities,
-//   ActivityBox
-// }) => {
-//   return (
-//     <>
-//       {activities.map(activity => (
-//         <ActivityBox activity={activity} key={activity.id} />
-//       ))}
-//     </>
-//   );
-// };
 
 const Menu = ({ basePath }: { basePath: string }) => (
   <MenuWrapper p={3} pt={3}>

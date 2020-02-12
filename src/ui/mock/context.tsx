@@ -18,6 +18,10 @@ import {
   Props as HeroCommunityProps,
   Status as HeroCommunityStatus
 } from 'ui/modules/HeroCommunity';
+import {
+  Props as HeroUserProps,
+  Status as HeroUserStatus
+} from 'ui/modules/HeroUser';
 import { Props as ResourcePreviewProps } from 'ui/modules/ResourcePreview';
 
 export const getEditCommunityProps = (): EditCommunityProps => {
@@ -104,6 +108,29 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
           src="https://via.placeholder.com/400x200.png?text=An editing panel"
         />
       )
+    }
+  };
+};
+
+export const getHeroUserProps = (): HeroUserProps => {
+  return {
+    status: HeroUserStatus.Loaded,
+    me: false,
+    user: {
+      isAdmin: true,
+      following: true,
+      image: 'https://pbs.twimg.com/profile_banners/764365/1574452341/1500x500',
+      displayUsername: 'dajbelshaw@team.moodle.net',
+      location: 'Morpeth, UK',
+      icon:
+        'https://pbs.twimg.com/profile_images/1161428802091802627/O49Ggs-7_400x400.jpg',
+      name: '˗ˏˋ Doug Belshaw ˎˊ˗  🇪🇺 ☠️ ✊',
+      summary:
+        'Open Educational Thinkerer. Product Manager @MoodleNet & Co-op founder @WeAreOpenCoop. Aspiring Mountain Leader. Previously: @Mozilla @Jisc teacher',
+      toggleJoin: {
+        toggle: action('Unjoin !'),
+        isSubmitting: false
+      }
     }
   };
 };

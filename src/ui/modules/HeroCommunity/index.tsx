@@ -1,12 +1,13 @@
 import { Trans } from '@lingui/react';
 import { clearFix } from 'polished';
 import React, { ComponentType, SFC } from 'react';
-import { Settings } from 'react-feather';
+import { Settings, MoreVertical, Flag } from 'react-feather';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import styled from 'ui/themes/styled';
 import Modal from 'ui/modules/Modal';
 import Button from 'ui/elements/Button';
+import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
 export enum Status {
   Loading,
   Loaded
@@ -39,6 +40,7 @@ export interface Props {
 export const HeroCommunity: SFC<Props> = ({ community: c }) => {
   const [, setOpenMembers] = React.useState(false);
   const [isOpenSettings, setOpenSettings] = React.useState(false);
+  const [isOpenDropdown, setOpenDropdown] = React.useState(false);
 
   return c.status === Status.Loading ? (
     <Text>Loading...</Text>
@@ -68,7 +70,7 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
               </Text>
             </MembersTot>
             <Actions>
-              {c.canModify ? (
+              {/* {c.canModify ? (
                 <SettingsButton>
                   <Button
                     onClick={() => setOpenSettings(true)}
@@ -78,16 +80,37 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
                     <Settings size={18} color={'#f98012'} />
                   </Button>
                 </SettingsButton>
-              ) : null}
+              ) : null} */}
               <Button
-                ml={2}
-                variant={c.following ? 'outline' : 'primary'}
+                mr={2}
+                variant={c.following ? 'danger' : 'primary'}
                 isSubmitting={c.toggleJoin.isSubmitting}
                 isDisabled={c.toggleJoin.isSubmitting}
                 onClick={c.toggleJoin.toggle}
               >
                 {c.following ? <Trans>Leave</Trans> : <Trans>Join</Trans>}
               </Button>
+              <More>
+                <MoreVertical size={20} onClick={() => setOpenDropdown(true)} />
+                {isOpenDropdown && (
+                  <Dropdown orientation={'bottom'} cb={setOpenDropdown}>
+                    {c.canModify && (
+                      <DropdownItem onClick={() => setOpenSettings(true)}>
+                        <Settings size={20} color={'rgb(101, 119, 134)'} />
+                        <Text sx={{ flex: 1 }} ml={2}>
+                          Edit the community
+                        </Text>
+                      </DropdownItem>
+                    )}
+                    <DropdownItem>
+                      <Flag size={20} color={'rgb(101, 119, 134)'} />
+                      <Text sx={{ flex: 1 }} ml={2}>
+                        Flag item
+                      </Text>
+                    </DropdownItem>
+                  </Dropdown>
+                )}
+              </More>
             </Actions>
           </Info>
         </HeroInfo>
@@ -100,6 +123,20 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
     </>
   );
 };
+
+const More = styled(Box)`
+  position: relative;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  border: 1px solid ${props => props.theme.colors.lightgray};
+  border-radius: 4px;
+  svg {
+    stroke: ${props => props.theme.colors.gray};
+  }
+`;
 
 const Info = styled(Flex)`
   align-items: center;
@@ -190,13 +227,13 @@ const HeroInfo = styled.div`
   }
 `;
 
-const SettingsButton = styled.div`
-  margin-right: 16px;
+// const SettingsButton = styled.div`
+//   margin-right: 16px;
 
-  .--rtl & {
-    margin-right: 0px;
-    margin-left: 16px;
-  }
-`;
+//   .--rtl & {
+//     margin-right: 0px;
+//     margin-left: 16px;
+//   }
+// `;
 
 export default HeroCommunity;
