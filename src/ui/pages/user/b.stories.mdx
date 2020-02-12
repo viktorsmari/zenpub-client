@@ -1,0 +1,38 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import { PropsTable } from '@storybook/components';
+import { User } from '.';
+import {HeroUser} from 'ui/modules/HeroUser'
+import {getHeroUserProps2, getResourcePreviewProps} from 'ui/mock/context'
+import {ActivityPreview} from 'ui/modules/ActivityPreview'
+import {activityPreviewProps} from 'ui/pages/community/a.stories.mdx'
+import {ResourcePreview} from 'ui/modules/ResourcePreview'
+import {Box} from 'rebass'
+
+<Meta title="Pages|Profile" component={User}/>
+
+
+# User
+Let's define a story for the `Profile` page
+
+<Preview>
+  <Story name="Profile page">
+    <Box sx={{margin: "0 auto", width: "fit-content"}}>
+        <User 
+        HeroUserBox={(<HeroUser {...getHeroUserProps2()} />)}
+        ActivityBoxes={[
+            (<ActivityPreview {...activityPreviewProps} key="1" />),
+            (<ActivityPreview {...activityPreviewProps} key="2" />),
+            (<ActivityPreview {...activityPreviewProps} key="3" />),
+        ]}
+        ResourceBoxes={[
+            (<ResourcePreview {...getResourcePreviewProps()} key="1"/>),
+            (<ResourcePreview {...getResourcePreviewProps()} key="2"/>),
+            (<ResourcePreview {...getResourcePreviewProps()} key="3"/>),
+        ]}
+        basePath="/"
+        />
+    </Box>
+  </Story>
+</Preview>
+
+
