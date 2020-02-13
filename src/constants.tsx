@@ -34,8 +34,9 @@ export const max_file_size = '10MB';
 export const accepted_file_types =
   '.pdf, .rtf, .docx, .doc, .odt, .ott, .xls, .xlsx, .ods, .ots, .csv, .ppt, .pps, .pptx, .odp, .otp, .odg, .otg, .odc, .ogg, .mp3, .flac, .m4a, .wav, .mp4, .mkv, .flv, .avi, .gif, .jpg, .jpeg, .png, .svg, .webm, .eps, .tex, .mbz';
 
-export const accepted_license_types = ['CC0', 'CC BY', 'CC BY-SA'];
-export const accepted_license_versions = ['1.0', '2.0', '3.0', '4.0'];
+// these licenses must match the icons (in the same order) configured in the UploadResource UI module
+// please use standard identifiers from https://spdx.org/licenses/preview/ in order to preserve interoperability
+export const accepted_license_types = ['CC0-1.0', 'CC-BY-4.0', 'CC-BY-SA-4.0'];
 
 /* log ENV if DEV */
 IS_DEV &&
