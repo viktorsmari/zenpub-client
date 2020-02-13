@@ -146,40 +146,6 @@ export const Community: React.FC<Props> = ({
   );
 };
 
-// export interface RecentActivitiesProps {
-//   activities: Activity[];
-//   ActivityBox: ActivityBox;
-// }
-// const RecentActivities: React.SFC<RecentActivitiesProps> = ({
-//   activities,
-//   ActivityBox
-// }) => {
-//   return (
-//     <>
-//       {activities.map(activity => (
-//         <ActivityBox activity={activity} key={activity.id} />
-//       ))}
-//     </>
-//   );
-// };
-
-// export interface CollectionsProps {
-//   collections: Collection[];
-//   CollectionBox: CollectionBox;
-// }
-// const Collections: React.SFC<CollectionsProps> = ({
-//   collections,
-//   CollectionBox
-// }) => {
-//   return (
-//     <>
-//       {collections.map(collection => (
-//         <CollectionBox collection={collection} key={collection.id} />
-//       ))}
-//     </>
-//   );
-// };
-
 const Menu = ({ basePath }: { basePath: string }) => (
   <MenuWrapper p={3} pt={0}>
     <NavLink exact to={`${basePath}`}>

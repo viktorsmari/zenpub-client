@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import React from 'react';
 import { ActivityPreview, BigActivityPreview, Props, Status } from '.';
 import { ContextType, ContextVerb } from './preview';
+import { Box } from 'rebass';
 
 const getActions = () => ({
   like: {
@@ -58,7 +59,11 @@ storiesOf('Modules/ActivityPreview', module)
       },
       inReplyToCtx: null
     };
-    return <ActivityPreview {...activityPreviewProps} />;
+    return (
+      <Box sx={{ background: '#fff' }} p={3}>
+        <ActivityPreview {...activityPreviewProps} />
+      </Box>
+    );
   })
   .add('Follow', () => {
     const activityPreviewProps: Props = {

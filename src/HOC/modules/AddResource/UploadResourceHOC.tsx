@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useMemo, SFC } from 'react';
 import { useFormik } from 'formik';
-import { useMemo, SFC } from 'react';
 import { useCreateResourceMutationMutation } from '../../../graphql/createResource.generated';
 import { useUploadIconMutation } from 'graphql/uploadIcon.generated';
 import { useUploadResourceMutation } from 'graphql/uploadResource.generated';

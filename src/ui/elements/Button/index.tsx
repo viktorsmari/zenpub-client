@@ -13,7 +13,7 @@ const WrapperButton = styled(Button)<{ variant: string; isIcon: boolean }>`
   padding: ${props => (props.isIcon === true ? '0px' : 'auto')};
   &:hover  {
     background: ${props =>
-      props.variant === 'primary'
+      props.variant === 'primary' || props.variant === 'danger'
         ? darken('0.1', props.theme.colors.orange)
         : lighten('0.3', props.theme.colors.orange)};
   }

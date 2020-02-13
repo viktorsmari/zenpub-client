@@ -1,19 +1,26 @@
-import React from 'react';
+import React, { SFC, useContext, useMemo } from 'react';
 import { SessionContext } from 'context/global/sessionCtx';
 import { useDeleteMutationMutation } from 'graphql/delete.generated';
 import { useFollowMutationMutation } from 'graphql/follow.generated';
-import { SFC, useContext, useMemo } from 'react';
 import HeroCollection, {
   Props as HeroProps,
   Status
 } from 'ui/modules/HeroCollection';
 import { Collection } from 'graphql/types.generated';
 import { EditCollectionPanelHOC } from 'HOC/modules/EditCollectionPanel/editCollectionPanelHOC';
-import { useHeroCollectionQuery } from './HeroCollection.generated';
+import {
+  useHeroCollectionQuery,
+  HeroCollectionDocument
+} from './HeroCollection.generated';
+import {
+  FlagModalHOC,
+  CreateFlagModalCtx
+} from 'HOC/modules/FlagModal/flagModalHOC';
 
 export interface Props {
   collectionId: Collection['id'];
 }
+
 export const HeroCollectionHOC: SFC<Props> = ({ collectionId }) => {
   const session = useContext(SessionContext);
   const [joinMutation, joinMutationStatus] = useFollowMutationMutation();
@@ -42,6 +49,7 @@ export const HeroCollectionHOC: SFC<Props> = ({ collectionId }) => {
           //FIXME https://gitlab.com/moodlenet/meta/issues/185
           isMine: !!session.me && session.me.user.id === collection.creator!.id,
           following: !!collection.myFollow,
+          flagged: !!collection.myFlag,
           icon: collection.icon || '',
           name: collection.name,
           fullName: collection.displayUsername,
@@ -66,6 +74,21 @@ export const HeroCollectionHOC: SFC<Props> = ({ collectionId }) => {
           },
           EditCollectionPanel: ({ done }) => (
             <EditCollectionPanelHOC done={done} collectionId={collection.id} />
+          ),
+          FlagModal: ({ done }) => (
+            <CreateFlagModalCtx.Provider
+              value={{
+                refetchQueries: [
+                  { query: HeroCollectionDocument, variables: { collectionId } }
+                ]
+              }}
+            >
+              <FlagModalHOC
+                done={done}
+                contextId={collectionId}
+                flagged={!!collection.myFlag}
+              />
+            </CreateFlagModalCtx.Provider>
           )
         }
       };

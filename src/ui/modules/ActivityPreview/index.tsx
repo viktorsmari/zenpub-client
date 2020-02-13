@@ -157,7 +157,7 @@ const ActorComp: SFC<ActorProps> = ({ actor, createdAt }) => (
   <Member>
     <Avatar initials={actor.name} src={actor.icon} />
     <MemberInfo ml={2}>
-      <Name>
+      <Name mt={1}>
         <Link to={actor.link}>
           {actor.name}
           {/* <Username ml={2}>@{actor.name}</Username> */}
@@ -237,9 +237,9 @@ const FeedItem = styled(Box)`
   padding: 16px;
   word-wrap: break-word;
   font-size: 14px;
-  &:hover {
-    background: ${props => props.theme.colors.lighter};
-  }
+  // &:hover {
+  //   background: #f980120a;
+  // }
   ${clearFix()};
   transition: background 0.5s ease;
   margin-top: 0
