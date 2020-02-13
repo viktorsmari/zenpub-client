@@ -42,6 +42,25 @@ export type HeroCollectionDataFragment = (
   )> }
 );
 
+export type HeroCollectionMeQueryVariables = {};
+
+
+export type HeroCollectionMeQuery = (
+  { __typename: 'RootQueryType' }
+  & { me: Types.Maybe<(
+    { __typename: 'Me' }
+    & HeroCollectionMeDataFragment
+  )> }
+);
+
+export type HeroCollectionMeDataFragment = (
+  { __typename: 'Me' }
+  & { user: (
+    { __typename: 'User' }
+    & Pick<Types.User, 'id'>
+  ) }
+);
+
 export const HeroCollectionDataFragmentDoc = gql`
     fragment HeroCollectionData on Collection {
   id
@@ -64,6 +83,13 @@ export const HeroCollectionDataFragmentDoc = gql`
     id
   }
   creator {
+    id
+  }
+}
+    `;
+export const HeroCollectionMeDataFragmentDoc = gql`
+    fragment HeroCollectionMeData on Me {
+  user {
     id
   }
 }
@@ -118,11 +144,68 @@ export function useHeroCollectionLazyQuery(baseOptions?: ApolloReactHooks.LazyQu
 export type HeroCollectionQueryHookResult = ReturnType<typeof useHeroCollectionQuery>;
 export type HeroCollectionLazyQueryHookResult = ReturnType<typeof useHeroCollectionLazyQuery>;
 export type HeroCollectionQueryResult = ApolloReactCommon.QueryResult<HeroCollectionQuery, HeroCollectionQueryVariables>;
+export const HeroCollectionMeDocument = gql`
+    query heroCollectionMe {
+  me {
+    ...HeroCollectionMeData
+  }
+}
+    ${HeroCollectionMeDataFragmentDoc}`;
+export type HeroCollectionMeComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<HeroCollectionMeQuery, HeroCollectionMeQueryVariables>, 'query'>;
+
+    export const HeroCollectionMeComponent = (props: HeroCollectionMeComponentProps) => (
+      <ApolloReactComponents.Query<HeroCollectionMeQuery, HeroCollectionMeQueryVariables> query={HeroCollectionMeDocument} {...props} />
+    );
+    
+export type HeroCollectionMeProps<TChildProps = {}> = ApolloReactHoc.DataProps<HeroCollectionMeQuery, HeroCollectionMeQueryVariables> & TChildProps;
+export function withHeroCollectionMe<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  HeroCollectionMeQuery,
+  HeroCollectionMeQueryVariables,
+  HeroCollectionMeProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, HeroCollectionMeQuery, HeroCollectionMeQueryVariables, HeroCollectionMeProps<TChildProps>>(HeroCollectionMeDocument, {
+      alias: 'heroCollectionMe',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useHeroCollectionMeQuery__
+ *
+ * To run a query within a React component, call `useHeroCollectionMeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHeroCollectionMeQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHeroCollectionMeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useHeroCollectionMeQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<HeroCollectionMeQuery, HeroCollectionMeQueryVariables>) {
+        return ApolloReactHooks.useQuery<HeroCollectionMeQuery, HeroCollectionMeQueryVariables>(HeroCollectionMeDocument, baseOptions);
+      }
+export function useHeroCollectionMeLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<HeroCollectionMeQuery, HeroCollectionMeQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<HeroCollectionMeQuery, HeroCollectionMeQueryVariables>(HeroCollectionMeDocument, baseOptions);
+        }
+export type HeroCollectionMeQueryHookResult = ReturnType<typeof useHeroCollectionMeQuery>;
+export type HeroCollectionMeLazyQueryHookResult = ReturnType<typeof useHeroCollectionMeLazyQuery>;
+export type HeroCollectionMeQueryResult = ApolloReactCommon.QueryResult<HeroCollectionMeQuery, HeroCollectionMeQueryVariables>;
 
 
 export interface HeroCollectionQueryOperation {
   operationName: 'heroCollection'
   result: HeroCollectionQuery
   variables: HeroCollectionQueryVariables
+  type: 'query'
+}
+
+
+export interface HeroCollectionMeQueryOperation {
+  operationName: 'heroCollectionMe'
+  result: HeroCollectionMeQuery
+  variables: HeroCollectionMeQueryVariables
   type: 'query'
 }

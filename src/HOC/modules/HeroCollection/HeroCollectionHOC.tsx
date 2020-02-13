@@ -1,28 +1,33 @@
-import React, { SFC, useContext, useMemo } from 'react';
-import { SessionContext } from 'context/global/sessionCtx';
 import { useDeleteMutationMutation } from 'graphql/delete.generated';
 import { useFollowMutationMutation } from 'graphql/follow.generated';
+import { Collection } from 'graphql/types.generated';
+import { EditCollectionPanelHOC } from 'HOC/modules/EditCollectionPanel/editCollectionPanelHOC';
+import { FlagModalHOC } from 'HOC/modules/FlagModal/flagModalHOC';
+import React, { createContext, SFC, useContext, useMemo } from 'react';
 import HeroCollection, {
   Props as HeroProps,
   Status
 } from 'ui/modules/HeroCollection';
-import { Collection } from 'graphql/types.generated';
-import { EditCollectionPanelHOC } from 'HOC/modules/EditCollectionPanel/editCollectionPanelHOC';
-import {
-  useHeroCollectionQuery,
-  HeroCollectionDocument
-} from './HeroCollection.generated';
-import {
-  FlagModalHOC,
-  CreateFlagModalCtx
-} from 'HOC/modules/FlagModal/flagModalHOC';
+import * as GQL from './HeroCollection.generated';
 
 export interface Props {
   collectionId: Collection['id'];
 }
 
+export interface HeroCollectionCtx {
+  useHeroCollectionQuery: typeof GQL.useHeroCollectionQuery;
+  useHeroCollectionMeQuery: typeof GQL.useHeroCollectionMeQuery;
+}
+export const HeroCollectionCtx = createContext({
+  useHeroCollectionQuery: GQL.useHeroCollectionQuery,
+  useHeroCollectionMeQuery: GQL.useHeroCollectionMeQuery
+});
+
 export const HeroCollectionHOC: SFC<Props> = ({ collectionId }) => {
-  const session = useContext(SessionContext);
+  const { useHeroCollectionMeQuery, useHeroCollectionQuery } = useContext(
+    HeroCollectionCtx
+  );
+  const { data: session } = useHeroCollectionMeQuery();
   const [joinMutation, joinMutationStatus] = useFollowMutationMutation();
   const [unjoinMutation, unjoinMutationStatus] = useDeleteMutationMutation();
   const collectionQuery = useHeroCollectionQuery({
@@ -43,11 +48,17 @@ export const HeroCollectionHOC: SFC<Props> = ({ collectionId }) => {
         };
       }
       const collection = collectionQuery.data.collection;
+      const isMine =
+        !!session &&
+        !!session.me &&
+        !!collection.creator &&
+        session.me.user.id === collection.creator.id;
+
       const props: HeroProps = {
         collection: {
           status: Status.Loaded,
           //FIXME https://gitlab.com/moodlenet/meta/issues/185
-          isMine: !!session.me && session.me.user.id === collection.creator!.id,
+          isMine,
           following: !!collection.myFollow,
           flagged: !!collection.myFlag,
           icon: collection.icon || '',
@@ -76,19 +87,11 @@ export const HeroCollectionHOC: SFC<Props> = ({ collectionId }) => {
             <EditCollectionPanelHOC done={done} collectionId={collection.id} />
           ),
           FlagModal: ({ done }) => (
-            <CreateFlagModalCtx.Provider
-              value={{
-                refetchQueries: [
-                  { query: HeroCollectionDocument, variables: { collectionId } }
-                ]
-              }}
-            >
-              <FlagModalHOC
-                done={done}
-                contextId={collectionId}
-                flagged={!!collection.myFlag}
-              />
-            </CreateFlagModalCtx.Provider>
+            <FlagModalHOC
+              done={done}
+              contextId={collectionId}
+              flagged={!!collection.myFlag}
+            />
           )
         }
       };
@@ -96,7 +99,7 @@ export const HeroCollectionHOC: SFC<Props> = ({ collectionId }) => {
     },
     [
       collectionQuery,
-      session.me,
+      session,
       joinMutation,
       joinMutationStatus,
       unjoinMutation,

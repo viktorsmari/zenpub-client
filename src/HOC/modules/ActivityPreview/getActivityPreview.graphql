@@ -255,8 +255,11 @@ fragment ActivityPreviewExtendedThread on Thread {
 
 mutation activityPreviewLike($contextId: String!) {
     createLike(contextId: $contextId){
-        ...ActivityPreviewLikeCtx
+        ...ActivityPreviewLikeMutationResult
     }
+}
+fragment ActivityPreviewLikeMutationResult on Like {
+    ...ActivityPreviewLikeCtx
 }
 
 mutation activityPreviewUnlike($contextId: String!) {
@@ -268,13 +271,20 @@ mutation activityPreviewUnlike($contextId: String!) {
 
 mutation activityPreviewCreateReply( $comment: CommentInput!, $inReplyToId: String!, $threadId: String!) {
     createReply(comment: $comment, inReplyToId: $inReplyToId, threadId: $threadId){
-        ...ActivityPreviewCommentCtxBase
+        ...ActivityPreviewCreateReplyMutationResult
     }
+}
+fragment ActivityPreviewCreateReplyMutationResult on Comment {
+        ...ActivityPreviewCommentCtxBase
 }
 
 mutation activityPreviewCreateThread($contextId: String!, $comment: CommentInput!) {
     createThread(comment:$comment, contextId: $contextId){
-        ...ActivityPreviewCommentCtxBase
+        ...ActivityPreviewCreateThreadMutationResult
     }
 }
+fragment ActivityPreviewCreateThreadMutationResult on Comment {
+        ...ActivityPreviewCommentCtxBase
+}
+
 

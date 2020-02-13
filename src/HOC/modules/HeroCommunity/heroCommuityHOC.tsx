@@ -1,24 +1,35 @@
-import React from 'react';
-import { SessionContext } from 'context/global/sessionCtx';
 import { useDeleteMutationMutation } from 'graphql/delete.generated';
 import { useFollowMutationMutation } from 'graphql/follow.generated';
-import { SFC, useContext, useMemo } from 'react';
+import { Community } from 'graphql/types.generated';
+import React, { createContext, SFC, useContext, useMemo } from 'react';
 import HeroCommunity, {
   Props as HeroProps,
   Status
 } from 'ui/modules/HeroCommunity';
-import { useGetHeroCommunityQuery } from './getHeroCommunity.generated';
-import { Community } from 'graphql/types.generated';
 import { EditCommunityPanelHOC } from '../EditCommunityPanel/editCommunityPanelHOC';
+import * as GQL from './getHeroCommunity.generated';
 
 export interface Props {
   communityId: Community['id'];
 }
+
+export interface HeroCommunityCtx {
+  useHeroCommunityQuery: typeof GQL.useHeroCommunityQuery;
+  useHeroCommunityMeQuery: typeof GQL.useHeroCommunityMeQuery;
+}
+export const HeroCommunityCtx = createContext<HeroCommunityCtx>({
+  useHeroCommunityQuery: GQL.useHeroCommunityQuery,
+  useHeroCommunityMeQuery: GQL.useHeroCommunityMeQuery
+});
+
 export const HeroCommunityHOC: SFC<Props> = ({ communityId }) => {
-  const session = useContext(SessionContext);
+  const { useHeroCommunityMeQuery, useHeroCommunityQuery } = useContext(
+    HeroCommunityCtx
+  );
   const [joinMutation, joinMutationStatus] = useFollowMutationMutation();
   const [unjoinMutation, unjoinMutationStatus] = useDeleteMutationMutation();
-  const communityQuery = useGetHeroCommunityQuery({
+  const { data: session } = useHeroCommunityMeQuery();
+  const communityQuery = useHeroCommunityQuery({
     variables: { communityId }
   });
   const heroProps = useMemo<HeroProps>(
@@ -36,12 +47,17 @@ export const HeroCommunityHOC: SFC<Props> = ({ communityId }) => {
         };
       }
       const community = communityQuery.data.community;
+      const canModify =
+        !!session &&
+        !!session.me &&
+        !!community.creator &&
+        session.me.user.id === community.creator.id;
+
       const props: HeroProps = {
         community: {
           status: Status.Loaded,
           //FIXME https://gitlab.com/moodlenet/meta/issues/185
-          canModify:
-            !!session.me && session.me.user.id === community.creator!.id,
+          canModify,
           following: !!community.myFollow,
           icon: community.icon || '',
           name: community.name,
@@ -72,7 +88,7 @@ export const HeroCommunityHOC: SFC<Props> = ({ communityId }) => {
     },
     [
       communityQuery,
-      session.me,
+      session,
       joinMutation,
       joinMutationStatus,
       unjoinMutation,

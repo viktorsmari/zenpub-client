@@ -244,8 +244,13 @@ export type ActivityPreviewLikeMutation = (
   { __typename: 'RootMutationType' }
   & { createLike: Types.Maybe<(
     { __typename: 'Like' }
-    & ActivityPreviewLikeCtxFragment
+    & ActivityPreviewLikeMutationResultFragment
   )> }
+);
+
+export type ActivityPreviewLikeMutationResultFragment = (
+  { __typename: 'Like' }
+  & ActivityPreviewLikeCtxFragment
 );
 
 export type ActivityPreviewUnlikeMutationVariables = {
@@ -269,8 +274,13 @@ export type ActivityPreviewCreateReplyMutation = (
   { __typename: 'RootMutationType' }
   & { createReply: Types.Maybe<(
     { __typename: 'Comment' }
-    & ActivityPreviewCommentCtxBaseFragment
+    & ActivityPreviewCreateReplyMutationResultFragment
   )> }
+);
+
+export type ActivityPreviewCreateReplyMutationResultFragment = (
+  { __typename: 'Comment' }
+  & ActivityPreviewCommentCtxBaseFragment
 );
 
 export type ActivityPreviewCreateThreadMutationVariables = {
@@ -283,8 +293,13 @@ export type ActivityPreviewCreateThreadMutation = (
   { __typename: 'RootMutationType' }
   & { createThread: Types.Maybe<(
     { __typename: 'Comment' }
-    & ActivityPreviewCommentCtxBaseFragment
+    & ActivityPreviewCreateThreadMutationResultFragment
   )> }
+);
+
+export type ActivityPreviewCreateThreadMutationResultFragment = (
+  { __typename: 'Comment' }
+  & ActivityPreviewCommentCtxBaseFragment
 );
 
 export const ActivityPreviewUserCtxFragmentDoc = gql`
@@ -553,6 +568,21 @@ ${ActivityPreviewResourceCtxFragmentDoc}
 ${ActivityPreviewFlagCtxFragmentDoc}
 ${ActivityPreviewLikeCtxFragmentDoc}
 ${ActivityPreviewFollowCtxFragmentDoc}`;
+export const ActivityPreviewLikeMutationResultFragmentDoc = gql`
+    fragment ActivityPreviewLikeMutationResult on Like {
+  ...ActivityPreviewLikeCtx
+}
+    ${ActivityPreviewLikeCtxFragmentDoc}`;
+export const ActivityPreviewCreateReplyMutationResultFragmentDoc = gql`
+    fragment ActivityPreviewCreateReplyMutationResult on Comment {
+  ...ActivityPreviewCommentCtxBase
+}
+    ${ActivityPreviewCommentCtxBaseFragmentDoc}`;
+export const ActivityPreviewCreateThreadMutationResultFragmentDoc = gql`
+    fragment ActivityPreviewCreateThreadMutationResult on Comment {
+  ...ActivityPreviewCommentCtxBase
+}
+    ${ActivityPreviewCommentCtxBaseFragmentDoc}`;
 export const GetActivityPreviewDocument = gql`
     query getActivityPreview($activityId: String!) {
   activity(activityId: $activityId) {
@@ -606,10 +636,10 @@ export type GetActivityPreviewQueryResult = ApolloReactCommon.QueryResult<GetAct
 export const ActivityPreviewLikeDocument = gql`
     mutation activityPreviewLike($contextId: String!) {
   createLike(contextId: $contextId) {
-    ...ActivityPreviewLikeCtx
+    ...ActivityPreviewLikeMutationResult
   }
 }
-    ${ActivityPreviewLikeCtxFragmentDoc}`;
+    ${ActivityPreviewLikeMutationResultFragmentDoc}`;
 export type ActivityPreviewLikeMutationFn = ApolloReactCommon.MutationFunction<ActivityPreviewLikeMutation, ActivityPreviewLikeMutationVariables>;
 export type ActivityPreviewLikeComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<ActivityPreviewLikeMutation, ActivityPreviewLikeMutationVariables>, 'mutation'>;
 
@@ -704,10 +734,10 @@ export type ActivityPreviewUnlikeMutationOptions = ApolloReactCommon.BaseMutatio
 export const ActivityPreviewCreateReplyDocument = gql`
     mutation activityPreviewCreateReply($comment: CommentInput!, $inReplyToId: String!, $threadId: String!) {
   createReply(comment: $comment, inReplyToId: $inReplyToId, threadId: $threadId) {
-    ...ActivityPreviewCommentCtxBase
+    ...ActivityPreviewCreateReplyMutationResult
   }
 }
-    ${ActivityPreviewCommentCtxBaseFragmentDoc}`;
+    ${ActivityPreviewCreateReplyMutationResultFragmentDoc}`;
 export type ActivityPreviewCreateReplyMutationFn = ApolloReactCommon.MutationFunction<ActivityPreviewCreateReplyMutation, ActivityPreviewCreateReplyMutationVariables>;
 export type ActivityPreviewCreateReplyComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<ActivityPreviewCreateReplyMutation, ActivityPreviewCreateReplyMutationVariables>, 'mutation'>;
 
@@ -755,10 +785,10 @@ export type ActivityPreviewCreateReplyMutationOptions = ApolloReactCommon.BaseMu
 export const ActivityPreviewCreateThreadDocument = gql`
     mutation activityPreviewCreateThread($contextId: String!, $comment: CommentInput!) {
   createThread(comment: $comment, contextId: $contextId) {
-    ...ActivityPreviewCommentCtxBase
+    ...ActivityPreviewCreateThreadMutationResult
   }
 }
-    ${ActivityPreviewCommentCtxBaseFragmentDoc}`;
+    ${ActivityPreviewCreateThreadMutationResultFragmentDoc}`;
 export type ActivityPreviewCreateThreadMutationFn = ApolloReactCommon.MutationFunction<ActivityPreviewCreateThreadMutation, ActivityPreviewCreateThreadMutationVariables>;
 export type ActivityPreviewCreateThreadComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<ActivityPreviewCreateThreadMutation, ActivityPreviewCreateThreadMutationVariables>, 'mutation'>;
 

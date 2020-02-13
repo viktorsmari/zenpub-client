@@ -1,15 +1,17 @@
-import * as APGQL from '../getActivityPreview.generated';
-import { MaybeActivityPreviewData } from '../types';
+import { useFormik } from 'formik';
 import { useContext } from 'react';
 import { ActivityPreviewCtx } from '../activityPreviewHOC';
-import { useFormik } from 'formik';
+import { MaybeActivityPreviewData } from '../types';
 
 export const useActivityToggleLikeFormik = (
   activity: MaybeActivityPreviewData
 ) => {
-  const ctx = useContext(ActivityPreviewCtx);
-  const [likeMut, likeMutStatus] = APGQL.useActivityPreviewLikeMutation();
-  const [unlikeMut, unlikeMutStatus] = APGQL.useActivityPreviewUnlikeMutation();
+  const {
+    useActivityPreviewLikeMutation,
+    useActivityPreviewUnlikeMutation
+  } = useContext(ActivityPreviewCtx);
+  const [likeMut, likeMutStatus] = useActivityPreviewLikeMutation();
+  const [unlikeMut, unlikeMutStatus] = useActivityPreviewUnlikeMutation();
   const toggleLikeFormik = useFormik<{}>({
     initialValues: {},
     onSubmit: () => {
@@ -32,8 +34,7 @@ export const useActivityToggleLikeFormik = (
         const { myLike } = activity.context;
         if (myLike) {
           return unlikeMut({
-            variables: { contextId: myLike.id },
-            refetchQueries: ctx.refetchQueries
+            variables: { contextId: myLike.id }
           });
         } else {
           return likeMut({
@@ -42,8 +43,7 @@ export const useActivityToggleLikeFormik = (
                 activity.context.__typename === 'User'
                   ? activity.context.userId
                   : activity.context.id
-            },
-            refetchQueries: ctx.refetchQueries
+            }
           });
         }
       }

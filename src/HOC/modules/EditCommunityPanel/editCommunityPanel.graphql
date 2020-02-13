@@ -1,0 +1,37 @@
+query editCommunityPanel($communityId: String!) {
+    community(communityId: $communityId) {
+        ...EditCommunityPanelData
+    }
+}
+fragment EditCommunityPanelData on Community {
+        id
+        name
+        summary
+        icon
+}
+
+input CommunityUpdateInput {
+  icon: String
+  name: String!
+  summary: String
+}
+
+mutation editCommunityPanelUpdate($community: CommunityUpdateInput!, $communityId: String!) {
+  updateCommunity(communityId: $communityId, community: $community) {
+      ...EditCommunityPanelUpdateMutationResult
+  }
+}
+fragment EditCommunityPanelUpdateMutationResult on Community {
+    id
+}
+
+mutation editCommunityPanelUploadIcon($contextId: ID!,$upload: Upload!) {
+   uploadIcon(contextId:$contextId, upload:$upload ){
+        ...EditCommunityPanelUploadIconMutationResult
+    }
+    
+}
+fragment EditCommunityPanelUploadIconMutationResult on FileUpload {
+    id
+    url
+}

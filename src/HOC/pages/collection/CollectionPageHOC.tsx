@@ -2,7 +2,7 @@ import ShareLinkModal from 'components/elements/CollectionModal';
 import { useFormik } from 'formik';
 import { Collection } from 'graphql/types.generated';
 import {
-  ActivityPreviewCtx,
+  // ActivityPreviewCtx,
   ActivityPreviewHOC
 } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
 import { getActivityActions } from 'HOC/modules/ActivityPreview/lib/getActivityActions';
@@ -118,19 +118,19 @@ export const CollectionPageHOC: SFC<Props> = ({ collectionId }) => {
   }
   const collectionPageProps = data;
 
-  const apctx: ActivityPreviewCtx = {
-    refetchQueries: [
-      {
-        query: CollectionPageDocument,
-        variables: { collectionId }
-      }
-    ]
-  };
+  // const apctx: ActivityPreviewCtx = {
+  //   refetchQueries: [
+  //     {
+  //       query: CollectionPageDocument,
+  //       variables: { collectionId }
+  //     }
+  //   ]
+  // };
 
   return (
-    <ActivityPreviewCtx.Provider value={apctx}>
-      <CollectionPage {...collectionPageProps} />
-    </ActivityPreviewCtx.Provider>
+    // <ActivityPreviewCtx.Provider value={apctx}>
+    <CollectionPage {...collectionPageProps} />
+    // </ActivityPreviewCtx.Provider>
   );
 };
 

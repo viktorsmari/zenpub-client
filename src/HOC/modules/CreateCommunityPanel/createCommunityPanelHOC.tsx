@@ -1,15 +1,12 @@
-import React, { createContext, useContext } from 'react';
 import { useFormik } from 'formik';
-import { useCreateCommunityMutationMutation } from 'graphql/createCommunity.generated';
-import { useUploadImageMutation } from 'graphql/uploadImage.generated';
-import { useMemo, SFC } from 'react';
+import React, { createContext, SFC, useContext, useMemo } from 'react';
 import { useHistory } from 'react-router';
-import * as Yup from 'yup';
 import {
   BasicCreateCommunityFormValues,
   CreateCommunityPanel
 } from 'ui/modules/CreateCommunityPanel';
-import { PureQueryOptions } from 'apollo-client';
+import * as Yup from 'yup';
+import * as GQL from './createCommunityPanel.generated';
 
 export const validationSchema: Yup.ObjectSchema<
   BasicCreateCommunityFormValues
@@ -22,10 +19,14 @@ export const validationSchema: Yup.ObjectSchema<
   icon: Yup.string().url()
 });
 export interface CreateCommunityPanelCtx {
-  refetchQueries: Array<string | PureQueryOptions>;
+  useCreateCommunityPanelCreateMutation: typeof GQL.useCreateCommunityPanelCreateMutation;
+  useCreateCommunityPanelUploadImageMutation: typeof GQL.useCreateCommunityPanelUploadImageMutation;
 }
 export const CreateCommunityPanelCtx = createContext<CreateCommunityPanelCtx>({
-  refetchQueries: []
+  useCreateCommunityPanelCreateMutation:
+    GQL.useCreateCommunityPanelCreateMutation,
+  useCreateCommunityPanelUploadImageMutation:
+    GQL.useCreateCommunityPanelUploadImageMutation
 });
 export const createCommunityFormInitialValues: BasicCreateCommunityFormValues = {
   name: '',
@@ -37,11 +38,12 @@ export interface Props {
   done(): any;
 }
 export const CreateCommunityPanelHOC: SFC<Props> = ({ done }: Props) => {
-  const ctx = useContext(CreateCommunityPanelCtx);
-
-  // const community = useGetCommunityForEditQuery({ variables: { communityId } });
-  const [create /* , result */] = useCreateCommunityMutationMutation();
-  const [mutateImage] = useUploadImageMutation();
+  const {
+    useCreateCommunityPanelCreateMutation,
+    useCreateCommunityPanelUploadImageMutation
+  } = useContext(CreateCommunityPanelCtx);
+  const [create /* , result */] = useCreateCommunityPanelCreateMutation();
+  const [mutateImage] = useCreateCommunityPanelUploadImageMutation();
   const history = useHistory();
   const initialValues = useMemo<BasicCreateCommunityFormValues>(
     () => createCommunityFormInitialValues,
@@ -60,8 +62,7 @@ export const CreateCommunityPanelHOC: SFC<Props> = ({ done }: Props) => {
             name: vals.name,
             summary: vals.summary
           }
-        },
-        refetchQueries: fileToUpload ? [] : ctx.refetchQueries
+        }
       })
         .then(res => {
           const createdCommunityId = res.data!.createCommunity!.id;
@@ -71,8 +72,7 @@ export const CreateCommunityPanelHOC: SFC<Props> = ({ done }: Props) => {
               variables: {
                 contextId: createdCommunityId,
                 upload: fileToUpload
-              },
-              refetchQueries: ctx.refetchQueries
+              }
             })
               .then(() => createdCommunityId)
               .catch(err => console.log(err));

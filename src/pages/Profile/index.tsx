@@ -1,9 +1,11 @@
 // View a Profile
 import { Trans } from '@lingui/macro';
-import { useGetUserQuery, GetUserDocument } from 'graphql/getUser.generated';
 import {
-  ActivityPreviewHOC,
-  ActivityPreviewCtx
+  useGetUserQuery /* GetUserDocument */
+} from 'graphql/getUser.generated';
+import {
+  ActivityPreviewHOC
+  /* ActivityPreviewCtx */
 } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
@@ -34,7 +36,12 @@ const CommunitiesFeatured: React.SFC<Props> = () => {
       limitTimeline: 15
     }
   });
-  const { data, loading, error /* , fetchMore */, refetch, variables } = query;
+  const {
+    data,
+    loading,
+    error /* , fetchMore */,
+    refetch /* variables */
+  } = query;
   React.useEffect(() => {
     refetch();
   }, []);
@@ -81,29 +88,29 @@ const CommunitiesFeatured: React.SFC<Props> = () => {
                         </SuperTab>
                       </SuperTabList>
                       <TabPanel>
-                        <ActivityPreviewCtx.Provider
+                        {/*  <ActivityPreviewCtx.Provider
                           value={{
                             refetchQueries: [
                               { query: GetUserDocument, variables }
                             ]
                           }}
-                        >
-                          {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                          data.me.user.outbox!.edges!.map(
-                            t =>
-                              t && (
-                                <ActivityPreviewHOC
-                                  activityId={t.node.id}
-                                  key={t.node.id}
-                                />
-                              )
-                          )}
-                          {/*  <LoadMoreTimeline
+                        > */}
+                        {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                        data.me.user.outbox!.edges!.map(
+                          t =>
+                            t && (
+                              <ActivityPreviewHOC
+                                activityId={t.node.id}
+                                key={t.node.id}
+                              />
+                            )
+                        )}
+                        {/*  <LoadMoreTimeline
                             me
                             fetchMore={fetchMore}
                             community={data.me.user}
                           /> */}
-                        </ActivityPreviewCtx.Provider>
+                        {/*   </ActivityPreviewCtx.Provider> */}
                       </TabPanel>
                       <TabPanel>
                         <ListCollections>

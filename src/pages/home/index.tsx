@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/macro';
 import {
-  ActivityPreviewHOC,
-  ActivityPreviewCtx
+  ActivityPreviewHOC
+  /* ActivityPreviewCtx */
 } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
 import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
@@ -11,8 +11,8 @@ import Loader from '../../components/elements/Loader/Loader';
 import { CreateReplyMutationMutationOperation } from '../../graphql/createReply.generated';
 import { DeleteMutationMutationOperation } from '../../graphql/delete.generated';
 import {
-  useGetMeInboxQuery,
-  GetMeInboxDocument
+  useGetMeInboxQuery
+  /* GetMeInboxDocument */
 } from '../../graphql/getMeInbox.generated';
 import { LikeMutationMutationOperation } from '../../graphql/like.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
@@ -34,8 +34,8 @@ const Home: React.FC<Props> = () => {
     data,
     loading,
     error,
-    /* fetchMore, */ refetch,
-    variables
+    /* fetchMore, */ refetch
+    /* variables */
   } = useGetMeInboxQuery({
     variables: {
       limit: 15
@@ -89,31 +89,31 @@ const Home: React.FC<Props> = () => {
             ) : (
               data &&
               data.me && (
-                <ActivityPreviewCtx.Provider
+                /*   <ActivityPreviewCtx.Provider
                   value={{
                     refetchQueries: [{ query: GetMeInboxDocument, variables }]
                   }}
-                >
-                  <div>
-                    {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                    data.me.user.inbox!.edges!.map(
-                      userActivityEdge =>
-                        userActivityEdge && (
-                          <ActivityPreviewHOC
-                            activityId={userActivityEdge.node.id}
-                            key={userActivityEdge.node.id}
-                          />
-                        )
-                    )}
-                    {/* data &&
+                > */
+                <div>
+                  {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                  data.me.user.inbox!.edges!.map(
+                    userActivityEdge =>
+                      userActivityEdge && (
+                        <ActivityPreviewHOC
+                          activityId={userActivityEdge.node.id}
+                          key={userActivityEdge.node.id}
+                        />
+                      )
+                  )}
+                  {/* data &&
                           data.me && (
                             <LoadMoreTimeline
                               fetchMore={fetchMore}
                               community={data.me.user}
                             />
                           ) */}
-                  </div>
-                </ActivityPreviewCtx.Provider>
+                </div>
+                /*  </ActivityPreviewCtx.Provider> */
               )
             )}
           </Wrapper>

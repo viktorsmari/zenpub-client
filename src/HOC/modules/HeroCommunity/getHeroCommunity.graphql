@@ -1,5 +1,5 @@
 
-query getHeroCommunity($communityId: String!) {
+query heroCommunity($communityId: String!) {
     community(communityId: $communityId) {
         ...HeroCommunityData
     }
@@ -16,4 +16,15 @@ fragment HeroCommunityData on Community  {
     }
     myFollow { id }
     creator { id }
+}
+
+query heroCommunityMe {
+    me{
+        ...HeroCommunityMeData
+    }
+}
+fragment HeroCommunityMeData on Me {
+    user{
+        id
+    }
 }

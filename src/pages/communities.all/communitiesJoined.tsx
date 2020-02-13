@@ -4,16 +4,16 @@ import { TabPanel, Tabs } from 'react-tabs';
 import Modal from 'ui/modules/Modal';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import {
-  CreateCommunityPanelHOC,
-  CreateCommunityPanelCtx
+  CreateCommunityPanelHOC
+  /* CreateCommunityPanelCtx */
 } from '../../HOC/modules/CreateCommunityPanel/createCommunityPanelHOC';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel } from '../../sections/panel';
 import { CommunitiesJoined } from '../communities.joined';
 import { Wrapper, WrapperCont } from './CommunitiesAll';
 import {
-  useGetFollowedCommunitiesQueryQuery,
-  GetFollowedCommunitiesQueryDocument
+  useGetFollowedCommunitiesQueryQuery
+  /* GetFollowedCommunitiesQueryDocument */
 } from 'graphql/getFollowedCommunities.generated';
 
 interface Props {
@@ -27,7 +27,7 @@ export const CommunitiesYours: React.SFC<Props> = () => {
       limit: 15
     }
   });
-  const { variables, refetch } = queryResult;
+  const { /* variables, */ refetch } = queryResult;
   const [isOpenCommunity, onOpenCommunity] = React.useState(false);
   const handleNewCommunity = React.useCallback(
     () => onOpenCommunity(!isOpenCommunity),
@@ -37,46 +37,46 @@ export const CommunitiesYours: React.SFC<Props> = () => {
     refetch();
   }, []);
   return (
-    <CreateCommunityPanelCtx.Provider
+    /* <CreateCommunityPanelCtx.Provider
       value={{
         refetchQueries: [
           { query: GetFollowedCommunitiesQueryDocument, variables }
         ]
       }}
-    >
-      <MainContainer>
-        <HomeBox>
-          <WrapperCont>
-            <Wrapper>
-              <Tabs>
-                <SuperTabList>
-                  <SuperTab>
-                    <h5>
-                      <Trans>Joined communities</Trans>
-                    </h5>
-                  </SuperTab>
-                </SuperTabList>
-                <TabPanel>
-                  <CommunitiesJoined
-                    queryRes={queryResult}
-                    handleNewCommunity={handleNewCommunity}
-                  />
-                </TabPanel>
-              </Tabs>
-            </Wrapper>
-          </WrapperCont>
-        </HomeBox>
-        <WrapperPanel />
-        {isOpenCommunity && (
-          <Modal closeModal={() => handleNewCommunity()}>
-            <CreateCommunityPanelHOC done={() => handleNewCommunity()} />
-          </Modal>
-        )}
-        {/* <NewCommunityModal
+    > */
+    <MainContainer>
+      <HomeBox>
+        <WrapperCont>
+          <Wrapper>
+            <Tabs>
+              <SuperTabList>
+                <SuperTab>
+                  <h5>
+                    <Trans>Joined communities</Trans>
+                  </h5>
+                </SuperTab>
+              </SuperTabList>
+              <TabPanel>
+                <CommunitiesJoined
+                  queryRes={queryResult}
+                  handleNewCommunity={handleNewCommunity}
+                />
+              </TabPanel>
+            </Tabs>
+          </Wrapper>
+        </WrapperCont>
+      </HomeBox>
+      <WrapperPanel />
+      {isOpenCommunity && (
+        <Modal closeModal={() => handleNewCommunity()}>
+          <CreateCommunityPanelHOC done={() => handleNewCommunity()} />
+        </Modal>
+      )}
+      {/* <NewCommunityModal
           toggleModal={handleNewCommunity}
           modalIsOpen={isOpenCommunity}
         /> */}
-      </MainContainer>
-    </CreateCommunityPanelCtx.Provider>
+    </MainContainer>
+    /* </CreateCommunityPanelCtx.Provider> */
   );
 };

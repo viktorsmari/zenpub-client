@@ -2,16 +2,13 @@ import { PureQueryOptions } from 'apollo-client';
 import { useFormik } from 'formik';
 import { Community } from 'graphql/types.generated';
 import {
-  ActivityPreviewCtx,
+  // ActivityPreviewCtx,
   ActivityPreviewHOC
 } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
 import { getActivityActions } from 'HOC/modules/ActivityPreview/lib/getActivityActions';
 import { getActivityActor } from 'HOC/modules/ActivityPreview/lib/getActivityActor';
 import { CollectionPreviewHOC } from 'HOC/modules/CollectionPreview/CollectionPreviewHOC';
-import {
-  CreateCollectionPanelHOC,
-  CreateCollectionPanelCtx
-} from 'HOC/modules/CreateCollectionPanel/createCollectionPanelHOC';
+import { CreateCollectionPanelHOC } from 'HOC/modules/CreateCollectionPanel/createCollectionPanelHOC';
 import { HeroCommunityHOC } from 'HOC/modules/HeroCommunity/heroCommuityHOC';
 import React, { SFC, useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -131,9 +128,9 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
       const CreateCollectionPanel: CommunityProps['CreateCollectionPanel'] = ({
         done
       }) => (
-        <CreateCollectionPanelCtx.Provider value={{ refetchQueries }}>
-          <CreateCollectionPanelHOC done={done} communityId={id} />
-        </CreateCollectionPanelCtx.Provider>
+        // <CreateCollectionPanelCtx.Provider value={{ refetchQueries }}>
+        <CreateCollectionPanelHOC done={done} communityId={id} />
+        // </CreateCollectionPanelCtx.Provider>
       );
       const myFollow = communityQ.data.community.myFollow;
       const props: CommunityProps = {
@@ -153,18 +150,18 @@ export const CommunityPageHOC: SFC<Props> = ({ id }) => {
     return null;
   }
   const communityPageProps = data;
-  const apctx: ActivityPreviewCtx = {
-    refetchQueries: [
-      {
-        query: CPGQL.CommunityPageDocument,
-        variables: { id }
-      }
-    ]
-  };
+  // const apctx: ActivityPreviewCtx = {
+  //   refetchQueries: [
+  //     {
+  //       query: CPGQL.CommunityPageDocument,
+  //       variables: { id }
+  //     }
+  //   ]
+  // };
   return (
-    <ActivityPreviewCtx.Provider value={apctx}>
-      <CommunityPage {...communityPageProps} />
-    </ActivityPreviewCtx.Provider>
+    // <ActivityPreviewCtx.Provider value={apctx}>
+    <CommunityPage {...communityPageProps} />
+    // </ActivityPreviewCtx.Provider>
   );
 };
 

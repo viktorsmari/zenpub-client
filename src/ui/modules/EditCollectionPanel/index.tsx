@@ -35,7 +35,7 @@ export interface EditCollectionFormValues {
   name: string;
   summary: string;
   icon: string;
-  files?: [];
+  files?: File[];
 }
 
 export const EditCollectionPanel: React.FC<Props> = ({ cancel, formik }) => {

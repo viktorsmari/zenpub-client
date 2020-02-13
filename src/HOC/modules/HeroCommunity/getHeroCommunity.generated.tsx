@@ -8,12 +8,12 @@ import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
-export type GetHeroCommunityQueryVariables = {
+export type HeroCommunityQueryVariables = {
   communityId: Types.Scalars['String']
 };
 
 
-export type GetHeroCommunityQuery = (
+export type HeroCommunityQuery = (
   { __typename: 'RootQueryType' }
   & { community: Types.Maybe<(
     { __typename: 'Community' }
@@ -36,6 +36,25 @@ export type HeroCommunityDataFragment = (
   )> }
 );
 
+export type HeroCommunityMeQueryVariables = {};
+
+
+export type HeroCommunityMeQuery = (
+  { __typename: 'RootQueryType' }
+  & { me: Types.Maybe<(
+    { __typename: 'Me' }
+    & HeroCommunityMeDataFragment
+  )> }
+);
+
+export type HeroCommunityMeDataFragment = (
+  { __typename: 'Me' }
+  & { user: (
+    { __typename: 'User' }
+    & Pick<Types.User, 'id'>
+  ) }
+);
+
 export const HeroCommunityDataFragmentDoc = gql`
     fragment HeroCommunityData on Community {
   id
@@ -54,61 +73,125 @@ export const HeroCommunityDataFragmentDoc = gql`
   }
 }
     `;
-export const GetHeroCommunityDocument = gql`
-    query getHeroCommunity($communityId: String!) {
+export const HeroCommunityMeDataFragmentDoc = gql`
+    fragment HeroCommunityMeData on Me {
+  user {
+    id
+  }
+}
+    `;
+export const HeroCommunityDocument = gql`
+    query heroCommunity($communityId: String!) {
   community(communityId: $communityId) {
     ...HeroCommunityData
   }
 }
     ${HeroCommunityDataFragmentDoc}`;
-export type GetHeroCommunityComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetHeroCommunityQuery, GetHeroCommunityQueryVariables>, 'query'> & ({ variables: GetHeroCommunityQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type HeroCommunityComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<HeroCommunityQuery, HeroCommunityQueryVariables>, 'query'> & ({ variables: HeroCommunityQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const GetHeroCommunityComponent = (props: GetHeroCommunityComponentProps) => (
-      <ApolloReactComponents.Query<GetHeroCommunityQuery, GetHeroCommunityQueryVariables> query={GetHeroCommunityDocument} {...props} />
+    export const HeroCommunityComponent = (props: HeroCommunityComponentProps) => (
+      <ApolloReactComponents.Query<HeroCommunityQuery, HeroCommunityQueryVariables> query={HeroCommunityDocument} {...props} />
     );
     
-export type GetHeroCommunityProps<TChildProps = {}> = ApolloReactHoc.DataProps<GetHeroCommunityQuery, GetHeroCommunityQueryVariables> & TChildProps;
-export function withGetHeroCommunity<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+export type HeroCommunityProps<TChildProps = {}> = ApolloReactHoc.DataProps<HeroCommunityQuery, HeroCommunityQueryVariables> & TChildProps;
+export function withHeroCommunity<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  GetHeroCommunityQuery,
-  GetHeroCommunityQueryVariables,
-  GetHeroCommunityProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, GetHeroCommunityQuery, GetHeroCommunityQueryVariables, GetHeroCommunityProps<TChildProps>>(GetHeroCommunityDocument, {
-      alias: 'getHeroCommunity',
+  HeroCommunityQuery,
+  HeroCommunityQueryVariables,
+  HeroCommunityProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, HeroCommunityQuery, HeroCommunityQueryVariables, HeroCommunityProps<TChildProps>>(HeroCommunityDocument, {
+      alias: 'heroCommunity',
       ...operationOptions
     });
 };
 
 /**
- * __useGetHeroCommunityQuery__
+ * __useHeroCommunityQuery__
  *
- * To run a query within a React component, call `useGetHeroCommunityQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetHeroCommunityQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * To run a query within a React component, call `useHeroCommunityQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHeroCommunityQuery` returns an object from Apollo Client that contains loading, error, and data properties 
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetHeroCommunityQuery({
+ * const { data, loading, error } = useHeroCommunityQuery({
  *   variables: {
  *      communityId: // value for 'communityId'
  *   },
  * });
  */
-export function useGetHeroCommunityQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetHeroCommunityQuery, GetHeroCommunityQueryVariables>) {
-        return ApolloReactHooks.useQuery<GetHeroCommunityQuery, GetHeroCommunityQueryVariables>(GetHeroCommunityDocument, baseOptions);
+export function useHeroCommunityQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<HeroCommunityQuery, HeroCommunityQueryVariables>) {
+        return ApolloReactHooks.useQuery<HeroCommunityQuery, HeroCommunityQueryVariables>(HeroCommunityDocument, baseOptions);
       }
-export function useGetHeroCommunityLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetHeroCommunityQuery, GetHeroCommunityQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<GetHeroCommunityQuery, GetHeroCommunityQueryVariables>(GetHeroCommunityDocument, baseOptions);
+export function useHeroCommunityLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<HeroCommunityQuery, HeroCommunityQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<HeroCommunityQuery, HeroCommunityQueryVariables>(HeroCommunityDocument, baseOptions);
         }
-export type GetHeroCommunityQueryHookResult = ReturnType<typeof useGetHeroCommunityQuery>;
-export type GetHeroCommunityLazyQueryHookResult = ReturnType<typeof useGetHeroCommunityLazyQuery>;
-export type GetHeroCommunityQueryResult = ApolloReactCommon.QueryResult<GetHeroCommunityQuery, GetHeroCommunityQueryVariables>;
+export type HeroCommunityQueryHookResult = ReturnType<typeof useHeroCommunityQuery>;
+export type HeroCommunityLazyQueryHookResult = ReturnType<typeof useHeroCommunityLazyQuery>;
+export type HeroCommunityQueryResult = ApolloReactCommon.QueryResult<HeroCommunityQuery, HeroCommunityQueryVariables>;
+export const HeroCommunityMeDocument = gql`
+    query heroCommunityMe {
+  me {
+    ...HeroCommunityMeData
+  }
+}
+    ${HeroCommunityMeDataFragmentDoc}`;
+export type HeroCommunityMeComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<HeroCommunityMeQuery, HeroCommunityMeQueryVariables>, 'query'>;
+
+    export const HeroCommunityMeComponent = (props: HeroCommunityMeComponentProps) => (
+      <ApolloReactComponents.Query<HeroCommunityMeQuery, HeroCommunityMeQueryVariables> query={HeroCommunityMeDocument} {...props} />
+    );
+    
+export type HeroCommunityMeProps<TChildProps = {}> = ApolloReactHoc.DataProps<HeroCommunityMeQuery, HeroCommunityMeQueryVariables> & TChildProps;
+export function withHeroCommunityMe<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  HeroCommunityMeQuery,
+  HeroCommunityMeQueryVariables,
+  HeroCommunityMeProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, HeroCommunityMeQuery, HeroCommunityMeQueryVariables, HeroCommunityMeProps<TChildProps>>(HeroCommunityMeDocument, {
+      alias: 'heroCommunityMe',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useHeroCommunityMeQuery__
+ *
+ * To run a query within a React component, call `useHeroCommunityMeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHeroCommunityMeQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHeroCommunityMeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useHeroCommunityMeQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<HeroCommunityMeQuery, HeroCommunityMeQueryVariables>) {
+        return ApolloReactHooks.useQuery<HeroCommunityMeQuery, HeroCommunityMeQueryVariables>(HeroCommunityMeDocument, baseOptions);
+      }
+export function useHeroCommunityMeLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<HeroCommunityMeQuery, HeroCommunityMeQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<HeroCommunityMeQuery, HeroCommunityMeQueryVariables>(HeroCommunityMeDocument, baseOptions);
+        }
+export type HeroCommunityMeQueryHookResult = ReturnType<typeof useHeroCommunityMeQuery>;
+export type HeroCommunityMeLazyQueryHookResult = ReturnType<typeof useHeroCommunityMeLazyQuery>;
+export type HeroCommunityMeQueryResult = ApolloReactCommon.QueryResult<HeroCommunityMeQuery, HeroCommunityMeQueryVariables>;
 
 
-export interface GetHeroCommunityQueryOperation {
-  operationName: 'getHeroCommunity'
-  result: GetHeroCommunityQuery
-  variables: GetHeroCommunityQueryVariables
+export interface HeroCommunityQueryOperation {
+  operationName: 'heroCommunity'
+  result: HeroCommunityQuery
+  variables: HeroCommunityQueryVariables
+  type: 'query'
+}
+
+
+export interface HeroCommunityMeQueryOperation {
+  operationName: 'heroCommunityMe'
+  result: HeroCommunityMeQuery
+  variables: HeroCommunityMeQueryVariables
   type: 'query'
 }

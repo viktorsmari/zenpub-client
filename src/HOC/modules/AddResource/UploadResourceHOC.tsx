@@ -1,15 +1,11 @@
-import React, { useMemo, SFC } from 'react';
+import React, { useMemo, SFC, createContext, useContext } from 'react';
 import { useFormik } from 'formik';
-import { useCreateResourceMutationMutation } from '../../../graphql/createResource.generated';
-import { useUploadIconMutation } from 'graphql/uploadIcon.generated';
-import { useUploadResourceMutation } from 'graphql/uploadResource.generated';
+import * as GQL from './AddResource.generated';
 import * as Yup from 'yup';
 import {
   ResourceFormValues,
   UploadResource
 } from 'ui/modules/AddResource/UploadResource';
-import { CollectionPageDocument } from 'HOC/pages/collection/CollectionPage.generated';
-// import { Resource } from 'graphql/types.generated';
 import { accepted_license_types } from '../../../constants';
 
 export const validationSchema: Yup.ObjectSchema<
@@ -40,13 +36,30 @@ export interface Props {
   done(): any;
 }
 
+export interface UploadResourceCtx {
+  useAddResourceCreateResourceMutation: typeof GQL.useAddResourceCreateResourceMutation;
+  useAddResourceUploadIconMutation: typeof GQL.useAddResourceUploadIconMutation;
+  useAddResourceUploadMutation: typeof GQL.useAddResourceUploadMutation;
+}
+export const UploadResourceCtx = createContext<UploadResourceCtx>({
+  useAddResourceCreateResourceMutation:
+    GQL.useAddResourceCreateResourceMutation,
+  useAddResourceUploadIconMutation: GQL.useAddResourceUploadIconMutation,
+  useAddResourceUploadMutation: GQL.useAddResourceUploadMutation
+});
+
 export const UploadResourceHOC: SFC<Props> = ({
   done,
   collectionId
 }: Props) => {
-  const [create /* , result */] = useCreateResourceMutationMutation();
-  const [mutateResource] = useUploadResourceMutation();
-  const [mutateIcon] = useUploadIconMutation();
+  const {
+    useAddResourceCreateResourceMutation,
+    useAddResourceUploadIconMutation,
+    useAddResourceUploadMutation
+  } = useContext(UploadResourceCtx);
+  const [create /* , result */] = useAddResourceCreateResourceMutation();
+  const [mutateResource] = useAddResourceUploadMutation();
+  const [mutateIcon] = useAddResourceUploadIconMutation();
   const initialValues = useMemo<ResourceFormValues>(
     () => resourceFormInitialValues,
     []
@@ -98,13 +111,7 @@ export const UploadResourceHOC: SFC<Props> = ({
                   variables: {
                     contextId: createdResourceId,
                     upload: iconToUpload[0]
-                  },
-                  refetchQueries: [
-                    {
-                      query: CollectionPageDocument,
-                      variables: { collectionId }
-                    }
-                  ]
+                  }
                 });
               }
             })
