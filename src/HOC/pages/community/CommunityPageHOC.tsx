@@ -10,7 +10,13 @@ import { getActivityActor } from 'HOC/modules/ActivityPreview/lib/getActivityAct
 import { CollectionPreviewHOC } from 'HOC/modules/CollectionPreview/CollectionPreviewHOC';
 import { CreateCollectionPanelHOC } from 'HOC/modules/CreateCollectionPanel/createCollectionPanelHOC';
 import { HeroCommunityHOC } from 'HOC/modules/HeroCommunity/heroCommuityHOC';
-import React, { SFC, useEffect, useMemo } from 'react';
+import React, {
+  SFC,
+  useEffect,
+  useMemo,
+  createContext,
+  useContext
+} from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   ActivityPreview,
@@ -24,16 +30,40 @@ import * as CPGQL from './CommunityPage.generated';
 export interface Props {
   id: Community['id'];
 }
+
+export interface CommunityPageCtx {
+  useCommunityPageQuery: typeof CPGQL.useCommunityPageQuery;
+  useCommunityPageCreateThreadMutation: typeof CPGQL.useCommunityPageCreateThreadMutation;
+  useCommunityPageThreadLikeMutation: typeof CPGQL.useCommunityPageThreadLikeMutation;
+  useCommunityPageThreadUnlikeMutation: typeof CPGQL.useCommunityPageThreadUnlikeMutation;
+  useCommunityPageThreadCreateReplyMutation: typeof CPGQL.useCommunityPageThreadCreateReplyMutation;
+}
+export const CommunityPageCtx = createContext<CommunityPageCtx>({
+  useCommunityPageQuery: CPGQL.useCommunityPageQuery,
+  useCommunityPageCreateThreadMutation:
+    CPGQL.useCommunityPageCreateThreadMutation,
+  useCommunityPageThreadLikeMutation: CPGQL.useCommunityPageThreadLikeMutation,
+  useCommunityPageThreadUnlikeMutation:
+    CPGQL.useCommunityPageThreadUnlikeMutation,
+  useCommunityPageThreadCreateReplyMutation:
+    CPGQL.useCommunityPageThreadCreateReplyMutation
+});
+
 export const CommunityPageHOC: SFC<Props> = ({ id }) => {
   const history = useHistory();
-  const communityQ = CPGQL.useCommunityPageQuery({ variables: { id } });
+  const {
+    useCommunityPageQuery,
+    useCommunityPageCreateThreadMutation
+  } = useContext(CommunityPageCtx);
+
+  const communityQ = useCommunityPageQuery({ variables: { id } });
   useEffect(() => {
     communityQ.refetch();
   }, []);
   const [
     createThreadMut,
     createThreadMutStatus
-  ] = CPGQL.useCommunityPageCreateThreadMutation();
+  ] = useCommunityPageCreateThreadMutation();
   const newThreadFormik = useFormik<{ text: string }>({
     initialValues: { text: '' },
     onSubmit: ({ text }) => {
@@ -182,15 +212,18 @@ export const ThreadActivity: SFC<{
   if (!comment.creator) {
     return null;
   }
-  const [likeMut, likeMutStatus] = CPGQL.useCommunityPageThreadLikeMutation();
-  const [
-    unlikeMut,
-    unlikeMutStatus
-  ] = CPGQL.useCommunityPageThreadUnlikeMutation();
+  const {
+    useCommunityPageThreadLikeMutation,
+    useCommunityPageThreadUnlikeMutation,
+    useCommunityPageThreadCreateReplyMutation
+  } = useContext(CommunityPageCtx);
+
+  const [likeMut, likeMutStatus] = useCommunityPageThreadLikeMutation();
+  const [unlikeMut, unlikeMutStatus] = useCommunityPageThreadUnlikeMutation();
   const [
     createReplyMut,
     createReplyMutStatus
-  ] = CPGQL.useCommunityPageThreadCreateReplyMutation();
+  ] = useCommunityPageThreadCreateReplyMutation();
 
   const replyThreadFormik = useFormik<{ replyMessage: string }>({
     initialValues: { replyMessage: '' },

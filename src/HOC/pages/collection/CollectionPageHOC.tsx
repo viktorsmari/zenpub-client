@@ -1,16 +1,19 @@
 import ShareLinkModal from 'components/elements/CollectionModal';
 import { useFormik } from 'formik';
 import { Collection } from 'graphql/types.generated';
-import {
-  // ActivityPreviewCtx,
-  ActivityPreviewHOC
-} from 'HOC/modules/ActivityPreview/activityPreviewHOC';
+import { ActivityPreviewHOC } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
 import { getActivityActions } from 'HOC/modules/ActivityPreview/lib/getActivityActions';
 import { getActivityActor } from 'HOC/modules/ActivityPreview/lib/getActivityActor';
 import UploadResourcePanelHOC from 'HOC/modules/AddResource/UploadResourceHOC';
 import { EditCollectionPanelHOC } from 'HOC/modules/EditCollectionPanel/editCollectionPanelHOC';
 import { HeroCollectionHOC } from 'HOC/modules/HeroCollection/HeroCollectionHOC';
-import React, { SFC, useEffect, useMemo } from 'react';
+import React, {
+  createContext,
+  SFC,
+  useContext,
+  useEffect,
+  useMemo
+} from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   ActivityPreview,
@@ -21,19 +24,31 @@ import * as UIP from 'ui/modules/ActivityPreview/preview';
 import CollectionPage, {
   Props as CollectionPageProps
 } from 'ui/pages/collection';
-import {
-  CollectionPageDocument,
-  CollectionPageResourceFragment,
-  useCollectionPageQuery,
-  useCollectionPageResourceCreateThreadMutation,
-  useCollectionPageResourceLikeMutation,
-  useCollectionPageResourceUnlikeMutation
-} from './CollectionPage.generated';
+
+import * as GQL from './CollectionPage.generated';
 
 export interface Props {
   collectionId: Collection['id'];
 }
+
+export interface CollectionPageCtx {
+  useCollectionPageQuery: typeof GQL.useCollectionPageQuery;
+  useCollectionPageResourceLikeMutation: typeof GQL.useCollectionPageResourceLikeMutation;
+  useCollectionPageResourceUnlikeMutation: typeof GQL.useCollectionPageResourceUnlikeMutation;
+  useCollectionPageResourceCreateThreadMutation: typeof GQL.useCollectionPageResourceCreateThreadMutation;
+}
+
+const CollectionPageCtx = createContext<CollectionPageCtx>({
+  useCollectionPageQuery: GQL.useCollectionPageQuery,
+  useCollectionPageResourceLikeMutation:
+    GQL.useCollectionPageResourceLikeMutation,
+  useCollectionPageResourceUnlikeMutation:
+    GQL.useCollectionPageResourceUnlikeMutation,
+  useCollectionPageResourceCreateThreadMutation:
+    GQL.useCollectionPageResourceCreateThreadMutation
+});
 export const CollectionPageHOC: SFC<Props> = ({ collectionId }) => {
+  const { useCollectionPageQuery } = useContext(CollectionPageCtx);
   const collectionQ = useCollectionPageQuery({ variables: { collectionId } });
   useEffect(() => {
     collectionQ.refetch();
@@ -117,30 +132,18 @@ export const CollectionPageHOC: SFC<Props> = ({ collectionId }) => {
     return null;
   }
   const collectionPageProps = data;
-
-  // const apctx: ActivityPreviewCtx = {
-  //   refetchQueries: [
-  //     {
-  //       query: CollectionPageDocument,
-  //       variables: { collectionId }
-  //     }
-  //   ]
-  // };
-
-  return (
-    // <ActivityPreviewCtx.Provider value={apctx}>
-    <CollectionPage {...collectionPageProps} />
-    // </ActivityPreviewCtx.Provider>
-  );
+  return <CollectionPage {...collectionPageProps} />;
 };
 
 const ResourceActivity: SFC<{
-  resource: CollectionPageResourceFragment;
+  resource: GQL.CollectionPageResourceFragment;
   collectionId: Collection['id'];
 }> = ({ resource, collectionId }) => {
-  if (!resource.creator) {
-    return null;
-  }
+  const {
+    useCollectionPageResourceLikeMutation,
+    useCollectionPageResourceCreateThreadMutation,
+    useCollectionPageResourceUnlikeMutation
+  } = useContext(CollectionPageCtx);
   const history = useHistory();
   const [likeMut, likeMutStatus] = useCollectionPageResourceLikeMutation();
   const [
@@ -153,7 +156,7 @@ const ResourceActivity: SFC<{
   ] = useCollectionPageResourceCreateThreadMutation();
   const refetchQueries = [
     {
-      query: CollectionPageDocument,
+      query: GQL.CollectionPageDocument,
       variables: { collectionId }
     }
   ];
@@ -207,26 +210,30 @@ const ResourceActivity: SFC<{
     }
   });
 
-  const props: ActivityPreviewProps = {
-    actor: getActivityActor(resource.creator),
-    context: {
-      type: UIP.ContextType.Resource,
-      link: resource.collection ? `/collections/${resource.collection.id}` : '',
-      verb: UIP.ContextVerb.Created,
-      title: resource.name,
-      icon: resource.icon || '',
-      summary: resource.summary || '',
-      resourceUrl: resource.url || resource.canonicalUrl || ''
-    },
-    createdAt: resource.createdAt,
-    status: ActivityPreviewStatus.Loaded,
-    actions: getActivityActions(
-      resource,
-      commentResourceFormik,
-      toggleLikeFormik
-    ),
-    inReplyToCtx: null
-  };
+  const props: ActivityPreviewProps | null = resource.creator
+    ? {
+        actor: getActivityActor(resource.creator),
+        context: {
+          type: UIP.ContextType.Resource,
+          link: resource.collection
+            ? `/collections/${resource.collection.id}`
+            : '',
+          verb: UIP.ContextVerb.Created,
+          title: resource.name,
+          icon: resource.icon || '',
+          summary: resource.summary || '',
+          resourceUrl: resource.url || resource.canonicalUrl || ''
+        },
+        createdAt: resource.createdAt,
+        status: ActivityPreviewStatus.Loaded,
+        actions: getActivityActions(
+          resource,
+          commentResourceFormik,
+          toggleLikeFormik
+        ),
+        inReplyToCtx: null
+      }
+    : null;
 
-  return <ActivityPreview {...props} />;
+  return props && <ActivityPreview {...props} />;
 };
