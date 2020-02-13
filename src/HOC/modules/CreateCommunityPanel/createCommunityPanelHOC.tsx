@@ -6,14 +6,14 @@ import { useMemo, SFC } from 'react';
 import { useHistory } from 'react-router';
 import * as Yup from 'yup';
 import {
-  BasicCreateCommunityFormValues,
+  CreateCommunityFormValues,
   CreateCommunityPanel
 } from 'ui/modules/CreateCommunityPanel';
 import { PureQueryOptions } from 'apollo-client';
 
 export const validationSchema: Yup.ObjectSchema<
-  BasicCreateCommunityFormValues
-> = Yup.object<BasicCreateCommunityFormValues>({
+  CreateCommunityFormValues
+> = Yup.object<CreateCommunityFormValues>({
   name: Yup.string()
     .min(2)
     .max(60)
@@ -27,7 +27,7 @@ export interface CreateCommunityPanelCtx {
 export const CreateCommunityPanelCtx = createContext<CreateCommunityPanelCtx>({
   refetchQueries: []
 });
-export const createCommunityFormInitialValues: BasicCreateCommunityFormValues = {
+export const createCommunityFormInitialValues: CreateCommunityFormValues = {
   name: '',
   summary: '',
   icon: '',
@@ -43,11 +43,11 @@ export const CreateCommunityPanelHOC: SFC<Props> = ({ done }: Props) => {
   const [create /* , result */] = useCreateCommunityMutationMutation();
   const [mutateImage] = useUploadImageMutation();
   const history = useHistory();
-  const initialValues = useMemo<BasicCreateCommunityFormValues>(
+  const initialValues = useMemo<CreateCommunityFormValues>(
     () => createCommunityFormInitialValues,
     []
   );
-  const formik = useFormik<BasicCreateCommunityFormValues>({
+  const formik = useFormik<CreateCommunityFormValues>({
     enableReinitialize: true,
     onSubmit: vals => {
       const fileToUpload = vals!.files!.map(file => {

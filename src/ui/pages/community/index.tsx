@@ -157,16 +157,13 @@ const Menu = ({ basePath }: { basePath: string }) => (
 );
 
 const WrapButton = styled(Flex)`
-  border-bottom: 3px solid ${props => props.theme.colors.lightgray};
   button {
     width: 100%;
     height: 50px;
   }
 `;
 
-const WrapSocialText = styled(Box)`
-  border-bottom: 3px solid ${props => props.theme.colors.lightgray};
-`;
+const WrapSocialText = styled(Box)``;
 
 const MenuWrapper = styled(Flex)`
   a {
