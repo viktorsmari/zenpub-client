@@ -1,20 +1,26 @@
-import React from 'react';
+import React, { SFC, useContext, useMemo } from 'react';
 import { SessionContext } from 'context/global/sessionCtx';
 import { useDeleteMutationMutation } from 'graphql/delete.generated';
 import { useFollowMutationMutation } from 'graphql/follow.generated';
-import { SFC, useContext, useMemo } from 'react';
 import HeroCollection, {
   Props as HeroProps,
   Status
 } from 'ui/modules/HeroCollection';
 import { Collection } from 'graphql/types.generated';
 import { EditCollectionPanelHOC } from 'HOC/modules/EditCollectionPanel/editCollectionPanelHOC';
-import { useHeroCollectionQuery } from './HeroCollection.generated';
-import { FlagModalHOC } from 'HOC/modules/FlagModal/flagModalHOC';
+import {
+  useHeroCollectionQuery,
+  HeroCollectionDocument
+} from './HeroCollection.generated';
+import {
+  FlagModalHOC,
+  CreateFlagModalCtx
+} from 'HOC/modules/FlagModal/flagModalHOC';
 
 export interface Props {
   collectionId: Collection['id'];
 }
+
 export const HeroCollectionHOC: SFC<Props> = ({ collectionId }) => {
   const session = useContext(SessionContext);
   const [joinMutation, joinMutationStatus] = useFollowMutationMutation();
@@ -70,11 +76,19 @@ export const HeroCollectionHOC: SFC<Props> = ({ collectionId }) => {
             <EditCollectionPanelHOC done={done} collectionId={collection.id} />
           ),
           FlagModal: ({ done }) => (
-            <FlagModalHOC
-              done={done}
-              contextId={collectionId}
-              flagged={!!collection.myFlag}
-            />
+            <CreateFlagModalCtx.Provider
+              value={{
+                refetchQueries: [
+                  { query: HeroCollectionDocument, variables: { collectionId } }
+                ]
+              }}
+            >
+              <FlagModalHOC
+                done={done}
+                contextId={collectionId}
+                flagged={!!collection.myFlag}
+              />
+            </CreateFlagModalCtx.Provider>
           )
         }
       };
