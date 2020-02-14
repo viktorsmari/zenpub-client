@@ -31,15 +31,13 @@ export const CPActivityBoxes: SFC<CPActivityBoxes> = ({ collectionId }) => {
   }
   return (
     <>
-      {collectionQ.data.collection.outbox.edges
-        .map(edge => {
-          if (!edge) {
-            return null;
-          }
-          const id = edge.node.id;
-          return <ActivityPreviewHOC activityId={id} key={id} />;
-        })
-        .filter((_): _ is JSX.Element => !!_)}
+      {collectionQ.data.collection.outbox.edges.map(edge => {
+        if (!edge) {
+          return null;
+        }
+        const id = edge.node.id;
+        return <ActivityPreviewHOC activityId={id} key={id} />;
+      })}
     </>
   );
 };

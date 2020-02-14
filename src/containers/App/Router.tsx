@@ -99,7 +99,7 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
           path="/communities/:communityId/:tab?"
           render={route => {
             const communityId = route.match.params.communityId;
-            return <CommunityPageHOC id={communityId} />;
+            return <CommunityPageHOC communityId={communityId} />;
           }}
         />
         <Route

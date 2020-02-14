@@ -33,15 +33,13 @@ export const CPResourceActivityBoxes: SFC<{
   }
   return (
     <>
-      {collectionQ.data.collection.resources.edges
-        .map(edge => {
-          if (!edge || !edge.node) {
-            return null;
-          }
-          const resource = edge.node;
-          return <CPResourceActivity resource={resource} key={resource.id} />;
-        })
-        .filter((_): _ is JSX.Element => !!_)}
+      {collectionQ.data.collection.resources.edges.map(edge => {
+        if (!edge || !edge.node) {
+          return null;
+        }
+        const resource = edge.node;
+        return <CPResourceActivity resource={resource} key={resource.id} />;
+      })}
     </>
   );
 };

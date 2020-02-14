@@ -1,10 +1,10 @@
 import * as Types from '../../../graphql/types.generated';
 
-import { ActivityPreviewLikeCtxFragment, ActivityPreviewCommentCtxBaseFragment, ActivityPreviewCommentCtxBaseFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewLikeMutationResultFragment, ActivityPreviewCommentCtxBaseFragment, ActivityPreviewCommentCtxBaseFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
 import { ActivityPreviewResourceCtxFragment } from '../../modules/ActivityPreview/getActivityPreview.generated';
 import gql from 'graphql-tag';
 import { ActivityPreviewResourceCtxFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
-import { ActivityPreviewLikeCtxFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewLikeMutationResultFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -42,7 +42,7 @@ export type CollectionPageResourceLikeMutation = (
   { __typename: 'RootMutationType' }
   & { createLike: Types.Maybe<(
     { __typename: 'Like' }
-    & ActivityPreviewLikeCtxFragment
+    & ActivityPreviewLikeMutationResultFragment
   )> }
 );
 
@@ -129,10 +129,10 @@ export type CollectionPageResourceActivityQueryResult = ApolloReactCommon.QueryR
 export const CollectionPageResourceLikeDocument = gql`
     mutation collectionPageResourceLike($contextId: String!) {
   createLike(contextId: $contextId) {
-    ...ActivityPreviewLikeCtx
+    ...ActivityPreviewLikeMutationResult
   }
 }
-    ${ActivityPreviewLikeCtxFragmentDoc}`;
+    ${ActivityPreviewLikeMutationResultFragmentDoc}`;
 export type CollectionPageResourceLikeMutationFn = ApolloReactCommon.MutationFunction<CollectionPageResourceLikeMutation, CollectionPageResourceLikeMutationVariables>;
 export type CollectionPageResourceLikeComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CollectionPageResourceLikeMutation, CollectionPageResourceLikeMutationVariables>, 'mutation'>;
 

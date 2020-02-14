@@ -108,13 +108,13 @@ Let's define a story for the `community` page
   <Story name="community page">
     <Community {...{
         newThreadFormik:null,
-        ActivityBoxes: [
-          (<ActivityPreview {...activityPreviewProps} key="1" />),
-          (<ActivityPreview {...activityPreviewProps} key="2" />),
-          (<ActivityPreview {...activityPreviewProps} key="3" />),
-        ],
-        CollectionBoxes: [
-          (<CollectionPreview
+        ActivitiesBox: <React.Fragment>
+          <ActivityPreview {...activityPreviewProps} key="1" />
+          <ActivityPreview {...activityPreviewProps} key="2" />
+          <ActivityPreview {...activityPreviewProps} key="3" />
+        </React.Fragment>,
+        CollectionsBox: <React.Fragment>
+          <CollectionPreview
               key="1"
               icon="https://i.picsum.photos/id/911/80/80.jpg"
               name="Beatiful landscapes"
@@ -122,8 +122,7 @@ Let's define a story for the `community` page
               totalResources={12}
               link={{external:false,url:'#'}}
             />
-          ),
-          (<CollectionPreview
+            <CollectionPreview
               key="2"
               icon="https://i.picsum.photos/id/911/80/80.jpg"
               name="Beatiful landscapes"
@@ -131,8 +130,7 @@ Let's define a story for the `community` page
               totalResources={12}
               link={{external:false,url:'#'}}
             />
-          ),
-          (<CollectionPreview
+            <CollectionPreview
               key="3"
               icon="https://i.picsum.photos/id/911/80/80.jpg"
               name="Beatiful landscapes"
@@ -140,15 +138,14 @@ Let's define a story for the `community` page
               totalResources={12}
               link={{external:false,url:'#'}}
             />
-          )
-        ],
+        </React.Fragment>,
         HeroCommunityBox: (<HeroCommunity {...communityProps}/>),
         basePath:"/",
-        ThreadBoxes: [
-          (<ActivityPreview {...activityPreviewProps} key="1" />),
-          (<ActivityPreview {...activityPreviewProps} key="2" />),
-          (<ActivityPreview {...activityPreviewProps} key="3" />),
-        ]
+        ThreadsBox: <React.Fragment>
+          <ActivityPreview {...activityPreviewProps} key="1" />
+          <ActivityPreview {...activityPreviewProps} key="2" />
+          <ActivityPreview {...activityPreviewProps} key="3" />
+        </React.Fragment>
         
     }} />
   </Story>

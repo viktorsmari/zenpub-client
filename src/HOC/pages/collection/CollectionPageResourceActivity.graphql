@@ -13,7 +13,7 @@ fragment CollectionPageResource on Resource {
 
 mutation collectionPageResourceLike($contextId: String!) {
     createLike(contextId: $contextId){
-        ...ActivityPreviewLikeCtx
+        ...ActivityPreviewLikeMutationResult
     }
 }
 
