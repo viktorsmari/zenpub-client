@@ -55,6 +55,46 @@ export type HeroCommunityMeDataFragment = (
   ) }
 );
 
+export type HeroCommunityUnfollowMutationVariables = {
+  contextId: Types.Scalars['String']
+};
+
+
+export type HeroCommunityUnfollowMutation = (
+  { __typename: 'RootMutationType' }
+  & { delete: Types.Maybe<{ __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Feature' } | { __typename: 'Flag' } | (
+    { __typename: 'Follow' }
+    & { context: Types.Maybe<{ __typename: 'Collection' } | (
+      { __typename: 'Community' }
+      & Pick<Types.Community, 'id'>
+      & { myFollow: Types.Maybe<(
+        { __typename: 'Follow' }
+        & Pick<Types.Follow, 'id'>
+      )> }
+    ) | { __typename: 'Thread' } | { __typename: 'User' }> }
+  ) | { __typename: 'Like' } | { __typename: 'Resource' } | { __typename: 'Thread' } | { __typename: 'User' }> }
+);
+
+export type HeroCommunityFollowMutationVariables = {
+  contextId: Types.Scalars['String']
+};
+
+
+export type HeroCommunityFollowMutation = (
+  { __typename: 'RootMutationType' }
+  & { createFollow: Types.Maybe<(
+    { __typename: 'Follow' }
+    & { context: Types.Maybe<{ __typename: 'Collection' } | (
+      { __typename: 'Community' }
+      & Pick<Types.Community, 'id'>
+      & { myFollow: Types.Maybe<(
+        { __typename: 'Follow' }
+        & Pick<Types.Follow, 'id'>
+      )> }
+    ) | { __typename: 'Thread' } | { __typename: 'User' }> }
+  )> }
+);
+
 export const HeroCommunityDataFragmentDoc = gql`
     fragment HeroCommunityData on Community {
   id
@@ -179,6 +219,120 @@ export function useHeroCommunityMeLazyQuery(baseOptions?: ApolloReactHooks.LazyQ
 export type HeroCommunityMeQueryHookResult = ReturnType<typeof useHeroCommunityMeQuery>;
 export type HeroCommunityMeLazyQueryHookResult = ReturnType<typeof useHeroCommunityMeLazyQuery>;
 export type HeroCommunityMeQueryResult = ApolloReactCommon.QueryResult<HeroCommunityMeQuery, HeroCommunityMeQueryVariables>;
+export const HeroCommunityUnfollowDocument = gql`
+    mutation heroCommunityUnfollow($contextId: String!) {
+  delete(contextId: $contextId) {
+    ... on Follow {
+      context {
+        ... on Community {
+          id
+          myFollow {
+            id
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+export type HeroCommunityUnfollowMutationFn = ApolloReactCommon.MutationFunction<HeroCommunityUnfollowMutation, HeroCommunityUnfollowMutationVariables>;
+export type HeroCommunityUnfollowComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<HeroCommunityUnfollowMutation, HeroCommunityUnfollowMutationVariables>, 'mutation'>;
+
+    export const HeroCommunityUnfollowComponent = (props: HeroCommunityUnfollowComponentProps) => (
+      <ApolloReactComponents.Mutation<HeroCommunityUnfollowMutation, HeroCommunityUnfollowMutationVariables> mutation={HeroCommunityUnfollowDocument} {...props} />
+    );
+    
+export type HeroCommunityUnfollowProps<TChildProps = {}> = ApolloReactHoc.MutateProps<HeroCommunityUnfollowMutation, HeroCommunityUnfollowMutationVariables> & TChildProps;
+export function withHeroCommunityUnfollow<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  HeroCommunityUnfollowMutation,
+  HeroCommunityUnfollowMutationVariables,
+  HeroCommunityUnfollowProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, HeroCommunityUnfollowMutation, HeroCommunityUnfollowMutationVariables, HeroCommunityUnfollowProps<TChildProps>>(HeroCommunityUnfollowDocument, {
+      alias: 'heroCommunityUnfollow',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useHeroCommunityUnfollowMutation__
+ *
+ * To run a mutation, you first call `useHeroCommunityUnfollowMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useHeroCommunityUnfollowMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [heroCommunityUnfollowMutation, { data, loading, error }] = useHeroCommunityUnfollowMutation({
+ *   variables: {
+ *      contextId: // value for 'contextId'
+ *   },
+ * });
+ */
+export function useHeroCommunityUnfollowMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<HeroCommunityUnfollowMutation, HeroCommunityUnfollowMutationVariables>) {
+        return ApolloReactHooks.useMutation<HeroCommunityUnfollowMutation, HeroCommunityUnfollowMutationVariables>(HeroCommunityUnfollowDocument, baseOptions);
+      }
+export type HeroCommunityUnfollowMutationHookResult = ReturnType<typeof useHeroCommunityUnfollowMutation>;
+export type HeroCommunityUnfollowMutationResult = ApolloReactCommon.MutationResult<HeroCommunityUnfollowMutation>;
+export type HeroCommunityUnfollowMutationOptions = ApolloReactCommon.BaseMutationOptions<HeroCommunityUnfollowMutation, HeroCommunityUnfollowMutationVariables>;
+export const HeroCommunityFollowDocument = gql`
+    mutation heroCommunityFollow($contextId: String!) {
+  createFollow(contextId: $contextId) {
+    context {
+      ... on Community {
+        id
+        myFollow {
+          id
+        }
+      }
+    }
+  }
+}
+    `;
+export type HeroCommunityFollowMutationFn = ApolloReactCommon.MutationFunction<HeroCommunityFollowMutation, HeroCommunityFollowMutationVariables>;
+export type HeroCommunityFollowComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<HeroCommunityFollowMutation, HeroCommunityFollowMutationVariables>, 'mutation'>;
+
+    export const HeroCommunityFollowComponent = (props: HeroCommunityFollowComponentProps) => (
+      <ApolloReactComponents.Mutation<HeroCommunityFollowMutation, HeroCommunityFollowMutationVariables> mutation={HeroCommunityFollowDocument} {...props} />
+    );
+    
+export type HeroCommunityFollowProps<TChildProps = {}> = ApolloReactHoc.MutateProps<HeroCommunityFollowMutation, HeroCommunityFollowMutationVariables> & TChildProps;
+export function withHeroCommunityFollow<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  HeroCommunityFollowMutation,
+  HeroCommunityFollowMutationVariables,
+  HeroCommunityFollowProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, HeroCommunityFollowMutation, HeroCommunityFollowMutationVariables, HeroCommunityFollowProps<TChildProps>>(HeroCommunityFollowDocument, {
+      alias: 'heroCommunityFollow',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useHeroCommunityFollowMutation__
+ *
+ * To run a mutation, you first call `useHeroCommunityFollowMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useHeroCommunityFollowMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [heroCommunityFollowMutation, { data, loading, error }] = useHeroCommunityFollowMutation({
+ *   variables: {
+ *      contextId: // value for 'contextId'
+ *   },
+ * });
+ */
+export function useHeroCommunityFollowMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<HeroCommunityFollowMutation, HeroCommunityFollowMutationVariables>) {
+        return ApolloReactHooks.useMutation<HeroCommunityFollowMutation, HeroCommunityFollowMutationVariables>(HeroCommunityFollowDocument, baseOptions);
+      }
+export type HeroCommunityFollowMutationHookResult = ReturnType<typeof useHeroCommunityFollowMutation>;
+export type HeroCommunityFollowMutationResult = ApolloReactCommon.MutationResult<HeroCommunityFollowMutation>;
+export type HeroCommunityFollowMutationOptions = ApolloReactCommon.BaseMutationOptions<HeroCommunityFollowMutation, HeroCommunityFollowMutationVariables>;
 
 
 export interface HeroCommunityQueryOperation {
@@ -194,4 +348,20 @@ export interface HeroCommunityMeQueryOperation {
   result: HeroCommunityMeQuery
   variables: HeroCommunityMeQueryVariables
   type: 'query'
+}
+
+
+export interface HeroCommunityUnfollowMutationOperation {
+  operationName: 'heroCommunityUnfollow'
+  result: HeroCommunityUnfollowMutation
+  variables: HeroCommunityUnfollowMutationVariables
+  type: 'mutation'
+}
+
+
+export interface HeroCommunityFollowMutationOperation {
+  operationName: 'heroCommunityFollow'
+  result: HeroCommunityFollowMutation
+  variables: HeroCommunityFollowMutationVariables
+  type: 'mutation'
 }

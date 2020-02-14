@@ -1,4 +1,3 @@
-import { PureQueryOptions } from 'apollo-client';
 import { useFormik } from 'formik';
 import { Community } from 'graphql/types.generated';
 import { getActivityActions } from 'HOC/modules/ActivityPreview/lib/getActivityActions';
@@ -10,6 +9,7 @@ import {
   Status as ActivityPreviewStatus
 } from 'ui/modules/ActivityPreview';
 import * as UIP from 'ui/modules/ActivityPreview/preview';
+
 import * as GQL from './CommunityPageThreads.generated';
 
 export interface Props {
@@ -65,8 +65,7 @@ export const CommunityPageThreads: SFC<Props> = ({ communityId }) => {
 };
 export const ThreadActivity: SFC<{
   thread: GQL.ComunityPageThreadFragment;
-  refetchQueries?: Array<string | PureQueryOptions>;
-}> = ({ thread, refetchQueries }) => {
+}> = ({ thread }) => {
   if (
     !thread.comments ||
     !thread.comments.edges.length ||
@@ -104,8 +103,7 @@ export const ThreadActivity: SFC<{
           threadId: thread.id,
           inReplyToId: comment.id,
           comment: { content: replyMessage }
-        },
-        refetchQueries
+        }
       });
     }
   });
@@ -118,15 +116,13 @@ export const ThreadActivity: SFC<{
       const { myLike } = comment;
       if (myLike) {
         return unlikeMut({
-          variables: { contextId: myLike.id },
-          refetchQueries
+          variables: { contextId: myLike.id }
         });
       } else {
         return likeMut({
           variables: {
             contextId: comment.id
-          },
-          refetchQueries
+          }
         });
       }
     }

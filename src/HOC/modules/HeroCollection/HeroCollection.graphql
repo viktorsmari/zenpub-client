@@ -33,3 +33,28 @@ fragment HeroCollectionMeData on Me {
         id
     }
 }
+
+
+mutation heroCollectionUnfollow($contextId: String!) {
+  delete(contextId: $contextId){
+    ...on Follow {
+        context{
+            ...on Collection{
+                id
+                myFollow{id}
+            }
+        }
+    }
+  }
+}
+
+mutation heroCollectionFollow($contextId: String!) {
+    createFollow(contextId: $contextId){
+        context{
+            ...on Collection{
+                id
+                myFollow{id}
+            }
+        }
+    }
+}

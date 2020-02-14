@@ -1,5 +1,3 @@
-import { useDeleteMutationMutation } from 'graphql/delete.generated';
-import { useFollowMutationMutation } from 'graphql/follow.generated';
 import { Community } from 'graphql/types.generated';
 import React, { createContext, SFC, useContext, useMemo } from 'react';
 import HeroCommunity, {
@@ -16,18 +14,28 @@ export interface Props {
 export interface HeroCommunityCtx {
   useHeroCommunityQuery: typeof GQL.useHeroCommunityQuery;
   useHeroCommunityMeQuery: typeof GQL.useHeroCommunityMeQuery;
+  useHeroCommunityUnfollowMutation: typeof GQL.useHeroCommunityUnfollowMutation;
+  useHeroCommunityFollowMutation: typeof GQL.useHeroCommunityFollowMutation;
 }
 export const HeroCommunityCtx = createContext<HeroCommunityCtx>({
   useHeroCommunityQuery: GQL.useHeroCommunityQuery,
-  useHeroCommunityMeQuery: GQL.useHeroCommunityMeQuery
+  useHeroCommunityMeQuery: GQL.useHeroCommunityMeQuery,
+  useHeroCommunityUnfollowMutation: GQL.useHeroCommunityUnfollowMutation,
+  useHeroCommunityFollowMutation: GQL.useHeroCommunityFollowMutation
 });
 
 export const HeroCommunityHOC: SFC<Props> = ({ communityId }) => {
-  const { useHeroCommunityMeQuery, useHeroCommunityQuery } = useContext(
-    HeroCommunityCtx
-  );
-  const [joinMutation, joinMutationStatus] = useFollowMutationMutation();
-  const [unjoinMutation, unjoinMutationStatus] = useDeleteMutationMutation();
+  const {
+    useHeroCommunityMeQuery,
+    useHeroCommunityQuery,
+    useHeroCommunityFollowMutation,
+    useHeroCommunityUnfollowMutation
+  } = useContext(HeroCommunityCtx);
+  const [joinMutation, joinMutationStatus] = useHeroCommunityFollowMutation();
+  const [
+    unjoinMutation,
+    unjoinMutationStatus
+  ] = useHeroCommunityUnfollowMutation();
   const { data: session } = useHeroCommunityMeQuery();
   const communityQuery = useHeroCommunityQuery({
     variables: { communityId }
@@ -56,24 +64,101 @@ export const HeroCommunityHOC: SFC<Props> = ({ communityId }) => {
       const props: HeroProps = {
         community: {
           status: Status.Loaded,
-          //FIXME https://gitlab.com/moodlenet/meta/issues/185
           canModify,
           following: !!community.myFollow,
           icon: community.icon || '',
           name: community.name,
           fullName: community.displayUsername,
-          //FIXME https://gitlab.com/moodlenet/meta/issues/185
-          totalMembers: community.followers!.totalCount,
+          totalMembers:
+            (community.followers && community.followers.totalCount) || NaN,
           summary: community.summary || '',
           toggleJoin: {
             toggle: () =>
               community.myFollow
-                ? unjoinMutation({
-                    variables: { contextId: community.myFollow.id }
-                  }).then(() => communityQuery.refetch())
-                : joinMutation({ variables: { contextId: community.id } }).then(
-                    () => communityQuery.refetch()
-                  ),
+                ? community.myFollow.id !== '#' &&
+                  unjoinMutation({
+                    variables: { contextId: community.myFollow.id },
+                    optimisticResponse: {
+                      __typename: 'RootMutationType',
+                      delete: {
+                        __typename: 'Follow',
+                        context: {
+                          __typename: 'Community',
+                          myFollow: null,
+                          id: community.id
+                        }
+                      }
+                    }
+                    /* 
+                  optimisticResponse:{__typename:'RootMutationType',delete:{__typename:'Follow'}},
+                  update:(_proxy,res)=>{
+                      communityQuery.updateQuery((cache)=>{
+                        if(cache.community && res.data && res.data.delete){
+                          const newCache:GQL.HeroCommunityQuery = {
+                            ...cache,
+                            community:{
+                              ...cache.community,
+                              myFollow:null
+                            }
+                          } 
+                          return newCache
+                        }
+                        return cache
+                      })
+                      // const cache = proxy.readQuery<GQL.HeroCommunityQuery,GQL.HeroCommunityQueryVariables>({ query:GQL.HeroCommunityDocument, variables:communityQuery.variables})
+                      // if(cache && cache.community && res.data && res.data.delete){
+                      //   const newCache:GQL.HeroCommunityQuery = {
+                      //     ...cache,
+                      //     community:{
+                      //       ...cache.community,
+                      //       myFollow:null
+                      //     }
+                      //   } 
+                      //   proxy.writeQuery<GQL.HeroCommunityQuery>({data:newCache, query:GQL.HeroCommunityDocument, variables:communityQuery.variables})
+                      // }
+                    } */
+                  })
+                : joinMutation({
+                    variables: { contextId: community.id },
+                    optimisticResponse: {
+                      __typename: 'RootMutationType',
+                      createFollow: {
+                        __typename: 'Follow',
+                        context: {
+                          __typename: 'Community',
+                          id: community.id,
+                          myFollow: { __typename: 'Follow', id: '#' }
+                        }
+                      }
+                    }
+                    /* optimisticResponse:{__typename:'RootMutationType',createFollow:{__typename:'Follow',id:'#'}},
+                  update:(_proxy,res)=>{
+                    communityQuery.updateQuery((cache)=>{
+                      if(cache.community && res.data && res.data.createFollow){
+                        const newCache:GQL.HeroCommunityQuery = {
+                          ...cache,
+                          community:{
+                            ...cache.community,
+                            myFollow:res.data.createFollow
+                          }
+                        } 
+                        return newCache
+                      }
+                      return cache
+                    })
+                    // const cache = proxy.readQuery<GQL.HeroCommunityQuery,GQL.HeroCommunityQueryVariables>({ query:GQL.HeroCommunityDocument, variables:communityQuery.variables})
+                    // if(cache && cache.community && res.data && res.data.createFollow){
+                    //   const newCache:GQL.HeroCommunityQuery = {
+                    //     ...cache,
+                    //     community:{
+                    //       ...cache.community,
+                    //       myFollow:res.data.createFollow
+                    //     }
+                    //   } 
+                    //   proxy.writeQuery<GQL.HeroCommunityQuery>({data:newCache, query:GQL.HeroCommunityDocument, variables:communityQuery.variables})
+                    // }
+                  } */
+                  }),
 
             isSubmitting: community.myFollow
               ? unjoinMutationStatus.loading
@@ -95,6 +180,5 @@ export const HeroCommunityHOC: SFC<Props> = ({ communityId }) => {
       unjoinMutationStatus
     ]
   );
-  console.log(heroProps);
   return <HeroCommunity {...heroProps} />;
 };

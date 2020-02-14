@@ -28,3 +28,27 @@ fragment HeroCommunityMeData on Me {
         id
     }
 }
+
+mutation heroCommunityUnfollow($contextId: String!) {
+  delete(contextId: $contextId){
+    ...on Follow {
+        context{
+            ...on Community{
+                id
+                myFollow{id}
+            }
+        }
+    }
+  }
+}
+
+mutation heroCommunityFollow($contextId: String!) {
+    createFollow(contextId: $contextId){
+        context{
+            ...on Community{
+                id
+                myFollow{id}
+            }
+        }
+    }
+}

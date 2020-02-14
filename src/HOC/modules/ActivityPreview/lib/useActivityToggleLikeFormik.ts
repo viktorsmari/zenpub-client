@@ -15,7 +15,6 @@ export const useActivityToggleLikeFormik = (
   const toggleLikeFormik = useFormik<{}>({
     initialValues: {},
     onSubmit: () => {
-      //FIXME https://gitlab.com/moodlenet/meta/issues/185
       if (!activity || !activity.context) {
         return;
       }
@@ -33,8 +32,34 @@ export const useActivityToggleLikeFormik = (
       } else {
         const { myLike } = activity.context;
         if (myLike) {
+          if (myLike.id === '#') {
+            return;
+          }
           return unlikeMut({
-            variables: { contextId: myLike.id }
+            variables: { contextId: myLike.id },
+            optimisticResponse: {
+              __typename: 'RootMutationType',
+              delete: {
+                __typename: 'Like',
+                context: {
+                  __typename: activity.context.__typename as any,
+                  ...(activity.context.__typename === 'User'
+                    ? {
+                        userId: activity.context.userId
+                      }
+                    : {
+                        id: activity.context.id
+                      }),
+                  myLike: null,
+                  likes: {
+                    __typename: 'LikesEdges',
+                    totalCount: !activity.context.likes
+                      ? 0
+                      : activity.context.likes.totalCount - 1
+                  }
+                }
+              }
+            }
           });
         } else {
           return likeMut({
@@ -43,6 +68,29 @@ export const useActivityToggleLikeFormik = (
                 activity.context.__typename === 'User'
                   ? activity.context.userId
                   : activity.context.id
+            },
+            optimisticResponse: {
+              __typename: 'RootMutationType',
+              createLike: {
+                __typename: 'Like',
+                context: {
+                  __typename: activity.context.__typename as any,
+                  ...(activity.context.__typename === 'User'
+                    ? {
+                        userId: activity.context.userId
+                      }
+                    : {
+                        id: activity.context.id
+                      }),
+                  myLike: { __typename: 'Like', id: '#' },
+                  likes: {
+                    __typename: 'LikesEdges',
+                    totalCount: !activity.context.likes
+                      ? 1
+                      : activity.context.likes.totalCount + 1
+                  }
+                }
+              }
             }
           });
         }

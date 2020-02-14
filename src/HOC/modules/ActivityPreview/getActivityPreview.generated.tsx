@@ -250,7 +250,47 @@ export type ActivityPreviewLikeMutation = (
 
 export type ActivityPreviewLikeMutationResultFragment = (
   { __typename: 'Like' }
-  & ActivityPreviewLikeCtxFragment
+  & { context: Types.Maybe<(
+    { __typename: 'Collection' }
+    & Pick<Types.Collection, 'id'>
+    & { likes: Types.Maybe<(
+      { __typename: 'LikesEdges' }
+      & Pick<Types.LikesEdges, 'totalCount'>
+    )>, myLike: Types.Maybe<(
+      { __typename: 'Like' }
+      & Pick<Types.Like, 'id'>
+    )> }
+  ) | (
+    { __typename: 'Comment' }
+    & Pick<Types.Comment, 'id'>
+    & { likes: Types.Maybe<(
+      { __typename: 'LikesEdges' }
+      & Pick<Types.LikesEdges, 'totalCount'>
+    )>, myLike: Types.Maybe<(
+      { __typename: 'Like' }
+      & Pick<Types.Like, 'id'>
+    )> }
+  ) | { __typename: 'Community' } | (
+    { __typename: 'Resource' }
+    & Pick<Types.Resource, 'id'>
+    & { likes: Types.Maybe<(
+      { __typename: 'LikesEdges' }
+      & Pick<Types.LikesEdges, 'totalCount'>
+    )>, myLike: Types.Maybe<(
+      { __typename: 'Like' }
+      & Pick<Types.Like, 'id'>
+    )> }
+  ) | (
+    { __typename: 'User' }
+    & { userId: Types.User['id'] }
+    & { likes: Types.Maybe<(
+      { __typename: 'LikesEdges' }
+      & Pick<Types.LikesEdges, 'totalCount'>
+    )>, myLike: Types.Maybe<(
+      { __typename: 'Like' }
+      & Pick<Types.Like, 'id'>
+    )> }
+  )> }
 );
 
 export type ActivityPreviewUnlikeMutationVariables = {
@@ -260,7 +300,55 @@ export type ActivityPreviewUnlikeMutationVariables = {
 
 export type ActivityPreviewUnlikeMutation = (
   { __typename: 'RootMutationType' }
-  & { delete: Types.Maybe<{ __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Feature' } | { __typename: 'Flag' } | { __typename: 'Follow' } | { __typename: 'Like' } | { __typename: 'Resource' } | { __typename: 'Thread' } | { __typename: 'User' }> }
+  & { delete: Types.Maybe<{ __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Feature' } | { __typename: 'Flag' } | { __typename: 'Follow' } | (
+    { __typename: 'Like' }
+    & ActivityPreviewUnlikeMutationResultFragment
+  ) | { __typename: 'Resource' } | { __typename: 'Thread' } | { __typename: 'User' }> }
+);
+
+export type ActivityPreviewUnlikeMutationResultFragment = (
+  { __typename: 'Like' }
+  & { context: Types.Maybe<(
+    { __typename: 'Collection' }
+    & Pick<Types.Collection, 'id'>
+    & { likes: Types.Maybe<(
+      { __typename: 'LikesEdges' }
+      & Pick<Types.LikesEdges, 'totalCount'>
+    )>, myLike: Types.Maybe<(
+      { __typename: 'Like' }
+      & Pick<Types.Like, 'id'>
+    )> }
+  ) | (
+    { __typename: 'Comment' }
+    & Pick<Types.Comment, 'id'>
+    & { likes: Types.Maybe<(
+      { __typename: 'LikesEdges' }
+      & Pick<Types.LikesEdges, 'totalCount'>
+    )>, myLike: Types.Maybe<(
+      { __typename: 'Like' }
+      & Pick<Types.Like, 'id'>
+    )> }
+  ) | { __typename: 'Community' } | (
+    { __typename: 'Resource' }
+    & Pick<Types.Resource, 'id'>
+    & { likes: Types.Maybe<(
+      { __typename: 'LikesEdges' }
+      & Pick<Types.LikesEdges, 'totalCount'>
+    )>, myLike: Types.Maybe<(
+      { __typename: 'Like' }
+      & Pick<Types.Like, 'id'>
+    )> }
+  ) | (
+    { __typename: 'User' }
+    & { userId: Types.User['id'] }
+    & { likes: Types.Maybe<(
+      { __typename: 'LikesEdges' }
+      & Pick<Types.LikesEdges, 'totalCount'>
+    )>, myLike: Types.Maybe<(
+      { __typename: 'Like' }
+      & Pick<Types.Like, 'id'>
+    )> }
+  )> }
 );
 
 export type ActivityPreviewCreateReplyMutationVariables = {
@@ -570,9 +658,88 @@ ${ActivityPreviewLikeCtxFragmentDoc}
 ${ActivityPreviewFollowCtxFragmentDoc}`;
 export const ActivityPreviewLikeMutationResultFragmentDoc = gql`
     fragment ActivityPreviewLikeMutationResult on Like {
-  ...ActivityPreviewLikeCtx
+  context {
+    ... on Collection {
+      likes {
+        totalCount
+      }
+      myLike {
+        id
+      }
+      id
+    }
+    ... on Comment {
+      likes {
+        totalCount
+      }
+      myLike {
+        id
+      }
+      id
+    }
+    ... on Resource {
+      likes {
+        totalCount
+      }
+      myLike {
+        id
+      }
+      id
+    }
+    ... on User {
+      likes {
+        totalCount
+      }
+      myLike {
+        id
+      }
+      userId: id
+    }
+  }
 }
-    ${ActivityPreviewLikeCtxFragmentDoc}`;
+    `;
+export const ActivityPreviewUnlikeMutationResultFragmentDoc = gql`
+    fragment ActivityPreviewUnlikeMutationResult on Like {
+  context {
+    ... on Collection {
+      likes {
+        totalCount
+      }
+      myLike {
+        id
+      }
+      id
+    }
+    ... on Comment {
+      likes {
+        totalCount
+      }
+      myLike {
+        id
+      }
+      id
+    }
+    ... on Resource {
+      likes {
+        totalCount
+      }
+      myLike {
+        id
+      }
+      id
+    }
+    ... on User {
+      likes {
+        totalCount
+      }
+      myLike {
+        id
+      }
+      userId: id
+    }
+  }
+}
+    `;
 export const ActivityPreviewCreateReplyMutationResultFragmentDoc = gql`
     fragment ActivityPreviewCreateReplyMutationResult on Comment {
   ...ActivityPreviewCommentCtxBase
@@ -685,10 +852,10 @@ export type ActivityPreviewLikeMutationOptions = ApolloReactCommon.BaseMutationO
 export const ActivityPreviewUnlikeDocument = gql`
     mutation activityPreviewUnlike($contextId: String!) {
   delete(contextId: $contextId) {
-    __typename
+    ...ActivityPreviewUnlikeMutationResult
   }
 }
-    `;
+    ${ActivityPreviewUnlikeMutationResultFragmentDoc}`;
 export type ActivityPreviewUnlikeMutationFn = ApolloReactCommon.MutationFunction<ActivityPreviewUnlikeMutation, ActivityPreviewUnlikeMutationVariables>;
 export type ActivityPreviewUnlikeComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<ActivityPreviewUnlikeMutation, ActivityPreviewUnlikeMutationVariables>, 'mutation'>;
 
