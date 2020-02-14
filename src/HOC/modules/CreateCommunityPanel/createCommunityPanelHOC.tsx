@@ -2,15 +2,15 @@ import { useFormik } from 'formik';
 import React, { createContext, SFC, useContext, useMemo } from 'react';
 import { useHistory } from 'react-router';
 import {
-  BasicCreateCommunityFormValues,
+  CreateCommunityFormValues,
   CreateCommunityPanel
 } from 'ui/modules/CreateCommunityPanel';
 import * as Yup from 'yup';
 import * as GQL from './createCommunityPanel.generated';
 
 export const validationSchema: Yup.ObjectSchema<
-  BasicCreateCommunityFormValues
-> = Yup.object<BasicCreateCommunityFormValues>({
+  CreateCommunityFormValues
+> = Yup.object<CreateCommunityFormValues>({
   name: Yup.string()
     .min(2)
     .max(60)
@@ -28,7 +28,7 @@ export const CreateCommunityPanelCtx = createContext<CreateCommunityPanelCtx>({
   useCreateCommunityPanelUploadImageMutation:
     GQL.useCreateCommunityPanelUploadImageMutation
 });
-export const createCommunityFormInitialValues: BasicCreateCommunityFormValues = {
+export const createCommunityFormInitialValues: CreateCommunityFormValues = {
   name: '',
   summary: '',
   icon: '',
@@ -45,11 +45,11 @@ export const CreateCommunityPanelHOC: SFC<Props> = ({ done }: Props) => {
   const [create /* , result */] = useCreateCommunityPanelCreateMutation();
   const [mutateImage] = useCreateCommunityPanelUploadImageMutation();
   const history = useHistory();
-  const initialValues = useMemo<BasicCreateCommunityFormValues>(
+  const initialValues = useMemo<CreateCommunityFormValues>(
     () => createCommunityFormInitialValues,
     []
   );
-  const formik = useFormik<BasicCreateCommunityFormValues>({
+  const formik = useFormik<CreateCommunityFormValues>({
     enableReinitialize: true,
     onSubmit: vals => {
       const fileToUpload = vals!.files!.map(file => {

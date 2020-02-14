@@ -70,17 +70,6 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
               </Text>
             </MembersTot>
             <Actions>
-              {/* {c.canModify ? (
-                <SettingsButton>
-                  <Button
-                    onClick={() => setOpenSettings(true)}
-                    isIcon
-                    variant="outline"
-                  >
-                    <Settings size={18} color={'#f98012'} />
-                  </Button>
-                </SettingsButton>
-              ) : null} */}
               <Button
                 mr={2}
                 variant={c.following ? 'danger' : 'primary'}

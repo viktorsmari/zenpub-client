@@ -9,25 +9,37 @@ import { action } from '@storybook/addon-actions';
 import { ContextType, ContextVerb } from 'ui/modules/ActivityPreview/preview';
 import {ActivityPreview} from 'ui/modules/ActivityPreview'
 import { useFormik } from 'formik';
-import {WithSidebar} from "ui/templates/withSidebar"
-import {Sidebar} from 'ui/modules/Sidebar'
-import {SidebarProps} from 'ui/modules/Sidebar/a.stories.mdx'
-
+// import {WithSidebar} from "ui/templates/withSidebar"
+// import {Sidebar} from 'ui/modules/Sidebar'
+// import {SidebarProps} from 'ui/modules/Sidebar/a.stories.mdx'
+import {Box} from 'rebass'
 
 export const communityProps = {
       community: {
         status: Status.Loaded,
         canModify: true,
         following: true,
-        icon: 'https://picsum.photos/800/300',
-        name: 'Community nino',
-        preferredUsername: 'ninos',
-        summary: '',
+        icon: 'https://home.next.moodle.net/uploads/01DZK8YWM9PZCDG9YP20509C73/triangles.jpeg',
+        name: 'Instructional Design in HE',
+        fullName: 'he@home.next.moodle.net',
+        summary: 'Come and share your top tips and resources for designing awesome learning experiences!',
         totalMembers: 193,
         toggleJoin: {
           toggle: action('Unjoin !'),
           isSubmitting: false
         },
+        newThreadFormik: useFormik<{}>({
+          initialValues: {},
+          onSubmit: vals => {
+            action('submitting...')();
+            return new Promise(resolve =>
+              setTimeout(() => {
+                action('submitted...')();
+                resolve();
+              }, 2000)
+            );
+          }
+        }),
         EditCommunityPanel: ({ done }) => (
           <img
             onClick={done}
@@ -106,6 +118,7 @@ Let's define a story for the `community` page
 
 <Preview>
   <Story name="community page">
+     <Box sx={{margin: "0 auto", width: "fit-content"}}>
     <Community {...{
         newThreadFormik:null,
         ActivitiesBox: <React.Fragment>
@@ -148,47 +161,7 @@ Let's define a story for the `community` page
         </React.Fragment>
         
     }} />
-  </Story>
-</Preview>
-
-
-# Community with sidebar
-
-
-<Preview>
-  <Story name="community with sidebar page">
-    <WithSidebar
-      {...{SidebarBox: ({userId}) => (
-        <Sidebar sidebar={SidebarProps} />
-      )}}
-    >
-        <Community {...{
-        newThreadFormik:null,
-        ActivityBoxes: [
-          (<ActivityPreview {...activityPreviewProps} key="1" />),
-          (<ActivityPreview {...activityPreviewProps} key="2" />),
-          (<ActivityPreview {...activityPreviewProps} key="3" />),
-        ],
-        CollectionBoxes: [
-          (<CollectionPreview
-              key="1"
-              icon="https://i.picsum.photos/id/911/80/80.jpg"
-              name="Beatiful landscapes"
-              summary="There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle"
-              totalResources={12}
-              link={{external:false,url:'#'}}
-            />
-          ),
-        ],
-        HeroCommunityBox: (<HeroCommunity {...communityProps}/>),
-        basePath:"/",
-        ThreadBoxes: [
-          (<ActivityPreview {...activityPreviewProps} key="1" />),
-          (<ActivityPreview {...activityPreviewProps} key="2" />),
-          (<ActivityPreview {...activityPreviewProps} key="3" />),
-        ]
-}} />
-    </WithSidebar>
+    </Box>
   </Story>
 </Preview>
 

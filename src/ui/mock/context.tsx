@@ -11,6 +11,10 @@ import {
   Props as EditCommunityProps
 } from 'ui/modules/EditCommunityPanel';
 import {
+  CreateCommunityFormValues,
+  Props as CreateCommunityProps
+} from 'ui/modules/CreateCommunityPanel';
+import {
   Props as HeroCollectionProps,
   Status as HeroCollectionStatus
 } from 'ui/modules/HeroCollection';
@@ -27,9 +31,28 @@ import { Props as ResourcePreviewProps } from 'ui/modules/ResourcePreview';
 export const getEditCommunityProps = (): EditCommunityProps => {
   const formik = useFormik<EditCommunityFormValues>({
     initialValues: {
+      icon:
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.MPaPKKyEuv4RMPDu3T_ppgHaE7%26pid%3DApi&f=1',
+      name: '24grana best songs',
+      summary:
+        '24 Grana appeared on the Italian underground scene in the mid 90s, in a period of a great social, political and cultural ferment. The band is named after a coin used at the times of Kind Ferdinand of Aragona.'
+    },
+    onSubmit: () => {
+      action('submit')();
+      return new Promise((resolve, reject) => {
+        setTimeout(resolve, 3000);
+      });
+    }
+  });
+  return { formik, cancel: action('cancel') };
+};
+
+export const getCreateCommunityProps = (): CreateCommunityProps => {
+  const formik = useFormik<CreateCommunityFormValues>({
+    initialValues: {
       icon: '',
-      name: 'name',
-      summary: 'summary'
+      name: '',
+      summary: ''
     },
     onSubmit: () => {
       action('submit')();
@@ -44,9 +67,11 @@ export const getEditCommunityProps = (): EditCommunityProps => {
 export const getEditCollectionProps = (): EditCollectionPanelProps => {
   const formik = useFormik<EditCollectionFormValues>({
     initialValues: {
-      icon: '',
-      name: 'name',
-      summary: 'summary'
+      icon:
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.MPaPKKyEuv4RMPDu3T_ppgHaE7%26pid%3DApi&f=1',
+      name: '24grana best songs',
+      summary:
+        '24 Grana appeared on the Italian underground scene in the mid 90s, in a period of a great social, political and cultural ferment. The band is named after a coin used at the times of Kind Ferdinand of Aragona.'
     },
     onSubmit: () => {
       action('submit')();
@@ -123,6 +148,29 @@ export const getHeroUserProps = (): HeroUserProps => {
     user: {
       isAdmin: true,
       following: true,
+      image: 'https://pbs.twimg.com/profile_banners/764365/1574452341/1500x500',
+      displayUsername: 'dajbelshaw@team.moodle.net',
+      location: 'Morpeth, UK',
+      icon:
+        'https://pbs.twimg.com/profile_images/1161428802091802627/O49Ggs-7_400x400.jpg',
+      name: '˗ˏˋ Doug Belshaw ˎˊ˗  🇪🇺 ☠️ ✊',
+      summary:
+        'Open Educational Thinkerer. Product Manager @MoodleNet & Co-op founder @WeAreOpenCoop. Aspiring Mountain Leader. Previously: @Mozilla @Jisc teacher',
+      toggleJoin: {
+        toggle: action('Unjoin !'),
+        isSubmitting: false
+      }
+    }
+  };
+};
+
+export const getHeroUserProps2 = (): HeroUserProps => {
+  return {
+    status: HeroUserStatus.Loaded,
+    me: true,
+    user: {
+      isAdmin: true,
+      following: false,
       image: 'https://pbs.twimg.com/profile_banners/764365/1574452341/1500x500',
       displayUsername: 'dajbelshaw@team.moodle.net',
       location: 'Morpeth, UK',
