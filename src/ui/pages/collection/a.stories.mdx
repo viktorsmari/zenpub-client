@@ -17,16 +17,16 @@ Let's define a story for the `Collection` page
   <Story name="Collection page">
     <Collection 
       HeroCollectionBox={(<HeroCollection {...getHeroCollectionProps()} />)}
-      ActivityBoxes={[
-        (<ActivityPreview {...activityPreviewProps} key="1" />),
-        (<ActivityPreview {...activityPreviewProps} key="2" />),
-        (<ActivityPreview {...activityPreviewProps} key="3" />),
-      ]}
-      ResourceBoxes={[
-        (<ResourcePreview {...getResourcePreviewProps()} key="1"/>),
-        (<ResourcePreview {...getResourcePreviewProps()} key="2"/>),
-        (<ResourcePreview {...getResourcePreviewProps()} key="3"/>),
-      ]}
+      ActivitiesBox={(<React.Fragment>
+        <ActivityPreview {...activityPreviewProps} key="1" />
+        <ActivityPreview {...activityPreviewProps} key="2" />
+        <ActivityPreview {...activityPreviewProps} key="3" />
+      </React.Fragment>)}
+      ResourcesBox={(<React.Fragment>
+        <ResourcePreview {...getResourcePreviewProps()} key="1"/>
+        <ResourcePreview {...getResourcePreviewProps()} key="2"/>
+        <ResourcePreview {...getResourcePreviewProps()} key="3"/>
+      </React.Fragment>)}
       basePath="/"
     />
   </Story>

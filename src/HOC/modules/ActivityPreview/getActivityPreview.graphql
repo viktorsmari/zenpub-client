@@ -261,6 +261,30 @@ mutation activityPreviewLike($contextId: String!) {
 fragment ActivityPreviewLikeMutationResult on Like {
     ...ActivityPreviewLikeCtx
 }
+# fragment ActivityPreviewLikeMutationResult on Like {
+#     context {
+#         ... on Collection{
+#             likes{totalCount}
+#             myLike{id}
+#             id
+#         }
+#         ... on Comment{
+#             likes{totalCount}
+#             myLike{id}
+#             id
+#         }
+#         ... on Resource{
+#             likes{totalCount}
+#             myLike{id}
+#             id
+#         }
+#         ... on User{
+#             likes{totalCount}
+#             myLike{id}
+#             userId:id
+#         }
+#     }
+# }
 
 mutation activityPreviewUnlike($contextId: String!) {
     delete(contextId: $contextId){

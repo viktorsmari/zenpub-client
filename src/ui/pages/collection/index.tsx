@@ -16,8 +16,8 @@ import styled from 'ui/themes/styled';
 import Button from 'ui/elements/Button';
 
 export interface Props {
-  ActivityBoxes: JSX.Element[];
-  ResourceBoxes: JSX.Element[];
+  ActivitiesBox: JSX.Element;
+  ResourcesBox: JSX.Element;
   HeroCollectionBox: JSX.Element;
   ShareLinkModalPanel: React.ComponentType<{ done(): any }>;
   EditCollectionPanel: React.ComponentType<{ done(): any }>;
@@ -30,8 +30,8 @@ export const Collection: React.FC<Props> = ({
   ShareLinkModalPanel,
   EditCollectionPanel,
   UploadResourcePanel,
-  ActivityBoxes,
-  ResourceBoxes,
+  ActivitiesBox,
+  ResourcesBox,
   basePath
 }) => {
   const [isOpenEditCollection, setOpenEditCollection] = React.useState(false);
@@ -56,7 +56,7 @@ export const Collection: React.FC<Props> = ({
             <Menu basePath={basePath} />
             <Switch>
               <Route exact path={`${basePath}/`}>
-                {ActivityBoxes}
+                {ActivitiesBox}
               </Route>
               <Route path={`${basePath}/resources`}>
                 <>
@@ -78,7 +78,7 @@ export const Collection: React.FC<Props> = ({
                   {isUploadOpen && (
                     <UploadResourcePanel done={() => setUploadOpen(false)} />
                   )}
-                  {ResourceBoxes}
+                  {ResourcesBox}
                 </>
               </Route>
             </Switch>
