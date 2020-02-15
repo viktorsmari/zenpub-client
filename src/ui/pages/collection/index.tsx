@@ -16,8 +16,8 @@ import styled from 'ui/themes/styled';
 import Button from 'ui/elements/Button';
 
 export interface Props {
-  ActivityBoxes: JSX.Element[];
-  ResourceBoxes: JSX.Element[];
+  ActivitiesBox: JSX.Element;
+  ResourcesBox: JSX.Element;
   HeroCollectionBox: JSX.Element;
   ShareLinkModalPanel: React.ComponentType<{ done(): any }>;
   EditCollectionPanel: React.ComponentType<{ done(): any }>;
@@ -30,8 +30,8 @@ export const Collection: React.FC<Props> = ({
   ShareLinkModalPanel,
   EditCollectionPanel,
   UploadResourcePanel,
-  ActivityBoxes,
-  ResourceBoxes,
+  ActivitiesBox,
+  ResourcesBox,
   basePath
 }) => {
   const [isOpenEditCollection, setOpenEditCollection] = React.useState(false);
@@ -56,7 +56,7 @@ export const Collection: React.FC<Props> = ({
             <Menu basePath={basePath} />
             <Switch>
               <Route exact path={`${basePath}/`}>
-                {ActivityBoxes}
+                {ActivitiesBox}
               </Route>
               <Route path={`${basePath}/resources`}>
                 <>
@@ -78,7 +78,7 @@ export const Collection: React.FC<Props> = ({
                   {isUploadOpen && (
                     <UploadResourcePanel done={() => setUploadOpen(false)} />
                   )}
-                  {ResourceBoxes}
+                  {ResourcesBox}
                 </>
               </Route>
             </Switch>
@@ -154,30 +154,21 @@ const WrapButton = styled(Flex)`
 `;
 
 const MenuWrapper = styled(Flex)`
-  border-top: 3px solid ${props => props.theme.colors.lightgray};
   a {
-    font-weight: 800;
+    font-weight: 700;
     text-decoration: none;
-    margin-right: 24px;
+    margin-right: 8px;
     color: ${props => props.theme.colors.gray};
-    letterspacing: '1px';
-    font-size: 16px;
+    letterspacing: 1px;
+    font-size: 13px;
+    padding: 4px 8px;
     &.active {
-      color: ${props => props.theme.colors.orange};
-      position: relative;
-      &:after {
-        position: absolute;
-        content: '';
-        display: block;
-        top: -19px;
-        width: 100%;
-        height: 3px;
-        background: ${props => props.theme.colors.orange};
-      }
+      color: #ffffff;
+      background: ${props => props.theme.colors.orange};
+      border-radius: 4px;
     }
   }
 `;
-
 export const HomeBox = styled(Flex)`
   max-width: 600px;
   width: 100%;

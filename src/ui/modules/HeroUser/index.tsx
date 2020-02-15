@@ -235,7 +235,7 @@ const WrapperHero = styled.div`
 const Img = styled.div`
   width: 120px;
   height: 120px;
-  border-radius: 4px;
+  border-radius: 6px;
   background: ${props => props.theme.colors.lightgray};
   border: 3px solid white;
   background-size: cover;

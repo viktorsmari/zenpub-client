@@ -1,45 +1,11 @@
 #import "HOC/modules/HeroCommunity/getHeroCommunity.graphql"
-#import "HOC/modules/ActivityPreview/getActivityPreview.graphql"
-#import "HOC/modules/CollectionPreview/CollectionPreview.graphql"
 
-query communityPage($id: String!) {
-  community(communityId:$id){
+query communityPage($communityId: String!) {
+  community(communityId:$communityId){
     ...HeroCommunityData
-    collections{
-      edges{
-        node{
-          ...CollectionPreviewData
-        }
-      }
-    }
-    outbox{
-      edges{
-        node{
-          ...ActivityPreviewData
-        }
-      }
-    }
-    threads(limit:1){
-      edges{
-        node{
-          ...ComunityPageThread
-        }
-      }
-    }
   }
 }
 
-fragment ComunityPageThread on Thread {
-  ...ActivityPreviewExtendedThread
-  comments{
-    edges{
-      node{
-        ...ActivityPreviewCommentCtxExtended
-        createdAt
-      }
-    }
-  }
-}
 
 mutation communityPageCreateThread($contextId: String!, $comment: CommentInput!) {
     createThread(comment:$comment, contextId: $contextId){
@@ -48,23 +14,3 @@ mutation communityPageCreateThread($contextId: String!, $comment: CommentInput!)
         }
     }
 }
-
-mutation communityPageThreadLike($contextId: String!) {
-    createLike(contextId: $contextId){
-        ...ActivityPreviewLikeCtx
-    }
-}
-
-mutation communityPageThreadUnlike($contextId: String!) {
-    delete(contextId: $contextId){
-        __typename
-    }
-}
-
-
-mutation communityPageThreadCreateReply( $comment: CommentInput!, $inReplyToId: String!, $threadId: String!) {
-    createReply(comment: $comment, inReplyToId: $inReplyToId, threadId: $threadId){
-        ...ActivityPreviewCommentCtxBase
-    }
-}
-

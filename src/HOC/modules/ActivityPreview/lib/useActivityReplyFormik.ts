@@ -1,19 +1,21 @@
-import * as APGQL from '../getActivityPreview.generated';
-import { MaybeActivityPreviewData } from '../types';
+import { useFormik } from 'formik';
 import { useContext } from 'react';
 import { ActivityPreviewCtx } from '../activityPreviewHOC';
-import { useFormik } from 'formik';
+import { MaybeActivityPreviewData } from '../types';
 
 export const useActivityReplyFormik = (activity: MaybeActivityPreviewData) => {
-  const ctx = useContext(ActivityPreviewCtx);
+  const {
+    useActivityPreviewCreateThreadMutation,
+    useActivityPreviewCreateReplyMutation
+  } = useContext(ActivityPreviewCtx);
   const [
     createThreadMut,
     createThreadMutStatus
-  ] = APGQL.useActivityPreviewCreateThreadMutation();
+  ] = useActivityPreviewCreateThreadMutation();
   const [
     createReplyMut,
     createReplyMutStatus
-  ] = APGQL.useActivityPreviewCreateReplyMutation();
+  ] = useActivityPreviewCreateReplyMutation();
 
   const replyFormik = useFormik<{ replyMessage: string }>({
     initialValues: { replyMessage: '' },
@@ -45,8 +47,7 @@ export const useActivityReplyFormik = (activity: MaybeActivityPreviewData) => {
             threadId: thread.id,
             inReplyToId: id,
             comment: { content: replyMessage }
-          },
-          refetchQueries: ctx.refetchQueries
+          }
         });
       } else {
         return createThreadMut({
@@ -56,8 +57,7 @@ export const useActivityReplyFormik = (activity: MaybeActivityPreviewData) => {
                 ? activity.context.userId
                 : activity.context.id,
             comment: { content: replyMessage }
-          },
-          refetchQueries: ctx.refetchQueries
+          }
         });
       }
     }

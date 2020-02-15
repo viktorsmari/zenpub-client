@@ -27,22 +27,22 @@ import Modal from 'ui/modules/Modal';
 // type ActivityBox = React.ComponentType<{ activity: Activity }>;
 
 export interface Props {
-  ActivityBoxes: JSX.Element[];
-  CollectionBoxes: JSX.Element[];
+  ActivitiesBox: JSX.Element;
+  CollectionsBox: JSX.Element;
   HeroCommunityBox: JSX.Element;
-  ThreadBoxes: JSX.Element[];
+  ThreadsBox: JSX.Element;
   basePath: string;
   newThreadFormik: null | FormikHook<{ text: string }>;
   CreateCollectionPanel: React.ComponentType<{ done(): any }>;
 }
 
 export const Community: React.FC<Props> = ({
-  ActivityBoxes,
+  ActivitiesBox,
   HeroCommunityBox,
-  CollectionBoxes,
+  CollectionsBox,
   basePath,
   newThreadFormik,
-  ThreadBoxes,
+  ThreadsBox,
   CreateCollectionPanel
 }) => {
   const [isOpenCreateCollection, setOpenCreateCollection] = React.useState(
@@ -63,7 +63,7 @@ export const Community: React.FC<Props> = ({
             <Menu basePath={basePath} />
             <Switch>
               <Route exact path={`${basePath}`}>
-                {ActivityBoxes}
+                {ActivitiesBox}
               </Route>
               <Route path={`${basePath}/collections`}>
                 <>
@@ -75,7 +75,7 @@ export const Community: React.FC<Props> = ({
                       <Trans>Create a new collection</Trans>
                     </Button>
                   </WrapButton>
-                  {CollectionBoxes}
+                  {CollectionsBox}
                 </>
               </Route>
               <Route path={`${basePath}/discussions`}>
@@ -90,7 +90,7 @@ export const Community: React.FC<Props> = ({
                     />
                   )}
                 </WrapSocialText>
-                {ThreadBoxes}
+                {ThreadsBox}
               </Route>
             </Switch>
           </Wrapper>
@@ -157,16 +157,13 @@ const Menu = ({ basePath }: { basePath: string }) => (
 );
 
 const WrapButton = styled(Flex)`
-  border-bottom: 3px solid ${props => props.theme.colors.lightgray};
   button {
     width: 100%;
     height: 50px;
   }
 `;
 
-const WrapSocialText = styled(Box)`
-  border-bottom: 3px solid ${props => props.theme.colors.lightgray};
-`;
+const WrapSocialText = styled(Box)``;
 
 const MenuWrapper = styled(Flex)`
   a {
@@ -174,13 +171,13 @@ const MenuWrapper = styled(Flex)`
     text-decoration: none;
     margin-right: 8px;
     color: ${props => props.theme.colors.gray};
-    letterspacing: '1px';
-    font-size: 14px;
+    letterspacing: 1px;
+    font-size: 13px;
     padding: 4px 8px;
     &.active {
       color: #ffffff;
       background: ${props => props.theme.colors.orange};
-      border-radius: 8px;
+      border-radius: 4px;
     }
   }
 `;

@@ -49,7 +49,7 @@ storiesOf('Modules/ActivityPreview', module)
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
-      createdAt: '29-01-2020',
+      createdAt: '2018-11-11',
       context: {
         link: 'https://picsum.photos/80/80',
         content:
@@ -60,7 +60,15 @@ storiesOf('Modules/ActivityPreview', module)
       inReplyToCtx: null
     };
     return (
-      <Box sx={{ background: '#fff' }} p={3}>
+      <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
         <ActivityPreview {...activityPreviewProps} />
       </Box>
     );
@@ -70,7 +78,7 @@ storiesOf('Modules/ActivityPreview', module)
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
-      createdAt: '29-01-2020',
+      createdAt: '2018-11-11',
       context: {
         link: 'https://picsum.photos/80/80',
         type: ContextType.Community,
@@ -82,14 +90,26 @@ storiesOf('Modules/ActivityPreview', module)
       inReplyToCtx: null
     };
 
-    return <ActivityPreview {...activityPreviewProps} />;
+    return (
+      <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
+        <ActivityPreview {...activityPreviewProps} />
+      </Box>
+    );
   })
   .add('Like', () => {
     const activityPreviewProps: Props = {
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
-      createdAt: '29-01-2020',
+      createdAt: '2018-11-11',
       context: {
         link: 'https://picsum.photos/80/80',
         type: ContextType.Community,
@@ -101,14 +121,26 @@ storiesOf('Modules/ActivityPreview', module)
       inReplyToCtx: null
     };
 
-    return <ActivityPreview {...activityPreviewProps} />;
+    return (
+      <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
+        <ActivityPreview {...activityPreviewProps} />
+      </Box>
+    );
   })
   .add('Flag', () => {
     const activityPreviewProps: Props = {
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
-      createdAt: '29-01-2020',
+      createdAt: '2018-11-11',
       context: {
         link: 'https://picsum.photos/80/80',
         type: ContextType.Resource,
@@ -120,14 +152,26 @@ storiesOf('Modules/ActivityPreview', module)
       inReplyToCtx: null
     };
 
-    return <ActivityPreview {...activityPreviewProps} />;
+    return (
+      <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
+        <ActivityPreview {...activityPreviewProps} />
+      </Box>
+    );
   })
   .add('Create a community', () => {
     const activityPreviewProps: Props = {
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
-      createdAt: '29-01-2020',
+      createdAt: '2018-11-11',
       context: {
         link: 'https://picsum.photos/80/80',
         type: ContextType.Community,
@@ -139,14 +183,27 @@ storiesOf('Modules/ActivityPreview', module)
       inReplyToCtx: null
     };
 
-    return <ActivityPreview {...activityPreviewProps} />;
+    return (
+      <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
+        <ActivityPreview {...activityPreviewProps} />
+      </Box>
+    );
   })
+
   .add('Create a collection', () => {
     const activityPreviewProps: Props = {
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
-      createdAt: '29-01-2020',
+      createdAt: '2018-11-11',
       context: {
         link: 'https://picsum.photos/80/80',
         icon: 'https://picsum.photos/80/80',
@@ -158,14 +215,26 @@ storiesOf('Modules/ActivityPreview', module)
       inReplyToCtx: null
     };
 
-    return <ActivityPreview {...activityPreviewProps} />;
+    return (
+      <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
+        <ActivityPreview {...activityPreviewProps} />
+      </Box>
+    );
   })
   .add('Update a resource', () => {
     const activityPreviewProps: Props = {
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
-      createdAt: '29-01-2020',
+      createdAt: '2018-11-11',
       context: {
         link: 'https://picsum.photos/80/80',
         icon: 'https://picsum.photos/80/80',
@@ -177,14 +246,26 @@ storiesOf('Modules/ActivityPreview', module)
       inReplyToCtx: null
     };
 
-    return <ActivityPreview {...activityPreviewProps} />;
+    return (
+      <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
+        <ActivityPreview {...activityPreviewProps} />
+      </Box>
+    );
   })
   .add('Updated a collection', () => {
     const activityPreviewProps: Props = {
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
-      createdAt: '29-01-2020',
+      createdAt: '2018-11-11',
       context: {
         link: 'https://picsum.photos/80/80',
         icon: 'https://picsum.photos/80/80',
@@ -196,14 +277,26 @@ storiesOf('Modules/ActivityPreview', module)
       inReplyToCtx: null
     };
 
-    return <ActivityPreview {...activityPreviewProps} />;
+    return (
+      <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
+        <ActivityPreview {...activityPreviewProps} />
+      </Box>
+    );
   })
   .add('Updated a community', () => {
     const activityPreviewProps: Props = {
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
-      createdAt: '29-01-2020',
+      createdAt: '2018-11-11',
       context: {
         link: 'https://picsum.photos/80/80',
         icon: 'https://picsum.photos/80/80',
@@ -215,14 +308,26 @@ storiesOf('Modules/ActivityPreview', module)
       inReplyToCtx: null
     };
 
-    return <ActivityPreview {...activityPreviewProps} />;
+    return (
+      <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
+        <ActivityPreview {...activityPreviewProps} />
+      </Box>
+    );
   })
   .add('Reply to a message', () => {
     const activityPreviewProps: Props = {
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
-      createdAt: '29-01-2020',
+      createdAt: '2018-11-11',
       context: {
         link: 'https://picsum.photos/80/80',
         verb: ContextVerb.Created,
@@ -238,5 +343,17 @@ storiesOf('Modules/ActivityPreview', module)
       } */
     };
 
-    return <BigActivityPreview {...activityPreviewProps} />;
+    return (
+      <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
+        <BigActivityPreview {...activityPreviewProps} />;
+      </Box>
+    );
   });

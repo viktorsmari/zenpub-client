@@ -1,0 +1,30 @@
+#import "HOC/modules/ActivityPreview/getActivityPreview.graphql"
+
+query collectionPageResourceActivity($resourceId: String!) {
+  resource(resourceId:$resourceId){
+    ...CollectionPageResource
+  }
+}
+
+fragment CollectionPageResource on Resource {
+  ...ActivityPreviewResourceCtx
+  createdAt
+}
+
+mutation collectionPageResourceLike($contextId: String!) {
+    createLike(contextId: $contextId){
+        ...ActivityPreviewLikeMutationResult
+    }
+}
+
+mutation collectionPageResourceUnlike($contextId: String!) {
+    delete(contextId: $contextId){
+        __typename
+    }
+}
+
+mutation collectionPageResourceCreateThread($contextId: String!, $comment: CommentInput!) {
+    createThread(comment:$comment, contextId: $contextId){
+        ...ActivityPreviewCommentCtxBase
+    }
+}

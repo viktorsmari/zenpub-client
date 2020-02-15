@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { createContext, useContext } from 'react';
 import { useFormik } from 'formik';
-import { useUpdateCommunityMutationMutation } from 'graphql/updateCommunity.generated';
-import { useUploadIconMutation } from 'graphql/uploadIcon.generated';
 import { useMemo, SFC } from 'react';
 import * as Yup from 'yup';
-import { useGetCommunityForEditQuery } from './getCommunityForEdit.generated';
+import * as GQL from './editCommunityPanel.generated';
 import {
   EditCommunityFormValues,
   EditCommunityPanel
@@ -28,6 +26,19 @@ export const editCommunityFormInitialValues: EditCommunityFormValues = {
   icon: '',
   files: []
 };
+
+export interface EditCommunityPanelCtx {
+  useEditCommunityPanelQuery: typeof GQL.useEditCommunityPanelQuery;
+  useEditCommunityPanelUpdateMutation: typeof GQL.useEditCommunityPanelUpdateMutation;
+  useEditCommunityPanelUploadIconMutation: typeof GQL.useEditCommunityPanelUploadIconMutation;
+}
+export const EditCommunityPanelCtx = createContext<EditCommunityPanelCtx>({
+  useEditCommunityPanelQuery: GQL.useEditCommunityPanelQuery,
+  useEditCommunityPanelUpdateMutation: GQL.useEditCommunityPanelUpdateMutation,
+  useEditCommunityPanelUploadIconMutation:
+    GQL.useEditCommunityPanelUploadIconMutation
+});
+
 export interface Props {
   communityId: Community['id'];
   done(): any;
@@ -36,20 +47,25 @@ export const EditCommunityPanelHOC: SFC<Props> = ({
   done,
   communityId
 }: Props) => {
-  const community = useGetCommunityForEditQuery({ variables: { communityId } });
-  const [update /* , result */] = useUpdateCommunityMutationMutation();
-  const [mutateIcon] = useUploadIconMutation();
+  const {
+    useEditCommunityPanelQuery,
+    useEditCommunityPanelUploadIconMutation,
+    useEditCommunityPanelUpdateMutation
+  } = useContext(EditCommunityPanelCtx);
+  const resultQ = useEditCommunityPanelQuery({ variables: { communityId } });
+  const [update /* , result */] = useEditCommunityPanelUpdateMutation();
+  const [mutateIcon] = useEditCommunityPanelUploadIconMutation();
   const initialValues = useMemo<EditCommunityFormValues>(
     () =>
-      community.data && community.data.community
+      resultQ.data && resultQ.data.community
         ? {
-            icon: community.data.community.icon || '',
-            name: community.data.community.name,
-            summary: community.data.community.summary || '',
+            icon: resultQ.data.community.icon || '',
+            name: resultQ.data.community.name,
+            summary: resultQ.data.community.summary || '',
             files: []
           }
         : editCommunityFormInitialValues,
-    [community]
+    [resultQ]
   );
 
   const uploadIcon = file =>
@@ -64,39 +80,41 @@ export const EditCommunityPanelHOC: SFC<Props> = ({
       })
       .catch(err => console.log(err));
 
+  const updateCommunity = ({
+    icon,
+    name,
+    summary
+  }: Pick<EditCommunityFormValues, 'icon' | 'name' | 'summary'>) =>
+    update({
+      variables: {
+        community: {
+          icon,
+          name,
+          summary
+        },
+        communityId
+      }
+    });
+
   const formik = useFormik<EditCommunityFormValues>({
     enableReinitialize: true,
     onSubmit: vals => {
       const file = vals.files!.map(file => {
         return file;
       })[0];
+
       if (file) {
         uploadIcon(file)
-          .then(uploadedIcon => {
-            update({
-              variables: {
-                community: {
-                  icon: uploadedIcon || '',
-                  name: vals.name,
-                  summary: vals.summary
-                },
-                communityId
-              }
-            });
-          })
+          .then(iconUrl =>
+            updateCommunity({
+              ...vals,
+              icon: iconUrl || ''
+            })
+          )
           .then(done)
           .catch(err => console.log(err));
       } else {
-        update({
-          variables: {
-            community: {
-              icon: vals.icon,
-              name: vals.name,
-              summary: vals.summary
-            },
-            communityId
-          }
-        })
+        updateCommunity(vals)
           .then(done)
           .catch(err => console.log(err));
       }

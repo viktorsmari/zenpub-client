@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/macro';
 import {
-  useGetCommunitiesQueryQuery,
-  GetCommunitiesQueryDocument
+  useGetCommunitiesQueryQuery
+  // GetCommunitiesQueryDocument
 } from 'graphql/getCommunities.generated';
 import * as React from 'react';
 import { TabPanel, Tabs } from 'react-tabs';
@@ -13,8 +13,8 @@ import Loader from '../../components/elements/Loader/Loader';
 // import CommunitiesLoadMore from '../../components/elements/Loadmore/community';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 import {
-  CreateCommunityPanelHOC,
-  CreateCommunityPanelCtx
+  CreateCommunityPanelHOC
+  // CreateCommunityPanelCtx
 } from '../../HOC/modules/CreateCommunityPanel/createCommunityPanelHOC';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel } from '../../sections/panel';
@@ -29,7 +29,7 @@ export const CommunitiesAll: React.SFC<Props> = ({ loggedin }) => {
     data,
     error,
     loading,
-    variables,
+    // variables,
     refetch
   } = useGetCommunitiesQueryQuery({
     variables: {
@@ -45,92 +45,90 @@ export const CommunitiesAll: React.SFC<Props> = ({ loggedin }) => {
     refetch();
   }, []);
   return (
-    <CreateCommunityPanelCtx.Provider
+    /* <CreateCommunityPanelCtx.Provider
       value={{
         refetchQueries: [{ query: GetCommunitiesQueryDocument, variables }]
       }}
-    >
-      <MainContainer>
-        <HomeBox>
-          <WrapperCont>
-            <Wrapper>
-              <Tabs>
-                <SuperTabList>
-                  <SuperTab>
-                    <h5>
-                      <Trans>All communities</Trans>
-                    </h5>
-                  </SuperTab>
-                </SuperTabList>
-                <TabPanel>
-                  {(!data && !loading) || error ? (
-                    <span>
-                      <Trans>Error loading communities</Trans>
-                    </span>
-                  ) : loading || !data ? (
-                    <Loader />
-                  ) : (
-                    <>
-                      {loggedin && (
-                        <ButtonWrapper>
-                          <CreateCollection
-                            p={3}
-                            onClick={() => handleNewCommunity()}
-                            m={3}
-                          >
-                            <Trans>Create a new community</Trans>
-                          </CreateCollection>
-                        </ButtonWrapper>
-                      )}
-                      <List>
-                        {data &&
-                          data.communities.nodes &&
-                          data.communities.nodes.map((community, i) => {
-                            return (
-                              community &&
-                              /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                              (!community.followers ||
-                              !community.collections ||
-                              !community.threads ? null : (
-                                <CommunityCard
-                                  key={i}
-                                  summary={community.summary || ''}
-                                  title={community.name}
-                                  icon={community.icon || ''}
-                                  id={community.id}
-                                  followed={!!community.myFollow}
-                                  followersCount={
-                                    community.followers.totalCount
-                                  }
-                                  collectionsCount={
-                                    community.collections.totalCount
-                                  }
-                                  externalId={community.id}
-                                  threadsCount={community.threads.totalCount}
-                                />
-                              ))
-                            );
-                          })}
-                      </List>
-                      {/* <CommunitiesLoadMore
+    > */
+    <MainContainer>
+      <HomeBox>
+        <WrapperCont>
+          <Wrapper>
+            <Tabs>
+              <SuperTabList>
+                <SuperTab>
+                  <h5>
+                    <Trans>All communities</Trans>
+                  </h5>
+                </SuperTab>
+              </SuperTabList>
+              <TabPanel>
+                {(!data && !loading) || error ? (
+                  <span>
+                    <Trans>Error loading communities</Trans>
+                  </span>
+                ) : loading || !data ? (
+                  <Loader />
+                ) : (
+                  <>
+                    {loggedin && (
+                      <ButtonWrapper>
+                        <CreateCollection
+                          p={3}
+                          onClick={() => handleNewCommunity()}
+                          m={3}
+                        >
+                          <Trans>Create a new community</Trans>
+                        </CreateCollection>
+                      </ButtonWrapper>
+                    )}
+                    <List>
+                      {data &&
+                        data.communities.nodes &&
+                        data.communities.nodes.map((community, i) => {
+                          return (
+                            community &&
+                            /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                            (!community.followers ||
+                            !community.collections ||
+                            !community.threads ? null : (
+                              <CommunityCard
+                                key={i}
+                                summary={community.summary || ''}
+                                title={community.name}
+                                icon={community.icon || ''}
+                                id={community.id}
+                                followed={!!community.myFollow}
+                                followersCount={community.followers.totalCount}
+                                collectionsCount={
+                                  community.collections.totalCount
+                                }
+                                externalId={community.id}
+                                threadsCount={community.threads.totalCount}
+                              />
+                            ))
+                          );
+                        })}
+                    </List>
+                    {/* <CommunitiesLoadMore
                         fetchMore={data.fetchMore}
                         communities={data.communities}
                       /> */}
-                    </>
-                  )}
-                </TabPanel>
-              </Tabs>
-            </Wrapper>
-          </WrapperCont>
-        </HomeBox>
-        <WrapperPanel />
-        {isOpenCommunity && (
-          <Modal closeModal={() => handleNewCommunity()}>
-            <CreateCommunityPanelHOC done={() => handleNewCommunity()} />
-          </Modal>
-        )}
-      </MainContainer>
-    </CreateCommunityPanelCtx.Provider>
+                  </>
+                )}
+              </TabPanel>
+            </Tabs>
+          </Wrapper>
+        </WrapperCont>
+      </HomeBox>
+      <WrapperPanel />
+      {isOpenCommunity && (
+        <Modal closeModal={() => handleNewCommunity()}>
+          <CreateCommunityPanelHOC done={() => handleNewCommunity()} />
+        </Modal>
+      )}
+    </MainContainer>
+    /*  </CreateCommunityPanelCtx.Provider> */
   );
 };
 

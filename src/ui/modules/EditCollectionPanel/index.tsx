@@ -3,17 +3,20 @@ import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
 import { FormikHook } from 'ui/@types/types';
 import * as React from 'react';
-import { Button, Heading } from 'rebass/styled-components';
+import { Flex, Text, Box } from 'rebass/styled-components';
 import DropzoneArea from '../../../components/elements/DropzoneModal';
 import Alert from 'ui/elements/Alert';
+import Button from 'ui/elements/Button';
+import { clearFix } from 'polished';
+import media from 'styled-media-query';
+import styled from 'ui/themes/styled';
+
 import {
   Actions,
   AlertWrapper,
   Container,
   ContainerForm,
-  CounterChars,
-  Header,
-  Row
+  CounterChars
 } from 'ui/modules/Modal';
 
 const tt = {
@@ -35,79 +38,59 @@ export interface EditCollectionFormValues {
   name: string;
   summary: string;
   icon: string;
-  files?: [];
+  files?: File[];
 }
 
 export const EditCollectionPanel: React.FC<Props> = ({ cancel, formik }) => {
   return (
     <Container>
-      <Header>
-        <Heading m={2}>
-          <Trans>Edit the collection details</Trans>
-        </Heading>
-      </Header>
-      <Row>
-        <label>Name</label>
-        <ContainerForm>
-          <Input
-            placeholder={tt.placeholders.name}
-            disabled={formik.isSubmitting}
-            name="name"
-            value={formik.values.name}
-            onChange={formik.handleChange}
-          />
-          <CounterChars>{60 - formik.values.name.length}</CounterChars>
-          {formik.errors.name && (
-            <AlertWrapper>
-              <Alert variant="bad">{formik.errors.name}</Alert>
-            </AlertWrapper>
-          )}
-        </ContainerForm>
-      </Row>
-      <Row big>
-        <label>
-          <Trans>Description</Trans>
-        </label>
-        <ContainerForm>
-          <Textarea
-            placeholder={tt.placeholders.summary}
-            disabled={formik.isSubmitting}
-            name="summary"
-            value={formik.values.summary}
-            onChange={formik.handleChange}
-          />
-          <CounterChars>{500 - formik.values.summary.length}</CounterChars>
-          {formik.errors.summary && (
-            <AlertWrapper>
-              <Alert variant="bad">{formik.errors.summary}</Alert>
-            </AlertWrapper>
-          )}
-        </ContainerForm>
-      </Row>
-      <Row>
-        <label>
-          <Trans>Icon</Trans>
-        </label>
-        <ContainerForm>
-          {/* 
-          <Input
-            placeholder={tt.placeholders.icon}
-            disabled={formik.isSubmitting}
-            name="icon"
-            value={formik.values.icon}
-            onChange={formik.handleChange}
-          />
-          {formik.errors.icon && (
-            <AlertWrapper>
-              <Alert variant="bad">{formik.errors.icon}</Alert>
-            </AlertWrapper>
-          )}
-        */}
+      <Hero>
+        <Box sx={{ width: '120px' }}>
           <DropzoneArea initialUrl={formik.values.icon} formikForm={formik} />
-        </ContainerForm>
-      </Row>
+        </Box>
+        {/* <Background style={{ backgroundImage: `url(${c.icon})` }} /> */}
+        <HeroInfo>
+          <Title fontSize={5} fontWeight={'bold'}>
+            <CollectionContainerForm>
+              <Input
+                placeholder={tt.placeholders.name}
+                disabled={formik.isSubmitting}
+                name="name"
+                value={formik.values.name}
+                onChange={formik.handleChange}
+              />
+              <CounterChars>{60 - formik.values.name.length}</CounterChars>
+              {formik.errors.name && (
+                <AlertWrapper>
+                  <Alert variant="bad">{formik.errors.name}</Alert>
+                </AlertWrapper>
+              )}
+            </CollectionContainerForm>
+          </Title>
+
+          <Description fontSize={2} mt={2}>
+            <CollectionContainerForm>
+              <Textarea
+                placeholder={tt.placeholders.summary}
+                disabled={formik.isSubmitting}
+                name="summary"
+                value={formik.values.summary}
+                onChange={formik.handleChange}
+              />
+              <CounterChars>{500 - formik.values.summary.length}</CounterChars>
+              {formik.errors.summary && (
+                <AlertWrapper>
+                  <Alert variant="bad">{formik.errors.summary}</Alert>
+                </AlertWrapper>
+              )}
+            </CollectionContainerForm>
+          </Description>
+        </HeroInfo>
+      </Hero>
+
       <Actions>
         <Button
+          variant="primary"
           disabled={formik.isSubmitting}
           type="submit"
           style={{ marginLeft: '10px' }}
@@ -122,5 +105,77 @@ export const EditCollectionPanel: React.FC<Props> = ({ cancel, formik }) => {
     </Container>
   );
 };
+
+const CollectionContainerForm = styled(ContainerForm)`
+  input {
+    background: #fbfbfb;
+    border: 0;
+    font-weight: 700;
+  }
+
+  textarea {
+    background: #fbfbfb;
+    border-radius: 2px;
+    border: 0;
+    height: 120px;
+    resize: none;
+  }
+`;
+
+const Title = styled(Text)`
+  color: ${props => props.theme.colors.darkgray};
+`;
+
+const Description = styled(Text)`
+  color: ${props => props.theme.colors.darkgray};
+`;
+
+const HeroInfo = styled.div`
+  flex: 1;
+  margin-left: 16px;
+  position: relative;
+  ${clearFix()};
+  & h2 {
+    margin: 0;
+    line-height: 32px !important;
+    font-size: 24px !important;
+    color: ${props => props.theme.colors.darkgray};
+    ${media.lessThan('medium')`
+      margin-top: 8px;
+    `};
+  }
+  & p {
+    margin: 0;
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 15px;
+    margin-top: 8px;
+    color: ${props => props.theme.colors.darkgray};
+  }
+  .--rtl & {
+    margin-right: 16px;
+    margin-left: 0px;
+  }
+`;
+
+const Hero = styled(Flex)`
+  width: 100%;
+  position: relative;
+  padding: 16px;
+  ${media.lessThan('medium')`
+  text-align: center;
+  display: block;
+`};
+`;
+
+// const Background = styled.div`
+//   height: 120px;
+//   width: 120px;
+//   border-radius: 4px;
+//   background-size: cover;
+//   background-repeat: no-repeat;
+//   background-color: ${props => props.theme.colors.lightgray};
+//   position: relative;
+//   margin: 0 auto;
+// `;
 
 export default EditCollectionPanel;

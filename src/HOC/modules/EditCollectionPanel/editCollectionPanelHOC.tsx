@@ -1,11 +1,7 @@
-import React, { useMemo, SFC } from 'react';
+import React, { useMemo, SFC, createContext, useContext } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import {
-  useCollectionEditPanelQuery,
-  useUpdateCollectionMutation
-} from './CollectionEdit.generated';
-import { useUploadIconMutation } from 'graphql/uploadIcon.generated';
+import * as GQL from './CollectionEdit.generated';
 import {
   EditCollectionFormValues,
   EditCollectionPanel
@@ -29,6 +25,20 @@ export const editCollectionFormInitialValues: EditCollectionFormValues = {
   icon: '',
   files: []
 };
+
+export interface EditCollectionPanelCtx {
+  useEditCollectionPanelUploadIconMutation: typeof GQL.useEditCollectionPanelUploadIconMutation;
+  useEditCollectionPanelQuery: typeof GQL.useEditCollectionPanelQuery;
+  useEditCollectionPanelUpdateCollectionMutation: typeof GQL.useEditCollectionPanelUpdateCollectionMutation;
+}
+export const EditCollectionPanelCtx = createContext<EditCollectionPanelCtx>({
+  useEditCollectionPanelUploadIconMutation:
+    GQL.useEditCollectionPanelUploadIconMutation,
+  useEditCollectionPanelQuery: GQL.useEditCollectionPanelQuery,
+  useEditCollectionPanelUpdateCollectionMutation:
+    GQL.useEditCollectionPanelUpdateCollectionMutation
+});
+
 export interface Props {
   collectionId: Collection['id'];
   done(): any;
@@ -37,11 +47,18 @@ export const EditCollectionPanelHOC: SFC<Props> = ({
   done,
   collectionId
 }: Props) => {
-  const collection = useCollectionEditPanelQuery({
+  const {
+    useEditCollectionPanelQuery,
+    useEditCollectionPanelUpdateCollectionMutation,
+    useEditCollectionPanelUploadIconMutation
+  } = useContext(EditCollectionPanelCtx);
+  const collection = useEditCollectionPanelQuery({
     variables: { collectionId }
   });
-  const [update /* , result */] = useUpdateCollectionMutation();
-  const [mutateIcon] = useUploadIconMutation();
+  const [
+    update /* , result */
+  ] = useEditCollectionPanelUpdateCollectionMutation();
+  const [mutateIcon] = useEditCollectionPanelUploadIconMutation();
   const initialValues = useMemo<EditCollectionFormValues>(
     () =>
       collection.data && collection.data.collection
@@ -55,6 +72,22 @@ export const EditCollectionPanelHOC: SFC<Props> = ({
     [collection]
   );
 
+  const updateCollection = ({
+    icon,
+    name,
+    summary
+  }: Pick<EditCollectionFormValues, 'icon' | 'name' | 'summary'>) =>
+    update({
+      variables: {
+        collection: {
+          icon,
+          name,
+          summary,
+          preferredUsername: name
+        },
+        collectionId
+      }
+    });
   const uploadIcon = file =>
     mutateIcon({
       variables: { contextId: collectionId, upload: file }
@@ -70,38 +103,22 @@ export const EditCollectionPanelHOC: SFC<Props> = ({
   const formik = useFormik<EditCollectionFormValues>({
     enableReinitialize: true,
     onSubmit: vals => {
-      const file = vals.files!.map(file => {
+      const file = (vals.files || []).map(file => {
         return file;
       })[0];
+
       if (file) {
-        uploadIcon(file)
-          .then(uploadedIcon => {
-            update({
-              variables: {
-                collection: {
-                  icon: uploadedIcon || '',
-                  name: vals.name,
-                  summary: vals.summary,
-                  preferredUsername: vals.name
-                },
-                collectionId
-              }
-            });
-          })
+        return uploadIcon(file)
+          .then(iconUrl =>
+            updateCollection({
+              ...vals,
+              icon: iconUrl || ''
+            })
+          )
           .then(done)
           .catch(err => console.log(err));
       } else {
-        update({
-          variables: {
-            collection: {
-              icon: vals.icon,
-              name: vals.name,
-              summary: vals.summary,
-              preferredUsername: vals.name
-            },
-            collectionId
-          }
-        })
+        return updateCollection(vals)
           .then(done)
           .catch(err => console.log(err));
       }

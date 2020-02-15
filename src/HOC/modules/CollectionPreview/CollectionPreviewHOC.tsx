@@ -1,16 +1,24 @@
-import React, { SFC, useMemo } from 'react';
+import React, { SFC, useMemo, createContext, useContext } from 'react';
 import {
   CollectionPreview,
   Props as CollectionPreviewProps
 } from 'ui/modules/CollectionPreview';
 import { Collection } from 'graphql/types.generated';
-import { useCollectionPreviewQuery } from './CollectionPreview.generated';
+import * as GQL from './CollectionPreview.generated';
 
 export interface Props {
   id: Collection['id'];
 }
 
+export interface CollectionPreviewCtx {
+  useCollectionPreviewQuery: typeof GQL.useCollectionPreviewQuery;
+}
+export const CollectionPreviewCtx = createContext<CollectionPreviewCtx>({
+  useCollectionPreviewQuery: GQL.useCollectionPreviewQuery
+});
+
 export const CollectionPreviewHOC: SFC<Props> = ({ id }) => {
+  const { useCollectionPreviewQuery } = useContext(CollectionPreviewCtx);
   const collectionQ = useCollectionPreviewQuery({ variables: { id } });
   const collectionPreviewProps = useMemo<CollectionPreviewProps | null>(
     () => {

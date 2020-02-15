@@ -12,18 +12,18 @@ fragment CollectionPreviewData on Collection {
   name,
   summary,
   isLocal,
-  followerCount,
+  # followerCount,
   resourceCount,
-  followers{
-    edges{
-      node{
-        creator{
-          name,
-          icon,
-          image,
-          id
-        }
-      }
-    }
-  }
+  # followers{
+  #   edges{
+  #     node{
+  #       creator{
+  #         name,
+  #         icon,
+  #         image,
+  #         id
+  #       }
+  #     }
+  #   }
+  # }
 }

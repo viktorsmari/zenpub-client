@@ -4,6 +4,7 @@ import {getEditCommunityProps} from 'ui/mock/context'
 import { EditCommunityPanel } from '.';
 import { action } from '@storybook/addon-actions';
 import {Box} from 'rebass'
+import Modal from 'ui/modules/Modal'
 
 <Meta title="Modules|EditCommunityPanel" component={EditCommunityPanel}/>
 
@@ -12,9 +13,9 @@ Let's define a story for the `Activity preview` module
 
 <Preview>
   <Story name="edit community module">
-    <Box height={680}>
+    <Modal closeModal={action('close modal')}>
       <EditCommunityPanel {...getEditCommunityProps()}/>
-    </Box>
+    </Modal>
   </Story>
 </Preview>
 

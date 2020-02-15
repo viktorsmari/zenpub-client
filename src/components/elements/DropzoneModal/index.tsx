@@ -1,41 +1,68 @@
 import React, { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Trans } from '@lingui/macro';
+// import { Trans } from '@lingui/macro';
 import styled from '../../../themes/styled';
-import { UploadCloud } from 'react-feather';
+// import { UploadCloud } from 'react-feather';
 import { accepted_file_types } from '../../../constants';
+import { Box, Flex } from 'rebass/styled-components';
+import { Image, FileText } from 'react-feather';
 
-const ThumbsContainer = styled.aside`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-top: 16;
+// const ThumbsContainer = styled.aside`
+//   display: flex;
+//   flex-direction: row;
+//   flex-wrap: wrap;
+//   margin-top: 16;
+// `;
+
+const WrapperIcon = styled(Flex)`
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  border-radius: 100px;
+  position: absolute;
+  left: 50%;
+  margin-left: -20px;
+  top: 50%;
+  margin-top: -20px;
+  z-index: 9;
+  &:hover {
+    background: #ffffff4a;
+  }
 `;
 
 const Thumb = styled.div`
-  display: inline-flex;
-  border-radius: 2;
-  // border: 1px solid #eaeaea;
-  margin: 8px auto;
   width: 100%;
-  max-width: 300px;
-  height: auto;
-  padding: 4;
   box-sizing: border-box;
+  position: relative;
+
+  &:after {
+    position: absolute;
+    content: '';
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 4px;
+    display: block;
+    background: rgba(0, 0, 0, 0.3);
+  }
+  svg {
+  }
 `;
 
-const ThumbInner = styled.div`
-  display: flex;
-  min-width: 0;
-  overflow: hidden;
-`;
+// const ThumbInner = styled.div`
+//   // display: flex;
+//   min-width: 0;
+//   overflow: hidden;
+// `;
 
-const Img = styled.img`
-  display: block;
-  width: 100%;
-  height: auto;
-  margin: auto;
-  text-align: center;
+const Img = styled(Box)`
+    display: block;
+    border-radius: 4px;
+    height: 100%;
+    padding: 50%;
+    background-size: cover;
+}
 `;
 
 interface Props {
@@ -90,22 +117,31 @@ const DropzoneArea: React.FC<Props> = ({
   return (
     <>
       <div {...getRootProps({ className: 'dropzone' })}>
-        {uploadType != 'resource' ? (
-          <ThumbsContainer>
-            <Thumb key={fileUrl}>
-              <ThumbInner>
-                <Img src={fileUrl} />
-              </ThumbInner>
-            </Thumb>
-          </ThumbsContainer>
-        ) : null}
-        {uploadType == 'resource' && files.length != 0 ? (
-          <FileName>{files[0].name}</FileName>
-        ) : null}
+        <InfoContainer className={isDragActive ? 'active' : 'none'}>
+          {uploadType != 'resource' ? (
+            <>
+              <Thumb key={fileUrl}>
+                <WrapperIcon>
+                  <Image
+                    size={30}
+                    strokeWidth={1}
+                    color={'rgba(250,250,250, .5)'}
+                  />
+                </WrapperIcon>
+                <Img style={{ backgroundImage: `url(${fileUrl})` }} />
+              </Thumb>
+            </>
+          ) : null}
+          {uploadType == 'resource' && files.length != 0 ? (
+            <>
+              <FileText size={20} />
+              <FileName>{files[0].name}</FileName>
+            </>
+          ) : null}
 
-        <input {...getInputProps()} />
-        <InfoContainer>
-          <UploadCloud width={45} height={45} strokeWidth={2} />
+          <input {...getInputProps()} />
+
+          {/* <UploadCloud size={30} strokeWidth={1} />
           {isDragActive ? (
             <Info>
               <Trans>Drop the file here ...</Trans>
@@ -114,7 +150,7 @@ const DropzoneArea: React.FC<Props> = ({
             <Info>
               <Trans>Drag 'n' drop a file here, or click to select file</Trans>
             </Info>
-          )}
+          )} */}
         </InfoContainer>
       </div>
     </>
@@ -125,13 +161,15 @@ export default DropzoneArea;
 
 const InfoContainer = styled.div`
   background: ${props => props.theme.colors.lighter};
-  border-radius: 2px;
+  border-radius: 4px;
   text-align: center;
-  padding: 10px 20px;
-  font-style: italic;
   cursor: pointer;
-  border: 2px dashed ${props => props.theme.colors.gray};
+  box-sizing: border-box;
   margin: 0px;
+  &.active {
+    border: 1px dashed ${props => props.theme.colors.orange};
+  }
+  .;
 `;
 
 const FileName = styled.p`
@@ -141,10 +179,10 @@ const FileName = styled.p`
   font-style: italic;
 `;
 
-const Info = styled.p`
-  margin-top: 0px;
-  margin-bottom: 5px;
-`;
+// const Info = styled.p`
+//   margin-top: 0px;
+//   margin-bottom: 5px;
+// `;
 
 // const ClearButton = styled.button`
 //   width: 100px;

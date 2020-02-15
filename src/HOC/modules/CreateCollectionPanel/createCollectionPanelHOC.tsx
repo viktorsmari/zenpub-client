@@ -1,15 +1,12 @@
-import React, { createContext, useContext } from 'react';
 import { useFormik } from 'formik';
-import { useCreateCollectionMutationMutation } from 'graphql/createCollection.generated';
-import { useUploadIconMutation } from 'graphql/uploadIcon.generated';
-import { useMemo, SFC } from 'react';
+import React, { createContext, SFC, useContext, useMemo } from 'react';
 import { useHistory } from 'react-router';
-import * as Yup from 'yup';
 import {
   BasicCreateCollectionFormValues,
   CreateCollectionPanel
 } from 'ui/modules/CreateCollectionPanel';
-import { PureQueryOptions } from 'apollo-client';
+import * as Yup from 'yup';
+import * as GQL from './createCollectionPanel.generated';
 
 export const validationSchema: Yup.ObjectSchema<
   BasicCreateCollectionFormValues
@@ -22,10 +19,16 @@ export const validationSchema: Yup.ObjectSchema<
   icon: Yup.string().url()
 });
 export interface CreateCollectionPanelCtx {
-  refetchQueries: Array<string | PureQueryOptions>;
+  useCreateCollectionPanelCreateMutation: typeof GQL.useCreateCollectionPanelCreateMutation;
+  useCreateCollectionPanelUploadIconMutation: typeof GQL.useCreateCollectionPanelUploadIconMutation;
 }
 export const CreateCollectionPanelCtx = createContext<CreateCollectionPanelCtx>(
-  { refetchQueries: [] }
+  {
+    useCreateCollectionPanelCreateMutation:
+      GQL.useCreateCollectionPanelCreateMutation,
+    useCreateCollectionPanelUploadIconMutation:
+      GQL.useCreateCollectionPanelUploadIconMutation
+  }
 );
 
 export const createCollectionFormInitialValues: BasicCreateCollectionFormValues = {
@@ -42,10 +45,13 @@ export const CreateCollectionPanelHOC: SFC<Props> = ({
   communityId,
   done
 }: Props) => {
-  const ctx = useContext(CreateCollectionPanelCtx);
+  const {
+    useCreateCollectionPanelCreateMutation,
+    useCreateCollectionPanelUploadIconMutation
+  } = useContext(CreateCollectionPanelCtx);
 
-  const [create /* , result */] = useCreateCollectionMutationMutation();
-  const [mutateIcon] = useUploadIconMutation();
+  const [create /* , result */] = useCreateCollectionPanelCreateMutation();
+  const [uploadIcon] = useCreateCollectionPanelUploadIconMutation();
   const history = useHistory();
   const initialValues = useMemo<BasicCreateCollectionFormValues>(
     () => createCollectionFormInitialValues,
@@ -66,18 +72,16 @@ export const CreateCollectionPanelHOC: SFC<Props> = ({
             name: vals.name,
             summary: vals.summary
           }
-        },
-        refetchQueries: fileToUpload ? [] : ctx.refetchQueries
+        }
       })
         .then(res => {
           const createdCollectionId = res.data!.createCollection!.id;
           if (fileToUpload) {
-            mutateIcon({
+            uploadIcon({
               variables: {
                 contextId: createdCollectionId,
                 upload: fileToUpload
-              },
-              refetchQueries: ctx.refetchQueries
+              }
             })
               .then(() => {
                 history.push(`/collections/${createdCollectionId}`);

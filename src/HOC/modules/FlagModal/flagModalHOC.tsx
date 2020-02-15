@@ -1,11 +1,9 @@
-import React, { useMemo, SFC, createContext, useContext } from 'react';
 import { useFormik } from 'formik';
-import { useCreateFlagMutationMutation } from '../../../graphql/createFlag.generated';
+import React, { createContext, SFC, useContext, useMemo } from 'react';
+import { BasicCreateFlagFormValues, FlagModal } from 'ui/modules/FlagModal';
 // import { useDeleteMutationMutation } from '../../../graphql/delete.generated';
 import * as Yup from 'yup';
-import { PureQueryOptions } from 'apollo-client';
-
-import { BasicCreateFlagFormValues, FlagModal } from 'ui/modules/FlagModal';
+import * as GQL from './flagModal.generated';
 
 export const validationSchema: Yup.ObjectSchema<
   BasicCreateFlagFormValues
@@ -15,12 +13,6 @@ export const validationSchema: Yup.ObjectSchema<
     .required()
 });
 
-export interface CreateFlagModalCtx {
-  refetchQueries: Array<string | PureQueryOptions>;
-}
-export const CreateFlagModalCtx = createContext<CreateFlagModalCtx>({
-  refetchQueries: []
-});
 export const createFlagFormInitialValues: BasicCreateFlagFormValues = {
   reason: ''
 };
@@ -31,13 +23,20 @@ export interface Props {
   done(): any;
 }
 
+export interface FlagModalCtx {
+  useCreateFlagPanelCreateMutation: typeof GQL.useCreateFlagPanelCreateMutation;
+}
+export const FlagModalCtx = createContext<FlagModalCtx>({
+  useCreateFlagPanelCreateMutation: GQL.useCreateFlagPanelCreateMutation
+});
+
 export const FlagModalHOC: SFC<Props> = ({
   done,
   contextId,
   flagged
 }: Props) => {
-  const ctx = useContext(CreateFlagModalCtx);
-  const [flag] = useCreateFlagMutationMutation();
+  const { useCreateFlagPanelCreateMutation } = useContext(FlagModalCtx);
+  const [flag] = useCreateFlagPanelCreateMutation();
   // const [undoflag] = useDeleteMutationMutation();
   const initialValues = useMemo<BasicCreateFlagFormValues>(
     () => createFlagFormInitialValues,
@@ -50,8 +49,7 @@ export const FlagModalHOC: SFC<Props> = ({
         variables: {
           contextId: contextId!,
           message: vals.reason!
-        },
-        refetchQueries: ctx.refetchQueries
+        }
       })
         .then(done)
         .catch(err => console.log(err));
