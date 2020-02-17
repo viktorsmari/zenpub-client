@@ -15,6 +15,7 @@ fragment HeroCommunityData on Community  {
         totalCount
     }
     myFollow { id }
+    myFlag { id }
     creator { id }
 }
 

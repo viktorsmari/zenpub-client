@@ -238,22 +238,19 @@ const LicenseLabel2 = styled(Label)`
 const RadioButton = styled.input`
   position: absolute;
   left: -9999px;
-  &:hover
+  &:hover {
     + ${LicenseLabel0},
-    &:hover
     + ${LicenseLabel1},
-    &:hover
     + ${LicenseLabel2} {
-    border: 4px solid #97a395;
+      border: 4px solid #97a395;
+    }
   }
-  &:checked
+  &:checked{
     + ${LicenseLabel0},
-    &:checked
     + ${LicenseLabel1},
-    &:checked
     + ${LicenseLabel2} {
-    border: 4px solid #67d654;
-  }
+      border: 4px solid #67d654;
+    }
 `;
 
 const FormInput = styled(Input)`

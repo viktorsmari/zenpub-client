@@ -21,12 +21,14 @@ export interface CommunityLoaded {
   fullName: string;
   totalMembers: number;
   following: boolean;
+  flagged: boolean;
   canModify: boolean;
   toggleJoin: {
     toggle(): any;
     isSubmitting: boolean;
   };
   EditCommunityPanel: ComponentType<{ done(): any }>;
+  FlagModal: ComponentType<{ done(): any }>;
 }
 
 export interface CommunityLoading {
@@ -41,6 +43,7 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
   const [, setOpenMembers] = React.useState(false);
   const [isOpenSettings, setOpenSettings] = React.useState(false);
   const [isOpenDropdown, setOpenDropdown] = React.useState(false);
+  const [isOpenFlag, setOpenFlag] = React.useState(false);
 
   return c.status === Status.Loading ? (
     <Text>Loading...</Text>
@@ -91,7 +94,7 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
                         </Text>
                       </DropdownItem>
                     )}
-                    <DropdownItem>
+                    <DropdownItem onClick={() => setOpenFlag(true)}>
                       <Flag size={20} color={'rgb(101, 119, 134)'} />
                       <Text sx={{ flex: 1 }} ml={2}>
                         Flag this community
@@ -107,6 +110,11 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
       {isOpenSettings && (
         <Modal closeModal={() => setOpenSettings(false)}>
           <c.EditCommunityPanel done={() => setOpenSettings(false)} />
+        </Modal>
+      )}
+      {isOpenFlag && (
+        <Modal closeModal={() => setOpenFlag(false)}>
+          <c.FlagModal done={() => setOpenFlag(false)} />
         </Modal>
       )}
     </>

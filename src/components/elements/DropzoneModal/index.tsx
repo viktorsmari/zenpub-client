@@ -30,6 +30,10 @@ const WrapperIcon = styled(Flex)`
   }
 `;
 
+const WrapperFile = styled.div`
+  padding: 20px 10px;
+`;
+
 const Thumb = styled.div`
   width: 100%;
   box-sizing: border-box;
@@ -132,11 +136,11 @@ const DropzoneArea: React.FC<Props> = ({
               </Thumb>
             </>
           ) : null}
-          {uploadType == 'resource' && files.length != 0 ? (
-            <>
+          {uploadType == 'resource' ? (
+            <WrapperFile>
               <FileText size={20} />
-              <FileName>{files[0].name}</FileName>
-            </>
+              {files.length != 0 ? <FileName>{files[0].name}</FileName> : null}
+            </WrapperFile>
           ) : null}
 
           <input {...getInputProps()} />
@@ -173,7 +177,7 @@ const InfoContainer = styled.div`
 `;
 
 const FileName = styled.p`
-  margin-bottom: 10px;
+  margin-bottom: 0px;
   font-weight: bold;
   text-align: right;
   font-style: italic;
