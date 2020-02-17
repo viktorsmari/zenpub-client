@@ -1,5 +1,6 @@
 import { CollectionPageHOC } from 'HOC/pages/collection/CollectionPageHOC';
 import { CommunityPageHOC } from 'HOC/pages/community/CommunityPageHOC';
+import { UserPageHOC } from 'HOC/pages/user/UserPageHOC';
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
@@ -14,15 +15,12 @@ import Discover from '../../pages/discover';
 import Home from '../../pages/home';
 import Login from '../../pages/login/Login';
 import NotFound from '../../pages/not-found/NotFound';
-import Profile from '../../pages/Profile';
 import Reset from '../../pages/Reset';
 import SearchComp from '../../pages/search/Search';
 import Settings from '../../pages/settings';
 import Signup from '../../pages/Signup';
 import Thread from '../../pages/thread/component';
-import User from '../../pages/User';
 // import media from 'styled-media-query';
-
 import {
   Inner,
   MainWrapper,
@@ -73,7 +71,6 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
       <MobileHeader onOpen={onOpen} />
       <Switch>
         <Route exact path="/" component={me ? Home : Login} />
-        <Route exact path="/profile" component={me ? Profile : Login} />
         <Route
           exact
           path="/mycommunities"
@@ -121,14 +118,10 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
 
         <Route
           exact
-          path="/user/:id"
+          path="/user/:id/:tab?"
           render={route => {
             const userId = route.match.params.id;
-            return me && me.user.id === userId ? (
-              <Redirect to="/profile" />
-            ) : (
-              <User userId={userId} />
-            );
+            return <UserPageHOC userId={userId} />;
           }}
         />
         <Route path="/search" component={SearchComp} />

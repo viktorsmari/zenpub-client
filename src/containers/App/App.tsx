@@ -1,7 +1,7 @@
 // import { Trans } from '@lingui/macro';
 import * as React from 'react';
 // import { LocaleContext } from '../../context/global/localizationCtx';
-import { ThemeProvider } from '../../styleguide/Wrapper';
+import ThemeProvider from 'ui/styleguide/Wrapper';
 // import '../../styles/loader.css';
 import '../../styles/social-icons.css';
 import Router from './Router';

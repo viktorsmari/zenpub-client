@@ -249,7 +249,7 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
                     <>
                       <OutsideClickHandler onOutsideClick={closeMenu}>
                         <div onClick={closeMenu}>
-                          <Dropdown />
+                          <Dropdown userId={data.me.user.id} />
                         </div>
                       </OutsideClickHandler>
                       <Layer />

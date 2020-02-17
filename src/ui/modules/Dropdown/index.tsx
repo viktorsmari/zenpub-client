@@ -5,7 +5,7 @@ import styled from 'ui/themes/styled';
 // import {  Flag, Upload, Copy } from 'react-feather';
 
 interface Props {
-  cb: any;
+  cb(open: boolean): unknown;
   orientation: string;
 }
 export const Dropdown: SFC<Props> = ({ orientation, cb, children }) => (

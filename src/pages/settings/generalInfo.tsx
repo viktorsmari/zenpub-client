@@ -196,7 +196,7 @@ const Component: React.FC<Props> = ({
       })
         .then(res => {
           setSubmitting(false);
-          history.push('/profile');
+          history.push(`/user/${profile.user.id}`);
           // alert("New settings are saved"); //TODO: nicer display of errors
         })
         .catch(err => alert(err));
