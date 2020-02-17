@@ -34,7 +34,7 @@ export interface LoadedMe extends Loaded {
 export interface LoadedOther extends Loaded {
   me: false;
   following: boolean;
-  toggleJoin: FormikHook<{}>;
+  toggleFollowFormik: FormikHook<{}>;
   isOpenDropdown: boolean;
   setOpenDropdown(open: boolean): unknown;
 }
@@ -67,9 +67,9 @@ export const HeroUser: SFC<Props> = props => {
                 <Button
                   mr={2}
                   variant={props.following ? 'danger' : 'primary'}
-                  isSubmitting={props.toggleJoin.isSubmitting}
-                  isDisabled={props.toggleJoin.isSubmitting}
-                  onClick={props.toggleJoin.submitForm}
+                  isSubmitting={props.toggleFollowFormik.isSubmitting}
+                  isDisabled={props.toggleFollowFormik.isSubmitting}
+                  onClick={props.toggleFollowFormik.submitForm}
                 >
                   {props.following ? (
                     <Trans>Unfollow</Trans>

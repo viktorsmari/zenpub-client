@@ -156,7 +156,7 @@ export const getHeroUserProps = (): HeroUserProps => {
     name: '˗ˏˋ Doug Belshaw ˎˊ˗  🇪🇺 ☠️ ✊',
     summary:
       'Open Educational Thinkerer. Product Manager @MoodleNet & Co-op founder @WeAreOpenCoop. Aspiring Mountain Leader. Previously: @Mozilla @Jisc teacher',
-    toggleJoin: useFormik<{}>({
+    toggleFollowFormik: useFormik<{}>({
       initialValues: {},
       onSubmit: () => {
         action('submit')();

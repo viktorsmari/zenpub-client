@@ -22,8 +22,8 @@ mutation heroUserFollow($userId: String!) {
     }
   }
 }
-mutation heroUserUnfollow($userId: String!) {
-  delete(contextId: $userId){
+mutation heroUserUnfollow($followId: String!) {
+  delete(contextId: $followId){
     ... on Follow {
       context{
         ... on User {

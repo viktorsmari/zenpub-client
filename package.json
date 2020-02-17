@@ -128,7 +128,7 @@
     "polished": "2.3.1",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "3.0.0",
-    "prettier": "1.14.3",
+    "prettier": "1.19.1",
     "promise": "8.0.1",
     "raf": "3.4.0",
     "react": "16.12.0",

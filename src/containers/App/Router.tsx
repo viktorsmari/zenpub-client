@@ -1,3 +1,4 @@
+import { UserPageCtxProvider } from 'context/hocs/page/user/UserPageCtx';
 import { CollectionPageHOC } from 'HOC/pages/collection/CollectionPageHOC';
 import { CommunityPageHOC } from 'HOC/pages/community/CommunityPageHOC';
 import { UserPageHOC } from 'HOC/pages/user/UserPageHOC';
@@ -121,7 +122,11 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
           path="/user/:id/:tab?"
           render={route => {
             const userId = route.match.params.id;
-            return <UserPageHOC userId={userId} />;
+            return (
+              <UserPageCtxProvider userId={userId}>
+                <UserPageHOC />;
+              </UserPageCtxProvider>
+            );
           }}
         />
         <Route path="/search" component={SearchComp} />
@@ -139,12 +144,9 @@ export interface Props {
 const App: React.FC<Props> = props => {
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
   const { me } = React.useContext(SessionContext);
-  const onSidebarOpen = React.useCallback(
-    () => {
-      setSidebarOpen(!isSidebarOpen);
-    },
-    [isSidebarOpen]
-  );
+  const onSidebarOpen = React.useCallback(() => {
+    setSidebarOpen(!isSidebarOpen);
+  }, [isSidebarOpen]);
   return (
     <Flex alignItems={'center'}>
       <PageContainer>
