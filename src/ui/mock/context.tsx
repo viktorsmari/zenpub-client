@@ -27,6 +27,10 @@ import {
   Status as HeroUserStatus
 } from 'ui/modules/HeroUser';
 import { Props as ResourcePreviewProps } from 'ui/modules/ResourcePreview';
+import {
+  BasicCreateFlagFormValues,
+  Props as FlagModalProps
+} from 'ui/modules/FlagModal';
 
 export const getEditCommunityProps = (): EditCommunityProps => {
   const formik = useFormik<EditCommunityFormValues>({
@@ -89,6 +93,7 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
       status: HeroCommunityStatus.Loaded,
       canModify: true,
       following: true,
+      flagged: false,
       icon: 'https://picsum.photos/800/300',
       name: 'Community nino',
       fullName: 'ninos@abc.com',
@@ -104,7 +109,10 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
           onClick={done}
           src="https://via.placeholder.com/400x200.png?text=An editing panel"
         />
-      )
+      ),
+      FlagModal: ({ done }) => {
+        return <></>;
+      }
     }
   };
 };
@@ -211,4 +219,19 @@ export const getResourcePreviewProps = (): ResourcePreviewProps => {
     summary:
       'More simply put, the difference is in the standards and documentation that accompanies the assets. With a guide on why and how to use them, design components because easier to use and clearer to discern.'
   };
+};
+
+export const getFlagModalProps = (): FlagModalProps => {
+  const formik = useFormik<BasicCreateFlagFormValues>({
+    initialValues: {
+      reason: ''
+    },
+    onSubmit: () => {
+      action('submit')();
+      return new Promise((resolve, reject) => {
+        setTimeout(resolve, 3000);
+      });
+    }
+  });
+  return { formik, flagged: false, cancel: action('cancel') };
 };

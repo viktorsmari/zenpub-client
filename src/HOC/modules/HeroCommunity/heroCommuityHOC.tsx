@@ -6,6 +6,7 @@ import HeroCommunity, {
 } from 'ui/modules/HeroCommunity';
 import { EditCommunityPanelHOC } from '../EditCommunityPanel/editCommunityPanelHOC';
 import * as GQL from './getHeroCommunity.generated';
+import { FlagModalHOC } from '../FlagModal/flagModalHOC';
 
 export interface Props {
   communityId: Community['id'];
@@ -66,6 +67,7 @@ export const HeroCommunityHOC: SFC<Props> = ({ communityId }) => {
           status: Status.Loaded,
           canModify,
           following: !!community.myFollow,
+          flagged: !!community.myFlag,
           icon: community.icon || '',
           name: community.name,
           fullName: community.displayUsername,
@@ -166,6 +168,13 @@ export const HeroCommunityHOC: SFC<Props> = ({ communityId }) => {
           },
           EditCommunityPanel: ({ done }) => (
             <EditCommunityPanelHOC done={done} communityId={community.id} />
+          ),
+          FlagModal: ({ done }) => (
+            <FlagModalHOC
+              done={done}
+              contextId={communityId}
+              flagged={!!community.myFlag}
+            />
           )
         }
       };
