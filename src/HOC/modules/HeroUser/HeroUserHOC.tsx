@@ -1,80 +1,45 @@
+import { useFormik } from 'formik';
+import { alertUnimplementedCtx } from 'util/ctx-mock/alertUnimplementedCtx';
 import React, {
   SFC,
-  useContext,
-  createContext,
   useMemo,
-  useState
+  useState,
+  createContext,
+  useContext
 } from 'react';
-import { User } from 'graphql/types.generated';
 import {
   HeroUser,
-  Props,
-  Status,
   Loaded,
   LoadedMe,
-  LoadedOther
+  LoadedOther,
+  Props,
+  Status
 } from 'ui/modules/HeroUser';
 import * as GQL from './HeroUser.generated';
-import { useFormik } from 'formik';
 
 export interface HeroUserCtx {
-  useHeroUserFollowMutation: typeof GQL.useHeroUserFollowMutation;
-  useHeroUserMeQuery: typeof GQL.useHeroUserMeQuery;
-  useHeroUserDataQuery: typeof GQL.useHeroUserDataQuery;
-  useHeroUserUnfollowMutation: typeof GQL.useHeroUserUnfollowMutation;
+  user: GQL.HeroUserUserDataFragment | null;
+  me: GQL.HeroUserMeDataFragment | null;
+  toggleFollow(): Promise<unknown>;
 }
-export const HeroUserCtx = createContext<HeroUserCtx>({
-  useHeroUserFollowMutation: GQL.useHeroUserFollowMutation,
-  useHeroUserDataQuery: GQL.useHeroUserDataQuery,
-  useHeroUserMeQuery: GQL.useHeroUserMeQuery,
-  useHeroUserUnfollowMutation: GQL.useHeroUserUnfollowMutation
-});
+export const HeroUserCtx = createContext(
+  alertUnimplementedCtx<HeroUserCtx>('HeroUserCtx')
+);
 
-export interface HeroUserHOC {
-  userId: User['id'];
-}
-
-export const HeroUserHOC: SFC<HeroUserHOC> = ({ userId }) => {
-  const {
-    useHeroUserFollowMutation,
-    useHeroUserUnfollowMutation,
-    useHeroUserMeQuery,
-    useHeroUserDataQuery
-  } = useContext(HeroUserCtx);
-  const [follow, followResult] = useHeroUserFollowMutation();
-  const [unfollow, unfollowResult] = useHeroUserUnfollowMutation();
-
-  const meQ = useHeroUserMeQuery();
-  const userQ = useHeroUserDataQuery({ variables: { userId } });
+export const HeroUserHOC: SFC = ({}) => {
+  const { user, me, toggleFollow } = useContext(HeroUserCtx);
   const [isOpenDropdown, setOpenDropdown] = useState(false);
   const toggleJoinFormik = useFormik({
     initialValues: {},
-    onSubmit: () => {
-      if (
-        !userQ.data ||
-        !userQ.data.user ||
-        followResult.loading ||
-        unfollowResult.loading
-      ) {
-        return;
-      }
-      const user = userQ.data.user;
-      if (user.myFollow) {
-        return unfollow({ variables: { userId: user.myFollow.id } });
-      } else {
-        return follow({ variables: { userId: user.id } });
-      }
-    }
+    onSubmit: toggleFollow
   });
   const userHeroProps = useMemo<Props | null>(
     () => {
-      if (!meQ.data || !userQ.data || !userQ.data.user) {
+      if (!user) {
         return {
           status: Status.Loading
         };
       }
-      const { user } = userQ.data;
-      const me = meQ.data && meQ.data.me;
       const isMeAdmin = !!me && me.isInstanceAdmin;
       const isMe = !!me && me.user.id === user.id;
       const loadedProps: Omit<Loaded, 'me'> = {
@@ -111,7 +76,7 @@ export const HeroUserHOC: SFC<HeroUserHOC> = ({ userId }) => {
         return props;
       }
     },
-    [meQ, userQ, toggleJoinFormik]
+    [me, user, toggleJoinFormik]
   );
   return userHeroProps && <HeroUser {...userHeroProps} />;
 };
