@@ -13,7 +13,7 @@
       },
       {
         "kind": "UNION",
-        "name": "FlagContext",
+        "name": "DeleteContext",
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Comment" },
@@ -23,6 +23,7 @@
           { "name": "Follow" },
           { "name": "Like" },
           { "name": "Resource" },
+          { "name": "Thread" },
           { "name": "User" }
         ]
       },
@@ -59,7 +60,6 @@
           { "name": "Collection" },
           { "name": "Comment" },
           { "name": "Community" },
-          { "name": "Feature" },
           { "name": "Flag" },
           { "name": "Follow" },
           { "name": "Like" },
@@ -87,16 +87,6 @@
           { "name": "Community" },
           { "name": "Resource" },
           { "name": "User" }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "ThreadContext",
-        "possibleTypes": [
-          { "name": "Collection" },
-          { "name": "Community" },
-          { "name": "Flag" },
-          { "name": "Resource" }
         ]
       }
     ]

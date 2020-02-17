@@ -55,7 +55,7 @@ const Item = styled(Text)`
   }
 `;
 
-const Dropdown: React.FC = () => {
+const Dropdown: React.SFC<{ userId: string }> = ({ userId }) => {
   const { push } = useHistory();
   const [logoutMut /* , logoutMutResp */] = useLogoutMutationMutation();
   const logout = React.useCallback(() => logoutMut(), [logoutMut]);
@@ -64,7 +64,7 @@ const Dropdown: React.FC = () => {
       <WrapperMenu>
         <ProfileMenu>
           <List lined>
-            <Item variant="link" onClick={() => push('/profile')}>
+            <Item variant="link" onClick={() => push(`/user/${userId}`)}>
               <span>
                 <User size={18} color={'#333'} />
               </span>

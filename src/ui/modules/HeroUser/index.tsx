@@ -7,48 +7,58 @@ import Button from 'ui/elements/Button';
 import { Trans } from '@lingui/react';
 import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
 import { Link } from 'react-router-dom';
+import { FormikHook } from 'ui/@types/types';
 
 export enum Status {
   Loading,
   Loaded
 }
 
-export interface Props {
+export interface Loading {
+  status: Status.Loading;
+}
+export interface Loaded {
   status: Status.Loaded;
   me: boolean;
-  user: {
-    image: string;
-    icon: string;
-    name: string;
-    displayUsername: string;
-    location: string;
-    summary: string;
-    isAdmin: boolean;
-    following: boolean;
-    toggleJoin: {
-      toggle(): any;
-      isSubmitting: boolean;
-    };
-  };
+  image: string;
+  icon: string;
+  name: string;
+  displayUsername: string;
+  location: string;
+  summary: string;
 }
+export interface LoadedMe extends Loaded {
+  me: true;
+  isAdmin: boolean;
+}
+export interface LoadedOther extends Loaded {
+  me: false;
+  following: boolean;
+  toggleJoin: FormikHook<{}>;
+  isOpenDropdown: boolean;
+  setOpenDropdown(open: boolean): unknown;
+}
+export type Props = LoadedMe | LoadedOther | Loading;
 
-export const HeroUser: SFC<Props> = ({ user, status, me }) => {
-  const [isOpenDropdown, setOpenDropdown] = React.useState(false);
+export const HeroUser: SFC<Props> = props => {
+  if (props.status === Status.Loading) {
+    return null;
+  }
 
   return (
     <ProfileBox p={1} mb={2}>
       <Hero>
-        <HeroBg src={user.image || 'https://picsum.photos/id/1021/800/300'} />
+        <HeroBg src={props.image || 'https://picsum.photos/id/1021/800/300'} />
         <FlexProfile>
           <WrapperHero>
             <Img
               style={{
-                backgroundImage: `url(${user.icon})`
+                backgroundImage: `url(${props.icon})`
               }}
             />
           </WrapperHero>
           <HeroAction mr={2}>
-            {me ? (
+            {props.me ? (
               <Button mr={2} variant={'outline'}>
                 <Trans>Edit Profile</Trans>
               </Button>
@@ -56,12 +66,12 @@ export const HeroUser: SFC<Props> = ({ user, status, me }) => {
               <>
                 <Button
                   mr={2}
-                  variant={user.following ? 'danger' : 'primary'}
-                  isSubmitting={user.toggleJoin.isSubmitting}
-                  isDisabled={user.toggleJoin.isSubmitting}
-                  onClick={user.toggleJoin.toggle}
+                  variant={props.following ? 'danger' : 'primary'}
+                  isSubmitting={props.toggleJoin.isSubmitting}
+                  isDisabled={props.toggleJoin.isSubmitting}
+                  onClick={props.toggleJoin.submitForm}
                 >
-                  {user.following ? (
+                  {props.following ? (
                     <Trans>Unfollow</Trans>
                   ) : (
                     <Trans>Follow</Trans>
@@ -70,14 +80,14 @@ export const HeroUser: SFC<Props> = ({ user, status, me }) => {
                 <More>
                   <MoreVertical
                     size={20}
-                    onClick={() => setOpenDropdown(true)}
+                    onClick={() => props.setOpenDropdown(true)}
                   />
-                  {isOpenDropdown && (
-                    <Dropdown orientation={'bottom'} cb={setOpenDropdown}>
+                  {props.isOpenDropdown && (
+                    <Dropdown orientation={'bottom'} cb={props.setOpenDropdown}>
                       <DropdownItem>
                         <Flag size={20} color={'rgb(101, 119, 134)'} />
                         <Text sx={{ flex: 1 }} ml={2}>
-                          Flag {user.displayUsername}
+                          Flag {props.displayUsername}
                         </Text>
                       </DropdownItem>
                     </Dropdown>
@@ -94,21 +104,21 @@ export const HeroUser: SFC<Props> = ({ user, status, me }) => {
             variant="heading"
             fontWeight={'bold'}
           >
-            {user.name}
+            {props.name}
           </Text>
           <Username mt={1} fontSize={2}>
-            @{user.displayUsername}
-            {user.isAdmin && <AdminBadge ml={2}>Admin</AdminBadge>}
+            @{props.displayUsername}
+            {props.me && props.isAdmin && <AdminBadge ml={2}>Admin</AdminBadge>}
           </Username>
           <Text variant="text" mt={2}>
-            {user.summary}
+            {props.summary}
           </Text>
-          {user.location ? (
+          {props.location ? (
             <Location mt={2}>
               <span>
                 <MapPin strokeWidth={1} size={20} />
               </span>
-              {user.location}
+              {props.location}
             </Location>
           ) : null}
         </HeroInfo>

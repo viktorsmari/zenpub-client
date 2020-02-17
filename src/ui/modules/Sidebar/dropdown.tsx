@@ -56,15 +56,16 @@ const Item = styled(Text)`
 
 export interface Props {
   logout(): void;
+  userId: string;
 }
 
-export const Dropdown: React.FC<Props> = ({ logout }) => {
+export const Dropdown: React.FC<Props> = ({ logout, userId }) => {
   const { push } = useHistory();
   return (
     <WrapperMenu>
       <ProfileMenu>
         <List lined>
-          <Item variant="link" onClick={() => push('/profile')}>
+          <Item variant="link" onClick={() => push(`/user/${userId}`)}>
             <span>
               <User size={18} color={'#333'} />
             </span>

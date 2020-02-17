@@ -14,11 +14,11 @@ import styled from 'ui/themes/styled';
 import { Link } from 'react-feather';
 
 export interface Props {
-  ActivityBoxes: JSX.Element[];
+  ActivityBoxes: JSX.Element;
   HeroUserBox: JSX.Element;
-  ShareLinkModalPanel: React.ComponentType<{ done(): any }>;
-  EditCollectionPanel: React.ComponentType<{ done(): any }>;
-  UploadResourcePanel: React.ComponentType<{ done(): any }>;
+  // ShareLinkModalPanel: React.ComponentType<{ done(): any }>;
+  // EditCollectionPanel: React.ComponentType<{ done(): any }>;
+  // UploadResourcePanel: React.ComponentType<{ done(): any }>;
   basePath: string;
 }
 

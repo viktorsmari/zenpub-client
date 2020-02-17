@@ -184,6 +184,7 @@ interface SidebarLoaded {
   user: {
     icon: string;
     name: string;
+    id: string;
   };
   isOpen: boolean;
   Search: React.ComponentType;
@@ -229,7 +230,12 @@ export const Sidebar: React.FC<Props> = ({ sidebar }) => {
                     <Right>
                       <ChevronDown size="20" />
                     </Right>
-                    {isMenuOpen && <Dropdown logout={sidebar.logout} />}
+                    {isMenuOpen && (
+                      <Dropdown
+                        logout={sidebar.logout}
+                        userId={sidebar.user.id}
+                      />
+                    )}
                   </NavItem>
                 </Header>
                 <Nav>
