@@ -1,36 +1,28 @@
-import React, { SFC } from 'react';
-import { User } from 'graphql/types.generated';
-import { User as UserPage, Props } from 'ui/pages/user';
-import * as GQL from './UserPage.generated';
+import { Activity, User } from 'graphql/types.generated';
 import { ActivityPreviewHOC } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
 import { HeroUserHOC } from 'HOC/modules/HeroUser/HeroUserHOC';
+import React, { createContext, SFC, useContext } from 'react';
+import { Props, User as UserPage } from 'ui/pages/user';
+import { alertUnimplementedCtx } from 'util/ctx-mock/alertUnimplementedCtx';
 
-export interface UserPageHOC {
+export interface UserPageCtx {
+  activitiesIds: Activity['id'][];
   userId: User['id'];
 }
-export const UserPageHOC: SFC<UserPageHOC> = ({ userId }) => {
-  const outboxQ = GQL.useUserPageOutboxQuery({ variables: { userId } });
+export const UserPageCtx = createContext(
+  alertUnimplementedCtx<UserPageCtx>('UserPageCtx')
+);
+
+export const UserPageHOC: SFC = ({}) => {
+  const { activitiesIds, userId } = useContext(UserPageCtx);
   const ActivityBoxes = (
     <>
-      {outboxQ.data &&
-      outboxQ.data.user &&
-      outboxQ.data.user.outbox &&
-      outboxQ.data.user.outbox.edges
-        ? outboxQ.data.user.outbox.edges
-            .map(
-              edge =>
-                edge && (
-                  <ActivityPreviewHOC
-                    activityId={edge.node.id}
-                    key={edge.node.id}
-                  />
-                )
-            )
-            .filter(_ => !!_)
-        : null}
+      {activitiesIds.map(id => (
+        <ActivityPreviewHOC activityId={id} key={id} />
+      ))}
     </>
   );
-  const HeroUserBox = <HeroUserHOC userId={userId} />;
+  const HeroUserBox = <HeroUserHOC />;
 
   const userPageProps: Props = {
     basePath: `/user/${userId}`,

@@ -1,16 +1,3 @@
-query heroUserMe {
-  me{
-    ...HeroUserMeData
-  }
-}
-
-query heroUserData($userId:String!) {
-  user(userId:$userId){
-    ...HeroUserUserData
-  }
-}
-
-
 fragment HeroUserMeData on Me {
   isInstanceAdmin,
   user{
@@ -27,27 +14,4 @@ fragment HeroUserUserData on User {
   summary,
   name,
   myFollow{id}
-}
-
-mutation heroUserFollow($userId: String!) {
-  createFollow(contextId: $userId){
-    context{
-      ... on User {
-        id
-        myFollow{id}
-      }
-    }
-  }
-}
-mutation heroUserUnfollow($userId: String!) {
-  delete(contextId: $userId){
-    ... on Follow {
-      context{
-        ... on User {
-          id
-          myFollow{id}
-        }
-      }
-    }
-  }
 }

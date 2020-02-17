@@ -1,117 +1,94 @@
+import { useFormik } from 'formik';
+import { alertUnimplementedCtx } from 'util/ctx-mock/alertUnimplementedCtx';
 import React, {
   SFC,
-  useContext,
-  createContext,
   useMemo,
-  useState
+  useState,
+  createContext,
+  useContext
 } from 'react';
-import { User } from 'graphql/types.generated';
 import {
   HeroUser,
-  Props,
-  Status,
   Loaded,
   LoadedMe,
-  LoadedOther
+  LoadedOther,
+  Loading,
+  Props,
+  Status
 } from 'ui/modules/HeroUser';
 import * as GQL from './HeroUser.generated';
-import { useFormik } from 'formik';
+import Maybe from 'graphql/tsutils/Maybe';
 
 export interface HeroUserCtx {
-  useHeroUserFollowMutation: typeof GQL.useHeroUserFollowMutation;
-  useHeroUserMeQuery: typeof GQL.useHeroUserMeQuery;
-  useHeroUserDataQuery: typeof GQL.useHeroUserDataQuery;
-  useHeroUserUnfollowMutation: typeof GQL.useHeroUserUnfollowMutation;
+  user: Maybe<GQL.HeroUserUserDataFragment>;
+  me: Maybe<GQL.HeroUserMeDataFragment>;
+  toggleFollow(): Promise<unknown> | void;
 }
-export const HeroUserCtx = createContext<HeroUserCtx>({
-  useHeroUserFollowMutation: GQL.useHeroUserFollowMutation,
-  useHeroUserDataQuery: GQL.useHeroUserDataQuery,
-  useHeroUserMeQuery: GQL.useHeroUserMeQuery,
-  useHeroUserUnfollowMutation: GQL.useHeroUserUnfollowMutation
-});
+export const HeroUserCtx = createContext(
+  alertUnimplementedCtx<HeroUserCtx>('HeroUserCtx')
+);
 
-export interface HeroUserHOC {
-  userId: User['id'];
-}
-
-export const HeroUserHOC: SFC<HeroUserHOC> = ({ userId }) => {
-  const {
-    useHeroUserFollowMutation,
-    useHeroUserUnfollowMutation,
-    useHeroUserMeQuery,
-    useHeroUserDataQuery
-  } = useContext(HeroUserCtx);
-  const [follow, followResult] = useHeroUserFollowMutation();
-  const [unfollow, unfollowResult] = useHeroUserUnfollowMutation();
-
-  const meQ = useHeroUserMeQuery();
-  const userQ = useHeroUserDataQuery({ variables: { userId } });
+export const HeroUserHOC: SFC = ({}) => {
+  const { user, me, toggleFollow } = useContext(HeroUserCtx);
   const [isOpenDropdown, setOpenDropdown] = useState(false);
-  const toggleJoinFormik = useFormik({
+  const toggleFollowFormik = useFormik({
     initialValues: {},
-    onSubmit: () => {
-      if (
-        !userQ.data ||
-        !userQ.data.user ||
-        followResult.loading ||
-        unfollowResult.loading
-      ) {
-        return;
-      }
-      const user = userQ.data.user;
-      if (user.myFollow) {
-        return unfollow({ variables: { userId: user.myFollow.id } });
-      } else {
-        return follow({ variables: { userId: user.id } });
-      }
-    }
+    onSubmit: () => toggleFollow()
   });
-  const userHeroProps = useMemo<Props | null>(
-    () => {
-      if (!meQ.data || !userQ.data || !userQ.data.user) {
-        return {
-          status: Status.Loading
-        };
-      }
-      const { user } = userQ.data;
-      const me = meQ.data && meQ.data.me;
-      const isMeAdmin = !!me && me.isInstanceAdmin;
-      const isMe = !!me && me.user.id === user.id;
-      const loadedProps: Omit<Loaded, 'me'> = {
-        status: Status.Loaded,
-        displayUsername: user.displayUsername,
-        icon: user.icon || '',
-        image: user.image || '',
-        location: user.location || '',
-        name: user.name || '',
-        summary: user.summary || ''
+  const userHeroPropsNoFormik = useMemo<
+    Loading | LoadedMe | Omit<LoadedOther, 'toggleFollowFormik'>
+  >(() => {
+    if (!user) {
+      return {
+        status: Status.Loading
       };
-      if (isMe) {
-        const loadedMeProps: Omit<LoadedMe, keyof Loaded> = {
-          isAdmin: isMeAdmin
-        };
-        const props: Props = {
-          me: isMe,
-          ...loadedProps,
-          ...loadedMeProps
-        };
-        return props;
-      } else {
-        const loadedOtherProps: Omit<LoadedOther, keyof Loaded> = {
-          following: !!user.myFollow,
-          isOpenDropdown,
-          setOpenDropdown,
-          toggleJoin: toggleJoinFormik
-        };
-        const props: Props = {
-          me: isMe,
-          ...loadedProps,
-          ...loadedOtherProps
-        };
-        return props;
-      }
-    },
-    [meQ, userQ, toggleJoinFormik]
-  );
-  return userHeroProps && <HeroUser {...userHeroProps} />;
+    }
+    const isMeAdmin = !!me && me.isInstanceAdmin;
+    const isMe = !!me && me.user.id === user.id;
+    const loadedProps: Omit<Loaded, 'me'> = {
+      status: Status.Loaded,
+      displayUsername: user.displayUsername,
+      icon: user.icon || '',
+      image: user.image || '',
+      location: user.location || '',
+      name: user.name || '',
+      summary: user.summary || ''
+    };
+    if (isMe) {
+      const loadedMeProps: Omit<LoadedMe, keyof Loaded> = {
+        isAdmin: isMeAdmin
+      };
+      const props: Props = {
+        me: isMe,
+        ...loadedProps,
+        ...loadedMeProps
+      };
+      return props;
+    } else {
+      const loadedOtherProps: Omit<
+        LoadedOther,
+        keyof Loaded | 'toggleFollowFormik'
+      > = {
+        following: !!user.myFollow,
+        isOpenDropdown,
+        setOpenDropdown
+      };
+      const props: Omit<LoadedOther, 'toggleFollowFormik'> = {
+        me: isMe,
+        ...loadedProps,
+        ...loadedOtherProps
+      };
+      return props;
+    }
+  }, [me, user]);
+
+  const userHeroProps: Props =
+    userHeroPropsNoFormik.status === Status.Loaded && !userHeroPropsNoFormik.me
+      ? {
+          ...userHeroPropsNoFormik,
+          toggleFollowFormik
+        }
+      : userHeroPropsNoFormik;
+
+  return <HeroUser {...userHeroProps} />;
 };

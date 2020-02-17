@@ -1,0 +1,36 @@
+#import "HOC/modules/HeroUser/HeroUser.graphql"
+
+query heroUserMe {
+  me{
+    ...HeroUserMeData
+  }
+}
+
+query heroUserData($userId:String!) {
+  user(userId:$userId){
+    ...HeroUserUserData
+  }
+}
+
+mutation heroUserFollow($userId: String!) {
+  createFollow(contextId: $userId){
+    context{
+      ... on User {
+        id
+        myFollow{id}
+      }
+    }
+  }
+}
+mutation heroUserUnfollow($followId: String!) {
+  delete(contextId: $followId){
+    ... on Follow {
+      context{
+        ... on User {
+          id
+          myFollow{id}
+        }
+      }
+    }
+  }
+}

@@ -12,4 +12,3 @@ query userPageOutbox($userId: String!, $after:String, $before:String, $limit:Int
     }
   }
 }
-
