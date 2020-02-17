@@ -1,4 +1,5 @@
 module.exports = {
+  plugins: ["@typescript-eslint"],
   parser: "@typescript-eslint/parser", // Specifies the ESLint parser
   extends: [
     "plugin:react/recommended", // Uses the recommended rules from @eslint-plugin-react
@@ -13,8 +14,8 @@ module.exports = {
     }
   },
   rules: {
-    "@typescript-eslint/prefer-optional-chain":"on",
-    "@typescript-eslint/no-non-null-asserted-optional-chain":'on'
+    "@typescript-eslint/prefer-optional-chain":"warn",
+    "@typescript-eslint/no-non-null-asserted-optional-chain":'error'
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     // e.g. "@typescript-eslint/explicit-function-return-type": "off",
   },
