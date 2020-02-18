@@ -18,7 +18,38 @@ export type CreateFlagPanelCreateMutation = (
   { __typename: 'RootMutationType' }
   & { createFlag: Types.Maybe<(
     { __typename: 'Flag' }
-    & { context: Types.Maybe<{ __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Resource' } | { __typename: 'User' }> }
+    & { context: Types.Maybe<(
+      { __typename: 'Collection' }
+      & Pick<Types.Collection, 'id'>
+      & { myFlag: Types.Maybe<(
+        { __typename: 'Flag' }
+        & Pick<Types.Flag, 'id'>
+      )> }
+    ) | (
+      { __typename: 'Comment' }
+      & Pick<Types.Comment, 'id'>
+    ) | (
+      { __typename: 'Community' }
+      & Pick<Types.Community, 'id'>
+      & { myFlag: Types.Maybe<(
+        { __typename: 'Flag' }
+        & Pick<Types.Flag, 'id'>
+      )> }
+    ) | (
+      { __typename: 'Resource' }
+      & Pick<Types.Resource, 'id'>
+      & { myFlag: Types.Maybe<(
+        { __typename: 'Flag' }
+        & Pick<Types.Flag, 'id'>
+      )> }
+    ) | (
+      { __typename: 'User' }
+      & { userId: Types.User['id'] }
+      & { myFlag: Types.Maybe<(
+        { __typename: 'Flag' }
+        & Pick<Types.Flag, 'id'>
+      )> }
+    )> }
   )> }
 );
 
@@ -28,6 +59,33 @@ export const CreateFlagPanelCreateDocument = gql`
   createFlag(contextId: $contextId, message: $message) {
     context {
       __typename
+      ... on Community {
+        myFlag {
+          id
+        }
+        id
+      }
+      ... on Collection {
+        myFlag {
+          id
+        }
+        id
+      }
+      ... on Comment {
+        id
+      }
+      ... on Resource {
+        myFlag {
+          id
+        }
+        id
+      }
+      ... on User {
+        myFlag {
+          id
+        }
+        userId: id
+      }
     }
   }
 }

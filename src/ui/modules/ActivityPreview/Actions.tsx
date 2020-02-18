@@ -27,6 +27,7 @@ export interface ReplyActions {
   replyFormik: FormikHook<{ replyMessage: string }>;
 }
 export interface ActionProps {
+  FlagModal: null | React.ComponentType<{ done(): unknown }>;
   like: null | LikeActions;
   reply: null | ReplyActions /* ,
   follow?: {
@@ -46,26 +47,26 @@ const tt = {
   }
 };
 
-const ActionsWrapper: React.SFC<ActionProps> = ({ like, reply }) => {
+const ActionsWrapper: React.SFC<ActionProps> = ({ like, reply, FlagModal }) => {
   const [talkModalVisible, showTalkModal] = React.useState(false);
   const { i18n } = React.useContext(LocaleContext);
 
   const [isOpen, onOpen] = React.useState(false);
   const [isEnterUrlOpen, onEnterUrlOpen] = React.useState(false);
+  const [isOpenFlagModal, setOpenFlagModal] = React.useState(false);
   return (
     <Actions mt={3}>
-      {reply &&
-        talkModalVisible && (
-          <SocialText
-            placeholder={i18n._(tt.placeholders.name)}
-            defaultValue={''}
-            submit={msg => {
-              showTalkModal(false);
-              reply.replyFormik.setValues({ replyMessage: msg });
-              reply.replyFormik.submitForm();
-            }}
-          />
-        )}
+      {reply && talkModalVisible && (
+        <SocialText
+          placeholder={i18n._(tt.placeholders.name)}
+          defaultValue={''}
+          submit={msg => {
+            showTalkModal(false);
+            reply.replyFormik.setValues({ replyMessage: msg });
+            reply.replyFormik.submitForm();
+          }}
+        />
+      )}
       <Box>
         <Items>
           <ActionItem onClick={() => showTalkModal(!talkModalVisible)}>
@@ -139,7 +140,7 @@ const ActionsWrapper: React.SFC<ActionProps> = ({ like, reply }) => {
                     Copy link
                   </Text>
                 </DropdownItem>
-                <DropdownItem>
+                <DropdownItem onClick={() => setOpenFlagModal(true)}>
                   <Flag size={20} color={'rgb(101, 119, 134)'} />
                   <Text sx={{ flex: 1 }} ml={2}>
                     <Trans>Flag</Trans>
@@ -150,6 +151,11 @@ const ActionsWrapper: React.SFC<ActionProps> = ({ like, reply }) => {
             )}
           </ActionItem>
         </Items>
+        {FlagModal && isOpenFlagModal && (
+          <Modal closeModal={() => setOpenFlagModal(false)}>
+            <FlagModal done={() => setOpenFlagModal(false)} />
+          </Modal>
+        )}
       </Box>
     </Actions>
   );

@@ -1,6 +1,8 @@
 import * as UIA from 'ui/modules/ActivityPreview/Actions';
 import { GQLConcreteContext } from '../types';
 import { isActivityFollowed } from './isActivityFollowed';
+import FlagModalHOC from 'HOC/modules/FlagModal/flagModalHOC';
+import { SFC } from 'react';
 export const getActivityActions = (
   context: GQLConcreteContext,
   replyFormik: UIA.ReplyActions['replyFormik'],
@@ -24,8 +26,19 @@ export const getActivityActions = (
   const reply: null | UIA.ReplyActions = {
     replyFormik
   };
-
+  const FlagModal: null | SFC<{ done(): unknown }> =
+    context.__typename === 'Comment'
+      ? null
+      : ({ done }) => {
+          return FlagModalHOC({
+            done,
+            contextId:
+              context.__typename === 'User' ? context.userId : context.id,
+            flagged: !!context.myFlag
+          });
+        };
   return {
+    FlagModal,
     like,
     reply
   };

@@ -1,5 +1,28 @@
 mutation createFlagPanelCreate($contextId: String!, $message: String!) {
   createFlag(contextId: $contextId, message: $message){
-    context { __typename }
+    context { 
+      __typename 
+      ... on Community{
+          myFlag{id}
+          id
+      }
+      ... on Collection{
+          myFlag{id}
+          id
+      }
+      ... on Comment{
+          # myFlag{id}
+          id
+      }
+      ... on Resource{
+          myFlag{id}
+          id
+      }
+      ... on User{
+          myFlag{id}
+          userId:id
+      }
+    }
   }
 }
+
