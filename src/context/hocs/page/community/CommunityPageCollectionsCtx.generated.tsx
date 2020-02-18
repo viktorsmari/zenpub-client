@@ -1,8 +1,8 @@
-import * as Types from '../../../graphql/types.generated';
+import * as Types from '../../../../graphql/types.generated';
 
-import { CollectionPreviewDataFragment } from '../../modules/CollectionPreview/CollectionPreview.generated';
+import { CollectionPreviewDataFragment } from '../../../../HOC/modules/CollectionPreview/CollectionPreview.generated';
 import gql from 'graphql-tag';
-import { CollectionPreviewDataFragmentDoc } from '../../modules/CollectionPreview/CollectionPreview.generated';
+import { CollectionPreviewDataFragmentDoc } from '../../../../HOC/modules/CollectionPreview/CollectionPreview.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';

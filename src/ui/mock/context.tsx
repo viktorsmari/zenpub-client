@@ -100,10 +100,10 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
       summary:
         'Cooperation combined with network effects is more effective than capitalist competition',
       totalMembers: 193,
-      toggleJoin: {
-        toggle: action('submit'),
-        isSubmitting: false
-      },
+      toggleJoinFormik: useFormik<{}>({
+        initialValues: {},
+        onSubmit: action('toggle join')
+      }),
       EditCommunityPanel: ({ done }) => (
         <img
           onClick={done}

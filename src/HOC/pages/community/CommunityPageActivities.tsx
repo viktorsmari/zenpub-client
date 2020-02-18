@@ -1,49 +1,29 @@
-import { Community } from 'graphql/types.generated';
 import { ActivityPreviewHOC } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
 import React, { createContext, SFC, useContext } from 'react';
-import * as GQL from './CommunityPageActivities.generated';
+import { alertUnimplementedCtx } from 'util/ctx-mock/alertUnimplementedCtx';
+import { Activity } from 'graphql/types.generated';
 
-export interface Props {
-  communityId: Community['id'];
-}
+export interface Props {}
 
 export interface CommunityPageActivitiesCtx {
-  useCommunityPageActivitiesQuery: typeof GQL.useCommunityPageActivitiesQuery;
+  activitiesIds: Activity['id'][];
 }
 export const CommunityPageActivitiesCtx = createContext<
   CommunityPageActivitiesCtx
->({
-  useCommunityPageActivitiesQuery: GQL.useCommunityPageActivitiesQuery
-});
+>(
+  alertUnimplementedCtx<CommunityPageActivitiesCtx>(
+    'CommunityPageActivitiesCtx'
+  )
+);
 
-export const CommunityPageActivities: SFC<Props> = ({ communityId }) => {
-  const { useCommunityPageActivitiesQuery } = useContext(
-    CommunityPageActivitiesCtx
-  );
+export const CommunityPageActivities: SFC<Props> = () => {
+  const { activitiesIds } = useContext(CommunityPageActivitiesCtx);
 
-  const communityQ = useCommunityPageActivitiesQuery({
-    variables: { communityId }
-  });
-  if (
-    communityQ.error ||
-    communityQ.loading ||
-    !communityQ.data ||
-    !communityQ.data.community ||
-    !communityQ.data.community.outbox ||
-    !communityQ.data.community.outbox.edges
-  ) {
-    return null;
-  }
   return (
     <>
-      {' '}
-      {communityQ.data.community.outbox.edges.map(edge => {
-        if (!edge) {
-          return null;
-        }
-        const id = edge.node.id;
-        return <ActivityPreviewHOC activityId={id} key={id} />;
-      })}
+      {activitiesIds.map(activityId => (
+        <ActivityPreviewHOC activityId={activityId} key={activityId} />
+      ))}
     </>
   );
 };

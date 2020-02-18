@@ -1,4 +1,4 @@
-import { HeroUserCtxProvider } from 'context/hocs/modules/heroUser/HeroUserCtx';
+import { HeroUserCtxProvider } from 'context/hocs/modules/HeroUser/HeroUserCtx';
 import { Activity, User } from 'graphql/types.generated';
 import { UserPageCtx } from 'HOC/pages/user/UserPageHOC';
 import React, { SFC, useMemo } from 'react';

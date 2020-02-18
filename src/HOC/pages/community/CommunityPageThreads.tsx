@@ -1,132 +1,79 @@
 import { useFormik } from 'formik';
-import { Community } from 'graphql/types.generated';
 import { getActivityActions } from 'HOC/modules/ActivityPreview/lib/getActivityActions';
 import { getActivityActor } from 'HOC/modules/ActivityPreview/lib/getActivityActor';
-import React, { createContext, SFC, useContext, useEffect } from 'react';
+import React, { createContext, FC, useContext } from 'react';
 import {
   ActivityPreview,
   Props as ActivityPreviewProps,
   Status as ActivityPreviewStatus
 } from 'ui/modules/ActivityPreview';
 import * as UIP from 'ui/modules/ActivityPreview/preview';
-
+import { alertUnimplementedCtx } from 'util/ctx-mock/alertUnimplementedCtx';
 import * as GQL from './CommunityPageThreads.generated';
+import { Thread, Comment, Like } from 'graphql/types.generated';
 
-export interface Props {
-  communityId: Community['id'];
-}
+export interface Props {}
 
 export interface CommunityPageThreadsCtx {
-  useCommunityPageThreadsQuery: typeof GQL.useCommunityPageThreadsQuery;
-  useCommunityPageThreadLikeMutation: typeof GQL.useCommunityPageThreadLikeMutation;
-  useCommunityPageThreadUnlikeMutation: typeof GQL.useCommunityPageThreadUnlikeMutation;
-  useCommunityPageThreadCreateReplyMutation: typeof GQL.useCommunityPageThreadCreateReplyMutation;
+  threads: GQL.ComunityPageThreadFragment[];
+  reply(_: {
+    commentId: Comment['id'];
+    threadId: Thread['id'];
+    replyMessage: string;
+  }): Promise<unknown> | void;
+  toggleLike(_: {
+    id: Comment['id'];
+    myLike: { id: Like['id'] } | null;
+  }): Promise<unknown> | void;
 }
-export const CommunityPageThreadsCtx = createContext<CommunityPageThreadsCtx>({
-  useCommunityPageThreadsQuery: GQL.useCommunityPageThreadsQuery,
-  useCommunityPageThreadLikeMutation: GQL.useCommunityPageThreadLikeMutation,
-  useCommunityPageThreadUnlikeMutation:
-    GQL.useCommunityPageThreadUnlikeMutation,
-  useCommunityPageThreadCreateReplyMutation:
-    GQL.useCommunityPageThreadCreateReplyMutation
-});
+export const CommunityPageThreadsCtx = createContext(
+  alertUnimplementedCtx<CommunityPageThreadsCtx>('CommunityPageThreadsCtx')
+);
 
-export const CommunityPageThreads: SFC<Props> = ({ communityId }) => {
-  const { useCommunityPageThreadsQuery } = useContext(CommunityPageThreadsCtx);
+export const CommunityPageThreads: FC<Props> = () => {
+  const { threads } = useContext(CommunityPageThreadsCtx);
 
-  const communityQ = useCommunityPageThreadsQuery({
-    variables: { communityId }
-  });
-  useEffect(() => {
-    communityQ.refetch();
-  }, []);
-  if (
-    communityQ.error ||
-    communityQ.loading ||
-    !communityQ.data ||
-    !communityQ.data.community ||
-    !communityQ.data.community.threads ||
-    !communityQ.data.community.threads.edges
-  ) {
-    return null;
-  }
   return (
     <>
-      {communityQ.data.community.threads.edges.map(edge => {
-        if (!edge || !edge.node) {
-          return null;
-        }
-        const thread = edge.node;
-
-        return <ThreadActivity thread={thread} key={thread.id} />;
-      })}
+      {threads.map(thread => (
+        <ThreadActivity thread={thread} key={thread.id} />
+      ))}
     </>
   );
 };
-export const ThreadActivity: SFC<{
-  thread: GQL.ComunityPageThreadFragment;
-}> = ({ thread }) => {
-  if (
-    !thread.comments ||
-    !thread.comments.edges.length ||
-    !thread.comments.edges[0] ||
-    !thread.comments.edges[0].node
-  ) {
-    return null;
-  }
-  const {
-    useCommunityPageThreadCreateReplyMutation,
-    useCommunityPageThreadLikeMutation,
-    useCommunityPageThreadUnlikeMutation
-  } = useContext(CommunityPageThreadsCtx);
 
-  const comment = thread.comments.edges[0].node;
-  if (!comment.creator) {
-    return null;
-  }
+export const ThreadActivity: FC<{ thread: GQL.ComunityPageThreadFragment }> = ({
+  thread
+}) => {
+  const { reply, toggleLike } = useContext(CommunityPageThreadsCtx);
 
-  const [likeMut, likeMutStatus] = useCommunityPageThreadLikeMutation();
-  const [unlikeMut, unlikeMutStatus] = useCommunityPageThreadUnlikeMutation();
-  const [
-    createReplyMut,
-    createReplyMutStatus
-  ] = useCommunityPageThreadCreateReplyMutation();
+  const comment =
+    thread.comments?.edges &&
+    thread.comments.edges[0] &&
+    thread.comments.edges[0].node;
 
   const replyThreadFormik = useFormik<{ replyMessage: string }>({
     initialValues: { replyMessage: '' },
-    onSubmit: ({ replyMessage }) => {
-      if (createReplyMutStatus.loading) {
+    onSubmit: vals => {
+      if (!comment) {
         return;
       }
-      return createReplyMut({
-        variables: {
-          threadId: thread.id,
-          inReplyToId: comment.id,
-          comment: { content: replyMessage }
-        }
-      });
+      return reply({ ...vals, commentId: comment.id, threadId: thread.id });
     }
   });
   const toggleLikeFormik = useFormik<{}>({
     initialValues: {},
     onSubmit: () => {
-      if (likeMutStatus.loading || unlikeMutStatus.loading) {
+      if (!comment) {
         return;
       }
-      const { myLike } = comment;
-      if (myLike) {
-        return unlikeMut({
-          variables: { contextId: myLike.id }
-        });
-      } else {
-        return likeMut({
-          variables: {
-            contextId: comment.id
-          }
-        });
-      }
+      return toggleLike(comment);
     }
   });
+
+  if (!comment || !comment.creator) {
+    return null;
+  }
 
   const props: ActivityPreviewProps = {
     actor: getActivityActor(comment.creator),
