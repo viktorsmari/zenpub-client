@@ -67,6 +67,9 @@ export type ActivityPreviewUserCtxFragment = (
   )>, myLike: Types.Maybe<(
     { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
+  )>, myFlag: Types.Maybe<(
+    { __typename: 'Flag' }
+    & Pick<Types.Flag, 'id'>
   )> }
 );
 
@@ -94,6 +97,9 @@ export type ActivityPreviewCollectionCtxFragment = (
   )>, myLike: Types.Maybe<(
     { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
+  )>, myFlag: Types.Maybe<(
+    { __typename: 'Flag' }
+    & Pick<Types.Flag, 'id'>
   )> }
 );
 
@@ -139,6 +145,9 @@ export type ActivityPreviewCommunityCtxFragment = (
   )>, myLike: Types.Maybe<(
     { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
+  )>, myFlag: Types.Maybe<(
+    { __typename: 'Flag' }
+    & Pick<Types.Flag, 'id'>
   )> }
 );
 
@@ -157,6 +166,9 @@ export type ActivityPreviewResourceCtxFragment = (
   )>, myLike: Types.Maybe<(
     { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
+  )>, myFlag: Types.Maybe<(
+    { __typename: 'Flag' }
+    & Pick<Types.Flag, 'id'>
   )> }
 );
 
@@ -408,6 +420,9 @@ export const ActivityPreviewUserCtxFragmentDoc = gql`
   myLike {
     id
   }
+  myFlag {
+    id
+  }
 }
     `;
 export const ActivityPreviewCollectionCtxFragmentDoc = gql`
@@ -431,6 +446,9 @@ export const ActivityPreviewCollectionCtxFragmentDoc = gql`
     totalCount
   }
   myLike {
+    id
+  }
+  myFlag {
     id
   }
 }
@@ -475,6 +493,9 @@ export const ActivityPreviewCommunityCtxFragmentDoc = gql`
   myLike {
     id
   }
+  myFlag {
+    id
+  }
 }
     ${ActivityPreviewUserCtxFragmentDoc}`;
 export const ActivityPreviewResourceCtxFragmentDoc = gql`
@@ -496,6 +517,9 @@ export const ActivityPreviewResourceCtxFragmentDoc = gql`
     totalCount
   }
   myLike {
+    id
+  }
+  myFlag {
     id
   }
 }

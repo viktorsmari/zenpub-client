@@ -1,12 +1,12 @@
-import { ActivityPreviewCommentCtxBaseFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
 import * as Types from '../../../graphql/types.generated';
 
+import { ActivityPreviewCommentCtxBaseFragment } from '../../modules/ActivityPreview/getActivityPreview.generated';
 import { ActivityPreviewLikeMutationResultFragment } from '../../modules/ActivityPreview/getActivityPreview.generated';
 import { ActivityPreviewResourceCtxFragment } from '../../modules/ActivityPreview/getActivityPreview.generated';
 import gql from 'graphql-tag';
 import { ActivityPreviewResourceCtxFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
 import { ActivityPreviewLikeMutationResultFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
-import { ActivityPreviewCommentCtxBaseFragment } from '../../modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewCommentCtxBaseFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';

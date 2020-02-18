@@ -7,6 +7,7 @@ import { ContextType, ContextVerb } from './preview';
 import { Box } from 'rebass';
 
 const getActions = () => ({
+  FlagModal: () => <div></div>,
   like: {
     totalLikes: 3,
     toggleLikeFormik: useFormik<{}>({
