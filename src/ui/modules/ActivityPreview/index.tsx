@@ -75,12 +75,12 @@ export const ActivityPreview: SFC<Props> = activity => {
           activity.context.type === ContextType.Community
             ? activity.context.link
             : activity.context.type === ContextType.Collection
-              ? activity.context.link
-              : activity.context.type === ContextType.Resource
-                ? activity.context.link
-                : activity.context.type === ContextType.Comment
-                  ? activity.context.link
-                  : 'user/'
+            ? activity.context.link
+            : activity.context.type === ContextType.Resource
+            ? activity.context.link
+            : activity.context.type === ContextType.Comment
+            ? activity.context.link
+            : 'user/'
         }
       />
       {/* {activity.inReplyToCtx && <InReplyTo {...activity.inReplyToCtx} />} */}
@@ -111,25 +111,22 @@ export const BigActivityPreview: SFC<Props> = activity => {
               ? activity.context.content
               : ''}
           </Comment>
-          {activity.actions &&
-            activity.actions.reply && (
-              <Box mt={3}>
-                <SocialText
-                  placeholder={i18n._(tt.placeholders.name)}
-                  defaultValue={''}
-                  submit={msg => {
-                    if (!(activity.actions && activity.actions.reply)) {
-                      //FIXME: don't know why TS complains without this check
-                      //       despite the check is made up
-                      //       at element render option level
-                      return;
-                    }
-                    activity.actions.reply.replyFormik.values.replyMessage = msg;
-                    activity.actions.reply.replyFormik.submitForm();
-                  }}
-                />
-              </Box>
-            )}
+          {activity.actions && activity.actions.reply && (
+            <Box mt={3}>
+              <SocialText
+                placeholder={i18n._(tt.placeholders.name)}
+                defaultValue={''}
+                submit={msg => {
+                  if (!(activity.actions && activity.actions.reply)) {
+                    //FIXME: use a useCallback
+                    return;
+                  }
+                  activity.actions.reply.replyFormik.values.replyMessage = msg;
+                  activity.actions.reply.replyFormik.submitForm();
+                }}
+              />
+            </Box>
+          )}
         </Box>
       </Contents>
     </FeedItem>
