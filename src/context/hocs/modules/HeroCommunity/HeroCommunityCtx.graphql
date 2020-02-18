@@ -1,0 +1,37 @@
+# import 'HOC/modules/HeroCommunity/getHeroCommunity.graphql'
+
+query heroCommunity($communityId: String!) {
+    community(communityId: $communityId) {
+        ...HeroCommunityData
+    }
+}
+
+query heroCommunityMe {
+    me{
+        ...HeroCommunityMeData
+    }
+}
+
+mutation heroCommunityUnjoin($contextId: String!) {
+  delete(contextId: $contextId){
+    ...on Follow {
+        context{
+            ...on Community{
+                id
+                myFollow{id}
+            }
+        }
+    }
+  }
+}
+
+mutation heroCommunityJoin($contextId: String!) {
+    createFollow(contextId: $contextId){
+        context{
+            ...on Community{
+                id
+                myFollow{id}
+            }
+        }
+    }
+}

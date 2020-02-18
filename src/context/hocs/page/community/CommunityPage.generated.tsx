@@ -1,8 +1,8 @@
-import * as Types from '../../../graphql/types.generated';
+import * as Types from '../../../../graphql/types.generated';
 
-import { HeroCommunityDataFragment } from '../../modules/HeroCommunity/getHeroCommunity.generated';
+import { HeroCommunityDataFragment } from '../../../../HOC/modules/HeroCommunity/getHeroCommunity.generated';
 import gql from 'graphql-tag';
-import { HeroCommunityDataFragmentDoc } from '../../modules/HeroCommunity/getHeroCommunity.generated';
+import { HeroCommunityDataFragmentDoc } from '../../../../HOC/modules/HeroCommunity/getHeroCommunity.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';

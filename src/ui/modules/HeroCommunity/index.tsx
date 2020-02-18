@@ -8,6 +8,7 @@ import styled from 'ui/themes/styled';
 import Modal from 'ui/modules/Modal';
 import Button from 'ui/elements/Button';
 import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
+import { FormikHook } from 'ui/@types/types';
 export enum Status {
   Loading,
   Loaded
@@ -23,10 +24,7 @@ export interface CommunityLoaded {
   following: boolean;
   flagged: boolean;
   canModify: boolean;
-  toggleJoin: {
-    toggle(): any;
-    isSubmitting: boolean;
-  };
+  toggleJoinFormik: FormikHook;
   EditCommunityPanel: ComponentType<{ done(): any }>;
   FlagModal: ComponentType<{ done(): any }>;
 }
@@ -76,9 +74,9 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
               <Button
                 mr={2}
                 variant={c.following ? 'danger' : 'primary'}
-                isSubmitting={c.toggleJoin.isSubmitting}
-                isDisabled={c.toggleJoin.isSubmitting}
-                onClick={c.toggleJoin.toggle}
+                isSubmitting={c.toggleJoinFormik.isSubmitting}
+                isDisabled={c.toggleJoinFormik.isSubmitting}
+                onClick={c.toggleJoinFormik.submitForm}
               >
                 {c.following ? <Trans>Leave</Trans> : <Trans>Join</Trans>}
               </Button>

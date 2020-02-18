@@ -1,0 +1,35 @@
+#import "HOC/modules/ActivityPreview/getActivityPreview.graphql"
+#import "HOC/page/community/CommunityPageThreads.graphql"
+
+query communityPageThreads($communityId: String!, $limit:Int, $before:String, $after:String) {
+  community(communityId:$communityId){
+    id
+    threads(limit:$limit, before:$before, after:$after){
+      edges{
+        node{
+          ...ComunityPageThread
+        }
+      }
+    }
+  }
+}
+
+mutation communityPageThreadLike($contextId: String!) {
+    createLike(contextId: $contextId){
+        ...ActivityPreviewLikeMutationResult
+    }
+}
+
+mutation communityPageThreadUnlike($contextId: String!) {
+    delete(contextId: $contextId){
+        __typename
+    }
+}
+
+
+mutation communityPageThreadCreateReply( $comment: CommentInput!, $inReplyToId: String!, $threadId: String!) {
+    createReply(comment: $comment, inReplyToId: $inReplyToId, threadId: $threadId){
+        ...ActivityPreviewCommentCtxBase
+    }
+}
+
