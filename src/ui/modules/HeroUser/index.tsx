@@ -26,6 +26,7 @@ export interface Loaded {
   displayUsername: string;
   location: string;
   summary: string;
+  basePath: string;
 }
 export interface LoadedMe extends Loaded {
   me: true;
@@ -37,6 +38,7 @@ export interface LoadedOther extends Loaded {
   toggleFollowFormik: FormikHook<{}>;
   isOpenDropdown: boolean;
   setOpenDropdown(open: boolean): unknown;
+  basePath: string;
 }
 export type Props = LoadedMe | LoadedOther | Loading;
 
@@ -125,17 +127,14 @@ export const HeroUser: SFC<Props> = props => {
         <WrapperResume ml={3} my={2}>
           <Resume>
             <ResumeItem variant="text">
-              Member of <Link to="/communities">12 Communities</Link>
+              Member of{' '}
+              <Link to={`${props.basePath}/communities`}>12 Communities</Link>
             </ResumeItem>
             ,
             <ResumeItem variant="text" ml={1}>
-              Follow <Link to="/collections">43 Collections</Link> and{' '}
-              <Link to="/following">22 Users</Link>
-            </ResumeItem>
-          </Resume>
-          <Resume mt={2}>
-            <ResumeItem variant="text">
-              Followed by <Link to="/communities">124k Users</Link>
+              Follow{' '}
+              <Link to={`${props.basePath}/collections`}>43 Collections</Link>{' '}
+              and <Link to={`${props.basePath}/following`}>22 Users</Link>
             </ResumeItem>
           </Resume>
         </WrapperResume>
@@ -192,7 +191,9 @@ const FlexProfile = styled(Flex)`
 `};
 `;
 
-const ProfileBox = styled(Box)``;
+const ProfileBox = styled(Box)`
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+`;
 
 const Username = styled(Text)`
   color: ${props => props.theme.colors.gray};
@@ -222,8 +223,7 @@ const Location = styled(Flex)`
 
 const HeroBg = styled.div<{ src: string }>`
   height: 250px;
-  border-top-right-radius: 6px;
-  border-top-left-radius: 6px;
+  margin: -4px;
   background: ${props => props.theme.colors.lightgray};
   background-image: url(${props =>
     props.src ? props.src : props.theme.colors.lightgray});

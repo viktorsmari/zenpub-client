@@ -16,26 +16,35 @@ import { Link } from 'react-feather';
 export interface Props {
   ActivityBoxes: JSX.Element;
   HeroUserBox: JSX.Element;
-  // ShareLinkModalPanel: React.ComponentType<{ done(): any }>;
-  // EditCollectionPanel: React.ComponentType<{ done(): any }>;
-  // UploadResourcePanel: React.ComponentType<{ done(): any }>;
+  Header: JSX.Element;
   basePath: string;
 }
 
 export const User: React.FC<Props> = ({
   HeroUserBox,
   ActivityBoxes,
-  basePath
+  basePath,
+  Header
 }) => {
   return (
     <MainContainer>
       <HomeBox>
         <WrapperCont>
           <Wrapper>
+            {Header}
             {HeroUserBox}
-            <Menu basePath={basePath} />
             <Switch>
               <Route exact path={`${basePath}/`}>
+                <Menu basePath={basePath} />
+                {ActivityBoxes}
+              </Route>
+              <Route exact path={`${basePath}/communities`}>
+                {ActivityBoxes}
+              </Route>
+              <Route exact path={`${basePath}/collections`}>
+                {ActivityBoxes}
+              </Route>
+              <Route exact path={`${basePath}/following`}>
                 {ActivityBoxes}
               </Route>
             </Switch>

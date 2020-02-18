@@ -18,9 +18,7 @@ export const WrapperPanel = styled(Flex)`
   position: relative;
   z-index: 0;
   margin-left: 8px;
-  // margin-top: 16px !important;
   font-family: ${props => props.theme.fontFamily};
-  // margin-right: 10px;
   &.extra {
     width: 100%;
   }
