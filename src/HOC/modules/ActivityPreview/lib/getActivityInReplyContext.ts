@@ -13,28 +13,20 @@ export const getActivityInReplyContext = (
     return null;
   } else if (context.inReplyTo) {
     //FIXME https://gitlab.com/moodlenet/meta/issues/185
-    const actor = getActivityActor(context.inReplyTo.creator!);
+    const actor =
+      context.inReplyTo.creator && getActivityActor(context.inReplyTo.creator);
     return {
-      //FIXME https://gitlab.com/moodlenet/meta/issues/185
-      actor: getActivityActor(context.inReplyTo.creator!),
-      //FIXME https://gitlab.com/moodlenet/meta/issues/185
-      link: getActivitySimpleLink(context.inReplyTo.thread!),
+      actor: actor,
+      link: getActivitySimpleLink(context.inReplyTo.thread),
       desc: context.inReplyTo.content,
-      icon: actor.icon
+      icon: actor ? actor.icon : ''
     };
-  }
-  //FIXME https://gitlab.com/moodlenet/meta/issues/185
-  else if (context.thread!.context!.__typename === 'Flag') {
-    //FIXME https://gitlab.com/moodlenet/meta/issues/185
-    if (
-      !context.thread ||
-      !context.thread.context ||
-      context.thread.context.__typename !== 'Flag' ||
-      !context.thread.context.context
-    ) {
-      return null;
-    }
-
+  } else if (
+    context.thread &&
+    context.thread.context &&
+    context.thread.context.__typename === 'Flag' &&
+    context.thread.context.context
+  ) {
     const type =
       context.thread.context.context.__typename === 'Collection'
         ? UIP.ContextType.Collection
@@ -48,16 +40,19 @@ export const getActivityInReplyContext = (
         ? UIP.ContextType.User
         : null;
     if (!type) {
-      console.error(context);
-      throw new Error(`Type Error: can't extract thread.flag.context type`);
+      console.error(
+        `Type Error: can't extract thread.flag.context type`,
+        context
+      );
+      return null;
     }
 
     return {
       actor:
         context.thread.context.context.__typename === 'User'
           ? null
-          : //FIXME https://gitlab.com/moodlenet/meta/issues/185
-            getActivityActor(context.thread.context.context.creator!),
+          : context.thread.context.context.creator &&
+            getActivityActor(context.thread.context.context.creator),
       link: getActivitySimpleLink(
         context.thread.context.context.__typename === 'User'
           ? {
@@ -65,11 +60,9 @@ export const getActivityInReplyContext = (
               id: context.thread.context.context.userId
             }
           : context.thread.context.context.__typename === 'Resource'
-          ? //FIXME https://gitlab.com/moodlenet/meta/issues/185
-            context.thread.context.context.collection!
+          ? context.thread.context.context.collection
           : context.thread.context.context.__typename === 'Comment'
-          ? //FIXME https://gitlab.com/moodlenet/meta/issues/185
-            context.thread.context.context.thread!
+          ? context.thread.context.context.thread
           : context.thread.context.context
       ),
       icon:
@@ -78,11 +71,11 @@ export const getActivityInReplyContext = (
         context.thread.context.context.__typename === 'Resource' ||
         context.thread.context.context.__typename === 'User'
           ? context.thread.context.context.icon || ''
-          : //FIXME https://gitlab.com/moodlenet/meta/issues/185
-            context.thread.context.context.creator!.icon ||
-            //FIXME https://gitlab.com/moodlenet/meta/issues/185
-            context.thread.context.context.creator!.image ||
-            '',
+          : context.thread.context.context.creator
+          ? context.thread.context.context.creator.icon ||
+            context.thread.context.context.creator.image ||
+            ''
+          : '',
       desc:
         context.thread.context.context.__typename === 'Collection' ||
         context.thread.context.context.__typename === 'Community' ||
@@ -93,7 +86,6 @@ export const getActivityInReplyContext = (
           : context.thread.context.context.content
     };
   } else {
-    //FIXME https://gitlab.com/moodlenet/meta/issues/185
     if (
       !context.thread ||
       !context.thread.context ||
@@ -111,11 +103,10 @@ export const getActivityInReplyContext = (
         ? UIP.ContextType.Resource
         : null; // context.thread.context: never
     if (!type) {
-      console.error(context);
-      throw new Error(`Type Error: can't extract thread.context type`);
+      console.error(`Type Error: can't extract thread.context type`, context);
+      return null;
     }
 
-    //FIXME https://gitlab.com/moodlenet/meta/issues/185
     if (
       !context.thread.context ||
       !('creator' in context.thread.context) ||
@@ -130,8 +121,7 @@ export const getActivityInReplyContext = (
       actor: getActivityActor(context.thread.context.creator),
       link: getActivitySimpleLink(
         context.thread.context.__typename === 'Resource'
-          ? //FIXME https://gitlab.com/moodlenet/meta/issues/185
-            context.thread.context.collection!
+          ? context.thread.context.collection
           : context.thread.context
       ),
       desc: context.thread.context.name,

@@ -25,48 +25,44 @@ export const getActivityContext = (
           summary: gqlContext.summary || ''
         }
       : gqlContext.__typename === 'Comment'
-        ? {
-            verb: verbMap[verbType],
-            //FIXME https://gitlab.com/moodlenet/meta/issues/185
-            //@ts-ignore
-            link: getActivitySimpleLink(gqlContext.thread),
-            type: UIP.ContextType.Comment,
-            content: gqlContext.content
-          }
-        : gqlContext.__typename === 'Community'
-          ? {
-              verb: verbMap[verbType],
-              link: getActivitySimpleLink(gqlContext),
-              type: UIP.ContextType.Community,
-              icon: gqlContext.icon || '',
-              title: gqlContext.name,
-              summary: gqlContext.summary || ''
-            }
-          : gqlContext.__typename === 'Resource'
-            ? {
-                verb: verbMap[verbType],
-                //FIXME https://gitlab.com/moodlenet/meta/issues/185
-                //@ts-ignore
-                link: getActivitySimpleLink(gqlContext.collection),
-                type: UIP.ContextType.Resource,
-                icon: gqlContext.icon || '',
-                title: gqlContext.name,
-                summary: gqlContext.summary || '',
-                resourceUrl: gqlContext.url || ''
-              }
-            : gqlContext.__typename === 'User'
-              ? {
-                  verb: verbMap[verbType],
-                  link: getActivitySimpleLink({
-                    ...gqlContext,
-                    id: gqlContext.userId
-                  }),
-                  type: UIP.ContextType.Resource,
-                  icon: gqlContext.icon || gqlContext.image || '',
-                  summary: '',
-                  title: gqlContext.userName || ''
-                }
-              : null; // gqlContext: never
+      ? {
+          verb: verbMap[verbType],
+          link: getActivitySimpleLink(gqlContext.thread),
+          type: UIP.ContextType.Comment,
+          content: gqlContext.content
+        }
+      : gqlContext.__typename === 'Community'
+      ? {
+          verb: verbMap[verbType],
+          link: getActivitySimpleLink(gqlContext),
+          type: UIP.ContextType.Community,
+          icon: gqlContext.icon || '',
+          title: gqlContext.name,
+          summary: gqlContext.summary || ''
+        }
+      : gqlContext.__typename === 'Resource'
+      ? {
+          verb: verbMap[verbType],
+          link: getActivitySimpleLink(gqlContext.collection),
+          type: UIP.ContextType.Resource,
+          icon: gqlContext.icon || '',
+          title: gqlContext.name,
+          summary: gqlContext.summary || '',
+          resourceUrl: gqlContext.url || ''
+        }
+      : gqlContext.__typename === 'User'
+      ? {
+          verb: verbMap[verbType],
+          link: getActivitySimpleLink({
+            ...gqlContext,
+            id: gqlContext.userId
+          }),
+          type: UIP.ContextType.Resource,
+          icon: gqlContext.icon || gqlContext.image || '',
+          summary: '',
+          title: gqlContext.userName || ''
+        }
+      : null; // gqlContext: never
 
   return context;
 };
