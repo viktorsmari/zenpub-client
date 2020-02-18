@@ -39,14 +39,14 @@ export const getActivityInReplyContext = (
       context.thread.context.context.__typename === 'Collection'
         ? UIP.ContextType.Collection
         : context.thread.context.context.__typename === 'Community'
-          ? UIP.ContextType.Community
-          : context.thread.context.context.__typename === 'Resource'
-            ? UIP.ContextType.Resource
-            : context.thread.context.context.__typename === 'Comment'
-              ? UIP.ContextType.Comment
-              : context.thread.context.context.__typename === 'User'
-                ? UIP.ContextType.User
-                : null;
+        ? UIP.ContextType.Community
+        : context.thread.context.context.__typename === 'Resource'
+        ? UIP.ContextType.Resource
+        : context.thread.context.context.__typename === 'Comment'
+        ? UIP.ContextType.Comment
+        : context.thread.context.context.__typename === 'User'
+        ? UIP.ContextType.User
+        : null;
     if (!type) {
       console.error(context);
       throw new Error(`Type Error: can't extract thread.flag.context type`);
@@ -65,12 +65,12 @@ export const getActivityInReplyContext = (
               id: context.thread.context.context.userId
             }
           : context.thread.context.context.__typename === 'Resource'
-            ? //FIXME https://gitlab.com/moodlenet/meta/issues/185
-              context.thread.context.context.collection!
-            : context.thread.context.context.__typename === 'Comment'
-              ? //FIXME https://gitlab.com/moodlenet/meta/issues/185
-                context.thread.context.context.thread!
-              : context.thread.context.context
+          ? //FIXME https://gitlab.com/moodlenet/meta/issues/185
+            context.thread.context.context.collection!
+          : context.thread.context.context.__typename === 'Comment'
+          ? //FIXME https://gitlab.com/moodlenet/meta/issues/185
+            context.thread.context.context.thread!
+          : context.thread.context.context
       ),
       icon:
         context.thread.context.context.__typename === 'Collection' ||
@@ -89,8 +89,8 @@ export const getActivityInReplyContext = (
         context.thread.context.context.__typename === 'Resource'
           ? context.thread.context.context.name
           : context.thread.context.context.__typename === 'User'
-            ? context.thread.context.context.userName || ''
-            : context.thread.context.context.content
+          ? context.thread.context.context.userName || ''
+          : context.thread.context.context.content
     };
   } else {
     //FIXME https://gitlab.com/moodlenet/meta/issues/185
@@ -106,10 +106,10 @@ export const getActivityInReplyContext = (
       context.thread.context.__typename === 'Collection'
         ? UIP.ContextType.Collection
         : context.thread.context.__typename === 'Community'
-          ? UIP.ContextType.Community
-          : context.thread.context.__typename === 'Resource'
-            ? UIP.ContextType.Resource
-            : null; // context.thread.context: never
+        ? UIP.ContextType.Community
+        : context.thread.context.__typename === 'Resource'
+        ? UIP.ContextType.Resource
+        : null; // context.thread.context: never
     if (!type) {
       console.error(context);
       throw new Error(`Type Error: can't extract thread.context type`);
