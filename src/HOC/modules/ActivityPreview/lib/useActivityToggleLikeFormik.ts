@@ -53,9 +53,11 @@ export const useActivityToggleLikeFormik = (
                   myLike: null,
                   likes: {
                     __typename: 'LikesEdges',
-                    totalCount: !activity.context.likes
-                      ? 0
-                      : activity.context.likes.totalCount - 1
+                    totalCount:
+                      //FIXME: Resource must have a likerCount !!!
+                      activity.context.__typename === 'Resource'
+                        ? (activity.context.likes?.totalCount || 1) - 1
+                        : (activity.context.likerCount || 1) - 1
                   }
                 }
               }
@@ -85,9 +87,11 @@ export const useActivityToggleLikeFormik = (
                   myLike: { __typename: 'Like', id: '#' },
                   likes: {
                     __typename: 'LikesEdges',
-                    totalCount: !activity.context.likes
-                      ? 1
-                      : activity.context.likes.totalCount + 1
+                    totalCount:
+                      //FIXME: Resource must have a likerCount !!!
+                      activity.context.__typename === 'Resource'
+                        ? (activity.context.likes?.totalCount || 0) + 1
+                        : (activity.context.likerCount || 1) + 1
                   }
                 }
               }

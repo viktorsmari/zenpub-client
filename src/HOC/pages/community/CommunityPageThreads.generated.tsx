@@ -16,7 +16,6 @@ export type ComunityPageThreadFragment = (
       { __typename: 'CommentsEdge' }
       & { node: (
         { __typename: 'Comment' }
-        & Pick<Types.Comment, 'createdAt'>
         & ActivityPreviewCommentCtxExtendedFragment
       ) }
     )>> }
@@ -31,7 +30,6 @@ export const ComunityPageThreadFragmentDoc = gql`
     edges {
       node {
         ...ActivityPreviewCommentCtxExtended
-        createdAt
       }
     }
   }

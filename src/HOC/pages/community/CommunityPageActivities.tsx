@@ -1,28 +1,19 @@
+import { useCommunityOutboxActivities } from 'fe/activities/outbox/community/useCommunityPageActivities';
+import { Community } from 'graphql/types.generated';
 import { ActivityPreviewHOC } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
-import React, { createContext, SFC, useContext } from 'react';
-import { alertUnimplementedCtx } from 'util/ctx-mock/alertUnimplementedCtx';
-import { Activity } from 'graphql/types.generated';
+import React, { SFC } from 'react';
 
-export interface Props {}
-
-export interface CommunityPageActivitiesCtx {
-  activitiesIds: Activity['id'][];
+export interface Props {
+  communityId: Community['id'];
 }
-export const CommunityPageActivitiesCtx = createContext<
-  CommunityPageActivitiesCtx
->(
-  alertUnimplementedCtx<CommunityPageActivitiesCtx>(
-    'CommunityPageActivitiesCtx'
-  )
-);
 
-export const CommunityPageActivities: SFC<Props> = () => {
-  const { activitiesIds } = useContext(CommunityPageActivitiesCtx);
+export const CommunityPageActivities: SFC<Props> = ({ communityId }) => {
+  const { activities } = useCommunityOutboxActivities(communityId);
 
   return (
     <>
-      {activitiesIds.map(activityId => (
-        <ActivityPreviewHOC activityId={activityId} key={activityId} />
+      {activities.map(activity => (
+        <ActivityPreviewHOC activityId={activity.id} key={activity.id} />
       ))}
     </>
   );

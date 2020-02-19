@@ -17,9 +17,10 @@ export const getActivityActions = (
           toggleLikeFormik,
           iLikeIt: !!context.myLike,
           totalLikes:
-            'likes' in context
-              ? context.likes && context.likes.totalCount
-              : null
+            //FIXME: Resource must have a likerCount !!!
+            context.__typename === 'Resource'
+              ? context.likes?.totalCount || 0
+              : context.likerCount || 0
         }
       : null;
 

@@ -61,9 +61,7 @@ fragment ActivityPreviewUserCtx on User {
     myFollow {
         id
     }
-    likes{
-        totalCount
-    }
+    likerCount
     myLike{
         id
     }
@@ -95,9 +93,7 @@ fragment ActivityPreviewCollectionCtx on Collection{
     creator {
         ...ActivityPreviewUserCtx
     }
-    likes{
-        totalCount
-    }
+    likerCount
     myLike{
         id
     }
@@ -111,9 +107,7 @@ fragment ActivityPreviewCommentCtxExtended on Comment{
     inReplyTo {
         ...ActivityPreviewCommentCtxBase
     }
-    likes{
-        totalCount
-    }
+    likerCount
     myLike{
         id
     }
@@ -151,9 +145,7 @@ fragment ActivityPreviewCommunityCtx on Community{
     creator {
         ...ActivityPreviewUserCtx
     }
-    # likes{
-    #     totalCount
-    # }
+    likerCount
     myLike{
         id
     }
@@ -176,9 +168,7 @@ fragment ActivityPreviewResourceCtx on Resource{
     creator {
         ...ActivityPreviewUserCtx
     }
-    likes{
-        totalCount
-    }
+    likes{totalCount}
     myLike{
         id
     }
@@ -279,12 +269,12 @@ mutation activityPreviewLike($contextId: String!) {
 fragment ActivityPreviewLikeMutationResult on Like {
     context {
         ... on Collection{
-            likes{totalCount}
+            likerCount
             myLike{id}
             id
         }
         ... on Comment{
-            likes{totalCount}
+            likerCount
             myLike{id}
             id
         }
@@ -294,7 +284,7 @@ fragment ActivityPreviewLikeMutationResult on Like {
             id
         }
         ... on User{
-            likes{totalCount}
+            likerCount
             myLike{id}
             userId:id
         }
@@ -309,12 +299,12 @@ mutation activityPreviewUnlike($contextId: String!) {
 fragment ActivityPreviewUnlikeMutationResult on Like {
     context {
         ... on Collection{
-            likes{totalCount}
+            likerCount
             myLike{id}
             id
         }
         ... on Comment{
-            likes{totalCount}
+            likerCount
             myLike{id}
             id
         }
@@ -324,7 +314,7 @@ fragment ActivityPreviewUnlikeMutationResult on Like {
             id
         }
         ... on User{
-            likes{totalCount}
+            likerCount
             myLike{id}
             userId:id
         }

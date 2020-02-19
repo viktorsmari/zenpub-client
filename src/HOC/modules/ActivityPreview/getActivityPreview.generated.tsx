@@ -56,14 +56,11 @@ export type ActivityPreviewDataFragment = (
 
 export type ActivityPreviewUserCtxFragment = (
   { __typename: 'User' }
-  & Pick<Types.User, 'icon' | 'image' | 'isLocal' | 'summary' | 'canonicalUrl'>
+  & Pick<Types.User, 'icon' | 'image' | 'isLocal' | 'summary' | 'canonicalUrl' | 'likerCount'>
   & { userId: Types.User['id'], userName: Types.User['name'] }
   & { myFollow: Types.Maybe<(
     { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
-  )>, likes: Types.Maybe<(
-    { __typename: 'LikesEdges' }
-    & Pick<Types.LikesEdges, 'totalCount'>
   )>, myLike: Types.Maybe<(
     { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
@@ -80,7 +77,7 @@ export type ActivityPreviewBaseThreadFragment = (
 
 export type ActivityPreviewCollectionCtxFragment = (
   { __typename: 'Collection' }
-  & Pick<Types.Collection, 'id' | 'isLocal' | 'icon' | 'name' | 'summary' | 'canonicalUrl'>
+  & Pick<Types.Collection, 'id' | 'isLocal' | 'icon' | 'name' | 'summary' | 'canonicalUrl' | 'likerCount'>
   & { community: Types.Maybe<(
     { __typename: 'Community' }
     & Pick<Types.Community, 'id'>
@@ -91,9 +88,6 @@ export type ActivityPreviewCollectionCtxFragment = (
   )>, creator: Types.Maybe<(
     { __typename: 'User' }
     & ActivityPreviewUserCtxFragment
-  )>, likes: Types.Maybe<(
-    { __typename: 'LikesEdges' }
-    & Pick<Types.LikesEdges, 'totalCount'>
   )>, myLike: Types.Maybe<(
     { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
@@ -105,12 +99,10 @@ export type ActivityPreviewCollectionCtxFragment = (
 
 export type ActivityPreviewCommentCtxExtendedFragment = (
   { __typename: 'Comment' }
+  & Pick<Types.Comment, 'likerCount'>
   & { inReplyTo: Types.Maybe<(
     { __typename: 'Comment' }
     & ActivityPreviewCommentCtxBaseFragment
-  )>, likes: Types.Maybe<(
-    { __typename: 'LikesEdges' }
-    & Pick<Types.LikesEdges, 'totalCount'>
   )>, myLike: Types.Maybe<(
     { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
@@ -135,7 +127,7 @@ export type ActivityPreviewCommentCtxBaseFragment = (
 
 export type ActivityPreviewCommunityCtxFragment = (
   { __typename: 'Community' }
-  & Pick<Types.Community, 'id' | 'isLocal' | 'icon' | 'name' | 'summary' | 'canonicalUrl'>
+  & Pick<Types.Community, 'id' | 'isLocal' | 'icon' | 'name' | 'summary' | 'canonicalUrl' | 'likerCount'>
   & { myFollow: Types.Maybe<(
     { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
@@ -264,21 +256,15 @@ export type ActivityPreviewLikeMutationResultFragment = (
   { __typename: 'Like' }
   & { context: Types.Maybe<(
     { __typename: 'Collection' }
-    & Pick<Types.Collection, 'id'>
-    & { likes: Types.Maybe<(
-      { __typename: 'LikesEdges' }
-      & Pick<Types.LikesEdges, 'totalCount'>
-    )>, myLike: Types.Maybe<(
+    & Pick<Types.Collection, 'likerCount' | 'id'>
+    & { myLike: Types.Maybe<(
       { __typename: 'Like' }
       & Pick<Types.Like, 'id'>
     )> }
   ) | (
     { __typename: 'Comment' }
-    & Pick<Types.Comment, 'id'>
-    & { likes: Types.Maybe<(
-      { __typename: 'LikesEdges' }
-      & Pick<Types.LikesEdges, 'totalCount'>
-    )>, myLike: Types.Maybe<(
+    & Pick<Types.Comment, 'likerCount' | 'id'>
+    & { myLike: Types.Maybe<(
       { __typename: 'Like' }
       & Pick<Types.Like, 'id'>
     )> }
@@ -294,11 +280,9 @@ export type ActivityPreviewLikeMutationResultFragment = (
     )> }
   ) | (
     { __typename: 'User' }
+    & Pick<Types.User, 'likerCount'>
     & { userId: Types.User['id'] }
-    & { likes: Types.Maybe<(
-      { __typename: 'LikesEdges' }
-      & Pick<Types.LikesEdges, 'totalCount'>
-    )>, myLike: Types.Maybe<(
+    & { myLike: Types.Maybe<(
       { __typename: 'Like' }
       & Pick<Types.Like, 'id'>
     )> }
@@ -322,21 +306,15 @@ export type ActivityPreviewUnlikeMutationResultFragment = (
   { __typename: 'Like' }
   & { context: Types.Maybe<(
     { __typename: 'Collection' }
-    & Pick<Types.Collection, 'id'>
-    & { likes: Types.Maybe<(
-      { __typename: 'LikesEdges' }
-      & Pick<Types.LikesEdges, 'totalCount'>
-    )>, myLike: Types.Maybe<(
+    & Pick<Types.Collection, 'likerCount' | 'id'>
+    & { myLike: Types.Maybe<(
       { __typename: 'Like' }
       & Pick<Types.Like, 'id'>
     )> }
   ) | (
     { __typename: 'Comment' }
-    & Pick<Types.Comment, 'id'>
-    & { likes: Types.Maybe<(
-      { __typename: 'LikesEdges' }
-      & Pick<Types.LikesEdges, 'totalCount'>
-    )>, myLike: Types.Maybe<(
+    & Pick<Types.Comment, 'likerCount' | 'id'>
+    & { myLike: Types.Maybe<(
       { __typename: 'Like' }
       & Pick<Types.Like, 'id'>
     )> }
@@ -352,11 +330,9 @@ export type ActivityPreviewUnlikeMutationResultFragment = (
     )> }
   ) | (
     { __typename: 'User' }
+    & Pick<Types.User, 'likerCount'>
     & { userId: Types.User['id'] }
-    & { likes: Types.Maybe<(
-      { __typename: 'LikesEdges' }
-      & Pick<Types.LikesEdges, 'totalCount'>
-    )>, myLike: Types.Maybe<(
+    & { myLike: Types.Maybe<(
       { __typename: 'Like' }
       & Pick<Types.Like, 'id'>
     )> }
@@ -414,9 +390,7 @@ export const ActivityPreviewUserCtxFragmentDoc = gql`
   myFollow {
     id
   }
-  likes {
-    totalCount
-  }
+  likerCount
   myLike {
     id
   }
@@ -442,9 +416,7 @@ export const ActivityPreviewCollectionCtxFragmentDoc = gql`
   creator {
     ...ActivityPreviewUserCtx
   }
-  likes {
-    totalCount
-  }
+  likerCount
   myLike {
     id
   }
@@ -490,6 +462,7 @@ export const ActivityPreviewCommunityCtxFragmentDoc = gql`
   creator {
     ...ActivityPreviewUserCtx
   }
+  likerCount
   myLike {
     id
   }
@@ -580,9 +553,7 @@ export const ActivityPreviewCommentCtxExtendedFragmentDoc = gql`
   inReplyTo {
     ...ActivityPreviewCommentCtxBase
   }
-  likes {
-    totalCount
-  }
+  likerCount
   myLike {
     id
   }
@@ -684,18 +655,14 @@ export const ActivityPreviewLikeMutationResultFragmentDoc = gql`
     fragment ActivityPreviewLikeMutationResult on Like {
   context {
     ... on Collection {
-      likes {
-        totalCount
-      }
+      likerCount
       myLike {
         id
       }
       id
     }
     ... on Comment {
-      likes {
-        totalCount
-      }
+      likerCount
       myLike {
         id
       }
@@ -711,9 +678,7 @@ export const ActivityPreviewLikeMutationResultFragmentDoc = gql`
       id
     }
     ... on User {
-      likes {
-        totalCount
-      }
+      likerCount
       myLike {
         id
       }
@@ -726,18 +691,14 @@ export const ActivityPreviewUnlikeMutationResultFragmentDoc = gql`
     fragment ActivityPreviewUnlikeMutationResult on Like {
   context {
     ... on Collection {
-      likes {
-        totalCount
-      }
+      likerCount
       myLike {
         id
       }
       id
     }
     ... on Comment {
-      likes {
-        totalCount
-      }
+      likerCount
       myLike {
         id
       }
@@ -753,9 +714,7 @@ export const ActivityPreviewUnlikeMutationResultFragmentDoc = gql`
       id
     }
     ... on User {
-      likes {
-        totalCount
-      }
+      likerCount
       myLike {
         id
       }

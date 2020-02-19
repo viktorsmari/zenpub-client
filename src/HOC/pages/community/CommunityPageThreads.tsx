@@ -1,37 +1,25 @@
+import { useReplyComment } from 'fe/comment/reply/useReplyComment';
+import { useLikeContext } from 'fe/context/like/useLikeContext';
+import { useCommunityThreads } from 'fe/threads/community/useCommunityThreads';
 import { useFormik } from 'formik';
+import { Community } from 'graphql/types.generated';
 import { getActivityActions } from 'HOC/modules/ActivityPreview/lib/getActivityActions';
 import { getActivityActor } from 'HOC/modules/ActivityPreview/lib/getActivityActor';
-import React, { createContext, FC, useContext } from 'react';
+import React, { FC } from 'react';
 import {
   ActivityPreview,
   Props as ActivityPreviewProps,
   Status as ActivityPreviewStatus
 } from 'ui/modules/ActivityPreview';
-import * as UIP from 'ui/modules/ActivityPreview/preview';
-import { alertUnimplementedCtx } from 'util/ctx-mock/alertUnimplementedCtx';
+import * as UIAP from 'ui/modules/ActivityPreview/preview';
 import * as GQL from './CommunityPageThreads.generated';
-import { Thread, Comment, Like } from 'graphql/types.generated';
 
-export interface Props {}
-
-export interface CommunityPageThreadsCtx {
-  threads: GQL.ComunityPageThreadFragment[];
-  reply(_: {
-    commentId: Comment['id'];
-    threadId: Thread['id'];
-    replyMessage: string;
-  }): Promise<unknown> | void;
-  toggleLike(_: {
-    id: Comment['id'];
-    myLike: { id: Like['id'] } | null;
-  }): Promise<unknown> | void;
+export interface Props {
+  communityId: Community['id'];
 }
-export const CommunityPageThreadsCtx = createContext(
-  alertUnimplementedCtx<CommunityPageThreadsCtx>('CommunityPageThreadsCtx')
-);
 
-export const CommunityPageThreads: FC<Props> = () => {
-  const { threads } = useContext(CommunityPageThreadsCtx);
+export const CommunityPageThreads: FC<Props> = ({ communityId }) => {
+  const { threads } = useCommunityThreads(communityId);
 
   return (
     <>
@@ -45,29 +33,30 @@ export const CommunityPageThreads: FC<Props> = () => {
 export const ThreadActivity: FC<{ thread: GQL.ComunityPageThreadFragment }> = ({
   thread
 }) => {
-  const { reply, toggleLike } = useContext(CommunityPageThreadsCtx);
-
   const comment =
     thread.comments?.edges &&
     thread.comments.edges[0] &&
     thread.comments.edges[0].node;
 
+  const { reply } = useReplyComment(comment);
   const replyThreadFormik = useFormik<{ replyMessage: string }>({
     initialValues: { replyMessage: '' },
-    onSubmit: vals => {
+    onSubmit: ({ replyMessage }) => {
       if (!comment) {
         return;
       }
-      return reply({ ...vals, commentId: comment.id, threadId: thread.id });
+      return reply(replyMessage);
     }
   });
+
+  const { toggleLike } = useLikeContext(comment?.id, comment?.myLike);
   const toggleLikeFormik = useFormik<{}>({
     initialValues: {},
     onSubmit: () => {
       if (!comment) {
         return;
       }
-      return toggleLike(comment);
+      return toggleLike();
     }
   });
 
@@ -78,10 +67,10 @@ export const ThreadActivity: FC<{ thread: GQL.ComunityPageThreadFragment }> = ({
   const props: ActivityPreviewProps = {
     actor: getActivityActor(comment.creator),
     context: {
-      type: UIP.ContextType.Comment,
+      type: UIAP.ContextType.Comment,
       content: comment.content,
       link: `/thread/${thread.id}`,
-      verb: UIP.ContextVerb.Created
+      verb: UIAP.ContextVerb.Created
     },
     createdAt: comment.createdAt,
     status: ActivityPreviewStatus.Loaded,
