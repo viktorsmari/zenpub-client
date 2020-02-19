@@ -1,0 +1,18 @@
+#import "HOC/page/community/CommunityPageThreads.graphql"
+
+query communityThreads($communityId: String!, $limit:Int, $before:String, $after:String) {
+  community(communityId:$communityId){
+    id
+    threads(limit:$limit, before:$before, after:$after){
+      edges{
+        node{
+          ...CommunityThread
+        }
+      }
+    }
+  }
+}
+
+fragment CommunityThread on Thread{
+  ...ComunityPageThread
+}

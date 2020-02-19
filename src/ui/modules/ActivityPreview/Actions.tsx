@@ -20,7 +20,7 @@ import Button from 'ui/elements/Button';
 
 export interface LikeActions {
   toggleLikeFormik: FormikHook<{}>;
-  totalLikes: number | null;
+  totalLikes: number;
   iLikeIt: boolean;
 }
 export interface ReplyActions {

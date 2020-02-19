@@ -51,12 +51,18 @@ export const useActivityToggleLikeFormik = (
                         id: activity.context.id
                       }),
                   myLike: null,
-                  likes: {
-                    __typename: 'LikesEdges',
-                    totalCount: !activity.context.likes
-                      ? 0
-                      : activity.context.likes.totalCount - 1
-                  }
+                  //FIXME: Resource must have a likerCount !!!
+                  ...(activity.context.__typename === 'Resource'
+                    ? {
+                        likes: {
+                          __typename: 'LikesEdges',
+                          totalCount:
+                            (activity.context.likes?.totalCount || 1) - 1
+                        }
+                      }
+                    : {
+                        likerCount: (activity.context.likerCount || 1) - 1
+                      })
                 }
               }
             }
@@ -83,12 +89,18 @@ export const useActivityToggleLikeFormik = (
                         id: activity.context.id
                       }),
                   myLike: { __typename: 'Like', id: '#' },
-                  likes: {
-                    __typename: 'LikesEdges',
-                    totalCount: !activity.context.likes
-                      ? 1
-                      : activity.context.likes.totalCount + 1
-                  }
+                  //FIXME: Resource must have a likerCount !!!
+                  ...(activity.context.__typename === 'Resource'
+                    ? {
+                        likes: {
+                          __typename: 'LikesEdges',
+                          totalCount:
+                            (activity.context.likes?.totalCount || 1) + 1
+                        }
+                      }
+                    : {
+                        likerCount: (activity.context.likerCount || 0) + 1
+                      })
                 }
               }
             }

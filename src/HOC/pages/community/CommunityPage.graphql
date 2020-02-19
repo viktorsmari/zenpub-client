@@ -1,0 +1,6 @@
+#import "HOC/modules/HeroCommunity/HeroCommunity.graphql"
+fragment CommunityPageBase on Community{
+  id
+  myFollow{id}
+  ...HeroCommunityData
+}

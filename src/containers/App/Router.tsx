@@ -1,7 +1,6 @@
-import { UserPageCtxProvider } from 'context/hocs/page/user/UserPageCtx';
 import { CollectionPageHOC } from 'HOC/pages/collection/CollectionPageHOC';
-import { CommunityPageHOC } from 'HOC/pages/community/CommunityPageHOC';
-import { UserPageHOC } from 'HOC/pages/user/UserPageHOC';
+import { CommunityPage } from 'HOC/pages/community/CommunityPage';
+import { UserPage } from 'HOC/pages/user/UserPage';
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
@@ -31,7 +30,6 @@ import Sidebar from '../../sections/sidebar/sidebarHOC';
 import SidebarNoLoggedWrapper from '../../sections/sidebar/sidebar_not_logged';
 import styled from '../../themes/styled';
 import MobileHeader from './mobileHeader';
-import { CommunityPageCtxProvider } from 'context/hocs/page/community/CommunityPageCtx';
 
 const Main = styled(Flex)`
   height: 100%;
@@ -98,11 +96,7 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
           path="/communities/:communityId/:tab?"
           render={route => {
             const communityId = route.match.params.communityId;
-            return (
-              <CommunityPageCtxProvider communityId={communityId}>
-                <CommunityPageHOC />;
-              </CommunityPageCtxProvider>
-            );
+            return <CommunityPage communityId={communityId} />;
           }}
         />
         <Route
@@ -127,11 +121,7 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
           path="/user/:id/:tab?"
           render={route => {
             const userId = route.match.params.id;
-            return (
-              <UserPageCtxProvider userId={userId}>
-                <UserPageHOC />;
-              </UserPageCtxProvider>
-            );
+            return <UserPage userId={userId} />;
           }}
         />
         <Route path="/search" component={SearchComp} />
