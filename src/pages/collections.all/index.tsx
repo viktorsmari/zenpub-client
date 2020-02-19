@@ -10,11 +10,14 @@ import styled from '../../themes/styled';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 
 export const CollectionsYours: React.SFC = () => {
-  const { error, data, loading } = useGetCollectionsQueryQuery({
+  const { error, data, loading, refetch } = useGetCollectionsQueryQuery({
     variables: {
       limit: 15
     }
   });
+  React.useEffect(() => {
+    refetch();
+  }, []);
   return (
     <MainContainer>
       <HomeBox>
@@ -58,7 +61,7 @@ export const CollectionsYours: React.SFC = () => {
                               />
                             </div>
                           )
-                          // <CollectionCard key={i} collection={coll} />
+                        // <CollectionCard key={i} collection={coll} />
                       )}
                   </List>
                   {/* <CollectionsLoadMore
