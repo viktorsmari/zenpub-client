@@ -49,7 +49,12 @@ export const ThreadActivity: FC<{ thread: GQL.ComunityPageThreadFragment }> = ({
     }
   });
 
-  const { toggleLike } = useLikeContext(comment?.id, comment?.myLike);
+  const { toggleLike } = useLikeContext(
+    comment?.id,
+    comment?.myLike,
+    comment?.likerCount,
+    'Comment'
+  );
   const toggleLikeFormik = useFormik<{}>({
     initialValues: {},
     onSubmit: () => {

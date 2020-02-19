@@ -1,16 +1,32 @@
 import { useCallback, useMemo } from 'react';
 import Maybe from 'graphql/tsutils/Maybe';
+import * as GQL from 'fe/mutation/like/useMutateLike.generated';
 import {
-  useLikeMutation,
-  useUnlikeMutation
-} from 'fe/mutation/like/useMutateLike.generated';
+  Resource,
+  Community,
+  Collection,
+  User,
+  Comment
+} from 'graphql/types.generated';
+import { OPTIMISTIC_ID_STRING, isOptimisticId } from 'fe/util';
+
+type Typename = Exclude<
+  | Collection['__typename']
+  | Comment['__typename']
+  | Community['__typename']
+  | Resource['__typename']
+  | User['__typename'],
+  null | undefined
+>;
 
 export const useLikeContext = (
   contextId: Maybe<string>,
-  myLike: Maybe<{ id: string }>
+  myLike: Maybe<{ id: string }>,
+  likerCount: Maybe<number>,
+  __typename: Typename
 ) => {
-  const [likeMut, likeMutStatus] = useLikeMutation();
-  const [unlikeMut, unlikeMutStatus] = useUnlikeMutation();
+  const [likeMut, likeMutStatus] = GQL.useLikeMutation();
+  const [unlikeMut, unlikeMutStatus] = GQL.useUnlikeMutation();
   const mutating = likeMutStatus.loading || unlikeMutStatus.loading;
   const toggleLike = useCallback(async () => {
     if (!contextId || mutating) {
@@ -20,16 +36,28 @@ export const useLikeContext = (
       return likeMut({
         variables: {
           contextId
-        }
+        },
+        optimisticResponse: optimisticLike(
+          __typename,
+          contextId,
+          likerCount || 0
+        )
       });
     } else {
-      return unlikeMut({
-        variables: {
-          contextId: myLike.id
-        }
-      });
+      return isOptimisticId(myLike.id)
+        ? undefined
+        : unlikeMut({
+            variables: {
+              contextId: myLike.id
+            },
+            optimisticResponse: optimisticUnlike(
+              __typename,
+              contextId,
+              likerCount || 0
+            )
+          });
     }
-  }, [contextId, myLike, mutating]);
+  }, [contextId, myLike, mutating, __typename, likerCount]);
 
   return useMemo(
     () => ({
@@ -38,3 +66,36 @@ export const useLikeContext = (
     [toggleLike]
   );
 };
+
+const optimisticLike = (
+  __typename: any,
+  id: string,
+  likerCount: number
+): GQL.LikeMutation => ({
+  __typename: 'RootMutationType',
+  createLike: {
+    __typename: 'Like',
+    context: {
+      __typename,
+      id,
+      myLike: { __typename: 'Like', id: OPTIMISTIC_ID_STRING },
+      likerCount: likerCount + 1
+    }
+  }
+});
+const optimisticUnlike = (
+  __typename: any,
+  id: string,
+  likerCount: number
+): GQL.UnlikeMutation => ({
+  __typename: 'RootMutationType',
+  delete: {
+    __typename: 'Like',
+    context: {
+      __typename,
+      id,
+      myLike: null,
+      likerCount: likerCount - 1
+    }
+  }
+});

@@ -7,4 +7,5 @@ fragment HeroUserUserData on User {
   summary,
   name,
   myFollow{id}
+  followerCount
 }

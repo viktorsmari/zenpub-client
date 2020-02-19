@@ -14,7 +14,9 @@ export const useCommunity = (communityId: Community['id']) => {
   const community = communityQ.data?.community;
   const { toggleFollow: toggleJoin } = useFollowContext(
     communityId,
-    community?.myFollow
+    community?.myFollow,
+    community?.followerCount,
+    'Community'
   );
   const { edit } = useEditCommunity(communityId);
   const canModify =
