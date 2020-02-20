@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { NavLink, Route, Switch } from 'react-router-dom';
-import { Flex, Text } from 'rebass/styled-components';
+import { Flex, Text, Box } from 'rebass/styled-components';
 import media from 'styled-media-query';
 
 import {
@@ -17,14 +17,28 @@ export interface Props {
   ActivityBoxes: JSX.Element;
   HeroUserBox: JSX.Element;
   Header: JSX.Element;
+  CommunityBoxes: JSX.Element;
+  CollectionsBoxes: JSX.Element;
+  UserBoxes: JSX.Element;
   basePath: string;
+  totalCommunities: string;
+  totalActivities: string;
+  totalCollections: string;
+  totalUsers: string;
 }
 
 export const User: React.FC<Props> = ({
   HeroUserBox,
   ActivityBoxes,
+  CommunityBoxes,
+  CollectionsBoxes,
+  UserBoxes,
   basePath,
-  Header
+  Header,
+  totalCommunities,
+  totalActivities,
+  totalCollections,
+  totalUsers
 }) => {
   return (
     <MainContainer>
@@ -38,20 +52,60 @@ export const User: React.FC<Props> = ({
                 <Menu basePath={basePath} />
                 {ActivityBoxes}
               </Route>
-              <Route exact path={`${basePath}/communities`}>
+              <Route exact path={`${basePath}/likes`}>
+                <Menu basePath={basePath} />
                 {ActivityBoxes}
+              </Route>
+              <Route exact path={`${basePath}/communities`}>
+                <WrapperBoxes>{CommunityBoxes}</WrapperBoxes>
               </Route>
               <Route exact path={`${basePath}/collections`}>
-                {ActivityBoxes}
+                {CollectionsBoxes}
               </Route>
               <Route exact path={`${basePath}/following`}>
-                {ActivityBoxes}
+                {UserBoxes}
               </Route>
             </Switch>
           </Wrapper>
         </WrapperCont>
       </HomeBox>
       <WrapperPanel>
+        <Panel>
+          <PanelTitle fontSize={0} fontWeight={'bold'}>
+            Relevant links
+          </PanelTitle>
+          <Nav>
+            <NavWrapper fontSize={1} mb={2}>
+              <NavLink exact to={`${basePath}`}>
+                <Text ml={2} flex={1}>
+                  <Bold>{totalActivities}</Bold> Activities
+                </Text>
+              </NavLink>
+            </NavWrapper>
+            <NavWrapper fontSize={1} mb={2}>
+              <NavLink to={`${basePath}/communities`}>
+                <Text ml={2} flex={1}>
+                  <Bold>{totalCommunities}</Bold> Joined communities
+                </Text>
+              </NavLink>
+            </NavWrapper>
+            <NavWrapper fontSize={1} mb={2}>
+              <NavLink to={`${basePath}/collections`}>
+                <Text ml={2} flex={1}>
+                  <Bold>{totalCollections}</Bold> Followed collections
+                </Text>
+              </NavLink>
+            </NavWrapper>
+            <NavWrapper fontSize={1}>
+              <NavLink to={`${basePath}/following`}>
+                <Text ml={2} flex={1}>
+                  <Bold>{totalUsers}</Bold> Followed users
+                </Text>
+              </NavLink>
+            </NavWrapper>
+          </Nav>
+        </Panel>
+
         <Panel>
           <PanelTitle fontSize={0} fontWeight={'bold'}>
             Relevant links
@@ -82,6 +136,35 @@ const Menu = ({ basePath }: { basePath: string }) => (
     </NavLink>
   </MenuWrapper>
 );
+
+const NavWrapper = styled(NavItem)`
+  .active {
+    color: ${props => props.theme.colors.primary};
+    font-weight: 700;
+    b {
+      color: ${props => props.theme.colors.primary};
+    }
+  }
+`;
+
+const Bold = styled.b`
+  font-size: 14px;
+  font-weight: 800;
+  border: 1px solid ${props => props.theme.colors.primary};
+  padding: 0px 4px;
+  border-radius: 2px;
+  width: 24px;
+  display: inline-block;
+  text-align: center;
+`;
+
+const WrapperBoxes = styled(Box)`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 8px;
+  grid-row-gap: 8px;
+  padding: 8px;
+`;
 
 const MenuWrapper = styled(Flex)`
   a {

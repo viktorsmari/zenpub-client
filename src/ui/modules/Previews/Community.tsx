@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'ui/themes/styled';
 import { Text, Box, Flex } from 'rebass/styled-components';
-import { Layers, Users, UserPlus } from 'react-feather';
+import { UserPlus } from 'react-feather';
 import Avatar from 'ui/elements/Avatar';
 import { Trans } from '@lingui/macro';
 
@@ -26,41 +26,40 @@ export const Community: React.FC<Props> = ({
     <WrapperImage>
       <Avatar size="l" src={icon} />
     </WrapperImage>
-    <Flex mt={1}>
-      <Box flex={1}>
-        <Text variant="heading" mt={1} fontSize={3}>
-          {name.length > 60 ? name.replace(/^(.{56}[^\s]*).*/, '$1...') : name}
-        </Text>
-        <Username>@ivan@moodle.net</Username>
-      </Box>
-      <Icon>
-        <UserPlus size={20} />
-      </Icon>
-    </Flex>
+    <Box p={2}>
+      <Flex>
+        <Box flex={1}>
+          <Text variant="heading" fontSize={3}>
+            {name.length > 60
+              ? name.replace(/^(.{56}[^\s]*).*/, '$1...')
+              : name}
+          </Text>
+          <Username>@ivan@moodle.net</Username>
+          <Meta mt={2}>
+            <Flex alignSelf="center" mr={3} alignItems="center">
+              <Text fontSize={'10px'} variant="suptitle">
+                {followersCount || 0} <Trans>Users</Trans>
+              </Text>
+            </Flex>
+            <Flex alignSelf="center" alignItems="center">
+              <Text fontSize={'10px'} variant="suptitle">
+                {collectionsCount || 0} <Trans>Collections</Trans>
+              </Text>
+            </Flex>
+          </Meta>
+        </Box>
 
-    <Text variant="text" mt={2}>
-      {summary.length > 160
-        ? summary.replace(/^([\s\S]{156}[^\s]*)[\s\S]*/, '$1...')
-        : summary}
-    </Text>
-    <Meta my={2} mt={3}>
-      <Flex mr={4} alignSelf="center" alignItems="center">
-        <Flex mr={1}>
-          <Users size={20} strokeWidth={2} />
-        </Flex>
-        <Text ml={2} variant="suptitle">
-          {followersCount || 0} <Trans>Users</Trans>
-        </Text>
+        <Icon>
+          <UserPlus size={20} />
+        </Icon>
       </Flex>
-      <Flex mr={4} alignSelf="center" alignItems="center">
-        <Flex mr={1}>
-          <Layers size={20} strokeWidth={2} />
-        </Flex>
-        <Text ml={2} variant="suptitle">
-          {collectionsCount || 0} <Trans>Collections</Trans>
-        </Text>
-      </Flex>
-    </Meta>
+
+      <Text variant="text" mt={2}>
+        {summary.length > 160
+          ? summary.replace(/^([\s\S]{156}[^\s]*)[\s\S]*/, '$1...')
+          : summary}
+      </Text>
+    </Box>
   </Wrapper>
 );
 
@@ -72,7 +71,7 @@ const Icon = styled(Box)`
   display: flex;
   align-items: center;
   &:hover {
-    background: ${props => props.theme.colors.lighter};
+    background: ${props => props.theme.colors.lightgray};
     svg {
       stroke: ${props => props.theme.colors.primary};
     }
@@ -92,15 +91,16 @@ const Meta = styled(Flex)`
 `;
 
 const Wrapper = styled(Box)`
-  padding: 10px;
   position: relative;
   max-height: 560px;
   overflow: hidden;
   z-index: 9;
   border-radius: 6px;
   padding-bottom: 0;
+  cursor: pointer;
+  border: 1px solid ${props => props.theme.colors.lightgray};
   &:hover {
-    // background: ${props => props.theme.colors.lighter};
+    background: ${props => props.theme.colors.lighter};
     text-decoration: none;
   }
   & a {
@@ -111,12 +111,15 @@ const Wrapper = styled(Box)`
     }
   }
 `;
+
 const WrapperImage = styled.div`
   position: relative;
   div {
     width: 100%;
     heigth: 150px;
     background-repeat: no-repeat;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
   }
   &:hover {
     & span {

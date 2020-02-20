@@ -5,8 +5,11 @@ import Avatar from 'ui/elements/Avatar';
 import { UserPlus } from 'react-feather';
 
 export const User = () => (
-  <Flex>
-    <Avatar src="https://i.pinimg.com/474x/ce/03/0b/ce030b51864cb4d0e9a8f88113ee0fb0.jpg" />
+  <WrapperFlex p={3}>
+    <Avatar
+      variant="avatar"
+      src="https://i.pinimg.com/474x/ce/03/0b/ce030b51864cb4d0e9a8f88113ee0fb0.jpg"
+    />
     <Wrapper ml={2}>
       <Names>
         <Text variant="subhead">Ivan</Text>
@@ -22,8 +25,12 @@ export const User = () => (
     <Icon>
       <UserPlus size={20} />
     </Icon>
-  </Flex>
+  </WrapperFlex>
 );
+
+const WrapperFlex = styled(Flex)`
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+`;
 
 const Icon = styled(Box)`
   cursor: pointer;
@@ -39,7 +46,7 @@ const Icon = styled(Box)`
     }
   }
   svg {
-    stroke: ${props => props.theme.colors.lightgray};
+    stroke: ${props => props.theme.colors.gray};
   }
 `;
 

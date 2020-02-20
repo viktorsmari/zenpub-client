@@ -45,7 +45,7 @@ export const Collection: React.SFC<Props> = ({
               ? summary.replace(/^([\s\S]{140}[^\s]*)[\s\S]*/, '$1...')
               : summary}
           </Text>
-          <Actions>
+          <Actions mt={3}>
             <ActionItem>
               <FileText size={20} />
               {totalResources && (
@@ -68,6 +68,7 @@ const Username = styled(Text)`
 
 const WrapperLink = styled(NavLink)`
   text-decoration: none;
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
 `;
 
 const Actions = styled(Box)``;

@@ -6,7 +6,7 @@ import media from 'styled-media-query';
 import Button from 'ui/elements/Button';
 import { Trans } from '@lingui/react';
 import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { FormikHook } from 'ui/@types/types';
 
 export enum Status {
@@ -48,9 +48,9 @@ export const HeroUser: SFC<Props> = props => {
   }
 
   return (
-    <ProfileBox p={1} mb={2}>
+    <ProfileBox p={1} mb={2} pb={2}>
       <Hero>
-        <HeroBg src={props.image || 'https://picsum.photos/id/1021/800/300'} />
+        <HeroBg src={props.image} />
         <FlexProfile>
           <WrapperHero>
             <Img
@@ -124,7 +124,7 @@ export const HeroUser: SFC<Props> = props => {
             </Location>
           ) : null}
         </HeroInfo>
-        <WrapperResume ml={3} my={2}>
+        {/* <WrapperResume ml={3} my={2}>
           <Resume>
             <ResumeItem variant="text">
               Member of{' '}
@@ -137,25 +137,12 @@ export const HeroUser: SFC<Props> = props => {
               and <Link to={`${props.basePath}/following`}>22 Users</Link>
             </ResumeItem>
           </Resume>
-        </WrapperResume>
+        </WrapperResume> */}
       </Hero>
     </ProfileBox>
   );
 };
 
-const WrapperResume = styled(Box)``;
-const Resume = styled(Flex)``;
-
-const ResumeItem = styled(Text)`
-  a {
-    font-weight: 700;
-    color: ${props => props.theme.colors.darkgray};
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-`;
 const AdminBadge = styled(Box)`
   padding: 1px 8px;
   border: 1px solid ${props => props.theme.colors.orange};
@@ -192,7 +179,7 @@ const FlexProfile = styled(Flex)`
 `;
 
 const ProfileBox = styled(Box)`
-  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+  border-bottom: 3px solid ${props => props.theme.colors.lighter};
 `;
 
 const Username = styled(Text)`

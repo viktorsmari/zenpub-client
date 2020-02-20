@@ -31,6 +31,7 @@ import {
   BasicCreateFlagFormValues,
   Props as FlagModalProps
 } from 'ui/modules/FlagModal';
+import { Props as EditProfileProps, EditProfile } from 'ui/pages/settings';
 
 export const getEditCommunityProps = (): EditCommunityProps => {
   const formik = useFormik<EditCommunityFormValues>({
@@ -117,6 +118,27 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
   };
 };
 
+export const getEditProfileProps = (): EditProfileProps => {
+  const formik = useFormik<EditProfile>({
+    initialValues: {
+      image: '',
+      location: '',
+      icon:
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.MPaPKKyEuv4RMPDu3T_ppgHaE7%26pid%3DApi&f=1',
+      name: '24grana best songs',
+      summary:
+        '24 Grana appeared on the Italian underground scene in the mid 90s, in a period of a great social, political and cultural ferment. The band is named after a coin used at the times of Kind Ferdinand of Aragona.'
+    },
+    onSubmit: () => {
+      action('submit')();
+      return new Promise((resolve, reject) => {
+        setTimeout(resolve, 3000);
+      });
+    }
+  });
+  return { formik, basePath: '/', displayUsername: '@tata@app.moodle.net' };
+};
+
 export const getHeroCollectionProps = (): HeroCollectionProps => {
   return {
     collection: {
@@ -155,7 +177,7 @@ export const getHeroUserProps = (): HeroUserProps => {
     me: false,
     following: true,
     isOpenDropdown: false,
-    basePath: 'user/dougbelshaw',
+    basePath: '/',
     setOpenDropdown: action('open dropdown'),
     image: 'https://pbs.twimg.com/profile_banners/764365/1574452341/1500x500',
     displayUsername: 'dajbelshaw@team.moodle.net',
@@ -182,7 +204,7 @@ export const getHeroUserProps2 = (): HeroUserProps => {
     status: HeroUserStatus.Loaded,
     me: true,
     isAdmin: true,
-    basePath: 'user/dougbelshaw',
+    basePath: '/',
     image: 'https://pbs.twimg.com/profile_banners/764365/1574452341/1500x500',
     displayUsername: 'dajbelshaw@team.moodle.net',
     location: 'Morpeth, UK',
