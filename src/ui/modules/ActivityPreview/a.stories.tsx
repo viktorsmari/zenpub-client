@@ -5,9 +5,28 @@ import React from 'react';
 import { ActivityPreview, BigActivityPreview, Props, Status } from '.';
 import { ContextType, ContextVerb } from './preview';
 import { Box } from 'rebass';
+import { FlagModal } from '../FlagModal';
 
 const getActions = () => ({
-  FlagModal: () => <div></div>,
+  FlagModal: () => {
+    const formik = useFormik<{ reason: '' }>({
+      initialValues: {
+        reason: ''
+      },
+      onSubmit: () => {
+        action('submit')();
+        return new Promise((resolve, reject) => {
+          setTimeout(resolve, 3000);
+        });
+      }
+    });
+    const getFlagModalProps = {
+      formik,
+      flagged: false,
+      cancel: action('cancel')
+    };
+    return <FlagModal {...getFlagModalProps} />;
+  },
   like: {
     totalLikes: 3,
     toggleLikeFormik: useFormik<{}>({
