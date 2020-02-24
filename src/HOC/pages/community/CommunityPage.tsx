@@ -15,9 +15,15 @@ import {
 import { ThreadActivity } from './ThreadActivity';
 import Maybe from 'graphql/tsutils/Maybe';
 
+export enum CommunityPageTab {
+  Activities,
+  Collections,
+  Discussions
+}
 export interface CommunityPage {
   communityId: Community['id'];
   createThread(content: string): Promise<unknown>;
+  tab: CommunityPageTab;
   community: Maybe<CommunityPageBaseFragment>;
   threads: ComunityPageThreadFragment[];
   collections: CommunityPageCollectionBaseFragment[];

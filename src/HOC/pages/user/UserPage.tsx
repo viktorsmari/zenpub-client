@@ -7,9 +7,13 @@ import { UserPageActivitiesFragment } from './UserPage.generated';
 
 export interface UserPage {
   userId: User['id'];
+  tab: UserPageTab;
   activities: UserPageActivitiesFragment[];
 }
-
+export enum UserPageTab {
+  Activities,
+  Likes
+}
 export const UserPage: SFC<UserPage> = ({ userId, activities }) => {
   const ActivityBoxes = (
     <>

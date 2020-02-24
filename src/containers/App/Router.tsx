@@ -2,8 +2,7 @@ import { CollectionPageHOC } from 'HOC/pages/collection/CollectionPageHOC';
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
-import { CommunityPageRoute } from 'routes/CommunityPage';
-import { UserPageRoute } from 'routes/UserPage';
+import { UserPageRoute } from 'routes/UserPageRoute';
 import { SessionContext } from '../../context/global/sessionCtx';
 import { CollectionsYours } from '../../pages/collections.all';
 import MyCollections from '../../pages/collections.all/collectionsFollowed';
@@ -30,6 +29,7 @@ import Sidebar from '../../sections/sidebar/sidebarHOC';
 import SidebarNoLoggedWrapper from '../../sections/sidebar/sidebar_not_logged';
 import styled from '../../themes/styled';
 import MobileHeader from './mobileHeader';
+import { CommunityPageRoute } from 'routes/CommunityPageRoute';
 
 const Main = styled(Flex)`
   height: 100%;
