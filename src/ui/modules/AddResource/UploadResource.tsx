@@ -5,8 +5,8 @@ import { FormikHook } from 'ui/@types/types';
 import * as React from 'react';
 import { LocaleContext } from '../../../context/global/localizationCtx';
 import styled from '../../../themes/styled';
-import Loader from '../../../components/elements/Loader/Loader';
-import { Button } from 'rebass/styled-components';
+import { Button, Box } from 'rebass/styled-components';
+import MNButton from 'ui/elements/Button';
 import {
   Actions,
   AlertWrapper,
@@ -110,11 +110,13 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
           <Trans>Image</Trans>
         </label>
         <ContainerForm>
-          <DropzoneArea
-            initialUrl={formik.values.icon}
-            formikForm={formik}
-            touchedField="imageFiles"
-          />
+          <Box sx={{ width: '120px' }}>
+            <DropzoneArea
+              initialUrl={formik.values.icon}
+              formikForm={formik}
+              touchedField="imageFiles"
+            />
+          </Box>
         </ContainerForm>
       </Row>
       <Row>
@@ -173,7 +175,9 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
       </Row>
       <Actions>
         <SubmitButton
-          disabled={formik.isSubmitting}
+          variant="primary"
+          isSubmitting={formik.isSubmitting}
+          isDisabled={formik.isSubmitting}
           type="submit"
           style={{ marginLeft: '10px' }}
           onClick={formik.submitForm}
@@ -184,21 +188,11 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
           <Trans>Cancel</Trans>
         </Button>
       </Actions>
-
-      {formik.isSubmitting ? (
-        <WrapperLoader>
-          <Loader />
-        </WrapperLoader>
-      ) : null}
     </div>
   );
 };
 
 export default UploadResource;
-
-const WrapperLoader = styled.div`
-  padding: 10px;
-`;
 
 const LabelWrapper = styled.div`
   width: 200px;
@@ -260,7 +254,7 @@ const FormInput = styled(Input)`
   border: 1px solid ${props => props.theme.colors.lightgray};
 `;
 
-const SubmitButton = styled(Button)`
+const SubmitButton = styled(MNButton)`
   margin-left: 8px;
   .--rtl & {
     margin-right: 8px;
