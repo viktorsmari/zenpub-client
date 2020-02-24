@@ -1,13 +1,13 @@
 import { Trans } from '@lingui/react';
-import { clearFix } from 'polished';
+import { clearFix, darken } from 'polished';
 import React, { ComponentType, SFC } from 'react';
-import { Settings, MoreVertical, Flag } from 'react-feather';
+import { Settings, MoreVertical, Flag, Star } from 'react-feather';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import styled from 'ui/themes/styled';
 import Modal from 'ui/modules/Modal';
 import Button from 'ui/elements/Button';
-import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
+import { Dropdown, DropdownItem, AdminDropdownItem } from 'ui/modules/Dropdown';
 import { FormikHook } from 'ui/@types/types';
 export enum Status {
   Loading,
@@ -16,6 +16,8 @@ export enum Status {
 
 export interface CommunityLoaded {
   status: Status.Loaded;
+  isAdmin?: boolean;
+  isFeatured?: boolean;
   icon: string;
   name: string;
   summary: string;
@@ -27,6 +29,12 @@ export interface CommunityLoaded {
   toggleJoinFormik: FormikHook;
   EditCommunityPanel: ComponentType<{ done(): any }>;
   FlagModal: ComponentType<{ done(): any }>;
+  FeaturedModal?: ComponentType<{
+    done(): any;
+    isFeatured: boolean;
+    itemName: string;
+    itemType: string;
+  }>;
 }
 
 export interface CommunityLoading {
@@ -42,6 +50,7 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
   const [isOpenSettings, setOpenSettings] = React.useState(false);
   const [isOpenDropdown, setOpenDropdown] = React.useState(false);
   const [isOpenFlag, setOpenFlag] = React.useState(false);
+  const [isOpenFeatured, setOpenFeatured] = React.useState(false);
 
   return c.status === Status.Loading ? (
     <Text>Loading...</Text>
@@ -88,16 +97,28 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
                       <DropdownItem onClick={() => setOpenSettings(true)}>
                         <Settings size={20} color={'rgb(101, 119, 134)'} />
                         <Text sx={{ flex: 1 }} ml={2}>
-                          Edit the community
+                          <Trans>Edit the community</Trans>
                         </Text>
                       </DropdownItem>
                     )}
                     <DropdownItem onClick={() => setOpenFlag(true)}>
                       <Flag size={20} color={'rgb(101, 119, 134)'} />
                       <Text sx={{ flex: 1 }} ml={2}>
-                        Flag this community
+                        <Trans>Flag this community</Trans>
                       </Text>
                     </DropdownItem>
+                    {c.isAdmin ? (
+                      <AdminDropdownItem onClick={() => setOpenFeatured(true)}>
+                        <Star size={20} color={'rgb(211, 103, 5)'} />
+                        <Text sx={{ flex: 1 }} ml={2}>
+                          {c.isFeatured ? (
+                            <Trans>Remove from featured list</Trans>
+                          ) : (
+                            <Trans>Add to featured list</Trans>
+                          )}
+                        </Text>
+                      </AdminDropdownItem>
+                    ) : null}
                   </Dropdown>
                 )}
               </More>
@@ -115,6 +136,16 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
           <c.FlagModal done={() => setOpenFlag(false)} />
         </Modal>
       )}
+      {isOpenFeatured && c.FeaturedModal && c.isFeatured != null && (
+        <Modal closeModal={() => setOpenFeatured(false)}>
+          <c.FeaturedModal
+            done={() => setOpenFeatured(false)}
+            isFeatured={c.isFeatured}
+            itemName={c.name}
+            itemType="community"
+          />
+        </Modal>
+      )}
     </>
   );
 };
@@ -130,6 +161,14 @@ const More = styled(Box)`
   border-radius: 4px;
   svg {
     stroke: ${props => props.theme.colors.gray};
+  }
+
+  & ${AdminDropdownItem} {
+    border-top: 1px dotted ${props => darken('0.1', props.theme.colors.primary)};
+
+    svg {
+      stroke: ${props => darken('0.1', props.theme.colors.primary)};
+    }
   }
 `;
 

@@ -31,6 +31,11 @@ import {
   BasicCreateFlagFormValues,
   Props as FlagModalProps
 } from 'ui/modules/FlagModal';
+import {
+  BasicFeaturedFormValues,
+  Props as FeaturedModalProps
+} from 'ui/modules/FeaturedModal';
+import { FeaturedModal } from '../modules/FeaturedModal';
 
 export const getEditCommunityProps = (): EditCommunityProps => {
   const formik = useFormik<EditCommunityFormValues>({
@@ -90,6 +95,8 @@ export const getEditCollectionProps = (): EditCollectionPanelProps => {
 export const getHeroCommunityProps = (): HeroCommunityProps => {
   return {
     community: {
+      isAdmin: false,
+      isFeatured: false,
       status: HeroCommunityStatus.Loaded,
       canModify: true,
       following: true,
@@ -112,6 +119,57 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
       ),
       FlagModal: ({ done }) => {
         return <></>;
+      }
+    }
+  };
+};
+
+export const getHeroCommunityPropsAdmin = (): HeroCommunityProps => {
+  return {
+    community: {
+      status: HeroCommunityStatus.Loaded,
+      isAdmin: true,
+      isFeatured: true,
+      canModify: true,
+      following: true,
+      flagged: false,
+      icon: 'https://picsum.photos/800/300',
+      name: 'Community nino',
+      fullName: 'ninos@abc.com',
+      summary:
+        'Cooperation combined with network effects is more effective than capitalist competition',
+      totalMembers: 193,
+      toggleJoinFormik: useFormik<{}>({
+        initialValues: {},
+        onSubmit: action('toggle join')
+      }),
+      EditCommunityPanel: ({ done }) => (
+        <img
+          onClick={done}
+          src="https://via.placeholder.com/400x200.png?text=An editing panel"
+        />
+      ),
+      FlagModal: ({ done }) => {
+        return <></>;
+      },
+      FeaturedModal: ({ done, isFeatured, itemType }) => {
+        const formik = useFormik<{}>({
+          initialValues: { makeFeatured: true },
+          onSubmit: () => {
+            action('submit')();
+            return new Promise((resolve, reject) => {
+              setTimeout(resolve, 3000);
+            });
+          }
+        });
+        const getFeaturedModalProps = {
+          formik,
+          isFeatured: true,
+          itemType: 'community',
+          itemName: 'Type Theory',
+          cancel: action('cancel')
+        };
+        return <FeaturedModal {...getFeaturedModalProps} />;
       }
     }
   };
@@ -149,6 +207,58 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
   };
 };
 
+export const getHeroCollectionPropsAdmin = (): HeroCollectionProps => {
+  return {
+    collection: {
+      status: HeroCollectionStatus.Loaded,
+      isAdmin: true,
+      isFeatured: false,
+      isMine: true,
+      following: true,
+      flagged: false,
+      icon: 'https://picsum.photos/800/300',
+      name: 'Favourite books',
+      fullName: 'favbooks@abc.com',
+      communityIcon: 'https://picsum.photos/800/300',
+      communityId: '2',
+      communityName: 'Super community',
+      summary:
+        'Cooperation combined with network effects is more effective than capitalist competition',
+      toggleJoin: {
+        toggle: action('submit'),
+        isSubmitting: false
+      },
+      EditCollectionPanel: ({ done }) => (
+        <img
+          onClick={done}
+          src="https://via.placeholder.com/400x200.png?text=An editing panel"
+        />
+      ),
+      FlagModal: ({ done }) => {
+        return <></>;
+      },
+      FeaturedModal: ({ done, isFeatured, itemType }) => {
+        const formik = useFormik<{}>({
+          initialValues: { makeFeatured: true },
+          onSubmit: () => {
+            action('submit')();
+            return new Promise((resolve, reject) => {
+              setTimeout(resolve, 3000);
+            });
+          }
+        });
+        const getFeaturedModalProps = {
+          formik,
+          isFeatured: false,
+          itemType: 'collection',
+          itemName: 'Soil types',
+          cancel: action('cancel')
+        };
+        return <FeaturedModal {...getFeaturedModalProps} />;
+      }
+    }
+  };
+};
 export const getHeroUserProps = (): HeroUserProps => {
   return {
     status: HeroUserStatus.Loaded,
@@ -231,4 +341,23 @@ export const getFlagModalProps = (): FlagModalProps => {
     }
   });
   return { formik, flagged: false, cancel: action('cancel') };
+};
+
+export const getFeaturedModalProps = (): FeaturedModalProps => {
+  const formik = useFormik<BasicFeaturedFormValues>({
+    initialValues: { makeFeatured: true },
+    onSubmit: () => {
+      action('submit')();
+      return new Promise((resolve, reject) => {
+        setTimeout(resolve, 3000);
+      });
+    }
+  });
+  return {
+    formik,
+    isFeatured: false,
+    itemName: 'Type Theory',
+    itemType: 'community',
+    cancel: action('cancel')
+  };
 };
