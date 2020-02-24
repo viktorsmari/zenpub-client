@@ -1,10 +1,10 @@
 import * as Types from '../../../graphql/types.generated';
 
-import { CommunityPageCollectionBaseFragment } from '../../../HOC/pages/community/CommunityPageCollections.generated';
+import { CommunityPageCollectionBaseFragment } from '../../../HOC/pages/community/CommunityPage.generated';
 import { CollectionPreviewDataFragment } from '../../../HOC/modules/CollectionPreview/CollectionPreview.generated';
 import gql from 'graphql-tag';
 import { CollectionPreviewDataFragmentDoc } from '../../../HOC/modules/CollectionPreview/CollectionPreview.generated';
-import { CommunityPageCollectionBaseFragmentDoc } from '../../../HOC/pages/community/CommunityPageCollections.generated';
+import { CommunityPageCollectionBaseFragmentDoc } from '../../../HOC/pages/community/CommunityPage.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';

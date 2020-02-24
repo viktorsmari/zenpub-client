@@ -1,9 +1,9 @@
 import { CollectionPageHOC } from 'HOC/pages/collection/CollectionPageHOC';
-import { CommunityPage } from 'HOC/pages/community/CommunityPage';
-import { UserPage } from 'HOC/pages/user/UserPage';
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
+import { CommunityPageRoute } from 'routes/CommunityPage';
+import { UserPageRoute } from 'routes/UserPage';
 import { SessionContext } from '../../context/global/sessionCtx';
 import { CollectionsYours } from '../../pages/collections.all';
 import MyCollections from '../../pages/collections.all/collectionsFollowed';
@@ -70,6 +70,8 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
     <>
       <MobileHeader onOpen={onOpen} />
       <Switch>
+        <Route {...UserPageRoute} />
+        <Route {...CommunityPageRoute} />
         <Route exact path="/" component={me ? Home : Login} />
         <Route
           exact
@@ -93,14 +95,6 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
         />
         <Route
           exact
-          path="/communities/:communityId/:tab?"
-          render={route => {
-            const communityId = route.match.params.communityId;
-            return <CommunityPage communityId={communityId} />;
-          }}
-        />
-        <Route
-          exact
           path="/thread/:id"
           render={route => {
             const threadId = route.match.params.id;
@@ -116,14 +110,6 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
           }}
         />
 
-        <Route
-          exact
-          path="/user/:id/:tab?"
-          render={route => {
-            const userId = route.match.params.id;
-            return <UserPage userId={userId} />;
-          }}
-        />
         <Route path="/search" component={SearchComp} />
         <Route exact path="/collections" component={CollectionsYours} />
         <Route component={NotFound} />
