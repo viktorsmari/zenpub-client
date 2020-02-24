@@ -1,8 +1,6 @@
 import { useReplyComment } from 'fe/comment/reply/useReplyComment';
 import { useLikeContext } from 'fe/context/like/useLikeContext';
-import { useCommunityThreads } from 'fe/threads/community/useCommunityThreads';
 import { useFormik } from 'formik';
-import { Community } from 'graphql/types.generated';
 import { getActivityActions } from 'HOC/modules/ActivityPreview/lib/getActivityActions';
 import { getActivityActor } from 'HOC/modules/ActivityPreview/lib/getActivityActor';
 import React, { FC } from 'react';
@@ -12,23 +10,7 @@ import {
   Status as ActivityPreviewStatus
 } from 'ui/modules/ActivityPreview';
 import * as UIAP from 'ui/modules/ActivityPreview/preview';
-import * as GQL from './CommunityPageThreads.generated';
-
-export interface Props {
-  communityId: Community['id'];
-}
-
-export const CommunityPageThreads: FC<Props> = ({ communityId }) => {
-  const { threads } = useCommunityThreads(communityId);
-
-  return (
-    <>
-      {threads.map(thread => (
-        <ThreadActivity thread={thread} key={thread.id} />
-      ))}
-    </>
-  );
-};
+import * as GQL from './CommunityPage.generated';
 
 export const ThreadActivity: FC<{ thread: GQL.ComunityPageThreadFragment }> = ({
   thread

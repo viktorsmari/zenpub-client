@@ -1,34 +1,66 @@
-import { useCommunity } from 'fe/community/useCommunity';
 import { useFormik } from 'formik';
 import { Community } from 'graphql/types.generated';
+import { ActivityPreviewHOC } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
+import { CollectionPreviewHOC } from 'HOC/modules/CollectionPreview/CollectionPreviewHOC';
 import { CreateCollectionPanelHOC } from 'HOC/modules/CreateCollectionPanel/createCollectionPanelHOC';
 import { HeroCommunity } from 'HOC/modules/HeroCommunity/HeroCommuity';
 import React, { SFC, useMemo } from 'react';
 import CommunityPageUI, { Props as CommunityProps } from 'ui/pages/community';
-import { CommunityPageActivities } from './CommunityPageActivities';
-import { CommunityPageCollections } from './CommunityPageCollections';
-import { CommunityPageThreads } from './CommunityPageThreads';
+import {
+  CommunityPageActivityBaseFragment,
+  CommunityPageBaseFragment,
+  CommunityPageCollectionBaseFragment,
+  ComunityPageThreadFragment
+} from './CommunityPage.generated';
+import { ThreadActivity } from './ThreadActivity';
+import Maybe from 'graphql/tsutils/Maybe';
 
-export interface Props {
+export interface CommunityPage {
   communityId: Community['id'];
+  createThread(content: string): Promise<unknown>;
+  community: Maybe<CommunityPageBaseFragment>;
+  threads: ComunityPageThreadFragment[];
+  collections: CommunityPageCollectionBaseFragment[];
+  activities: CommunityPageActivityBaseFragment[];
 }
 
-export const CommunityPage: SFC<Props> = ({ communityId }) => {
-  const { community, createThread } = useCommunity(communityId);
-
+export const CommunityPage: SFC<CommunityPage> = ({
+  communityId,
+  community,
+  createThread,
+  threads,
+  collections,
+  activities
+}) => {
   const newThreadFormik = useFormik<{ text: string }>({
     initialValues: { text: '' },
     onSubmit: ({ text }) => createThread(text)
   });
 
   const communityPageProps = useMemo<CommunityProps | null>(() => {
-    const ActivitiesBox = <CommunityPageActivities communityId={communityId} />;
-
-    const CollectionsBox = (
-      <CommunityPageCollections communityId={communityId} />
+    const ActivitiesBox = (
+      <>
+        {activities.map(activity => (
+          <ActivityPreviewHOC activityId={activity.id} key={activity.id} />
+        ))}
+      </>
     );
 
-    const ThreadsBox = <CommunityPageThreads communityId={communityId} />;
+    const CollectionsBox = (
+      <>
+        {collections.map(collection => (
+          <CollectionPreviewHOC id={collection.id} key={collection.id} />
+        ))}
+      </>
+    );
+
+    const ThreadsBox = (
+      <>
+        {threads.map(thread => (
+          <ThreadActivity thread={thread} key={thread.id} />
+        ))}
+      </>
+    );
 
     const HeroCommunityBox = <HeroCommunity communityId={communityId} />;
 

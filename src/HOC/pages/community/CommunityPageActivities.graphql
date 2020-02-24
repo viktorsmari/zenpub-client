@@ -1,3 +1,0 @@
-fragment CommunityPageActivityBase on Activity{
-  id
-}

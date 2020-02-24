@@ -1,8 +1,8 @@
 import * as Types from './types.generated';
 
-import { ComunityPageThreadFragment } from '../HOC/pages/community/CommunityPageThreads.generated';
+import { ComunityPageThreadFragment } from '../HOC/pages/community/CommunityPage.generated';
 import gql from 'graphql-tag';
-import { ComunityPageThreadFragmentDoc } from '../HOC/pages/community/CommunityPageThreads.generated';
+import { ComunityPageThreadFragmentDoc } from '../HOC/pages/community/CommunityPage.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
