@@ -1,0 +1,20 @@
+query featuredCollections {
+  instance{
+    featuredCollections{
+      edges{
+        node{
+          id
+          context{
+            ...FeaturedCollectionInfo
+          }
+        }
+      }
+    }
+  }
+}
+
+fragment FeaturedCollectionInfo on Collection{
+  id
+  icon
+  name
+}
