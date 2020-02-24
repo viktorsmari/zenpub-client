@@ -119,6 +119,25 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
       ),
       FlagModal: ({ done }) => {
         return <></>;
+      },
+      FeaturedModal: () => {
+        const formik = useFormik<{}>({
+          initialValues: { makeFeatured: true },
+          onSubmit: () => {
+            action('submit')();
+            return new Promise((resolve, reject) => {
+              setTimeout(resolve, 3000);
+            });
+          }
+        });
+        const getFeaturedModalProps = {
+          formik,
+          isFeatured: true,
+          itemType: 'community',
+          itemName: 'Type Theory',
+          cancel: action('cancel')
+        };
+        return <FeaturedModal {...getFeaturedModalProps} />;
       }
     }
   };
@@ -152,7 +171,7 @@ export const getHeroCommunityPropsAdmin = (): HeroCommunityProps => {
       FlagModal: ({ done }) => {
         return <></>;
       },
-      FeaturedModal: ({ done, isFeatured, itemType }) => {
+      FeaturedModal: ({ done }) => {
         const formik = useFormik<{}>({
           initialValues: { makeFeatured: true },
           onSubmit: () => {
@@ -237,7 +256,7 @@ export const getHeroCollectionPropsAdmin = (): HeroCollectionProps => {
       FlagModal: ({ done }) => {
         return <></>;
       },
-      FeaturedModal: ({ done, isFeatured, itemType }) => {
+      FeaturedModal: () => {
         const formik = useFormik<{}>({
           initialValues: { makeFeatured: true },
           onSubmit: () => {

@@ -1,4 +1,5 @@
 import { useCommunity } from 'fe/community/useCommunity';
+import { useMe } from 'fe/session/me';
 import { useFormik } from 'formik';
 import { Community } from 'graphql/types.generated';
 import React, { SFC, useMemo } from 'react';
@@ -7,6 +8,7 @@ import HeroCommunityUI, {
   Status
 } from 'ui/modules/HeroCommunity';
 import { EditCommunityPanelHOC } from '../EditCommunityPanel/editCommunityPanelHOC';
+import { FeatureModalHOC } from '../FeatureModal/FeatureModal';
 import { FlagModalHOC } from '../FlagModal/flagModalHOC';
 
 export interface HeroCommunity {
@@ -14,7 +16,10 @@ export interface HeroCommunity {
 }
 
 export const HeroCommunity: SFC<HeroCommunity> = ({ communityId }) => {
-  const { toggleJoin, community, canModify } = useCommunity(communityId);
+  const { isAdmin } = useMe();
+  const { toggleJoin, community, canModify, isFeatured } = useCommunity(
+    communityId
+  );
 
   const toggleJoinFormik = useFormik<{}>({
     initialValues: {},
@@ -22,7 +27,7 @@ export const HeroCommunity: SFC<HeroCommunity> = ({ communityId }) => {
   });
 
   const heroProps = useMemo<HeroProps>(() => {
-    if (!community) {
+    if (!community || typeof isFeatured !== 'boolean') {
       const props: HeroProps = {
         community: {
           status: Status.Loading
@@ -35,6 +40,8 @@ export const HeroCommunity: SFC<HeroCommunity> = ({ communityId }) => {
       community: {
         status: Status.Loaded,
         canModify,
+        isAdmin,
+        isFeatured,
         following: !!community.myFollow,
         flagged: !!community.myFlag,
         icon: community.icon || '',
@@ -42,6 +49,7 @@ export const HeroCommunity: SFC<HeroCommunity> = ({ communityId }) => {
         fullName: community.displayUsername,
         totalMembers: community.followerCount || 0,
         summary: community.summary || '',
+        toggleJoinFormik,
         EditCommunityPanel: ({ done }) => (
           <EditCommunityPanelHOC done={done} communityId={community.id} />
         ),
@@ -52,11 +60,13 @@ export const HeroCommunity: SFC<HeroCommunity> = ({ communityId }) => {
             flagged={!!community.myFlag}
           />
         ),
-        toggleJoinFormik
+        FeaturedModal: ({ done }: { done(): unknown }) => (
+          <FeatureModalHOC done={done} ctx={community} />
+        )
       }
     };
     return props;
-  }, [toggleJoin, community, canModify, toggleJoinFormik]);
+  }, [isAdmin, community, canModify, toggleJoinFormik]);
 
   return <HeroCommunityUI {...heroProps} />;
 };
