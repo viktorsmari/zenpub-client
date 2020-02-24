@@ -5,9 +5,7 @@ import React, { SFC, useMemo, useState } from 'react';
 import {
   HeroUser as HeroUserUI,
   Loaded,
-  LoadedMe,
   LoadedOther,
-  Loading,
   Props,
   Status
 } from 'ui/modules/HeroUser';
@@ -22,14 +20,13 @@ export const HeroUser: SFC<HeroUser> = ({ userId }) => {
     initialValues: {},
     onSubmit: toggleFollow
   });
-  const userHeroPropsNoFormik = useMemo<
-    Loading | LoadedMe | Omit<LoadedOther, 'toggleFollowFormik'>
-  >(() => {
+  const userHeroProps = useMemo<Props>(() => {
     if (!user) {
       return {
         status: Status.Loading
       };
     }
+
     const loadedProps: Omit<Loaded, 'me'> = {
       status: Status.Loaded,
       displayUsername: user.displayUsername,
@@ -39,41 +36,28 @@ export const HeroUser: SFC<HeroUser> = ({ userId }) => {
       name: user.name || '',
       summary: user.summary || ''
     };
+
     if (isMe) {
-      const loadedMeProps: Omit<LoadedMe, keyof Loaded> = {
-        isAdmin: isAdmin
-      };
       const props: Props = {
+        isAdmin: isAdmin,
         me: isMe,
-        ...loadedProps,
-        ...loadedMeProps
+        ...loadedProps
       };
+
       return props;
     } else {
-      const loadedOtherProps: Omit<
-        LoadedOther,
-        keyof Loaded | 'toggleFollowFormik'
-      > = {
+      const props: LoadedOther = {
+        me: isMe,
         following: !!user.myFollow,
         isOpenDropdown,
-        setOpenDropdown
+        setOpenDropdown,
+        toggleFollowFormik,
+        ...loadedProps
       };
-      const props: Omit<LoadedOther, 'toggleFollowFormik'> = {
-        me: isMe,
-        ...loadedProps,
-        ...loadedOtherProps
-      };
+
       return props;
     }
-  }, [isMe, user]);
-
-  const userHeroProps: Props =
-    userHeroPropsNoFormik.status === Status.Loaded && !userHeroPropsNoFormik.me
-      ? {
-          ...userHeroPropsNoFormik,
-          toggleFollowFormik
-        }
-      : userHeroPropsNoFormik;
+  }, [isMe, user, toggleFollowFormik, isAdmin, isOpenDropdown]);
 
   return <HeroUserUI {...userHeroProps} />;
 };
