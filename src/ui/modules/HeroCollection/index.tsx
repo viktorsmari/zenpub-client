@@ -1,4 +1,4 @@
-import { clearFix } from 'polished';
+import { clearFix, darken } from 'polished';
 import React, { ComponentType, SFC } from 'react';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
@@ -10,8 +10,8 @@ import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import Avatar from 'ui/elements/Avatar';
 import Button from 'ui/elements/Button';
-import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
-import { Settings, MoreVertical, Flag } from 'react-feather';
+import { Dropdown, DropdownItem, AdminDropdownItem } from 'ui/modules/Dropdown';
+import { Settings, MoreVertical, Flag, Star } from 'react-feather';
 
 export enum Status {
   Loading,
@@ -23,6 +23,8 @@ export interface CollectionLoading {
 }
 export interface CollectionLoaded {
   status: Status.Loaded;
+  isAdmin?: boolean;
+  isFeatured?: boolean;
   icon: string;
   name: string;
   fullName: string;
@@ -39,6 +41,12 @@ export interface CollectionLoaded {
   following: boolean;
   EditCollectionPanel: ComponentType<{ done(): any }>;
   FlagModal: ComponentType<{ done(): any }>;
+  FeaturedModal?: ComponentType<{
+    done(): any;
+    isFeatured: boolean;
+    itemName: string;
+    itemType: string;
+  }>;
 }
 export interface Props {
   collection: CollectionLoaded | CollectionLoading;
@@ -48,6 +56,7 @@ export const HeroCollection: SFC<Props> = ({ collection: c }) => {
   const [isOpenSettings, setOpenSettings] = React.useState(false);
   const [isOpenDropdown, setOpenDropdown] = React.useState(false);
   const [isOpenFlag, setOpenFlag] = React.useState(false);
+  const [isOpenFeatured, setOpenFeatured] = React.useState(false);
 
   return c.status === Status.Loading ? (
     <Text>Loading...</Text>
@@ -90,6 +99,18 @@ export const HeroCollection: SFC<Props> = ({ collection: c }) => {
                       <Trans>Flag this collection</Trans>
                     </Text>
                   </DropdownItem>
+                  {c.isAdmin ? (
+                    <AdminDropdownItem onClick={() => setOpenFeatured(true)}>
+                      <Star size={20} color={'rgb(211, 103, 5)'} />
+                      <Text sx={{ flex: 1 }} ml={2}>
+                        {c.isFeatured ? (
+                          <Trans>Remove from featured list</Trans>
+                        ) : (
+                          <Trans>Add to featured list</Trans>
+                        )}
+                      </Text>
+                    </AdminDropdownItem>
+                  ) : null}
                 </Dropdown>
               )}
             </More>
@@ -112,6 +133,16 @@ export const HeroCollection: SFC<Props> = ({ collection: c }) => {
       {isOpenFlag && (
         <Modal closeModal={() => setOpenFlag(false)}>
           <c.FlagModal done={() => setOpenFlag(false)} />
+        </Modal>
+      )}
+      {isOpenFeatured && c.FeaturedModal && c.isFeatured != null && (
+        <Modal closeModal={() => setOpenFeatured(false)}>
+          <c.FeaturedModal
+            done={() => setOpenFeatured(false)}
+            isFeatured={c.isFeatured}
+            itemName={c.name}
+            itemType="collection"
+          />
         </Modal>
       )}
     </HeroCont>
@@ -157,6 +188,13 @@ const More = styled(Box)`
   border-radius: 4px;
   svg {
     stroke: ${props => props.theme.colors.gray};
+  }
+  & ${AdminDropdownItem} {
+    border-top: 1px dotted ${props => darken('0.1', props.theme.colors.primary)};
+
+    svg {
+      stroke: ${props => darken('0.1', props.theme.colors.primary)};
+    }
   }
 `;
 
