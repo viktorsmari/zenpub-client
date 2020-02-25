@@ -16,7 +16,7 @@ import { Actions, ContainerForm, CounterChars, Row } from '../Modal/modal';
 import ResourceCard from '../Resource/Resource';
 import { CreateResourceMutationMutationVariables } from '../../../graphql/createResource.generated';
 import { LocaleContext } from '../../../context/global/localizationCtx';
-import { CollectionPageResourceActivitiesDocument } from 'HOC/pages/collection/CollectionPageResourceActivityBoxes.generated';
+import { CollectionResourcesDocument } from 'fe/resource/collection/useCollectionResources.generated';
 
 const {
   createResourceMutation
@@ -291,7 +291,7 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
         // },
         refetchQueries: [
           {
-            query: CollectionPageResourceActivitiesDocument,
+            query: CollectionResourcesDocument,
             variables: { collectionId: props.collectionId }
           }
         ]

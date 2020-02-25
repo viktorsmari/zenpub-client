@@ -7,7 +7,7 @@ import {
   UploadResource
 } from 'ui/modules/AddResource/UploadResource';
 import { accepted_license_types } from '../../../constants';
-import { CollectionPageResourceActivitiesDocument } from 'HOC/pages/collection/CollectionPageResourceActivityBoxes.generated';
+import { CollectionResourcesDocument } from 'fe/resource/collection/useCollectionResources.generated';
 
 export const validationSchema: Yup.ObjectSchema<ResourceFormValues> = Yup.object<
   ResourceFormValues
@@ -92,7 +92,7 @@ export const UploadResourceHOC: SFC<Props> = ({
             ? []
             : [
                 {
-                  query: CollectionPageResourceActivitiesDocument,
+                  query: CollectionResourcesDocument,
                   variables: { collectionId }
                 }
               ]
@@ -110,7 +110,7 @@ export const UploadResourceHOC: SFC<Props> = ({
                 ? []
                 : [
                     {
-                      query: CollectionPageResourceActivitiesDocument,
+                      query: CollectionResourcesDocument,
                       variables: { collectionId }
                     }
                   ]
@@ -127,7 +127,7 @@ export const UploadResourceHOC: SFC<Props> = ({
               },
               refetchQueries: [
                 {
-                  query: CollectionPageResourceActivitiesDocument,
+                  query: CollectionResourcesDocument,
                   variables: { collectionId }
                 }
               ]

@@ -27,7 +27,7 @@ export type CommunityPageBaseFragment = (
   & HeroCommunityDataFragment
 );
 
-export type ComunityPageThreadFragment = (
+export type CommunityPageThreadFragment = (
   { __typename: 'Thread' }
   & { comments: Types.Maybe<(
     { __typename: 'CommentsEdges' }
@@ -63,8 +63,8 @@ export const CommunityPageBaseFragmentDoc = gql`
   ...HeroCommunityData
 }
     ${HeroCommunityDataFragmentDoc}`;
-export const ComunityPageThreadFragmentDoc = gql`
-    fragment ComunityPageThread on Thread {
+export const CommunityPageThreadFragmentDoc = gql`
+    fragment CommunityPageThread on Thread {
   ...ActivityPreviewExtendedThread
   comments(limit: 1) {
     edges {

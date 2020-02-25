@@ -1,15 +1,17 @@
-#import "HOC/modules/HeroCollection/HeroCollection.graphql"
 #import "HOC/modules/ActivityPreview/getActivityPreview.graphql"
+#import "HOC/modules/HeroCollection/HeroCollection.graphql"
 
-query collectionPage($collectionId: String!) {
-  collection(collectionId:$collectionId){
-    ...HeroCollectionData
-    resourceCount
-    community{
-      id
-      myFollow{
-        id
-      }
-    }
-  }
+fragment CollectionPageData on Collection {
+  ...HeroCollectionData
+}
+
+fragment CollectionPageResource on Resource {
+  id
+  createdAt
+  ...ActivityPreviewResourceCtx
+}
+
+fragment CollectionPageActivity on Activity {
+  id
+  ...ActivityPreviewData
 }

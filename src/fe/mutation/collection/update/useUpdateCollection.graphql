@@ -1,0 +1,17 @@
+input CollectionUpdateInput {
+  icon: String
+  name: String!
+  preferredUsername: String!
+  summary: String
+}
+
+mutation updateCollection($collection: CollectionUpdateInput!, $collectionId: String!) {
+  updateCollection(collectionId: $collectionId, collection: $collection) {
+    id
+    icon
+    name
+    preferredUsername
+    summary
+    updatedAt
+  }
+}

@@ -26,7 +26,14 @@ const CommunityPageRouter: FC<RouteComponentProps<CommunityPageRouter>> = ({
   if (tab === null) {
     return <NotFound />;
   }
-  return <CommunityPageCtrl communityId={communityId} tab={tab} />;
+
+  const props: CommunityPageCtrl = {
+    communityId,
+    tab,
+    basePath: `/communities/${communityId}`
+  };
+
+  return <CommunityPageCtrl {...props} />;
 };
 
 export const CommunityPageRoute: RouteProps = {

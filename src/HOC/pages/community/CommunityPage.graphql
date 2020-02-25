@@ -8,7 +8,7 @@ fragment CommunityPageBase on Community{
   ...HeroCommunityData
 }
 
-fragment ComunityPageThread on Thread {
+fragment CommunityPageThread on Thread {
   ...ActivityPreviewExtendedThread
   comments(limit:1){
     edges{
