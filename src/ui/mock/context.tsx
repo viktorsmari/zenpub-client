@@ -96,7 +96,7 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
   return {
     community: {
       isAdmin: false,
-      isFeatured: false,
+      // isFeatured: false,
       status: HeroCommunityStatus.Loaded,
       canModify: true,
       following: true,
@@ -148,7 +148,7 @@ export const getHeroCommunityPropsAdmin = (): HeroCommunityProps => {
     community: {
       status: HeroCommunityStatus.Loaded,
       isAdmin: true,
-      isFeatured: true,
+      // isFeatured: true,
       canModify: true,
       following: true,
       flagged: false,
@@ -198,7 +198,27 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
   return {
     collection: {
       status: HeroCollectionStatus.Loaded,
-      isMine: true,
+      isAdmin: true,
+      FeaturedModal: () => {
+        const formik = useFormik<{}>({
+          initialValues: { makeFeatured: true },
+          onSubmit: () => {
+            action('submit')();
+            return new Promise((resolve, reject) => {
+              setTimeout(resolve, 3000);
+            });
+          }
+        });
+        const getFeaturedModalProps = {
+          formik,
+          isFeatured: false,
+          itemType: 'collection',
+          itemName: 'Soil types',
+          cancel: action('cancel')
+        };
+        return <FeaturedModal {...getFeaturedModalProps} />;
+      },
+      canModify: true,
       following: true,
       flagged: false,
       icon: 'https://picsum.photos/800/300',
@@ -209,10 +229,15 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
       communityName: 'Super community',
       summary:
         'Cooperation combined with network effects is more effective than capitalist competition',
-      toggleJoin: {
-        toggle: action('submit'),
-        isSubmitting: false
-      },
+      toggleJoinFormik: useFormik<{}>({
+        initialValues: {},
+        onSubmit: () => {
+          action('toggle join')();
+          return new Promise((resolve, reject) => {
+            setTimeout(resolve, 3000);
+          });
+        }
+      }),
       EditCollectionPanel: ({ done }) => (
         <img
           onClick={done}
@@ -231,8 +256,7 @@ export const getHeroCollectionPropsAdmin = (): HeroCollectionProps => {
     collection: {
       status: HeroCollectionStatus.Loaded,
       isAdmin: true,
-      isFeatured: false,
-      isMine: true,
+      canModify: true,
       following: true,
       flagged: false,
       icon: 'https://picsum.photos/800/300',
@@ -243,10 +267,10 @@ export const getHeroCollectionPropsAdmin = (): HeroCollectionProps => {
       communityName: 'Super community',
       summary:
         'Cooperation combined with network effects is more effective than capitalist competition',
-      toggleJoin: {
-        toggle: action('submit'),
-        isSubmitting: false
-      },
+      toggleJoinFormik: useFormik<{}>({
+        initialValues: {},
+        onSubmit: action('toggle join')
+      }),
       EditCollectionPanel: ({ done }) => (
         <img
           onClick={done}

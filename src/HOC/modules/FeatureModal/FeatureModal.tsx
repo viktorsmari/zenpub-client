@@ -8,11 +8,16 @@ import FeaturedModalUI, { Props } from 'ui/modules/FeaturedModal';
 export type Context = Community | Collection;
 export interface FeatureModal {
   ctx: Pick<Context, 'id' | '__typename' | 'name'>;
+  isFeatured: boolean;
   done(): unknown;
 }
-export const FeatureModalHOC: SFC<FeatureModal> = ({ ctx, done }) => {
+export const FeatureModalHOC: SFC<FeatureModal> = ({
+  ctx,
+  done,
+  isFeatured
+}) => {
   const { isAdmin } = useMe();
-  const { toggleFeatured, isFeatured } = useFeaturedContext(ctx);
+  const { toggleFeatured } = useFeaturedContext(ctx, isFeatured);
 
   const toggleFeaturedFormik = useFormik<{}>({
     initialValues: {},
