@@ -11,12 +11,7 @@ export const useUser = (userId: User['id']) => {
   const user = userQ.data?.user;
   const isMe = !!(me && user && me.user.id == user.id);
 
-  const { toggleFollow } = useFollowContext(
-    user?.id,
-    user?.myFollow,
-    user?.followerCount,
-    'User'
-  );
+  const { toggleFollow } = useFollowContext(user);
 
   return useMemo(() => {
     return {

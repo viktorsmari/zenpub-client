@@ -5,6 +5,7 @@ import media from 'styled-media-query';
 import styled from '../../../themes/styled';
 const PlaceholderImg = require('../../Icons/collectionPlaceholder.png');
 import { ellipsis } from 'polished';
+import { X } from 'react-feather';
 
 export interface CollectionBase {
   id: string;
@@ -14,10 +15,19 @@ export interface CollectionBase {
 
 interface CollectionProps {
   collection: CollectionBase;
+  isAdmin: boolean;
 }
-const CollectionSmall: React.FC<CollectionProps> = ({ collection }) => {
+const CollectionSmall: React.FC<CollectionProps> = ({
+  collection,
+  isAdmin
+}) => {
   return (
     <Wrapper py={1} mb={2} ml={3}>
+      {isAdmin ? (
+        <Remove>
+          <X color="#fff" size={16} />
+        </Remove>
+      ) : null}
       <Link to={`/communities/${collection.id}`}>
         <Img
           style={{
@@ -42,6 +52,7 @@ const Wrapper = styled(Box)`
   max-width: 200px;
   max-height: 200px;
   border-radius: 4px;
+  padding-top: 10px;
   ${media.lessThan('medium')`
   display: block;
 `} & a {
@@ -64,4 +75,18 @@ const Title = styled(Text)`
   ${ellipsis('200px')};
 `;
 
+const Remove = styled(Box)`
+  position: absolute;
+  right: -9px;
+  top: 0px;
+  cursor: pointer;
+  background: ${props => props.theme.colors.orange};
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 999999999;
+`;
 export default CollectionSmall;

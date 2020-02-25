@@ -1,20 +1,21 @@
+import { useUserOutboxActivities } from 'fe/activities/outbox/user/useUserOutboxActivities';
 import { User } from 'graphql/types.generated';
 import { ActivityPreviewHOC } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
 import { HeroUser } from 'HOC/modules/HeroUser/HeroUser';
 import React, { SFC } from 'react';
 import { Props, User as UserPageUI } from 'ui/pages/user';
-import { UserPageActivitiesFragment } from './UserPage.generated';
 
 export interface UserPage {
   userId: User['id'];
   tab: UserPageTab;
-  activities: UserPageActivitiesFragment[];
+  basePath: string;
 }
 export enum UserPageTab {
   Activities,
   Likes
 }
-export const UserPage: SFC<UserPage> = ({ userId, activities }) => {
+export const UserPage: SFC<UserPage> = ({ userId, basePath }) => {
+  const { activities } = useUserOutboxActivities(userId);
   const ActivityBoxes = (
     <>
       {activities.map(activity => (
@@ -25,7 +26,7 @@ export const UserPage: SFC<UserPage> = ({ userId, activities }) => {
   const HeroUserBox = <HeroUser userId={userId} />;
 
   const userPageProps: Props = {
-    basePath: `/user/${userId}`,
+    basePath,
     ActivityBoxes,
     HeroUserBox
   };

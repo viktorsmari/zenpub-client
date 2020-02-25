@@ -1,39 +1,33 @@
 import * as GQL from 'fe/mutation/follow/useMutateFollow.generated';
 import { isOptimisticId, OPTIMISTIC_ID_STRING } from 'fe/util';
 import { GetSidebarQueryDocument } from 'graphql/getSidebar.generated';
-import Maybe from 'graphql/tsutils/Maybe';
 import { Collection, Community, Thread, User } from 'graphql/types.generated';
 import { useCallback, useMemo } from 'react';
+import Maybe from 'graphql/tsutils/Maybe';
 
-type Typename = Exclude<
-  | Collection['__typename']
-  | Community['__typename']
-  | Thread['__typename']
-  | User['__typename'],
-  null | undefined
+type Context = Collection | Community | Thread | User;
+
+export type UseFollowContext = Maybe<
+  Pick<Context, 'id' | 'myFollow' | 'followerCount' | '__typename'>
 >;
 
-export const useFollowContext = (
-  contextId: Maybe<string>,
-  myFollow: Maybe<{ id: string }>,
-  followerCount: Maybe<number>,
-  __typename: Typename
-) => {
+export const useFollowContext = (ctx: UseFollowContext) => {
   const [followMut, followMutStatus] = GQL.useFollowMutation();
   const [unfollowMut, unfollowMutStatus] = GQL.useUnfollowMutation();
   const mutating = followMutStatus.loading || unfollowMutStatus.loading;
   const toggleFollow = useCallback(async () => {
-    if (!contextId || mutating) {
+    const { id, followerCount, myFollow, __typename } = ctx || {};
+    if (!id || mutating) {
       return;
     }
     if (!myFollow) {
       return followMut({
         variables: {
-          contextId
+          contextId: id
         },
         optimisticResponse: optimisticFollow(
           __typename,
-          contextId,
+          id,
           followerCount || 0
         ),
         refetchQueries: [
@@ -51,7 +45,7 @@ export const useFollowContext = (
             },
             optimisticResponse: optimisticUnfollow(
               __typename,
-              contextId,
+              id,
               followerCount || 1
             ),
             refetchQueries: [
@@ -61,7 +55,7 @@ export const useFollowContext = (
             ]
           });
     }
-  }, [contextId, myFollow, mutating, followerCount, __typename]);
+  }, [ctx, mutating]);
 
   return useMemo(
     () => ({

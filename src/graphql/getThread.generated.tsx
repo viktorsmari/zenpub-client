@@ -1,8 +1,8 @@
 import * as Types from './types.generated';
 
-import { ComunityPageThreadFragment } from '../HOC/pages/community/CommunityPage.generated';
+import { CommunityPageThreadFragment } from '../HOC/pages/community/CommunityPage.generated';
 import gql from 'graphql-tag';
-import { ComunityPageThreadFragmentDoc } from '../HOC/pages/community/CommunityPage.generated';
+import { CommunityPageThreadFragmentDoc } from '../HOC/pages/community/CommunityPage.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -20,7 +20,7 @@ export type GetThreadQuery = (
   { __typename: 'RootQueryType' }
   & { thread: Types.Maybe<(
     { __typename: 'Thread' }
-    & ComunityPageThreadFragment
+    & CommunityPageThreadFragment
   )> }
 );
 
@@ -28,10 +28,10 @@ export type GetThreadQuery = (
 export const GetThreadDocument = gql`
     query getThread($threadId: String!) {
   thread(threadId: $threadId) {
-    ...ComunityPageThread
+    ...CommunityPageThread
   }
 }
-    ${ComunityPageThreadFragmentDoc}`;
+    ${CommunityPageThreadFragmentDoc}`;
 export type GetThreadComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetThreadQuery, GetThreadQueryVariables>, 'query'> & ({ variables: GetThreadQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const GetThreadComponent = (props: GetThreadComponentProps) => (

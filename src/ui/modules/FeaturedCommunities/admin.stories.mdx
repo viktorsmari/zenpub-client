@@ -1,0 +1,18 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import { PropsTable } from '@storybook/components';
+import {getFeaturedCommunitiesPropsAdmin} from 'ui/mock/context'
+import { FeaturedCommunities } from 'ui/modules/FeaturedCommunities';
+import {Box} from 'rebass';
+
+<Meta title="UX|FeaturedCommunities - Admin User" component={FeaturedCommunities}/>
+
+# FeaturedCommunities
+Let's define a story for the `Featured Communities preview` module
+
+<Preview>
+  <Story name="Featured Communities preview module">
+    <Box sx={{width: '600px', margin: '0 auto'}}>
+        <FeaturedCommunities {...getFeaturedCommunitiesPropsAdmin()} />
+    </Box>  
+  </Story>
+</Preview>

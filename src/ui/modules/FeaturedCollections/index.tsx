@@ -55,6 +55,7 @@ export const RightContext = styled.div`
   //   float: left;
   // }
 `;
+
 // export enum Status {
 //     Loading,
 //     Loaded
@@ -67,7 +68,9 @@ export const RightContext = styled.div`
 //   }
 
 export interface FeaturedCollectionsData {
+  isAdmin: boolean;
   featuredCollections: CollectionBase[];
+  removeFromFeatured: any;
 }
 
 //   export type Props = FeaturedCollectionsLoaded | FeaturedCollectionsLoading;
@@ -107,7 +110,10 @@ export const FeaturedCollections: SFC<FeaturedCollectionsData> = props => {
           >
             {props.featuredCollections.map(collection => (
               <div key={collection.id}>
-                <CollectionSmall collection={collection} />
+                <CollectionSmall
+                  collection={collection}
+                  isAdmin={props.isAdmin}
+                />
               </div>
             ))}
           </Slider>

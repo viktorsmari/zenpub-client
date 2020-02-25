@@ -1,3 +1,7 @@
+import { useCommunityOutboxActivities } from 'fe/activities/outbox/community/useCommunityOutboxActivities';
+import { useCommunityCollections } from 'fe/collection/community/useCommunityCollections';
+import { useCommunity } from 'fe/community/useCommunity';
+import { useCommunityThreads } from 'fe/thread/community/useCommunityThreads';
 import { useFormik } from 'formik';
 import { Community } from 'graphql/types.generated';
 import { ActivityPreviewHOC } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
@@ -6,14 +10,7 @@ import { CreateCollectionPanelHOC } from 'HOC/modules/CreateCollectionPanel/crea
 import { HeroCommunity } from 'HOC/modules/HeroCommunity/HeroCommuity';
 import React, { SFC, useMemo } from 'react';
 import CommunityPageUI, { Props as CommunityProps } from 'ui/pages/community';
-import {
-  CommunityPageActivityBaseFragment,
-  CommunityPageBaseFragment,
-  CommunityPageCollectionBaseFragment,
-  ComunityPageThreadFragment
-} from './CommunityPage.generated';
-import { ThreadActivity } from './ThreadActivity';
-import Maybe from 'graphql/tsutils/Maybe';
+import { ThreadActivityMock } from './ThreadActivityMock';
 
 export enum CommunityPageTab {
   Activities,
@@ -22,22 +19,19 @@ export enum CommunityPageTab {
 }
 export interface CommunityPage {
   communityId: Community['id'];
-  createThread(content: string): Promise<unknown>;
   tab: CommunityPageTab;
-  community: Maybe<CommunityPageBaseFragment>;
-  threads: ComunityPageThreadFragment[];
-  collections: CommunityPageCollectionBaseFragment[];
-  activities: CommunityPageActivityBaseFragment[];
+  basePath: string;
 }
 
 export const CommunityPage: SFC<CommunityPage> = ({
   communityId,
-  community,
-  createThread,
-  threads,
-  collections,
-  activities
+  basePath
 }) => {
+  const { community, createThread } = useCommunity(communityId);
+  const { threads } = useCommunityThreads(communityId);
+  const { collections } = useCommunityCollections(communityId);
+  const { activities } = useCommunityOutboxActivities(communityId);
+
   const newThreadFormik = useFormik<{ text: string }>({
     initialValues: { text: '' },
     onSubmit: ({ text }) => createThread(text)
@@ -63,7 +57,7 @@ export const CommunityPage: SFC<CommunityPage> = ({
     const ThreadsBox = (
       <>
         {threads.map(thread => (
-          <ThreadActivity thread={thread} key={thread.id} />
+          <ThreadActivityMock thread={thread} key={thread.id} />
         ))}
       </>
     );
@@ -82,11 +76,11 @@ export const CommunityPage: SFC<CommunityPage> = ({
       CollectionsBox,
       HeroCommunityBox,
       ThreadsBox,
-      basePath: `/communities/${communityId}`,
+      basePath,
       newThreadFormik: myFollow ? newThreadFormik : null
     };
     return props;
-  }, [community, newThreadFormik]);
+  }, [community, newThreadFormik, basePath]);
 
   return communityPageProps && <CommunityPageUI {...communityPageProps} />;
 };

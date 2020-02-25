@@ -98,40 +98,8 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
   return {
     community: {
       isAdmin: false,
-      isFeatured: false,
+      // isFeatured: false,
       status: HeroCommunityStatus.Loaded,
-      canModify: true,
-      following: true,
-      flagged: false,
-      icon: 'https://picsum.photos/800/300',
-      name: 'Community nino',
-      fullName: 'ninos@abc.com',
-      summary:
-        'Cooperation combined with network effects is more effective than capitalist competition',
-      totalMembers: 193,
-      toggleJoinFormik: useFormik<{}>({
-        initialValues: {},
-        onSubmit: action('toggle join')
-      }),
-      EditCommunityPanel: ({ done }) => (
-        <img
-          onClick={done}
-          src="https://via.placeholder.com/400x200.png?text=An editing panel"
-        />
-      ),
-      FlagModal: ({ done }) => {
-        return <></>;
-      }
-    }
-  };
-};
-
-export const getHeroCommunityPropsAdmin = (): HeroCommunityProps => {
-  return {
-    community: {
-      status: HeroCommunityStatus.Loaded,
-      isAdmin: true,
-      isFeatured: true,
       canModify: true,
       following: true,
       flagged: false,
@@ -154,7 +122,58 @@ export const getHeroCommunityPropsAdmin = (): HeroCommunityProps => {
       FlagModal: ({ done }) => {
         return <></>;
       },
-      FeaturedModal: ({ done, isFeatured, itemType }) => {
+      FeaturedModal: () => {
+        const formik = useFormik<{}>({
+          initialValues: { makeFeatured: true },
+          onSubmit: () => {
+            action('submit')();
+            return new Promise((resolve, reject) => {
+              setTimeout(resolve, 3000);
+            });
+          }
+        });
+        const getFeaturedModalProps = {
+          formik,
+          isFeatured: true,
+          itemType: 'community',
+          itemName: 'Type Theory',
+          cancel: action('cancel')
+        };
+        return <FeaturedModal {...getFeaturedModalProps} />;
+      }
+    }
+  };
+};
+
+export const getHeroCommunityPropsAdmin = (): HeroCommunityProps => {
+  return {
+    community: {
+      status: HeroCommunityStatus.Loaded,
+      isAdmin: true,
+      // isFeatured: true,
+      canModify: true,
+      following: true,
+      flagged: false,
+      icon: 'https://picsum.photos/800/300',
+      name: 'Community nino',
+      fullName: 'ninos@abc.com',
+      summary:
+        'Cooperation combined with network effects is more effective than capitalist competition',
+      totalMembers: 193,
+      toggleJoinFormik: useFormik<{}>({
+        initialValues: {},
+        onSubmit: action('toggle join')
+      }),
+      EditCommunityPanel: ({ done }) => (
+        <img
+          onClick={done}
+          src="https://via.placeholder.com/400x200.png?text=An editing panel"
+        />
+      ),
+      FlagModal: ({ done }) => {
+        return <></>;
+      },
+      FeaturedModal: ({ done }) => {
         const formik = useFormik<{}>({
           initialValues: { makeFeatured: true },
           onSubmit: () => {
@@ -181,7 +200,27 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
   return {
     collection: {
       status: HeroCollectionStatus.Loaded,
-      isMine: true,
+      isAdmin: true,
+      FeaturedModal: () => {
+        const formik = useFormik<{}>({
+          initialValues: { makeFeatured: true },
+          onSubmit: () => {
+            action('submit')();
+            return new Promise((resolve, reject) => {
+              setTimeout(resolve, 3000);
+            });
+          }
+        });
+        const getFeaturedModalProps = {
+          formik,
+          isFeatured: false,
+          itemType: 'collection',
+          itemName: 'Soil types',
+          cancel: action('cancel')
+        };
+        return <FeaturedModal {...getFeaturedModalProps} />;
+      },
+      canModify: true,
       following: true,
       flagged: false,
       icon: 'https://picsum.photos/800/300',
@@ -192,10 +231,15 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
       communityName: 'Super community',
       summary:
         'Cooperation combined with network effects is more effective than capitalist competition',
-      toggleJoin: {
-        toggle: action('submit'),
-        isSubmitting: false
-      },
+      toggleJoinFormik: useFormik<{}>({
+        initialValues: {},
+        onSubmit: () => {
+          action('toggle join')();
+          return new Promise((resolve, reject) => {
+            setTimeout(resolve, 3000);
+          });
+        }
+      }),
       EditCollectionPanel: ({ done }) => (
         <img
           onClick={done}
@@ -214,8 +258,7 @@ export const getHeroCollectionPropsAdmin = (): HeroCollectionProps => {
     collection: {
       status: HeroCollectionStatus.Loaded,
       isAdmin: true,
-      isFeatured: false,
-      isMine: true,
+      canModify: true,
       following: true,
       flagged: false,
       icon: 'https://picsum.photos/800/300',
@@ -226,10 +269,10 @@ export const getHeroCollectionPropsAdmin = (): HeroCollectionProps => {
       communityName: 'Super community',
       summary:
         'Cooperation combined with network effects is more effective than capitalist competition',
-      toggleJoin: {
-        toggle: action('submit'),
-        isSubmitting: false
-      },
+      toggleJoinFormik: useFormik<{}>({
+        initialValues: {},
+        onSubmit: action('toggle join')
+      }),
       EditCollectionPanel: ({ done }) => (
         <img
           onClick={done}
@@ -239,7 +282,7 @@ export const getHeroCollectionPropsAdmin = (): HeroCollectionProps => {
       FlagModal: ({ done }) => {
         return <></>;
       },
-      FeaturedModal: ({ done, isFeatured, itemType }) => {
+      FeaturedModal: () => {
         const formik = useFormik<{}>({
           initialValues: { makeFeatured: true },
           onSubmit: () => {
@@ -366,6 +409,35 @@ export const getFeaturedModalProps = (): FeaturedModalProps => {
 
 export const getFeaturedCommunitiesProps = (): FeaturedCommunitiesProps => {
   return {
+    isAdmin: false,
+    featuredCommunities: [
+      {
+        id: '1',
+        name: 'Instructional Design in HE',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '2',
+        name: 'The Lounge',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '3',
+        name: 'OER Lounge',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '4',
+        name: 'Favourite books',
+        icon: 'https://picsum.photos/id/200/200/200'
+      }
+    ]
+  };
+};
+
+export const getFeaturedCommunitiesPropsAdmin = (): FeaturedCommunitiesProps => {
+  return {
+    isAdmin: true,
     featuredCommunities: [
       {
         id: '1',
@@ -393,6 +465,35 @@ export const getFeaturedCommunitiesProps = (): FeaturedCommunitiesProps => {
 
 export const getFeaturedCollectionsProps = (): FeaturedCollectionsProps => {
   return {
+    isAdmin: false,
+    featuredCollections: [
+      {
+        id: '1',
+        name: 'Global OER Projects',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '2',
+        name: 'Great education-related books',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '3',
+        name: 'Spaced Repetition',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '4',
+        name: 'Community OER',
+        icon: 'https://picsum.photos/id/200/200/200'
+      }
+    ]
+  };
+};
+
+export const getFeaturedCollectionsPropsAdmin = (): FeaturedCollectionsProps => {
+  return {
+    isAdmin: true,
     featuredCollections: [
       {
         id: '1',

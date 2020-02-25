@@ -17,7 +17,7 @@ export enum Status {
 export interface CommunityLoaded {
   status: Status.Loaded;
   isAdmin?: boolean;
-  isFeatured?: boolean;
+  // isFeatured: boolean;
   icon: string;
   name: string;
   summary: string;
@@ -29,12 +29,7 @@ export interface CommunityLoaded {
   toggleJoinFormik: FormikHook;
   EditCommunityPanel: ComponentType<{ done(): any }>;
   FlagModal: ComponentType<{ done(): any }>;
-  FeaturedModal?: ComponentType<{
-    done(): any;
-    isFeatured: boolean;
-    itemName: string;
-    itemType: string;
-  }>;
+  FeaturedModal: ComponentType<{ done(): any }>;
 }
 
 export interface CommunityLoading {
@@ -111,11 +106,13 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
                       <AdminDropdownItem onClick={() => setOpenFeatured(true)}>
                         <Star size={20} color={'rgb(211, 103, 5)'} />
                         <Text sx={{ flex: 1 }} ml={2}>
-                          {c.isFeatured ? (
+                          {
+                            /* c.isFeatured ? (
                             <Trans>Remove from featured list</Trans>
-                          ) : (
-                            <Trans>Add to featured list</Trans>
-                          )}
+                          ) :  */ <Trans>
+                              Add to featured list
+                            </Trans>
+                          }
                         </Text>
                       </AdminDropdownItem>
                     ) : null}
@@ -136,14 +133,9 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
           <c.FlagModal done={() => setOpenFlag(false)} />
         </Modal>
       )}
-      {isOpenFeatured && c.FeaturedModal && c.isFeatured != null && (
+      {isOpenFeatured && c.FeaturedModal && c.isAdmin && (
         <Modal closeModal={() => setOpenFeatured(false)}>
-          <c.FeaturedModal
-            done={() => setOpenFeatured(false)}
-            isFeatured={c.isFeatured}
-            itemName={c.name}
-            itemType="community"
-          />
+          <c.FeaturedModal done={() => setOpenFeatured(false)} />
         </Modal>
       )}
     </>

@@ -10,7 +10,6 @@ import CommunitySmall, { CommunityBase } from './preview';
 import { ChevronLeft, Right } from '../../Icons';
 // import Loader from '../../elements/Loader';
 import { Box } from 'rebass';
-
 export const Title = styled.div`
   font-size: 15px;
   font-weight: 700;
@@ -55,6 +54,22 @@ export const RightContext = styled.div`
   //   float: left;
   // }
 `;
+
+const Remove = styled(Box)`
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  cursor: pointer;
+  background: ${props => props.theme.colors.orange};
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 999999999;
+`;
+
 // export enum Status {
 //     Loading,
 //     Loaded
@@ -67,6 +82,7 @@ export const RightContext = styled.div`
 //   }
 
 export interface FeaturedCommunitiesData {
+  isAdmin: boolean;
   featuredCommunities: CommunityBase[];
 }
 
@@ -107,7 +123,7 @@ export const FeaturedCommunities: SFC<FeaturedCommunitiesData> = props => {
           >
             {props.featuredCommunities.map(community => (
               <div key={community.id}>
-                <CommunitySmall community={community} />
+                <CommunitySmall community={community} isAdmin={props.isAdmin} />
               </div>
             ))}
           </Slider>

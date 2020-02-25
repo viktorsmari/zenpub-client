@@ -57,7 +57,9 @@ export default async function initialise({ localKVStore, appLink }: Cfg) {
     cacheRedirects: {
       Query: {
         activity: (_, args, { getCacheKey }) =>
-          getCacheKey({ __typename: 'Activity', id: args.activityId })
+          getCacheKey({ __typename: 'Activity', id: args.activityId }),
+        collection: (_, args, { getCacheKey }) =>
+          getCacheKey({ __typename: 'Collection', id: args.collectionId })
       }
     },
     dataIdFromObject: obj => {

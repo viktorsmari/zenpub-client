@@ -1,7 +1,8 @@
-import { CollectionPageHOC } from 'HOC/pages/collection/CollectionPageHOC';
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
+import { CollectionPageRoute } from 'routes/CollectionPageRoute';
+import { CommunityPageRoute } from 'routes/CommunityPageRoute';
 import { UserPageRoute } from 'routes/UserPageRoute';
 import { SessionContext } from '../../context/global/sessionCtx';
 import { CollectionsYours } from '../../pages/collections.all';
@@ -29,7 +30,6 @@ import Sidebar from '../../sections/sidebar/sidebarHOC';
 import SidebarNoLoggedWrapper from '../../sections/sidebar/sidebar_not_logged';
 import styled from '../../themes/styled';
 import MobileHeader from './mobileHeader';
-import { CommunityPageRoute } from 'routes/CommunityPageRoute';
 
 const Main = styled(Flex)`
   height: 100%;
@@ -72,6 +72,7 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
       <Switch>
         <Route {...UserPageRoute} />
         <Route {...CommunityPageRoute} />
+        <Route {...CollectionPageRoute} />
         <Route exact path="/" component={me ? Home : Login} />
         <Route
           exact
@@ -99,14 +100,6 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
           render={route => {
             const threadId = route.match.params.id;
             return <Thread threadId={threadId} />;
-          }}
-        />
-        <Route
-          exact
-          path="/collections/:id/:tab?"
-          render={route => {
-            const id = route.match.params.id;
-            return <CollectionPageHOC collectionId={id} />;
           }}
         />
 
