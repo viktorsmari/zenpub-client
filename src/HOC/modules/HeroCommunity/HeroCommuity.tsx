@@ -17,9 +17,7 @@ export interface HeroCommunity {
 
 export const HeroCommunity: SFC<HeroCommunity> = ({ communityId }) => {
   const { isAdmin } = useMe();
-  const { toggleJoin, community, canModify, isFeatured } = useCommunity(
-    communityId
-  );
+  const { toggleJoin, community, canModify } = useCommunity(communityId);
 
   const toggleJoinFormik = useFormik<{}>({
     initialValues: {},
@@ -27,7 +25,7 @@ export const HeroCommunity: SFC<HeroCommunity> = ({ communityId }) => {
   });
 
   const heroProps = useMemo<HeroProps>(() => {
-    if (!community || typeof isFeatured !== 'boolean') {
+    if (!community) {
       const props: HeroProps = {
         community: {
           status: Status.Loading
@@ -41,7 +39,6 @@ export const HeroCommunity: SFC<HeroCommunity> = ({ communityId }) => {
         status: Status.Loaded,
         canModify,
         isAdmin,
-        isFeatured,
         following: !!community.myFollow,
         flagged: !!community.myFlag,
         icon: community.icon || '',
@@ -61,7 +58,7 @@ export const HeroCommunity: SFC<HeroCommunity> = ({ communityId }) => {
           />
         ),
         FeaturedModal: ({ done }: { done(): unknown }) => (
-          <FeatureModalHOC done={done} ctx={community} />
+          <FeatureModalHOC done={done} ctx={community} isFeatured={false} />
         )
       }
     };

@@ -17,7 +17,7 @@ export enum Status {
 export interface CommunityLoaded {
   status: Status.Loaded;
   isAdmin?: boolean;
-  isFeatured: boolean;
+  // isFeatured: boolean;
   icon: string;
   name: string;
   summary: string;
@@ -106,11 +106,13 @@ export const HeroCommunity: SFC<Props> = ({ community: c }) => {
                       <AdminDropdownItem onClick={() => setOpenFeatured(true)}>
                         <Star size={20} color={'rgb(211, 103, 5)'} />
                         <Text sx={{ flex: 1 }} ml={2}>
-                          {c.isFeatured ? (
+                          {
+                            /* c.isFeatured ? (
                             <Trans>Remove from featured list</Trans>
-                          ) : (
-                            <Trans>Add to featured list</Trans>
-                          )}
+                          ) :  */ <Trans>
+                              Add to featured list
+                            </Trans>
+                          }
                         </Text>
                       </AdminDropdownItem>
                     ) : null}

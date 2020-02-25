@@ -12,6 +12,7 @@ import Avatar from 'ui/elements/Avatar';
 import Button from 'ui/elements/Button';
 import { Dropdown, DropdownItem, AdminDropdownItem } from 'ui/modules/Dropdown';
 import { Settings, MoreVertical, Flag, Star } from 'react-feather';
+import { FormikHook } from 'ui/@types/types';
 
 export enum Status {
   Loading,
@@ -23,30 +24,22 @@ export interface CollectionLoading {
 }
 export interface CollectionLoaded {
   status: Status.Loaded;
-  isAdmin?: boolean;
-  isFeatured?: boolean;
+  isAdmin: boolean;
+  // isFeatured?: boolean;
   icon: string;
   name: string;
   fullName: string;
   summary: string;
-  isMine: boolean;
+  canModify: boolean;
   communityId: string;
   communityName: string;
   communityIcon: string;
-  toggleJoin: {
-    toggle(): any;
-    isSubmitting: boolean;
-  };
+  toggleJoinFormik: FormikHook;
   flagged: boolean;
   following: boolean;
   EditCollectionPanel: ComponentType<{ done(): any }>;
   FlagModal: ComponentType<{ done(): any }>;
-  FeaturedModal?: ComponentType<{
-    done(): any;
-    isFeatured: boolean;
-    itemName: string;
-    itemType: string;
-  }>;
+  FeaturedModal: ComponentType<{ done(): any }>;
 }
 export interface Props {
   collection: CollectionLoaded | CollectionLoading;
@@ -85,7 +78,7 @@ export const HeroCollection: SFC<Props> = ({ collection: c }) => {
               <MoreVertical size={20} onClick={() => setOpenDropdown(true)} />
               {isOpenDropdown && (
                 <Dropdown orientation={'top'} cb={setOpenDropdown}>
-                  {c.isMine && (
+                  {c.canModify && (
                     <DropdownItem onClick={() => setOpenSettings(true)}>
                       <Settings size={20} color={'rgb(101, 119, 134)'} />
                       <Text sx={{ flex: 1 }} ml={2}>
@@ -103,11 +96,13 @@ export const HeroCollection: SFC<Props> = ({ collection: c }) => {
                     <AdminDropdownItem onClick={() => setOpenFeatured(true)}>
                       <Star size={20} color={'rgb(211, 103, 5)'} />
                       <Text sx={{ flex: 1 }} ml={2}>
-                        {c.isFeatured ? (
+                        {
+                          /* c.isFeatured ? (
                           <Trans>Remove from featured list</Trans>
-                        ) : (
-                          <Trans>Add to featured list</Trans>
-                        )}
+                        ) :  */ <Trans>
+                            Add to featured list
+                          </Trans>
+                        }
                       </Text>
                     </AdminDropdownItem>
                   ) : null}
@@ -116,9 +111,9 @@ export const HeroCollection: SFC<Props> = ({ collection: c }) => {
             </More>
             <Button
               variant={c.following ? 'danger' : 'primary'}
-              disabled={c.toggleJoin.isSubmitting}
-              onClick={c.toggleJoin.toggle}
-              isSubmitting={c.toggleJoin.isSubmitting}
+              disabled={c.toggleJoinFormik.isSubmitting}
+              onClick={c.toggleJoinFormik.submitForm}
+              isSubmitting={c.toggleJoinFormik.isSubmitting}
             >
               {c.following ? 'Unfollow' : 'Follow'}
             </Button>
@@ -135,14 +130,9 @@ export const HeroCollection: SFC<Props> = ({ collection: c }) => {
           <c.FlagModal done={() => setOpenFlag(false)} />
         </Modal>
       )}
-      {isOpenFeatured && c.FeaturedModal && c.isFeatured != null && (
+      {isOpenFeatured && c.FeaturedModal != null && (
         <Modal closeModal={() => setOpenFeatured(false)}>
-          <c.FeaturedModal
-            done={() => setOpenFeatured(false)}
-            isFeatured={c.isFeatured}
-            itemName={c.name}
-            itemType="collection"
-          />
+          <c.FeaturedModal done={() => setOpenFeatured(false)} />
         </Modal>
       )}
     </HeroCont>

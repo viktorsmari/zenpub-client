@@ -3,7 +3,7 @@ import { Collection } from 'graphql/types.generated';
 import { ActivityPreviewHOC } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
 import UploadResourcePanelHOC from 'HOC/modules/AddResource/UploadResourceHOC';
 import { EditCollectionPanelHOC } from 'HOC/modules/EditCollectionPanel/editCollectionPanelHOC';
-import { HeroCollectionHOC } from 'HOC/modules/HeroCollection/HeroCollectionHOC';
+import { HeroCollection } from 'HOC/modules/HeroCollection/HeroCollection';
 import React, { FC, useMemo } from 'react';
 import CollectionPageUI, {
   Props as CollectionPageProps
@@ -33,7 +33,7 @@ export const CollectionPage: FC<CollectionPage> = props => {
       //tab
     } = props;
 
-    const HeroCollectionBox = <HeroCollectionHOC collectionId={collectionId} />;
+    const HeroCollectionBox = <HeroCollection collectionId={collectionId} />;
 
     const ActivitiesBox = (
       <>
