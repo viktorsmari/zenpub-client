@@ -10,9 +10,9 @@ import {
   CommunityPageActivityBaseFragment,
   CommunityPageBaseFragment,
   CommunityPageCollectionBaseFragment,
-  ComunityPageThreadFragment
+  CommunityPageThreadFragment
 } from './CommunityPage.generated';
-import { ThreadActivity } from './ThreadActivity';
+import { ThreadActivityMock } from './ThreadActivityMock';
 import Maybe from 'graphql/tsutils/Maybe';
 
 export enum CommunityPageTab {
@@ -25,9 +25,10 @@ export interface CommunityPage {
   createThread(content: string): Promise<unknown>;
   tab: CommunityPageTab;
   community: Maybe<CommunityPageBaseFragment>;
-  threads: ComunityPageThreadFragment[];
+  threads: CommunityPageThreadFragment[];
   collections: CommunityPageCollectionBaseFragment[];
   activities: CommunityPageActivityBaseFragment[];
+  basePath: string;
 }
 
 export const CommunityPage: SFC<CommunityPage> = ({
@@ -36,7 +37,8 @@ export const CommunityPage: SFC<CommunityPage> = ({
   createThread,
   threads,
   collections,
-  activities
+  activities,
+  basePath
 }) => {
   const newThreadFormik = useFormik<{ text: string }>({
     initialValues: { text: '' },
@@ -63,7 +65,7 @@ export const CommunityPage: SFC<CommunityPage> = ({
     const ThreadsBox = (
       <>
         {threads.map(thread => (
-          <ThreadActivity thread={thread} key={thread.id} />
+          <ThreadActivityMock thread={thread} key={thread.id} />
         ))}
       </>
     );
@@ -82,11 +84,11 @@ export const CommunityPage: SFC<CommunityPage> = ({
       CollectionsBox,
       HeroCommunityBox,
       ThreadsBox,
-      basePath: `/communities/${communityId}`,
+      basePath,
       newThreadFormik: myFollow ? newThreadFormik : null
     };
     return props;
-  }, [community, newThreadFormik]);
+  }, [community, newThreadFormik, basePath]);
 
   return communityPageProps && <CommunityPageUI {...communityPageProps} />;
 };

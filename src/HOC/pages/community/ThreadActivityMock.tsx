@@ -12,9 +12,9 @@ import {
 import * as UIAP from 'ui/modules/ActivityPreview/preview';
 import * as GQL from './CommunityPage.generated';
 
-export const ThreadActivity: FC<{ thread: GQL.ComunityPageThreadFragment }> = ({
-  thread
-}) => {
+export const ThreadActivityMock: FC<{
+  thread: GQL.CommunityPageThreadFragment;
+}> = ({ thread }) => {
   const comment =
     thread.comments?.edges &&
     thread.comments.edges[0] &&

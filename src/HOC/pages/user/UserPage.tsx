@@ -9,12 +9,13 @@ export interface UserPage {
   userId: User['id'];
   tab: UserPageTab;
   activities: UserPageActivitiesFragment[];
+  basePath: string;
 }
 export enum UserPageTab {
   Activities,
   Likes
 }
-export const UserPage: SFC<UserPage> = ({ userId, activities }) => {
+export const UserPage: SFC<UserPage> = ({ userId, activities, basePath }) => {
   const ActivityBoxes = (
     <>
       {activities.map(activity => (
@@ -25,7 +26,7 @@ export const UserPage: SFC<UserPage> = ({ userId, activities }) => {
   const HeroUserBox = <HeroUser userId={userId} />;
 
   const userPageProps: Props = {
-    basePath: `/user/${userId}`,
+    basePath,
     ActivityBoxes,
     HeroUserBox
   };

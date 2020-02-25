@@ -1,0 +1,18 @@
+#import "HOC/page/collection/CollectionPage.graphql"
+
+query collectionResources($collectionId: String!, $limit:Int, $before:String, $after:String) {
+  collection(collectionId:$collectionId){
+    id
+    resources(limit:$limit, before:$before, after:$after){
+      edges{
+        node{
+          ...CollectionResource
+        }
+      }
+    }
+  }
+}
+
+fragment CollectionResource on Resource{
+  ...CollectionPageResource
+}

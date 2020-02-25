@@ -1,8 +1,8 @@
 import * as Types from '../../../graphql/types.generated';
 
-import { ComunityPageThreadFragment } from '../../../HOC/pages/community/CommunityPage.generated';
+import { CommunityPageThreadFragment } from '../../../HOC/pages/community/CommunityPage.generated';
 import gql from 'graphql-tag';
-import { ComunityPageThreadFragmentDoc } from '../../../HOC/pages/community/CommunityPage.generated';
+import { CommunityPageThreadFragmentDoc } from '../../../HOC/pages/community/CommunityPage.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -39,14 +39,14 @@ export type CommunityThreadsQuery = (
 
 export type CommunityThreadFragment = (
   { __typename: 'Thread' }
-  & ComunityPageThreadFragment
+  & CommunityPageThreadFragment
 );
 
 export const CommunityThreadFragmentDoc = gql`
     fragment CommunityThread on Thread {
-  ...ComunityPageThread
+  ...CommunityPageThread
 }
-    ${ComunityPageThreadFragmentDoc}`;
+    ${CommunityPageThreadFragmentDoc}`;
 export const CommunityThreadsDocument = gql`
     query communityThreads($communityId: String!, $limit: Int, $before: String, $after: String) {
   community(communityId: $communityId) {

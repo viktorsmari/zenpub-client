@@ -23,7 +23,8 @@ const UserPageRouter: FC<RouteComponentProps<UserPageRouter>> = ({ match }) => {
 
   const props: UserPageCtrl = {
     tab,
-    userId
+    userId,
+    basePath: `/user/${userId}`
   };
 
   return <UserPageCtrl {...props} />;
