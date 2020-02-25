@@ -55,7 +55,7 @@ export const useFollowContext = (ctx: UseFollowContext) => {
             ]
           });
     }
-  }, [ctx]);
+  }, [ctx, mutating]);
 
   return useMemo(
     () => ({
