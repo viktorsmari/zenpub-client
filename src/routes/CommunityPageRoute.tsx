@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import {
   CommunityPageTab,
-  CommunityPageCtrl
-} from 'controllers/CommunityPageCtrl';
+  CommunityPage
+} from 'HOC/pages/community/CommunityPage';
 import NotFound from 'pages/not-found/NotFound';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
 
@@ -27,13 +27,13 @@ const CommunityPageRouter: FC<RouteComponentProps<CommunityPageRouter>> = ({
     return <NotFound />;
   }
 
-  const props: CommunityPageCtrl = {
+  const props: CommunityPage = {
     communityId,
     tab,
     basePath: `/communities/${communityId}`
   };
 
-  return <CommunityPageCtrl {...props} />;
+  return <CommunityPage {...props} />;
 };
 
 export const CommunityPageRoute: RouteProps = {

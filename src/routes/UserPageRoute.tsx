@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { UserPageCtrl, UserPageTab } from 'controllers/UserPageCtrl';
+import { UserPage, UserPageTab } from 'HOC/pages/user/UserPage';
 import NotFound from 'pages/not-found/NotFound';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
 
@@ -21,13 +21,13 @@ const UserPageRouter: FC<RouteComponentProps<UserPageRouter>> = ({ match }) => {
     return <NotFound />;
   }
 
-  const props: UserPageCtrl = {
+  const props: UserPage = {
     tab,
     userId,
     basePath: `/user/${userId}`
   };
 
-  return <UserPageCtrl {...props} />;
+  return <UserPage {...props} />;
 };
 
 export const UserPageRoute: RouteProps = {

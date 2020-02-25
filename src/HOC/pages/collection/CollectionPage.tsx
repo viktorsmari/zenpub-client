@@ -8,8 +8,9 @@ import React, { FC, useMemo } from 'react';
 import CollectionPageUI, {
   Props as CollectionPageProps
 } from 'ui/pages/collection';
-import * as GQL from './CollectionPage.generated';
 import { ResourceActivityMock } from './ResourceActivityMock';
+import { useCollectionOutboxActivities } from 'fe/activities/outbox/collection/useCollectionOutboxActivities';
+import { useCollectionResources } from 'fe/resource/collection/useCollectionResources';
 
 export enum CollectionPageTab {
   Activities,
@@ -18,18 +19,16 @@ export enum CollectionPageTab {
 export interface CollectionPage {
   collectionId: Collection['id'];
   tab: CollectionPageTab;
-  // collection: Maybe<GQL.CollectionPageDataFragment>
-  resources: GQL.CollectionPageResourceFragment[];
-  activities: GQL.CollectionPageActivityFragment[];
   basePath: string;
 }
 
 export const CollectionPage: FC<CollectionPage> = props => {
+  const { activities } = useCollectionOutboxActivities(props.collectionId);
+  const { resources } = useCollectionResources(props.collectionId);
+
   const collectionPageProps = useMemo<CollectionPageProps | null>(() => {
     const {
       collectionId,
-      activities,
-      resources,
       basePath
       //tab
     } = props;

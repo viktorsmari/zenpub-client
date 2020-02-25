@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import {
   CollectionPageTab,
-  CollectionPageCtrl
-} from 'controllers/CollectionPageCtrl';
+  CollectionPage
+} from 'HOC/pages/collection/CollectionPage';
 import NotFound from 'pages/not-found/NotFound';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
 
@@ -25,12 +25,12 @@ const CollectionPageRouter: FC<RouteComponentProps<CollectionPageRouter>> = ({
     return <NotFound />;
   }
 
-  const props: CollectionPageCtrl = {
+  const props: CollectionPage = {
     collectionId,
     tab,
     basePath: `/collections/${collectionId}`
   };
-  return <CollectionPageCtrl {...props} />;
+  return <CollectionPage {...props} />;
 };
 
 export const CollectionPageRoute: RouteProps = {
