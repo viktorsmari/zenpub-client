@@ -1,19 +1,19 @@
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { Flex } from 'rebass/styled-components';
+import { Flex, Box } from 'rebass/styled-components';
 import media from 'styled-media-query';
 
 import styled from 'ui/themes/styled';
 // import { Link } from 'react-feather';
 
 export interface Props {
-  CollectionsBoxes: JSX.Element;
+  CommunityBoxes: JSX.Element;
   Header: JSX.Element;
   basePath: string;
 }
 
-export const AllCollections: React.FC<Props> = ({
-  CollectionsBoxes,
+export const AllCommunities: React.FC<Props> = ({
+  CommunityBoxes,
   basePath,
   Header
 }) => {
@@ -25,7 +25,7 @@ export const AllCollections: React.FC<Props> = ({
             {Header}
             <Switch>
               <Route exact path={`${basePath}/`}>
-                {CollectionsBoxes}
+                <WrapperBoxes>{CommunityBoxes}</WrapperBoxes>
               </Route>
             </Switch>
           </Wrapper>
@@ -34,6 +34,13 @@ export const AllCollections: React.FC<Props> = ({
     </MainContainer>
   );
 };
+const WrapperBoxes = styled(Box)`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 8px;
+  grid-row-gap: 8px;
+  padding: 8px;
+`;
 
 export const HomeBox = styled(Flex)`
   max-width: 600px;

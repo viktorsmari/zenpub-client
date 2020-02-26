@@ -3,7 +3,7 @@ import styled from 'ui/themes/styled';
 // import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { ChevronLeft } from 'react-feather';
-import { Flex, Text } from 'rebass/styled-components';
+import { Flex, Text, Box } from 'rebass/styled-components';
 // import Avatar from 'ui/elements/Avatar';
 
 export const Header: React.FC<{ name: string }> = ({ name }) => {
@@ -11,7 +11,9 @@ export const Header: React.FC<{ name: string }> = ({ name }) => {
   return (
     <HeaderWrapper>
       <Left onClick={() => history.goBack()}>
-        <ChevronLeft size="24" />
+        <Icon>
+          <ChevronLeft size="20" />
+        </Icon>
         <SupText ml={2} variant="suptitle">
           {name}
         </SupText>
@@ -28,6 +30,23 @@ export const Header: React.FC<{ name: string }> = ({ name }) => {
   );
 };
 
+const Icon = styled(Box)`
+  cursor: pointer;
+  height: 40px;
+  width: 40px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  &:hover {
+    background: ${props => props.theme.colors.lighter};
+    svg {
+      stroke: ${props => props.theme.colors.primary};
+    }
+  }
+  svg {
+    stroke: ${props => props.theme.colors.darkgray};
+  }
+`;
 //   const LinkImg = styled(Box)`
 //   margin-right: 8px;
 //   .--rtl & {
@@ -46,9 +65,6 @@ export const Header: React.FC<{ name: string }> = ({ name }) => {
 const Left = styled(Flex)`
   flex: auto;
   align-items: center;
-  svg {
-    margin: 0;
-  }
 `;
 
 const SupText = styled(Text)`
