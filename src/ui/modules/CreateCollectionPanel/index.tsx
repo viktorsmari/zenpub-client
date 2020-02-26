@@ -50,7 +50,7 @@ export const CreateCollectionPanel: React.FC<Props> = ({ cancel, formik }) => {
         </Heading>
       </Header>
       <Hero>
-        <Box sx={{ width: '120px' }}>
+        <Box sx={{ width: '120px', height: '120px' }}>
           <DropzoneArea initialUrl={formik.values.icon} formikForm={formik} />
         </Box>
         {/* <Background style={{ backgroundImage: `url(${c.icon})` }} /> */}

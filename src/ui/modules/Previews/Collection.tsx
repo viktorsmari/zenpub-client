@@ -14,7 +14,9 @@ export interface Props {
   icon: string;
   name: string;
   summary: string;
+  displayUsername: string;
   totalResources: number | null;
+  isFollowing: boolean;
 }
 
 export const Collection: React.SFC<Props> = ({
@@ -22,7 +24,9 @@ export const Collection: React.SFC<Props> = ({
   icon,
   name,
   summary,
-  totalResources
+  displayUsername,
+  totalResources,
+  isFollowing
 }) => {
   return (
     <WrapperLink to={link.url}>
@@ -36,9 +40,13 @@ export const Collection: React.SFC<Props> = ({
                   ? name.replace(/^(.{76}[^\s]*).*/, '$1...')
                   : name}
               </Title>
-              <Username>@mantarai@moodle.net</Username>
+              <Username>{displayUsername}</Username>
             </Box>
-            <Button variant="outline">Follow</Button>
+            {isFollowing ? (
+              <Button variant="outline">leave</Button>
+            ) : (
+              <Button variant="primary">Follow</Button>
+            )}
           </Flex>
           <Text variant="text" mt={1} mb={2}>
             {summary && summary.length > 140

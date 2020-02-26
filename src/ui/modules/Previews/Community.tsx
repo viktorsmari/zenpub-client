@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'ui/themes/styled';
 import { Text, Box, Flex } from 'rebass/styled-components';
-import { UserPlus } from 'react-feather';
 import Avatar from 'ui/elements/Avatar';
 import { Trans } from '@lingui/macro';
+import Button from 'ui/elements/Button';
 
 export interface Props {
   name: string;
@@ -49,9 +49,9 @@ export const Community: React.FC<Props> = ({
           </Meta>
         </Box>
 
-        <Icon>
-          <UserPlus size={20} />
-        </Icon>
+        <Button variant="outline">
+          <Trans>Join</Trans>
+        </Button>
       </Flex>
 
       <Text variant="text" mt={2}>
@@ -62,24 +62,6 @@ export const Community: React.FC<Props> = ({
     </Box>
   </Wrapper>
 );
-
-const Icon = styled(Box)`
-  cursor: pointer;
-  height: 40px;
-  width: 40px;
-  border-radius: 40px;
-  display: flex;
-  align-items: center;
-  &:hover {
-    background: ${props => props.theme.colors.lightgray};
-    svg {
-      stroke: ${props => props.theme.colors.primary};
-    }
-  }
-  svg {
-    stroke: ${props => props.theme.colors.lightgray};
-  }
-`;
 
 const Username = styled(Text)`
   color: ${props => props.theme.colors.gray};
