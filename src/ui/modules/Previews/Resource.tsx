@@ -14,7 +14,7 @@ export interface Props {
   link: string;
 }
 
-export const Resource: React.SFC<Props> = ({
+export const Resource: React.FC<Props> = ({
   id,
   icon,
   name,

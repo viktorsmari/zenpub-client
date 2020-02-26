@@ -2,7 +2,7 @@ import { Trans } from '@lingui/macro';
 import {
   ActivityPreviewHOC
   /* ActivityPreviewCtx */
-} from 'HOC/modules/ActivityPreview/activityPreviewHOC';
+} from 'HOC/modules/previews/activity/ActivityPreview';
 import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import Empty from '../../components/elements/Empty';

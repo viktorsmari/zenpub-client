@@ -1,4 +1,4 @@
-import React, { SFC } from 'react';
+import React, { FC } from 'react';
 import { Box, Text, Flex } from 'rebass/styled-components';
 import { MapPin, MoreVertical, Flag } from 'react-feather';
 import styled from 'ui/themes/styled';
@@ -40,7 +40,7 @@ export interface LoadedOther extends Loaded {
 }
 export type Props = LoadedMe | LoadedOther | Loading;
 
-export const HeroUser: SFC<Props> = props => {
+export const HeroUser: FC<Props> = props => {
   if (props.status === Status.Loading) {
     return null;
   }

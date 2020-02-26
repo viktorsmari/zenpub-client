@@ -33,7 +33,7 @@ import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import {
   ActivityPreviewHOC
   /* ActivityPreviewCtx */
-} from 'HOC/modules/ActivityPreview/activityPreviewHOC';
+} from 'HOC/modules/previews/activity/ActivityPreview';
 
 interface Props {}
 

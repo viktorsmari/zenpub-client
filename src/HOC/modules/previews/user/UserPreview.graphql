@@ -1,0 +1,14 @@
+fragment UserPreview on User {
+  icon
+  image
+  userId: id 
+  userName: name
+  displayUsername
+  isLocal
+  summary
+  canonicalUrl
+  myFollow { id }
+  likerCount
+  myLike { id }
+  myFlag { id }
+}

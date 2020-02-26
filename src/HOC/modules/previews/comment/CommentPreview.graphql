@@ -1,0 +1,42 @@
+fragment CommentPreview on Comment {
+  ...CommentPreviewBase
+  id
+  inReplyTo { ...CommentPreviewBase }
+  likerCount
+  myLike{ id }
+  likerCount
+  # myFlag{ id }
+}
+fragment CommentPreviewBase on Comment{
+    id
+    isLocal
+    content
+    canonicalUrl
+    createdAt
+    creator  {
+        icon
+        userId: id 
+        userName: name
+        canonicalUrl
+    }
+    thread {
+        ...CommentPreviewThread
+    }
+}
+
+fragment CommentPreviewThread on Thread {
+        id
+        isLocal
+        canonicalUrl
+        context {
+          ...on Collection {
+            ...CollectionPreview
+          }
+          ...on Resource {
+            ...ResourcePreview
+          }
+          ...on Community {
+            ...CommunityPreview
+          }
+        }
+    }

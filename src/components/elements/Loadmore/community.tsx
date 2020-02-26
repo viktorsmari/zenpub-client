@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SFC } from 'react';
+import { FC } from 'react';
 import { LoadMore } from './timeline';
 import { Trans } from '@lingui/macro';
 
@@ -8,7 +8,7 @@ interface Props {
   fetchMore: any;
 }
 
-const CommunitiesLoadMore: SFC<Props> = ({ fetchMore, communities }) =>
+const CommunitiesLoadMore: FC<Props> = ({ fetchMore, communities }) =>
   communities.pageInfo && (
     <LoadMore
       onClick={() =>

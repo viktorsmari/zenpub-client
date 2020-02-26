@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SFC } from 'react';
+import { FC } from 'react';
 import { LoadMore } from './timeline';
 import { Trans } from '@lingui/macro';
 
@@ -9,7 +9,7 @@ interface Props {
   me?: boolean;
 }
 
-const CollectionsLoadMore: SFC<Props> = ({ fetchMore, collections, me }) =>
+const CollectionsLoadMore: FC<Props> = ({ fetchMore, collections, me }) =>
   collections.pageInfo && (
     <LoadMore
       onClick={() =>

@@ -11,7 +11,7 @@ query localActivities($limit: Int, $end: String) {
             edges {
                 cursor
                 node {
-                    ...ActivityPreviewData
+                    ...ActivityPreview
                     # id
                     # canonicalUrl
                     # verb

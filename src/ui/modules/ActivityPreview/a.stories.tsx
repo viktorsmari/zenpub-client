@@ -66,6 +66,8 @@ const getActor = () => ({
 storiesOf('Modules/ActivityPreview', module)
   .add('Comment', () => {
     const activityPreviewProps: Props = {
+      event: 'Liked',
+      preview: <div>Preview</div>,
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
@@ -95,6 +97,8 @@ storiesOf('Modules/ActivityPreview', module)
   })
   .add('Follow', () => {
     const activityPreviewProps: Props = {
+      event: 'Liked',
+      preview: <div>Preview</div>,
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
@@ -126,6 +130,8 @@ storiesOf('Modules/ActivityPreview', module)
   })
   .add('Like', () => {
     const activityPreviewProps: Props = {
+      event: 'Liked',
+      preview: <div>Preview</div>,
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
@@ -157,6 +163,8 @@ storiesOf('Modules/ActivityPreview', module)
   })
   .add('Flag', () => {
     const activityPreviewProps: Props = {
+      event: 'Liked',
+      preview: <div>Preview</div>,
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
@@ -188,6 +196,8 @@ storiesOf('Modules/ActivityPreview', module)
   })
   .add('Create a community', () => {
     const activityPreviewProps: Props = {
+      event: 'Liked',
+      preview: <div>Preview</div>,
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
@@ -220,6 +230,8 @@ storiesOf('Modules/ActivityPreview', module)
 
   .add('Create a collection', () => {
     const activityPreviewProps: Props = {
+      event: 'Liked',
+      preview: <div>Preview</div>,
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
@@ -251,6 +263,8 @@ storiesOf('Modules/ActivityPreview', module)
   })
   .add('Update a resource', () => {
     const activityPreviewProps: Props = {
+      event: 'Liked',
+      preview: <div>Preview</div>,
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
@@ -282,6 +296,8 @@ storiesOf('Modules/ActivityPreview', module)
   })
   .add('Updated a collection', () => {
     const activityPreviewProps: Props = {
+      event: 'Liked',
+      preview: <div>Preview</div>,
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
@@ -313,6 +329,8 @@ storiesOf('Modules/ActivityPreview', module)
   })
   .add('Updated a community', () => {
     const activityPreviewProps: Props = {
+      event: 'Liked',
+      preview: <div>Preview</div>,
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
@@ -344,6 +362,8 @@ storiesOf('Modules/ActivityPreview', module)
   })
   .add('Reply to a message', () => {
     const activityPreviewProps: Props = {
+      event: 'Liked',
+      preview: <div>Preview</div>,
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),

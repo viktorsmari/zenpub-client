@@ -11,7 +11,7 @@ interface Props {
   handleNewCommunity(): void;
   queryRes: GetFollowedCommunitiesQueryQueryHookResult;
 }
-export const CommunitiesJoined: React.SFC<Props> = ({
+export const CommunitiesJoined: React.FC<Props> = ({
   handleNewCommunity,
   queryRes
 }) => {

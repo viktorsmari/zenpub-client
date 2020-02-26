@@ -1,4 +1,4 @@
-#import "HOC/modules/ActivityPreview/getActivityPreview.graphql"
+
 
 query collectionOutboxActivities($collectionId: String!, $limit:Int, $before:String, $after:String) {
   collection(collectionId:$collectionId){
@@ -14,5 +14,5 @@ query collectionOutboxActivities($collectionId: String!, $limit:Int, $before:Str
 }
 
 fragment CollectionOutboxActivity on Activity {
-  ...ActivityPreviewData
+  ...ActivityPreview
 }

@@ -1,0 +1,85 @@
+fragment ActivityPreview on Activity {
+  id
+  verb
+  createdAt
+  user {
+      icon
+      userId: id 
+      userName: name
+      canonicalUrl
+  }
+  context {
+    ...on Community {
+      ...CommunityPreview
+    }
+    ...on Collection {
+      ...CollectionPreview
+    }
+    ...on Resource {
+      ...ResourcePreview
+    }
+    ...on User {
+      ...UserPreview
+    }
+    ...on Comment {
+      ...CommentPreview
+    }
+    ... on Flag{
+      id
+      context{
+        ...on Community {
+          ...CommunityPreview
+        }
+        ...on Collection {
+          ...CollectionPreview
+        }
+        ...on Resource {
+          ...ResourcePreview
+        }
+        ...on User {
+          ...UserPreview
+        }
+        ...on Comment {
+          ...CommentPreview
+        }
+      }
+    }
+    ... on Like{
+      id
+      context{
+        ...on Community {
+          ...CommunityPreview
+        }
+        ...on Collection {
+          ...CollectionPreview
+        }
+        ...on Resource {
+          ...ResourcePreview
+        }
+        ...on User {
+          ...UserPreview
+        }
+        ...on Comment {
+          ...CommentPreview
+        }
+      }
+    }
+    ... on Follow{
+      id
+      context{
+        ...on Community {
+          ...CommunityPreview
+        }
+        ...on Collection {
+          ...CollectionPreview
+        }
+        ...on User {
+          ...UserPreview
+        }
+        ...on Thread {
+          ...CommentPreviewThread
+        }
+      }
+    }
+  }
+}

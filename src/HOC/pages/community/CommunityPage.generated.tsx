@@ -1,17 +1,15 @@
 import * as Types from '../../../graphql/types.generated';
 
-import { ActivityPreviewDataFragment } from '../../modules/ActivityPreview/getActivityPreview.generated';
-import { CollectionPreviewDataFragment } from '../../modules/CollectionPreview/CollectionPreview.generated';
-import { ActivityPreviewCommentCtxExtendedFragment } from '../../modules/ActivityPreview/getActivityPreview.generated';
-import { ActivityPreviewExtendedThreadFragment } from '../../modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewFragment } from '../../modules/previews/activity/ActivityPreview.generated';
+import { CommentPreviewFragment } from '../../modules/previews/comment/CommentPreview.generated';
+import { ThreadPreviewFragment } from '../../modules/previews/thread/ThreadPreview.generated';
 import { HeroCommunityDataFragment } from '../../modules/HeroCommunity/HeroCommunity.generated';
 import gql from 'graphql-tag';
 import { HeroCommunityDataFragmentDoc } from '../../modules/HeroCommunity/HeroCommunity.generated';
-import { ActivityPreviewExtendedThreadFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
-import { ActivityPreviewCommentCtxExtendedFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
-import { CollectionPreviewDataFragmentDoc } from '../../modules/CollectionPreview/CollectionPreview.generated';
-import { ActivityPreviewDataFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
-
+import { ThreadPreviewFragmentDoc } from '../../modules/previews/thread/ThreadPreview.generated';
+import { CommentPreviewFragmentDoc } from '../../modules/previews/comment/CommentPreview.generated';
+import { ActivityPreviewFragmentDoc } from '../../modules/previews/activity/ActivityPreview.generated';
+import { CollectionPreviewFragment, CollectionPreviewFragmentDoc } from 'HOC/modules/previews/collection/CollectionPreview.generated';
 
 
 
@@ -35,23 +33,23 @@ export type CommunityPageThreadFragment = (
       { __typename: 'CommentsEdge' }
       & { node: (
         { __typename: 'Comment' }
-        & ActivityPreviewCommentCtxExtendedFragment
+        & CommentPreviewFragment
       ) }
     )>> }
   )> }
-  & ActivityPreviewExtendedThreadFragment
+  & ThreadPreviewFragment
 );
 
 export type CommunityPageCollectionBaseFragment = (
   { __typename: 'Collection' }
   & Pick<Types.Collection, 'id'>
-  & CollectionPreviewDataFragment
+  & CollectionPreviewFragment
 );
 
 export type CommunityPageActivityBaseFragment = (
   { __typename: 'Activity' }
   & Pick<Types.Activity, 'id'>
-  & ActivityPreviewDataFragment
+  & ActivityPreviewFragment
 );
 
 export const CommunityPageBaseFragmentDoc = gql`
@@ -65,26 +63,26 @@ export const CommunityPageBaseFragmentDoc = gql`
     ${HeroCommunityDataFragmentDoc}`;
 export const CommunityPageThreadFragmentDoc = gql`
     fragment CommunityPageThread on Thread {
-  ...ActivityPreviewExtendedThread
+  ...ThreadPreview
   comments(limit: 1) {
     edges {
       node {
-        ...ActivityPreviewCommentCtxExtended
+        ...CommentPreview
       }
     }
   }
 }
-    ${ActivityPreviewExtendedThreadFragmentDoc}
-${ActivityPreviewCommentCtxExtendedFragmentDoc}`;
+    ${ThreadPreviewFragmentDoc}
+${CommentPreviewFragmentDoc}`;
 export const CommunityPageCollectionBaseFragmentDoc = gql`
     fragment CommunityPageCollectionBase on Collection {
   id
-  ...CollectionPreviewData
+  ...CollectionPreview
 }
-    ${CollectionPreviewDataFragmentDoc}`;
+    ${CollectionPreviewFragmentDoc}`;
 export const CommunityPageActivityBaseFragmentDoc = gql`
     fragment CommunityPageActivityBase on Activity {
   id
-  ...ActivityPreviewData
+  ...ActivityPreview
 }
-    ${ActivityPreviewDataFragmentDoc}`;
+    ${ActivityPreviewFragmentDoc}`;

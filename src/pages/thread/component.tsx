@@ -1,10 +1,7 @@
 import { PureQueryOptions } from 'apollo-client';
 import { useFormik } from 'formik';
 import { Thread as GQLThread } from 'graphql/types.generated';
-import { ActivityPreviewCommentCtxExtendedFragment } from 'HOC/modules/ActivityPreview/getActivityPreview.generated';
-import { getActivityActions } from 'HOC/modules/ActivityPreview/lib/getActivityActions';
-import { getActivityActor } from 'HOC/modules/ActivityPreview/lib/getActivityActor';
-import React, { SFC, useEffect, useMemo } from 'react';
+import React, { FC, useEffect, useMemo } from 'react';
 import {
   ActivityPreview,
   BigActivityPreview,
@@ -30,6 +27,10 @@ import {
 } from '../../graphql/like.generated';
 import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import Stateless from './stateless';
+import { ThreadPreviewHOC } from 'HOC/modules/previews/thread/ThreadPreview';
+import { CommentPreviewFragment } from 'HOC/modules/previews/comment/CommentPreview.generated';
+import { getActivityActor } from 'HOC/modules/previews/activity/lib/getActivityActor';
+import { getActivityActions } from 'HOC/modules/previews/activity/lib/getActivityActions';
 export interface Props {
   threadId: string;
 }
@@ -59,46 +60,43 @@ export const Thread: React.FC<Props> = ({ threadId }) => {
     },
     [threadQuery.refetch]
   );
-  const ThreadBoxes = useMemo<JSX.Element[]>(
-    () => {
-      if (
-        !(
-          threadQuery.data &&
-          threadQuery.data.thread &&
-          threadQuery.data.thread.comments
-        )
-      ) {
-        return [];
-      }
-      const thread = threadQuery.data.thread;
-      const comments = threadQuery.data.thread.comments;
-      return comments.edges
-        .map(
-          (edge, index) =>
-            edge &&
-            edge.node && (
-              <CommentActivity
-                root={index === 0}
-                threadId={thread.id}
-                comment={edge.node}
-                key={edge.node.id}
-              />
-            )
-        )
-        .filter((_): _ is JSX.Element => !!_);
-    },
-    [threadQuery]
-  );
+  const ThreadBoxes = useMemo<JSX.Element[]>(() => {
+    if (
+      !(
+        threadQuery.data &&
+        threadQuery.data.thread &&
+        threadQuery.data.thread.comments
+      )
+    ) {
+      return [];
+    }
+    const thread = threadQuery.data.thread;
+    const comments = threadQuery.data.thread.comments;
+    return comments.edges
+      .map(
+        (edge, index) =>
+          edge &&
+          edge.node && (
+            <CommentActivity
+              root={index === 0}
+              threadId={thread.id}
+              comment={edge.node}
+              key={edge.node.id}
+            />
+          )
+      )
+      .filter((_): _ is JSX.Element => !!_);
+  }, [threadQuery]);
 
   return <Stateless threadQuery={threadQuery} ThreadBoxes={ThreadBoxes} />;
 };
 
 export default Thread;
 
-export const CommentActivity: SFC<{
+export const CommentActivity: FC<{
   root: boolean;
   threadId: GQLThread['id'];
-  comment: ActivityPreviewCommentCtxExtendedFragment;
+  comment: CommentPreviewFragment;
 }> = ({ threadId, comment, root }) => {
   if (!comment.creator) {
     return null;
@@ -165,7 +163,9 @@ export const CommentActivity: SFC<{
     createdAt: comment.createdAt,
     status: ActivityPreviewStatus.Loaded,
     actions: getActivityActions(comment, replyThreadFormik, toggleLikeFormik),
-    inReplyToCtx: null
+    inReplyToCtx: null,
+    event: '-',
+    preview: <ThreadPreviewHOC threadId={threadId} />
   };
   return !root ? (
     <ActivityPreview {...props} />

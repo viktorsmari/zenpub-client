@@ -2,7 +2,7 @@ import { useFeaturedContext } from 'fe/context/feature/useFeatureContext';
 import { useMe } from 'fe/session/me';
 import { useFormik } from 'formik';
 import { Collection, Community } from 'graphql/types.generated';
-import React, { SFC, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import FeaturedModalUI, { Props } from 'ui/modules/FeaturedModal';
 
 export type Context = Community | Collection;
@@ -11,7 +11,7 @@ export interface FeatureModal {
   isFeatured: boolean;
   done(): unknown;
 }
-export const FeatureModalHOC: SFC<FeatureModal> = ({
+export const FeatureModalHOC: FC<FeatureModal> = ({
   ctx,
   done,
   isFeatured

@@ -1,6 +1,7 @@
 import { Community } from 'graphql/types.generated';
 import { useMemo } from 'react';
 import * as GQL from './useCommunityOutboxActivities.generated';
+import { manageEdges } from 'fe/lib/helpers/edges';
 
 export const useCommunityOutboxActivities = (communityId: Community['id']) => {
   const communityQ = GQL.useCommunityOutboxActivitiesQuery({
@@ -8,15 +9,7 @@ export const useCommunityOutboxActivities = (communityId: Community['id']) => {
   });
 
   const activities = useMemo<GQL.CommunityOutboxActivityFragment[]>(
-    () =>
-      (communityQ.data?.community?.outbox?.edges || [])
-        .map(activityEdge => activityEdge && activityEdge.node)
-        .filter(
-          (
-            maybeActivity
-          ): maybeActivity is GQL.CommunityOutboxActivityFragment =>
-            !!maybeActivity
-        ),
+    () => manageEdges(communityQ.data?.community?.outbox).nodes,
     [communityQ]
   );
 

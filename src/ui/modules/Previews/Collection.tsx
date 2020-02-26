@@ -19,7 +19,7 @@ export interface Props {
   isFollowing: boolean;
 }
 
-export const Collection: React.SFC<Props> = ({
+export const Collection: React.FC<Props> = ({
   link,
   icon,
   name,

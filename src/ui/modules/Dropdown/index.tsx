@@ -1,5 +1,5 @@
 import OutsideClickHandler from 'react-outside-click-handler';
-import React, { SFC } from 'react';
+import React, { FC } from 'react';
 import { Box, Flex } from 'rebass/styled-components';
 import styled from 'ui/themes/styled';
 import { darken } from 'polished';
@@ -9,7 +9,7 @@ interface Props {
   cb(open: boolean): unknown;
   orientation: string;
 }
-export const Dropdown: SFC<Props> = ({ orientation, cb, children }) => (
+export const Dropdown: FC<Props> = ({ orientation, cb, children }) => (
   <OutsideClickHandler onOutsideClick={() => cb(false)}>
     <Wrapper orientation={orientation}>{children}</Wrapper>
   </OutsideClickHandler>

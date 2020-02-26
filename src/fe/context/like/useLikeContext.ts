@@ -8,7 +8,7 @@ import {
   User,
   Comment
 } from 'graphql/types.generated';
-import { OPTIMISTIC_ID_STRING, isOptimisticId } from 'fe/util';
+import { OPTIMISTIC_ID_STRING, isOptimisticId } from 'fe/lib/helpers/mutations';
 
 type Typename = Exclude<
   | Collection['__typename']
@@ -79,7 +79,9 @@ const optimisticLike = (
       __typename,
       id,
       myLike: { __typename: 'Like', id: OPTIMISTIC_ID_STRING },
-      likerCount: likerCount + 1
+      ...(__typename === 'Resource'
+        ? { likes: { __typename: 'LikesEdges', totalCount: likerCount + 1 } }
+        : { likerCount: likerCount + 1 })
     }
   }
 });
@@ -95,7 +97,9 @@ const optimisticUnlike = (
       __typename,
       id,
       myLike: null,
-      likerCount: likerCount - 1
+      ...(__typename === 'Resource'
+        ? { likes: { __typename: 'LikesEdges', totalCount: likerCount - 1 } }
+        : { likerCount: likerCount - 1 })
     }
   }
 });

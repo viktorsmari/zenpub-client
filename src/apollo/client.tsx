@@ -59,7 +59,17 @@ export default async function initialise({ localKVStore, appLink }: Cfg) {
         activity: (_, args, { getCacheKey }) =>
           getCacheKey({ __typename: 'Activity', id: args.activityId }),
         collection: (_, args, { getCacheKey }) =>
-          getCacheKey({ __typename: 'Collection', id: args.collectionId })
+          getCacheKey({ __typename: 'Collection', id: args.collectionId }),
+        community: (_, args, { getCacheKey }) =>
+          getCacheKey({ __typename: 'Community', id: args.communityId }),
+        comment: (_, args, { getCacheKey }) =>
+          getCacheKey({ __typename: 'Comment', id: args.commentId }),
+        user: (_, args, { getCacheKey }) =>
+          getCacheKey({ __typename: 'User', id: args.userId }),
+        thread: (_, args, { getCacheKey }) =>
+          getCacheKey({ __typename: 'Thread', id: args.threadId }),
+        resource: (_, args, { getCacheKey }) =>
+          getCacheKey({ __typename: 'Resource', id: args.resourceId })
       }
     },
     dataIdFromObject: obj => {

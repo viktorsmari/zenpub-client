@@ -1,19 +1,18 @@
 // import { Trans } from '@lingui/react';
-import { Trans } from '@lingui/react';
+import { i18nMark, Trans } from '@lingui/react';
 import { DateTime } from 'luxon';
 import { clearFix } from 'polished';
-import React, { SFC, ComponentType } from 'react';
+import React, { FC } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import Avatar from 'ui/elements/Avatar';
+import SocialText from 'ui/modules/SocialText';
 import styled from 'ui/themes/styled';
+import { LocaleContext } from '../../../context/global/localizationCtx';
 import Actions, { ActionProps } from './Actions';
 import Preview, { Context, ContextType, InReplyToContext } from './preview';
 import { Actor } from './types';
-import SocialText from 'ui/modules/SocialText';
-import { i18nMark } from '@lingui/react';
-import { LocaleContext } from '../../../context/global/localizationCtx';
 
 const tt = {
   placeholders: {
@@ -42,13 +41,13 @@ export interface Activity {
   context: Context;
   inReplyToCtx: InReplyToContext | null;
   actions: ActionProps | null;
-  event: ComponentType<{}>;
-  preview: ComponentType<{}>;
+  event: string;
+  preview: JSX.Element;
 }
 
 export type Props = ActivityLoaded | ActivityLoading;
 
-export const ThreadActivityPreview: SFC<Props> = activity => {
+export const ThreadActivityPreview: FC<Props> = activity => {
   if (activity.status === Status.Loading) {
     return <Trans>loading...</Trans>;
   }
@@ -65,7 +64,7 @@ export const ThreadActivityPreview: SFC<Props> = activity => {
   );
 };
 
-export const ActivityPreview: SFC<Props> = activity => {
+export const ActivityPreview: FC<Props> = activity => {
   if (activity.status === Status.Loading) {
     return <Trans>loading...</Trans>;
   }
@@ -89,7 +88,7 @@ export const ActivityPreview: SFC<Props> = activity => {
       <ActorComp actor={activity.actor} createdAt={activity.createdAt} />
       <Contents>
         <Wrapper>
-          <Event variant="text">{event}</Event>
+          <Event variant="text">{activity.event}</Event>
           {activity.preview}
           {activity.actions && <Actions {...activity.actions} />}
         </Wrapper>
@@ -98,7 +97,7 @@ export const ActivityPreview: SFC<Props> = activity => {
   );
 };
 
-export const BigActivityPreview: SFC<Props> = activity => {
+export const BigActivityPreview: FC<Props> = activity => {
   if (activity.status === Status.Loading) {
     return <Trans>loading...</Trans>;
   }
@@ -155,7 +154,7 @@ export interface ActorProps {
   actor: Actor;
   createdAt: string;
 }
-const ActorComp: SFC<ActorProps> = ({ actor, createdAt }) => (
+const ActorComp: FC<ActorProps> = ({ actor, createdAt }) => (
   <Member>
     <Avatar initials={actor.name} src={actor.icon} />
     <MemberInfo ml={2}>

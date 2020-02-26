@@ -1,4 +1,4 @@
-#import "HOC/modules/ActivityPreview/getActivityPreview.graphql"
+
 
 query communityOutboxActivities($communityId: String!, $limit:Int, $before:String, $after:String) {
   community(communityId:$communityId){
@@ -14,5 +14,5 @@ query communityOutboxActivities($communityId: String!, $limit:Int, $before:Strin
 }
 
 fragment CommunityOutboxActivity on Activity {
-  ...ActivityPreviewData
+  ...ActivityPreview
 }

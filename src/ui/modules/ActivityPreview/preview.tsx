@@ -58,7 +58,7 @@ export interface UserContext extends IContext, Actor {
 
 export type Context = CommentContext | ConcreteContext | UserContext;
 
-const SmallPreview: React.SFC<ConcreteContext> = context => (
+const SmallPreview: React.FC<ConcreteContext> = context => (
   <FlexSmallPreview mt={2} alignItems="center">
     <TextPreview display="inline-block" mr={2} variant="link">
       {context.verb === ContextVerb.Follow ? (
@@ -68,22 +68,22 @@ const SmallPreview: React.SFC<ConcreteContext> = context => (
       ) : context.verb === ContextVerb.Flag ? (
         <Trans>Flagged</Trans>
       ) : context.verb === ContextVerb.Created &&
-      context.type === ContextType.Collection ? (
+        context.type === ContextType.Collection ? (
         <Trans>Created the collection</Trans>
       ) : context.verb === ContextVerb.Created &&
-      context.type === ContextType.Community ? (
+        context.type === ContextType.Community ? (
         <Trans>Created the community</Trans>
       ) : context.verb === ContextVerb.Created &&
-      context.type === ContextType.Resource ? (
+        context.type === ContextType.Resource ? (
         <Trans>Created the resource</Trans>
       ) : context.verb === ContextVerb.Updated &&
-      context.type === ContextType.Collection ? (
+        context.type === ContextType.Collection ? (
         <Trans>Updated the collection</Trans>
       ) : context.verb === ContextVerb.Updated &&
-      context.type === ContextType.Community ? (
+        context.type === ContextType.Community ? (
         <Trans>Updated the community</Trans>
       ) : context.verb === ContextVerb.Updated &&
-      context.type === ContextType.Resource ? (
+        context.type === ContextType.Resource ? (
         <Trans>Updated the resource</Trans>
       ) : null}
       <B>{context.title}</B>
@@ -127,7 +127,7 @@ const Overview: React.FC<Context> = context => {
       </WrapperOverview>
     </WrapperLink>
   ) : context.type === ContextType.Community ||
-  context.type === ContextType.Collection ? (
+    context.type === ContextType.Collection ? (
     <WrapperLinkGeneral to={context.link}>
       <WrapperOverview mt={3}>
         <Avatar size="m" src={context.icon} />
@@ -192,7 +192,7 @@ export type InReplyToContext = {
   link: string;
   desc: string;
 };
-export const InReplyTo: React.SFC<InReplyToContext> = context => {
+export const InReplyTo: React.FC<InReplyToContext> = context => {
   return (
     <FlexPreview>
       <NavLink to={context.link}>

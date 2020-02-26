@@ -47,7 +47,7 @@ const tt = {
   }
 };
 
-const ActionsWrapper: React.SFC<ActionProps> = ({ like, reply, FlagModal }) => {
+const ActionsWrapper: React.FC<ActionProps> = ({ like, reply, FlagModal }) => {
   const [talkModalVisible, showTalkModal] = React.useState(false);
   const { i18n } = React.useContext(LocaleContext);
 

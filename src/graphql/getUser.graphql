@@ -36,7 +36,7 @@ query getUser(
                 pageInfo { startCursor endCursor }
                 edges {
                     node {
-                        ...ActivityPreviewData
+                        ...ActivityPreview
                         # id
                         # canonicalUrl
                         # verb

@@ -9,7 +9,7 @@ import { WrapperPanel } from '../../sections/panel';
 import styled from '../../themes/styled';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 
-export const CollectionsYours: React.SFC = () => {
+export const CollectionsYours: React.FC = () => {
   const { error, data, loading, refetch } = useGetCollectionsQueryQuery({
     variables: {
       limit: 15

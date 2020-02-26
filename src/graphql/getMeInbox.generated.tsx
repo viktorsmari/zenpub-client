@@ -1,10 +1,10 @@
 import * as Types from './types.generated';
 
-import { ActivityPreviewDataFragment } from '../HOC/modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewFragment } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import { BasicUserFragment } from './fragments/basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from './fragments/basicUser.generated';
-import { ActivityPreviewDataFragmentDoc } from '../HOC/modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewFragmentDoc } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -35,7 +35,7 @@ export type GetMeInboxQuery = (
           { __typename: 'ActivitiesEdge' }
           & { node: (
             { __typename: 'Activity' }
-            & ActivityPreviewDataFragment
+            & ActivityPreviewFragment
           ) }
         )>>> }
       )> }
@@ -57,7 +57,7 @@ export const GetMeInboxDocument = gql`
         }
         edges {
           node {
-            ...ActivityPreviewData
+            ...ActivityPreview
           }
         }
       }
@@ -65,7 +65,7 @@ export const GetMeInboxDocument = gql`
   }
 }
     ${BasicUserFragmentDoc}
-${ActivityPreviewDataFragmentDoc}`;
+${ActivityPreviewFragmentDoc}`;
 export type GetMeInboxComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetMeInboxQuery, GetMeInboxQueryVariables>, 'query'>;
 
     export const GetMeInboxComponent = (props: GetMeInboxComponentProps) => (

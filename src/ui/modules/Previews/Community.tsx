@@ -9,10 +9,10 @@ export interface Props {
   name: string;
   icon: string;
   summary: string;
-  followersCount?: number;
-  collectionsCount?: number;
-  followed?: boolean;
-  threadsCount?: number;
+  followersCount: number;
+  collectionsCount: number;
+  followed: boolean;
+  threadsCount: number;
 }
 
 export const Community: React.FC<Props> = ({

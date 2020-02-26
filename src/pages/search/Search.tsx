@@ -49,7 +49,7 @@ interface Result {
   hit: Hit;
   myInfo: SearchHostIndexAndMyFollowingsQuery;
 }
-const Result: React.SFC<Result> = ({ hit, myInfo }) => {
+const Result: React.FC<Result> = ({ hit, myInfo }) => {
   return (
     <WrapperResult p={3}>
       {hit.collection ? (

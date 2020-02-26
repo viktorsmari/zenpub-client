@@ -1,7 +1,7 @@
 import { useUser } from 'fe/user/useUser';
 import { useFormik } from 'formik';
 import { User } from 'graphql/types.generated';
-import React, { SFC, useMemo, useState } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 import {
   HeroUser as HeroUserUI,
   Loaded,
@@ -13,7 +13,7 @@ import {
 export interface HeroUser {
   userId: User['id'];
 }
-export const HeroUser: SFC<HeroUser> = ({ userId }) => {
+export const HeroUser: FC<HeroUser> = ({ userId }) => {
   const { user, isAdmin, isMe, toggleFollow } = useUser(userId);
   const [isOpenDropdown, setOpenDropdown] = useState(false);
   const toggleFollowFormik = useFormik({

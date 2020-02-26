@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import React, { createContext, SFC, useContext, useMemo } from 'react';
+import React, { createContext, FC, useContext, useMemo } from 'react';
 import { useHistory } from 'react-router';
 import {
   CreateCommunityFormValues,
@@ -38,7 +38,7 @@ export const createCommunityFormInitialValues: CreateCommunityFormValues = {
 export interface Props {
   done(): any;
 }
-export const CreateCommunityPanelHOC: SFC<Props> = ({ done }: Props) => {
+export const CreateCommunityPanelHOC: FC<Props> = ({ done }: Props) => {
   const {
     useCreateCommunityPanelCreateMutation,
     useCreateCommunityPanelUploadImageMutation
