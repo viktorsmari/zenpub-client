@@ -1,0 +1,6 @@
+#import "HOC/page/collection/CollectionPage.graphql"
+query collectionData($collectionId:String!){
+  collection(collectionId:$collectionId){
+    ...CollectionPageData
+  }
+}

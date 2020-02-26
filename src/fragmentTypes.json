@@ -13,7 +13,7 @@
       },
       {
         "kind": "UNION",
-        "name": "LikeContext",
+        "name": "UploadParent",
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Comment" },
@@ -24,19 +24,17 @@
       },
       {
         "kind": "UNION",
-        "name": "FlagContext",
+        "name": "ActivityContext",
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Comment" },
           { "name": "Community" },
+          { "name": "Flag" },
+          { "name": "Follow" },
+          { "name": "Like" },
           { "name": "Resource" },
           { "name": "User" }
         ]
-      },
-      {
-        "kind": "UNION",
-        "name": "FeatureContext",
-        "possibleTypes": [{ "name": "Collection" }, { "name": "Community" }]
       },
       {
         "kind": "UNION",
@@ -66,21 +64,23 @@
       },
       {
         "kind": "UNION",
-        "name": "ActivityContext",
+        "name": "FeatureContext",
+        "possibleTypes": [{ "name": "Collection" }, { "name": "Community" }]
+      },
+      {
+        "kind": "UNION",
+        "name": "FlagContext",
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Comment" },
           { "name": "Community" },
-          { "name": "Flag" },
-          { "name": "Follow" },
-          { "name": "Like" },
           { "name": "Resource" },
           { "name": "User" }
         ]
       },
       {
         "kind": "UNION",
-        "name": "UploadParent",
+        "name": "LikeContext",
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Comment" },

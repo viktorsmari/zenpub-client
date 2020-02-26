@@ -7,10 +7,11 @@ import {
 } from 'ui/modules/CreateCommunityPanel';
 import * as Yup from 'yup';
 import * as GQL from './createCommunityPanel.generated';
+import { GetSidebarQueryDocument } from 'graphql/getSidebar.generated';
 
-export const validationSchema: Yup.ObjectSchema<
+export const validationSchema: Yup.ObjectSchema<CreateCommunityFormValues> = Yup.object<
   CreateCommunityFormValues
-> = Yup.object<CreateCommunityFormValues>({
+>({
   name: Yup.string()
     .min(2)
     .max(60)
@@ -62,7 +63,8 @@ export const CreateCommunityPanelHOC: SFC<Props> = ({ done }: Props) => {
             name: vals.name,
             summary: vals.summary
           }
-        }
+        },
+        refetchQueries: fileToUpload ? [] : [{ query: GetSidebarQueryDocument }]
       })
         .then(res => {
           const createdCommunityId = res.data!.createCommunity!.id;
@@ -72,10 +74,11 @@ export const CreateCommunityPanelHOC: SFC<Props> = ({ done }: Props) => {
               variables: {
                 contextId: createdCommunityId,
                 upload: fileToUpload
-              }
-            })
-              .then(() => createdCommunityId)
-              .catch(err => console.log(err));
+              },
+              refetchQueries: fileToUpload
+                ? [{ query: GetSidebarQueryDocument }]
+                : []
+            }).then(() => createdCommunityId);
           }
           return createdCommunityId;
         })

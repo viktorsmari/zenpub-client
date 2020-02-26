@@ -1,10 +1,9 @@
-import { UserPageCtxProvider } from 'context/hocs/page/user/UserPageCtx';
-import { CollectionPageHOC } from 'HOC/pages/collection/CollectionPageHOC';
-import { CommunityPageHOC } from 'HOC/pages/community/CommunityPageHOC';
-import { UserPageHOC } from 'HOC/pages/user/UserPageHOC';
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
+import { CollectionPageRoute } from 'routes/CollectionPageRoute';
+import { CommunityPageRoute } from 'routes/CommunityPageRoute';
+import { UserPageRoute } from 'routes/UserPageRoute';
 import { SessionContext } from '../../context/global/sessionCtx';
 import { CollectionsYours } from '../../pages/collections.all';
 import MyCollections from '../../pages/collections.all/collectionsFollowed';
@@ -71,6 +70,9 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
     <>
       <MobileHeader onOpen={onOpen} />
       <Switch>
+        <Route {...UserPageRoute} />
+        <Route {...CommunityPageRoute} />
+        <Route {...CollectionPageRoute} />
         <Route exact path="/" component={me ? Home : Login} />
         <Route
           exact
@@ -94,41 +96,13 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
         />
         <Route
           exact
-          path="/communities/:communityId/:tab?"
-          render={route => {
-            const communityId = route.match.params.communityId;
-            return <CommunityPageHOC communityId={communityId} />;
-          }}
-        />
-        <Route
-          exact
           path="/thread/:id"
           render={route => {
             const threadId = route.match.params.id;
             return <Thread threadId={threadId} />;
           }}
         />
-        <Route
-          exact
-          path="/collections/:id/:tab?"
-          render={route => {
-            const id = route.match.params.id;
-            return <CollectionPageHOC collectionId={id} />;
-          }}
-        />
 
-        <Route
-          exact
-          path="/user/:id/:tab?"
-          render={route => {
-            const userId = route.match.params.id;
-            return (
-              <UserPageCtxProvider userId={userId}>
-                <UserPageHOC />;
-              </UserPageCtxProvider>
-            );
-          }}
-        />
         <Route path="/search" component={SearchComp} />
         <Route exact path="/collections" component={CollectionsYours} />
         <Route component={NotFound} />

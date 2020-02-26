@@ -1,0 +1,21 @@
+#import "HOC/modules/ActivityPreview/getActivityPreview.graphql"
+#import "HOC/page/user/UserPageHOC.graphql"
+
+query userOutboxActivities($userId: String!, $after:String, $before:String, $limit:Int){
+  user(userId:$userId){
+    id
+    outbox(after:$after, before:$before, limit:$limit){
+      totalCount,
+      edges{
+        node{
+          ...UserOutboxActivity
+        }
+      }
+    }
+  }
+}
+
+fragment UserOutboxActivity on Activity {
+  ...UserPageActivities
+  ...ActivityPreviewData
+}

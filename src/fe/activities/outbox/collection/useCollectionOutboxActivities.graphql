@@ -1,0 +1,18 @@
+#import "HOC/modules/ActivityPreview/getActivityPreview.graphql"
+
+query collectionOutboxActivities($collectionId: String!, $limit:Int, $before:String, $after:String) {
+  collection(collectionId:$collectionId){
+    id
+    outbox(limit:$limit, before:$before, after:$after){
+      edges{
+        node{
+          ...CollectionOutboxActivity
+        }
+      }
+    }
+  }
+}
+
+fragment CollectionOutboxActivity on Activity {
+  ...ActivityPreviewData
+}

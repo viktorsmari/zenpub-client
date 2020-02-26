@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import React, { createContext, SFC, useContext, useMemo } from 'react';
+import React, { createContext, SFC, useContext } from 'react';
 import { useHistory } from 'react-router';
 import {
   BasicCreateCollectionFormValues,
@@ -7,10 +7,11 @@ import {
 } from 'ui/modules/CreateCollectionPanel';
 import * as Yup from 'yup';
 import * as GQL from './createCollectionPanel.generated';
+import { CommunityCollectionsDocument } from 'fe/collection/community/useCommunityCollections.generated';
 
-export const validationSchema: Yup.ObjectSchema<
+export const validationSchema: Yup.ObjectSchema<BasicCreateCollectionFormValues> = Yup.object<
   BasicCreateCollectionFormValues
-> = Yup.object<BasicCreateCollectionFormValues>({
+>({
   name: Yup.string()
     .min(2)
     .max(60)
@@ -31,7 +32,7 @@ export const CreateCollectionPanelCtx = createContext<CreateCollectionPanelCtx>(
   }
 );
 
-export const createCollectionFormInitialValues: BasicCreateCollectionFormValues = {
+export const initialValues: BasicCreateCollectionFormValues = {
   name: '',
   summary: '',
   icon: '',
@@ -53,11 +54,8 @@ export const CreateCollectionPanelHOC: SFC<Props> = ({
   const [create /* , result */] = useCreateCollectionPanelCreateMutation();
   const [uploadIcon] = useCreateCollectionPanelUploadIconMutation();
   const history = useHistory();
-  const initialValues = useMemo<BasicCreateCollectionFormValues>(
-    () => createCollectionFormInitialValues,
-    []
-  );
   const formik = useFormik<BasicCreateCollectionFormValues>({
+    initialValues,
     enableReinitialize: true,
     onSubmit: vals => {
       const fileToUpload = vals!.files!.map(file => {
@@ -72,7 +70,15 @@ export const CreateCollectionPanelHOC: SFC<Props> = ({
             name: vals.name,
             summary: vals.summary
           }
-        }
+        },
+        refetchQueries: fileToUpload
+          ? []
+          : [
+              {
+                query: CommunityCollectionsDocument,
+                variables: { communityId }
+              }
+            ]
       })
         .then(res => {
           const createdCollectionId = res.data!.createCollection!.id;
@@ -81,19 +87,24 @@ export const CreateCollectionPanelHOC: SFC<Props> = ({
               variables: {
                 contextId: createdCollectionId,
                 upload: fileToUpload
-              }
-            })
-              .then(() => {
-                history.push(`/collections/${createdCollectionId}`);
-              })
-              .catch(err => console.log(err));
+              },
+              refetchQueries: [
+                {
+                  query: CommunityCollectionsDocument,
+                  variables: { communityId }
+                }
+              ]
+            }).then(() => createdCollectionId);
           }
+          return createdCollectionId;
+        })
+        .then(createdCollectionId => {
+          history.push(`/collections/${createdCollectionId}`);
         })
         .then(done)
         .catch(err => console.log(err));
     },
-    validationSchema,
-    initialValues
+    validationSchema
   });
   return <CreateCollectionPanel cancel={done} formik={formik} />;
 };

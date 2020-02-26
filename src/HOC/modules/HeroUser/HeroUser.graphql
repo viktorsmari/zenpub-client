@@ -1,10 +1,3 @@
-fragment HeroUserMeData on Me {
-  isInstanceAdmin,
-  user{
-    id
-  }
-}
-
 fragment HeroUserUserData on User {
   id,
   image,
@@ -14,4 +7,5 @@ fragment HeroUserUserData on User {
   summary,
   name,
   myFollow{id}
+  followerCount
 }

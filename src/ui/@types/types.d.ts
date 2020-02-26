@@ -6,7 +6,7 @@ import {
   FieldMetaProps
 } from 'formik';
 
-export interface FormikHook<Values> {
+export interface FormikHook<Values = {}> {
   initialValues: Values;
   initialErrors: FormikErrors<unknown>;
   initialTouched: FormikTouched<unknown>;

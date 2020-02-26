@@ -26,7 +26,6 @@ export interface Loaded {
   displayUsername: string;
   location: string;
   summary: string;
-  basePath: string;
 }
 export interface LoadedMe extends Loaded {
   me: true;
@@ -38,7 +37,6 @@ export interface LoadedOther extends Loaded {
   toggleFollowFormik: FormikHook<{}>;
   isOpenDropdown: boolean;
   setOpenDropdown(open: boolean): unknown;
-  basePath: string;
 }
 export type Props = LoadedMe | LoadedOther | Loading;
 
@@ -124,20 +122,6 @@ export const HeroUser: SFC<Props> = props => {
             </Location>
           ) : null}
         </HeroInfo>
-        {/* <WrapperResume ml={3} my={2}>
-          <Resume>
-            <ResumeItem variant="text">
-              Member of{' '}
-              <Link to={`${props.basePath}/communities`}>12 Communities</Link>
-            </ResumeItem>
-            ,
-            <ResumeItem variant="text" ml={1}>
-              Follow{' '}
-              <Link to={`${props.basePath}/collections`}>43 Collections</Link>{' '}
-              and <Link to={`${props.basePath}/following`}>22 Users</Link>
-            </ResumeItem>
-          </Resume>
-        </WrapperResume> */}
       </Hero>
     </ProfileBox>
   );

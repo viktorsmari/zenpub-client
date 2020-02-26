@@ -3,7 +3,7 @@
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Field, Form, FormikProps, withFormik } from 'formik';
-import gql from 'graphql-tag';
+// import gql from 'graphql-tag';
 import * as React from 'react';
 import { graphql, OperationOption } from 'react-apollo';
 import { compose } from 'recompose';
@@ -16,6 +16,7 @@ import { Actions, ContainerForm, CounterChars, Row } from '../Modal/modal';
 import ResourceCard from '../Resource/Resource';
 import { CreateResourceMutationMutationVariables } from '../../../graphql/createResource.generated';
 import { LocaleContext } from '../../../context/global/localizationCtx';
+import { CollectionResourcesDocument } from 'fe/resource/collection/useCollectionResources.generated';
 
 const {
   createResourceMutation
@@ -126,8 +127,9 @@ const Fetched = (props: Props & FormikProps<FormValues>) => {
                 />
               )}
             />
-            {props.errors.url &&
-              props.touched.url && <Alert>{props.errors.url}</Alert>}
+            {props.errors.url && props.touched.url && (
+              <Alert>{props.errors.url}</Alert>
+            )}
           </ContainerForm>
         </Row>
         <Row>
@@ -149,8 +151,9 @@ const Fetched = (props: Props & FormikProps<FormValues>) => {
                 </>
               )}
             />
-            {props.errors.name &&
-              props.touched.name && <Alert>{props.errors.name}</Alert>}
+            {props.errors.name && props.touched.name && (
+              <Alert>{props.errors.name}</Alert>
+            )}
           </ContainerForm>
         </Row>
         <Row big>
@@ -190,8 +193,9 @@ const Fetched = (props: Props & FormikProps<FormValues>) => {
                 />
               )}
             />
-            {props.errors.image &&
-              props.touched.image && <Alert>{props.errors.image}</Alert>}
+            {props.errors.image && props.touched.image && (
+              <Alert>{props.errors.image}</Alert>
+            )}
           </ContainerForm>
         </Row>
         <Actions>
@@ -247,44 +251,50 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
     return props
       .createResource({
         variables: variables,
-        update: (proxy, { data: { createResource } }) => {
-          const fragment = gql`
-            fragment Res on Collection {
-              id
-              icon
-              name
-              summary
-              resources {
-                totalCount
-                edges {
-                  node {
-                    id
-                    name
-                    summary
-                    url
-                    icon
-                  }
-                }
-              }
-            }
-          `;
-          const collection = proxy.readFragment({
-            id: `Collection:${props.collectionExternalId}`,
-            fragment: fragment,
-            fragmentName: 'Res'
-          });
-          collection.resources.edges.push({
-            __typename: 'CollectionFollowersEdge',
-            node: createResource
-          });
-          collection.resources.totalCount++;
-          proxy.writeFragment({
-            id: `Collection:${props.collectionExternalId}`,
-            fragment: fragment,
-            fragmentName: 'Res',
-            data: collection
-          });
-        }
+        // update: (proxy, { data: { createResource } }) => {
+        //   const fragment = gql`
+        //     fragment Res on Collection {
+        //       id
+        //       icon
+        //       name
+        //       summary
+        //       resources {
+        //         totalCount
+        //         edges {
+        //           node {
+        //             id
+        //             name
+        //             summary
+        //             url
+        //             icon
+        //           }
+        //         }
+        //       }
+        //     }
+        //   `;
+        //   const collection = proxy.readFragment({
+        //     id: `Collection:${props.collectionExternalId}`,
+        //     fragment: fragment,
+        //     fragmentName: 'Res'
+        //   });
+        //   collection.resources.edges.push({
+        //     __typename: 'CollectionFollowersEdge',
+        //     node: createResource
+        //   });
+        //   collection.resources.totalCount++;
+        //   proxy.writeFragment({
+        //     id: `Collection:${props.collectionExternalId}`,
+        //     fragment: fragment,
+        //     fragmentName: 'Res',
+        //     data: collection
+        //   });
+        // },
+        refetchQueries: [
+          {
+            query: CollectionResourcesDocument,
+            variables: { collectionId: props.collectionId }
+          }
+        ]
       })
       .then(res => {
         setSubmitting(false);

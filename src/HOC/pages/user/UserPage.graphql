@@ -1,0 +1,10 @@
+#import "HOC/modules/HeroUser/HeroUser.graphql"
+
+fragment UserPageActivities on Activity {
+  id
+}
+
+fragment UserPageUserData on User {
+  id
+  ...HeroUserUserData
+}
