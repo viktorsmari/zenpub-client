@@ -11,7 +11,15 @@ Let's define a story for the `Featured Communities preview` module
 
 <Preview>
   <Story name="Featured Communities preview module">
-    <Box sx={{width: '600px', margin: '0 auto'}}>
+    <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
         <FeaturedCommunities {...getFeaturedCommunitiesPropsAdmin()} />
     </Box>  
   </Story>
