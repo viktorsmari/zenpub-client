@@ -17,51 +17,51 @@ export type CreateCommunityPanelCreateMutation = (
   { __typename: 'RootMutationType' }
   & { createCommunity: Types.Maybe<(
     { __typename: 'Community' }
-    & CreateCommunityPanelCreateMutationResultFragment
+    & CreateCommunityPanelCreateResultFragment
   )> }
 );
 
-export type CreateCommunityPanelCreateMutationResultFragment = (
+export type CreateCommunityPanelCreateResultFragment = (
   { __typename: 'Community' }
   & Pick<Types.Community, 'id'>
 );
 
-export type CreateCommunityPanelUploadImageMutationVariables = {
+export type CreateCommunityPanelUploadIconMutationVariables = {
   contextId: Types.Scalars['ID'],
   upload: Types.Scalars['Upload']
 };
 
 
-export type CreateCommunityPanelUploadImageMutation = (
+export type CreateCommunityPanelUploadIconMutation = (
   { __typename: 'RootMutationType' }
-  & { uploadImage: Types.Maybe<(
+  & { uploadIcon: Types.Maybe<(
     { __typename: 'FileUpload' }
-    & CreateCommunityPanelUploadImageMutationResultFragment
+    & CreateCommunityPanelUploadIconResultFragment
   )> }
 );
 
-export type CreateCommunityPanelUploadImageMutationResultFragment = (
+export type CreateCommunityPanelUploadIconResultFragment = (
   { __typename: 'FileUpload' }
   & Pick<Types.FileUpload, 'id'>
 );
 
-export const CreateCommunityPanelCreateMutationResultFragmentDoc = gql`
-    fragment CreateCommunityPanelCreateMutationResult on Community {
+export const CreateCommunityPanelCreateResultFragmentDoc = gql`
+    fragment CreateCommunityPanelCreateResult on Community {
   id
 }
     `;
-export const CreateCommunityPanelUploadImageMutationResultFragmentDoc = gql`
-    fragment CreateCommunityPanelUploadImageMutationResult on FileUpload {
+export const CreateCommunityPanelUploadIconResultFragmentDoc = gql`
+    fragment CreateCommunityPanelUploadIconResult on FileUpload {
   id
 }
     `;
 export const CreateCommunityPanelCreateDocument = gql`
     mutation createCommunityPanelCreate($community: CommunityInput!) {
   createCommunity(community: $community) {
-    ...CreateCommunityPanelCreateMutationResult
+    ...CreateCommunityPanelCreateResult
   }
 }
-    ${CreateCommunityPanelCreateMutationResultFragmentDoc}`;
+    ${CreateCommunityPanelCreateResultFragmentDoc}`;
 export type CreateCommunityPanelCreateMutationFn = ApolloReactCommon.MutationFunction<CreateCommunityPanelCreateMutation, CreateCommunityPanelCreateMutationVariables>;
 export type CreateCommunityPanelCreateComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateCommunityPanelCreateMutation, CreateCommunityPanelCreateMutationVariables>, 'mutation'>;
 
@@ -104,56 +104,56 @@ export function useCreateCommunityPanelCreateMutation(baseOptions?: ApolloReactH
 export type CreateCommunityPanelCreateMutationHookResult = ReturnType<typeof useCreateCommunityPanelCreateMutation>;
 export type CreateCommunityPanelCreateMutationResult = ApolloReactCommon.MutationResult<CreateCommunityPanelCreateMutation>;
 export type CreateCommunityPanelCreateMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateCommunityPanelCreateMutation, CreateCommunityPanelCreateMutationVariables>;
-export const CreateCommunityPanelUploadImageDocument = gql`
-    mutation createCommunityPanelUploadImage($contextId: ID!, $upload: Upload!) {
-  uploadImage(contextId: $contextId, upload: $upload) {
-    ...CreateCommunityPanelUploadImageMutationResult
+export const CreateCommunityPanelUploadIconDocument = gql`
+    mutation createCommunityPanelUploadIcon($contextId: ID!, $upload: Upload!) {
+  uploadIcon(contextId: $contextId, upload: $upload) {
+    ...CreateCommunityPanelUploadIconResult
   }
 }
-    ${CreateCommunityPanelUploadImageMutationResultFragmentDoc}`;
-export type CreateCommunityPanelUploadImageMutationFn = ApolloReactCommon.MutationFunction<CreateCommunityPanelUploadImageMutation, CreateCommunityPanelUploadImageMutationVariables>;
-export type CreateCommunityPanelUploadImageComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateCommunityPanelUploadImageMutation, CreateCommunityPanelUploadImageMutationVariables>, 'mutation'>;
+    ${CreateCommunityPanelUploadIconResultFragmentDoc}`;
+export type CreateCommunityPanelUploadIconMutationFn = ApolloReactCommon.MutationFunction<CreateCommunityPanelUploadIconMutation, CreateCommunityPanelUploadIconMutationVariables>;
+export type CreateCommunityPanelUploadIconComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateCommunityPanelUploadIconMutation, CreateCommunityPanelUploadIconMutationVariables>, 'mutation'>;
 
-    export const CreateCommunityPanelUploadImageComponent = (props: CreateCommunityPanelUploadImageComponentProps) => (
-      <ApolloReactComponents.Mutation<CreateCommunityPanelUploadImageMutation, CreateCommunityPanelUploadImageMutationVariables> mutation={CreateCommunityPanelUploadImageDocument} {...props} />
+    export const CreateCommunityPanelUploadIconComponent = (props: CreateCommunityPanelUploadIconComponentProps) => (
+      <ApolloReactComponents.Mutation<CreateCommunityPanelUploadIconMutation, CreateCommunityPanelUploadIconMutationVariables> mutation={CreateCommunityPanelUploadIconDocument} {...props} />
     );
     
-export type CreateCommunityPanelUploadImageProps<TChildProps = {}> = ApolloReactHoc.MutateProps<CreateCommunityPanelUploadImageMutation, CreateCommunityPanelUploadImageMutationVariables> & TChildProps;
-export function withCreateCommunityPanelUploadImage<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+export type CreateCommunityPanelUploadIconProps<TChildProps = {}> = ApolloReactHoc.MutateProps<CreateCommunityPanelUploadIconMutation, CreateCommunityPanelUploadIconMutationVariables> & TChildProps;
+export function withCreateCommunityPanelUploadIcon<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  CreateCommunityPanelUploadImageMutation,
-  CreateCommunityPanelUploadImageMutationVariables,
-  CreateCommunityPanelUploadImageProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, CreateCommunityPanelUploadImageMutation, CreateCommunityPanelUploadImageMutationVariables, CreateCommunityPanelUploadImageProps<TChildProps>>(CreateCommunityPanelUploadImageDocument, {
-      alias: 'createCommunityPanelUploadImage',
+  CreateCommunityPanelUploadIconMutation,
+  CreateCommunityPanelUploadIconMutationVariables,
+  CreateCommunityPanelUploadIconProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateCommunityPanelUploadIconMutation, CreateCommunityPanelUploadIconMutationVariables, CreateCommunityPanelUploadIconProps<TChildProps>>(CreateCommunityPanelUploadIconDocument, {
+      alias: 'createCommunityPanelUploadIcon',
       ...operationOptions
     });
 };
 
 /**
- * __useCreateCommunityPanelUploadImageMutation__
+ * __useCreateCommunityPanelUploadIconMutation__
  *
- * To run a mutation, you first call `useCreateCommunityPanelUploadImageMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateCommunityPanelUploadImageMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateCommunityPanelUploadIconMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCommunityPanelUploadIconMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createCommunityPanelUploadImageMutation, { data, loading, error }] = useCreateCommunityPanelUploadImageMutation({
+ * const [createCommunityPanelUploadIconMutation, { data, loading, error }] = useCreateCommunityPanelUploadIconMutation({
  *   variables: {
  *      contextId: // value for 'contextId'
  *      upload: // value for 'upload'
  *   },
  * });
  */
-export function useCreateCommunityPanelUploadImageMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateCommunityPanelUploadImageMutation, CreateCommunityPanelUploadImageMutationVariables>) {
-        return ApolloReactHooks.useMutation<CreateCommunityPanelUploadImageMutation, CreateCommunityPanelUploadImageMutationVariables>(CreateCommunityPanelUploadImageDocument, baseOptions);
+export function useCreateCommunityPanelUploadIconMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateCommunityPanelUploadIconMutation, CreateCommunityPanelUploadIconMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateCommunityPanelUploadIconMutation, CreateCommunityPanelUploadIconMutationVariables>(CreateCommunityPanelUploadIconDocument, baseOptions);
       }
-export type CreateCommunityPanelUploadImageMutationHookResult = ReturnType<typeof useCreateCommunityPanelUploadImageMutation>;
-export type CreateCommunityPanelUploadImageMutationResult = ApolloReactCommon.MutationResult<CreateCommunityPanelUploadImageMutation>;
-export type CreateCommunityPanelUploadImageMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateCommunityPanelUploadImageMutation, CreateCommunityPanelUploadImageMutationVariables>;
+export type CreateCommunityPanelUploadIconMutationHookResult = ReturnType<typeof useCreateCommunityPanelUploadIconMutation>;
+export type CreateCommunityPanelUploadIconMutationResult = ApolloReactCommon.MutationResult<CreateCommunityPanelUploadIconMutation>;
+export type CreateCommunityPanelUploadIconMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateCommunityPanelUploadIconMutation, CreateCommunityPanelUploadIconMutationVariables>;
 
 
 export interface CreateCommunityPanelCreateMutationOperation {
@@ -164,9 +164,9 @@ export interface CreateCommunityPanelCreateMutationOperation {
 }
 
 
-export interface CreateCommunityPanelUploadImageMutationOperation {
-  operationName: 'createCommunityPanelUploadImage'
-  result: CreateCommunityPanelUploadImageMutation
-  variables: CreateCommunityPanelUploadImageMutationVariables
+export interface CreateCommunityPanelUploadIconMutationOperation {
+  operationName: 'createCommunityPanelUploadIcon'
+  result: CreateCommunityPanelUploadIconMutation
+  variables: CreateCommunityPanelUploadIconMutationVariables
   type: 'mutation'
 }

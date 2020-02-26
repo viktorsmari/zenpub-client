@@ -36,6 +36,8 @@ import {
   Props as FeaturedModalProps
 } from 'ui/modules/FeaturedModal';
 import { FeaturedModal } from '../modules/FeaturedModal';
+import { FeaturedCommunitiesData as FeaturedCommunitiesProps } from 'ui/modules/FeaturedCommunities';
+import { FeaturedCollectionsData as FeaturedCollectionsProps } from 'ui/modules/FeaturedCollections';
 
 export const getEditCommunityProps = (): EditCommunityProps => {
   const formik = useFormik<EditCommunityFormValues>({
@@ -185,7 +187,7 @@ export const getHeroCommunityPropsAdmin = (): HeroCommunityProps => {
           formik,
           isFeatured: true,
           itemType: 'community',
-          itemName: 'Type Theory',
+          itemName: 'Community nino',
           cancel: action('cancel')
         };
         return <FeaturedModal {...getFeaturedModalProps} />;
@@ -294,7 +296,7 @@ export const getHeroCollectionPropsAdmin = (): HeroCollectionProps => {
           formik,
           isFeatured: false,
           itemType: 'collection',
-          itemName: 'Soil types',
+          itemName: 'Favourite books',
           cancel: action('cancel')
         };
         return <FeaturedModal {...getFeaturedModalProps} />;
@@ -402,5 +404,117 @@ export const getFeaturedModalProps = (): FeaturedModalProps => {
     itemName: 'Type Theory',
     itemType: 'community',
     cancel: action('cancel')
+  };
+};
+
+export const getFeaturedCommunitiesProps = (): FeaturedCommunitiesProps => {
+  return {
+    isAdmin: false,
+    featuredCommunities: [
+      {
+        id: '1',
+        name: 'Instructional Design in HE',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '2',
+        name: 'The Lounge',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '3',
+        name: 'OER Lounge',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '4',
+        name: 'Favourite books',
+        icon: 'https://picsum.photos/id/200/200/200'
+      }
+    ]
+  };
+};
+
+export const getFeaturedCommunitiesPropsAdmin = (): FeaturedCommunitiesProps => {
+  return {
+    isAdmin: true,
+    featuredCommunities: [
+      {
+        id: '1',
+        name: 'Instructional Design in HE',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '2',
+        name: 'The Lounge',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '3',
+        name: 'OER Lounge',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '4',
+        name: 'Favourite books',
+        icon: 'https://picsum.photos/id/200/200/200'
+      }
+    ]
+  };
+};
+
+export const getFeaturedCollectionsProps = (): FeaturedCollectionsProps => {
+  return {
+    isAdmin: false,
+    featuredCollections: [
+      {
+        id: '1',
+        name: 'Global OER Projects',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '2',
+        name: 'Great education-related books',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '3',
+        name: 'Spaced Repetition',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '4',
+        name: 'Community OER',
+        icon: 'https://picsum.photos/id/200/200/200'
+      }
+    ]
+  };
+};
+
+export const getFeaturedCollectionsPropsAdmin = (): FeaturedCollectionsProps => {
+  return {
+    isAdmin: true,
+    featuredCollections: [
+      {
+        id: '1',
+        name: 'Global OER Projects',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '2',
+        name: 'Great education-related books',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '3',
+        name: 'Spaced Repetition',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '4',
+        name: 'Community OER',
+        icon: 'https://picsum.photos/id/200/200/200'
+      }
+    ]
   };
 };

@@ -4,23 +4,24 @@ input CommunityInput {
     preferredUsername: String!
     icon: String
 }
+
 mutation createCommunityPanelCreate($community: CommunityInput!) {
     createCommunity(community: $community) {
-        ...CreateCommunityPanelCreateMutationResult
+        ...CreateCommunityPanelCreateResult
     }
 }
-fragment CreateCommunityPanelCreateMutationResult on Community {
+fragment CreateCommunityPanelCreateResult on Community {
     id
 }
 
 
-mutation createCommunityPanelUploadImage($contextId: ID!,$upload: Upload!) {
-   uploadImage(contextId: $contextId, upload:$upload ){
-        ...CreateCommunityPanelUploadImageMutationResult
+mutation createCommunityPanelUploadIcon($contextId: ID!,$upload: Upload!) {
+   uploadIcon(contextId: $contextId, upload:$upload ){
+        ...CreateCommunityPanelUploadIconResult
     }
     
 }
 
-fragment CreateCommunityPanelUploadImageMutationResult on FileUpload {
+fragment CreateCommunityPanelUploadIconResult on FileUpload {
     id
 }
