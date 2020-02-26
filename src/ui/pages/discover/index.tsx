@@ -11,7 +11,7 @@ import { Flex, Text } from 'rebass/styled-components';
 // import LoadMoreTimeline from '../../components/elements/Loadmore/localInstance';
 // import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
 // import FeaturedCollections from '../../modules/FeaturedCollections';
-import FeaturedCommunities from '../../modules/FeaturedCommunities';
+// import FeaturedCommunities from '../../modules/FeaturedCommunities';
 // import { CreateReplyMutationMutationOperation } from '../../graphql/createReply.generated';
 // import { DeleteMutationMutationOperation } from '../../graphql/delete.generated';
 // import { LikeMutationMutationOperation } from '../../graphql/like.generated';
@@ -53,7 +53,7 @@ export const Home: React.FC<Props> = ({
         <WrapperCont>
           <WrapperFeatured>{/* <FeaturedCollections /> */}</WrapperFeatured>
           <WrapperFeatured mt={2}>
-            <FeaturedCommunities featuredCommunities={featuredCommunities} />
+            {/* <FeaturedCommunities featuredCommunities={featuredCommunities} /> */}
           </WrapperFeatured>
           <Wrapper>
             <Text

@@ -9,7 +9,8 @@ import styled from '../../themes/styled';
 import CollectionSmall, { CollectionBase } from './preview';
 import { ChevronLeft, Right } from '../../Icons';
 // import Loader from '../../elements/Loader';
-import { Box } from 'rebass';
+import { Box, Flex } from 'rebass';
+import Button from '../../elements/Button';
 
 export const Title = styled.div`
   font-size: 15px;
@@ -56,6 +57,24 @@ export const RightContext = styled.div`
   // }
 `;
 
+const ActionContainer = styled(Flex)`
+  justify-content: right;
+  align-items: center;
+`;
+
+const ActionItem = styled(Flex)`
+  display: inline-flex;
+  color: ${props => props.theme.colors.gray};
+  cursor: pointer;
+  padding-right: 10px;
+
+  &:hover {
+    svg.hover {
+      stroke: ${props => props.theme.colors.orange};
+    }
+  }
+`;
+
 // export enum Status {
 //     Loading,
 //     Loaded
@@ -70,13 +89,13 @@ export const RightContext = styled.div`
 export interface FeaturedCollectionsData {
   isAdmin: boolean;
   featuredCollections: CollectionBase[];
-  removeFromFeatured: any;
 }
 
 //   export type Props = FeaturedCollectionsLoaded | FeaturedCollectionsLoading;
 
 export const FeaturedCollections: SFC<FeaturedCollectionsData> = props => {
   const sliderRef = useRef<Slider>();
+  const [isEditting, setEditting] = React.useState(false);
   // const { RTL } = useContext(LocaleContext);
   //   if (props.status === Status.Loading) {
   //     return <Trans>loading...</Trans>;
@@ -113,11 +132,27 @@ export const FeaturedCollections: SFC<FeaturedCollectionsData> = props => {
                 <CollectionSmall
                   collection={collection}
                   isAdmin={props.isAdmin}
+                  isEditting={isEditting}
                 />
               </div>
             ))}
           </Slider>
         )}
+        {props.isAdmin ? (
+          <ActionContainer>
+            <ActionItem onClick={() => setEditting(!isEditting)}>
+              {!isEditting ? (
+                <Button variant={'outline'}>
+                  <Trans>Edit</Trans>
+                </Button>
+              ) : (
+                <Button variant={'outline'}>
+                  <Trans>Exit</Trans>
+                </Button>
+              )}
+            </ActionItem>
+          </ActionContainer>
+        ) : null}
       </Box>
     </>
   );

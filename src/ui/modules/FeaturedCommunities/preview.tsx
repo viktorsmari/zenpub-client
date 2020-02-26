@@ -16,11 +16,16 @@ export interface CommunityBase {
 interface CommunityProps {
   community: CommunityBase;
   isAdmin: boolean;
+  isEditting: boolean;
 }
-const CommunitySmall: React.FC<CommunityProps> = ({ community, isAdmin }) => {
+const CommunitySmall: React.FC<CommunityProps> = ({
+  community,
+  isAdmin,
+  isEditting
+}) => {
   return (
-    <Wrapper py={1} mb={2} ml={3}>
-      {isAdmin ? (
+    <Wrapper py={1} mb={2} mr={3}>
+      {isAdmin && isEditting ? (
         <Remove>
           <X color="#fff" size={16} />
         </Remove>
@@ -76,7 +81,7 @@ const Remove = styled(Box)`
   right: -9px;
   top: 0px;
   cursor: pointer;
-  background: ${props => props.theme.colors.orange};
+  background: ${props => props.theme.colors.gray};
   width: 20px;
   height: 20px;
   border-radius: 20px;

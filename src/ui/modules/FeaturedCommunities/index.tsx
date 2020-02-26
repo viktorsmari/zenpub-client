@@ -9,7 +9,9 @@ import styled from '../../themes/styled';
 import CommunitySmall, { CommunityBase } from './preview';
 import { ChevronLeft, Right } from '../../Icons';
 // import Loader from '../../elements/Loader';
-import { Box } from 'rebass';
+import { Box, Flex } from 'rebass';
+import Button from '../../elements/Button';
+
 export const Title = styled.div`
   font-size: 15px;
   font-weight: 700;
@@ -55,19 +57,22 @@ export const RightContext = styled.div`
   // }
 `;
 
-const Remove = styled(Box)`
-  position: absolute;
-  right: -10px;
-  top: -10px;
-  cursor: pointer;
-  background: ${props => props.theme.colors.orange};
-  width: 20px;
-  height: 20px;
-  border-radius: 20px;
-  display: flex;
-  justify-content: space-around;
+const ActionContainer = styled(Flex)`
+  justify-content: right;
   align-items: center;
-  z-index: 999999999;
+`;
+
+const ActionItem = styled(Flex)`
+  display: inline-flex;
+  color: ${props => props.theme.colors.gray};
+  cursor: pointer;
+  padding-right: 10px;
+
+  &:hover {
+    svg.hover {
+      stroke: ${props => props.theme.colors.orange};
+    }
+  }
 `;
 
 // export enum Status {
@@ -90,6 +95,7 @@ export interface FeaturedCommunitiesData {
 
 export const FeaturedCommunities: SFC<FeaturedCommunitiesData> = props => {
   const sliderRef = useRef<Slider>();
+  const [isEditting, setEditting] = React.useState(false);
   // const { RTL } = useContext(LocaleContext);
   //   if (props.status === Status.Loading) {
   //     return <Trans>loading...</Trans>;
@@ -100,7 +106,6 @@ export const FeaturedCommunities: SFC<FeaturedCommunitiesData> = props => {
         <h5>
           <Trans>Featured communities</Trans>{' '}
         </h5>
-
         <RightContext>
           <span onClick={sliderRef.current && sliderRef.current.slickPrev}>
             <ChevronLeft
@@ -123,11 +128,30 @@ export const FeaturedCommunities: SFC<FeaturedCommunitiesData> = props => {
           >
             {props.featuredCommunities.map(community => (
               <div key={community.id}>
-                <CommunitySmall community={community} isAdmin={props.isAdmin} />
+                <CommunitySmall
+                  community={community}
+                  isAdmin={props.isAdmin}
+                  isEditting={isEditting}
+                />
               </div>
             ))}
           </Slider>
         )}
+        {props.isAdmin ? (
+          <ActionContainer>
+            <ActionItem onClick={() => setEditting(!isEditting)}>
+              {!isEditting ? (
+                <Button variant={'outline'}>
+                  <Trans>Edit</Trans>
+                </Button>
+              ) : (
+                <Button variant={'outline'}>
+                  <Trans>Exit</Trans>
+                </Button>
+              )}
+            </ActionItem>
+          </ActionContainer>
+        ) : null}
       </Box>
     </>
   );
