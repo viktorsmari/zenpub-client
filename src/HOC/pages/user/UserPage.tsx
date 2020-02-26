@@ -28,7 +28,15 @@ export const UserPage: SFC<UserPage> = ({ userId, basePath }) => {
   const userPageProps: Props = {
     basePath,
     ActivityBoxes,
-    HeroUserBox
+    HeroUserBox,
+    CollectionsBoxes: <></>,
+    CommunityBoxes: <></>,
+    UserBoxes: <></>,
+    Header: <></>,
+    totalActivities: '',
+    totalCollections: '',
+    totalCommunities: '',
+    totalUsers: ''
   };
 
   return <UserPageUI {...userPageProps} />;

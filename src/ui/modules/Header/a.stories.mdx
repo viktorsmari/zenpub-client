@@ -1,0 +1,20 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import { PropsTable } from '@storybook/components';
+import { Header } from '.';
+import {Box} from 'rebass'
+
+<Meta title="Modules|Header" component={Header}/>
+
+# HeroCollection
+Let's define a story for the `Hero collection preview` module
+
+<Preview>
+  <Story name="Header module">
+    <Box sx={{width: '600px', margin: '0 auto'}}>
+      <Header 
+        name="ivan"
+      />
+    </Box>
+  </Story>
+</Preview>
+

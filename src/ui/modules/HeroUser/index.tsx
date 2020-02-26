@@ -6,7 +6,7 @@ import media from 'styled-media-query';
 import Button from 'ui/elements/Button';
 import { Trans } from '@lingui/react';
 import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { FormikHook } from 'ui/@types/types';
 
 export enum Status {
@@ -46,9 +46,9 @@ export const HeroUser: SFC<Props> = props => {
   }
 
   return (
-    <ProfileBox p={1} mb={2}>
+    <ProfileBox p={1} mb={2} pb={2}>
       <Hero>
-        <HeroBg src={props.image || 'https://picsum.photos/id/1021/800/300'} />
+        <HeroBg src={props.image} />
         <FlexProfile>
           <WrapperHero>
             <Img
@@ -122,41 +122,11 @@ export const HeroUser: SFC<Props> = props => {
             </Location>
           ) : null}
         </HeroInfo>
-        <WrapperResume ml={3} my={2}>
-          <Resume>
-            <ResumeItem variant="text">
-              Member of <Link to="/communities">12 Communities</Link>
-            </ResumeItem>
-            ,
-            <ResumeItem variant="text" ml={1}>
-              Follow <Link to="/collections">43 Collections</Link> and{' '}
-              <Link to="/following">22 Users</Link>
-            </ResumeItem>
-          </Resume>
-          <Resume mt={2}>
-            <ResumeItem variant="text">
-              Followed by <Link to="/communities">124k Users</Link>
-            </ResumeItem>
-          </Resume>
-        </WrapperResume>
       </Hero>
     </ProfileBox>
   );
 };
 
-const WrapperResume = styled(Box)``;
-const Resume = styled(Flex)``;
-
-const ResumeItem = styled(Text)`
-  a {
-    font-weight: 700;
-    color: ${props => props.theme.colors.darkgray};
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-`;
 const AdminBadge = styled(Box)`
   padding: 1px 8px;
   border: 1px solid ${props => props.theme.colors.orange};
@@ -192,7 +162,9 @@ const FlexProfile = styled(Flex)`
 `};
 `;
 
-const ProfileBox = styled(Box)``;
+const ProfileBox = styled(Box)`
+  border-bottom: 3px solid ${props => props.theme.colors.lighter};
+`;
 
 const Username = styled(Text)`
   color: ${props => props.theme.colors.gray};
@@ -222,8 +194,7 @@ const Location = styled(Flex)`
 
 const HeroBg = styled.div<{ src: string }>`
   height: 250px;
-  border-top-right-radius: 6px;
-  border-top-left-radius: 6px;
+  margin: -4px;
   background: ${props => props.theme.colors.lightgray};
   background-image: url(${props =>
     props.src ? props.src : props.theme.colors.lightgray});

@@ -45,7 +45,7 @@ export const EditCommunityPanel: React.FC<Props> = ({ cancel, formik }) => {
   return (
     <Container>
       <Hero>
-        <Box sx={{ width: '120px' }}>
+        <Box sx={{ width: '120px', height: '120px' }}>
           <DropzoneArea initialUrl={formik.values.icon} formikForm={formik} />
         </Box>
         {/* <Background style={{ backgroundImage: `url(${c.icon})` }} /> */}

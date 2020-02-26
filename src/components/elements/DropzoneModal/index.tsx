@@ -38,7 +38,7 @@ const Thumb = styled.div`
   width: 100%;
   box-sizing: border-box;
   position: relative;
-
+  height: inherit;
   &:after {
     position: absolute;
     content: '';
@@ -63,8 +63,7 @@ const Thumb = styled.div`
 const Img = styled(Box)`
     display: block;
     border-radius: 4px;
-    height: 100%;
-    padding: 50%;
+    height: inherit;
     background-size: cover;
 }
 `;
@@ -89,23 +88,17 @@ const DropzoneArea: React.FC<Props> = ({
   const acceptedTypes =
     uploadType != 'resource' ? 'image/*' : accepted_file_types;
 
-  useEffect(
-    () => {
-      return () => {
-        files.forEach(file => URL.revokeObjectURL(file.preview));
-      };
-    },
-    [files]
-  );
+  useEffect(() => {
+    return () => {
+      files.forEach(file => URL.revokeObjectURL(file.preview));
+    };
+  }, [files]);
 
-  useEffect(
-    () => {
-      return () => {
-        files.forEach(file => URL.revokeObjectURL(file.preview));
-      };
-    },
-    [files]
-  );
+  useEffect(() => {
+    return () => {
+      files.forEach(file => URL.revokeObjectURL(file.preview));
+    };
+  }, [files]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: acceptedTypes,
@@ -120,7 +113,10 @@ const DropzoneArea: React.FC<Props> = ({
 
   return (
     <>
-      <div {...getRootProps({ className: 'dropzone' })}>
+      <Box
+        sx={{ height: 'inherit' }}
+        {...getRootProps({ className: 'dropzone' })}
+      >
         <InfoContainer className={isDragActive ? 'active' : 'none'}>
           {uploadType != 'resource' ? (
             <>
@@ -156,7 +152,7 @@ const DropzoneArea: React.FC<Props> = ({
             </Info>
           )} */}
         </InfoContainer>
-      </div>
+      </Box>
     </>
   );
 };
@@ -169,6 +165,7 @@ const InfoContainer = styled.div`
   text-align: center;
   cursor: pointer;
   box-sizing: border-box;
+  height: inherit;
   margin: 0px;
   &.active {
     border: 1px dashed ${props => props.theme.colors.orange};

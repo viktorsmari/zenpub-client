@@ -1,0 +1,117 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import { PropsTable } from '@storybook/components';
+// import {getResourcePreviewProps} from 'ui/mock/context'
+import { User } from './User';
+import { Resource } from './Resource';
+import {Community} from './Community';
+import {Collection} from './Collection';
+import {Box} from 'rebass'
+
+<Meta title="Modules|Main Previews"/>
+
+# User
+Let's define a story for the `User preview` module
+
+<Preview>
+  <Story name="User preview module">
+     <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
+    <User />
+    </Box>
+  </Story>
+</Preview>
+
+
+# Resource
+Let's define a story for the `Resource preview` module
+
+<Preview>
+  <Story name="Resource preview module">
+     <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
+    <Resource
+        id={"1"}
+        icon={"https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png"}
+        name={"mantarai"}
+        summary={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
+        link={"https://www.pinterest.it/topics/anime/"}
+    />
+    </Box>
+  </Story>
+</Preview>
+
+# Community
+Let's define a story for the `Community preview` module
+
+<Preview>
+  <Story name="Community preview module">
+     <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
+    <Community
+        id={"1"}
+        icon={"https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png"}
+        name={"mantarai"}
+        summary={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
+        followersCount={12}
+        collectionsCount={6}
+        followed={true}
+        threadsCount={3}
+    />
+    </Box>
+  </Story>
+</Preview>
+
+# Collection
+Let's define a story for the `Collection preview` module
+<!-- 
+  link: {
+    url: string;
+    external: boolean;
+  };
+  icon: string;
+  name: string;
+  summary: string;
+  totalResources: number | null; -->
+<Preview>
+  <Story name="Collection preview module">
+     <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
+    <Collection
+        link={{url: "/", external: true}}
+        id={"1"}
+        icon={"https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png"}
+        name={"mantarai"}
+        summary={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
+        totalResources={12}
+    />
+    </Box>
+  </Story>
+</Preview>
