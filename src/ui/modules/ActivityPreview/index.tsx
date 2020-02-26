@@ -2,7 +2,7 @@
 import { Trans } from '@lingui/react';
 import { DateTime } from 'luxon';
 import { clearFix } from 'polished';
-import React, { SFC } from 'react';
+import React, { SFC, ComponentType } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
@@ -42,6 +42,8 @@ export interface Activity {
   context: Context;
   inReplyToCtx: InReplyToContext | null;
   actions: ActionProps | null;
+  event: ComponentType<{}>;
+  preview: ComponentType<{}>;
 }
 
 export type Props = ActivityLoaded | ActivityLoading;
@@ -87,7 +89,8 @@ export const ActivityPreview: SFC<Props> = activity => {
       <ActorComp actor={activity.actor} createdAt={activity.createdAt} />
       <Contents>
         <Wrapper>
-          <Preview {...activity.context} />
+          <Event variant="text">{event}</Event>
+          {activity.preview}
           {activity.actions && <Actions {...activity.actions} />}
         </Wrapper>
       </Contents>
@@ -132,6 +135,8 @@ export const BigActivityPreview: SFC<Props> = activity => {
     </FeedItem>
   );
 };
+
+const Event = styled(Text)``;
 
 const WrapperLink = styled(NavLink)`
   text-decoration: none;
