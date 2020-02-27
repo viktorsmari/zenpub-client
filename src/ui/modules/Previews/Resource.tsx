@@ -1,10 +1,13 @@
 import * as React from 'react';
 import { ExternalLink, ChevronDown } from 'react-feather';
 // import { NavLink } from 'react-router-dom';
-import { Box, Flex, Heading, Text } from 'rebass/styled-components';
+import { Box, Flex, Heading, Text, Img } from 'rebass/styled-components';
 import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
 // import { ellipsis } from 'polished';
+const LicenseIcon0 = require('./cc-zero.png');
+const LicenseIcon1 = require('./by.png');
+const LicenseIcon2 = require('./by-sa.png');
 
 export interface Props {
   id: string;
@@ -12,6 +15,8 @@ export interface Props {
   name: string;
   summary: string;
   link: string;
+  license: string;
+  acceptedLicenses: string[];
 }
 
 export const Resource: React.FC<Props> = ({
@@ -19,7 +24,9 @@ export const Resource: React.FC<Props> = ({
   icon,
   name,
   summary,
-  link
+  link,
+  license,
+  acceptedLicenses
 }) => {
   return (
     // <WrapperLink to={'/collections/' + id}>
@@ -39,6 +46,13 @@ export const Resource: React.FC<Props> = ({
         <Text variant="text" mt={2}>
           {summary}
         </Text>
+        {license === acceptedLicenses![0] ? (
+          <Img src={LicenseIcon0} />
+        ) : license && license === acceptedLicenses![1] ? (
+          <Img src={LicenseIcon1} />
+        ) : (
+          <Img src={LicenseIcon2} />
+        )}
         <Hashtags mt={1}>
           <Text variant="text" mr={2}>
             #tutorial
