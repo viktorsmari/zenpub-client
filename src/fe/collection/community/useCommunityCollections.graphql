@@ -1,0 +1,20 @@
+#import "HOC/modules/CollectionPreview/CollectionPreview.graphql"
+#import "HOC/pages/community/CommunityPageCollections.graphql"
+
+query communityCollections($communityId: String!, $limit:Int, $before:String, $after:String) {
+  community(communityId:$communityId){
+    id
+    collections(limit:$limit, before:$before, after:$after){
+      edges{
+        node{
+          ...CommunityCollection
+        }
+      }
+    }
+  }
+}
+
+fragment CommunityCollection on Collection {
+  ...CollectionPreviewData
+  ...CommunityPageCollectionBase
+}

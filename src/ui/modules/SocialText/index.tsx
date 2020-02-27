@@ -1,29 +1,36 @@
 import React, { useRef, useState, useCallback } from 'react';
-import { dropEmoji } from '../../lib/emoji';
-import EmojiPicker from 'emoji-picker-react';
-import OutsideClickHandler from 'react-outside-click-handler';
+// import { dropEmoji } from '../../lib/emoji';
+// import EmojiPicker from 'emoji-picker-react';
+// import OutsideClickHandler from 'react-outside-click-handler';
 import styled from 'styled-components';
 import { Textarea } from '@rebass/forms';
 import { Box, Flex } from 'rebass/styled-components';
-import { Smile, Send } from 'react-feather';
-const PickerWrap = styled.div`
-  position: absolute;
-  right: 10px;
-  top: 45px;
-  z-index: 9999;
-`;
-const Wrapper = styled.div`
+import { Send } from 'react-feather';
+// const PickerWrap = styled.div`
+//   position: absolute;
+//   right: 10px;
+//   top: 45px;
+//   z-index: 999999999999999999;
+// `;
+const Wrapper = styled(Box)`
   width: 100%;
   position: relative;
+  border: 1px solid ${props => props.theme.colors.lightgray};
+  border-radius: 4px;
 `;
 const SocialTextDiv = styled(Flex)`
   position: relative;
   width: 100%;
   align-items: center;
 `;
-const EmojiPickerTrigger = styled(Box)`
-  cursor: pointer;
-`;
+// const EmojiPickerTrigger = styled(Box)`
+//   cursor: pointer;
+//   &:hover {
+//     svg {
+//       stroke: ${props => props.theme.colors.orange}
+//     }
+//   }
+// `;
 
 const SocialTextArea = styled(Textarea)`
   height: 60px;
@@ -39,7 +46,7 @@ const SocialTextArea = styled(Textarea)`
 `;
 
 const SocialActions = styled(Flex)`
-  width: 70px;
+  // width: 70px;
 `;
 
 export interface Props {
@@ -56,27 +63,27 @@ export const SocialText: React.FC<Props> = ({
 }) => {
   const ref = useRef<any>();
   const [text, setText] = useState(defaultValue);
-  const [isEmojiOpen, setEmojiOpen] = useState(false);
-  const toggleEmoji = useCallback(() => setEmojiOpen(!isEmojiOpen), [
-    isEmojiOpen
-  ]);
-  const addEmoji = React.useCallback(
-    (code, obj) => {
-      // console.log(code, obj);
-      if (!ref.current) {
-        return;
-      }
-      const textarea = ref.current as HTMLTextAreaElement;
-      const selectionStart = textarea.selectionStart;
-      // const selectionEnd = textarea.selectionEnd
-      const offset = dropEmoji(textarea, obj.emoji);
-      const pos = selectionStart + offset;
-      textarea.focus();
-      // console.log([selectionStart,selectionEnd], offset, pos, [textarea.selectionStart, textarea.selectionEnd] )
-      textarea.selectionEnd = pos;
-    },
-    [ref.current]
-  );
+  // const [isEmojiOpen, setEmojiOpen] = useState(false);
+  // const toggleEmoji = useCallback(() => setEmojiOpen(!isEmojiOpen), [
+  //   isEmojiOpen
+  // ]);
+  // const addEmoji = React.useCallback(
+  //   (code, obj) => {
+  //     // console.log(code, obj);
+  //     if (!ref.current) {
+  //       return;
+  //     }
+  //     const textarea = ref.current as HTMLTextAreaElement;
+  //     const selectionStart = textarea.selectionStart;
+  //     // const selectionEnd = textarea.selectionEnd
+  //     const offset = dropEmoji(textarea, obj.emoji);
+  //     const pos = selectionStart + offset;
+  //     textarea.focus();
+  //     // console.log([selectionStart,selectionEnd], offset, pos, [textarea.selectionStart, textarea.selectionEnd] )
+  //     textarea.selectionEnd = pos;
+  //   },
+  //   [ref.current]
+  // );
   const handleSubmit = useCallback(
     () => {
       submit(text);
@@ -103,21 +110,21 @@ export const SocialText: React.FC<Props> = ({
           defaultValue={defaultValue}
           onInput={onChange}
         />
-        <SocialActions>
-          <EmojiPickerTrigger onClick={toggleEmoji}>
+        <SocialActions mr={3}>
+          {/* <EmojiPickerTrigger onClick={toggleEmoji}>
             <Smile color={'rgba(0,0,0,.4)'} size="24" />
-          </EmojiPickerTrigger>
+          </EmojiPickerTrigger> */}
           <Box style={{ cursor: 'pointer' }} ml={3} onClick={handleSubmit}>
             <Send color={'rgba(0,0,0,.4)'} size="24" />
           </Box>
         </SocialActions>
-        {isEmojiOpen && (
+        {/* {isEmojiOpen && (
           <OutsideClickHandler onOutsideClick={toggleEmoji}>
             <PickerWrap>
               <EmojiPicker preload onEmojiClick={addEmoji} />
             </PickerWrap>
           </OutsideClickHandler>
-        )}
+        )} */}
       </SocialTextDiv>
     </Wrapper>
   );

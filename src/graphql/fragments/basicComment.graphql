@@ -11,6 +11,7 @@ fragment BasicCommentWithInReplyTo on Comment {
 fragment BasicComment on Comment {
     id
     content
+    canonicalUrl
     isLocal
     isPublic
     isHidden
@@ -20,7 +21,8 @@ fragment BasicComment on Comment {
     creator {
         ...BasicUser
     }
-    likes   { totalCount }
+    likes { totalCount }
+    flags { totalCount }
     thread  {
         id
         context {

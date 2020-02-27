@@ -1,0 +1,20 @@
+query featuredCommunities {
+  instance{
+    featuredCommunities{
+      edges{
+        node{
+          id
+          context{
+            ...FeaturedCommunityInfo
+          }
+        }
+      }
+    }
+  }
+}
+
+fragment FeaturedCommunityInfo on Community{
+  id
+  icon
+  name
+}

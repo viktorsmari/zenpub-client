@@ -11,8 +11,8 @@ import Link from '../Link/Link';
 import Actions from './Actions';
 import Preview from './preview';
 import { Star } from 'react-feather';
-import { useLikeCommentMutationMutation } from '../../../graphql/generated/likeComment.generated';
-import { useUndoLikeCommentMutationMutation } from '../../../graphql/generated/undoLikeComment.generated';
+import { useLikeCommentMutationMutation } from '../../../graphql/likeComment.generated';
+import { useUndoLikeCommentMutationMutation } from '../../../graphql/undoLikeComment.generated';
 import { ActivityObject } from '../../../graphql/types.generated';
 interface Props {
   userpage?: boolean;

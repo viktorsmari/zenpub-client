@@ -17,7 +17,7 @@ import { withFormik, FormikProps, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import Alert from '../Alert';
 import { graphql, OperationOption } from 'react-apollo';
-import { UpdateCollectionMutationMutationVariables } from '../../../graphql/generated/updateCollection.generated';
+import { UpdateCollectionMutationMutationVariables } from '../../../graphql/updateCollection.generated';
 import { Collection } from '../../../graphql/types.generated';
 import styled from '../../../themes/styled';
 const {
@@ -37,7 +37,7 @@ interface Props {
 interface FormValues {
   name: string;
   summary: string;
-  image: string;
+  icon: string;
 }
 
 interface MyFormProps {
@@ -117,7 +117,7 @@ const CreateCommunityModal = (
             </label>
             <ContainerForm>
               <Field
-                name="image"
+                name="icon"
                 render={({ field }) => (
                   <Input
                     // placeholder="Type a url of a background image..."
@@ -127,7 +127,7 @@ const CreateCommunityModal = (
                   />
                 )}
               />
-              {errors.image && touched.image && <Alert>{errors.image}</Alert>}
+              {errors.icon && touched.icon && <Alert>{errors.icon}</Alert>}
             </ContainerForm>
           </Row>
           <Actions>
@@ -148,14 +148,14 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
   mapPropsToValues: props => ({
     name: props.collection.name || '',
     summary: props.collection.summary || '',
-    image: props.collection.icon || ''
+    icon: props.collection.icon || ''
   }),
   validationSchema: Yup.object().shape({
     name: Yup.string()
       .max(80)
       .required(),
     summary: Yup.string().max(500),
-    image: Yup.string().url()
+    icon: Yup.string().url()
   }),
   handleSubmit: (values, { props, setSubmitting }) => {
     const variables: UpdateCollectionMutationMutationVariables = {
@@ -164,7 +164,7 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
         name: values.name,
         preferredUsername: values.name,
         summary: values.summary,
-        icon: values.image
+        icon: values.icon
       }
     };
     return props

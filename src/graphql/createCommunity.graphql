@@ -5,7 +5,6 @@ input CommunityInput {
     summary: String
     preferredUsername: String!
     icon: String
-    image: String
 }
 
 mutation createCommunityMutation($community: CommunityInput!) {

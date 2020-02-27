@@ -1,23 +1,18 @@
 import { Trans } from '@lingui/macro';
+import { ActivityPreviewHOC } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
 import React, { SFC, useState } from 'react';
-// import { i18nMark } from '@lingui/react';
-// import { i18n } from '../../containers/App/App';
 import { TabPanel, Tabs } from 'react-tabs';
-import { Box, Button, Flex } from 'rebass/styled-components';
-import CreateCollectionModal from '../../components/elements/CreateCollectionModal';
-import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
-import { SocialText } from '../../components/elements/SocialText';
+import { Button, Flex } from 'rebass/styled-components';
+import { CreateCollectionPanelHOC } from '../../HOC/modules/CreateCollectionPanel/createCollectionPanelHOC';
+// import LoadMoreTimeline from '../../components/elements/Loadmore/timeline';
+// import { SocialText } from '../../components/elements/SocialText';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
-import TimelineItem from '../../components/elements/TimelineItem/index2';
-import { useCreateThreadMutationMutation } from '../../graphql/generated/createThread.generated';
-import { GetCommunityQueryQuery } from '../../graphql/generated/getCommunity.generated';
+import FeedItem from '../../components/elements/Comment/Comment';
+// import { useCreateThreadMutationMutation } from '../../graphql/createThread.generated';
+import { GetCommunityQueryQuery } from '../../graphql/getCommunity.generated';
 import styled from '../../themes/styled';
+import Modal from 'ui/modules/Modal';
 
-// const tt = {
-//   placeholders: {
-//     thread: i18nMark('Start a new thread...')
-//   }
-// };
 interface Props {
   collections: any;
   followed: boolean;
@@ -35,30 +30,8 @@ const CommunityPage: SFC<Props> = ({
   fetchMore,
   refetch
 }) => {
-  const [createThreadMutation] = useCreateThreadMutationMutation();
   const [isOpen, onOpen] = useState(false);
-  const [newThreadText, setNewThreadText] = React.useState('');
-  const addNewThread = React.useCallback(
-    () => {
-      createThreadMutation({
-        variables: {
-          comment: { content: newThreadText },
-          contextId: id
-        }
-      }).then(() => {
-        socialTextRef.current && (socialTextRef.current.value = '');
-        refetch();
-      });
-    },
-    [newThreadText, id]
-  );
-  const socialTextRef = React.useRef<HTMLTextAreaElement>();
-  const setNewThreadTextInput = React.useCallback(
-    (ev: React.FormEvent<HTMLTextAreaElement>) => {
-      setNewThreadText(ev.currentTarget.value);
-    },
-    []
-  );
+
   return (
     community && (
       <WrapperTab>
@@ -75,35 +48,25 @@ const CommunityPage: SFC<Props> = ({
                   <Trans>Collections</Trans>
                 </h5>
               </SuperTab>
+              <SuperTab>
+                <h5>
+                  <Trans>Discussions</Trans>
+                </h5>
+              </SuperTab>
             </SuperTabList>
             <TabPanel>
-              {followed ? (
-                <>
-                  <Overlay />
-                  <WrapperBox p={3}>
-                    <SocialText
-                      onInput={setNewThreadTextInput}
-                      reference={socialTextRef}
-                      submit={addNewThread}
-                      placeholder="Start a new thread..."
-                    />
-                  </WrapperBox>
-                </>
-              ) : null}
               <div>
-                {community.outbox.edges.map(
+                {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                community.outbox!.edges!.map(
                   (t, i) =>
                     t && (
-                      <TimelineItem
-                        context={t.node.context}
-                        user={t.node.user}
-                        verb={t.node.verb}
-                        createdAt={t.node.createdAt}
-                        key={i}
+                      <ActivityPreviewHOC
+                        activityId={t.node.id}
+                        key={t.node.id}
                       />
                     )
                 )}
-                <LoadMoreTimeline fetchMore={fetchMore} community={community} />
+                {/* <LoadMoreTimeline fetchMore={fetchMore} community={community} /> */}
               </div>
             </TabPanel>
             <TabPanel>
@@ -116,19 +79,46 @@ const CommunityPage: SFC<Props> = ({
               ) : null}
               <div>{collections}</div>
             </TabPanel>
+            <TabPanel>
+              <div>
+                {community.threads &&
+                  community.threads.edges &&
+                  community.threads.edges.map(
+                    (t, i) =>
+                      t &&
+                      (t.node.comments &&
+                        t.node.comments.edges.map(
+                          edge =>
+                            edge &&
+                            edge.node &&
+                            edge.node.inReplyTo == null && (
+                              <FeedItem
+                                key={
+                                  /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                                  edge.node.thread!.id
+                                }
+                                comment={edge.node}
+                              />
+                            )
+                        ))
+                  )}
+                {/* <LoadMoreTimeline fetchMore={fetchMore} community={community} /> */}
+              </div>
+            </TabPanel>
           </Tabs>
         </OverlayTab>
-        <CreateCollectionModal
-          toggleModal={() => onOpen(false)}
-          modalIsOpen={isOpen}
-          communityId={id}
-        />
+        {isOpen && (
+          <Modal closeModal={() => onOpen(false)}>
+            <CreateCollectionPanelHOC
+              communityId={id}
+              done={() => onOpen(false)}
+            />
+          </Modal>
+        )}
       </WrapperTab>
     )
   );
 };
-
-const Overlay = styled(Box)``;
 
 export const Footer = styled.div`
   height: 30px;
@@ -139,10 +129,6 @@ export const Footer = styled.div`
   font-size: 13px;
   border-bottom: 1px solid ${props => props.theme.colors.lightgray};
   color: #544f46;
-`;
-
-const WrapperBox = styled(Box)`
-  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
 `;
 
 const ButtonWrapper = styled(Flex)`

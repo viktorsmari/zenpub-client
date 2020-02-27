@@ -106,9 +106,7 @@ nav,
 section {
   display: block;
 }
-body {
-  line-height: 1;
-}
+
 ol,
 ul {
   list-style: none;
@@ -130,10 +128,11 @@ table {
 }
 
 .react-tabs__tab--selected {
-  color: #f98012;
-  background: transparent;
+  color: #f98012 !important;
+  background: transparent !important;
 }
 
+/* 
 .react-tabs__tab--selected svg {
   color: #f98012 !important;
 }
@@ -152,7 +151,7 @@ table {
   bottom: 0;
   background: #f98012;
   border-radius: 10px;
-}
+} */
 
 textarea {
   font-family: inherit !important;

@@ -1,0 +1,23 @@
+fragment HeroCollectionData on Collection  {
+    id
+    name
+    displayUsername
+    summary
+    icon
+    community {
+        id
+        name
+        icon
+    }
+    followers {
+        totalCount
+    }
+    myFollow { id }
+    myFlag { id }
+    creator { id }
+}
+fragment HeroCollectionMeData on Me {
+    user{
+        id
+    }
+}

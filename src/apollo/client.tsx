@@ -12,25 +12,26 @@ import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 // import { createHttpLink } from 'apollo-link-http';
 import apolloLogger from 'apollo-link-logger';
+import { ResetPasswordRequestMutationOperation } from 'graphql/resetPasswordRequest.generated';
 import { Socket as PhoenixSocket } from 'phoenix';
 import {
   GRAPHQL_ENDPOINT,
   IS_DEV,
   PHOENIX_SOCKET_ENDPOINT
 } from '../constants';
-import { UsernameAvailableQueryOperation } from '../graphql/generated/checkUsername.generated';
-import { ConfirmEmailMutationMutationOperation } from '../graphql/generated/confirmEmail.generated';
-import { CreateUserMutationMutationOperation } from '../graphql/generated/createUser.generated';
-import { LoginMutationMutationOperation } from '../graphql/generated/login.generated';
-import {
-  getOpType,
-  Name,
-  getOperationNameAndType
-} from '../util/apollo/operation';
+import { UsernameAvailableQueryOperation } from '../graphql/checkUsername.generated';
+import { ConfirmEmailMutationMutationOperation } from '../graphql/confirmEmail.generated';
+import { CreateUserMutationMutationOperation } from '../graphql/createUser.generated';
+import { LoginMutationMutationOperation } from '../graphql/login.generated';
+import { LogoutMutationMutationOperation } from '../graphql/logout.generated';
 import { RootMutationType, RootQueryType } from '../graphql/types.generated';
-import { createUploadLink } from './uploadLink.js';
+import {
+  getOperationNameAndType,
+  getOpType,
+  Name
+} from '../util/apollo/operation';
 import { KVStore } from '../util/keyvaluestore/types';
-import { LogoutMutationMutationOperation } from '../graphql/generated/logout.generated';
+import { createUploadLink } from './uploadLink.js';
 const introspectionQueryResultData = require('../fragmentTypes.json');
 
 export type MutationName = keyof RootMutationType;
@@ -51,7 +52,25 @@ export default async function initialise({ localKVStore, appLink }: Cfg) {
     introspectionQueryResultData
   });
 
-  const cache = new InMemoryCache({ fragmentMatcher });
+  const cache = new InMemoryCache({
+    fragmentMatcher,
+    cacheRedirects: {
+      Query: {
+        activity: (_, args, { getCacheKey }) =>
+          getCacheKey({ __typename: 'Activity', id: args.activityId }),
+        collection: (_, args, { getCacheKey }) =>
+          getCacheKey({ __typename: 'Collection', id: args.collectionId })
+      }
+    },
+    dataIdFromObject: obj => {
+      if (obj.__typename === 'User' && 'userId' in obj) {
+        //@ts-ignore
+        return obj.userId;
+      } else {
+        return obj.id;
+      }
+    }
+  });
 
   const setTokenLink = new ApolloLink((operation, nextLink) => {
     const createSessionOpName: OperationName = 'createSession';
@@ -141,7 +160,9 @@ export default async function initialise({ localKVStore, appLink }: Cfg) {
     | LogoutMutationMutationOperation
     | ConfirmEmailMutationMutationOperation
     | UsernameAvailableQueryOperation
+    | ResetPasswordRequestMutationOperation
   >[] = [
+    'resetPasswordRequest',
     'confirmEmailMutation',
     'createUserMutation',
     'loginMutation',
@@ -196,11 +217,11 @@ export default async function initialise({ localKVStore, appLink }: Cfg) {
     link,
     defaultOptions: {
       watchQuery: {
-        fetchPolicy: 'network-only',
+        fetchPolicy: 'cache-first',
         errorPolicy: 'ignore'
       },
       query: {
-        fetchPolicy: 'no-cache',
+        fetchPolicy: 'cache-first',
         errorPolicy: 'all'
       },
       mutate: {

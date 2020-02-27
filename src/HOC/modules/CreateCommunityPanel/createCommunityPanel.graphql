@@ -1,0 +1,26 @@
+input CommunityInput {
+    name: String!
+    summary: String
+    preferredUsername: String!
+    icon: String
+}
+mutation createCommunityPanelCreate($community: CommunityInput!) {
+    createCommunity(community: $community) {
+        ...CreateCommunityPanelCreateMutationResult
+    }
+}
+fragment CreateCommunityPanelCreateMutationResult on Community {
+    id
+}
+
+
+mutation createCommunityPanelUploadImage($contextId: ID!,$upload: Upload!) {
+   uploadImage(contextId: $contextId, upload:$upload ){
+        ...CreateCommunityPanelUploadImageMutationResult
+    }
+    
+}
+
+fragment CreateCommunityPanelUploadImageMutationResult on FileUpload {
+    id
+}

@@ -1,0 +1,7 @@
+#import "HOC/pages/user/UserPage.graphql"
+
+query userData($userId:String!) {
+  user(userId:$userId){
+    ...UserPageUserData
+  }
+}

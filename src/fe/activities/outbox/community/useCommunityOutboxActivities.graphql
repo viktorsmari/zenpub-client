@@ -1,0 +1,18 @@
+#import "HOC/modules/ActivityPreview/getActivityPreview.graphql"
+
+query communityOutboxActivities($communityId: String!, $limit:Int, $before:String, $after:String) {
+  community(communityId:$communityId){
+    id
+    outbox(limit:$limit, before:$before, after:$after){
+      edges{
+        node{
+          ...CommunityOutboxActivity
+        }
+      }
+    }
+  }
+}
+
+fragment CommunityOutboxActivity on Activity {
+  ...ActivityPreviewData
+}

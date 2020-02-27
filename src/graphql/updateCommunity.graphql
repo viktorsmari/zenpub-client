@@ -1,6 +1,5 @@
 input CommunityUpdateInput {
   icon: String
-  image: String
   name: String!
   summary: String
 }

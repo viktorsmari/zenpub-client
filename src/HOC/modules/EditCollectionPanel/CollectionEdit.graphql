@@ -1,0 +1,36 @@
+query editCollectionPanel($collectionId: String!) {
+    collection(collectionId: $collectionId) {
+        ...EditCollectionPanelData
+    }
+}
+fragment EditCollectionPanelData on Collection{
+    id
+    name
+    summary
+    icon
+}
+
+input CollectionUpdateInput {
+    icon: String
+    name: String!
+    preferredUsername: String!
+    summary: String
+}
+mutation editCollectionPanelUpdateCollection($collection: CollectionUpdateInput!, $collectionId: String!) {
+    updateCollection(collection: $collection, collectionId: $collectionId) {
+        ...EditCollectionPanelUpdateCollectionMutationResult
+    }
+}
+fragment EditCollectionPanelUpdateCollectionMutationResult on Collection{
+    id
+}
+
+mutation editCollectionPanelUploadIcon($contextId: ID!,$upload: Upload!) {
+   uploadIcon(contextId:$contextId, upload:$upload ){
+        ...EditCollectionPanelUploadIconMutationResult
+    }    
+}
+fragment EditCollectionPanelUploadIconMutationResult on FileUpload{
+    id
+    url
+}

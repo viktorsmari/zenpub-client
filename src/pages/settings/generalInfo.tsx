@@ -15,7 +15,7 @@ const {
   updateProfileMutation
 } = require('../../graphql/updateProfile.graphql');
 import { SessionContext } from '../../context/global/sessionCtx';
-// import { useUploadImageMutation } from '../../graphql/generated/uploadImage.generated';
+// import { useUploadImageMutation } from '../../graphql/uploadImage.generated';
 
 import {
   Row,
@@ -135,12 +135,14 @@ const HeaderImg = styled.img`
   display: block;
   max-width: 100%;
   margin-bottom: 10px;
+  max-height: 400px;
 `;
 
 const AvatarImg = styled.img`
   display: block;
   max-width: 100%;
   margin-bottom: 10px;
+  max-height: 400px;
 `;
 
 const Component: React.FC<Props> = ({
@@ -173,14 +175,13 @@ const Component: React.FC<Props> = ({
   const validationSchema = Yup.object().shape({
     name: Yup.string().required(),
     summary: Yup.string(),
-    icon: Yup.string().url(),
-    image: Yup.string(),
+    icon: Yup.string(), //.url(),
+    image: Yup.string().url(),
     location: Yup.string()
   });
 
   const handleSubmit = React.useCallback<FormikConfig<FormValues>['onSubmit']>(
     (values, { setSubmitting }) => {
-      console.log('image ' + values.icon);
       const variables = {
         profile: {
           name: values.name,
@@ -195,23 +196,13 @@ const Component: React.FC<Props> = ({
       })
         .then(res => {
           setSubmitting(false);
-          history.push('/profile');
+          history.push(`/user/${profile.user.id}`);
           // alert("New settings are saved"); //TODO: nicer display of errors
         })
         .catch(err => alert(err));
     },
     []
   );
-
-  // const [mutate] = useUploadImageMutation();
-  // const testUpload = ({
-  //   target: {
-  //     validity,
-  //     files: [file]
-  //   }
-  // }) =>
-  //   validity.valid &&
-  //   mutate({ variables: { contextId: auth!.me.user.id, upload: file } });
 
   return (
     <ApolloConsumer>
@@ -361,16 +352,19 @@ const Component: React.FC<Props> = ({
                       <Field
                         name="icon"
                         render={({ field }) => (
-                          <Input
-                            // placeholder="Type a url of a background image..."
-                            name={field.name}
-                            value={iconUrl}
-                            onChange={field.onChange}
-                            onClick={() => {
+                          <Button
+                            type="button"
+                            onClick={e => {
                               onUploadOpen(true);
                               setUploadType('icon');
                             }}
-                          />
+                          >
+                            {iconUrl != '' ? (
+                              <Trans>Change</Trans>
+                            ) : (
+                              <Trans>Upload</Trans>
+                            )}
+                          </Button>
                         )}
                       />
                       {errors.icon && <Alert>{errors.icon}</Alert>}
@@ -385,16 +379,19 @@ const Component: React.FC<Props> = ({
                       <Field
                         name="image"
                         render={({ field }) => (
-                          <Input
-                            // placeholder="Type a url of a background image..."
-                            name={field.name}
-                            value={imageUrl}
-                            onChange={field.onChange}
-                            onClick={() => {
+                          <Button
+                            type="button"
+                            onClick={e => {
                               onUploadOpen(true);
                               setUploadType('image');
                             }}
-                          />
+                          >
+                            {imageUrl != '' ? (
+                              <Trans>Change</Trans>
+                            ) : (
+                              <Trans>Upload</Trans>
+                            )}
+                          </Button>
                         )}
                       />
                       {errors.image &&

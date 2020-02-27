@@ -1,9 +1,6 @@
 import * as React from 'react';
-import { CreateCommunityMutationMutationOperation } from '../../graphql/generated/createCommunity.generated';
-import { DeleteMutationMutationOperation } from '../../graphql/generated/delete.generated';
-import { FollowMutationMutationOperation } from '../../graphql/generated/follow.generated';
-import { useGetSidebarQueryQuery } from '../../graphql/generated/getSidebar.generated';
-import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
+import { useGetSidebarQueryQuery } from '../../graphql/getSidebar.generated';
+// import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import Sidebar from '../sidebar';
 
 interface Props {
@@ -12,27 +9,27 @@ interface Props {
 
 export const SidebarWrapper: React.FC<Props> = ({ isOpen }) => {
   const resp = useGetSidebarQueryQuery();
-  useDynamicLinkOpResult<DeleteMutationMutationOperation>(
-    'deleteMutation',
-    () => {
-      resp.refetch();
-    },
-    [resp.refetch]
-  );
-  useDynamicLinkOpResult<CreateCommunityMutationMutationOperation>(
-    'createCommunityMutation',
-    () => {
-      resp.refetch();
-    },
-    [resp.refetch]
-  );
-  useDynamicLinkOpResult<FollowMutationMutationOperation>(
-    'followMutation',
-    () => {
-      resp.refetch();
-    },
-    [resp.refetch]
-  );
+  // useDynamicLinkOpResult<HeroCommunityUnjoinMutationOperation>(
+  //   'heroCommunityUnjoin',
+  //   () => {
+  //     resp.refetch();
+  //   },
+  //   [resp.refetch]
+  // );
+  // useDynamicLinkOpResult<CreateCommunityPanelCreateMutationOperation>(
+  //   'createCommunityPanelCreate',
+  //   () => {
+  //     resp.refetch();
+  //   },
+  //   [resp.refetch]
+  // );
+  // useDynamicLinkOpResult<HeroCommunityJoinMutationOperation>(
+  //   'heroCommunityJoin',
+  //   () => {
+  //     resp.refetch();
+  //   },
+  //   [resp.refetch]
+  // );
   return <Sidebar resp={resp} isOpen={isOpen} />;
 };
 

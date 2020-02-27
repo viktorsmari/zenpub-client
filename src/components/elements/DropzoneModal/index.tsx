@@ -1,133 +1,160 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 // import { Trans } from '@lingui/macro';
-// import { clearPreviews } from './with-previews';
 import styled from '../../../themes/styled';
-import { UploadCloud } from 'react-feather';
-import { useFormikContext } from 'formik';
+// import { UploadCloud } from 'react-feather';
+import { accepted_file_types } from '../../../constants';
+import { Box, Flex } from 'rebass/styled-components';
+import { Image, FileText } from 'react-feather';
 
-const ThumbsContainer = styled.aside`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-top: 16;
+// const ThumbsContainer = styled.aside`
+//   display: flex;
+//   flex-direction: row;
+//   flex-wrap: wrap;
+//   margin-top: 16;
+// `;
+
+const WrapperIcon = styled(Flex)`
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  border-radius: 100px;
+  position: absolute;
+  left: 50%;
+  margin-left: -20px;
+  top: 50%;
+  margin-top: -20px;
+  z-index: 9;
+  &:hover {
+    background: #ffffff4a;
+  }
+`;
+
+const WrapperFile = styled.div`
+  padding: 20px 10px;
 `;
 
 const Thumb = styled.div`
-  display: inline-flex;
-  border-radius: 2;
-  // border: 1px solid #eaeaea;
-  margin: 8px auto;
   width: 100%;
-  max-width: 300px;
-  height: auto;
-  padding: 4;
   box-sizing: border-box;
+  position: relative;
+
+  &:after {
+    position: absolute;
+    content: '';
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 4px;
+    display: block;
+    background: rgba(0, 0, 0, 0.3);
+  }
+  svg {
+  }
 `;
 
-const ThumbInner = styled.div`
-  display: flex;
-  min-width: 0;
-  overflow: hidden;
-`;
-
-const Img = styled.img`
-  display: block;
-  width: 100%;
-  height: auto;
-  margin: auto;
-  text-align: center;
-`;
-
-// const Clear = styled.div`
-//   display: inline-block;
-//   cursor: pointer;
-//   font-size: 10px;
-//   padding: 2px 5px;
-//   background-color: #eaeaea;
-//   border-radius: 2px;
-//   height: 17px;
+// const ThumbInner = styled.div`
+//   // display: flex;
+//   min-width: 0;
+//   overflow: hidden;
 // `;
 
+const Img = styled(Box)`
+    display: block;
+    border-radius: 4px;
+    height: 100%;
+    padding: 50%;
+    background-size: cover;
+}
+`;
+
 interface Props {
-  imageUrl: any;
+  initialUrl: any;
+  uploadType?: string;
+  formikForm?: any;
+  touchedField?: string;
 }
 
-const DropzoneArea: React.FC<Props> = ({ imageUrl }) => {
-  const { setFieldValue, setFieldTouched } = useFormikContext();
-  // const [files, setFiles] = useState([] as any);
-  const [iconUrl, onIcon] = useState(imageUrl);
+const DropzoneArea: React.FC<Props> = ({
+  initialUrl,
+  uploadType,
+  formikForm,
+  touchedField
+}) => {
+  // const { setFieldValue, setFieldTouched } = useFormikContext();
+  const [files, setFiles] = useState([] as any);
+  const [fileUrl, onFile] = useState(initialUrl);
+
+  const acceptedTypes =
+    uploadType != 'resource' ? 'image/*' : accepted_file_types;
+
+  useEffect(
+    () => {
+      return () => {
+        files.forEach(file => URL.revokeObjectURL(file.preview));
+      };
+    },
+    [files]
+  );
+
+  useEffect(
+    () => {
+      return () => {
+        files.forEach(file => URL.revokeObjectURL(file.preview));
+      };
+    },
+    [files]
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    accept: 'image/*',
+    accept: acceptedTypes,
     onDrop: acceptedFiles => {
-      setFieldValue('files', acceptedFiles);
-      setFieldTouched('files', true);
-      acceptedFiles.map(file => onIcon(URL.createObjectURL(file)));
+      const uploadField = touchedField ? touchedField : 'files';
+      formikForm.setFieldValue(uploadField, acceptedFiles);
+      formikForm.setFieldTouched(uploadField, true);
+      setFiles(acceptedFiles);
+      acceptedFiles.map(file => onFile(URL.createObjectURL(file)));
     }
   });
-
-  // const thumbs = files.map(file => (
-  //   <Thumb key={file.name}>
-  //     <ThumbInner>
-  //       <Img src={file.preview} />
-  //     </ThumbInner>
-  //   </Thumb>
-  // ));
-
-  // handleUpload = props => {
-  //   const variables = { contextId: contextId, upload: files[0] };
-  //   return mutateIcon({ variables }).then(res => {
-  //     onIcon(res.data!.uploadIcon!.url);
-  //   });
-  // }
-
-  // useEffect(
-  //   () => () => {
-  //     // Make sure to revoke the data uris to avoid memory leaks
-  //     files.forEach(file => URL.revokeObjectURL(file.preview));
-  //   },
-  //   [files]
-  // );
-
-  // const { getRootProps, getInputProps, isDragActive } = useDropzone({
-  //   // accept: 'image/*',
-  //   multiple: false,
-  //   onDrop: withPreviews(handleDrop)
-  // });
-  // useEffect(() => () => clearPreviews(files), [files]);
 
   return (
     <>
       <div {...getRootProps({ className: 'dropzone' })}>
-        <ThumbsContainer>
-          <Thumb key={iconUrl}>
-            <ThumbInner>
-              <Img src={iconUrl} />
-            </ThumbInner>
-          </Thumb>
-        </ThumbsContainer>
-        {/* <ThumbsContainer> */}
-        {/* {thumbs} */}
-        {/* {files.length != 0 && (
-            <Clear
-              onClick={() => {
-                clearPreviews(files);
-                // setFiles([]);
-              }}
-            >
-              <Trans>Clear</Trans>
-            </Clear>
-          )}
-        </ThumbsContainer> */}
-        <input {...getInputProps()} />
-        <InfoContainer>
-          <UploadCloud width={45} height={45} strokeWidth={2} />
+        <InfoContainer className={isDragActive ? 'active' : 'none'}>
+          {uploadType != 'resource' ? (
+            <>
+              <Thumb key={fileUrl}>
+                <WrapperIcon>
+                  <Image
+                    size={30}
+                    strokeWidth={1}
+                    color={'rgba(250,250,250, .5)'}
+                  />
+                </WrapperIcon>
+                <Img style={{ backgroundImage: `url(${fileUrl})` }} />
+              </Thumb>
+            </>
+          ) : null}
+          {uploadType == 'resource' ? (
+            <WrapperFile>
+              <FileText size={20} />
+              {files.length != 0 ? <FileName>{files[0].name}</FileName> : null}
+            </WrapperFile>
+          ) : null}
+
+          <input {...getInputProps()} />
+
+          {/* <UploadCloud size={30} strokeWidth={1} />
           {isDragActive ? (
-            <p>Drop the files here ...</p>
+            <Info>
+              <Trans>Drop the file here ...</Trans>
+            </Info>
           ) : (
-            <p>Drag 'n' drop some files here, or click to select files</p>
-          )}
+            <Info>
+              <Trans>Drag 'n' drop a file here, or click to select file</Trans>
+            </Info>
+          )} */}
         </InfoContainer>
       </div>
     </>
@@ -138,14 +165,28 @@ export default DropzoneArea;
 
 const InfoContainer = styled.div`
   background: ${props => props.theme.colors.lighter};
-  border-radius: 2px;
+  border-radius: 4px;
   text-align: center;
-  padding: 10px 20px;
-  font-style: italic;
   cursor: pointer;
-  border: 2px dashed ${props => props.theme.colors.gray};
+  box-sizing: border-box;
   margin: 0px;
+  &.active {
+    border: 1px dashed ${props => props.theme.colors.orange};
+  }
+  .;
 `;
+
+const FileName = styled.p`
+  margin-bottom: 0px;
+  font-weight: bold;
+  text-align: right;
+  font-style: italic;
+`;
+
+// const Info = styled.p`
+//   margin-top: 0px;
+//   margin-bottom: 5px;
+// `;
 
 // const ClearButton = styled.button`
 //   width: 100px;

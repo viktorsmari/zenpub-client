@@ -10,7 +10,7 @@ import Alert from '../Alert';
 import { Button } from 'rebass/styled-components';
 import Modal from '../Modal';
 import DropzoneArea from '../DropzoneModal';
-import { useUploadIconMutation } from '../../../graphql/generated/uploadIcon.generated';
+import { useUploadIconMutation } from '../../../graphql/uploadIcon.generated';
 import styled from '../../../themes/styled';
 
 import {
@@ -24,7 +24,7 @@ import {
 import {
   useUpdateCommunityMutationMutation,
   UpdateCommunityMutationMutationVariables
-} from '../../../graphql/generated/updateCommunity.generated';
+} from '../../../graphql/updateCommunity.generated';
 
 const ModalWithUpload = styled(Modal)`
   position: absolute;
@@ -36,7 +36,7 @@ const tt = {
     summary: i18nMark(
       'Please describe who might be interested in this community and what kind of collections it is likely to contain...'
     ),
-    image: i18nMark('Enter the URL of an image to represent the community')
+    icon: i18nMark('Enter the URL of an image to represent the community')
   }
 };
 
@@ -52,13 +52,10 @@ interface FormValues {
   name: string;
   summary: string;
   icon: string;
-  image: string;
   files: [];
-  // content: string;
-  // preferredUsername: string;
 }
 
-const EditCommunityModal = (props: Props /*  & FormikProps<FormValues> */) => {
+const EditCommunityModal = (props: Props) => {
   const {
     toggleModal,
     modalIsOpen,
@@ -74,11 +71,8 @@ const EditCommunityModal = (props: Props /*  & FormikProps<FormValues> */) => {
     () => ({
       name: community.name || '',
       summary: community.summary || '',
-      image: community.icon || '',
       icon: community.icon || '',
       files: []
-      // content: '',
-      // preferredUsername: ''
     }),
     []
   );
@@ -90,9 +84,6 @@ const EditCommunityModal = (props: Props /*  & FormikProps<FormValues> */) => {
         community: {
           name: values.name,
           summary: values.summary
-          // ,
-          // image: res.data!.uploadIcon!.url,
-          // icon: res.data!.uploadIcon!.url
         }
       };
       update({
@@ -194,7 +185,7 @@ const EditCommunityModal = (props: Props /*  & FormikProps<FormValues> */) => {
                     <Trans>Image</Trans>
                   </label>
                   <ContainerForm>
-                    <DropzoneArea imageUrl={initialValues.icon} />
+                    <DropzoneArea initialUrl={initialValues.icon} />
                     {/* {errors.image &&
                       touched.image && <Alert>{errors.image}</Alert>} */}
                   </ContainerForm>

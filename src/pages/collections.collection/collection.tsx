@@ -15,10 +15,10 @@ import {
   OverlayTab
 } from '../communities.community/Community';
 import CollectionModal from '../../components/elements/CollectionModal';
-// import DropzoneArea from '../../components/elements/DropzoneModal';
+import UploadResourcePanelHOC from '../../HOC/modules/AddResource/UploadResourceHOC';
 
-import { BasicCollectionFragment } from '../../graphql/fragments/generated/basicCollection.generated';
-import { BasicResourcesEdgesFragment } from '../../graphql/fragments/generated/basicResourcesEdges.generated';
+import { BasicCollectionFragment } from '../../graphql/fragments/basicCollection.generated';
+import { BasicResourcesEdgesFragment } from '../../graphql/fragments/basicResourcesEdges.generated';
 // import CollectionsLoadMore from 'src/components/elements/Loadmore/followingCollections';
 
 interface Props {
@@ -36,7 +36,7 @@ const CommunityPage: SFC<Props> = ({
   resources
 }) => {
   const [isOpen, onOpen] = useState(false);
-  // const [isUploadOpen, onUploadOpen] = useState(true);
+  const [isUploadOpen, onUploadOpen] = useState(false);
   return (
     <WrapperTab>
       <OverlayTab>
@@ -57,17 +57,18 @@ const CommunityPage: SFC<Props> = ({
               }}
             >
               <Wrapper>
-                {!collection.community.myFollow && (
-                  <Footer>
-                    <Trans>Join the community</Trans>{' '}
-                    <Link to={'/communities/' + collection.community.id}>
-                      {community_name}
-                    </Link>{' '}
-                    <Trans>to add a resource</Trans>
-                  </Footer>
-                )}
+                {collection.community &&
+                  !collection.community.myFollow && (
+                    <Footer>
+                      <Trans>Join the community</Trans>{' '}
+                      <Link to={'/communities/' + collection.community.id}>
+                        {community_name}
+                      </Link>{' '}
+                      <Trans>to add a resource</Trans>
+                    </Footer>
+                  )}
                 <CollectionList>
-                  {collection.community.myFollow ? (
+                  {collection.community && collection.community.myFollow ? (
                     isOpen ? (
                       <ButtonWrapper>
                         <Button m={3} onClick={() => onOpen(false)}>
@@ -84,14 +85,15 @@ const CommunityPage: SFC<Props> = ({
                   ) : null}
                   {isOpen && (
                     <CollectionModal
-                      toggleModal={onOpen}
+                      toggleModal={() => onOpen(false)}
                       modalIsOpen={isOpen}
+                      cancel={isOpen}
                       collectionId={collection.id}
                       collectionExternalId={collection.id}
                     />
                   )}
-                  {/* {collection.community.followed ? (
-                    isUploadOpen === true ? (
+                  {collection.community && collection.community.myFollow ? (
+                    isUploadOpen ? (
                       <ButtonWrapper>
                         <Button m={3} onClick={() => onUploadOpen(false)}>
                           <Trans>Cancel</Trans>
@@ -99,21 +101,19 @@ const CommunityPage: SFC<Props> = ({
                       </ButtonWrapper>
                     ) : (
                       <ButtonWrapper>
-                        <Button m={3} onClick={() => onUploadOpen(false)}>
+                        <Button m={3} onClick={() => onUploadOpen(true)}>
                           <Trans>Upload a file</Trans>
                         </Button>
                       </ButtonWrapper>
                     )
                   ) : null}
-                  {isUploadOpen === true ? (
-                    <DropzoneArea
-                      toggleModal={onUploadOpen}
-                      modalIsOpen={isUploadOpen}
-                      itemId={collection.localId}
-                      externalItemId={collection.id}
-                    />
-                  ) : null} */}
 
+                  {isUploadOpen && (
+                    <UploadResourcePanelHOC
+                      done={() => onUploadOpen(false)}
+                      collectionId={collection.id}
+                    />
+                  )}
                   {resources.totalCount > 0 ? (
                     resources.edges.map(
                       (edge, i) =>

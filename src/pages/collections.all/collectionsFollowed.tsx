@@ -2,7 +2,7 @@ import { Trans } from '@lingui/macro';
 import * as React from 'react';
 import { TabPanel, Tabs } from 'react-tabs';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
-import CollectionsFollowed from '../collections.followed';
+import { FollowingCollectionsComponent } from '../collections.followed';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel } from '../../sections/panel';
@@ -23,7 +23,7 @@ class ColloctionsFollowed extends React.Component<{}> {
                   </SuperTab>
                 </SuperTabList>
                 <TabPanel>
-                  <CollectionsFollowed />
+                  <FollowingCollectionsComponent />
                 </TabPanel>
               </Tabs>
             </Wrapper>

@@ -3,7 +3,7 @@ import { Settings, User, Power } from 'react-feather';
 import styled from '../../themes/styled';
 import { Trans } from '@lingui/macro';
 import { useHistory } from 'react-router';
-import { useLogoutMutationMutation } from '../../graphql/generated/logout.generated';
+import { useLogoutMutationMutation } from '../../graphql/logout.generated';
 import { Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 
@@ -30,6 +30,10 @@ const ProfileMenu = styled.div`
 const List = styled.div<{ lined?: boolean }>`
   padding: 8px;
   border-bottom: ${props => (props.lined ? '1px solid #dadada' : null)};
+  a {
+    color: inherit !important;
+    text-decoration: none;
+  }
 `;
 const Item = styled(Text)`
   line-height: 50px;
@@ -46,16 +50,12 @@ const Item = styled(Text)`
       vertical-align: sub;
     }
   }
-  & a {
-    color: inherit !important;
-    text-decoration: none;
-  }
   &:hover {
     color: ${props => props.theme.colors.orange};
   }
 `;
 
-const Dropdown: React.FC = () => {
+const Dropdown: React.SFC<{ userId: string }> = ({ userId }) => {
   const { push } = useHistory();
   const [logoutMut /* , logoutMutResp */] = useLogoutMutationMutation();
   const logout = React.useCallback(() => logoutMut(), [logoutMut]);
@@ -64,7 +64,7 @@ const Dropdown: React.FC = () => {
       <WrapperMenu>
         <ProfileMenu>
           <List lined>
-            <Item variant="link" onClick={() => push('/profile')}>
+            <Item variant="link" onClick={() => push(`/user/${userId}`)}>
               <span>
                 <User size={18} color={'#333'} />
               </span>
@@ -78,20 +78,20 @@ const Dropdown: React.FC = () => {
             </Item>
           </List>
           <List lined>
-            <Item variant="link">
-              <a
-                href="https://docs.moodle.org/dev/MoodleNet/Code_of_Conduct"
-                target="blank"
-              >
+            <a
+              href="https://docs.moodle.org/dev/MoodleNet/Code_of_Conduct"
+              target="blank"
+            >
+              <Item variant="link">
                 <Trans>Code of Conduct</Trans>
-              </a>
-            </Item>
+              </Item>
+            </a>
 
-            <Item variant="link">
-              <a href="https://changemap.co/moodle/moodlenet/" target="blank">
+            <a href="https://changemap.co/moodle/moodlenet/" target="blank">
+              <Item variant="link">
                 <Trans>Feedback &amp; Suggestions</Trans>
-              </a>
-            </Item>
+              </Item>
+            </a>
 
             <Text
               style={{

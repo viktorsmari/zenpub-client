@@ -1,0 +1,26 @@
+
+query me {
+  me{
+    ...useMeData
+  }
+}
+
+mutation login ($email: String!, $password: String!){
+  createSession(email: $email, password: $password){
+    me{
+      ...useMeData
+    }
+    token
+  }
+}
+
+mutation logout {
+  deleteSession
+}
+
+fragment useMeData on Me {
+  isInstanceAdmin,
+  user{
+    id
+  }
+}

@@ -34,7 +34,7 @@ const tt = {
     summary: i18nMark(
       'Please describe what the collection is for and what kind of resources it is likely to contain...'
     ),
-    image: i18nMark('Enter the URL of an image to represent the collection')
+    icon: i18nMark('Enter the URL of an image to represent the collection')
   }
 };
 
@@ -51,7 +51,7 @@ interface Props {
 interface FormValues {
   name: string;
   summary: string;
-  image: string;
+  icon: string;
 }
 
 interface MyFormProps {
@@ -125,17 +125,17 @@ const CreateCommunityModal = (props: Props & FormikProps<FormValues>) => {
             <label>Image</label>
             <ContainerForm>
               <Field
-                name="image"
+                name="icon"
                 render={({ field }) => (
                   <Input
-                    placeholder={i18n._(tt.placeholders.image)}
+                    placeholder={i18n._(tt.placeholders.icon)}
                     name={field.name}
                     value={field.value}
                     onChange={field.onChange}
                   />
                 )}
               />
-              {errors.image && touched.image && <Alert>{errors.image}</Alert>}
+              {errors.icon && touched.icon && <Alert>{errors.icon}</Alert>}
             </ContainerForm>
           </Row>
           <Actions>
@@ -156,14 +156,14 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
   mapPropsToValues: props => ({
     name: '',
     summary: '',
-    image: ''
+    icon: ''
   }),
   validationSchema: Yup.object().shape({
     name: Yup.string()
       .max(80)
       .required(),
     summary: Yup.string().max(500),
-    image: Yup.string().url()
+    icon: Yup.string().url()
   }),
   handleSubmit: (values, { props, setSubmitting }) => {
     const variables = {
@@ -171,7 +171,7 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
       collection: {
         name: values.name,
         summary: values.summary,
-        icon: values.image,
+        icon: values.icon,
         content: values.summary,
         preferredUsername: values.name.split(' ').join('_')
       }

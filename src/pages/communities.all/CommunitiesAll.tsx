@@ -1,83 +1,102 @@
 import { Trans } from '@lingui/macro';
+import {
+  useGetCommunitiesQueryQuery
+  // GetCommunitiesQueryDocument
+} from 'graphql/getCommunities.generated';
 import * as React from 'react';
-import { graphql, OperationOption, QueryControls } from 'react-apollo';
 import { TabPanel, Tabs } from 'react-tabs';
 import { Button, Flex } from 'rebass/styled-components';
-import { compose, withHandlers, withState } from 'recompose';
 import media from 'styled-media-query';
+import Modal from 'ui/modules/Modal';
 import CommunityCard from '../../components/elements/Community/Community';
-import NewCommunityModal from '../../components/elements/CreateCommunityModal';
 import Loader from '../../components/elements/Loader/Loader';
-import CommunitiesLoadMore from '../../components/elements/Loadmore/community';
+// import CommunitiesLoadMore from '../../components/elements/Loadmore/community';
 import { SuperTab, SuperTabList } from '../../components/elements/SuperTab';
-import { BasicCommunityFragment } from '../../graphql/fragments/generated/basicCommunity.generated';
-import { Community } from '../../graphql/types.generated';
+import {
+  CreateCommunityPanelHOC
+  // CreateCommunityPanelCtx
+} from '../../HOC/modules/CreateCommunityPanel/createCommunityPanelHOC';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { WrapperPanel } from '../../sections/panel';
 import styled from '../../themes/styled';
-const { getCommunitiesQuery } = require('../../graphql/getCommunities.graphql');
-
-interface Data extends QueryControls {
-  communities: {
-    nodes: BasicCommunityFragment[];
-    pageInfo?: {
-      startCursor: string;
-      endCursor: string;
-    };
-  };
-}
 
 interface Props {
-  data: Data;
-  handleNewCommunity(): boolean;
-  isOpenCommunity: boolean;
   loggedin: boolean;
 }
 
-class CommunitiesYours extends React.Component<Props> {
-  render() {
-    return (
-      <MainContainer>
-        <HomeBox>
-          <WrapperCont>
-            <Wrapper>
-              <Tabs>
-                <SuperTabList>
-                  <SuperTab>
-                    <h5>
-                      <Trans>All communities</Trans>
-                    </h5>
-                  </SuperTab>
-                </SuperTabList>
-                <TabPanel>
-                  {this.props.data.error ? (
-                    <span>
-                      <Trans>Error loading communities</Trans>
-                    </span>
-                  ) : this.props.data.loading ? (
-                    <Loader />
-                  ) : (
-                    <>
-                      {this.props.loggedin && (
-                        <ButtonWrapper>
-                          <CreateCollection
-                            p={3}
-                            onClick={() => this.props.handleNewCommunity()}
-                            m={3}
-                          >
-                            <Trans>Create a new community</Trans>
-                          </CreateCollection>
-                        </ButtonWrapper>
-                      )}
-                      <List>
-                        {this.props.data.communities.nodes.map(
-                          (community, i) => {
-                            return (
+export const CommunitiesAll: React.SFC<Props> = ({ loggedin }) => {
+  const {
+    data,
+    error,
+    loading,
+    // variables,
+    refetch
+  } = useGetCommunitiesQueryQuery({
+    variables: {
+      limit: 15
+    }
+  });
+  const [isOpenCommunity, onOpenCommunity] = React.useState(false);
+  const handleNewCommunity = React.useCallback(
+    () => onOpenCommunity(!isOpenCommunity),
+    [isOpenCommunity]
+  );
+  React.useEffect(() => {
+    refetch();
+  }, []);
+  return (
+    /* <CreateCommunityPanelCtx.Provider
+      value={{
+        refetchQueries: [{ query: GetCommunitiesQueryDocument, variables }]
+      }}
+    > */
+    <MainContainer>
+      <HomeBox>
+        <WrapperCont>
+          <Wrapper>
+            <Tabs>
+              <SuperTabList>
+                <SuperTab>
+                  <h5>
+                    <Trans>All communities</Trans>
+                  </h5>
+                </SuperTab>
+              </SuperTabList>
+              <TabPanel>
+                {(!data && !loading) || error ? (
+                  <span>
+                    <Trans>Error loading communities</Trans>
+                  </span>
+                ) : loading || !data ? (
+                  <Loader />
+                ) : (
+                  <>
+                    {loggedin && (
+                      <ButtonWrapper>
+                        <CreateCollection
+                          p={3}
+                          onClick={() => handleNewCommunity()}
+                          m={3}
+                        >
+                          <Trans>Create a new community</Trans>
+                        </CreateCollection>
+                      </ButtonWrapper>
+                    )}
+                    <List>
+                      {data &&
+                        data.communities.nodes &&
+                        data.communities.nodes.map((community, i) => {
+                          return (
+                            community &&
+                            /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                            (!community.followers ||
+                            !community.collections ||
+                            !community.threads ? null : (
                               <CommunityCard
                                 key={i}
                                 summary={community.summary || ''}
                                 title={community.name}
-                                icon={community.icon || community.image || ''}
+                                icon={community.icon || ''}
                                 id={community.id}
                                 followed={!!community.myFollow}
                                 followersCount={community.followers.totalCount}
@@ -87,30 +106,31 @@ class CommunitiesYours extends React.Component<Props> {
                                 externalId={community.id}
                                 threadsCount={community.threads.totalCount}
                               />
-                            );
-                          }
-                        )}
-                      </List>
-                      <CommunitiesLoadMore
-                        fetchMore={this.props.data.fetchMore}
-                        communities={this.props.data.communities}
-                      />
-                    </>
-                  )}
-                </TabPanel>
-              </Tabs>
-            </Wrapper>
-          </WrapperCont>
-        </HomeBox>
-        <WrapperPanel />
-        <NewCommunityModal
-          toggleModal={this.props.handleNewCommunity}
-          modalIsOpen={this.props.isOpenCommunity}
-        />
-      </MainContainer>
-    );
-  }
-}
+                            ))
+                          );
+                        })}
+                    </List>
+                    {/* <CommunitiesLoadMore
+                        fetchMore={data.fetchMore}
+                        communities={data.communities}
+                      /> */}
+                  </>
+                )}
+              </TabPanel>
+            </Tabs>
+          </Wrapper>
+        </WrapperCont>
+      </HomeBox>
+      <WrapperPanel />
+      {isOpenCommunity && (
+        <Modal closeModal={() => handleNewCommunity()}>
+          <CreateCommunityPanelHOC done={() => handleNewCommunity()} />
+        </Modal>
+      )}
+    </MainContainer>
+    /*  </CreateCommunityPanelCtx.Provider> */
+  );
+};
 
 const ButtonWrapper = styled(Flex)`
   border-bottom: 1px solid ${props => props.theme.colors.lightgray};
@@ -134,8 +154,7 @@ const CreateCollection = styled(Button)`
     background: ${props => props.theme.colors.lightgray};
   }
 `;
-
-export const WrapperCont = styled.div`
+export const WrapperCont = styled(Flex)`
   width: 100%;
   margin: 0 auto;
   height: 100%;
@@ -151,12 +170,12 @@ export const WrapperCont = styled.div`
   min-width: 0px;
   padding: 0px;
   position: relative;
-  border-right: 1px solid ${props => props.theme.colors.lightgray};
   background: white;
+  border-radius: 4px;
   z-index: 0;
 `;
 
-export const Wrapper = styled.div`
+export const Wrapper = styled(Flex)`
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -191,27 +210,3 @@ export const List = styled.div`
   grid-template-columns: 1fr;
   `};
 `;
-
-const withGetCommunities = graphql<
-  {},
-  {
-    data: {
-      communities: Community[];
-    };
-  }
->(getCommunitiesQuery, {
-  options: (props: Props) => ({
-    variables: {
-      limit: 15
-    }
-  })
-}) as OperationOption<{}, {}>;
-
-export default compose(
-  withGetCommunities,
-  withState('isOpenCommunity', 'onOpenCommunity', false),
-  withHandlers({
-    handleNewCommunity: props => () =>
-      props.onOpenCommunity(!props.isOpenCommunity)
-  })
-)(CommunitiesYours);

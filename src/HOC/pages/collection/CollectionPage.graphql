@@ -1,0 +1,17 @@
+#import "HOC/modules/ActivityPreview/getActivityPreview.graphql"
+#import "HOC/modules/HeroCollection/HeroCollection.graphql"
+
+fragment CollectionPageData on Collection {
+  ...HeroCollectionData
+}
+
+fragment CollectionPageResource on Resource {
+  id
+  createdAt
+  ...ActivityPreviewResourceCtx
+}
+
+fragment CollectionPageActivity on Activity {
+  id
+  ...ActivityPreviewData
+}

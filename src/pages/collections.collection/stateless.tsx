@@ -7,19 +7,21 @@ import { clearFix } from 'polished';
 import styled from '../../themes/styled';
 import { compose, withState, withHandlers } from 'recompose';
 import Loader from '../../components/elements/Loader/Loader';
-import EditCollectionModal from '../../components/elements/EditCollectionModal';
+// import EditCollectionModal from '../../components/elements/EditCollectionModal';
+import { EditCollectionPanelHOC } from '../../HOC/modules/EditCollectionPanel/editCollectionPanelHOC';
 import CollectionPage from './collection';
 import Join from '../../components/elements/Collection/Join';
 import { Settings } from 'react-feather';
 import { Text, Flex } from 'rebass/styled-components';
 import media from 'styled-media-query';
-import { GetCollectionQueryHookResult } from '../../graphql/generated/getCollection.generated';
+import { GetCollectionQueryHookResult } from '../../graphql/getCollection.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import Header from '../thread/header';
 import Empty from '../../components/elements/Empty';
 import { SessionContext } from '../../context/global/sessionCtx';
 import MoreOptions from '../../components/elements/MoreOptions';
+import Modal from 'ui/modules/Modal';
 
 export interface Props {
   collectionQuery: GetCollectionQueryHookResult;
@@ -39,7 +41,8 @@ const Component: React.FC<Props> = ({
     !!me &&
     !!collectionQuery.data &&
     !!collectionQuery.data.collection &&
-    me.user.id === collectionQuery.data.collection.creator.id;
+    //FIXME https://gitlab.com/moodlenet/meta/issues/185
+    me.user.id === collectionQuery.data.collection.creator!.id;
   return (
     <MainContainer>
       <HomeBox>
@@ -56,7 +59,10 @@ const Component: React.FC<Props> = ({
             ) : (
               collectionQuery.data.collection && (
                 <>
-                  <Header context={collectionQuery.data.collection.community} />
+                  {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */}
+                  <Header
+                    context={collectionQuery.data.collection.community!}
+                  />
                   <HeroCont>
                     <Hero>
                       <Background
@@ -69,7 +75,7 @@ const Component: React.FC<Props> = ({
                       <HeroInfo>
                         <MoreOptionsContainer>
                           <MoreOptions
-                            contextId={collectionQuery.data!.collection!.id}
+                            contextId={collectionQuery.data.collection.id}
                             myFlag={collectionQuery.data.collection.myFlag}
                           />
                         </MoreOptionsContainer>
@@ -116,21 +122,33 @@ const Component: React.FC<Props> = ({
                   <CollectionPage
                     collection={collectionQuery.data.collection}
                     community_name={
-                      collectionQuery.data.collection.community.name
+                      /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                      collectionQuery.data.collection.community!.name
                     }
-                    resources={collectionQuery.data.collection.resources}
+                    resources={
+                      /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                      collectionQuery.data.collection.resources!
+                    }
                     addNewResource={addNewResource}
                     fetchMore={collectionQuery.fetchMore}
                     type={'collection'}
                   />
-                  <EditCollectionModal
+                  {isEditCollectionOpen && (
+                    <Modal closeModal={editCollection}>
+                      <EditCollectionPanelHOC
+                        collectionId={collectionQuery.data.collection.id}
+                        done={editCollection}
+                      />
+                    </Modal>
+                  )}
+                  {/* <EditCollectionModal
                     toggleModal={editCollection}
                     modalIsOpen={isEditCollectionOpen}
                     collectionId={collectionQuery.data.collection.id}
                     collectionExternalId={collectionQuery.data.collection.id}
                     collection={collectionQuery.data.collection}
                     collectionUpdated={collectionQuery.refetch}
-                  />
+                  /> */}
                 </>
               )
             )}
