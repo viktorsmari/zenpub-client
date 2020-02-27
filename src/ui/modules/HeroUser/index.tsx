@@ -1,4 +1,4 @@
-import React, { SFC } from 'react';
+import React, { ComponentType, SFC } from 'react';
 import { Box, Text, Flex } from 'rebass/styled-components';
 import { MapPin, MoreVertical, Flag } from 'react-feather';
 import styled from 'ui/themes/styled';
@@ -8,6 +8,7 @@ import { Trans } from '@lingui/react';
 import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
 import { Link } from 'react-router-dom';
 import { FormikHook } from 'ui/@types/types';
+import Modal from 'ui/modules/Modal';
 
 export enum Status {
   Loading,
@@ -26,6 +27,7 @@ export interface Loaded {
   displayUsername: string;
   location: string;
   summary: string;
+  FlagModal: ComponentType<{ done(): any }>;
 }
 export interface LoadedMe extends Loaded {
   me: true;
@@ -41,6 +43,8 @@ export interface LoadedOther extends Loaded {
 export type Props = LoadedMe | LoadedOther | Loading;
 
 export const HeroUser: SFC<Props> = props => {
+  const [isOpenFlag, setOpenFlag] = React.useState(false);
+
   if (props.status === Status.Loading) {
     return null;
   }
@@ -84,7 +88,7 @@ export const HeroUser: SFC<Props> = props => {
                   />
                   {props.isOpenDropdown && (
                     <Dropdown orientation={'bottom'} cb={props.setOpenDropdown}>
-                      <DropdownItem>
+                      <DropdownItem onClick={() => setOpenFlag(true)}>
                         <Flag size={20} color={'rgb(101, 119, 134)'} />
                         <Text sx={{ flex: 1 }} ml={2}>
                           Flag {props.displayUsername}
@@ -140,6 +144,11 @@ export const HeroUser: SFC<Props> = props => {
           </Resume>
         </WrapperResume>
       </Hero>
+      {isOpenFlag && (
+        <Modal closeModal={() => setOpenFlag(false)}>
+          <props.FlagModal done={() => setOpenFlag(false)} />
+        </Modal>
+      )}
     </ProfileBox>
   );
 };

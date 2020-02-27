@@ -1,11 +1,11 @@
+import gql from 'graphql-tag';
 import * as Types from '../../../graphql/types.generated';
 
-import { ActivityPreviewDataFragment } from '../../modules/ActivityPreview/getActivityPreview.generated';
 import { CollectionPreviewDataFragment } from '../../modules/CollectionPreview/CollectionPreview.generated';
 import { ActivityPreviewCommentCtxExtendedFragment } from '../../modules/ActivityPreview/getActivityPreview.generated';
 import { ActivityPreviewExtendedThreadFragment } from '../../modules/ActivityPreview/getActivityPreview.generated';
 import { HeroCommunityDataFragment } from '../../modules/HeroCommunity/HeroCommunity.generated';
-import gql from 'graphql-tag';
+import { ActivityPreviewDataFragment } from '../../modules/ActivityPreview/getActivityPreview.generated';
 import { HeroCommunityDataFragmentDoc } from '../../modules/HeroCommunity/HeroCommunity.generated';
 import { ActivityPreviewExtendedThreadFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
 import { ActivityPreviewCommentCtxExtendedFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';

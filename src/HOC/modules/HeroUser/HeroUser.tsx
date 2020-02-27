@@ -2,6 +2,8 @@ import { useUser } from 'fe/user/useUser';
 import { useFormik } from 'formik';
 import { User } from 'graphql/types.generated';
 import React, { SFC, useMemo, useState } from 'react';
+import { FlagModalHOC } from '../FlagModal/flagModalHOC';
+
 import {
   HeroUser as HeroUserUI,
   Loaded,
@@ -34,7 +36,10 @@ export const HeroUser: SFC<HeroUser> = ({ userId }) => {
       image: user.image || '',
       location: user.location || '',
       name: user.name || '',
-      summary: user.summary || ''
+      summary: user.summary || '',
+      FlagModal: ({ done }) => (
+        <FlagModalHOC done={done} contextId={user.id} flagged={!!user.myFlag} />
+      )
     };
 
     if (isMe) {

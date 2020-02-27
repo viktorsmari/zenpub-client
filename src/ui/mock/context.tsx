@@ -325,7 +325,10 @@ export const getHeroUserProps = (): HeroUserProps => {
           setTimeout(resolve, 3000);
         });
       }
-    })
+    }),
+    FlagModal: ({ done }) => {
+      return <></>;
+    }
   };
 };
 
@@ -341,7 +344,10 @@ export const getHeroUserProps2 = (): HeroUserProps => {
       'https://pbs.twimg.com/profile_images/1161428802091802627/O49Ggs-7_400x400.jpg',
     name: '˗ˏˋ Doug Belshaw ˎˊ˗  🇪🇺 ☠️ ✊',
     summary:
-      'Open Educational Thinkerer. Product Manager @MoodleNet & Co-op founder @WeAreOpenCoop. Aspiring Mountain Leader. Previously: @Mozilla @Jisc teacher'
+      'Open Educational Thinkerer. Product Manager @MoodleNet & Co-op founder @WeAreOpenCoop. Aspiring Mountain Leader. Previously: @Mozilla @Jisc teacher',
+    FlagModal: ({ done }) => {
+      return <></>;
+    }
   };
 };
 
