@@ -55,18 +55,19 @@ const ActionsWrapper: React.FC<ActionProps> = ({ like, reply, FlagModal }) => {
   const [isEnterUrlOpen, onEnterUrlOpen] = React.useState(false);
   const [isOpenFlagModal, setOpenFlagModal] = React.useState(false);
   return (
-    <Actions mt={3}>
-      {reply && talkModalVisible && (
-        <SocialText
-          placeholder={i18n._(tt.placeholders.name)}
-          defaultValue={''}
-          submit={msg => {
-            showTalkModal(false);
-            reply.replyFormik.setValues({ replyMessage: msg });
-            reply.replyFormik.submitForm();
-          }}
-        />
-      )}
+    <Actions>
+      {reply &&
+        talkModalVisible && (
+          <SocialText
+            placeholder={i18n._(tt.placeholders.name)}
+            defaultValue={''}
+            submit={msg => {
+              showTalkModal(false);
+              reply.replyFormik.setValues({ replyMessage: msg });
+              reply.replyFormik.submitForm();
+            }}
+          />
+        )}
       <Box>
         <Items>
           <ActionItem onClick={() => showTalkModal(!talkModalVisible)}>
@@ -151,11 +152,12 @@ const ActionsWrapper: React.FC<ActionProps> = ({ like, reply, FlagModal }) => {
             )}
           </ActionItem>
         </Items>
-        {FlagModal && isOpenFlagModal && (
-          <Modal closeModal={() => setOpenFlagModal(false)}>
-            <FlagModal done={() => setOpenFlagModal(false)} />
-          </Modal>
-        )}
+        {FlagModal &&
+          isOpenFlagModal && (
+            <Modal closeModal={() => setOpenFlagModal(false)}>
+              <FlagModal done={() => setOpenFlagModal(false)} />
+            </Modal>
+          )}
       </Box>
     </Actions>
   );
@@ -185,6 +187,8 @@ const Items = styled(Flex)`
 const Actions = styled(Box)`
   position: relative;
   z-index: 999999999999999999999999999999999999;
+  border-top: 1px solid #dadada;
+  padding: 8px;
 `;
 
 const ActionItem = styled(Flex)`

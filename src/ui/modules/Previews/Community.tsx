@@ -22,7 +22,7 @@ export const Community: React.FC<Props> = ({
   followersCount,
   collectionsCount
 }) => (
-  <Wrapper>
+  <Wrapper p={2}>
     <WrapperImage>
       <Avatar size="l" src={icon} />
     </WrapperImage>
@@ -80,7 +80,7 @@ const Wrapper = styled(Box)`
   border-radius: 6px;
   padding-bottom: 0;
   cursor: pointer;
-  border: 1px solid ${props => props.theme.colors.lightgray};
+  // border: 1px solid ${props => props.theme.colors.lightgray};
   &:hover {
     background: ${props => props.theme.colors.lighter};
     text-decoration: none;

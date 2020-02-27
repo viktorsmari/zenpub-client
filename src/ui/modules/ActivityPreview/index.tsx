@@ -76,21 +76,33 @@ export const ActivityPreview: FC<Props> = activity => {
           activity.context.type === ContextType.Community
             ? activity.context.link
             : activity.context.type === ContextType.Collection
-            ? activity.context.link
-            : activity.context.type === ContextType.Resource
-            ? activity.context.link
-            : activity.context.type === ContextType.Comment
-            ? activity.context.link
-            : 'user/'
+              ? activity.context.link
+              : activity.context.type === ContextType.Resource
+                ? activity.context.link
+                : activity.context.type === ContextType.Comment
+                  ? activity.context.link
+                  : 'user/'
         }
       />
       {/* {activity.inReplyToCtx && <InReplyTo {...activity.inReplyToCtx} />} */}
       <ActorComp actor={activity.actor} createdAt={activity.createdAt} />
       <Contents>
         <Wrapper>
-          <Event variant="text">{activity.event}</Event>
-          {activity.preview}
-          {activity.actions && <Actions {...activity.actions} />}
+          {activity.context.type !== ContextType.Comment && (
+            <Event mt={1} variant="text">
+              {activity.event}
+            </Event>
+          )}
+          <Box
+            mt={2}
+            sx={{
+              border: '1px solid #dadada',
+              borderRadius: '4px'
+            }}
+          >
+            {activity.preview}
+            {activity.actions && <Actions {...activity.actions} />}
+          </Box>
         </Wrapper>
       </Contents>
     </FeedItem>
@@ -113,22 +125,23 @@ export const BigActivityPreview: FC<Props> = activity => {
               ? activity.context.content
               : ''}
           </Comment>
-          {activity.actions && activity.actions.reply && (
-            <Box mt={3}>
-              <SocialText
-                placeholder={i18n._(tt.placeholders.name)}
-                defaultValue={''}
-                submit={msg => {
-                  if (!(activity.actions && activity.actions.reply)) {
-                    //FIXME: use a useCallback
-                    return;
-                  }
-                  activity.actions.reply.replyFormik.values.replyMessage = msg;
-                  activity.actions.reply.replyFormik.submitForm();
-                }}
-              />
-            </Box>
-          )}
+          {activity.actions &&
+            activity.actions.reply && (
+              <Box mt={3}>
+                <SocialText
+                  placeholder={i18n._(tt.placeholders.name)}
+                  defaultValue={''}
+                  submit={msg => {
+                    if (!(activity.actions && activity.actions.reply)) {
+                      //FIXME: use a useCallback
+                      return;
+                    }
+                    activity.actions.reply.replyFormik.values.replyMessage = msg;
+                    activity.actions.reply.replyFormik.submitForm();
+                  }}
+                />
+              </Box>
+            )}
         </Box>
       </Contents>
     </FeedItem>
@@ -190,9 +203,9 @@ const Spacer = styled(Text)`
   color: ${props => props.theme.colors.gray};
   margin-right: 8px;
   font-weight: 500;
-  ${media.lessThan('1280px')`
-  display: none;
- `};
+//   ${media.lessThan('1280px')`
+//   display: none;
+//  `};
 `;
 
 const Date = styled(Text)`

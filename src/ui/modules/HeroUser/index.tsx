@@ -46,7 +46,7 @@ export const HeroUser: FC<Props> = props => {
   }
 
   return (
-    <ProfileBox p={1} mb={2} pb={2}>
+    <ProfileBox p={1}>
       <Hero>
         <HeroBg src={props.image} />
         <FlexProfile>
@@ -162,9 +162,7 @@ const FlexProfile = styled(Flex)`
 `};
 `;
 
-const ProfileBox = styled(Box)`
-  border-bottom: 3px solid ${props => props.theme.colors.lighter};
-`;
+const ProfileBox = styled(Box)``;
 
 const Username = styled(Text)`
   color: ${props => props.theme.colors.gray};

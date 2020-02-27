@@ -30,7 +30,7 @@ export const Collection: React.FC<Props> = ({
 }) => {
   return (
     <WrapperLink to={link.url}>
-      <Wrapper p={3}>
+      <Wrapper p={2}>
         <Avatar src={icon} />
         <Infos ml={3}>
           <Flex>

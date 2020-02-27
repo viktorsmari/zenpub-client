@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ExternalLink, ChevronDown } from 'react-feather';
+import { ExternalLink, ChevronDown, Star } from 'react-feather';
 // import { NavLink } from 'react-router-dom';
 import { Box, Flex, Heading, Text } from 'rebass/styled-components';
 import Avatar from 'ui/elements/Avatar';
@@ -23,7 +23,7 @@ export const Resource: React.FC<Props> = ({
 }) => {
   return (
     // <WrapperLink to={'/collections/' + id}>
-    <Wrapper>
+    <Wrapper p={2}>
       <Avatar size="m" src={icon} />
       <Infos flex={1} ml={3}>
         <Flex>
@@ -47,7 +47,7 @@ export const Resource: React.FC<Props> = ({
         </Hashtags>
       </Infos>
       <Icon>
-        <ChevronDown size={20} />
+        <Star size={20} />
       </Icon>
     </Wrapper>
     // </WrapperLink>

@@ -2,10 +2,14 @@ import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import { useFormik } from 'formik';
 import React from 'react';
-import { ActivityPreview, BigActivityPreview, Props, Status } from '.';
+import { ActivityPreview, Props, Status } from '.';
 import { ContextType, ContextVerb } from './preview';
-import { Box } from 'rebass';
+import { Box, Text } from 'rebass/styled-components';
 import { FlagModal } from '../FlagModal';
+import { Community } from 'ui/modules/Previews/Community';
+import { Collection } from '../Previews/Collection';
+import { Resource } from '../Previews/Resource';
+import { User } from '../Previews/User';
 
 const getActions = () => ({
   FlagModal: () => {
@@ -64,20 +68,35 @@ const getActor = () => ({
   name: 'Ivan'
 });
 storiesOf('Modules/ActivityPreview', module)
-  .add('Comment', () => {
+  .add('Created a collection', () => {
     const activityPreviewProps: Props = {
-      event: 'Liked',
-      preview: <div>Preview</div>,
+      event: 'Created a collection',
+      preview: (
+        <Collection
+          link={{ url: '/', external: true }}
+          isFollowing={true}
+          displayUsername={'@mantarai@app.moodle.net'}
+          icon={
+            'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png'
+          }
+          name={'mantarai'}
+          summary={
+            'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+          }
+          totalResources={12}
+        />
+      ),
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
       createdAt: '2018-11-11',
       context: {
         link: 'https://picsum.photos/80/80',
-        content:
-          "my niece is completely mystified by my computer in that:- she thought the monitor was the computer - i had to explain how dual monitors work - wow, you can charge your phone from it? she's like 12 and i feel old now",
-        type: ContextType.Comment,
-        verb: ContextVerb.Created
+        type: ContextType.Collection,
+        verb: ContextVerb.Follow,
+        icon: 'https://picsum.photos/80/80',
+        title: 'Liceo Alberghiero Celletti',
+        summary: 'test'
       },
       inReplyToCtx: null
     };
@@ -95,10 +114,24 @@ storiesOf('Modules/ActivityPreview', module)
       </Box>
     );
   })
-  .add('Follow', () => {
+  .add('Created a community', () => {
     const activityPreviewProps: Props = {
-      event: 'Liked',
-      preview: <div>Preview</div>,
+      event: 'Created a community',
+      preview: (
+        <Community
+          icon={
+            'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png'
+          }
+          name={'mantarai'}
+          summary={
+            'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+          }
+          followersCount={12}
+          collectionsCount={6}
+          followed={true}
+          threadsCount={3}
+        />
+      ),
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
@@ -128,10 +161,22 @@ storiesOf('Modules/ActivityPreview', module)
       </Box>
     );
   })
-  .add('Like', () => {
+  .add('Created a resource', () => {
     const activityPreviewProps: Props = {
-      event: 'Liked',
-      preview: <div>Preview</div>,
+      event: 'Created a resource',
+      preview: (
+        <Resource
+          id={'1'}
+          icon={
+            'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png'
+          }
+          name={'mantarai'}
+          summary={
+            'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+          }
+          link={'https://www.pinterest.it/topics/anime/'}
+        />
+      ),
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
@@ -161,10 +206,10 @@ storiesOf('Modules/ActivityPreview', module)
       </Box>
     );
   })
-  .add('Flag', () => {
+  .add('Follow a user', () => {
     const activityPreviewProps: Props = {
-      event: 'Liked',
-      preview: <div>Preview</div>,
+      event: 'Followed a user',
+      preview: <User />,
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
@@ -194,193 +239,28 @@ storiesOf('Modules/ActivityPreview', module)
       </Box>
     );
   })
-  .add('Create a community', () => {
+  .add('Create a comment', () => {
     const activityPreviewProps: Props = {
-      event: 'Liked',
-      preview: <div>Preview</div>,
+      event: 'Created a comment',
+      preview: (
+        <Text p={2} variant="text">
+          After longtime I made a design for Uplabs Music player design
+          challenge. i hope you all like this. if you like my design dont forgot
+          to Vote in Uplabs ( 25 June ). Vote Here
+        </Text>
+      ),
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
       createdAt: '2018-11-11',
       context: {
         link: 'https://picsum.photos/80/80',
-        type: ContextType.Community,
-        verb: ContextVerb.Created,
-        icon: 'https://picsum.photos/80/80',
-        title: 'Liceo Alberghiero Celletti',
-        summary: 'test'
-      },
-      inReplyToCtx: null
-    };
-
-    return (
-      <Box
-        sx={{
-          borderRadius: '6px',
-          background: '#fff',
-          width: '600px',
-          margin: '0 auto'
-        }}
-        p={2}
-      >
-        <ActivityPreview {...activityPreviewProps} />
-      </Box>
-    );
-  })
-
-  .add('Create a collection', () => {
-    const activityPreviewProps: Props = {
-      event: 'Liked',
-      preview: <div>Preview</div>,
-      status: Status.Loaded,
-      actor: getActor(),
-      actions: getActions(),
-      createdAt: '2018-11-11',
-      context: {
-        link: 'https://picsum.photos/80/80',
-        icon: 'https://picsum.photos/80/80',
-        title: 'Liceo Alberghiero Celletti',
-        summary: 'test',
-        type: ContextType.Collection,
-        verb: ContextVerb.Created
-      },
-      inReplyToCtx: null
-    };
-
-    return (
-      <Box
-        sx={{
-          borderRadius: '6px',
-          background: '#fff',
-          width: '600px',
-          margin: '0 auto'
-        }}
-        p={2}
-      >
-        <ActivityPreview {...activityPreviewProps} />
-      </Box>
-    );
-  })
-  .add('Update a resource', () => {
-    const activityPreviewProps: Props = {
-      event: 'Liked',
-      preview: <div>Preview</div>,
-      status: Status.Loaded,
-      actor: getActor(),
-      actions: getActions(),
-      createdAt: '2018-11-11',
-      context: {
-        link: 'https://picsum.photos/80/80',
-        icon: 'https://picsum.photos/80/80',
-        title: 'Liceo Alberghiero Celletti',
-        summary: 'test',
-        type: ContextType.Resource,
-        verb: ContextVerb.Updated
-      },
-      inReplyToCtx: null
-    };
-
-    return (
-      <Box
-        sx={{
-          borderRadius: '6px',
-          background: '#fff',
-          width: '600px',
-          margin: '0 auto'
-        }}
-        p={2}
-      >
-        <ActivityPreview {...activityPreviewProps} />
-      </Box>
-    );
-  })
-  .add('Updated a collection', () => {
-    const activityPreviewProps: Props = {
-      event: 'Liked',
-      preview: <div>Preview</div>,
-      status: Status.Loaded,
-      actor: getActor(),
-      actions: getActions(),
-      createdAt: '2018-11-11',
-      context: {
-        link: 'https://picsum.photos/80/80',
-        icon: 'https://picsum.photos/80/80',
-        title: 'Liceo Alberghiero Celletti',
-        summary: 'test',
-        type: ContextType.Collection,
-        verb: ContextVerb.Updated
-      },
-      inReplyToCtx: null
-    };
-
-    return (
-      <Box
-        sx={{
-          borderRadius: '6px',
-          background: '#fff',
-          width: '600px',
-          margin: '0 auto'
-        }}
-        p={2}
-      >
-        <ActivityPreview {...activityPreviewProps} />
-      </Box>
-    );
-  })
-  .add('Updated a community', () => {
-    const activityPreviewProps: Props = {
-      event: 'Liked',
-      preview: <div>Preview</div>,
-      status: Status.Loaded,
-      actor: getActor(),
-      actions: getActions(),
-      createdAt: '2018-11-11',
-      context: {
-        link: 'https://picsum.photos/80/80',
-        icon: 'https://picsum.photos/80/80',
-        title: 'Liceo Alberghiero Celletti',
-        summary: 'test',
-        type: ContextType.Community,
-        verb: ContextVerb.Updated
-      },
-      inReplyToCtx: null
-    };
-
-    return (
-      <Box
-        sx={{
-          borderRadius: '6px',
-          background: '#fff',
-          width: '600px',
-          margin: '0 auto'
-        }}
-        p={2}
-      >
-        <ActivityPreview {...activityPreviewProps} />
-      </Box>
-    );
-  })
-  .add('Reply to a message', () => {
-    const activityPreviewProps: Props = {
-      event: 'Liked',
-      preview: <div>Preview</div>,
-      status: Status.Loaded,
-      actor: getActor(),
-      actions: getActions(),
-      createdAt: '2018-11-11',
-      context: {
-        link: 'https://picsum.photos/80/80',
-        verb: ContextVerb.Created,
         type: ContextType.Comment,
+        verb: ContextVerb.Created,
         content:
-          'Sono chiamati alle urne cinque milioni e mezzo di elettori. Si vota dalle 7 alle 23. A nord il risultato si gioca in parte intorno al voto disgiunto fra centrodestra e centrosinistra. Anche a sud si vota con uno schema bipolare. I grillini sono fuori dai giochi. Attesa per gli effetti dei risultati sulla tenuta del governo. Salvini infrange il silenzio con un tweet su Bibbiano. Bonaccini: "Oggi vinciamo noi, oggi vince lEmilia-Romagna"'
+          'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here'
       },
       inReplyToCtx: null
-      /* ,
-      inReplyToCtx: {
-        link: 'https://picsum.photos/80/80',
-        actor: getActor()
-      } */
     };
 
     return (
@@ -393,7 +273,7 @@ storiesOf('Modules/ActivityPreview', module)
         }}
         p={2}
       >
-        <BigActivityPreview {...activityPreviewProps} />;
+        <ActivityPreview {...activityPreviewProps} />
       </Box>
     );
   });
