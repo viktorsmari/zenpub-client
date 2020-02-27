@@ -1,6 +1,9 @@
 import * as Types from '../../../../graphql/types.generated';
 
-import { CommentPreviewFragment, CommentPreviewThreadFragment, CommentPreviewThreadFragmentDoc } from '../comment/CommentPreview.generated';
+import { FollowPreviewFragment } from '../follow/FollowPreview.generated';
+import { LikePreviewFragment } from '../like/LikePreview.generated';
+import { FlagPreviewFragment } from '../flag/FlagPreview.generated';
+import { CommentPreviewFragment } from '../comment/CommentPreview.generated';
 import { UserPreviewFragment } from '../user/UserPreview.generated';
 import { ResourcePreviewFragment } from '../resource/ResourcePreview.generated';
 import { CollectionPreviewFragment } from '../collection/CollectionPreview.generated';
@@ -11,6 +14,12 @@ import { CollectionPreviewFragmentDoc } from '../collection/CollectionPreview.ge
 import { ResourcePreviewFragmentDoc } from '../resource/ResourcePreview.generated';
 import { UserPreviewFragmentDoc } from '../user/UserPreview.generated';
 import { CommentPreviewFragmentDoc } from '../comment/CommentPreview.generated';
+import { FlagPreviewFragmentDoc } from '../flag/FlagPreview.generated';
+import { LikePreviewFragmentDoc } from '../like/LikePreview.generated';
+import { FollowPreviewFragmentDoc } from '../follow/FollowPreview.generated';
+
+
+
 
 
 
@@ -35,58 +44,13 @@ export type ActivityPreviewFragment = (
     & CommunityPreviewFragment
   ) | (
     { __typename: 'Flag' }
-    & Pick<Types.Flag, 'id'>
-    & { context: Types.Maybe<(
-      { __typename: 'Collection' }
-      & CollectionPreviewFragment
-    ) | (
-      { __typename: 'Comment' }
-      & CommentPreviewFragment
-    ) | (
-      { __typename: 'Community' }
-      & CommunityPreviewFragment
-    ) | (
-      { __typename: 'Resource' }
-      & ResourcePreviewFragment
-    ) | (
-      { __typename: 'User' }
-      & UserPreviewFragment
-    )> }
+    & FlagPreviewFragment
   ) | (
     { __typename: 'Follow' }
-    & Pick<Types.Follow, 'id'>
-    & { context: Types.Maybe<(
-      { __typename: 'Collection' }
-      & CollectionPreviewFragment
-    ) | (
-      { __typename: 'Community' }
-      & CommunityPreviewFragment
-    ) | (
-      { __typename: 'Thread' }
-      & CommentPreviewThreadFragment
-    ) | (
-      { __typename: 'User' }
-      & UserPreviewFragment
-    )> }
+    & FollowPreviewFragment
   ) | (
     { __typename: 'Like' }
-    & Pick<Types.Like, 'id'>
-    & { context: Types.Maybe<(
-      { __typename: 'Collection' }
-      & CollectionPreviewFragment
-    ) | (
-      { __typename: 'Comment' }
-      & CommentPreviewFragment
-    ) | (
-      { __typename: 'Community' }
-      & CommunityPreviewFragment
-    ) | (
-      { __typename: 'Resource' }
-      & ResourcePreviewFragment
-    ) | (
-      { __typename: 'User' }
-      & UserPreviewFragment
-    )> }
+    & LikePreviewFragment
   ) | (
     { __typename: 'Resource' }
     & ResourcePreviewFragment
@@ -124,61 +88,13 @@ export const ActivityPreviewFragmentDoc = gql`
       ...CommentPreview
     }
     ... on Flag {
-      id
-      context {
-        ... on Community {
-          ...CommunityPreview
-        }
-        ... on Collection {
-          ...CollectionPreview
-        }
-        ... on Resource {
-          ...ResourcePreview
-        }
-        ... on User {
-          ...UserPreview
-        }
-        ... on Comment {
-          ...CommentPreview
-        }
-      }
+      ...FlagPreview
     }
     ... on Like {
-      id
-      context {
-        ... on Community {
-          ...CommunityPreview
-        }
-        ... on Collection {
-          ...CollectionPreview
-        }
-        ... on Resource {
-          ...ResourcePreview
-        }
-        ... on User {
-          ...UserPreview
-        }
-        ... on Comment {
-          ...CommentPreview
-        }
-      }
+      ...LikePreview
     }
     ... on Follow {
-      id
-      context {
-        ... on Community {
-          ...CommunityPreview
-        }
-        ... on Collection {
-          ...CollectionPreview
-        }
-        ... on User {
-          ...UserPreview
-        }
-        ... on Thread {
-          ...CommentPreviewThread
-        }
-      }
+      ...FollowPreview
     }
   }
 }
@@ -187,4 +103,6 @@ ${CollectionPreviewFragmentDoc}
 ${ResourcePreviewFragmentDoc}
 ${UserPreviewFragmentDoc}
 ${CommentPreviewFragmentDoc}
-${CommentPreviewThreadFragmentDoc}`;
+${FlagPreviewFragmentDoc}
+${LikePreviewFragmentDoc}
+${FollowPreviewFragmentDoc}`;

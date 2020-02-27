@@ -8,6 +8,6 @@ fragment CommunityPreview on Community {
     collectionCount
     followerCount
     threads { totalCount }
-    myLike { id }
-    likerCount
+    # myLike { id }
+    # likerCount
 }

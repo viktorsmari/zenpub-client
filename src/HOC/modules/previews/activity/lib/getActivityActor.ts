@@ -10,6 +10,6 @@ export const getActivityActor = (
   return {
     icon: usr.icon || usr.image || '',
     name: usr.userName || '',
-    link: getActivitySimpleLink({ ...usr, id: usr.userId })
+    link: getActivitySimpleLink(usr)
   };
 };

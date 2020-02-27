@@ -1,14 +1,16 @@
 import { PureQueryOptions } from 'apollo-client';
 import { useFormik } from 'formik';
 import { Thread as GQLThread } from 'graphql/types.generated';
+import { getActivityActions } from 'HOC/modules/previews/activity/lib/getActivityActions';
+import { getActivityActor } from 'HOC/modules/previews/activity/lib/getActivityActor';
+import { CommentPreviewHOC } from 'HOC/modules/previews/comment/CommentPreview';
+import { CommentPreviewFragment } from 'HOC/modules/previews/comment/CommentPreview.generated';
 import React, { FC, useEffect, useMemo } from 'react';
 import {
-  ActivityPreview,
-  BigActivityPreview,
-  Props as ActivityPreviewProps,
+  BigThreadCommentPreview,
+  BigThreadCommentPreviewPropsLoaded,
   Status as ActivityPreviewStatus
 } from 'ui/modules/ActivityPreview';
-import * as UIP from 'ui/modules/ActivityPreview/preview';
 import {
   CreateReplyMutationMutationOperation,
   useCreateReplyMutationMutation
@@ -27,10 +29,6 @@ import {
 } from '../../graphql/like.generated';
 import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import Stateless from './stateless';
-import { ThreadPreviewHOC } from 'HOC/modules/previews/thread/ThreadPreview';
-import { CommentPreviewFragment } from 'HOC/modules/previews/comment/CommentPreview.generated';
-import { getActivityActor } from 'HOC/modules/previews/activity/lib/getActivityActor';
-import { getActivityActions } from 'HOC/modules/previews/activity/lib/getActivityActions';
 export interface Props {
   threadId: string;
 }
@@ -152,24 +150,16 @@ export const CommentActivity: FC<{
     }
   });
 
-  const props: ActivityPreviewProps = {
+  const props: BigThreadCommentPreviewPropsLoaded = {
     actor: getActivityActor(comment.creator),
-    context: {
-      type: UIP.ContextType.Comment,
-      content: comment.content,
-      link: `/thread/${threadId}`,
-      verb: UIP.ContextVerb.Created
-    },
-    createdAt: comment.createdAt,
+    content: comment.content,
     status: ActivityPreviewStatus.Loaded,
     actions: getActivityActions(comment, replyThreadFormik, toggleLikeFormik),
-    inReplyToCtx: null,
-    event: '-',
-    preview: <ThreadPreviewHOC threadId={threadId} />
+    createdAt: comment.createdAt
   };
   return !root ? (
-    <ActivityPreview {...props} />
+    <CommentPreviewHOC commentId={comment.id} />
   ) : (
-    <BigActivityPreview {...props} />
+    <BigThreadCommentPreview {...props} />
   );
 };

@@ -5,14 +5,15 @@ import FlagModalHOC from 'HOC/modules/FlagModal/flagModalHOC';
 import { FC } from 'react';
 export const getActivityActions = (
   context: GQLConcreteContext,
-  replyFormik: UIA.ReplyActions['replyFormik'],
-  toggleLikeFormik: UIA.LikeActions['toggleLikeFormik']
+  replyFormik: null | UIA.ReplyActions['replyFormik'],
+  toggleLikeFormik: null | UIA.LikeActions['toggleLikeFormik']
 ): null | UIA.ActionProps => {
   if (!isActivityFollowed(context)) {
     return null;
   }
   const like: null | UIA.LikeActions =
-    'Community' !== context.__typename && 'myLike' in context
+    ('Resource' === context.__typename || 'Comment' === context.__typename) &&
+    toggleLikeFormik
       ? {
           toggleLikeFormik,
           iLikeIt: !!context.myLike,
@@ -24,20 +25,22 @@ export const getActivityActions = (
         }
       : null;
 
-  const reply: null | UIA.ReplyActions = {
-    replyFormik
-  };
+  const reply: null | UIA.ReplyActions =
+    'Comment' === context.__typename && replyFormik
+      ? {
+          replyFormik
+        }
+      : null;
   const FlagModal: null | FC<{ done(): unknown }> =
-    context.__typename === 'Comment'
-      ? null
-      : ({ done }) => {
+    'Resource' === context.__typename //|| 'Comment' === context.__typename)
+      ? ({ done }) => {
           return FlagModalHOC({
             done,
-            contextId:
-              context.__typename === 'User' ? context.userId : context.id,
+            contextId: context.id,
             flagged: !!context.myFlag
           });
-        };
+        }
+      : null;
   return {
     FlagModal,
     like,

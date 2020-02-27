@@ -8,27 +8,27 @@ export const useActivityToggleLikeFormik = (
 ) => {
   //FIXME: bad stuff!!
   const { toggleLike } =
-    !activity ||
-    !activity.context ||
-    'Like' === activity.context.__typename ||
-    'Flag' === activity.context.__typename ||
-    'Follow' === activity.context.__typename
-      ? useLikeContext(null, null, null, 'Collection')
-      : useLikeContext(
-          'id' in activity.context
-            ? activity.context.id
-            : activity.context.userId,
+    activity &&
+    activity.context &&
+    ('Resource' === activity.context.__typename ||
+      'Comment' === activity.context.__typename)
+      ? useLikeContext(
+          activity.context.id,
           activity.context.myLike,
           'Resource' === activity.context.__typename
             ? activity.context.likes?.totalCount
             : activity.context.likerCount,
           activity.context.__typename
-        );
+        )
+      : useLikeContext(null, null, null, 'Comment'); // fake
 
   const toggleLikeFormik = useFormik<{}>({
     initialValues: {},
     onSubmit: toggleLike
   });
 
-  return toggleLikeFormik;
+  return activity?.context?.__typename === 'Comment' ||
+    activity?.context?.__typename === 'Resource'
+    ? toggleLikeFormik
+    : null;
 };

@@ -1,4 +1,4 @@
-fragment ThreadPreview on Thread {
+fragment LikePreview on Like{
   id
   context{
     ...on Community {
@@ -10,15 +10,11 @@ fragment ThreadPreview on Thread {
     ...on Resource {
       ...ResourcePreview
     }
-    ...on Flag {
-      ...FlagPreview
+    ...on User {
+      ...UserPreview
     }
-  }
-  comments(limit:1){
-    edges{
-      node{
-        ...CommentPreview
-      }
+    ...on Comment {
+      ...CommentPreview
     }
   }
 }

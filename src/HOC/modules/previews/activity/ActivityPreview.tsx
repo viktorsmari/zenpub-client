@@ -7,12 +7,10 @@ import { CommentPreviewHOC } from '../comment/CommentPreview';
 import { CommunityPreviewHOC } from '../community/CommunityPreview';
 import { ResourcePreviewHOC } from '../resource/ResourcePreview';
 import { UserPreviewHOC } from '../user/UserPreview';
+import { getActivityEvent, getActivityMainContext } from './lib';
 import { getActivityActions } from './lib/getActivityActions';
 import { getActivityActor } from './lib/getActivityActor';
-import { getActivityContext } from './lib/getActivityContext';
-import { getActivityGqlConcreteContext } from './lib/getActivityGqlConcreteContext';
-import { getActivityInReplyContext } from './lib/getActivityInReplyContext';
-import { getActivityVerbType } from './lib/getActivityVerbType';
+import { getActivitySimpleLink } from './lib/getActivitySimpleLink';
 import { useActivityReplyFormik } from './lib/useActivityReplyFormik';
 import { useActivityToggleLikeFormik } from './lib/useActivityToggleLikeFormik';
 import { GQLConcreteContext } from './types';
@@ -24,71 +22,51 @@ export const ActivityPreviewHOC: FC<Props> = ({ activityId }) => {
   const { activity } = useActivityPreview(activityId);
   const replyFormik = useActivityReplyFormik(activity);
   const toggleLikeFormik = useActivityToggleLikeFormik(activity);
-  const props = useMemo<UI.Props>(() => {
+  const activityPreviewProps = useMemo<null | UI.Props>(() => {
     if (!activity) {
       return {
         status: UI.Status.Loading
       };
     } else {
-      const user = activity.user;
-      const activityContext = activity.context;
-      if (!(user && activityContext)) {
-        console.error(
-          'ActivityPreviewHOC: user or activityContext :null',
-          activity
-        );
-        return {
-          status: UI.Status.Loading
-        };
+      if (!(activity.user && activity.context)) {
+        console.error('ActivityPreviewHOC: user or context :null', activity);
+        return null;
       }
-      const gqlContext = getActivityGqlConcreteContext(activityContext);
-      const verbType = getActivityVerbType(activity);
-      if (!(gqlContext && verbType)) {
+      const context = getActivityMainContext(activity.context);
+      const eventString = getActivityEvent(activity);
+
+      if (!(context && eventString)) {
         console.error(
           `ActivityPreviewHOC: can't provide concreteContext or verb`,
           activity,
-          gqlContext,
-          verbType
+          context,
+          eventString
         );
-        return {
-          status: UI.Status.Loading
-        };
-      }
-      const context = getActivityContext(gqlContext, verbType);
-      if (!context) {
-        console.error(
-          `ActivityPreviewHOC: can't provide context`,
-          activity,
-          gqlContext,
-          verbType
-        );
-        return {
-          status: UI.Status.Loading
-        };
+        return null;
       }
       const actions = getActivityActions(
-        gqlContext,
+        context,
         replyFormik,
         toggleLikeFormik
       );
-      const inReplyToCtx = getActivityInReplyContext(activityContext);
 
-      const PreviewElement = getActivityContextPreview(gqlContext);
+      const PreviewElement = getActivityContextPreview(context);
 
       const props: UI.ActivityLoaded = {
         status: UI.Status.Loaded,
         createdAt: activity.createdAt,
-        actor: getActivityActor(user),
-        event: `${activity.verb}`,
+        actor: getActivityActor(activity.user),
+        event: eventString,
         preview: PreviewElement,
-        context,
         actions,
-        inReplyToCtx
+        link: getActivitySimpleLink(context)
       };
       return props;
     }
   }, [activity, replyFormik, toggleLikeFormik]);
-  return <UI.ActivityPreview {...props} />;
+  return (
+    activityPreviewProps && <UI.ActivityPreview {...activityPreviewProps} />
+  );
 };
 
 const getActivityContextPreview = (context: GQLConcreteContext) => {

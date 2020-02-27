@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 
 export type CommunityPreviewFragment = (
   { __typename: 'Community' }
-  & Pick<Types.Community, 'id' | 'icon' | 'name' | 'summary' | 'collectionCount' | 'followerCount' | 'likerCount'>
+  & Pick<Types.Community, 'id' | 'icon' | 'name' | 'summary' | 'collectionCount' | 'followerCount'>
   & { myFlag: Types.Maybe<(
     { __typename: 'Flag' }
     & Pick<Types.Flag, 'id'>
@@ -14,9 +14,6 @@ export type CommunityPreviewFragment = (
   )>, threads: Types.Maybe<(
     { __typename: 'ThreadsEdges' }
     & Pick<Types.ThreadsEdges, 'totalCount'>
-  )>, myLike: Types.Maybe<(
-    { __typename: 'Like' }
-    & Pick<Types.Like, 'id'>
   )> }
 );
 
@@ -37,9 +34,5 @@ export const CommunityPreviewFragmentDoc = gql`
   threads {
     totalCount
   }
-  myLike {
-    id
-  }
-  likerCount
 }
     `;

@@ -2,7 +2,8 @@ import { useUserPreview } from 'fe/user/preview/useUserPreview';
 import { User } from 'graphql/types.generated';
 import React, { FC, useMemo } from 'react';
 import {
-  User as UserPreviewUI /* , Props as UserPreviewProps */
+  User as UserPreviewUI,
+  Props as UserPreviewProps
 } from 'ui/modules/Previews/User';
 
 export interface Props {
@@ -12,29 +13,18 @@ export interface Props {
 export const UserPreviewHOC: FC<Props> = ({ userId }) => {
   const { user } = useUserPreview(userId);
 
-  const userPreviewProps = useMemo</* UserPreviewProps */ {} | null>(() => {
+  const userPreviewProps = useMemo<UserPreviewProps | null>(() => {
     if (!user) {
       return null;
     }
 
-    const {
-      // icon,
-      // name,
-      // summary,
-      // myFollow,
-      // collectionCount,
-      // followerCount,
-      // threads
-    } = user;
+    const { userName, displayUsername, image, icon, summary } = user;
 
-    const props /* : UserPreviewProps */ = {
-      // icon: icon || '',
-      // name,
-      // summary: summary || '',
-      // collectionsCount:collectionCount || 0,
-      // followed: !!myFollow,
-      // followersCount:followerCount || 0,
-      // threadsCount:threads?.totalCount || 0
+    const props: UserPreviewProps = {
+      image: icon || image || '',
+      name: userName || '',
+      username: displayUsername,
+      bio: summary || ''
     };
     return props;
   }, [user]);

@@ -4,11 +4,11 @@ fragment UserPreview on User {
   userId: id 
   userName: name
   displayUsername
-  isLocal
   summary
   canonicalUrl
+  # isLocal
   myFollow { id }
-  likerCount
-  myLike { id }
+  # likerCount
+  # myLike { id }
   myFlag { id }
 }

@@ -56,37 +56,38 @@ const ActionsWrapper: React.FC<ActionProps> = ({ like, reply, FlagModal }) => {
   const [isOpenFlagModal, setOpenFlagModal] = React.useState(false);
   return (
     <Actions>
-      {reply &&
-        talkModalVisible && (
-          <SocialText
-            placeholder={i18n._(tt.placeholders.name)}
-            defaultValue={''}
-            submit={msg => {
-              showTalkModal(false);
-              reply.replyFormik.setValues({ replyMessage: msg });
-              reply.replyFormik.submitForm();
-            }}
-          />
-        )}
+      {reply && talkModalVisible && (
+        <SocialText
+          placeholder={i18n._(tt.placeholders.name)}
+          defaultValue={''}
+          submit={msg => {
+            showTalkModal(false);
+            reply.replyFormik.setValues({ replyMessage: msg });
+            reply.replyFormik.submitForm();
+          }}
+        />
+      )}
       <Box>
         <Items>
-          <ActionItem onClick={() => showTalkModal(!talkModalVisible)}>
-            <ActionIcon>
-              <MessageCircle
-                className="hover"
-                strokeWidth="1"
-                color="rgba(0,0,0,.4)"
-                size="20"
-              />
-            </ActionIcon>
-            <Text
-              ml={1}
-              variant={'suptitle'}
-              sx={{ textTransform: 'capitalize' }}
-            >
-              <Trans>Comment</Trans>
-            </Text>
-          </ActionItem>
+          {reply && (
+            <ActionItem onClick={() => showTalkModal(!talkModalVisible)}>
+              <ActionIcon>
+                <MessageCircle
+                  className="hover"
+                  strokeWidth="1"
+                  color="rgba(0,0,0,.4)"
+                  size="20"
+                />
+              </ActionIcon>
+              <Text
+                ml={1}
+                variant={'suptitle'}
+                sx={{ textTransform: 'capitalize' }}
+              >
+                <Trans>Comment</Trans>
+              </Text>
+            </ActionItem>
+          )}
           {like && (
             <ActionItem ml={4} onClick={like.toggleLikeFormik.submitForm}>
               <ActionIcon>
@@ -141,23 +142,23 @@ const ActionsWrapper: React.FC<ActionProps> = ({ like, reply, FlagModal }) => {
                     Copy link
                   </Text>
                 </DropdownItem>
-                <DropdownItem onClick={() => setOpenFlagModal(true)}>
-                  <Flag size={20} color={'rgb(101, 119, 134)'} />
-                  <Text sx={{ flex: 1 }} ml={2}>
-                    <Trans>Flag</Trans>
-                  </Text>
-                </DropdownItem>
-                {/* )} */}
+                {FlagModal && (
+                  <DropdownItem onClick={() => setOpenFlagModal(true)}>
+                    <Flag size={20} color={'rgb(101, 119, 134)'} />
+                    <Text sx={{ flex: 1 }} ml={2}>
+                      <Trans>Flag</Trans>
+                    </Text>
+                  </DropdownItem>
+                )}
               </Dropdown>
             )}
           </ActionItem>
         </Items>
-        {FlagModal &&
-          isOpenFlagModal && (
-            <Modal closeModal={() => setOpenFlagModal(false)}>
-              <FlagModal done={() => setOpenFlagModal(false)} />
-            </Modal>
-          )}
+        {FlagModal && isOpenFlagModal && (
+          <Modal closeModal={() => setOpenFlagModal(false)}>
+            <FlagModal done={() => setOpenFlagModal(false)} />
+          </Modal>
+        )}
       </Box>
     </Actions>
   );

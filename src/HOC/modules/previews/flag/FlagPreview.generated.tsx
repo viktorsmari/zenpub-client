@@ -1,6 +1,7 @@
 import * as Types from '../../../../graphql/types.generated';
 
-import { FlagPreviewFragment } from '../flag/FlagPreview.generated';
+import { CommentPreviewFragment } from '../comment/CommentPreview.generated';
+import { UserPreviewFragment } from '../user/UserPreview.generated';
 import { ResourcePreviewFragment } from '../resource/ResourcePreview.generated';
 import { CollectionPreviewFragment } from '../collection/CollectionPreview.generated';
 import { CommunityPreviewFragment } from '../community/CommunityPreview.generated';
@@ -8,42 +9,37 @@ import gql from 'graphql-tag';
 import { CommunityPreviewFragmentDoc } from '../community/CommunityPreview.generated';
 import { CollectionPreviewFragmentDoc } from '../collection/CollectionPreview.generated';
 import { ResourcePreviewFragmentDoc } from '../resource/ResourcePreview.generated';
-import { FlagPreviewFragmentDoc } from '../flag/FlagPreview.generated';
-import { CommentPreviewFragment, CommentPreviewFragmentDoc } from '../comment/CommentPreview.generated';
+import { UserPreviewFragmentDoc } from '../user/UserPreview.generated';
+import { CommentPreviewFragmentDoc } from '../comment/CommentPreview.generated';
 
 
 
 
 
-export type ThreadPreviewFragment = (
-  { __typename: 'Thread' }
-  & Pick<Types.Thread, 'id'>
+
+export type FlagPreviewFragment = (
+  { __typename: 'Flag' }
+  & Pick<Types.Flag, 'id'>
   & { context: Types.Maybe<(
     { __typename: 'Collection' }
     & CollectionPreviewFragment
   ) | (
+    { __typename: 'Comment' }
+    & CommentPreviewFragment
+  ) | (
     { __typename: 'Community' }
     & CommunityPreviewFragment
   ) | (
-    { __typename: 'Flag' }
-    & FlagPreviewFragment
-  ) | (
     { __typename: 'Resource' }
     & ResourcePreviewFragment
-  )>, comments: Types.Maybe<(
-    { __typename: 'CommentsEdges' }
-    & { edges: Array<Types.Maybe<(
-      { __typename: 'CommentsEdge' }
-      & { node: (
-        { __typename: 'Comment' }
-        & CommentPreviewFragment
-      ) }
-    )>> }
+  ) | (
+    { __typename: 'User' }
+    & UserPreviewFragment
   )> }
 );
 
-export const ThreadPreviewFragmentDoc = gql`
-    fragment ThreadPreview on Thread {
+export const FlagPreviewFragmentDoc = gql`
+    fragment FlagPreview on Flag {
   id
   context {
     ... on Community {
@@ -55,20 +51,16 @@ export const ThreadPreviewFragmentDoc = gql`
     ... on Resource {
       ...ResourcePreview
     }
-    ... on Flag {
-      ...FlagPreview
+    ... on User {
+      ...UserPreview
     }
-  }
-  comments(limit: 1) {
-    edges {
-      node {
-        ...CommentPreview
-      }
+    ... on Comment {
+      ...CommentPreview
     }
   }
 }
     ${CommunityPreviewFragmentDoc}
 ${CollectionPreviewFragmentDoc}
 ${ResourcePreviewFragmentDoc}
-${FlagPreviewFragmentDoc}
+${UserPreviewFragmentDoc}
 ${CommentPreviewFragmentDoc}`;

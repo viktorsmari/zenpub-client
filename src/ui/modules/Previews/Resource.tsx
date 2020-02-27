@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ExternalLink, ChevronDown, Star } from 'react-feather';
+import { ExternalLink, /* ChevronDown, */ Star } from 'react-feather';
 // import { NavLink } from 'react-router-dom';
 import { Box, Flex, Heading, Text } from 'rebass/styled-components';
 import Avatar from 'ui/elements/Avatar';

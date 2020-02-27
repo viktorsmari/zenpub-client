@@ -20,6 +20,55 @@ export type CommentPreviewFragment = (
   )>, myLike: Types.Maybe<(
     { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
+  )>, thread: Types.Maybe<(
+    { __typename: 'Thread' }
+    & Pick<Types.Thread, 'id'>
+    & { comments: Types.Maybe<(
+      { __typename: 'CommentsEdges' }
+      & { edges: Array<Types.Maybe<(
+        { __typename: 'CommentsEdge' }
+        & { node: (
+          { __typename: 'Comment' }
+          & CommentPreviewBaseFragment
+        ) }
+      )>> }
+    )>, context: Types.Maybe<(
+      { __typename: 'Collection' }
+      & Pick<Types.Collection, 'id'>
+      & { community: Types.Maybe<(
+        { __typename: 'Community' }
+        & Pick<Types.Community, 'id'>
+        & { myFollow: Types.Maybe<(
+          { __typename: 'Follow' }
+          & Pick<Types.Follow, 'id'>
+        )> }
+      )> }
+    ) | (
+      { __typename: 'Community' }
+      & Pick<Types.Community, 'id'>
+      & { myFollow: Types.Maybe<(
+        { __typename: 'Follow' }
+        & Pick<Types.Follow, 'id'>
+      )> }
+    ) | (
+      { __typename: 'Flag' }
+      & Pick<Types.Flag, 'id'>
+    ) | (
+      { __typename: 'Resource' }
+      & Pick<Types.Resource, 'id'>
+      & { collection: Types.Maybe<(
+        { __typename: 'Collection' }
+        & Pick<Types.Collection, 'id'>
+        & { community: Types.Maybe<(
+          { __typename: 'Community' }
+          & Pick<Types.Community, 'id'>
+          & { myFollow: Types.Maybe<(
+            { __typename: 'Follow' }
+            & Pick<Types.Follow, 'id'>
+          )> }
+        )> }
+      )> }
+    )> }
   )> }
   & CommentPreviewBaseFragment
 );
@@ -31,9 +80,6 @@ export type CommentPreviewBaseFragment = (
     { __typename: 'User' }
     & Pick<Types.User, 'icon' | 'canonicalUrl'>
     & { userId: Types.User['id'], userName: Types.User['name'] }
-  )>, thread: Types.Maybe<(
-    { __typename: 'Thread' }
-    & CommentPreviewThreadFragment
   )> }
 );
 
@@ -52,6 +98,77 @@ export type CommentPreviewThreadFragment = (
   )> }
 );
 
+export const CommentPreviewBaseFragmentDoc = gql`
+    fragment CommentPreviewBase on Comment {
+  id
+  isLocal
+  content
+  canonicalUrl
+  createdAt
+  creator {
+    icon
+    userId: id
+    userName: name
+    canonicalUrl
+  }
+}
+    `;
+export const CommentPreviewFragmentDoc = gql`
+    fragment CommentPreview on Comment {
+  ...CommentPreviewBase
+  id
+  inReplyTo {
+    ...CommentPreviewBase
+  }
+  likerCount
+  myLike {
+    id
+  }
+  likerCount
+  thread {
+    id
+    comments(limit: 1) {
+      edges {
+        node {
+          ...CommentPreviewBase
+        }
+      }
+    }
+    context {
+      ... on Flag {
+        id
+      }
+      ... on Community {
+        id
+        myFollow {
+          id
+        }
+      }
+      ... on Collection {
+        id
+        community {
+          id
+          myFollow {
+            id
+          }
+        }
+      }
+      ... on Resource {
+        id
+        collection {
+          id
+          community {
+            id
+            myFollow {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    ${CommentPreviewBaseFragmentDoc}`;
 export const CommentPreviewThreadFragmentDoc = gql`
     fragment CommentPreviewThread on Thread {
   id
@@ -72,35 +189,3 @@ export const CommentPreviewThreadFragmentDoc = gql`
     ${CollectionPreviewFragmentDoc}
 ${ResourcePreviewFragmentDoc}
 ${CommunityPreviewFragmentDoc}`;
-export const CommentPreviewBaseFragmentDoc = gql`
-    fragment CommentPreviewBase on Comment {
-  id
-  isLocal
-  content
-  canonicalUrl
-  createdAt
-  creator {
-    icon
-    userId: id
-    userName: name
-    canonicalUrl
-  }
-  thread {
-    ...CommentPreviewThread
-  }
-}
-    ${CommentPreviewThreadFragmentDoc}`;
-export const CommentPreviewFragmentDoc = gql`
-    fragment CommentPreview on Comment {
-  ...CommentPreviewBase
-  id
-  inReplyTo {
-    ...CommentPreviewBase
-  }
-  likerCount
-  myLike {
-    id
-  }
-  likerCount
-}
-    ${CommentPreviewBaseFragmentDoc}`;

@@ -2,11 +2,10 @@ import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import { useFormik } from 'formik';
 import React from 'react';
-import { ActivityPreview, Props, Status } from '.';
-import { ContextType, ContextVerb } from './preview';
 import { Box, Text } from 'rebass/styled-components';
-import { FlagModal } from '../FlagModal';
 import { Community } from 'ui/modules/Previews/Community';
+import { ActivityPreview, Props, Status } from '.';
+import { FlagModal } from '../FlagModal';
 import { Collection } from '../Previews/Collection';
 import { Resource } from '../Previews/Resource';
 import { User } from '../Previews/User';
@@ -90,15 +89,7 @@ storiesOf('Modules/ActivityPreview', module)
       actor: getActor(),
       actions: getActions(),
       createdAt: '2018-11-11',
-      context: {
-        link: 'https://picsum.photos/80/80',
-        type: ContextType.Collection,
-        verb: ContextVerb.Follow,
-        icon: 'https://picsum.photos/80/80',
-        title: 'Liceo Alberghiero Celletti',
-        summary: 'test'
-      },
-      inReplyToCtx: null
+      link: 'https://picsum.photos/80/80'
     };
     return (
       <Box
@@ -136,15 +127,7 @@ storiesOf('Modules/ActivityPreview', module)
       actor: getActor(),
       actions: getActions(),
       createdAt: '2018-11-11',
-      context: {
-        link: 'https://picsum.photos/80/80',
-        type: ContextType.Community,
-        verb: ContextVerb.Follow,
-        icon: 'https://picsum.photos/80/80',
-        title: 'Liceo Alberghiero Celletti',
-        summary: 'test'
-      },
-      inReplyToCtx: null
+      link: 'https://picsum.photos/80/80'
     };
 
     return (
@@ -181,15 +164,7 @@ storiesOf('Modules/ActivityPreview', module)
       actor: getActor(),
       actions: getActions(),
       createdAt: '2018-11-11',
-      context: {
-        link: 'https://picsum.photos/80/80',
-        type: ContextType.Community,
-        verb: ContextVerb.Like,
-        icon: 'https://picsum.photos/80/80',
-        summary: 'test',
-        title: 'Liceo Alberghiero Celletti'
-      },
-      inReplyToCtx: null
+      link: 'https://picsum.photos/80/80'
     };
 
     return (
@@ -209,20 +184,21 @@ storiesOf('Modules/ActivityPreview', module)
   .add('Follow a user', () => {
     const activityPreviewProps: Props = {
       event: 'Followed a user',
-      preview: <User />,
+      preview: (
+        <User
+          {...{
+            image: 'https://picsum.photos/800/300',
+            bio: `I'm a cool user`,
+            username: '@favbooks@abc.com',
+            name: 'favbooks'
+          }}
+        />
+      ),
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
       createdAt: '2018-11-11',
-      context: {
-        link: 'https://picsum.photos/80/80',
-        type: ContextType.Resource,
-        verb: ContextVerb.Flag,
-        icon: 'https://picsum.photos/80/80',
-        title: 'Liceo Alberghiero Celletti',
-        summary: 'test'
-      },
-      inReplyToCtx: null
+      link: 'https://picsum.photos/80/80'
     };
 
     return (
@@ -253,14 +229,7 @@ storiesOf('Modules/ActivityPreview', module)
       actor: getActor(),
       actions: getActions(),
       createdAt: '2018-11-11',
-      context: {
-        link: 'https://picsum.photos/80/80',
-        type: ContextType.Comment,
-        verb: ContextVerb.Created,
-        content:
-          'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here'
-      },
-      inReplyToCtx: null
+      link: 'https://picsum.photos/80/80'
     };
 
     return (

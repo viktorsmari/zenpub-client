@@ -25,61 +25,13 @@ fragment ActivityPreview on Activity {
       ...CommentPreview
     }
     ... on Flag{
-      id
-      context{
-        ...on Community {
-          ...CommunityPreview
-        }
-        ...on Collection {
-          ...CollectionPreview
-        }
-        ...on Resource {
-          ...ResourcePreview
-        }
-        ...on User {
-          ...UserPreview
-        }
-        ...on Comment {
-          ...CommentPreview
-        }
-      }
+      ...FlagPreview
     }
     ... on Like{
-      id
-      context{
-        ...on Community {
-          ...CommunityPreview
-        }
-        ...on Collection {
-          ...CollectionPreview
-        }
-        ...on Resource {
-          ...ResourcePreview
-        }
-        ...on User {
-          ...UserPreview
-        }
-        ...on Comment {
-          ...CommentPreview
-        }
-      }
+      ...LikePreview
     }
     ... on Follow{
-      id
-      context{
-        ...on Community {
-          ...CommunityPreview
-        }
-        ...on Collection {
-          ...CollectionPreview
-        }
-        ...on User {
-          ...UserPreview
-        }
-        ...on Thread {
-          ...CommentPreviewThread
-        }
-      }
+      ...FollowPreview
     }
   }
 }
