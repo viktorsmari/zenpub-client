@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ExternalLink, ChevronDown } from 'react-feather';
 // import { NavLink } from 'react-router-dom';
-import { Box, Flex, Heading, Text, Img } from 'rebass/styled-components';
+import { Box, Flex, Heading, Text, Image } from 'rebass/styled-components';
 import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
 // import { ellipsis } from 'polished';
@@ -15,8 +15,9 @@ export interface Props {
   name: string;
   summary: string;
   link: string;
-  license: string;
-  acceptedLicenses: string[];
+  license?: string;
+  acceptedLicenses?: string[];
+  isLocal: boolean;
 }
 
 export const Resource: React.FC<Props> = ({
@@ -26,7 +27,8 @@ export const Resource: React.FC<Props> = ({
   summary,
   link,
   license,
-  acceptedLicenses
+  acceptedLicenses,
+  isLocal
 }) => {
   return (
     // <WrapperLink to={'/collections/' + id}>
@@ -37,22 +39,27 @@ export const Resource: React.FC<Props> = ({
           <Badge mt={1}>Video</Badge>
           <Title flex="1">{name}</Title>
         </Flex>
-        <ActionItem mt={1}>
-          <ExternalLink size={16} />
-          <Text flex={1} ml={2}>
-            {link}
-          </Text>
-        </ActionItem>
+        {!isLocal ? (
+          <ActionItem mt={1}>
+            <ExternalLink size={16} />
+            <Text flex={1} ml={2}>
+              {link}
+            </Text>
+          </ActionItem>
+        ) : null}
+
         <Text variant="text" mt={2}>
           {summary}
         </Text>
-        {license === acceptedLicenses![0] ? (
-          <Img src={LicenseIcon0} />
-        ) : license && license === acceptedLicenses![1] ? (
-          <Img src={LicenseIcon1} />
-        ) : (
-          <Img src={LicenseIcon2} />
-        )}
+        {isLocal ? (
+          license === acceptedLicenses![0] ? (
+            <Img src={LicenseIcon0} />
+          ) : license === acceptedLicenses![1] ? (
+            <Img src={LicenseIcon1} />
+          ) : (
+            <Img src={LicenseIcon2} />
+          )
+        ) : null}
         <Hashtags mt={1}>
           <Text variant="text" mr={2}>
             #tutorial
@@ -106,6 +113,11 @@ const Icon = styled(Box)`
   svg {
     stroke: ${props => props.theme.colors.lightgray};
   }
+`;
+
+const Img = styled(Image)`
+  max-width: 82px;
+  margin-top: 5px;
 `;
 
 // const WrapperLink = styled(NavLink)`
