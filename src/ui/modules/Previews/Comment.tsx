@@ -1,11 +1,11 @@
-import * as React from 'react';
-import { MessageCircle, Star } from 'react-feather';
-import styled from '../../../themes/styled';
-import { Box, Flex, Text } from 'rebass/styled-components';
+import React from 'react';
+import styled from 'ui/themes/styled';
+import { Box, Text, Flex } from 'rebass/styled-components';
 import SocialText from 'ui/modules/SocialText';
 import { i18nMark, Trans } from '@lingui/react';
 import { LocaleContext } from '../../../context/global/localizationCtx';
 import { FormikHook } from 'ui/@types/types';
+import { MessageCircle, Star } from 'react-feather';
 
 import Modal from 'ui/modules/Modal';
 
@@ -17,15 +17,11 @@ export interface LikeActions {
 export interface ReplyActions {
   replyFormik: FormikHook<{ replyMessage: string }>;
 }
-export interface ActionProps {
+export interface CommentProps {
   FlagModal: null | React.ComponentType<{ done(): unknown }>;
-  like: null | LikeActions;
-  reply: null | ReplyActions /* ,
-  follow?: {
-    toggleFollowFormik: FormikHook<{}>
-    following: boolean
-    followers: number
-  } */;
+  like: LikeActions;
+  reply: ReplyActions;
+  content: string;
 }
 
 const tt = {
@@ -38,26 +34,34 @@ const tt = {
   }
 };
 
-const ActionsWrapper: React.FC<ActionProps> = ({ like, reply, FlagModal }) => {
+export const Comment: React.SFC<CommentProps> = ({
+  content,
+  reply,
+  like,
+  FlagModal
+}) => {
   const [talkModalVisible, showTalkModal] = React.useState(false);
   const { i18n } = React.useContext(LocaleContext);
   const [isOpenFlagModal, setOpenFlagModal] = React.useState(false);
   return (
-    <Actions>
-      {reply && talkModalVisible && (
-        <SocialText
-          placeholder={i18n._(tt.placeholders.name)}
-          defaultValue={''}
-          submit={msg => {
-            showTalkModal(false);
-            reply.replyFormik.setValues({ replyMessage: msg });
-            reply.replyFormik.submitForm();
-          }}
-        />
-      )}
-      <Box>
-        <Items>
-          {reply && (
+    <Wrapper>
+      <Text variant="text" p={2}>
+        {content}
+      </Text>
+      <Actions>
+        {talkModalVisible && (
+          <SocialText
+            placeholder={i18n._(tt.placeholders.name)}
+            defaultValue={''}
+            submit={msg => {
+              showTalkModal(false);
+              reply.replyFormik.setValues({ replyMessage: msg });
+              reply.replyFormik.submitForm();
+            }}
+          />
+        )}
+        <Box>
+          <Items>
             <ActionItem onClick={() => showTalkModal(!talkModalVisible)}>
               <ActionIcon>
                 <MessageCircle
@@ -75,8 +79,6 @@ const ActionsWrapper: React.FC<ActionProps> = ({ like, reply, FlagModal }) => {
                 <Trans>Comment</Trans>
               </Text>
             </ActionItem>
-          )}
-          {like && (
             <ActionItem onClick={like.toggleLikeFormik.submitForm}>
               <ActionIcon>
                 <Star
@@ -94,15 +96,15 @@ const ActionsWrapper: React.FC<ActionProps> = ({ like, reply, FlagModal }) => {
                 {like.totalLikes + ' '} <Trans>Favourite</Trans>
               </Text>
             </ActionItem>
+          </Items>
+          {FlagModal && isOpenFlagModal && (
+            <Modal closeModal={() => setOpenFlagModal(false)}>
+              <FlagModal done={() => setOpenFlagModal(false)} />
+            </Modal>
           )}
-        </Items>
-        {FlagModal && isOpenFlagModal && (
-          <Modal closeModal={() => setOpenFlagModal(false)}>
-            <FlagModal done={() => setOpenFlagModal(false)} />
-          </Modal>
-        )}
-      </Box>
-    </Actions>
+        </Box>
+      </Actions>
+    </Wrapper>
   );
 };
 
@@ -149,4 +151,7 @@ const ActionIcon = styled(Box)`
   }
 `;
 
-export default ActionsWrapper;
+const Wrapper = styled(Box)`
+  border: 1px solid ${props => props.theme.colors.lightgray};
+  border-radius: 4px;
+`;

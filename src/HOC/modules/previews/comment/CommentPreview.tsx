@@ -31,8 +31,9 @@ export const CommentPreviewHOC: FC<Props> = ({ commentId }) => {
     // commentPreviewProps && <CommentPreviewUI {...commentPreviewProps} />
     commentPreviewProps && (
       <>
-        <Text>{commentPreviewProps.content}</Text>
-        <br />
+        <Text p={2} variant="text">
+          {commentPreviewProps.content}
+        </Text>
       </>
     )
   );

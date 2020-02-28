@@ -5,13 +5,18 @@ import { clearFix } from 'polished';
 import React, { FC } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass/styled-components';
-import media from 'styled-media-query';
+// import media from 'styled-media-query';
 import Avatar from 'ui/elements/Avatar';
 import SocialText from 'ui/modules/SocialText';
 import styled from 'ui/themes/styled';
 import { LocaleContext } from '../../../context/global/localizationCtx';
 import Actions, { ActionProps } from './Actions';
 import { Actor } from './types';
+import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
+import { Input, Label } from '@rebass/forms';
+import Button from 'ui/elements/Button';
+import Modal from 'ui/modules/Modal';
+import { MoreHorizontal, Flag, Upload, Copy } from 'react-feather';
 
 const tt = {
   placeholders: {
@@ -71,22 +76,15 @@ export const ActivityPreview: FC<Props> = activity => {
     <FeedItem>
       <WrapperLink to={activity.link} />
       {/* {activity.inReplyToCtx && <InReplyTo {...activity.inReplyToCtx} />} */}
-      <ActorComp actor={activity.actor} createdAt={activity.createdAt} />
+      <ActorComp
+        actor={activity.actor}
+        createdAt={activity.createdAt}
+        event={activity.event}
+      />
       <Contents>
         <Wrapper>
-          <Event mt={1} variant="text">
-            {activity.event}
-          </Event>
-          <Box
-            mt={2}
-            sx={{
-              border: '1px solid #dadada',
-              borderRadius: '4px'
-            }}
-          >
-            {activity.preview}
-            {activity.actions && <Actions {...activity.actions} />}
-          </Box>
+          {activity.preview}
+          {activity.actions && <Actions {...activity.actions} />}
         </Wrapper>
       </Contents>
     </FeedItem>
@@ -115,7 +113,7 @@ export const BigThreadCommentPreview: FC<BigThreadCommentPreviewProps> = thread 
   return (
     <FeedItem>
       {/* {activity.inReplyToCtx && <InReplyTo {...activity.inReplyToCtx} />} */}
-      <ActorComp actor={thread.actor} createdAt={thread.createdAt} />
+      <ActorComp actor={thread.actor} createdAt={thread.createdAt} event={''} />
       <Contents>
         <Box>
           <Comment variant="text">{thread.content}</Comment>
@@ -141,7 +139,7 @@ export const BigThreadCommentPreview: FC<BigThreadCommentPreviewProps> = thread 
   );
 };
 
-const Event = styled(Text)``;
+// const Event = styled(Text)``;
 
 const WrapperLink = styled(NavLink)`
   text-decoration: none;
@@ -159,25 +157,126 @@ const Comment = styled(Text)`
 export interface ActorProps {
   actor: Actor;
   createdAt: string;
+  event: string;
 }
-const ActorComp: FC<ActorProps> = ({ actor, createdAt }) => (
-  <Member>
-    <Avatar initials={actor.name} src={actor.icon} />
-    <MemberInfo ml={2}>
-      <Name mt={1}>
-        <Link to={actor.link}>
-          {actor.name}
-          {/* <Username ml={2}>@{actor.name}</Username> */}
-        </Link>
-        <Spacer mx={2}>·</Spacer>
-        <Date>{DateTime.fromSQL(createdAt).toRelative()}</Date>
-      </Name>
-    </MemberInfo>
-  </Member>
+const ActorComp: FC<ActorProps> = ({ actor, createdAt, event }) => {
+  const [isOpen, onOpen] = React.useState(false);
+  const [isEnterUrlOpen, onEnterUrlOpen] = React.useState(false);
+  // const [setOpenFlagModal] = React.useState(false);
+  return (
+    <Member>
+      <Avatar initials={actor.name} src={actor.icon} variant="avatar" />
+      <MemberInfo ml={2}>
+        <Flex mt={1} alignItems="center">
+          <Flex flex={1}>
+            <Name>
+              <Link to={actor.link}>{actor.name}</Link>
+            </Name>
+            <Text sx={{ textTransform: 'lowercase' }} variant="text" ml={1}>
+              {event}
+            </Text>
+          </Flex>
+          <ActionItem
+            ml={4}
+            onClick={() => onOpen(true)}
+            sx={{ position: 'relative' }}
+          >
+            <ActionIcon>
+              <MoreHorizontal className="hover" size={20} />
+            </ActionIcon>
+            {isEnterUrlOpen && <EnterUrl close={onEnterUrlOpen} />}
+            {isOpen && (
+              <Dropdown orientation="top" cb={onOpen}>
+                {/* {activity.context.type === ContextType.Resource && ( */}
+                <DropdownItem onClick={() => onEnterUrlOpen(true)}>
+                  <Upload size={20} color={'rgb(101, 119, 134)'} />
+                  <Text sx={{ flex: 1 }} ml={2}>
+                    Add to Moodle
+                  </Text>
+                </DropdownItem>
+                <DropdownItem>
+                  <Copy size={20} color={'rgb(101, 119, 134)'} />
+                  <Text sx={{ flex: 1 }} ml={2}>
+                    Copy link
+                  </Text>
+                </DropdownItem>
+                <DropdownItem>
+                  <Flag size={20} color={'rgb(101, 119, 134)'} />
+                  <Text sx={{ flex: 1 }} ml={2}>
+                    <Trans>Flag</Trans>
+                  </Text>
+                </DropdownItem>
+              </Dropdown>
+            )}
+          </ActionItem>
+        </Flex>
+        <Flex sx={{ marginTop: '-2px' }} alignItems="center">
+          <Date>{DateTime.fromSQL(createdAt).toRelative()}</Date>
+          <Spacer mx={1}>·</Spacer>
+          <CommunityName to={'communityLink'}>@CommunityName</CommunityName>
+        </Flex>
+      </MemberInfo>
+    </Member>
+  );
+};
+
+const EnterUrl = ({ close }) => (
+  <Modal closeModal={() => close(false)}>
+    <Box p={3}>
+      <Label htmlFor="name">Moodle url</Label>
+      <Input
+        sx={{ border: '1px solid #dadada' }}
+        id="name"
+        name="name"
+        placeholder="Type the moodle url..."
+      />
+      <Button mt={2} variant="primary">
+        Send to Moodle
+      </Button>
+    </Box>
+  </Modal>
 );
 
+const ActionItem = styled(Flex)`
+  align-items: center;
+  color: ${props => props.theme.colors.gray};
+  cursor: pointer;
+  a {
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 9;
+  }
+  &:hover {
+    svg.hover {
+      stroke: ${props => props.theme.colors.orange};
+    }
+  }
+`;
+
+const ActionIcon = styled(Box)`
+  width: 30px;
+  height: 30px;
+  border-radius: 99999px;
+  display: inline-flex;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  margin-left: -8px;
+  svg {
+    margin: 0 auto;
+    stroke: ${props => props.theme.colors.darkGray};
+  }
+`;
+
+const CommunityName = styled(Link)`
+  color: ${props => props.theme.colors.gray};
+  font-weight: 500;
+  font-size: 13px;
+`;
+
 const Contents = styled(Box)`
-  margin-top: -30px;
+  // margin-top: -30px;
   margin-left: 55px;
 `;
 
@@ -194,11 +293,7 @@ const Contents = styled(Box)`
 
 const Spacer = styled(Text)`
   color: ${props => props.theme.colors.gray};
-  margin-right: 8px;
   font-weight: 500;
-//   ${media.lessThan('1280px')`
-//   display: none;
-//  `};
 `;
 
 const Date = styled(Text)`
@@ -209,12 +304,11 @@ const Date = styled(Text)`
 
 const Name = styled(Text)`
   font-weight: 600;
-  color: ${props => props.theme.colors.darkgray};
+  color: ${props => props.theme.colors.primary};
   text-decoration: none;
   display: flex;
   align-items: center;
-  font-size: 16px;
-  margin-bottom: 2px;
+  font-size: 14px;
   flex-direction: row;
   a {
     font-weight: 800;
@@ -223,7 +317,7 @@ const Name = styled(Text)`
     align-items: center;
     position: relative;
     z-index: 9;
-    color: ${props => props.theme.colors.darkgray} !important;
+    color: ${props => props.theme.colors.primary} !important;
   }
 `;
 

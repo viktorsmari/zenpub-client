@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { FileText } from 'react-feather';
 import { NavLink } from 'react-router-dom';
 import { Box, Flex, Heading, Text } from 'rebass/styled-components';
 import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
 import { Trans } from '@lingui/react';
-import Button from 'ui/elements/Button';
+import { FormikHook } from 'ui/@types/types';
+
+// import Button from 'ui/elements/Button';
 export interface Props {
   link: {
     url: string;
@@ -17,6 +18,7 @@ export interface Props {
   displayUsername: string;
   totalResources: number | null;
   isFollowing: boolean;
+  toggleFollowFormik: FormikHook<{}>;
 }
 
 export const Collection: React.FC<Props> = ({
@@ -26,48 +28,98 @@ export const Collection: React.FC<Props> = ({
   summary,
   displayUsername,
   totalResources,
-  isFollowing
+  isFollowing,
+  toggleFollowFormik
 }) => {
   return (
     <WrapperLink to={link.url}>
-      <Wrapper p={2}>
-        <Avatar src={icon} />
-        <Infos ml={3}>
-          <Flex>
-            <Box flex={1}>
-              <Title>
-                {name.length > 80
-                  ? name.replace(/^(.{76}[^\s]*).*/, '$1...')
-                  : name}
-              </Title>
-              <Username>{displayUsername}</Username>
-            </Box>
-            {isFollowing ? (
+      <Bordered>
+        <Wrapper p={2}>
+          <Avatar src={icon} />
+          <Infos ml={3}>
+            <Flex>
+              <Box flex={1}>
+                <Title>
+                  {name.length > 80
+                    ? name.replace(/^(.{76}[^\s]*).*/, '$1...')
+                    : name}
+                </Title>
+                <Username>{displayUsername}</Username>
+              </Box>
+              {/* {isFollowing ? (
               <Button variant="outline">leave</Button>
             ) : (
               <Button variant="primary">Follow</Button>
+            )} */}
+            </Flex>
+            <Text variant="text" mt={1} mb={2}>
+              {summary && summary.length > 140
+                ? summary.replace(/^([\s\S]{140}[^\s]*)[\s\S]*/, '$1...')
+                : summary}
+            </Text>
+            {totalResources && totalResources > 0 && (
+              <Meta mt={2}>
+                <Flex alignSelf="center" mr={3} alignItems="center">
+                  <Text fontSize={'10px'} variant="suptitle">
+                    {totalResources || 0} <Trans>Resources</Trans>
+                  </Text>
+                </Flex>
+              </Meta>
             )}
-          </Flex>
-          <Text variant="text" mt={1} mb={2}>
-            {summary && summary.length > 140
-              ? summary.replace(/^([\s\S]{140}[^\s]*)[\s\S]*/, '$1...')
-              : summary}
-          </Text>
-          <Actions mt={3}>
-            <ActionItem>
-              <FileText size={20} />
-              {totalResources && (
-                <Text flex={1} variant="suptitle">
-                  {totalResources} <Trans>resources</Trans>
+          </Infos>
+        </Wrapper>
+        <Actions>
+          <Box>
+            <Items>
+              <ActionItem onClick={toggleFollowFormik.submitForm}>
+                <Text
+                  ml={1}
+                  variant={'suptitle'}
+                  sx={{ textTransform: 'capitalize' }}
+                >
+                  {isFollowing ? <Trans>Leave</Trans> : <Trans>Follow</Trans>}
                 </Text>
-              )}
-            </ActionItem>
-          </Actions>
-        </Infos>
-      </Wrapper>
+              </ActionItem>
+            </Items>
+          </Box>
+        </Actions>
+      </Bordered>
     </WrapperLink>
   );
 };
+
+const Items = styled(Flex)`
+  flex: 1;
+  justify-content: space-around;
+`;
+
+const Actions = styled(Box)`
+  position: relative;
+  z-index: 999999999999999999999999999999999999;
+  border-top: 1px solid #dadada;
+  padding: 8px;
+`;
+
+const ActionItem = styled(Flex)`
+  align-items: center;
+  color: ${props => props.theme.colors.gray};
+  cursor: pointer;
+  a {
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 9;
+  }
+  &:hover {
+    svg.hover {
+      stroke: ${props => props.theme.colors.orange};
+    }
+  }
+`;
+
+const Meta = styled(Flex)`
+  color: ${props => props.theme.colors.gray};
+`;
 
 const Username = styled(Text)`
   color: ${props => props.theme.colors.gray};
@@ -76,20 +128,6 @@ const Username = styled(Text)`
 
 const WrapperLink = styled(NavLink)`
   text-decoration: none;
-  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
-`;
-
-const Actions = styled(Box)``;
-
-const ActionItem = styled(Flex)`
-  color: ${props => props.theme.colors.gray};
-  text-transform: uppercase;
-  align-items: center;
-  & svg {
-    vertical-align: sub;
-    color: inherit !important;
-    margin-right: 4px;
-  }
 `;
 
 const Wrapper = styled(Flex)`
@@ -97,6 +135,11 @@ const Wrapper = styled(Flex)`
   position: relative;
   text-decoration: none;
   background: #fff;
+`;
+
+const Bordered = styled(Box)`
+  border: 1px solid ${props => props.theme.colors.lightgray};
+  border-radius: 4px;
 `;
 
 const Infos = styled(Box)`

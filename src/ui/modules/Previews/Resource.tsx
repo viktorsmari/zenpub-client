@@ -1,10 +1,18 @@
 import * as React from 'react';
-import { ExternalLink, /* ChevronDown, */ Star } from 'react-feather';
+import { ExternalLink, Star } from 'react-feather';
 // import { NavLink } from 'react-router-dom';
 import { Box, Flex, Heading, Text } from 'rebass/styled-components';
 import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
+import { ellipsis } from 'polished';
+import { FormikHook } from 'ui/@types/types';
+import { Trans } from '@lingui/react';
 // import { ellipsis } from 'polished';
+export interface LikeActions {
+  toggleLikeFormik: FormikHook<{}>;
+  totalLikes: number;
+  iLikeIt: boolean;
+}
 
 export interface Props {
   id: string;
@@ -12,6 +20,7 @@ export interface Props {
   name: string;
   summary: string;
   link: string;
+  like: LikeActions;
 }
 
 export const Resource: React.FC<Props> = ({
@@ -19,104 +28,139 @@ export const Resource: React.FC<Props> = ({
   icon,
   name,
   summary,
-  link
+  link,
+  like
 }) => {
   return (
     // <WrapperLink to={'/collections/' + id}>
-    <Wrapper p={2}>
-      <Avatar size="m" src={icon} />
-      <Infos flex={1} ml={3}>
-        <Flex>
-          <Badge mt={1}>Video</Badge>
-          <Title flex="1">{name}</Title>
-        </Flex>
-        <ActionItem mt={1}>
-          <ExternalLink size={16} />
-          <Text flex={1} ml={2}>
-            {link}
+    <Bordered>
+      <Wrapper p={2}>
+        <Avatar size="m" src={icon} />
+        <Infos flex={1} ml={3}>
+          <Flex>
+            {/* <Badge mt={1}>Video</Badge> */}
+            <Title flex="1">{name}</Title>
+          </Flex>
+          <ActionItem mt={1}>
+            <ExternalLink size={16} />
+            <TextLink flex={1} ml={2}>
+              {link}
+            </TextLink>
+          </ActionItem>
+          <Text variant="text" mt={2}>
+            {summary}
           </Text>
-        </ActionItem>
-        <Text variant="text" mt={2}>
-          {summary}
-        </Text>
-        <Hashtags mt={1}>
-          <Text variant="text" mr={2}>
-            #tutorial
-          </Text>
-          <Text variant="text">#exp</Text>
-        </Hashtags>
-      </Infos>
-      <Icon>
-        <Star size={20} />
-      </Icon>
-    </Wrapper>
-    // </WrapperLink>
+          <Hashtags mt={1}>
+            <Text variant="text" mr={2}>
+              #tutorial
+            </Text>
+            <Text variant="text">#exp</Text>
+          </Hashtags>
+        </Infos>
+      </Wrapper>
+      <Actions>
+        <Box>
+          <Items>
+            <ActionItem onClick={like.toggleLikeFormik.submitForm}>
+              <ActionIcon>
+                <Star
+                  className="hover"
+                  color={like.iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'}
+                  strokeWidth="1"
+                  size="20"
+                />
+              </ActionIcon>
+              <Text
+                variant={'suptitle'}
+                sx={{ textTransform: 'capitalize' }}
+                ml={1}
+              >
+                {like.totalLikes + ' '} <Trans>Favourite</Trans>
+              </Text>
+            </ActionItem>
+          </Items>
+        </Box>
+      </Actions>
+    </Bordered>
   );
 };
 
-const Hashtags = styled(Flex)`
-div {
-    color: ${props => props.theme.colors.primary};
-    // background: ${props => props.theme.colors.lighter};
-    // padding: 4px 8px;
-    // border-radius: 40px;
-  }
-`;
-
-const Badge = styled(Box)`
-  border: 1px solid ${props => props.theme.colors.primary};
-  margin-right: 8px;
-  text-transform: uppercase;
-  font-size: 10px;
-  font-weight: 600;
-  border-radius: 30px;
-  line-height: 20px;
-  height: 20px;
-  padding: 0 8px;
-  color: ${props => props.theme.colors.darkgray};
-`;
-
-const Icon = styled(Box)`
-  cursor: pointer;
-  height: 40px;
-  width: 40px;
-  border-radius: 40px;
-  display: flex;
+const ActionIcon = styled(Box)`
+  width: 30px;
+  height: 30px;
+  border-radius: 99999px;
+  display: inline-flex;
   align-items: center;
-  &:hover {
-    background: ${props => props.theme.colors.lighter};
-    svg {
-      stroke: ${props => props.theme.colors.primary};
-    }
-  }
+  align-content: center;
+  text-align: center;
+  margin-left: -8px;
   svg {
-    stroke: ${props => props.theme.colors.lightgray};
+    margin: 0 auto;
   }
 `;
 
-// const WrapperLink = styled(NavLink)`
-//   text-decoration: none;
-// `;
+const Items = styled(Flex)`
+  flex: 1;
+  justify-content: space-around;
+`;
+
+const Actions = styled(Box)`
+  position: relative;
+  z-index: 999999999999999999999999999999999999;
+  border-top: 1px solid #dadada;
+  padding: 8px;
+`;
 
 const ActionItem = styled(Flex)`
-  color: ${props => props.theme.colors.gray};
   align-items: center;
-  & svg {
-    vertical-align: sub;
-    stroke: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.gray};
+  cursor: pointer;
+  a {
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 9;
+  }
+  &:hover {
+    svg.hover {
+      stroke: ${props => props.theme.colors.orange};
+    }
   }
 `;
 
+const TextLink = styled(Text)`
+  ${ellipsis('250px')};
+`;
+
+const Bordered = styled(Box)`
+  border: 1px solid ${props => props.theme.colors.lightgray};
+  border-radius: 4px;
+`;
+
+const Hashtags = styled(Flex)`
+  div {
+    color: ${props => props.theme.colors.primary};
+  }
+`;
+
+// const Badge = styled(Box)`
+//   border: 1px solid ${props => props.theme.colors.primary};
+//   margin-right: 8px;
+//   text-transform: uppercase;
+//   font-size: 10px;
+//   font-weight: 600;
+//   border-radius: 30px;
+//   line-height: 20px;
+//   height: 20px;
+//   padding: 0 8px;
+//   color: ${props => props.theme.colors.darkgray};
+// `;
 const Wrapper = styled(Flex)`
   position: relative;
   text-decoration: none;
   background: #fff;
   margin-top: 0;
   border-radius: 6px;
-//   &:hover {
-//     border-radius: 4px;
-//     background: ${props => props.theme.colors.lighter};
-//   }
 `;
 
 const Infos = styled(Box)`
