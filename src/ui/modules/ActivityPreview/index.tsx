@@ -1,19 +1,17 @@
 // import { Trans } from '@lingui/react';
-import { Trans } from '@lingui/react';
+import { i18nMark, Trans } from '@lingui/react';
 import { DateTime } from 'luxon';
 import { clearFix } from 'polished';
-import React, { SFC } from 'react';
+import React, { FC } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import Avatar from 'ui/elements/Avatar';
-import styled from 'ui/themes/styled';
-import Actions, { ActionProps } from './Actions';
-import Preview, { Context, ContextType, InReplyToContext } from './preview';
-import { Actor } from './types';
 import SocialText from 'ui/modules/SocialText';
-import { i18nMark } from '@lingui/react';
+import styled from 'ui/themes/styled';
 import { LocaleContext } from '../../../context/global/localizationCtx';
+import Actions, { ActionProps } from './Actions';
+import { Actor } from './types';
 
 const tt = {
   placeholders: {
@@ -39,90 +37,100 @@ export interface ActivityLoading {
 export interface Activity {
   createdAt: string;
   actor: Actor;
-  context: Context;
-  inReplyToCtx: InReplyToContext | null;
+  link: string;
   actions: ActionProps | null;
+  event: string;
+  preview: JSX.Element;
 }
 
 export type Props = ActivityLoaded | ActivityLoading;
 
-export const ThreadActivityPreview: SFC<Props> = activity => {
+// export const ThreadActivityPreview: FC<Props> = activity => {
+//   if (activity.status === Status.Loading) {
+//     return <Trans>loading...</Trans>;
+//   }
+//   return (
+//     <FeedItem>
+//       <ActorComp actor={activity.actor} createdAt={activity.createdAt} />
+//       <Contents>
+//         <Wrapper>
+//           <Preview {...activity.context} />
+//           {activity.actions && <Actions {...activity.actions} />}{' '}
+//         </Wrapper>
+//       </Contents>
+//     </FeedItem>
+//   );
+// };
+
+export const ActivityPreview: FC<Props> = activity => {
   if (activity.status === Status.Loading) {
     return <Trans>loading...</Trans>;
   }
-  return (
-    <FeedItem>
-      <ActorComp actor={activity.actor} createdAt={activity.createdAt} />
-      <Contents>
-        <Wrapper>
-          <Preview {...activity.context} />
-          {activity.actions && <Actions {...activity.actions} />}{' '}
-        </Wrapper>
-      </Contents>
-    </FeedItem>
-  );
-};
-
-export const ActivityPreview: SFC<Props> = activity => {
-  if (activity.status === Status.Loading) {
-    return <Trans>loading...</Trans>;
-  }
 
   return (
     <FeedItem>
-      <WrapperLink
-        to={
-          activity.context.type === ContextType.Community
-            ? activity.context.link
-            : activity.context.type === ContextType.Collection
-            ? activity.context.link
-            : activity.context.type === ContextType.Resource
-            ? activity.context.link
-            : activity.context.type === ContextType.Comment
-            ? activity.context.link
-            : 'user/'
-        }
-      />
+      <WrapperLink to={activity.link} />
       {/* {activity.inReplyToCtx && <InReplyTo {...activity.inReplyToCtx} />} */}
       <ActorComp actor={activity.actor} createdAt={activity.createdAt} />
       <Contents>
         <Wrapper>
-          <Preview {...activity.context} />
-          {activity.actions && <Actions {...activity.actions} />}
+          <Event mt={1} variant="text">
+            {activity.event}
+          </Event>
+          <Box
+            mt={2}
+            sx={{
+              border: '1px solid #dadada',
+              borderRadius: '4px'
+            }}
+          >
+            {activity.preview}
+            {activity.actions && <Actions {...activity.actions} />}
+          </Box>
         </Wrapper>
       </Contents>
     </FeedItem>
   );
 };
 
-export const BigActivityPreview: SFC<Props> = activity => {
-  if (activity.status === Status.Loading) {
+export interface BigThreadCommentPreviewPropsLoading {
+  status: Status.Loading;
+}
+export interface BigThreadCommentPreviewPropsLoaded {
+  status: Status.Loaded;
+  actor: Activity['actor'];
+  createdAt: Activity['createdAt'];
+  actions: Activity['actions'];
+  content: string;
+}
+
+export type BigThreadCommentPreviewProps =
+  | BigThreadCommentPreviewPropsLoading
+  | BigThreadCommentPreviewPropsLoaded;
+export const BigThreadCommentPreview: FC<BigThreadCommentPreviewProps> = thread => {
+  if (thread.status === Status.Loading) {
     return <Trans>loading...</Trans>;
   }
   const { i18n } = React.useContext(LocaleContext);
   return (
     <FeedItem>
       {/* {activity.inReplyToCtx && <InReplyTo {...activity.inReplyToCtx} />} */}
-      <ActorComp actor={activity.actor} createdAt={activity.createdAt} />
+      <ActorComp actor={thread.actor} createdAt={thread.createdAt} />
       <Contents>
         <Box>
-          <Comment variant="text">
-            {activity.context.type === ContextType.Comment
-              ? activity.context.content
-              : ''}
-          </Comment>
-          {activity.actions && activity.actions.reply && (
+          <Comment variant="text">{thread.content}</Comment>
+          {thread.actions && thread.actions.reply && (
             <Box mt={3}>
               <SocialText
                 placeholder={i18n._(tt.placeholders.name)}
                 defaultValue={''}
                 submit={msg => {
-                  if (!(activity.actions && activity.actions.reply)) {
+                  if (!(thread.actions && thread.actions.reply)) {
                     //FIXME: use a useCallback
                     return;
                   }
-                  activity.actions.reply.replyFormik.values.replyMessage = msg;
-                  activity.actions.reply.replyFormik.submitForm();
+                  thread.actions.reply.replyFormik.values.replyMessage = msg;
+                  thread.actions.reply.replyFormik.submitForm();
                 }}
               />
             </Box>
@@ -132,6 +140,8 @@ export const BigActivityPreview: SFC<Props> = activity => {
     </FeedItem>
   );
 };
+
+const Event = styled(Text)``;
 
 const WrapperLink = styled(NavLink)`
   text-decoration: none;
@@ -150,7 +160,7 @@ export interface ActorProps {
   actor: Actor;
   createdAt: string;
 }
-const ActorComp: SFC<ActorProps> = ({ actor, createdAt }) => (
+const ActorComp: FC<ActorProps> = ({ actor, createdAt }) => (
   <Member>
     <Avatar initials={actor.name} src={actor.icon} />
     <MemberInfo ml={2}>
@@ -186,9 +196,9 @@ const Spacer = styled(Text)`
   color: ${props => props.theme.colors.gray};
   margin-right: 8px;
   font-weight: 500;
-  ${media.lessThan('1280px')`
-  display: none;
- `};
+//   ${media.lessThan('1280px')`
+//   display: none;
+//  `};
 `;
 
 const Date = styled(Text)`

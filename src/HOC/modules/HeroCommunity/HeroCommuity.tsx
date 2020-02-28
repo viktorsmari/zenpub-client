@@ -2,7 +2,7 @@ import { useCommunity } from 'fe/community/useCommunity';
 import { useMe } from 'fe/session/me';
 import { useFormik } from 'formik';
 import { Community } from 'graphql/types.generated';
-import React, { SFC, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import HeroCommunityUI, {
   Props as HeroProps,
   Status
@@ -15,7 +15,7 @@ export interface HeroCommunity {
   communityId: Community['id'];
 }
 
-export const HeroCommunity: SFC<HeroCommunity> = ({ communityId }) => {
+export const HeroCommunity: FC<HeroCommunity> = ({ communityId }) => {
   const { isAdmin } = useMe();
   const { toggleJoin, community, canModify } = useCommunity(communityId);
 

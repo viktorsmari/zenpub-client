@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import React, { createContext, SFC, useContext } from 'react';
+import React, { createContext, FC, useContext } from 'react';
 import { useHistory } from 'react-router';
 import {
   BasicCreateCollectionFormValues,
@@ -42,7 +42,7 @@ export interface Props {
   communityId: string;
   done(): any;
 }
-export const CreateCollectionPanelHOC: SFC<Props> = ({
+export const CreateCollectionPanelHOC: FC<Props> = ({
   communityId,
   done
 }: Props) => {

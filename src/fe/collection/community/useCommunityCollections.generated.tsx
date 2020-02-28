@@ -1,9 +1,9 @@
 import * as Types from '../../../graphql/types.generated';
 
 import { CommunityPageCollectionBaseFragment } from '../../../HOC/pages/community/CommunityPage.generated';
-import { CollectionPreviewDataFragment } from '../../../HOC/modules/CollectionPreview/CollectionPreview.generated';
+import { CollectionPreviewFragment } from '../../../HOC/modules/previews/collection/CollectionPreview.generated';
 import gql from 'graphql-tag';
-import { CollectionPreviewDataFragmentDoc } from '../../../HOC/modules/CollectionPreview/CollectionPreview.generated';
+import { CollectionPreviewFragmentDoc } from '../../../HOC/modules/previews/collection/CollectionPreview.generated';
 import { CommunityPageCollectionBaseFragmentDoc } from '../../../HOC/pages/community/CommunityPage.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -42,16 +42,16 @@ export type CommunityCollectionsQuery = (
 
 export type CommunityCollectionFragment = (
   { __typename: 'Collection' }
-  & CollectionPreviewDataFragment
+  & CollectionPreviewFragment
   & CommunityPageCollectionBaseFragment
 );
 
 export const CommunityCollectionFragmentDoc = gql`
     fragment CommunityCollection on Collection {
-  ...CollectionPreviewData
+  ...CollectionPreview
   ...CommunityPageCollectionBase
 }
-    ${CollectionPreviewDataFragmentDoc}
+    ${CollectionPreviewFragmentDoc}
 ${CommunityPageCollectionBaseFragmentDoc}`;
 export const CommunityCollectionsDocument = gql`
     query communityCollections($communityId: String!, $limit: Int, $before: String, $after: String) {

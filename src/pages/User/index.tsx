@@ -2,7 +2,7 @@
 
 import { Trans } from '@lingui/macro';
 import { useGetAgentQueryQuery } from 'graphql/getAgent.generated';
-import { ActivityPreviewHOC } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
+import { ActivityPreviewHOC } from 'HOC/modules/previews/activity/ActivityPreview';
 import * as React from 'react';
 import { TabPanel, Tabs } from 'react-tabs';
 import { Button } from 'rebass/styled-components';
@@ -43,7 +43,7 @@ interface Props {
   userId: string;
 }
 
-const CommunitiesFeatured: React.SFC<Props> = ({ userId }) => {
+const CommunitiesFeatured: React.FC<Props> = ({ userId }) => {
   const query = useGetAgentQueryQuery({
     variables: {
       userId: userId,
@@ -56,23 +56,20 @@ const CommunitiesFeatured: React.SFC<Props> = ({ userId }) => {
   const [follow, followStatus] = useFollowMutationMutation();
   const [unfollow, unfollowStatus] = useDeleteMutationMutation();
   const togglingFollow = followStatus.loading || unfollowStatus.loading;
-  const toggleFollow = React.useCallback(
-    () => {
-      if (!(!togglingFollow && query.data && query.data.user)) {
-        return;
-      }
-      if (query.data.user.myFollow) {
-        unfollow({
-          variables: { contextId: query.data.user.myFollow.id }
-        }).then(() => query.refetch());
-      } else {
-        follow({ variables: { contextId: query.data.user.id } }).then(() =>
-          query.refetch()
-        );
-      }
-    },
-    [query.data, togglingFollow]
-  );
+  const toggleFollow = React.useCallback(() => {
+    if (!(!togglingFollow && query.data && query.data.user)) {
+      return;
+    }
+    if (query.data.user.myFollow) {
+      unfollow({
+        variables: { contextId: query.data.user.myFollow.id }
+      }).then(() => query.refetch());
+    } else {
+      follow({ variables: { contextId: query.data.user.id } }).then(() =>
+        query.refetch()
+      );
+    }
+  }, [query.data, togglingFollow]);
   return (
     <MainContainer>
       <HomeBox>

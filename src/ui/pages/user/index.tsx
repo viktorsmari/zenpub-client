@@ -47,9 +47,9 @@ export const User: React.FC<Props> = ({
           <Wrapper>
             {Header}
             {HeroUserBox}
+            <Menu basePath={basePath} />
             <Switch>
               <Route exact path={`${basePath}/`}>
-                <Menu basePath={basePath} />
                 {ActivityBoxes}
               </Route>
               <Route exact path={`${basePath}/likes`}>
@@ -134,6 +134,15 @@ const Menu = ({ basePath }: { basePath: string }) => (
     <NavLink exact to={`${basePath}/likes`}>
       Likes
     </NavLink>
+    <NavLink exact to={`${basePath}/communities`}>
+      communities
+    </NavLink>
+    <NavLink exact to={`${basePath}/collections`}>
+      collections
+    </NavLink>
+    <NavLink exact to={`${basePath}/following`}>
+      following
+    </NavLink>
   </MenuWrapper>
 );
 
@@ -167,18 +176,24 @@ const WrapperBoxes = styled(Box)`
 `;
 
 const MenuWrapper = styled(Flex)`
+  justify-content: space-around;
+  border-bottom: 3px solid ${props => props.theme.colors.lighter};
   a {
     font-weight: 700;
     text-decoration: none;
     margin-right: 8px;
+    text-transform: capitalize;
     color: ${props => props.theme.colors.gray};
     letterspacing: 1px;
     font-size: 13px;
     padding: 4px 8px;
+    border-radius: 4px;
+    &:hover {
+      background: ${props => props.theme.colors.lighter};
+    }
     &.active {
       color: #ffffff;
       background: ${props => props.theme.colors.orange};
-      border-radius: 4px;
     }
   }
 `;

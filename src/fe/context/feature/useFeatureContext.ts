@@ -23,24 +23,12 @@ export const useFeaturedContext = (
   // const featuredCommunitiesQ = useFeaturedCommunitiesQuery();
 
   // const featuredCommunities = useMemo(
-  //   () =>
-  //     (featuredCommunitiesQ.data?.instance?.featuredCommunities?.edges || [])
-  //       .map(edge => edge?.node.context)
-  //       .filter(
-  //         (maybeCommunity): maybeCommunity is FeaturedCommunityInfoFragment =>
-  //           !!maybeCommunity
-  //       ),
+  //   () => manageEdges(featuredCommunitiesQ.data?.instance?.featuredCommunities),
   //   [featuredCommunitiesQ]
   // );
 
   // const featuredCollections = useMemo(
-  //   () =>
-  //     (featuredCollectionsQ.data?.instance?.featuredCollections?.edges || [])
-  //       .map(edge => edge?.node.context)
-  //       .filter(
-  //         (maybeCommunity): maybeCommunity is FeaturedCollectionInfoFragment =>
-  //           !!maybeCommunity
-  //       ),
+  //   () => manageEdges(featuredCollectionsQ.data?.instance?.featuredCollections),
   //   [featuredCollectionsQ]
   // );
 

@@ -7,7 +7,7 @@ import Loader from '../../components/elements/Loader/Loader';
 // import { APP_NAME } from '../../constants';
 import styled from '../../themes/styled';
 
-export const FollowingCollectionsComponent: React.SFC = () => {
+export const FollowingCollectionsComponent: React.FC = () => {
   const { data, error, loading } = useGetFollowedCollectionsQuery({
     variables: {
       limit: 15

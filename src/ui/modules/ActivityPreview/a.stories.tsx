@@ -2,10 +2,13 @@ import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import { useFormik } from 'formik';
 import React from 'react';
-import { ActivityPreview, BigActivityPreview, Props, Status } from '.';
-import { ContextType, ContextVerb } from './preview';
-import { Box } from 'rebass';
+import { Box, Text } from 'rebass/styled-components';
+import { Community } from 'ui/modules/Previews/Community';
+import { ActivityPreview, Props, Status } from '.';
 import { FlagModal } from '../FlagModal';
+import { Collection } from '../Previews/Collection';
+import { Resource } from '../Previews/Resource';
+import { User } from '../Previews/User';
 
 const getActions = () => ({
   FlagModal: () => {
@@ -64,20 +67,33 @@ const getActor = () => ({
   name: 'Ivan'
 });
 storiesOf('Modules/ActivityPreview', module)
-  .add('Comment', () => {
+  .add('Created a collection', () => {
     const activityPreviewProps: Props = {
+      event: 'Created a collection',
+      preview: (
+        <Collection
+          link={{ url: '/', external: true }}
+          isFollowing={true}
+          displayUsername={'@mantarai@app.moodle.net'}
+          icon={
+            'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png'
+          }
+          name={'mantarai'}
+          summary={
+            'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+          }
+          totalResources={12}
+          toggleFollowFormik={useFormik({
+            initialValues: {},
+            onSubmit: action('toggle follow')
+          })}
+        />
+      ),
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
       createdAt: '2018-11-11',
-      context: {
-        link: 'https://picsum.photos/80/80',
-        content:
-          "my niece is completely mystified by my computer in that:- she thought the monitor was the computer - i had to explain how dual monitors work - wow, you can charge your phone from it? she's like 12 and i feel old now",
-        type: ContextType.Comment,
-        verb: ContextVerb.Created
-      },
-      inReplyToCtx: null
+      link: 'https://picsum.photos/80/80'
     };
     return (
       <Box
@@ -93,52 +109,33 @@ storiesOf('Modules/ActivityPreview', module)
       </Box>
     );
   })
-  .add('Follow', () => {
+  .add('Created a community', () => {
     const activityPreviewProps: Props = {
+      event: 'Created a community',
+      preview: (
+        <Community
+          icon={
+            'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png'
+          }
+          name={'mantarai'}
+          summary={
+            'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+          }
+          followersCount={12}
+          collectionsCount={6}
+          joined={true}
+          threadsCount={3}
+          toggleJoinFormik={useFormik({
+            initialValues: {},
+            onSubmit: action('toggle join')
+          })}
+        />
+      ),
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
       createdAt: '2018-11-11',
-      context: {
-        link: 'https://picsum.photos/80/80',
-        type: ContextType.Community,
-        verb: ContextVerb.Follow,
-        icon: 'https://picsum.photos/80/80',
-        title: 'Liceo Alberghiero Celletti',
-        summary: 'test'
-      },
-      inReplyToCtx: null
-    };
-
-    return (
-      <Box
-        sx={{
-          borderRadius: '6px',
-          background: '#fff',
-          width: '600px',
-          margin: '0 auto'
-        }}
-        p={2}
-      >
-        <ActivityPreview {...activityPreviewProps} />
-      </Box>
-    );
-  })
-  .add('Like', () => {
-    const activityPreviewProps: Props = {
-      status: Status.Loaded,
-      actor: getActor(),
-      actions: getActions(),
-      createdAt: '2018-11-11',
-      context: {
-        link: 'https://picsum.photos/80/80',
-        type: ContextType.Community,
-        verb: ContextVerb.Like,
-        icon: 'https://picsum.photos/80/80',
-        summary: 'test',
-        title: 'Liceo Alberghiero Celletti'
-      },
-      inReplyToCtx: null
+      link: 'https://picsum.photos/80/80'
     };
 
     return (
@@ -155,21 +152,31 @@ storiesOf('Modules/ActivityPreview', module)
       </Box>
     );
   })
-  .add('Flag', () => {
+  .add('Created a resource', () => {
     const activityPreviewProps: Props = {
+      event: 'Created a resource',
+      preview: (
+        <Resource
+          icon={
+            'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png'
+          }
+          name={'mantarai'}
+          summary={
+            'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+          }
+          link={'https://www.pinterest.it/topics/anime/'}
+          iLike
+          toggleLikeFormik={useFormik({
+            initialValues: {},
+            onSubmit: action('toggle like')
+          })}
+        />
+      ),
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
       createdAt: '2018-11-11',
-      context: {
-        link: 'https://picsum.photos/80/80',
-        type: ContextType.Resource,
-        verb: ContextVerb.Flag,
-        icon: 'https://picsum.photos/80/80',
-        title: 'Liceo Alberghiero Celletti',
-        summary: 'test'
-      },
-      inReplyToCtx: null
+      link: 'https://picsum.photos/80/80'
     };
 
     return (
@@ -186,21 +193,29 @@ storiesOf('Modules/ActivityPreview', module)
       </Box>
     );
   })
-  .add('Create a community', () => {
+  .add('Follow a user', () => {
     const activityPreviewProps: Props = {
+      event: 'Followed a user',
+      preview: (
+        <User
+          {...{
+            image: 'https://picsum.photos/800/300',
+            bio: `I'm a cool user`,
+            username: '@favbooks@abc.com',
+            name: 'favbooks',
+            isFollowing: true,
+            toggleFollowFormik: useFormik({
+              initialValues: {},
+              onSubmit: action('toggle follow')
+            })
+          }}
+        />
+      ),
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
       createdAt: '2018-11-11',
-      context: {
-        link: 'https://picsum.photos/80/80',
-        type: ContextType.Community,
-        verb: ContextVerb.Created,
-        icon: 'https://picsum.photos/80/80',
-        title: 'Liceo Alberghiero Celletti',
-        summary: 'test'
-      },
-      inReplyToCtx: null
+      link: 'https://picsum.photos/80/80'
     };
 
     return (
@@ -217,22 +232,21 @@ storiesOf('Modules/ActivityPreview', module)
       </Box>
     );
   })
-
-  .add('Create a collection', () => {
+  .add('Create a comment', () => {
     const activityPreviewProps: Props = {
+      event: 'Created a comment',
+      preview: (
+        <Text p={2} variant="text">
+          After longtime I made a design for Uplabs Music player design
+          challenge. i hope you all like this. if you like my design dont forgot
+          to Vote in Uplabs ( 25 June ). Vote Here
+        </Text>
+      ),
       status: Status.Loaded,
       actor: getActor(),
       actions: getActions(),
       createdAt: '2018-11-11',
-      context: {
-        link: 'https://picsum.photos/80/80',
-        icon: 'https://picsum.photos/80/80',
-        title: 'Liceo Alberghiero Celletti',
-        summary: 'test',
-        type: ContextType.Collection,
-        verb: ContextVerb.Created
-      },
-      inReplyToCtx: null
+      link: 'https://picsum.photos/80/80'
     };
 
     return (
@@ -246,134 +260,6 @@ storiesOf('Modules/ActivityPreview', module)
         p={2}
       >
         <ActivityPreview {...activityPreviewProps} />
-      </Box>
-    );
-  })
-  .add('Update a resource', () => {
-    const activityPreviewProps: Props = {
-      status: Status.Loaded,
-      actor: getActor(),
-      actions: getActions(),
-      createdAt: '2018-11-11',
-      context: {
-        link: 'https://picsum.photos/80/80',
-        icon: 'https://picsum.photos/80/80',
-        title: 'Liceo Alberghiero Celletti',
-        summary: 'test',
-        type: ContextType.Resource,
-        verb: ContextVerb.Updated
-      },
-      inReplyToCtx: null
-    };
-
-    return (
-      <Box
-        sx={{
-          borderRadius: '6px',
-          background: '#fff',
-          width: '600px',
-          margin: '0 auto'
-        }}
-        p={2}
-      >
-        <ActivityPreview {...activityPreviewProps} />
-      </Box>
-    );
-  })
-  .add('Updated a collection', () => {
-    const activityPreviewProps: Props = {
-      status: Status.Loaded,
-      actor: getActor(),
-      actions: getActions(),
-      createdAt: '2018-11-11',
-      context: {
-        link: 'https://picsum.photos/80/80',
-        icon: 'https://picsum.photos/80/80',
-        title: 'Liceo Alberghiero Celletti',
-        summary: 'test',
-        type: ContextType.Collection,
-        verb: ContextVerb.Updated
-      },
-      inReplyToCtx: null
-    };
-
-    return (
-      <Box
-        sx={{
-          borderRadius: '6px',
-          background: '#fff',
-          width: '600px',
-          margin: '0 auto'
-        }}
-        p={2}
-      >
-        <ActivityPreview {...activityPreviewProps} />
-      </Box>
-    );
-  })
-  .add('Updated a community', () => {
-    const activityPreviewProps: Props = {
-      status: Status.Loaded,
-      actor: getActor(),
-      actions: getActions(),
-      createdAt: '2018-11-11',
-      context: {
-        link: 'https://picsum.photos/80/80',
-        icon: 'https://picsum.photos/80/80',
-        title: 'Liceo Alberghiero Celletti',
-        summary: 'test',
-        type: ContextType.Community,
-        verb: ContextVerb.Updated
-      },
-      inReplyToCtx: null
-    };
-
-    return (
-      <Box
-        sx={{
-          borderRadius: '6px',
-          background: '#fff',
-          width: '600px',
-          margin: '0 auto'
-        }}
-        p={2}
-      >
-        <ActivityPreview {...activityPreviewProps} />
-      </Box>
-    );
-  })
-  .add('Reply to a message', () => {
-    const activityPreviewProps: Props = {
-      status: Status.Loaded,
-      actor: getActor(),
-      actions: getActions(),
-      createdAt: '2018-11-11',
-      context: {
-        link: 'https://picsum.photos/80/80',
-        verb: ContextVerb.Created,
-        type: ContextType.Comment,
-        content:
-          'Sono chiamati alle urne cinque milioni e mezzo di elettori. Si vota dalle 7 alle 23. A nord il risultato si gioca in parte intorno al voto disgiunto fra centrodestra e centrosinistra. Anche a sud si vota con uno schema bipolare. I grillini sono fuori dai giochi. Attesa per gli effetti dei risultati sulla tenuta del governo. Salvini infrange il silenzio con un tweet su Bibbiano. Bonaccini: "Oggi vinciamo noi, oggi vince lEmilia-Romagna"'
-      },
-      inReplyToCtx: null
-      /* ,
-      inReplyToCtx: {
-        link: 'https://picsum.photos/80/80',
-        actor: getActor()
-      } */
-    };
-
-    return (
-      <Box
-        sx={{
-          borderRadius: '6px',
-          background: '#fff',
-          width: '600px',
-          margin: '0 auto'
-        }}
-        p={2}
-      >
-        <BigActivityPreview {...activityPreviewProps} />;
       </Box>
     );
   });

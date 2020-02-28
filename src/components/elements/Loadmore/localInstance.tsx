@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SFC } from 'react';
+import { FC } from 'react';
 import { Trans } from '@lingui/macro';
 import { LoadMore } from './timeline';
 import { LocalActivitiesQuery } from '../../../graphql/localActivities.generated';
@@ -9,7 +9,7 @@ interface Props {
   fetchMore: any;
 }
 
-const TimelineLoadMore: SFC<Props> = ({ fetchMore, outbox }) =>
+const TimelineLoadMore: FC<Props> = ({ fetchMore, outbox }) =>
   outbox.pageInfo && (
     <LoadMore
       onClick={() =>

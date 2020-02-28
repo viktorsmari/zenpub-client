@@ -1,29 +1,32 @@
 import * as React from 'react';
-import { ExternalLink, ChevronDown } from 'react-feather';
+import { ExternalLink, /* ChevronDown, */ Star } from 'react-feather';
 // import { NavLink } from 'react-router-dom';
 import { Box, Flex, Heading, Text } from 'rebass/styled-components';
 import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
+import { FormikHook } from 'ui/@types/types';
 // import { ellipsis } from 'polished';
 
 export interface Props {
-  id: string;
   icon: string;
   name: string;
   summary: string;
   link: string;
+  toggleLikeFormik: FormikHook;
+  iLike: boolean;
 }
 
-export const Resource: React.SFC<Props> = ({
-  id,
+export const Resource: React.FC<Props> = ({
   icon,
   name,
   summary,
-  link
+  link,
+  iLike,
+  toggleLikeFormik
 }) => {
   return (
     // <WrapperLink to={'/collections/' + id}>
-    <Wrapper>
+    <Wrapper p={2}>
       <Avatar size="m" src={icon} />
       <Infos flex={1} ml={3}>
         <Flex>
@@ -47,7 +50,7 @@ export const Resource: React.SFC<Props> = ({
         </Hashtags>
       </Infos>
       <Icon>
-        <ChevronDown size={20} />
+        <Star size={20} onClick={toggleLikeFormik.submitForm} />
       </Icon>
     </Wrapper>
     // </WrapperLink>

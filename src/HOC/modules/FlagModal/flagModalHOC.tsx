@@ -1,13 +1,13 @@
 import { useFormik } from 'formik';
-import React, { createContext, SFC, useContext, useMemo } from 'react';
+import React, { createContext, FC, useContext, useMemo } from 'react';
 import { BasicCreateFlagFormValues, FlagModal } from 'ui/modules/FlagModal';
 // import { useDeleteMutationMutation } from '../../../graphql/delete.generated';
 import * as Yup from 'yup';
 import * as GQL from './flagModal.generated';
 
-export const validationSchema: Yup.ObjectSchema<
+export const validationSchema: Yup.ObjectSchema<BasicCreateFlagFormValues> = Yup.object<
   BasicCreateFlagFormValues
-> = Yup.object<BasicCreateFlagFormValues>({
+>({
   reason: Yup.string()
     .max(200)
     .required()
@@ -30,7 +30,7 @@ export const FlagModalCtx = createContext<FlagModalCtx>({
   useCreateFlagPanelCreateMutation: GQL.useCreateFlagPanelCreateMutation
 });
 
-export const FlagModalHOC: SFC<Props> = ({
+export const FlagModalHOC: FC<Props> = ({
   done,
   contextId,
   flagged

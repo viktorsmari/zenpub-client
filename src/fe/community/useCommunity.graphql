@@ -1,4 +1,4 @@
-#import "HOC/page/community/CommunityPage.graphql"
+
 query communityData($communityId:String!){
   community(communityId:$communityId){
     ...CommunityPageBase

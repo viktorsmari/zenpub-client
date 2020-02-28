@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SFC } from 'react';
+import { FC } from 'react';
 import styled from '../../../themes/styled';
 import { Trans } from '@lingui/macro';
 import { Text } from 'rebass/styled-components';
@@ -8,7 +8,7 @@ interface Props {
   fetchMore: any;
 }
 
-const TimelineLoadMore: SFC<Props> = ({ fetchMore, community }) =>
+const TimelineLoadMore: FC<Props> = ({ fetchMore, community }) =>
   community.outbox.pageInfo && (
     <LoadMore
       onClick={() =>

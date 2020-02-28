@@ -1,6 +1,6 @@
 import React, { createContext, useContext } from 'react';
 import { useFormik } from 'formik';
-import { useMemo, SFC } from 'react';
+import { useMemo, FC } from 'react';
 import * as Yup from 'yup';
 import * as GQL from './editCommunityPanel.generated';
 import {
@@ -9,9 +9,9 @@ import {
 } from 'ui/modules/EditCommunityPanel';
 import { Community } from 'graphql/types.generated';
 
-export const validationSchema: Yup.ObjectSchema<
+export const validationSchema: Yup.ObjectSchema<EditCommunityFormValues> = Yup.object<
   EditCommunityFormValues
-> = Yup.object<EditCommunityFormValues>({
+>({
   name: Yup.string()
     .min(2)
     .max(60)
@@ -43,7 +43,7 @@ export interface Props {
   communityId: Community['id'];
   done(): any;
 }
-export const EditCommunityPanelHOC: SFC<Props> = ({
+export const EditCommunityPanelHOC: FC<Props> = ({
   done,
   communityId
 }: Props) => {

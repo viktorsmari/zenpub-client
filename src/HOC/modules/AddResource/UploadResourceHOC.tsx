@@ -1,4 +1,4 @@
-import React, { useMemo, SFC, createContext, useContext } from 'react';
+import React, { useMemo, FC, createContext, useContext } from 'react';
 import { useFormik } from 'formik';
 import * as GQL from './AddResource.generated';
 import * as Yup from 'yup';
@@ -49,10 +49,7 @@ export const UploadResourceCtx = createContext<UploadResourceCtx>({
   useAddResourceUploadMutation: GQL.useAddResourceUploadMutation
 });
 
-export const UploadResourceHOC: SFC<Props> = ({
-  done,
-  collectionId
-}: Props) => {
+export const UploadResourceHOC: FC<Props> = ({ done, collectionId }: Props) => {
   const {
     useAddResourceCreateResourceMutation,
     useAddResourceUploadIconMutation,

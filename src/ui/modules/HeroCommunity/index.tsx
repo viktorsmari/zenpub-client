@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/react';
 import { clearFix, darken } from 'polished';
-import React, { ComponentType, SFC } from 'react';
+import React, { ComponentType, FC } from 'react';
 import { Settings, MoreVertical, Flag, Star } from 'react-feather';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
@@ -40,7 +40,7 @@ export interface Props {
   community: CommunityLoaded | CommunityLoading;
 }
 
-export const HeroCommunity: SFC<Props> = ({ community: c }) => {
+export const HeroCommunity: FC<Props> = ({ community: c }) => {
   const [, setOpenMembers] = React.useState(false);
   const [isOpenSettings, setOpenSettings] = React.useState(false);
   const [isOpenDropdown, setOpenDropdown] = React.useState(false);

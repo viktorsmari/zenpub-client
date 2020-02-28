@@ -1,4 +1,4 @@
-#import "HOC/page/collection/CollectionPage.graphql"
+
 
 query collectionResources($collectionId: String!, $limit:Int, $before:String, $after:String) {
   collection(collectionId:$collectionId){

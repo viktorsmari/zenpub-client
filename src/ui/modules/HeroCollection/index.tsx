@@ -1,5 +1,5 @@
 import { clearFix, darken } from 'polished';
-import React, { ComponentType, SFC } from 'react';
+import React, { ComponentType, FC } from 'react';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import Modal from 'ui/modules/Modal';
@@ -45,7 +45,7 @@ export interface Props {
   collection: CollectionLoaded | CollectionLoading;
 }
 
-export const HeroCollection: SFC<Props> = ({ collection: c }) => {
+export const HeroCollection: FC<Props> = ({ collection: c }) => {
   const [isOpenSettings, setOpenSettings] = React.useState(false);
   const [isOpenDropdown, setOpenDropdown] = React.useState(false);
   const [isOpenFlag, setOpenFlag] = React.useState(false);

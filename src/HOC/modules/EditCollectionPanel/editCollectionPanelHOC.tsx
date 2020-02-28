@@ -1,4 +1,4 @@
-import React, { useMemo, SFC, createContext, useContext } from 'react';
+import React, { useMemo, FC, createContext, useContext } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import * as GQL from './CollectionEdit.generated';
@@ -8,9 +8,9 @@ import {
 } from 'ui/modules/EditCollectionPanel';
 import { Collection } from 'graphql/types.generated';
 
-export const validationSchema: Yup.ObjectSchema<
+export const validationSchema: Yup.ObjectSchema<EditCollectionFormValues> = Yup.object<
   EditCollectionFormValues
-> = Yup.object<EditCollectionFormValues>({
+>({
   name: Yup.string()
     .min(2)
     .max(60)
@@ -43,7 +43,7 @@ export interface Props {
   collectionId: Collection['id'];
   done(): any;
 }
-export const EditCollectionPanelHOC: SFC<Props> = ({
+export const EditCollectionPanelHOC: FC<Props> = ({
   done,
   collectionId
 }: Props) => {

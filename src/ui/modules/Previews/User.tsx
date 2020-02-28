@@ -3,27 +3,37 @@ import styled from 'ui/themes/styled';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import Avatar from 'ui/elements/Avatar';
 import { UserPlus } from 'react-feather';
+import { FormikHook } from 'ui/@types/types';
 
-export const User = () => (
+export interface Props {
+  image: string;
+  name: string;
+  username: string;
+  bio: string;
+  toggleFollowFormik: FormikHook;
+  isFollowing: boolean;
+}
+
+export const User: React.SFC<Props> = ({
+  image,
+  name,
+  username,
+  bio,
+  toggleFollowFormik /* , isFollowing */
+}) => (
   <WrapperFlex p={3}>
-    <Avatar
-      variant="avatar"
-      src="https://i.pinimg.com/474x/ce/03/0b/ce030b51864cb4d0e9a8f88113ee0fb0.jpg"
-    />
+    <Avatar variant="avatar" src={image} />
     <Wrapper ml={2}>
       <Names>
-        <Text variant="subhead">Ivan</Text>
-        <Username ml={1}>@ivan@moodle.net</Username>
+        <Text variant="subhead">{name}</Text>
+        <Username ml={1}>{username}</Username>
       </Names>
       <Box mr={1}>
-        <Text variant="text">
-          Capitalism is the most efficient system known to man for destroying
-          the biosphere on a planetary scale.
-        </Text>
+        <Text variant="text">{bio}</Text>
       </Box>
     </Wrapper>
     <Icon>
-      <UserPlus size={20} />
+      <UserPlus size={20} onClick={toggleFollowFormik.submitForm} />
     </Icon>
   </WrapperFlex>
 );

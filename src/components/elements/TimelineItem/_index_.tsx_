@@ -2,7 +2,7 @@ import { Trans } from '@lingui/react';
 import { DateTime } from 'luxon';
 import { clearFix } from 'polished';
 import * as React from 'react';
-import { SFC } from 'react';
+import { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import removeMd from 'remove-markdown';
@@ -21,7 +21,7 @@ interface Props {
   activity:ActivityObject
 }
 
-const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
+const Item: FC<Props> = ({ user, node, userpage, activity }) => {
   const [iLikeIt, setiLikeIt] = React.useState(false);
   const [like] = useLikeCommentMutationMutation();
   const [undoLike] = useUndoLikeCommentMutationMutation();

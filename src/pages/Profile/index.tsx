@@ -6,7 +6,7 @@ import {
 import {
   ActivityPreviewHOC
   /* ActivityPreviewCtx */
-} from 'HOC/modules/ActivityPreview/activityPreviewHOC';
+} from 'HOC/modules/previews/activity/ActivityPreview';
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import { TabPanel, Tabs } from 'react-tabs';
@@ -28,7 +28,7 @@ import HeroComp from './Hero';
 
 interface Props {}
 
-const CommunitiesFeatured: React.SFC<Props> = () => {
+const CommunitiesFeatured: React.FC<Props> = () => {
   const query = useGetUserQuery({
     variables: {
       limitComm: 15,

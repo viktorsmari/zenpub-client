@@ -1,0 +1,20 @@
+fragment ResourcePreview on Resource {
+    id
+    # isLocal
+    icon
+    name
+    summary
+    canonicalUrl
+    url
+    myLike { id }
+    myFlag { id }
+    likes { totalCount }
+    collection {
+      id
+      community {
+        id
+        myFollow { id }
+      }
+    }
+    # likerCount
+}

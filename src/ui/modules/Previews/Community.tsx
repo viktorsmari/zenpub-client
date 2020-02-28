@@ -4,15 +4,17 @@ import { Text, Box, Flex } from 'rebass/styled-components';
 import Avatar from 'ui/elements/Avatar';
 import { Trans } from '@lingui/macro';
 import Button from 'ui/elements/Button';
+import { FormikHook } from 'ui/@types/types';
 
 export interface Props {
   name: string;
   icon: string;
   summary: string;
-  followersCount?: number;
-  collectionsCount?: number;
-  followed?: boolean;
-  threadsCount?: number;
+  followersCount: number;
+  collectionsCount: number;
+  threadsCount: number;
+  toggleJoinFormik: FormikHook;
+  joined: boolean;
 }
 
 export const Community: React.FC<Props> = ({
@@ -20,9 +22,10 @@ export const Community: React.FC<Props> = ({
   icon,
   summary,
   followersCount,
-  collectionsCount
+  collectionsCount,
+  toggleJoinFormik
 }) => (
-  <Wrapper>
+  <Wrapper p={2}>
     <WrapperImage>
       <Avatar size="l" src={icon} />
     </WrapperImage>
@@ -49,7 +52,7 @@ export const Community: React.FC<Props> = ({
           </Meta>
         </Box>
 
-        <Button variant="outline">
+        <Button variant="outline" onClick={toggleJoinFormik.submitForm}>
           <Trans>Join</Trans>
         </Button>
       </Flex>
@@ -80,7 +83,7 @@ const Wrapper = styled(Box)`
   border-radius: 6px;
   padding-bottom: 0;
   cursor: pointer;
-  border: 1px solid ${props => props.theme.colors.lightgray};
+  // border: 1px solid ${props => props.theme.colors.lightgray};
   &:hover {
     background: ${props => props.theme.colors.lighter};
     text-decoration: none;

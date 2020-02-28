@@ -55,7 +55,7 @@ const Item = styled(Text)`
   }
 `;
 
-const Dropdown: React.SFC<{ userId: string }> = ({ userId }) => {
+const Dropdown: React.FC<{ userId: string }> = ({ userId }) => {
   const { push } = useHistory();
   const [logoutMut /* , logoutMutResp */] = useLogoutMutationMutation();
   const logout = React.useCallback(() => logoutMut(), [logoutMut]);

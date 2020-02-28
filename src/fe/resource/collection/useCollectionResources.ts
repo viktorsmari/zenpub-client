@@ -1,6 +1,7 @@
 import { Collection } from 'graphql/types.generated';
 import { useMemo } from 'react';
 import * as GQL from './useCollectionResources.generated';
+import { manageEdges } from 'fe/lib/helpers/edges';
 
 export const useCollectionResources = (collectionId: Collection['id']) => {
   const collectionQ = GQL.useCollectionResourcesQuery({
@@ -8,13 +9,7 @@ export const useCollectionResources = (collectionId: Collection['id']) => {
   });
 
   const resources = useMemo<GQL.CollectionResourceFragment[]>(
-    () =>
-      (collectionQ.data?.collection?.resources?.edges || [])
-        .map(resourceEdge => resourceEdge?.node)
-        .filter(
-          (maybeResource): maybeResource is GQL.CollectionResourceFragment =>
-            !!maybeResource
-        ),
+    () => manageEdges(collectionQ.data?.collection?.resources).nodes,
     [collectionQ]
   );
 
