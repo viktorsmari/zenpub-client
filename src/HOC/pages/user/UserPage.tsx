@@ -19,7 +19,10 @@ export interface UserPage {
 }
 export enum UserPageTab {
   Activities,
-  Likes
+  Likes,
+  Communities,
+  Collections,
+  Following
 }
 export const UserPage: FC<UserPage> = ({ userId, basePath }) => {
   const user = useUser(userId);
