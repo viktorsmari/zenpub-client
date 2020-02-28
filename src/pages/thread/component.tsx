@@ -1,8 +1,7 @@
-import { PureQueryOptions } from 'apollo-client';
-import { useFormik } from 'formik';
-import { Thread as GQLThread } from 'graphql/types.generated';
-import { getActivityActions } from 'HOC/modules/previews/activity/lib/getActivityActions';
 import { getActivityActor } from 'HOC/modules/previews/activity/lib/getActivityActor';
+import { isContextFollowed } from 'HOC/modules/previews/activity/lib/isActivityFollowed';
+import { useActivityReplyFormik } from 'HOC/modules/previews/activity/lib/useActivityReplyFormik';
+import { useActivityToggleLikeFormik } from 'HOC/modules/previews/activity/lib/useActivityToggleLikeFormik';
 import { CommentPreviewHOC } from 'HOC/modules/previews/comment/CommentPreview';
 import { CommentPreviewFragment } from 'HOC/modules/previews/comment/CommentPreview.generated';
 import React, { FC, useEffect, useMemo } from 'react';
@@ -11,22 +10,11 @@ import {
   BigThreadCommentPreviewPropsLoaded,
   Status as ActivityPreviewStatus
 } from 'ui/modules/ActivityPreview';
-import {
-  CreateReplyMutationMutationOperation,
-  useCreateReplyMutationMutation
-} from '../../graphql/createReply.generated';
-import {
-  DeleteMutationMutationOperation,
-  useDeleteMutationMutation
-} from '../../graphql/delete.generated';
-import {
-  GetThreadDocument,
-  useGetThreadQuery
-} from '../../graphql/getThread.generated';
-import {
-  LikeMutationMutationOperation,
-  useLikeMutationMutation
-} from '../../graphql/like.generated';
+import { ActionProps } from 'ui/modules/ActivityPreview/Actions';
+import { CreateReplyMutationMutationOperation } from '../../graphql/createReply.generated';
+import { DeleteMutationMutationOperation } from '../../graphql/delete.generated';
+import { useGetThreadQuery } from '../../graphql/getThread.generated';
+import { LikeMutationMutationOperation } from '../../graphql/like.generated';
 import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import Stateless from './stateless';
 export interface Props {
@@ -68,7 +56,6 @@ export const Thread: React.FC<Props> = ({ threadId }) => {
     ) {
       return [];
     }
-    const thread = threadQuery.data.thread;
     const comments = threadQuery.data.thread.comments;
     return comments.edges
       .map(
@@ -77,7 +64,6 @@ export const Thread: React.FC<Props> = ({ threadId }) => {
           edge.node && (
             <CommentActivity
               root={index === 0}
-              threadId={thread.id}
               comment={edge.node}
               key={edge.node.id}
             />
@@ -93,68 +79,37 @@ export default Thread;
 
 export const CommentActivity: FC<{
   root: boolean;
-  threadId: GQLThread['id'];
   comment: CommentPreviewFragment;
-}> = ({ threadId, comment, root }) => {
+}> = ({ comment, root }) => {
   if (!comment.creator) {
+    console.error(`No creator for comment!`);
+    console.log(comment);
     return null;
   }
-  const [likeMut, likeMutStatus] = useLikeMutationMutation();
-  const [unlikeMut, unlikeMutStatus] = useDeleteMutationMutation();
-  const [
-    createReplyMut,
-    createReplyMutStatus
-  ] = useCreateReplyMutationMutation();
-  const refetchQueries: PureQueryOptions[] = [
-    {
-      query: GetThreadDocument,
-      variables: { threadId }
-    }
-  ];
-  const replyThreadFormik = useFormik<{ replyMessage: string }>({
-    initialValues: { replyMessage: '' },
-    onSubmit: ({ replyMessage }) => {
-      if (createReplyMutStatus.loading) {
-        return;
-      }
-      return createReplyMut({
-        variables: {
-          threadId: threadId,
-          inReplyToId: comment.id,
-          comment: { content: replyMessage }
+
+  const actions: ActionProps | null = isContextFollowed(comment)
+    ? {
+        FlagModal: null /*  ({ done }) => <FlagModalHOC {... {
+        done,
+        contextId: comment.id,
+        flagged: !!comment.myFlag
+      }} />, */,
+        like: {
+          iLikeIt: !!comment.myLike,
+          toggleLikeFormik: useActivityToggleLikeFormik(comment),
+          totalLikes: comment.likerCount || 0
         },
-        refetchQueries
-      });
-    }
-  });
-  const toggleLikeFormik = useFormik<{}>({
-    initialValues: {},
-    onSubmit: () => {
-      if (likeMutStatus.loading || unlikeMutStatus.loading) {
-        return;
+        reply: {
+          replyFormik: useActivityReplyFormik(comment)
+        }
       }
-      const { myLike } = comment;
-      if (myLike) {
-        return unlikeMut({
-          variables: { contextId: myLike.id },
-          refetchQueries
-        });
-      } else {
-        return likeMut({
-          variables: {
-            contextId: comment.id
-          },
-          refetchQueries
-        });
-      }
-    }
-  });
+    : null;
 
   const props: BigThreadCommentPreviewPropsLoaded = {
     actor: getActivityActor(comment.creator),
     content: comment.content,
     status: ActivityPreviewStatus.Loaded,
-    actions: getActivityActions(comment, replyThreadFormik, toggleLikeFormik),
+    actions,
     createdAt: comment.createdAt
   };
   return !root ? (
