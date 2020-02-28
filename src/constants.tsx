@@ -6,9 +6,11 @@ export const PUBLIC_URL = process.env.PUBLIC_URL;
 export const SENTRY_KEY = process.env.SENTRY_KEY || '';
 
 export const APP_NAME = 'MoodleNet';
-export const INSTANCE_DESCRIPTION = 'This instance is currently invite-only.';
+export const INSTANCE_DESCRIPTION =
+  process.env.INSTANCE_DESCRIPTION || 'An instance of MoodleNet.';
 export const INVITE_ONLY_TEXT =
-  'Please note, signups on this instance are currently invite-only.';
+  process.env.REACT_APP_INVITE_ONLY_TEXT ||
+  'Signups on this instance are currently invite-only.';
 
 export const IS_DEV = NODE_ENV === 'development';
 
