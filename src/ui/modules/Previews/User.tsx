@@ -3,15 +3,24 @@ import styled from 'ui/themes/styled';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import Avatar from 'ui/elements/Avatar';
 import { UserPlus } from 'react-feather';
+import { FormikHook } from 'ui/@types/types';
 
 export interface Props {
   image: string;
   name: string;
   username: string;
   bio: string;
+  toggleFollowFormik: FormikHook;
+  isFollowing: boolean;
 }
 
-export const User: React.SFC<Props> = ({ image, name, username, bio }) => (
+export const User: React.SFC<Props> = ({
+  image,
+  name,
+  username,
+  bio,
+  toggleFollowFormik /* , isFollowing */
+}) => (
   <WrapperFlex p={3}>
     <Avatar variant="avatar" src={image} />
     <Wrapper ml={2}>
@@ -24,7 +33,7 @@ export const User: React.SFC<Props> = ({ image, name, username, bio }) => (
       </Box>
     </Wrapper>
     <Icon>
-      <UserPlus size={20} />
+      <UserPlus size={20} onClick={toggleFollowFormik.submitForm} />
     </Icon>
   </WrapperFlex>
 );

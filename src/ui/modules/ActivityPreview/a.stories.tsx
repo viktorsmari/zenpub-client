@@ -83,6 +83,10 @@ storiesOf('Modules/ActivityPreview', module)
             'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
           }
           totalResources={12}
+          toggleFollowFormik={useFormik({
+            initialValues: {},
+            onSubmit: action('toggle follow')
+          })}
         />
       ),
       status: Status.Loaded,
@@ -119,8 +123,12 @@ storiesOf('Modules/ActivityPreview', module)
           }
           followersCount={12}
           collectionsCount={6}
-          followed={true}
+          joined={true}
           threadsCount={3}
+          toggleJoinFormik={useFormik({
+            initialValues: {},
+            onSubmit: action('toggle join')
+          })}
         />
       ),
       status: Status.Loaded,
@@ -149,7 +157,6 @@ storiesOf('Modules/ActivityPreview', module)
       event: 'Created a resource',
       preview: (
         <Resource
-          id={'1'}
           icon={
             'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png'
           }
@@ -158,6 +165,11 @@ storiesOf('Modules/ActivityPreview', module)
             'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
           }
           link={'https://www.pinterest.it/topics/anime/'}
+          iLike
+          toggleLikeFormik={useFormik({
+            initialValues: {},
+            onSubmit: action('toggle like')
+          })}
         />
       ),
       status: Status.Loaded,
@@ -190,7 +202,12 @@ storiesOf('Modules/ActivityPreview', module)
             image: 'https://picsum.photos/800/300',
             bio: `I'm a cool user`,
             username: '@favbooks@abc.com',
-            name: 'favbooks'
+            name: 'favbooks',
+            isFollowing: true,
+            toggleFollowFormik: useFormik({
+              initialValues: {},
+              onSubmit: action('toggle follow')
+            })
           }}
         />
       ),

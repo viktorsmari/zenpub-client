@@ -4,6 +4,7 @@ import { Text, Box, Flex } from 'rebass/styled-components';
 import Avatar from 'ui/elements/Avatar';
 import { Trans } from '@lingui/macro';
 import Button from 'ui/elements/Button';
+import { FormikHook } from 'ui/@types/types';
 
 export interface Props {
   name: string;
@@ -11,8 +12,9 @@ export interface Props {
   summary: string;
   followersCount: number;
   collectionsCount: number;
-  followed: boolean;
   threadsCount: number;
+  toggleJoinFormik: FormikHook;
+  joined: boolean;
 }
 
 export const Community: React.FC<Props> = ({
@@ -20,7 +22,8 @@ export const Community: React.FC<Props> = ({
   icon,
   summary,
   followersCount,
-  collectionsCount
+  collectionsCount,
+  toggleJoinFormik
 }) => (
   <Wrapper p={2}>
     <WrapperImage>
@@ -49,7 +52,7 @@ export const Community: React.FC<Props> = ({
           </Meta>
         </Box>
 
-        <Button variant="outline">
+        <Button variant="outline" onClick={toggleJoinFormik.submitForm}>
           <Trans>Join</Trans>
         </Button>
       </Flex>

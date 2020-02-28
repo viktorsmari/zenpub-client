@@ -6,6 +6,7 @@ import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
 import { Trans } from '@lingui/react';
 import Button from 'ui/elements/Button';
+import { FormikHook } from 'ui/@types/types';
 export interface Props {
   link: {
     url: string;
@@ -17,6 +18,7 @@ export interface Props {
   displayUsername: string;
   totalResources: number | null;
   isFollowing: boolean;
+  toggleFollowFormik: FormikHook;
 }
 
 export const Collection: React.FC<Props> = ({
@@ -26,7 +28,8 @@ export const Collection: React.FC<Props> = ({
   summary,
   displayUsername,
   totalResources,
-  isFollowing
+  isFollowing,
+  toggleFollowFormik
 }) => {
   return (
     <WrapperLink to={link.url}>
@@ -43,9 +46,13 @@ export const Collection: React.FC<Props> = ({
               <Username>{displayUsername}</Username>
             </Box>
             {isFollowing ? (
-              <Button variant="outline">leave</Button>
+              <Button variant="outline" onClick={toggleFollowFormik.submitForm}>
+                leave
+              </Button>
             ) : (
-              <Button variant="primary">Follow</Button>
+              <Button variant="primary" onClick={toggleFollowFormik.submitForm}>
+                Follow
+              </Button>
             )}
           </Flex>
           <Text variant="text" mt={1} mb={2}>

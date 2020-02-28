@@ -4,22 +4,25 @@ import { ExternalLink, /* ChevronDown, */ Star } from 'react-feather';
 import { Box, Flex, Heading, Text } from 'rebass/styled-components';
 import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
+import { FormikHook } from 'ui/@types/types';
 // import { ellipsis } from 'polished';
 
 export interface Props {
-  id: string;
   icon: string;
   name: string;
   summary: string;
   link: string;
+  toggleLikeFormik: FormikHook;
+  iLike: boolean;
 }
 
 export const Resource: React.FC<Props> = ({
-  id,
   icon,
   name,
   summary,
-  link
+  link,
+  iLike,
+  toggleLikeFormik
 }) => {
   return (
     // <WrapperLink to={'/collections/' + id}>
@@ -47,7 +50,7 @@ export const Resource: React.FC<Props> = ({
         </Hashtags>
       </Infos>
       <Icon>
-        <Star size={20} />
+        <Star size={20} onClick={toggleLikeFormik.submitForm} />
       </Icon>
     </Wrapper>
     // </WrapperLink>
