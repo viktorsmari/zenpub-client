@@ -2,13 +2,14 @@ import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import { useFormik } from 'formik';
 import React from 'react';
-import { Box, Text } from 'rebass/styled-components';
+import { Box } from 'rebass/styled-components';
 import { Community } from 'ui/modules/Previews/Community';
 import { ActivityPreview, Props, Status } from '.';
-import { FlagModal } from '../FlagModal';
+import { Comment } from 'ui/modules/Previews/Comment';
 import { Collection } from '../Previews/Collection';
 import { Resource } from '../Previews/Resource';
 import { User } from '../Previews/User';
+import FlagModal from '../FlagModal';
 
 const getActions = () => ({
   FlagModal: () => {
@@ -47,7 +48,7 @@ const getActions = () => ({
     iLikeIt: true
   },
   reply: {
-    replyFormik: useFormik<{ replyMessage: string }>({
+    replyFormik: useFormik<{ replyMessage: String }>({
       initialValues: { replyMessage: '' },
       onSubmit: vals => {
         action(`submitting: ${vals.replyMessage}`)();
@@ -61,6 +62,7 @@ const getActions = () => ({
     })
   }
 });
+
 const getActor = () => ({
   icon: 'https://picsum.photos/80/80',
   link: '1',
@@ -82,12 +84,23 @@ storiesOf('Modules/ActivityPreview', module)
           summary={
             'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
           }
+          toggleFollowFormik={useFormik<{}>({
+            initialValues: {},
+            onSubmit: vals => {
+              action('submitting...')();
+              return new Promise(resolve =>
+                setTimeout(() => {
+                  action('submitted...')();
+                  resolve();
+                }, 2000)
+              );
+            }
+          })}
           totalResources={12}
         />
       ),
       status: Status.Loaded,
       actor: getActor(),
-      actions: getActions(),
       createdAt: '2018-11-11',
       link: 'https://picsum.photos/80/80'
     };
@@ -120,12 +133,23 @@ storiesOf('Modules/ActivityPreview', module)
           followersCount={12}
           collectionsCount={6}
           followed={true}
+          toggleJoinFormik={useFormik<{}>({
+            initialValues: {},
+            onSubmit: vals => {
+              action('submitting...')();
+              return new Promise(resolve =>
+                setTimeout(() => {
+                  action('submitted...')();
+                  resolve();
+                }, 2000)
+              );
+            }
+          })}
           threadsCount={3}
         />
       ),
       status: Status.Loaded,
       actor: getActor(),
-      actions: getActions(),
       createdAt: '2018-11-11',
       link: 'https://picsum.photos/80/80'
     };
@@ -154,6 +178,22 @@ storiesOf('Modules/ActivityPreview', module)
             'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png'
           }
           name={'mantarai'}
+          like={{
+            totalLikes: 3,
+            toggleLikeFormik: useFormik<{}>({
+              initialValues: {},
+              onSubmit: vals => {
+                action('submitting...')();
+                return new Promise(resolve =>
+                  setTimeout(() => {
+                    action('submitted...')();
+                    resolve();
+                  }, 2000)
+                );
+              }
+            }),
+            iLikeIt: true
+          }}
           summary={
             'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
           }
@@ -162,7 +202,6 @@ storiesOf('Modules/ActivityPreview', module)
       ),
       status: Status.Loaded,
       actor: getActor(),
-      actions: getActions(),
       createdAt: '2018-11-11',
       link: 'https://picsum.photos/80/80'
     };
@@ -196,7 +235,6 @@ storiesOf('Modules/ActivityPreview', module)
       ),
       status: Status.Loaded,
       actor: getActor(),
-      actions: getActions(),
       createdAt: '2018-11-11',
       link: 'https://picsum.photos/80/80'
     };
@@ -219,15 +257,15 @@ storiesOf('Modules/ActivityPreview', module)
     const activityPreviewProps: Props = {
       event: 'Created a comment',
       preview: (
-        <Text p={2} variant="text">
-          After longtime I made a design for Uplabs Music player design
-          challenge. i hope you all like this. if you like my design dont forgot
-          to Vote in Uplabs ( 25 June ). Vote Here
-        </Text>
+        <Comment
+          {...getActions()}
+          content={
+            'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+          }
+        />
       ),
       status: Status.Loaded,
       actor: getActor(),
-      actions: getActions(),
       createdAt: '2018-11-11',
       link: 'https://picsum.photos/80/80'
     };

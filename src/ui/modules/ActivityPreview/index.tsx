@@ -10,7 +10,7 @@ import Avatar from 'ui/elements/Avatar';
 import SocialText from 'ui/modules/SocialText';
 import styled from 'ui/themes/styled';
 import { LocaleContext } from '../../../context/global/localizationCtx';
-import Actions, { ActionProps } from './Actions';
+// import Actions, { ActionProps } from './Actions';
 import { Actor } from './types';
 import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
 import { Input, Label } from '@rebass/forms';
@@ -43,7 +43,7 @@ export interface Activity {
   createdAt: string;
   actor: Actor;
   link: string;
-  actions: ActionProps | null;
+  // actions: ActionProps | null;
   event: string;
   preview: JSX.Element;
 }
@@ -84,7 +84,7 @@ export const ActivityPreview: FC<Props> = activity => {
       <Contents>
         <Wrapper>
           {activity.preview}
-          {activity.actions && <Actions {...activity.actions} />}
+          {/* {activity.actions && <Actions {...activity.actions} />} */}
         </Wrapper>
       </Contents>
     </FeedItem>
