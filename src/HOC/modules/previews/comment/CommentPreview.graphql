@@ -21,13 +21,13 @@ fragment CommentPreview on Comment {
       }
       ...on Community {
         id
-        myFollow{ id }
+        ...CommunityInfo
       }
       ...on Collection {
         id
         community {
           id
-          myFollow{ id }
+          ...CommunityInfo
         }
       }
       ...on Resource {
@@ -36,7 +36,7 @@ fragment CommentPreview on Comment {
           id
           community {
             id
-            myFollow{ id }
+            ...CommunityInfo
           }
         }
       }

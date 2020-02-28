@@ -5,14 +5,19 @@ import {
   Community as CommunityPreviewUI,
   Props as CommunityPreviewProps
 } from 'ui/modules/Previews/Community';
+import { useFormik } from 'formik';
 
 export interface Props {
   communityId: Community['id'];
 }
 
 export const CommunityPreviewHOC: FC<Props> = ({ communityId }) => {
-  const { community } = useCommunityPreview(communityId);
+  const { community, toggleFollow } = useCommunityPreview(communityId);
 
+  const toggleJoinFormik = useFormik({
+    initialValues: {},
+    onSubmit: toggleFollow
+  });
   const communityPreviewProps = useMemo<CommunityPreviewProps | null>(() => {
     if (!community) {
       return null;
@@ -35,10 +40,11 @@ export const CommunityPreviewHOC: FC<Props> = ({ communityId }) => {
       collectionsCount: collectionCount || 0,
       followed: !!myFollow,
       followersCount: followerCount || 0,
-      threadsCount: threads?.totalCount || 0
+      threadsCount: threads?.totalCount || 0,
+      toggleJoinFormik
     };
     return props;
-  }, [community]);
+  }, [community, toggleJoinFormik]);
 
   return (
     communityPreviewProps && <CommunityPreviewUI {...communityPreviewProps} />

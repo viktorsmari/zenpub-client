@@ -5,14 +5,18 @@ import {
   Props as ResourcePreviewProps,
   Resource as ResourcePreviewUI
 } from 'ui/modules/Previews/Resource';
+import { useFormik } from 'formik';
 
 export interface Props {
   resourceId: Resource['id'];
 }
 
 export const ResourcePreviewHOC: FC<Props> = ({ resourceId }) => {
-  const { resource } = useResourcePreview(resourceId);
-
+  const { resource, toggleLike } = useResourcePreview(resourceId);
+  const toggleLikeFormik = useFormik({
+    initialValues: {},
+    onSubmit: toggleLike
+  });
   const resourcePreviewProps = useMemo<ResourcePreviewProps | null>(() => {
     if (!resource) {
       return null;
@@ -25,7 +29,12 @@ export const ResourcePreviewHOC: FC<Props> = ({ resourceId }) => {
       id,
       link: url || canonicalUrl || '',
       name,
-      summary: summary || ''
+      summary: summary || '',
+      like: {
+        iLikeIt: !!resource.myLike,
+        totalLikes: resource.likes?.totalCount || 0,
+        toggleLikeFormik
+      }
     };
     return props;
   }, [resource]);

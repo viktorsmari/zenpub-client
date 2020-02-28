@@ -5,19 +5,23 @@ import {
   Props as CollectionPreviewProps
 } from 'ui/modules/Previews/Collection';
 import { useCollectionPreview } from 'fe/collection/preview/useCollectionPreview';
+import { useFormik } from 'formik';
 
 export interface Props {
   collectionId: Collection['id'];
 }
 
 export const CollectionPreviewHOC: FC<Props> = ({ collectionId }) => {
-  const { collection } = useCollectionPreview(collectionId);
+  const { collection, toggleFollow } = useCollectionPreview(collectionId);
+  const toggleFollowFormik = useFormik({
+    initialValues: {},
+    onSubmit: toggleFollow
+  });
 
   const collectionPreviewProps = useMemo<CollectionPreviewProps | null>(() => {
     if (!collection) {
       return null;
     }
-
     const {
       icon,
       isLocal,
@@ -39,10 +43,11 @@ export const CollectionPreviewHOC: FC<Props> = ({ collectionId }) => {
       },
       name,
       summary: summary || '',
-      totalResources: resourceCount || null
+      totalResources: resourceCount || null,
+      toggleFollowFormik
     };
     return props;
-  }, [collection]);
+  }, [collection, toggleFollowFormik]);
 
   return (
     collectionPreviewProps && (

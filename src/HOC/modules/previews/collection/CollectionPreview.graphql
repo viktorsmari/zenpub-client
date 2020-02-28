@@ -13,6 +13,6 @@ fragment CollectionPreview on Collection {
     # likerCount
     community {
         id
-        myFollow { id }
+        ...CommunityInfo
     }
 }

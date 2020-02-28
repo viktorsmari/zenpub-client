@@ -1,13 +1,18 @@
 fragment CommunityPreview on Community {
+    ...CommunityInfo
     id
     icon
-    name
     summary
     myFlag { id }
-    myFollow { id }
     collectionCount
     followerCount
     threads { totalCount }
     # myLike { id }
     # likerCount
+}
+
+fragment CommunityInfo on Community {
+    id
+    name
+    myFollow { id }
 }

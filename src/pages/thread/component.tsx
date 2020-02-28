@@ -1,7 +1,5 @@
 import { getActivityActor } from 'HOC/modules/previews/activity/lib/getActivityActor';
-import { isContextFollowed } from 'HOC/modules/previews/activity/lib/isActivityFollowed';
-import { useActivityReplyFormik } from 'HOC/modules/previews/activity/lib/useActivityReplyFormik';
-import { useActivityToggleLikeFormik } from 'HOC/modules/previews/activity/lib/useActivityToggleLikeFormik';
+import { getCommunityInfoStrings } from 'HOC/modules/previews/activity/lib/getContextCommunityInfo';
 import { CommentPreviewHOC } from 'HOC/modules/previews/comment/CommentPreview';
 import { CommentPreviewFragment } from 'HOC/modules/previews/comment/CommentPreview.generated';
 import React, { FC, useEffect, useMemo } from 'react';
@@ -10,7 +8,6 @@ import {
   BigThreadCommentPreviewPropsLoaded,
   Status as ActivityPreviewStatus
 } from 'ui/modules/ActivityPreview';
-import { ActionProps } from 'ui/modules/ActivityPreview/Actions';
 import { CreateReplyMutationMutationOperation } from '../../graphql/createReply.generated';
 import { DeleteMutationMutationOperation } from '../../graphql/delete.generated';
 import { useGetThreadQuery } from '../../graphql/getThread.generated';
@@ -87,30 +84,31 @@ export const CommentActivity: FC<{
     return null;
   }
 
-  const actions: ActionProps | null = isContextFollowed(comment)
-    ? {
-        FlagModal: null /*  ({ done }) => <FlagModalHOC {... {
-        done,
-        contextId: comment.id,
-        flagged: !!comment.myFlag
-      }} />, */,
-        like: {
-          iLikeIt: !!comment.myLike,
-          toggleLikeFormik: useActivityToggleLikeFormik(comment),
-          totalLikes: comment.likerCount || 0
-        },
-        reply: {
-          replyFormik: useActivityReplyFormik(comment)
-        }
-      }
-    : null;
+  // const actions: ActionProps | null = isContextFollowed(comment)
+  //   ? {
+  //       FlagModal: null /*  ({ done }) => <FlagModalHOC {... {
+  //       done,
+  //       contextId: comment.id,
+  //       flagged: !!comment.myFlag
+  //     }} />, */,
+  //       like: {
+  //         iLikeIt: !!comment.myLike,
+  //         toggleLikeFormik: useActivityToggleLikeFormik(comment),
+  //         totalLikes: comment.likerCount || 0
+  //       },
+  //       reply: {
+  //         replyFormik: useActivityReplyFormik(comment)
+  //       }
+  //     }
+  //   : null;
+  const communityInfoStrings = getCommunityInfoStrings(comment);
 
   const props: BigThreadCommentPreviewPropsLoaded = {
     actor: getActivityActor(comment.creator),
     content: comment.content,
     status: ActivityPreviewStatus.Loaded,
-    actions,
-    createdAt: comment.createdAt
+    createdAt: comment.createdAt,
+    ...communityInfoStrings
   };
   return !root ? (
     <CommentPreviewHOC commentId={comment.id} />

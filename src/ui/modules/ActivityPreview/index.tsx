@@ -46,6 +46,8 @@ export interface Activity {
   // actions: ActionProps | null;
   event: string;
   preview: JSX.Element;
+  communityLink: string;
+  communityName: string;
 }
 
 export type Props = ActivityLoaded | ActivityLoading;
@@ -80,6 +82,8 @@ export const ActivityPreview: FC<Props> = activity => {
         actor={activity.actor}
         createdAt={activity.createdAt}
         event={activity.event}
+        communityLink={activity.communityLink}
+        communityName={activity.communityName}
       />
       <Contents>
         <Wrapper>
@@ -98,7 +102,8 @@ export interface BigThreadCommentPreviewPropsLoaded {
   status: Status.Loaded;
   actor: Activity['actor'];
   createdAt: Activity['createdAt'];
-  // actions: Activity['actions'];
+  communityLink: Activity['communityLink'];
+  communityName: Activity['communityName'];
   content: string;
 }
 
@@ -113,7 +118,13 @@ export const BigThreadCommentPreview: FC<BigThreadCommentPreviewProps> = thread 
   return (
     <FeedItem>
       {/* {activity.inReplyToCtx && <InReplyTo {...activity.inReplyToCtx} />} */}
-      <ActorComp actor={thread.actor} createdAt={thread.createdAt} event={''} />
+      <ActorComp
+        actor={thread.actor}
+        createdAt={thread.createdAt}
+        event={''}
+        communityLink={thread.communityLink}
+        communityName={thread.communityName}
+      />
       <Contents>
         <Box>
           <Comment variant="text">{thread.content}</Comment>

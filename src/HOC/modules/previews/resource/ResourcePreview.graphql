@@ -13,7 +13,7 @@ fragment ResourcePreview on Resource {
       id
       community {
         id
-        myFollow { id }
+        ...CommunityInfo
       }
     }
     # likerCount

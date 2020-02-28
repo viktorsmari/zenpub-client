@@ -48,7 +48,7 @@ const getActions = () => ({
     iLikeIt: true
   },
   reply: {
-    replyFormik: useFormik<{ replyMessage: String }>({
+    replyFormik: useFormik<{ replyMessage: string }>({
       initialValues: { replyMessage: '' },
       onSubmit: vals => {
         action(`submitting: ${vals.replyMessage}`)();
@@ -71,6 +71,8 @@ const getActor = () => ({
 storiesOf('Modules/ActivityPreview', module)
   .add('Created a collection', () => {
     const activityPreviewProps: Props = {
+      communityLink: 'communityLink',
+      communityName: 'communityName',
       event: 'Created a collection',
       preview: (
         <Collection
@@ -120,6 +122,8 @@ storiesOf('Modules/ActivityPreview', module)
   })
   .add('Created a community', () => {
     const activityPreviewProps: Props = {
+      communityLink: 'communityLink',
+      communityName: 'communityName',
       event: 'Created a community',
       preview: (
         <Community
@@ -170,6 +174,8 @@ storiesOf('Modules/ActivityPreview', module)
   })
   .add('Created a resource', () => {
     const activityPreviewProps: Props = {
+      communityLink: 'communityLink',
+      communityName: 'communityName',
       event: 'Created a resource',
       preview: (
         <Resource
@@ -222,6 +228,8 @@ storiesOf('Modules/ActivityPreview', module)
   })
   .add('Follow a user', () => {
     const activityPreviewProps: Props = {
+      communityLink: 'communityLink',
+      communityName: 'communityName',
       event: 'Followed a user',
       preview: (
         <User
@@ -255,6 +263,8 @@ storiesOf('Modules/ActivityPreview', module)
   })
   .add('Create a comment', () => {
     const activityPreviewProps: Props = {
+      communityLink: 'communityLink',
+      communityName: 'communityName',
       event: 'Created a comment',
       preview: (
         <Comment
