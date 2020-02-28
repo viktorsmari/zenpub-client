@@ -158,8 +158,16 @@ export interface ActorProps {
   actor: Actor;
   createdAt: string;
   event: string;
+  communityName: string;
+  communityLink: string;
 }
-const ActorComp: FC<ActorProps> = ({ actor, createdAt, event }) => {
+const ActorComp: FC<ActorProps> = ({
+  actor,
+  createdAt,
+  event,
+  communityName,
+  communityLink
+}) => {
   // const [isOpen, onOpen] = React.useState(false);
   // const [isEnterUrlOpen, onEnterUrlOpen] = React.useState(false);
   // const [setOpenFlagModal] = React.useState(false);
@@ -212,7 +220,7 @@ const ActorComp: FC<ActorProps> = ({ actor, createdAt, event }) => {
         <Flex sx={{ marginTop: '-2px' }} alignItems="center">
           <Date>{DateTime.fromSQL(createdAt).toRelative()}</Date>
           <Spacer mx={1}>·</Spacer>
-          <CommunityName to={'communityLink'}>@CommunityName</CommunityName>
+          <CommunityName to={communityLink}>{communityName}</CommunityName>
         </Flex>
       </MemberInfo>
     </Member>
