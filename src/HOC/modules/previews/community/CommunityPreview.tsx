@@ -13,6 +13,7 @@ export interface Props {
 
 export const CommunityPreviewHOC: FC<Props> = ({ communityId }) => {
   const { community, toggleJoin } = useCommunityPreview(communityId);
+
   const toggleJoinFormik = useFormik({
     initialValues: {},
     onSubmit: toggleJoin

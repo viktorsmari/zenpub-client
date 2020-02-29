@@ -3,10 +3,13 @@ import * as Types from '../../../../graphql/types.generated';
 import { CommunityPreviewFragment } from '../community/CommunityPreview.generated';
 import { ResourcePreviewFragment } from '../resource/ResourcePreview.generated';
 import { CollectionPreviewFragment } from '../collection/CollectionPreview.generated';
+import { CommunityInfoFragment } from '../community/CommunityPreview.generated';
 import gql from 'graphql-tag';
+import { CommunityInfoFragmentDoc } from '../community/CommunityPreview.generated';
 import { CollectionPreviewFragmentDoc } from '../collection/CollectionPreview.generated';
 import { ResourcePreviewFragmentDoc } from '../resource/ResourcePreview.generated';
 import { CommunityPreviewFragmentDoc } from '../community/CommunityPreview.generated';
+
 
 
 
@@ -38,18 +41,12 @@ export type CommentPreviewFragment = (
       & { community: Types.Maybe<(
         { __typename: 'Community' }
         & Pick<Types.Community, 'id'>
-        & { myFollow: Types.Maybe<(
-          { __typename: 'Follow' }
-          & Pick<Types.Follow, 'id'>
-        )> }
+        & CommunityInfoFragment
       )> }
     ) | (
       { __typename: 'Community' }
       & Pick<Types.Community, 'id'>
-      & { myFollow: Types.Maybe<(
-        { __typename: 'Follow' }
-        & Pick<Types.Follow, 'id'>
-      )> }
+      & CommunityInfoFragment
     ) | (
       { __typename: 'Flag' }
       & Pick<Types.Flag, 'id'>
@@ -62,10 +59,7 @@ export type CommentPreviewFragment = (
         & { community: Types.Maybe<(
           { __typename: 'Community' }
           & Pick<Types.Community, 'id'>
-          & { myFollow: Types.Maybe<(
-            { __typename: 'Follow' }
-            & Pick<Types.Follow, 'id'>
-          )> }
+          & CommunityInfoFragment
         )> }
       )> }
     )> }
@@ -140,17 +134,13 @@ export const CommentPreviewFragmentDoc = gql`
       }
       ... on Community {
         id
-        myFollow {
-          id
-        }
+        ...CommunityInfo
       }
       ... on Collection {
         id
         community {
           id
-          myFollow {
-            id
-          }
+          ...CommunityInfo
         }
       }
       ... on Resource {
@@ -159,16 +149,15 @@ export const CommentPreviewFragmentDoc = gql`
           id
           community {
             id
-            myFollow {
-              id
-            }
+            ...CommunityInfo
           }
         }
       }
     }
   }
 }
-    ${CommentPreviewBaseFragmentDoc}`;
+    ${CommentPreviewBaseFragmentDoc}
+${CommunityInfoFragmentDoc}`;
 export const CommentPreviewThreadFragmentDoc = gql`
     fragment CommentPreviewThread on Thread {
   id

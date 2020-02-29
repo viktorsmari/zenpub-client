@@ -81,10 +81,10 @@ export const UserPage: FC<UserPage> = ({ userId, basePath }) => {
       CommunityBoxes,
       UserBoxes,
       Header,
-      totalActivities: `${totalActivities || '...'}`,
-      totalCollections: `${totalCollections || '...'}`,
-      totalCommunities: `${totalCommunities || '...'}`,
-      totalUsers: `${totalUsers || '...'}`
+      totalActivities: `${totalActivities || '0'}`,
+      totalCollections: `${totalCollections || '0'}`,
+      totalCommunities: `${totalCommunities || '0'}`,
+      totalUsers: `${totalUsers || '0'}`
     };
     return props;
   }, [activities, basePath, user, collections, communities, users]);

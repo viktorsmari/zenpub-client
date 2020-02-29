@@ -2,13 +2,14 @@ import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import { useFormik } from 'formik';
 import React from 'react';
-import { Box, Text } from 'rebass/styled-components';
+import { Box } from 'rebass/styled-components';
 import { Community } from 'ui/modules/Previews/Community';
 import { ActivityPreview, Props, Status } from '.';
-import { FlagModal } from '../FlagModal';
+import { Comment } from 'ui/modules/Previews/Comment';
 import { Collection } from '../Previews/Collection';
 import { Resource } from '../Previews/Resource';
 import { User } from '../Previews/User';
+import FlagModal from '../FlagModal';
 
 const getActions = () => ({
   FlagModal: () => {
@@ -61,6 +62,7 @@ const getActions = () => ({
     })
   }
 });
+
 const getActor = () => ({
   icon: 'https://picsum.photos/80/80',
   link: '1',
@@ -69,6 +71,8 @@ const getActor = () => ({
 storiesOf('Modules/ActivityPreview', module)
   .add('Created a collection', () => {
     const activityPreviewProps: Props = {
+      communityLink: 'communityLink',
+      communityName: 'communityName',
       event: 'Created a collection',
       preview: (
         <Collection
@@ -91,7 +95,6 @@ storiesOf('Modules/ActivityPreview', module)
       ),
       status: Status.Loaded,
       actor: getActor(),
-      actions: getActions(),
       createdAt: '2018-11-11',
       link: 'https://picsum.photos/80/80'
     };
@@ -111,6 +114,8 @@ storiesOf('Modules/ActivityPreview', module)
   })
   .add('Created a community', () => {
     const activityPreviewProps: Props = {
+      communityLink: 'communityLink',
+      communityName: 'communityName',
       event: 'Created a community',
       preview: (
         <Community
@@ -124,16 +129,23 @@ storiesOf('Modules/ActivityPreview', module)
           followersCount={12}
           collectionsCount={6}
           joined={true}
-          threadsCount={3}
-          toggleJoinFormik={useFormik({
+          toggleJoinFormik={useFormik<{}>({
             initialValues: {},
-            onSubmit: action('toggle join')
+            onSubmit: vals => {
+              action('submitting...')();
+              return new Promise(resolve =>
+                setTimeout(() => {
+                  action('submitted...')();
+                  resolve();
+                }, 2000)
+              );
+            }
           })}
+          threadsCount={3}
         />
       ),
       status: Status.Loaded,
       actor: getActor(),
-      actions: getActions(),
       createdAt: '2018-11-11',
       link: 'https://picsum.photos/80/80'
     };
@@ -154,6 +166,8 @@ storiesOf('Modules/ActivityPreview', module)
   })
   .add('Created a resource', () => {
     const activityPreviewProps: Props = {
+      communityLink: 'communityLink',
+      communityName: 'communityName',
       event: 'Created a resource',
       preview: (
         <Resource
@@ -161,20 +175,22 @@ storiesOf('Modules/ActivityPreview', module)
             'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png'
           }
           name={'mantarai'}
+          like={{
+            toggleLikeFormik: useFormik({
+              initialValues: {},
+              onSubmit: action('toggle like')
+            }),
+            iLikeIt: true,
+            totalLikes: 5
+          }}
           summary={
             'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
           }
           link={'https://www.pinterest.it/topics/anime/'}
-          iLike
-          toggleLikeFormik={useFormik({
-            initialValues: {},
-            onSubmit: action('toggle like')
-          })}
         />
       ),
       status: Status.Loaded,
       actor: getActor(),
-      actions: getActions(),
       createdAt: '2018-11-11',
       link: 'https://picsum.photos/80/80'
     };
@@ -195,6 +211,8 @@ storiesOf('Modules/ActivityPreview', module)
   })
   .add('Follow a user', () => {
     const activityPreviewProps: Props = {
+      communityLink: 'communityLink',
+      communityName: 'communityName',
       event: 'Followed a user',
       preview: (
         <User
@@ -213,7 +231,6 @@ storiesOf('Modules/ActivityPreview', module)
       ),
       status: Status.Loaded,
       actor: getActor(),
-      actions: getActions(),
       createdAt: '2018-11-11',
       link: 'https://picsum.photos/80/80'
     };
@@ -234,17 +251,19 @@ storiesOf('Modules/ActivityPreview', module)
   })
   .add('Create a comment', () => {
     const activityPreviewProps: Props = {
+      communityLink: 'communityLink',
+      communityName: 'communityName',
       event: 'Created a comment',
       preview: (
-        <Text p={2} variant="text">
-          After longtime I made a design for Uplabs Music player design
-          challenge. i hope you all like this. if you like my design dont forgot
-          to Vote in Uplabs ( 25 June ). Vote Here
-        </Text>
+        <Comment
+          {...getActions()}
+          content={
+            'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+          }
+        />
       ),
       status: Status.Loaded,
       actor: getActor(),
-      actions: getActions(),
       createdAt: '2018-11-11',
       link: 'https://picsum.photos/80/80'
     };

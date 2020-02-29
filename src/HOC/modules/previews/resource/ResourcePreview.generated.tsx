@@ -1,6 +1,9 @@
 import * as Types from '../../../../graphql/types.generated';
 
+import { CommunityInfoFragment } from '../community/CommunityPreview.generated';
 import gql from 'graphql-tag';
+import { CommunityInfoFragmentDoc } from '../community/CommunityPreview.generated';
+
 
 export type ResourcePreviewFragment = (
   { __typename: 'Resource' }
@@ -20,10 +23,7 @@ export type ResourcePreviewFragment = (
     & { community: Types.Maybe<(
       { __typename: 'Community' }
       & Pick<Types.Community, 'id'>
-      & { myFollow: Types.Maybe<(
-        { __typename: 'Follow' }
-        & Pick<Types.Follow, 'id'>
-      )> }
+      & CommunityInfoFragment
     )> }
   )> }
 );
@@ -49,10 +49,8 @@ export const ResourcePreviewFragmentDoc = gql`
     id
     community {
       id
-      myFollow {
-        id
-      }
+      ...CommunityInfo
     }
   }
 }
-    `;
+    ${CommunityInfoFragmentDoc}`;

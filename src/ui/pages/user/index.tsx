@@ -47,65 +47,29 @@ export const User: React.FC<Props> = ({
           <Wrapper>
             {Header}
             {HeroUserBox}
-            <Menu basePath={basePath} />
+            <Menu
+              basePath={basePath}
+              totalCommunities={totalCommunities}
+              totalCollections={totalCollections}
+              totalUsers={totalUsers}
+            />
             <Switch>
               <Route exact path={`${basePath}/`}>
                 {ActivityBoxes}
               </Route>
               <Route exact path={`${basePath}/likes`}>
-                <Menu basePath={basePath} />
                 {ActivityBoxes}
               </Route>
-              <Route exact path={`${basePath}/communities`}>
+              <Route path={`${basePath}/communities`}>
                 <WrapperBoxes>{CommunityBoxes}</WrapperBoxes>
               </Route>
-              <Route exact path={`${basePath}/collections`}>
-                {CollectionsBoxes}
-              </Route>
-              <Route exact path={`${basePath}/following`}>
-                {UserBoxes}
-              </Route>
+              <Route path={`${basePath}/collections`}>{CollectionsBoxes}</Route>
+              <Route path={`${basePath}/following`}>{UserBoxes}</Route>
             </Switch>
           </Wrapper>
         </WrapperCont>
       </HomeBox>
       <WrapperPanel>
-        <Panel>
-          <PanelTitle fontSize={0} fontWeight={'bold'}>
-            Relevant links
-          </PanelTitle>
-          <Nav>
-            <NavWrapper fontSize={1} mb={2}>
-              <NavLink exact to={`${basePath}`}>
-                <Text ml={2} flex={1}>
-                  <Bold>{totalActivities}</Bold> Activities
-                </Text>
-              </NavLink>
-            </NavWrapper>
-            <NavWrapper fontSize={1} mb={2}>
-              <NavLink to={`${basePath}/communities`}>
-                <Text ml={2} flex={1}>
-                  <Bold>{totalCommunities}</Bold> Joined communities
-                </Text>
-              </NavLink>
-            </NavWrapper>
-            <NavWrapper fontSize={1} mb={2}>
-              <NavLink to={`${basePath}/collections`}>
-                <Text ml={2} flex={1}>
-                  <Bold>{totalCollections}</Bold> Followed collections
-                </Text>
-              </NavLink>
-            </NavWrapper>
-            <NavWrapper fontSize={1}>
-              <NavLink to={`${basePath}/following`}>
-                <Text ml={2} flex={1}>
-                  <Bold>{totalUsers}</Bold> Followed users
-                </Text>
-              </NavLink>
-            </NavWrapper>
-          </Nav>
-        </Panel>
-
         <Panel>
           <PanelTitle fontSize={0} fontWeight={'bold'}>
             Relevant links
@@ -126,7 +90,17 @@ export const User: React.FC<Props> = ({
   );
 };
 
-const Menu = ({ basePath }: { basePath: string }) => (
+const Menu = ({
+  basePath,
+  totalCommunities,
+  totalCollections,
+  totalUsers
+}: {
+  basePath: string;
+  totalCommunities: string;
+  totalCollections: string;
+  totalUsers: string;
+}) => (
   <MenuWrapper p={3} pt={3}>
     <NavLink exact to={`${basePath}`}>
       Recent activities
@@ -135,37 +109,16 @@ const Menu = ({ basePath }: { basePath: string }) => (
       Likes
     </NavLink>
     <NavLink exact to={`${basePath}/communities`}>
-      communities
+      {totalCommunities} communities
     </NavLink>
     <NavLink exact to={`${basePath}/collections`}>
-      collections
+      {totalCollections} collections
     </NavLink>
     <NavLink exact to={`${basePath}/following`}>
-      following
+      {totalUsers} following
     </NavLink>
   </MenuWrapper>
 );
-
-const NavWrapper = styled(NavItem)`
-  .active {
-    color: ${props => props.theme.colors.primary};
-    font-weight: 700;
-    b {
-      color: ${props => props.theme.colors.primary};
-    }
-  }
-`;
-
-const Bold = styled.b`
-  font-size: 14px;
-  font-weight: 800;
-  border: 1px solid ${props => props.theme.colors.primary};
-  padding: 0px 4px;
-  border-radius: 2px;
-  width: 24px;
-  display: inline-block;
-  text-align: center;
-`;
 
 const WrapperBoxes = styled(Box)`
   display: grid;

@@ -7,7 +7,6 @@ export const useCommunityPreview = (communityId: Community['id']) => {
   const communityPreviewQ = useCommunityPreviewQuery({
     variables: { communityId }
   });
-
   const { toggleFollow } = useFollowContext(communityPreviewQ.data?.community);
 
   return useMemo(() => {

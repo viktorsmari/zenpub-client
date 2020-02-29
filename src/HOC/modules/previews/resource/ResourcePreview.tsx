@@ -29,8 +29,11 @@ export const ResourcePreviewHOC: FC<Props> = ({ resourceId }) => {
       link: url || canonicalUrl || '',
       name,
       summary: summary || '',
-      iLike: !!resource.myLike,
-      toggleLikeFormik
+      like: {
+        iLikeIt: !!resource.myLike,
+        toggleLikeFormik,
+        totalLikes: resource.likes?.totalCount || 0
+      }
     };
     return props;
   }, [resource, toggleLikeFormik]);

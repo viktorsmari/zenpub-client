@@ -13,7 +13,6 @@ export interface Props {
 
 export const CollectionPreviewHOC: FC<Props> = ({ collectionId }) => {
   const { collection, toggleFollow } = useCollectionPreview(collectionId);
-
   const toggleFollowFormik = useFormik({
     initialValues: {},
     onSubmit: toggleFollow
@@ -23,7 +22,6 @@ export const CollectionPreviewHOC: FC<Props> = ({ collectionId }) => {
     if (!collection) {
       return null;
     }
-
     const {
       icon,
       isLocal,
