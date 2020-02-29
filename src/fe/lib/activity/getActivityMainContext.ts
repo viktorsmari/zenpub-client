@@ -1,10 +1,10 @@
 import Maybe from 'graphql/tsutils/Maybe';
-import { ActivityPreviewFragment } from '../ActivityPreview.generated';
-import { GQLConcreteContext } from '../types';
+import { ActivityPreviewFragment } from 'HOC/modules/previews/activity/ActivityPreview.generated';
+import { ActorPreviewFragment } from 'fe/lib/activity/types';
 
 export const getActivityMainContext = (
-  context: ActivityPreviewFragment['context']
-): Maybe<GQLConcreteContext> => {
+  context: Maybe<ActivityPreviewFragment['context']>
+): Maybe<ActorPreviewFragment> => {
   if (!context) {
     return null;
   }

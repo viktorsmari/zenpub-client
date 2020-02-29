@@ -1,6 +1,6 @@
 import * as UIT from 'ui/modules/ActivityPreview/types';
 import { getActivitySimpleLink } from './getActivitySimpleLink';
-import { UserPreviewFragment } from '../../user/UserPreview.generated';
+import { UserPreviewFragment } from '../../../HOC/modules/previews/user/UserPreview.generated';
 export const getActivityActor = (
   usr: Pick<
     UserPreviewFragment,

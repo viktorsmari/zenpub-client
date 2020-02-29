@@ -7,9 +7,9 @@ import HeroCommunityUI, {
   Props as HeroProps,
   Status
 } from 'ui/modules/HeroCommunity';
-import { EditCommunityPanelHOC } from '../EditCommunityPanel/editCommunityPanelHOC';
-import { FeatureModalHOC } from '../FeatureModal/FeatureModal';
-import { FlagModalHOC } from '../FlagModal/flagModalHOC';
+import { EditCommunityPanelHOC } from 'HOC/modules/EditCommunityPanel/editCommunityPanelHOC';
+import { FeatureModalHOC } from 'HOC/modules/FeatureModal/FeatureModal';
+import { FlagModalHOC } from 'HOC/modules/FlagModal/flagModalHOC';
 
 export interface HeroCommunity {
   communityId: Community['id'];
