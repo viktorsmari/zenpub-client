@@ -1,5 +1,5 @@
-import { getActivityActor } from 'HOC/modules/previews/activity/lib/getActivityActor';
-import { getCommunityInfoStrings } from 'HOC/modules/previews/activity/lib/getContextCommunityInfo';
+import { getActivityActor } from 'fe/lib/activity/getActivityActor';
+import { getCommunityInfoStrings } from 'fe/lib/activity/getContextCommunityInfo';
 import { CommentPreviewHOC } from 'HOC/modules/previews/comment/CommentPreview';
 import { CommentPreviewFragment } from 'HOC/modules/previews/comment/CommentPreview.generated';
 import React, { FC, useEffect, useMemo } from 'react';

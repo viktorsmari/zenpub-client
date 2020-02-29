@@ -1,12 +1,14 @@
-import { GQLConcreteContext } from '../types';
-import { CommunityInfoFragment } from '../../community/CommunityPreview.generated';
+import { ActorPreviewFragment } from 'fe/lib/activity/types';
+import { CommunityInfoFragment } from 'HOC/modules/previews/community/CommunityPreview.generated';
 import Maybe from 'graphql/tsutils/Maybe';
-import { UserPreviewFragment } from '../../user/UserPreview.generated';
+import { UserPreviewFragment } from 'HOC/modules/previews/user/UserPreview.generated';
 import { getActivitySimpleLink } from './getActivitySimpleLink';
 export const getContextCommunityInfo = (
-  context: Exclude<GQLConcreteContext, UserPreviewFragment>
+  context: Maybe<Exclude<ActorPreviewFragment, UserPreviewFragment>>
 ): Maybe<CommunityInfoFragment> => {
-  if (context.__typename === 'Community') {
+  if (!context) {
+    return null;
+  } else if (context.__typename === 'Community') {
     return context;
   } else if (context.__typename === 'Collection') {
     return context.community;
@@ -29,10 +31,12 @@ export const getContextCommunityInfo = (
   }
   return null;
 };
-export const getCommunityInfoStrings = (context: GQLConcreteContext) => {
+export const getCommunityInfoStrings = (
+  context: Maybe<ActorPreviewFragment>
+) => {
   let communityLink = '';
   let communityName = '';
-  if (context.__typename !== 'User') {
+  if (context && context.__typename !== 'User') {
     const communityInfo = getContextCommunityInfo(context);
     if (communityInfo) {
       communityLink = getActivitySimpleLink(communityInfo);

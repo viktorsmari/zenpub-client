@@ -2,54 +2,55 @@ import { useActivityPreview } from 'fe/activities/preview/useActivityPreview';
 import * as GQL from 'graphql/types.generated';
 import React, { FC, useMemo } from 'react';
 import * as UI from 'ui/modules/ActivityPreview';
-import { CollectionPreviewHOC } from '../collection/CollectionPreview';
-import { CommentPreviewHOC } from '../comment/CommentPreview';
-import { CommunityPreviewHOC } from '../community/CommunityPreview';
-import { ActivityPreviewFragment } from './ActivityPreview.generated';
-import { getActivityActor } from './lib/getActivityActor';
-import { getActivityMainContext } from './lib/getActivityMainContext';
-import { getActivitySimpleLink } from './lib/getActivitySimpleLink';
-import { getCommunityInfoStrings } from './lib/getContextCommunityInfo';
-import { ActivityContext } from './types';
-import { ResourcePreviewHOC } from '../resource/ResourcePreview';
-import { UserPreviewHOC } from '../user/UserPreview';
+import { getActivityActor } from 'fe/lib/activity/getActivityActor';
+import { getActivityMainContext } from 'fe/lib/activity/getActivityMainContext';
+import { ActivityContextPreviewFragment } from 'fe/lib/activity/types';
+import { CollectionPreviewHOC } from 'HOC/modules/previews/collection/CollectionPreview';
+import { CommentPreviewHOC } from 'HOC/modules/previews/comment/CommentPreview';
+import { CommunityPreviewHOC } from 'HOC/modules/previews/community/CommunityPreview';
+import { ResourcePreviewHOC } from 'HOC/modules/previews/resource/ResourcePreview';
+import { UserPreviewHOC } from 'HOC/modules/previews/user/UserPreview';
 
 export interface Props {
   activityId: GQL.Activity['id'];
 }
 export const ActivityPreviewHOC: FC<Props> = ({ activityId }) => {
-  const { activity } = useActivityPreview(activityId);
+  const activityBox = useActivityPreview(activityId);
   const props = useMemo<null | UI.Props>(() => {
+    const {
+      activity,
+      communityInfoStrings,
+      eventString,
+      link,
+      mainContext
+    } = activityBox;
+
     if (!activity) {
       return { status: UI.Status.Loading };
     } else {
-      const mainContext = getActivityMainContext(activity.context);
       if (!(activity.user && activity.context && mainContext)) {
         console.error('ActivityPreviewHOC: user or context :null', activity);
         return null;
       }
 
-      const event = getEventString(activity) || '';
-      const link = getActivitySimpleLink(mainContext);
-      const communityInfoStrings = getCommunityInfoStrings(mainContext);
-
       const props: UI.Props = {
         status: UI.Status.Loaded,
         createdAt: activity.createdAt,
         actor: getActivityActor(activity.user),
-        event,
+        event: eventString,
         link,
         ...communityInfoStrings,
         preview: <PreviewComponent context={mainContext} />
       };
       return props;
     }
-  }, [activity]);
+  }, [activityBox]);
+
   return props && <UI.ActivityPreview {...props} />;
 };
 
 export const PreviewComponent: FC<{
-  context: ActivityContext;
+  context: ActivityContextPreviewFragment;
 }> = ({ context }) => {
   if (context.__typename === 'Collection') {
     return <CollectionPreviewHOC collectionId={context.id} />;
@@ -65,23 +66,4 @@ export const PreviewComponent: FC<{
     const mainContext = getActivityMainContext(context);
     return mainContext ? <PreviewComponent context={mainContext} /> : null;
   }
-};
-
-export const getEventString = (activity: ActivityPreviewFragment) => {
-  if (!activity.context) {
-    return null;
-  }
-  const verb =
-    activity.context.__typename === 'Flag'
-      ? 'Flagged'
-      : activity.context.__typename === 'Like'
-      ? 'Liked'
-      : activity.context.__typename === 'Follow'
-      ? 'Followed'
-      : activity.verb === GQL.ActivityVerb.Created
-      ? `Created`
-      : `Updated`; //activity.verb === GQL.ActivityVerb.Updated
-
-  const mainContext = getActivityMainContext(activity.context);
-  return mainContext && `${verb} ${mainContext.__typename}`;
 };

@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import React, { createContext, FC, useContext, useMemo } from 'react';
 import { BasicCreateFlagFormValues, FlagModal } from 'ui/modules/FlagModal';
-// import { useDeleteMutationMutation } from '../../../graphql/delete.generated';
+// import { useDeleteMutationMutation } from 'graphql/delete.generated';
 import * as Yup from 'yup';
 import * as GQL from './flagModal.generated';
 

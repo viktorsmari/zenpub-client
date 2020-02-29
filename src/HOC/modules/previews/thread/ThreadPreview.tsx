@@ -1,7 +1,7 @@
 import { useThreadPreview } from 'fe/thread/preview/useThreadPreview';
 import { Thread } from 'graphql/types.generated';
 import React, { FC, useMemo } from 'react';
-import { CommentPreviewHOC } from '../comment/CommentPreview';
+import { CommentPreviewHOC } from 'HOC/modules/previews/comment/CommentPreview';
 
 export interface Props {
   threadId: Thread['id'];

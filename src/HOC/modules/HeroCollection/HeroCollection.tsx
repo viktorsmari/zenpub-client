@@ -6,7 +6,7 @@ import { EditCollectionPanelHOC } from 'HOC/modules/EditCollectionPanel/editColl
 import { FlagModalHOC } from 'HOC/modules/FlagModal/flagModalHOC';
 import React, { FC, useMemo } from 'react';
 import HeroCollectionUI, { Props, Status } from 'ui/modules/HeroCollection';
-import { FeatureModalHOC } from '../FeatureModal/FeatureModal';
+import { FeatureModalHOC } from 'HOC/modules/FeatureModal/FeatureModal';
 
 export interface HeroCollection {
   collectionId: Collection['id'];
