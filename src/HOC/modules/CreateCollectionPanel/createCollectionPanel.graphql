@@ -21,6 +21,7 @@ mutation createCollectionPanelUploadIcon($contextId: ID!,$upload: Upload!) {
     }
     
 }
+
 fragment CreateCollectionPanelUploadIconResult on FileUpload {
     id
 }

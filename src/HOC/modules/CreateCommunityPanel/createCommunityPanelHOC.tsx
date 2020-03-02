@@ -21,13 +21,13 @@ export const validationSchema: Yup.ObjectSchema<CreateCommunityFormValues> = Yup
 });
 export interface CreateCommunityPanelCtx {
   useCreateCommunityPanelCreateMutation: typeof GQL.useCreateCommunityPanelCreateMutation;
-  useCreateCommunityPanelUploadImageMutation: typeof GQL.useCreateCommunityPanelUploadImageMutation;
+  useCreateCommunityPanelUploadΙconMutation: typeof GQL.useCreateCommunityPanelUploadIconMutation;
 }
 export const CreateCommunityPanelCtx = createContext<CreateCommunityPanelCtx>({
   useCreateCommunityPanelCreateMutation:
     GQL.useCreateCommunityPanelCreateMutation,
-  useCreateCommunityPanelUploadImageMutation:
-    GQL.useCreateCommunityPanelUploadImageMutation
+  useCreateCommunityPanelUploadΙconMutation:
+    GQL.useCreateCommunityPanelUploadIconMutation
 });
 export const createCommunityFormInitialValues: CreateCommunityFormValues = {
   name: '',
@@ -41,10 +41,10 @@ export interface Props {
 export const CreateCommunityPanelHOC: FC<Props> = ({ done }: Props) => {
   const {
     useCreateCommunityPanelCreateMutation,
-    useCreateCommunityPanelUploadImageMutation
+    useCreateCommunityPanelUploadΙconMutation
   } = useContext(CreateCommunityPanelCtx);
   const [create /* , result */] = useCreateCommunityPanelCreateMutation();
-  const [mutateImage] = useCreateCommunityPanelUploadImageMutation();
+  const [uploadIcon] = useCreateCommunityPanelUploadΙconMutation();
   const history = useHistory();
   const initialValues = useMemo<CreateCommunityFormValues>(
     () => createCommunityFormInitialValues,
@@ -70,7 +70,7 @@ export const CreateCommunityPanelHOC: FC<Props> = ({ done }: Props) => {
           const createdCommunityId = res.data!.createCommunity!.id;
 
           if (fileToUpload) {
-            mutateImage({
+            uploadIcon({
               variables: {
                 contextId: createdCommunityId,
                 upload: fileToUpload
