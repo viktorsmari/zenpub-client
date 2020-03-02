@@ -10,22 +10,32 @@ import {ActivityPreview} from 'ui/modules/ActivityPreview'
 import { useFormik } from 'formik';
 import {Thread} from 'ui/modules/Previews/Thread'
 import {Collection} from 'ui/modules/Previews/Collection'
-// import {WithSidebar} from "ui/templates/withSidebar"
+import { Comment } from 'ui/modules/Previews/Comment';
 // import {Sidebar} from 'ui/modules/Sidebar'
 // import {SidebarProps} from 'ui/modules/Sidebar/a.stories.mdx'
 import {Box} from 'rebass'
 import {getHeroCommunityProps} from 'ui/mock/context'
-
-export  const activityPreviewProps = {
-      status: Status.Loaded,
-      actor: {
-        icon: 'https://picsum.photos/80/80',
-  link: '1',
-  name: 'Ivan',
-  preferredUsername: 'tata'
+const getActions = () => ({
+  FlagModal: () => {
+    const formik = useFormik<{ reason: '' }>({
+      initialValues: {
+        reason: ''
+      },
+      onSubmit: () => {
+        action('submit')();
+        return new Promise((resolve, reject) => {
+          setTimeout(resolve, 3000);
+        });
+      }
+    });
+    const getFlagModalProps = {
+      formik,
+      flagged: false,
+      cancel: action('cancel')
+    };
+    return <FlagModal {...getFlagModalProps} />;
   },
-      actions: {
-      like: {
+  like: {
     totalLikes: 3,
     toggleLikeFormik: useFormik<{}>({
       initialValues: {},
@@ -42,7 +52,7 @@ export  const activityPreviewProps = {
     iLikeIt: true
   },
   reply: {
-    replyFormik: useFormik<{}>({
+    replyFormik: useFormik<{ replyMessage: String }>({
       initialValues: { replyMessage: '' },
       onSubmit: vals => {
         action(`submitting: ${vals.replyMessage}`)();
@@ -55,14 +65,28 @@ export  const activityPreviewProps = {
       }
     })
   }
-  },
-      createdAt: '29-01-2020',
-      context: {
-        link: 'https://picsum.photos/80/80',
-        verb: ContextVerb.Created,
-        type: ContextType.Comment,
-        content: 'I hitch hiked up to Alaska in the summer of 1992, the same year he did. He and I were the same exact age. Heck, we could have crossed paths in the youth hostel in Anchorage, or passed one another hitch hiking. Who knows. He died while still young and idealistic. A pure state.'
-      }
+});
+const getActor = () => ({
+  icon: 'https://picsum.photos/80/80',
+  link: '1',
+  name: 'Ivan'
+});
+const activityPreviewProps = {
+      communityLink: 'communityLink',
+      communityName: 'communityName',
+      event: 'Created a comment',
+      preview: (
+        <Comment
+          {...getActions()}
+          content={
+            'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+          }
+        />
+      ),
+      status: Status.Loaded,
+      actor: getActor(),
+      createdAt: '2018-11-11',
+      link: 'https://picsum.photos/80/80'
     };
 
 

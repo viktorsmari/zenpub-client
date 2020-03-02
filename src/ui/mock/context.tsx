@@ -102,7 +102,7 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
       // isFeatured: false,
       status: HeroCommunityStatus.Loaded,
       canModify: true,
-      following: true,
+      following: false,
       flagged: false,
       icon: 'https://picsum.photos/800/300',
       name: 'Community nino',

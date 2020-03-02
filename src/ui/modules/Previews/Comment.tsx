@@ -45,10 +45,10 @@ export const Comment: React.SFC<CommentProps> = ({
   const [isOpenFlagModal, setOpenFlagModal] = React.useState(false);
   return (
     <Wrapper>
-      <Text variant="text" p={2}>
+      <Text variant="text" mb={2}>
         {content}
       </Text>
-      <Actions>
+      <Actions mt={2}>
         {talkModalVisible && (
           <SocialText
             placeholder={i18n._(tt.placeholders.name)}
@@ -79,7 +79,7 @@ export const Comment: React.SFC<CommentProps> = ({
                 <Trans>Comment</Trans>
               </Text>
             </ActionItem>
-            <ActionItem onClick={like.toggleLikeFormik.submitForm}>
+            <ActionItem ml={4} onClick={like.toggleLikeFormik.submitForm}>
               <ActionIcon>
                 <Star
                   className="hover"
@@ -110,14 +110,12 @@ export const Comment: React.SFC<CommentProps> = ({
 
 const Items = styled(Flex)`
   flex: 1;
-  justify-content: space-around;
+  justify-content: start;
 `;
 
 const Actions = styled(Box)`
   position: relative;
   z-index: 999999999999999999999999999999999999;
-  border-top: 1px solid #dadada;
-  padding: 8px;
 `;
 
 const ActionItem = styled(Flex)`
@@ -152,7 +150,5 @@ const ActionIcon = styled(Box)`
 `;
 
 const Wrapper = styled(Box)`
-  border: 1px solid ${props => props.theme.colors.lightgray};
-  border-radius: 4px;
   background: white;
 `;
