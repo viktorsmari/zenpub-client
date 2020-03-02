@@ -6,7 +6,7 @@ import { Trans } from '@lingui/react';
 
 export interface CommentProps {
   content: string;
-  title: string;
+  // title: string;
   createdAt: string;
   totalReplies: string;
   totalLikes: string;
@@ -15,7 +15,7 @@ export interface CommentProps {
 
 export const Thread: React.SFC<CommentProps> = ({
   content,
-  title,
+  // title,
   createdAt,
   totalReplies,
   totalLikes,
@@ -23,12 +23,10 @@ export const Thread: React.SFC<CommentProps> = ({
 }) => {
   return (
     <Wrapper p={2}>
-      <Text variant="heading" sx={{ fontSize: '16px' }}>
+      {/* <Text variant="heading" sx={{ fontSize: '16px' }}>
         {title || 'no title'}
-      </Text>
-      <Text mt={2} variant="text">
-        {content}
-      </Text>
+      </Text> */}
+      <Text variant="text">{content}</Text>
       <Flex sx={{ marginTop: '2px' }} alignItems="center">
         <Flex flex={1}>
           <Date>{DateTime.fromSQL(createdAt).toRelative()}</Date>
