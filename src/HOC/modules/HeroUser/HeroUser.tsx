@@ -1,7 +1,7 @@
 import { useUser } from 'fe/user/useUser';
 import { useFormik } from 'formik';
 import { User } from 'graphql/types.generated';
-import React, { FC, useMemo, useState } from 'react';
+import React, { useMemo, useState, FC } from 'react';
 import {
   HeroUser as HeroUserUI,
   Loaded,
@@ -9,6 +9,7 @@ import {
   Props,
   Status
 } from 'ui/modules/HeroUser';
+import { FlagModalHOC } from '../FlagModal/flagModalHOC';
 
 export interface HeroUser {
   userId: User['id'];
@@ -34,7 +35,10 @@ export const HeroUser: FC<HeroUser> = ({ userId }) => {
       image: user.image || '',
       location: user.location || '',
       name: user.name || '',
-      summary: user.summary || ''
+      summary: user.summary || '',
+      FlagModal: ({ done }) => (
+        <FlagModalHOC done={done} contextId={user.id} flagged={!!user.myFlag} />
+      )
     };
 
     if (isMe) {
