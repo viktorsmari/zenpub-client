@@ -59,8 +59,10 @@ export const Community: React.FC<Props> = ({
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            {HeroCommunityBox}
-            <Menu basePath={basePath} />
+            <Box mb={2} sx={{ background: 'white' }}>
+              {HeroCommunityBox}
+              <Menu basePath={basePath} />
+            </Box>
             <Switch>
               <Route exact path={`${basePath}`}>
                 {ActivitiesBox}
@@ -226,8 +228,6 @@ export const WrapperCont = styled(Flex)`
   min-width: 0px;
   padding: 0px;
   position: relative;
-  background: white;
-  border-radius: 4px;
   z-index: 0;
 `;
 

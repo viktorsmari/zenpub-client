@@ -11,6 +11,7 @@ import { CollectionPreviewHOC } from 'HOC/modules/previews/collection/Collection
 import { ThreadPreviewHOC } from 'HOC/modules/previews/thread/ThreadPreview';
 import React, { FC, useMemo } from 'react';
 import CommunityPageUI, { Props as CommunityProps } from 'ui/pages/community';
+import { Box } from 'rebass/styled-components';
 
 export enum CommunityPageTab {
   Activities,
@@ -46,10 +47,12 @@ export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
     const CollectionsBox = (
       <>
         {collections.map(collection => (
-          <CollectionPreviewHOC
-            collectionId={collection.id}
-            key={collection.id}
-          />
+          <Box mb={2}>
+            <CollectionPreviewHOC
+              collectionId={collection.id}
+              key={collection.id}
+            />
+          </Box>
         ))}
       </>
     );

@@ -6,6 +6,7 @@ import { Resource } from './Resource';
 import {Community} from './Community';
 import {Collection} from './Collection';
 import {Comment} from './Comment';
+import {Thread} from './Thread';
 import {Box} from 'rebass'
 import { useFormik } from 'formik';
 const getActions = () => ({
@@ -76,17 +77,35 @@ Let's define a story for the `User preview` module
         }}
         p={2}
       >
-    <User />
+    <User 
+      image={"https://pbs.twimg.com/profile_images/1161428802091802627/O49Ggs-7_400x400.jpg"}
+      name={"˗ˏˋ Doug Belshaw ˎˊ˗ 🇪🇺 ☠️ ✊" }
+      username={"dajbelshaw@team.moodle.net"}
+      bio={"Open Educational Thinkerer. Product Manager @MoodleNet & Co-op founder @WeAreOpenCoop. Aspiring Mountain Leader. Previously: @Mozilla @Jisc teacher"}
+      isFollowing={true}
+       toggleFollowFormik = {useFormik<{}>({
+          initialValues: {},
+          onSubmit: vals => {
+            action('submitting...')();
+            return new Promise(resolve =>
+              setTimeout(() => {
+                action('submitted...')();
+                resolve();
+              }, 2000)
+            );
+          }
+        })}
+    />
     </Box>
   </Story>
 </Preview>
 
 
-# Resource
-Let's define a story for the `Resource preview` module
+# Resource via URL
+Let's define a story for the `Resource via url preview` module
 
 <Preview>
-  <Story name="Resource preview module">
+  <Story name="Resource via url preview module">
      <Box
         sx={{
           borderRadius: '6px',
@@ -118,6 +137,50 @@ Let's define a story for the `Resource preview` module
         name={"mantarai"}
         summary={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
         link={"https://www.pinterest.it/topics/anime/"}
+        isLocal={false}
+    />
+    </Box>
+  </Story>
+</Preview>
+
+# Uploaded Resource
+Let's define a story for the `Uploaded Resource preview` module
+<Preview>
+  <Story name="Uploaded Resource preview module">
+     <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
+    <Resource
+      like={{
+    totalLikes: 3,
+    toggleLikeFormik: useFormik<{}>({
+      initialValues: {},
+      onSubmit: vals => {
+        action('submitting...')();
+        return new Promise(resolve =>
+          setTimeout(() => {
+            action('submitted...')();
+            resolve();
+          }, 2000)
+        );
+      }
+    }),
+    iLikeIt: true
+  }}
+        id={"1"}
+        icon={"https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png"}
+        name={"mantarai"}
+        summary={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
+        link={"https://www.pinterest.it/topics/anime/"}
+        license={"CC-BY-4.0"}
+        acceptedLicenses= {["CC0-1.0", "CC-BY-4.0", "CC-BY-SA-4.0"]}
+        isLocal={true}
     />
     </Box>
   </Story>
@@ -227,6 +290,32 @@ Let's define a story for the `Comment preview` module
         {...getActions()}
         content={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
         
+    />
+    </Box>
+  </Story>
+</Preview>
+
+# Thread
+Let's define a story for the `Thread preview` module
+
+<Preview>
+  <Story name="Thread preview module">
+     <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
+    <Thread
+        title="What do the avatars in the topic list mean?"
+        content={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
+        createdAt={"2019-11-09"}
+        totalReplies={"24"}
+        totalLikes={"17"}
+        members={["https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png", "https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png", "https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png"]}
     />
     </Box>
   </Story>

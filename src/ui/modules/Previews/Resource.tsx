@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ExternalLink, Star } from 'react-feather';
 // import { NavLink } from 'react-router-dom';
-import { Box, Flex, Heading, Text } from 'rebass/styled-components';
+import { Box, Flex, Heading, Text, Image } from 'rebass/styled-components';
 import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
 import { ellipsis } from 'polished';
@@ -13,6 +13,9 @@ export interface LikeActions {
   totalLikes: number;
   iLikeIt: boolean;
 }
+const LicenseIcon0 = require('./cc-zero.png');
+const LicenseIcon1 = require('./by.png');
+const LicenseIcon2 = require('./by-sa.png');
 
 export interface Props {
   icon: string;
@@ -20,6 +23,9 @@ export interface Props {
   summary: string;
   link: string;
   like: LikeActions;
+  license?: string;
+  acceptedLicenses?: string[];
+  isLocal: boolean;
 }
 
 export const Resource: React.FC<Props> = ({
@@ -27,7 +33,10 @@ export const Resource: React.FC<Props> = ({
   name,
   summary,
   link,
-  like
+  like,
+  isLocal,
+  license,
+  acceptedLicenses
 }) => {
   return (
     // <WrapperLink to={'/collections/' + id}>
@@ -48,6 +57,15 @@ export const Resource: React.FC<Props> = ({
           <Text variant="text" mt={2}>
             {summary}
           </Text>
+          {isLocal ? (
+            license === acceptedLicenses![0] ? (
+              <Img src={LicenseIcon0} />
+            ) : license === acceptedLicenses![1] ? (
+              <Img src={LicenseIcon1} />
+            ) : (
+              <Img src={LicenseIcon2} />
+            )
+          ) : null}
           <Hashtags mt={1}>
             <Text variant="text" mr={2}>
               #tutorial
@@ -129,6 +147,14 @@ const ActionItem = styled(Flex)`
 const TextLink = styled(Text)`
   ${ellipsis('250px')};
 `;
+const Img = styled(Image)`
+  max-width: 82px;
+  margin-top: 5px;
+`;
+
+// const WrapperLink = styled(NavLink)`
+//   text-decoration: none;
+// `;
 
 const Bordered = styled(Box)`
   border: 1px solid ${props => props.theme.colors.lightgray};

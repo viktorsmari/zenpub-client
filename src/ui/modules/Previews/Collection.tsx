@@ -30,61 +30,71 @@ export const Collection: React.FC<Props> = ({
   toggleFollowFormik
 }) => {
   return (
-    <WrapperLink to={link.url}>
-      <Bordered>
-        <Wrapper p={2}>
-          <Avatar src={icon} />
-          <Infos ml={3}>
-            <Flex>
-              <Box flex={1}>
+    // <WrapperLink to={link.url}>
+    <Bordered>
+      <Wrapper p={2}>
+        <Avatar src={icon} />
+        <Infos ml={3}>
+          <Flex>
+            <Box flex={1}>
+              <TitleLink to={link.url}>
                 <Title>
                   {name.length > 80
                     ? name.replace(/^(.{76}[^\s]*).*/, '$1...')
                     : name}
                 </Title>
-                <Username>{displayUsername}</Username>
-              </Box>
-              {/* {isFollowing ? (
+              </TitleLink>
+              <Username>+{displayUsername}</Username>
+            </Box>
+            {/* {isFollowing ? (
               <Button variant="outline">leave</Button>
             ) : (
               <Button variant="primary">Follow</Button>
             )} */}
-            </Flex>
-            <Text variant="text" mt={1} mb={2}>
-              {summary && summary.length > 140
-                ? summary.replace(/^([\s\S]{140}[^\s]*)[\s\S]*/, '$1...')
-                : summary}
-            </Text>
-            {totalResources && totalResources > 0 && (
-              <Meta mt={2}>
-                <Flex alignSelf="center" mr={3} alignItems="center">
-                  <Text fontSize={'10px'} variant="suptitle">
-                    {totalResources || 0} <Trans>Resources</Trans>
-                  </Text>
-                </Flex>
-              </Meta>
-            )}
-          </Infos>
-        </Wrapper>
-        <Actions>
-          <Box>
-            <Items>
-              <ActionItem onClick={toggleFollowFormik.submitForm}>
-                <Text
-                  ml={1}
-                  variant={'suptitle'}
-                  sx={{ textTransform: 'capitalize' }}
-                >
-                  {isFollowing ? <Trans>Leave</Trans> : <Trans>Follow</Trans>}
+          </Flex>
+          <Text variant="text" mt={1} mb={2}>
+            {summary && summary.length > 140
+              ? summary.replace(/^([\s\S]{140}[^\s]*)[\s\S]*/, '$1...')
+              : summary}
+          </Text>
+          {totalResources && totalResources > 0 && (
+            <Meta mt={2}>
+              <Flex alignSelf="center" mr={3} alignItems="center">
+                <Text fontSize={'10px'} variant="suptitle">
+                  {totalResources || 0} <Trans>Resources</Trans>
                 </Text>
-              </ActionItem>
-            </Items>
-          </Box>
-        </Actions>
-      </Bordered>
-    </WrapperLink>
+              </Flex>
+            </Meta>
+          )}
+        </Infos>
+      </Wrapper>
+      <Actions>
+        <Box>
+          <Items>
+            <ActionItem onClick={toggleFollowFormik.submitForm}>
+              <Text
+                ml={1}
+                variant={'suptitle'}
+                sx={{ textTransform: 'capitalize' }}
+              >
+                {isFollowing ? <Trans>Leave</Trans> : <Trans>Follow</Trans>}
+              </Text>
+            </ActionItem>
+          </Items>
+        </Box>
+      </Actions>
+    </Bordered>
+    // </WrapperLink>
   );
 };
+
+const TitleLink = styled(NavLink)`
+  text-decoration: none;
+  color: ${props => props.theme.colors.darkgray};
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 
 const Items = styled(Flex)`
   flex: 1;
@@ -96,6 +106,7 @@ const Actions = styled(Box)`
   z-index: 999999999999999999999999999999999999;
   border-top: 1px solid #dadada;
   padding: 8px;
+  background: white;
 `;
 
 const ActionItem = styled(Flex)`
@@ -124,12 +135,15 @@ const Username = styled(Text)`
   flex: 1;
 `;
 
-const WrapperLink = styled(NavLink)`
-  text-decoration: none;
-`;
+// const WrapperLink = styled(NavLink)`
+// text-decoration: none;
+// div {
+//   text-decoration: none;
+//    }
+// `;
 
 const Wrapper = styled(Flex)`
-  cursor: pointer;
+  // cursor: pointer;
   position: relative;
   text-decoration: none;
   background: #fff;

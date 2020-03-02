@@ -45,14 +45,16 @@ export const User: React.FC<Props> = ({
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            {Header}
-            {HeroUserBox}
-            <Menu
-              basePath={basePath}
-              totalCommunities={totalCommunities}
-              totalCollections={totalCollections}
-              totalUsers={totalUsers}
-            />
+            <Box mb={2} sx={{ background: 'white' }}>
+              {Header}
+              {HeroUserBox}
+              <Menu
+                basePath={basePath}
+                totalCommunities={totalCommunities}
+                totalCollections={totalCollections}
+                totalUsers={totalUsers}
+              />
+            </Box>
             <Switch>
               <Route exact path={`${basePath}/`}>
                 {ActivityBoxes}
@@ -196,8 +198,6 @@ export const WrapperCont = styled(Flex)`
   min-width: 0px;
   padding: 0px;
   position: relative;
-  background: white;
-  border-radius: 6px;
   z-index: 0;
 `;
 
