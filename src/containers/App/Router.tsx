@@ -30,6 +30,7 @@ import Sidebar from '../../sections/sidebar/sidebarHOC';
 import SidebarNoLoggedWrapper from '../../sections/sidebar/sidebar_not_logged';
 import styled from '../../themes/styled';
 import MobileHeader from './mobileHeader';
+import { AllCommunitiesPageRoute } from 'routes/AllCommunitiesPageRoute';
 
 const Main = styled(Flex)`
   height: 100%;
@@ -75,6 +76,7 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
         <Route {...CollectionPageRoute} />
         <Route {...SettingsPageRoute} />
         <Route {...AllCollectionsPageRoute} />
+        <Route {...AllCommunitiesPageRoute} />
 
         <Route exact path="/" component={me ? Home : Login} />
         <Route
