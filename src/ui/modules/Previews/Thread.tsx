@@ -11,6 +11,7 @@ export interface CommentProps {
   totalReplies: string;
   totalLikes: string;
   members: string[];
+  link: string;
 }
 
 export const Thread: React.SFC<CommentProps> = ({
