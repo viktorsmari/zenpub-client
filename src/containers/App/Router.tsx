@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
 import { CollectionPageRoute } from 'routes/CollectionPageRoute';
 import { CommunityPageRoute } from 'routes/CommunityPageRoute';
+import { SettingsPageRoute } from 'routes/SettingsPageRoute';
 import { UserPageRoute } from 'routes/UserPageRoute';
 import { SessionContext } from '../../context/global/sessionCtx';
 import { CollectionsYours } from '../../pages/collections.all';
@@ -17,7 +18,6 @@ import Login from '../../pages/login/Login';
 import NotFound from '../../pages/not-found/NotFound';
 import Reset from '../../pages/Reset';
 import SearchComp from '../../pages/search/Search';
-import Settings from '../../pages/settings';
 import Signup from '../../pages/Signup';
 import Thread from '../../pages/thread/component';
 // import media from 'styled-media-query';
@@ -73,13 +73,14 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
         <Route {...UserPageRoute} />
         <Route {...CommunityPageRoute} />
         <Route {...CollectionPageRoute} />
+        <Route {...SettingsPageRoute} />
+
         <Route exact path="/" component={me ? Home : Login} />
         <Route
           exact
           path="/mycommunities"
           component={me ? CommunitiesYours : Login}
         />
-        <Route exact path="/settings" component={me ? Settings : Login} />
         <Route
           exact
           path="/mycollections"

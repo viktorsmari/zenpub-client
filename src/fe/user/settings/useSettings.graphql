@@ -1,0 +1,18 @@
+query myProfile {
+  me{
+    ...SettingsPageMe
+  }
+}
+
+input  UpdateProfileInput {
+  name: String
+  icon: String
+  image: String
+  location: String
+  summary: String
+}
+mutation updateMyProfile($profile:UpdateProfileInput!) {
+  updateProfile(profile:$profile){
+    ...SettingsPageMe
+  }
+}
