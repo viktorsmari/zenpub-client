@@ -6,7 +6,7 @@ import {
   ResourceFormValues,
   UploadResource
 } from 'ui/modules/AddResource/UploadResource';
-import { accepted_license_types } from '../../../constants';
+import { accepted_license_types } from '../../../mn-constants';
 import { CollectionResourcesDocument } from 'fe/resource/collection/useCollectionResources.generated';
 
 export const validationSchema: Yup.ObjectSchema<ResourceFormValues> = Yup.object<

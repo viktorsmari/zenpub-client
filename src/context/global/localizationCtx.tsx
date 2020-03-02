@@ -8,7 +8,7 @@ import React, {
   useState
 } from 'react';
 import { StateContext } from './stateCtx';
-import { IS_DEV, locales, LocaleKey } from '../../constants';
+import { IS_DEV, locales, LocaleKey } from '../../mn-constants';
 
 export type LocaleContextT = {
   locale: LocaleKey;
@@ -29,18 +29,15 @@ export const ProvideLocalizationCtx: React.FC = ({ children }) => {
 
   const [catalogs, setCatalogs] = useState<Catalogs>({});
   const RTL = isLocaleRTL(locale);
-  useEffect(
-    () => {
-      setHTMLDirection(RTL);
-      if (!locales.includes(locale) || catalogs[locale]) {
-        return;
-      }
-      loadCatalog(locale)
-        .then(cat => setCatalogs({ ...catalogs, [locale]: cat }))
-        .catch(err => console.error(`Error loading Locale: ${locale}`, err));
-    },
-    [locale, RTL]
-  );
+  useEffect(() => {
+    setHTMLDirection(RTL);
+    if (!locales.includes(locale) || catalogs[locale]) {
+      return;
+    }
+    loadCatalog(locale)
+      .then(cat => setCatalogs({ ...catalogs, [locale]: cat }))
+      .catch(err => console.error(`Error loading Locale: ${locale}`, err));
+  }, [locale, RTL]);
 
   const localeContextValue = useMemo<LocaleContextT>(
     () => ({
@@ -62,11 +59,15 @@ export const ProvideLocalizationCtx: React.FC = ({ children }) => {
 
 const loadCatalog = async (locale: LocaleKey): Promise<Catalog> => {
   if (IS_DEV) {
-    return import(/* webpackMode: "lazy", webpackChunkName: "i18n-[index]" */
-    `@lingui/loader!../../locales/${locale}/messages.po`);
+    return import(
+      /* webpackMode: "lazy", webpackChunkName: "i18n-[index]" */
+      `@lingui/loader!../../locales/${locale}/messages.po`
+    );
   } else {
-    return import(/* webpackMode: "lazy", webpackChunkName: "i18n-[index]" */
-    `../../locales/${locale}/messages.js`);
+    return import(
+      /* webpackMode: "lazy", webpackChunkName: "i18n-[index]" */
+      `../../locales/${locale}/messages.js`
+    );
   }
 };
 

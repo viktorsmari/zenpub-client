@@ -23,7 +23,7 @@ export interface Props {
   summary: string;
   link: string;
   like: LikeActions;
-  license?: string;
+  license: string | null;
   acceptedLicenses?: string[];
   isLocal: boolean;
 }

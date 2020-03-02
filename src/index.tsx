@@ -14,7 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { integrateToastNotifications } from './integrations/Toast-Notifications';
 import { createDynamicLinkEnv } from './util/apollo/dynamicLink';
 import * as Sentry from '@sentry/browser';
-import * as K from './constants';
+import * as K from './mn-constants';
 Sentry.init({
   dsn: K.SENTRY_KEY
 });

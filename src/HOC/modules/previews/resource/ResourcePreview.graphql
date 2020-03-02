@@ -16,5 +16,7 @@ fragment ResourcePreview on Resource {
         ...CommunityInfo
       }
     }
+    isLocal
+    license
     # likerCount
 }

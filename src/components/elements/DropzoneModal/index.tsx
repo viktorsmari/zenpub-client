@@ -3,7 +3,7 @@ import { useDropzone } from 'react-dropzone';
 // import { Trans } from '@lingui/macro';
 import styled from '../../../themes/styled';
 // import { UploadCloud } from 'react-feather';
-import { accepted_file_types } from '../../../constants';
+import { accepted_file_types } from '../../../mn-constants';
 import { Box, Flex } from 'rebass/styled-components';
 import { Image, FileText } from 'react-feather';
 

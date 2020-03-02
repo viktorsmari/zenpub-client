@@ -44,8 +44,8 @@ export const accepted_license_types = ['CC0-1.0', 'CC-BY-4.0', 'CC-BY-SA-4.0'];
 IS_DEV &&
   console.log(`-environment-
 ${Object.keys(process.env)
-    .map(key => `${key}=${process.env[key]}`)
-    .join('\n')}
+  .map(key => `${key}=${process.env[key]}`)
+  .join('\n')}
 -------------
 `);
 /***/

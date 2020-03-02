@@ -18,7 +18,7 @@ import {
   GRAPHQL_ENDPOINT,
   IS_DEV,
   PHOENIX_SOCKET_ENDPOINT
-} from '../constants';
+} from '../mn-constants';
 import { UsernameAvailableQueryOperation } from '../graphql/checkUsername.generated';
 import { ConfirmEmailMutationMutationOperation } from '../graphql/confirmEmail.generated';
 import { CreateUserMutationMutationOperation } from '../graphql/createUser.generated';

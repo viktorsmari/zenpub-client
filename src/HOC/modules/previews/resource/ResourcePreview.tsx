@@ -1,3 +1,4 @@
+import { accepted_license_types } from 'mn-constants';
 import { useResourcePreview } from 'fe/resource/preview/useResourcePreview';
 import { useFormik } from 'formik';
 import { Resource } from 'graphql/types.generated';
@@ -33,7 +34,10 @@ export const ResourcePreviewHOC: FC<Props> = ({ resourceId }) => {
         iLikeIt: !!resource.myLike,
         toggleLikeFormik,
         totalLikes: resource.likes?.totalCount || 0
-      }
+      },
+      isLocal: resource.isLocal,
+      acceptedLicenses: accepted_license_types,
+      license: resource.license || null
     };
     return props;
   }, [resource, toggleLikeFormik]);
