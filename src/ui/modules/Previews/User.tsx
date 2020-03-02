@@ -39,7 +39,8 @@ export const User: React.SFC<Props> = ({
 );
 
 const WrapperFlex = styled(Flex)`
-  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+  border: 1px solid ${props => props.theme.colors.lightgray};
+  border-radius: 4px;
 `;
 
 const Icon = styled(Box)`

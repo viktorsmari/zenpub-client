@@ -89,7 +89,7 @@ export const Collection: React.FC<Props> = ({
 };
 
 const TitleLink = styled(NavLink)`
-  text-decoration: underline;
+  text-decoration: none;
   color: ${props => props.theme.colors.darkgray};
   &:hover {
     text-decoration: underline;
