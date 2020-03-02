@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
+import { AllCollectionsPageRoute } from 'routes/AllCollectionsPageRoute';
 import { CollectionPageRoute } from 'routes/CollectionPageRoute';
 import { CommunityPageRoute } from 'routes/CommunityPageRoute';
 import { SettingsPageRoute } from 'routes/SettingsPageRoute';
@@ -8,7 +9,6 @@ import { UserPageRoute } from 'routes/UserPageRoute';
 import { SessionContext } from '../../context/global/sessionCtx';
 import { CollectionsYours } from '../../pages/collections.all';
 import MyCollections from '../../pages/collections.all/collectionsFollowed';
-import { CommunitiesAll } from '../../pages/communities.all/CommunitiesAll';
 import { CommunitiesYours } from '../../pages/communities.all/communitiesJoined';
 import ConfirmAccount from '../../pages/Confirm';
 import CreateNewPassword from '../../pages/CreateNewPassword';
@@ -74,6 +74,7 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
         <Route {...CommunityPageRoute} />
         <Route {...CollectionPageRoute} />
         <Route {...SettingsPageRoute} />
+        <Route {...AllCollectionsPageRoute} />
 
         <Route exact path="/" component={me ? Home : Login} />
         <Route
@@ -88,13 +89,7 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
         />
 
         <Route exact path="/discover" component={Discover} />
-        <Route
-          exact
-          path="/communities"
-          render={route => {
-            return <CommunitiesAll loggedin={!!me} />;
-          }}
-        />
+
         <Route
           exact
           path="/thread/:id"

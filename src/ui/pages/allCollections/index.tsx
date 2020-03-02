@@ -1,33 +1,21 @@
 import * as React from 'react';
-import { Route, Switch } from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
 import media from 'styled-media-query';
-
+import { Header } from 'ui/modules/Header';
 import styled from 'ui/themes/styled';
-// import { Link } from 'react-feather';
 
 export interface Props {
   CollectionsBoxes: JSX.Element;
-  Header: JSX.Element;
-  basePath: string;
 }
 
-export const AllCollections: React.FC<Props> = ({
-  CollectionsBoxes,
-  basePath,
-  Header
-}) => {
+export const AllCollections: React.FC<Props> = ({ CollectionsBoxes }) => {
   return (
     <MainContainer>
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            {Header}
-            <Switch>
-              <Route exact path={`${basePath}/`}>
-                {CollectionsBoxes}
-              </Route>
-            </Switch>
+            <Header name="All Collections" />
+            {CollectionsBoxes}
           </Wrapper>
         </WrapperCont>
       </HomeBox>
