@@ -1,9 +1,8 @@
-import React, { FC } from 'react';
 import { SettingsPage, SettingsPageTab } from 'HOC/pages/settings/SettingsPage';
+import { RedirectToLoginIfNotLoggedIn } from 'HOC/wrappers/RedirectToLoginIfNotLoggedIn';
 import NotFound from 'pages/not-found/NotFound';
+import React, { FC } from 'react';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
-import { useMe } from 'fe/session/me';
-import Login from 'pages/login/Login';
 
 interface SettingsPageRouter {
   tab?: string;
@@ -11,11 +10,6 @@ interface SettingsPageRouter {
 const SettingsPageRouter: FC<RouteComponentProps<SettingsPageRouter>> = ({
   match
 }) => {
-  const { me, loading } = useMe();
-  if (!loading && !me) {
-    return <Login />;
-  }
-
   const maybeTabStr = match.params.tab;
   const tab =
     maybeTabStr === 'preferences'
@@ -32,7 +26,11 @@ const SettingsPageRouter: FC<RouteComponentProps<SettingsPageRouter>> = ({
     basePath: `/settings`
   };
 
-  return <SettingsPage {...props} />;
+  return (
+    <RedirectToLoginIfNotLoggedIn>
+      <SettingsPage {...props} />;
+    </RedirectToLoginIfNotLoggedIn>
+  );
 };
 
 export const SettingsPageRoute: RouteProps = {
