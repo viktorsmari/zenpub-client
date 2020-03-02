@@ -11,6 +11,7 @@ import { useUserFollowedUsers } from 'fe/user/follows/useUserFollowedUsers';
 import { CollectionPreviewHOC } from 'HOC/modules/previews/collection/CollectionPreview';
 import { CommunityPreviewHOC } from 'HOC/modules/previews/community/CommunityPreview';
 import { UserPreviewHOC } from 'HOC/modules/previews/user/UserPreview';
+import { Box } from 'rebass';
 
 export interface UserPage {
   userId: User['id'];
@@ -47,10 +48,12 @@ export const UserPage: FC<UserPage> = ({ userId, basePath }) => {
     const CollectionsBoxes = (
       <>
         {collections.map(collection => (
-          <CollectionPreviewHOC
-            collectionId={collection.id}
-            key={collection.id}
-          />
+          <Box m={2} mb={0}>
+            <CollectionPreviewHOC
+              collectionId={collection.id}
+              key={collection.id}
+            />
+          </Box>
         ))}
       </>
     );

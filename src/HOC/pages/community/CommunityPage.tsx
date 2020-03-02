@@ -47,7 +47,7 @@ export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
     const CollectionsBox = (
       <>
         {collections.map(collection => (
-          <Box mb={2}>
+          <Box m={2}>
             <CollectionPreviewHOC
               collectionId={collection.id}
               key={collection.id}

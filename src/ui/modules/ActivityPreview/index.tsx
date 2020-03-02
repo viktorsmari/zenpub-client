@@ -362,8 +362,8 @@ const FeedItem = styled(Box)`
   z-index: 10;
   position: relative;
   background: white;
-  border-radius: 4px;
-  border: 1px solid  ${props => props.theme.colors.lightgray};
+  // border-radius: 4px;
+  border-bottom: 1px solid  ${props => props.theme.colors.lightgray};
   a {
     text-decoration: none;
     &:hover {

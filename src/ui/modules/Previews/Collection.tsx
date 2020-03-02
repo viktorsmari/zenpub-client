@@ -5,6 +5,7 @@ import { Box, Flex, Heading, Text } from 'rebass/styled-components';
 import { FormikHook } from 'ui/@types/types';
 import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
+import { Eye, EyeOff } from 'react-feather';
 export interface Props {
   link: {
     url: string;
@@ -68,45 +69,49 @@ export const Collection: React.FC<Props> = ({
           )}
         </Infos>
       </Wrapper>
-      <Actions>
-        <Box>
-          <Items>
-            <ActionItem onClick={toggleFollowFormik.submitForm}>
-              <Text
-                ml={1}
-                variant={'suptitle'}
-                sx={{ textTransform: 'capitalize' }}
-              >
-                {isFollowing ? <Trans>Leave</Trans> : <Trans>Follow</Trans>}
-              </Text>
-            </ActionItem>
-          </Items>
-        </Box>
-      </Actions>
+
+      <Box m={2} px={2}>
+        <Items>
+          <ActionItem onClick={() => toggleFollowFormik.submitForm}>
+            <ActionIcon>
+              {isFollowing ? (
+                <EyeOff
+                  className="hover"
+                  strokeWidth="1"
+                  color="rgba(0,0,0,.4)"
+                  size="20"
+                />
+              ) : (
+                <Eye
+                  className="hover"
+                  strokeWidth="1"
+                  color="rgba(0,0,0,.4)"
+                  size="20"
+                />
+              )}
+            </ActionIcon>
+            <Text
+              ml={1}
+              variant={'suptitle'}
+              sx={{ textTransform: 'capitalize' }}
+            >
+              {isFollowing ? (
+                <Trans>"Unfollow" </Trans>
+              ) : (
+                <Trans>"follow"</Trans>
+              )}
+            </Text>
+          </ActionItem>
+        </Items>
+      </Box>
     </Bordered>
     // </WrapperLink>
   );
 };
 
-const TitleLink = styled(NavLink)`
-  text-decoration: none;
-  color: ${props => props.theme.colors.darkgray};
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
 const Items = styled(Flex)`
   flex: 1;
-  justify-content: space-around;
-`;
-
-const Actions = styled(Box)`
-  position: relative;
-  z-index: 999999999999999999999999999999999999;
-  border-top: 1px solid #dadada;
-  padding: 8px;
-  background: white;
+  justify-content: start;
 `;
 
 const ActionItem = styled(Flex)`
@@ -126,6 +131,28 @@ const ActionItem = styled(Flex)`
   }
 `;
 
+const ActionIcon = styled(Box)`
+  width: 30px;
+  height: 30px;
+  border-radius: 99999px;
+  display: inline-flex;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  margin-left: -8px;
+  svg {
+    margin: 0 auto;
+  }
+`;
+
+const TitleLink = styled(NavLink)`
+  text-decoration: none;
+  color: ${props => props.theme.colors.darkgray};
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 const Meta = styled(Flex)`
   color: ${props => props.theme.colors.gray};
 `;
@@ -134,13 +161,6 @@ const Username = styled(Text)`
   color: ${props => props.theme.colors.gray};
   flex: 1;
 `;
-
-// const WrapperLink = styled(NavLink)`
-// text-decoration: none;
-// div {
-//   text-decoration: none;
-//    }
-// `;
 
 const Wrapper = styled(Flex)`
   // cursor: pointer;

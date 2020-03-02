@@ -198,6 +198,7 @@ export const WrapperCont = styled(Flex)`
   min-width: 0px;
   padding: 0px;
   position: relative;
+  background: white;
   z-index: 0;
 `;
 
