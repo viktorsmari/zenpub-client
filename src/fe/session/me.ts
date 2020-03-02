@@ -31,7 +31,8 @@ export const useMe = () => {
       me,
       isAdmin,
       login,
-      logout
+      logout,
+      loading: meQ.loading
     };
   }, [me, isAdmin, login, logout]);
 };
