@@ -1,4 +1,7 @@
+import { NormalizedCacheObject } from 'apollo-cache-inmemory';
+import ApolloClient from 'apollo-client';
 import { FetchResult } from 'apollo-link';
+import { MeQueryDocument, MeQueryQuery } from 'graphql/me.generated';
 import {
   ConfirmEmailMutationMutation,
   ConfirmEmailMutationMutationOperation
@@ -13,12 +16,21 @@ import { DynamicLinkSrv } from '../util/apollo/dynamicLink';
 
 export const integrateSessionApolloRedux = (
   dynamicLinkSrv: DynamicLinkSrv,
-  dispatch: (msg: any) => unknown
+  dispatch: (msg: any) => unknown,
+  apollo: ApolloClient<NormalizedCacheObject>
 ) => {
   const setAuth = (
     resp: FetchResult<LoginMutationMutation | ConfirmEmailMutationMutation>
   ) => {
     if (resp.errors || !resp.data) {
+      apollo.cache.writeQuery<MeQueryQuery>({
+        data: {
+          __typename: 'RootQueryType',
+          me: null
+        },
+        query: MeQueryDocument
+      });
+
       dispatch(logout.create());
       return;
     }
@@ -42,6 +54,13 @@ export const integrateSessionApolloRedux = (
   dynamicLinkSrv.addLinkOp<LogoutMutationMutationOperation>(
     'logoutMutation',
     (op, next) => {
+      apollo.cache.writeQuery<MeQueryQuery>({
+        data: {
+          __typename: 'RootQueryType',
+          me: null
+        },
+        query: MeQueryDocument
+      });
       dispatch(logout.create());
       return next(op);
     }

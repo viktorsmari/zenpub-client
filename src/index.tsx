@@ -66,10 +66,15 @@ async function run() {
   const appLink = dynamicLinkEnv.link;
   const apolloClient = await getApolloClient({
     localKVStore: createLocalKVStore('APOLLO#'),
-    appLink
+    appLink,
+    dispatch: store.dispatch
   });
 
-  integrateSessionApolloRedux(dynamicLinkEnv.srv, store.dispatch);
+  integrateSessionApolloRedux(
+    dynamicLinkEnv.srv,
+    store.dispatch,
+    apolloClient.client
+  );
   integrateToastNotifications(dynamicLinkEnv.srv, store.dispatch);
   const ApolloApp = () => (
     <ApolloProvider client={apolloClient.client}>
