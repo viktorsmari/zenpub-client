@@ -1,33 +1,21 @@
 import * as React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import { Flex, Box } from 'rebass/styled-components';
+import { Box, Flex } from 'rebass/styled-components';
 import media from 'styled-media-query';
-
+import { Header } from 'ui/modules/Header';
 import styled from 'ui/themes/styled';
-// import { Link } from 'react-feather';
 
 export interface Props {
-  CommunityBoxes: JSX.Element;
-  Header: JSX.Element;
-  basePath: string;
+  CommunitiesBoxes: JSX.Element;
 }
 
-export const AllCommunities: React.FC<Props> = ({
-  CommunityBoxes,
-  basePath,
-  Header
-}) => {
+export const AllCommunities: React.FC<Props> = ({ CommunitiesBoxes }) => {
   return (
     <MainContainer>
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            {Header}
-            <Switch>
-              <Route exact path={`${basePath}/`}>
-                <WrapperBoxes>{CommunityBoxes}</WrapperBoxes>
-              </Route>
-            </Switch>
+            <Header name="All Communities" />
+            <WrapperBoxes>{CommunitiesBoxes}</WrapperBoxes>
           </Wrapper>
         </WrapperCont>
       </HomeBox>
