@@ -3,7 +3,7 @@ import { Trans } from '@lingui/react';
 import { DateTime } from 'luxon';
 import { clearFix } from 'polished';
 import React, { FC } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass/styled-components';
 // import media from 'styled-media-query';
 import Avatar from 'ui/elements/Avatar';
@@ -75,8 +75,8 @@ export const ActivityPreview: FC<Props> = activity => {
   }
 
   return (
-    <FeedItem>
-      <WrapperLink to={activity.link} />
+    <FeedItem mb={2}>
+      {/* <WrapperLink to={activity.link} /> */}
       {/* {activity.inReplyToCtx && <InReplyTo {...activity.inReplyToCtx} />} */}
       <ActorComp
         actor={activity.actor}
@@ -85,7 +85,7 @@ export const ActivityPreview: FC<Props> = activity => {
         communityLink={activity.communityLink}
         communityName={activity.communityName}
       />
-      <Contents>
+      <Contents mt={2}>
         <Wrapper>
           {activity.preview}
           {/* {activity.actions && <Actions {...activity.actions} />} */}
@@ -152,14 +152,14 @@ export const BigThreadCommentPreview: FC<BigThreadCommentPreviewProps> = thread 
 
 // const Event = styled(Text)``;
 
-const WrapperLink = styled(NavLink)`
-  text-decoration: none;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-`;
+// const WrapperLink = styled(NavLink)`
+//   text-decoration: none;
+//   position: absolute;
+//   left: 0;
+//   right: 0;
+//   top: 0;
+//   bottom: 0;
+// `;
 
 const Comment = styled(Text)`
   font-size: 32px;
@@ -228,7 +228,7 @@ const ActorComp: FC<ActorProps> = ({
             )}
           </ActionItem> */}
         </Flex>
-        <Flex sx={{ marginTop: '-2px' }} alignItems="center">
+        <Flex sx={{ marginTop: '2px' }} alignItems="center">
           <Date>{DateTime.fromSQL(createdAt).toRelative()}</Date>
           <Spacer mx={1}>·</Spacer>
           <CommunityName to={communityLink}>{communityName}</CommunityName>
@@ -295,7 +295,7 @@ const CommunityName = styled(Link)`
 
 const Contents = styled(Box)`
   // margin-top: -30px;
-  margin-left: 55px;
+  // margin-left: 55px;
 `;
 
 // const Username = styled(Text)`
@@ -352,22 +352,20 @@ const Wrapper = styled(Box)``;
 const FeedItem = styled(Box)`
   min-height: 30px;
   position: relative;
-  margin: 0;
   padding: 16px;
   word-wrap: break-word;
   font-size: 14px;
-  // &:hover {
-  //   background: #f980120a;
-  // }
+
   ${clearFix()};
   transition: background 0.5s ease;
   margin-top: 0
   z-index: 10;
   position: relative;
-  border-bottom: 1px solid  ${props => props.theme.colors.lightgray};
+  background: white;
+  border-radius: 4px;
+  border: 1px solid  ${props => props.theme.colors.lightgray};
   a {
     text-decoration: none;
-    // color: inherit !important;
     &:hover {
       text-decoration: underline
     }

@@ -154,4 +154,5 @@ const ActionIcon = styled(Box)`
 const Wrapper = styled(Box)`
   border: 1px solid ${props => props.theme.colors.lightgray};
   border-radius: 4px;
+  background: white;
 `;
