@@ -2,7 +2,6 @@ import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
 import { PropsTable } from '@storybook/components';
 import { AllCollections } from '.';
 import {Box} from 'rebass'
-import {Header} from 'ui/modules/Header'
 import {Collection} from 'ui/modules/Previews/Collection';
 
 <Meta title="Pages|AllCollections" component={AllCollections}/>
@@ -15,8 +14,6 @@ Let's define a story for the `AllCollections` page
   <Story name="AllCollections page">
     <Box sx={{margin: "0 auto", width: "fit-content"}}>
         <AllCollections 
-        Header={(<Header name="All Collections" />)}
-        
         CollectionsBoxes={[
             (<Collection
                 link={{url: "/", external: true}}
