@@ -174,6 +174,9 @@ storiesOf('Modules/ActivityPreview', module)
           icon={
             'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png'
           }
+          isLocal
+          license={'license 1'}
+          acceptedLicenses={['license 1', 'license 2', 'license 3']}
           name={'mantarai'}
           like={{
             toggleLikeFormik: useFormik({

@@ -17,7 +17,7 @@ import { clearFix } from 'polished';
 import { Panel, WrapperPanel } from '../../sections/panel';
 import useAxios from 'axios-hooks';
 
-import { INVITE_ONLY_TEXT } from './../../constants';
+import { INVITE_ONLY_TEXT } from '../../mn-constants';
 import { AlertCircle, Eye } from 'react-feather';
 import { LocaleContext } from '../../context/global/localizationCtx';
 
@@ -279,8 +279,9 @@ const SignupModal = (props: Props) => {
                                 />
                               )}
                             />
-                            {errors.email &&
-                              touched.email && <Alert>{errors.email}</Alert>}
+                            {errors.email && touched.email && (
+                              <Alert>{errors.email}</Alert>
+                            )}
                           </>
                         </Box>
                         <Box mt={3}>
@@ -299,8 +300,9 @@ const SignupModal = (props: Props) => {
                                 />
                               )}
                             />
-                            {errors.name &&
-                              touched.name && <Alert>{errors.name}</Alert>}
+                            {errors.name && touched.name && (
+                              <Alert>{errors.name}</Alert>
+                            )}
                           </>
                         </Box>
                         <Box mt={3}>
@@ -348,10 +350,9 @@ const SignupModal = (props: Props) => {
                                 />
                               )}
                             />
-                            {errors.password &&
-                              touched.password && (
-                                <Alert>{errors.password}</Alert>
-                              )}
+                            {errors.password && touched.password && (
+                              <Alert>{errors.password}</Alert>
+                            )}
                           </>
                         </Box>
                         <Box mt={3}>

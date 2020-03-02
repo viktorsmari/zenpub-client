@@ -9,7 +9,7 @@ import { LocaleContext } from '../../../context/global/localizationCtx';
 import Select from 'react-select';
 import { ActionContext } from '../../../context/global/actionCtx';
 import { setLang } from '../../../redux/localization';
-import { languages, locales } from '../../../constants';
+import { languages, locales } from '../../../mn-constants';
 
 const Header = styled(Flex)`
   border-bottom: 1px solid ${props => props.theme.colors.lightgray};

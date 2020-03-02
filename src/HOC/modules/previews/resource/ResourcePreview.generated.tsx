@@ -7,7 +7,7 @@ import { CommunityInfoFragmentDoc } from '../community/CommunityPreview.generate
 
 export type ResourcePreviewFragment = (
   { __typename: 'Resource' }
-  & Pick<Types.Resource, 'id' | 'icon' | 'name' | 'summary' | 'canonicalUrl' | 'url'>
+  & Pick<Types.Resource, 'id' | 'icon' | 'name' | 'summary' | 'canonicalUrl' | 'url' | 'isLocal' | 'license'>
   & { myLike: Types.Maybe<(
     { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
@@ -52,5 +52,7 @@ export const ResourcePreviewFragmentDoc = gql`
       ...CommunityInfo
     }
   }
+  isLocal
+  license
 }
     ${CommunityInfoFragmentDoc}`;

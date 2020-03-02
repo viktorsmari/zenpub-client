@@ -3,7 +3,7 @@ import Select from 'react-select';
 import { LocaleContext } from '../../../context/global/localizationCtx';
 import { ActionContext } from '../../../context/global/actionCtx';
 import { setLang } from '../../../redux/localization';
-import { languages, locales } from '../../../constants';
+import { languages, locales } from '../../../mn-constants';
 
 type LanguageSelectProps = {
   fullWidth?: boolean;
