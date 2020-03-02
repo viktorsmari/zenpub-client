@@ -32,6 +32,7 @@ export type ThreadPreviewFragment = (
     & ResourcePreviewFragment
   )>, comments: Types.Maybe<(
     { __typename: 'CommentsEdges' }
+    & Pick<Types.CommentsEdges, 'totalCount'>
     & { edges: Array<Types.Maybe<(
       { __typename: 'CommentsEdge' }
       & { node: (
@@ -60,6 +61,7 @@ export const ThreadPreviewFragmentDoc = gql`
     }
   }
   comments(limit: 1) {
+    totalCount
     edges {
       node {
         ...CommentPreview

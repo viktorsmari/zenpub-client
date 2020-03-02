@@ -15,6 +15,7 @@ fragment ThreadPreview on Thread {
     }
   }
   comments(limit:1){
+    totalCount
     edges{
       node{
         ...CommentPreview
