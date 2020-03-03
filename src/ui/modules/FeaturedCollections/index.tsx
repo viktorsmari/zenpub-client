@@ -1,5 +1,5 @@
 import { Trans } from '@lingui/macro';
-import React, { useRef, SFC } from 'react';
+import React, { useRef, SFC, ComponentType } from 'react';
 import Slider, { Settings } from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
@@ -8,6 +8,7 @@ import CollectionSmall, { CollectionBase } from './preview';
 import { ChevronLeft, Right } from 'ui/Icons';
 import { Box, Flex } from 'rebass';
 import Button from 'ui/elements/Button';
+import Modal from 'ui/modules/Modal';
 
 export const Title = styled.div`
   font-size: 15px;
@@ -75,11 +76,13 @@ const ActionItem = styled(Flex)`
 export interface FeaturedCollectionsData {
   isAdmin: boolean;
   featuredCollections: CollectionBase[];
+  FeaturedModal?: ComponentType<{ done(): any }>;
 }
 
 export const FeaturedCollections: SFC<FeaturedCollectionsData> = props => {
   const sliderRef = useRef<Slider>();
   const [isEditing, setEditing] = React.useState(false);
+  const [isOpenFeatured, setOpenFeatured] = React.useState(false);
   // const { RTL } = useContext(LocaleContext);
   //   if (props.status === Status.Loading) {
   //     return <Trans>loading...</Trans>;
@@ -116,6 +119,7 @@ export const FeaturedCollections: SFC<FeaturedCollectionsData> = props => {
                 collection={collection}
                 isAdmin={props.isAdmin}
                 isEditing={isEditing}
+                setOpenFeatured={setOpenFeatured}
               />
             </div>
           ))}
@@ -129,13 +133,18 @@ export const FeaturedCollections: SFC<FeaturedCollectionsData> = props => {
                 </Button>
               ) : (
                 <Button variant={'outline'}>
-                  <Trans>Exit</Trans>
+                  <Trans>Done</Trans>
                 </Button>
               )}
             </ActionItem>
           </ActionContainer>
         ) : null}
       </Box>
+      {isOpenFeatured && props.FeaturedModal != null && (
+        <Modal closeModal={() => setOpenFeatured(false)}>
+          <props.FeaturedModal done={() => setOpenFeatured(false)} />
+        </Modal>
+      )}
     </>
   );
 };

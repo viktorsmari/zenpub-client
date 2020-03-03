@@ -17,16 +17,18 @@ interface CommunityProps {
   community: CommunityBase;
   isAdmin: boolean;
   isEditing: boolean;
+  setOpenFeatured: (boolean) => void;
 }
 const CommunitySmall: React.FC<CommunityProps> = ({
   community,
   isAdmin,
-  isEditing
+  isEditing,
+  setOpenFeatured
 }) => {
   return (
     <Wrapper py={1} mb={2} mr={3}>
       {isAdmin && isEditing ? (
-        <Remove>
+        <Remove onClick={() => setOpenFeatured(true)}>
           <X color="#fff" size={16} />
         </Remove>
       ) : null}
