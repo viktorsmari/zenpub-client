@@ -96,7 +96,6 @@ export interface Hit {
   summary: string;
   index_type: string;
   index_instance: string;
-  index_instance_object_id: string | null;
   objectID: string;
   _highlightResult: HighlightResult;
   license?: any;
