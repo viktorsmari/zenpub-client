@@ -1,12 +1,11 @@
+import { useUploadIconMutation } from 'fe/mutation/upload/icon/useUploadIcon.generated';
 import Maybe from 'graphql/tsutils/Maybe';
-import { Community } from 'graphql/types.generated';
+import { Community, CommunityUpdateInput } from 'graphql/types.generated';
 import { useCallback, useMemo } from 'react';
 import {
   useEditCommunityDataQuery,
-  useEditCommunityMutation,
-  EditCommunityMutationVariables
+  useEditCommunityMutation
 } from './useEditCommunity.generated';
-import { useUploadIconMutation } from 'fe/mutation/upload/icon/useUploadIcon.generated';
 
 export const useEditCommunity = (communityId: Community['id']) => {
   const [editMut, editMutStatus] = useEditCommunityMutation();
@@ -31,10 +30,7 @@ export const useEditCommunity = (communityId: Community['id']) => {
     [communityId, mutating]
   );
   const edit = useCallback(
-    async (
-      community: EditCommunityMutationVariables['community'],
-      iconFile: Maybe<File>
-    ) => {
+    async (communityInput: CommunityUpdateInput, iconFile: Maybe<File>) => {
       if (mutating) {
         return;
       }
@@ -43,10 +39,10 @@ export const useEditCommunity = (communityId: Community['id']) => {
           variables: {
             communityId,
             community: {
-              name: community.name,
-              icon: iconFile ? undefined : community.icon,
-              image: iconFile ? undefined : community.image,
-              summary: community.summary
+              name: communityInput.name,
+              icon: iconFile ? undefined : communityInput.icon,
+              image: iconFile ? undefined : communityInput.image,
+              summary: communityInput.summary
             }
           }
         })
