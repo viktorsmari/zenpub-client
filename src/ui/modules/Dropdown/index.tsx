@@ -2,7 +2,6 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import React, { FC } from 'react';
 import { Box, Flex } from 'rebass/styled-components';
 import styled from 'ui/themes/styled';
-import { darken } from 'polished';
 // import {  Flag, Upload, Copy } from 'react-feather';
 
 interface Props {
@@ -48,14 +47,5 @@ export const DropdownItem = styled(Flex)`
       color: ${props => props.theme.colors.darkgray} !important;
     }
     background: ${props => props.theme.colors.lighter} !important;
-  }
-`;
-
-export const AdminDropdownItem = styled(DropdownItem)`
-  color: ${props => darken('0.1', props.theme.colors.primary)};
-  &:hover {
-    div {
-      color: ${props => darken('0.1', props.theme.colors.primary)} !important;
-    }
   }
 `;

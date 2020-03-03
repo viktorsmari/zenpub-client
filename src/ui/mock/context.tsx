@@ -206,26 +206,7 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
   return {
     collection: {
       status: HeroCollectionStatus.Loaded,
-      isAdmin: true,
-      FeaturedModal: () => {
-        const formik = useFormik<{}>({
-          initialValues: { makeFeatured: true },
-          onSubmit: () => {
-            action('submit')();
-            return new Promise((resolve, reject) => {
-              setTimeout(resolve, 3000);
-            });
-          }
-        });
-        const getFeaturedModalProps = {
-          formik,
-          isFeatured: false,
-          itemType: 'collection',
-          itemName: 'Soil types',
-          cancel: action('cancel')
-        };
-        return <FeaturedModal {...getFeaturedModalProps} />;
-      },
+      isAdmin: false,
       canModify: true,
       following: true,
       flagged: false,
@@ -253,6 +234,9 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
         />
       ),
       FlagModal: ({ done }) => {
+        return <></>;
+      },
+      FeaturedModal: () => {
         return <></>;
       }
     }
@@ -471,13 +455,33 @@ export const getFeaturedCommunitiesPropsAdmin = (): FeaturedCommunitiesProps => 
         name: 'Favourite books',
         icon: 'https://picsum.photos/id/200/200/200'
       }
-    ]
+    ],
+    FeaturedModal: ({ done }) => {
+      const formik = useFormik<{}>({
+        initialValues: { makeFeatured: true },
+        onSubmit: () => {
+          action('submit')();
+          return new Promise((resolve, reject) => {
+            setTimeout(resolve, 3000);
+          });
+        }
+      });
+      const getFeaturedModalProps = {
+        formik,
+        isFeatured: true,
+        itemType: 'community',
+        itemName: 'Community nino',
+        cancel: action('cancel')
+      };
+      return <FeaturedModal {...getFeaturedModalProps} />;
+    }
   };
 };
 
 export const getFeaturedCollectionsProps = (): FeaturedCollectionsProps => {
   return {
     isAdmin: false,
+    FeaturedModal: () => <div>FeaturedModal</div>,
     featuredCollections: [
       {
         id: '1',
@@ -527,6 +531,25 @@ export const getFeaturedCollectionsPropsAdmin = (): FeaturedCollectionsProps => 
         name: 'Community OER',
         icon: 'https://picsum.photos/id/200/200/200'
       }
-    ]
+    ],
+    FeaturedModal: ({ done }) => {
+      const formik = useFormik<{}>({
+        initialValues: { makeFeatured: true },
+        onSubmit: () => {
+          action('submit')();
+          return new Promise((resolve, reject) => {
+            setTimeout(resolve, 3000);
+          });
+        }
+      });
+      const getFeaturedModalProps = {
+        formik,
+        isFeatured: true,
+        itemType: 'community',
+        itemName: 'Community nino',
+        cancel: action('cancel')
+      };
+      return <FeaturedModal {...getFeaturedModalProps} />;
+    }
   };
 };
