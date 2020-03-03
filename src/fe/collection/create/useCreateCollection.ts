@@ -3,7 +3,7 @@ import { useUploadIconMutation } from 'fe/mutation/upload/icon/useUploadIcon.gen
 import Maybe from 'graphql/tsutils/Maybe';
 import {
   Collection,
-  Collection as Community,
+  Community,
   CollectionInput
 } from 'graphql/types.generated';
 import { useCallback, useMemo } from 'react';

@@ -1,7 +1,7 @@
 
 
 
-fragment CommunityPageBase on Community{
+fragment CommunityPageData on Community{
   id
   myFollow{id}
   ...HeroCommunityData

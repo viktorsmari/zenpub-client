@@ -13,7 +13,7 @@ import { CollectionPreviewFragment, CollectionPreviewFragmentDoc } from 'HOC/mod
 
 
 
-export type CommunityPageBaseFragment = (
+export type CommunityPageDataFragment = (
   { __typename: 'Community' }
   & Pick<Types.Community, 'id'>
   & { myFollow: Types.Maybe<(
@@ -50,8 +50,8 @@ export type CommunityPageActivityBaseFragment = (
   & ActivityPreviewFragment
 );
 
-export const CommunityPageBaseFragmentDoc = gql`
-    fragment CommunityPageBase on Community {
+export const CommunityPageDataFragmentDoc = gql`
+    fragment CommunityPageData on Community {
   id
   myFollow {
     id
