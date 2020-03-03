@@ -5,14 +5,11 @@ import {recentActivitiesContext, collectionsContext, collectionPreviewContext, e
 import {RecentActivitiesContext, CollectionsContext } from '.';
 import { HeroCommunity, Status, Props } from 'ui/modules/HeroCommunity';
 import { action } from '@storybook/addon-actions';
-import { ContextType, ContextVerb } from 'ui/modules/ActivityPreview/preview';
 import {ActivityPreview} from 'ui/modules/ActivityPreview'
 import { useFormik } from 'formik';
 import {Thread} from 'ui/modules/Previews/Thread'
 import {Collection} from 'ui/modules/Previews/Collection'
 import { Comment } from 'ui/modules/Previews/Comment';
-// import {Sidebar} from 'ui/modules/Sidebar'
-// import {SidebarProps} from 'ui/modules/Sidebar/a.stories.mdx'
 import {Box} from 'rebass'
 import {getHeroCommunityProps} from 'ui/mock/context'
 const getActions = () => ({

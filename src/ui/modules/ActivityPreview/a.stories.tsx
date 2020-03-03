@@ -11,6 +11,7 @@ import { Resource } from '../Previews/Resource';
 import { User } from '../Previews/User';
 import FlagModal from '../FlagModal';
 import { MainComment } from '../Previews/MainComment';
+import { LikedComment } from '../Previews/LikedComment';
 
 const getActions = () => ({
   FlagModal: () => {
@@ -261,6 +262,47 @@ storiesOf('Modules/ActivityPreview', module)
       preview: (
         <Comment
           {...getActions()}
+          content={
+            'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+          }
+        />
+      ),
+      status: Status.Loaded,
+      actor: getActor(),
+      createdAt: '2018-11-11',
+      link: 'https://picsum.photos/80/80'
+    };
+
+    return (
+      <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
+        <ActivityPreview {...activityPreviewProps} />
+      </Box>
+    );
+  })
+  .add('Like a comment', () => {
+    const activityPreviewProps: Props = {
+      communityLink: 'communityLink',
+      communityName: 'communityName',
+      event: 'Like a comment',
+      preview: (
+        <LikedComment
+          {...getActions()}
+          actor={{
+            icon: 'https://picsum.photos/80/80',
+            link: '1',
+            name: 'Ivan'
+          }}
+          createdAt="2018-11-11"
+          communityName="test"
+          communityLink="1"
           content={
             'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
           }

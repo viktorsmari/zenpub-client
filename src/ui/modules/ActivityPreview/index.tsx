@@ -35,63 +35,27 @@ export const ActivityPreview: FC<Props> = activity => {
   if (activity.status === Status.Loading) {
     return <Trans>loading...</Trans>;
   }
-
+  console.log(activity.event);
   return (
     <FeedItem mb={2}>
-      <ActorComp
-        actor={activity.actor}
-        createdAt={activity.createdAt}
-        event={activity.event}
-        communityLink={activity.communityLink}
-        communityName={activity.communityName}
-      />
+      {activity.event.toLowerCase().includes('like') ? (
+        <SmallActorComp actor={activity.actor} event={activity.event} />
+      ) : (
+        <ActorComp
+          actor={activity.actor}
+          createdAt={activity.createdAt}
+          event={activity.event}
+          communityLink={activity.communityLink}
+          communityName={activity.communityName}
+        />
+      )}
+
       <Contents mt={2}>
         <Wrapper>{activity.preview}</Wrapper>
       </Contents>
     </FeedItem>
   );
 };
-
-// export interface BigThreadCommentPreviewPropsLoading {
-//   status: Status.Loading;
-// }
-// export interface BigThreadCommentPreviewPropsLoaded {
-//   status: Status.Loaded;
-//   actor: Activity['actor'];
-//   createdAt: Activity['createdAt'];
-//   communityLink: Activity['communityLink'];
-//   communityName: Activity['communityName'];
-//   content: string;
-// }
-
-// export type BigThreadCommentPreviewProps =
-//   | BigThreadCommentPreviewPropsLoading
-//   | BigThreadCommentPreviewPropsLoaded;
-// export const BigThreadCommentPreview: FC<BigThreadCommentPreviewProps> = thread => {
-//   if (thread.status === Status.Loading) {
-//     return <Trans>loading...</Trans>;
-//   }
-//   return (
-//     <FeedItem>
-//       <ActorComp
-//         actor={thread.actor}
-//         createdAt={thread.createdAt}
-//         event={''}
-//         communityLink={thread.communityLink}
-//         communityName={thread.communityName}
-//       />
-//      <Contents mt={2}>
-//         <Wrapper>
-//           {activity.preview}
-//         </Wrapper>
-//       </Contents>
-//     </FeedItem>
-//   );
-// };
-
-// const Comment = styled(Text)`
-//   font-size: 24px;
-// `;
 
 export interface ActorProps {
   actor: Actor;
@@ -100,7 +64,7 @@ export interface ActorProps {
   communityName: string;
   communityLink: string;
 }
-const ActorComp: FC<ActorProps> = ({
+export const ActorComp: FC<ActorProps> = ({
   actor,
   createdAt,
   event,
@@ -125,6 +89,36 @@ const ActorComp: FC<ActorProps> = ({
           <Date>{DateTime.fromSQL(createdAt).toRelative()}</Date>
           <Spacer mx={1}>·</Spacer>
           <CommunityName to={communityLink}>{communityName}</CommunityName>
+        </Flex>
+      </MemberInfo>
+    </Member>
+  );
+};
+
+export interface SmallActorProps {
+  actor: Actor;
+  event: string;
+}
+
+export const SmallActorComp: FC<SmallActorProps> = ({ actor, event }) => {
+  return (
+    <Member sx={{ alignItems: 'center' }}>
+      <Avatar
+        size="s"
+        initials={actor.name}
+        src={actor.icon}
+        variant="avatar"
+      />
+      <MemberInfo ml={2}>
+        <Flex mt={1} alignItems="center">
+          <Flex flex={1}>
+            <Name>
+              <Link to={actor.link}>{actor.name}</Link>
+            </Name>
+            <Text sx={{ textTransform: 'lowercase' }} variant="text" ml={1}>
+              {event}
+            </Text>
+          </Flex>
         </Flex>
       </MemberInfo>
     </Member>
