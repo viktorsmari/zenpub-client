@@ -38,7 +38,7 @@ export interface BasicCreateCollectionFormValues {
   name: string;
   summary: string;
   icon: string;
-  files?: [];
+  files?: File[];
 }
 
 export const CreateCollectionPanel: React.FC<Props> = ({ cancel, formik }) => {

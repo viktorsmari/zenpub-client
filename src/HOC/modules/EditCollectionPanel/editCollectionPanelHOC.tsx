@@ -16,7 +16,8 @@ export const validationSchema: Yup.ObjectSchema<EditCollectionFormValues> = Yup.
     .max(60)
     .required(),
   summary: Yup.string().max(500),
-  icon: Yup.string() //.url()
+  icon: Yup.string(), //.url()
+  files: Yup.array()
 });
 
 export interface Props {
