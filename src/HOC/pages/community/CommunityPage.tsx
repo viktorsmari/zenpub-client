@@ -12,6 +12,7 @@ import { ThreadPreviewHOC } from 'HOC/modules/previews/thread/ThreadPreview';
 import React, { FC, useMemo } from 'react';
 import CommunityPageUI, { Props as CommunityProps } from 'ui/pages/community';
 import { Box } from 'rebass/styled-components';
+import { useHistory } from 'react-router-dom';
 
 export enum CommunityPageTab {
   Activities,
@@ -29,10 +30,14 @@ export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
   const { threads } = useCommunityThreads(communityId);
   const { collections } = useCommunityCollections(communityId);
   const { activities } = useCommunityOutboxActivities(communityId);
+  const history = useHistory();
 
   const newThreadFormik = useFormik<{ text: string }>({
     initialValues: { text: '' },
-    onSubmit: ({ text }) => createThread(text)
+    onSubmit: ({ text }) =>
+      createThread(text).then(newThreadId =>
+        history.push(`/thread/${newThreadId}`)
+      )
   });
 
   const communityPageProps = useMemo<CommunityProps | null>(() => {
