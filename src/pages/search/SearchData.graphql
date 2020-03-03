@@ -13,7 +13,7 @@ mutation searchFollowLocal($contextId:String!){
   }
 }
 mutation searchFollowRemote($url:String!){
-  followRemoteActor(url:$url){
+  createFollowByUrl(url:$url){
     id
   }
 }

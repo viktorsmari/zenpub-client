@@ -42,7 +42,7 @@ export type SearchFollowRemoteMutationVariables = {
 
 export type SearchFollowRemoteMutation = (
   { __typename: 'RootMutationType' }
-  & { followRemoteActor: Types.Maybe<(
+  & { createFollowByUrl: Types.Maybe<(
     { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
   )> }
@@ -265,7 +265,7 @@ export type SearchFollowLocalMutationResult = ApolloReactCommon.MutationResult<S
 export type SearchFollowLocalMutationOptions = ApolloReactCommon.BaseMutationOptions<SearchFollowLocalMutation, SearchFollowLocalMutationVariables>;
 export const SearchFollowRemoteDocument = gql`
     mutation searchFollowRemote($url: String!) {
-  followRemoteActor(url: $url) {
+  createFollowByUrl(url: $url) {
     id
   }
 }
