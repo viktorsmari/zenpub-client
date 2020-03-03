@@ -1,0 +1,22 @@
+mutation uploadIcon($contextId:ID!, $upload:Upload!){
+  uploadIcon(contextId:$contextId, upload:$upload){
+    parent{
+      ...on Collection{
+        id
+        icon
+      }
+      ...on Community{
+        id
+        icon
+      }
+      ...on Resource{
+        id
+        icon
+      }
+      ...on User{
+        userId:id
+        icon
+      }
+    }
+  }
+}

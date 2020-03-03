@@ -6,6 +6,7 @@ import styled from '../../../themes/styled';
 import { accepted_file_types } from '../../../mn-constants';
 import { Box, Flex } from 'rebass/styled-components';
 import { Image, FileText } from 'react-feather';
+import { FormikHook } from 'ui/@types/types';
 
 // const ThumbsContainer = styled.aside`
 //   display: flex;
@@ -71,7 +72,7 @@ const Img = styled(Box)`
 interface Props {
   initialUrl: any;
   uploadType?: string;
-  formikForm?: any;
+  formikForm?: FormikHook;
   touchedField?: string;
 }
 
@@ -104,8 +105,10 @@ const DropzoneArea: React.FC<Props> = ({
     accept: acceptedTypes,
     onDrop: acceptedFiles => {
       const uploadField = touchedField ? touchedField : 'files';
-      formikForm.setFieldValue(uploadField, acceptedFiles);
-      formikForm.setFieldTouched(uploadField, true);
+      if (formikForm) {
+        formikForm.setFieldValue(uploadField, acceptedFiles);
+        formikForm.setFieldTouched(uploadField, true);
+      }
       setFiles(acceptedFiles);
       acceptedFiles.map(file => onFile(URL.createObjectURL(file)));
     }
