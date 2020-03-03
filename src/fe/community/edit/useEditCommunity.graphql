@@ -1,0 +1,19 @@
+fragment EditCommunityQueryData on Community {
+  id
+  name
+  summary
+  icon
+  updatedAt
+}
+query editCommunityData($communityId: String!) {
+    community(communityId: $communityId) {
+        ...EditCommunityQueryData
+    }
+}
+
+mutation editCommunity($community: CommunityUpdateInput!, $communityId: String!) {
+  updateCommunity(communityId: $communityId, community: $community) {
+    ...EditCommunityQueryData
+  }
+}
+
