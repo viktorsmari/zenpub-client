@@ -72,7 +72,7 @@ export const Collection: React.FC<Props> = ({
 
       <Box m={2} px={2}>
         <Items>
-          <ActionItem onClick={() => toggleFollowFormik.submitForm}>
+          <ActionItem onClick={toggleFollowFormik.submitForm}>
             <ActionIcon>
               {isFollowing ? (
                 <EyeOff
