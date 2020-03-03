@@ -38,7 +38,7 @@ export interface CreateCommunityFormValues {
   name: string;
   summary: string;
   icon: string;
-  files?: [];
+  files: File[];
 }
 
 export const CreateCommunityPanel: React.FC<Props> = ({ cancel, formik }) => {

@@ -64,7 +64,8 @@ export const getCreateCommunityProps = (): CreateCommunityProps => {
     initialValues: {
       icon: '',
       name: '',
-      summary: ''
+      summary: '',
+      files: []
     },
     onSubmit: () => {
       action('submit')();

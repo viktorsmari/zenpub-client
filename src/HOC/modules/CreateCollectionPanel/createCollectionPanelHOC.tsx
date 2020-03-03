@@ -50,8 +50,10 @@ export const CreateCollectionPanelHOC: FC<Props> = ({
         },
         fileToUpload
       )
-        .then(createdCollectionId =>
-          history.push(`/collections/${createdCollectionId}`)
+        .then(
+          createdCollectionId =>
+            createdCollectionId &&
+            history.push(`/collections/${createdCollectionId}`)
         )
         .catch(err => console.log(err));
     },
