@@ -102,15 +102,15 @@ export interface SmallActorProps {
 
 export const SmallActorComp: FC<SmallActorProps> = ({ actor, event }) => {
   return (
-    <Member sx={{ alignItems: 'center' }}>
+    <Member sx={{ alignItems: 'center !important' }}>
       <Avatar
         size="s"
         initials={actor.name}
         src={actor.icon}
         variant="avatar"
       />
-      <MemberInfo ml={2}>
-        <Flex mt={1} alignItems="center">
+      <MemberInfo sx={{ marginTop: 0 }} ml={2}>
+        <Flex alignItems="center">
           <Flex flex={1}>
             <Name>
               <Link to={actor.link}>{actor.name}</Link>
