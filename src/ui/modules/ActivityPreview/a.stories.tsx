@@ -164,17 +164,17 @@ storiesOf('Modules/ActivityPreview', module)
       </Box>
     );
   })
-  .add('Created a resource', () => {
+  .add('Shared a link', () => {
     const activityPreviewProps: Props = {
       communityLink: 'communityLink',
       communityName: 'communityName',
-      event: 'Created a resource',
+      event: 'Shared a link',
       preview: (
         <Resource
           icon={
             'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png'
           }
-          isLocal
+          isLocal={false}
           license={'license 1'}
           acceptedLicenses={['license 1', 'license 2', 'license 3']}
           name={'mantarai'}
@@ -190,6 +190,7 @@ storiesOf('Modules/ActivityPreview', module)
             'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
           }
           link={'https://www.pinterest.it/topics/anime/'}
+          type={'image'}
         />
       ),
       status: Status.Loaded,
@@ -212,6 +213,56 @@ storiesOf('Modules/ActivityPreview', module)
       </Box>
     );
   })
+  .add('Uploaded a resource', () => {
+    const activityPreviewProps: Props = {
+      communityLink: 'communityLink',
+      communityName: 'communityName',
+      event: 'Uploaded a resource',
+      preview: (
+        <Resource
+          icon={
+            'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png'
+          }
+          isLocal={true}
+          license={'license 1'}
+          acceptedLicenses={['license 1', 'license 2', 'license 3']}
+          name={'mantarai'}
+          like={{
+            toggleLikeFormik: useFormik({
+              initialValues: {},
+              onSubmit: action('toggle like')
+            }),
+            iLikeIt: true,
+            totalLikes: 5
+          }}
+          summary={
+            'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+          }
+          link={'anime.pdf'}
+          type={'pdf'}
+        />
+      ),
+      status: Status.Loaded,
+      actor: getActor(),
+      createdAt: '2018-11-11',
+      link: 'https://picsum.photos/80/80'
+    };
+
+    return (
+      <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
+        <ActivityPreview {...activityPreviewProps} />
+      </Box>
+    );
+  })
+
   .add('Follow a user', () => {
     const activityPreviewProps: Props = {
       communityLink: 'communityLink',

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { ExternalLink, Star } from 'react-feather';
+import { Link, ExternalLink, Star } from 'react-feather';
+// import { FileText, ExternalLink, Star } from 'react-feather';
 // import { NavLink } from 'react-router-dom';
 import { Box, Flex, Heading, Text, Image } from 'rebass/styled-components';
 import Avatar from 'ui/elements/Avatar';
@@ -26,6 +27,7 @@ export interface Props {
   license: string | null;
   acceptedLicenses?: string[];
   isLocal: boolean;
+  type?: string;
 }
 
 export const Resource: React.FC<Props> = ({
@@ -36,23 +38,36 @@ export const Resource: React.FC<Props> = ({
   like,
   isLocal,
   license,
-  acceptedLicenses
+  acceptedLicenses,
+  type
 }) => {
+  type !== '' ? type : 'image'; // FIXME remove after type field is added
   return (
     // <WrapperLink to={'/collections/' + id}>
     <Bordered>
       <Wrapper p={2}>
         <Avatar size="m" src={icon} />
         <Infos flex={1} ml={3}>
-          <Flex>
+          <TitleFlex>
             {/* <Badge mt={1}>Video</Badge> */}
             <Title flex="1">{name}</Title>
-          </Flex>
+            {/* {isLocal ?  <ResourceType>upload</ResourceType> : <ResourceType>link</ResourceType>} */}
+          </TitleFlex>
+          {isLocal ? (
+            <ResourceType>upload</ResourceType>
+          ) : (
+            <ResourceType>link</ResourceType>
+          )}
+          <TypeItem>{type}</TypeItem>
           <ActionItem mt={1}>
-            <ExternalLink size={16} />
-            <TextLink flex={1} ml={2}>
-              {link}
-            </TextLink>
+            {/* <TypeItem>{type}</TypeItem> */}
+            {/* {isLocal ? <FileText size={17} /> : <ExternalLink size={17} />} */}
+            <a href={link}>
+              {isLocal ? <Link size={17} /> : <ExternalLink size={17} />}
+              <TextLink flex={1} ml={1}>
+                {link}
+              </TextLink>
+            </a>
           </ActionItem>
           <Text variant="text" mt={2}>
             {summary}
@@ -66,12 +81,12 @@ export const Resource: React.FC<Props> = ({
               <Img src={LicenseIcon2} />
             )
           ) : null}
-          <Hashtags mt={1}>
+          {/* <Hashtags mt={1}>
             <Text variant="text" mr={2}>
               #tutorial
             </Text>
             <Text variant="text">#exp</Text>
-          </Hashtags>
+          </Hashtags> */}
         </Infos>
       </Wrapper>
       <Actions>
@@ -100,6 +115,10 @@ export const Resource: React.FC<Props> = ({
     </Bordered>
   );
 };
+
+const TitleFlex = styled(Flex)`
+  align-items: center;
+`;
 
 const ActionIcon = styled(Box)`
   width: 30px;
@@ -130,12 +149,27 @@ const Actions = styled(Box)`
 const ActionItem = styled(Flex)`
   align-items: center;
   color: ${props => props.theme.colors.gray};
-  cursor: pointer;
   a {
+    cursor: pointer;
+    color: ${props => props.theme.colors.gray};
     display: flex;
     align-items: center;
     position: relative;
     z-index: 9;
+    vertical-align: bottom;
+    text-decoration: none;
+    font-size: 14px;
+    margin-top: 5px;
+    :hover {
+      text-decoration: underline;
+      svg {
+        stroke: ${props => props.theme.colors.orange};
+      }
+    }
+  }
+
+  svg {
+    margin: 0px;
   }
   &:hover {
     svg.hover {
@@ -144,12 +178,39 @@ const ActionItem = styled(Flex)`
   }
 `;
 
+const TypeItem = styled(Text)`
+  border-radius: 5px;
+  color: ${props => props.theme.colors.gray};
+  text-transform: uppercase;
+  border-radius: 5px;
+  border: 1px solid;
+  padding: 0px 6px;
+  font-size: 11px;
+  cursor: default;
+  margin-right: 6px;
+  display: inline-flex;
+`;
+
+const ResourceType = styled(Text)`
+  border-radius: 5px;
+  color: ${props => props.theme.colors.orange};
+  text-transform: uppercase;
+  border-radius: 5px;
+  border: 1px solid;
+  padding: 0px 6px;
+  font-size: 11px;
+  cursor: default;
+  margin-right: 6px;
+  display: inline-flex;
+`;
+
 const TextLink = styled(Text)`
   ${ellipsis('250px')};
 `;
 const Img = styled(Image)`
   max-width: 82px;
   margin-top: 5px;
+  height: 24px;
 `;
 
 // const WrapperLink = styled(NavLink)`
@@ -161,11 +222,11 @@ const Bordered = styled(Box)`
   border-radius: 4px;
 `;
 
-const Hashtags = styled(Flex)`
-  div {
-    color: ${props => props.theme.colors.primary};
-  }
-`;
+// const Hashtags = styled(Flex)`
+//   div {
+//     color: ${props => props.theme.colors.primary};
+//   }
+// `;
 
 // const Badge = styled(Box)`
 //   border: 1px solid ${props => props.theme.colors.primary};
