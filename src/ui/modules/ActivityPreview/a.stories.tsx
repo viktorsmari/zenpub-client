@@ -175,7 +175,7 @@ storiesOf('Modules/ActivityPreview', module)
             'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png'
           }
           isLocal={false}
-          license={'license 1'}
+          license={null}
           acceptedLicenses={['license 1', 'license 2', 'license 3']}
           name={'mantarai'}
           like={{

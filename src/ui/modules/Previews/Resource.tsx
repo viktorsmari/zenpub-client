@@ -243,7 +243,9 @@ const TitleLink = styled.a`
   color: ${props => props.theme.colors.darkgray};
 
   svg {
+    margin: 0px;
     margin-right: 5px;
+    display: inline-flex;
   }
   &:hover {
     text-decoration: underline;
