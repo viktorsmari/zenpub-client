@@ -6,6 +6,8 @@ import { Resource } from './Resource';
 import {Community} from './Community';
 import {Collection} from './Collection';
 import {Comment} from './Comment';
+import {MainComment} from './MainComment';
+import {LikedComment} from './LikedComment';
 import {Thread} from './Thread';
 import {Box} from 'rebass'
 import { useFormik } from 'formik';
@@ -231,15 +233,7 @@ Let's define a story for the `Community preview` module
 
 # Collection
 Let's define a story for the `Collection preview` module
-<!-- 
-  link: {
-    url: string;
-    external: boolean;
-  };
-  icon: string;
-  name: string;
-  summary: string;
-  totalResources: number | null; -->
+
 <Preview>
   <Story name="Collection preview module">
      <Box
@@ -319,6 +313,56 @@ Let's define a story for the `Thread preview` module
         totalReplies={"24"}
         totalLikes={"17"}
         members={["https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png", "https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png", "https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png"]}
+    />
+    </Box>
+  </Story>
+</Preview>
+
+# Main Comment
+Let's define a story for the `Main Comment preview` module
+
+<Preview>
+  <Story name="Main Comment preview module">
+     <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
+    <MainComment
+      {...getActions()}
+      content={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}      
+    />
+    </Box>
+  </Story>
+</Preview>
+
+# Liked Comment
+Let's define a story for the `Liked Comment preview` module
+
+<Preview>
+  <Story name="Liked Comment preview module">
+     <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
+    <LikedComment
+      {...getActions()}
+      actor={{icon: 'https://picsum.photos/80/80',
+        link: '1',
+        name: 'Ivan'}}
+      createdAt='2018-11-11'
+      communityName="test"
+      communityLink="1"
+      content={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}      
     />
     </Box>
   </Story>

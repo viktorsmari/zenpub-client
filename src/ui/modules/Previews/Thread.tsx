@@ -3,6 +3,7 @@ import styled from 'ui/themes/styled';
 import { Box, Text, Flex } from 'rebass/styled-components';
 import { DateTime } from 'luxon';
 import { Trans } from '@lingui/react';
+import { NavLink } from 'react-router-dom';
 
 export interface CommentProps {
   content: string;
@@ -20,14 +21,17 @@ export const Thread: React.SFC<CommentProps> = ({
   createdAt,
   totalReplies,
   totalLikes,
-  members
+  members,
+  link
 }) => {
   return (
     <Wrapper p={2}>
       {/* <Text variant="heading" sx={{ fontSize: '16px' }}>
         {title || 'no title'}
       </Text> */}
-      <Text variant="text">{content}</Text>
+      <NavLink to={link}>
+        <Text variant="text">{content}</Text>
+      </NavLink>
       <Flex sx={{ marginTop: '2px' }} alignItems="center">
         <Flex flex={1}>
           <Date>{DateTime.fromSQL(createdAt).toRelative()}</Date>

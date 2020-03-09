@@ -35,6 +35,7 @@ import {
   BasicFeaturedFormValues,
   Props as FeaturedModalProps
 } from 'ui/modules/FeaturedModal';
+
 import { FeaturedModal } from '../modules/FeaturedModal';
 import { Props as EditProfileProps, EditProfile } from 'ui/pages/settings';
 import { FeaturedCommunitiesData as FeaturedCommunitiesProps } from 'ui/modules/FeaturedCommunities';

@@ -18,14 +18,6 @@ export const Header: React.FC<{ name: string }> = ({ name }) => {
           {name}
         </SupText>
       </Left>
-      {/* <Right>
-          <Link to={`/communities/${id}`}>
-            <LinkImg>
-              <Avatar size="s" src={icon} />
-            </LinkImg>
-          
-          </Link>
-        </Right> */}
     </HeaderWrapper>
   );
 };
@@ -47,21 +39,7 @@ const Icon = styled(Box)`
     stroke: ${props => props.theme.colors.darkgray};
   }
 `;
-//   const LinkImg = styled(Box)`
-//   margin-right: 8px;
-//   .--rtl & {
-//     margin-right: 0px;
-//     margin-left: 8px;
-//   }
-// `;
 
-//   const Right = styled(Flex)`
-//   align-items: center;
-//   a {
-//     display: flex;
-//     align-items: center;
-//   }
-// `;
 const Left = styled(Flex)`
   flex: auto;
   align-items: center;

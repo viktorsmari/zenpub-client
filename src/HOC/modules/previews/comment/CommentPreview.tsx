@@ -7,12 +7,17 @@ import {
 } from 'ui/modules/Previews/Comment';
 import { FlagModalHOC } from 'HOC/modules/FlagModal/flagModalHOC';
 import { useFormik } from 'formik';
+import { MainComment } from 'ui/modules/Previews/MainComment';
 
 export interface CommentPreviewHOC {
   commentId: Comment['id'];
+  mainComment: boolean;
 }
 
-export const CommentPreviewHOC: FC<CommentPreviewHOC> = ({ commentId }) => {
+export const CommentPreviewHOC: FC<CommentPreviewHOC> = ({
+  commentId,
+  mainComment
+}) => {
   const { comment, toggleLike, reply } = useCommentPreview(commentId);
   const toggleLikeFormik = useFormik({
     initialValues: {},
@@ -49,5 +54,12 @@ export const CommentPreviewHOC: FC<CommentPreviewHOC> = ({ commentId }) => {
     return props;
   }, [comment, toggleLikeFormik]);
 
-  return commentPreviewProps && <CommentPreviewUI {...commentPreviewProps} />;
+  return (
+    commentPreviewProps &&
+    (mainComment ? (
+      <MainComment {...commentPreviewProps} />
+    ) : (
+      <CommentPreviewUI {...commentPreviewProps} />
+    ))
+  );
 };

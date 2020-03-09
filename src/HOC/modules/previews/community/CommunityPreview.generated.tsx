@@ -17,7 +17,7 @@ export type CommunityPreviewFragment = (
 
 export type CommunityInfoFragment = (
   { __typename: 'Community' }
-  & Pick<Types.Community, 'id' | 'name'>
+  & Pick<Types.Community, 'id' | 'name' | 'icon'>
   & { myFollow: Types.Maybe<(
     { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
@@ -28,6 +28,7 @@ export const CommunityInfoFragmentDoc = gql`
     fragment CommunityInfo on Community {
   id
   name
+  icon
   myFollow {
     id
   }
