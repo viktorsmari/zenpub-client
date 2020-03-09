@@ -11,7 +11,6 @@ import Avatar from 'ui/elements/Avatar';
 export interface Props {
   MainThread: JSX.Element;
   Comments: JSX.Element;
-  Header: JSX.Element;
   communityId: string;
   communityName: string;
   communityIcon: string;

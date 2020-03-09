@@ -11,25 +11,24 @@ export interface Props {
 }
 
 export const ThreadPreviewHOC: FC<Props> = ({ threadId }) => {
-  const { thread } = useThreadPreview(threadId);
+  const { mainComment, totalReplies } = useThreadPreview(threadId);
 
   const threadPreviewProps = useMemo<ThreadPreviewUIProps | null>(() => {
-    const fstComment = thread?.comments?.edges[0]?.node;
-    if (!(thread && thread.comments && fstComment)) {
+    if (!mainComment) {
       return null;
     }
 
     const props: ThreadPreviewUIProps = {
-      content: fstComment.content,
-      createdAt: fstComment.createdAt,
+      content: mainComment.content,
+      createdAt: mainComment.createdAt,
       members: [],
-      totalLikes: `${fstComment.likerCount || 0}`,
-      totalReplies: `${thread.comments.totalCount - 1}`,
-      link: `/threads/${thread.id}`
+      totalLikes: `${mainComment.likerCount || 0}`,
+      totalReplies: totalReplies ? `${totalReplies}` : '',
+      link: `/thread/${threadId}`
     };
 
     return props;
-  }, [thread]);
+  }, [mainComment, totalReplies]);
 
   return threadPreviewProps && <ThreadPreviewUI {...threadPreviewProps} />;
 };

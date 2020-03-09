@@ -1,19 +1,13 @@
-import { getActivityActor } from 'fe/lib/activity/getActivityActor';
-import { getCommunityInfoStrings } from 'fe/lib/activity/getContextCommunityInfo';
 import { CommentPreviewHOC } from 'HOC/modules/previews/comment/CommentPreview';
 import { CommentPreviewFragment } from 'HOC/modules/previews/comment/CommentPreview.generated';
 import React, { FC, useEffect, useMemo } from 'react';
-import {
-  BigThreadCommentPreview,
-  BigThreadCommentPreviewPropsLoaded,
-  Status as ActivityPreviewStatus
-} from 'ui/modules/ActivityPreview';
 import { CreateReplyMutationMutationOperation } from '../../graphql/createReply.generated';
 import { DeleteMutationMutationOperation } from '../../graphql/delete.generated';
 import { useGetThreadQuery } from '../../graphql/getThread.generated';
 import { LikeMutationMutationOperation } from '../../graphql/like.generated';
 import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import Stateless from './stateless';
+
 export interface Props {
   threadId: string;
 }
@@ -83,36 +77,5 @@ export const CommentActivity: FC<{
     console.log(comment);
     return null;
   }
-
-  // const actions: ActionProps | null = isContextFollowed(comment)
-  //   ? {
-  //       FlagModal: null /*  ({ done }) => <FlagModalHOC {... {
-  //       done,
-  //       contextId: comment.id,
-  //       flagged: !!comment.myFlag
-  //     }} />, */,
-  //       like: {
-  //         iLikeIt: !!comment.myLike,
-  //         toggleLikeFormik: useActivityToggleLikeFormik(comment),
-  //         totalLikes: comment.likerCount || 0
-  //       },
-  //       reply: {
-  //         replyFormik: useActivityReplyFormik(comment)
-  //       }
-  //     }
-  //   : null;
-  const communityInfoStrings = getCommunityInfoStrings(comment);
-
-  const props: BigThreadCommentPreviewPropsLoaded = {
-    actor: getActivityActor(comment.creator),
-    content: comment.content,
-    status: ActivityPreviewStatus.Loaded,
-    createdAt: comment.createdAt,
-    ...communityInfoStrings
-  };
-  return !root ? (
-    <CommentPreviewHOC commentId={comment.id} />
-  ) : (
-    <BigThreadCommentPreview {...props} />
-  );
+  return <CommentPreviewHOC commentId={comment.id} mainComment={root} />;
 };

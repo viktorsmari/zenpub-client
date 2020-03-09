@@ -700,8 +700,6 @@ export type RegistrationInput = {
 
 export type Resource = {
    __typename?: 'Resource',
-  /** The original author */
-  author?: Maybe<Scalars['String']>,
   /** A url for the user, may be to a remote instance */
   canonicalUrl?: Maybe<Scalars['String']>,
   /** The collection this resource is a part of */
@@ -2091,7 +2089,6 @@ export type PageInfoResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type ResourceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Resource'] = ResolversParentTypes['Resource']> = {
-  author?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   canonicalUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   collection?: Resolver<Maybe<ResolversTypes['Collection']>, ParentType, ContextType>,
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
