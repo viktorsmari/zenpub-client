@@ -177,6 +177,7 @@ const More = styled(Box)`
   border: 1px solid ${props => props.theme.colors.lightgray};
   border-radius: 4px;
   svg {
+    margin: 0 auto;
     stroke: ${props => props.theme.colors.gray};
   }
 `;
