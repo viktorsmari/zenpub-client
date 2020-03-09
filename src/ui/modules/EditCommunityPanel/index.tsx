@@ -38,7 +38,7 @@ export interface EditCommunityFormValues {
   name: string;
   summary: string;
   icon: string;
-  files?: [];
+  files?: File[];
 }
 
 export const EditCommunityPanel: React.FC<Props> = ({ cancel, formik }) => {

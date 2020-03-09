@@ -2,8 +2,7 @@ import {
   SearchHostIndexAndMyFollowingsQuery,
   SearchFollowedCollectionFragment,
   SearchFollowedCommunityFragment,
-  useSearchFollowLocalMutation,
-  useSearchFollowRemoteMutation,
+  useSearchFollowMutation,
   useSearchUnfollowMutation,
   SearchHostIndexAndMyFollowingsDocument
 } from './SearchData.generated';
@@ -13,14 +12,10 @@ import { GetSidebarQueryDocument } from 'graphql/getSidebar.generated';
 
 type Q = SearchHostIndexAndMyFollowingsQuery;
 export const useHit = (info: Q, hit: Hit) => {
-  const [followLocal, followLocalResult] = useSearchFollowLocalMutation();
-  const [followRemote, followRemoteResult] = useSearchFollowRemoteMutation();
+  const [followHit, followHitResult] = useSearchFollowMutation();
   const [unfollowHit, unfollowResult] = useSearchUnfollowMutation();
 
-  const mutating =
-    followLocalResult.loading ||
-    followRemoteResult.loading ||
-    unfollowResult.loading;
+  const mutating = followHitResult.loading || unfollowResult.loading;
   const followingCollections = useMemo(() => getFollowingCollections(info), [
     info
   ]);
@@ -28,10 +23,7 @@ export const useHit = (info: Q, hit: Hit) => {
     info
   ]);
 
-  const isLocal = isHitLocal(hit, info);
-
-  const followContextId =
-    isLocal === null ? null : hitFollowContextId(hit, isLocal);
+  const followContextId = hitFollowContextId(hit);
   const isFollowable = !!followContextId;
 
   const followingId = useMemo(
@@ -40,80 +32,56 @@ export const useHit = (info: Q, hit: Hit) => {
   );
   const isFollowing = !!followingId;
 
-  const follow = useCallback(
-    () => {
-      const followCtxId = followContextId;
-      if (mutating || !followCtxId) {
-        return;
-      }
-      if (isLocal) {
-        followLocal({
-          variables: { contextId: followCtxId },
-          refetchQueries: [
-            { query: GetSidebarQueryDocument },
-            { query: SearchHostIndexAndMyFollowingsDocument }
-          ]
-        });
-      } else {
-        followRemote({
-          variables: { url: followCtxId },
-          refetchQueries: [
-            { query: GetSidebarQueryDocument },
-            { query: SearchHostIndexAndMyFollowingsDocument }
-          ]
-        });
-      }
-    },
-    [followLocal, followRemote, isLocal, hit, followContextId]
-  );
+  const follow = useCallback(() => {
+    const canonicalUrl = hit.canonicalUrl;
+    if (mutating || !canonicalUrl) {
+      return;
+    }
+    return followHit({
+      variables: { url: canonicalUrl },
+      refetchQueries: [
+        { query: GetSidebarQueryDocument },
+        { query: SearchHostIndexAndMyFollowingsDocument }
+      ]
+    });
+  }, [followHit, hit, followContextId]);
 
-  const unfollow = useCallback(
-    () => {
-      if (mutating || !followingId) {
-        return;
-      }
-      unfollowHit({
-        variables: { contextId: followingId },
-        refetchQueries: [
-          { query: GetSidebarQueryDocument },
-          { query: SearchHostIndexAndMyFollowingsDocument }
-        ]
-      });
-    },
-    [followLocal, followRemote, isLocal, hit, followingId]
-  );
+  const unfollow = useCallback(() => {
+    if (mutating || !followingId) {
+      return;
+    }
+    unfollowHit({
+      variables: { contextId: followingId },
+      refetchQueries: [
+        { query: GetSidebarQueryDocument },
+        { query: SearchHostIndexAndMyFollowingsDocument }
+      ]
+    });
+  }, [followHit, hit, followingId]);
 
-  return useMemo(
-    () => {
-      return {
-        isFollowing,
-        isFollowable,
-        follow,
-        unfollow,
-        mutating,
-        isLocal
-      };
-    },
-    [isFollowing, isFollowable, follow, unfollow, mutating, isLocal]
-  );
-};
-export const isHitLocal = (hit: Hit, info: Q) => {
-  if (!info.instance) {
-    return null;
-  }
-  return hit.index_instance === info.instance.hostname;
+  return useMemo(() => {
+    return {
+      isFollowing,
+      isFollowable,
+      follow,
+      unfollow,
+      mutating
+    };
+  }, [isFollowing, isFollowable, follow, unfollow, mutating]);
 };
 
-export const hitFollowContextId = (hit: Hit, isLocal: boolean) => {
+// export const isHitLocal = (hit: Hit, info: Q) => {
+//   if (!info.instance) {
+//     return null;
+//   }
+//   return hit.index_instance === info.instance.hostname;
+// };
+
+export const hitFollowContextId = (hit: Hit) => {
   if (hit.index_type !== 'Community' && hit.index_type !== 'Collection') {
     return null;
   }
-
-  if (isLocal) {
-    return hit.index_instance_object_id;
-  } else {
-    return hit.canonicalUrl;
-  }
+  return hit.canonicalUrl;
 };
 
 export const hitFollowingId = (

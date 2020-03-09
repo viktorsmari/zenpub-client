@@ -22,27 +22,14 @@ export type SearchHostIndexAndMyFollowingsQuery = (
   )> }
 );
 
-export type SearchFollowLocalMutationVariables = {
-  contextId: Types.Scalars['String']
-};
-
-
-export type SearchFollowLocalMutation = (
-  { __typename: 'RootMutationType' }
-  & { createFollow: Types.Maybe<(
-    { __typename: 'Follow' }
-    & Pick<Types.Follow, 'id'>
-  )> }
-);
-
-export type SearchFollowRemoteMutationVariables = {
+export type SearchFollowMutationVariables = {
   url: Types.Scalars['String']
 };
 
 
-export type SearchFollowRemoteMutation = (
+export type SearchFollowMutation = (
   { __typename: 'RootMutationType' }
-  & { followRemoteActor: Types.Maybe<(
+  & { createFollowByUrl: Types.Maybe<(
     { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
   )> }
@@ -214,104 +201,55 @@ export function useSearchHostIndexAndMyFollowingsLazyQuery(baseOptions?: ApolloR
 export type SearchHostIndexAndMyFollowingsQueryHookResult = ReturnType<typeof useSearchHostIndexAndMyFollowingsQuery>;
 export type SearchHostIndexAndMyFollowingsLazyQueryHookResult = ReturnType<typeof useSearchHostIndexAndMyFollowingsLazyQuery>;
 export type SearchHostIndexAndMyFollowingsQueryResult = ApolloReactCommon.QueryResult<SearchHostIndexAndMyFollowingsQuery, SearchHostIndexAndMyFollowingsQueryVariables>;
-export const SearchFollowLocalDocument = gql`
-    mutation searchFollowLocal($contextId: String!) {
-  createFollow(contextId: $contextId) {
+export const SearchFollowDocument = gql`
+    mutation searchFollow($url: String!) {
+  createFollowByUrl(url: $url) {
     id
   }
 }
     `;
-export type SearchFollowLocalMutationFn = ApolloReactCommon.MutationFunction<SearchFollowLocalMutation, SearchFollowLocalMutationVariables>;
-export type SearchFollowLocalComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<SearchFollowLocalMutation, SearchFollowLocalMutationVariables>, 'mutation'>;
+export type SearchFollowMutationFn = ApolloReactCommon.MutationFunction<SearchFollowMutation, SearchFollowMutationVariables>;
+export type SearchFollowComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<SearchFollowMutation, SearchFollowMutationVariables>, 'mutation'>;
 
-    export const SearchFollowLocalComponent = (props: SearchFollowLocalComponentProps) => (
-      <ApolloReactComponents.Mutation<SearchFollowLocalMutation, SearchFollowLocalMutationVariables> mutation={SearchFollowLocalDocument} {...props} />
+    export const SearchFollowComponent = (props: SearchFollowComponentProps) => (
+      <ApolloReactComponents.Mutation<SearchFollowMutation, SearchFollowMutationVariables> mutation={SearchFollowDocument} {...props} />
     );
     
-export type SearchFollowLocalProps<TChildProps = {}> = ApolloReactHoc.MutateProps<SearchFollowLocalMutation, SearchFollowLocalMutationVariables> & TChildProps;
-export function withSearchFollowLocal<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+export type SearchFollowProps<TChildProps = {}> = ApolloReactHoc.MutateProps<SearchFollowMutation, SearchFollowMutationVariables> & TChildProps;
+export function withSearchFollow<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  SearchFollowLocalMutation,
-  SearchFollowLocalMutationVariables,
-  SearchFollowLocalProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, SearchFollowLocalMutation, SearchFollowLocalMutationVariables, SearchFollowLocalProps<TChildProps>>(SearchFollowLocalDocument, {
-      alias: 'searchFollowLocal',
+  SearchFollowMutation,
+  SearchFollowMutationVariables,
+  SearchFollowProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, SearchFollowMutation, SearchFollowMutationVariables, SearchFollowProps<TChildProps>>(SearchFollowDocument, {
+      alias: 'searchFollow',
       ...operationOptions
     });
 };
 
 /**
- * __useSearchFollowLocalMutation__
+ * __useSearchFollowMutation__
  *
- * To run a mutation, you first call `useSearchFollowLocalMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSearchFollowLocalMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useSearchFollowMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSearchFollowMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [searchFollowLocalMutation, { data, loading, error }] = useSearchFollowLocalMutation({
- *   variables: {
- *      contextId: // value for 'contextId'
- *   },
- * });
- */
-export function useSearchFollowLocalMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SearchFollowLocalMutation, SearchFollowLocalMutationVariables>) {
-        return ApolloReactHooks.useMutation<SearchFollowLocalMutation, SearchFollowLocalMutationVariables>(SearchFollowLocalDocument, baseOptions);
-      }
-export type SearchFollowLocalMutationHookResult = ReturnType<typeof useSearchFollowLocalMutation>;
-export type SearchFollowLocalMutationResult = ApolloReactCommon.MutationResult<SearchFollowLocalMutation>;
-export type SearchFollowLocalMutationOptions = ApolloReactCommon.BaseMutationOptions<SearchFollowLocalMutation, SearchFollowLocalMutationVariables>;
-export const SearchFollowRemoteDocument = gql`
-    mutation searchFollowRemote($url: String!) {
-  followRemoteActor(url: $url) {
-    id
-  }
-}
-    `;
-export type SearchFollowRemoteMutationFn = ApolloReactCommon.MutationFunction<SearchFollowRemoteMutation, SearchFollowRemoteMutationVariables>;
-export type SearchFollowRemoteComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<SearchFollowRemoteMutation, SearchFollowRemoteMutationVariables>, 'mutation'>;
-
-    export const SearchFollowRemoteComponent = (props: SearchFollowRemoteComponentProps) => (
-      <ApolloReactComponents.Mutation<SearchFollowRemoteMutation, SearchFollowRemoteMutationVariables> mutation={SearchFollowRemoteDocument} {...props} />
-    );
-    
-export type SearchFollowRemoteProps<TChildProps = {}> = ApolloReactHoc.MutateProps<SearchFollowRemoteMutation, SearchFollowRemoteMutationVariables> & TChildProps;
-export function withSearchFollowRemote<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  SearchFollowRemoteMutation,
-  SearchFollowRemoteMutationVariables,
-  SearchFollowRemoteProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, SearchFollowRemoteMutation, SearchFollowRemoteMutationVariables, SearchFollowRemoteProps<TChildProps>>(SearchFollowRemoteDocument, {
-      alias: 'searchFollowRemote',
-      ...operationOptions
-    });
-};
-
-/**
- * __useSearchFollowRemoteMutation__
- *
- * To run a mutation, you first call `useSearchFollowRemoteMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSearchFollowRemoteMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [searchFollowRemoteMutation, { data, loading, error }] = useSearchFollowRemoteMutation({
+ * const [searchFollowMutation, { data, loading, error }] = useSearchFollowMutation({
  *   variables: {
  *      url: // value for 'url'
  *   },
  * });
  */
-export function useSearchFollowRemoteMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SearchFollowRemoteMutation, SearchFollowRemoteMutationVariables>) {
-        return ApolloReactHooks.useMutation<SearchFollowRemoteMutation, SearchFollowRemoteMutationVariables>(SearchFollowRemoteDocument, baseOptions);
+export function useSearchFollowMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SearchFollowMutation, SearchFollowMutationVariables>) {
+        return ApolloReactHooks.useMutation<SearchFollowMutation, SearchFollowMutationVariables>(SearchFollowDocument, baseOptions);
       }
-export type SearchFollowRemoteMutationHookResult = ReturnType<typeof useSearchFollowRemoteMutation>;
-export type SearchFollowRemoteMutationResult = ApolloReactCommon.MutationResult<SearchFollowRemoteMutation>;
-export type SearchFollowRemoteMutationOptions = ApolloReactCommon.BaseMutationOptions<SearchFollowRemoteMutation, SearchFollowRemoteMutationVariables>;
+export type SearchFollowMutationHookResult = ReturnType<typeof useSearchFollowMutation>;
+export type SearchFollowMutationResult = ApolloReactCommon.MutationResult<SearchFollowMutation>;
+export type SearchFollowMutationOptions = ApolloReactCommon.BaseMutationOptions<SearchFollowMutation, SearchFollowMutationVariables>;
 export const SearchUnfollowDocument = gql`
     mutation searchUnfollow($contextId: String!) {
   delete(contextId: $contextId) {
@@ -371,18 +309,10 @@ export interface SearchHostIndexAndMyFollowingsQueryOperation {
 }
 
 
-export interface SearchFollowLocalMutationOperation {
-  operationName: 'searchFollowLocal'
-  result: SearchFollowLocalMutation
-  variables: SearchFollowLocalMutationVariables
-  type: 'mutation'
-}
-
-
-export interface SearchFollowRemoteMutationOperation {
-  operationName: 'searchFollowRemote'
-  result: SearchFollowRemoteMutation
-  variables: SearchFollowRemoteMutationVariables
+export interface SearchFollowMutationOperation {
+  operationName: 'searchFollow'
+  result: SearchFollowMutation
+  variables: SearchFollowMutationVariables
   type: 'mutation'
 }
 

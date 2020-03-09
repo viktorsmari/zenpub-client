@@ -11,7 +11,7 @@ import Alert from '../Alert';
 import { Button } from 'rebass/styled-components';
 import Modal from '../Modal';
 import DropzoneArea from '../DropzoneModal';
-import { useUploadIconMutation } from '../../../graphql/uploadIcon.generated';
+import { useUploadIconMutMutation } from '../../../graphql/uploadIcon.generated';
 import styled from '../../../themes/styled';
 import {
   Actions,
@@ -57,7 +57,7 @@ const CreateCommunityModal = (
   const { toggleModal, modalIsOpen } = props;
   const history = useHistory();
   const [create /* , response */] = useCreateCommunityMutationMutation({});
-  const [mutateIcon] = useUploadIconMutation();
+  const [mutateIcon] = useUploadIconMutMutation();
 
   const initialValues = React.useMemo<FormValues>(
     () => ({
@@ -142,8 +142,9 @@ const CreateCommunityModal = (
                         </>
                       )}
                     />
-                    {errors.name &&
-                      touched.name && <Alert>{errors.name}</Alert>}
+                    {errors.name && touched.name && (
+                      <Alert>{errors.name}</Alert>
+                    )}
                   </ContainerForm>
                 </Row>
                 <Row big>

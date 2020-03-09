@@ -1,12 +1,12 @@
-import React, { useMemo, FC, createContext, useContext } from 'react';
+import { useEditCollection } from 'fe/collection/edit/useEditCollection';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import * as GQL from './CollectionEdit.generated';
+import { Collection } from 'graphql/types.generated';
+import React, { FC, useMemo } from 'react';
 import {
   EditCollectionFormValues,
   EditCollectionPanel
 } from 'ui/modules/EditCollectionPanel';
-import { Collection } from 'graphql/types.generated';
+import * as Yup from 'yup';
 
 export const validationSchema: Yup.ObjectSchema<EditCollectionFormValues> = Yup.object<
   EditCollectionFormValues
@@ -16,27 +16,8 @@ export const validationSchema: Yup.ObjectSchema<EditCollectionFormValues> = Yup.
     .max(60)
     .required(),
   summary: Yup.string().max(500),
-  icon: Yup.string() //.url()
-});
-
-export const editCollectionFormInitialValues: EditCollectionFormValues = {
-  name: '',
-  summary: '',
-  icon: '',
-  files: []
-};
-
-export interface EditCollectionPanelCtx {
-  useEditCollectionPanelUploadIconMutation: typeof GQL.useEditCollectionPanelUploadIconMutation;
-  useEditCollectionPanelQuery: typeof GQL.useEditCollectionPanelQuery;
-  useEditCollectionPanelUpdateCollectionMutation: typeof GQL.useEditCollectionPanelUpdateCollectionMutation;
-}
-export const EditCollectionPanelCtx = createContext<EditCollectionPanelCtx>({
-  useEditCollectionPanelUploadIconMutation:
-    GQL.useEditCollectionPanelUploadIconMutation,
-  useEditCollectionPanelQuery: GQL.useEditCollectionPanelQuery,
-  useEditCollectionPanelUpdateCollectionMutation:
-    GQL.useEditCollectionPanelUpdateCollectionMutation
+  icon: Yup.string(), //.url()
+  files: Yup.array()
 });
 
 export interface Props {
@@ -47,81 +28,29 @@ export const EditCollectionPanelHOC: FC<Props> = ({
   done,
   collectionId
 }: Props) => {
-  const {
-    useEditCollectionPanelQuery,
-    useEditCollectionPanelUpdateCollectionMutation,
-    useEditCollectionPanelUploadIconMutation
-  } = useContext(EditCollectionPanelCtx);
-  const collection = useEditCollectionPanelQuery({
-    variables: { collectionId }
-  });
-  const [
-    update /* , result */
-  ] = useEditCollectionPanelUpdateCollectionMutation();
-  const [mutateIcon] = useEditCollectionPanelUploadIconMutation();
+  const { collection, edit } = useEditCollection(collectionId);
   const initialValues = useMemo<EditCollectionFormValues>(
-    () =>
-      collection.data && collection.data.collection
-        ? {
-            icon: collection.data.collection.icon || '',
-            name: collection.data.collection.name,
-            summary: collection.data.collection.summary || '',
-            files: []
-          }
-        : editCollectionFormInitialValues,
+    () => ({
+      icon: collection?.icon || '',
+      name: collection?.name || '',
+      summary: collection?.summary || ''
+    }),
     [collection]
   );
-
-  const updateCollection = ({
-    icon,
-    name,
-    summary
-  }: Pick<EditCollectionFormValues, 'icon' | 'name' | 'summary'>) =>
-    update({
-      variables: {
-        collection: {
-          icon,
-          name,
-          summary,
-          preferredUsername: name
-        },
-        collectionId
-      }
-    });
-  const uploadIcon = file =>
-    mutateIcon({
-      variables: { contextId: collectionId, upload: file }
-    })
-      .then(res => {
-        return (
-          (res && res.data && res.data.uploadIcon && res.data.uploadIcon.url) ||
-          ''
-        );
-      })
-      .catch(err => console.log(err));
 
   const formik = useFormik<EditCollectionFormValues>({
     enableReinitialize: true,
     onSubmit: vals => {
-      const file = (vals.files || []).map(file => {
-        return file;
-      })[0];
-
-      if (file) {
-        return uploadIcon(file)
-          .then(iconUrl =>
-            updateCollection({
-              ...vals,
-              icon: iconUrl || ''
-            })
-          )
-          .then(done)
-          .catch(err => console.log(err));
-      } else {
-        return updateCollection(vals)
-          .then(done)
-          .catch(err => console.log(err));
-      }
+      const iconFile = vals.files?.shift();
+      return edit(
+        {
+          name: vals.name,
+          icon: vals.icon || undefined,
+          preferredUsername: vals.name,
+          summary: vals.summary || undefined
+        },
+        iconFile
+      );
     },
     validationSchema,
     initialValues

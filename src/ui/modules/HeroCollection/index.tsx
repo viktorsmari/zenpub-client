@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import Avatar from 'ui/elements/Avatar';
 import Button from 'ui/elements/Button';
-import { Dropdown, DropdownItem, AdminDropdownItem } from 'ui/modules/Dropdown';
+import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
 import { Settings, MoreVertical, Flag, Star } from 'react-feather';
 import { FormikHook } from 'ui/@types/types';
 
@@ -177,16 +177,19 @@ const More = styled(Box)`
   border: 1px solid ${props => props.theme.colors.lightgray};
   border-radius: 4px;
   svg {
+    margin: 0 auto;
     stroke: ${props => props.theme.colors.gray};
   }
-  & ${AdminDropdownItem} {
-    border-top: 1px dotted ${props => darken('0.1', props.theme.colors.primary)};
-
-    svg {
-      stroke: ${props => darken('0.1', props.theme.colors.primary)};
-    }
-  }
 `;
+
+const AdminDropdownItem = styled(DropdownItem)`
+    border-top: 1px solid ${props =>
+      darken('0.1', props.theme.colors.lightgray)};
+
+    // svg {
+    //   stroke: ${props => darken('0.1', props.theme.colors.primary)};
+    // }
+    `;
 
 // const SettingsButton = styled.div`
 //   margin-right: 16px;

@@ -1,11 +1,11 @@
+import * as React from 'react';
 import * as Types from '../../../graphql/types.generated';
 
-import { CommunityPageCollectionBaseFragment } from '../../../HOC/pages/community/CommunityPage.generated';
 import { CollectionPreviewFragment } from '../../../HOC/modules/previews/collection/CollectionPreview.generated';
 import gql from 'graphql-tag';
 import { CollectionPreviewFragmentDoc } from '../../../HOC/modules/previews/collection/CollectionPreview.generated';
 import { CommunityPageCollectionBaseFragmentDoc } from '../../../HOC/pages/community/CommunityPage.generated';
-import * as React from 'react';
+import { CommunityPageCollectionBaseFragment } from '../../../HOC/pages/community/CommunityPage.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
