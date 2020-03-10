@@ -35,7 +35,7 @@ export const ActivityPreview: FC<Props> = activity => {
   if (activity.status === Status.Loading) {
     return <Trans>loading...</Trans>;
   }
-  console.log(activity.event);
+  // console.log(activity.event);
   return (
     <FeedItem mb={2}>
       {activity.event.toLowerCase().includes('like') ? (
