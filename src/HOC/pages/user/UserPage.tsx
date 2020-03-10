@@ -48,7 +48,7 @@ export const UserPage: FC<UserPage> = ({ userId, basePath }) => {
     const CollectionsBoxes = (
       <>
         {collections.map(collection => (
-          <Box m={2} mb={0}>
+          <Box m={2} mb={0} key={collection.id}>
             <CollectionPreviewHOC
               collectionId={collection.id}
               key={collection.id}
