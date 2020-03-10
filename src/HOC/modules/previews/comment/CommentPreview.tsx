@@ -34,6 +34,7 @@ export const CommentPreviewHOC: FC<CommentPreviewHOC> = ({
       return null;
     }
     const props: CommentProps = {
+      url: comment.thread ? `/thread/${comment.thread.id}` : '',
       content: comment.content,
       reply: {
         replyFormik
