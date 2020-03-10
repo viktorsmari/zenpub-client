@@ -87,6 +87,7 @@ export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
       HeroCommunityBox,
       ThreadsBox,
       basePath,
+      isJoined: !!myFollow,
       newThreadFormik: myFollow ? newThreadFormik : null
     };
     return props;
