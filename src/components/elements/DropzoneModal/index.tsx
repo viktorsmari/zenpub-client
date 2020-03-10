@@ -39,7 +39,7 @@ const Thumb = styled.div`
   width: 100%;
   box-sizing: border-box;
   position: relative;
-  height: inherit;
+  height: 120px;
   &:after {
     position: absolute;
     content: '';
@@ -136,10 +136,28 @@ const DropzoneArea: React.FC<Props> = ({
             </>
           ) : null}
           {uploadType == 'resource' ? (
-            <WrapperFile>
-              <FileText size={20} />
-              {files.length != 0 ? <FileName>{files[0].name}</FileName> : null}
-            </WrapperFile>
+            files.length == 0 || files[0].type.indexOf('image') == -1 ? (
+              <WrapperFile>
+                <FileText size={20} />
+                {files.length != 0 ? (
+                  <FileName>{files[0].name}</FileName>
+                ) : null}
+              </WrapperFile>
+            ) : (
+              <WrapperFile>
+                <Thumb key={fileUrl}>
+                  <WrapperIcon>
+                    <Image
+                      size={30}
+                      strokeWidth={1}
+                      color={'rgba(250,250,250, .5)'}
+                    />
+                  </WrapperIcon>
+                  <Img style={{ backgroundImage: `url(${fileUrl})` }} />
+                </Thumb>
+                <FileName>{files[0].name}</FileName>
+              </WrapperFile>
+            )
           ) : null}
 
           <input {...getInputProps()} />
@@ -178,8 +196,9 @@ const InfoContainer = styled.div`
 
 const FileName = styled.p`
   margin-bottom: 0px;
+  margin-top: 5px;
   font-weight: bold;
-  text-align: right;
+  text-align: center;
   font-style: italic;
 `;
 

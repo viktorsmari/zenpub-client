@@ -8,6 +8,7 @@ import { FormikHook } from 'ui/@types/types';
 import { MessageCircle, Star } from 'react-feather';
 
 import Modal from 'ui/modules/Modal';
+import { Link } from 'react-router-dom';
 
 export interface LikeActions {
   toggleLikeFormik: FormikHook<{}>;
@@ -22,6 +23,7 @@ export interface CommentProps {
   like: LikeActions;
   reply: ReplyActions;
   content: string;
+  url: string;
 }
 
 const tt = {
@@ -38,6 +40,7 @@ export const Comment: React.SFC<CommentProps> = ({
   content,
   reply,
   like,
+  url,
   FlagModal
 }) => {
   const [talkModalVisible, showTalkModal] = React.useState(false);
@@ -45,9 +48,11 @@ export const Comment: React.SFC<CommentProps> = ({
   const [isOpenFlagModal, setOpenFlagModal] = React.useState(false);
   return (
     <Wrapper>
-      <Text variant="text" mb={2}>
-        {content}
-      </Text>
+      <Link to={url}>
+        <Text variant="text" mb={2}>
+          {content}
+        </Text>
+      </Link>
       <Actions mt={2}>
         {talkModalVisible && (
           <SocialText

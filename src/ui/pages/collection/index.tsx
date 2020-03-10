@@ -56,9 +56,6 @@ export const Collection: React.FC<Props> = ({
             <Menu basePath={basePath} />
             <Switch>
               <Route exact path={`${basePath}/`}>
-                {ActivitiesBox}
-              </Route>
-              <Route path={`${basePath}/resources`}>
                 <>
                   <WrapButton px={3} pb={3} mb={2}>
                     <Button
@@ -80,6 +77,9 @@ export const Collection: React.FC<Props> = ({
                   )}
                   {ResourcesBox}
                 </>
+              </Route>
+              <Route exact path={`${basePath}/activities`}>
+                {ActivitiesBox}
               </Route>
             </Switch>
           </Wrapper>
@@ -139,9 +139,11 @@ export default Collection;
 const Menu = ({ basePath }: { basePath: string }) => (
   <MenuWrapper p={3} pt={3}>
     <NavLink exact to={`${basePath}`}>
+      Resources
+    </NavLink>
+    <NavLink exact to={`${basePath}/activities`}>
       Recent activities
     </NavLink>
-    <NavLink to={`${basePath}/resources`}>Resources</NavLink>
   </MenuWrapper>
 );
 

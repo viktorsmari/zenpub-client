@@ -17,6 +17,7 @@ import { FormikHook } from 'ui/@types/types';
 import Modal from 'ui/modules/Modal';
 
 export interface Props {
+  isJoined: boolean;
   ActivitiesBox: JSX.Element;
   CollectionsBox: JSX.Element;
   HeroCommunityBox: JSX.Element;
@@ -32,6 +33,7 @@ export const Community: React.FC<Props> = ({
   CollectionsBox,
   basePath,
   newThreadFormik,
+  isJoined,
   ThreadsBox,
   CreateCollectionPanel
 }) => {
@@ -59,14 +61,16 @@ export const Community: React.FC<Props> = ({
               </Route>
               <Route path={`${basePath}/collections`}>
                 <>
-                  <WrapButton p={2} mb={2}>
-                    <Button
-                      variant="outline"
-                      onClick={() => setOpenCreateCollection(true)}
-                    >
-                      <Trans>Create a new collection</Trans>
-                    </Button>
-                  </WrapButton>
+                  {isJoined && (
+                    <WrapButton p={2} mb={2}>
+                      <Button
+                        variant="outline"
+                        onClick={() => setOpenCreateCollection(true)}
+                      >
+                        <Trans>Create a new collection</Trans>
+                      </Button>
+                    </WrapButton>
+                  )}
                   {CollectionsBox}
                 </>
               </Route>

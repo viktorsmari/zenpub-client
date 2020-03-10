@@ -65,7 +65,9 @@ export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
     const ThreadsBox = (
       <>
         {threads.map(thread => (
-          <ThreadPreviewHOC threadId={thread.id} key={thread.id} />
+          <Box mx={3} my={1} key={thread.id}>
+            <ThreadPreviewHOC threadId={thread.id} />
+          </Box>
         ))}
       </>
     );
@@ -85,6 +87,7 @@ export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
       HeroCommunityBox,
       ThreadsBox,
       basePath,
+      isJoined: !!myFollow,
       newThreadFormik: myFollow ? newThreadFormik : null
     };
     return props;

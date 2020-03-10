@@ -55,7 +55,7 @@ export const PreviewComponent: FC<{
   if (context.__typename === 'Collection') {
     return <CollectionPreviewHOC collectionId={context.id} />;
   } else if (context.__typename === 'Comment') {
-    return <CommentPreviewHOC commentId={context.id} />;
+    return <CommentPreviewHOC commentId={context.id} mainComment={false} />;
   } else if (context.__typename === 'Community') {
     return <CommunityPreviewHOC communityId={context.id} />;
   } else if (context.__typename === 'Resource') {

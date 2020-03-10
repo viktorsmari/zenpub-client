@@ -2,9 +2,11 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
 import { AllCollectionsPageRoute } from 'routes/AllCollectionsPageRoute';
+import { AllCommunitiesPageRoute } from 'routes/AllCommunitiesPageRoute';
 import { CollectionPageRoute } from 'routes/CollectionPageRoute';
 import { CommunityPageRoute } from 'routes/CommunityPageRoute';
 import { SettingsPageRoute } from 'routes/SettingsPageRoute';
+import { ThreadPageRoute } from 'routes/ThreadPageRoute';
 import { UserPageRoute } from 'routes/UserPageRoute';
 import { SessionContext } from '../../context/global/sessionCtx';
 import { CollectionsYours } from '../../pages/collections.all';
@@ -19,7 +21,6 @@ import NotFound from '../../pages/not-found/NotFound';
 import Reset from '../../pages/Reset';
 import SearchComp from '../../pages/search/Search';
 import Signup from '../../pages/Signup';
-import Thread from '../../pages/thread/component';
 // import media from 'styled-media-query';
 import {
   Inner,
@@ -30,7 +31,6 @@ import Sidebar from '../../sections/sidebar/sidebarHOC';
 import SidebarNoLoggedWrapper from '../../sections/sidebar/sidebar_not_logged';
 import styled from '../../themes/styled';
 import MobileHeader from './mobileHeader';
-import { AllCommunitiesPageRoute } from 'routes/AllCommunitiesPageRoute';
 
 const Main = styled(Flex)`
   height: 100%;
@@ -77,6 +77,7 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
         <Route {...SettingsPageRoute} />
         <Route {...AllCollectionsPageRoute} />
         <Route {...AllCommunitiesPageRoute} />
+        <Route {...ThreadPageRoute} />
 
         <Route exact path="/" component={me ? Home : Login} />
         <Route
@@ -91,15 +92,6 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
         />
 
         <Route exact path="/discover" component={Discover} />
-
-        <Route
-          exact
-          path="/thread/:id"
-          render={route => {
-            const threadId = route.match.params.id;
-            return <Thread threadId={threadId} />;
-          }}
-        />
 
         <Route path="/search" component={SearchComp} />
         <Route exact path="/collections" component={CollectionsYours} />

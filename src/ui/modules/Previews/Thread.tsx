@@ -3,6 +3,7 @@ import styled from 'ui/themes/styled';
 import { Box, Text, Flex } from 'rebass/styled-components';
 import { DateTime } from 'luxon';
 import { Trans } from '@lingui/react';
+import { NavLink } from 'react-router-dom';
 
 export interface CommentProps {
   content: string;
@@ -20,34 +21,37 @@ export const Thread: React.SFC<CommentProps> = ({
   createdAt,
   totalReplies,
   totalLikes,
-  members
+  members,
+  link
 }) => {
   return (
     <Wrapper p={2}>
       {/* <Text variant="heading" sx={{ fontSize: '16px' }}>
         {title || 'no title'}
       </Text> */}
-      <Text variant="text">{content}</Text>
-      <Flex sx={{ marginTop: '2px' }} alignItems="center">
-        <Flex flex={1}>
-          <Date>{DateTime.fromSQL(createdAt).toRelative()}</Date>
-          <Spacer mx={1}>·</Spacer>
-          <Meta>
-            {totalReplies + ' '}
-            <Trans>Replies</Trans>
-          </Meta>
-          <Spacer mx={1}>·</Spacer>
-          <Meta>
-            {totalLikes + ' '}
-            <Trans>Likes</Trans>
-          </Meta>
+      <NavLink to={link}>
+        <Text variant="text">{content}</Text>
+        <Flex sx={{ marginTop: '2px' }} alignItems="center">
+          <Flex flex={1}>
+            <Date>{DateTime.fromSQL(createdAt).toRelative()}</Date>
+            <Spacer mx={1}>·</Spacer>
+            <Meta>
+              {totalReplies + ' '}
+              <Trans>Replies</Trans>
+            </Meta>
+            <Spacer mx={1}>·</Spacer>
+            <Meta>
+              {totalLikes + ' '}
+              <Trans>Likes</Trans>
+            </Meta>
+          </Flex>
+          <Flex>
+            {members.map((m, i) => (
+              <Member ml={1} src={m} />
+            ))}
+          </Flex>
         </Flex>
-        <Flex>
-          {members.map((m, i) => (
-            <Member ml={1} src={m} />
-          ))}
-        </Flex>
-      </Flex>
+      </NavLink>
     </Wrapper>
   );
 };
@@ -86,4 +90,13 @@ const Wrapper = styled(Box)`
   border-radius: 4px;
   background: white;
   cursor: pointer;
+  &:hover {
+    background: ${props => props.theme.colors.lighter};
+  }
+  a {
+    text-decoration: none;
+    * {
+      text-decoration: none;
+    }
+  }
 `;
