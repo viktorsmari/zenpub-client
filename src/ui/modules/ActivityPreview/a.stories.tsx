@@ -26,7 +26,7 @@ const getActions = () => ({
     });
     const getFlagModalProps = {
       formik,
-      flagged: false,
+      flagId: '',
       cancel: action('cancel')
     };
     return <FlagModal {...getFlagModalProps} />;
@@ -164,11 +164,11 @@ storiesOf('Modules/ActivityPreview', module)
       </Box>
     );
   })
-  .add('Shared a link', () => {
+  .add('Added a link', () => {
     const activityPreviewProps: Props = {
       communityLink: 'communityLink',
       communityName: 'communityName',
-      event: 'Shared a link',
+      event: 'Added a link',
       preview: (
         <Resource
           icon={

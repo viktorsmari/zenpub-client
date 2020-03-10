@@ -24,7 +24,7 @@ export interface CommunityLoaded {
   fullName: string;
   totalMembers: number;
   following: boolean;
-  flagged: boolean;
+  flagId: string;
   canModify: boolean;
   toggleJoinFormik: FormikHook;
   EditCommunityPanel: ComponentType<{ done(): any }>;

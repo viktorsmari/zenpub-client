@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import React, { createContext, FC, useContext, useMemo } from 'react';
 import { BasicCreateFlagFormValues, FlagModal } from 'ui/modules/FlagModal';
-// import { useDeleteMutationMutation } from 'graphql/delete.generated';
+import { useDeleteMutationMutation } from 'graphql/delete.generated';
 import * as Yup from 'yup';
 import * as GQL from './flagModal.generated';
 
@@ -19,7 +19,7 @@ export const createFlagFormInitialValues: BasicCreateFlagFormValues = {
 
 export interface Props {
   contextId: string;
-  flagged: boolean;
+  flagId: string;
   done(): any;
 }
 
@@ -30,18 +30,26 @@ export const FlagModalCtx = createContext<FlagModalCtx>({
   useCreateFlagPanelCreateMutation: GQL.useCreateFlagPanelCreateMutation
 });
 
-export const FlagModalHOC: FC<Props> = ({
-  done,
-  contextId,
-  flagged
-}: Props) => {
+export const FlagModalHOC: FC<Props> = ({ done, contextId, flagId }: Props) => {
   const { useCreateFlagPanelCreateMutation } = useContext(FlagModalCtx);
   const [flag] = useCreateFlagPanelCreateMutation();
-  // const [undoflag] = useDeleteMutationMutation();
+  const [unflag] = useDeleteMutationMutation();
   const initialValues = useMemo<BasicCreateFlagFormValues>(
     () => createFlagFormInitialValues,
     []
   );
+
+  function unflagItem() {
+    console.log('flagId' + flagId);
+    unflag({
+      variables: {
+        contextId: flagId!
+      }
+    })
+      .then(done)
+      .catch(err => console.log(err));
+  }
+
   const formik = useFormik<BasicCreateFlagFormValues>({
     enableReinitialize: true,
     onSubmit: vals => {
@@ -57,7 +65,14 @@ export const FlagModalHOC: FC<Props> = ({
     validationSchema,
     initialValues
   });
-  return <FlagModal cancel={done} flagged={flagged} formik={formik} />;
+  return (
+    <FlagModal
+      cancel={done}
+      flagId={flagId}
+      formik={formik}
+      unflagItem={unflagItem}
+    />
+  );
 };
 
 export default FlagModalHOC;

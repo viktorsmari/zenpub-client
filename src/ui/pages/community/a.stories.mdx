@@ -30,7 +30,7 @@ const getActions = () => ({
     });
     const getFlagModalProps = {
       formik,
-      flagged: false,
+      flagId: '',
       cancel: action('cancel')
     };
     return <FlagModal {...getFlagModalProps} />;

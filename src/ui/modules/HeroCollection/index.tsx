@@ -11,7 +11,7 @@ import { useHistory } from 'react-router';
 import Avatar from 'ui/elements/Avatar';
 import Button from 'ui/elements/Button';
 import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
-import { Settings, MoreVertical, Flag, Star } from 'react-feather';
+import { Settings, MoreVertical, Flag as FlagIcon, Star } from 'react-feather';
 import { FormikHook } from 'ui/@types/types';
 
 export enum Status {
@@ -35,7 +35,7 @@ export interface CollectionLoaded {
   communityName: string;
   communityIcon: string;
   toggleJoinFormik: FormikHook;
-  flagged: boolean;
+  flagId: string;
   following: boolean;
   EditCollectionPanel: ComponentType<{ done(): any }>;
   FlagModal: ComponentType<{ done(): any }>;
@@ -87,7 +87,7 @@ export const HeroCollection: FC<Props> = ({ collection: c }) => {
                     </DropdownItem>
                   )}
                   <DropdownItem onClick={() => setOpenFlag(true)}>
-                    <Flag size={20} color={'rgb(101, 119, 134)'} />
+                    <FlagIcon size={20} color={'rgb(101, 119, 134)'} />
                     <Text sx={{ flex: 1 }} ml={2}>
                       <Trans>Flag this collection</Trans>
                     </Text>

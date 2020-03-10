@@ -42,7 +42,8 @@ export const CommentPreviewHOC: FC<CommentPreviewHOC> = ({ commentId }) => {
         <FlagModalHOC
           done={done}
           contextId={comment.id}
-          flagged={false /* !!comment.myFlag */}
+          flagId={'' /* !!comment.myFlag */}
+          // flagged={false /* !!comment.myFlag */}
         />
       )
     };

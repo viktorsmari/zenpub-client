@@ -31,17 +31,24 @@ const tt = {
 
 export interface Props {
   cancel(): any;
-  flagged: boolean;
-  formik: FormikHook<BasicCreateFlagFormValues>;
+  flagId: string;
+  formik?: FormikHook<BasicCreateFlagFormValues>;
+  unflagItem?: any;
 }
 
 export interface BasicCreateFlagFormValues {
   reason: string;
 }
 
-export const FlagModal: React.FC<Props> = ({ cancel, flagged, formik }) => {
+export const FlagModal: React.FC<Props> = ({
+  cancel,
+  flagId,
+  formik,
+  unflagItem
+}) => {
   const { i18n } = React.useContext(LocaleContext);
-  return !flagged ? (
+
+  return flagId == null && formik ? (
     <Container>
       <Header>
         <Heading m={2}>
@@ -91,19 +98,19 @@ export const FlagModal: React.FC<Props> = ({ cancel, flagged, formik }) => {
         </ContainerForm>
       </Row>
       <Actions>
-        {/* <Button
-              variant="primary"
-              onClick={undoflagItem}
-              style={{ marginLeft: '10px' }}
-            >
-              <Trans>Unflag</Trans>
-            </Button> 
-            <Button variant="outline" onClick={cancel}>
-              <Trans>Cancel</Trans>
-            </Button>*/}
-        <Button onClick={cancel}>
-          <Trans>OK</Trans>
+        <Button
+          variant="primary"
+          onClick={unflagItem}
+          style={{ marginLeft: '10px' }}
+        >
+          <Trans>Unflag</Trans>
         </Button>
+        <Button variant="outline" onClick={cancel}>
+          <Trans>Cancel</Trans>
+        </Button>
+        {/* <Button onClick={cancel}>
+          <Trans>OK</Trans>
+        </Button> */}
       </Actions>
     </Container>
   );

@@ -104,7 +104,7 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
       status: HeroCommunityStatus.Loaded,
       canModify: true,
       following: false,
-      flagged: false,
+      flagId: '',
       icon: 'https://picsum.photos/800/300',
       name: 'Community nino',
       fullName: 'ninos@abc.com',
@@ -139,7 +139,7 @@ export const getHeroCommunityPropsAdmin = (): HeroCommunityProps => {
       // isFeatured: true,
       canModify: true,
       following: true,
-      flagged: false,
+      flagId: '',
       icon: 'https://picsum.photos/800/300',
       name: 'Community nino',
       fullName: 'ninos@abc.com',
@@ -210,7 +210,7 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
       isAdmin: false,
       canModify: true,
       following: true,
-      flagged: false,
+      flagId: '',
       icon: 'https://picsum.photos/800/300',
       name: 'Favourite books',
       fullName: 'favbooks@abc.com',
@@ -251,7 +251,7 @@ export const getHeroCollectionPropsAdmin = (): HeroCollectionProps => {
       isAdmin: true,
       canModify: true,
       following: true,
-      flagged: false,
+      flagId: '',
       icon: 'https://picsum.photos/800/300',
       name: 'Favourite books',
       fullName: 'favbooks@abc.com',
@@ -382,7 +382,7 @@ export const getFlagModalProps = (): FlagModalProps => {
       });
     }
   });
-  return { formik, flagged: false, cancel: action('cancel') };
+  return { formik, flagId: '', cancel: action('cancel') };
 };
 
 export const getFeaturedModalProps = (): FeaturedModalProps => {
