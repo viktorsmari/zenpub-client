@@ -33,7 +33,7 @@ export const ThreadPage: FC<ThreadPage> = ({ threadId }) => {
       ActivityPreviewProps,
       'status' | 'communityLink' | 'communityName' | 'link' | 'event'
     > = {
-      communityLink: `/commuinities/${communityId}`,
+      communityLink: `/communities/${communityId}`,
       communityName,
       event: 'Created Comment',
       link: '',
