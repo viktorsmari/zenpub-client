@@ -40,7 +40,7 @@ export const HeroCommunity: FC<HeroCommunity> = ({ communityId }) => {
         canModify,
         isAdmin,
         following: !!community.myFollow,
-        flagId: community.myFlag!.id || '',
+        flagId: (community.myFlag && community.myFlag!.id) || '',
         icon: community.icon || '',
         name: community.name,
         fullName: community.displayUsername,
@@ -54,7 +54,7 @@ export const HeroCommunity: FC<HeroCommunity> = ({ communityId }) => {
           <FlagModalHOC
             done={done}
             contextId={community.id}
-            flagId={community.myFlag!.id || ''}
+            flagId={(community.myFlag && community.myFlag!.id) || ''}
           />
         ),
         FeaturedModal: ({ done }: { done(): unknown }) => (

@@ -40,7 +40,6 @@ export const FlagModalHOC: FC<Props> = ({ done, contextId, flagId }: Props) => {
   );
 
   function unflagItem() {
-    console.log('flagId' + flagId);
     unflag({
       variables: {
         contextId: flagId!

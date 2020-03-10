@@ -40,7 +40,7 @@ export const HeroUser: FC<HeroUser> = ({ userId }) => {
         <FlagModalHOC
           done={done}
           contextId={user.id}
-          flagId={user.myFlag!.id || ''}
+          flagId={user!.myFlag!.id || ''}
         />
       )
     };

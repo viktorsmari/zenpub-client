@@ -89,7 +89,11 @@ export const HeroCollection: FC<Props> = ({ collection: c }) => {
                   <DropdownItem onClick={() => setOpenFlag(true)}>
                     <FlagIcon size={20} color={'rgb(101, 119, 134)'} />
                     <Text sx={{ flex: 1 }} ml={2}>
-                      <Trans>Flag this collection</Trans>
+                      {c.flagId == '' ? (
+                        <Trans>Flag this collection</Trans>
+                      ) : (
+                        <Trans>Unflag this collection</Trans>
+                      )}
                     </Text>
                   </DropdownItem>
                   {c.isAdmin ? (

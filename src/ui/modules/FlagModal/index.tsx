@@ -48,7 +48,7 @@ export const FlagModal: React.FC<Props> = ({
 }) => {
   const { i18n } = React.useContext(LocaleContext);
 
-  return flagId == null && formik ? (
+  return flagId == '' && formik ? (
     <Container>
       <Header>
         <Heading m={2}>
