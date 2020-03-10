@@ -124,6 +124,7 @@ const Icon = styled(Box)`
   }
   svg {
     stroke: ${props => props.theme.colors.darkgray};
+    margin: 0 auto;
   }
 `;
 
