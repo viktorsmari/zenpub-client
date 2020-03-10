@@ -31,27 +31,27 @@ export const Thread: React.SFC<CommentProps> = ({
       </Text> */}
       <NavLink to={link}>
         <Text variant="text">{content}</Text>
+        <Flex sx={{ marginTop: '2px' }} alignItems="center">
+          <Flex flex={1}>
+            <Date>{DateTime.fromSQL(createdAt).toRelative()}</Date>
+            <Spacer mx={1}>·</Spacer>
+            <Meta>
+              {totalReplies + ' '}
+              <Trans>Replies</Trans>
+            </Meta>
+            <Spacer mx={1}>·</Spacer>
+            <Meta>
+              {totalLikes + ' '}
+              <Trans>Likes</Trans>
+            </Meta>
+          </Flex>
+          <Flex>
+            {members.map((m, i) => (
+              <Member ml={1} src={m} />
+            ))}
+          </Flex>
+        </Flex>
       </NavLink>
-      <Flex sx={{ marginTop: '2px' }} alignItems="center">
-        <Flex flex={1}>
-          <Date>{DateTime.fromSQL(createdAt).toRelative()}</Date>
-          <Spacer mx={1}>·</Spacer>
-          <Meta>
-            {totalReplies + ' '}
-            <Trans>Replies</Trans>
-          </Meta>
-          <Spacer mx={1}>·</Spacer>
-          <Meta>
-            {totalLikes + ' '}
-            <Trans>Likes</Trans>
-          </Meta>
-        </Flex>
-        <Flex>
-          {members.map((m, i) => (
-            <Member ml={1} src={m} />
-          ))}
-        </Flex>
-      </Flex>
     </Wrapper>
   );
 };
@@ -90,4 +90,13 @@ const Wrapper = styled(Box)`
   border-radius: 4px;
   background: white;
   cursor: pointer;
+  &:hover {
+    background: ${props => props.theme.colors.lighter};
+  }
+  a {
+    text-decoration: none;
+    * {
+      text-decoration: none;
+    }
+  }
 `;
