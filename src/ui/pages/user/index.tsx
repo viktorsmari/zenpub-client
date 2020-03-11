@@ -105,7 +105,7 @@ const Menu = ({
 }) => (
   <MenuWrapper p={3} pt={3}>
     <NavLink exact to={`${basePath}`}>
-      Recent activities
+      Recent activity
     </NavLink>
     <NavLink exact to={`${basePath}/likes`}>
       Likes

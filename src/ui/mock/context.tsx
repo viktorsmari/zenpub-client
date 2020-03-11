@@ -217,6 +217,8 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
       communityName: 'Super community',
       summary:
         'Cooperation combined with network effects is more effective than capitalist competition',
+      followerCount: 10,
+      contributorCount: 2,
       toggleJoinFormik: useFormik<{}>({
         initialValues: {},
         onSubmit: () => {
@@ -258,6 +260,8 @@ export const getHeroCollectionPropsAdmin = (): HeroCollectionProps => {
       communityName: 'Super community',
       summary:
         'Cooperation combined with network effects is more effective than capitalist competition',
+      followerCount: 10,
+      contributorCount: 2,
       toggleJoinFormik: useFormik<{}>({
         initialValues: {},
         onSubmit: action('toggle join')

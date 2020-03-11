@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ExternalLink, Star, Globe, DownloadCloud } from 'react-feather';
+import { Star, ExternalLink, Paperclip } from 'react-feather';
 // import { FileText, ExternalLink, Star } from 'react-feather';
 import { Box, Flex, Heading, Text } from 'rebass/styled-components';
 import Avatar from 'ui/elements/Avatar';
@@ -40,19 +40,23 @@ export const Resource: React.FC<Props> = ({
   acceptedLicenses,
   type
 }) => {
-  // const mediaType= type !== undefined ? type : 'image'; // FIXME remove after type field is added
+  const mediaType = type !== undefined ? type : 'image'; // FIXME remove after type field is added
   const isUploaded = license !== null ? true : false; // FIXME remove after isUploaded field is added
-
+  const avatarIcon = icon || mediaType == 'image' ? link : ''; // FIXME remove after type field is added
   return (
     // <WrapperLink to={'/collections/' + id}>
     <Bordered>
       <Wrapper p={2}>
-        <Avatar size="m" src={icon} />
+        <Avatar size="m" src={icon || avatarIcon} />
         <Infos flex={1} ml={3}>
           <TitleLink href={link} target="_blank">
             {/* <Badge mt={1}>Video</Badge> */}
             <Title flex="1">
-              {isUploaded ? <DownloadCloud size={24} /> : <Globe size={19} />}
+              {isUploaded ? (
+                <Paperclip size={21} />
+              ) : (
+                <ExternalLink size={19} />
+              )}
               {name}
             </Title>
           </TitleLink>
@@ -66,7 +70,7 @@ export const Resource: React.FC<Props> = ({
               <ActionItem mt={2}>
                 {/* <TypeItem>{mediaType}</TypeItem>  */}
                 <a href={link}>
-                  <ExternalLink size={17} />
+                  {/* <ExternalLink size={17} /> */}
                   <TextLink flex={1} ml={1}>
                     {link}
                   </TextLink>
@@ -246,6 +250,8 @@ const TitleLink = styled.a`
     margin: 0px;
     margin-right: 5px;
     display: inline-flex;
+    position: relative;
+    top: 2px;
   }
   &:hover {
     text-decoration: underline;
