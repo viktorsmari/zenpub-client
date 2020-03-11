@@ -1,0 +1,12 @@
+
+fragment DiscoverPageFeaturedCommunityInfo on Community{
+  id
+  icon
+  name
+}
+
+fragment DiscoverPageFeaturedCollectionInfo on Collection{
+  id
+  icon
+  name
+}

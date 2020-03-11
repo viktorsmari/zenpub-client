@@ -10,20 +10,20 @@ import FeaturedModalUI, { Props } from 'ui/modules/FeaturedModal';
 
 export interface FeatureModal {
   ctx: Pick<Actor, 'id' | '__typename' | 'name'>;
-  feature: null | Pick<Feature, 'id'>;
+  featureId: undefined | null | Feature['id'];
   done(): unknown;
 }
-export const FeatureModalHOC: FC<FeatureModal> = ({ ctx, feature, done }) => {
+export const FeatureModalHOC: FC<FeatureModal> = ({ ctx, featureId, done }) => {
   const featuredContext = useMemo<UseFeaturedContext>(
     () =>
-      feature
+      featureId
         ? {
             isFeatured: true,
-            featureId: feature.id,
+            featureId: featureId,
             __typename: ctx.__typename
           }
         : { isFeatured: false, actor: ctx },
-    [ctx, feature]
+    [ctx, featureId]
   );
 
   const { toggleFeatured } = useFeaturedContext(featuredContext);
@@ -35,7 +35,7 @@ export const FeatureModalHOC: FC<FeatureModal> = ({ ctx, feature, done }) => {
 
   const props = useMemo<null | Props>(() => {
     const props: Props = {
-      isFeatured: !!feature,
+      isFeatured: !!featureId,
       itemName: ctx.name,
       itemType: ctx.__typename || '',
       formik: toggleFeaturedFormik,

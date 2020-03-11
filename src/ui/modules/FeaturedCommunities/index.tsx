@@ -76,13 +76,16 @@ const ActionItem = styled(Flex)`
 export interface FeaturedCommunitiesData {
   isAdmin: boolean;
   featuredCommunities: CommunityBase[];
-  FeaturedModal?: ComponentType<{ done(): any }>;
+  FeaturedModal?: ComponentType<{ community: CommunityBase; done(): any }>;
 }
 
 export const FeaturedCommunities: SFC<FeaturedCommunitiesData> = props => {
   const sliderRef = useRef<Slider>();
   const [isEditing, setEditing] = React.useState(false);
-  const [isOpenFeatured, setOpenFeatured] = React.useState(false);
+  const [
+    selectedCommunityForModal,
+    setSelectedCommunityForModal
+  ] = React.useState<null | CommunityBase>(null);
 
   // const { RTL } = useContext(LocaleContext);
   //   if (props.status === Status.Loading) {
@@ -119,7 +122,7 @@ export const FeaturedCommunities: SFC<FeaturedCommunitiesData> = props => {
                 community={community}
                 isAdmin={props.isAdmin}
                 isEditing={isEditing}
-                setOpenFeatured={setOpenFeatured}
+                remove={() => setSelectedCommunityForModal(community)}
               />
             </div>
           ))}
@@ -140,9 +143,12 @@ export const FeaturedCommunities: SFC<FeaturedCommunitiesData> = props => {
           </ActionContainer>
         ) : null}
       </Box>
-      {isOpenFeatured && props.FeaturedModal != null && (
-        <Modal closeModal={() => setOpenFeatured(false)}>
-          <props.FeaturedModal done={() => setOpenFeatured(false)} />
+      {selectedCommunityForModal && props.FeaturedModal != null && (
+        <Modal closeModal={() => setSelectedCommunityForModal(null)}>
+          <props.FeaturedModal
+            community={selectedCommunityForModal}
+            done={() => setSelectedCommunityForModal(null)}
+          />
         </Modal>
       )}
     </>

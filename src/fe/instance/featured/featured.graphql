@@ -1,21 +1,25 @@
-query instanceFeatured {
+query instanceFeaturedCommunities {
+  instance{
+    featuredCommunities{
+      edges{
+        node{
+          id
+          context{
+            ...DiscoverPageFeaturedCommunityInfo
+          }
+        }
+      }
+    }
+  }
+}
+query instanceFeaturedCollections {
   instance{
     featuredCollections{
       edges{
         node{
           id
           context{
-            ...FeaturedCollectionInfo
-          }
-        }
-      }
-    }
-    featuredCommunities{
-      edges{
-        node{
-          id
-          context{
-            ...FeaturedCollectionInfo
+            ...DiscoverPageFeaturedCollectionInfo
           }
         }
       }

@@ -1,11 +1,13 @@
-import { FeaturedCollectionsDocument } from 'fe/collection/featured/featuredCollections.generated';
-import { FeaturedCommunitiesDocument } from 'fe/community/featured/featuredCommunities.generated';
 import {
   useAddFeaturedMutation,
   useRemoveFeaturedMutation
 } from 'fe/mutation/feature/useMutateFeature.generated';
 import { Collection, Community, Feature } from 'graphql/types.generated';
 import { useCallback, useMemo } from 'react';
+import {
+  InstanceFeaturedCommunitiesDocument,
+  InstanceFeaturedCollectionsDocument
+} from 'fe/instance/featured/featured.generated';
 
 export type Actor = Collection | Community;
 
@@ -68,8 +70,8 @@ export const useFeaturedContext = (ctx: UseFeaturedContext) => {
           {
             query:
               __typename === 'Community'
-                ? FeaturedCommunitiesDocument
-                : FeaturedCollectionsDocument
+                ? InstanceFeaturedCommunitiesDocument
+                : InstanceFeaturedCollectionsDocument
           }
         ]
       });
@@ -82,8 +84,8 @@ export const useFeaturedContext = (ctx: UseFeaturedContext) => {
           {
             query:
               ctx.__typename === 'Community'
-                ? FeaturedCommunitiesDocument
-                : FeaturedCollectionsDocument
+                ? InstanceFeaturedCommunitiesDocument
+                : InstanceFeaturedCollectionsDocument
           }
         ]
       });
