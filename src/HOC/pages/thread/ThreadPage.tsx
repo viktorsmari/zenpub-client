@@ -48,7 +48,11 @@ export const ThreadPage: FC<ThreadPage> = ({ threadId }) => {
             ? getActivityActor(mainComment.creator)
             : { icon: '', link: '', name: '' },
           preview: (
-            <CommentPreviewHOC commentId={mainComment.id} mainComment={true} />
+            <CommentPreviewHOC
+              commentId={mainComment.id}
+              mainComment={true}
+              showActions={true}
+            />
           ),
           createdAt: mainComment.createdAt
         }}
@@ -66,7 +70,11 @@ export const ThreadPage: FC<ThreadPage> = ({ threadId }) => {
                 ? getActivityActor(comment.creator)
                 : { icon: '', link: '', name: '' },
               preview: (
-                <CommentPreviewHOC commentId={comment.id} mainComment={false} />
+                <CommentPreviewHOC
+                  commentId={comment.id}
+                  mainComment={false}
+                  showActions={true}
+                />
               ),
               createdAt: comment.createdAt
             }}

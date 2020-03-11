@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { Star, ExternalLink, Paperclip } from 'react-feather';
+import {
+  Star,
+  ExternalLink,
+  Paperclip,
+  MoreHorizontal,
+  Flag
+} from 'react-feather';
 // import { FileText, ExternalLink, Star } from 'react-feather';
 import { Box, Flex, Heading, Text } from 'rebass/styled-components';
 import Avatar from 'ui/elements/Avatar';
@@ -13,6 +19,9 @@ export interface LikeActions {
   totalLikes: number;
   iLikeIt: boolean;
 }
+import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
+import Modal from 'ui/modules/Modal';
+
 // const LicenseIcon0 = require('./cc-zero.png');
 // const LicenseIcon1 = require('./by.png');
 // const LicenseIcon2 = require('./by-sa.png');
@@ -27,6 +36,9 @@ export interface Props {
   acceptedLicenses?: string[];
   isLocal: boolean;
   type?: string;
+  flagId: string;
+  showActions?: boolean;
+  FlagModal: null | React.ComponentType<{ done(): unknown }>;
 }
 
 export const Resource: React.FC<Props> = ({
@@ -38,11 +50,18 @@ export const Resource: React.FC<Props> = ({
   isLocal,
   license,
   acceptedLicenses,
-  type
+  type,
+  flagId,
+  showActions,
+  FlagModal
 }) => {
   const mediaType = type !== undefined ? type : 'image'; // FIXME remove after type field is added
   const isUploaded = license !== null ? true : false; // FIXME remove after isUploaded field is added
   const avatarIcon = icon || mediaType == 'image' ? link : ''; // FIXME remove after type field is added
+  const [isOpen, onOpen] = React.useState(false);
+  // const [isEnterUrlOpen, onEnterUrlOpen] = React.useState(false);
+  const [isOpenFlagModal, setOpenFlagModal] = React.useState(false);
+
   return (
     // <WrapperLink to={'/collections/' + id}>
     <Bordered>
@@ -128,9 +147,66 @@ export const Resource: React.FC<Props> = ({
                 {like.totalLikes + ' '} <Trans>Favourite</Trans>
               </Text>
             </ActionItem>
+            {showActions ? (
+              <ActionItem
+                ml={4}
+                onClick={() => onOpen(true)}
+                sx={{ position: 'relative' }}
+              >
+                <ActionIcon>
+                  <MoreHorizontal
+                    className="hover"
+                    size={20}
+                    color="rgba(0,0,0,.4)"
+                  />
+                </ActionIcon>
+                <Text
+                  variant={'suptitle'}
+                  sx={{ textTransform: 'capitalize' }}
+                  ml={1}
+                >
+                  {/* <Trans>More</Trans> */}
+                </Text>
+                {/* {isEnterUrlOpen && <EnterUrl close={onEnterUrlOpen} />} */}
+                {isOpen && (
+                  <Dropdown orientation="bottom" cb={onOpen}>
+                    {/* {activity.context.type === ContextType.Resource && ( */}
+                    {/* <DropdownItem onClick={() => onEnterUrlOpen(true)}>
+                  <Upload size={20} color={'rgb(101, 119, 134)'} />
+                  <Text sx={{ flex: 1 }} ml={2}>
+                    Add to Moodle
+                  </Text>
+                </DropdownItem>
+                <DropdownItem>
+                  <Copy size={20} color={'rgb(101, 119, 134)'} />
+                  <Text sx={{ flex: 1 }} ml={2}>
+                    Copy link
+                  </Text>
+                </DropdownItem> */}
+                    {FlagModal && (
+                      <DropdownItem onClick={() => setOpenFlagModal(true)}>
+                        <Flag size={20} color={'rgb(101, 119, 134)'} />
+                        <Text sx={{ flex: 1 }} ml={2}>
+                          {flagId == '' ? (
+                            <Trans>Flag this resource</Trans>
+                          ) : (
+                            <Trans>Unflag this resource</Trans>
+                          )}
+                        </Text>
+                      </DropdownItem>
+                    )}
+                  </Dropdown>
+                )}
+              </ActionItem>
+            ) : null}
           </Items>
         </Box>
       </Actions>
+      {FlagModal && isOpenFlagModal && (
+        <Modal closeModal={() => setOpenFlagModal(false)}>
+          <FlagModal done={() => setOpenFlagModal(false)} />
+        </Modal>
+      )}
     </Bordered>
   );
 };

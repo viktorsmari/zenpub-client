@@ -7,13 +7,16 @@ import {
   Props as ResourcePreviewProps,
   Resource as ResourcePreviewUI
 } from 'ui/modules/Previews/Resource';
+import { FlagModalHOC } from 'HOC/modules/FlagModal/flagModalHOC';
 
 export interface Props {
   resourceId: Resource['id'];
+  showActions?: boolean;
 }
 
-export const ResourcePreviewHOC: FC<Props> = ({ resourceId }) => {
+export const ResourcePreviewHOC: FC<Props> = ({ resourceId, showActions }) => {
   const { resource, toggleLike } = useResourcePreview(resourceId);
+
   const toggleLikeFormik = useFormik({
     initialValues: {},
     onSubmit: toggleLike
@@ -37,7 +40,16 @@ export const ResourcePreviewHOC: FC<Props> = ({ resourceId }) => {
       },
       isLocal: resource.isLocal, // FIXME replace with e.g isUploaded to differantiate between uploaded resource and resources shared via link
       acceptedLicenses: accepted_license_types,
-      license: resource.license || null
+      license: resource.license || null,
+      flagId: (resource.myFlag && resource.myFlag!.id) || '',
+      showActions: showActions || false,
+      FlagModal: ({ done }) => (
+        <FlagModalHOC
+          done={done}
+          contextId={resourceId}
+          flagId={(resource.myFlag && resource.myFlag!.id) || ''}
+        />
+      )
       //  type: resource.type FIXME add type of the resource field
     };
     return props;
