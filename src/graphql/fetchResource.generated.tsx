@@ -17,7 +17,7 @@ export type FetchResourceMutation = (
   { __typename: 'RootMutationType' }
   & { fetchWebMetadata: Types.Maybe<(
     { __typename: 'WebMetadata' }
-    & Pick<Types.WebMetadata, 'image' | 'title' | 'author' | 'source' | 'resourceType' | 'summary' | 'embedCode' | 'language'>
+    & Pick<Types.WebMetadata, 'url' | 'image' | 'title' | 'author' | 'source' | 'mimeType' | 'summary' | 'embedType' | 'embedCode' | 'language'>
   )> }
 );
 
@@ -25,12 +25,14 @@ export type FetchResourceMutation = (
 export const FetchResourceDocument = gql`
     mutation fetchResource($url: String!) {
   fetchWebMetadata(url: $url) {
+    url
     image
     title
     author
     source
-    resourceType
+    mimeType
     summary
+    embedType
     embedCode
     language
   }

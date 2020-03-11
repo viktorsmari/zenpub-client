@@ -25,7 +25,6 @@ export const HeroCommunity: FC<HeroCommunity> = ({ communityId }) => {
   });
 
   const heroProps = useMemo<HeroProps>(() => {
-    console.log('myFlag %O', community?.myFlag);
     if (!community) {
       const props: HeroProps = {
         community: {

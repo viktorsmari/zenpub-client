@@ -142,7 +142,7 @@ const Menu = ({ basePath }: { basePath: string }) => (
       Resources
     </NavLink>
     <NavLink exact to={`${basePath}/activities`}>
-      Recent activity
+      <Trans>Recent activity</Trans>
     </NavLink>
   </MenuWrapper>
 );

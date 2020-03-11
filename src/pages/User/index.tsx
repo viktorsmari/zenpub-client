@@ -91,7 +91,7 @@ const CommunitiesFeatured: React.FC<Props> = ({ userId }) => {
                       <SuperTabList>
                         <SuperTab>
                           <h5>
-                            <Trans>Recent activities</Trans>
+                            <Trans>Recent activity</Trans>
                           </h5>
                         </SuperTab>
                         <SuperTab>

@@ -36,6 +36,8 @@ export interface CollectionLoaded {
   communityIcon: string;
   toggleJoinFormik: FormikHook;
   flagId: string;
+  followerCount: number; //FIX ME add followerCount
+  // contributorCount?: number; //FIX ME add contributorCount
   following: boolean;
   EditCollectionPanel: ComponentType<{ done(): any }>;
   FlagModal: ComponentType<{ done(): any }>;
@@ -50,6 +52,8 @@ export const HeroCollection: FC<Props> = ({ collection: c }) => {
   const [isOpenDropdown, setOpenDropdown] = React.useState(false);
   const [isOpenFlag, setOpenFlag] = React.useState(false);
   const [isOpenFeatured, setOpenFeatured] = React.useState(false);
+  // const [, /*isOpenContributors*/ setOpenContributors] = React.useState(false);
+  const [, /*isOpenFollowers*/ setOpenFollowers] = React.useState(false);
 
   return c.status === Status.Loading ? (
     <Text>Loading...</Text>
@@ -73,6 +77,20 @@ export const HeroCollection: FC<Props> = ({ collection: c }) => {
           <Description fontSize={2} mt={2}>
             {c.summary}
           </Description>
+          <CountWrapper>
+            <CountTot onClick={() => setOpenFollowers(true)}>
+              <Text variant="suptitle">
+                <Total mr={2}>{c.followerCount}</Total>
+                <Trans>Followers</Trans>
+              </Text>
+            </CountTot>
+            {/* <CountTot onClick={() => setOpenContributors(true)}>
+              <Text variant="suptitle">
+                <Total mr={2}>{c.contributorCount}</Total>
+                <Trans>Contibutors</Trans>
+              </Text>
+            </CountTot> */}
+          </CountWrapper>
           <ActionsHero mt={3} alignItems={'center'}>
             <More mr={2}>
               <MoreVertical size={20} onClick={() => setOpenDropdown(true)} />
@@ -309,4 +327,39 @@ const Background = styled.div`
   background-color: ${props => props.theme.colors.lightgray};
   position: relative;
   margin: 0 auto;
+`;
+
+const CountWrapper = styled(Flex)`
+  margin-top: 10px;
+  flex: 1;
+  > div {
+    display: flex;
+  }
+`;
+
+const CountTot = styled(Flex)`
+  margin-top: 0px;
+  cursor: pointer;
+  cursor: pointer;
+  margin-right: 20px;
+
+  ${clearFix()} & span {
+    margin-right: 4px;
+    float: left;
+    height: 32px;
+    line-height: 32px;
+    & svg {
+      vertical-align: middle;
+    }
+    .--rtl & {
+      float: right;
+      margin-right: 0px;
+      margin-left: 8px;
+    }
+  }
+`;
+
+const Total = styled(Text)`
+  display: inline-flex;
+  color: ${props => props.theme.colors.orange};
 `;

@@ -1311,13 +1311,14 @@ export type WebMetadata = {
    __typename?: 'WebMetadata',
   author?: Maybe<Scalars['String']>,
   embedCode?: Maybe<Scalars['String']>,
+  embedType?: Maybe<Scalars['String']>,
   image?: Maybe<Scalars['String']>,
   language?: Maybe<Scalars['String']>,
-  mediaType?: Maybe<Scalars['String']>,
-  resourceType?: Maybe<Scalars['String']>,
+  mimeType?: Maybe<Scalars['String']>,
   source?: Maybe<Scalars['String']>,
   summary?: Maybe<Scalars['String']>,
   title?: Maybe<Scalars['String']>,
+  url?: Maybe<Scalars['String']>,
 };
 
 
@@ -2249,13 +2250,14 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 export type WebMetadataResolvers<ContextType = any, ParentType extends ResolversParentTypes['WebMetadata'] = ResolversParentTypes['WebMetadata']> = {
   author?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   embedCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  embedType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   language?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  mediaType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  resourceType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  mimeType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   source?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   summary?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
 };
 
 export type Resolvers<ContextType = any> = {

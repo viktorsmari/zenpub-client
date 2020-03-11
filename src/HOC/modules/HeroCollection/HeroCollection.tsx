@@ -35,6 +35,7 @@ export const HeroCollection: FC<HeroCollection> = ({ collectionId }) => {
         canModify,
         following: !!collection.myFollow,
         flagId: (collection.myFlag && collection.myFlag!.id) || '',
+        followerCount: collection.followerCount || 0,
         icon: collection.icon || '',
         name: collection.name,
         fullName: collection.displayUsername,

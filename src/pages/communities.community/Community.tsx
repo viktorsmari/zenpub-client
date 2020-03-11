@@ -40,7 +40,7 @@ const CommunityPage: FC<Props> = ({
             <SuperTabList>
               <SuperTab>
                 <h5>
-                  <Trans>Recent activities</Trans>
+                  <Trans>Recent activity</Trans>
                 </h5>
               </SuperTab>
               <SuperTab>
@@ -87,20 +87,20 @@ const CommunityPage: FC<Props> = ({
                     (t, i) =>
                       t &&
                       t.node.comments &&
-                        t.node.comments.edges.map(
-                          edge =>
-                            edge &&
-                            edge.node &&
-                            edge.node.inReplyTo == null && (
-                              <FeedItem
-                                key={
-                                  /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                                  edge.node.thread!.id
-                                }
-                                comment={edge.node}
-                              />
-                            )
-                        )
+                      t.node.comments.edges.map(
+                        edge =>
+                          edge &&
+                          edge.node &&
+                          edge.node.inReplyTo == null && (
+                            <FeedItem
+                              key={
+                                /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                                edge.node.thread!.id
+                              }
+                              comment={edge.node}
+                            />
+                          )
+                      )
                   )}
                 {/* <LoadMoreTimeline fetchMore={fetchMore} community={community} /> */}
               </div>
