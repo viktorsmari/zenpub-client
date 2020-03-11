@@ -76,13 +76,16 @@ const ActionItem = styled(Flex)`
 export interface FeaturedCollectionsData {
   isAdmin: boolean;
   featuredCollections: CollectionBase[];
-  FeaturedModal: ComponentType<{ done(): any }>;
+  FeaturedModal: ComponentType<{ collection: CollectionBase; done(): any }>;
 }
 
 export const FeaturedCollections: SFC<FeaturedCollectionsData> = props => {
   const sliderRef = useRef<Slider>();
   const [isEditing, setEditing] = React.useState(false);
-  const [isOpenFeatured, setOpenFeatured] = React.useState(false);
+  const [
+    selectedCollectionForModal,
+    setSelectedCollectionForModal
+  ] = React.useState<null | CollectionBase>(null);
   // const { RTL } = useContext(LocaleContext);
   //   if (props.status === Status.Loading) {
   //     return <Trans>loading...</Trans>;
@@ -119,7 +122,7 @@ export const FeaturedCollections: SFC<FeaturedCollectionsData> = props => {
                 collection={collection}
                 isAdmin={props.isAdmin}
                 isEditing={isEditing}
-                setOpenFeatured={setOpenFeatured}
+                remove={() => setSelectedCollectionForModal(collection)}
               />
             </div>
           ))}
@@ -140,9 +143,12 @@ export const FeaturedCollections: SFC<FeaturedCollectionsData> = props => {
           </ActionContainer>
         ) : null}
       </Box>
-      {isOpenFeatured && props.isAdmin && (
-        <Modal closeModal={() => setOpenFeatured(false)}>
-          <props.FeaturedModal done={() => setOpenFeatured(false)} />
+      {selectedCollectionForModal && props.isAdmin && (
+        <Modal closeModal={() => setSelectedCollectionForModal(null)}>
+          <props.FeaturedModal
+            collection={selectedCollectionForModal}
+            done={() => setSelectedCollectionForModal(null)}
+          />
         </Modal>
       )}
     </>
