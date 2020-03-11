@@ -55,7 +55,7 @@ export interface ResourceFormValues {
 
 export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
   const { i18n } = React.useContext(LocaleContext);
-  console.log(formik.values.resourceFiles);
+  // console.log(formik.values.resourceFiles);
   // {formik.values.resourceFiles![0] !== undefined ? console.log('re %',formik.values.resourceFiles![0].type) : null}
   return (
     <div>

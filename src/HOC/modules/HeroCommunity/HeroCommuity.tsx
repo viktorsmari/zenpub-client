@@ -25,6 +25,7 @@ export const HeroCommunity: FC<HeroCommunity> = ({ communityId }) => {
   });
 
   const heroProps = useMemo<HeroProps>(() => {
+    console.log('myFlag %O', community?.myFlag);
     if (!community) {
       const props: HeroProps = {
         community: {
@@ -58,7 +59,7 @@ export const HeroCommunity: FC<HeroCommunity> = ({ communityId }) => {
           />
         ),
         FeaturedModal: ({ done }: { done(): unknown }) => (
-          <FeatureModalHOC done={done} ctx={community} isFeatured={false} />
+          <FeatureModalHOC done={done} ctx={community} feature={null} />
         )
       }
     };

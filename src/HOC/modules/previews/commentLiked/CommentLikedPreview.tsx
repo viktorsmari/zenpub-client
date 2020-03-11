@@ -2,21 +2,20 @@ import { useCommentPreview } from 'fe/comment/preview/useCommentPreview';
 import { Comment } from 'graphql/types.generated';
 import React, { FC, useMemo } from 'react';
 import {
-  Comment as CommentPreviewUI,
-  CommentProps
-} from 'ui/modules/Previews/Comment';
+  LikedComment as LikedCommentPreviewUI,
+  CommentProps as LikedCommentProps
+} from 'ui/modules/Previews/LikedComment';
 import { FlagModalHOC } from 'HOC/modules/FlagModal/flagModalHOC';
 import { useFormik } from 'formik';
-import { MainComment } from 'ui/modules/Previews/MainComment';
+import { getCommunityInfoStrings } from 'fe/lib/activity/getContextCommunityInfo';
+import { getActivityActor } from 'fe/lib/activity/getActivityActor';
 
-export interface CommentPreviewHOC {
+export interface LikedCommentPreviewHOC {
   commentId: Comment['id'];
-  mainComment: boolean;
 }
 
-export const CommentPreviewHOC: FC<CommentPreviewHOC> = ({
-  commentId,
-  mainComment
+export const LikedCommentPreviewHOC: FC<LikedCommentPreviewHOC> = ({
+  commentId
 }) => {
   const { comment, toggleLike, reply } = useCommentPreview(commentId);
   const toggleLikeFormik = useFormik({
@@ -29,12 +28,19 @@ export const CommentPreviewHOC: FC<CommentPreviewHOC> = ({
     onSubmit: ({ replyMessage }) => reply(replyMessage)
   });
 
-  const commentPreviewProps = useMemo<CommentProps | null>(() => {
+  const likkedCommentPreviewProps = useMemo<LikedCommentProps | null>(() => {
     if (!comment) {
       return null;
     }
-    const props: CommentProps = {
-      url: comment.thread ? `/thread/${comment.thread.id}` : '',
+    const { communityLink, communityName } = getCommunityInfoStrings(comment);
+    const props: LikedCommentProps = {
+      // url: comment.thread ? `/thread/${comment.thread.id}` : '',
+      communityLink,
+      communityName,
+      actor: comment.creator
+        ? getActivityActor(comment.creator)
+        : { icon: '', link: '', name: '' },
+      createdAt: comment.createdAt,
       content: comment.content,
       reply: {
         replyFormik
@@ -49,7 +55,6 @@ export const CommentPreviewHOC: FC<CommentPreviewHOC> = ({
           done={done}
           contextId={comment.id}
           flagId={'' /* !!comment.myFlag */}
-          // flagged={false /* !!comment.myFlag */}
         />
       )
     };
@@ -57,11 +62,8 @@ export const CommentPreviewHOC: FC<CommentPreviewHOC> = ({
   }, [comment, toggleLikeFormik]);
 
   return (
-    commentPreviewProps &&
-    (mainComment ? (
-      <MainComment {...commentPreviewProps} />
-    ) : (
-      <CommentPreviewUI {...commentPreviewProps} />
-    ))
+    likkedCommentPreviewProps && (
+      <LikedCommentPreviewUI {...likkedCommentPreviewProps} />
+    )
   );
 };

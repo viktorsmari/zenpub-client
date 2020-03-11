@@ -10,6 +10,7 @@ import { CommentPreviewHOC } from 'HOC/modules/previews/comment/CommentPreview';
 import { CommunityPreviewHOC } from 'HOC/modules/previews/community/CommunityPreview';
 import { ResourcePreviewHOC } from 'HOC/modules/previews/resource/ResourcePreview';
 import { UserPreviewHOC } from 'HOC/modules/previews/user/UserPreview';
+import { LikedCommentPreviewHOC } from '../commentLiked/CommentLikedPreview';
 
 export interface Props {
   activityId: GQL.Activity['id'];
@@ -17,18 +18,12 @@ export interface Props {
 export const ActivityPreviewHOC: FC<Props> = ({ activityId }) => {
   const activityBox = useActivityPreview(activityId);
   const props = useMemo<null | UI.Props>(() => {
-    const {
-      activity,
-      communityInfoStrings,
-      eventString,
-      link,
-      mainContext
-    } = activityBox;
+    const { activity, communityInfoStrings, eventString, link } = activityBox;
 
     if (!activity) {
       return { status: UI.Status.Loading };
     } else {
-      if (!(activity.user && activity.context && mainContext)) {
+      if (!(activity.user && activity.context)) {
         console.error('ActivityPreviewHOC: user or context :null', activity);
         return null;
       }
@@ -40,7 +35,7 @@ export const ActivityPreviewHOC: FC<Props> = ({ activityId }) => {
         event: eventString,
         link,
         ...communityInfoStrings,
-        preview: <PreviewComponent context={mainContext} />
+        preview: <PreviewComponent context={activity.context} />
       };
       return props;
     }
@@ -55,7 +50,7 @@ export const PreviewComponent: FC<{
   if (context.__typename === 'Collection') {
     return <CollectionPreviewHOC collectionId={context.id} />;
   } else if (context.__typename === 'Comment') {
-    return <CommentPreviewHOC commentId={context.id} />;
+    return <CommentPreviewHOC commentId={context.id} mainComment={false} />;
   } else if (context.__typename === 'Community') {
     return <CommunityPreviewHOC communityId={context.id} />;
   } else if (context.__typename === 'Resource') {
@@ -63,7 +58,14 @@ export const PreviewComponent: FC<{
   } else if (context.__typename === 'User') {
     return <UserPreviewHOC userId={context.userId} />;
   } else {
-    const mainContext = getActivityMainContext(context);
-    return mainContext ? <PreviewComponent context={mainContext} /> : null;
+    if (
+      context.__typename === 'Like' &&
+      context.context?.__typename === 'Comment'
+    ) {
+      return <LikedCommentPreviewHOC commentId={context.context.id} />;
+    } else {
+      const mainContext = getActivityMainContext(context);
+      return mainContext ? <PreviewComponent context={mainContext} /> : null;
+    }
   }
 };

@@ -36,15 +36,21 @@ export const getCommunityInfoStrings = (
 ) => {
   let communityLink = '';
   let communityName = '';
+  let communityId = '';
+  let communityIcon = '';
   if (context && context.__typename !== 'User') {
     const communityInfo = getContextCommunityInfo(context);
     if (communityInfo) {
       communityLink = getActivitySimpleLink(communityInfo);
       communityName = communityInfo.name;
+      communityId = communityInfo.id;
+      communityIcon = communityInfo.icon || '';
     }
   }
   return {
     communityLink,
-    communityName
+    communityName,
+    communityId,
+    communityIcon
   };
 };

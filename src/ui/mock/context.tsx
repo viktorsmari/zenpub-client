@@ -31,10 +31,8 @@ import {
   BasicCreateFlagFormValues,
   Props as FlagModalProps
 } from 'ui/modules/FlagModal';
-import {
-  BasicFeaturedFormValues,
-  Props as FeaturedModalProps
-} from 'ui/modules/FeaturedModal';
+import { Props as FeaturedModalProps } from 'ui/modules/FeaturedModal';
+
 import { FeaturedModal } from '../modules/FeaturedModal';
 import { Props as EditProfileProps, EditProfile } from 'ui/pages/settings';
 import { FeaturedCommunitiesData as FeaturedCommunitiesProps } from 'ui/modules/FeaturedCommunities';
@@ -310,6 +308,7 @@ export const getHeroUserProps = (): HeroUserProps => {
     name: '˗ˏˋ Doug Belshaw ˎˊ˗  🇪🇺 ☠️ ✊',
     summary:
       'Open Educational Thinkerer. Product Manager @MoodleNet & Co-op founder @WeAreOpenCoop. Aspiring Mountain Leader. Previously: @Mozilla @Jisc teacher',
+    flagId: '',
     toggleFollowFormik: useFormik<{}>({
       initialValues: {},
       onSubmit: () => {
@@ -338,6 +337,7 @@ export const getHeroUserProps2 = (): HeroUserProps => {
     name: '˗ˏˋ Doug Belshaw ˎˊ˗  🇪🇺 ☠️ ✊',
     summary:
       'Open Educational Thinkerer. Product Manager @MoodleNet & Co-op founder @WeAreOpenCoop. Aspiring Mountain Leader. Previously: @Mozilla @Jisc teacher',
+    flagId: '',
     FlagModal: ({ done }) => {
       return <></>;
     }
@@ -386,7 +386,7 @@ export const getFlagModalProps = (): FlagModalProps => {
 };
 
 export const getFeaturedModalProps = (): FeaturedModalProps => {
-  const formik = useFormik<BasicFeaturedFormValues>({
+  const formik = useFormik({
     initialValues: { makeFeatured: true },
     onSubmit: () => {
       action('submit')();
