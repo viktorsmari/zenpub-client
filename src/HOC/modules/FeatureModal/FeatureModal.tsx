@@ -1,43 +1,49 @@
-import { useFeaturedContext } from 'fe/context/feature/useFeatureContext';
-import { useMe } from 'fe/session/me';
-import { useFormik } from 'formik';
-import { Collection, Community } from 'graphql/types.generated';
 import React, { FC, useMemo } from 'react';
+import {
+  Actor,
+  useFeaturedContext,
+  UseFeaturedContext
+} from 'fe/context/feature/useFeatureContext';
+import { useFormik } from 'formik';
+import { Feature } from 'graphql/types.generated';
 import FeaturedModalUI, { Props } from 'ui/modules/FeaturedModal';
 
-export type Context = Community | Collection;
 export interface FeatureModal {
-  ctx: Pick<Context, 'id' | '__typename' | 'name'>;
-  isFeatured: boolean;
+  ctx: Pick<Actor, 'id' | '__typename' | 'name'>;
+  feature: null | Pick<Feature, 'id'>;
   done(): unknown;
 }
-export const FeatureModalHOC: FC<FeatureModal> = ({
-  ctx,
-  done,
-  isFeatured
-}) => {
-  const { isAdmin } = useMe();
-  const { toggleFeatured } = useFeaturedContext(ctx, isFeatured);
+export const FeatureModalHOC: FC<FeatureModal> = ({ ctx, feature, done }) => {
+  const featuredContext = useMemo<UseFeaturedContext>(
+    () =>
+      feature
+        ? {
+            isFeatured: true,
+            featureId: feature.id,
+            __typename: ctx.__typename
+          }
+        : { isFeatured: false, actor: ctx },
+    [ctx, feature]
+  );
 
-  const toggleFeaturedFormik = useFormik<{}>({
+  const { toggleFeatured } = useFeaturedContext(featuredContext);
+
+  const toggleFeaturedFormik = useFormik({
     initialValues: {},
     onSubmit: () => toggleFeatured().then(done)
   });
 
   const props = useMemo<null | Props>(() => {
-    if (!isAdmin || typeof isFeatured !== 'boolean' || !ctx.__typename) {
-      return null;
-    }
-
     const props: Props = {
-      isFeatured,
-      cancel: done,
+      isFeatured: !!feature,
       itemName: ctx.name,
-      itemType: ctx.__typename,
-      formik: toggleFeaturedFormik
+      itemType: ctx.__typename || '',
+      formik: toggleFeaturedFormik,
+      cancel: done
     };
+
     return props;
-  }, [isAdmin, ctx, done, toggleFeaturedFormik]);
+  }, [ctx, done, toggleFeaturedFormik]);
 
   return props && <FeaturedModalUI {...props} />;
 };

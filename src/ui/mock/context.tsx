@@ -31,10 +31,7 @@ import {
   BasicCreateFlagFormValues,
   Props as FlagModalProps
 } from 'ui/modules/FlagModal';
-import {
-  BasicFeaturedFormValues,
-  Props as FeaturedModalProps
-} from 'ui/modules/FeaturedModal';
+import { Props as FeaturedModalProps } from 'ui/modules/FeaturedModal';
 
 import { FeaturedModal } from '../modules/FeaturedModal';
 import { Props as EditProfileProps, EditProfile } from 'ui/pages/settings';
@@ -387,7 +384,7 @@ export const getFlagModalProps = (): FlagModalProps => {
 };
 
 export const getFeaturedModalProps = (): FeaturedModalProps => {
-  const formik = useFormik<BasicFeaturedFormValues>({
+  const formik = useFormik({
     initialValues: { makeFeatured: true },
     onSubmit: () => {
       action('submit')();
