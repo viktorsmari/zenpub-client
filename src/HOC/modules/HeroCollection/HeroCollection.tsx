@@ -56,7 +56,7 @@ export const HeroCollection: FC<HeroCollection> = ({ collectionId }) => {
           />
         ),
         FeaturedModal: ({ done }: { done(): unknown }) => (
-          <FeatureModalHOC done={done} ctx={collection} isFeatured={false} />
+          <FeatureModalHOC done={done} ctx={collection} feature={null} />
         )
       }
     };
