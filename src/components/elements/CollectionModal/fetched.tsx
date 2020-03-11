@@ -231,7 +231,7 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
     image: props.image || ''
   }),
   validationSchema: Yup.object().shape({
-    url: Yup.string().url(),
+    url: Yup.string(), //.url(),
     name: Yup.string()
       .max(90)
       .required(),
