@@ -4,7 +4,17 @@ import media from 'styled-media-query';
 import { i18nMark, Trans } from '@lingui/react';
 import styled from 'ui/themes/styled';
 import { FormikHook } from 'ui/@types/types';
-import { ChevronLeft, Sliders, Settings as Sett, MapPin } from 'react-feather';
+import {
+  ChevronLeft,
+  Sliders,
+  Settings as Sett,
+  MapPin,
+  Key,
+  Droplet,
+  Mail,
+  Zap,
+  Monitor
+} from 'react-feather';
 import { Switch, Route, NavLink } from 'react-router-dom';
 import { Input, Textarea } from '@rebass/forms';
 import DropzoneArea from '../../../components/elements/DropzoneModal';
@@ -12,6 +22,8 @@ import { ContainerForm, Actions } from 'ui/modules/Modal';
 import Button from 'ui/elements/Button';
 import { useHistory } from 'react-router';
 import Preferences from './preferences';
+import Emails from './emails';
+import { Instance } from './instance';
 
 const tt = {
   placeholders: {
@@ -53,6 +65,12 @@ export const Settings: React.FC<Props> = ({
               <Switch>
                 <Route path={`${basePath}/preferences`}>
                   <Preferences />
+                </Route>
+                <Route path={`${basePath}/instance`}>
+                  <Instance />
+                </Route>
+                <Route path={`${basePath}/invites`}>
+                  <Emails />
                 </Route>
                 {/* <Route path={`${basePath}/accounts`}>acc</Route>
               <Route path={`${basePath}/notifications`}>notif</Route>
@@ -185,6 +203,69 @@ const Sidebar = ({ basePath }) => {
               </Flex>
             </NavLink>
           </NavItem>
+          <SectionTitle p={3} fontSize="1">
+            <Flex
+              alignItems="center"
+              sx={{ textTransform: 'capitalize', fontSize: '14px' }}
+            >
+              <Icon className="icon" mr={1}>
+                <Key size={20} />
+              </Icon>
+              Admin
+            </Flex>
+          </SectionTitle>
+          <NavItem p={3} fontSize={1}>
+            <NavLink to={`${basePath}/instance`}>
+              <Flex
+                alignItems="center"
+                sx={{ textTransform: 'capitalize', fontSize: '14px' }}
+              >
+                <Icon className="icon" mr={1}>
+                  <Droplet size={20} />
+                </Icon>
+                Instance
+              </Flex>
+            </NavLink>
+          </NavItem>
+          <NavItem p={3} fontSize={1}>
+            <NavLink to={`${basePath}/invites`}>
+              <Flex
+                alignItems="center"
+                sx={{ textTransform: 'capitalize', fontSize: '14px' }}
+              >
+                <Icon className="icon" mr={1}>
+                  <Mail size={20} />
+                </Icon>
+                Invites
+              </Flex>
+            </NavLink>
+          </NavItem>
+          <NavItem p={3} fontSize={1}>
+            <NavLink to={`${basePath}/reports`}>
+              <Flex
+                alignItems="center"
+                sx={{ textTransform: 'capitalize', fontSize: '14px' }}
+              >
+                <Icon className="icon" mr={1}>
+                  <Zap size={20} />
+                </Icon>
+                Reports
+              </Flex>
+            </NavLink>
+          </NavItem>
+          <NavItem p={3} fontSize={1}>
+            <NavLink to={`${basePath}/logs`}>
+              <Flex
+                alignItems="center"
+                sx={{ textTransform: 'capitalize', fontSize: '14px' }}
+              >
+                <Icon className="icon" mr={1}>
+                  <Monitor size={20} />
+                </Icon>
+                Moderation log
+              </Flex>
+            </NavLink>
+          </NavItem>
           {/* <NavItem p={3} fontSize={1}>
           <NavLink to={`${basePath}/accounts`}>
           <Flex alignItems="center" sx={{textTransform: "capitalize", fontSize: "14px"}}>
@@ -211,6 +292,8 @@ const Sidebar = ({ basePath }) => {
     </WrapperPanel>
   );
 };
+
+const SectionTitle = styled(Flex)``;
 
 const CollectionContainerForm = styled(ContainerForm)`
   input {
@@ -247,7 +330,9 @@ const Bg = styled(Box)`
   border-radius: 4px;
   width: 100%;
   display: inline-block;
-  background: red;
+  .thumb {
+    height: 100%;
+  }
 `;
 const FlexProfile = styled(Flex)`
   justify-content: space-between;
