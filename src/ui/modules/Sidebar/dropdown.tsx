@@ -5,6 +5,7 @@ import { Trans } from '@lingui/macro';
 import { useHistory } from 'react-router';
 import { Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
+import { Dropdown } from '../Dropdown';
 
 const WrapperMenu = styled.div`
   box-sizing: border-box;
@@ -56,65 +57,68 @@ const Item = styled(Text)`
 
 export interface Props {
   logout(): void;
+  setOpenDropdown: any;
   userId: string;
 }
 
-export const Dropdown: React.FC<Props> = ({ logout, userId }) => {
+export const DropdownSidebar: React.FC<Props> = ({
+  logout,
+  userId,
+  setOpenDropdown
+}) => {
   const { push } = useHistory();
   return (
-    <WrapperMenu>
-      <ProfileMenu>
-        <List lined>
-          <Item variant="link" onClick={() => push(`/user/${userId}`)}>
-            <span>
-              <User size={18} color={'#333'} />
-            </span>
-            <Trans>Profile</Trans>
-          </Item>
-          <Item variant="link" onClick={() => push('/settings')}>
-            <span>
-              <Settings size={18} color={'#333'} />
-            </span>
-            <Trans>Settings</Trans>
-          </Item>
-        </List>
-        <List lined>
-          <Item variant="link">
-            <a
-              href="https://docs.moodle.org/dev/MoodleNet/Code_of_Conduct"
-              target="blank"
-            >
-              <Trans>Code of Conduct</Trans>
-            </a>
-          </Item>
-
-          <Item variant="link">
-            <a href="https://changemap.co/moodle/moodlenet/" target="blank">
-              <Trans>Feedback &amp; Suggestions</Trans>
-            </a>
-          </Item>
-
-          <Text
-            style={{
-              fontWeight: 600,
-              fontSize: '15px',
-              padding: '8px',
-              paddingLeft: '4px',
-              color: '#3c3c3c'
-            }}
+    <Dropdown orientation={'top'} cb={setOpenDropdown}>
+      <List lined>
+        <Item variant="link" onClick={() => push(`/user/${userId}`)}>
+          <span>
+            <User size={18} color={'#333'} />
+          </span>
+          <Trans>Profile</Trans>
+        </Item>
+        <Item variant="link" onClick={() => push('/settings')}>
+          <span>
+            <Settings size={18} color={'#333'} />
+          </span>
+          <Trans>Settings</Trans>
+        </Item>
+      </List>
+      <List lined>
+        <Item variant="link">
+          <a
+            href="https://docs.moodle.org/dev/MoodleNet/Code_of_Conduct"
+            target="blank"
           >
-            v0.10 beta
-          </Text>
-        </List>
-        <List>
-          <Item variant="link" onClick={logout}>
-            <span>
-              <Power width={18} height={18} strokeWidth={1} color={'#333'} />
-            </span>
-            <Trans>Sign out</Trans>
-          </Item>
-        </List>
-      </ProfileMenu>
-    </WrapperMenu>
+            <Trans>Code of Conduct</Trans>
+          </a>
+        </Item>
+
+        <Item variant="link">
+          <a href="https://changemap.co/moodle/moodlenet/" target="blank">
+            <Trans>Feedback &amp; Suggestions</Trans>
+          </a>
+        </Item>
+
+        <Text
+          style={{
+            fontWeight: 600,
+            fontSize: '15px',
+            padding: '8px',
+            paddingLeft: '4px',
+            color: '#3c3c3c'
+          }}
+        >
+          v0.10 beta
+        </Text>
+      </List>
+      <List>
+        <Item variant="link" onClick={logout}>
+          <span>
+            <Power width={18} height={18} strokeWidth={1} color={'#333'} />
+          </span>
+          <Trans>Sign out</Trans>
+        </Item>
+      </List>
+    </Dropdown>
   );
 };

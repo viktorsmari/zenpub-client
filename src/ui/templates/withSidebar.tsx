@@ -5,10 +5,13 @@ export interface SidebarProps {
   SidebarBox: React.ComponentType;
 }
 
-export const WithSidebar: React.FC<SidebarProps> = props => (
+export const WithSidebar: React.FC<SidebarProps> = ({
+  SidebarBox,
+  children
+}) => (
   <CenteredWrapper>
-    <props.SidebarBox />
-    <Flex ml={2}>{props.children}</Flex>
+    {SidebarBox}
+    <Flex ml={2}>{children}</Flex>
   </CenteredWrapper>
 );
 

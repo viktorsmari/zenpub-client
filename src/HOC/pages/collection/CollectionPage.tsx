@@ -11,6 +11,7 @@ import React, { FC, useMemo } from 'react';
 import CollectionPageUI, {
   Props as CollectionPageProps
 } from 'ui/pages/collection';
+import { Box } from 'rebass';
 
 export enum CollectionPageTab {
   Activities,
@@ -45,7 +46,9 @@ export const CollectionPage: FC<CollectionPage> = props => {
     const ResourcesBox = (
       <>
         {resources.map(resource => (
-          <ResourcePreviewHOC resourceId={resource.id} key={resource.id} />
+          <Box mx={2} my={1}>
+            <ResourcePreviewHOC resourceId={resource.id} key={resource.id} />
+          </Box>
         ))}
       </>
     );
