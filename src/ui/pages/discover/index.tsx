@@ -61,7 +61,7 @@ export const Discover: React.FC<Props> = ({
           </Nav>
         </Panel>
 
-        <Panel>
+        {/* <Panel>
           <PanelTitle fontSize={0} fontWeight={'bold'}>
             <Trans>Popular hashtags: network</Trans>
           </PanelTitle>
@@ -105,7 +105,7 @@ export const Discover: React.FC<Props> = ({
               <Trans>#assessment</Trans>
             </NavItem>
           </Nav>
-        </Panel>
+        </Panel> */}
       </WrapperPanel>
     </MainContainer>
   );

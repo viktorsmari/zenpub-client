@@ -3,6 +3,7 @@ import { PropsTable } from '@storybook/components';
 import { Settings } from '.';
 import {Box} from 'rebass'
 import {getEditProfileProps} from 'ui/mock/context'
+import {WithoutSidebar} from 'ui/templates/withoutSidebar'
 
 <Meta title="Pages|Settings" component={Settings}/>
 
@@ -12,8 +13,8 @@ Let's define a story for the `Settings` page
 
 <Preview>
   <Story name="Settings page">
-    <Box sx={{margin: "0 auto", width: "fit-content"}}>
+    <WithoutSidebar>
       <Settings {...getEditProfileProps()} />
-    </Box>
+    </WithoutSidebar>
   </Story>
 </Preview>

@@ -4,29 +4,8 @@ import styled from '../../themes/styled';
 import { Trans } from '@lingui/macro';
 import { useHistory } from 'react-router';
 import { Text } from 'rebass/styled-components';
-import media from 'styled-media-query';
 import { Dropdown } from '../Dropdown';
 
-const WrapperMenu = styled.div`
-  box-sizing: border-box;
-  width: 220px;
-  padding: 5px;
-  border-radius: 0.25em;
-  background-color: rgb(232, 232, 232);
-  position: absolute;
-  z-index: 999999999999;
-  left: 8px;
-  top: 60px;
-  ${media.lessThan('860px')`
-position: fixed;
-top: 70px;
-`};
-`;
-
-const ProfileMenu = styled.div`
-  background: #fff;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-`;
 const List = styled.div<{ lined?: boolean }>`
   padding: 8px;
   border-bottom: ${props => (props.lined ? '1px solid #dadada' : null)};

@@ -17,7 +17,7 @@ export const Dropdown: FC<Props> = ({ orientation, cb, children }) => (
 const Wrapper = styled(Box)<{ orientation: string }>`
   text-align: left;
   background: white;
-  min-width: 160px;
+  min-width: 200px;
   display: block;
   border-radius: 6px;
   box-shadow: rgba(101, 119, 134, 0.2) 0px 0px 15px,
