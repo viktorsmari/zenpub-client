@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/macro';
 import * as React from 'react';
 import { Button, Heading, Text } from 'rebass/styled-components';
-import styled from '../../../themes/styled';
+import styled from 'ui/themes/styled';
 import { FormikHook } from 'ui/@types/types';
 import {
   Actions,
@@ -16,11 +16,7 @@ export interface Props {
   isFeatured: boolean;
   itemType: string;
   itemName: string;
-  formik: FormikHook<BasicFeaturedFormValues>;
-}
-
-export interface BasicFeaturedFormValues {
-  // makeFeatured: boolean;
+  formik: FormikHook;
 }
 
 export const FeaturedModal: React.FC<Props> = ({

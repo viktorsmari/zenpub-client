@@ -1,11 +1,13 @@
 mutation fetchResource($url: String!) {
   fetchWebMetadata(url: $url) {
+    url
     image
     title
     author
     source
-    resourceType
+    mimeType
     summary
+    embedType
     embedCode
     language
   }

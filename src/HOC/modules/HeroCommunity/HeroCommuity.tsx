@@ -58,7 +58,7 @@ export const HeroCommunity: FC<HeroCommunity> = ({ communityId }) => {
           />
         ),
         FeaturedModal: ({ done }: { done(): unknown }) => (
-          <FeatureModalHOC done={done} ctx={community} isFeatured={false} />
+          <FeatureModalHOC done={done} ctx={community} featureId={null} />
         )
       }
     };

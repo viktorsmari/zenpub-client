@@ -128,7 +128,7 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
     fetchUrl: ''
   }),
   validationSchema: Yup.object().shape({
-    fetchUrl: Yup.string().url()
+    fetchUrl: Yup.string() //.url()
   }),
   handleSubmit: (values, { props, setSubmitting }) => {
     props.isFetched(false);
@@ -146,7 +146,7 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
         props.onName(res.data.fetchWebMetadata.title);
         props.onSummary(res.data.fetchWebMetadata.summary);
         props.onImage(res.data.fetchWebMetadata.image);
-        props.onUrl(values.fetchUrl);
+        props.onUrl(res.data.fetchWebMetadata.url);
         props.isFetched(true);
         setSubmitting(false);
       })

@@ -1,0 +1,19 @@
+
+
+
+query instanceOutboxActivities( $after:String, $before:String, $limit:Int){
+  instance{
+    outbox(after:$after, before:$before, limit:$limit){
+      totalCount,
+      edges{
+        node{
+          ...InstanceOutboxActivity
+        }
+      }
+    }
+  }
+}
+
+fragment InstanceOutboxActivity on Activity {
+  ...ActivityPreview
+}

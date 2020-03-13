@@ -5,6 +5,7 @@ import { AllCollectionsPageRoute } from 'routes/AllCollectionsPageRoute';
 import { AllCommunitiesPageRoute } from 'routes/AllCommunitiesPageRoute';
 import { CollectionPageRoute } from 'routes/CollectionPageRoute';
 import { CommunityPageRoute } from 'routes/CommunityPageRoute';
+import { DiscoverPageRoute } from 'routes/DiscoverPageRoute';
 import { SettingsPageRoute } from 'routes/SettingsPageRoute';
 import { ThreadPageRoute } from 'routes/ThreadPageRoute';
 import { UserPageRoute } from 'routes/UserPageRoute';
@@ -14,7 +15,6 @@ import MyCollections from '../../pages/collections.all/collectionsFollowed';
 import { CommunitiesYours } from '../../pages/communities.all/communitiesJoined';
 import ConfirmAccount from '../../pages/Confirm';
 import CreateNewPassword from '../../pages/CreateNewPassword';
-import Discover from '../../pages/discover';
 import Home from '../../pages/home';
 import Login from '../../pages/login/Login';
 import NotFound from '../../pages/not-found/NotFound';
@@ -78,6 +78,7 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
         <Route {...AllCollectionsPageRoute} />
         <Route {...AllCommunitiesPageRoute} />
         <Route {...ThreadPageRoute} />
+        <Route {...DiscoverPageRoute} />
 
         <Route exact path="/" component={me ? Home : Login} />
         <Route
@@ -90,8 +91,6 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
           path="/mycollections"
           component={me ? MyCollections : Login}
         />
-
-        <Route exact path="/discover" component={Discover} />
 
         <Route path="/search" component={SearchComp} />
         <Route exact path="/collections" component={CollectionsYours} />

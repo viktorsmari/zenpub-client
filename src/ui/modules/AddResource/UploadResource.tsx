@@ -26,11 +26,11 @@ const LicenseIcon2 = require('./by-sa.png');
 const tt = {
   placeholders: {
     // url: i18nMark('Enter the URL of the resource'),
-    name: i18nMark('A name or title for the resource'),
+    name: i18nMark('A title for the resource'),
     summary: i18nMark(
       'Please type or copy/paste a summary about the resource...'
     ),
-    author: i18nMark('A name or url for the resource author'),
+    author: i18nMark('A name for the resource author'),
     submit: i18nMark('Uploading the resource')
     // image: i18nMark('Enter the URL of an image to represent the resource')
   }
@@ -55,7 +55,7 @@ export interface ResourceFormValues {
 
 export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
   const { i18n } = React.useContext(LocaleContext);
-  console.log(formik.values.resourceFiles);
+  // console.log(formik.values.resourceFiles);
   // {formik.values.resourceFiles![0] !== undefined ? console.log('re %',formik.values.resourceFiles![0].type) : null}
   return (
     <div>
@@ -74,7 +74,7 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
       </Row>
       <Row>
         <label>
-          <Trans>Name</Trans>
+          <Trans>Title</Trans>
         </label>
         <ContainerForm>
           <>

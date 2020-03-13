@@ -145,7 +145,7 @@ export const Community: React.FC<Props> = ({
 const Menu = ({ basePath }: { basePath: string }) => (
   <MenuWrapper p={3} pt={0}>
     <NavLink exact to={`${basePath}`}>
-      Recent activities
+      Recent activity
     </NavLink>
     <NavLink to={`${basePath}/collections`}>Collections</NavLink>
     <NavLink to={`${basePath}/discussions`}>Discussions</NavLink>

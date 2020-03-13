@@ -31,10 +31,7 @@ import {
   BasicCreateFlagFormValues,
   Props as FlagModalProps
 } from 'ui/modules/FlagModal';
-import {
-  BasicFeaturedFormValues,
-  Props as FeaturedModalProps
-} from 'ui/modules/FeaturedModal';
+import { Props as FeaturedModalProps } from 'ui/modules/FeaturedModal';
 
 import { FeaturedModal } from '../modules/FeaturedModal';
 import { Props as EditProfileProps, EditProfile } from 'ui/pages/settings';
@@ -220,6 +217,8 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
       communityName: 'Super community',
       summary:
         'Cooperation combined with network effects is more effective than capitalist competition',
+      followerCount: 10,
+      contributorCount: 2,
       toggleJoinFormik: useFormik<{}>({
         initialValues: {},
         onSubmit: () => {
@@ -261,6 +260,8 @@ export const getHeroCollectionPropsAdmin = (): HeroCollectionProps => {
       communityName: 'Super community',
       summary:
         'Cooperation combined with network effects is more effective than capitalist competition',
+      followerCount: 10,
+      contributorCount: 2,
       toggleJoinFormik: useFormik<{}>({
         initialValues: {},
         onSubmit: action('toggle join')
@@ -387,7 +388,7 @@ export const getFlagModalProps = (): FlagModalProps => {
 };
 
 export const getFeaturedModalProps = (): FeaturedModalProps => {
-  const formik = useFormik<BasicFeaturedFormValues>({
+  const formik = useFormik({
     initialValues: { makeFeatured: true },
     onSubmit: () => {
       action('submit')();

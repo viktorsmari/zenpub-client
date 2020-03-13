@@ -1,11 +1,11 @@
 import { Trans } from '@lingui/react';
 import * as React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Eye, EyeOff } from 'react-feather';
 import { Box, Flex, Heading, Text } from 'rebass/styled-components';
 import { FormikHook } from 'ui/@types/types';
 import Avatar from 'ui/elements/Avatar';
+import { SimpleLink } from 'ui/helpers/SimpleLink';
 import styled from 'ui/themes/styled';
-import { Eye, EyeOff } from 'react-feather';
 export interface Props {
   link: {
     url: string;
@@ -38,7 +38,7 @@ export const Collection: React.FC<Props> = ({
         <Infos ml={3}>
           <Flex>
             <Box flex={1}>
-              <TitleLink to={link.url}>
+              <TitleLink link={link}>
                 <Title>
                   {name.length > 80
                     ? name.replace(/^(.{76}[^\s]*).*/, '$1...')
@@ -145,7 +145,7 @@ const ActionIcon = styled(Box)`
   }
 `;
 
-const TitleLink = styled(NavLink)`
+const TitleLink = styled(SimpleLink)`
   text-decoration: none;
   color: ${props => props.theme.colors.darkgray};
   &:hover {
