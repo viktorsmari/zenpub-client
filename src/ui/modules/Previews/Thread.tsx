@@ -13,7 +13,6 @@ export interface CommentProps {
   totalLikes: string;
   members: string[];
   link: string;
-  showActions?: boolean;
 }
 
 export const Thread: React.SFC<CommentProps> = ({
@@ -23,8 +22,7 @@ export const Thread: React.SFC<CommentProps> = ({
   totalReplies,
   totalLikes,
   members,
-  link,
-  showActions
+  link
 }) => {
   return (
     <Wrapper p={2}>

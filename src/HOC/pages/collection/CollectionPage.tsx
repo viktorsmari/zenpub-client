@@ -45,11 +45,7 @@ export const CollectionPage: FC<CollectionPage> = props => {
     const ResourcesBox = (
       <>
         {resources.map(resource => (
-          <ResourcePreviewHOC
-            resourceId={resource.id}
-            key={resource.id}
-            showActions={true}
-          />
+          <ResourcePreviewHOC resourceId={resource.id} key={resource.id} />
         ))}
       </>
     );

@@ -12,13 +12,11 @@ import { MainComment } from 'ui/modules/Previews/MainComment';
 export interface CommentPreviewHOC {
   commentId: Comment['id'];
   mainComment: boolean;
-  showActions?: boolean;
 }
 
 export const CommentPreviewHOC: FC<CommentPreviewHOC> = ({
   commentId,
-  mainComment,
-  showActions
+  mainComment
 }) => {
   const { comment, toggleLike, reply } = useCommentPreview(commentId);
   const toggleLikeFormik = useFormik({
@@ -54,8 +52,7 @@ export const CommentPreviewHOC: FC<CommentPreviewHOC> = ({
           flagId={'' /* !!comment.myFlag */}
           // flagged={false /* !!comment.myFlag */}
         />
-      ),
-      showActions: showActions || false
+      )
     };
     return props;
   }, [comment, toggleLikeFormik]);

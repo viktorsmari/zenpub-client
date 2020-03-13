@@ -23,7 +23,6 @@ export interface CommentProps {
   reply: ReplyActions;
   content: string;
   flagId?: string;
-  showActions?: boolean;
 }
 
 const tt = {
@@ -41,8 +40,7 @@ export const MainComment: React.SFC<CommentProps> = ({
   reply,
   like,
   FlagModal,
-  flagId,
-  showActions
+  flagId
 }) => {
   const [talkModalVisible, showTalkModal] = React.useState(false);
   const { i18n } = React.useContext(LocaleContext);
@@ -102,44 +100,42 @@ export const MainComment: React.SFC<CommentProps> = ({
                 {like.totalLikes + ' '} <Trans>Favourite</Trans>
               </Text>
             </ActionItem>
-            {showActions ? (
-              <ActionItem
-                ml={4}
-                onClick={() => onOpen(true)}
-                sx={{ position: 'relative' }}
+            <ActionItem
+              ml={4}
+              onClick={() => onOpen(true)}
+              sx={{ position: 'relative' }}
+            >
+              <ActionIcon>
+                <MoreHorizontal
+                  className="hover"
+                  size={20}
+                  color="rgba(0,0,0,.4)"
+                />
+              </ActionIcon>
+              <Text
+                variant={'suptitle'}
+                sx={{ textTransform: 'capitalize' }}
+                ml={1}
               >
-                <ActionIcon>
-                  <MoreHorizontal
-                    className="hover"
-                    size={20}
-                    color="rgba(0,0,0,.4)"
-                  />
-                </ActionIcon>
-                <Text
-                  variant={'suptitle'}
-                  sx={{ textTransform: 'capitalize' }}
-                  ml={1}
-                >
-                  {/* <Trans>More</Trans> */}
-                </Text>
-                {isOpen && (
-                  <Dropdown orientation="bottom" cb={onOpen}>
-                    {FlagModal && (
-                      <DropdownItem onClick={() => setOpenFlagModal(true)}>
-                        <Flag size={20} color={'rgb(101, 119, 134)'} />
-                        <Text sx={{ flex: 1 }} ml={2}>
-                          {flagId == '' ? (
-                            <Trans>Flag this comment</Trans>
-                          ) : (
-                            <Trans>Unflag this comment</Trans>
-                          )}
-                        </Text>
-                      </DropdownItem>
-                    )}
-                  </Dropdown>
-                )}
-              </ActionItem>
-            ) : null}
+                {/* <Trans>More</Trans> */}
+              </Text>
+              {isOpen && (
+                <Dropdown orientation="bottom" cb={onOpen}>
+                  {FlagModal && (
+                    <DropdownItem onClick={() => setOpenFlagModal(true)}>
+                      <Flag size={20} color={'rgb(101, 119, 134)'} />
+                      <Text sx={{ flex: 1 }} ml={2}>
+                        {flagId == '' ? (
+                          <Trans>Flag this comment</Trans>
+                        ) : (
+                          <Trans>Unflag this comment</Trans>
+                        )}
+                      </Text>
+                    </DropdownItem>
+                  )}
+                </Dropdown>
+              )}
+            </ActionItem>
           </Items>
           {FlagModal && isOpenFlagModal && (
             <Modal closeModal={() => setOpenFlagModal(false)}>

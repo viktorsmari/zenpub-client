@@ -37,7 +37,6 @@ export interface Props {
   isLocal: boolean;
   type?: string;
   flagId: string;
-  showActions?: boolean;
   FlagModal: null | React.ComponentType<{ done(): unknown }>;
 }
 
@@ -52,7 +51,6 @@ export const Resource: React.FC<Props> = ({
   acceptedLicenses,
   type,
   flagId,
-  showActions,
   FlagModal
 }) => {
   const mediaType = type !== undefined ? type : 'image'; // FIXME remove after type field is added
@@ -147,31 +145,30 @@ export const Resource: React.FC<Props> = ({
                 {like.totalLikes + ' '} <Trans>Favourite</Trans>
               </Text>
             </ActionItem>
-            {showActions ? (
-              <ActionItem
-                ml={4}
-                onClick={() => onOpen(true)}
-                sx={{ position: 'relative' }}
+            <MoreActionItem
+              ml={4}
+              onClick={() => onOpen(true)}
+              sx={{ position: 'relative' }}
+            >
+              <ActionIcon>
+                <MoreHorizontal
+                  className="hover"
+                  size={20}
+                  color="rgba(0,0,0,.4)"
+                />
+              </ActionIcon>
+              <Text
+                variant={'suptitle'}
+                sx={{ textTransform: 'capitalize' }}
+                ml={1}
               >
-                <ActionIcon>
-                  <MoreHorizontal
-                    className="hover"
-                    size={20}
-                    color="rgba(0,0,0,.4)"
-                  />
-                </ActionIcon>
-                <Text
-                  variant={'suptitle'}
-                  sx={{ textTransform: 'capitalize' }}
-                  ml={1}
-                >
-                  {/* <Trans>More</Trans> */}
-                </Text>
-                {/* {isEnterUrlOpen && <EnterUrl close={onEnterUrlOpen} />} */}
-                {isOpen && (
-                  <Dropdown orientation="bottom" cb={onOpen}>
-                    {/* {activity.context.type === ContextType.Resource && ( */}
-                    {/* <DropdownItem onClick={() => onEnterUrlOpen(true)}>
+                {/* <Trans>More</Trans> */}
+              </Text>
+              {/* {isEnterUrlOpen && <EnterUrl close={onEnterUrlOpen} />} */}
+              {isOpen && (
+                <Dropdown orientation="bottom" cb={onOpen}>
+                  {/* {activity.context.type === ContextType.Resource && ( */}
+                  {/* <DropdownItem onClick={() => onEnterUrlOpen(true)}>
                   <Upload size={20} color={'rgb(101, 119, 134)'} />
                   <Text sx={{ flex: 1 }} ml={2}>
                     Add to Moodle
@@ -183,22 +180,21 @@ export const Resource: React.FC<Props> = ({
                     Copy link
                   </Text>
                 </DropdownItem> */}
-                    {FlagModal && (
-                      <DropdownItem onClick={() => setOpenFlagModal(true)}>
-                        <Flag size={20} color={'rgb(101, 119, 134)'} />
-                        <Text sx={{ flex: 1 }} ml={2}>
-                          {flagId == '' ? (
-                            <Trans>Flag this resource</Trans>
-                          ) : (
-                            <Trans>Unflag this resource</Trans>
-                          )}
-                        </Text>
-                      </DropdownItem>
-                    )}
-                  </Dropdown>
-                )}
-              </ActionItem>
-            ) : null}
+                  {FlagModal && (
+                    <DropdownItem onClick={() => setOpenFlagModal(true)}>
+                      <Flag size={20} color={'rgb(101, 119, 134)'} />
+                      <Text sx={{ flex: 1 }} ml={2}>
+                        {flagId == '' ? (
+                          <Trans>Flag this resource</Trans>
+                        ) : (
+                          <Trans>Unflag this resource</Trans>
+                        )}
+                      </Text>
+                    </DropdownItem>
+                  )}
+                </Dropdown>
+              )}
+            </MoreActionItem>
           </Items>
         </Box>
       </Actions>
@@ -270,6 +266,9 @@ const ActionItem = styled(Flex)`
       stroke: ${props => props.theme.colors.orange};
     }
   }
+`;
+const MoreActionItem = styled(ActionItem)`
+  cursor: pointer;
 `;
 
 const TypeItem = styled(Text)`

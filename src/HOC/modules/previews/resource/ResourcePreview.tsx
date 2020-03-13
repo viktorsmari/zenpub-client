@@ -11,10 +11,9 @@ import { FlagModalHOC } from 'HOC/modules/FlagModal/flagModalHOC';
 
 export interface Props {
   resourceId: Resource['id'];
-  showActions?: boolean;
 }
 
-export const ResourcePreviewHOC: FC<Props> = ({ resourceId, showActions }) => {
+export const ResourcePreviewHOC: FC<Props> = ({ resourceId }) => {
   const { resource, toggleLike } = useResourcePreview(resourceId);
 
   const toggleLikeFormik = useFormik({
@@ -42,7 +41,6 @@ export const ResourcePreviewHOC: FC<Props> = ({ resourceId, showActions }) => {
       acceptedLicenses: accepted_license_types,
       license: resource.license || null,
       flagId: (resource.myFlag && resource.myFlag!.id) || '',
-      showActions: showActions || false,
       FlagModal: ({ done }) => (
         <FlagModalHOC
           done={done}
