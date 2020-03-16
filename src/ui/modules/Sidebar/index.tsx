@@ -170,10 +170,10 @@ const HeaderName = styled(Text)`
   font-size: 15px;
 `;
 
-interface CommunityPreview {
+export interface CommunityPreview {
   link: {
     url: string;
-    external: true;
+    external: boolean;
   };
   name: string;
   icon: string;
@@ -187,9 +187,8 @@ interface SidebarLoaded {
     name: string;
     id: string;
   };
-  isOpen: boolean;
-  Search: React.ComponentType;
-  logout(): void;
+  Search: JSX.Element;
+  logout(): unknown;
 }
 
 export interface SidebarLoading {

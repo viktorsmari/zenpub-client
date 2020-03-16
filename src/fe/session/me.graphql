@@ -22,5 +22,6 @@ fragment useMeData on Me {
   isInstanceAdmin,
   user{
     id
+    ...SidebarMeUser
   }
 }
