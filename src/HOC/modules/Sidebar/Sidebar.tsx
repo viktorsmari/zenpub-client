@@ -10,8 +10,10 @@ import {
 import { SidebarMeUserFragment } from './Sidebar.generated';
 import { SearchBox } from 'react-instantsearch-dom';
 
-export interface Sidebar {}
-export const Sidebar: FC<Sidebar> = (user: SidebarMeUserFragment) => {
+export interface Sidebar {
+  user: SidebarMeUserFragment;
+}
+export const Sidebar: FC<Sidebar> = ({ user }) => {
   const meQ = useMe();
   const { communities: communitiesGQL } = useMyFollowedCommunities();
   const communities = useMemo(
