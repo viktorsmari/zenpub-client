@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { UserPage, UserPageTab } from 'HOC/pages/user/UserPage';
 import NotFound from 'pages/not-found/NotFound';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
+import { WithSidebarTemplate } from 'HOC/templates/WithSidebar/WithSidebar';
 
 interface UserPageRouter {
   userId: string;
@@ -31,8 +32,11 @@ const UserPageRouter: FC<RouteComponentProps<UserPageRouter>> = ({ match }) => {
     userId,
     basePath: `/user/${userId}`
   };
-
-  return <UserPage {...props} />;
+  return (
+    <WithSidebarTemplate>
+      <UserPage {...props} />
+    </WithSidebarTemplate>
+  );
 };
 
 export const UserPageRoute: RouteProps = {

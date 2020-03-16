@@ -22,7 +22,7 @@ export const Sidebar: FC<Sidebar> = ({ user }) => {
         return {
           icon: commGql.icon || '',
           link: {
-            url: commGql.canonicalUrl || '',
+            url: `/communities/${commGql.id}`,
             external: !commGql.isLocal
           },
           name: commGql.name
@@ -44,6 +44,6 @@ export const Sidebar: FC<Sidebar> = ({ user }) => {
       Search: SearchBox
     };
     return props;
-  }, [meQ]);
+  }, [meQ, communities]);
   return <SidebarUI {...propsUI} />;
 };

@@ -5,6 +5,7 @@ import {
 } from 'HOC/pages/collection/CollectionPage';
 import NotFound from 'pages/not-found/NotFound';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
+import { WithSidebarTemplate } from 'HOC/templates/WithSidebar/WithSidebar';
 
 interface CollectionPageRouter {
   collectionId: string;
@@ -30,7 +31,11 @@ const CollectionPageRouter: FC<RouteComponentProps<CollectionPageRouter>> = ({
     tab,
     basePath: `/collections/${collectionId}`
   };
-  return <CollectionPage {...props} />;
+  return (
+    <WithSidebarTemplate>
+      <CollectionPage {...props} />
+    </WithSidebarTemplate>
+  );
 };
 
 export const CollectionPageRoute: RouteProps = {

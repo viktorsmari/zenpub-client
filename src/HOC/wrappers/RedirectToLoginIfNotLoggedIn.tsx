@@ -6,6 +6,8 @@ export const RedirectToLoginIfNotLoggedIn: FC = ({ children }) => {
   const { me, loading } = useMe();
   if (!loading && !me) {
     return <Login />;
+  } else if (loading) {
+    return null;
   }
 
   return <>{children}</>;

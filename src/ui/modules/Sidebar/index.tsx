@@ -261,7 +261,7 @@ export const Sidebar: React.FC<Props> = props => {
                   {props.communities.map((community: CommunityPreview, i) => (
                     <CommunityLink
                       key={community.link.url}
-                      to={'/communities/' + community.link.url}
+                      to={community.link.url}
                     >
                       <NavItem alignItems={'center'} mb={2}>
                         <Avatar
