@@ -1,0 +1,20 @@
+
+query myFollowedCommunities {
+  me{
+    ...MyFollowedCommunitiesMeData
+  }
+}
+
+fragment MyFollowedCommunitiesMeData on Me {
+  user{
+    id
+    followedCommunities{
+      edges{
+        node{
+          community { ...SidebarFollowedCommunity }
+          follow { id }
+        }
+      }
+    }
+  }
+}
