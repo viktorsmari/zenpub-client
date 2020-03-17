@@ -27,8 +27,8 @@ export const Discover: React.FC<Props> = ({
     <MainContainer>
       <HomeBox>
         <WrapperCont>
-          <WrapperFeatured>{FeaturedCollectionsBox}</WrapperFeatured>
-          <WrapperFeatured mt={2}>{FeaturedCommunitiesBox}</WrapperFeatured>
+          <WrapperFeatured>{FeaturedCommunitiesBox}</WrapperFeatured>
+          <WrapperFeatured mt={2}>{FeaturedCollectionsBox}</WrapperFeatured>
           <Wrapper>
             <Text
               mb={3}
