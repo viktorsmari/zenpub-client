@@ -34,7 +34,8 @@ export const HeroCollection: FC<HeroCollection> = ({ collectionId }) => {
         status: Status.Loaded,
         canModify,
         following: !!collection.myFollow,
-        flagged: !!collection.myFlag,
+        flagId: (collection.myFlag && collection.myFlag!.id) || '',
+        followerCount: collection.followerCount || 0,
         icon: collection.icon || '',
         name: collection.name,
         fullName: collection.displayUsername,
@@ -52,7 +53,7 @@ export const HeroCollection: FC<HeroCollection> = ({ collectionId }) => {
           <FlagModalHOC
             done={done}
             contextId={collectionId}
-            flagged={!!collection.myFlag}
+            flagId={(collection.myFlag && collection.myFlag!.id) || ''}
           />
         ),
         FeaturedModal: ({ done }: { done(): unknown }) => (

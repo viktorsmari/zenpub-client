@@ -28,7 +28,7 @@ const getActions = () => ({
     });
     const getFlagModalProps = {
       formik,
-      flagged: false,
+      flagId: '',
       cancel: action('cancel')
     };
     return <FlagModal {...getFlagModalProps} />;
@@ -193,6 +193,10 @@ storiesOf('Modules/ActivityPreview', module)
           }
           link={'https://www.pinterest.it/topics/anime/'}
           type={'image'}
+          flagId={''}
+          FlagModal={({ done }) => {
+            return <></>;
+          }}
         />
       ),
       status: Status.Loaded,
@@ -242,6 +246,10 @@ storiesOf('Modules/ActivityPreview', module)
           }
           link={'anime.pdf'}
           type={'pdf'}
+          flagId={''}
+          FlagModal={({ done }) => {
+            return <></>;
+          }}
         />
       ),
       status: Status.Loaded,

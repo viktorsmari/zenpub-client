@@ -31,7 +31,7 @@ export const useFollowContext = (ctx: UseFollowContext) => {
           followerCount || 0
         ),
         refetchQueries: [
-          ...(__typename === 'Community'
+          ...(__typename === 'Community' || __typename === 'Collection'
             ? [{ query: GetSidebarQueryDocument }]
             : [])
         ]
@@ -49,7 +49,7 @@ export const useFollowContext = (ctx: UseFollowContext) => {
               followerCount || 1
             ),
             refetchQueries: [
-              ...(__typename === 'Community'
+              ...(__typename === 'Community' || __typename === 'Collection'
                 ? [{ query: GetSidebarQueryDocument }]
                 : [])
             ]

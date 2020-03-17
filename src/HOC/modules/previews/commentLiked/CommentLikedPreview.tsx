@@ -54,7 +54,7 @@ export const LikedCommentPreviewHOC: FC<LikedCommentPreviewHOC> = ({
         <FlagModalHOC
           done={done}
           contextId={comment.id}
-          flagged={false /* !!comment.myFlag */}
+          flagId={'' /* !!comment.myFlag */}
         />
       )
     };

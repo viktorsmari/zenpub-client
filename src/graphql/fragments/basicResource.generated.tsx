@@ -7,7 +7,7 @@ import { BasicUserFragmentDoc } from './basicUser.generated';
 
 export type BasicResourceFragment = (
   { __typename: 'Resource' }
-  & Pick<Types.Resource, 'id' | 'name' | 'summary' | 'icon' | 'url' | 'canonicalUrl' | 'license' | 'createdAt' | 'updatedAt'>
+  & Pick<Types.Resource, 'id' | 'name' | 'summary' | 'icon' | 'url' | 'canonicalUrl' | 'license' | 'createdAt' | 'updatedAt' | 'author'>
   & { myLike: Types.Maybe<(
     { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
@@ -53,6 +53,7 @@ export const BasicResourceFragmentDoc = gql`
   creator {
     ...BasicUser
   }
+  author
   collection {
     id
     name

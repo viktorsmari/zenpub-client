@@ -36,8 +36,13 @@ export const HeroUser: FC<HeroUser> = ({ userId }) => {
       location: user.location || '',
       name: user.name || '',
       summary: user.summary || '',
+      flagId: (user.myFlag && user!.myFlag!.id) || '',
       FlagModal: ({ done }) => (
-        <FlagModalHOC done={done} contextId={user.id} flagged={!!user.myFlag} />
+        <FlagModalHOC
+          done={done}
+          contextId={user.id}
+          flagId={(user.myFlag && user!.myFlag!.id) || ''}
+        />
       )
     };
 

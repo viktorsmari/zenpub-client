@@ -24,6 +24,7 @@ export interface Loaded {
   image: string;
   icon: string;
   name: string;
+  flagId: string;
   displayUsername: string;
   location: string;
   summary: string;
@@ -90,7 +91,12 @@ export const HeroUser: FC<Props> = props => {
                       <DropdownItem onClick={() => setOpenFlag(true)}>
                         <Flag size={20} color={'rgb(101, 119, 134)'} />
                         <Text sx={{ flex: 1 }} ml={2}>
-                          Flag {props.displayUsername}
+                          {props.flagId == '' ? (
+                            <Trans>Flag</Trans>
+                          ) : (
+                            <Trans>Unflag</Trans>
+                          )}{' '}
+                          {props.displayUsername}
                         </Text>
                       </DropdownItem>
                     </Dropdown>

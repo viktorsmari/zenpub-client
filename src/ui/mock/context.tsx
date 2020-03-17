@@ -102,7 +102,7 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
       status: HeroCommunityStatus.Loaded,
       canModify: true,
       following: false,
-      flagged: false,
+      flagId: '',
       icon: 'https://picsum.photos/800/300',
       name: 'Community nino',
       fullName: 'ninos@abc.com',
@@ -137,7 +137,7 @@ export const getHeroCommunityPropsAdmin = (): HeroCommunityProps => {
       // isFeatured: true,
       canModify: true,
       following: true,
-      flagged: false,
+      flagId: '',
       icon: 'https://picsum.photos/800/300',
       name: 'Community nino',
       fullName: 'ninos@abc.com',
@@ -208,7 +208,7 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
       isAdmin: false,
       canModify: true,
       following: true,
-      flagged: false,
+      flagId: '',
       icon: 'https://picsum.photos/800/300',
       name: 'Favourite books',
       fullName: 'favbooks@abc.com',
@@ -218,7 +218,7 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
       summary:
         'Cooperation combined with network effects is more effective than capitalist competition',
       followerCount: 10,
-      contributorCount: 2,
+      // contributorCount: 2,
       toggleJoinFormik: useFormik<{}>({
         initialValues: {},
         onSubmit: () => {
@@ -251,7 +251,7 @@ export const getHeroCollectionPropsAdmin = (): HeroCollectionProps => {
       isAdmin: true,
       canModify: true,
       following: true,
-      flagged: false,
+      flagId: '',
       icon: 'https://picsum.photos/800/300',
       name: 'Favourite books',
       fullName: 'favbooks@abc.com',
@@ -261,7 +261,7 @@ export const getHeroCollectionPropsAdmin = (): HeroCollectionProps => {
       summary:
         'Cooperation combined with network effects is more effective than capitalist competition',
       followerCount: 10,
-      contributorCount: 2,
+      // contributorCount: 2,
       toggleJoinFormik: useFormik<{}>({
         initialValues: {},
         onSubmit: action('toggle join')
@@ -312,6 +312,7 @@ export const getHeroUserProps = (): HeroUserProps => {
     name: '˗ˏˋ Doug Belshaw ˎˊ˗  🇪🇺 ☠️ ✊',
     summary:
       'Open Educational Thinkerer. Product Manager @MoodleNet & Co-op founder @WeAreOpenCoop. Aspiring Mountain Leader. Previously: @Mozilla @Jisc teacher',
+    flagId: '',
     toggleFollowFormik: useFormik<{}>({
       initialValues: {},
       onSubmit: () => {
@@ -340,6 +341,7 @@ export const getHeroUserProps2 = (): HeroUserProps => {
     name: '˗ˏˋ Doug Belshaw ˎˊ˗  🇪🇺 ☠️ ✊',
     summary:
       'Open Educational Thinkerer. Product Manager @MoodleNet & Co-op founder @WeAreOpenCoop. Aspiring Mountain Leader. Previously: @Mozilla @Jisc teacher',
+    flagId: '',
     FlagModal: ({ done }) => {
       return <></>;
     }
@@ -384,7 +386,7 @@ export const getFlagModalProps = (): FlagModalProps => {
       });
     }
   });
-  return { formik, flagged: false, cancel: action('cancel') };
+  return { formik, flagId: '', cancel: action('cancel') };
 };
 
 export const getFeaturedModalProps = (): FeaturedModalProps => {

@@ -1,11 +1,11 @@
+import * as React from 'react';
 import * as Types from './types.generated';
 
-import { BasicCommentWithInReplyToFragment } from './fragments/basicComment.generated';
 import { ActivityPreviewFragment } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import gql from 'graphql-tag';
 import { ActivityPreviewFragmentDoc } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import { BasicCommentWithInReplyToFragmentDoc } from './fragments/basicComment.generated';
-import * as React from 'react';
+import { BasicCommentWithInReplyToFragment } from './fragments/basicComment.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
