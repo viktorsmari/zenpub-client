@@ -757,6 +757,7 @@ export type ResourceLikesArgs = {
 };
 
 export type ResourceInput = {
+  author?: Maybe<Scalars['String']>,
   icon?: Maybe<Scalars['String']>,
   license?: Maybe<Scalars['String']>,
   name: Scalars['String'],

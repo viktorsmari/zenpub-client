@@ -4,7 +4,6 @@ import { getActivityMainContext } from './getActivityMainContext';
 import Maybe from 'graphql/tsutils/Maybe';
 
 export const getEventString = (activity: Maybe<ActivityPreviewFragment>) => {
-  console.log('activity %O', activity?.context);
   if (!activity?.context) {
     return '';
   }

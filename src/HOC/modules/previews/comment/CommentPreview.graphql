@@ -5,7 +5,7 @@ fragment CommentPreview on Comment {
   likerCount
   myLike{ id }
   likerCount
-  # myFlag{ id }
+  myFlag{ id }
   thread {
     id
     comments(limit:1){

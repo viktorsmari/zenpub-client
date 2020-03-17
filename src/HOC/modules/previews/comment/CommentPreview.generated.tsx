@@ -23,6 +23,9 @@ export type CommentPreviewFragment = (
   )>, myLike: Types.Maybe<(
     { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
+  )>, myFlag: Types.Maybe<(
+    { __typename: 'Flag' }
+    & Pick<Types.Flag, 'id'>
   )>, thread: Types.Maybe<(
     { __typename: 'Thread' }
     & Pick<Types.Thread, 'id'>
@@ -119,6 +122,9 @@ export const CommentPreviewFragmentDoc = gql`
     id
   }
   likerCount
+  myFlag {
+    id
+  }
   thread {
     id
     comments(limit: 1) {
