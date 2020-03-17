@@ -40,14 +40,8 @@ export const ResourcePreviewHOC: FC<Props> = ({ resourceId }) => {
       isLocal: resource.isLocal, // FIXME replace with e.g isUploaded to differantiate between uploaded resource and resources shared via link
       acceptedLicenses: accepted_license_types,
       license: resource.license || null,
-      flagId: (resource.myFlag && resource.myFlag!.id) || '',
-      FlagModal: ({ done }) => (
-        <FlagModalHOC
-          done={done}
-          contextId={resourceId}
-          flagId={(resource.myFlag && resource.myFlag!.id) || ''}
-        />
-      )
+      isFlagged: !!resource.myFlag,
+      FlagModal: ({ done }) => <FlagModalHOC done={done} ctx={resource} />
       //  type: resource.type FIXME add type of the resource field
     };
     return props;

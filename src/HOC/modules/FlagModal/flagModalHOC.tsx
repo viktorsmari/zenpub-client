@@ -1,7 +1,7 @@
+import { FollowContext, useFlagContext } from 'fe/context/flag/useFlagContext';
 import { useFormik } from 'formik';
-import React, { createContext, FC, useContext, useMemo } from 'react';
+import React, { createContext, FC } from 'react';
 import { BasicCreateFlagFormValues, FlagModal } from 'ui/modules/FlagModal';
-import { useDeleteMutationMutation } from 'graphql/delete.generated';
 import * as Yup from 'yup';
 import * as GQL from './flagModal.generated';
 
@@ -13,13 +13,8 @@ export const validationSchema: Yup.ObjectSchema<BasicCreateFlagFormValues> = Yup
     .required()
 });
 
-export const createFlagFormInitialValues: BasicCreateFlagFormValues = {
-  reason: ''
-};
-
 export interface Props {
-  contextId: string;
-  flagId: string;
+  ctx: FollowContext;
   done(): any;
 }
 
@@ -30,46 +25,26 @@ export const FlagModalCtx = createContext<FlagModalCtx>({
   useCreateFlagPanelCreateMutation: GQL.useCreateFlagPanelCreateMutation
 });
 
-export const FlagModalHOC: FC<Props> = ({ done, contextId, flagId }: Props) => {
-  const { useCreateFlagPanelCreateMutation } = useContext(FlagModalCtx);
-  const [flag] = useCreateFlagPanelCreateMutation();
-  const [unflag] = useDeleteMutationMutation();
-  const initialValues = useMemo<BasicCreateFlagFormValues>(
-    () => createFlagFormInitialValues,
-    []
-  );
+export const FlagModalHOC: FC<Props> = ({ done, ctx }: Props) => {
+  const { unflag, flag } = useFlagContext(ctx);
 
-  function unflagItem() {
-    unflag({
-      variables: {
-        contextId: flagId!
-      }
-    })
-      .then(done)
-      .catch(err => console.log(err));
-  }
+  const unflagFormik = useFormik({
+    onSubmit: () => unflag().then(done),
+    initialValues: {}
+  });
 
-  const formik = useFormik<BasicCreateFlagFormValues>({
+  const flagFormik = useFormik<BasicCreateFlagFormValues>({
     enableReinitialize: true,
-    onSubmit: vals => {
-      flag({
-        variables: {
-          contextId: contextId!,
-          message: vals.reason!
-        }
-      })
-        .then(done)
-        .catch(err => console.log(err));
-    },
+    onSubmit: vals => flag(vals.reason).then(done),
     validationSchema,
-    initialValues
+    initialValues: { reason: '' }
   });
   return (
     <FlagModal
       cancel={done}
-      flagId={flagId}
-      formik={formik}
-      unflagItem={unflagItem}
+      isFlagged={!!ctx.myFlag}
+      flagFormik={flagFormik}
+      unflagFormik={unflagFormik}
     />
   );
 };

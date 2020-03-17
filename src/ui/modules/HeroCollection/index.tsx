@@ -35,7 +35,7 @@ export interface CollectionLoaded {
   communityName: string;
   communityIcon: string;
   toggleJoinFormik: FormikHook;
-  flagId: string;
+  isFlagged: boolean;
   followerCount: number; //FIX ME add followerCount
   // contributorCount?: number; //FIX ME add contributorCount
   following: boolean;
@@ -107,7 +107,7 @@ export const HeroCollection: FC<Props> = ({ collection: c }) => {
                   <DropdownItem onClick={() => setOpenFlag(true)}>
                     <FlagIcon size={20} color={'rgb(101, 119, 134)'} />
                     <Text sx={{ flex: 1 }} ml={2}>
-                      {c.flagId == '' ? (
+                      {!c.isFlagged ? (
                         <Trans>Flag this collection</Trans>
                       ) : (
                         <Trans>Unflag this collection</Trans>

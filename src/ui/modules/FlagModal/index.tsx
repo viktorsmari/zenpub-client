@@ -31,9 +31,9 @@ const tt = {
 
 export interface Props {
   cancel(): any;
-  flagId: string;
-  formik?: FormikHook<BasicCreateFlagFormValues>;
-  unflagItem?: any;
+  isFlagged: boolean;
+  flagFormik: FormikHook<BasicCreateFlagFormValues>;
+  unflagFormik: FormikHook;
 }
 
 export interface BasicCreateFlagFormValues {
@@ -42,13 +42,13 @@ export interface BasicCreateFlagFormValues {
 
 export const FlagModal: React.FC<Props> = ({
   cancel,
-  flagId,
-  formik,
-  unflagItem
+  flagFormik,
+  isFlagged,
+  unflagFormik
 }) => {
   const { i18n } = React.useContext(LocaleContext);
 
-  return flagId == '' && formik ? (
+  return !isFlagged ? (
     <Container>
       <Header>
         <Heading m={2}>
@@ -60,23 +60,23 @@ export const FlagModal: React.FC<Props> = ({
           <Textarea
             placeholder={i18n._(tt.placeholders.flag)}
             name="reason"
-            value={formik.values.reason}
-            onChange={formik.handleChange}
+            value={flagFormik.values.reason}
+            onChange={flagFormik.handleChange}
           />
-          <CounterChars>{200 - formik.values.reason.length}</CounterChars>
-          {formik.errors.reason && (
+          <CounterChars>{200 - flagFormik.values.reason.length}</CounterChars>
+          {flagFormik.errors.reason && (
             <AlertWrapper>
-              <Alert variant="bad">{formik.errors.reason}</Alert>
+              <Alert variant="bad">{flagFormik.errors.reason}</Alert>
             </AlertWrapper>
           )}
         </ContainerForm>
       </Row>
       <Actions>
         <SubmitButton
-          disabled={formik.isSubmitting}
+          disabled={flagFormik.isSubmitting}
           type="submit"
           style={{ marginLeft: '10px' }}
-          onClick={formik.submitForm}
+          onClick={flagFormik.submitForm}
         >
           <Trans>Send</Trans>
         </SubmitButton>
@@ -99,8 +99,9 @@ export const FlagModal: React.FC<Props> = ({
       </Row>
       <Actions>
         <Button
+          disabled={unflagFormik.isSubmitting}
           variant="primary"
-          onClick={unflagItem}
+          onClick={unflagFormik.submitForm}
           style={{ marginLeft: '10px' }}
         >
           <Trans>Unflag</Trans>

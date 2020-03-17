@@ -36,7 +36,7 @@ export interface Props {
   acceptedLicenses?: string[];
   isLocal: boolean;
   type?: string;
-  flagId: string;
+  isFlagged: boolean;
   FlagModal: null | React.ComponentType<{ done(): unknown }>;
 }
 
@@ -50,7 +50,7 @@ export const Resource: React.FC<Props> = ({
   license,
   acceptedLicenses,
   type,
-  flagId,
+  isFlagged,
   FlagModal
 }) => {
   const mediaType = type !== undefined ? type : 'image'; // FIXME remove after type field is added
@@ -184,7 +184,7 @@ export const Resource: React.FC<Props> = ({
                     <DropdownItem onClick={() => setOpenFlagModal(true)}>
                       <Flag size={20} color={'rgb(101, 119, 134)'} />
                       <Text sx={{ flex: 1 }} ml={2}>
-                        {flagId == '' ? (
+                        {!isFlagged ? (
                           <Trans>Flag this resource</Trans>
                         ) : (
                           <Trans>Unflag this resource</Trans>

@@ -24,7 +24,7 @@ export interface CommunityLoaded {
   fullName: string;
   totalMembers: number;
   following: boolean;
-  flagId: string;
+  isFlagged: boolean;
   canModify: boolean;
   toggleJoinFormik: FormikHook;
   EditCommunityPanel: ComponentType<{ done(): any }>;
@@ -99,7 +99,7 @@ export const HeroCommunity: FC<Props> = ({ community: c }) => {
                     <DropdownItem onClick={() => setOpenFlag(true)}>
                       <Flag size={20} color={'rgb(101, 119, 134)'} />
                       <Text sx={{ flex: 1 }} ml={2}>
-                        {c.flagId == '' ? (
+                        {!c.isFlagged ? (
                           <Trans>Flag this community</Trans>
                         ) : (
                           <Trans>Unflag this community</Trans>

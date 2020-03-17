@@ -15,7 +15,7 @@ import { LikedComment } from '../Previews/LikedComment';
 
 const getActions = () => ({
   FlagModal: () => {
-    const formik = useFormik<{ reason: '' }>({
+    const flagFormik = useFormik<{ reason: '' }>({
       initialValues: {
         reason: ''
       },
@@ -26,12 +26,25 @@ const getActions = () => ({
         });
       }
     });
-    const getFlagModalProps = {
-      formik,
-      flagId: '',
-      cancel: action('cancel')
-    };
-    return <FlagModal {...getFlagModalProps} />;
+    const unflagFormik = useFormik({
+      initialValues: {},
+      onSubmit: () => {
+        action('submit')();
+        return new Promise((resolve, reject) => {
+          setTimeout(resolve, 3000);
+        });
+      }
+    });
+    return (
+      <FlagModal
+        {...{
+          cancel: action('cancel'),
+          flagFormik,
+          isFlagged: false,
+          unflagFormik
+        }}
+      />
+    );
   },
   like: {
     totalLikes: 3,
@@ -193,7 +206,7 @@ storiesOf('Modules/ActivityPreview', module)
           }
           link={'https://www.pinterest.it/topics/anime/'}
           type={'image'}
-          flagId={''}
+          isFlagged={false}
           FlagModal={({ done }) => {
             return <></>;
           }}
@@ -246,7 +259,7 @@ storiesOf('Modules/ActivityPreview', module)
           }
           link={'anime.pdf'}
           type={'pdf'}
-          flagId={''}
+          isFlagged={false}
           FlagModal={({ done }) => {
             return <></>;
           }}
@@ -325,6 +338,7 @@ storiesOf('Modules/ActivityPreview', module)
           content={
             'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
           }
+          isFlagged={false}
         />
       ),
       status: Status.Loaded,
