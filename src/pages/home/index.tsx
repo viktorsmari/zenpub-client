@@ -77,7 +77,7 @@ const Home: React.FC<Props> = () => {
               p={3}
               variant="suptitle"
             >
-              <Trans>My MoodleNet timeline</Trans>
+              <Trans>Timeline</Trans>
             </Text>
 
             {error ? (
