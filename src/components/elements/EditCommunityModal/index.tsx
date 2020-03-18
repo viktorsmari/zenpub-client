@@ -10,7 +10,7 @@ import Alert from '../Alert';
 import { Button } from 'rebass/styled-components';
 import Modal from '../Modal';
 import DropzoneArea from '../DropzoneModal';
-import { useUploadIconMutation } from '../../../graphql/uploadIcon.generated';
+import { useUploadIconMutMutation } from '../../../graphql/uploadIcon.generated';
 import styled from '../../../themes/styled';
 
 import {
@@ -65,7 +65,7 @@ const EditCommunityModal = (props: Props) => {
   } = props;
 
   const [update /* , response */] = useUpdateCommunityMutationMutation({});
-  const [mutateIcon] = useUploadIconMutation();
+  const [mutateIcon] = useUploadIconMutMutation();
 
   const initialValues = React.useMemo<FormValues>(
     () => ({
@@ -153,8 +153,9 @@ const EditCommunityModal = (props: Props) => {
                         </>
                       )}
                     />
-                    {errors.name &&
-                      touched.name && <Alert>{errors.name}</Alert>}
+                    {errors.name && touched.name && (
+                      <Alert>{errors.name}</Alert>
+                    )}
                   </ContainerForm>
                 </Row>
                 <Row big>

@@ -2,7 +2,7 @@
 // import { DateTime } from 'luxon';
 // import { clearFix } from 'polished';
 // import * as React from 'react';
-// import { SFC } from 'react';
+// import { FC } from 'react';
 // import { Star } from 'react-feather';
 // import { NavLink } from 'react-router-dom';
 // import { Box, Flex, Text } from 'rebass/styled-components';
@@ -21,7 +21,7 @@
 //   node: any;
 // }
 
-// const Item: SFC<Props> = ({ user, node, userpage }) => {
+// const Item: FC<Props> = ({ user, node, userpage }) => {
 //   const [iLikeIt, setiLikeIt] = React.useState(false);
 //   const [like] = useLikeMutationMutation();
 //   const [undoLike] = useDeleteMutation();

@@ -1,4 +1,4 @@
-import { IS_DEV, PUBLIC_URL } from './constants';
+import { IS_DEV, PUBLIC_URL } from './mn-constants';
 
 // In production, we register a service worker to serve assets from local cache.
 

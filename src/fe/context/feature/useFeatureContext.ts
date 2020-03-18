@@ -1,21 +1,28 @@
-import { FeaturedCollectionsDocument } from 'fe/collection/featured/featuredCollections.generated';
-import { FeaturedCommunitiesDocument } from 'fe/community/featured/featuredCommunities.generated';
 import {
   useAddFeaturedMutation,
   useRemoveFeaturedMutation
 } from 'fe/mutation/feature/useMutateFeature.generated';
-import Maybe from 'graphql/tsutils/Maybe';
-import { Collection, Community } from 'graphql/types.generated';
+import { Collection, Community, Feature } from 'graphql/types.generated';
 import { useCallback, useMemo } from 'react';
+import {
+  InstanceFeaturedCommunitiesDocument,
+  InstanceFeaturedCollectionsDocument
+} from 'fe/instance/featured/featured.generated';
 
-type Context = Collection | Community;
+export type Actor = Collection | Community;
 
-export type UseFeaturedContext = Maybe<Pick<Context, 'id' | '__typename'>>;
+export type UseFeaturedContext =
+  | {
+      isFeatured: false;
+      actor: /* Maybe< */ Pick<Actor, 'id' | '__typename'> /* > */;
+    }
+  | {
+      isFeatured: true;
+      featureId: Feature['id'];
+      __typename: Actor['__typename'];
+    };
 
-export const useFeaturedContext = (
-  ctx: UseFeaturedContext,
-  isFeatured: boolean
-) => {
+export const useFeaturedContext = (ctx: UseFeaturedContext) => {
   const [addFeaturedMut, addFeaturedMutStatus] = useAddFeaturedMutation();
   const [rmFeaturedMut, rmFeaturedMutStatus] = useRemoveFeaturedMutation();
   const mutating = addFeaturedMutStatus.loading || rmFeaturedMutStatus.loading;
@@ -23,24 +30,12 @@ export const useFeaturedContext = (
   // const featuredCommunitiesQ = useFeaturedCommunitiesQuery();
 
   // const featuredCommunities = useMemo(
-  //   () =>
-  //     (featuredCommunitiesQ.data?.instance?.featuredCommunities?.edges || [])
-  //       .map(edge => edge?.node.context)
-  //       .filter(
-  //         (maybeCommunity): maybeCommunity is FeaturedCommunityInfoFragment =>
-  //           !!maybeCommunity
-  //       ),
+  //   () => manageEdges(featuredCommunitiesQ.data?.instance?.featuredCommunities),
   //   [featuredCommunitiesQ]
   // );
 
   // const featuredCollections = useMemo(
-  //   () =>
-  //     (featuredCollectionsQ.data?.instance?.featuredCollections?.edges || [])
-  //       .map(edge => edge?.node.context)
-  //       .filter(
-  //         (maybeCommunity): maybeCommunity is FeaturedCollectionInfoFragment =>
-  //           !!maybeCommunity
-  //       ),
+  //   () => manageEdges(featuredCollectionsQ.data?.instance?.featuredCollections),
   //   [featuredCollectionsQ]
   // );
 
@@ -61,12 +56,12 @@ export const useFeaturedContext = (
   // );
 
   const toggleFeatured = useCallback(async () => {
-    const { id, __typename } = ctx || {};
-    if (!id || !__typename || typeof isFeatured !== 'boolean' || mutating) {
-      return;
-    }
+    if (!ctx.isFeatured) {
+      const { id, __typename } = ctx.actor;
+      if (!id || !__typename || mutating) {
+        return;
+      }
 
-    if (!isFeatured) {
       return addFeaturedMut({
         variables: {
           contextId: id
@@ -75,27 +70,27 @@ export const useFeaturedContext = (
           {
             query:
               __typename === 'Community'
-                ? FeaturedCommunitiesDocument
-                : FeaturedCollectionsDocument
+                ? InstanceFeaturedCommunitiesDocument
+                : InstanceFeaturedCollectionsDocument
           }
         ]
       });
     } else {
       return rmFeaturedMut({
         variables: {
-          contextId: id
+          contextId: ctx.featureId // need it
         },
         refetchQueries: [
           {
             query:
-              __typename === 'Community'
-                ? FeaturedCommunitiesDocument
-                : FeaturedCollectionsDocument
+              ctx.__typename === 'Community'
+                ? InstanceFeaturedCommunitiesDocument
+                : InstanceFeaturedCollectionsDocument
           }
         ]
       });
     }
-  }, [ctx, isFeatured]);
+  }, [ctx]);
 
   return useMemo(
     () => ({

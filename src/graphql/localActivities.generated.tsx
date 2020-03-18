@@ -1,8 +1,8 @@
 import * as Types from './types.generated';
 
-import { ActivityPreviewDataFragment } from '../HOC/modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewFragment } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import gql from 'graphql-tag';
-import { ActivityPreviewDataFragmentDoc } from '../HOC/modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewFragmentDoc } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -31,7 +31,7 @@ export type LocalActivitiesQuery = (
         & Pick<Types.ActivitiesEdge, 'cursor'>
         & { node: (
           { __typename: 'Activity' }
-          & ActivityPreviewDataFragment
+          & ActivityPreviewFragment
         ) }
       )>>> }
     )> }
@@ -50,13 +50,13 @@ export const LocalActivitiesDocument = gql`
       edges {
         cursor
         node {
-          ...ActivityPreviewData
+          ...ActivityPreview
         }
       }
     }
   }
 }
-    ${ActivityPreviewDataFragmentDoc}`;
+    ${ActivityPreviewFragmentDoc}`;
 export type LocalActivitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<LocalActivitiesQuery, LocalActivitiesQueryVariables>, 'query'>;
 
     export const LocalActivitiesComponent = (props: LocalActivitiesComponentProps) => (

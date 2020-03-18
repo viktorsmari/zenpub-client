@@ -1,6 +1,7 @@
 import { Community } from 'graphql/types.generated';
 import { useMemo } from 'react';
 import * as GQL from './useCommunityThreads.generated';
+import { manageEdges } from 'fe/lib/helpers/edges';
 
 export const useCommunityThreads = (communityId: Community['id']) => {
   const communityQ = GQL.useCommunityThreadsQuery({
@@ -8,13 +9,7 @@ export const useCommunityThreads = (communityId: Community['id']) => {
   });
 
   const threads = useMemo<GQL.CommunityThreadFragment[]>(
-    () =>
-      (communityQ.data?.community?.threads?.edges || [])
-        .map(threadEdge => threadEdge?.node)
-        .filter(
-          (maybeThread): maybeThread is GQL.CommunityThreadFragment =>
-            !!maybeThread
-        ),
+    () => manageEdges(communityQ.data?.community?.threads).nodes,
     [communityQ]
   );
 

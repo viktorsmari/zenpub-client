@@ -3,7 +3,7 @@ import qs from 'qs';
 import React from 'react';
 import { InstantSearch } from 'react-instantsearch-dom';
 import { useHistory } from 'react-router-dom';
-import { algoliaCreds } from '../../constants';
+import { algoliaCreds } from '../../mn-constants';
 const createURL = searchState => `?${qs.stringify(searchState)}`;
 
 const searchStateToUrl = searchState => `/search/${createURL(searchState)}`;

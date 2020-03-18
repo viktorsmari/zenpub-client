@@ -13,6 +13,19 @@ export type UserPageActivitiesFragment = (
 export type UserPageUserDataFragment = (
   { __typename: 'User' }
   & Pick<Types.User, 'id'>
+  & { followedCollections: Types.Maybe<(
+    { __typename: 'FollowedCollectionsEdges' }
+    & Pick<Types.FollowedCollectionsEdges, 'totalCount'>
+  )>, followedCommunities: Types.Maybe<(
+    { __typename: 'FollowedCommunitiesEdges' }
+    & Pick<Types.FollowedCommunitiesEdges, 'totalCount'>
+  )>, followedUsers: Types.Maybe<(
+    { __typename: 'FollowedUsersEdges' }
+    & Pick<Types.FollowedUsersEdges, 'totalCount'>
+  )>, outbox: Types.Maybe<(
+    { __typename: 'ActivitiesEdges' }
+    & Pick<Types.ActivitiesEdges, 'totalCount'>
+  )> }
   & HeroUserUserDataFragment
 );
 
@@ -24,6 +37,18 @@ export const UserPageActivitiesFragmentDoc = gql`
 export const UserPageUserDataFragmentDoc = gql`
     fragment UserPageUserData on User {
   id
+  followedCollections {
+    totalCount
+  }
+  followedCommunities {
+    totalCount
+  }
+  followedUsers {
+    totalCount
+  }
+  outbox {
+    totalCount
+  }
   ...HeroUserUserData
 }
     ${HeroUserUserDataFragmentDoc}`;

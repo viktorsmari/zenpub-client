@@ -1,8 +1,10 @@
 import * as Types from '../../../graphql/types.generated';
 
-import { FeaturedCollectionInfoFragment } from '../../collection/featured/featuredCollections.generated';
+import { DiscoverPageFeaturedCollectionInfoFragment } from '../../../HOC/pages/discover/DiscoverPage.generated';
+import { DiscoverPageFeaturedCommunityInfoFragment } from '../../../HOC/pages/discover/DiscoverPage.generated';
 import gql from 'graphql-tag';
-import { FeaturedCollectionInfoFragmentDoc } from '../../collection/featured/featuredCollections.generated';
+import { DiscoverPageFeaturedCommunityInfoFragmentDoc } from '../../../HOC/pages/discover/DiscoverPage.generated';
+import { DiscoverPageFeaturedCollectionInfoFragmentDoc } from '../../../HOC/pages/discover/DiscoverPage.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -11,10 +13,35 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
-export type InstanceFeaturedQueryVariables = {};
+
+export type InstanceFeaturedCommunitiesQueryVariables = {};
 
 
-export type InstanceFeaturedQuery = (
+export type InstanceFeaturedCommunitiesQuery = (
+  { __typename: 'RootQueryType' }
+  & { instance: Types.Maybe<(
+    { __typename: 'Instance' }
+    & { featuredCommunities: Types.Maybe<(
+      { __typename: 'FeaturesEdges' }
+      & { edges: Array<Types.Maybe<(
+        { __typename: 'FeaturesEdge' }
+        & { node: (
+          { __typename: 'Feature' }
+          & Pick<Types.Feature, 'id'>
+          & { context: Types.Maybe<{ __typename: 'Collection' } | (
+            { __typename: 'Community' }
+            & DiscoverPageFeaturedCommunityInfoFragment
+          )> }
+        ) }
+      )>> }
+    )> }
+  )> }
+);
+
+export type InstanceFeaturedCollectionsQueryVariables = {};
+
+
+export type InstanceFeaturedCollectionsQuery = (
   { __typename: 'RootQueryType' }
   & { instance: Types.Maybe<(
     { __typename: 'Instance' }
@@ -27,20 +54,7 @@ export type InstanceFeaturedQuery = (
           & Pick<Types.Feature, 'id'>
           & { context: Types.Maybe<(
             { __typename: 'Collection' }
-            & FeaturedCollectionInfoFragment
-          ) | { __typename: 'Community' }> }
-        ) }
-      )>> }
-    )>, featuredCommunities: Types.Maybe<(
-      { __typename: 'FeaturesEdges' }
-      & { edges: Array<Types.Maybe<(
-        { __typename: 'FeaturesEdge' }
-        & { node: (
-          { __typename: 'Feature' }
-          & Pick<Types.Feature, 'id'>
-          & { context: Types.Maybe<(
-            { __typename: 'Collection' }
-            & FeaturedCollectionInfoFragment
+            & DiscoverPageFeaturedCollectionInfoFragment
           ) | { __typename: 'Community' }> }
         ) }
       )>> }
@@ -49,79 +63,135 @@ export type InstanceFeaturedQuery = (
 );
 
 
-export const InstanceFeaturedDocument = gql`
-    query instanceFeatured {
+export const InstanceFeaturedCommunitiesDocument = gql`
+    query instanceFeaturedCommunities {
   instance {
-    featuredCollections {
-      edges {
-        node {
-          id
-          context {
-            ...FeaturedCollectionInfo
-          }
-        }
-      }
-    }
     featuredCommunities {
       edges {
         node {
           id
           context {
-            ...FeaturedCollectionInfo
+            ...DiscoverPageFeaturedCommunityInfo
           }
         }
       }
     }
   }
 }
-    ${FeaturedCollectionInfoFragmentDoc}`;
-export type InstanceFeaturedComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<InstanceFeaturedQuery, InstanceFeaturedQueryVariables>, 'query'>;
+    ${DiscoverPageFeaturedCommunityInfoFragmentDoc}`;
+export type InstanceFeaturedCommunitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<InstanceFeaturedCommunitiesQuery, InstanceFeaturedCommunitiesQueryVariables>, 'query'>;
 
-    export const InstanceFeaturedComponent = (props: InstanceFeaturedComponentProps) => (
-      <ApolloReactComponents.Query<InstanceFeaturedQuery, InstanceFeaturedQueryVariables> query={InstanceFeaturedDocument} {...props} />
+    export const InstanceFeaturedCommunitiesComponent = (props: InstanceFeaturedCommunitiesComponentProps) => (
+      <ApolloReactComponents.Query<InstanceFeaturedCommunitiesQuery, InstanceFeaturedCommunitiesQueryVariables> query={InstanceFeaturedCommunitiesDocument} {...props} />
     );
     
-export type InstanceFeaturedProps<TChildProps = {}> = ApolloReactHoc.DataProps<InstanceFeaturedQuery, InstanceFeaturedQueryVariables> & TChildProps;
-export function withInstanceFeatured<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+export type InstanceFeaturedCommunitiesProps<TChildProps = {}> = ApolloReactHoc.DataProps<InstanceFeaturedCommunitiesQuery, InstanceFeaturedCommunitiesQueryVariables> & TChildProps;
+export function withInstanceFeaturedCommunities<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  InstanceFeaturedQuery,
-  InstanceFeaturedQueryVariables,
-  InstanceFeaturedProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, InstanceFeaturedQuery, InstanceFeaturedQueryVariables, InstanceFeaturedProps<TChildProps>>(InstanceFeaturedDocument, {
-      alias: 'instanceFeatured',
+  InstanceFeaturedCommunitiesQuery,
+  InstanceFeaturedCommunitiesQueryVariables,
+  InstanceFeaturedCommunitiesProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, InstanceFeaturedCommunitiesQuery, InstanceFeaturedCommunitiesQueryVariables, InstanceFeaturedCommunitiesProps<TChildProps>>(InstanceFeaturedCommunitiesDocument, {
+      alias: 'instanceFeaturedCommunities',
       ...operationOptions
     });
 };
 
 /**
- * __useInstanceFeaturedQuery__
+ * __useInstanceFeaturedCommunitiesQuery__
  *
- * To run a query within a React component, call `useInstanceFeaturedQuery` and pass it any options that fit your needs.
- * When your component renders, `useInstanceFeaturedQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * To run a query within a React component, call `useInstanceFeaturedCommunitiesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useInstanceFeaturedCommunitiesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useInstanceFeaturedQuery({
+ * const { data, loading, error } = useInstanceFeaturedCommunitiesQuery({
  *   variables: {
  *   },
  * });
  */
-export function useInstanceFeaturedQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<InstanceFeaturedQuery, InstanceFeaturedQueryVariables>) {
-        return ApolloReactHooks.useQuery<InstanceFeaturedQuery, InstanceFeaturedQueryVariables>(InstanceFeaturedDocument, baseOptions);
+export function useInstanceFeaturedCommunitiesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<InstanceFeaturedCommunitiesQuery, InstanceFeaturedCommunitiesQueryVariables>) {
+        return ApolloReactHooks.useQuery<InstanceFeaturedCommunitiesQuery, InstanceFeaturedCommunitiesQueryVariables>(InstanceFeaturedCommunitiesDocument, baseOptions);
       }
-export function useInstanceFeaturedLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<InstanceFeaturedQuery, InstanceFeaturedQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<InstanceFeaturedQuery, InstanceFeaturedQueryVariables>(InstanceFeaturedDocument, baseOptions);
+export function useInstanceFeaturedCommunitiesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<InstanceFeaturedCommunitiesQuery, InstanceFeaturedCommunitiesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<InstanceFeaturedCommunitiesQuery, InstanceFeaturedCommunitiesQueryVariables>(InstanceFeaturedCommunitiesDocument, baseOptions);
         }
-export type InstanceFeaturedQueryHookResult = ReturnType<typeof useInstanceFeaturedQuery>;
-export type InstanceFeaturedLazyQueryHookResult = ReturnType<typeof useInstanceFeaturedLazyQuery>;
-export type InstanceFeaturedQueryResult = ApolloReactCommon.QueryResult<InstanceFeaturedQuery, InstanceFeaturedQueryVariables>;
+export type InstanceFeaturedCommunitiesQueryHookResult = ReturnType<typeof useInstanceFeaturedCommunitiesQuery>;
+export type InstanceFeaturedCommunitiesLazyQueryHookResult = ReturnType<typeof useInstanceFeaturedCommunitiesLazyQuery>;
+export type InstanceFeaturedCommunitiesQueryResult = ApolloReactCommon.QueryResult<InstanceFeaturedCommunitiesQuery, InstanceFeaturedCommunitiesQueryVariables>;
+export const InstanceFeaturedCollectionsDocument = gql`
+    query instanceFeaturedCollections {
+  instance {
+    featuredCollections {
+      edges {
+        node {
+          id
+          context {
+            ...DiscoverPageFeaturedCollectionInfo
+          }
+        }
+      }
+    }
+  }
+}
+    ${DiscoverPageFeaturedCollectionInfoFragmentDoc}`;
+export type InstanceFeaturedCollectionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<InstanceFeaturedCollectionsQuery, InstanceFeaturedCollectionsQueryVariables>, 'query'>;
+
+    export const InstanceFeaturedCollectionsComponent = (props: InstanceFeaturedCollectionsComponentProps) => (
+      <ApolloReactComponents.Query<InstanceFeaturedCollectionsQuery, InstanceFeaturedCollectionsQueryVariables> query={InstanceFeaturedCollectionsDocument} {...props} />
+    );
+    
+export type InstanceFeaturedCollectionsProps<TChildProps = {}> = ApolloReactHoc.DataProps<InstanceFeaturedCollectionsQuery, InstanceFeaturedCollectionsQueryVariables> & TChildProps;
+export function withInstanceFeaturedCollections<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  InstanceFeaturedCollectionsQuery,
+  InstanceFeaturedCollectionsQueryVariables,
+  InstanceFeaturedCollectionsProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, InstanceFeaturedCollectionsQuery, InstanceFeaturedCollectionsQueryVariables, InstanceFeaturedCollectionsProps<TChildProps>>(InstanceFeaturedCollectionsDocument, {
+      alias: 'instanceFeaturedCollections',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useInstanceFeaturedCollectionsQuery__
+ *
+ * To run a query within a React component, call `useInstanceFeaturedCollectionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useInstanceFeaturedCollectionsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useInstanceFeaturedCollectionsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useInstanceFeaturedCollectionsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<InstanceFeaturedCollectionsQuery, InstanceFeaturedCollectionsQueryVariables>) {
+        return ApolloReactHooks.useQuery<InstanceFeaturedCollectionsQuery, InstanceFeaturedCollectionsQueryVariables>(InstanceFeaturedCollectionsDocument, baseOptions);
+      }
+export function useInstanceFeaturedCollectionsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<InstanceFeaturedCollectionsQuery, InstanceFeaturedCollectionsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<InstanceFeaturedCollectionsQuery, InstanceFeaturedCollectionsQueryVariables>(InstanceFeaturedCollectionsDocument, baseOptions);
+        }
+export type InstanceFeaturedCollectionsQueryHookResult = ReturnType<typeof useInstanceFeaturedCollectionsQuery>;
+export type InstanceFeaturedCollectionsLazyQueryHookResult = ReturnType<typeof useInstanceFeaturedCollectionsLazyQuery>;
+export type InstanceFeaturedCollectionsQueryResult = ApolloReactCommon.QueryResult<InstanceFeaturedCollectionsQuery, InstanceFeaturedCollectionsQueryVariables>;
 
 
-export interface InstanceFeaturedQueryOperation {
-  operationName: 'instanceFeatured'
-  result: InstanceFeaturedQuery
-  variables: InstanceFeaturedQueryVariables
+export interface InstanceFeaturedCommunitiesQueryOperation {
+  operationName: 'instanceFeaturedCommunities'
+  result: InstanceFeaturedCommunitiesQuery
+  variables: InstanceFeaturedCommunitiesQueryVariables
+  type: 'query'
+}
+
+
+export interface InstanceFeaturedCollectionsQueryOperation {
+  operationName: 'instanceFeaturedCollections'
+  result: InstanceFeaturedCollectionsQuery
+  variables: InstanceFeaturedCollectionsQueryVariables
   type: 'query'
 }

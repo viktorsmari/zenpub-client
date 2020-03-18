@@ -1,0 +1,6 @@
+mutation createCollection($collection: CollectionInput!, $communityId: String!) {
+  createCollection(communityId: $communityId, collection: $collection) {
+    ...CollectionPageData
+  }
+}
+

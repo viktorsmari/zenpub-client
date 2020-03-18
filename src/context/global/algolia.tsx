@@ -4,7 +4,7 @@ import React from 'react';
 import { InstantSearch } from 'react-instantsearch-dom';
 import { useHistory, useLocation } from 'react-router-dom';
 import { LocationDescriptorObject } from 'history';
-import { algoliaCreds } from '../../constants';
+import { algoliaCreds } from '../../mn-constants';
 const createURL = searchState => `?${qs.stringify(searchState)}`;
 
 const searchStateToUrl = searchState => `/search/${createURL(searchState)}`;
@@ -21,35 +21,32 @@ export const ProvideAlgoliaContext: React.FC = ({ children }) => {
   const [searchState, setSearchState] = React.useState(
     urlToSearchState(location.search)
   );
-  React.useEffect(
-    () => {
-      // console.log('\nsearchState', searchState, '\nlocation:', location, '\nbackLoc:', backLoc.current, '\nisInSearch:', searching.current)
-      const setUrlTO = setTimeout(() => {
-        if (searching.current && !isSearchLocation(location)) {
-          backLoc.current = undefined;
-          searching.current = false;
-          setSearchState(EMPTY_QUERY);
-        } else if (searchState.query) {
-          backLoc.current =
-            backLoc.current ||
-            (isSearchLocation(location) ? undefined : location);
-          searching.current = true;
-          push(searchStateToUrl(searchState));
-        } else if (isSearchLocation(location)) {
-          if (backLoc.current) {
-            push(backLoc.current);
-          } else {
-            push('/');
-          }
-          backLoc.current = undefined;
+  React.useEffect(() => {
+    // console.log('\nsearchState', searchState, '\nlocation:', location, '\nbackLoc:', backLoc.current, '\nisInSearch:', searching.current)
+    const setUrlTO = setTimeout(() => {
+      if (searching.current && !isSearchLocation(location)) {
+        backLoc.current = undefined;
+        searching.current = false;
+        setSearchState(EMPTY_QUERY);
+      } else if (searchState.query) {
+        backLoc.current =
+          backLoc.current ||
+          (isSearchLocation(location) ? undefined : location);
+        searching.current = true;
+        push(searchStateToUrl(searchState));
+      } else if (isSearchLocation(location)) {
+        if (backLoc.current) {
+          push(backLoc.current);
+        } else {
+          push('/');
         }
-      }, DEBOUNCE_TIME);
-      return () => {
-        clearTimeout(setUrlTO);
-      };
-    },
-    [searchState, location.pathname, location.hash, location.search]
-  );
+        backLoc.current = undefined;
+      }
+    }, DEBOUNCE_TIME);
+    return () => {
+      clearTimeout(setUrlTO);
+    };
+  }, [searchState, location.pathname, location.hash, location.search]);
   const handleSetSearchState = React.useCallback(newSearchState => {
     if ('query' in newSearchState) {
       setSearchState(newSearchState);

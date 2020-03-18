@@ -1,11 +1,8 @@
 import { i18nMark } from '@lingui/react';
-import {
-  ActivityPreviewCreateReplyMutationOperation,
-  ActivityPreviewCreateThreadMutationOperation
-} from 'HOC/modules/ActivityPreview/getActivityPreview.generated';
+import { ReplyMutationOperation } from 'fe/comment/reply/useReplyComment.generated';
+import { CreateThreadMutationOperation } from 'fe/mutation/createThread/useCreateThread.generated';
 import { CreateCollectionMutationMutationOperation } from '../graphql/createCollection.generated';
 import { CreateCommunityMutationMutationOperation } from '../graphql/createCommunity.generated';
-import { CreateReplyMutationMutationOperation } from '../graphql/createReply.generated';
 import { CreateUserMutationMutationOperation } from '../graphql/createUser.generated';
 import { LikeMutationMutationOperation } from '../graphql/like.generated';
 import { LoginMutationMutationOperation } from '../graphql/login.generated';
@@ -79,22 +76,8 @@ export const integrateToastNotifications = (
     }
   );
 
-  dynamicLinkSrv.addLinkOpResult<ActivityPreviewCreateReplyMutationOperation>(
-    'activityPreviewCreateReply',
-    resp => {
-      showMessage(
-        resp.errors
-          ? {
-              content: i18nMark(`Could not reply`),
-              options: { type: 'error' }
-            }
-          : { content: i18nMark(`Reply sent!`) }
-      );
-    }
-  );
-
-  dynamicLinkSrv.addLinkOpResult<ActivityPreviewCreateThreadMutationOperation>(
-    'activityPreviewCreateThread',
+  dynamicLinkSrv.addLinkOpResult<CreateThreadMutationOperation>(
+    'createThread',
     resp => {
       showMessage(
         resp.errors
@@ -107,19 +90,16 @@ export const integrateToastNotifications = (
     }
   );
 
-  dynamicLinkSrv.addLinkOpResult<CreateReplyMutationMutationOperation>(
-    'createReplyMutation',
-    resp => {
-      showMessage(
-        resp.errors
-          ? {
-              content: i18nMark(`Could not perform reply`),
-              options: { type: 'error' }
-            }
-          : { content: i18nMark(`Reply sent!`) }
-      );
-    }
-  );
+  dynamicLinkSrv.addLinkOpResult<ReplyMutationOperation>('reply', resp => {
+    showMessage(
+      resp.errors
+        ? {
+            content: i18nMark(`Could not perform reply`),
+            options: { type: 'error' }
+          }
+        : { content: i18nMark(`Reply sent!`) }
+    );
+  });
 
   dynamicLinkSrv.addLinkOpResult<CreateCommunityMutationMutationOperation>(
     'createCommunityMutation',

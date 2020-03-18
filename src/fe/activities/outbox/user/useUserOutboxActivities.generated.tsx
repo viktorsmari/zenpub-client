@@ -1,10 +1,10 @@
 import * as Types from '../../../../graphql/types.generated';
 
-import { ActivityPreviewDataFragment } from '../../../../HOC/modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewFragment } from '../../../../HOC/modules/previews/activity/ActivityPreview.generated';
 import { UserPageActivitiesFragment } from '../../../../HOC/pages/user/UserPage.generated';
 import gql from 'graphql-tag';
 import { UserPageActivitiesFragmentDoc } from '../../../../HOC/pages/user/UserPage.generated';
-import { ActivityPreviewDataFragmentDoc } from '../../../../HOC/modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewFragmentDoc } from '../../../../HOC/modules/previews/activity/ActivityPreview.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -44,16 +44,16 @@ export type UserOutboxActivitiesQuery = (
 export type UserOutboxActivityFragment = (
   { __typename: 'Activity' }
   & UserPageActivitiesFragment
-  & ActivityPreviewDataFragment
+  & ActivityPreviewFragment
 );
 
 export const UserOutboxActivityFragmentDoc = gql`
     fragment UserOutboxActivity on Activity {
   ...UserPageActivities
-  ...ActivityPreviewData
+  ...ActivityPreview
 }
     ${UserPageActivitiesFragmentDoc}
-${ActivityPreviewDataFragmentDoc}`;
+${ActivityPreviewFragmentDoc}`;
 export const UserOutboxActivitiesDocument = gql`
     query userOutboxActivities($userId: String!, $after: String, $before: String, $limit: Int) {
   user(userId: $userId) {

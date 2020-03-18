@@ -16,17 +16,8 @@ import styled from 'ui/themes/styled';
 import { FormikHook } from 'ui/@types/types';
 import Modal from 'ui/modules/Modal';
 
-// interface Collection {
-//   id: any;
-// }
-// type CollectionBox = React.ComponentType<{ collection: Collection }>;
-
-// interface Activity {
-//   id: any;
-// }
-// type ActivityBox = React.ComponentType<{ activity: Activity }>;
-
 export interface Props {
+  isJoined: boolean;
   ActivitiesBox: JSX.Element;
   CollectionsBox: JSX.Element;
   HeroCommunityBox: JSX.Element;
@@ -42,6 +33,7 @@ export const Community: React.FC<Props> = ({
   CollectionsBox,
   basePath,
   newThreadFormik,
+  isJoined,
   ThreadsBox,
   CreateCollectionPanel
 }) => {
@@ -59,22 +51,26 @@ export const Community: React.FC<Props> = ({
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            {HeroCommunityBox}
-            <Menu basePath={basePath} />
+            <Box sx={{ background: 'white' }}>
+              {HeroCommunityBox}
+              <Menu basePath={basePath} />
+            </Box>
             <Switch>
               <Route exact path={`${basePath}`}>
-                {ActivitiesBox}
+                <Box mt={2}>{ActivitiesBox}</Box>
               </Route>
               <Route path={`${basePath}/collections`}>
                 <>
-                  <WrapButton mt={3} px={3} pb={3} mb={2}>
-                    <Button
-                      variant="outline"
-                      onClick={() => setOpenCreateCollection(true)}
-                    >
-                      <Trans>Create a new collection</Trans>
-                    </Button>
-                  </WrapButton>
+                  {isJoined && (
+                    <WrapButton p={2} mb={2}>
+                      <Button
+                        variant="outline"
+                        onClick={() => setOpenCreateCollection(true)}
+                      >
+                        <Trans>Create a new collection</Trans>
+                      </Button>
+                    </WrapButton>
+                  )}
                   {CollectionsBox}
                 </>
               </Route>
@@ -149,7 +145,7 @@ export const Community: React.FC<Props> = ({
 const Menu = ({ basePath }: { basePath: string }) => (
   <MenuWrapper p={3} pt={0}>
     <NavLink exact to={`${basePath}`}>
-      Recent activities
+      Recent activity
     </NavLink>
     <NavLink to={`${basePath}/collections`}>Collections</NavLink>
     <NavLink to={`${basePath}/discussions`}>Discussions</NavLink>
@@ -157,6 +153,7 @@ const Menu = ({ basePath }: { basePath: string }) => (
 );
 
 const WrapButton = styled(Flex)`
+  background: white;
   button {
     width: 100%;
     height: 50px;
@@ -223,11 +220,10 @@ export const WrapperCont = styled(Flex)`
   flex-shrink: 0;
   margin: 0px;
   min-height: 0px;
+  background: white;
   min-width: 0px;
   padding: 0px;
   position: relative;
-  background: white;
-  border-radius: 4px;
   z-index: 0;
 `;
 

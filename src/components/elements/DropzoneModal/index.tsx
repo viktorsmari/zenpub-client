@@ -3,9 +3,10 @@ import { useDropzone } from 'react-dropzone';
 // import { Trans } from '@lingui/macro';
 import styled from '../../../themes/styled';
 // import { UploadCloud } from 'react-feather';
-import { accepted_file_types } from '../../../constants';
+import { accepted_file_types } from '../../../mn-constants';
 import { Box, Flex } from 'rebass/styled-components';
 import { Image, FileText } from 'react-feather';
+import { FormikHook } from 'ui/@types/types';
 
 // const ThumbsContainer = styled.aside`
 //   display: flex;
@@ -38,7 +39,7 @@ const Thumb = styled.div`
   width: 100%;
   box-sizing: border-box;
   position: relative;
-
+  height: 120px;
   &:after {
     position: absolute;
     content: '';
@@ -63,8 +64,7 @@ const Thumb = styled.div`
 const Img = styled(Box)`
     display: block;
     border-radius: 4px;
-    height: 100%;
-    padding: 50%;
+    height: inherit;
     background-size: cover;
 }
 `;
@@ -72,7 +72,7 @@ const Img = styled(Box)`
 interface Props {
   initialUrl: any;
   uploadType?: string;
-  formikForm?: any;
+  formikForm?: FormikHook;
   touchedField?: string;
 }
 
@@ -89,30 +89,26 @@ const DropzoneArea: React.FC<Props> = ({
   const acceptedTypes =
     uploadType != 'resource' ? 'image/*' : accepted_file_types;
 
-  useEffect(
-    () => {
-      return () => {
-        files.forEach(file => URL.revokeObjectURL(file.preview));
-      };
-    },
-    [files]
-  );
+  useEffect(() => {
+    return () => {
+      files.forEach(file => URL.revokeObjectURL(file.preview));
+    };
+  }, [files]);
 
-  useEffect(
-    () => {
-      return () => {
-        files.forEach(file => URL.revokeObjectURL(file.preview));
-      };
-    },
-    [files]
-  );
+  useEffect(() => {
+    return () => {
+      files.forEach(file => URL.revokeObjectURL(file.preview));
+    };
+  }, [files]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: acceptedTypes,
     onDrop: acceptedFiles => {
       const uploadField = touchedField ? touchedField : 'files';
-      formikForm.setFieldValue(uploadField, acceptedFiles);
-      formikForm.setFieldTouched(uploadField, true);
+      if (formikForm) {
+        formikForm.setFieldValue(uploadField, acceptedFiles);
+        formikForm.setFieldTouched(uploadField, true);
+      }
       setFiles(acceptedFiles);
       acceptedFiles.map(file => onFile(URL.createObjectURL(file)));
     }
@@ -120,7 +116,10 @@ const DropzoneArea: React.FC<Props> = ({
 
   return (
     <>
-      <div {...getRootProps({ className: 'dropzone' })}>
+      <Box
+        sx={{ height: 'inherit' }}
+        {...getRootProps({ className: 'dropzone' })}
+      >
         <InfoContainer className={isDragActive ? 'active' : 'none'}>
           {uploadType != 'resource' ? (
             <>
@@ -137,10 +136,28 @@ const DropzoneArea: React.FC<Props> = ({
             </>
           ) : null}
           {uploadType == 'resource' ? (
-            <WrapperFile>
-              <FileText size={20} />
-              {files.length != 0 ? <FileName>{files[0].name}</FileName> : null}
-            </WrapperFile>
+            files.length == 0 || files[0].type.indexOf('image') == -1 ? (
+              <WrapperFile>
+                <FileText size={20} />
+                {files.length != 0 ? (
+                  <FileName>{files[0].name}</FileName>
+                ) : null}
+              </WrapperFile>
+            ) : (
+              <WrapperFile>
+                <Thumb key={fileUrl}>
+                  <WrapperIcon>
+                    <Image
+                      size={30}
+                      strokeWidth={1}
+                      color={'rgba(250,250,250, .5)'}
+                    />
+                  </WrapperIcon>
+                  <Img style={{ backgroundImage: `url(${fileUrl})` }} />
+                </Thumb>
+                <FileName>{files[0].name}</FileName>
+              </WrapperFile>
+            )
           ) : null}
 
           <input {...getInputProps()} />
@@ -156,7 +173,7 @@ const DropzoneArea: React.FC<Props> = ({
             </Info>
           )} */}
         </InfoContainer>
-      </div>
+      </Box>
     </>
   );
 };
@@ -169,6 +186,7 @@ const InfoContainer = styled.div`
   text-align: center;
   cursor: pointer;
   box-sizing: border-box;
+  height: inherit;
   margin: 0px;
   &.active {
     border: 1px dashed ${props => props.theme.colors.orange};
@@ -178,8 +196,9 @@ const InfoContainer = styled.div`
 
 const FileName = styled.p`
   margin-bottom: 0px;
+  margin-top: 5px;
   font-weight: bold;
-  text-align: right;
+  text-align: center;
   font-style: italic;
 `;
 

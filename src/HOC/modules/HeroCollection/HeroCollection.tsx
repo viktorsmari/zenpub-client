@@ -4,15 +4,15 @@ import { useFormik } from 'formik';
 import { Collection } from 'graphql/types.generated';
 import { EditCollectionPanelHOC } from 'HOC/modules/EditCollectionPanel/editCollectionPanelHOC';
 import { FlagModalHOC } from 'HOC/modules/FlagModal/flagModalHOC';
-import React, { SFC, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import HeroCollectionUI, { Props, Status } from 'ui/modules/HeroCollection';
-import { FeatureModalHOC } from '../FeatureModal/FeatureModal';
+import { FeatureModalHOC } from 'HOC/modules/FeatureModal/FeatureModal';
 
 export interface HeroCollection {
   collectionId: Collection['id'];
 }
 
-export const HeroCollection: SFC<HeroCollection> = ({ collectionId }) => {
+export const HeroCollection: FC<HeroCollection> = ({ collectionId }) => {
   const { collection, canModify, toggleJoin } = useCollection(collectionId);
   const { isAdmin } = useMe();
   const toggleJoinFormik = useFormik<{}>({
@@ -34,7 +34,8 @@ export const HeroCollection: SFC<HeroCollection> = ({ collectionId }) => {
         status: Status.Loaded,
         canModify,
         following: !!collection.myFollow,
-        flagged: !!collection.myFlag,
+        isFlagged: !!collection.myFlag,
+        followerCount: collection.followerCount || 0,
         icon: collection.icon || '',
         name: collection.name,
         fullName: collection.displayUsername,
@@ -48,15 +49,9 @@ export const HeroCollection: SFC<HeroCollection> = ({ collectionId }) => {
         EditCollectionPanel: ({ done }) => (
           <EditCollectionPanelHOC done={done} collectionId={collection.id} />
         ),
-        FlagModal: ({ done }) => (
-          <FlagModalHOC
-            done={done}
-            contextId={collectionId}
-            flagged={!!collection.myFlag}
-          />
-        ),
+        FlagModal: ({ done }) => <FlagModalHOC done={done} ctx={collection} />,
         FeaturedModal: ({ done }: { done(): unknown }) => (
-          <FeatureModalHOC done={done} ctx={collection} isFeatured={false} />
+          <FeatureModalHOC done={done} ctx={collection} featureId={null} />
         )
       }
     };

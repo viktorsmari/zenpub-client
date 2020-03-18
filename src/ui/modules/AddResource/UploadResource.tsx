@@ -26,10 +26,11 @@ const LicenseIcon2 = require('./by-sa.png');
 const tt = {
   placeholders: {
     // url: i18nMark('Enter the URL of the resource'),
-    name: i18nMark('A name or title for the resource'),
+    name: i18nMark('A title for the resource'),
     summary: i18nMark(
       'Please type or copy/paste a summary about the resource...'
     ),
+    author: i18nMark('A name for the resource author'),
     submit: i18nMark('Uploading the resource')
     // image: i18nMark('Enter the URL of an image to represent the resource')
   }
@@ -44,15 +45,18 @@ export interface ResourceFormValues {
   url: string;
   name: string;
   summary: string;
+  author: string;
   icon: string;
   license: string;
   acceptedLicenses?: string[];
-  resourceFiles?: [];
-  imageFiles?: [];
+  resourceFiles?: File[];
+  imageFiles?: File[];
 }
 
 export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
   const { i18n } = React.useContext(LocaleContext);
+  // console.log(formik.values.resourceFiles);
+  // {formik.values.resourceFiles![0] !== undefined ? console.log('re %',formik.values.resourceFiles![0].type) : null}
   return (
     <div>
       <Row>
@@ -70,7 +74,7 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
       </Row>
       <Row>
         <label>
-          <Trans>Name</Trans>
+          <Trans>Title</Trans>
         </label>
         <ContainerForm>
           <>
@@ -85,6 +89,27 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
           {formik.errors.name && (
             <AlertWrapper>
               <Alert variant="bad">{formik.errors.name}</Alert>
+            </AlertWrapper>
+          )}
+        </ContainerForm>
+      </Row>
+      <Row>
+        <label>
+          <Trans>Author</Trans>
+        </label>
+        <ContainerForm>
+          <>
+            <FormInput
+              placeholder={i18n._(tt.placeholders.author)}
+              name="author"
+              value={formik.values.author}
+              onChange={formik.handleChange}
+            />
+            <CounterChars>{90 - formik.values.author.length}</CounterChars>
+          </>
+          {formik.errors.author && (
+            <AlertWrapper>
+              <Alert variant="bad">{formik.errors.author}</Alert>
             </AlertWrapper>
           )}
         </ContainerForm>
@@ -105,20 +130,26 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
           </>
         </ContainerForm>
       </Row>
-      <Row>
-        <label>
-          <Trans>Image</Trans>
-        </label>
-        <ContainerForm>
-          <Box sx={{ width: '120px' }}>
-            <DropzoneArea
-              initialUrl={formik.values.icon}
-              formikForm={formik}
-              touchedField="imageFiles"
-            />
-          </Box>
-        </ContainerForm>
-      </Row>
+      {(formik.values.resourceFiles &&
+        formik.values.resourceFiles.length == 0) ||
+      (formik.values.resourceFiles &&
+        formik.values.resourceFiles.length > 0 &&
+        formik.values.resourceFiles[0].type.indexOf('image') == -1) ? (
+        <Row>
+          <label>
+            <Trans>Image</Trans>
+          </label>
+          <ContainerForm>
+            <Box sx={{ width: '120px', height: '120px' }}>
+              <DropzoneArea
+                initialUrl={formik.values.icon}
+                formikForm={formik}
+                touchedField="imageFiles"
+              />
+            </Box>
+          </ContainerForm>
+        </Row>
+      ) : null}
       <Row>
         <LabelWrapper>
           <label>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SFC } from 'react';
+import { FC } from 'react';
 import { Trans } from '@lingui/macro';
 import { Tabs, TabPanel } from 'react-tabs';
 import styled from '../../themes/styled';
@@ -30,7 +30,7 @@ interface Props {
   addNewResource: any;
 }
 
-const CommunityPage: SFC<Props> = ({
+const CommunityPage: FC<Props> = ({
   collection,
   community_name,
   resources
@@ -57,16 +57,15 @@ const CommunityPage: SFC<Props> = ({
               }}
             >
               <Wrapper>
-                {collection.community &&
-                  !collection.community.myFollow && (
-                    <Footer>
-                      <Trans>Join the community</Trans>{' '}
-                      <Link to={'/communities/' + collection.community.id}>
-                        {community_name}
-                      </Link>{' '}
-                      <Trans>to add a resource</Trans>
-                    </Footer>
-                  )}
+                {collection.community && !collection.community.myFollow && (
+                  <Footer>
+                    <Trans>Join the community</Trans>{' '}
+                    <Link to={'/communities/' + collection.community.id}>
+                      {community_name}
+                    </Link>{' '}
+                    <Trans>to add a resource</Trans>
+                  </Footer>
+                )}
                 <CollectionList>
                   {collection.community && collection.community.myFollow ? (
                     isOpen ? (

@@ -21,7 +21,7 @@ interface Props {
   isOpenCommunity: boolean;
 }
 
-export const CommunitiesYours: React.SFC<Props> = () => {
+export const CommunitiesYours: React.FC<Props> = () => {
   const queryResult = useGetFollowedCommunitiesQueryQuery({
     variables: {
       limit: 15

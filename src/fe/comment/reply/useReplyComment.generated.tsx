@@ -1,8 +1,8 @@
 import * as Types from '../../../graphql/types.generated';
 
-import { ActivityPreviewCommentCtxBaseFragment } from '../../../HOC/modules/ActivityPreview/getActivityPreview.generated';
+import { CommentPreviewFragment } from '../../../HOC/modules/previews/comment/CommentPreview.generated';
 import gql from 'graphql-tag';
-import { ActivityPreviewCommentCtxBaseFragmentDoc } from '../../../HOC/modules/ActivityPreview/getActivityPreview.generated';
+import { CommentPreviewFragmentDoc } from '../../../HOC/modules/previews/comment/CommentPreview.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as React from 'react';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -22,7 +22,7 @@ export type ReplyMutation = (
   { __typename: 'RootMutationType' }
   & { createReply: Types.Maybe<(
     { __typename: 'Comment' }
-    & ActivityPreviewCommentCtxBaseFragment
+    & CommentPreviewFragment
   )> }
 );
 
@@ -30,10 +30,10 @@ export type ReplyMutation = (
 export const ReplyDocument = gql`
     mutation reply($comment: CommentInput!, $inReplyToCommentId: String!, $threadId: String!) {
   createReply(comment: $comment, inReplyToId: $inReplyToCommentId, threadId: $threadId) {
-    ...ActivityPreviewCommentCtxBase
+    ...CommentPreview
   }
 }
-    ${ActivityPreviewCommentCtxBaseFragmentDoc}`;
+    ${CommentPreviewFragmentDoc}`;
 export type ReplyMutationFn = ApolloReactCommon.MutationFunction<ReplyMutation, ReplyMutationVariables>;
 export type ReplyComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<ReplyMutation, ReplyMutationVariables>, 'mutation'>;
 

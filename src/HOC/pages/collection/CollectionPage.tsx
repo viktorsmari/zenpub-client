@@ -1,16 +1,17 @@
 import ShareLinkModal from 'components/elements/CollectionModal';
+import { useCollectionOutboxActivities } from 'fe/activities/outbox/collection/useCollectionOutboxActivities';
+import { useCollectionResources } from 'fe/resource/collection/useCollectionResources';
 import { Collection } from 'graphql/types.generated';
-import { ActivityPreviewHOC } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
+import { ActivityPreviewHOC } from 'HOC/modules/previews/activity/ActivityPreview';
 import UploadResourcePanelHOC from 'HOC/modules/AddResource/UploadResourceHOC';
 import { EditCollectionPanelHOC } from 'HOC/modules/EditCollectionPanel/editCollectionPanelHOC';
 import { HeroCollection } from 'HOC/modules/HeroCollection/HeroCollection';
+import { ResourcePreviewHOC } from 'HOC/modules/previews/resource/ResourcePreview';
 import React, { FC, useMemo } from 'react';
 import CollectionPageUI, {
   Props as CollectionPageProps
 } from 'ui/pages/collection';
-import { ResourceActivityMock } from './ResourceActivityMock';
-import { useCollectionOutboxActivities } from 'fe/activities/outbox/collection/useCollectionOutboxActivities';
-import { useCollectionResources } from 'fe/resource/collection/useCollectionResources';
+import { Box } from 'rebass';
 
 export enum CollectionPageTab {
   Activities,
@@ -25,7 +26,6 @@ export interface CollectionPage {
 export const CollectionPage: FC<CollectionPage> = props => {
   const { activities } = useCollectionOutboxActivities(props.collectionId);
   const { resources } = useCollectionResources(props.collectionId);
-
   const collectionPageProps = useMemo<CollectionPageProps | null>(() => {
     const {
       collectionId,
@@ -46,7 +46,9 @@ export const CollectionPage: FC<CollectionPage> = props => {
     const ResourcesBox = (
       <>
         {resources.map(resource => (
-          <ResourceActivityMock resource={resource} key={resource.id} />
+          <Box mx={2} my={1}>
+            <ResourcePreviewHOC resourceId={resource.id} key={resource.id} />
+          </Box>
         ))}
       </>
     );
@@ -82,6 +84,6 @@ export const CollectionPage: FC<CollectionPage> = props => {
       basePath
     };
     return uiProps;
-  }, [props]);
+  }, [props, activities, resources]);
   return collectionPageProps && <CollectionPageUI {...collectionPageProps} />;
 };

@@ -1,13 +1,12 @@
+import { useCreateCollection } from 'fe/collection/create/useCreateCollection';
 import { useFormik } from 'formik';
-import React, { createContext, SFC, useContext } from 'react';
-import { useHistory } from 'react-router';
+import React, { FC } from 'react';
 import {
   BasicCreateCollectionFormValues,
   CreateCollectionPanel
 } from 'ui/modules/CreateCollectionPanel';
 import * as Yup from 'yup';
-import * as GQL from './createCollectionPanel.generated';
-import { CommunityCollectionsDocument } from 'fe/collection/community/useCommunityCollections.generated';
+import { useHistory } from 'react-router-dom';
 
 export const validationSchema: Yup.ObjectSchema<BasicCreateCollectionFormValues> = Yup.object<
   BasicCreateCollectionFormValues
@@ -17,91 +16,45 @@ export const validationSchema: Yup.ObjectSchema<BasicCreateCollectionFormValues>
     .max(60)
     .required(),
   summary: Yup.string().max(500),
-  icon: Yup.string().url()
+  icon: Yup.string().url(),
+  files: Yup.array()
 });
-export interface CreateCollectionPanelCtx {
-  useCreateCollectionPanelCreateMutation: typeof GQL.useCreateCollectionPanelCreateMutation;
-  useCreateCollectionPanelUploadIconMutation: typeof GQL.useCreateCollectionPanelUploadIconMutation;
-}
-export const CreateCollectionPanelCtx = createContext<CreateCollectionPanelCtx>(
-  {
-    useCreateCollectionPanelCreateMutation:
-      GQL.useCreateCollectionPanelCreateMutation,
-    useCreateCollectionPanelUploadIconMutation:
-      GQL.useCreateCollectionPanelUploadIconMutation
-  }
-);
-
-export const initialValues: BasicCreateCollectionFormValues = {
-  name: '',
-  summary: '',
-  icon: '',
-  files: []
-};
 export interface Props {
   communityId: string;
   done(): any;
 }
-export const CreateCollectionPanelHOC: SFC<Props> = ({
+export const CreateCollectionPanelHOC: FC<Props> = ({
   communityId,
   done
 }: Props) => {
-  const {
-    useCreateCollectionPanelCreateMutation,
-    useCreateCollectionPanelUploadIconMutation
-  } = useContext(CreateCollectionPanelCtx);
-
-  const [create /* , result */] = useCreateCollectionPanelCreateMutation();
-  const [uploadIcon] = useCreateCollectionPanelUploadIconMutation();
   const history = useHistory();
+  const { create } = useCreateCollection(communityId);
+
   const formik = useFormik<BasicCreateCollectionFormValues>({
-    initialValues,
+    initialValues: {
+      name: '',
+      summary: '',
+      icon: '',
+      files: []
+    },
     enableReinitialize: true,
     onSubmit: vals => {
-      const fileToUpload = vals!.files!.map(file => {
-        return file;
-      })[0];
+      const fileToUpload = vals.files?.shift();
 
-      return create({
-        variables: {
-          communityId: communityId,
-          collection: {
-            preferredUsername: vals.name.split(' ').join('_'),
-            name: vals.name,
-            summary: vals.summary
-          }
+      return create(
+        {
+          preferredUsername: vals.name.split(' ').join('_'),
+          name: vals.name,
+          summary: vals.summary,
+          icon: vals.icon
         },
-        refetchQueries: fileToUpload
-          ? []
-          : [
-              {
-                query: CommunityCollectionsDocument,
-                variables: { communityId }
-              }
-            ]
-      })
-        .then(res => {
-          const createdCollectionId = res.data!.createCollection!.id;
-          if (fileToUpload) {
-            uploadIcon({
-              variables: {
-                contextId: createdCollectionId,
-                upload: fileToUpload
-              },
-              refetchQueries: [
-                {
-                  query: CommunityCollectionsDocument,
-                  variables: { communityId }
-                }
-              ]
-            }).then(() => createdCollectionId);
-          }
-          return createdCollectionId;
-        })
-        .then(createdCollectionId => {
-          history.push(`/collections/${createdCollectionId}`);
-        })
-        .then(done)
+        fileToUpload
+      )
+        .then(
+          createdCollectionId =>
+            createdCollectionId &&
+            history.push(`/collections/${createdCollectionId}`)
+        )
         .catch(err => console.log(err));
     },
     validationSchema

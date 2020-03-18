@@ -8,13 +8,13 @@ import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
-export type UploadIconMutationVariables = {
+export type UploadIconMutMutationVariables = {
   contextId: Types.Scalars['ID'],
   upload: Types.Scalars['Upload']
 };
 
 
-export type UploadIconMutation = (
+export type UploadIconMutMutation = (
   { __typename: 'RootMutationType' }
   & { uploadIcon: Types.Maybe<(
     { __typename: 'FileUpload' }
@@ -27,8 +27,8 @@ export type UploadIconMutation = (
 );
 
 
-export const UploadIconDocument = gql`
-    mutation uploadIcon($contextId: ID!, $upload: Upload!) {
+export const UploadIconMutDocument = gql`
+    mutation uploadIconMut($contextId: ID!, $upload: Upload!) {
   uploadIcon(contextId: $contextId, upload: $upload) {
     id
     metadata {
@@ -39,54 +39,54 @@ export const UploadIconDocument = gql`
   }
 }
     `;
-export type UploadIconMutationFn = ApolloReactCommon.MutationFunction<UploadIconMutation, UploadIconMutationVariables>;
-export type UploadIconComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UploadIconMutation, UploadIconMutationVariables>, 'mutation'>;
+export type UploadIconMutMutationFn = ApolloReactCommon.MutationFunction<UploadIconMutMutation, UploadIconMutMutationVariables>;
+export type UploadIconMutComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UploadIconMutMutation, UploadIconMutMutationVariables>, 'mutation'>;
 
-    export const UploadIconComponent = (props: UploadIconComponentProps) => (
-      <ApolloReactComponents.Mutation<UploadIconMutation, UploadIconMutationVariables> mutation={UploadIconDocument} {...props} />
+    export const UploadIconMutComponent = (props: UploadIconMutComponentProps) => (
+      <ApolloReactComponents.Mutation<UploadIconMutMutation, UploadIconMutMutationVariables> mutation={UploadIconMutDocument} {...props} />
     );
     
-export type UploadIconProps<TChildProps = {}> = ApolloReactHoc.MutateProps<UploadIconMutation, UploadIconMutationVariables> & TChildProps;
-export function withUploadIcon<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+export type UploadIconMutProps<TChildProps = {}> = ApolloReactHoc.MutateProps<UploadIconMutMutation, UploadIconMutMutationVariables> & TChildProps;
+export function withUploadIconMut<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  UploadIconMutation,
-  UploadIconMutationVariables,
-  UploadIconProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, UploadIconMutation, UploadIconMutationVariables, UploadIconProps<TChildProps>>(UploadIconDocument, {
-      alias: 'uploadIcon',
+  UploadIconMutMutation,
+  UploadIconMutMutationVariables,
+  UploadIconMutProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, UploadIconMutMutation, UploadIconMutMutationVariables, UploadIconMutProps<TChildProps>>(UploadIconMutDocument, {
+      alias: 'uploadIconMut',
       ...operationOptions
     });
 };
 
 /**
- * __useUploadIconMutation__
+ * __useUploadIconMutMutation__
  *
- * To run a mutation, you first call `useUploadIconMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUploadIconMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUploadIconMutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUploadIconMutMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [uploadIconMutation, { data, loading, error }] = useUploadIconMutation({
+ * const [uploadIconMutMutation, { data, loading, error }] = useUploadIconMutMutation({
  *   variables: {
  *      contextId: // value for 'contextId'
  *      upload: // value for 'upload'
  *   },
  * });
  */
-export function useUploadIconMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UploadIconMutation, UploadIconMutationVariables>) {
-        return ApolloReactHooks.useMutation<UploadIconMutation, UploadIconMutationVariables>(UploadIconDocument, baseOptions);
+export function useUploadIconMutMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UploadIconMutMutation, UploadIconMutMutationVariables>) {
+        return ApolloReactHooks.useMutation<UploadIconMutMutation, UploadIconMutMutationVariables>(UploadIconMutDocument, baseOptions);
       }
-export type UploadIconMutationHookResult = ReturnType<typeof useUploadIconMutation>;
-export type UploadIconMutationResult = ApolloReactCommon.MutationResult<UploadIconMutation>;
-export type UploadIconMutationOptions = ApolloReactCommon.BaseMutationOptions<UploadIconMutation, UploadIconMutationVariables>;
+export type UploadIconMutMutationHookResult = ReturnType<typeof useUploadIconMutMutation>;
+export type UploadIconMutMutationResult = ApolloReactCommon.MutationResult<UploadIconMutMutation>;
+export type UploadIconMutMutationOptions = ApolloReactCommon.BaseMutationOptions<UploadIconMutMutation, UploadIconMutMutationVariables>;
 
 
-export interface UploadIconMutationOperation {
-  operationName: 'uploadIcon'
-  result: UploadIconMutation
-  variables: UploadIconMutationVariables
+export interface UploadIconMutMutationOperation {
+  operationName: 'uploadIconMut'
+  result: UploadIconMutMutation
+  variables: UploadIconMutMutationVariables
   type: 'mutation'
 }

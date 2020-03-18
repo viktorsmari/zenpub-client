@@ -1,15 +1,14 @@
 import OutsideClickHandler from 'react-outside-click-handler';
-import React, { SFC } from 'react';
+import React, { FC } from 'react';
 import { Box, Flex } from 'rebass/styled-components';
 import styled from 'ui/themes/styled';
-import { darken } from 'polished';
 // import {  Flag, Upload, Copy } from 'react-feather';
 
 interface Props {
   cb(open: boolean): unknown;
   orientation: string;
 }
-export const Dropdown: SFC<Props> = ({ orientation, cb, children }) => (
+export const Dropdown: FC<Props> = ({ orientation, cb, children }) => (
   <OutsideClickHandler onOutsideClick={() => cb(false)}>
     <Wrapper orientation={orientation}>{children}</Wrapper>
   </OutsideClickHandler>
@@ -18,7 +17,7 @@ export const Dropdown: SFC<Props> = ({ orientation, cb, children }) => (
 const Wrapper = styled(Box)<{ orientation: string }>`
   text-align: left;
   background: white;
-  min-width: 160px;
+  min-width: 200px;
   display: block;
   border-radius: 6px;
   box-shadow: rgba(101, 119, 134, 0.2) 0px 0px 15px,
@@ -48,14 +47,5 @@ export const DropdownItem = styled(Flex)`
       color: ${props => props.theme.colors.darkgray} !important;
     }
     background: ${props => props.theme.colors.lighter} !important;
-  }
-`;
-
-export const AdminDropdownItem = styled(DropdownItem)`
-  color: ${props => darken('0.1', props.theme.colors.primary)};
-  &:hover {
-    div {
-      color: ${props => darken('0.1', props.theme.colors.primary)} !important;
-    }
   }
 `;

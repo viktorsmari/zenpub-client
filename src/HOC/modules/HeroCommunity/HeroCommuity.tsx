@@ -2,20 +2,20 @@ import { useCommunity } from 'fe/community/useCommunity';
 import { useMe } from 'fe/session/me';
 import { useFormik } from 'formik';
 import { Community } from 'graphql/types.generated';
-import React, { SFC, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import HeroCommunityUI, {
   Props as HeroProps,
   Status
 } from 'ui/modules/HeroCommunity';
-import { EditCommunityPanelHOC } from '../EditCommunityPanel/editCommunityPanelHOC';
-import { FeatureModalHOC } from '../FeatureModal/FeatureModal';
-import { FlagModalHOC } from '../FlagModal/flagModalHOC';
+import { EditCommunityPanelHOC } from 'HOC/modules/EditCommunityPanel/editCommunityPanelHOC';
+import { FeatureModalHOC } from 'HOC/modules/FeatureModal/FeatureModal';
+import { FlagModalHOC } from 'HOC/modules/FlagModal/flagModalHOC';
 
 export interface HeroCommunity {
   communityId: Community['id'];
 }
 
-export const HeroCommunity: SFC<HeroCommunity> = ({ communityId }) => {
+export const HeroCommunity: FC<HeroCommunity> = ({ communityId }) => {
   const { isAdmin } = useMe();
   const { toggleJoin, community, canModify } = useCommunity(communityId);
 
@@ -40,7 +40,7 @@ export const HeroCommunity: SFC<HeroCommunity> = ({ communityId }) => {
         canModify,
         isAdmin,
         following: !!community.myFollow,
-        flagged: !!community.myFlag,
+        isFlagged: !!community.myFlag,
         icon: community.icon || '',
         name: community.name,
         fullName: community.displayUsername,
@@ -50,15 +50,9 @@ export const HeroCommunity: SFC<HeroCommunity> = ({ communityId }) => {
         EditCommunityPanel: ({ done }) => (
           <EditCommunityPanelHOC done={done} communityId={community.id} />
         ),
-        FlagModal: ({ done }) => (
-          <FlagModalHOC
-            done={done}
-            contextId={community.id}
-            flagged={!!community.myFlag}
-          />
-        ),
+        FlagModal: ({ done }) => <FlagModalHOC done={done} ctx={community} />,
         FeaturedModal: ({ done }: { done(): unknown }) => (
-          <FeatureModalHOC done={done} ctx={community} isFeatured={false} />
+          <FeatureModalHOC done={done} ctx={community} featureId={null} />
         )
       }
     };

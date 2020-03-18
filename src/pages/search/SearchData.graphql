@@ -7,13 +7,8 @@ query SearchHostIndexAndMyFollowings{
   }
 }
 
-mutation searchFollowLocal($contextId:String!){
-  createFollow(contextId:$contextId){
-    id
-  }
-}
-mutation searchFollowRemote($url:String!){
-  followRemoteActor(url:$url){
+mutation searchFollow($url:String!){
+  createFollowByUrl(url:$url){
     id
   }
 }

@@ -1,7 +1,7 @@
 import { useUser } from 'fe/user/useUser';
 import { useFormik } from 'formik';
 import { User } from 'graphql/types.generated';
-import React, { SFC, useMemo, useState } from 'react';
+import React, { useMemo, useState, FC } from 'react';
 import {
   HeroUser as HeroUserUI,
   Loaded,
@@ -9,11 +9,12 @@ import {
   Props,
   Status
 } from 'ui/modules/HeroUser';
+import { FlagModalHOC } from '../FlagModal/flagModalHOC';
 
 export interface HeroUser {
   userId: User['id'];
 }
-export const HeroUser: SFC<HeroUser> = ({ userId }) => {
+export const HeroUser: FC<HeroUser> = ({ userId }) => {
   const { user, isAdmin, isMe, toggleFollow } = useUser(userId);
   const [isOpenDropdown, setOpenDropdown] = useState(false);
   const toggleFollowFormik = useFormik({
@@ -34,7 +35,9 @@ export const HeroUser: SFC<HeroUser> = ({ userId }) => {
       image: user.image || '',
       location: user.location || '',
       name: user.name || '',
-      summary: user.summary || ''
+      summary: user.summary || '',
+      isFlagged: !!user.myFlag,
+      FlagModal: ({ done }) => <FlagModalHOC done={done} ctx={user} />
     };
 
     if (isMe) {

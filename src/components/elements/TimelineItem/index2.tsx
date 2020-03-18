@@ -2,7 +2,7 @@ import { Trans } from '@lingui/react';
 import { DateTime } from 'luxon';
 import { clearFix } from 'polished';
 import * as React from 'react';
-import { SFC } from 'react';
+import { FC } from 'react';
 // import { Star } from 'react-feather';
 import { NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass/styled-components';
@@ -70,7 +70,7 @@ interface CommunityProps {
   verb?: string;
 }
 
-const CollectionItem: SFC<CollectionProps> = ({
+const CollectionItem: FC<CollectionProps> = ({
   noAction,
   toggleLike,
   collection,
@@ -124,7 +124,7 @@ const CollectionItem: SFC<CollectionProps> = ({
     </MemberInfo>
   </Member>
 );
-const ResourceItem: SFC<ResourceProps> = ({
+const ResourceItem: FC<ResourceProps> = ({
   noAction,
   toggleLike,
   resource,
@@ -167,7 +167,7 @@ const ResourceItem: SFC<ResourceProps> = ({
       </MemberInfo>
     </Member>
   );
-const CommentItem: SFC<CommentProps> = ({
+const CommentItem: FC<CommentProps> = ({
   toggleLike,
   noAction,
   comment,
@@ -270,7 +270,7 @@ const CommentItem: SFC<CommentProps> = ({
     </Member>
   );
 };
-const CommunityItem: SFC<CommunityProps> = ({
+const CommunityItem: FC<CommunityProps> = ({
   verb,
   community,
   user,
@@ -310,7 +310,7 @@ const CommunityItem: SFC<CommunityProps> = ({
   </Member>
 );
 
-const Item: SFC<Props> = ({ user, context, verb, createdAt }) => {
+const Item: FC<Props> = ({ user, context, verb, createdAt }) => {
   const [like] = useLikeMutationMutation();
   const [undoLike] = useDeleteMutationMutation();
   const toggleLike = React.useCallback(

@@ -1,6 +1,7 @@
 import { Collection } from 'graphql/types.generated';
 import { useMemo } from 'react';
 import * as GQL from './useCollectionOutboxActivities.generated';
+import { manageEdges } from 'fe/lib/helpers/edges';
 
 export const useCollectionOutboxActivities = (
   collectionId: Collection['id']
@@ -10,15 +11,7 @@ export const useCollectionOutboxActivities = (
   });
 
   const activities = useMemo<GQL.CollectionOutboxActivityFragment[]>(
-    () =>
-      (collectionQ.data?.collection?.outbox?.edges || [])
-        .map(activityEdge => activityEdge && activityEdge.node)
-        .filter(
-          (
-            maybeActivity
-          ): maybeActivity is GQL.CollectionOutboxActivityFragment =>
-            !!maybeActivity
-        ),
+    () => manageEdges(collectionQ.data?.collection?.outbox).nodes,
     [collectionQ]
   );
 

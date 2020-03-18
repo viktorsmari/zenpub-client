@@ -1,5 +1,5 @@
 import { clearFix, darken } from 'polished';
-import React, { ComponentType, SFC } from 'react';
+import React, { ComponentType, FC } from 'react';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import Modal from 'ui/modules/Modal';
@@ -10,8 +10,8 @@ import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import Avatar from 'ui/elements/Avatar';
 import Button from 'ui/elements/Button';
-import { Dropdown, DropdownItem, AdminDropdownItem } from 'ui/modules/Dropdown';
-import { Settings, MoreVertical, Flag, Star } from 'react-feather';
+import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
+import { Settings, MoreVertical, Flag as FlagIcon, Star } from 'react-feather';
 import { FormikHook } from 'ui/@types/types';
 
 export enum Status {
@@ -35,7 +35,9 @@ export interface CollectionLoaded {
   communityName: string;
   communityIcon: string;
   toggleJoinFormik: FormikHook;
-  flagged: boolean;
+  isFlagged: boolean;
+  followerCount: number; //FIX ME add followerCount
+  // contributorCount?: number; //FIX ME add contributorCount
   following: boolean;
   EditCollectionPanel: ComponentType<{ done(): any }>;
   FlagModal: ComponentType<{ done(): any }>;
@@ -45,11 +47,13 @@ export interface Props {
   collection: CollectionLoaded | CollectionLoading;
 }
 
-export const HeroCollection: SFC<Props> = ({ collection: c }) => {
+export const HeroCollection: FC<Props> = ({ collection: c }) => {
   const [isOpenSettings, setOpenSettings] = React.useState(false);
   const [isOpenDropdown, setOpenDropdown] = React.useState(false);
   const [isOpenFlag, setOpenFlag] = React.useState(false);
   const [isOpenFeatured, setOpenFeatured] = React.useState(false);
+  // const [, /*isOpenContributors*/ setOpenContributors] = React.useState(false);
+  const [, /*isOpenFollowers*/ setOpenFollowers] = React.useState(false);
 
   return c.status === Status.Loading ? (
     <Text>Loading...</Text>
@@ -73,6 +77,20 @@ export const HeroCollection: SFC<Props> = ({ collection: c }) => {
           <Description fontSize={2} mt={2}>
             {c.summary}
           </Description>
+          <CountWrapper>
+            <CountTot onClick={() => setOpenFollowers(true)}>
+              <Text variant="suptitle">
+                <Total mr={2}>{c.followerCount}</Total>
+                <Trans>Followers</Trans>
+              </Text>
+            </CountTot>
+            {/* <CountTot onClick={() => setOpenContributors(true)}>
+              <Text variant="suptitle">
+                <Total mr={2}>{c.contributorCount}</Total>
+                <Trans>Contibutors</Trans>
+              </Text>
+            </CountTot> */}
+          </CountWrapper>
           <ActionsHero mt={3} alignItems={'center'}>
             <More mr={2}>
               <MoreVertical size={20} onClick={() => setOpenDropdown(true)} />
@@ -87,9 +105,13 @@ export const HeroCollection: SFC<Props> = ({ collection: c }) => {
                     </DropdownItem>
                   )}
                   <DropdownItem onClick={() => setOpenFlag(true)}>
-                    <Flag size={20} color={'rgb(101, 119, 134)'} />
+                    <FlagIcon size={20} color={'rgb(101, 119, 134)'} />
                     <Text sx={{ flex: 1 }} ml={2}>
-                      <Trans>Flag this collection</Trans>
+                      {!c.isFlagged ? (
+                        <Trans>Flag this collection</Trans>
+                      ) : (
+                        <Trans>Unflag this collection</Trans>
+                      )}
                     </Text>
                   </DropdownItem>
                   {c.isAdmin ? (
@@ -177,16 +199,19 @@ const More = styled(Box)`
   border: 1px solid ${props => props.theme.colors.lightgray};
   border-radius: 4px;
   svg {
+    margin: 0 auto;
     stroke: ${props => props.theme.colors.gray};
   }
-  & ${AdminDropdownItem} {
-    border-top: 1px dotted ${props => darken('0.1', props.theme.colors.primary)};
-
-    svg {
-      stroke: ${props => darken('0.1', props.theme.colors.primary)};
-    }
-  }
 `;
+
+const AdminDropdownItem = styled(DropdownItem)`
+    border-top: 1px solid ${props =>
+      darken('0.1', props.theme.colors.lightgray)};
+
+    // svg {
+    //   stroke: ${props => darken('0.1', props.theme.colors.primary)};
+    // }
+    `;
 
 // const SettingsButton = styled.div`
 //   margin-right: 16px;
@@ -302,4 +327,39 @@ const Background = styled.div`
   background-color: ${props => props.theme.colors.lightgray};
   position: relative;
   margin: 0 auto;
+`;
+
+const CountWrapper = styled(Flex)`
+  margin-top: 10px;
+  flex: 1;
+  > div {
+    display: flex;
+  }
+`;
+
+const CountTot = styled(Flex)`
+  margin-top: 0px;
+  cursor: pointer;
+  cursor: pointer;
+  margin-right: 20px;
+
+  ${clearFix()} & span {
+    margin-right: 4px;
+    float: left;
+    height: 32px;
+    line-height: 32px;
+    & svg {
+      vertical-align: middle;
+    }
+    .--rtl & {
+      float: right;
+      margin-right: 0px;
+      margin-left: 8px;
+    }
+  }
+`;
+
+const Total = styled(Text)`
+  display: inline-flex;
+  color: ${props => props.theme.colors.orange};
 `;
