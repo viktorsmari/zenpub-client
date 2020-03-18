@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Box, Text, Flex } from 'rebass/styled-components';
 import { Trans } from '@lingui/react';
 import { Row, ContainerForm } from 'ui/modules/Modal';
-import { Input, Textarea, Checkbox, Label } from '@rebass/forms';
-import DropzoneArea from '../../../components/elements/DropzoneModal';
+import { /*Input, Textarea,*/ Checkbox, Label } from '@rebass/forms';
+// import DropzoneArea from '../../../components/elements/DropzoneModal';
 import styled from 'ui/themes/styled';
 
 export const Instance = props => (
@@ -11,7 +11,7 @@ export const Instance = props => (
     <Text px={3} mt={2} variant="heading">
       <span style={{ marginRight: '8px' }}>🎨</span>Customize your instance
     </Text>
-    <Row>
+    {/* <Row>
       <ContainerForm>
         <label>
           <Trans>Name</Trans>
@@ -39,7 +39,7 @@ export const Instance = props => (
           />
         </Bg>
       </ContainerForm>
-    </Row>
+    </Row> */}
     <Row>
       <ContainerForm>
         <Invite>
@@ -50,6 +50,9 @@ export const Instance = props => (
         </Invite>
       </ContainerForm>
     </Row>
+    <Text variant="suptitle" p={3}>
+      <Trans>More options will be available soon</Trans>
+    </Text>
   </Box>
 );
 
@@ -62,4 +65,4 @@ const Invite = styled(Flex)`
   }
 `;
 
-const Bg = styled(Box)``;
+// const Bg = styled(Box)``;

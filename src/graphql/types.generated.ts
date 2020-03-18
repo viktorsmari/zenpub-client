@@ -235,6 +235,8 @@ export type Comment = {
   likerCount?: Maybe<Scalars['Int']>,
   /** Users who like the comment, most recently liked first */
   likes?: Maybe<LikesEdges>,
+  /** The current user's flag of this comment, if any */
+  myFlag?: Maybe<Flag>,
   /** The current user's like of this comment, if any */
   myLike?: Maybe<Like>,
   /** The thread this comment is part of */
@@ -755,6 +757,7 @@ export type ResourceLikesArgs = {
 };
 
 export type ResourceInput = {
+  author?: Maybe<Scalars['String']>,
   icon?: Maybe<Scalars['String']>,
   license?: Maybe<Scalars['String']>,
   name: Scalars['String'],
@@ -1832,6 +1835,7 @@ export type CommentResolvers<ContextType = any, ParentType extends ResolversPare
   isPublic?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   likerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   likes?: Resolver<Maybe<ResolversTypes['LikesEdges']>, ParentType, ContextType, CommentLikesArgs>,
+  myFlag?: Resolver<Maybe<ResolversTypes['Flag']>, ParentType, ContextType>,
   myLike?: Resolver<Maybe<ResolversTypes['Like']>, ParentType, ContextType>,
   thread?: Resolver<Maybe<ResolversTypes['Thread']>, ParentType, ContextType>,
   updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,

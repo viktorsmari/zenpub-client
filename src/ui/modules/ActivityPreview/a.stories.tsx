@@ -125,6 +125,8 @@ storiesOf('Modules/ActivityPreview', module)
             'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png'
           }
           name={'mantarai'}
+          link={{ url: '/', external: true }}
+          displayUsername={'@community@moodle.net'}
           summary={
             'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
           }

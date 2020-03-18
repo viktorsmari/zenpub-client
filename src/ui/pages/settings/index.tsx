@@ -9,10 +9,11 @@ import {
   Sliders,
   Settings as Sett,
   MapPin,
-  Key,
+  Link,
   Droplet,
   Mail,
-  Zap,
+  // Zap,
+  Flag,
   Monitor
 } from 'react-feather';
 import { Switch, Route, NavLink } from 'react-router-dom';
@@ -22,7 +23,7 @@ import { ContainerForm, Actions } from 'ui/modules/Modal';
 import Button from 'ui/elements/Button';
 import { useHistory } from 'react-router';
 import Preferences from './preferences';
-import Emails from './emails';
+import Emails from './invites';
 import { Instance } from './instance';
 
 const tt = {
@@ -32,7 +33,8 @@ const tt = {
       'Please describe who might be interested in this community and what kind of collections it is likely to contain...'
     ),
     icon: i18nMark('Enter the URL of an image to represent the community'),
-    location: i18nMark('Choose a location')
+    location: i18nMark('Choose a location'),
+    website: i18nMark('Enter a URL to share more info about you')
   }
 };
 
@@ -40,6 +42,7 @@ export interface Props {
   formik: FormikHook<EditProfile>;
   basePath: string;
   displayUsername: string;
+  isAdmin?: boolean; //FIXME remove ? after HOC
 }
 
 export interface EditProfile {
@@ -48,16 +51,19 @@ export interface EditProfile {
   icon: string;
   image: string;
   location: string;
+  website: string;
 }
 
 export const Settings: React.FC<Props> = ({
   basePath,
   formik,
-  displayUsername
+  displayUsername,
+  isAdmin
 }) => {
+  isAdmin = true; //FIXME remove after HOC
   return (
     <MainContainer>
-      <Sidebar basePath={basePath} />
+      <Sidebar basePath={basePath} isAdmin={isAdmin} />
       <HomeBox>
         <WrapperCont>
           <Wrapper>
@@ -70,7 +76,7 @@ export const Settings: React.FC<Props> = ({
                   <Instance />
                 </Route>
                 <Route path={`${basePath}/invites`}>
-                  <Emails />
+                  <Emails remove={() => {}} />
                 </Route>
                 {/* <Route path={`${basePath}/accounts`}>acc</Route>
               <Route path={`${basePath}/notifications`}>notif</Route>
@@ -107,7 +113,7 @@ export const Settings: React.FC<Props> = ({
                           />
                         </CollectionContainerForm>
 
-                        <Username mt={1} fontSize={2}>
+                        <Username mt={1} fontSize={2} p={2}>
                           {displayUsername}
                         </Username>
                         <CollectionContainerForm>
@@ -133,6 +139,20 @@ export const Settings: React.FC<Props> = ({
                             />
                           </CollectionContainerForm>
                         </Location>
+                        <RelevantLink mt={2}>
+                          <span>
+                            <Link strokeWidth={1} size={20} />
+                          </span>
+                          <CollectionContainerForm>
+                            <Input
+                              placeholder={tt.placeholders.website}
+                              disabled={formik.isSubmitting}
+                              name="website"
+                              value={formik.values.website}
+                              onChange={formik.handleChange}
+                            />
+                          </CollectionContainerForm>
+                        </RelevantLink>
                       </HeroInfo>
                     </Hero>
                     <Actions sx={{ height: 'inherit !important' }}>
@@ -157,7 +177,7 @@ export const Settings: React.FC<Props> = ({
   );
 };
 
-const Sidebar = ({ basePath }) => {
+const Sidebar = ({ basePath, isAdmin }) => {
   const history = useHistory();
 
   return (
@@ -203,69 +223,76 @@ const Sidebar = ({ basePath }) => {
               </Flex>
             </NavLink>
           </NavItem>
-          <SectionTitle p={3} fontSize="1">
-            <Flex
-              alignItems="center"
-              sx={{ textTransform: 'capitalize', fontSize: '14px' }}
-            >
-              <Icon className="icon" mr={1}>
+          {isAdmin ? (
+            <>
+              <SectionTitle p={3} fontSize="1">
+                <Flex
+                  alignItems="center"
+                  p={3}
+                  sx={{ textTransform: 'capitalize', fontSize: '14px' }}
+                >
+                  {/* <Icon className="icon" mr={1}>
                 <Key size={20} />
-              </Icon>
-              Admin
-            </Flex>
-          </SectionTitle>
-          <NavItem p={3} fontSize={1}>
-            <NavLink to={`${basePath}/instance`}>
-              <Flex
-                alignItems="center"
-                sx={{ textTransform: 'capitalize', fontSize: '14px' }}
-              >
-                <Icon className="icon" mr={1}>
-                  <Droplet size={20} />
-                </Icon>
-                Instance
-              </Flex>
-            </NavLink>
-          </NavItem>
-          <NavItem p={3} fontSize={1}>
-            <NavLink to={`${basePath}/invites`}>
-              <Flex
-                alignItems="center"
-                sx={{ textTransform: 'capitalize', fontSize: '14px' }}
-              >
-                <Icon className="icon" mr={1}>
-                  <Mail size={20} />
-                </Icon>
-                Invites
-              </Flex>
-            </NavLink>
-          </NavItem>
-          <NavItem p={3} fontSize={1}>
-            <NavLink to={`${basePath}/reports`}>
-              <Flex
-                alignItems="center"
-                sx={{ textTransform: 'capitalize', fontSize: '14px' }}
-              >
-                <Icon className="icon" mr={1}>
-                  <Zap size={20} />
-                </Icon>
-                Reports
-              </Flex>
-            </NavLink>
-          </NavItem>
-          <NavItem p={3} fontSize={1}>
-            <NavLink to={`${basePath}/logs`}>
-              <Flex
-                alignItems="center"
-                sx={{ textTransform: 'capitalize', fontSize: '14px' }}
-              >
-                <Icon className="icon" mr={1}>
-                  <Monitor size={20} />
-                </Icon>
-                Moderation log
-              </Flex>
-            </NavLink>
-          </NavItem>
+              </Icon> */}
+                  <Text variant="suptitle">Admin</Text>
+                </Flex>
+              </SectionTitle>
+              <NavItem p={3} fontSize={1}>
+                <NavLink to={`${basePath}/instance`}>
+                  <Flex
+                    alignItems="center"
+                    sx={{ textTransform: 'capitalize', fontSize: '14px' }}
+                  >
+                    <Icon className="icon" mr={1}>
+                      <Droplet size={20} />
+                    </Icon>
+                    Instance
+                  </Flex>
+                </NavLink>
+              </NavItem>
+              <NavItem p={3} fontSize={1}>
+                <NavLink to={`${basePath}/invites`}>
+                  <Flex
+                    alignItems="center"
+                    sx={{ textTransform: 'capitalize', fontSize: '14px' }}
+                  >
+                    <Icon className="icon" mr={1}>
+                      <Mail size={20} />
+                    </Icon>
+                    Invites
+                  </Flex>
+                </NavLink>
+              </NavItem>
+              <NavItem p={3} fontSize={1}>
+                {/* <NavLink to={`${basePath}/reports`}> */}
+                <NavLink to={`${basePath}/flags`}>
+                  <Flex
+                    alignItems="center"
+                    sx={{ textTransform: 'capitalize', fontSize: '14px' }}
+                  >
+                    <Icon className="icon" mr={1}>
+                      <Flag size={20} />
+                    </Icon>
+                    Flags
+                  </Flex>
+                </NavLink>
+              </NavItem>
+              <NavItem p={3} fontSize={1}>
+                <NavLink to={`${basePath}/logs`}>
+                  <Flex
+                    alignItems="center"
+                    sx={{ textTransform: 'capitalize', fontSize: '14px' }}
+                  >
+                    <Icon className="icon" mr={1}>
+                      <Monitor size={20} />
+                    </Icon>
+                    Moderation log
+                  </Flex>
+                </NavLink>
+              </NavItem>
+            </>
+          ) : null}
+
           {/* <NavItem p={3} fontSize={1}>
           <NavLink to={`${basePath}/accounts`}>
           <Flex alignItems="center" sx={{textTransform: "capitalize", fontSize: "14px"}}>
@@ -293,11 +320,15 @@ const Sidebar = ({ basePath }) => {
   );
 };
 
-const SectionTitle = styled(Flex)``;
+const SectionTitle = styled(Flex)`
+  border-top: 4px solid ${props => props.theme.colors.lighter};
+  border-bottom: 1px solid ${props => props.theme.colors.lighter};
+`;
 
 const CollectionContainerForm = styled(ContainerForm)`
   input {
     background: #fbfbfb;
+    color: ${props => props.theme.colors.darkgray};
     border: 0;
     font-weight: 700;
   }
@@ -371,6 +402,26 @@ const Location = styled(Flex)`
   }
 `;
 
+const RelevantLink = styled(Flex)`
+  color: ${props => props.theme.colors.gray};
+  font-weight: 500;
+  line-height: 26px;
+  font-size: 14px;
+  border-radius: 100px;
+  align-items: center;
+  span {
+    margin-right: 8px;
+    & svg {
+      stroke: ${props => props.theme.colors.gray};
+      vertical-align: text-bottom;
+    }
+    .--rtl & {
+      margin-left: 8px;
+      margin-right: 0px;
+    }
+  }
+`;
+
 const WrapperHero = styled.div`
   padding: 24px;
   padding-top: 0;
@@ -417,6 +468,7 @@ const Icon = styled(Box)`
   align-items: center;
   svg {
     stroke: ${props => props.theme.colors.gray};
+    width: 40px;
   }
 `;
 

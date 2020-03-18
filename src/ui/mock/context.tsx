@@ -34,6 +34,7 @@ import {
 import { Props as FeaturedModalProps } from 'ui/modules/FeaturedModal';
 
 import { FeaturedModal } from '../modules/FeaturedModal';
+// import {ConfirmDeleteModal} from '../modules/ConfirmDeleteModal';
 import { Props as EditProfileProps, EditProfile } from 'ui/pages/settings';
 import { FeaturedCommunitiesData as FeaturedCommunitiesProps } from 'ui/modules/FeaturedCommunities';
 import { FeaturedCollectionsData as FeaturedCollectionsProps } from 'ui/modules/FeaturedCollections';
@@ -189,7 +190,8 @@ export const getEditProfileProps = (): EditProfileProps => {
         'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.MPaPKKyEuv4RMPDu3T_ppgHaE7%26pid%3DApi&f=1',
       name: '24grana best songs',
       summary:
-        '24 Grana appeared on the Italian underground scene in the mid 90s, in a period of a great social, political and cultural ferment. The band is named after a coin used at the times of Kind Ferdinand of Aragona.'
+        '24 Grana appeared on the Italian underground scene in the mid 90s, in a period of a great social, political and cultural ferment. The band is named after a coin used at the times of Kind Ferdinand of Aragona.',
+      website: 'https://moodle.net'
     },
     onSubmit: () => {
       action('submit')();
@@ -198,7 +200,58 @@ export const getEditProfileProps = (): EditProfileProps => {
       });
     }
   });
-  return { formik, basePath: '/', displayUsername: '@tata@app.moodle.net' };
+  return {
+    formik,
+    basePath: '/',
+    displayUsername: '@tata@app.moodle.net',
+    isAdmin: false
+  };
+};
+
+export const getEditProfilePropsAdmin = (): EditProfileProps => {
+  const formik = useFormik<EditProfile>({
+    initialValues: {
+      image: '',
+      location: '',
+      icon:
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.MPaPKKyEuv4RMPDu3T_ppgHaE7%26pid%3DApi&f=1',
+      name: '24grana best songs',
+      summary:
+        '24 Grana appeared on the Italian underground scene in the mid 90s, in a period of a great social, political and cultural ferment. The band is named after a coin used at the times of Kind Ferdinand of Aragona.',
+      website: 'https://moodle.net'
+    },
+    onSubmit: () => {
+      action('submit')();
+      return new Promise((resolve, reject) => {
+        setTimeout(resolve, 3000);
+      });
+    }
+    // ,
+    // ConfirmDeleteModal: ({ done }) => {
+    //   const formik = useFormik<{}>({
+    //     initialValues: {},
+    //     onSubmit: () => {
+    //       action('submit')();
+    //       return new Promise((resolve, reject) => {
+    //         setTimeout(resolve, 3000);
+    //       });
+    //     }
+    //   });
+    //   const getConfirmDeleteModalProps = {
+    //     formik,
+    //     deleteTitle: 'Delete email',
+    //     deleteDescription: 'Are you sure you want to remove this email from the whitelisted emails?',
+    //     cancel: action('cancel')
+    //   };
+    //   return <ConfirmDeleteModal {...getConfirmDeleteModalProps} />;
+    // }
+  });
+  return {
+    formik,
+    basePath: '/',
+    displayUsername: '@tata@app.moodle.net',
+    isAdmin: true
+  };
 };
 
 export const getHeroCollectionProps = (): HeroCollectionProps => {
