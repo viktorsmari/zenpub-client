@@ -6,7 +6,7 @@ import { useHistory } from 'react-router';
 import { useLogoutMutationMutation } from '../../graphql/logout.generated';
 import { Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
-import { related_urls } from './../../constants';
+import { related_urls } from './../../mn-constants';
 
 const WrapperMenu = styled.div`
   box-sizing: border-box;

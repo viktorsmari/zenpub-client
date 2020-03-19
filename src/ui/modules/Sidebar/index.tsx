@@ -9,7 +9,7 @@ import media from 'styled-media-query';
 import styled from '../../themes/styled';
 // import Dropdown from "./dropdown";
 import Avatar from 'ui/elements/Avatar';
-import { Dropdown } from './dropdown';
+import { DropdownSidebar } from './dropdown';
 const MnetLogo = require('../../../static/img/logo-icon.png');
 
 export enum Status {

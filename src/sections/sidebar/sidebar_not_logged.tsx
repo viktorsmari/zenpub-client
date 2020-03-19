@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom';
 import { Box, Flex, Image, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import styled from '../../themes/styled';
-import { prompt_signin } from './../../constants';
+import { prompt_signin } from './../../mn-constants';
 
 const MnetLogo = require('../../static/img/logo-icon.png');
 const SidebarComponent = styled(Flex)`

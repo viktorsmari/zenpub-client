@@ -7,6 +7,7 @@ COPY package*.json ./
 COPY yarn.lock ./ 
 RUN yarn
 COPY . .
+RUN yarn add-locale en_GB
 RUN yarn extract
 RUN yarn compile
 RUN yarn build --prod

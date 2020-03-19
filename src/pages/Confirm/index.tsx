@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Box } from 'rebass/styled-components';
 import { useConfirmEmailMutationMutation } from '../../graphql/confirmEmail.generated';
 import styled from '../../themes/styled';
-import { logo_large_url } from './../../constants';
+import { logo_large_url } from './../../mn-constants';
 
 const LoginWrapper = styled.div`
   display: grid;

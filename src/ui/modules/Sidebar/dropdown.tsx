@@ -4,7 +4,7 @@ import styled from '../../themes/styled';
 import { Trans } from '@lingui/macro';
 import { useHistory } from 'react-router';
 import { Text } from 'rebass/styled-components';
-import media from 'styled-media-query';
+import { Dropdown } from '../Dropdown';
 import { related_urls } from './../../../mn-constants';
 
 const List = styled.div<{ lined?: boolean }>`
@@ -48,37 +48,36 @@ export const DropdownSidebar: React.FC<Props> = ({
 }) => {
   const { push } = useHistory();
   return (
-    <WrapperMenu>
-      <ProfileMenu>
-        <List lined>
-          <Item variant="link" onClick={() => push(`/user/${userId}`)}>
-            <span>
-              <User size={18} color={'#333'} />
-            </span>
-            <Trans>Profile</Trans>
-          </Item>
-          <Item variant="link" onClick={() => push('/settings')}>
-            <span>
-              <Settings size={18} color={'#333'} />
-            </span>
-            <Trans>Settings</Trans>
-          </Item>
-        </List>
-        <List lined>
-          <Item variant="link">
-            <a
-              href={related_urls.terms_users}
-              target="blank"
-            >
-              <Trans>Code of Conduct</Trans>
-            </a>
-          </Item>
+    <Dropdown orientation={'top'} cb={setOpenDropdown}>
+      <List lined>
+        <Item variant="link" onClick={() => push(`/user/${userId}`)}>
+          <span>
+            <User size={18} color={'#333'} />
+          </span>
+          <Trans>Profile</Trans>
+        </Item>
+        <Item variant="link" onClick={() => push('/settings')}>
+          <span>
+            <Settings size={18} color={'#333'} />
+          </span>
+          <Trans>Settings</Trans>
+        </Item>
+      </List>
+      <List lined>
+        <Item variant="link">
+          <a
+            href={related_urls.terms_users}
+            target="blank"
+          >
+            <Trans>Code of Conduct</Trans>
+          </a>
+        </Item>
 
-          <Item variant="link">
-            <a href={related_urls.feedback} target="blank">
-              <Trans>Feedback &amp; Suggestions</Trans>
-            </a>
-          </Item>
+        <Item variant="link">
+          <a href={related_urls.feedback} target="blank">
+            <Trans>Feedback &amp; Suggestions</Trans>
+          </a>
+        </Item>
 
         <Text
           style={{

@@ -8,7 +8,7 @@ import { Input } from '@rebass/forms';
 import { withFormik, FormikProps, Form, Field, FormikValues } from 'formik';
 import * as Yup from 'yup';
 const resetPasswordRequest = require('../../graphql/resetPasswordRequest.graphql');
-import { logo_large_url } from './../../constants';
+import { logo_large_url } from './../../mn-constants';
 import Alert from '../../components/elements/Alert';
 
 const LoginWrapper = styled.div`
