@@ -15,8 +15,8 @@ import { ValidationField, ValidationObject, ValidationType } from './types';
 import { Button, Box, Text, Image } from 'rebass/styled-components';
 const { loginMutation } = require('../../graphql/login.graphql');
 import { Panel, WrapperPanel } from '../../sections/panel';
-const MnetLogin = require('../../static/img/login.jpg');
-import { INSTANCE_DESCRIPTION, INSTANCE_TAGLINE, INSTANCE_PROMPT, logo_large_url, related_urls } from './../../mn-constants'; // + instance_bg_img
+// const MnetLogin = require('../../static/img/login.jpg');
+import { INSTANCE_DESCRIPTION, INSTANCE_TAGLINE, INSTANCE_PROMPT, logo_large_url, related_urls, instance_bg_img } from './../../mn-constants'; 
 
 const Background = styled(Image)`
   background-size: cover;
@@ -42,7 +42,7 @@ const Logo = styled.div`
   background: url(${logo_large_url});
   width: 159px;
   display: inline-block;
-  height: 30px;
+  height: 140px;
   background-size: cover;
 `;
 
@@ -354,7 +354,7 @@ class Login extends React.Component<LoginProps, LoginState> {
               </Link>
               <WrapperPanel className="extra">
                 <Panel>
-                  <Background src={MnetLogin} />
+                  <Background src={instance_bg_img} />
                   <Infos p={3}>
                     <Info>
                       <Text variant="suptitle">

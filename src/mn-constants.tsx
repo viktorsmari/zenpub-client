@@ -5,18 +5,17 @@ export const NODE_ENV = process.env.NODE_ENV;
 export const PUBLIC_URL = process.env.PUBLIC_URL;
 export const SENTRY_KEY = process.env.SENTRY_KEY || '';
 
-export const APP_NAME = 'MoodleNet';
-export const INSTANCE_DESCRIPTION =
-  process.env.INSTANCE_DESCRIPTION || 'An instance of MoodleNet.';
+export const APP_NAME = 'CommonsPub';
+export const INSTANCE_DESCRIPTION = 'This instance is currently invite-only.';
 export const INVITE_ONLY_TEXT =
-process.env.REACT_APP_INVITE_ONLY_TEXT || 'Please note, signups on this instance are currently invite-only.';
+  'Please note, signups on this instance are currently invite-only.';
 export const INSTANCE_TAGLINE =
-'Share. Curate. Discuss.';
+'Connect. Organise. Share.';
 export const INSTANCE_PROMPT =
 "You don't need to sign up to preview what people are sharing and discussing publicly.";
-export const prompt_signin = "Sign in to MoodleNet";
+export const prompt_signin = "Sign in";
 export const instance_bg_img = "http://nycicarus.org/images/mad-solidarity-fists.png";
-export const logo_large_url = "https://moodle.net/images/logos/moodlenet-logo.png"; 
+export const logo_large_url = "http://commonspub.org/logo-small.png"; // https://moodle.net/images/logos/moodlenet-logo.png
 
 export const terms_markdown_text = { // replace the text as needed
   terms_users: 'This is a test instance. Your data is not secure or private.',
@@ -25,7 +24,7 @@ export const terms_markdown_text = { // replace the text as needed
 };
 
 export const terms_markdown_urls = { // replace the URLs as needed, or enable/disable to use `terms_markdown_text` instead
-  enabled: true,
+  enabled: false,
   terms_users: 'https://moodle.net/terms/users.md',
   terms_cookies: 'https://moodle.net/terms/cookies.md',
   terms_indexing: 'https://moodle.net/terms/indexing.md'
@@ -73,8 +72,8 @@ export const accepted_license_types = ['CC0-1.0', 'CC-BY-4.0', 'CC-BY-SA-4.0'];
 IS_DEV &&
   console.log(`-environment-
 ${Object.keys(process.env)
-  .map(key => `${key}=${process.env[key]}`)
-  .join('\n')}
+    .map(key => `${key}=${process.env[key]}`)
+    .join('\n')}
 -------------
 `);
 /***/
