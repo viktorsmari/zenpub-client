@@ -31,7 +31,6 @@ services:
         source: ./Caddyfile
         target: /etc/Caddyfile
         read_only: true
-    volumes:
       - type: bind
         source: ./uploads
         target: /frontend/uploads
