@@ -11,6 +11,7 @@ import styled from '../../themes/styled';
 import Avatar from 'ui/elements/Avatar';
 import { DropdownSidebar } from './dropdown';
 const MnetLogo = require('../../../static/img/logo-icon.png');
+import { my_timeline } from '../../../mn-constants';
 
 export enum Status {
   Loading,
@@ -252,7 +253,7 @@ export const Sidebar: React.FC<Props> = props => {
                     <NavItem alignItems={'center'}>
                       <Avatar size="s" src={MnetLogo} />
                       <ItemTitleDir variant="link">
-                        <Trans>My MoodleNet</Trans>
+                        <Trans>{my_timeline}</Trans>
                       </ItemTitleDir>
                     </NavItem>
                   </SidebarLink>

@@ -12,6 +12,7 @@ import { ContainerForm, Actions } from 'ui/modules/Modal';
 import Button from 'ui/elements/Button';
 import { useHistory } from 'react-router';
 import Preferences from './preferences';
+import { APP_NAME } from './../../../mn-constants';
 
 const tt = {
   placeholders: {
@@ -155,7 +156,7 @@ const Sidebar = ({ basePath }) => {
                 <Icon className="icon" mr={1}>
                   <ChevronLeft size={20} />
                 </Icon>
-                Back to MoodleNet
+                Back to {APP_NAME}
               </Flex>
             </Box>
           </NavItem>
