@@ -13,6 +13,10 @@ services:
       - .env.secrets
     depends_on:
       - db
+    volumes:
+      - type: bind
+        source: ./uploads
+        target: /var/www/uploads
   frontend:
     build:
       context: .
@@ -27,6 +31,10 @@ services:
         source: ./Caddyfile
         target: /etc/Caddyfile
         read_only: true
+    volumes:
+      - type: bind
+        source: ./uploads
+        target: /frontend/uploads
   db:
     image: postgres:9.6.6-alpine
     volumes:
