@@ -17,24 +17,10 @@ import { clearFix } from 'polished';
 import { Panel, WrapperPanel } from '../../sections/panel';
 import useAxios from 'axios-hooks';
 
-import { INVITE_ONLY_TEXT } from './../../constants';
+import { INSTANCE_TAGLINE, INVITE_ONLY_TEXT, terms_markdown_urls, terms_markdown_text, related_urls, logo_large_url } from './../../constants';
 import { AlertCircle, Eye } from 'react-feather';
 import { LocaleContext } from '../../context/global/localizationCtx';
 
-// var terms_users = { data: '' };
-// var terms_cookies = { data: '' };
-// var terms_indexing = { data: '' };
-
-// async function getTerms() {
-//   try {
-//     terms_users = await axios.get('https://moodle.net/terms/users.md');
-//     terms_cookies = await axios.get('https://moodle.net/terms/cookies.md');
-//     terms_indexing = await axios.get('https://moodle.net/terms/indexing.md');
-//     // console.log(terms);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
 
 let tt = {
   login: i18nMark('Sign in'),
@@ -96,7 +82,7 @@ const Tagline = styled.h5`
 `;
 
 const Logo = styled.div`
-  background: url(https://i.imgur.com/YdflNQp.png);
+  background: url(${logo_large_url});
   width: 159px;
   display: inline-block;
   height: 30px;
@@ -200,15 +186,16 @@ const Aware = styled(Flex)<{ green: boolean }>`
 const SignupModal = (props: Props) => {
   const { i18n } = React.useContext(LocaleContext);
   const [createUser, createUserResp] = useCreateUserMutationMutation();
-  const [terms_users] = useAxios('https://moodle.net/terms/users.md', {
-    useCache: true
-  });
-  const [terms_cookies] = useAxios('https://moodle.net/terms/cookies.md', {
-    useCache: true
-  });
-  const [terms_indexing] = useAxios('https://moodle.net/terms/indexing.md', {
-    useCache: true
-  });
+  
+    var terms_users_text = { data: terms_markdown_text.terms_users };
+    var terms_cookies_text = { data: terms_markdown_text.terms_cookies };
+    var terms_indexing_text = { data: terms_markdown_text.terms_indexing };
+
+  if(terms_markdown_urls.enabled){
+    var [terms_users] = useAxios(terms_markdown_urls.terms_users, { useCache: true  });
+    var [terms_cookies] = useAxios(terms_markdown_urls.terms_cookies, { useCache: true  });
+    var [terms_indexing] = useAxios(terms_markdown_urls.terms_indexing, { useCache: true  });
+  }  
 
   return (
     <Container>
@@ -233,7 +220,7 @@ const SignupModal = (props: Props) => {
             <LoginWrapper>
               <Header>
                 <Logo />
-                <Tagline>Share. Curate. Discuss.</Tagline>
+                <Tagline>{INSTANCE_TAGLINE}</Tagline>
               </Header>
               <FormWrapper>
                 <Formik
@@ -434,63 +421,51 @@ const SignupModal = (props: Props) => {
                 <WrapperPanel className="extra">
                   <Panel>
                     <Box p={3}>
-                      {terms_users.loading ? (
-                        'loading'
-                      ) : (
-                        <Markdown>{terms_users.data}</Markdown>
-                      )}
+                        <Markdown>{terms_users.data || terms_users_text.data}</Markdown>
                     </Box>
                     <Box p={3}>
-                      {terms_cookies.loading ? (
-                        'loading'
-                      ) : (
-                        <Markdown>{terms_cookies.data}</Markdown>
-                      )}
+                        <Markdown>{terms_cookies.data || terms_cookies_text.data }</Markdown>
                     </Box>
                     <Box p={3}>
-                      {terms_indexing.loading ? (
-                        'loading'
-                      ) : (
-                        <Markdown>{terms_indexing.data}</Markdown>
-                      )}
+                        <Markdown>{terms_indexing.data || terms_indexing_text.data}</Markdown>
                     </Box>
                   </Panel>
                 </WrapperPanel>
               </Right>
               <Footer>
-                <ul>
+                 <ul>
                   <li>
-                    <a href="https://moodle.net" target="blank">
+                    <a href={related_urls.project_homepage} target="blank">
                       About
                     </a>
                   </li>
                   <li>
                     <a
-                      href="https://moodle.net/terms/users/index.html"
+                      href={related_urls.terms_users}
                       target="blank"
                     >
                       Code of Conduct
                     </a>
                   </li>
                   <li>
-                    <a href="https://gitlab.com/moodlenet" target="blank">
+                    <a href={related_urls.code} target="blank">
                       Open source
                     </a>
                   </li>
                   <li>
                     <a
-                      href="https://changemap.co/moodle/moodlenet/"
+                      href={related_urls.feedback}
                       target="blank"
                     >
                       Feedback
                     </a>
                   </li>
                   <li>
-                    <a href="https://moodle.com/privacy-notice" target="blank">
+                    <a href={related_urls.terms_cookies} target="blank">
                       Privacy notice
                     </a>
                   </li>
-                </ul>
+                </ul> 
               </Footer>
             </LoginWrapper>
           )}

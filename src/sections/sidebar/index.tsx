@@ -14,7 +14,7 @@ import { GetSidebarQueryQueryResult } from '../../graphql/getSidebar.generated';
 import Empty from '../../components/elements/Empty';
 import Avatar from 'ui/elements/Avatar';
 
-const MnetLogo = require('./moodle-logo.png');
+const MnetLogo = require('../../static/img/logo-icon.png');
 const SidebarComponent = styled(Flex)`
   flex-grow: 1;
   align-items: flex-end;

@@ -10,7 +10,7 @@ import styled from '../../themes/styled';
 // import Dropdown from "./dropdown";
 import Avatar from 'ui/elements/Avatar';
 import { Dropdown } from './dropdown';
-const MnetLogo = require('./moodle-logo.png');
+const MnetLogo = require('../../../static/img/logo-icon.png');
 
 export enum Status {
   Loading,

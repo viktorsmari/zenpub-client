@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Box } from 'rebass/styled-components';
 import { useConfirmEmailMutationMutation } from '../../graphql/confirmEmail.generated';
 import styled from '../../themes/styled';
+import { logo_large_url } from './../../constants';
 
 const LoginWrapper = styled.div`
   display: grid;
@@ -27,7 +28,7 @@ const Container = styled.div`
 `;
 
 const Logo = styled.div`
-  background: url(https://i.imgur.com/YdflNQp.png);
+  background: url(${logo_large_url});
   width: 159px;
   display: block;
   height: 30px;

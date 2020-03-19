@@ -12,20 +12,22 @@ import { Row, Container, Actions, ContainerForm, Header } from '../Modal/modal';
 import { useCreateUserMutationMutation } from '../../../graphql/createUser.generated';
 const checkUsername = require('../../../graphql/checkUsername.graphql');
 import Markdown from 'markdown-to-jsx';
-import axios from 'axios';
+// import axios from 'axios';
 
-import { INVITE_ONLY_TEXT } from './../../../constants';
+import { INVITE_ONLY_TEXT, terms_markdown_urls, terms_markdown_text } from './../../../constants';
 import { LocaleContext } from '../../../context/global/localizationCtx';
 
-var terms_users = { data: '' };
-var terms_cookies = { data: '' };
-var terms_indexing = { data: '' };
+var terms_users = { data: terms_markdown_text.terms_users };
+var terms_cookies = { data: terms_markdown_text.terms_cookies };
+var terms_indexing = { data: terms_markdown_text.terms_indexing };
 
 async function getTerms() {
   try {
-    terms_users = await axios.get('https://moodle.net/terms/users.md');
-    terms_cookies = await axios.get('https://moodle.net/terms/cookies.md');
-    terms_indexing = await axios.get('https://moodle.net/terms/indexing.md');
+    if(terms_markdown_urls){
+      // if(undefined !==terms_markdown_urls.terms_users) terms_users = await axios.get(terms_markdown_urls.terms_users);
+      // if(undefined !==terms_markdown_urls.terms_cookies) terms_cookies = await axios.get(terms_markdown_urls.terms_cookies);
+      // if(undefined !==terms_markdown_urls.terms_indexing) terms_indexing = await axios.get(terms_markdown_urls.terms_indexing);
+    }
     // console.log(terms);
   } catch (error) {
     console.error(error);

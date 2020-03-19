@@ -6,6 +6,7 @@ import { useHistory } from 'react-router';
 import { useLogoutMutationMutation } from '../../graphql/logout.generated';
 import { Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
+import { related_urls } from './../../constants';
 
 const WrapperMenu = styled.div`
   box-sizing: border-box;
@@ -79,7 +80,7 @@ const Dropdown: React.SFC<{ userId: string }> = ({ userId }) => {
           </List>
           <List lined>
             <a
-              href="https://docs.moodle.org/dev/MoodleNet/Code_of_Conduct"
+              href={related_urls.terms_users}
               target="blank"
             >
               <Item variant="link">
@@ -87,7 +88,7 @@ const Dropdown: React.SFC<{ userId: string }> = ({ userId }) => {
               </Item>
             </a>
 
-            <a href="https://changemap.co/moodle/moodlenet/" target="blank">
+            <a href={related_urls.feedback} target="blank">
               <Item variant="link">
                 <Trans>Feedback &amp; Suggestions</Trans>
               </Item>

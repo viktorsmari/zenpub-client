@@ -5,6 +5,7 @@ import { Trans } from '@lingui/macro';
 import { useHistory } from 'react-router';
 import { Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
+import { related_urls } from './../../../constants';
 
 const WrapperMenu = styled.div`
   box-sizing: border-box;
@@ -81,7 +82,7 @@ export const Dropdown: React.FC<Props> = ({ logout, userId }) => {
         <List lined>
           <Item variant="link">
             <a
-              href="https://docs.moodle.org/dev/MoodleNet/Code_of_Conduct"
+              href={related_urls.terms_users}
               target="blank"
             >
               <Trans>Code of Conduct</Trans>
@@ -89,7 +90,7 @@ export const Dropdown: React.FC<Props> = ({ logout, userId }) => {
           </Item>
 
           <Item variant="link">
-            <a href="https://changemap.co/moodle/moodlenet/" target="blank">
+            <a href={related_urls.feedback} target="blank">
               <Trans>Feedback &amp; Suggestions</Trans>
             </a>
           </Item>

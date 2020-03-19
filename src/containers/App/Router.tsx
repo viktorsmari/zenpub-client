@@ -159,7 +159,7 @@ export default _ => {
             path="/confirm-email/:token"
             render={route =>
               me ? (
-                <Redirect to="/" />
+                <Redirect to="/#welcome" />
               ) : (
                 <ConfirmAccount token={route.match.params.token} />
               )

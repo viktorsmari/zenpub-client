@@ -15,8 +15,8 @@ import { ValidationField, ValidationObject, ValidationType } from './types';
 import { Button, Box, Text, Image } from 'rebass/styled-components';
 const { loginMutation } = require('../../graphql/login.graphql');
 import { Panel, WrapperPanel } from '../../sections/panel';
-const MnetLogin = require('./login.jpg');
-import { INSTANCE_DESCRIPTION } from './../../constants';
+const MnetLogin = require('../../static/img/login.jpg');
+import { INSTANCE_DESCRIPTION, INSTANCE_TAGLINE, INSTANCE_PROMPT, logo_large_url, related_urls } from './../../constants'; // + instance_bg_img
 
 const Background = styled(Image)`
   background-size: cover;
@@ -39,7 +39,7 @@ const Infos = styled(Box)``;
 const Info = styled(Box)``;
 
 const Logo = styled.div`
-  background: url(https://i.imgur.com/YdflNQp.png);
+  background: url(${logo_large_url});
   width: 159px;
   display: inline-block;
   height: 30px;
@@ -306,7 +306,7 @@ class Login extends React.Component<LoginProps, LoginState> {
           <LoginWrapper>
             <Header>
               <Logo />
-              <Tagline>Share. Curate. Discuss.</Tagline>
+              <Tagline>{INSTANCE_TAGLINE}</Tagline>
             </Header>
             <FormWrapper>
               <Form>
@@ -327,11 +327,11 @@ class Login extends React.Component<LoginProps, LoginState> {
               </Or>
               <Browse mt={3} p={3}>
                 <Text variant="heading" fontSize={3}>
-                  <Trans>Browse this MoodleNet instance</Trans>
+                  <Trans>Browse this instance</Trans>
                 </Text>
                 <Text variant="text" mt={2}>
                   <Trans>
-                    Preview what people are sharing, curating, and discussing!
+                  {INSTANCE_PROMPT}
                   </Trans>
                 </Text>
                 <Link to={'/discover'}>
@@ -370,39 +370,39 @@ class Login extends React.Component<LoginProps, LoginState> {
             </Right>
 
             <Footer>
-              <ul>
-                <li>
-                  <a href="https://moodle.net" target="blank">
-                    About
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://moodle.net/terms/users/index.html"
-                    target="blank"
-                  >
-                    Code of Conduct
-                  </a>
-                </li>
-                <li>
-                  <a href="https://gitlab.com/moodlenet" target="blank">
-                    Open source
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://changemap.co/moodle/moodlenet/"
-                    target="blank"
-                  >
-                    Feedback
-                  </a>
-                </li>
-                <li>
-                  <a href="https://moodle.com/privacy-notice" target="blank">
-                    Privacy notice
-                  </a>
-                </li>
-              </ul>
+            <ul>
+                  <li>
+                    <a href={related_urls.project_homepage} target="blank">
+                      About
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href={related_urls.terms_users}
+                      target="blank"
+                    >
+                      Code of Conduct
+                    </a>
+                  </li>
+                  <li>
+                    <a href={related_urls.code} target="blank">
+                      Open source
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href={related_urls.feedback}
+                      target="blank"
+                    >
+                      Feedback
+                    </a>
+                  </li>
+                  <li>
+                    <a href={related_urls.terms_cookies} target="blank">
+                      Privacy notice
+                    </a>
+                  </li>
+                </ul> 
             </Footer>
           </LoginWrapper>
 

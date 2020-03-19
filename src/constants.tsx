@@ -9,6 +9,36 @@ export const APP_NAME = 'MoodleNet';
 export const INSTANCE_DESCRIPTION = 'This instance is currently invite-only.';
 export const INVITE_ONLY_TEXT =
   'Please note, signups on this instance are currently invite-only.';
+export const INSTANCE_TAGLINE =
+'Share. Curate. Discuss.';
+export const INSTANCE_PROMPT =
+"You don't need to sign up to preview what people are sharing and discussing publicly.";
+export const prompt_signin = "Sign in to MoodleNet";
+export const instance_bg_img = "http://nycicarus.org/images/mad-solidarity-fists.png";
+export const logo_large_url = "https://moodle.net/images/logos/moodlenet-logo.png"; 
+
+export const terms_markdown_text = { // replace the text as needed
+  terms_users: 'This is a test instance. Your data is not secure or private.',
+  terms_cookies: 'This site uses cookies.',
+  terms_indexing: 'Information you post on this site may be publicly available and will be copied onto other servers in the federated network.'
+};
+
+export const terms_markdown_urls = { // replace the URLs as needed, or enable/disable to use `terms_markdown_text` instead
+  enabled: true,
+  terms_users: 'https://moodle.net/terms/users.md',
+  terms_cookies: 'https://moodle.net/terms/cookies.md',
+  terms_indexing: 'https://moodle.net/terms/indexing.md'
+};
+
+export const related_urls = { // replace the URLs as needed
+  project_homepage: 'https://moodle.net',
+  terms_users: 'https://moodle.net/terms/users/index.html',
+  terms_cookies: 'https://moodle.net/terms/cookies/index.html',
+  terms_indexing: 'https://moodle.net/terms/indexing/index.html',
+  code: 'https://gitlab.com/moodlenet',
+  feedback: 'https://changemap.co/moodle/moodlenet/'
+};
+
 
 export const IS_DEV = NODE_ENV === 'development';
 
