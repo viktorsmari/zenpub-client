@@ -34,7 +34,7 @@ import {
 import { Props as FeaturedModalProps } from 'ui/modules/FeaturedModal';
 
 import { FeaturedModal } from '../modules/FeaturedModal';
-// import {ConfirmDeleteModal} from '../modules/ConfirmDeleteModal';
+import { Props as ConfirmDeleteModalProps } from '../modules/ConfirmDeleteModal';
 import { Props as EditProfileProps, EditProfile } from 'ui/pages/settings';
 import { FeaturedCommunitiesData as FeaturedCommunitiesProps } from 'ui/modules/FeaturedCommunities';
 import { FeaturedCollectionsData as FeaturedCollectionsProps } from 'ui/modules/FeaturedCollections';
@@ -456,6 +456,25 @@ export const getFeaturedModalProps = (): FeaturedModalProps => {
     itemName: 'Type Theory',
     itemType: 'community',
     cancel: action('cancel')
+  };
+};
+
+export const getConfirmDeleteModalProps = (): ConfirmDeleteModalProps => {
+  const formik = useFormik<{}>({
+    initialValues: [],
+    onSubmit: () => {
+      action('submit')();
+      return new Promise((resolve, reject) => {
+        setTimeout(resolve, 3000);
+      });
+    }
+  });
+
+  return {
+    cancel: action('cancel'),
+    deleteTitle: 'Remove email from whitelist',
+    deleteDescription: `Are you sure you want to remove test@moodle.net from the whitelisted emails`,
+    formik
   };
 };
 

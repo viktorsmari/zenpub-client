@@ -92,15 +92,6 @@ export const Community: React.FC<Props> = ({
 
 const WrapperLink = styled(SimpleLink)`
   text-decoration: none;
-  a {
-    text-decoration: none;
-    &:hover {
-      text-decoration: none !important;
-    }
-  }
-  &:hover {
-    text-decoration: none !important;
-  }
 `;
 
 const Items = styled(Flex)`
@@ -158,10 +149,10 @@ const Wrapper = styled(Box)`
     background: ${props => props.theme.colors.lighter};
     text-decoration: none;
   }
-  & a {
+  &&& a {
     color: inherit;
     text-decoration: none;
-    &:hover {
+    &&&:hover {
       text-decoration: none;
     }
   }

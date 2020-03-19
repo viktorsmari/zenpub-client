@@ -16,8 +16,7 @@ const tt = {
 };
 export interface Props {
   // formik: FormikHook<AddEmail>;
-  emailList?: String[];
-  remove(): unknown;
+  emailsList?: string[];
   ConfirmDeleteModal?: ComponentType<{ email: string; done(): any }>;
 }
 
@@ -28,11 +27,10 @@ export interface AddEmail {
 // const Emails = props => (
 const Emails: React.FC<Props> = ({
   // formik,
-  emailList,
-  remove,
+  emailsList,
   ConfirmDeleteModal
 }) => {
-  emailList = [
+  emailsList = [
     'about@moodle.com',
     'infomn@moodle.com',
     'test1@moodle.com',
@@ -41,7 +39,12 @@ const Emails: React.FC<Props> = ({
   const [selectedEmailForModal, setselectedEmailForModal] = React.useState<
     null | string
   >(null);
-
+  console.log(
+    'email ' +
+      selectedEmailForModal +
+      ' ConfirmDeleteModal ' +
+      ConfirmDeleteModal
+  );
   return (
     <Box>
       <Text variant="heading" px={3} mt={2}>
@@ -77,10 +80,10 @@ const Emails: React.FC<Props> = ({
           <Trans>Whitelisted emails</Trans>
         </Text>
 
-        {emailList.map((email, i) => (
-          <ListRow>
+        {emailsList.map((email, i) => (
+          <ListRow key={i}>
             <EmailText>{email}</EmailText>
-            <Remove onClick={remove}>
+            <Remove onClick={() => setselectedEmailForModal(email)}>
               <X color="#fff" size={16} />
             </Remove>
             {/* <Button variant="danger"><Trans>Delete</Trans></Button> */}
@@ -110,6 +113,7 @@ const EmailInput = styled(Input)`
   flex: 1;
   background: #fbfbfb;
   border: 0;
+  color: ${props => props.theme.colors.gray};
 `;
 const ListRow = styled(Row)`
   align-items: center;

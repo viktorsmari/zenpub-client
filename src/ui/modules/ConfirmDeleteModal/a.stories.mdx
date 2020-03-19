@@ -1,20 +1,20 @@
 import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
 import { PropsTable } from '@storybook/components';
-import {getFeaturedModalProps} from 'ui/mock/context'
-import { FeaturedModal } from '.';
+import { getConfirmDeleteModalProps } from 'ui/mock/context'
+import { ConfirmDeleteModal } from '.';
 import { action } from '@storybook/addon-actions';
 import {Box} from 'rebass'
 import Modal from 'ui/modules/Modal'
 
-<Meta title="Modules|Featured Modal" component={FeaturedModal}/>
+<Meta title="Modules|Confirm Delete Modal" component={ConfirmDeleteModal}/>
 
-# FeaturedModal
+# ConfirmDeleteModal
 Let's define a story for the `Featured Modal preview` module
 
 <Preview>
-  <Story name="Featured Modal module">
+  <Story name="Confirm Delete Modal module">
     <Modal closeModal={action('close modal')}>
-      <FeaturedModal {...getFeaturedModalProps()}/>
+      <ConfirmDeleteModal {...getConfirmDeleteModalProps()}/>
     </Modal>
   </Story>
 </Preview>

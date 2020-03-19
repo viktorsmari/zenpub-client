@@ -28,9 +28,7 @@ export const ConfirmDeleteModal: React.FC<Props> = ({
   return (
     <Container>
       <Header>
-        <Heading m={2}>
-          <Trans>{deleteTitle}</Trans>
-        </Heading>
+        <Heading m={2}>{deleteTitle}</Heading>
       </Header>
       <Row>
         <ContainerForm>

@@ -76,7 +76,7 @@ export const Settings: React.FC<Props> = ({
                   <Instance />
                 </Route>
                 <Route path={`${basePath}/invites`}>
-                  <Emails remove={() => {}} />
+                  <Emails />
                 </Route>
                 {/* <Route path={`${basePath}/accounts`}>acc</Route>
               <Route path={`${basePath}/notifications`}>notif</Route>
