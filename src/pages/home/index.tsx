@@ -7,6 +7,7 @@ import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import Empty from '../../components/elements/Empty';
 import Loader from '../../components/elements/Loader/Loader';
+import { my_timeline } from '../../mn-constants';
 
 import { CreateReplyMutationMutationOperation } from '../../graphql/createReply.generated';
 import { DeleteMutationMutationOperation } from '../../graphql/delete.generated';
@@ -122,7 +123,7 @@ const Home: React.FC<Props> = () => {
       <WrapperPanel>
         <Panel>
           <PanelTitle fontSize={0} fontWeight={'bold'}>
-            <Trans>My MoodleNet</Trans>
+            <Trans>{my_timeline}</Trans>
           </PanelTitle>
           <Nav>
             <NavItem mb={4} fontSize={1} fontWeight={'bold'}>

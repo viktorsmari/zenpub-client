@@ -13,6 +13,7 @@ import Dropdown from './dropdown';
 import { GetSidebarQueryQueryResult } from '../../graphql/getSidebar.generated';
 import Empty from '../../components/elements/Empty';
 import Avatar from 'ui/elements/Avatar';
+import { my_timeline } from '../../mn-constants';
 
 const MnetLogo = require('../../static/img/logo-icon.png');
 const SidebarComponent = styled(Flex)`
@@ -270,7 +271,7 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
                     <NavItem mb={3} alignItems={'center'}>
                       <Avatar src={MnetLogo} />
                       <ItemTitleDir variant="link">
-                        <Trans>My MoodleNet</Trans>
+                        <Trans>{my_timeline}</Trans>
                       </ItemTitleDir>
                     </NavItem>
                   </SidebarLink>
