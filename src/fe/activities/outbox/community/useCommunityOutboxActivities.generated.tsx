@@ -1,8 +1,8 @@
 import * as Types from '../../../../graphql/types.generated';
 
-import { ActivityPreviewDataFragment } from '../../../../HOC/modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewFragment } from '../../../../HOC/modules/previews/activity/ActivityPreview.generated';
 import gql from 'graphql-tag';
-import { ActivityPreviewDataFragmentDoc } from '../../../../HOC/modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewFragmentDoc } from '../../../../HOC/modules/previews/activity/ActivityPreview.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -39,14 +39,14 @@ export type CommunityOutboxActivitiesQuery = (
 
 export type CommunityOutboxActivityFragment = (
   { __typename: 'Activity' }
-  & ActivityPreviewDataFragment
+  & ActivityPreviewFragment
 );
 
 export const CommunityOutboxActivityFragmentDoc = gql`
     fragment CommunityOutboxActivity on Activity {
-  ...ActivityPreviewData
+  ...ActivityPreview
 }
-    ${ActivityPreviewDataFragmentDoc}`;
+    ${ActivityPreviewFragmentDoc}`;
 export const CommunityOutboxActivitiesDocument = gql`
     query communityOutboxActivities($communityId: String!, $limit: Int, $before: String, $after: String) {
   community(communityId: $communityId) {

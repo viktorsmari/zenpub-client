@@ -1,8 +1,8 @@
 import * as Types from '../../graphql/types.generated';
 
-import { CommunityPageBaseFragment } from '../../HOC/pages/community/CommunityPage.generated';
+import { CommunityPageDataFragment } from '../../HOC/pages/community/CommunityPage.generated';
 import gql from 'graphql-tag';
-import { CommunityPageBaseFragmentDoc } from '../../HOC/pages/community/CommunityPage.generated';
+import { CommunityPageDataFragmentDoc } from '../../HOC/pages/community/CommunityPage.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -20,7 +20,7 @@ export type CommunityDataQuery = (
   { __typename: 'RootQueryType' }
   & { community: Types.Maybe<(
     { __typename: 'Community' }
-    & CommunityPageBaseFragment
+    & CommunityPageDataFragment
   )> }
 );
 
@@ -28,10 +28,10 @@ export type CommunityDataQuery = (
 export const CommunityDataDocument = gql`
     query communityData($communityId: String!) {
   community(communityId: $communityId) {
-    ...CommunityPageBase
+    ...CommunityPageData
   }
 }
-    ${CommunityPageBaseFragmentDoc}`;
+    ${CommunityPageDataFragmentDoc}`;
 export type CommunityDataComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CommunityDataQuery, CommunityDataQueryVariables>, 'query'> & ({ variables: CommunityDataQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const CommunityDataComponent = (props: CommunityDataComponentProps) => (

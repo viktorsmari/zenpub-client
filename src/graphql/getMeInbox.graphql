@@ -16,7 +16,7 @@ query getMeInbox($limit: Int, $end: String) {
                 }
                 edges {
                     node {
-                    ...ActivityPreviewData
+                    ...ActivityPreview
                         # __typename
                         # id
                         # canonicalUrl

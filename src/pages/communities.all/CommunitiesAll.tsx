@@ -24,7 +24,7 @@ interface Props {
   loggedin: boolean;
 }
 
-export const CommunitiesAll: React.SFC<Props> = ({ loggedin }) => {
+export const CommunitiesAll: React.FC<Props> = ({ loggedin }) => {
   const {
     data,
     error,

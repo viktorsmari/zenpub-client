@@ -80,6 +80,7 @@ const Nav = styled(Box)`
 `;
 
 const CommunityLink = styled(NavLink)`
+  margin-bottom: 8px;
   img {
     width: 36px;
     height: 36px;
@@ -125,6 +126,7 @@ const SidebarLink = styled(NavLink)`
 const NavItem = styled(Flex)`
   border-radius: 4px;
   padding: 8px;
+  margin-bottom: 8px;
   &:hover {
     background: ${props => props.theme.colors.lightgray};
   }
@@ -136,6 +138,7 @@ img {
 `;
 
 const ItemTitle = styled(Text)`
+font-size: 15px;
 a:focus,
       a:active {
           color: inherit;
@@ -163,16 +166,14 @@ const ItemTitleDir = styled(ItemTitle)`
 
 const HeaderName = styled(Text)`
   flex: 1;
-  ${ellipsis('220px')};
-  //${media.lessThan('1280px')`
-//display: none;
-//`};
+  ${ellipsis('180px')};
+  font-size: 15px;
 `;
 
-interface CommunityPreview {
+export interface CommunityPreview {
   link: {
     url: string;
-    external: true;
+    external: boolean;
   };
   name: string;
   icon: string;
@@ -186,33 +187,30 @@ interface SidebarLoaded {
     name: string;
     id: string;
   };
-  isOpen: boolean;
-  Search: React.ComponentType;
-  logout(): void;
+  Search: JSX.Element;
+  logout(): unknown;
 }
 
 export interface SidebarLoading {
   status: Status.Loading;
 }
 
-export interface Props {
-  sidebar: SidebarLoaded | SidebarLoading;
-}
+export type Props = SidebarLoaded | SidebarLoading;
 
-export const Sidebar: React.FC<Props> = ({ sidebar }) => {
-  const [isMenuOpen, setMenuIsOpen] = React.useState(false);
-  const openMenu = React.useCallback(() => setMenuIsOpen(true), []);
+export const Sidebar: React.FC<Props> = props => {
+  const [isOpenDropdown, setOpenDropdown] = React.useState(false);
+  const openMenu = React.useCallback(() => setOpenDropdown(true), []);
   return (
     <SidebarComponent>
       <InternalWrapper>
         <SidebarFixed>
-          {sidebar.status === Status.Loading ? (
+          {props.status === Status.Loading ? (
             <Text>Loading</Text>
           ) : (
             <SidebarOverflow>
               <>
                 <Header alignItems={'center'}>
-                  <sidebar.Search />
+                  {props.Search}
                   <NavItem
                     sx={{ position: 'relative' }}
                     alignItems="center"
@@ -220,20 +218,21 @@ export const Sidebar: React.FC<Props> = ({ sidebar }) => {
                   >
                     <Avatar
                       size="s"
-                      initials={sidebar.user.name.substring(0, 2)}
-                      src={sidebar.user.icon}
+                      initials={props.user.name.substring(0, 2)}
+                      src={props.user.icon}
                       variant="avatar"
                     />
                     <HeaderName ml={2} variant="link">
-                      {sidebar.user.name}
+                      {props.user.name}
                     </HeaderName>
-                    <Right>
+                    <Right ml={2}>
                       <ChevronDown size="20" />
                     </Right>
-                    {isMenuOpen && (
-                      <Dropdown
-                        logout={sidebar.logout}
-                        userId={sidebar.user.id}
+                    {isOpenDropdown && (
+                      <DropdownSidebar
+                        logout={props.logout}
+                        userId={props.user.id}
+                        setOpenDropdown={setOpenDropdown}
                       />
                     )}
                   </NavItem>
@@ -259,7 +258,7 @@ export const Sidebar: React.FC<Props> = ({ sidebar }) => {
                   </SidebarLink>
                 </Nav>
                 <Nav>
-                  {sidebar.communities.map((community: CommunityPreview, i) => (
+                  {props.communities.map((community: CommunityPreview, i) => (
                     <CommunityLink
                       key={community.link.url}
                       to={'/communities/' + community.link.url}

@@ -1,0 +1,19 @@
+query userFollowedCollections($userId: String!, $limit:Int, $before:String, $after:String) {
+  user(userId:$userId){
+    id
+    followedCollections(limit:$limit, before:$before, after:$after){
+      edges{
+        node{
+          follow { id }
+          collection{
+          ...UserFollowedCollection
+          }
+        }
+      }
+    }
+  }
+}
+
+fragment UserFollowedCollection on Collection {
+  ...CollectionPreview
+}

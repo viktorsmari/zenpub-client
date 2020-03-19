@@ -1,5 +1,5 @@
-#import "HOC/modules/ActivityPreview/getActivityPreview.graphql"
-#import "HOC/modules/HeroCollection/HeroCollection.graphql"
+
+
 
 fragment CollectionPageData on Collection {
   ...HeroCollectionData
@@ -8,10 +8,10 @@ fragment CollectionPageData on Collection {
 fragment CollectionPageResource on Resource {
   id
   createdAt
-  ...ActivityPreviewResourceCtx
+  ...ResourcePreview
 }
 
 fragment CollectionPageActivity on Activity {
   id
-  ...ActivityPreviewData
+  ...ActivityPreview
 }

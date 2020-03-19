@@ -2,6 +2,7 @@ input ResourceInput {
     name: String!
     summary: String
     url: String!
+    author: String
     icon: String
     license: String
 }

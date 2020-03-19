@@ -5,28 +5,8 @@ import { Trans } from '@lingui/macro';
 import { useHistory } from 'react-router';
 import { Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
-import { related_urls } from './../../../constants';
+import { related_urls } from './../../../mn-constants';
 
-const WrapperMenu = styled.div`
-  box-sizing: border-box;
-  width: 220px;
-  padding: 5px;
-  border-radius: 0.25em;
-  background-color: rgb(232, 232, 232);
-  position: absolute;
-  z-index: 999999999999;
-  left: 8px;
-  top: 60px;
-  ${media.lessThan('860px')`
-position: fixed;
-top: 70px;
-`};
-`;
-
-const ProfileMenu = styled.div`
-  background: #fff;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-`;
 const List = styled.div<{ lined?: boolean }>`
   padding: 8px;
   border-bottom: ${props => (props.lined ? '1px solid #dadada' : null)};
@@ -57,10 +37,15 @@ const Item = styled(Text)`
 
 export interface Props {
   logout(): void;
+  setOpenDropdown: any;
   userId: string;
 }
 
-export const Dropdown: React.FC<Props> = ({ logout, userId }) => {
+export const DropdownSidebar: React.FC<Props> = ({
+  logout,
+  userId,
+  setOpenDropdown
+}) => {
   const { push } = useHistory();
   return (
     <WrapperMenu>
@@ -95,27 +80,26 @@ export const Dropdown: React.FC<Props> = ({ logout, userId }) => {
             </a>
           </Item>
 
-          <Text
-            style={{
-              fontWeight: 600,
-              fontSize: '15px',
-              padding: '8px',
-              paddingLeft: '4px',
-              color: '#3c3c3c'
-            }}
-          >
-            v0.10 beta
-          </Text>
-        </List>
-        <List>
-          <Item variant="link" onClick={logout}>
-            <span>
-              <Power width={18} height={18} strokeWidth={1} color={'#333'} />
-            </span>
-            <Trans>Sign out</Trans>
-          </Item>
-        </List>
-      </ProfileMenu>
-    </WrapperMenu>
+        <Text
+          style={{
+            fontWeight: 600,
+            fontSize: '15px',
+            padding: '8px',
+            paddingLeft: '4px',
+            color: '#3c3c3c'
+          }}
+        >
+          v0.10 beta
+        </Text>
+      </List>
+      <List>
+        <Item variant="link" onClick={logout}>
+          <span>
+            <Power width={18} height={18} strokeWidth={1} color={'#333'} />
+          </span>
+          <Trans>Sign out</Trans>
+        </Item>
+      </List>
+    </Dropdown>
   );
 };

@@ -235,6 +235,8 @@ export type Comment = {
   likerCount?: Maybe<Scalars['Int']>,
   /** Users who like the comment, most recently liked first */
   likes?: Maybe<LikesEdges>,
+  /** The current user's flag of this comment, if any */
+  myFlag?: Maybe<Flag>,
   /** The current user's like of this comment, if any */
   myLike?: Maybe<Like>,
   /** The thread this comment is part of */
@@ -700,6 +702,8 @@ export type RegistrationInput = {
 
 export type Resource = {
    __typename?: 'Resource',
+  /** The original author */
+  author?: Maybe<Scalars['String']>,
   /** A url for the user, may be to a remote instance */
   canonicalUrl?: Maybe<Scalars['String']>,
   /** The collection this resource is a part of */
@@ -753,6 +757,7 @@ export type ResourceLikesArgs = {
 };
 
 export type ResourceInput = {
+  author?: Maybe<Scalars['String']>,
   icon?: Maybe<Scalars['String']>,
   license?: Maybe<Scalars['String']>,
   name: Scalars['String'],
@@ -789,6 +794,8 @@ export type RootMutationType = {
   createFlag?: Maybe<Flag>,
   /** Follow a community, collection or thread returning the follow */
   createFollow?: Maybe<Follow>,
+  /** Follow a community, collection or a user by their canonical url returning the follow */
+  createFollowByUrl?: Maybe<Follow>,
   /** Like a comment, collection, or resource returning the like */
   createLike?: Maybe<Like>,
   /** Reply to an existing comment in a thread */
@@ -809,8 +816,6 @@ export type RootMutationType = {
   deleteSession?: Maybe<Scalars['Boolean']>,
   /** Fetch metadata from webpage */
   fetchWebMetadata?: Maybe<WebMetadata>,
-  /** Follow a community, collection or a user by their canonical url returning the follow */
-  followRemoteActor?: Maybe<Follow>,
   /** Reset password */
   resetPassword?: Maybe<AuthPayload>,
   /** Reset password request */
@@ -873,6 +878,11 @@ export type RootMutationTypeCreateFollowArgs = {
 };
 
 
+export type RootMutationTypeCreateFollowByUrlArgs = {
+  url: Scalars['String']
+};
+
+
 export type RootMutationTypeCreateLikeArgs = {
   contextId: Scalars['String']
 };
@@ -919,11 +929,6 @@ export type RootMutationTypeDeleteSelfArgs = {
 
 
 export type RootMutationTypeFetchWebMetadataArgs = {
-  url: Scalars['String']
-};
-
-
-export type RootMutationTypeFollowRemoteActorArgs = {
   url: Scalars['String']
 };
 
@@ -1309,12 +1314,14 @@ export type WebMetadata = {
    __typename?: 'WebMetadata',
   author?: Maybe<Scalars['String']>,
   embedCode?: Maybe<Scalars['String']>,
+  embedType?: Maybe<Scalars['String']>,
   image?: Maybe<Scalars['String']>,
   language?: Maybe<Scalars['String']>,
-  resourceType?: Maybe<Scalars['String']>,
+  mimeType?: Maybe<Scalars['String']>,
   source?: Maybe<Scalars['String']>,
   summary?: Maybe<Scalars['String']>,
   title?: Maybe<Scalars['String']>,
+  url?: Maybe<Scalars['String']>,
 };
 
 
@@ -1828,6 +1835,7 @@ export type CommentResolvers<ContextType = any, ParentType extends ResolversPare
   isPublic?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   likerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   likes?: Resolver<Maybe<ResolversTypes['LikesEdges']>, ParentType, ContextType, CommentLikesArgs>,
+  myFlag?: Resolver<Maybe<ResolversTypes['Flag']>, ParentType, ContextType>,
   myLike?: Resolver<Maybe<ResolversTypes['Like']>, ParentType, ContextType>,
   thread?: Resolver<Maybe<ResolversTypes['Thread']>, ParentType, ContextType>,
   updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
@@ -2089,6 +2097,7 @@ export type PageInfoResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type ResourceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Resource'] = ResolversParentTypes['Resource']> = {
+  author?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   canonicalUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   collection?: Resolver<Maybe<ResolversTypes['Collection']>, ParentType, ContextType>,
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
@@ -2128,6 +2137,7 @@ export type RootMutationTypeResolvers<ContextType = any, ParentType extends Reso
   createFeature?: Resolver<Maybe<ResolversTypes['Feature']>, ParentType, ContextType, RequireFields<RootMutationTypeCreateFeatureArgs, 'contextId'>>,
   createFlag?: Resolver<Maybe<ResolversTypes['Flag']>, ParentType, ContextType, RequireFields<RootMutationTypeCreateFlagArgs, 'contextId' | 'message'>>,
   createFollow?: Resolver<Maybe<ResolversTypes['Follow']>, ParentType, ContextType, RequireFields<RootMutationTypeCreateFollowArgs, 'contextId'>>,
+  createFollowByUrl?: Resolver<Maybe<ResolversTypes['Follow']>, ParentType, ContextType, RequireFields<RootMutationTypeCreateFollowByUrlArgs, 'url'>>,
   createLike?: Resolver<Maybe<ResolversTypes['Like']>, ParentType, ContextType, RequireFields<RootMutationTypeCreateLikeArgs, 'contextId'>>,
   createReply?: Resolver<Maybe<ResolversTypes['Comment']>, ParentType, ContextType, RequireFields<RootMutationTypeCreateReplyArgs, 'comment' | 'inReplyToId' | 'threadId'>>,
   createResource?: Resolver<Maybe<ResolversTypes['Resource']>, ParentType, ContextType, RequireFields<RootMutationTypeCreateResourceArgs, 'collectionId' | 'resource'>>,
@@ -2138,7 +2148,6 @@ export type RootMutationTypeResolvers<ContextType = any, ParentType extends Reso
   deleteSelf?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationTypeDeleteSelfArgs, 'iAmSure'>>,
   deleteSession?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
   fetchWebMetadata?: Resolver<Maybe<ResolversTypes['WebMetadata']>, ParentType, ContextType, RequireFields<RootMutationTypeFetchWebMetadataArgs, 'url'>>,
-  followRemoteActor?: Resolver<Maybe<ResolversTypes['Follow']>, ParentType, ContextType, RequireFields<RootMutationTypeFollowRemoteActorArgs, 'url'>>,
   resetPassword?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<RootMutationTypeResetPasswordArgs, 'password' | 'token'>>,
   resetPasswordRequest?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationTypeResetPasswordRequestArgs, 'email'>>,
   resolveFlag?: Resolver<Maybe<ResolversTypes['Flag']>, ParentType, ContextType, RequireFields<RootMutationTypeResolveFlagArgs, 'flagId'>>,
@@ -2245,12 +2254,14 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 export type WebMetadataResolvers<ContextType = any, ParentType extends ResolversParentTypes['WebMetadata'] = ResolversParentTypes['WebMetadata']> = {
   author?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   embedCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  embedType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   language?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  resourceType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  mimeType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   source?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   summary?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
 };
 
 export type Resolvers<ContextType = any> = {

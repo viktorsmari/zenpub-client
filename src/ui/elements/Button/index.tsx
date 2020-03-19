@@ -1,4 +1,4 @@
-import React, { SFC } from 'react';
+import React, { FC } from 'react';
 import styled from 'ui/themes/styled';
 import Loader from '../Loader';
 import { darken, lighten, transitions } from 'polished';
@@ -26,7 +26,7 @@ export interface Props extends ButtonProps {
   isIcon?: boolean;
 }
 
-const MNButton: SFC<Props> = props => (
+const MNButton: FC<Props> = props => (
   //@ts-ignore
   <WrapperButton
     {...props}

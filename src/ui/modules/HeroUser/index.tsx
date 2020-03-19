@@ -1,4 +1,4 @@
-import React, { SFC } from 'react';
+import React, { ComponentType, FC } from 'react';
 import { Box, Text, Flex } from 'rebass/styled-components';
 import { MapPin, MoreVertical, Flag } from 'react-feather';
 import styled from 'ui/themes/styled';
@@ -6,8 +6,9 @@ import media from 'styled-media-query';
 import Button from 'ui/elements/Button';
 import { Trans } from '@lingui/react';
 import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { FormikHook } from 'ui/@types/types';
+import Modal from 'ui/modules/Modal';
 
 export enum Status {
   Loading,
@@ -23,9 +24,11 @@ export interface Loaded {
   image: string;
   icon: string;
   name: string;
+  isFlagged: boolean;
   displayUsername: string;
   location: string;
   summary: string;
+  FlagModal: ComponentType<{ done(): any }>;
 }
 export interface LoadedMe extends Loaded {
   me: true;
@@ -40,15 +43,16 @@ export interface LoadedOther extends Loaded {
 }
 export type Props = LoadedMe | LoadedOther | Loading;
 
-export const HeroUser: SFC<Props> = props => {
+export const HeroUser: FC<Props> = props => {
+  const [isOpenFlag, setOpenFlag] = React.useState(false);
   if (props.status === Status.Loading) {
     return null;
   }
 
   return (
-    <ProfileBox p={1} mb={2}>
+    <ProfileBox p={1}>
       <Hero>
-        <HeroBg src={props.image || 'https://picsum.photos/id/1021/800/300'} />
+        <HeroBg src={props.image} />
         <FlexProfile>
           <WrapperHero>
             <Img
@@ -84,10 +88,15 @@ export const HeroUser: SFC<Props> = props => {
                   />
                   {props.isOpenDropdown && (
                     <Dropdown orientation={'bottom'} cb={props.setOpenDropdown}>
-                      <DropdownItem>
+                      <DropdownItem onClick={() => setOpenFlag(true)}>
                         <Flag size={20} color={'rgb(101, 119, 134)'} />
                         <Text sx={{ flex: 1 }} ml={2}>
-                          Flag {props.displayUsername}
+                          {!props.isFlagged ? (
+                            <Trans>Flag</Trans>
+                          ) : (
+                            <Trans>Unflag</Trans>
+                          )}{' '}
+                          {props.displayUsername}
                         </Text>
                       </DropdownItem>
                     </Dropdown>
@@ -122,41 +131,16 @@ export const HeroUser: SFC<Props> = props => {
             </Location>
           ) : null}
         </HeroInfo>
-        <WrapperResume ml={3} my={2}>
-          <Resume>
-            <ResumeItem variant="text">
-              Member of <Link to="/communities">12 Communities</Link>
-            </ResumeItem>
-            ,
-            <ResumeItem variant="text" ml={1}>
-              Follow <Link to="/collections">43 Collections</Link> and{' '}
-              <Link to="/following">22 Users</Link>
-            </ResumeItem>
-          </Resume>
-          <Resume mt={2}>
-            <ResumeItem variant="text">
-              Followed by <Link to="/communities">124k Users</Link>
-            </ResumeItem>
-          </Resume>
-        </WrapperResume>
       </Hero>
+      {isOpenFlag && (
+        <Modal closeModal={() => setOpenFlag(false)}>
+          <props.FlagModal done={() => setOpenFlag(false)} />
+        </Modal>
+      )}
     </ProfileBox>
   );
 };
 
-const WrapperResume = styled(Box)``;
-const Resume = styled(Flex)``;
-
-const ResumeItem = styled(Text)`
-  a {
-    font-weight: 700;
-    color: ${props => props.theme.colors.darkgray};
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-`;
 const AdminBadge = styled(Box)`
   padding: 1px 8px;
   border: 1px solid ${props => props.theme.colors.orange};
@@ -175,6 +159,7 @@ const More = styled(Box)`
   border: 1px solid ${props => props.theme.colors.lightgray};
   border-radius: 4px;
   svg {
+    margin: 0 auto;
     stroke: ${props => props.theme.colors.gray};
   }
 `;
@@ -222,8 +207,7 @@ const Location = styled(Flex)`
 
 const HeroBg = styled.div<{ src: string }>`
   height: 250px;
-  border-top-right-radius: 6px;
-  border-top-left-radius: 6px;
+  margin: -4px;
   background: ${props => props.theme.colors.lightgray};
   background-image: url(${props =>
     props.src ? props.src : props.theme.colors.lightgray});

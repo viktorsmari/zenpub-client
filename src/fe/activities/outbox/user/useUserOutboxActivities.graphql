@@ -1,5 +1,5 @@
-#import "HOC/modules/ActivityPreview/getActivityPreview.graphql"
-#import "HOC/page/user/UserPageHOC.graphql"
+
+
 
 query userOutboxActivities($userId: String!, $after:String, $before:String, $limit:Int){
   user(userId:$userId){
@@ -17,5 +17,5 @@ query userOutboxActivities($userId: String!, $after:String, $before:String, $lim
 
 fragment UserOutboxActivity on Activity {
   ...UserPageActivities
-  ...ActivityPreviewData
+  ...ActivityPreview
 }

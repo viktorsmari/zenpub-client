@@ -1,4 +1,4 @@
-#import "HOC/page/community/CommunityPage.graphql"
+
 
 query communityThreads($communityId: String!, $limit:Int, $before:String, $after:String) {
   community(communityId:$communityId){

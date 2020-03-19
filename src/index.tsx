@@ -14,7 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { integrateToastNotifications } from './integrations/Toast-Notifications';
 import { createDynamicLinkEnv } from './util/apollo/dynamicLink';
 import * as Sentry from '@sentry/browser';
-import * as K from './constants';
+import * as K from './mn-constants';
 Sentry.init({
   dsn: K.SENTRY_KEY
 });
@@ -66,10 +66,15 @@ async function run() {
   const appLink = dynamicLinkEnv.link;
   const apolloClient = await getApolloClient({
     localKVStore: createLocalKVStore('APOLLO#'),
-    appLink
+    appLink,
+    dispatch: store.dispatch
   });
 
-  integrateSessionApolloRedux(dynamicLinkEnv.srv, store.dispatch);
+  integrateSessionApolloRedux(
+    dynamicLinkEnv.srv,
+    store.dispatch,
+    apolloClient.client
+  );
   integrateToastNotifications(dynamicLinkEnv.srv, store.dispatch);
   const ApolloApp = () => (
     <ApolloProvider client={apolloClient.client}>

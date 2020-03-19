@@ -16,7 +16,7 @@ export interface Props {
   totalResources: number | null;
 }
 
-export const CollectionPreview: React.SFC<Props> = ({
+export const CollectionPreview: React.FC<Props> = ({
   link,
   icon,
   name,

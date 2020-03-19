@@ -1,5 +1,5 @@
 import * as GQL from 'fe/mutation/follow/useMutateFollow.generated';
-import { isOptimisticId, OPTIMISTIC_ID_STRING } from 'fe/util';
+import { isOptimisticId, OPTIMISTIC_ID_STRING } from 'fe/lib/helpers/mutations';
 import { GetSidebarQueryDocument } from 'graphql/getSidebar.generated';
 import { Collection, Community, Thread, User } from 'graphql/types.generated';
 import { useCallback, useMemo } from 'react';
@@ -31,7 +31,7 @@ export const useFollowContext = (ctx: UseFollowContext) => {
           followerCount || 0
         ),
         refetchQueries: [
-          ...(__typename === 'Community'
+          ...(__typename === 'Community' || __typename === 'Collection'
             ? [{ query: GetSidebarQueryDocument }]
             : [])
         ]
@@ -49,7 +49,7 @@ export const useFollowContext = (ctx: UseFollowContext) => {
               followerCount || 1
             ),
             refetchQueries: [
-              ...(__typename === 'Community'
+              ...(__typename === 'Community' || __typename === 'Collection'
                 ? [{ query: GetSidebarQueryDocument }]
                 : [])
             ]

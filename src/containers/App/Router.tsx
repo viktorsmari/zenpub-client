@@ -1,25 +1,26 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
+import { AllCollectionsPageRoute } from 'routes/AllCollectionsPageRoute';
+import { AllCommunitiesPageRoute } from 'routes/AllCommunitiesPageRoute';
 import { CollectionPageRoute } from 'routes/CollectionPageRoute';
 import { CommunityPageRoute } from 'routes/CommunityPageRoute';
+import { DiscoverPageRoute } from 'routes/DiscoverPageRoute';
+import { SettingsPageRoute } from 'routes/SettingsPageRoute';
+import { ThreadPageRoute } from 'routes/ThreadPageRoute';
 import { UserPageRoute } from 'routes/UserPageRoute';
 import { SessionContext } from '../../context/global/sessionCtx';
 import { CollectionsYours } from '../../pages/collections.all';
 import MyCollections from '../../pages/collections.all/collectionsFollowed';
-import { CommunitiesAll } from '../../pages/communities.all/CommunitiesAll';
 import { CommunitiesYours } from '../../pages/communities.all/communitiesJoined';
 import ConfirmAccount from '../../pages/Confirm';
 import CreateNewPassword from '../../pages/CreateNewPassword';
-import Discover from '../../pages/discover';
 import Home from '../../pages/home';
 import Login from '../../pages/login/Login';
 import NotFound from '../../pages/not-found/NotFound';
 import Reset from '../../pages/Reset';
 import SearchComp from '../../pages/search/Search';
-import Settings from '../../pages/settings';
 import Signup from '../../pages/Signup';
-import Thread from '../../pages/thread/component';
 // import media from 'styled-media-query';
 import {
   Inner,
@@ -73,34 +74,22 @@ const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
         <Route {...UserPageRoute} />
         <Route {...CommunityPageRoute} />
         <Route {...CollectionPageRoute} />
+        <Route {...SettingsPageRoute} />
+        <Route {...AllCollectionsPageRoute} />
+        <Route {...AllCommunitiesPageRoute} />
+        <Route {...ThreadPageRoute} />
+        <Route {...DiscoverPageRoute} />
+
         <Route exact path="/" component={me ? Home : Login} />
         <Route
           exact
           path="/mycommunities"
           component={me ? CommunitiesYours : Login}
         />
-        <Route exact path="/settings" component={me ? Settings : Login} />
         <Route
           exact
           path="/mycollections"
           component={me ? MyCollections : Login}
-        />
-
-        <Route exact path="/discover" component={Discover} />
-        <Route
-          exact
-          path="/communities"
-          render={route => {
-            return <CommunitiesAll loggedin={!!me} />;
-          }}
-        />
-        <Route
-          exact
-          path="/thread/:id"
-          render={route => {
-            const threadId = route.match.params.id;
-            return <Thread threadId={threadId} />;
-          }}
         />
 
         <Route path="/search" component={SearchComp} />

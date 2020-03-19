@@ -1,0 +1,8 @@
+query allCommunities{
+  communities{
+    nodes{
+      ...CommunityPreview
+    }
+    totalCount
+  }
+}

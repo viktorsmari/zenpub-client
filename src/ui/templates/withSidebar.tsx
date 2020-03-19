@@ -2,13 +2,16 @@ import React from 'react';
 import { Flex } from 'rebass/styled-components';
 import styled from 'ui/themes/styled';
 export interface SidebarProps {
-  SidebarBox: React.ComponentType;
+  SidebarBox: JSX.Element;
 }
 
-export const WithSidebar: React.SFC<SidebarProps> = props => (
+export const WithSidebar: React.FC<SidebarProps> = ({
+  SidebarBox,
+  children
+}) => (
   <CenteredWrapper>
-    <props.SidebarBox />
-    <Flex ml={2}>{props.children}</Flex>
+    {SidebarBox}
+    <Flex ml={2}>{children}</Flex>
   </CenteredWrapper>
 );
 

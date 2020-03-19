@@ -16,10 +16,10 @@ const CollectionPageRouter: FC<RouteComponentProps<CollectionPageRouter>> = ({
   const collectionId = match.params.collectionId;
   const maybeTabStr = match.params.tab;
   const tab =
-    maybeTabStr === 'resources'
-      ? CollectionPageTab.Resources
-      : !maybeTabStr
+    maybeTabStr === 'activities'
       ? CollectionPageTab.Activities
+      : !maybeTabStr
+      ? CollectionPageTab.Resources
       : null;
   if (tab === null) {
     return <NotFound />;

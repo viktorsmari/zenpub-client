@@ -1,7 +1,7 @@
 import { Settings } from 'luxon';
 import { AnyAction, Middleware, Reducer } from 'redux';
 import * as Localization from '.';
-import { locales, LocaleKey } from '../../constants';
+import { locales, LocaleKey } from '../../mn-constants';
 import { KVStore } from '../../util/keyvaluestore/types';
 
 const LOCALE_KEY = 'locale';

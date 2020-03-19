@@ -94,9 +94,8 @@ export interface Hit {
   name: string;
   preferredUsername: string;
   summary: string;
-  index_type: string;
+  index_type: 'Community' | 'Collection' | 'Resource';
   index_instance: string;
-  index_instance_object_id: string | null;
   objectID: string;
   _highlightResult: HighlightResult;
   license?: any;

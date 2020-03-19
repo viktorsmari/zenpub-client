@@ -38,7 +38,7 @@ export interface CreateCommunityFormValues {
   name: string;
   summary: string;
   icon: string;
-  files?: [];
+  files: File[];
 }
 
 export const CreateCommunityPanel: React.FC<Props> = ({ cancel, formik }) => {
@@ -50,7 +50,7 @@ export const CreateCommunityPanel: React.FC<Props> = ({ cancel, formik }) => {
         </Heading>
       </Header>
       <Hero>
-        <Box sx={{ width: '120px' }}>
+        <Box sx={{ width: '120px', height: '120px' }}>
           <DropzoneArea initialUrl={formik.values.icon} formikForm={formik} />
         </Box>
         {/* <Background style={{ backgroundImage: `url(${c.icon})` }} /> */}

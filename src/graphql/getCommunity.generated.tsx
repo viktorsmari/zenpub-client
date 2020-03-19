@@ -1,9 +1,9 @@
 import * as Types from './types.generated';
 
 import { BasicCommentWithInReplyToFragment } from './fragments/basicComment.generated';
-import { ActivityPreviewDataFragment } from '../HOC/modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewFragment } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import gql from 'graphql-tag';
-import { ActivityPreviewDataFragmentDoc } from '../HOC/modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewFragmentDoc } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import { BasicCommentWithInReplyToFragmentDoc } from './fragments/basicComment.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -41,7 +41,7 @@ export type GetCommunityQueryQuery = (
         { __typename: 'ActivitiesEdge' }
         & { node: (
           { __typename: 'Activity' }
-          & ActivityPreviewDataFragment
+          & ActivityPreviewFragment
         ) }
       )>>> }
     )>, threads: Types.Maybe<(
@@ -158,7 +158,7 @@ export const GetCommunityQueryDocument = gql`
       }
       edges {
         node {
-          ...ActivityPreviewData
+          ...ActivityPreview
         }
       }
     }
@@ -262,7 +262,7 @@ export const GetCommunityQueryDocument = gql`
     }
   }
 }
-    ${ActivityPreviewDataFragmentDoc}
+    ${ActivityPreviewFragmentDoc}
 ${BasicCommentWithInReplyToFragmentDoc}`;
 export type GetCommunityQueryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetCommunityQueryQuery, GetCommunityQueryQueryVariables>, 'query'> & ({ variables: GetCommunityQueryQueryVariables; skip?: boolean; } | { skip: boolean; });
 

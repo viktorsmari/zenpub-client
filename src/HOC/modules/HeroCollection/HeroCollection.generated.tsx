@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 
 export type HeroCollectionDataFragment = (
   { __typename: 'Collection' }
-  & Pick<Types.Collection, 'id' | 'name' | 'displayUsername' | 'summary' | 'icon'>
+  & Pick<Types.Collection, 'id' | 'name' | 'displayUsername' | 'summary' | 'icon' | 'followerCount'>
   & { community: Types.Maybe<(
     { __typename: 'Community' }
     & Pick<Types.Community, 'id' | 'name' | 'icon'>
@@ -23,6 +23,14 @@ export type HeroCollectionDataFragment = (
   )> }
 );
 
+export type HeroCollectionMeDataFragment = (
+  { __typename: 'Me' }
+  & { user: (
+    { __typename: 'User' }
+    & Pick<Types.User, 'id'>
+  ) }
+);
+
 export const HeroCollectionDataFragmentDoc = gql`
     fragment HeroCollectionData on Collection {
   id
@@ -35,6 +43,7 @@ export const HeroCollectionDataFragmentDoc = gql`
     name
     icon
   }
+  followerCount
   followers {
     totalCount
   }
@@ -45,6 +54,13 @@ export const HeroCollectionDataFragmentDoc = gql`
     id
   }
   creator {
+    id
+  }
+}
+    `;
+export const HeroCollectionMeDataFragmentDoc = gql`
+    fragment HeroCollectionMeData on Me {
+  user {
     id
   }
 }

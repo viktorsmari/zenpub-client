@@ -1,12 +1,15 @@
 import * as Types from '../../graphql/types.generated';
 
+import { SidebarMeUserFragment } from '../../HOC/modules/Sidebar/Sidebar.generated';
 import gql from 'graphql-tag';
+import { SidebarMeUserFragmentDoc } from '../../HOC/modules/Sidebar/Sidebar.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
 
 export type MeQueryVariables = {};
 
@@ -51,6 +54,7 @@ export type UseMeDataFragment = (
   & { user: (
     { __typename: 'User' }
     & Pick<Types.User, 'id'>
+    & SidebarMeUserFragment
   ) }
 );
 
@@ -59,9 +63,10 @@ export const UseMeDataFragmentDoc = gql`
   isInstanceAdmin
   user {
     id
+    ...SidebarMeUser
   }
 }
-    `;
+    ${SidebarMeUserFragmentDoc}`;
 export const MeDocument = gql`
     query me {
   me {

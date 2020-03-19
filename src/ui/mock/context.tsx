@@ -31,11 +31,12 @@ import {
   BasicCreateFlagFormValues,
   Props as FlagModalProps
 } from 'ui/modules/FlagModal';
-import {
-  BasicFeaturedFormValues,
-  Props as FeaturedModalProps
-} from 'ui/modules/FeaturedModal';
+import { Props as FeaturedModalProps } from 'ui/modules/FeaturedModal';
+
 import { FeaturedModal } from '../modules/FeaturedModal';
+import { Props as EditProfileProps, EditProfile } from 'ui/pages/settings';
+import { FeaturedCommunitiesData as FeaturedCommunitiesProps } from 'ui/modules/FeaturedCommunities';
+import { FeaturedCollectionsData as FeaturedCollectionsProps } from 'ui/modules/FeaturedCollections';
 
 export const getEditCommunityProps = (): EditCommunityProps => {
   const formik = useFormik<EditCommunityFormValues>({
@@ -61,7 +62,8 @@ export const getCreateCommunityProps = (): CreateCommunityProps => {
     initialValues: {
       icon: '',
       name: '',
-      summary: ''
+      summary: '',
+      files: []
     },
     onSubmit: () => {
       action('submit')();
@@ -99,8 +101,8 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
       // isFeatured: false,
       status: HeroCommunityStatus.Loaded,
       canModify: true,
-      following: true,
-      flagged: false,
+      following: false,
+      isFlagged: false,
       icon: 'https://picsum.photos/800/300',
       name: 'Community nino',
       fullName: 'ninos@abc.com',
@@ -121,23 +123,7 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
         return <></>;
       },
       FeaturedModal: () => {
-        const formik = useFormik<{}>({
-          initialValues: { makeFeatured: true },
-          onSubmit: () => {
-            action('submit')();
-            return new Promise((resolve, reject) => {
-              setTimeout(resolve, 3000);
-            });
-          }
-        });
-        const getFeaturedModalProps = {
-          formik,
-          isFeatured: true,
-          itemType: 'community',
-          itemName: 'Type Theory',
-          cancel: action('cancel')
-        };
-        return <FeaturedModal {...getFeaturedModalProps} />;
+        return <></>;
       }
     }
   };
@@ -151,7 +137,7 @@ export const getHeroCommunityPropsAdmin = (): HeroCommunityProps => {
       // isFeatured: true,
       canModify: true,
       following: true,
-      flagged: false,
+      isFlagged: false,
       icon: 'https://picsum.photos/800/300',
       name: 'Community nino',
       fullName: 'ninos@abc.com',
@@ -183,9 +169,9 @@ export const getHeroCommunityPropsAdmin = (): HeroCommunityProps => {
         });
         const getFeaturedModalProps = {
           formik,
-          isFeatured: true,
+          isFeatured: false,
           itemType: 'community',
-          itemName: 'Type Theory',
+          itemName: 'Community nino',
           cancel: action('cancel')
         };
         return <FeaturedModal {...getFeaturedModalProps} />;
@@ -194,33 +180,35 @@ export const getHeroCommunityPropsAdmin = (): HeroCommunityProps => {
   };
 };
 
+export const getEditProfileProps = (): EditProfileProps => {
+  const formik = useFormik<EditProfile>({
+    initialValues: {
+      image: '',
+      location: '',
+      icon:
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.MPaPKKyEuv4RMPDu3T_ppgHaE7%26pid%3DApi&f=1',
+      name: '24grana best songs',
+      summary:
+        '24 Grana appeared on the Italian underground scene in the mid 90s, in a period of a great social, political and cultural ferment. The band is named after a coin used at the times of Kind Ferdinand of Aragona.'
+    },
+    onSubmit: () => {
+      action('submit')();
+      return new Promise((resolve, reject) => {
+        setTimeout(resolve, 3000);
+      });
+    }
+  });
+  return { formik, basePath: '/', displayUsername: '@tata@app.moodle.net' };
+};
+
 export const getHeroCollectionProps = (): HeroCollectionProps => {
   return {
     collection: {
       status: HeroCollectionStatus.Loaded,
-      isAdmin: true,
-      FeaturedModal: () => {
-        const formik = useFormik<{}>({
-          initialValues: { makeFeatured: true },
-          onSubmit: () => {
-            action('submit')();
-            return new Promise((resolve, reject) => {
-              setTimeout(resolve, 3000);
-            });
-          }
-        });
-        const getFeaturedModalProps = {
-          formik,
-          isFeatured: false,
-          itemType: 'collection',
-          itemName: 'Soil types',
-          cancel: action('cancel')
-        };
-        return <FeaturedModal {...getFeaturedModalProps} />;
-      },
+      isAdmin: false,
       canModify: true,
       following: true,
-      flagged: false,
+      isFlagged: false,
       icon: 'https://picsum.photos/800/300',
       name: 'Favourite books',
       fullName: 'favbooks@abc.com',
@@ -229,6 +217,8 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
       communityName: 'Super community',
       summary:
         'Cooperation combined with network effects is more effective than capitalist competition',
+      followerCount: 10,
+      // contributorCount: 2,
       toggleJoinFormik: useFormik<{}>({
         initialValues: {},
         onSubmit: () => {
@@ -246,6 +236,9 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
       ),
       FlagModal: ({ done }) => {
         return <></>;
+      },
+      FeaturedModal: () => {
+        return <></>;
       }
     }
   };
@@ -258,7 +251,7 @@ export const getHeroCollectionPropsAdmin = (): HeroCollectionProps => {
       isAdmin: true,
       canModify: true,
       following: true,
-      flagged: false,
+      isFlagged: false,
       icon: 'https://picsum.photos/800/300',
       name: 'Favourite books',
       fullName: 'favbooks@abc.com',
@@ -267,6 +260,8 @@ export const getHeroCollectionPropsAdmin = (): HeroCollectionProps => {
       communityName: 'Super community',
       summary:
         'Cooperation combined with network effects is more effective than capitalist competition',
+      followerCount: 10,
+      // contributorCount: 2,
       toggleJoinFormik: useFormik<{}>({
         initialValues: {},
         onSubmit: action('toggle join')
@@ -294,7 +289,7 @@ export const getHeroCollectionPropsAdmin = (): HeroCollectionProps => {
           formik,
           isFeatured: false,
           itemType: 'collection',
-          itemName: 'Soil types',
+          itemName: 'Favourite books',
           cancel: action('cancel')
         };
         return <FeaturedModal {...getFeaturedModalProps} />;
@@ -317,6 +312,7 @@ export const getHeroUserProps = (): HeroUserProps => {
     name: '˗ˏˋ Doug Belshaw ˎˊ˗  🇪🇺 ☠️ ✊',
     summary:
       'Open Educational Thinkerer. Product Manager @MoodleNet & Co-op founder @WeAreOpenCoop. Aspiring Mountain Leader. Previously: @Mozilla @Jisc teacher',
+    isFlagged: false,
     toggleFollowFormik: useFormik<{}>({
       initialValues: {},
       onSubmit: () => {
@@ -325,7 +321,10 @@ export const getHeroUserProps = (): HeroUserProps => {
           setTimeout(resolve, 3000);
         });
       }
-    })
+    }),
+    FlagModal: ({ done }) => {
+      return <></>;
+    }
   };
 };
 
@@ -341,7 +340,11 @@ export const getHeroUserProps2 = (): HeroUserProps => {
       'https://pbs.twimg.com/profile_images/1161428802091802627/O49Ggs-7_400x400.jpg',
     name: '˗ˏˋ Doug Belshaw ˎˊ˗  🇪🇺 ☠️ ✊',
     summary:
-      'Open Educational Thinkerer. Product Manager @MoodleNet & Co-op founder @WeAreOpenCoop. Aspiring Mountain Leader. Previously: @Mozilla @Jisc teacher'
+      'Open Educational Thinkerer. Product Manager @MoodleNet & Co-op founder @WeAreOpenCoop. Aspiring Mountain Leader. Previously: @Mozilla @Jisc teacher',
+    isFlagged: false,
+    FlagModal: ({ done }) => {
+      return <></>;
+    }
   };
 };
 
@@ -372,7 +375,7 @@ export const getResourcePreviewProps = (): ResourcePreviewProps => {
 };
 
 export const getFlagModalProps = (): FlagModalProps => {
-  const formik = useFormik<BasicCreateFlagFormValues>({
+  const flagFormik = useFormik<BasicCreateFlagFormValues>({
     initialValues: {
       reason: ''
     },
@@ -383,11 +386,25 @@ export const getFlagModalProps = (): FlagModalProps => {
       });
     }
   });
-  return { formik, flagged: false, cancel: action('cancel') };
+  const unflagFormik = useFormik({
+    initialValues: {},
+    onSubmit: () => {
+      action('submit')();
+      return new Promise((resolve, reject) => {
+        setTimeout(resolve, 3000);
+      });
+    }
+  });
+  return {
+    flagFormik,
+    unflagFormik,
+    isFlagged: false,
+    cancel: action('cancel')
+  };
 };
 
 export const getFeaturedModalProps = (): FeaturedModalProps => {
-  const formik = useFormik<BasicFeaturedFormValues>({
+  const formik = useFormik({
     initialValues: { makeFeatured: true },
     onSubmit: () => {
       action('submit')();
@@ -402,5 +419,156 @@ export const getFeaturedModalProps = (): FeaturedModalProps => {
     itemName: 'Type Theory',
     itemType: 'community',
     cancel: action('cancel')
+  };
+};
+
+export const getFeaturedCommunitiesProps = (): FeaturedCommunitiesProps => {
+  return {
+    isAdmin: false,
+    featuredCommunities: [
+      {
+        id: '1',
+        name: 'Instructional Design in HE',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '2',
+        name: 'The Lounge',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '3',
+        name: 'OER Lounge',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '4',
+        name: 'Favourite books',
+        icon: 'https://picsum.photos/id/200/200/200'
+      }
+    ]
+  };
+};
+
+export const getFeaturedCommunitiesPropsAdmin = (): FeaturedCommunitiesProps => {
+  return {
+    isAdmin: true,
+    featuredCommunities: [
+      {
+        id: '1',
+        name: 'Instructional Design in HE',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '2',
+        name: 'The Lounge',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '3',
+        name: 'OER Lounge',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '4',
+        name: 'Favourite books',
+        icon: 'https://picsum.photos/id/200/200/200'
+      }
+    ],
+    FeaturedModal: ({ done }) => {
+      const formik = useFormik<{}>({
+        initialValues: { makeFeatured: true },
+        onSubmit: () => {
+          action('submit')();
+          return new Promise((resolve, reject) => {
+            setTimeout(resolve, 3000);
+          });
+        }
+      });
+      const getFeaturedModalProps = {
+        formik,
+        isFeatured: true,
+        itemType: 'community',
+        itemName: 'Community nino',
+        cancel: action('cancel')
+      };
+      return <FeaturedModal {...getFeaturedModalProps} />;
+    }
+  };
+};
+
+export const getFeaturedCollectionsProps = (): FeaturedCollectionsProps => {
+  return {
+    isAdmin: false,
+    FeaturedModal: () => <div>FeaturedModal</div>,
+    featuredCollections: [
+      {
+        id: '1',
+        name: 'Global OER Projects',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '2',
+        name: 'Great education-related books',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '3',
+        name: 'Spaced Repetition',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '4',
+        name: 'Community OER',
+        icon: 'https://picsum.photos/id/200/200/200'
+      }
+    ]
+  };
+};
+
+export const getFeaturedCollectionsPropsAdmin = (): FeaturedCollectionsProps => {
+  return {
+    isAdmin: true,
+    featuredCollections: [
+      {
+        id: '1',
+        name: 'Global OER Projects',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '2',
+        name: 'Great education-related books',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '3',
+        name: 'Spaced Repetition',
+        icon: 'https://picsum.photos/id/200/200/200'
+      },
+      {
+        id: '4',
+        name: 'Community OER',
+        icon: 'https://picsum.photos/id/200/200/200'
+      }
+    ],
+    FeaturedModal: ({ done }) => {
+      const formik = useFormik<{}>({
+        initialValues: { makeFeatured: true },
+        onSubmit: () => {
+          action('submit')();
+          return new Promise((resolve, reject) => {
+            setTimeout(resolve, 3000);
+          });
+        }
+      });
+      const getFeaturedModalProps = {
+        formik,
+        isFeatured: true,
+        itemType: 'community',
+        itemName: 'Community nino',
+        cancel: action('cancel')
+      };
+      return <FeaturedModal {...getFeaturedModalProps} />;
+    }
   };
 };

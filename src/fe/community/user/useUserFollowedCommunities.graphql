@@ -1,0 +1,19 @@
+query UserFollowedCommunities($userId: String!, $limit:Int, $before:String, $after:String) {
+  user(userId:$userId){
+    id
+    followedCommunities(limit:$limit, before:$before, after:$after){
+      edges{
+        node{
+          follow { id }
+          community{
+          ...UserFollowedCommunity
+          }
+        }
+      }
+    }
+  }
+}
+
+fragment UserFollowedCommunity on Community {
+  ...CommunityPreview
+}

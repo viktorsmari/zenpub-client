@@ -1,4 +1,4 @@
-import React, { useMemo, SFC, createContext, useContext } from 'react';
+import React, { useMemo, FC, createContext, useContext } from 'react';
 import { useFormik } from 'formik';
 import * as GQL from './AddResource.generated';
 import * as Yup from 'yup';
@@ -6,7 +6,7 @@ import {
   ResourceFormValues,
   UploadResource
 } from 'ui/modules/AddResource/UploadResource';
-import { accepted_license_types } from '../../../constants';
+import { accepted_license_types } from '../../../mn-constants';
 import { CollectionResourcesDocument } from 'fe/resource/collection/useCollectionResources.generated';
 
 export const validationSchema: Yup.ObjectSchema<ResourceFormValues> = Yup.object<
@@ -17,6 +17,7 @@ export const validationSchema: Yup.ObjectSchema<ResourceFormValues> = Yup.object
     .max(90)
     .required(),
   summary: Yup.string().max(1000),
+  author: Yup.string().max(90),
   icon: Yup.string().url(),
   license: Yup.string()
 });
@@ -25,6 +26,7 @@ export const resourceFormInitialValues: ResourceFormValues = {
   url: '',
   name: '',
   summary: '',
+  author: '',
   icon: '',
   license: accepted_license_types[1],
   acceptedLicenses: accepted_license_types,
@@ -49,10 +51,7 @@ export const UploadResourceCtx = createContext<UploadResourceCtx>({
   useAddResourceUploadMutation: GQL.useAddResourceUploadMutation
 });
 
-export const UploadResourceHOC: SFC<Props> = ({
-  done,
-  collectionId
-}: Props) => {
+export const UploadResourceHOC: FC<Props> = ({ done, collectionId }: Props) => {
   const {
     useAddResourceCreateResourceMutation,
     useAddResourceUploadIconMutation,
@@ -82,6 +81,7 @@ export const UploadResourceHOC: SFC<Props> = ({
           resource: {
             name: vals.name,
             summary: vals.summary,
+            // author: vals.author,
             icon: vals.icon,
             url: vals.url,
             license: vals.license

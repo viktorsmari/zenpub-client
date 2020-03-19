@@ -1,6 +1,6 @@
 import styled from '../../../themes/styled';
 import React, { useState } from 'react';
-import { SFC } from 'react';
+import { FC } from 'react';
 import { Text, Box, Flex, Image } from 'rebass/styled-components';
 import * as Feather from 'react-feather';
 import { DateTime } from 'luxon';
@@ -111,18 +111,15 @@ interface Props {
   comment: Comment;
 }
 
-const Thread: SFC<Props> = ({ comment }) => {
+const Thread: FC<Props> = ({ comment }) => {
   const [isOpen, onOpen] = useState(false);
   const [like /* , likeResult */] = useLikeMutationMutation();
   const [undoLike /* , likeResult */] = useDeleteMutationMutation();
   const iLikeIt = !!comment.myLike;
-  const toggleLike = React.useCallback(
-    () => {
-      const variables = { contextId: comment.id };
-      (iLikeIt ? undoLike : like)({ variables });
-    },
-    [comment, iLikeIt]
-  );
+  const toggleLike = React.useCallback(() => {
+    const variables = { contextId: comment.id };
+    (iLikeIt ? undoLike : like)({ variables });
+  }, [comment, iLikeIt]);
   return (
     //FIXME https://gitlab.com/moodlenet/meta/issues/185
     !comment.creator || !comment.likes ? null : (

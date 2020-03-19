@@ -25,7 +25,7 @@ query getCommunityQuery($communityId: String!, $limit: Int, $end: String) {
             pageInfo { startCursor endCursor }
             edges {
                 node {
-                    ...ActivityPreviewData
+                    ...ActivityPreview
                     # id
                     # canonicalUrl
                     # verb

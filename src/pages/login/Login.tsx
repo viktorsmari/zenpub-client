@@ -16,7 +16,7 @@ import { Button, Box, Text, Image } from 'rebass/styled-components';
 const { loginMutation } = require('../../graphql/login.graphql');
 import { Panel, WrapperPanel } from '../../sections/panel';
 const MnetLogin = require('../../static/img/login.jpg');
-import { INSTANCE_DESCRIPTION, INSTANCE_TAGLINE, INSTANCE_PROMPT, logo_large_url, related_urls } from './../../constants'; // + instance_bg_img
+import { INSTANCE_DESCRIPTION, INSTANCE_TAGLINE, INSTANCE_PROMPT, logo_large_url, related_urls } from './../../mn-constants'; // + instance_bg_img
 
 const Background = styled(Image)`
   background-size: cover;
