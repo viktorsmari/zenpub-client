@@ -14,14 +14,13 @@ import { Trans } from '@lingui/react';
 const MnetLogo = require('./moodle-logo.png');
 
 export interface Props {
-  isLogged: boolean;
-  user: {
+  user: null | {
     icon: string;
     name: string;
     link: string;
+    logout(): unknown;
   };
   Search: JSX.Element;
-  logout(): unknown;
 }
 
 export const MainHeader: React.FC<Props> = props => {
@@ -41,7 +40,7 @@ export const MainHeader: React.FC<Props> = props => {
       </Left>
       <Center>{props.Search}</Center>
       <Header alignItems={'center'}>
-        {props.isLogged ? (
+        {props.user ? (
           <NavItem
             sx={{ position: 'relative' }}
             alignItems="center"
@@ -61,7 +60,7 @@ export const MainHeader: React.FC<Props> = props => {
             </Right>
             {isOpenDropdown && (
               <DropdownSidebar
-                logout={props.logout}
+                logout={props.user.logout}
                 userLink={props.user.link}
                 setOpenDropdown={setOpenDropdown}
               />
