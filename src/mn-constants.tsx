@@ -13,6 +13,7 @@ export const INSTANCE_TAGLINE = 'Connect. Organise. Share.';
 export const INSTANCE_PROMPT =
   "You don't need to sign up to preview what people are sharing and discussing publicly.";
 export const prompt_signin = 'Sign in';
+export const my_timeline = 'My Network';
 export const instance_bg_img =
   'http://nycicarus.org/images/mad-solidarity-fists.png';
 export const logo_large_url = 'http://commonspub.org/logo-small.png'; // https://moodle.net/images/logos/moodlenet-logo.png
