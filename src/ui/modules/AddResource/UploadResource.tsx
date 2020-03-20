@@ -4,7 +4,7 @@ import { Input, Textarea } from '@rebass/forms';
 import { FormikHook } from 'ui/@types/types';
 import * as React from 'react';
 import { LocaleContext } from '../../../context/global/localizationCtx';
-import styled from '../../../themes/styled';
+import styled from 'ui/themes/styled';
 import { Button, Box } from 'rebass/styled-components';
 import MNButton from 'ui/elements/Button';
 import {

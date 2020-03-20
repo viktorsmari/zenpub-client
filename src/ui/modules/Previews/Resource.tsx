@@ -70,9 +70,9 @@ export const Resource: React.FC<Props> = ({
             {/* <Badge mt={1}>Video</Badge> */}
             <Title flex="1">
               {isUploaded ? (
-                <Paperclip size={21} />
+                <Paperclip strokeWidth="1" size={18} />
               ) : (
-                <ExternalLink size={19} />
+                <ExternalLink strokeWidth="1" size={18} />
               )}
               {name}
             </Title>
@@ -80,11 +80,11 @@ export const Resource: React.FC<Props> = ({
           {isUploaded ? (
             <>
               {/* <TypeItem mt={2}>{mediaType}</TypeItem> */}
-              <TypeItem mt={2}>{license}</TypeItem>
+              <TypeItem mt={1}>{license}</TypeItem>
             </>
           ) : (
             <>
-              <ActionItem mt={2}>
+              <ActionItem>
                 {/* <TypeItem>{mediaType}</TypeItem>  */}
                 <a href={link}>
                   {/* <ExternalLink size={17} /> */}
@@ -330,9 +330,6 @@ const TitleLink = styled.a`
   }
   &:hover {
     text-decoration: underline;
-    svg {
-      stroke: ${props => props.theme.colors.orange};
-    }
   }
 `;
 // const Hashtags = styled(Flex)`

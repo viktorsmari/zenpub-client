@@ -32,87 +32,80 @@ export const Collection: React.FC<Props> = ({
 }) => {
   return (
     // <WrapperLink to={link.url}>
-    <Bordered>
-      <Wrapper pl={2}>
+    <Bordered px={2}>
+      <Box mt={2}>
         <Avatar src={icon} />
-        <Infos ml={3}>
-          <Flex>
-            <Box flex={1}>
-              <TitleLink link={link}>
-                <Title>
-                  {name.length > 80
-                    ? name.replace(/^(.{76}[^\s]*).*/, '$1...')
-                    : name}
-                </Title>
-              </TitleLink>
-              <Username>+{displayUsername}</Username>
-            </Box>
-            {/* {isFollowing ? (
-              <Button variant="outline">leave</Button>
-            ) : (
-              <Button variant="primary">Follow</Button>
-            )} */}
-          </Flex>
-          <Text variant="text" mt={1} mb={2}>
-            {summary && summary.length > 140
-              ? summary.replace(/^([\s\S]{140}[^\s]*)[\s\S]*/, '$1...')
-              : summary}
-          </Text>
-          {totalResources && totalResources > 0 && (
-            <Meta mt={2}>
-              <Flex alignSelf="center" mr={3} alignItems="center">
-                <Text fontSize={'10px'} variant="suptitle">
-                  {totalResources || 0} <Trans>Resources</Trans>
-                </Text>
-              </Flex>
-            </Meta>
-          )}
-        </Infos>
-      </Wrapper>
-
-      <Box m={2} px={2}>
-        <Items>
-          <ActionItem onClick={toggleFollowFormik.submitForm}>
-            <ActionIcon>
-              {isFollowing ? (
-                <EyeOff
-                  className="hover"
-                  strokeWidth="1"
-                  color="rgba(0,0,0,.4)"
-                  size="20"
-                />
-              ) : (
-                <Eye
-                  className="hover"
-                  strokeWidth="1"
-                  color="rgba(0,0,0,.4)"
-                  size="20"
-                />
-              )}
-            </ActionIcon>
-            <Text
-              ml={1}
-              variant={'suptitle'}
-              sx={{ textTransform: 'capitalize' }}
-            >
-              {isFollowing ? (
-                <Trans>"Unfollow" </Trans>
-              ) : (
-                <Trans>"follow"</Trans>
-              )}
-            </Text>
-          </ActionItem>
-        </Items>
       </Box>
+      <Infos ml={3}>
+        <Flex>
+          <Box flex={1}>
+            <TitleLink link={link}>
+              <Title>
+                {name.length > 80
+                  ? name.replace(/^(.{76}[^\s]*).*/, '$1...')
+                  : name}
+              </Title>
+            </TitleLink>
+            <Username>+{displayUsername}</Username>
+          </Box>
+        </Flex>
+        <Text variant="text" mt={1} mb={2}>
+          {summary && summary.length > 140
+            ? summary.replace(/^([\s\S]{140}[^\s]*)[\s\S]*/, '$1...')
+            : summary}
+        </Text>
+        {totalResources && totalResources > 0 && (
+          <Meta mt={2}>
+            <Flex alignSelf="center" mr={3} alignItems="center">
+              <Text fontSize={'10px'} variant="suptitle">
+                {totalResources || 0} <Trans>Resources</Trans>
+              </Text>
+            </Flex>
+
+            <ActionItem onClick={toggleFollowFormik.submitForm}>
+              <ActionIcon>
+                {isFollowing ? (
+                  <EyeOff
+                    className="hover"
+                    strokeWidth="1"
+                    color="rgba(0,0,0,.4)"
+                    size="20"
+                  />
+                ) : (
+                  <Eye
+                    className="hover"
+                    strokeWidth="1"
+                    color="rgba(0,0,0,.4)"
+                    size="20"
+                  />
+                )}
+              </ActionIcon>
+              <Text
+                ml={1}
+                variant={'suptitle'}
+                sx={{ textTransform: 'capitalize' }}
+              >
+                {isFollowing ? <Trans>Unfollow </Trans> : <Trans>follow</Trans>}
+              </Text>
+            </ActionItem>
+          </Meta>
+        )}
+      </Infos>
+
+      {/* <Box m={2} px={2}>
+        <Items>
+          
+        </Items>
+      </Box> */}
     </Bordered>
     // </WrapperLink>
   );
 };
 
-const Items = styled(Flex)`
-  flex: 1;
-  justify-content: start;
-`;
+// const Items = styled(Flex)`
+//   flex: 1;
+//   justify-content: start;
+// `;
 
 const ActionItem = styled(Flex)`
   align-items: center;
@@ -148,8 +141,11 @@ const ActionIcon = styled(Box)`
 const TitleLink = styled(SimpleLink)`
   text-decoration: none;
   color: ${props => props.theme.colors.darkgray};
-  &:hover {
-    text-decoration: underline;
+  * {
+    text-decoration: none;
+  }
+  a {
+    text-decoration: none;
   }
 `;
 
@@ -162,14 +158,10 @@ const Username = styled(Text)`
   flex: 1;
 `;
 
-const Wrapper = styled(Flex)`
-  position: relative;
-  text-decoration: none;
-  background: #fff;
-  border-left: 4px solid ${props => props.theme.colors.primary};
+const Bordered = styled(Flex)`
+  border: 1px solid ${props => props.theme.colors.lightgray};
+  border-radius: 4px;
 `;
-
-const Bordered = styled(Box)``;
 
 const Infos = styled(Box)`
   flex: 1;
