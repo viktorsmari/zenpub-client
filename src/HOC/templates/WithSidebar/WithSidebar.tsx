@@ -36,6 +36,6 @@ export const WithSidebarTemplate: FC<WithSidebarTemplate> = ({ children }) => {
   return withSidebarProps ? (
     <WithSidebar {...withSidebarProps}>{children}</WithSidebar>
   ) : (
-    <WithoutSidebar>{children}</WithoutSidebar>
+    <WithoutSidebar HeaderBox={<SearchBox />}>{children}</WithoutSidebar>
   );
 };
