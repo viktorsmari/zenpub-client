@@ -44,13 +44,8 @@ export const CommentPreviewHOC: FC<CommentPreviewHOC> = ({
         totalLikes: comment.likerCount || 0,
         toggleLikeFormik
       },
-      FlagModal: ({ done }) => (
-        <FlagModalHOC
-          done={done}
-          contextId={comment.id}
-          flagged={false /* !!comment.myFlag */}
-        />
-      )
+      isFlagged: !!comment.myFlag,
+      FlagModal: ({ done }) => <FlagModalHOC done={done} ctx={comment} />
     };
     return props;
   }, [comment, toggleLikeFormik]);

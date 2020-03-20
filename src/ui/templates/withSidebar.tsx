@@ -2,7 +2,7 @@ import React from 'react';
 import { Flex } from 'rebass/styled-components';
 import styled from 'ui/themes/styled';
 export interface SidebarProps {
-  SidebarBox: React.ComponentType;
+  SidebarBox: JSX.Element;
 }
 
 export const WithSidebar: React.FC<SidebarProps> = ({

@@ -11,7 +11,7 @@ import { useHistory } from 'react-router';
 import Avatar from 'ui/elements/Avatar';
 import Button from 'ui/elements/Button';
 import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
-import { Settings, MoreVertical, Flag, Star } from 'react-feather';
+import { Settings, MoreVertical, Flag as FlagIcon, Star } from 'react-feather';
 import { FormikHook } from 'ui/@types/types';
 
 export enum Status {
@@ -35,9 +35,9 @@ export interface CollectionLoaded {
   communityName: string;
   communityIcon: string;
   toggleJoinFormik: FormikHook;
-  followerCount?: number; //FIX ME add followerCount
-  contributorCount?: number; //FIX ME add contributorCount
-  flagged: boolean;
+  isFlagged: boolean;
+  followerCount: number; //FIX ME add followerCount
+  // contributorCount?: number; //FIX ME add contributorCount
   following: boolean;
   EditCollectionPanel: ComponentType<{ done(): any }>;
   FlagModal: ComponentType<{ done(): any }>;
@@ -52,7 +52,7 @@ export const HeroCollection: FC<Props> = ({ collection: c }) => {
   const [isOpenDropdown, setOpenDropdown] = React.useState(false);
   const [isOpenFlag, setOpenFlag] = React.useState(false);
   const [isOpenFeatured, setOpenFeatured] = React.useState(false);
-  const [, /*isOpenContributors*/ setOpenContributors] = React.useState(false);
+  // const [, /*isOpenContributors*/ setOpenContributors] = React.useState(false);
   const [, /*isOpenFollowers*/ setOpenFollowers] = React.useState(false);
 
   return c.status === Status.Loading ? (
@@ -84,12 +84,12 @@ export const HeroCollection: FC<Props> = ({ collection: c }) => {
                 <Trans>Followers</Trans>
               </Text>
             </CountTot>
-            <CountTot onClick={() => setOpenContributors(true)}>
+            {/* <CountTot onClick={() => setOpenContributors(true)}>
               <Text variant="suptitle">
                 <Total mr={2}>{c.contributorCount}</Total>
                 <Trans>Contibutors</Trans>
               </Text>
-            </CountTot>
+            </CountTot> */}
           </CountWrapper>
           <ActionsHero mt={3} alignItems={'center'}>
             <More mr={2}>
@@ -105,9 +105,13 @@ export const HeroCollection: FC<Props> = ({ collection: c }) => {
                     </DropdownItem>
                   )}
                   <DropdownItem onClick={() => setOpenFlag(true)}>
-                    <Flag size={20} color={'rgb(101, 119, 134)'} />
+                    <FlagIcon size={20} color={'rgb(101, 119, 134)'} />
                     <Text sx={{ flex: 1 }} ml={2}>
-                      <Trans>Flag this collection</Trans>
+                      {!c.isFlagged ? (
+                        <Trans>Flag this collection</Trans>
+                      ) : (
+                        <Trans>Unflag this collection</Trans>
+                      )}
                     </Text>
                   </DropdownItem>
                   {c.isAdmin ? (

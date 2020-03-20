@@ -77,7 +77,7 @@ const Home: React.FC<Props> = () => {
               p={3}
               variant="suptitle"
             >
-              <Trans>My MoodleNet timeline</Trans>
+              <Trans>Timeline</Trans>
             </Text>
 
             {error ? (
@@ -122,17 +122,17 @@ const Home: React.FC<Props> = () => {
       <WrapperPanel>
         <Panel>
           <PanelTitle fontSize={0} fontWeight={'bold'}>
-            <Trans>Browse Home instance</Trans>
+            <Trans>My MoodleNet</Trans>
           </PanelTitle>
           <Nav>
             <NavItem mb={4} fontSize={1} fontWeight={'bold'}>
               <NavLink to="/mycommunities">
-                <Trans>My communities</Trans>
+                <Trans>Joined communities</Trans>
               </NavLink>
             </NavItem>
             <NavItem fontSize={1} fontWeight={'bold'}>
               <NavLink to="/mycollections">
-                <Trans>My collections</Trans>
+                <Trans>Followed collections</Trans>
               </NavLink>
             </NavItem>
           </Nav>

@@ -32,7 +32,7 @@ const CollectionSmall: React.FC<CollectionProps> = ({
           <X color="#fff" size={16} />
         </Remove>
       ) : null}
-      <Link to={`/communities/${collection.id}`}>
+      <Link to={`/collections/${collection.id}`}>
         <Img
           style={{
             backgroundImage: `url(${collection.icon || PlaceholderImg})`

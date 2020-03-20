@@ -94,7 +94,7 @@ export const FeaturedCollections: SFC<FeaturedCollectionsData> = props => {
     <>
       <Title>
         <h5>
-          <Trans>Featured communities</Trans>{' '}
+          <Trans>Featured collections</Trans>{' '}
         </h5>
 
         <RightContext>

@@ -36,9 +36,8 @@ export const HeroUser: FC<HeroUser> = ({ userId }) => {
       location: user.location || '',
       name: user.name || '',
       summary: user.summary || '',
-      FlagModal: ({ done }) => (
-        <FlagModalHOC done={done} contextId={user.id} flagged={!!user.myFlag} />
-      )
+      isFlagged: !!user.myFlag,
+      FlagModal: ({ done }) => <FlagModalHOC done={done} ctx={user} />
     };
 
     if (isMe) {

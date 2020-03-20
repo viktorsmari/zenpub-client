@@ -9,6 +9,7 @@ fragment HeroCollectionData on Collection  {
         name
         icon
     }
+    followerCount
     followers {
         totalCount
     }
