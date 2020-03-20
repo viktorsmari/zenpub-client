@@ -37,19 +37,19 @@ const Item = styled(Text)`
 export interface Props {
   logout(): void;
   setOpenDropdown: any;
-  userId: string;
+  userLink: string;
 }
 
 export const DropdownSidebar: React.FC<Props> = ({
   logout,
-  userId,
+  userLink,
   setOpenDropdown
 }) => {
   const { push } = useHistory();
   return (
     <Dropdown orientation={'top'} cb={setOpenDropdown}>
       <List lined>
-        <Item variant="link" onClick={() => push(`/user/${userId}`)}>
+        <Item variant="link" onClick={() => push(userLink)}>
           <span>
             <User size={18} color={'#333'} />
           </span>

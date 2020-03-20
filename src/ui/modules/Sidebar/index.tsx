@@ -182,13 +182,6 @@ export interface CommunityPreview {
 interface SidebarLoaded {
   status: Status.Loaded;
   communities: CommunityPreview[];
-  user: {
-    icon: string;
-    name: string;
-    id: string;
-  };
-  Search: JSX.Element;
-  logout(): unknown;
 }
 
 export interface SidebarLoading {

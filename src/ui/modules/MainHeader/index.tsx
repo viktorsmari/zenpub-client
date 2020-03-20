@@ -13,12 +13,12 @@ import { Link } from 'react-router-dom';
 import { Trans } from '@lingui/react';
 const MnetLogo = require('./moodle-logo.png');
 
-interface Props {
+export interface Props {
   isLogged: boolean;
   user: {
     icon: string;
     name: string;
-    id: string;
+    link: string;
   };
   Search: JSX.Element;
   logout(): unknown;
@@ -62,7 +62,7 @@ export const MainHeader: React.FC<Props> = props => {
             {isOpenDropdown && (
               <DropdownSidebar
                 logout={props.logout}
-                userId={props.user.id}
+                userLink={props.user.link}
                 setOpenDropdown={setOpenDropdown}
               />
             )}
