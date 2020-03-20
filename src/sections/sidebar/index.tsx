@@ -282,8 +282,7 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
                       if (!userJoinedCommunitiesEdge) {
                         return null;
                       }
-                      const community =
-                        userJoinedCommunitiesEdge.node.community;
+                      const community = userJoinedCommunitiesEdge.community;
                       return (
                         <CommunityLink
                           key={community.id}

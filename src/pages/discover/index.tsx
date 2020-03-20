@@ -115,8 +115,8 @@ const Home: React.FC<Props> = props => {
                     activity =>
                       activity && (
                         <ActivityPreviewHOC
-                          activityId={activity.node.id}
-                          key={activity.node.id}
+                          activityId={activity.id}
+                          key={activity.id}
                         />
                       )
                   )}

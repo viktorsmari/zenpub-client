@@ -100,8 +100,8 @@ const Home: React.FC<Props> = () => {
                     userActivityEdge =>
                       userActivityEdge && (
                         <ActivityPreviewHOC
-                          activityId={userActivityEdge.node.id}
-                          key={userActivityEdge.node.id}
+                          activityId={userActivityEdge.id}
+                          key={userActivityEdge.id}
                         />
                       )
                   )}

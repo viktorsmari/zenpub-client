@@ -9,7 +9,7 @@ export const useMyFollowedCommunities = () => {
     [myFlwCommunitiesQ]
   );
   const communities = useMemo(
-    () => communitiesEdges.nodes.map(_ => _.community),
+    () => communitiesEdges.edges.map(_ => _.community),
     [communitiesEdges]
   );
 

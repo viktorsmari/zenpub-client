@@ -5,7 +5,7 @@ import { CollectionPreviewFragment } from 'HOC/modules/previews/collection/Colle
 export const useAllCollections = () => {
   const allCollectionsQ = useAllCollectionsQuery();
   return useMemo(() => {
-    const list = (allCollectionsQ.data?.collections.nodes || []).filter(
+    const list = (allCollectionsQ.data?.collections.edges || []).filter(
       (
         maybeCollectionPreview
       ): maybeCollectionPreview is CollectionPreviewFragment =>

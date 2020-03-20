@@ -51,13 +51,8 @@ export const Thread: React.FC<Props> = ({ threadId }) => {
     return comments.edges
       .map(
         (edge, index) =>
-          edge &&
-          edge.node && (
-            <CommentActivity
-              root={index === 0}
-              comment={edge.node}
-              key={edge.node.id}
-            />
+          edge && (
+            <CommentActivity root={index === 0} comment={edge} key={edge.id} />
           )
       )
       .filter((_): _ is JSX.Element => !!_);

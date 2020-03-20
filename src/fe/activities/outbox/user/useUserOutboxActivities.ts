@@ -9,7 +9,7 @@ export const useUserOutboxActivities = (userId: User['id']) => {
   });
 
   const activities = useMemo<GQL.UserOutboxActivityFragment[]>(
-    () => manageEdges(activitiesQ.data?.user?.outbox).nodes,
+    () => manageEdges(activitiesQ.data?.user?.outbox).edges,
     [activitiesQ]
   );
 

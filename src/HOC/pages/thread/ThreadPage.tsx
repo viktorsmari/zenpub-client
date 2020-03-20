@@ -57,7 +57,7 @@ export const ThreadPage: FC<ThreadPage> = ({ threadId }) => {
 
     const Comments = (
       <>
-        {comments.nodes.map(comment => (
+        {comments.edges.map(comment => (
           <ActivityPreview
             key={comment.id}
             {...{

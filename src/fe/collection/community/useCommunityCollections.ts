@@ -13,7 +13,7 @@ export const useCommunityCollections = (communityId: Community['id']) => {
   });
 
   const collections = useMemo<GQL.CommunityCollectionFragment[]>(
-    () => manageEdges(communityQ.data?.community?.collections).nodes,
+    () => manageEdges(communityQ.data?.community?.collections).edges,
     [communityQ]
   );
 

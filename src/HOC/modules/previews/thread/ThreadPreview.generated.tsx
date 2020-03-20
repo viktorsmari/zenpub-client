@@ -9,6 +9,7 @@ import { CommunityPreviewFragmentDoc } from '../community/CommunityPreview.gener
 import { CollectionPreviewFragmentDoc } from '../collection/CollectionPreview.generated';
 import { ResourcePreviewFragmentDoc } from '../resource/ResourcePreview.generated';
 import { FlagPreviewFragmentDoc } from '../flag/FlagPreview.generated';
+import { CommentPreviewFragment, CommentPreviewFragmentDoc } from '../comment/CommentPreview.generated';
 
 
 

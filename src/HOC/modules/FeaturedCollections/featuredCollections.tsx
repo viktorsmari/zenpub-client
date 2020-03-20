@@ -15,8 +15,8 @@ export const FeaturedCollections: FC<FeaturedCollections> = () => {
   const { featuredCollectionsEdges } = useInstanceFeatured();
   const featuredCollections = useMemo<CollectionBase[]>(
     () =>
-      featuredCollectionsEdges.nodes
-        .map(node => node.context)
+      featuredCollectionsEdges.edges
+        .map(feature => feature.context)
         .filter(
           (maybeCtx): maybeCtx is DiscoverPageFeaturedCollectionInfoFragment =>
             !!maybeCtx && maybeCtx.__typename === 'Collection'
@@ -30,10 +30,10 @@ export const FeaturedCollections: FC<FeaturedCollections> = () => {
 
   const FeaturedModal = useMemo<FeaturedCollectionsData['FeaturedModal']>(
     () => ({ collection, done }) => {
-      const collectionFeature = featuredCollectionsEdges.nodes.find(
-        node =>
-          node.context?.__typename === 'Collection' &&
-          node.context.id === collection.id
+      const collectionFeature = featuredCollectionsEdges.edges.find(
+        feature =>
+          feature.context?.__typename === 'Collection' &&
+          feature.context.id === collection.id
       );
       const featureId = collectionFeature?.id;
       return (

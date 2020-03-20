@@ -6,7 +6,7 @@ export const useInstanceOutboxActivities = () => {
   const activitiesQ = GQL.useInstanceOutboxActivitiesQuery();
 
   const activities = useMemo<GQL.InstanceOutboxActivityFragment[]>(
-    () => manageEdges(activitiesQ.data?.instance?.outbox).nodes,
+    () => manageEdges(activitiesQ.data?.instance?.outbox).edges,
     [activitiesQ]
   );
 

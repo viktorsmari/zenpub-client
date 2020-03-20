@@ -1,42 +1,35 @@
 // import {PageInfo} from 'graphql/types.generated'
 import Maybe from 'graphql/tsutils/Maybe';
 
-interface Edge<T> {
-  // cursor:string,
-  node: T;
-}
-
-interface WithMaybeEdges<Node> {
-  edges: Maybe<Maybe<Edge<Node>>[]>;
+interface WithEdgesOfMaybes<Type> {
+  edges: Maybe<Maybe<Type>[]>;
   // pageInfo:Maybe<PageInfo>,
   // totalCount:number
 }
 
-interface WithEdges<Node> {
-  edges: Edge<Node>[];
+interface WithEdges<Type> {
+  edges: Type[];
   // pageInfo:Maybe<PageInfo>,
   // totalCount:number
 }
 
-interface EdgesManaged<Node> {
-  withEdges: Maybe<WithEdges<Node>>;
-  nodes: Node[];
+interface EdgesManaged<Type> {
+  withEdges: Maybe<WithEdges<Type>>;
+  edges: Type[];
 }
 
-export const manageEdges = <Node>(
-  withEdges: Maybe<WithMaybeEdges<Node>>
-): EdgesManaged<Node> => {
+export const manageEdges = <Type>(
+  withEdges: Maybe<WithEdgesOfMaybes<Type>>
+): EdgesManaged<Type> => {
   const edges = (withEdges?.edges || []).filter(
-    (maybeEdge): maybeEdge is Edge<Node> => !!maybeEdge
+    (maybeEdge): maybeEdge is Type => !!maybeEdge
   );
-
-  const nodes = edges.map(edge => edge.node);
 
   return {
     withEdges: {
       ...withEdges,
       edges
     },
-    nodes
+    edges
   };
 };

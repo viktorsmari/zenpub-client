@@ -5,7 +5,7 @@ import { CommunityPreviewFragment } from 'HOC/modules/previews/community/Communi
 export const useAllCommunities = () => {
   const allCommunitiesQ = useAllCommunitiesQuery();
   return useMemo(() => {
-    const list = (allCommunitiesQ.data?.communities.nodes || []).filter(
+    const list = (allCommunitiesQ.data?.communities.edges || []).filter(
       (
         maybeCommunityPreview
       ): maybeCommunityPreview is CommunityPreviewFragment =>

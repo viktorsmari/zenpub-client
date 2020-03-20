@@ -7,11 +7,11 @@ export const useThreadPreview = (threadId: Thread['id']) => {
   const threadPreviewQ = useThreadPreviewQuery({ variables: { threadId } });
   const thread = threadPreviewQ.data?.thread;
   return useMemo(() => {
-    let mainComment = thread?.comments?.edges[0]?.node;
+    let mainComment = thread?.comments?.edges[0];
     const commentCount = thread?.comments?.totalCount;
     const context = thread?.context;
     const comments = manageEdges(thread?.comments);
-    comments.nodes = comments.nodes.slice(1);
+    comments.edges = comments.edges.slice(1);
     if (comments.withEdges) {
       comments.withEdges.edges = comments.withEdges.edges.slice(1);
     }

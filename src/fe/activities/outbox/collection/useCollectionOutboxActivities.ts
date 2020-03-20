@@ -11,7 +11,7 @@ export const useCollectionOutboxActivities = (
   });
 
   const activities = useMemo<GQL.CollectionOutboxActivityFragment[]>(
-    () => manageEdges(collectionQ.data?.collection?.outbox).nodes,
+    () => manageEdges(collectionQ.data?.collection?.outbox).edges,
     [collectionQ]
   );
 

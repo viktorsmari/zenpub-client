@@ -9,7 +9,7 @@ export const useCollectionResources = (collectionId: Collection['id']) => {
   });
 
   const resources = useMemo<GQL.CollectionResourceFragment[]>(
-    () => manageEdges(collectionQ.data?.collection?.resources).nodes,
+    () => manageEdges(collectionQ.data?.collection?.resources).edges,
     [collectionQ]
   );
 

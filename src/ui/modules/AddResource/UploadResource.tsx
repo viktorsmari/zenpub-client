@@ -45,7 +45,6 @@ export interface ResourceFormValues {
   url: string;
   name: string;
   summary: string;
-  author: string;
   icon: string;
   license: string;
   acceptedLicenses?: string[];
@@ -93,7 +92,7 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
           )}
         </ContainerForm>
       </Row>
-      <Row>
+      {/* <Row>
         <label>
           <Trans>Author</Trans>
         </label>
@@ -113,7 +112,7 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
             </AlertWrapper>
           )}
         </ContainerForm>
-      </Row>
+      </Row> */}
       <Row big>
         <label>
           <Trans>Description</Trans>

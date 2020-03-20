@@ -14,7 +14,7 @@ export const useUserFollowedUsers = (userId: User['id']) => {
 
   const users = useMemo<GQL.UserFollowedUserFragment[]>(
     () =>
-      manageEdges(userQ.data?.user?.followedUsers).nodes.map(
+      manageEdges(userQ.data?.user?.followedUsers).edges.map(
         followedUser => followedUser.user
       ),
     [userQ]

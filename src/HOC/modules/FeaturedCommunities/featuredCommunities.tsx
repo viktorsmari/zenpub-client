@@ -15,8 +15,8 @@ export const FeaturedCommunities: FC<FeaturedCommunities> = () => {
   const { featuredCommunitiesEdges } = useInstanceFeatured();
   const featuredCommunities = useMemo<CommunityBase[]>(
     () =>
-      featuredCommunitiesEdges.nodes
-        .map(node => node.context)
+      featuredCommunitiesEdges.edges
+        .map(feature => feature.context)
         .filter(
           (maybeCtx): maybeCtx is DiscoverPageFeaturedCommunityInfoFragment =>
             !!maybeCtx && maybeCtx.__typename === 'Community'
@@ -30,10 +30,10 @@ export const FeaturedCommunities: FC<FeaturedCommunities> = () => {
 
   const FeaturedModal = useMemo<FeaturedCommunitiesData['FeaturedModal']>(
     () => ({ community, done }) => {
-      const communityFeature = featuredCommunitiesEdges.nodes.find(
-        node =>
-          node.context?.__typename === 'Community' &&
-          node.context.id === community.id
+      const communityFeature = featuredCommunitiesEdges.edges.find(
+        feature =>
+          feature.context?.__typename === 'Community' &&
+          feature.context.id === community.id
       );
       const featureId = communityFeature?.id;
       return (

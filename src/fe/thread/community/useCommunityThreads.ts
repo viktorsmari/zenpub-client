@@ -9,7 +9,7 @@ export const useCommunityThreads = (communityId: Community['id']) => {
   });
 
   const threads = useMemo<GQL.CommunityThreadFragment[]>(
-    () => manageEdges(communityQ.data?.community?.threads).nodes,
+    () => manageEdges(communityQ.data?.community?.threads).edges,
     [communityQ]
   );
 

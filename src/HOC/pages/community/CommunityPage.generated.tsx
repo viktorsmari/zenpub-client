@@ -7,6 +7,8 @@ import gql from 'graphql-tag';
 import { HeroCommunityDataFragmentDoc } from '../../modules/HeroCommunity/HeroCommunity.generated';
 import { ThreadPreviewFragmentDoc } from '../../modules/previews/thread/ThreadPreview.generated';
 import { ActivityPreviewFragmentDoc } from '../../modules/previews/activity/ActivityPreview.generated';
+import { CommentPreviewFragment, CommentPreviewFragmentDoc } from 'HOC/modules/previews/comment/CommentPreview.generated';
+import { CollectionPreviewFragment, CollectionPreviewFragmentDoc } from 'HOC/modules/previews/collection/CollectionPreview.generated';
 
 
 
