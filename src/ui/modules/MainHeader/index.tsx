@@ -9,9 +9,12 @@ import Avatar from 'ui/elements/Avatar';
 import { DropdownSidebar } from './dropdown';
 import media from 'styled-media-query';
 import { ellipsis } from 'polished';
+import { Link } from 'react-router-dom';
+import { Trans } from '@lingui/react';
 const MnetLogo = require('./moodle-logo.png');
 
 interface Props {
+  isLogged: boolean;
   user: {
     icon: string;
     name: string;
@@ -32,36 +35,56 @@ export const MainHeader: React.FC<Props> = props => {
         <Icon mx={2} onClick={() => history.goBack()}>
           <ChevronLeft size="20" />
         </Icon>
-        <Avatar size="s" src={MnetLogo} />
+        <Link to="/">
+          <Avatar size="s" src={MnetLogo} />
+        </Link>
       </Left>
       <Center>{props.Search}</Center>
       <Header alignItems={'center'}>
-        {/* {props.Search} */}
-        <NavItem
-          sx={{ position: 'relative' }}
-          alignItems="center"
-          onClick={openMenu}
-        >
-          <Avatar
-            size="s"
-            initials={props.user.name.substring(0, 2)}
-            src={props.user.icon}
-            variant="avatar"
-          />
-          <HeaderName ml={2} variant="link">
-            {props.user.name}
-          </HeaderName>
-          <Right ml={2}>
-            <ChevronDown size="20" />
-          </Right>
-          {isOpenDropdown && (
-            <DropdownSidebar
-              logout={props.logout}
-              userId={props.user.id}
-              setOpenDropdown={setOpenDropdown}
+        {props.isLogged ? (
+          <NavItem
+            sx={{ position: 'relative' }}
+            alignItems="center"
+            onClick={openMenu}
+          >
+            <Avatar
+              size="s"
+              initials={props.user.name.substring(0, 2)}
+              src={props.user.icon}
+              variant="avatar"
             />
-          )}
-        </NavItem>
+            <HeaderName ml={2} variant="link">
+              {props.user.name}
+            </HeaderName>
+            <Right ml={2}>
+              <ChevronDown size="20" />
+            </Right>
+            {isOpenDropdown && (
+              <DropdownSidebar
+                logout={props.logout}
+                userId={props.user.id}
+                setOpenDropdown={setOpenDropdown}
+              />
+            )}
+          </NavItem>
+        ) : (
+          <Flex justifyContent="space-evenly">
+            <NavItem>
+              <Link to="/">
+                <Text variant="link">
+                  <Trans>Signin</Trans>
+                </Text>
+              </Link>
+            </NavItem>
+            <NavItem>
+              <Link to="/discover">
+                <Text variant="link">
+                  <Trans>Discover</Trans>
+                </Text>
+              </Link>
+            </NavItem>
+          </Flex>
+        )}
       </Header>
     </HeaderWrapper>
   );
@@ -75,27 +98,25 @@ const Center = styled(Box)`
   input {
     width: 300px;
     margin: 0 auto;
+    border: 1px solid ${props => props.theme.colors.lightgray};
+    border-radius: 4px;
   }
 `;
 
 const Right = styled(Box)`
   color: ${props => props.theme.colors.gray};
-  flex: 0 0 256px;
-  order: 2;
-  justify-content: flex-end;
 `;
 
 const HeaderName = styled(Text)`
-  flex: 1;
   ${ellipsis('180px')};
-  font-size: 15px;
 `;
 
 const NavItem = styled(Flex)`
   border-radius: 0px;
-  padding: 7px;
+  padding: 4px 8px;
+  border-radius: 4px;
   &:hover {
-    background: ${props => props.theme.colors.lightgray};
+    background: ${props => props.theme.colors.lighter};
   }
   ${media.lessThan('1280px')`
 img {
@@ -143,7 +164,7 @@ const Left = styled(Flex)`
 
 const HeaderWrapper = styled(Flex)`
   border-bottom: 1px solid ${props => props.theme.colors.lightgray};
-  //   height: 50px;
+  height: 50px;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
@@ -154,6 +175,7 @@ const HeaderWrapper = styled(Flex)`
   right: 0;
   z-index: 99999999999999999999;
   flex: 0 50px;
+  padding: 0 8px;
   a {
     display: flex;
     flex: 1;

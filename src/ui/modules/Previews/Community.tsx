@@ -39,18 +39,6 @@ export const Community: React.FC<Props> = ({
                 : name}
             </Text>
             <Username>@ivan@moodle.net</Username>
-            <Meta mt={2}>
-              <Flex alignSelf="center" mr={3} alignItems="center">
-                <Text fontSize={'10px'} variant="suptitle">
-                  {followersCount || 0} <Trans>Users</Trans>
-                </Text>
-              </Flex>
-              <Flex alignSelf="center" alignItems="center">
-                <Text fontSize={'10px'} variant="suptitle">
-                  {collectionsCount || 0} <Trans>Collections</Trans>
-                </Text>
-              </Flex>
-            </Meta>
           </Box>
         </Flex>
 
@@ -59,11 +47,18 @@ export const Community: React.FC<Props> = ({
             ? summary.replace(/^([\s\S]{156}[^\s]*)[\s\S]*/, '$1...')
             : summary}
         </Text>
-      </Box>
-    </Wrapper>
-    <Actions>
-      <Box>
-        <Items>
+
+        <Meta mt={2}>
+          <Flex alignSelf="center" mr={3} alignItems="center">
+            <Text fontSize={'10px'} variant="suptitle">
+              {followersCount || 0} <Trans>Users</Trans>
+            </Text>
+          </Flex>
+          <Flex alignSelf="center" alignItems="center">
+            <Text fontSize={'10px'} variant="suptitle">
+              {collectionsCount || 0} <Trans>Collections</Trans>
+            </Text>
+          </Flex>
           <ActionItem onClick={toggleJoinFormik.submitForm}>
             <Text
               ml={1}
@@ -73,23 +68,30 @@ export const Community: React.FC<Props> = ({
               {joined ? <Trans>Leave</Trans> : <Trans>Join</Trans>}
             </Text>
           </ActionItem>
+        </Meta>
+      </Box>
+    </Wrapper>
+    {/* <Actions>
+      <Box>
+        <Items>
+          
         </Items>
       </Box>
-    </Actions>
+    </Actions> */}
   </Bordered>
 );
 
-const Items = styled(Flex)`
-  flex: 1;
-  justify-content: space-around;
-`;
+// const Items = styled(Flex)`
+//   flex: 1;
+//   justify-content: space-around;
+// `;
 
-const Actions = styled(Box)`
-  position: relative;
-  z-index: 999999999999999999999999999999999999;
-  border-top: 1px solid #dadada;
-  padding: 8px;
-`;
+// const Actions = styled(Box)`
+//   position: relative;
+//   z-index: 999999999999999999999999999999999999;
+//   border-top: 1px solid #dadada;
+//   padding: 8px;
+// `;
 
 const ActionItem = styled(Flex)`
   align-items: center;
