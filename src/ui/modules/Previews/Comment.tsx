@@ -54,7 +54,7 @@ export const Comment: React.SFC<CommentProps> = ({
   return (
     <Wrapper>
       <Link to={url}>
-        <Text variant="text" mb={2}>
+        <Text sx={{ textDecoration: 'none' }} variant="text" mb={2}>
           {content}
         </Text>
       </Link>
@@ -197,4 +197,10 @@ const ActionIcon = styled(Box)`
 
 const Wrapper = styled(Box)`
   background: white;
+  a {
+    text-decoration: none
+    &:hover {
+      text-decoration: none;
+    }
+  }
 `;

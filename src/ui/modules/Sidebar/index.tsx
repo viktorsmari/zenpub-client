@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/macro';
 import { ellipsis } from 'polished';
 import * as React from 'react';
-import { Globe, ChevronDown } from 'react-feather';
+import { Globe } from 'react-feather';
 import { NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
@@ -9,7 +9,7 @@ import media from 'styled-media-query';
 import styled from '../../themes/styled';
 // import Dropdown from "./dropdown";
 import Avatar from 'ui/elements/Avatar';
-import { DropdownSidebar } from './dropdown';
+// import { DropdownSidebar } from './dropdown';
 const MnetLogo = require('./moodle-logo.png');
 
 export enum Status {
@@ -57,22 +57,22 @@ const SidebarOverflow = styled(Box)`
   flex: 1;
 `;
 
-const Header = styled(Box)`
-  cursor: pointer;
-  img {
-    min-width: 36px;
-    height: 36px;
-    border-radius: 36px;
-  }
-  input {
-    margin: 0 8px !important;
-    border-radius: 100px;
-    border-width: 1px;
-    ${media.lessThan('1280px')`
-display: none;
-    `};
-  }
-`;
+// const Header = styled(Box)`
+//   cursor: pointer;
+//   img {
+//     min-width: 36px;
+//     height: 36px;
+//     border-radius: 36px;
+//   }
+//   input {
+//     margin: 0 8px !important;
+//     border-radius: 100px;
+//     border-width: 1px;
+//     ${media.lessThan('1280px')`
+// display: none;
+//     `};
+//   }
+// `;
 const Nav = styled(Box)`
   a {
     text-decoration: none;
@@ -149,12 +149,12 @@ ${ellipsis('220px')};
 //`};
 `;
 
-const Right = styled(Box)`
-color: ${props => props.theme.colors.gray};
-//${media.lessThan('1280px')`
-//display: none;
-//`};
-`;
+// const Right = styled(Box)`
+// color: ${props => props.theme.colors.gray};
+// //${media.lessThan('1280px')`
+// //display: none;
+// //`};
+// `;
 
 const ItemTitleDir = styled(ItemTitle)`
   margin-left: 8px;
@@ -164,11 +164,11 @@ const ItemTitleDir = styled(ItemTitle)`
   }
 `;
 
-const HeaderName = styled(Text)`
-  flex: 1;
-  ${ellipsis('180px')};
-  font-size: 15px;
-`;
+// const HeaderName = styled(Text)`
+//   flex: 1;
+//   ${ellipsis('180px')};
+//   font-size: 15px;
+// `;
 
 export interface CommunityPreview {
   link: {
@@ -182,13 +182,6 @@ export interface CommunityPreview {
 interface SidebarLoaded {
   status: Status.Loaded;
   communities: CommunityPreview[];
-  user: {
-    icon: string;
-    name: string;
-    id: string;
-  };
-  Search: JSX.Element;
-  logout(): unknown;
 }
 
 export interface SidebarLoading {
@@ -198,8 +191,8 @@ export interface SidebarLoading {
 export type Props = SidebarLoaded | SidebarLoading;
 
 export const Sidebar: React.FC<Props> = props => {
-  const [isOpenDropdown, setOpenDropdown] = React.useState(false);
-  const openMenu = React.useCallback(() => setOpenDropdown(true), []);
+  // const [isOpenDropdown, setOpenDropdown] = React.useState(false);
+  // const openMenu = React.useCallback(() => setOpenDropdown(true), []);
   return (
     <SidebarComponent>
       <InternalWrapper>
@@ -209,9 +202,9 @@ export const Sidebar: React.FC<Props> = props => {
           ) : (
             <SidebarOverflow>
               <>
-                <Header alignItems={'center'}>
-                  {props.Search}
-                  <NavItem
+                {/* <Header alignItems={'center'}> */}
+                {/* {props.Search} */}
+                {/* <NavItem
                     sx={{ position: 'relative' }}
                     alignItems="center"
                     onClick={openMenu}
@@ -235,13 +228,13 @@ export const Sidebar: React.FC<Props> = props => {
                         setOpenDropdown={setOpenDropdown}
                       />
                     )}
-                  </NavItem>
-                </Header>
+                  </NavItem> */}
+                {/* </Header> */}
                 <Nav>
                   <SidebarLink exact to={'/discover'}>
                     <NavItem alignItems={'center'}>
                       <Box>
-                        <Globe size={36} />
+                        <Globe size={36} strokeWidth="1" />
                       </Box>
                       <ItemTitleDir variant="link">
                         <Trans>Discover</Trans>
@@ -261,7 +254,7 @@ export const Sidebar: React.FC<Props> = props => {
                   {props.communities.map((community: CommunityPreview, i) => (
                     <CommunityLink
                       key={community.link.url}
-                      to={'/communities/' + community.link.url}
+                      to={community.link.url}
                     >
                       <NavItem alignItems={'center'} mb={2}>
                         <Avatar

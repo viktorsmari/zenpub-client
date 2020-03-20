@@ -71,22 +71,11 @@ export const Community: React.FC<Props> = ({
         </Box>
       </WrapperLink>
     </Wrapper>
-
-    <Actions>
-      <Box>
-        <Items>
-          <ActionItem onClick={toggleJoinFormik.submitForm}>
-            <Text
-              ml={1}
-              variant={'suptitle'}
-              sx={{ textTransform: 'capitalize' }}
-            >
-              {joined ? <Trans>Leave</Trans> : <Trans>Join</Trans>}
-            </Text>
-          </ActionItem>
-        </Items>
-      </Box>
-    </Actions>
+    <ActionItem onClick={toggleJoinFormik.submitForm}>
+      <Text ml={1} variant={'suptitle'} sx={{ textTransform: 'capitalize' }}>
+        {joined ? <Trans>Leave</Trans> : <Trans>Join</Trans>}
+      </Text>
+    </ActionItem>
   </Bordered>
 );
 
@@ -94,17 +83,21 @@ const WrapperLink = styled(SimpleLink)`
   text-decoration: none;
 `;
 
-const Items = styled(Flex)`
-  flex: 1;
-  justify-content: space-around;
-`;
+// const Items = styled(Flex)`
+//   flex: 1;
+//   justify-content: space-around;
+// `;
+// const Items = styled(Flex)`
+//   flex: 1;
+//   justify-content: space-around;
+// `;
 
-const Actions = styled(Box)`
-  position: relative;
-  z-index: 999999999999999999999999999999999999;
-  border-top: 1px solid #dadada;
-  padding: 8px;
-`;
+// const Actions = styled(Box)`
+//   position: relative;
+//   z-index: 999999999999999999999999999999999999;
+//   border-top: 1px solid #dadada;
+//   padding: 8px;
+// `;
 
 const ActionItem = styled(Flex)`
   align-items: center;

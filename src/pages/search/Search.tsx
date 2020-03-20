@@ -97,39 +97,46 @@ const CustomInfiniteHits = connectInfiniteHits(InfiniteHits);
 export default class extends React.Component {
   render() {
     return (
-      <MainContainer>
-        <HomeBox>
-          <WrapperCont>
-            <Wrapper>
-              <Configure hitsPerPage={8} />
-              <Box>
-                <Text
-                  mb={3}
-                  sx={{ borderBottom: '1px solid #dadada' }}
-                  p={3}
-                  variant="suptitle"
-                >
-                  <Trans>Search result</Trans>
-                </Text>
-                <Box>
-                  <CustomInfiniteHits />
-                </Box>
-              </Box>
-            </Wrapper>
-          </WrapperCont>
-        </HomeBox>
+      <>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.1.1/themes/reset-min.css"
+        />
 
-        <WrapperPanel>
-          <Panel>
-            <PanelTitle fontSize={0} fontWeight={'bold'}>
-              <Trans>Search filter</Trans>
-            </PanelTitle>
-            <Nav>
-              <RefinementList attribute="index_type" />
-            </Nav>
-          </Panel>
-        </WrapperPanel>
-      </MainContainer>
+        <MainContainer>
+          <HomeBox>
+            <WrapperCont>
+              <Wrapper>
+                <Configure hitsPerPage={8} />
+                <Box>
+                  <Text
+                    mb={3}
+                    sx={{ borderBottom: '1px solid #dadada' }}
+                    p={3}
+                    variant="suptitle"
+                  >
+                    <Trans>Search result</Trans>
+                  </Text>
+                  <Box>
+                    <CustomInfiniteHits />
+                  </Box>
+                </Box>
+              </Wrapper>
+            </WrapperCont>
+          </HomeBox>
+
+          <WrapperPanel>
+            <Panel>
+              <PanelTitle fontSize={0} fontWeight={'bold'}>
+                <Trans>Search filter</Trans>
+              </PanelTitle>
+              <Nav>
+                <RefinementList attribute="index_type" />
+              </Nav>
+            </Panel>
+          </WrapperPanel>
+        </MainContainer>
+      </>
     );
   }
 }
