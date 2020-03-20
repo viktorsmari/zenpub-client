@@ -156,10 +156,12 @@ const Meta = styled(Flex)`
 const Username = styled(Text)`
   color: ${props => props.theme.colors.gray};
   flex: 1;
+  font-size: 13px;
+  text-transform: lowercase;
 `;
 
 const Bordered = styled(Flex)`
-  border: 1px solid ${props => props.theme.colors.lightgray};
+  // border: 1px solid ${props => props.theme.colors.lightgray};
   border-radius: 4px;
 `;
 

@@ -2,8 +2,12 @@ import React from 'react';
 import { Flex } from 'rebass/styled-components';
 import styled from 'ui/themes/styled';
 
-export const WithoutSidebar: React.FC<{}> = ({ children }) => (
+export const WithoutSidebar: React.FC<{ HeaderBox: JSX.Element }> = ({
+  children,
+  HeaderBox
+}) => (
   <CenteredWrapper>
+    {HeaderBox}
     <Flex ml={2}>{children}</Flex>
   </CenteredWrapper>
 );

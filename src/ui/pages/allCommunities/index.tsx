@@ -31,8 +31,7 @@ const WrapperBoxes = styled(Box)`
 `;
 
 export const HomeBox = styled(Flex)`
-  max-width: 600px;
-  width: 100%;
+  width: 600px;
   align-items: flex-start;
   flex-shrink: 1;
   flex-grow: 1;
