@@ -110,10 +110,10 @@ const EmailText = styled(Text)`
 `;
 
 const EmailInput = styled(Input)`
-  flex: 1;
-  background: #fbfbfb;
-  border: 0;
-  color: ${props => props.theme.colors.gray};
+  && {
+    flex: 1;
+    color: ${props => props.theme.colors.darkgray};
+  }
 `;
 const ListRow = styled(Row)`
   align-items: center;
