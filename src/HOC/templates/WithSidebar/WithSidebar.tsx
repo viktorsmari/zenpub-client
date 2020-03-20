@@ -1,7 +1,7 @@
 import { useMe } from 'fe/session/me';
 import { Sidebar } from 'HOC/modules/Sidebar/Sidebar';
 import React, { FC, useMemo } from 'react';
-import { WithoutSidebar } from 'ui/templates/withoutSidebar';
+import { WithoutSidebarTemplate } from 'HOC/templates/WithoutSidebar/WithoutSidebar';
 import { SidebarProps, WithSidebar } from 'ui/templates/withSidebar';
 import { MainHeader, Props as MainHeaderProps } from 'ui/modules/MainHeader';
 import { SearchBox } from 'react-instantsearch-dom';
@@ -19,9 +19,8 @@ export const WithSidebarTemplate: FC<WithSidebarTemplate> = ({ children }) => {
     };
     const headerProps: MainHeaderProps = {
       Search: <SearchBox />,
-      isLogged: true,
-      logout: meQ.logout,
       user: {
+        logout: meQ.logout,
         icon: user.icon || '',
         link: `user/${user.id}`,
         name: user.displayUsername
@@ -36,6 +35,6 @@ export const WithSidebarTemplate: FC<WithSidebarTemplate> = ({ children }) => {
   return withSidebarProps ? (
     <WithSidebar {...withSidebarProps}>{children}</WithSidebar>
   ) : (
-    <WithoutSidebar HeaderBox={<SearchBox />}>{children}</WithoutSidebar>
+    <WithoutSidebarTemplate>{children}</WithoutSidebarTemplate>
   );
 };
