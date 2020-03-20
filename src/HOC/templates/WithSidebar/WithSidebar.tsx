@@ -18,7 +18,7 @@ export const WithSidebarTemplate: FC<WithSidebarTemplate> = ({ children }) => {
       user
     };
     const headerProps: MainHeaderProps = {
-      Search: SearchBox,
+      Search: <SearchBox />,
       isLogged: true,
       logout: meQ.logout,
       user: {
