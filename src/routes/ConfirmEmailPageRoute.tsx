@@ -1,7 +1,8 @@
 import { WithoutSidebarTemplate } from 'HOC/templates/WithoutSidebar/WithoutSidebar';
 import ConfirmAccountComp from 'pages/Confirm';
 import React, { FC } from 'react';
-import { RouteComponentProps, RouteProps } from 'react-router-dom';
+import { RouteComponentProps, RouteProps, Redirect } from 'react-router-dom';
+import { useMe } from 'fe/session/me';
 
 interface ConfirmEmailRouter {
   token: string;
@@ -9,6 +10,13 @@ interface ConfirmEmailRouter {
 const ConfirmEmailRouter: FC<RouteComponentProps<ConfirmEmailRouter>> = ({
   match
 }) => {
+  const meQ = useMe();
+  if (meQ.loading) {
+    return null;
+  }
+  if (meQ.me) {
+    return <Redirect to="/#welcome" />;
+  }
   return (
     <WithoutSidebarTemplate>
       <ConfirmAccountComp token={match.params.token} />

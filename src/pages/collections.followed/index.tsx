@@ -4,7 +4,7 @@ import * as React from 'react';
 import CollectionCard from '../../components/elements/Collection/Collection';
 import Loader from '../../components/elements/Loader/Loader';
 // import CollectionsLoadMore from '../../components/elements/Loadmore/followingCollections';
-// import { APP_NAME } from '../../constants';
+// import { APP_NAME } from '../../mn-constants';
 import styled from '../../themes/styled';
 
 export const FollowingCollectionsComponent: React.FC = () => {

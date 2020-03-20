@@ -15,8 +15,15 @@ import { ValidationField, ValidationObject, ValidationType } from './types';
 import { Button, Box, Text, Image } from 'rebass/styled-components';
 const { loginMutation } = require('../../graphql/login.graphql');
 import { Panel, WrapperPanel } from '../../sections/panel';
-const MnetLogin = require('./login.jpg');
-import { INSTANCE_DESCRIPTION } from '../../mn-constants';
+const MnetLogin = require('../../static/img/login.jpg');
+import {
+  INSTANCE_DESCRIPTION,
+  INSTANCE_TAGLINE,
+  INSTANCE_PROMPT,
+  logo_large_url,
+  related_urls
+} from './../../mn-constants'; // + instance_bg_img
+import { MeDocument } from 'fe/session/me.generated';
 
 const Background = styled(Image)`
   background-size: cover;
@@ -39,7 +46,7 @@ const Infos = styled(Box)``;
 const Info = styled(Box)``;
 
 const Logo = styled.div`
-  background: url(https://i.imgur.com/YdflNQp.png);
+  background: url(${logo_large_url});
   width: 159px;
   display: inline-block;
   height: 30px;
@@ -260,7 +267,8 @@ class Login extends React.Component<LoginProps, LoginState> {
     let error = '';
     try {
       const resp = await this.props.login({
-        variables: credentials
+        variables: credentials,
+        refetchQueries: [{ query: MeDocument }]
       });
       if (resp.errors) {
         error = resp.errors.map(err => err.message).join('\n');
@@ -306,7 +314,7 @@ class Login extends React.Component<LoginProps, LoginState> {
           <LoginWrapper>
             <Header>
               <Logo />
-              <Tagline>Share. Curate. Discuss.</Tagline>
+              <Tagline>{INSTANCE_TAGLINE}</Tagline>
             </Header>
             <FormWrapper>
               <Form>
@@ -327,12 +335,10 @@ class Login extends React.Component<LoginProps, LoginState> {
               </Or>
               <Browse mt={3} p={3}>
                 <Text variant="heading" fontSize={3}>
-                  <Trans>Browse this MoodleNet instance</Trans>
+                  <Trans>Browse this instance</Trans>
                 </Text>
                 <Text variant="text" mt={2}>
-                  <Trans>
-                    Preview what people are sharing, curating, and discussing!
-                  </Trans>
+                  <Trans>{INSTANCE_PROMPT}</Trans>
                 </Text>
                 <Link to={'/discover'}>
                   <Button mt={3} variant="outline">
@@ -372,33 +378,27 @@ class Login extends React.Component<LoginProps, LoginState> {
             <Footer>
               <ul>
                 <li>
-                  <a href="https://moodle.net" target="blank">
+                  <a href={related_urls.project_homepage} target="blank">
                     About
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="https://moodle.net/terms/users/index.html"
-                    target="blank"
-                  >
+                  <a href={related_urls.terms_users} target="blank">
                     Code of Conduct
                   </a>
                 </li>
                 <li>
-                  <a href="https://gitlab.com/moodlenet" target="blank">
+                  <a href={related_urls.code} target="blank">
                     Open source
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="https://changemap.co/moodle/moodlenet/"
-                    target="blank"
-                  >
+                  <a href={related_urls.feedback} target="blank">
                     Feedback
                   </a>
                 </li>
                 <li>
-                  <a href="https://moodle.com/privacy-notice" target="blank">
+                  <a href={related_urls.terms_cookies} target="blank">
                     Privacy notice
                   </a>
                 </li>

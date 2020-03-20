@@ -7,8 +7,9 @@ import { NavLink } from 'react-router-dom';
 import { Box, Flex, Image, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import styled from '../../themes/styled';
+import { prompt_signin } from './../../mn-constants';
 
-const MnetLogo = require('./moodle-logo.png');
+const MnetLogo = require('../../static/img/logo-icon.png');
 const SidebarComponent = styled(Flex)`
   flex-grow: 1;
   align-items: flex-end;
@@ -161,7 +162,7 @@ const Sidebar: React.FC<{ isOpen: boolean }> = isOpen => (
               <NavItem mb={3} alignItems={'center'}>
                 <Image mr={2} width={'40px'} src={MnetLogo} />
                 <ItemTitle variant="link">
-                  <Trans>Join MoodleNet</Trans>
+                  <Trans>{prompt_signin}</Trans>
                 </ItemTitle>
               </NavItem>
             </SidebarLink>

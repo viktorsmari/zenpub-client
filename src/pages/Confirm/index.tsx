@@ -3,6 +3,7 @@ import { Box } from 'rebass/styled-components';
 import { useConfirmEmailMutationMutation } from '../../graphql/confirmEmail.generated';
 import styled from '../../themes/styled';
 import { Redirect } from 'react-router-dom';
+import { logo_large_url } from 'mn-constants';
 
 const LoginWrapper = styled.div`
   display: grid;
@@ -28,7 +29,7 @@ const Container = styled.div`
 `;
 
 const Logo = styled.div`
-  background: url(https://i.imgur.com/YdflNQp.png);
+  background: url(${logo_large_url});
   width: 159px;
   display: block;
   height: 30px;
@@ -58,7 +59,7 @@ const Confirm = (props: Props) => {
     confirm({ variables: { token: props.token } });
   }, [props.token]);
   return !result.loading && result.data?.confirmEmail?.token ? (
-    <Redirect to="/" />
+    <Redirect to="/#welcome" />
   ) : (
     <Container>
       <LoginWrapper>

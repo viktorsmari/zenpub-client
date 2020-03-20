@@ -5,6 +5,7 @@ import { Trans } from '@lingui/macro';
 import { useHistory } from 'react-router';
 import { Text } from 'rebass/styled-components';
 import { Dropdown } from '../Dropdown';
+import { related_urls } from './../../../mn-constants';
 
 const List = styled.div<{ lined?: boolean }>`
   padding: 8px;
@@ -64,16 +65,13 @@ export const DropdownSidebar: React.FC<Props> = ({
       </List>
       <List lined>
         <Item variant="link">
-          <a
-            href="https://docs.moodle.org/dev/MoodleNet/Code_of_Conduct"
-            target="blank"
-          >
+          <a href={related_urls.terms_users} target="blank">
             <Trans>Code of Conduct</Trans>
           </a>
         </Item>
 
         <Item variant="link">
-          <a href="https://changemap.co/moodle/moodlenet/" target="blank">
+          <a href={related_urls.feedback} target="blank">
             <Trans>Feedback &amp; Suggestions</Trans>
           </a>
         </Item>
