@@ -15,5 +15,8 @@ fragment CommunityInfo on Community {
     id
     name
     icon
+    isLocal
     myFollow { id }
+    canonicalUrl
+    displayUsername
 }

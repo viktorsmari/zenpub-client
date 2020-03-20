@@ -81,7 +81,7 @@ export const UploadResourceHOC: FC<Props> = ({ done, collectionId }: Props) => {
           resource: {
             name: vals.name,
             summary: vals.summary,
-            // author: vals.author,
+            author: vals.author,
             icon: vals.icon,
             url: vals.url,
             license: vals.license

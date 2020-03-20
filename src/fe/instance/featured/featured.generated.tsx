@@ -1,11 +1,11 @@
+import * as React from 'react';
 import * as Types from '../../../graphql/types.generated';
 
-import { DiscoverPageFeaturedCollectionInfoFragment } from '../../../HOC/pages/discover/DiscoverPage.generated';
 import { DiscoverPageFeaturedCommunityInfoFragment } from '../../../HOC/pages/discover/DiscoverPage.generated';
 import gql from 'graphql-tag';
 import { DiscoverPageFeaturedCommunityInfoFragmentDoc } from '../../../HOC/pages/discover/DiscoverPage.generated';
 import { DiscoverPageFeaturedCollectionInfoFragmentDoc } from '../../../HOC/pages/discover/DiscoverPage.generated';
-import * as React from 'react';
+import { DiscoverPageFeaturedCollectionInfoFragment } from '../../../HOC/pages/discover/DiscoverPage.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';

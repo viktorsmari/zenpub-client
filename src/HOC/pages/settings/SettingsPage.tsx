@@ -23,7 +23,8 @@ export const SettingsPage: FC<SettingsPage> = ({ basePath }) => {
     image: profile?.image || '',
     location: profile?.location || '',
     name: profile?.name || '',
-    summary: profile?.summary || ''
+    summary: profile?.summary || '',
+    website: profile?.website || ''
   };
   const updateProfileFormik = useFormik<EditProfile>({
     initialValues,
