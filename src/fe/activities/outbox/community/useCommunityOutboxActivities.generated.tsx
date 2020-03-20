@@ -25,13 +25,10 @@ export type CommunityOutboxActivitiesQuery = (
     { __typename: 'Community' }
     & Pick<Types.Community, 'id'>
     & { outbox: Types.Maybe<(
-      { __typename: 'ActivitiesEdges' }
+      { __typename: 'ActivitiesPage' }
       & { edges: Types.Maybe<Array<Types.Maybe<(
-        { __typename: 'ActivitiesEdge' }
-        & { node: (
-          { __typename: 'Activity' }
-          & CommunityOutboxActivityFragment
-        ) }
+        { __typename: 'Activity' }
+        & CommunityOutboxActivityFragment
       )>>> }
     )> }
   )> }
@@ -53,9 +50,7 @@ export const CommunityOutboxActivitiesDocument = gql`
     id
     outbox(limit: $limit, before: $before, after: $after) {
       edges {
-        node {
-          ...CommunityOutboxActivity
-        }
+        ...CommunityOutboxActivity
       }
     }
   }

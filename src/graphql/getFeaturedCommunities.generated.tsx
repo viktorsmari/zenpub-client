@@ -1,11 +1,11 @@
-import * as React from 'react';
 import * as Types from './types.generated';
 
+import { BasicCommunityFragment } from './fragments/basicCommunity.generated';
 import { BasicUserFragment } from './fragments/basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from './fragments/basicUser.generated';
 import { BasicCommunityFragmentDoc } from './fragments/basicCommunity.generated';
-import { BasicCommunityFragment } from './fragments/basicCommunity.generated';
+import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
@@ -22,25 +22,21 @@ export type GetFeaturedCommunitiesQuery = (
   & { instance: Types.Maybe<(
     { __typename: 'Instance' }
     & { featuredCommunities: Types.Maybe<(
-      { __typename: 'FeaturesEdges' }
-      & Pick<Types.FeaturesEdges, 'totalCount'>
+      { __typename: 'FeaturesPage' }
+      & Pick<Types.FeaturesPage, 'totalCount'>
       & { pageInfo: Types.Maybe<(
         { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
       )>, edges: Array<Types.Maybe<(
-        { __typename: 'FeaturesEdge' }
-        & Pick<Types.FeaturesEdge, 'cursor'>
-        & { node: (
-          { __typename: 'Feature' }
-          & Pick<Types.Feature, 'id' | 'canonicalUrl' | 'isLocal' | 'createdAt'>
-          & { creator: Types.Maybe<(
-            { __typename: 'User' }
-            & BasicUserFragment
-          )>, context: Types.Maybe<{ __typename: 'Collection' } | (
-            { __typename: 'Community' }
-            & BasicCommunityFragment
-          )> }
-        ) }
+        { __typename: 'Feature' }
+        & Pick<Types.Feature, 'id' | 'canonicalUrl' | 'isLocal' | 'createdAt'>
+        & { creator: Types.Maybe<(
+          { __typename: 'User' }
+          & BasicUserFragment
+        )>, context: Types.Maybe<{ __typename: 'Collection' } | (
+          { __typename: 'Community' }
+          & BasicCommunityFragment
+        )> }
       )>> }
     )> }
   )> }
@@ -57,20 +53,17 @@ export const GetFeaturedCommunitiesDocument = gql`
       }
       totalCount
       edges {
-        cursor
-        node {
-          id
-          canonicalUrl
-          isLocal
-          createdAt
-          creator {
-            ...BasicUser
-          }
-          context {
-            __typename
-            ... on Community {
-              ...BasicCommunity
-            }
+        id
+        canonicalUrl
+        isLocal
+        createdAt
+        creator {
+          ...BasicUser
+        }
+        context {
+          __typename
+          ... on Community {
+            ...BasicCommunity
           }
         }
       }

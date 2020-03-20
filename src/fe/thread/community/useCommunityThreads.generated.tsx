@@ -25,14 +25,11 @@ export type CommunityThreadsQuery = (
     { __typename: 'Community' }
     & Pick<Types.Community, 'id'>
     & { threads: Types.Maybe<(
-      { __typename: 'ThreadsEdges' }
-      & { edges: Types.Maybe<Array<Types.Maybe<(
-        { __typename: 'ThreadsEdge' }
-        & { node: (
-          { __typename: 'Thread' }
-          & CommunityThreadFragment
-        ) }
-      )>>> }
+      { __typename: 'ThreadsPage' }
+      & { edges: Array<Types.Maybe<(
+        { __typename: 'Thread' }
+        & CommunityThreadFragment
+      )>> }
     )> }
   )> }
 );
@@ -53,9 +50,7 @@ export const CommunityThreadsDocument = gql`
     id
     threads(limit: $limit, before: $before, after: $after) {
       edges {
-        node {
-          ...CommunityThread
-        }
+        ...CommunityThread
       }
     }
   }

@@ -5,32 +5,27 @@ import gql from 'graphql-tag';
 import { BasicResourceFragmentDoc } from './basicResource.generated';
 
 
-export type BasicResourcesEdgesFragment = (
-  { __typename: 'ResourcesEdges' }
-  & Pick<Types.ResourcesEdges, 'totalCount'>
+export type BasicResourcesPageFragment = (
+  { __typename: 'ResourcesPage' }
+  & Pick<Types.ResourcesPage, 'totalCount'>
   & { pageInfo: Types.Maybe<(
     { __typename: 'PageInfo' }
     & Pick<Types.PageInfo, 'endCursor' | 'startCursor'>
   )>, edges: Array<Types.Maybe<(
-    { __typename: 'ResourcesEdge' }
-    & { node: (
-      { __typename: 'Resource' }
-      & BasicResourceFragment
-    ) }
+    { __typename: 'Resource' }
+    & BasicResourceFragment
   )>> }
 );
 
-export const BasicResourcesEdgesFragmentDoc = gql`
-    fragment BasicResourcesEdges on ResourcesEdges {
+export const BasicResourcesPageFragmentDoc = gql`
+    fragment BasicResourcesPage on ResourcesPage {
   totalCount
   pageInfo {
     endCursor
     startCursor
   }
   edges {
-    node {
-      ...BasicResource
-    }
+    ...BasicResource
   }
 }
     ${BasicResourceFragmentDoc}`;

@@ -28,16 +28,12 @@ fragment SearchMe on Me {
     id
     followedCollections{
       edges{
-        node{
-          ...SearchFollowedCollection
-        }
+        ...SearchFollowedCollection
       }
     }
     followedCommunities{
       edges{
-        node{
-          ...SearchFollowedCommunity
-        }
+        ...SearchFollowedCommunity
       }
     }
   }

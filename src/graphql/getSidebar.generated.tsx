@@ -22,21 +22,18 @@ export type GetSidebarQueryQuery = (
       { __typename: 'User' }
       & Pick<Types.User, 'id' | 'canonicalUrl' | 'name' | 'preferredUsername' | 'icon'>
       & { followedCommunities: Types.Maybe<(
-        { __typename: 'FollowedCommunitiesEdges' }
+        { __typename: 'FollowedCommunitiesPage' }
         & { pageInfo: Types.Maybe<(
           { __typename: 'PageInfo' }
           & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
         )>, edges: Array<Types.Maybe<(
-          { __typename: 'FollowedCommunitiesEdge' }
-          & { node: (
-            { __typename: 'FollowedCommunity' }
-            & { follow: (
-              { __typename: 'Follow' }
-              & Pick<Types.Follow, 'id'>
-            ), community: (
-              { __typename: 'Community' }
-              & Pick<Types.Community, 'id' | 'preferredUsername' | 'name' | 'icon'>
-            ) }
+          { __typename: 'FollowedCommunity' }
+          & { follow: (
+            { __typename: 'Follow' }
+            & Pick<Types.Follow, 'id'>
+          ), community: (
+            { __typename: 'Community' }
+            & Pick<Types.Community, 'id' | 'preferredUsername' | 'name' | 'icon'>
           ) }
         )>> }
       )> }
@@ -60,18 +57,16 @@ export const GetSidebarQueryDocument = gql`
           endCursor
         }
         edges {
-          node {
-            follow {
+          follow {
+            id
+          }
+          community {
+            __typename
+            ... on Community {
               id
-            }
-            community {
-              __typename
-              ... on Community {
-                id
-                preferredUsername
-                name
-                icon
-              }
+              preferredUsername
+              name
+              icon
             }
           }
         }

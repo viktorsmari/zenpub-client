@@ -1,13 +1,13 @@
-import { ActivityPreviewFragmentDoc } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import * as Types from './types.generated';
 
+import { BasicCollectionFragment } from './fragments/basicCollection.generated';
 import { ActivityPreviewFragment } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import { BasicCommunityFragment } from './fragments/basicCommunity.generated';
 import { BasicUserFragment } from './fragments/basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from './fragments/basicUser.generated';
 import { BasicCommunityFragmentDoc } from './fragments/basicCommunity.generated';
-import { BasicCollectionFragment } from './fragments/basicCollection.generated';
+import { ActivityPreviewFragmentDoc } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import { BasicCollectionFragmentDoc } from './fragments/basicCollection.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -37,51 +37,42 @@ export type GetUserQuery = (
     & { user: (
       { __typename: 'User' }
       & { followedCommunities: Types.Maybe<(
-        { __typename: 'FollowedCommunitiesEdges' }
+        { __typename: 'FollowedCommunitiesPage' }
         & { pageInfo: Types.Maybe<(
           { __typename: 'PageInfo' }
           & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
         )>, edges: Array<Types.Maybe<(
-          { __typename: 'FollowedCommunitiesEdge' }
-          & { node: (
-            { __typename: 'FollowedCommunity' }
-            & { follow: (
-              { __typename: 'Follow' }
-              & Pick<Types.Follow, 'id' | 'canonicalUrl'>
-            ), community: (
-              { __typename: 'Community' }
-              & BasicCommunityFragment
-            ) }
+          { __typename: 'FollowedCommunity' }
+          & { follow: (
+            { __typename: 'Follow' }
+            & Pick<Types.Follow, 'id' | 'canonicalUrl'>
+          ), community: (
+            { __typename: 'Community' }
+            & BasicCommunityFragment
           ) }
         )>> }
       )>, outbox: Types.Maybe<(
-        { __typename: 'ActivitiesEdges' }
+        { __typename: 'ActivitiesPage' }
         & { pageInfo: Types.Maybe<(
           { __typename: 'PageInfo' }
           & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
         )>, edges: Types.Maybe<Array<Types.Maybe<(
-          { __typename: 'ActivitiesEdge' }
-          & { node: (
-            { __typename: 'Activity' }
-            & ActivityPreviewFragment
-          ) }
+          { __typename: 'Activity' }
+          & ActivityPreviewFragment
         )>>> }
       )>, followedCollections: Types.Maybe<(
-        { __typename: 'FollowedCollectionsEdges' }
+        { __typename: 'FollowedCollectionsPage' }
         & { pageInfo: Types.Maybe<(
           { __typename: 'PageInfo' }
           & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
         )>, edges: Array<Types.Maybe<(
-          { __typename: 'FollowedCollectionsEdge' }
-          & { node: (
-            { __typename: 'FollowedCollection' }
-            & { follow: (
-              { __typename: 'Follow' }
-              & Pick<Types.Follow, 'id' | 'canonicalUrl'>
-            ), collection: (
-              { __typename: 'Collection' }
-              & BasicCollectionFragment
-            ) }
+          { __typename: 'FollowedCollection' }
+          & { follow: (
+            { __typename: 'Follow' }
+            & Pick<Types.Follow, 'id' | 'canonicalUrl'>
+          ), collection: (
+            { __typename: 'Collection' }
+            & BasicCollectionFragment
           ) }
         )>> }
       )> }
@@ -102,16 +93,14 @@ export const GetUserDocument = gql`
           endCursor
         }
         edges {
-          node {
-            follow {
-              id
-              canonicalUrl
-            }
-            community {
-              __typename
-              ... on Community {
-                ...BasicCommunity
-              }
+          follow {
+            id
+            canonicalUrl
+          }
+          community {
+            __typename
+            ... on Community {
+              ...BasicCommunity
             }
           }
         }
@@ -122,9 +111,7 @@ export const GetUserDocument = gql`
           endCursor
         }
         edges {
-          node {
-            ...ActivityPreview
-          }
+          ...ActivityPreview
         }
       }
       followedCollections(limit: $limitColl, after: $endColl) {
@@ -133,16 +120,14 @@ export const GetUserDocument = gql`
           endCursor
         }
         edges {
-          node {
-            follow {
-              id
-              canonicalUrl
-            }
-            collection {
-              __typename
-              ... on Collection {
-                ...BasicCollection
-              }
+          follow {
+            id
+            canonicalUrl
+          }
+          collection {
+            __typename
+            ... on Collection {
+              ...BasicCollection
             }
           }
         }

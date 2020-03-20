@@ -5,9 +5,7 @@ query communityThreads($communityId: String!, $limit:Int, $before:String, $after
     id
     threads(limit:$limit, before:$before, after:$after){
       edges{
-        node{
-          ...CommunityThread
-        }
+        ...CommunityThread
       }
     }
   }

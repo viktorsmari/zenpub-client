@@ -1,11 +1,11 @@
-import * as React from 'react';
 import * as Types from './types.generated';
 
+import { ActivityPreviewFragment } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import { BasicUserFragment } from './fragments/basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from './fragments/basicUser.generated';
 import { ActivityPreviewFragmentDoc } from '../HOC/modules/previews/activity/ActivityPreview.generated';
-import { ActivityPreviewFragment } from '../HOC/modules/previews/activity/ActivityPreview.generated';
+import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
@@ -27,16 +27,13 @@ export type GetMeInboxQuery = (
     & { user: (
       { __typename: 'User' }
       & { inbox: Types.Maybe<(
-        { __typename: 'ActivitiesEdges' }
+        { __typename: 'ActivitiesPage' }
         & { pageInfo: Types.Maybe<(
           { __typename: 'PageInfo' }
           & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
         )>, edges: Types.Maybe<Array<Types.Maybe<(
-          { __typename: 'ActivitiesEdge' }
-          & { node: (
-            { __typename: 'Activity' }
-            & ActivityPreviewFragment
-          ) }
+          { __typename: 'Activity' }
+          & ActivityPreviewFragment
         )>>> }
       )> }
       & BasicUserFragment
@@ -56,9 +53,7 @@ export const GetMeInboxDocument = gql`
           endCursor
         }
         edges {
-          node {
-            ...ActivityPreview
-          }
+          ...ActivityPreview
         }
       }
     }

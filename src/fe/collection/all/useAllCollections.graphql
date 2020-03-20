@@ -1,6 +1,6 @@
 query allCollections{
   collections{
-    nodes{
+    edges{
       ...CollectionPreview
     }
     totalCount

@@ -4,9 +4,7 @@ query communityCollections($communityId: String!, $limit:Int, $before:String, $a
     id
     collections(limit:$limit, before:$before, after:$after){
       edges{
-        node{
-          ...CommunityCollection
-        }
+        ...CommunityCollection
       }
     }
   }

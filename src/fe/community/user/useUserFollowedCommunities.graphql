@@ -3,11 +3,9 @@ query UserFollowedCommunities($userId: String!, $limit:Int, $before:String, $aft
     id
     followedCommunities(limit:$limit, before:$before, after:$after){
       edges{
-        node{
-          follow { id }
-          community{
-          ...UserFollowedCommunity
-          }
+        follow { id }
+        community{
+        ...UserFollowedCommunity
         }
       }
     }

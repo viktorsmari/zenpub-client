@@ -13,7 +13,7 @@ const UserPageRouter: FC<RouteComponentProps<UserPageRouter>> = ({ match }) => {
   const maybeTabStr = match.params.tab;
   const tab =
     maybeTabStr === 'likes'
-      ? UserPageTab.Likes
+      ? UserPageTab.likers
       : maybeTabStr === 'communities'
       ? UserPageTab.Communities
       : maybeTabStr === 'collections'

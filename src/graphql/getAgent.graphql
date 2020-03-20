@@ -17,42 +17,38 @@ query getAgentQuery(
     outbox (limit: $limitTimeline, after:$endTimeline) {
       pageInfo { startCursor endCursor }
       edges {
-        node {
-          id
-          canonicalUrl
-          verb
-          isLocal
-          isPublic
-          createdAt
-          user {
-            ...BasicUser
-          }
-          context {
-            __typename
-            ... on Resource   { ...BasicResource   }
-            ... on Community  { ...BasicCommunity  }
-            ... on Collection { ...BasicCollection }
-            ... on Comment    { ...BasicCommentWithInReplyTo    }
-          }       
+        id
+        canonicalUrl
+        verb
+        isLocal
+        isPublic
+        createdAt
+        user {
+          ...BasicUser
         }
+        context {
+          __typename
+          ... on Resource   { ...BasicResource   }
+          ... on Community  { ...BasicCommunity  }
+          ... on Collection { ...BasicCollection }
+          ... on Comment    { ...BasicCommentWithInReplyTo    }
+        }       
       }
     }
     followedCommunities(limit: $limitComm, after:$endComm) {
       pageInfo { startCursor endCursor }
       edges {
-        node {
-          follow{
-            id
-            canonicalUrl
-            isLocal
-            isPublic
-            createdAt
-          }
-          community {
-            __typename
-            ... on Community {
-              ...BasicCommunity
-            }
+        follow{
+          id
+          canonicalUrl
+          isLocal
+          isPublic
+          createdAt
+        }
+        community {
+          __typename
+          ... on Community {
+            ...BasicCommunity
           }
         }
       }
@@ -60,19 +56,17 @@ query getAgentQuery(
     followedCollections(limit: $limitColl, after:$endColl) {
       pageInfo { startCursor endCursor }
       edges {
-        node {
-          follow {
-            id
-            canonicalUrl
-            isLocal
-            isPublic
-            createdAt
-          }
-          collection {
-            __typename
-            ... on Collection {
-              ...BasicCollection
-            }
+        follow {
+          id
+          canonicalUrl
+          isLocal
+          isPublic
+          createdAt
+        }
+        collection {
+          __typename
+          ... on Collection {
+            ...BasicCollection
           }
         }
       }

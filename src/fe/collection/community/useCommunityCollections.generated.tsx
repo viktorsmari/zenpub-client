@@ -1,11 +1,11 @@
-import * as React from 'react';
 import * as Types from '../../../graphql/types.generated';
 
+import { CommunityPageCollectionBaseFragment } from '../../../HOC/pages/community/CommunityPage.generated';
 import { CollectionPreviewFragment } from '../../../HOC/modules/previews/collection/CollectionPreview.generated';
 import gql from 'graphql-tag';
 import { CollectionPreviewFragmentDoc } from '../../../HOC/modules/previews/collection/CollectionPreview.generated';
 import { CommunityPageCollectionBaseFragmentDoc } from '../../../HOC/pages/community/CommunityPage.generated';
-import { CommunityPageCollectionBaseFragment } from '../../../HOC/pages/community/CommunityPage.generated';
+import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
@@ -28,13 +28,10 @@ export type CommunityCollectionsQuery = (
     { __typename: 'Community' }
     & Pick<Types.Community, 'id'>
     & { collections: Types.Maybe<(
-      { __typename: 'CollectionsEdges' }
+      { __typename: 'CollectionsPage' }
       & { edges: Array<Types.Maybe<(
-        { __typename: 'CollectionsEdge' }
-        & { node: (
-          { __typename: 'Collection' }
-          & CommunityCollectionFragment
-        ) }
+        { __typename: 'Collection' }
+        & CommunityCollectionFragment
       )>> }
     )> }
   )> }
@@ -59,9 +56,7 @@ export const CommunityCollectionsDocument = gql`
     id
     collections(limit: $limit, before: $before, after: $after) {
       edges {
-        node {
-          ...CommunityCollection
-        }
+        ...CommunityCollection
       }
     }
   }

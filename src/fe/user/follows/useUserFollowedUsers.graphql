@@ -3,11 +3,9 @@ query UserFollowedUsers($userId: String!, $limit:Int, $before:String, $after:Str
     id
     followedUsers(limit:$limit, before:$before, after:$after){
       edges{
-        node{
-          follow { id }
-          user{
-          ...UserFollowedUser
-          }
+        follow { id }
+        user{
+        ...UserFollowedUser
         }
       }
     }

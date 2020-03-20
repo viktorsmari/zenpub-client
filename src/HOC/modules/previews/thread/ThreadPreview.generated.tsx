@@ -9,7 +9,6 @@ import { CommunityPreviewFragmentDoc } from '../community/CommunityPreview.gener
 import { CollectionPreviewFragmentDoc } from '../collection/CollectionPreview.generated';
 import { ResourcePreviewFragmentDoc } from '../resource/ResourcePreview.generated';
 import { FlagPreviewFragmentDoc } from '../flag/FlagPreview.generated';
-import { CommentPreviewFragment, CommentPreviewFragmentDoc } from '../comment/CommentPreview.generated';
 
 
 
@@ -31,14 +30,11 @@ export type ThreadPreviewFragment = (
     { __typename: 'Resource' }
     & ResourcePreviewFragment
   )>, comments: Types.Maybe<(
-    { __typename: 'CommentsEdges' }
-    & Pick<Types.CommentsEdges, 'totalCount'>
+    { __typename: 'CommentsPage' }
+    & Pick<Types.CommentsPage, 'totalCount'>
     & { edges: Array<Types.Maybe<(
-      { __typename: 'CommentsEdge' }
-      & { node: (
-        { __typename: 'Comment' }
-        & CommentPreviewFragment
-      ) }
+      { __typename: 'Comment' }
+      & CommentPreviewFragment
     )>> }
   )> }
 );
@@ -63,9 +59,7 @@ export const ThreadPreviewFragmentDoc = gql`
   comments(limit: 1) {
     totalCount
     edges {
-      node {
-        ...CommentPreview
-      }
+      ...CommentPreview
     }
   }
 }

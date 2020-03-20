@@ -7,9 +7,7 @@ query userOutboxActivities($userId: String!, $after:String, $before:String, $lim
     outbox(after:$after, before:$before, limit:$limit){
       totalCount,
       edges{
-        node{
-          ...UserOutboxActivity
-        }
+        ...UserOutboxActivity
       }
     }
   }

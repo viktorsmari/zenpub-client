@@ -9,8 +9,6 @@ query localActivities($limit: Int, $end: String) {
         outbox(limit: $limit, after: $end) {
             pageInfo { startCursor endCursor }
             edges {
-                cursor
-                node {
                     ...ActivityPreview
                     # id
                     # canonicalUrl
@@ -26,7 +24,6 @@ query localActivities($limit: Int, $end: String) {
                     #     ... on Collection { ...BasicCollection }
                     #     ... on Comment    { ...BasicCommentWithInReplyTo    }
                     # }
-                }
             }
         }
     }

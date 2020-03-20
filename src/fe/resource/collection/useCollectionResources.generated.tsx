@@ -25,13 +25,10 @@ export type CollectionResourcesQuery = (
     { __typename: 'Collection' }
     & Pick<Types.Collection, 'id'>
     & { resources: Types.Maybe<(
-      { __typename: 'ResourcesEdges' }
+      { __typename: 'ResourcesPage' }
       & { edges: Array<Types.Maybe<(
-        { __typename: 'ResourcesEdge' }
-        & { node: (
-          { __typename: 'Resource' }
-          & CollectionResourceFragment
-        ) }
+        { __typename: 'Resource' }
+        & CollectionResourceFragment
       )>> }
     )> }
   )> }
@@ -53,9 +50,7 @@ export const CollectionResourcesDocument = gql`
     id
     resources(limit: $limit, before: $before, after: $after) {
       edges {
-        node {
-          ...CollectionResource
-        }
+        ...CollectionResource
       }
     }
   }

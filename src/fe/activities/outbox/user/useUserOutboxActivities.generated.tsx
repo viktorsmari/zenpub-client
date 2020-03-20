@@ -1,11 +1,11 @@
-import * as React from 'react';
 import * as Types from '../../../../graphql/types.generated';
 
+import { ActivityPreviewFragment } from '../../../../HOC/modules/previews/activity/ActivityPreview.generated';
 import { UserPageActivitiesFragment } from '../../../../HOC/pages/user/UserPage.generated';
 import gql from 'graphql-tag';
 import { UserPageActivitiesFragmentDoc } from '../../../../HOC/pages/user/UserPage.generated';
 import { ActivityPreviewFragmentDoc } from '../../../../HOC/modules/previews/activity/ActivityPreview.generated';
-import { ActivityPreviewFragment } from '../../../../HOC/modules/previews/activity/ActivityPreview.generated';
+import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
@@ -28,14 +28,11 @@ export type UserOutboxActivitiesQuery = (
     { __typename: 'User' }
     & Pick<Types.User, 'id'>
     & { outbox: Types.Maybe<(
-      { __typename: 'ActivitiesEdges' }
-      & Pick<Types.ActivitiesEdges, 'totalCount'>
+      { __typename: 'ActivitiesPage' }
+      & Pick<Types.ActivitiesPage, 'totalCount'>
       & { edges: Types.Maybe<Array<Types.Maybe<(
-        { __typename: 'ActivitiesEdge' }
-        & { node: (
-          { __typename: 'Activity' }
-          & UserOutboxActivityFragment
-        ) }
+        { __typename: 'Activity' }
+        & UserOutboxActivityFragment
       )>>> }
     )> }
   )> }
@@ -61,9 +58,7 @@ export const UserOutboxActivitiesDocument = gql`
     outbox(after: $after, before: $before, limit: $limit) {
       totalCount
       edges {
-        node {
-          ...UserOutboxActivity
-        }
+        ...UserOutboxActivity
       }
     }
   }

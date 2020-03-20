@@ -28,18 +28,15 @@ export type MyFollowedCommunitiesMeDataFragment = (
     { __typename: 'User' }
     & Pick<Types.User, 'id'>
     & { followedCommunities: Types.Maybe<(
-      { __typename: 'FollowedCommunitiesEdges' }
+      { __typename: 'FollowedCommunitiesPage' }
       & { edges: Array<Types.Maybe<(
-        { __typename: 'FollowedCommunitiesEdge' }
-        & { node: (
-          { __typename: 'FollowedCommunity' }
-          & { community: (
-            { __typename: 'Community' }
-            & SidebarFollowedCommunityFragment
-          ), follow: (
-            { __typename: 'Follow' }
-            & Pick<Types.Follow, 'id'>
-          ) }
+        { __typename: 'FollowedCommunity' }
+        & { community: (
+          { __typename: 'Community' }
+          & SidebarFollowedCommunityFragment
+        ), follow: (
+          { __typename: 'Follow' }
+          & Pick<Types.Follow, 'id'>
         ) }
       )>> }
     )> }
@@ -52,13 +49,11 @@ export const MyFollowedCommunitiesMeDataFragmentDoc = gql`
     id
     followedCommunities {
       edges {
-        node {
-          community {
-            ...SidebarFollowedCommunity
-          }
-          follow {
-            id
-          }
+        community {
+          ...SidebarFollowedCommunity
+        }
+        follow {
+          id
         }
       }
     }

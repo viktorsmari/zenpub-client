@@ -17,12 +17,12 @@ export type AllCommunitiesQueryVariables = {};
 export type AllCommunitiesQuery = (
   { __typename: 'RootQueryType' }
   & { communities: (
-    { __typename: 'CommunitiesNodes' }
-    & Pick<Types.CommunitiesNodes, 'totalCount'>
-    & { nodes: Types.Maybe<Array<Types.Maybe<(
+    { __typename: 'CommunitiesPage' }
+    & Pick<Types.CommunitiesPage, 'totalCount'>
+    & { edges: Array<Types.Maybe<(
       { __typename: 'Community' }
       & CommunityPreviewFragment
-    )>>> }
+    )>> }
   ) }
 );
 
@@ -30,7 +30,7 @@ export type AllCommunitiesQuery = (
 export const AllCommunitiesDocument = gql`
     query allCommunities {
   communities {
-    nodes {
+    edges {
       ...CommunityPreview
     }
     totalCount

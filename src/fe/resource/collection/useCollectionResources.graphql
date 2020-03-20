@@ -5,9 +5,7 @@ query collectionResources($collectionId: String!, $limit:Int, $before:String, $a
     id
     resources(limit:$limit, before:$before, after:$after){
       edges{
-        node{
-          ...CollectionResource
-        }
+        ...CollectionResource
       }
     }
   }

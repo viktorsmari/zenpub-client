@@ -35,7 +35,7 @@ export const ResourcePreviewHOC: FC<Props> = ({ resourceId }) => {
       like: {
         iLikeIt: !!resource.myLike,
         toggleLikeFormik,
-        totalLikes: resource.likes?.totalCount || 0
+        totalLikes: resource.likers?.totalCount || 0
       },
       isLocal: resource.isLocal, // FIXME replace with e.g isUploaded to differantiate between uploaded resource and resources shared via link
       acceptedLicenses: accepted_license_types,

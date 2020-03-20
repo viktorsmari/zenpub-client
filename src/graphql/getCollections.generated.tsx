@@ -20,14 +20,14 @@ export type GetCollectionsQueryQueryVariables = {
 export type GetCollectionsQueryQuery = (
   { __typename: 'RootQueryType' }
   & { collections: (
-    { __typename: 'CollectionsNodes' }
+    { __typename: 'CollectionsPage' }
     & { pageInfo: Types.Maybe<(
       { __typename: 'PageInfo' }
       & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-    )>, nodes: Types.Maybe<Array<Types.Maybe<(
+    )>, edges: Array<Types.Maybe<(
       { __typename: 'Collection' }
       & BasicCollectionFragment
-    )>>> }
+    )>> }
   ) }
 );
 
@@ -39,7 +39,7 @@ export const GetCollectionsQueryDocument = gql`
       startCursor
       endCursor
     }
-    nodes {
+    edges {
       ...BasicCollection
     }
   }

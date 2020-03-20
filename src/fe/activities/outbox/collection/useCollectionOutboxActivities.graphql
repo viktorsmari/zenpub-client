@@ -5,9 +5,7 @@ query collectionOutboxActivities($collectionId: String!, $limit:Int, $before:Str
     id
     outbox(limit:$limit, before:$before, after:$after){
       edges{
-        node{
-          ...CollectionOutboxActivity
-        }
+        ...CollectionOutboxActivity
       }
     }
   }

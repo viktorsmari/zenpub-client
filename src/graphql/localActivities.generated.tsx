@@ -22,17 +22,13 @@ export type LocalActivitiesQuery = (
   & { instance: Types.Maybe<(
     { __typename: 'Instance' }
     & { outbox: Types.Maybe<(
-      { __typename: 'ActivitiesEdges' }
+      { __typename: 'ActivitiesPage' }
       & { pageInfo: Types.Maybe<(
         { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
       )>, edges: Types.Maybe<Array<Types.Maybe<(
-        { __typename: 'ActivitiesEdge' }
-        & Pick<Types.ActivitiesEdge, 'cursor'>
-        & { node: (
-          { __typename: 'Activity' }
-          & ActivityPreviewFragment
-        ) }
+        { __typename: 'Activity' }
+        & ActivityPreviewFragment
       )>>> }
     )> }
   )> }
@@ -48,10 +44,7 @@ export const LocalActivitiesDocument = gql`
         endCursor
       }
       edges {
-        cursor
-        node {
-          ...ActivityPreview
-        }
+        ...ActivityPreview
       }
     }
   }

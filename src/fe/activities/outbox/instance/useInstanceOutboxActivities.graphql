@@ -6,9 +6,7 @@ query instanceOutboxActivities( $after:String, $before:String, $limit:Int){
     outbox(after:$after, before:$before, limit:$limit){
       totalCount,
       edges{
-        node{
-          ...InstanceOutboxActivity
-        }
+        ...InstanceOutboxActivity
       }
     }
   }

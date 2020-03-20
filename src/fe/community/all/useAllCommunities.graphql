@@ -1,6 +1,6 @@
 query allCommunities{
   communities{
-    nodes{
+    edges{
       ...CommunityPreview
     }
     totalCount

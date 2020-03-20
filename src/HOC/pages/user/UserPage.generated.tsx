@@ -14,17 +14,17 @@ export type UserPageUserDataFragment = (
   { __typename: 'User' }
   & Pick<Types.User, 'id'>
   & { followedCollections: Types.Maybe<(
-    { __typename: 'FollowedCollectionsEdges' }
-    & Pick<Types.FollowedCollectionsEdges, 'totalCount'>
+    { __typename: 'FollowedCollectionsPage' }
+    & Pick<Types.FollowedCollectionsPage, 'totalCount'>
   )>, followedCommunities: Types.Maybe<(
-    { __typename: 'FollowedCommunitiesEdges' }
-    & Pick<Types.FollowedCommunitiesEdges, 'totalCount'>
+    { __typename: 'FollowedCommunitiesPage' }
+    & Pick<Types.FollowedCommunitiesPage, 'totalCount'>
   )>, followedUsers: Types.Maybe<(
-    { __typename: 'FollowedUsersEdges' }
-    & Pick<Types.FollowedUsersEdges, 'totalCount'>
+    { __typename: 'FollowedUsersPage' }
+    & Pick<Types.FollowedUsersPage, 'totalCount'>
   )>, outbox: Types.Maybe<(
-    { __typename: 'ActivitiesEdges' }
-    & Pick<Types.ActivitiesEdges, 'totalCount'>
+    { __typename: 'ActivitiesPage' }
+    & Pick<Types.ActivitiesPage, 'totalCount'>
   )> }
   & HeroUserUserDataFragment
 );

@@ -14,9 +14,9 @@ export type ResourcePreviewFragment = (
   )>, myFlag: Types.Maybe<(
     { __typename: 'Flag' }
     & Pick<Types.Flag, 'id'>
-  )>, likes: Types.Maybe<(
-    { __typename: 'LikesEdges' }
-    & Pick<Types.LikesEdges, 'totalCount'>
+  )>, likers: Types.Maybe<(
+    { __typename: 'LikesPage' }
+    & Pick<Types.LikesPage, 'totalCount'>
   )>, collection: Types.Maybe<(
     { __typename: 'Collection' }
     & Pick<Types.Collection, 'id'>
@@ -42,7 +42,7 @@ export const ResourcePreviewFragmentDoc = gql`
   myFlag {
     id
   }
-  likes {
+  likers {
     totalCount
   }
   collection {

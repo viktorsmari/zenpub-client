@@ -25,21 +25,18 @@ export type GetFollowedCollectionsQuery = (
       { __typename: 'User' }
       & Pick<Types.User, 'id' | 'canonicalUrl'>
       & { followedCollections: Types.Maybe<(
-        { __typename: 'FollowedCollectionsEdges' }
+        { __typename: 'FollowedCollectionsPage' }
         & { pageInfo: Types.Maybe<(
           { __typename: 'PageInfo' }
           & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
         )>, edges: Array<Types.Maybe<(
-          { __typename: 'FollowedCollectionsEdge' }
-          & { node: (
-            { __typename: 'FollowedCollection' }
-            & { follow: (
-              { __typename: 'Follow' }
-              & Pick<Types.Follow, 'id' | 'canonicalUrl'>
-            ), collection: (
-              { __typename: 'Collection' }
-              & BasicCollectionFragment
-            ) }
+          { __typename: 'FollowedCollection' }
+          & { follow: (
+            { __typename: 'Follow' }
+            & Pick<Types.Follow, 'id' | 'canonicalUrl'>
+          ), collection: (
+            { __typename: 'Collection' }
+            & BasicCollectionFragment
           ) }
         )>> }
       )> }
@@ -60,16 +57,14 @@ export const GetFollowedCollectionsDocument = gql`
           endCursor
         }
         edges {
-          node {
-            follow {
-              id
-              canonicalUrl
-            }
-            collection {
-              __typename
-              ... on Collection {
-                ...BasicCollection
-              }
+          follow {
+            id
+            canonicalUrl
+          }
+          collection {
+            __typename
+            ... on Collection {
+              ...BasicCollection
             }
           }
         }

@@ -56,22 +56,16 @@ export type SearchMeFragment = (
     { __typename: 'User' }
     & Pick<Types.User, 'id'>
     & { followedCollections: Types.Maybe<(
-      { __typename: 'FollowedCollectionsEdges' }
+      { __typename: 'FollowedCollectionsPage' }
       & { edges: Array<Types.Maybe<(
-        { __typename: 'FollowedCollectionsEdge' }
-        & { node: (
-          { __typename: 'FollowedCollection' }
-          & SearchFollowedCollectionFragment
-        ) }
+        { __typename: 'FollowedCollection' }
+        & SearchFollowedCollectionFragment
       )>> }
     )>, followedCommunities: Types.Maybe<(
-      { __typename: 'FollowedCommunitiesEdges' }
+      { __typename: 'FollowedCommunitiesPage' }
       & { edges: Array<Types.Maybe<(
-        { __typename: 'FollowedCommunitiesEdge' }
-        & { node: (
-          { __typename: 'FollowedCommunity' }
-          & SearchFollowedCommunityFragment
-        ) }
+        { __typename: 'FollowedCommunity' }
+        & SearchFollowedCommunityFragment
       )>> }
     )> }
   ) }
@@ -132,16 +126,12 @@ export const SearchMeFragmentDoc = gql`
     id
     followedCollections {
       edges {
-        node {
-          ...SearchFollowedCollection
-        }
+        ...SearchFollowedCollection
       }
     }
     followedCommunities {
       edges {
-        node {
-          ...SearchFollowedCommunity
-        }
+        ...SearchFollowedCommunity
       }
     }
   }

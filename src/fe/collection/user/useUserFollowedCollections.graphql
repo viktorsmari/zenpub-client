@@ -3,11 +3,9 @@ query userFollowedCollections($userId: String!, $limit:Int, $before:String, $aft
     id
     followedCollections(limit:$limit, before:$before, after:$after){
       edges{
-        node{
-          follow { id }
-          collection{
-          ...UserFollowedCollection
-          }
+        follow { id }
+        collection{
+        ...UserFollowedCollection
         }
       }
     }

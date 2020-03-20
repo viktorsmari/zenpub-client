@@ -23,14 +23,11 @@ export type InstanceOutboxActivitiesQuery = (
   & { instance: Types.Maybe<(
     { __typename: 'Instance' }
     & { outbox: Types.Maybe<(
-      { __typename: 'ActivitiesEdges' }
-      & Pick<Types.ActivitiesEdges, 'totalCount'>
+      { __typename: 'ActivitiesPage' }
+      & Pick<Types.ActivitiesPage, 'totalCount'>
       & { edges: Types.Maybe<Array<Types.Maybe<(
-        { __typename: 'ActivitiesEdge' }
-        & { node: (
-          { __typename: 'Activity' }
-          & InstanceOutboxActivityFragment
-        ) }
+        { __typename: 'Activity' }
+        & InstanceOutboxActivityFragment
       )>>> }
     )> }
   )> }
@@ -52,9 +49,7 @@ export const InstanceOutboxActivitiesDocument = gql`
     outbox(after: $after, before: $before, limit: $limit) {
       totalCount
       edges {
-        node {
-          ...InstanceOutboxActivity
-        }
+        ...InstanceOutboxActivity
       }
     }
   }

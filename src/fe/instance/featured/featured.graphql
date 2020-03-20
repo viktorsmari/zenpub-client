@@ -2,11 +2,9 @@ query instanceFeaturedCommunities {
   instance{
     featuredCommunities{
       edges{
-        node{
-          id
-          context{
-            ...DiscoverPageFeaturedCommunityInfo
-          }
+        id
+        context{
+          ...DiscoverPageFeaturedCommunityInfo
         }
       }
     }
@@ -16,11 +14,9 @@ query instanceFeaturedCollections {
   instance{
     featuredCollections{
       edges{
-        node{
-          id
-          context{
-            ...DiscoverPageFeaturedCollectionInfo
-          }
+        id
+        context{
+          ...DiscoverPageFeaturedCollectionInfo
         }
       }
     }

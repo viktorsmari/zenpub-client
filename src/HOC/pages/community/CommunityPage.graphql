@@ -11,10 +11,8 @@ fragment CommunityPageThread on Thread {
   ...ThreadPreview
   comments(limit:1){
     edges{
-      node{
-        ...CommentPreview
-        # createdAt
-      }
+      ...CommentPreview
+      # createdAt
     }
   }
 }

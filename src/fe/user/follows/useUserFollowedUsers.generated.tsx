@@ -25,18 +25,15 @@ export type UserFollowedUsersQuery = (
     { __typename: 'User' }
     & Pick<Types.User, 'id'>
     & { followedUsers: Types.Maybe<(
-      { __typename: 'FollowedUsersEdges' }
+      { __typename: 'FollowedUsersPage' }
       & { edges: Array<Types.Maybe<(
-        { __typename: 'FollowedUsersEdge' }
-        & { node: (
-          { __typename: 'FollowedUser' }
-          & { follow: (
-            { __typename: 'Follow' }
-            & Pick<Types.Follow, 'id'>
-          ), user: (
-            { __typename: 'User' }
-            & UserFollowedUserFragment
-          ) }
+        { __typename: 'FollowedUser' }
+        & { follow: (
+          { __typename: 'Follow' }
+          & Pick<Types.Follow, 'id'>
+        ), user: (
+          { __typename: 'User' }
+          & UserFollowedUserFragment
         ) }
       )>> }
     )> }
@@ -59,13 +56,11 @@ export const UserFollowedUsersDocument = gql`
     id
     followedUsers(limit: $limit, before: $before, after: $after) {
       edges {
-        node {
-          follow {
-            id
-          }
-          user {
-            ...UserFollowedUser
-          }
+        follow {
+          id
+        }
+        user {
+          ...UserFollowedUser
         }
       }
     }

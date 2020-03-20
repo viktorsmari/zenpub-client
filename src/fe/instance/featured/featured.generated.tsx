@@ -1,11 +1,11 @@
-import * as React from 'react';
 import * as Types from '../../../graphql/types.generated';
 
+import { DiscoverPageFeaturedCollectionInfoFragment } from '../../../HOC/pages/discover/DiscoverPage.generated';
 import { DiscoverPageFeaturedCommunityInfoFragment } from '../../../HOC/pages/discover/DiscoverPage.generated';
 import gql from 'graphql-tag';
 import { DiscoverPageFeaturedCommunityInfoFragmentDoc } from '../../../HOC/pages/discover/DiscoverPage.generated';
 import { DiscoverPageFeaturedCollectionInfoFragmentDoc } from '../../../HOC/pages/discover/DiscoverPage.generated';
-import { DiscoverPageFeaturedCollectionInfoFragment } from '../../../HOC/pages/discover/DiscoverPage.generated';
+import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
@@ -22,17 +22,14 @@ export type InstanceFeaturedCommunitiesQuery = (
   & { instance: Types.Maybe<(
     { __typename: 'Instance' }
     & { featuredCommunities: Types.Maybe<(
-      { __typename: 'FeaturesEdges' }
+      { __typename: 'FeaturesPage' }
       & { edges: Array<Types.Maybe<(
-        { __typename: 'FeaturesEdge' }
-        & { node: (
-          { __typename: 'Feature' }
-          & Pick<Types.Feature, 'id'>
-          & { context: Types.Maybe<{ __typename: 'Collection' } | (
-            { __typename: 'Community' }
-            & DiscoverPageFeaturedCommunityInfoFragment
-          )> }
-        ) }
+        { __typename: 'Feature' }
+        & Pick<Types.Feature, 'id'>
+        & { context: Types.Maybe<{ __typename: 'Collection' } | (
+          { __typename: 'Community' }
+          & DiscoverPageFeaturedCommunityInfoFragment
+        )> }
       )>> }
     )> }
   )> }
@@ -46,17 +43,14 @@ export type InstanceFeaturedCollectionsQuery = (
   & { instance: Types.Maybe<(
     { __typename: 'Instance' }
     & { featuredCollections: Types.Maybe<(
-      { __typename: 'FeaturesEdges' }
+      { __typename: 'FeaturesPage' }
       & { edges: Array<Types.Maybe<(
-        { __typename: 'FeaturesEdge' }
-        & { node: (
-          { __typename: 'Feature' }
-          & Pick<Types.Feature, 'id'>
-          & { context: Types.Maybe<(
-            { __typename: 'Collection' }
-            & DiscoverPageFeaturedCollectionInfoFragment
-          ) | { __typename: 'Community' }> }
-        ) }
+        { __typename: 'Feature' }
+        & Pick<Types.Feature, 'id'>
+        & { context: Types.Maybe<(
+          { __typename: 'Collection' }
+          & DiscoverPageFeaturedCollectionInfoFragment
+        ) | { __typename: 'Community' }> }
       )>> }
     )> }
   )> }
@@ -68,11 +62,9 @@ export const InstanceFeaturedCommunitiesDocument = gql`
   instance {
     featuredCommunities {
       edges {
-        node {
-          id
-          context {
-            ...DiscoverPageFeaturedCommunityInfo
-          }
+        id
+        context {
+          ...DiscoverPageFeaturedCommunityInfo
         }
       }
     }
@@ -126,11 +118,9 @@ export const InstanceFeaturedCollectionsDocument = gql`
   instance {
     featuredCollections {
       edges {
-        node {
-          id
-          context {
-            ...DiscoverPageFeaturedCollectionInfo
-          }
+        id
+        context {
+          ...DiscoverPageFeaturedCollectionInfo
         }
       }
     }

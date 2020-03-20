@@ -10,10 +10,8 @@ fragment MyFollowedCommunitiesMeData on Me {
     id
     followedCommunities{
       edges{
-        node{
-          community { ...SidebarFollowedCommunity }
-          follow { id }
-        }
+        community { ...SidebarFollowedCommunity }
+        follow { id }
       }
     }
   }

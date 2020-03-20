@@ -1,11 +1,11 @@
-import * as React from 'react';
 import * as Types from './types.generated';
 
+import { BasicCollectionFragment } from './fragments/basicCollection.generated';
 import { BasicUserFragment } from './fragments/basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from './fragments/basicUser.generated';
 import { BasicCollectionFragmentDoc } from './fragments/basicCollection.generated';
-import { BasicCollectionFragment } from './fragments/basicCollection.generated';
+import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
@@ -22,25 +22,21 @@ export type GetFeaturedCollectionsQuery = (
   & { instance: Types.Maybe<(
     { __typename: 'Instance' }
     & { featuredCollections: Types.Maybe<(
-      { __typename: 'FeaturesEdges' }
-      & Pick<Types.FeaturesEdges, 'totalCount'>
+      { __typename: 'FeaturesPage' }
+      & Pick<Types.FeaturesPage, 'totalCount'>
       & { pageInfo: Types.Maybe<(
         { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
       )>, edges: Array<Types.Maybe<(
-        { __typename: 'FeaturesEdge' }
-        & Pick<Types.FeaturesEdge, 'cursor'>
-        & { node: (
-          { __typename: 'Feature' }
-          & Pick<Types.Feature, 'id' | 'canonicalUrl' | 'isLocal' | 'createdAt'>
-          & { creator: Types.Maybe<(
-            { __typename: 'User' }
-            & BasicUserFragment
-          )>, context: Types.Maybe<(
-            { __typename: 'Collection' }
-            & BasicCollectionFragment
-          ) | { __typename: 'Community' }> }
-        ) }
+        { __typename: 'Feature' }
+        & Pick<Types.Feature, 'id' | 'canonicalUrl' | 'isLocal' | 'createdAt'>
+        & { creator: Types.Maybe<(
+          { __typename: 'User' }
+          & BasicUserFragment
+        )>, context: Types.Maybe<(
+          { __typename: 'Collection' }
+          & BasicCollectionFragment
+        ) | { __typename: 'Community' }> }
       )>> }
     )> }
   )> }
@@ -57,20 +53,17 @@ export const GetFeaturedCollectionsDocument = gql`
       }
       totalCount
       edges {
-        cursor
-        node {
-          id
-          canonicalUrl
-          isLocal
-          createdAt
-          creator {
-            ...BasicUser
-          }
-          context {
-            __typename
-            ... on Collection {
-              ...BasicCollection
-            }
+        id
+        canonicalUrl
+        isLocal
+        createdAt
+        creator {
+          ...BasicUser
+        }
+        context {
+          __typename
+          ... on Collection {
+            ...BasicCollection
           }
         }
       }

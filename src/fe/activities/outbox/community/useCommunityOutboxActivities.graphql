@@ -5,9 +5,7 @@ query communityOutboxActivities($communityId: String!, $limit:Int, $before:Strin
     id
     outbox(limit:$limit, before:$before, after:$after){
       edges{
-        node{
-          ...CommunityOutboxActivity
-        }
+        ...CommunityOutboxActivity
       }
     }
   }

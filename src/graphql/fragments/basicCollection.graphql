@@ -1,5 +1,5 @@
 #import "./basicUser.graphql"
-#import "./basicResourcesEdges.graphql"
+#import "./basicResourcesPage.graphql"
 
 fragment BasicCollection on Collection {
     id
@@ -26,7 +26,7 @@ fragment BasicCollection on Collection {
         myFlag { id }
     }
     resources { 
-        ...BasicResourcesEdges
+        ...BasicResourcesPage
     }
     followers { totalCount }
     threads { totalCount }

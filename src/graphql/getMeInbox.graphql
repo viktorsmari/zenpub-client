@@ -15,7 +15,6 @@ query getMeInbox($limit: Int, $end: String) {
                     endCursor
                 }
                 edges {
-                    node {
                     ...ActivityPreview
                         # __typename
                         # id
@@ -32,7 +31,6 @@ query getMeInbox($limit: Int, $end: String) {
                         #     ... on Collection { ...BasicCollection }
                         #     ... on Comment    { ...BasicCommentWithInReplyTo    }
                         # }
-                    }
                 }
             }
         }

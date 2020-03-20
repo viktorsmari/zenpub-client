@@ -25,21 +25,18 @@ export type GetFollowedCommunitiesQueryQuery = (
       { __typename: 'User' }
       & Pick<Types.User, 'id'>
       & { followedCommunities: Types.Maybe<(
-        { __typename: 'FollowedCommunitiesEdges' }
+        { __typename: 'FollowedCommunitiesPage' }
         & { pageInfo: Types.Maybe<(
           { __typename: 'PageInfo' }
           & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
         )>, edges: Array<Types.Maybe<(
-          { __typename: 'FollowedCommunitiesEdge' }
-          & { node: (
-            { __typename: 'FollowedCommunity' }
-            & { follow: (
-              { __typename: 'Follow' }
-              & Pick<Types.Follow, 'id' | 'canonicalUrl'>
-            ), community: (
-              { __typename: 'Community' }
-              & BasicCommunityFragment
-            ) }
+          { __typename: 'FollowedCommunity' }
+          & { follow: (
+            { __typename: 'Follow' }
+            & Pick<Types.Follow, 'id' | 'canonicalUrl'>
+          ), community: (
+            { __typename: 'Community' }
+            & BasicCommunityFragment
           ) }
         )>> }
       )> }
@@ -59,16 +56,14 @@ export const GetFollowedCommunitiesQueryDocument = gql`
           endCursor
         }
         edges {
-          node {
-            follow {
-              id
-              canonicalUrl
-            }
-            community {
-              __typename
-              ... on Community {
-                ...BasicCommunity
-              }
+          follow {
+            id
+            canonicalUrl
+          }
+          community {
+            __typename
+            ... on Community {
+              ...BasicCommunity
             }
           }
         }

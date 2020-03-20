@@ -20,14 +20,14 @@ export type GetCommunitiesQueryQueryVariables = {
 export type GetCommunitiesQueryQuery = (
   { __typename: 'RootQueryType' }
   & { communities: (
-    { __typename: 'CommunitiesNodes' }
+    { __typename: 'CommunitiesPage' }
     & { pageInfo: Types.Maybe<(
       { __typename: 'PageInfo' }
       & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-    )>, nodes: Types.Maybe<Array<Types.Maybe<(
+    )>, edges: Array<Types.Maybe<(
       { __typename: 'Community' }
       & BasicCommunityFragment
-    )>>> }
+    )>> }
   ) }
 );
 
@@ -39,7 +39,7 @@ export const GetCommunitiesQueryDocument = gql`
       startCursor
       endCursor
     }
-    nodes {
+    edges {
       ...BasicCommunity
     }
   }

@@ -1,6 +1,6 @@
-import { BasicCommunityFragmentDoc } from './fragments/basicCommunity.generated';
 import * as Types from './types.generated';
 
+import { BasicCommentWithInReplyToFragment } from './fragments/basicComment.generated';
 import { BasicCollectionFragment } from './fragments/basicCollection.generated';
 import { BasicCommunityFragment } from './fragments/basicCommunity.generated';
 import { BasicResourceFragment } from './fragments/basicResource.generated';
@@ -8,7 +8,7 @@ import { BasicUserFragment } from './fragments/basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from './fragments/basicUser.generated';
 import { BasicResourceFragmentDoc } from './fragments/basicResource.generated';
-import { BasicCommentWithInReplyToFragment } from './fragments/basicComment.generated';
+import { BasicCommunityFragmentDoc } from './fragments/basicCommunity.generated';
 import { BasicCollectionFragmentDoc } from './fragments/basicCollection.generated';
 import { BasicCommentWithInReplyToFragmentDoc } from './fragments/basicComment.generated';
 import * as React from 'react';
@@ -39,67 +39,58 @@ export type GetAgentQueryQuery = (
   & { user: Types.Maybe<(
     { __typename: 'User' }
     & { outbox: Types.Maybe<(
-      { __typename: 'ActivitiesEdges' }
+      { __typename: 'ActivitiesPage' }
       & { pageInfo: Types.Maybe<(
         { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
       )>, edges: Types.Maybe<Array<Types.Maybe<(
-        { __typename: 'ActivitiesEdge' }
-        & { node: (
-          { __typename: 'Activity' }
-          & Pick<Types.Activity, 'id' | 'canonicalUrl' | 'verb' | 'isLocal' | 'isPublic' | 'createdAt'>
-          & { user: Types.Maybe<(
-            { __typename: 'User' }
-            & BasicUserFragment
-          )>, context: Types.Maybe<(
-            { __typename: 'Collection' }
-            & BasicCollectionFragment
-          ) | (
-            { __typename: 'Comment' }
-            & BasicCommentWithInReplyToFragment
-          ) | (
-            { __typename: 'Community' }
-            & BasicCommunityFragment
-          ) | { __typename: 'Flag' } | { __typename: 'Follow' } | { __typename: 'Like' } | (
-            { __typename: 'Resource' }
-            & BasicResourceFragment
-          ) | { __typename: 'User' }> }
-        ) }
+        { __typename: 'Activity' }
+        & Pick<Types.Activity, 'id' | 'canonicalUrl' | 'verb' | 'isLocal' | 'isPublic' | 'createdAt'>
+        & { user: Types.Maybe<(
+          { __typename: 'User' }
+          & BasicUserFragment
+        )>, context: Types.Maybe<(
+          { __typename: 'Collection' }
+          & BasicCollectionFragment
+        ) | (
+          { __typename: 'Comment' }
+          & BasicCommentWithInReplyToFragment
+        ) | (
+          { __typename: 'Community' }
+          & BasicCommunityFragment
+        ) | { __typename: 'Flag' } | { __typename: 'Follow' } | { __typename: 'Like' } | (
+          { __typename: 'Resource' }
+          & BasicResourceFragment
+        ) | { __typename: 'User' }> }
       )>>> }
     )>, followedCommunities: Types.Maybe<(
-      { __typename: 'FollowedCommunitiesEdges' }
+      { __typename: 'FollowedCommunitiesPage' }
       & { pageInfo: Types.Maybe<(
         { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
       )>, edges: Array<Types.Maybe<(
-        { __typename: 'FollowedCommunitiesEdge' }
-        & { node: (
-          { __typename: 'FollowedCommunity' }
-          & { follow: (
-            { __typename: 'Follow' }
-            & Pick<Types.Follow, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'createdAt'>
-          ), community: (
-            { __typename: 'Community' }
-            & BasicCommunityFragment
-          ) }
+        { __typename: 'FollowedCommunity' }
+        & { follow: (
+          { __typename: 'Follow' }
+          & Pick<Types.Follow, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'createdAt'>
+        ), community: (
+          { __typename: 'Community' }
+          & BasicCommunityFragment
         ) }
       )>> }
     )>, followedCollections: Types.Maybe<(
-      { __typename: 'FollowedCollectionsEdges' }
+      { __typename: 'FollowedCollectionsPage' }
       & { pageInfo: Types.Maybe<(
         { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
       )>, edges: Array<Types.Maybe<(
-        { __typename: 'FollowedCollectionsEdge' }
-        & { node: (
-          { __typename: 'FollowedCollection' }
-          & { follow: (
-            { __typename: 'Follow' }
-            & Pick<Types.Follow, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'createdAt'>
-          ), collection: (
-            { __typename: 'Collection' }
-            & BasicCollectionFragment
-          ) }
+        { __typename: 'FollowedCollection' }
+        & { follow: (
+          { __typename: 'Follow' }
+          & Pick<Types.Follow, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'createdAt'>
+        ), collection: (
+          { __typename: 'Collection' }
+          & BasicCollectionFragment
         ) }
       )>> }
     )> }
@@ -118,30 +109,28 @@ export const GetAgentQueryDocument = gql`
         endCursor
       }
       edges {
-        node {
-          id
-          canonicalUrl
-          verb
-          isLocal
-          isPublic
-          createdAt
-          user {
-            ...BasicUser
+        id
+        canonicalUrl
+        verb
+        isLocal
+        isPublic
+        createdAt
+        user {
+          ...BasicUser
+        }
+        context {
+          __typename
+          ... on Resource {
+            ...BasicResource
           }
-          context {
-            __typename
-            ... on Resource {
-              ...BasicResource
-            }
-            ... on Community {
-              ...BasicCommunity
-            }
-            ... on Collection {
-              ...BasicCollection
-            }
-            ... on Comment {
-              ...BasicCommentWithInReplyTo
-            }
+          ... on Community {
+            ...BasicCommunity
+          }
+          ... on Collection {
+            ...BasicCollection
+          }
+          ... on Comment {
+            ...BasicCommentWithInReplyTo
           }
         }
       }
@@ -152,19 +141,17 @@ export const GetAgentQueryDocument = gql`
         endCursor
       }
       edges {
-        node {
-          follow {
-            id
-            canonicalUrl
-            isLocal
-            isPublic
-            createdAt
-          }
-          community {
-            __typename
-            ... on Community {
-              ...BasicCommunity
-            }
+        follow {
+          id
+          canonicalUrl
+          isLocal
+          isPublic
+          createdAt
+        }
+        community {
+          __typename
+          ... on Community {
+            ...BasicCommunity
           }
         }
       }
@@ -175,19 +162,17 @@ export const GetAgentQueryDocument = gql`
         endCursor
       }
       edges {
-        node {
-          follow {
-            id
-            canonicalUrl
-            isLocal
-            isPublic
-            createdAt
-          }
-          collection {
-            __typename
-            ... on Collection {
-              ...BasicCollection
-            }
+        follow {
+          id
+          canonicalUrl
+          isLocal
+          isPublic
+          createdAt
+        }
+        collection {
+          __typename
+          ... on Collection {
+            ...BasicCollection
           }
         }
       }

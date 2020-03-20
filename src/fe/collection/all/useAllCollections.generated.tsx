@@ -17,12 +17,12 @@ export type AllCollectionsQueryVariables = {};
 export type AllCollectionsQuery = (
   { __typename: 'RootQueryType' }
   & { collections: (
-    { __typename: 'CollectionsNodes' }
-    & Pick<Types.CollectionsNodes, 'totalCount'>
-    & { nodes: Types.Maybe<Array<Types.Maybe<(
+    { __typename: 'CollectionsPage' }
+    & Pick<Types.CollectionsPage, 'totalCount'>
+    & { edges: Array<Types.Maybe<(
       { __typename: 'Collection' }
       & CollectionPreviewFragment
-    )>>> }
+    )>> }
   ) }
 );
 
@@ -30,7 +30,7 @@ export type AllCollectionsQuery = (
 export const AllCollectionsDocument = gql`
     query allCollections {
   collections {
-    nodes {
+    edges {
       ...CollectionPreview
     }
     totalCount

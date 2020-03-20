@@ -122,7 +122,7 @@ const Thread: FC<Props> = ({ comment }) => {
   }, [comment, iLikeIt]);
   return (
     //FIXME https://gitlab.com/moodlenet/meta/issues/185
-    !comment.creator || !comment.likes ? null : (
+    !comment.creator || !comment.likers ? null : (
       <Wrapper px={3} py={3}>
         <Flex alignItems="center">
           <Avatar src={comment.creator.icon || ''} />
@@ -171,7 +171,7 @@ const Thread: FC<Props> = ({ comment }) => {
                   size="16"
                 />
               </ActionIcon>
-              <Text ml={2}>{comment.likes.totalCount}</Text>
+              <Text ml={2}>{comment.likers.totalCount}</Text>
             </ActionItem>
           </Items>
         </Actions>
