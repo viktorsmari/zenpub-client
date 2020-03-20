@@ -39,12 +39,6 @@ const Emails: React.FC<Props> = ({
   const [selectedEmailForModal, setselectedEmailForModal] = React.useState<
     null | string
   >(null);
-  console.log(
-    'email ' +
-      selectedEmailForModal +
-      ' ConfirmDeleteModal ' +
-      ConfirmDeleteModal
-  );
   return (
     <Box>
       <Text variant="heading" px={3} mt={2}>

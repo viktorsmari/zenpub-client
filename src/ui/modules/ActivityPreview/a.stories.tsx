@@ -12,6 +12,8 @@ import { User } from '../Previews/User';
 import FlagModal from '../FlagModal';
 import { MainComment } from '../Previews/MainComment';
 import { LikedComment } from '../Previews/LikedComment';
+import { FlaggedItem } from '../Previews/FlaggedItem';
+import { ConfirmDeleteModal } from '../ConfirmDeleteModal';
 
 const getActions = () => ({
   FlagModal: () => {
@@ -434,6 +436,56 @@ storiesOf('Modules/ActivityPreview', module)
         p={2}
       >
         <ActivityPreview {...MainCommentPreviewProps} />
+      </Box>
+    );
+  })
+  .add('Flagged a comment', () => {
+    const FlaggedItemPreviewProps: Props = {
+      communityLink: 'communityLink',
+      communityName: 'communityName',
+      event: 'Flagged a comment',
+      preview: (
+        <FlaggedItem
+          ConfirmDeleteModal={({ done }) => {
+            const formik = useFormik<{}>({
+              initialValues: {},
+              onSubmit: () => {
+                action('submit')();
+                return new Promise((resolve, reject) => {
+                  setTimeout(resolve, 3000);
+                });
+              }
+            });
+            const getConfirmDeleteModalProps = {
+              formik,
+              deleteTitle: 'Delete Comment',
+              deleteDescription:
+                'Are you sure you want to delete this comment?',
+              cancel: action('cancel')
+            };
+            return <ConfirmDeleteModal {...getConfirmDeleteModalProps} />;
+          }}
+          type="Comment"
+          reason="Abusive speech"
+        />
+      ),
+      status: Status.Loaded,
+      actor: getActor(),
+      createdAt: '2018-11-11',
+      link: 'https://picsum.photos/80/80'
+    };
+
+    return (
+      <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
+        <ActivityPreview {...FlaggedItemPreviewProps} />
       </Box>
     );
   });
