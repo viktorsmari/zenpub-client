@@ -6,11 +6,11 @@
 #import "../HOC/modules/ActivityPreview/getActivityPreview.graphql"
 query getUser(
     $limitComm: Int,
-    $endComm: String,
+    $endComm: [Cursor],
     $limitColl: Int,
-    $endColl: String,
+    $endColl: [Cursor],
     $limitTimeline: Int,
-    $endTimeline: String
+    $endTimeline: [Cursor]
 ) {
     me {
         user {

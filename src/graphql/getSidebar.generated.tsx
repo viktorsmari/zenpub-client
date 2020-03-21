@@ -10,7 +10,7 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type GetSidebarQueryQueryVariables = {
   limitComm?: Types.Maybe<Types.Scalars['Int']>,
-  endComm?: Types.Maybe<Types.Scalars['String']>
+  endComm?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
 };
 
 
@@ -43,7 +43,7 @@ export type GetSidebarQueryQuery = (
 
 
 export const GetSidebarQueryDocument = gql`
-    query getSidebarQuery($limitComm: Int, $endComm: String) {
+    query getSidebarQuery($limitComm: Int, $endComm: [Cursor]) {
   me {
     user {
       id

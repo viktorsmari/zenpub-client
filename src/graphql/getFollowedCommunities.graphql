@@ -1,7 +1,7 @@
 #import "./fragments/basicCommunity.graphql"
 
 
-query getFollowedCommunitiesQuery($limit: Int, $endComm: String) {
+query getFollowedCommunitiesQuery($limit: Int, $endComm: [Cursor]) {
     me {
         user {
             id

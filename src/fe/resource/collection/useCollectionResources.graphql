@@ -1,6 +1,6 @@
 
 
-query collectionResources($collectionId: String!, $limit:Int, $before:String, $after:String) {
+query collectionResources($collectionId: String!, $limit:Int, $before:[Cursor], $after:[Cursor]) {
   collection(collectionId:$collectionId){
     id
     resources(limit:$limit, before:$before, after:$after){

@@ -1,4 +1,4 @@
-query getSidebarQuery($limitComm: Int, $endComm: String) {
+query getSidebarQuery($limitComm: Int, $endComm: [Cursor]) {
     me {
         user {
             id

@@ -9,6 +9,8 @@ export type Scalars = {
   Boolean: boolean,
   Int: number,
   Float: number,
+  /** Used for pagination. Is actually a string, integer or list of string and/or integer */
+  Cursor: any,
   /** Represents an uploaded file. */
   Upload: any,
 };
@@ -124,48 +126,48 @@ export type Collection = {
 
 /** A collection is the home of resources and discussion threads within a community */
 export type CollectionFlagsArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** A collection is the home of resources and discussion threads within a community */
 export type CollectionFollowersArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** A collection is the home of resources and discussion threads within a community */
 export type CollectionLikersArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** A collection is the home of resources and discussion threads within a community */
 export type CollectionOutboxArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** A collection is the home of resources and discussion threads within a community */
 export type CollectionResourcesArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** A collection is the home of resources and discussion threads within a community */
 export type CollectionThreadsArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
@@ -227,15 +229,15 @@ export type Comment = {
 
 
 export type CommentFlagsArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 export type CommentLikersArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
@@ -324,43 +326,43 @@ export type Community = {
 
 
 export type CommunityCollectionsArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 export type CommunityFlagsArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 export type CommunityFollowersArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 export type CommunityLikersArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 export type CommunityOutboxArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 export type CommunityThreadsArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
@@ -378,6 +380,7 @@ export type CommunityUpdateInput = {
   name: Scalars['String'],
   summary?: Maybe<Scalars['String']>,
 };
+
 
 /** A thing that can be deleted */
 export type DeleteContext = Collection | Comment | Community | Feature | Flag | Follow | Like | Resource | Thread | User;
@@ -565,8 +568,8 @@ export type Instance = {
 
 
 export type InstanceOutboxArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
@@ -621,10 +624,10 @@ export type Me = {
 /** Cursors for pagination */
 export type PageInfo = {
    __typename?: 'PageInfo',
-  endCursor?: Maybe<Scalars['String']>,
+  endCursor?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   hasNextPage?: Maybe<Scalars['Boolean']>,
   hasPreviousPage?: Maybe<Scalars['Boolean']>,
-  startCursor?: Maybe<Scalars['String']>,
+  startCursor?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
 };
 
 export type RegistrationInput = {
@@ -687,19 +690,20 @@ export type Resource = {
 
 
 export type ResourceFlagsArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 export type ResourceLikersArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 export type ResourceInput = {
+  author?: Maybe<Scalars['String']>,
   icon?: Maybe<Scalars['String']>,
   license?: Maybe<Scalars['String']>,
   name: Scalars['String'],
@@ -976,8 +980,8 @@ export type RootQueryTypeCollectionArgs = {
 
 
 export type RootQueryTypeCollectionsArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
@@ -988,8 +992,8 @@ export type RootQueryTypeCommentArgs = {
 
 
 export type RootQueryTypeCommunitiesArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
@@ -1072,16 +1076,16 @@ export type Thread = {
 
 /** A thread is essentially a list of comments */
 export type ThreadCommentsArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** A thread is essentially a list of comments */
 export type ThreadFollowersArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
@@ -1183,72 +1187,72 @@ export type User = {
 
 /** User profile information */
 export type UserCommentsArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** User profile information */
 export type UserFollowedCollectionsArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** User profile information */
 export type UserFollowedCommunitiesArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** User profile information */
 export type UserFollowedUsersArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** User profile information */
 export type UserFollowersArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** User profile information */
 export type UserInboxArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** User profile information */
 export type UserLikersArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** User profile information */
 export type UserLikesArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** User profile information */
 export type UserOutboxArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
@@ -1543,6 +1547,7 @@ export type ResolversTypes = {
   Collection: ResolverTypeWrapper<Collection>,
   Community: ResolverTypeWrapper<Community>,
   Int: ResolverTypeWrapper<Scalars['Int']>,
+  Cursor: ResolverTypeWrapper<Scalars['Cursor']>,
   CollectionsPage: ResolverTypeWrapper<CollectionsPage>,
   PageInfo: ResolverTypeWrapper<PageInfo>,
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
@@ -1606,6 +1611,7 @@ export type ResolversParentTypes = {
   Collection: Collection,
   Community: Community,
   Int: Scalars['Int'],
+  Cursor: Scalars['Cursor'],
   CollectionsPage: CollectionsPage,
   PageInfo: PageInfo,
   Boolean: Scalars['Boolean'],
@@ -1783,6 +1789,10 @@ export type CommunityResolvers<ContextType = any, ParentType extends ResolversPa
   updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
 };
 
+export interface CursorScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Cursor'], any> {
+  name: 'Cursor'
+}
+
 export type DeleteContextResolvers<ContextType = any, ParentType extends ResolversParentTypes['DeleteContext'] = ResolversParentTypes['DeleteContext']> = {
   __resolveType: TypeResolveFn<'Collection' | 'Comment' | 'Community' | 'Feature' | 'Flag' | 'Follow' | 'Like' | 'Resource' | 'Thread' | 'User', ParentType, ContextType>
 };
@@ -1951,10 +1961,10 @@ export type MeResolvers<ContextType = any, ParentType extends ResolversParentTyp
 };
 
 export type PageInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
-  endCursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  endCursor?: Resolver<Maybe<Array<Maybe<ResolversTypes['Cursor']>>>, ParentType, ContextType>,
   hasNextPage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
   hasPreviousPage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
-  startCursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  startCursor?: Resolver<Maybe<Array<Maybe<ResolversTypes['Cursor']>>>, ParentType, ContextType>,
 };
 
 export type ResourceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Resource'] = ResolversParentTypes['Resource']> = {
@@ -2129,6 +2139,7 @@ export type Resolvers<ContextType = any> = {
   CommentsPage?: CommentsPageResolvers<ContextType>,
   CommunitiesPage?: CommunitiesPageResolvers<ContextType>,
   Community?: CommunityResolvers<ContextType>,
+  Cursor?: GraphQLScalarType,
   DeleteContext?: DeleteContextResolvers,
   Feature?: FeatureResolvers<ContextType>,
   FeatureContext?: FeatureContextResolvers,

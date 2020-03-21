@@ -14,8 +14,8 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type CommunityThreadsQueryVariables = {
   communityId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Types.Scalars['String']>,
-  after?: Types.Maybe<Types.Scalars['String']>
+  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
+  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
 };
 
 
@@ -45,7 +45,7 @@ export const CommunityThreadFragmentDoc = gql`
 }
     ${CommunityPageThreadFragmentDoc}`;
 export const CommunityThreadsDocument = gql`
-    query communityThreads($communityId: String!, $limit: Int, $before: String, $after: String) {
+    query communityThreads($communityId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
   community(communityId: $communityId) {
     id
     threads(limit: $limit, before: $before, after: $after) {

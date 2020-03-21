@@ -1,6 +1,6 @@
 #import "./fragments/basicCollection.graphql"
 
-query getFollowedCollections($limit: Int, $endColl: String) {
+query getFollowedCollections($limit: Int, $endColl: [Cursor]) {
     me {
         user {
             id

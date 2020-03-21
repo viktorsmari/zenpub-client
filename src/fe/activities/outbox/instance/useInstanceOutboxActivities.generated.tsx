@@ -12,8 +12,8 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type InstanceOutboxActivitiesQueryVariables = {
-  after?: Types.Maybe<Types.Scalars['String']>,
-  before?: Types.Maybe<Types.Scalars['String']>,
+  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
+  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
   limit?: Types.Maybe<Types.Scalars['Int']>
 };
 
@@ -44,7 +44,7 @@ export const InstanceOutboxActivityFragmentDoc = gql`
 }
     ${ActivityPreviewFragmentDoc}`;
 export const InstanceOutboxActivitiesDocument = gql`
-    query instanceOutboxActivities($after: String, $before: String, $limit: Int) {
+    query instanceOutboxActivities($after: [Cursor], $before: [Cursor], $limit: Int) {
   instance {
     outbox(after: $after, before: $before, limit: $limit) {
       totalCount

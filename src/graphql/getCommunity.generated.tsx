@@ -17,7 +17,7 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type GetCommunityQueryQueryVariables = {
   communityId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  end?: Types.Maybe<Types.Scalars['String']>
+  end?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
 };
 
 
@@ -116,7 +116,7 @@ export type GetCommunityQueryQuery = (
 
 
 export const GetCommunityQueryDocument = gql`
-    query getCommunityQuery($communityId: String!, $limit: Int, $end: String) {
+    query getCommunityQuery($communityId: String!, $limit: Int, $end: [Cursor]) {
   community(communityId: $communityId) {
     id
     canonicalUrl

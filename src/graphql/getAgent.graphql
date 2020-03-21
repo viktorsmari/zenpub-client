@@ -6,11 +6,11 @@
 query getAgentQuery(
   $userId: String!
   $limitComm: Int
-  $endComm: String
+  $endComm: [Cursor]
   $limitColl: Int
-  $endColl: String
+  $endColl: [Cursor]
   $limitTimeline: Int 
-  $endTimeline: String
+  $endTimeline: [Cursor]
 ) {
   user(userId: $userId) {
     ...BasicUser

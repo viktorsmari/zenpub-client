@@ -17,8 +17,8 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type CommunityCollectionsQueryVariables = {
   communityId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Types.Scalars['String']>,
-  after?: Types.Maybe<Types.Scalars['String']>
+  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
+  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
 };
 
 
@@ -51,7 +51,7 @@ export const CommunityCollectionFragmentDoc = gql`
     ${CollectionPreviewFragmentDoc}
 ${CommunityPageCollectionBaseFragmentDoc}`;
 export const CommunityCollectionsDocument = gql`
-    query communityCollections($communityId: String!, $limit: Int, $before: String, $after: String) {
+    query communityCollections($communityId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
   community(communityId: $communityId) {
     id
     collections(limit: $limit, before: $before, after: $after) {

@@ -26,11 +26,11 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type GetAgentQueryQueryVariables = {
   userId: Types.Scalars['String'],
   limitComm?: Types.Maybe<Types.Scalars['Int']>,
-  endComm?: Types.Maybe<Types.Scalars['String']>,
+  endComm?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
   limitColl?: Types.Maybe<Types.Scalars['Int']>,
-  endColl?: Types.Maybe<Types.Scalars['String']>,
+  endColl?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
   limitTimeline?: Types.Maybe<Types.Scalars['Int']>,
-  endTimeline?: Types.Maybe<Types.Scalars['String']>
+  endTimeline?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
 };
 
 
@@ -100,7 +100,7 @@ export type GetAgentQueryQuery = (
 
 
 export const GetAgentQueryDocument = gql`
-    query getAgentQuery($userId: String!, $limitComm: Int, $endComm: String, $limitColl: Int, $endColl: String, $limitTimeline: Int, $endTimeline: String) {
+    query getAgentQuery($userId: String!, $limitComm: Int, $endComm: [Cursor], $limitColl: Int, $endColl: [Cursor], $limitTimeline: Int, $endTimeline: [Cursor]) {
   user(userId: $userId) {
     ...BasicUser
     outbox(limit: $limitTimeline, after: $endTimeline) {

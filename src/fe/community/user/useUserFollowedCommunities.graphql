@@ -1,4 +1,4 @@
-query UserFollowedCommunities($userId: String!, $limit:Int, $before:String, $after:String) {
+query UserFollowedCommunities($userId: String!, $limit:Int, $before:[Cursor], $after:[Cursor]) {
   user(userId:$userId){
     id
     followedCommunities(limit:$limit, before:$before, after:$after){

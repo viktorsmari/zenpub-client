@@ -16,8 +16,8 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type UserOutboxActivitiesQueryVariables = {
   userId: Types.Scalars['String'],
-  after?: Types.Maybe<Types.Scalars['String']>,
-  before?: Types.Maybe<Types.Scalars['String']>,
+  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
+  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
   limit?: Types.Maybe<Types.Scalars['Int']>
 };
 
@@ -52,7 +52,7 @@ export const UserOutboxActivityFragmentDoc = gql`
     ${UserPageActivitiesFragmentDoc}
 ${ActivityPreviewFragmentDoc}`;
 export const UserOutboxActivitiesDocument = gql`
-    query userOutboxActivities($userId: String!, $after: String, $before: String, $limit: Int) {
+    query userOutboxActivities($userId: String!, $after: [Cursor], $before: [Cursor], $limit: Int) {
   user(userId: $userId) {
     id
     outbox(after: $after, before: $before, limit: $limit) {

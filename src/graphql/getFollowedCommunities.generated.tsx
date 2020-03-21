@@ -13,7 +13,7 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type GetFollowedCommunitiesQueryQueryVariables = {
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  endComm?: Types.Maybe<Types.Scalars['String']>
+  endComm?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
 };
 
 
@@ -46,7 +46,7 @@ export type GetFollowedCommunitiesQueryQuery = (
 
 
 export const GetFollowedCommunitiesQueryDocument = gql`
-    query getFollowedCommunitiesQuery($limit: Int, $endComm: String) {
+    query getFollowedCommunitiesQuery($limit: Int, $endComm: [Cursor]) {
   me {
     user {
       id

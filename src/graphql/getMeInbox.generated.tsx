@@ -16,7 +16,7 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type GetMeInboxQueryVariables = {
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  end?: Types.Maybe<Types.Scalars['String']>
+  end?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
 };
 
 
@@ -43,7 +43,7 @@ export type GetMeInboxQuery = (
 
 
 export const GetMeInboxDocument = gql`
-    query getMeInbox($limit: Int, $end: String) {
+    query getMeInbox($limit: Int, $end: [Cursor]) {
   me {
     user {
       ...BasicUser
