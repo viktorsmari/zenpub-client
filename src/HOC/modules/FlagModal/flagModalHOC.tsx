@@ -1,9 +1,8 @@
 import { FollowContext, useFlagContext } from 'fe/context/flag/useFlagContext';
 import { useFormik } from 'formik';
-import React, { createContext, FC } from 'react';
+import React, { FC } from 'react';
 import { BasicCreateFlagFormValues, FlagModal } from 'ui/modules/FlagModal';
 import * as Yup from 'yup';
-import * as GQL from './flagModal.generated';
 
 export const validationSchema: Yup.ObjectSchema<BasicCreateFlagFormValues> = Yup.object<
   BasicCreateFlagFormValues
@@ -13,19 +12,12 @@ export const validationSchema: Yup.ObjectSchema<BasicCreateFlagFormValues> = Yup
     .required()
 });
 
-export interface Props {
+export interface FlagModalHOC {
   ctx: FollowContext;
   done(): any;
 }
 
-export interface FlagModalCtx {
-  useCreateFlagPanelCreateMutation: typeof GQL.useCreateFlagPanelCreateMutation;
-}
-export const FlagModalCtx = createContext<FlagModalCtx>({
-  useCreateFlagPanelCreateMutation: GQL.useCreateFlagPanelCreateMutation
-});
-
-export const FlagModalHOC: FC<Props> = ({ done, ctx }: Props) => {
+export const FlagModalHOC: FC<FlagModalHOC> = ({ done, ctx }) => {
   const { unflag, flag } = useFlagContext(ctx);
 
   const unflagFormik = useFormik({
