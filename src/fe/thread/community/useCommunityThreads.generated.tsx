@@ -1,7 +1,9 @@
 import * as Types from '../../../graphql/types.generated';
 
 import { CommunityPageThreadFragment } from '../../../HOC/pages/community/CommunityPage.generated';
+import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
+import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { CommunityPageThreadFragmentDoc } from '../../../HOC/pages/community/CommunityPage.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -9,6 +11,7 @@ import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
 
 
 export type CommunityThreadsQueryVariables = {
@@ -26,7 +29,11 @@ export type CommunityThreadsQuery = (
     & Pick<Types.Community, 'id'>
     & { threads: Types.Maybe<(
       { __typename: 'ThreadsPage' }
-      & { edges: Array<Types.Maybe<(
+      & Pick<Types.ThreadsPage, 'totalCount'>
+      & { pageInfo: Types.Maybe<(
+        { __typename: 'PageInfo' }
+        & FullPageInfoFragment
+      )>, edges: Array<Types.Maybe<(
         { __typename: 'Thread' }
         & CommunityThreadFragment
       )>> }
@@ -49,13 +56,18 @@ export const CommunityThreadsDocument = gql`
   community(communityId: $communityId) {
     id
     threads(limit: $limit, before: $before, after: $after) {
+      totalCount
+      pageInfo {
+        ...FullPageInfo
+      }
       edges {
         ...CommunityThread
       }
     }
   }
 }
-    ${CommunityThreadFragmentDoc}`;
+    ${FullPageInfoFragmentDoc}
+${CommunityThreadFragmentDoc}`;
 export type CommunityThreadsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CommunityThreadsQuery, CommunityThreadsQueryVariables>, 'query'> & ({ variables: CommunityThreadsQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const CommunityThreadsComponent = (props: CommunityThreadsComponentProps) => (

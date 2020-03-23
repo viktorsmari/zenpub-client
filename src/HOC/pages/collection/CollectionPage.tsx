@@ -24,8 +24,12 @@ export interface CollectionPage {
 }
 
 export const CollectionPage: FC<CollectionPage> = props => {
-  const { activities } = useCollectionOutboxActivities(props.collectionId);
-  const { resources } = useCollectionResources(props.collectionId);
+  const { activitiesPage: activities } = useCollectionOutboxActivities(
+    props.collectionId
+  );
+  const { resourcesPage: resources } = useCollectionResources(
+    props.collectionId
+  );
   const collectionPageProps = useMemo<CollectionPageProps | null>(() => {
     const {
       collectionId,
@@ -37,7 +41,7 @@ export const CollectionPage: FC<CollectionPage> = props => {
 
     const ActivitiesBox = (
       <>
-        {activities.map(activity => (
+        {activities.edges.map(activity => (
           <ActivityPreviewHOC activityId={activity.id} key={activity.id} />
         ))}
       </>
@@ -45,7 +49,7 @@ export const CollectionPage: FC<CollectionPage> = props => {
 
     const ResourcesBox = (
       <>
-        {resources.map(resource => (
+        {resources.edges.map(resource => (
           <Box mx={2} my={1}>
             <ResourcePreviewHOC resourceId={resource.id} key={resource.id} />
           </Box>

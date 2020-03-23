@@ -5,6 +5,7 @@ query instanceOutboxActivities( $after:[Cursor], $before:[Cursor], $limit:Int){
   instance{
     outbox(after:$after, before:$before, limit:$limit){
       totalCount,
+      pageInfo{ ...FullPageInfo }
       edges{
         ...InstanceOutboxActivity
       }

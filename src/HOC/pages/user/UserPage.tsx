@@ -27,10 +27,10 @@ export enum UserPageTab {
 }
 export const UserPage: FC<UserPage> = ({ userId, basePath }) => {
   const user = useUser(userId);
-  const { activities } = useUserOutboxActivities(userId);
-  const { collections } = useUserFollowedCollections(userId);
-  const { communities } = useUserFollowedCommunities(userId);
-  const { users } = useUserFollowedUsers(userId);
+  const { activitiesPage } = useUserOutboxActivities(userId);
+  const { followedCollectionsPage } = useUserFollowedCollections(userId);
+  const { followedCommunitiesPage } = useUserFollowedCommunities(userId);
+  const { followedUsersPage } = useUserFollowedUsers(userId);
   const userPageProps = useMemo<Props>(() => {
     const {
       totalActivities,
@@ -40,18 +40,18 @@ export const UserPage: FC<UserPage> = ({ userId, basePath }) => {
     } = user;
     const ActivityBoxes = (
       <>
-        {activities.map(activity => (
+        {activitiesPage.edges.map(activity => (
           <ActivityPreviewHOC activityId={activity.id} key={activity.id} />
         ))}
       </>
     );
     const CollectionsBoxes = (
       <>
-        {collections.map(collection => (
-          <Box m={2} mb={0} key={collection.id}>
+        {followedCollectionsPage.edges.map(follow => (
+          <Box m={2} mb={0} key={follow.collection.id}>
             <CollectionPreviewHOC
-              collectionId={collection.id}
-              key={collection.id}
+              collectionId={follow.collection.id}
+              key={follow.collection.id}
             />
           </Box>
         ))}
@@ -59,16 +59,22 @@ export const UserPage: FC<UserPage> = ({ userId, basePath }) => {
     );
     const CommunityBoxes = (
       <>
-        {communities.map(community => (
-          <CommunityPreviewHOC communityId={community.id} key={community.id} />
+        {followedCommunitiesPage.edges.map(follow => (
+          <CommunityPreviewHOC
+            communityId={follow.community.id}
+            key={follow.community.id}
+          />
         ))}
       </>
     );
 
     const UserBoxes = (
       <>
-        {users.map(user => (
-          <UserPreviewHOC userId={user.userId} key={user.userId} />
+        {followedUsersPage.edges.map(follow => (
+          <UserPreviewHOC
+            userId={follow.user.userId}
+            key={follow.user.userId}
+          />
         ))}
       </>
     );
@@ -90,6 +96,13 @@ export const UserPage: FC<UserPage> = ({ userId, basePath }) => {
       totalUsers: `${totalUsers || '0'}`
     };
     return props;
-  }, [activities, basePath, user, collections, communities, users]);
+  }, [
+    activitiesPage,
+    basePath,
+    user,
+    followedCollectionsPage,
+    followedCommunitiesPage,
+    followedUsersPage
+  ]);
   return <UserPageUI {...userPageProps} />;
 };

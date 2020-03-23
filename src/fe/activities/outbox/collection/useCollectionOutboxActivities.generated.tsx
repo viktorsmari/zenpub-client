@@ -1,7 +1,9 @@
 import * as Types from '../../../../graphql/types.generated';
 
 import { ActivityPreviewFragment } from '../../../../HOC/modules/previews/activity/ActivityPreview.generated';
+import { FullPageInfoFragment } from '../../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
+import { FullPageInfoFragmentDoc } from '../../../../@fragments/misc.generated';
 import { ActivityPreviewFragmentDoc } from '../../../../HOC/modules/previews/activity/ActivityPreview.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -9,6 +11,7 @@ import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
 
 
 export type CollectionOutboxActivitiesQueryVariables = {
@@ -26,7 +29,11 @@ export type CollectionOutboxActivitiesQuery = (
     & Pick<Types.Collection, 'id'>
     & { outbox: Types.Maybe<(
       { __typename: 'ActivitiesPage' }
-      & { edges: Types.Maybe<Array<Types.Maybe<(
+      & Pick<Types.ActivitiesPage, 'totalCount'>
+      & { pageInfo: Types.Maybe<(
+        { __typename: 'PageInfo' }
+        & FullPageInfoFragment
+      )>, edges: Types.Maybe<Array<Types.Maybe<(
         { __typename: 'Activity' }
         & CollectionOutboxActivityFragment
       )>>> }
@@ -49,13 +56,18 @@ export const CollectionOutboxActivitiesDocument = gql`
   collection(collectionId: $collectionId) {
     id
     outbox(limit: $limit, before: $before, after: $after) {
+      totalCount
+      pageInfo {
+        ...FullPageInfo
+      }
       edges {
         ...CollectionOutboxActivity
       }
     }
   }
 }
-    ${CollectionOutboxActivityFragmentDoc}`;
+    ${FullPageInfoFragmentDoc}
+${CollectionOutboxActivityFragmentDoc}`;
 export type CollectionOutboxActivitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CollectionOutboxActivitiesQuery, CollectionOutboxActivitiesQueryVariables>, 'query'> & ({ variables: CollectionOutboxActivitiesQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const CollectionOutboxActivitiesComponent = (props: CollectionOutboxActivitiesComponentProps) => (

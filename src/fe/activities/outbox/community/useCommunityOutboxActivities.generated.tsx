@@ -1,7 +1,9 @@
 import * as Types from '../../../../graphql/types.generated';
 
 import { ActivityPreviewFragment } from '../../../../HOC/modules/previews/activity/ActivityPreview.generated';
+import { FullPageInfoFragment } from '../../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
+import { FullPageInfoFragmentDoc } from '../../../../@fragments/misc.generated';
 import { ActivityPreviewFragmentDoc } from '../../../../HOC/modules/previews/activity/ActivityPreview.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -9,6 +11,7 @@ import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
 
 
 export type CommunityOutboxActivitiesQueryVariables = {
@@ -26,7 +29,11 @@ export type CommunityOutboxActivitiesQuery = (
     & Pick<Types.Community, 'id'>
     & { outbox: Types.Maybe<(
       { __typename: 'ActivitiesPage' }
-      & { edges: Types.Maybe<Array<Types.Maybe<(
+      & Pick<Types.ActivitiesPage, 'totalCount'>
+      & { pageInfo: Types.Maybe<(
+        { __typename: 'PageInfo' }
+        & FullPageInfoFragment
+      )>, edges: Types.Maybe<Array<Types.Maybe<(
         { __typename: 'Activity' }
         & CommunityOutboxActivityFragment
       )>>> }
@@ -49,13 +56,18 @@ export const CommunityOutboxActivitiesDocument = gql`
   community(communityId: $communityId) {
     id
     outbox(limit: $limit, before: $before, after: $after) {
+      totalCount
+      pageInfo {
+        ...FullPageInfo
+      }
       edges {
         ...CommunityOutboxActivity
       }
     }
   }
 }
-    ${CommunityOutboxActivityFragmentDoc}`;
+    ${FullPageInfoFragmentDoc}
+${CommunityOutboxActivityFragmentDoc}`;
 export type CommunityOutboxActivitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CommunityOutboxActivitiesQuery, CommunityOutboxActivitiesQueryVariables>, 'query'> & ({ variables: CommunityOutboxActivitiesQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const CommunityOutboxActivitiesComponent = (props: CommunityOutboxActivitiesComponentProps) => (

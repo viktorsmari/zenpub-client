@@ -1,7 +1,7 @@
 import { Collection } from 'graphql/types.generated';
 import { useMemo } from 'react';
 import * as GQL from './useCollectionOutboxActivities.generated';
-import { manageEdges } from 'fe/lib/helpers/edges';
+import { usePage } from 'fe/lib/helpers/usePage';
 
 export const useCollectionOutboxActivities = (
   collectionId: Collection['id']
@@ -10,15 +10,12 @@ export const useCollectionOutboxActivities = (
     variables: { collectionId }
   });
 
-  const activities = useMemo<GQL.CollectionOutboxActivityFragment[]>(
-    () => manageEdges(collectionQ.data?.collection?.outbox).edges,
-    [collectionQ]
-  );
+  const activitiesPage = usePage(collectionQ.data?.collection?.outbox);
 
   return useMemo(
     () => ({
-      activities
+      activitiesPage
     }),
-    [activities]
+    [activitiesPage]
   );
 };

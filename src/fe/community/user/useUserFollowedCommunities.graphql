@@ -2,6 +2,8 @@ query UserFollowedCommunities($userId: String!, $limit:Int, $before:[Cursor], $a
   user(userId:$userId){
     id
     followedCommunities(limit:$limit, before:$before, after:$after){
+      totalCount,
+      pageInfo{ ...FullPageInfo }
       edges{
         follow { id }
         community{

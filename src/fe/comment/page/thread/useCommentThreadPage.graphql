@@ -1,0 +1,11 @@
+query threadPage($threadId: String!, $limit:Int, $before:[Cursor], $after:[Cursor])  {
+  thread(threadId: $threadId){
+    comments(limit:$limit, before:$before, after:$after){
+      totalCount
+      pageInfo{ ...FullPageInfo }
+      edges{
+        ...CommentPreview
+      }
+    }
+  }
+}

@@ -1,7 +1,9 @@
 import * as Types from '../../../graphql/types.generated';
 
 import { SidebarFollowedCommunityFragment } from '../../../HOC/modules/Sidebar/Sidebar.generated';
+import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
+import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { SidebarFollowedCommunityFragmentDoc } from '../../../HOC/modules/Sidebar/Sidebar.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -9,6 +11,7 @@ import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
 
 
 export type MyFollowedCommunitiesQueryVariables = {};
@@ -29,7 +32,11 @@ export type MyFollowedCommunitiesMeDataFragment = (
     & Pick<Types.User, 'id'>
     & { followedCommunities: Types.Maybe<(
       { __typename: 'FollowedCommunitiesPage' }
-      & { edges: Array<Types.Maybe<(
+      & Pick<Types.FollowedCommunitiesPage, 'totalCount'>
+      & { pageInfo: Types.Maybe<(
+        { __typename: 'PageInfo' }
+        & FullPageInfoFragment
+      )>, edges: Array<Types.Maybe<(
         { __typename: 'FollowedCommunity' }
         & { community: (
           { __typename: 'Community' }
@@ -48,6 +55,10 @@ export const MyFollowedCommunitiesMeDataFragmentDoc = gql`
   user {
     id
     followedCommunities {
+      totalCount
+      pageInfo {
+        ...FullPageInfo
+      }
       edges {
         community {
           ...SidebarFollowedCommunity
@@ -59,7 +70,8 @@ export const MyFollowedCommunitiesMeDataFragmentDoc = gql`
     }
   }
 }
-    ${SidebarFollowedCommunityFragmentDoc}`;
+    ${FullPageInfoFragmentDoc}
+${SidebarFollowedCommunityFragmentDoc}`;
 export const MyFollowedCommunitiesDocument = gql`
     query myFollowedCommunities {
   me {

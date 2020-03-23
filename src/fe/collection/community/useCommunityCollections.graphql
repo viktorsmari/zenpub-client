@@ -3,6 +3,8 @@ query communityCollections($communityId: String!, $limit:Int, $before:[Cursor], 
   community(communityId:$communityId){
     id
     collections(limit:$limit, before:$before, after:$after){
+      totalCount,
+      pageInfo{ ...FullPageInfo }
       edges{
         ...CommunityCollection
       }

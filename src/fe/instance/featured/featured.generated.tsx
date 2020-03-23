@@ -2,7 +2,9 @@ import * as Types from '../../../graphql/types.generated';
 
 import { DiscoverPageFeaturedCollectionInfoFragment } from '../../../HOC/pages/discover/DiscoverPage.generated';
 import { DiscoverPageFeaturedCommunityInfoFragment } from '../../../HOC/pages/discover/DiscoverPage.generated';
+import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
+import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { DiscoverPageFeaturedCommunityInfoFragmentDoc } from '../../../HOC/pages/discover/DiscoverPage.generated';
 import { DiscoverPageFeaturedCollectionInfoFragmentDoc } from '../../../HOC/pages/discover/DiscoverPage.generated';
 import * as React from 'react';
@@ -11,6 +13,7 @@ import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
 
 
 
@@ -23,7 +26,11 @@ export type InstanceFeaturedCommunitiesQuery = (
     { __typename: 'Instance' }
     & { featuredCommunities: Types.Maybe<(
       { __typename: 'FeaturesPage' }
-      & { edges: Array<Types.Maybe<(
+      & Pick<Types.FeaturesPage, 'totalCount'>
+      & { pageInfo: Types.Maybe<(
+        { __typename: 'PageInfo' }
+        & FullPageInfoFragment
+      )>, edges: Array<Types.Maybe<(
         { __typename: 'Feature' }
         & Pick<Types.Feature, 'id'>
         & { context: Types.Maybe<{ __typename: 'Collection' } | (
@@ -44,7 +51,11 @@ export type InstanceFeaturedCollectionsQuery = (
     { __typename: 'Instance' }
     & { featuredCollections: Types.Maybe<(
       { __typename: 'FeaturesPage' }
-      & { edges: Array<Types.Maybe<(
+      & Pick<Types.FeaturesPage, 'totalCount'>
+      & { pageInfo: Types.Maybe<(
+        { __typename: 'PageInfo' }
+        & FullPageInfoFragment
+      )>, edges: Array<Types.Maybe<(
         { __typename: 'Feature' }
         & Pick<Types.Feature, 'id'>
         & { context: Types.Maybe<(
@@ -61,6 +72,10 @@ export const InstanceFeaturedCommunitiesDocument = gql`
     query instanceFeaturedCommunities {
   instance {
     featuredCommunities {
+      totalCount
+      pageInfo {
+        ...FullPageInfo
+      }
       edges {
         id
         context {
@@ -70,7 +85,8 @@ export const InstanceFeaturedCommunitiesDocument = gql`
     }
   }
 }
-    ${DiscoverPageFeaturedCommunityInfoFragmentDoc}`;
+    ${FullPageInfoFragmentDoc}
+${DiscoverPageFeaturedCommunityInfoFragmentDoc}`;
 export type InstanceFeaturedCommunitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<InstanceFeaturedCommunitiesQuery, InstanceFeaturedCommunitiesQueryVariables>, 'query'>;
 
     export const InstanceFeaturedCommunitiesComponent = (props: InstanceFeaturedCommunitiesComponentProps) => (
@@ -117,6 +133,10 @@ export const InstanceFeaturedCollectionsDocument = gql`
     query instanceFeaturedCollections {
   instance {
     featuredCollections {
+      totalCount
+      pageInfo {
+        ...FullPageInfo
+      }
       edges {
         id
         context {
@@ -126,7 +146,8 @@ export const InstanceFeaturedCollectionsDocument = gql`
     }
   }
 }
-    ${DiscoverPageFeaturedCollectionInfoFragmentDoc}`;
+    ${FullPageInfoFragmentDoc}
+${DiscoverPageFeaturedCollectionInfoFragmentDoc}`;
 export type InstanceFeaturedCollectionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<InstanceFeaturedCollectionsQuery, InstanceFeaturedCollectionsQueryVariables>, 'query'>;
 
     export const InstanceFeaturedCollectionsComponent = (props: InstanceFeaturedCollectionsComponentProps) => (

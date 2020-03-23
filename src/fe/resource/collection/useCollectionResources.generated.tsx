@@ -1,7 +1,9 @@
 import * as Types from '../../../graphql/types.generated';
 
 import { CollectionPageResourceFragment } from '../../../HOC/pages/collection/CollectionPage.generated';
+import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
+import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { CollectionPageResourceFragmentDoc } from '../../../HOC/pages/collection/CollectionPage.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -9,6 +11,7 @@ import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
 
 
 export type CollectionResourcesQueryVariables = {
@@ -26,7 +29,11 @@ export type CollectionResourcesQuery = (
     & Pick<Types.Collection, 'id'>
     & { resources: Types.Maybe<(
       { __typename: 'ResourcesPage' }
-      & { edges: Array<Types.Maybe<(
+      & Pick<Types.ResourcesPage, 'totalCount'>
+      & { pageInfo: Types.Maybe<(
+        { __typename: 'PageInfo' }
+        & FullPageInfoFragment
+      )>, edges: Array<Types.Maybe<(
         { __typename: 'Resource' }
         & CollectionResourceFragment
       )>> }
@@ -49,13 +56,18 @@ export const CollectionResourcesDocument = gql`
   collection(collectionId: $collectionId) {
     id
     resources(limit: $limit, before: $before, after: $after) {
+      totalCount
+      pageInfo {
+        ...FullPageInfo
+      }
       edges {
         ...CollectionResource
       }
     }
   }
 }
-    ${CollectionResourceFragmentDoc}`;
+    ${FullPageInfoFragmentDoc}
+${CollectionResourceFragmentDoc}`;
 export type CollectionResourcesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CollectionResourcesQuery, CollectionResourcesQueryVariables>, 'query'> & ({ variables: CollectionResourcesQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const CollectionResourcesComponent = (props: CollectionResourcesComponentProps) => (

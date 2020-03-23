@@ -9,6 +9,8 @@ fragment MyFollowedCommunitiesMeData on Me {
   user{
     id
     followedCommunities{
+      totalCount,
+      pageInfo{ ...FullPageInfo }
       edges{
         community { ...SidebarFollowedCommunity }
         follow { id }

@@ -4,6 +4,8 @@ query communityOutboxActivities($communityId: String!, $limit:Int, $before:[Curs
   community(communityId:$communityId){
     id
     outbox(limit:$limit, before:$before, after:$after){
+      totalCount,
+      pageInfo{ ...FullPageInfo }
       edges{
         ...CommunityOutboxActivity
       }

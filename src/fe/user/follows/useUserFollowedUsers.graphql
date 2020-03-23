@@ -2,6 +2,8 @@ query UserFollowedUsers($userId: String!, $limit:Int, $before:[Cursor], $after:[
   user(userId:$userId){
     id
     followedUsers(limit:$limit, before:$before, after:$after){
+      totalCount,
+      pageInfo{ ...FullPageInfo }
       edges{
         follow { id }
         user{

@@ -7,13 +7,13 @@ import { FeaturedCommunities } from 'HOC/modules/FeaturedCommunities/featuredCom
 
 export interface DiscoverPage {}
 export const DiscoverPage: FC<DiscoverPage> = () => {
-  const { activities } = useInstanceOutboxActivities();
+  const { activitiesPage } = useInstanceOutboxActivities();
   const propsUI = useMemo<Props>(() => {
     const FeaturedCollectionsBox = <FeaturedCollections />;
     const FeaturedCommunitiesBox = <FeaturedCommunities />;
     const ActivitiesBox = (
       <>
-        {activities.map(activity => (
+        {activitiesPage.edges.map(activity => (
           <ActivityPreviewHOC activityId={activity.id} />
         ))}
       </>
@@ -26,7 +26,7 @@ export const DiscoverPage: FC<DiscoverPage> = () => {
     };
 
     return props;
-  }, [activities]);
+  }, [activitiesPage]);
 
   return <Discover {...propsUI} />;
 };

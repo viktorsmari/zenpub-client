@@ -1,18 +1,15 @@
-import { manageEdges } from 'fe/lib/helpers/edges';
+import { usePage } from 'fe/lib/helpers/usePage';
 import { useMemo } from 'react';
 import * as GQL from './useInstanceOutboxActivities.generated';
 
 export const useInstanceOutboxActivities = () => {
   const activitiesQ = GQL.useInstanceOutboxActivitiesQuery();
 
-  const activities = useMemo<GQL.InstanceOutboxActivityFragment[]>(
-    () => manageEdges(activitiesQ.data?.instance?.outbox).edges,
-    [activitiesQ]
-  );
+  const activitiesPage = usePage(activitiesQ.data?.instance?.outbox);
 
   return useMemo(() => {
     return {
-      activities
+      activitiesPage
     };
-  }, [activities]);
+  }, [activitiesPage]);
 };

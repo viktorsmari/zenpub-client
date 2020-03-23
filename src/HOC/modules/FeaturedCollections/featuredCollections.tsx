@@ -18,7 +18,9 @@ export const FeaturedCollections: FC<FeaturedCollections> = () => {
       featuredCollectionsEdges.edges
         .map(feature => feature.context)
         .filter(
-          (maybeCtx): maybeCtx is DiscoverPageFeaturedCollectionInfoFragment =>
+          (
+            maybeCtx
+          ): maybeCtx is DiscoverPageFeaturedCollectionInfoFragment => //FIXME: remove when fixed
             !!maybeCtx && maybeCtx.__typename === 'Collection'
         )
         .map<CollectionBase>(collection => ({
@@ -32,7 +34,7 @@ export const FeaturedCollections: FC<FeaturedCollections> = () => {
     () => ({ collection, done }) => {
       const collectionFeature = featuredCollectionsEdges.edges.find(
         feature =>
-          feature.context?.__typename === 'Collection' &&
+          feature.context?.__typename === 'Collection' && //FIXME: remove ? when fixed
           feature.context.id === collection.id
       );
       const featureId = collectionFeature?.id;

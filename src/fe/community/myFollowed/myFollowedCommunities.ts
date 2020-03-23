@@ -1,22 +1,17 @@
 import { useMemo } from 'react';
 import * as GQL from './myFollowedCommunities.generated';
-import { manageEdges } from 'fe/lib/helpers/edges';
+import { usePage } from 'fe/lib/helpers/usePage';
 
 export const useMyFollowedCommunities = () => {
   const myFlwCommunitiesQ = GQL.useMyFollowedCommunitiesQuery();
-  const communitiesEdges = useMemo(
-    () => manageEdges(myFlwCommunitiesQ.data?.me?.user.followedCommunities),
-    [myFlwCommunitiesQ]
-  );
-  const communities = useMemo(
-    () => communitiesEdges.edges.map(_ => _.community),
-    [communitiesEdges]
+
+  const communitiesPage = usePage(
+    myFlwCommunitiesQ.data?.me?.user.followedCommunities
   );
 
   return useMemo(() => {
     return {
-      communitiesEdges,
-      communities
+      communitiesPage
     };
-  }, [communitiesEdges, communities]);
+  }, [communitiesPage]);
 };

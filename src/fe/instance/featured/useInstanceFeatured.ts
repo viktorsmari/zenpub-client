@@ -3,19 +3,19 @@ import {
   useInstanceFeaturedCommunitiesQuery
 } from './featured.generated';
 import { useMemo } from 'react';
-import { manageEdges } from 'fe/lib/helpers/edges';
+import { usePage } from 'fe/lib/helpers/usePage';
 
 export const useInstanceFeatured = () => {
   const featuredCollectionsQ = useInstanceFeaturedCollectionsQuery();
   const featuredCommunitiesQ = useInstanceFeaturedCommunitiesQuery();
+  const featuredCollectionsEdges = usePage(
+    featuredCollectionsQ.data?.instance?.featuredCollections
+  );
+  const featuredCommunitiesEdges = usePage(
+    featuredCommunitiesQ.data?.instance?.featuredCommunities
+  );
 
   return useMemo(() => {
-    const featuredCollectionsEdges = manageEdges(
-      featuredCollectionsQ.data?.instance?.featuredCollections
-    );
-    const featuredCommunitiesEdges = manageEdges(
-      featuredCommunitiesQ.data?.instance?.featuredCommunities
-    );
     return {
       featuredCollectionsEdges,
       featuredCommunitiesEdges

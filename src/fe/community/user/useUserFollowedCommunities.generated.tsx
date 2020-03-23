@@ -1,7 +1,9 @@
 import * as Types from '../../../graphql/types.generated';
 
 import { CommunityPreviewFragment } from '../../../HOC/modules/previews/community/CommunityPreview.generated';
+import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
+import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { CommunityPreviewFragmentDoc } from '../../../HOC/modules/previews/community/CommunityPreview.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -9,6 +11,7 @@ import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
 
 
 export type UserFollowedCommunitiesQueryVariables = {
@@ -26,7 +29,11 @@ export type UserFollowedCommunitiesQuery = (
     & Pick<Types.User, 'id'>
     & { followedCommunities: Types.Maybe<(
       { __typename: 'FollowedCommunitiesPage' }
-      & { edges: Array<Types.Maybe<(
+      & Pick<Types.FollowedCommunitiesPage, 'totalCount'>
+      & { pageInfo: Types.Maybe<(
+        { __typename: 'PageInfo' }
+        & FullPageInfoFragment
+      )>, edges: Array<Types.Maybe<(
         { __typename: 'FollowedCommunity' }
         & { follow: (
           { __typename: 'Follow' }
@@ -55,6 +62,10 @@ export const UserFollowedCommunitiesDocument = gql`
   user(userId: $userId) {
     id
     followedCommunities(limit: $limit, before: $before, after: $after) {
+      totalCount
+      pageInfo {
+        ...FullPageInfo
+      }
       edges {
         follow {
           id
@@ -66,7 +77,8 @@ export const UserFollowedCommunitiesDocument = gql`
     }
   }
 }
-    ${UserFollowedCommunityFragmentDoc}`;
+    ${FullPageInfoFragmentDoc}
+${UserFollowedCommunityFragmentDoc}`;
 export type UserFollowedCommunitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UserFollowedCommunitiesQuery, UserFollowedCommunitiesQueryVariables>, 'query'> & ({ variables: UserFollowedCommunitiesQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const UserFollowedCommunitiesComponent = (props: UserFollowedCommunitiesComponentProps) => (

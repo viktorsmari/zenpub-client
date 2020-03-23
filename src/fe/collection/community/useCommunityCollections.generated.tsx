@@ -2,7 +2,9 @@ import * as Types from '../../../graphql/types.generated';
 
 import { CommunityPageCollectionBaseFragment } from '../../../HOC/pages/community/CommunityPage.generated';
 import { CollectionPreviewFragment } from '../../../HOC/modules/previews/collection/CollectionPreview.generated';
+import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
+import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { CollectionPreviewFragmentDoc } from '../../../HOC/modules/previews/collection/CollectionPreview.generated';
 import { CommunityPageCollectionBaseFragmentDoc } from '../../../HOC/pages/community/CommunityPage.generated';
 import * as React from 'react';
@@ -11,6 +13,7 @@ import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
 
 
 
@@ -29,7 +32,11 @@ export type CommunityCollectionsQuery = (
     & Pick<Types.Community, 'id'>
     & { collections: Types.Maybe<(
       { __typename: 'CollectionsPage' }
-      & { edges: Array<Types.Maybe<(
+      & Pick<Types.CollectionsPage, 'totalCount'>
+      & { pageInfo: Types.Maybe<(
+        { __typename: 'PageInfo' }
+        & FullPageInfoFragment
+      )>, edges: Array<Types.Maybe<(
         { __typename: 'Collection' }
         & CommunityCollectionFragment
       )>> }
@@ -55,13 +62,18 @@ export const CommunityCollectionsDocument = gql`
   community(communityId: $communityId) {
     id
     collections(limit: $limit, before: $before, after: $after) {
+      totalCount
+      pageInfo {
+        ...FullPageInfo
+      }
       edges {
         ...CommunityCollection
       }
     }
   }
 }
-    ${CommunityCollectionFragmentDoc}`;
+    ${FullPageInfoFragmentDoc}
+${CommunityCollectionFragmentDoc}`;
 export type CommunityCollectionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CommunityCollectionsQuery, CommunityCollectionsQueryVariables>, 'query'> & ({ variables: CommunityCollectionsQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const CommunityCollectionsComponent = (props: CommunityCollectionsComponentProps) => (

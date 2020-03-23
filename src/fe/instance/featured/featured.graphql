@@ -1,6 +1,8 @@
 query instanceFeaturedCommunities {
   instance{
     featuredCommunities{
+      totalCount,
+      pageInfo{ ...FullPageInfo }
       edges{
         id
         context{
@@ -13,6 +15,8 @@ query instanceFeaturedCommunities {
 query instanceFeaturedCollections {
   instance{
     featuredCollections{
+      totalCount,
+      pageInfo{ ...FullPageInfo }
       edges{
         id
         context{

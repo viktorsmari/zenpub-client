@@ -4,6 +4,8 @@ query collectionOutboxActivities($collectionId: String!, $limit:Int, $before:[Cu
   collection(collectionId:$collectionId){
     id
     outbox(limit:$limit, before:$before, after:$after){
+      totalCount,
+      pageInfo{ ...FullPageInfo }
       edges{
         ...CollectionOutboxActivity
       }

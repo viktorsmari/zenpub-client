@@ -1,7 +1,9 @@
 import * as Types from '../../../graphql/types.generated';
 
 import { UserPreviewFragment } from '../../../HOC/modules/previews/user/UserPreview.generated';
+import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
+import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { UserPreviewFragmentDoc } from '../../../HOC/modules/previews/user/UserPreview.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -9,6 +11,7 @@ import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
 
 
 export type UserFollowedUsersQueryVariables = {
@@ -26,7 +29,11 @@ export type UserFollowedUsersQuery = (
     & Pick<Types.User, 'id'>
     & { followedUsers: Types.Maybe<(
       { __typename: 'FollowedUsersPage' }
-      & { edges: Array<Types.Maybe<(
+      & Pick<Types.FollowedUsersPage, 'totalCount'>
+      & { pageInfo: Types.Maybe<(
+        { __typename: 'PageInfo' }
+        & FullPageInfoFragment
+      )>, edges: Array<Types.Maybe<(
         { __typename: 'FollowedUser' }
         & { follow: (
           { __typename: 'Follow' }
@@ -55,6 +62,10 @@ export const UserFollowedUsersDocument = gql`
   user(userId: $userId) {
     id
     followedUsers(limit: $limit, before: $before, after: $after) {
+      totalCount
+      pageInfo {
+        ...FullPageInfo
+      }
       edges {
         follow {
           id
@@ -66,7 +77,8 @@ export const UserFollowedUsersDocument = gql`
     }
   }
 }
-    ${UserFollowedUserFragmentDoc}`;
+    ${FullPageInfoFragmentDoc}
+${UserFollowedUserFragmentDoc}`;
 export type UserFollowedUsersComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UserFollowedUsersQuery, UserFollowedUsersQueryVariables>, 'query'> & ({ variables: UserFollowedUsersQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const UserFollowedUsersComponent = (props: UserFollowedUsersComponentProps) => (

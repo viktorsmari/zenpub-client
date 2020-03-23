@@ -1,7 +1,9 @@
 import * as Types from '../../../graphql/types.generated';
 
 import { CollectionPreviewFragment } from '../../../HOC/modules/previews/collection/CollectionPreview.generated';
+import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
+import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { CollectionPreviewFragmentDoc } from '../../../HOC/modules/previews/collection/CollectionPreview.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -9,6 +11,7 @@ import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
 
 
 export type UserFollowedCollectionsQueryVariables = {
@@ -26,7 +29,11 @@ export type UserFollowedCollectionsQuery = (
     & Pick<Types.User, 'id'>
     & { followedCollections: Types.Maybe<(
       { __typename: 'FollowedCollectionsPage' }
-      & { edges: Array<Types.Maybe<(
+      & Pick<Types.FollowedCollectionsPage, 'totalCount'>
+      & { pageInfo: Types.Maybe<(
+        { __typename: 'PageInfo' }
+        & FullPageInfoFragment
+      )>, edges: Array<Types.Maybe<(
         { __typename: 'FollowedCollection' }
         & { follow: (
           { __typename: 'Follow' }
@@ -55,6 +62,10 @@ export const UserFollowedCollectionsDocument = gql`
   user(userId: $userId) {
     id
     followedCollections(limit: $limit, before: $before, after: $after) {
+      totalCount
+      pageInfo {
+        ...FullPageInfo
+      }
       edges {
         follow {
           id
@@ -66,7 +77,8 @@ export const UserFollowedCollectionsDocument = gql`
     }
   }
 }
-    ${UserFollowedCollectionFragmentDoc}`;
+    ${FullPageInfoFragmentDoc}
+${UserFollowedCollectionFragmentDoc}`;
 export type UserFollowedCollectionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UserFollowedCollectionsQuery, UserFollowedCollectionsQueryVariables>, 'query'> & ({ variables: UserFollowedCollectionsQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const UserFollowedCollectionsComponent = (props: UserFollowedCollectionsComponentProps) => (

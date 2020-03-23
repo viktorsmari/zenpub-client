@@ -1,22 +1,19 @@
 import { Community } from 'graphql/types.generated';
 import { useMemo } from 'react';
 import * as GQL from './useCommunityThreads.generated';
-import { manageEdges } from 'fe/lib/helpers/edges';
+import { usePage } from 'fe/lib/helpers/usePage';
 
 export const useCommunityThreads = (communityId: Community['id']) => {
   const communityQ = GQL.useCommunityThreadsQuery({
     variables: { communityId }
   });
 
-  const threads = useMemo<GQL.CommunityThreadFragment[]>(
-    () => manageEdges(communityQ.data?.community?.threads).edges,
-    [communityQ]
-  );
+  const threadsPage = usePage(communityQ.data?.community?.threads);
 
   return useMemo(
     () => ({
-      threads
+      threadsPage
     }),
-    [threads]
+    [threadsPage]
   );
 };

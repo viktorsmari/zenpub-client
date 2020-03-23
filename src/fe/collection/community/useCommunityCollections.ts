@@ -1,7 +1,7 @@
 import { Community } from 'graphql/types.generated';
 import { useMemo } from 'react';
 import * as GQL from './useCommunityCollections.generated';
-import { manageEdges } from 'fe/lib/helpers/edges';
+import { usePage } from 'fe/lib/helpers/usePage';
 
 export interface Props {
   communityId: Community['id'];
@@ -12,15 +12,12 @@ export const useCommunityCollections = (communityId: Community['id']) => {
     variables: { communityId }
   });
 
-  const collections = useMemo<GQL.CommunityCollectionFragment[]>(
-    () => manageEdges(communityQ.data?.community?.collections).edges,
-    [communityQ]
-  );
+  const collectionsPage = usePage(communityQ.data?.community?.collections);
 
   return useMemo(
     () => ({
-      collections
+      collectionsPage
     }),
-    [collections]
+    [collectionsPage]
   );
 };

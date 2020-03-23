@@ -18,7 +18,9 @@ export const FeaturedCommunities: FC<FeaturedCommunities> = () => {
       featuredCommunitiesEdges.edges
         .map(feature => feature.context)
         .filter(
-          (maybeCtx): maybeCtx is DiscoverPageFeaturedCommunityInfoFragment =>
+          (
+            maybeCtx
+          ): maybeCtx is DiscoverPageFeaturedCommunityInfoFragment => //FIXME: remove when fixed
             !!maybeCtx && maybeCtx.__typename === 'Community'
         )
         .map<CommunityBase>(community => ({
@@ -32,7 +34,7 @@ export const FeaturedCommunities: FC<FeaturedCommunities> = () => {
     () => ({ community, done }) => {
       const communityFeature = featuredCommunitiesEdges.edges.find(
         feature =>
-          feature.context?.__typename === 'Community' &&
+          feature.context?.__typename === 'Community' && //FIXME: remove ? when fixed
           feature.context.id === community.id
       );
       const featureId = communityFeature?.id;

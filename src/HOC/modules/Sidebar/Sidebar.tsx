@@ -12,20 +12,21 @@ export interface Sidebar {
   user: SidebarMeUserFragment;
 }
 export const Sidebar: FC<Sidebar> = ({ user }) => {
-  const { communities: communitiesGQL } = useMyFollowedCommunities();
+  const { communitiesPage } = useMyFollowedCommunities();
   const communities = useMemo(
     () =>
-      communitiesGQL.map<CommunityPreview>(commGql => {
+      communitiesPage.edges.map<CommunityPreview>(commFollow => {
+        const { community } = commFollow;
         return {
-          icon: commGql.icon || '',
+          icon: community.icon || '',
           link: {
-            url: `/communities/${commGql.id}`,
-            external: !commGql.isLocal
+            url: `/communities/${community.id}`,
+            external: !community.isLocal
           },
-          name: commGql.name
+          name: community.name
         };
       }),
-    [communitiesGQL]
+    [communitiesPage]
   );
 
   const propsUI = useMemo<PropsUI>(() => {

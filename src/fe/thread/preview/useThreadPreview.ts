@@ -1,7 +1,6 @@
 import { Thread } from 'graphql/types.generated';
-import { useThreadPreviewQuery } from './useThreadPreview.generated';
 import { useMemo } from 'react';
-import { manageEdges } from 'fe/lib/helpers/edges';
+import { useThreadPreviewQuery } from './useThreadPreview.generated';
 
 export const useThreadPreview = (threadId: Thread['id']) => {
   const threadPreviewQ = useThreadPreviewQuery({ variables: { threadId } });
@@ -10,16 +9,11 @@ export const useThreadPreview = (threadId: Thread['id']) => {
     let mainComment = thread?.comments?.edges[0];
     const commentCount = thread?.comments?.totalCount;
     const context = thread?.context;
-    const comments = manageEdges(thread?.comments);
-    comments.edges = comments.edges.slice(1);
-    if (comments.withEdges) {
-      comments.withEdges.edges = comments.withEdges.edges.slice(1);
-    }
     return {
       mainComment,
       context,
       totalReplies: commentCount && commentCount - 1,
-      comments
+      totalComments: thread?.comments ? thread.comments.totalCount - 1 : 0
     };
   }, [thread]);
 };

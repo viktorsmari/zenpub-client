@@ -2,7 +2,9 @@ import * as Types from '../../../../graphql/types.generated';
 
 import { ActivityPreviewFragment } from '../../../../HOC/modules/previews/activity/ActivityPreview.generated';
 import { UserPageActivitiesFragment } from '../../../../HOC/pages/user/UserPage.generated';
+import { FullPageInfoFragment } from '../../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
+import { FullPageInfoFragmentDoc } from '../../../../@fragments/misc.generated';
 import { UserPageActivitiesFragmentDoc } from '../../../../HOC/pages/user/UserPage.generated';
 import { ActivityPreviewFragmentDoc } from '../../../../HOC/modules/previews/activity/ActivityPreview.generated';
 import * as React from 'react';
@@ -11,6 +13,7 @@ import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
 
 
 
@@ -30,7 +33,10 @@ export type UserOutboxActivitiesQuery = (
     & { outbox: Types.Maybe<(
       { __typename: 'ActivitiesPage' }
       & Pick<Types.ActivitiesPage, 'totalCount'>
-      & { edges: Types.Maybe<Array<Types.Maybe<(
+      & { pageInfo: Types.Maybe<(
+        { __typename: 'PageInfo' }
+        & FullPageInfoFragment
+      )>, edges: Types.Maybe<Array<Types.Maybe<(
         { __typename: 'Activity' }
         & UserOutboxActivityFragment
       )>>> }
@@ -57,13 +63,17 @@ export const UserOutboxActivitiesDocument = gql`
     id
     outbox(after: $after, before: $before, limit: $limit) {
       totalCount
+      pageInfo {
+        ...FullPageInfo
+      }
       edges {
         ...UserOutboxActivity
       }
     }
   }
 }
-    ${UserOutboxActivityFragmentDoc}`;
+    ${FullPageInfoFragmentDoc}
+${UserOutboxActivityFragmentDoc}`;
 export type UserOutboxActivitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UserOutboxActivitiesQuery, UserOutboxActivitiesQueryVariables>, 'query'> & ({ variables: UserOutboxActivitiesQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const UserOutboxActivitiesComponent = (props: UserOutboxActivitiesComponentProps) => (

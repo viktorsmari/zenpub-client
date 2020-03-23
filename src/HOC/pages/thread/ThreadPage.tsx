@@ -10,14 +10,16 @@ import {
   ActivityLoaded as ActivityPreviewProps
 } from 'ui/modules/ActivityPreview';
 import { getActivityActor } from 'fe/lib/activity/getActivityActor';
+import { useCommentThreadPage } from 'fe/comment/page/thread/useCommentThreadPage';
 
 export interface ThreadPage {
   threadId: Thread['id'];
 }
 export const ThreadPage: FC<ThreadPage> = ({ threadId }) => {
+  const { commentPage } = useCommentThreadPage(threadId);
   const thread = useThreadPreview(threadId);
   const uiProps = useMemo<null | Props>(() => {
-    const { context, mainComment, comments } = thread;
+    const { context, mainComment } = thread;
     if (!(mainComment && context)) {
       return null;
     }
@@ -57,7 +59,7 @@ export const ThreadPage: FC<ThreadPage> = ({ threadId }) => {
 
     const Comments = (
       <>
-        {comments.edges.map(comment => (
+        {commentPage.edges.map(comment => (
           <ActivityPreview
             key={comment.id}
             {...{

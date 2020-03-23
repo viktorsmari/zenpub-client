@@ -1,21 +1,18 @@
 import { User } from 'graphql/types.generated';
 import { useMemo } from 'react';
 import * as GQL from './useUserOutboxActivities.generated';
-import { manageEdges } from 'fe/lib/helpers/edges';
+import { usePage } from 'fe/lib/helpers/usePage';
 
 export const useUserOutboxActivities = (userId: User['id']) => {
   const activitiesQ = GQL.useUserOutboxActivitiesQuery({
     variables: { userId }
   });
 
-  const activities = useMemo<GQL.UserOutboxActivityFragment[]>(
-    () => manageEdges(activitiesQ.data?.user?.outbox).edges,
-    [activitiesQ]
-  );
+  const activitiesPage = usePage(activitiesQ.data?.user?.outbox);
 
   return useMemo(() => {
     return {
-      activities
+      activitiesPage
     };
-  }, [activities]);
+  }, [activitiesPage]);
 };
