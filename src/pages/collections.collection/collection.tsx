@@ -15,7 +15,7 @@ import {
   OverlayTab
 } from '../communities.community/Community';
 import CollectionModal from '../../components/elements/CollectionModal';
-import UploadResourcePanelHOC from '../../HOC/modules/AddResource/UploadResourceHOC';
+import { AddResourceHOC } from '../../HOC/modules/AddResource/addResourceHOC';
 
 import { BasicCollectionFragment } from '../../graphql/fragments/basicCollection.generated';
 import { BasicResourcesEdgesFragment } from '../../graphql/fragments/basicResourcesEdges.generated';
@@ -108,7 +108,7 @@ const CommunityPage: FC<Props> = ({
                   ) : null}
 
                   {isUploadOpen && (
-                    <UploadResourcePanelHOC
+                    <AddResourceHOC
                       done={() => onUploadOpen(false)}
                       collectionId={collection.id}
                     />

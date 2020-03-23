@@ -1,6 +1,6 @@
-import gql from 'graphql-tag';
 import * as Types from '../../../../graphql/types.generated';
 
+import { FollowPreviewFragment } from '../follow/FollowPreview.generated';
 import { LikePreviewFragment } from '../like/LikePreview.generated';
 import { FlagPreviewFragment } from '../flag/FlagPreview.generated';
 import { CommentPreviewFragment } from '../comment/CommentPreview.generated';
@@ -8,7 +8,7 @@ import { UserPreviewFragment } from '../user/UserPreview.generated';
 import { ResourcePreviewFragment } from '../resource/ResourcePreview.generated';
 import { CollectionPreviewFragment } from '../collection/CollectionPreview.generated';
 import { CommunityPreviewFragment } from '../community/CommunityPreview.generated';
-import { FollowPreviewFragment } from '../follow/FollowPreview.generated';
+import gql from 'graphql-tag';
 import { CommunityPreviewFragmentDoc } from '../community/CommunityPreview.generated';
 import { CollectionPreviewFragmentDoc } from '../collection/CollectionPreview.generated';
 import { ResourcePreviewFragmentDoc } from '../resource/ResourcePreview.generated';

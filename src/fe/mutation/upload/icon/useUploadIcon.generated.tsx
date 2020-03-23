@@ -18,6 +18,7 @@ export type UploadIconMutation = (
   { __typename: 'RootMutationType' }
   & { uploadIcon: Types.Maybe<(
     { __typename: 'FileUpload' }
+    & Pick<Types.FileUpload, 'id'>
     & { parent: Types.Maybe<(
       { __typename: 'Collection' }
       & Pick<Types.Collection, 'id' | 'icon'>
@@ -39,6 +40,7 @@ export type UploadIconMutation = (
 export const UploadIconDocument = gql`
     mutation uploadIcon($contextId: ID!, $upload: Upload!) {
   uploadIcon(contextId: $contextId, upload: $upload) {
+    id
     parent {
       ... on Collection {
         id
