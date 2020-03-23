@@ -1,5 +1,6 @@
 mutation uploadIcon($contextId:ID!, $upload:Upload!){
   uploadIcon(contextId:$contextId, upload:$upload){
+    id
     parent{
       ...on Collection{
         id

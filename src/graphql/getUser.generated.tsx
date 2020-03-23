@@ -1,13 +1,13 @@
-import { ActivityPreviewFragmentDoc } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import * as Types from './types.generated';
 
+import { BasicCollectionFragment } from './fragments/basicCollection.generated';
 import { ActivityPreviewFragment } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import { BasicCommunityFragment } from './fragments/basicCommunity.generated';
 import { BasicUserFragment } from './fragments/basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from './fragments/basicUser.generated';
 import { BasicCommunityFragmentDoc } from './fragments/basicCommunity.generated';
-import { BasicCollectionFragment } from './fragments/basicCollection.generated';
+import { ActivityPreviewFragmentDoc } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import { BasicCollectionFragmentDoc } from './fragments/basicCollection.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
