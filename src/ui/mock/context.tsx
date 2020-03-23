@@ -34,10 +34,22 @@ import {
 import { Props as FeaturedModalProps } from 'ui/modules/FeaturedModal';
 
 import { FeaturedModal } from '../modules/FeaturedModal';
-import { Props as ConfirmDeleteModalProps } from '../modules/ConfirmDeleteModal';
+import {
+  ConfirmDeleteModal,
+  Props as ConfirmDeleteModalProps
+} from '../modules/ConfirmDeleteModal';
 import { Props as EditProfileProps, EditProfile } from 'ui/pages/settings';
+import Flags from 'ui/pages/settings/flags';
+import Preferences from 'ui/pages/settings/preferences';
+import Emails from 'ui/pages/settings/invites';
+import Instance from 'ui/pages/settings/instance';
 import { FeaturedCommunitiesData as FeaturedCommunitiesProps } from 'ui/modules/FeaturedCommunities';
 import { FeaturedCollectionsData as FeaturedCollectionsProps } from 'ui/modules/FeaturedCollections';
+import { FlaggedItem } from 'ui/modules/Previews/FlaggedItem';
+import {
+  ActivityPreview,
+  Status as ActivityStatus
+} from 'ui/modules/ActivityPreview';
 
 export const getEditCommunityProps = (): EditCommunityProps => {
   const formik = useFormik<EditCommunityFormValues>({
@@ -209,6 +221,54 @@ export const getEditProfileProps = (): EditProfileProps => {
 };
 
 export const getEditProfilePropsAdmin = (): EditProfileProps => {
+  const getActor = () => ({
+    icon: 'https://picsum.photos/80/80',
+    link: '1',
+    name: 'Ivan'
+  });
+
+  const activityPreviewProps = {
+    communityLink: 'communityLink',
+    communityName: 'communityName',
+    event: 'Flag a comment',
+    preview: (
+      <FlaggedItem
+        ConfirmDeleteModal={({ done }) => {
+          const formik = useFormik<{}>({
+            initialValues: {},
+            onSubmit: () => {
+              action('submit')();
+              return new Promise((resolve, reject) => {
+                setTimeout(resolve, 3000);
+              });
+            }
+          });
+          const getConfirmDeleteModalProps = {
+            formik,
+            deleteTitle: 'Delete Comment',
+            deleteDescription: 'Are you sure you want to delete this comment?',
+            cancel: action('cancel')
+          };
+          return <ConfirmDeleteModal {...getConfirmDeleteModalProps} />;
+        }}
+        type="Comment"
+        reason="Abusive speech"
+      />
+    ),
+    status: ActivityStatus.Loaded,
+    actor: getActor(),
+    createdAt: '2018-11-11',
+    link: 'https://picsum.photos/80/80'
+  };
+
+  const ActivitiesBox = (
+    <React.Fragment>
+      {/* <ActivityPreview {...activityPreviewProps} />
+      <ActivityPreview {...activityPreviewProps}  />
+      <ActivityPreview {...activityPreviewProps}  /> */}
+    </React.Fragment>
+  );
+
   const formik = useFormik<EditProfile>({
     initialValues: {
       image: '',
@@ -226,30 +286,24 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
         setTimeout(resolve, 3000);
       });
     }
-    // ,
-    // ConfirmDeleteModal: ({ done }) => {
-    //   const formik = useFormik<{}>({
-    //     initialValues: {},
-    //     onSubmit: () => {
-    //       action('submit')();
-    //       return new Promise((resolve, reject) => {
-    //         setTimeout(resolve, 3000);
-    //       });
-    //     }
-    //   });
-    //   const getConfirmDeleteModalProps = {
-    //     formik,
-    //     deleteTitle: 'Delete email',
-    //     deleteDescription: 'Are you sure you want to remove this email from the whitelisted emails?',
-    //     cancel: action('cancel')
-    //   };
-    //   return <ConfirmDeleteModal {...getConfirmDeleteModalProps} />;
-    // }
   });
   return {
     formik,
     basePath: '/',
     displayUsername: '@tata@app.moodle.net',
+    Preferences: <Preferences />,
+    Invites: (
+      <Emails
+        emailsList={[
+          'about@moodle.com',
+          'infomn@moodle.com',
+          'test1@moodle.com',
+          'test@moodle.com'
+        ]}
+      />
+    ),
+    Flags: <Flags ActivitiesBox={ActivitiesBox} />,
+    Instance: <Instance />,
     isAdmin: true
   };
 };

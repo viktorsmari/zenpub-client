@@ -7,9 +7,17 @@ import {
   EditProfile
 } from 'ui/pages/settings';
 
+import Preferences from 'ui/pages/settings/preferences';
+import Emails from 'ui/pages/settings/invites';
+import Instance from 'ui/pages/settings/instance';
+import Flags from 'ui/pages/settings/flags';
+
 export enum SettingsPageTab {
   General,
-  Preferences
+  Preferences,
+  Invites,
+  Instance,
+  Flags
 }
 export interface SettingsPage {
   tab: SettingsPageTab;
@@ -36,7 +44,11 @@ export const SettingsPage: FC<SettingsPage> = ({ basePath }) => {
     const props: SettingsUIProps = {
       basePath,
       displayUsername: profile?.displayUsername || '',
-      formik: updateProfileFormik
+      formik: updateProfileFormik,
+      Preferences: <Preferences />,
+      Instance: <Instance />,
+      Invites: <Emails />,
+      Flags: <Flags />
     };
     return props;
   }, [profile, updateProfileFormik]);

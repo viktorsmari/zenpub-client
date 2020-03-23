@@ -15,6 +15,12 @@ const SettingsPageRouter: FC<RouteComponentProps<SettingsPageRouter>> = ({
   const tab =
     maybeTabStr === 'preferences'
       ? SettingsPageTab.Preferences
+      : maybeTabStr === 'invites'
+      ? SettingsPageTab.Invites
+      : maybeTabStr === 'instance'
+      ? SettingsPageTab.Instance
+      : maybeTabStr === 'flags'
+      ? SettingsPageTab.Flags
       : !maybeTabStr
       ? SettingsPageTab.General
       : null;

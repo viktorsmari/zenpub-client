@@ -22,9 +22,10 @@ import DropzoneArea from '../../../components/elements/DropzoneModal';
 import { ContainerForm, Actions } from 'ui/modules/Modal';
 import Button from 'ui/elements/Button';
 import { useHistory } from 'react-router';
-import Preferences from './preferences';
-import Emails from './invites';
-import { Instance } from './instance';
+// import Preferences from './preferences';
+// import Emails from './invites';
+// import Flags from './flags';
+// import { Instance } from './instance';
 
 const tt = {
   placeholders: {
@@ -37,12 +38,25 @@ const tt = {
     website: i18nMark('Enter a URL to share more info about you')
   }
 };
+export enum Status {
+  Loading,
+  Loaded
+}
+
+export interface SettingsLoading {
+  status: Status.Loading;
+}
 
 export interface Props {
+  status?: Status.Loaded;
   formik: FormikHook<EditProfile>;
   basePath: string;
   displayUsername: string;
   isAdmin?: boolean; //FIXME remove ? after HOC
+  Preferences?: JSX.Element; //FIXME remove ? after HOC
+  Instance?: JSX.Element; //FIXME remove ? after HOC
+  Invites?: JSX.Element; //FIXME remove ? after HOC
+  Flags?: JSX.Element; //FIXME remove ? after HOC
 }
 
 export interface EditProfile {
@@ -54,9 +68,21 @@ export interface EditProfile {
   website: string;
 }
 
+export interface AddEmail {
+  email: string;
+}
+
+export interface EditInstance {
+  inviteOnly: boolean;
+}
+
 export const Settings: React.FC<Props> = ({
   basePath,
   formik,
+  Preferences,
+  Instance,
+  Invites,
+  Flags,
   displayUsername,
   isAdmin
 }) => {
@@ -69,15 +95,10 @@ export const Settings: React.FC<Props> = ({
           <Wrapper>
             <Box sx={{ width: '600px' }}>
               <Switch>
-                <Route path={`${basePath}/preferences`}>
-                  <Preferences />
-                </Route>
-                <Route path={`${basePath}/instance`}>
-                  <Instance />
-                </Route>
-                <Route path={`${basePath}/invites`}>
-                  <Emails />
-                </Route>
+                <Route path={`${basePath}/preferences`}>{Preferences}</Route>
+                <Route path={`${basePath}/instance`}>{Instance}</Route>
+                <Route path={`${basePath}/invites`}>{Invites}</Route>
+                <Route path={`${basePath}/flags`}>{Flags}</Route>
                 {/* <Route path={`${basePath}/accounts`}>acc</Route>
               <Route path={`${basePath}/notifications`}>notif</Route>
               <Route path={`${basePath}/admin`}>admin</Route> */}
@@ -577,6 +598,7 @@ export const MainContainer = styled(Flex)`
   flex-grow: 1;
   flex-direction: row;
   width: 100%;
+  margin-top: 66px;
 `;
 
 export const WrapperCont = styled(Flex)`

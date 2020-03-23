@@ -439,11 +439,11 @@ storiesOf('Modules/ActivityPreview', module)
       </Box>
     );
   })
-  .add('Flagged a comment', () => {
+  .add('Flag a comment', () => {
     const FlaggedItemPreviewProps: Props = {
       communityLink: 'communityLink',
       communityName: 'communityName',
-      event: 'Flagged a comment',
+      event: 'Flag a comment',
       preview: (
         <FlaggedItem
           ConfirmDeleteModal={({ done }) => {

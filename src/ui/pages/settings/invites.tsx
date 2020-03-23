@@ -30,12 +30,6 @@ const Emails: React.FC<Props> = ({
   emailsList,
   ConfirmDeleteModal
 }) => {
-  emailsList = [
-    'about@moodle.com',
-    'infomn@moodle.com',
-    'test1@moodle.com',
-    'test@moodle.com'
-  ]; //FIXME remove after HOC
   const [selectedEmailForModal, setselectedEmailForModal] = React.useState<
     null | string
   >(null);
@@ -73,16 +67,21 @@ const Emails: React.FC<Props> = ({
         <Text p={3} variant="suptitle">
           <Trans>Whitelisted emails</Trans>
         </Text>
-
-        {emailsList.map((email, i) => (
-          <ListRow key={i}>
-            <EmailText>{email}</EmailText>
-            <Remove onClick={() => setselectedEmailForModal(email)}>
-              <X color="#fff" size={16} />
-            </Remove>
-            {/* <Button variant="danger"><Trans>Delete</Trans></Button> */}
-          </ListRow>
-        ))}
+        {emailsList ? (
+          emailsList.map((email, i) => (
+            <ListRow key={i}>
+              <EmailText>{email}</EmailText>
+              <Remove onClick={() => setselectedEmailForModal(email)}>
+                <X color="#fff" size={16} />
+              </Remove>
+              {/* <Button variant="danger"><Trans>Delete</Trans></Button> */}
+            </ListRow>
+          ))
+        ) : (
+          <Text p={3}>
+            <Trans>No whitelisted emails yet</Trans>
+          </Text>
+        )}
       </Box>
       {selectedEmailForModal && ConfirmDeleteModal != null && (
         <Modal closeModal={() => setselectedEmailForModal(null)}>
