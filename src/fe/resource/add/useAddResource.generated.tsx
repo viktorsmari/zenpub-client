@@ -1,12 +1,15 @@
 import * as Types from '../../../graphql/types.generated';
 
+import { AddResourceCreateResourceMutationResultFragment } from '../../../HOC/modules/AddResource/addResource.generated';
 import gql from 'graphql-tag';
+import { AddResourceCreateResourceMutationResultFragmentDoc } from '../../../HOC/modules/AddResource/addResource.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as React from 'react';
 import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
 
 export type AddResourceCreateResourceMutationVariables = {
   collectionId: Types.Scalars['String'],
@@ -18,13 +21,9 @@ export type AddResourceCreateResourceMutation = (
   { __typename: 'RootMutationType' }
   & { createResource: Types.Maybe<(
     { __typename: 'Resource' }
+    & Pick<Types.Resource, 'id'>
     & AddResourceCreateResourceMutationResultFragment
   )> }
-);
-
-export type AddResourceCreateResourceMutationResultFragment = (
-  { __typename: 'Resource' }
-  & Pick<Types.Resource, 'id'>
 );
 
 export type AddResourceUploadMutationVariables = {
@@ -44,45 +43,28 @@ export type AddResourceUploadMutation = (
 export type AddResourceUploadMutationResultFragment = (
   { __typename: 'FileUpload' }
   & Pick<Types.FileUpload, 'id'>
+  & { parent: Types.Maybe<{ __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | (
+    { __typename: 'Resource' }
+    & Pick<Types.Resource, 'id'>
+    & AddResourceCreateResourceMutationResultFragment
+  ) | { __typename: 'User' }> }
 );
 
-export type AddResourceUploadIconMutationVariables = {
-  contextId: Types.Scalars['ID'],
-  upload: Types.Scalars['Upload']
-};
-
-
-export type AddResourceUploadIconMutation = (
-  { __typename: 'RootMutationType' }
-  & { uploadIcon: Types.Maybe<(
-    { __typename: 'FileUpload' }
-    & AddResourceUploadIconMutationResultFragment
-  )> }
-);
-
-export type AddResourceUploadIconMutationResultFragment = (
-  { __typename: 'FileUpload' }
-  & Pick<Types.FileUpload, 'id'>
-);
-
-export const AddResourceCreateResourceMutationResultFragmentDoc = gql`
-    fragment AddResourceCreateResourceMutationResult on Resource {
-  id
-}
-    `;
 export const AddResourceUploadMutationResultFragmentDoc = gql`
     fragment AddResourceUploadMutationResult on FileUpload {
   id
+  parent {
+    ... on Resource {
+      id
+      ...AddResourceCreateResourceMutationResult
+    }
+  }
 }
-    `;
-export const AddResourceUploadIconMutationResultFragmentDoc = gql`
-    fragment AddResourceUploadIconMutationResult on FileUpload {
-  id
-}
-    `;
+    ${AddResourceCreateResourceMutationResultFragmentDoc}`;
 export const AddResourceCreateResourceDocument = gql`
     mutation addResourceCreateResource($collectionId: String!, $resource: ResourceInput!) {
   createResource(collectionId: $collectionId, resource: $resource) {
+    id
     ...AddResourceCreateResourceMutationResult
   }
 }
@@ -180,56 +162,6 @@ export function useAddResourceUploadMutation(baseOptions?: ApolloReactHooks.Muta
 export type AddResourceUploadMutationHookResult = ReturnType<typeof useAddResourceUploadMutation>;
 export type AddResourceUploadMutationResult = ApolloReactCommon.MutationResult<AddResourceUploadMutation>;
 export type AddResourceUploadMutationOptions = ApolloReactCommon.BaseMutationOptions<AddResourceUploadMutation, AddResourceUploadMutationVariables>;
-export const AddResourceUploadIconDocument = gql`
-    mutation addResourceUploadIcon($contextId: ID!, $upload: Upload!) {
-  uploadIcon(contextId: $contextId, upload: $upload) {
-    ...AddResourceUploadIconMutationResult
-  }
-}
-    ${AddResourceUploadIconMutationResultFragmentDoc}`;
-export type AddResourceUploadIconMutationFn = ApolloReactCommon.MutationFunction<AddResourceUploadIconMutation, AddResourceUploadIconMutationVariables>;
-export type AddResourceUploadIconComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<AddResourceUploadIconMutation, AddResourceUploadIconMutationVariables>, 'mutation'>;
-
-    export const AddResourceUploadIconComponent = (props: AddResourceUploadIconComponentProps) => (
-      <ApolloReactComponents.Mutation<AddResourceUploadIconMutation, AddResourceUploadIconMutationVariables> mutation={AddResourceUploadIconDocument} {...props} />
-    );
-    
-export type AddResourceUploadIconProps<TChildProps = {}> = ApolloReactHoc.MutateProps<AddResourceUploadIconMutation, AddResourceUploadIconMutationVariables> & TChildProps;
-export function withAddResourceUploadIcon<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  AddResourceUploadIconMutation,
-  AddResourceUploadIconMutationVariables,
-  AddResourceUploadIconProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, AddResourceUploadIconMutation, AddResourceUploadIconMutationVariables, AddResourceUploadIconProps<TChildProps>>(AddResourceUploadIconDocument, {
-      alias: 'addResourceUploadIcon',
-      ...operationOptions
-    });
-};
-
-/**
- * __useAddResourceUploadIconMutation__
- *
- * To run a mutation, you first call `useAddResourceUploadIconMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddResourceUploadIconMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [addResourceUploadIconMutation, { data, loading, error }] = useAddResourceUploadIconMutation({
- *   variables: {
- *      contextId: // value for 'contextId'
- *      upload: // value for 'upload'
- *   },
- * });
- */
-export function useAddResourceUploadIconMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<AddResourceUploadIconMutation, AddResourceUploadIconMutationVariables>) {
-        return ApolloReactHooks.useMutation<AddResourceUploadIconMutation, AddResourceUploadIconMutationVariables>(AddResourceUploadIconDocument, baseOptions);
-      }
-export type AddResourceUploadIconMutationHookResult = ReturnType<typeof useAddResourceUploadIconMutation>;
-export type AddResourceUploadIconMutationResult = ApolloReactCommon.MutationResult<AddResourceUploadIconMutation>;
-export type AddResourceUploadIconMutationOptions = ApolloReactCommon.BaseMutationOptions<AddResourceUploadIconMutation, AddResourceUploadIconMutationVariables>;
 
 
 export interface AddResourceCreateResourceMutationOperation {
@@ -244,13 +176,5 @@ export interface AddResourceUploadMutationOperation {
   operationName: 'addResourceUpload'
   result: AddResourceUploadMutation
   variables: AddResourceUploadMutationVariables
-  type: 'mutation'
-}
-
-
-export interface AddResourceUploadIconMutationOperation {
-  operationName: 'addResourceUploadIcon'
-  result: AddResourceUploadIconMutation
-  variables: AddResourceUploadIconMutationVariables
   type: 'mutation'
 }

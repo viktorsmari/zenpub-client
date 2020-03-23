@@ -8,13 +8,10 @@ input ResourceInput {
 }
 mutation addResourceCreateResource($collectionId: String!, $resource: ResourceInput!) {
     createResource(collectionId: $collectionId, resource: $resource) {
+        id
         ...AddResourceCreateResourceMutationResult
     }
 }
-fragment AddResourceCreateResourceMutationResult on Resource {
-    id
-}
-
 
 mutation addResourceUpload($contextId: ID!,$upload: Upload!) {
    uploadResource(contextId:$contextId, upload:$upload ){
@@ -23,15 +20,10 @@ mutation addResourceUpload($contextId: ID!,$upload: Upload!) {
 }
 fragment AddResourceUploadMutationResult on FileUpload {
     id
-}
-
-
-mutation addResourceUploadIcon($contextId: ID!,$upload: Upload!) {
-   uploadIcon(contextId:$contextId, upload:$upload ){
-        ...AddResourceUploadIconMutationResult 
+    parent {
+        ...on Resource {
+            id
+            ...AddResourceCreateResourceMutationResult
+        }
     }
-    
-}
-fragment AddResourceUploadIconMutationResult on FileUpload {
-    id
 }
