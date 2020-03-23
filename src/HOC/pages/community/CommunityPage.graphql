@@ -8,13 +8,8 @@ fragment CommunityPageData on Community{
 }
 
 fragment CommunityPageThread on Thread {
+  id
   ...ThreadPreview
-  comments(limit:1){
-    edges{
-      ...CommentPreview
-      # createdAt
-    }
-  }
 }
 
 fragment CommunityPageCollectionBase on Collection{
