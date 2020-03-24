@@ -21,13 +21,19 @@ export const FlagModalHOC: FC<FlagModalHOC> = ({ done, ctx }) => {
   const { unflag, flag } = useFlagContext(ctx);
 
   const unflagFormik = useFormik({
-    onSubmit: () => unflag().then(done),
+    onSubmit: () => {
+      unflag();
+      done();
+    },
     initialValues: {}
   });
 
   const flagFormik = useFormik<BasicCreateFlagFormValues>({
     enableReinitialize: true,
-    onSubmit: vals => flag(vals.reason).then(done),
+    onSubmit: vals => {
+      flag(vals.reason);
+      done();
+    },
     validationSchema,
     initialValues: { reason: '' }
   });

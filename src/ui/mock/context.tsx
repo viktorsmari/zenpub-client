@@ -34,10 +34,27 @@ import {
 import { Props as FeaturedModalProps } from 'ui/modules/FeaturedModal';
 
 import { FeaturedModal } from '../modules/FeaturedModal';
-import { Props as ConfirmDeleteModalProps } from '../modules/ConfirmDeleteModal';
+import {
+  ConfirmDeleteModal,
+  Props as ConfirmDeleteModalProps
+} from '../modules/ConfirmDeleteModal';
 import { Props as EditProfileProps, EditProfile } from 'ui/pages/settings';
+import Flags from 'ui/pages/settings/flags';
+import Preferences from 'ui/pages/settings/preferences';
+import Emails from 'ui/pages/settings/invites';
+import Instance from 'ui/pages/settings/instance';
 import { FeaturedCommunitiesData as FeaturedCommunitiesProps } from 'ui/modules/FeaturedCommunities';
 import { FeaturedCollectionsData as FeaturedCollectionsProps } from 'ui/modules/FeaturedCollections';
+import { FlaggedItem } from 'ui/modules/Previews/FlaggedItem';
+import { Comment } from 'ui/modules/Previews/Comment';
+import { Collection } from 'ui/modules/Previews/Collection';
+import { Resource } from 'ui/modules/Previews/Resource';
+
+import {
+  ActivityPreview,
+  Status as ActivityStatus,
+  ActivityLoaded
+} from 'ui/modules/ActivityPreview';
 
 export const getEditCommunityProps = (): EditCommunityProps => {
   const formik = useFormik<EditCommunityFormValues>({
@@ -204,11 +221,238 @@ export const getEditProfileProps = (): EditProfileProps => {
     formik,
     basePath: '/',
     displayUsername: '@tata@app.moodle.net',
-    isAdmin: false
+    isAdmin: false,
+    Preferences: <Preferences />
   };
 };
 
 export const getEditProfilePropsAdmin = (): EditProfileProps => {
+  const getActor = () => ({
+    icon: 'https://picsum.photos/80/80',
+    link: '1',
+    name: 'Ivan'
+  });
+  const getActions = () => ({
+    FlagModal: ({ done }) => {
+      return <></>;
+    },
+    like: {
+      totalLikes: 3,
+      toggleLikeFormik: useFormik<{}>({
+        initialValues: {},
+        onSubmit: vals => {
+          action('submitting...')();
+          return new Promise(resolve =>
+            setTimeout(() => {
+              action('submitted...')();
+              resolve();
+            }, 2000)
+          );
+        }
+      }),
+      iLikeIt: true
+    },
+    reply: {
+      replyFormik: useFormik<{ replyMessage: string }>({
+        initialValues: { replyMessage: '' },
+        onSubmit: vals => {
+          action(`submitting: ${vals.replyMessage}`)();
+          return new Promise(resolve =>
+            setTimeout(() => {
+              action(`submitted: ${vals.replyMessage}`)();
+              resolve();
+            }, 2000)
+          );
+        }
+      })
+    }
+  });
+  const activityPreviewProps: ActivityLoaded = {
+    communityLink: 'communityLink',
+    communityName: 'communityName',
+    event: 'Flag a comment',
+    preview: (
+      <FlaggedItem
+        flaggedItemContext={
+          <Comment
+            {...getActions()}
+            url="/"
+            content={
+              'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+            }
+            isFlagged={false}
+            hideActions={true}
+          />
+        }
+        ConfirmDeleteModal={({ done }) => {
+          const formik = useFormik<{}>({
+            initialValues: {},
+            onSubmit: () => {
+              action('submit')();
+              return new Promise((resolve, reject) => {
+                setTimeout(resolve, 3000);
+              });
+            }
+          });
+          const getConfirmDeleteModalProps = {
+            formik,
+            deleteTitle: 'Delete Comment',
+            deleteDescription: 'Are you sure you want to delete this comment?',
+            cancel: action('cancel')
+          };
+          return <ConfirmDeleteModal {...getConfirmDeleteModalProps} />;
+        }}
+        type="Comment"
+        reason="Abusive speech"
+      />
+    ),
+    status: ActivityStatus.Loaded,
+    actor: getActor(),
+    createdAt: '2018-11-11',
+    link: 'https://picsum.photos/80/80'
+  };
+
+  const activityCollectionPreviewProps: ActivityLoaded = {
+    communityLink: 'communityLink',
+    communityName: 'communityName',
+    event: 'Flag a comment',
+    preview: (
+      <FlaggedItem
+        flaggedItemContext={
+          <Collection
+            hideActions={true}
+            link={{ url: '/', external: true }}
+            displayUsername={'@tata@app.moodle.net'}
+            icon={
+              'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png'
+            }
+            name={'mantarai'}
+            summary={
+              'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+            }
+            totalResources={12}
+            isFollowing={true}
+            toggleFollowFormik={useFormik<{}>({
+              initialValues: {},
+              onSubmit: vals => {
+                action('submitting...')();
+                return new Promise(resolve =>
+                  setTimeout(() => {
+                    action('submitted...')();
+                    resolve();
+                  }, 2000)
+                );
+              }
+            })}
+          />
+        }
+        ConfirmDeleteModal={({ done }) => {
+          const formik = useFormik<{}>({
+            initialValues: {},
+            onSubmit: () => {
+              action('submit')();
+              return new Promise((resolve, reject) => {
+                setTimeout(resolve, 3000);
+              });
+            }
+          });
+          const getConfirmDeleteModalProps = {
+            formik,
+            deleteTitle: 'Delete Comment',
+            deleteDescription: 'Are you sure you want to delete this comment?',
+            cancel: action('cancel')
+          };
+          return <ConfirmDeleteModal {...getConfirmDeleteModalProps} />;
+        }}
+        type="Collection"
+        reason="Inappropriate Content"
+      />
+    ),
+    status: ActivityStatus.Loaded,
+    actor: getActor(),
+    createdAt: '2018-11-11',
+    link: 'https://picsum.photos/80/80'
+  };
+
+  const activityResourcePreviewProps: ActivityLoaded = {
+    communityLink: 'communityLink',
+    communityName: 'communityName',
+    event: 'Flag a comment',
+    preview: (
+      <FlaggedItem
+        flaggedItemContext={
+          <Resource
+            hideActions={true}
+            like={{
+              totalLikes: 3,
+              toggleLikeFormik: useFormik<{}>({
+                initialValues: {},
+                onSubmit: vals => {
+                  action('submitting...')();
+                  return new Promise(resolve =>
+                    setTimeout(() => {
+                      action('submitted...')();
+                      resolve();
+                    }, 2000)
+                  );
+                }
+              }),
+              iLikeIt: true
+            }}
+            isFlagged={true}
+            icon={
+              'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png'
+            }
+            name={'mantarai'}
+            summary={
+              'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+            }
+            link={'anime.pdf'}
+            license={'CC-BY-4.0'}
+            acceptedLicenses={['CC0-1.0', 'CC-BY-4.0', 'CC-BY-SA-4.0']}
+            isLocal={true}
+            type={'pdf'}
+            FlagModal={({ done }) => {
+              return <></>;
+            }}
+          />
+        }
+        ConfirmDeleteModal={({ done }) => {
+          const formik = useFormik<{}>({
+            initialValues: {},
+            onSubmit: () => {
+              action('submit')();
+              return new Promise((resolve, reject) => {
+                setTimeout(resolve, 3000);
+              });
+            }
+          });
+          const getConfirmDeleteModalProps = {
+            formik,
+            deleteTitle: 'Delete Comment',
+            deleteDescription: 'Are you sure you want to delete this comment?',
+            cancel: action('cancel')
+          };
+          return <ConfirmDeleteModal {...getConfirmDeleteModalProps} />;
+        }}
+        type="Resource"
+        reason="Inappropriate content"
+      />
+    ),
+    status: ActivityStatus.Loaded,
+    actor: getActor(),
+    createdAt: '2018-11-11',
+    link: 'https://picsum.photos/80/80'
+  };
+
+  const ActivitiesBox = (
+    <React.Fragment>
+      <ActivityPreview {...activityPreviewProps} />
+      <ActivityPreview {...activityCollectionPreviewProps} />
+      <ActivityPreview {...activityResourcePreviewProps} />
+    </React.Fragment>
+  );
+
   const formik = useFormik<EditProfile>({
     initialValues: {
       image: '',
@@ -226,30 +470,24 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
         setTimeout(resolve, 3000);
       });
     }
-    // ,
-    // ConfirmDeleteModal: ({ done }) => {
-    //   const formik = useFormik<{}>({
-    //     initialValues: {},
-    //     onSubmit: () => {
-    //       action('submit')();
-    //       return new Promise((resolve, reject) => {
-    //         setTimeout(resolve, 3000);
-    //       });
-    //     }
-    //   });
-    //   const getConfirmDeleteModalProps = {
-    //     formik,
-    //     deleteTitle: 'Delete email',
-    //     deleteDescription: 'Are you sure you want to remove this email from the whitelisted emails?',
-    //     cancel: action('cancel')
-    //   };
-    //   return <ConfirmDeleteModal {...getConfirmDeleteModalProps} />;
-    // }
   });
   return {
     formik,
     basePath: '/',
     displayUsername: '@tata@app.moodle.net',
+    Preferences: <Preferences />,
+    Invites: (
+      <Emails
+        emailsList={[
+          'about@moodle.com',
+          'infomn@moodle.com',
+          'test1@moodle.com',
+          'test@moodle.com'
+        ]}
+      />
+    ),
+    Flags: <Flags ActivitiesBox={ActivitiesBox} />,
+    Instance: <Instance />,
     isAdmin: true
   };
 };

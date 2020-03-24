@@ -44,7 +44,7 @@ export const Instance = props => (
       <ContainerForm>
         <Invite>
           <Label>
-            <Checkbox id="remember" name="remember" />
+            <Checkbox id="inviteOnly" name="inviteOnly" />
             This instance is invite only
           </Label>
         </Invite>
@@ -64,5 +64,5 @@ const Invite = styled(Flex)`
     align-items: center;
   }
 `;
-
+export default Instance;
 // const Bg = styled(Box)``;

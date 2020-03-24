@@ -18,6 +18,7 @@ export interface Props {
   totalResources: number | null;
   isFollowing: boolean;
   toggleFollowFormik: FormikHook;
+  hideActions?: boolean;
 }
 
 export const Collection: React.FC<Props> = ({
@@ -28,7 +29,8 @@ export const Collection: React.FC<Props> = ({
   displayUsername,
   totalResources,
   isFollowing,
-  toggleFollowFormik
+  toggleFollowFormik,
+  hideActions
 }) => {
   return (
     // <WrapperLink to={link.url}>
@@ -60,33 +62,34 @@ export const Collection: React.FC<Props> = ({
               {totalResources || 0} <Trans>Resources</Trans>
             </Text>
           </Flex>
-
-          <ActionItem onClick={toggleFollowFormik.submitForm}>
-            <ActionIcon>
-              {isFollowing ? (
-                <EyeOff
-                  className="hover"
-                  strokeWidth="1"
-                  color="rgba(0,0,0,.4)"
-                  size="20"
-                />
-              ) : (
-                <Eye
-                  className="hover"
-                  strokeWidth="1"
-                  color="rgba(0,0,0,.4)"
-                  size="20"
-                />
-              )}
-            </ActionIcon>
-            <Text
-              ml={1}
-              variant={'suptitle'}
-              sx={{ textTransform: 'capitalize' }}
-            >
-              {isFollowing ? <Trans>Unfollow </Trans> : <Trans>follow</Trans>}
-            </Text>
-          </ActionItem>
+          {hideActions ? null : (
+            <ActionItem onClick={toggleFollowFormik.submitForm}>
+              <ActionIcon>
+                {isFollowing ? (
+                  <EyeOff
+                    className="hover"
+                    strokeWidth="1"
+                    color="rgba(0,0,0,.4)"
+                    size="20"
+                  />
+                ) : (
+                  <Eye
+                    className="hover"
+                    strokeWidth="1"
+                    color="rgba(0,0,0,.4)"
+                    size="20"
+                  />
+                )}
+              </ActionIcon>
+              <Text
+                ml={1}
+                variant={'suptitle'}
+                sx={{ textTransform: 'capitalize' }}
+              >
+                {isFollowing ? <Trans>Unfollow </Trans> : <Trans>follow</Trans>}
+              </Text>
+            </ActionItem>
+          )}
         </Meta>
       </Infos>
 
