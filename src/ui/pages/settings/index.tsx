@@ -5,7 +5,6 @@ import { i18nMark, Trans } from '@lingui/react';
 import styled from 'ui/themes/styled';
 import { FormikHook } from 'ui/@types/types';
 import {
-  ChevronLeft,
   Sliders,
   Settings as Sett,
   MapPin,
@@ -21,7 +20,6 @@ import { Input, Textarea } from '@rebass/forms';
 import DropzoneArea from '../../../components/elements/DropzoneModal';
 import { ContainerForm, Actions } from 'ui/modules/Modal';
 import Button from 'ui/elements/Button';
-import { useHistory } from 'react-router';
 import Preferences from './preferences';
 import Emails from './invites';
 import { Instance } from './instance';
@@ -178,25 +176,10 @@ export const Settings: React.FC<Props> = ({
 };
 
 const Sidebar = ({ basePath, isAdmin }) => {
-  const history = useHistory();
-
   return (
     <WrapperPanel ml={0} mr={2}>
       <Panel>
         <Nav>
-          <NavItem p={3} fontSize={1}>
-            <Box sx={{ cursor: 'pointer' }} onClick={() => history.goBack()}>
-              <Flex
-                alignItems="center"
-                sx={{ textTransform: 'capitalize', fontSize: '14px' }}
-              >
-                <Icon className="icon" mr={1}>
-                  <ChevronLeft size={20} />
-                </Icon>
-                Back to MoodleNet
-              </Flex>
-            </Box>
-          </NavItem>
           <NavItem p={3} fontSize={1}>
             <NavLink exact to={`${basePath}/`}>
               <Flex

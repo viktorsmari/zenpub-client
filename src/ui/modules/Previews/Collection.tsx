@@ -54,42 +54,40 @@ export const Collection: React.FC<Props> = ({
             ? summary.replace(/^([\s\S]{140}[^\s]*)[\s\S]*/, '$1...')
             : summary}
         </Text>
-        {totalResources && totalResources > 0 && (
-          <Meta mt={2}>
-            <Flex alignSelf="center" mr={3} alignItems="center">
-              <Text fontSize={'10px'} variant="suptitle">
-                {totalResources || 0} <Trans>Resources</Trans>
-              </Text>
-            </Flex>
+        <Meta mt={2}>
+          <Flex alignSelf="center" mr={3} alignItems="center">
+            <Text fontSize={'10px'} variant="suptitle">
+              {totalResources || 0} <Trans>Resources</Trans>
+            </Text>
+          </Flex>
 
-            <ActionItem onClick={toggleFollowFormik.submitForm}>
-              <ActionIcon>
-                {isFollowing ? (
-                  <EyeOff
-                    className="hover"
-                    strokeWidth="1"
-                    color="rgba(0,0,0,.4)"
-                    size="20"
-                  />
-                ) : (
-                  <Eye
-                    className="hover"
-                    strokeWidth="1"
-                    color="rgba(0,0,0,.4)"
-                    size="20"
-                  />
-                )}
-              </ActionIcon>
-              <Text
-                ml={1}
-                variant={'suptitle'}
-                sx={{ textTransform: 'capitalize' }}
-              >
-                {isFollowing ? <Trans>Unfollow </Trans> : <Trans>follow</Trans>}
-              </Text>
-            </ActionItem>
-          </Meta>
-        )}
+          <ActionItem onClick={toggleFollowFormik.submitForm}>
+            <ActionIcon>
+              {isFollowing ? (
+                <EyeOff
+                  className="hover"
+                  strokeWidth="1"
+                  color="rgba(0,0,0,.4)"
+                  size="20"
+                />
+              ) : (
+                <Eye
+                  className="hover"
+                  strokeWidth="1"
+                  color="rgba(0,0,0,.4)"
+                  size="20"
+                />
+              )}
+            </ActionIcon>
+            <Text
+              ml={1}
+              variant={'suptitle'}
+              sx={{ textTransform: 'capitalize' }}
+            >
+              {isFollowing ? <Trans>Unfollow </Trans> : <Trans>follow</Trans>}
+            </Text>
+          </ActionItem>
+        </Meta>
       </Infos>
 
       {/* <Box m={2} px={2}>
