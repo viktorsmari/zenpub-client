@@ -36,12 +36,12 @@ export const terms_markdown_urls = {
 
 export const related_urls = {
   // replace the URLs as needed
-  project_homepage: 'https://moodle.net',
-  terms_users: 'https://moodle.net/terms/users/index.html',
-  terms_cookies: 'https://moodle.net/terms/cookies/index.html',
-  terms_indexing: 'https://moodle.net/terms/indexing/index.html',
-  code: 'https://gitlab.com/moodlenet',
-  feedback: 'https://changemap.co/moodle/moodlenet/'
+  project_homepage: 'http://commonspub.org',
+  terms_users: 'http://commonspub.org',
+  terms_cookies: 'http://commonspub.org',
+  terms_indexing: 'http://commonspub.org',
+  code: 'https://gitlab.com/CommonsPub',
+  feedback: 'http://zo.team'
 };
 
 export const IS_DEV = NODE_ENV === 'development';
