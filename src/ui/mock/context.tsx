@@ -221,7 +221,8 @@ export const getEditProfileProps = (): EditProfileProps => {
     formik,
     basePath: '/',
     displayUsername: '@tata@app.moodle.net',
-    isAdmin: false
+    isAdmin: false,
+    Preferences: <Preferences />
   };
 };
 

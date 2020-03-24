@@ -28,7 +28,7 @@ export const FlaggedItem: React.SFC<FlaggedProps> = ({
   return (
     <Wrapper>
       <Bordered p={2}>{flaggedItemContext}</Bordered>
-      <Text sx={{ fontSize: '24px' }} variant="text" mb={2}>
+      <Text sx={{ textDecoration: 'none' }} variant="text" mb={2} mt={2}>
         {reason}
       </Text>
       <Actions mt={2}>

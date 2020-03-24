@@ -11,7 +11,7 @@ import Modal from 'ui/modules/Modal';
 
 const tt = {
   placeholders: {
-    email: i18nMark('Enter email to whitelist')
+    email: i18nMark('Enter email or domain to allowlist')
   }
 };
 export interface Props {
@@ -40,7 +40,7 @@ const Emails: React.FC<Props> = ({
       </Text>
       <EmailWrapper>
         <Label pt={3}>
-          <Trans>Email</Trans>
+          <Trans>Email or Domain</Trans>
         </Label>
         <EmailContainerForm>
           <EmailInput
@@ -65,9 +65,9 @@ const Emails: React.FC<Props> = ({
       </EmailWrapper>
       <Box p={3}>
         <Text p={3} variant="suptitle">
-          <Trans>Whitelisted emails</Trans>
+          <Trans>Allowlisted emails and domains</Trans>
         </Text>
-        {emailsList ? (
+        {emailsList &&
           emailsList.map((email, i) => (
             <ListRow key={i}>
               <EmailText>{email}</EmailText>
@@ -76,12 +76,7 @@ const Emails: React.FC<Props> = ({
               </Remove>
               {/* <Button variant="danger"><Trans>Delete</Trans></Button> */}
             </ListRow>
-          ))
-        ) : (
-          <Text p={3}>
-            <Trans>No whitelisted emails yet</Trans>
-          </Text>
-        )}
+          ))}
       </Box>
       {selectedEmailForModal && ConfirmDeleteModal != null && (
         <Modal closeModal={() => setselectedEmailForModal(null)}>
