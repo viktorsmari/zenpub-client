@@ -12,6 +12,7 @@ export interface Props {
   bio: string;
   toggleFollowFormik: FormikHook;
   isFollowing: boolean;
+  hideActions?: boolean;
 }
 
 export const User: React.SFC<Props> = ({
@@ -19,7 +20,8 @@ export const User: React.SFC<Props> = ({
   name,
   username,
   bio,
-  toggleFollowFormik /* , isFollowing */
+  toggleFollowFormik /* , isFollowing */,
+  hideActions
 }) => (
   <WrapperFlex p={3}>
     <Avatar variant="avatar" src={image} />
@@ -32,9 +34,11 @@ export const User: React.SFC<Props> = ({
         <Text variant="text">{bio}</Text>
       </Box>
     </Wrapper>
-    <Icon>
-      <UserPlus size={20} onClick={toggleFollowFormik.submitForm} />
-    </Icon>
+    {hideActions ? null : (
+      <Icon>
+        <UserPlus size={20} onClick={toggleFollowFormik.submitForm} />
+      </Icon>
+    )}
   </WrapperFlex>
 );
 

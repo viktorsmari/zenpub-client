@@ -18,7 +18,15 @@ const Flags: React.FC<Props> = ({
         <Trans>Flags</Trans>
       </Text>
       <Row>
-        <Box mt={2}>{ActivitiesBox}</Box>
+        {ActivitiesBox ? (
+          <Box mt={2} sx={{ width: '600px' }}>
+            {ActivitiesBox}
+          </Box>
+        ) : (
+          <Text pt={3}>
+            <Trans>No flags yet</Trans>
+          </Text>
+        )}
       </Row>
     </Box>
   );

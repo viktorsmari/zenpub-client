@@ -7,6 +7,7 @@ import { Trans } from '@lingui/react';
 import Modal from 'ui/modules/Modal';
 
 export interface FlaggedProps {
+  flaggedItemContext: JSX.Element;
   ConfirmDeleteModal?: null | React.ComponentType<{ done(): unknown }>;
   type: string;
   // flaggedItemId: string;
@@ -14,6 +15,7 @@ export interface FlaggedProps {
 }
 
 export const FlaggedItem: React.SFC<FlaggedProps> = ({
+  flaggedItemContext,
   ConfirmDeleteModal,
   type,
   // flaggedItemId,
@@ -25,6 +27,7 @@ export const FlaggedItem: React.SFC<FlaggedProps> = ({
 
   return (
     <Wrapper>
+      <Bordered p={2}>{flaggedItemContext}</Bordered>
       <Text sx={{ fontSize: '24px' }} variant="text" mb={2}>
         {reason}
       </Text>
@@ -150,4 +153,9 @@ const ActionIcon = styled(Box)`
 
 const Wrapper = styled(Box)`
   background: white;
+`;
+
+const Bordered = styled(Box)`
+  border: 1px solid ${props => props.theme.colors.lightgray};
+  border-radius: 4px;
 `;

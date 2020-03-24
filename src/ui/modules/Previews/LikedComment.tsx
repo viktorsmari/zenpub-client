@@ -28,6 +28,7 @@ export interface CommentProps {
   createdAt: string;
   communityName: string;
   communityLink: string;
+  hideActions?: boolean;
 }
 
 const tt = {
@@ -48,7 +49,8 @@ export const LikedComment: React.SFC<CommentProps> = ({
   actor,
   createdAt,
   communityName,
-  communityLink
+  communityLink,
+  hideActions
 }) => {
   const [talkModalVisible, showTalkModal] = React.useState(false);
   const { i18n } = React.useContext(LocaleContext);
@@ -77,49 +79,51 @@ export const LikedComment: React.SFC<CommentProps> = ({
             }}
           />
         )}
-        <Box>
-          <Items>
-            <ActionItem onClick={() => showTalkModal(!talkModalVisible)}>
-              <ActionIcon>
-                <MessageCircle
-                  className="hover"
-                  strokeWidth="1"
-                  color="rgba(0,0,0,.4)"
-                  size="20"
-                />
-              </ActionIcon>
-              <Text
-                ml={1}
-                variant={'suptitle'}
-                sx={{ textTransform: 'capitalize' }}
-              >
-                <Trans>Comment</Trans>
-              </Text>
-            </ActionItem>
-            <ActionItem ml={4} onClick={like.toggleLikeFormik.submitForm}>
-              <ActionIcon>
-                <Star
-                  className="hover"
-                  color={like.iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'}
-                  strokeWidth="1"
-                  size="20"
-                />
-              </ActionIcon>
-              <Text
-                variant={'suptitle'}
-                sx={{ textTransform: 'capitalize' }}
-                ml={1}
-              >
-                {like.totalLikes + ' '} <Trans>Favourite</Trans>
-              </Text>
-            </ActionItem>
-          </Items>
-          {FlagModal && isOpenFlagModal && (
-            <Modal closeModal={() => setOpenFlagModal(false)}>
-              <FlagModal done={() => setOpenFlagModal(false)} />
-            </Modal>
-          )}
-        </Box>
+        {hideActions ? null : (
+          <Box>
+            <Items>
+              <ActionItem onClick={() => showTalkModal(!talkModalVisible)}>
+                <ActionIcon>
+                  <MessageCircle
+                    className="hover"
+                    strokeWidth="1"
+                    color="rgba(0,0,0,.4)"
+                    size="20"
+                  />
+                </ActionIcon>
+                <Text
+                  ml={1}
+                  variant={'suptitle'}
+                  sx={{ textTransform: 'capitalize' }}
+                >
+                  <Trans>Comment</Trans>
+                </Text>
+              </ActionItem>
+              <ActionItem ml={4} onClick={like.toggleLikeFormik.submitForm}>
+                <ActionIcon>
+                  <Star
+                    className="hover"
+                    color={like.iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'}
+                    strokeWidth="1"
+                    size="20"
+                  />
+                </ActionIcon>
+                <Text
+                  variant={'suptitle'}
+                  sx={{ textTransform: 'capitalize' }}
+                  ml={1}
+                >
+                  {like.totalLikes + ' '} <Trans>Favourite</Trans>
+                </Text>
+              </ActionItem>
+            </Items>
+            {FlagModal && isOpenFlagModal && (
+              <Modal closeModal={() => setOpenFlagModal(false)}>
+                <FlagModal done={() => setOpenFlagModal(false)} />
+              </Modal>
+            )}
+          </Box>
+        )}
       </Actions>
     </Wrapper>
   );

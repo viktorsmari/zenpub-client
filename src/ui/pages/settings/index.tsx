@@ -81,7 +81,7 @@ export const Settings: React.FC<Props> = ({
   displayUsername,
   isAdmin
 }) => {
-  isAdmin = true; //FIXME remove after HOC
+  // isAdmin = true; //FIXME remove after HOC
   return (
     <MainContainer>
       <Sidebar basePath={basePath} isAdmin={isAdmin} />
@@ -578,7 +578,6 @@ export const MainContainer = styled(Flex)`
   flex-grow: 1;
   flex-direction: row;
   width: 100%;
-  margin-top: 66px;
 `;
 
 export const WrapperCont = styled(Flex)`

@@ -20,6 +20,7 @@ export interface Props {
     external: boolean;
   };
   displayUsername: string;
+  hideActons?: boolean;
 }
 
 export const Community: React.FC<Props> = ({
@@ -31,7 +32,8 @@ export const Community: React.FC<Props> = ({
   toggleJoinFormik,
   collectionsCount,
   link,
-  displayUsername
+  displayUsername,
+  hideActons
 }) => (
   <Bordered>
     <Wrapper p={2}>
@@ -71,11 +73,13 @@ export const Community: React.FC<Props> = ({
         </Box>
       </WrapperLink>
     </Wrapper>
-    <ActionItem onClick={toggleJoinFormik.submitForm}>
-      <Text ml={1} variant={'suptitle'} sx={{ textTransform: 'capitalize' }}>
-        {joined ? <Trans>Leave</Trans> : <Trans>Join</Trans>}
-      </Text>
-    </ActionItem>
+    {hideActons ? null : (
+      <ActionItem onClick={toggleJoinFormik.submitForm}>
+        <Text ml={1} variant={'suptitle'} sx={{ textTransform: 'capitalize' }}>
+          {joined ? <Trans>Leave</Trans> : <Trans>Join</Trans>}
+        </Text>
+      </ActionItem>
+    )}
   </Bordered>
 );
 

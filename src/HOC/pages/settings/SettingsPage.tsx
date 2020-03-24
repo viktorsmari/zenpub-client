@@ -1,5 +1,6 @@
 import { useProfile } from 'fe/user/settings/useSettings';
 import { useFormik } from 'formik';
+import { useMe } from 'fe/session/me';
 import React, { FC, useMemo } from 'react';
 import {
   Settings as SettingsPageUI,
@@ -25,6 +26,7 @@ export interface SettingsPage {
 }
 
 export const SettingsPage: FC<SettingsPage> = ({ basePath }) => {
+  const { me } = useMe();
   const { profile, updateProfile } = useProfile();
   const initialValues: EditProfile = {
     icon: profile?.icon || '',
@@ -48,7 +50,8 @@ export const SettingsPage: FC<SettingsPage> = ({ basePath }) => {
       Preferences: <Preferences />,
       Instance: <Instance />,
       Invites: <Emails />,
-      Flags: <Flags />
+      Flags: <Flags />,
+      isAdmin: me?.isInstanceAdmin
     };
     return props;
   }, [profile, updateProfileFormik]);
