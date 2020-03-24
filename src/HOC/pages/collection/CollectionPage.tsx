@@ -3,7 +3,7 @@ import { useCollectionOutboxActivities } from 'fe/activities/outbox/collection/u
 import { useCollectionResources } from 'fe/resource/collection/useCollectionResources';
 import { Collection } from 'graphql/types.generated';
 import { ActivityPreviewHOC } from 'HOC/modules/previews/activity/ActivityPreview';
-import UploadResourcePanelHOC from 'HOC/modules/AddResource/UploadResourceHOC';
+import { AddResourceHOC } from 'HOC/modules/AddResource/addResourceHOC';
 import { EditCollectionPanelHOC } from 'HOC/modules/EditCollectionPanel/editCollectionPanelHOC';
 import { HeroCollection } from 'HOC/modules/HeroCollection/HeroCollection';
 import { ResourcePreviewHOC } from 'HOC/modules/previews/resource/ResourcePreview';
@@ -59,7 +59,7 @@ export const CollectionPage: FC<CollectionPage> = props => {
 
     const UploadResourcePanel: CollectionPageProps['UploadResourcePanel'] = ({
       done
-    }) => <UploadResourcePanelHOC done={done} collectionId={collectionId} />;
+    }) => <AddResourceHOC done={done} collectionId={collectionId} />;
 
     const ShareLinkModalPanel: CollectionPageProps['ShareLinkModalPanel'] = ({
       done

@@ -11,7 +11,7 @@ import Modal from 'ui/modules/Modal';
 
 const tt = {
   placeholders: {
-    email: i18nMark('Enter email to whitelist')
+    email: i18nMark('Enter email or domain to allowlist')
   }
 };
 export interface Props {
@@ -30,21 +30,9 @@ const Emails: React.FC<Props> = ({
   emailsList,
   ConfirmDeleteModal
 }) => {
-  emailsList = [
-    'about@moodle.com',
-    'infomn@moodle.com',
-    'test1@moodle.com',
-    'test@moodle.com'
-  ]; //FIXME remove after HOC
   const [selectedEmailForModal, setselectedEmailForModal] = React.useState<
     null | string
   >(null);
-  console.log(
-    'email ' +
-      selectedEmailForModal +
-      ' ConfirmDeleteModal ' +
-      ConfirmDeleteModal
-  );
   return (
     <Box>
       <Text variant="heading" px={3} mt={2}>
@@ -52,7 +40,7 @@ const Emails: React.FC<Props> = ({
       </Text>
       <EmailWrapper>
         <Label pt={3}>
-          <Trans>Email</Trans>
+          <Trans>Email or Domain</Trans>
         </Label>
         <EmailContainerForm>
           <EmailInput
@@ -77,18 +65,18 @@ const Emails: React.FC<Props> = ({
       </EmailWrapper>
       <Box p={3}>
         <Text p={3} variant="suptitle">
-          <Trans>Whitelisted emails</Trans>
+          <Trans>Allowlisted emails and domains</Trans>
         </Text>
-
-        {emailsList.map((email, i) => (
-          <ListRow key={i}>
-            <EmailText>{email}</EmailText>
-            <Remove onClick={() => setselectedEmailForModal(email)}>
-              <X color="#fff" size={16} />
-            </Remove>
-            {/* <Button variant="danger"><Trans>Delete</Trans></Button> */}
-          </ListRow>
-        ))}
+        {emailsList &&
+          emailsList.map((email, i) => (
+            <ListRow key={i}>
+              <EmailText>{email}</EmailText>
+              <Remove onClick={() => setselectedEmailForModal(email)}>
+                <X color="#fff" size={16} />
+              </Remove>
+              {/* <Button variant="danger"><Trans>Delete</Trans></Button> */}
+            </ListRow>
+          ))}
       </Box>
       {selectedEmailForModal && ConfirmDeleteModal != null && (
         <Modal closeModal={() => setselectedEmailForModal(null)}>

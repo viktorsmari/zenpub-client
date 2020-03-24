@@ -1,16 +1,16 @@
-import { WithoutSidebarTemplate } from 'HOC/templates/WithoutSidebar/WithoutSidebar';
 import ResetPasswordComp from 'pages/Reset';
 import React, { FC } from 'react';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
+import { GuestTemplate } from 'HOC/templates/Guest/Guest';
 
 interface ResetPasswordPageRouter {}
 const ResetPasswordPageRouter: FC<RouteComponentProps<
   ResetPasswordPageRouter
 >> = ({ match }) => {
   return (
-    <WithoutSidebarTemplate>
+    <GuestTemplate>
       <ResetPasswordComp />
-    </WithoutSidebarTemplate>
+    </GuestTemplate>
   );
 };
 

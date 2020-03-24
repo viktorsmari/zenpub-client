@@ -18,6 +18,7 @@ export interface Props {
   totalResources: number | null;
   isFollowing: boolean;
   toggleFollowFormik: FormikHook;
+  hideActions?: boolean;
 }
 
 export const Collection: React.FC<Props> = ({
@@ -28,7 +29,8 @@ export const Collection: React.FC<Props> = ({
   displayUsername,
   totalResources,
   isFollowing,
-  toggleFollowFormik
+  toggleFollowFormik,
+  hideActions
 }) => {
   return (
     // <WrapperLink to={link.url}>
@@ -54,14 +56,13 @@ export const Collection: React.FC<Props> = ({
             ? summary.replace(/^([\s\S]{140}[^\s]*)[\s\S]*/, '$1...')
             : summary}
         </Text>
-        {totalResources && totalResources > 0 && (
-          <Meta mt={2}>
-            <Flex alignSelf="center" mr={3} alignItems="center">
-              <Text fontSize={'10px'} variant="suptitle">
-                {totalResources || 0} <Trans>Resources</Trans>
-              </Text>
-            </Flex>
-
+        <Meta mt={2}>
+          <Flex alignSelf="center" mr={3} alignItems="center">
+            <Text fontSize={'10px'} variant="suptitle">
+              {totalResources || 0} <Trans>Resources</Trans>
+            </Text>
+          </Flex>
+          {hideActions ? null : (
             <ActionItem onClick={toggleFollowFormik.submitForm}>
               <ActionIcon>
                 {isFollowing ? (
@@ -88,8 +89,8 @@ export const Collection: React.FC<Props> = ({
                 {isFollowing ? <Trans>Unfollow </Trans> : <Trans>follow</Trans>}
               </Text>
             </ActionItem>
-          </Meta>
-        )}
+          )}
+        </Meta>
       </Infos>
 
       {/* <Box m={2} px={2}>

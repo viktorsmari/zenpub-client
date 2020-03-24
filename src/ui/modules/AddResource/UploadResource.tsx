@@ -30,7 +30,7 @@ const tt = {
     summary: i18nMark(
       'Please type or copy/paste a summary about the resource...'
     ),
-    author: i18nMark('A name for the resource author'),
+    //author: i18nMark('A name for the resource author'),
     submit: i18nMark('Uploading the resource')
     // image: i18nMark('Enter the URL of an image to represent the resource')
   }

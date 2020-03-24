@@ -30,72 +30,79 @@ export const MainHeader: React.FC<Props> = props => {
   console.log(history);
   return (
     <HeaderWrapper>
-      <Left>
-        <Icon mx={2} onClick={() => history.goBack()}>
-          <ChevronLeft size="20" />
-        </Icon>
-        <Link to="/">
-          <Avatar size="s" src={MnetLogo} />
-        </Link>
-      </Left>
-      <Center>{props.Search}</Center>
-      <Header alignItems={'center'}>
-        {props.user ? (
-          <NavItem
-            sx={{ position: 'relative' }}
-            alignItems="center"
-            onClick={openMenu}
-          >
-            <Avatar
-              size="s"
-              initials={props.user.name.substring(0, 2)}
-              src={props.user.icon}
-              variant="avatar"
-            />
-            <HeaderName ml={2} variant="link">
-              {props.user.name}
-            </HeaderName>
-            <Right ml={2}>
-              <ChevronDown size="20" />
-            </Right>
-            {isOpenDropdown && (
-              <DropdownSidebar
-                logout={props.user.logout}
-                userLink={props.user.link}
-                setOpenDropdown={setOpenDropdown}
+      <FlexWrapper>
+        <Left>
+          <Icon mx={2} onClick={() => history.goBack()}>
+            <ChevronLeft size="20" />
+          </Icon>
+          <Link to="/">
+            <Avatar size="s" src={MnetLogo} />
+          </Link>
+        </Left>
+        <Center>{props.Search}</Center>
+        <Header alignItems={'center'}>
+          {props.user ? (
+            <NavItem
+              sx={{ position: 'relative' }}
+              alignItems="center"
+              onClick={openMenu}
+            >
+              <Avatar
+                size="s"
+                initials={props.user.name.substring(0, 2)}
+                src={props.user.icon}
+                variant="avatar"
               />
-            )}
-          </NavItem>
-        ) : (
-          <Flex justifyContent="space-evenly">
-            <NavItem>
-              <Link to="/">
-                <Text variant="link">
-                  <Trans>Signin</Trans>
-                </Text>
-              </Link>
+              <HeaderName ml={2} variant="link">
+                {props.user.name}
+              </HeaderName>
+              <Right ml={2}>
+                <ChevronDown size="20" />
+              </Right>
+              {isOpenDropdown && (
+                <DropdownSidebar
+                  logout={props.user.logout}
+                  userLink={props.user.link}
+                  setOpenDropdown={setOpenDropdown}
+                />
+              )}
             </NavItem>
-            <NavItem>
-              <Link to="/discover">
-                <Text variant="link">
-                  <Trans>Discover</Trans>
-                </Text>
-              </Link>
-            </NavItem>
-          </Flex>
-        )}
-      </Header>
+          ) : (
+            <Flex justifyContent="space-evenly">
+              <NavItem>
+                <Link to="/">
+                  <Text variant="link">
+                    <Trans>Signin</Trans>
+                  </Text>
+                </Link>
+              </NavItem>
+              <NavItem>
+                <Link to="/discover">
+                  <Text variant="link">
+                    <Trans>Discover</Trans>
+                  </Text>
+                </Link>
+              </NavItem>
+            </Flex>
+          )}
+        </Header>
+      </FlexWrapper>
     </HeaderWrapper>
   );
 };
 
+const FlexWrapper = styled(Flex)`
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+`;
 const Center = styled(Box)`
-  flex: 1 1 100%;
+  flex: 1 1 600px;
   order: 1;
-  padding: 0 24px;
+  max-width: 600px;
   overflow: hidden;
   input {
-    width: 300px;
+    width: 100%;
     margin: 0 auto;
     border: 1px solid ${props => props.theme.colors.lightgray};
     border-radius: 4px;
@@ -114,6 +121,7 @@ const NavItem = styled(Flex)`
   border-radius: 0px;
   padding: 4px 8px;
   border-radius: 4px;
+  float: right;
   &:hover {
     background: ${props => props.theme.colors.lighter};
   }
@@ -126,7 +134,7 @@ img {
 
 const Header = styled(Box)`
   cursor: pointer;
-  flex: 0 0 256px;
+  flex: 0 0 300px;
   order: 2;
   justify-content: flex-end;
   img {
@@ -156,16 +164,15 @@ const Icon = styled(Box)`
 
 const Left = styled(Flex)`
   align-items: center;
-  flex: 0 0 256px;
+  flex: 0 0 240px;
   order: 0;
   justify-content: flex-start;
 `;
 
-const HeaderWrapper = styled(Flex)`
+const HeaderWrapper = styled(Box)`
   border-bottom: 1px solid ${props => props.theme.colors.lightgray};
   height: 50px;
-  align-items: center;
-  justify-content: space-between;
+  //   justify-content: space-between;
   cursor: pointer;
   background: #fff;
   position: fixed;
@@ -173,7 +180,6 @@ const HeaderWrapper = styled(Flex)`
   left: 0;
   right: 0;
   z-index: 99999999999999999999;
-  flex: 0 50px;
   padding: 0 8px;
   a {
     display: flex;

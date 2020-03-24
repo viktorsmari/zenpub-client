@@ -12,6 +12,8 @@ import { User } from '../Previews/User';
 import FlagModal from '../FlagModal';
 import { MainComment } from '../Previews/MainComment';
 import { LikedComment } from '../Previews/LikedComment';
+import { FlaggedItem } from '../Previews/FlaggedItem';
+import { ConfirmDeleteModal } from '../ConfirmDeleteModal';
 
 const getActions = () => ({
   FlagModal: () => {
@@ -434,6 +436,67 @@ storiesOf('Modules/ActivityPreview', module)
         p={2}
       >
         <ActivityPreview {...MainCommentPreviewProps} />
+      </Box>
+    );
+  })
+  .add('Flag a comment', () => {
+    const FlaggedItemPreviewProps: Props = {
+      communityLink: 'communityLink',
+      communityName: 'communityName',
+      event: 'Flag a comment',
+      preview: (
+        <FlaggedItem
+          flaggedItemContext={
+            <Comment
+              {...getActions()}
+              url="/"
+              content={
+                'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+              }
+              isFlagged={false}
+              hideActions={true}
+            />
+          }
+          ConfirmDeleteModal={({ done }) => {
+            const formik = useFormik<{}>({
+              initialValues: {},
+              onSubmit: () => {
+                action('submit')();
+                return new Promise((resolve, reject) => {
+                  setTimeout(resolve, 3000);
+                });
+              }
+            });
+            const getConfirmDeleteModalProps = {
+              formik,
+              deleteTitle: 'Delete Comment',
+              deleteDescription:
+                'Are you sure you want to delete this comment?',
+              cancel: action('cancel')
+            };
+            return <ConfirmDeleteModal {...getConfirmDeleteModalProps} />;
+          }}
+          type="Comment"
+          reason="Abusive speech"
+        />
+      ),
+      status: Status.Loaded,
+      actor: getActor(),
+      createdAt: '2018-11-11',
+      link: 'https://picsum.photos/80/80'
+    };
+
+    return (
+      <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
+        <ActivityPreview {...FlaggedItemPreviewProps} />
       </Box>
     );
   });

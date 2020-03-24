@@ -5,7 +5,6 @@ import { i18nMark, Trans } from '@lingui/react';
 import styled from 'ui/themes/styled';
 import { FormikHook } from 'ui/@types/types';
 import {
-  ChevronLeft,
   Sliders,
   Settings as Sett,
   MapPin,
@@ -21,10 +20,7 @@ import { Input, Textarea } from '@rebass/forms';
 import DropzoneArea from '../../../components/elements/DropzoneModal';
 import { ContainerForm, Actions } from 'ui/modules/Modal';
 import Button from 'ui/elements/Button';
-import { useHistory } from 'react-router';
-import Preferences from './preferences';
-import Emails from './invites';
-import { Instance } from './instance';
+// import { useHistory } from 'react-router';
 
 const tt = {
   placeholders: {
@@ -37,12 +33,25 @@ const tt = {
     website: i18nMark('Enter a URL to share more info about you')
   }
 };
+export enum Status {
+  Loading,
+  Loaded
+}
+
+export interface SettingsLoading {
+  status: Status.Loading;
+}
 
 export interface Props {
+  status?: Status.Loaded;
   formik: FormikHook<EditProfile>;
   basePath: string;
   displayUsername: string;
   isAdmin?: boolean; //FIXME remove ? after HOC
+  Preferences?: JSX.Element; //FIXME remove ? after HOC
+  Instance?: JSX.Element; //FIXME remove ? after HOC
+  Invites?: JSX.Element; //FIXME remove ? after HOC
+  Flags?: JSX.Element; //FIXME remove ? after HOC
 }
 
 export interface EditProfile {
@@ -54,13 +63,25 @@ export interface EditProfile {
   website: string;
 }
 
+export interface AddEmail {
+  email: string;
+}
+
+export interface EditInstance {
+  inviteOnly: boolean;
+}
+
 export const Settings: React.FC<Props> = ({
   basePath,
   formik,
+  Preferences,
+  Instance,
+  Invites,
+  Flags,
   displayUsername,
   isAdmin
 }) => {
-  isAdmin = true; //FIXME remove after HOC
+  // isAdmin = true; //FIXME remove after HOC
   return (
     <MainContainer>
       <Sidebar basePath={basePath} isAdmin={isAdmin} />
@@ -69,15 +90,10 @@ export const Settings: React.FC<Props> = ({
           <Wrapper>
             <Box sx={{ width: '600px' }}>
               <Switch>
-                <Route path={`${basePath}/preferences`}>
-                  <Preferences />
-                </Route>
-                <Route path={`${basePath}/instance`}>
-                  <Instance />
-                </Route>
-                <Route path={`${basePath}/invites`}>
-                  <Emails />
-                </Route>
+                <Route path={`${basePath}/preferences`}>{Preferences}</Route>
+                <Route path={`${basePath}/instance`}>{Instance}</Route>
+                <Route path={`${basePath}/invites`}>{Invites}</Route>
+                <Route path={`${basePath}/flags`}>{Flags}</Route>
                 {/* <Route path={`${basePath}/accounts`}>acc</Route>
               <Route path={`${basePath}/notifications`}>notif</Route>
               <Route path={`${basePath}/admin`}>admin</Route> */}
@@ -178,25 +194,10 @@ export const Settings: React.FC<Props> = ({
 };
 
 const Sidebar = ({ basePath, isAdmin }) => {
-  const history = useHistory();
-
   return (
     <WrapperPanel ml={0} mr={2}>
       <Panel>
         <Nav>
-          <NavItem p={3} fontSize={1}>
-            <Box sx={{ cursor: 'pointer' }} onClick={() => history.goBack()}>
-              <Flex
-                alignItems="center"
-                sx={{ textTransform: 'capitalize', fontSize: '14px' }}
-              >
-                <Icon className="icon" mr={1}>
-                  <ChevronLeft size={20} />
-                </Icon>
-                Back to MoodleNet
-              </Flex>
-            </Box>
-          </NavItem>
           <NavItem p={3} fontSize={1}>
             <NavLink exact to={`${basePath}/`}>
               <Flex

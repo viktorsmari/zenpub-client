@@ -1,10 +1,10 @@
 import { useMe } from 'fe/session/me';
 import { Sidebar } from 'HOC/modules/Sidebar/Sidebar';
 import React, { FC, useMemo } from 'react';
-import { WithoutSidebarTemplate } from 'HOC/templates/WithoutSidebar/WithoutSidebar';
 import { SidebarProps, WithSidebar } from 'ui/templates/withSidebar';
 import { MainHeader, Props as MainHeaderProps } from 'ui/modules/MainHeader';
 import { SearchBox } from 'react-instantsearch-dom';
+import { GuestTemplate } from '../Guest/Guest';
 
 export interface WithSidebarTemplate {}
 export const WithSidebarTemplate: FC<WithSidebarTemplate> = ({ children }) => {
@@ -22,7 +22,7 @@ export const WithSidebarTemplate: FC<WithSidebarTemplate> = ({ children }) => {
       user: {
         logout: meQ.logout,
         icon: user.icon || '',
-        link: `user/${user.id}`,
+        link: `/user/${user.id}`,
         name: user.displayUsername
       }
     };
@@ -35,6 +35,6 @@ export const WithSidebarTemplate: FC<WithSidebarTemplate> = ({ children }) => {
   return withSidebarProps ? (
     <WithSidebar {...withSidebarProps}>{children}</WithSidebar>
   ) : (
-    <WithoutSidebarTemplate>{children}</WithoutSidebarTemplate>
+    <GuestTemplate>{children}</GuestTemplate>
   );
 };
