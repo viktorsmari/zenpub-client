@@ -53,7 +53,7 @@ export const CommunityThreadFragmentDoc = gql`
     ${CommunityPageThreadFragmentDoc}`;
 export const CommunityThreadsDocument = gql`
     query communityThreads($communityId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
-  community(communityId: $communityId) {
+  community(communityId: $communityId) @conection(key: "communityThreads", filter: ["communityId"]) {
     id
     threads(limit: $limit, before: $before, after: $after) {
       totalCount

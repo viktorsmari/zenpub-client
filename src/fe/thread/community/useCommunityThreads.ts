@@ -8,7 +8,18 @@ export const useCommunityThreads = (communityId: Community['id']) => {
     variables: { communityId }
   });
 
-  const threadsPage = usePage(communityQ.data?.community?.threads);
+  const threadsPage = usePage(communityQ.data?.community?.threads, {
+    next: (cursor, update) => {
+      communityQ.fetchMore({
+        variables: { ...cursor, communityId, limit: 12 },
+        updateQuery: (prev, { fetchMoreResult }) => {
+          return fetchMoreResult?.community?.threads
+            ? update(fetchMoreResult.community.threads)
+            : prev;
+        }
+      });
+    }
+  });
 
   return useMemo(
     () => ({
