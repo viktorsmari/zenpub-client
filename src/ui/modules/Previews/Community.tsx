@@ -48,34 +48,34 @@ export const Community: React.FC<Props> = ({
                   : name}
               </Title>
               <Username>{displayUsername}</Username>
-              <Meta mt={2}>
-                <Flex alignSelf="center" mr={3} alignItems="center">
-                  <Text fontSize={'10px'} variant="suptitle">
-                    {followersCount || 0} <Trans>Users</Trans>
-                  </Text>
-                </Flex>
-                <Flex alignSelf="center" alignItems="center">
-                  <Text fontSize={'10px'} variant="suptitle">
-                    {collectionsCount || 0} <Trans>Collections</Trans>
-                  </Text>
-                </Flex>
-              </Meta>
             </Box>
           </Flex>
 
-          <Text variant="text" mt={2}>
-            {summary.length > 160
-              ? summary.replace(/^([\s\S]{156}[^\s]*)[\s\S]*/, '$1...')
+          <Text sx={{ height: '60px' }} variant="text" mt={2}>
+            {summary.length > 90
+              ? summary.replace(/^([\s\S]{86}[^\s]*)[\s\S]*/, '$1...')
               : summary}
           </Text>
         </Box>
       </WrapperLink>
     </Wrapper>
-    <ActionItem onClick={toggleJoinFormik.submitForm}>
-      <Text ml={1} variant={'suptitle'} sx={{ textTransform: 'capitalize' }}>
-        {joined ? <Trans>Leave</Trans> : <Trans>Join</Trans>}
-      </Text>
-    </ActionItem>
+    <Meta my={2}>
+      <Flex alignSelf="center" mr={3} alignItems="center">
+        <Text variant="suptitle">
+          {followersCount || 0} <Trans>Users</Trans>
+        </Text>
+      </Flex>
+      <Flex alignSelf="center" alignItems="center">
+        <Text variant="suptitle">
+          {collectionsCount || 0} <Trans>Collections</Trans>
+        </Text>
+      </Flex>
+      <ActionItem onClick={toggleJoinFormik.submitForm}>
+        <Text ml={2} variant={'suptitle'}>
+          {joined ? <Trans>Leave</Trans> : <Trans>Join</Trans>}
+        </Text>
+      </ActionItem>
+    </Meta>
   </Bordered>
 );
 
@@ -123,6 +123,7 @@ const Username = styled(Text)`
 
 const Meta = styled(Flex)`
   color: ${props => props.theme.colors.gray};
+  justify-content: space-evenly;
 `;
 
 const Bordered = styled(Box)`

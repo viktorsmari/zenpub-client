@@ -1,34 +1,45 @@
-import * as React from 'react';
+import React, { SFC } from 'react';
 import { Box, Flex } from 'rebass/styled-components';
-import media from 'styled-media-query';
-import { Header } from 'ui/modules/Header';
 import styled from 'ui/themes/styled';
+import { WrapperPanel } from 'ui/elements/Panel';
+import { Header } from 'ui/modules/Header';
+import { Props as UserProps } from 'ui/modules/Previews/User';
+import { Props as CollectionProps } from 'ui/modules/Previews/Collection';
+import { Props as CommunityProps } from 'ui/modules/Previews/Community';
+import { Props as ResourceProps } from 'ui/modules/Previews/Resource';
 
 export interface Props {
-  CommunitiesBoxes: JSX.Element;
+  hits: Result[];
 }
 
-export const AllCommunities: React.FC<Props> = ({ CommunitiesBoxes }) => {
+export type Result =
+  | UserProps
+  | CollectionProps
+  | CommunityProps
+  | ResourceProps;
+
+export const Search: SFC<Props> = ({ hits }) => {
   return (
-    <MainContainer>
-      <HomeBox>
-        <WrapperCont>
-          <Wrapper>
-            <Header name="All Communities" />
-            <WrapperBoxes>{CommunitiesBoxes}</WrapperBoxes>
-          </Wrapper>
-        </WrapperCont>
-      </HomeBox>
-    </MainContainer>
+    <>
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.1.1/themes/reset-min.css"
+      />
+
+      <MainContainer>
+        <HomeBox>
+          <WrapperCont>
+            <Wrapper>
+              <Header name="Search results" />
+              <Box>{hits}</Box>
+            </Wrapper>
+          </WrapperCont>
+        </HomeBox>
+        <WrapperPanel />
+      </MainContainer>
+    </>
   );
 };
-const WrapperBoxes = styled(Box)`
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-column-gap: 8px;
-  grid-row-gap: 8px;
-  padding: 8px;
-`;
 
 export const HomeBox = styled(Flex)`
   width: 600px;
@@ -43,12 +54,6 @@ export const HomeBox = styled(Flex)`
   padding: 0px;
   position: relative;
   z-index: 0;
-  ${media.lessThan('1005px')`
-    max-width: 100%;
-  `};
-  // ${media.lessThan('1280px')`
-  // top: 60px;
-  // `};
 `;
 
 export const MainContainer = styled(Flex)`
@@ -71,11 +76,10 @@ export const WrapperCont = styled(Flex)`
   flex-shrink: 0;
   margin: 0px;
   min-height: 0px;
+  background: white;
   min-width: 0px;
   padding: 0px;
   position: relative;
-  background: white;
-  border-radius: 6px;
   z-index: 0;
 `;
 
