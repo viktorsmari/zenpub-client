@@ -1,4 +1,4 @@
-import { WithoutSidebarTemplate } from 'HOC/templates/WithoutSidebar/WithoutSidebar';
+import { GuestTemplate } from 'HOC/templates/Guest/Guest';
 import ConfirmAccountComp from 'pages/Confirm';
 import React, { FC } from 'react';
 import { RouteComponentProps, RouteProps, Redirect } from 'react-router-dom';
@@ -18,9 +18,9 @@ const ConfirmEmailRouter: FC<RouteComponentProps<ConfirmEmailRouter>> = ({
     return <Redirect to="/#welcome" />;
   }
   return (
-    <WithoutSidebarTemplate>
+    <GuestTemplate>
       <ConfirmAccountComp token={match.params.token} />
-    </WithoutSidebarTemplate>
+    </GuestTemplate>
   );
 };
 
