@@ -21,13 +21,13 @@ export type GetCollectionsQueryQuery = (
   { __typename: 'RootQueryType' }
   & { collections: (
     { __typename: 'CollectionsPage' }
-    & { pageInfo: Types.Maybe<(
+    & { pageInfo: (
       { __typename: 'PageInfo' }
       & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-    )>, edges: Array<Types.Maybe<(
+    ), edges: Array<(
       { __typename: 'Collection' }
       & BasicCollectionFragment
-    )>> }
+    )> }
   ) }
 );
 

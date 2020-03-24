@@ -12,27 +12,26 @@ import { FeatureModalHOC } from '../FeatureModal/FeatureModal';
 export interface FeaturedCollections {}
 export const FeaturedCollections: FC<FeaturedCollections> = () => {
   const { isAdmin } = useMe();
-  const { featuredCollectionsEdges } = useInstanceFeatured();
+  const { featuredCollectionsPage } = useInstanceFeatured();
   const featuredCollections = useMemo<CollectionBase[]>(
     () =>
-      featuredCollectionsEdges.edges
+      featuredCollectionsPage.edges
         .map(feature => feature.context)
         .filter(
-          (
-            maybeCtx
-          ): maybeCtx is DiscoverPageFeaturedCollectionInfoFragment => //FIXME: remove when fixed
+          //FIXME: remove when fixed nullable context
+          (maybeCtx): maybeCtx is DiscoverPageFeaturedCollectionInfoFragment =>
             !!maybeCtx && maybeCtx.__typename === 'Collection'
         )
         .map<CollectionBase>(collection => ({
           ...collection,
           icon: collection.icon || ''
         })),
-    [featuredCollectionsEdges]
+    [featuredCollectionsPage]
   );
 
   const FeaturedModal = useMemo<FeaturedCollectionsData['FeaturedModal']>(
     () => ({ collection, done }) => {
-      const collectionFeature = featuredCollectionsEdges.edges.find(
+      const collectionFeature = featuredCollectionsPage.edges.find(
         feature =>
           feature.context?.__typename === 'Collection' && //FIXME: remove ? when fixed
           feature.context.id === collection.id

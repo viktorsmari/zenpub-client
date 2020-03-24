@@ -21,13 +21,13 @@ export type GetCommunitiesQueryQuery = (
   { __typename: 'RootQueryType' }
   & { communities: (
     { __typename: 'CommunitiesPage' }
-    & { pageInfo: Types.Maybe<(
+    & { pageInfo: (
       { __typename: 'PageInfo' }
       & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-    )>, edges: Array<Types.Maybe<(
+    ), edges: Array<(
       { __typename: 'Community' }
       & BasicCommunityFragment
-    )>> }
+    )> }
   ) }
 );
 

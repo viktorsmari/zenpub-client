@@ -14,13 +14,13 @@ export type BasicThreadFragment = (
   )>, comments: Types.Maybe<(
     { __typename: 'CommentsPage' }
     & Pick<Types.CommentsPage, 'totalCount'>
-    & { pageInfo: Types.Maybe<(
+    & { pageInfo: (
       { __typename: 'PageInfo' }
       & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-    )>, edges: Array<Types.Maybe<(
+    ), edges: Array<(
       { __typename: 'Comment' }
       & BasicCommentWithInReplyToFragment
-    )>> }
+    )> }
   )> }
 );
 

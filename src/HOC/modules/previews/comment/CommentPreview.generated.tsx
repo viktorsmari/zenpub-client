@@ -31,10 +31,10 @@ export type CommentPreviewFragment = (
     & Pick<Types.Thread, 'id'>
     & { comments: Types.Maybe<(
       { __typename: 'CommentsPage' }
-      & { edges: Array<Types.Maybe<(
+      & { edges: Array<(
         { __typename: 'Comment' }
         & CommentPreviewBaseFragment
-      )>> }
+      )> }
     )>, context: Types.Maybe<(
       { __typename: 'Collection' }
       & Pick<Types.Collection, 'id'>

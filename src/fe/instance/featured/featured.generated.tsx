@@ -27,17 +27,17 @@ export type InstanceFeaturedCommunitiesQuery = (
     & { featuredCommunities: Types.Maybe<(
       { __typename: 'FeaturesPage' }
       & Pick<Types.FeaturesPage, 'totalCount'>
-      & { pageInfo: Types.Maybe<(
+      & { pageInfo: (
         { __typename: 'PageInfo' }
         & FullPageInfoFragment
-      )>, edges: Array<Types.Maybe<(
+      ), edges: Array<(
         { __typename: 'Feature' }
         & Pick<Types.Feature, 'id'>
         & { context: Types.Maybe<{ __typename: 'Collection' } | (
           { __typename: 'Community' }
           & DiscoverPageFeaturedCommunityInfoFragment
         )> }
-      )>> }
+      )> }
     )> }
   )> }
 );
@@ -52,17 +52,17 @@ export type InstanceFeaturedCollectionsQuery = (
     & { featuredCollections: Types.Maybe<(
       { __typename: 'FeaturesPage' }
       & Pick<Types.FeaturesPage, 'totalCount'>
-      & { pageInfo: Types.Maybe<(
+      & { pageInfo: (
         { __typename: 'PageInfo' }
         & FullPageInfoFragment
-      )>, edges: Array<Types.Maybe<(
+      ), edges: Array<(
         { __typename: 'Feature' }
         & Pick<Types.Feature, 'id'>
         & { context: Types.Maybe<(
           { __typename: 'Collection' }
           & DiscoverPageFeaturedCollectionInfoFragment
         ) | { __typename: 'Community' }> }
-      )>> }
+      )> }
     )> }
   )> }
 );

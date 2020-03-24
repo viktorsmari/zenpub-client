@@ -19,10 +19,10 @@ export type AllCommunitiesQuery = (
   & { communities: (
     { __typename: 'CommunitiesPage' }
     & Pick<Types.CommunitiesPage, 'totalCount'>
-    & { edges: Array<Types.Maybe<(
+    & { edges: Array<(
       { __typename: 'Community' }
       & CommunityPreviewFragment
-    )>> }
+    )> }
   ) }
 );
 

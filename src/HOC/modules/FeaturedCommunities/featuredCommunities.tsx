@@ -12,27 +12,26 @@ import { FeatureModalHOC } from '../FeatureModal/FeatureModal';
 export interface FeaturedCommunities {}
 export const FeaturedCommunities: FC<FeaturedCommunities> = () => {
   const { isAdmin } = useMe();
-  const { featuredCommunitiesEdges } = useInstanceFeatured();
+  const { featuredCommunitiesPage } = useInstanceFeatured();
   const featuredCommunities = useMemo<CommunityBase[]>(
     () =>
-      featuredCommunitiesEdges.edges
+      featuredCommunitiesPage.edges
         .map(feature => feature.context)
         .filter(
-          (
-            maybeCtx
-          ): maybeCtx is DiscoverPageFeaturedCommunityInfoFragment => //FIXME: remove when fixed
+          //FIXME: remove when fixed nullable context
+          (maybeCtx): maybeCtx is DiscoverPageFeaturedCommunityInfoFragment =>
             !!maybeCtx && maybeCtx.__typename === 'Community'
         )
         .map<CommunityBase>(community => ({
           ...community,
           icon: community.icon || ''
         })),
-    [featuredCommunitiesEdges]
+    [featuredCommunitiesPage]
   );
 
   const FeaturedModal = useMemo<FeaturedCommunitiesData['FeaturedModal']>(
     () => ({ community, done }) => {
-      const communityFeature = featuredCommunitiesEdges.edges.find(
+      const communityFeature = featuredCommunitiesPage.edges.find(
         feature =>
           feature.context?.__typename === 'Community' && //FIXME: remove ? when fixed
           feature.context.id === community.id

@@ -33,10 +33,10 @@ export type ThreadPreviewFragment = (
   )>, comments: Types.Maybe<(
     { __typename: 'CommentsPage' }
     & Pick<Types.CommentsPage, 'totalCount'>
-    & { edges: Array<Types.Maybe<(
+    & { edges: Array<(
       { __typename: 'Comment' }
       & CommentPreviewFragment
-    )>> }
+    )> }
   )> }
 );
 

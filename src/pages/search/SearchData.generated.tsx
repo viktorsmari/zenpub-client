@@ -57,16 +57,16 @@ export type SearchMeFragment = (
     & Pick<Types.User, 'id'>
     & { followedCollections: Types.Maybe<(
       { __typename: 'FollowedCollectionsPage' }
-      & { edges: Array<Types.Maybe<(
+      & { edges: Array<(
         { __typename: 'FollowedCollection' }
         & SearchFollowedCollectionFragment
-      )>> }
+      )> }
     )>, followedCommunities: Types.Maybe<(
       { __typename: 'FollowedCommunitiesPage' }
-      & { edges: Array<Types.Maybe<(
+      & { edges: Array<(
         { __typename: 'FollowedCommunity' }
         & SearchFollowedCommunityFragment
-      )>> }
+      )> }
     )> }
   ) }
 );

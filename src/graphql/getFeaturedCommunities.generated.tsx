@@ -24,10 +24,10 @@ export type GetFeaturedCommunitiesQuery = (
     & { featuredCommunities: Types.Maybe<(
       { __typename: 'FeaturesPage' }
       & Pick<Types.FeaturesPage, 'totalCount'>
-      & { pageInfo: Types.Maybe<(
+      & { pageInfo: (
         { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-      )>, edges: Array<Types.Maybe<(
+      ), edges: Array<(
         { __typename: 'Feature' }
         & Pick<Types.Feature, 'id' | 'canonicalUrl' | 'isLocal' | 'createdAt'>
         & { creator: Types.Maybe<(
@@ -37,7 +37,7 @@ export type GetFeaturedCommunitiesQuery = (
           { __typename: 'Community' }
           & BasicCommunityFragment
         )> }
-      )>> }
+      )> }
     )> }
   )> }
 );

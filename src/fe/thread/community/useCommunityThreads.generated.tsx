@@ -30,13 +30,13 @@ export type CommunityThreadsQuery = (
     & { threads: Types.Maybe<(
       { __typename: 'ThreadsPage' }
       & Pick<Types.ThreadsPage, 'totalCount'>
-      & { pageInfo: Types.Maybe<(
+      & { pageInfo: (
         { __typename: 'PageInfo' }
         & FullPageInfoFragment
-      )>, edges: Array<Types.Maybe<(
+      ), edges: Array<(
         { __typename: 'Thread' }
         & CommunityThreadFragment
-      )>> }
+      )> }
     )> }
   )> }
 );

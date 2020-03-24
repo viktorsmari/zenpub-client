@@ -33,10 +33,10 @@ export type MyFollowedCommunitiesMeDataFragment = (
     & { followedCommunities: Types.Maybe<(
       { __typename: 'FollowedCommunitiesPage' }
       & Pick<Types.FollowedCommunitiesPage, 'totalCount'>
-      & { pageInfo: Types.Maybe<(
+      & { pageInfo: (
         { __typename: 'PageInfo' }
         & FullPageInfoFragment
-      )>, edges: Array<Types.Maybe<(
+      ), edges: Array<(
         { __typename: 'FollowedCommunity' }
         & { community: (
           { __typename: 'Community' }
@@ -45,7 +45,7 @@ export type MyFollowedCommunitiesMeDataFragment = (
           { __typename: 'Follow' }
           & Pick<Types.Follow, 'id'>
         ) }
-      )>> }
+      )> }
     )> }
   ) }
 );

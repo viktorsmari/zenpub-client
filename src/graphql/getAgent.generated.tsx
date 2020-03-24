@@ -40,10 +40,10 @@ export type GetAgentQueryQuery = (
     { __typename: 'User' }
     & { outbox: Types.Maybe<(
       { __typename: 'ActivitiesPage' }
-      & { pageInfo: Types.Maybe<(
+      & { pageInfo: (
         { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-      )>, edges: Types.Maybe<Array<Types.Maybe<(
+      ), edges: Array<(
         { __typename: 'Activity' }
         & Pick<Types.Activity, 'id' | 'canonicalUrl' | 'verb' | 'isLocal' | 'isPublic' | 'createdAt'>
         & { user: Types.Maybe<(
@@ -62,13 +62,13 @@ export type GetAgentQueryQuery = (
           { __typename: 'Resource' }
           & BasicResourceFragment
         ) | { __typename: 'User' }> }
-      )>>> }
+      )> }
     )>, followedCommunities: Types.Maybe<(
       { __typename: 'FollowedCommunitiesPage' }
-      & { pageInfo: Types.Maybe<(
+      & { pageInfo: (
         { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-      )>, edges: Array<Types.Maybe<(
+      ), edges: Array<(
         { __typename: 'FollowedCommunity' }
         & { follow: (
           { __typename: 'Follow' }
@@ -77,13 +77,13 @@ export type GetAgentQueryQuery = (
           { __typename: 'Community' }
           & BasicCommunityFragment
         ) }
-      )>> }
+      )> }
     )>, followedCollections: Types.Maybe<(
       { __typename: 'FollowedCollectionsPage' }
-      & { pageInfo: Types.Maybe<(
+      & { pageInfo: (
         { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-      )>, edges: Array<Types.Maybe<(
+      ), edges: Array<(
         { __typename: 'FollowedCollection' }
         & { follow: (
           { __typename: 'Follow' }
@@ -92,7 +92,7 @@ export type GetAgentQueryQuery = (
           { __typename: 'Collection' }
           & BasicCollectionFragment
         ) }
-      )>> }
+      )> }
     )> }
     & BasicUserFragment
   )> }

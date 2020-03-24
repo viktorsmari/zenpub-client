@@ -17,8 +17,8 @@ export type Scalars = {
 
 export type ActivitiesPage = {
    __typename?: 'ActivitiesPage',
-  edges?: Maybe<Array<Maybe<Activity>>>,
-  pageInfo?: Maybe<PageInfo>,
+  edges: Array<Activity>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
@@ -180,8 +180,8 @@ export type CollectionInput = {
 
 export type CollectionsPage = {
    __typename?: 'CollectionsPage',
-  edges: Array<Maybe<Collection>>,
-  pageInfo?: Maybe<PageInfo>,
+  edges: Array<Collection>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
@@ -247,15 +247,15 @@ export type CommentInput = {
 
 export type CommentsPage = {
    __typename?: 'CommentsPage',
-  edges: Array<Maybe<Comment>>,
-  pageInfo?: Maybe<PageInfo>,
+  edges: Array<Comment>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
 export type CommunitiesPage = {
    __typename?: 'CommunitiesPage',
-  edges: Array<Maybe<Community>>,
-  pageInfo?: Maybe<PageInfo>,
+  edges: Array<Community>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
@@ -407,8 +407,8 @@ export type FeatureContext = Collection | Community;
 
 export type FeaturesPage = {
    __typename?: 'FeaturesPage',
-  edges: Array<Maybe<Feature>>,
-  pageInfo?: Maybe<PageInfo>,
+  edges: Array<Feature>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
@@ -481,8 +481,8 @@ export type FlagContext = Collection | Comment | Community | Resource | User;
 
 export type FlagsPage = {
    __typename?: 'FlagsPage',
-  edges: Array<Maybe<Flag>>,
-  pageInfo?: Maybe<PageInfo>,
+  edges: Array<Flag>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
@@ -518,15 +518,15 @@ export type FollowedCollection = {
 
 export type FollowedCollectionsPage = {
    __typename?: 'FollowedCollectionsPage',
-  edges: Array<Maybe<FollowedCollection>>,
-  pageInfo?: Maybe<PageInfo>,
+  edges: Array<FollowedCollection>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
 export type FollowedCommunitiesPage = {
    __typename?: 'FollowedCommunitiesPage',
-  edges: Array<Maybe<FollowedCommunity>>,
-  pageInfo?: Maybe<PageInfo>,
+  edges: Array<FollowedCommunity>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
@@ -544,15 +544,15 @@ export type FollowedUser = {
 
 export type FollowedUsersPage = {
    __typename?: 'FollowedUsersPage',
-  edges: Array<Maybe<FollowedUser>>,
-  pageInfo?: Maybe<PageInfo>,
+  edges: Array<FollowedUser>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
 export type FollowsPage = {
    __typename?: 'FollowsPage',
-  edges: Array<Maybe<Follow>>,
-  pageInfo?: Maybe<PageInfo>,
+  edges: Array<Follow>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
@@ -599,8 +599,8 @@ export type LikeContext = Collection | Comment | Community | Resource | User;
 
 export type LikesPage = {
    __typename?: 'LikesPage',
-  edges: Array<Maybe<Like>>,
-  pageInfo?: Maybe<PageInfo>,
+  edges: Array<Like>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
@@ -624,10 +624,10 @@ export type Me = {
 /** Cursors for pagination */
 export type PageInfo = {
    __typename?: 'PageInfo',
-  endCursor?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
-  hasNextPage?: Maybe<Scalars['Boolean']>,
-  hasPreviousPage?: Maybe<Scalars['Boolean']>,
-  startCursor?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  endCursor: Array<Scalars['Cursor']>,
+  hasNextPage: Scalars['Boolean'],
+  hasPreviousPage: Scalars['Boolean'],
+  startCursor: Array<Scalars['Cursor']>,
 };
 
 export type RegistrationInput = {
@@ -713,8 +713,8 @@ export type ResourceInput = {
 
 export type ResourcesPage = {
    __typename?: 'ResourcesPage',
-  edges: Array<Maybe<Resource>>,
-  pageInfo?: Maybe<PageInfo>,
+  edges: Array<Resource>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
@@ -1094,8 +1094,8 @@ export type ThreadContext = Collection | Community | Flag | Resource;
 
 export type ThreadsPage = {
    __typename?: 'ThreadsPage',
-  edges: Array<Maybe<Thread>>,
-  pageInfo?: Maybe<PageInfo>,
+  edges: Array<Thread>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
@@ -1667,8 +1667,8 @@ export type ResolversParentTypes = {
 };
 
 export type ActivitiesPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['ActivitiesPage'] = ResolversParentTypes['ActivitiesPage']> = {
-  edges?: Resolver<Maybe<Array<Maybe<ResolversTypes['Activity']>>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+  edges?: Resolver<Array<ResolversTypes['Activity']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
@@ -1723,8 +1723,8 @@ export type CollectionResolvers<ContextType = any, ParentType extends ResolversP
 };
 
 export type CollectionsPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['CollectionsPage'] = ResolversParentTypes['CollectionsPage']> = {
-  edges?: Resolver<Array<Maybe<ResolversTypes['Collection']>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+  edges?: Resolver<Array<ResolversTypes['Collection']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
@@ -1748,14 +1748,14 @@ export type CommentResolvers<ContextType = any, ParentType extends ResolversPare
 };
 
 export type CommentsPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['CommentsPage'] = ResolversParentTypes['CommentsPage']> = {
-  edges?: Resolver<Array<Maybe<ResolversTypes['Comment']>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+  edges?: Resolver<Array<ResolversTypes['Comment']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
 export type CommunitiesPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['CommunitiesPage'] = ResolversParentTypes['CommunitiesPage']> = {
-  edges?: Resolver<Array<Maybe<ResolversTypes['Community']>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+  edges?: Resolver<Array<ResolversTypes['Community']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
@@ -1811,8 +1811,8 @@ export type FeatureContextResolvers<ContextType = any, ParentType extends Resolv
 };
 
 export type FeaturesPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['FeaturesPage'] = ResolversParentTypes['FeaturesPage']> = {
-  edges?: Resolver<Array<Maybe<ResolversTypes['Feature']>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+  edges?: Resolver<Array<ResolversTypes['Feature']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
@@ -1863,8 +1863,8 @@ export type FlagContextResolvers<ContextType = any, ParentType extends Resolvers
 };
 
 export type FlagsPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['FlagsPage'] = ResolversParentTypes['FlagsPage']> = {
-  edges?: Resolver<Array<Maybe<ResolversTypes['Flag']>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+  edges?: Resolver<Array<ResolversTypes['Flag']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
@@ -1889,14 +1889,14 @@ export type FollowedCollectionResolvers<ContextType = any, ParentType extends Re
 };
 
 export type FollowedCollectionsPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowedCollectionsPage'] = ResolversParentTypes['FollowedCollectionsPage']> = {
-  edges?: Resolver<Array<Maybe<ResolversTypes['FollowedCollection']>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+  edges?: Resolver<Array<ResolversTypes['FollowedCollection']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
 export type FollowedCommunitiesPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowedCommunitiesPage'] = ResolversParentTypes['FollowedCommunitiesPage']> = {
-  edges?: Resolver<Array<Maybe<ResolversTypes['FollowedCommunity']>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+  edges?: Resolver<Array<ResolversTypes['FollowedCommunity']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
@@ -1911,14 +1911,14 @@ export type FollowedUserResolvers<ContextType = any, ParentType extends Resolver
 };
 
 export type FollowedUsersPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowedUsersPage'] = ResolversParentTypes['FollowedUsersPage']> = {
-  edges?: Resolver<Array<Maybe<ResolversTypes['FollowedUser']>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+  edges?: Resolver<Array<ResolversTypes['FollowedUser']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
 export type FollowsPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowsPage'] = ResolversParentTypes['FollowsPage']> = {
-  edges?: Resolver<Array<Maybe<ResolversTypes['Follow']>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+  edges?: Resolver<Array<ResolversTypes['Follow']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
@@ -1946,8 +1946,8 @@ export type LikeContextResolvers<ContextType = any, ParentType extends Resolvers
 };
 
 export type LikesPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['LikesPage'] = ResolversParentTypes['LikesPage']> = {
-  edges?: Resolver<Array<Maybe<ResolversTypes['Like']>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+  edges?: Resolver<Array<ResolversTypes['Like']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
@@ -1961,10 +1961,10 @@ export type MeResolvers<ContextType = any, ParentType extends ResolversParentTyp
 };
 
 export type PageInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
-  endCursor?: Resolver<Maybe<Array<Maybe<ResolversTypes['Cursor']>>>, ParentType, ContextType>,
-  hasNextPage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
-  hasPreviousPage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
-  startCursor?: Resolver<Maybe<Array<Maybe<ResolversTypes['Cursor']>>>, ParentType, ContextType>,
+  endCursor?: Resolver<Array<ResolversTypes['Cursor']>, ParentType, ContextType>,
+  hasNextPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  hasPreviousPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  startCursor?: Resolver<Array<ResolversTypes['Cursor']>, ParentType, ContextType>,
 };
 
 export type ResourceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Resource'] = ResolversParentTypes['Resource']> = {
@@ -1991,8 +1991,8 @@ export type ResourceResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type ResourcesPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['ResourcesPage'] = ResolversParentTypes['ResourcesPage']> = {
-  edges?: Resolver<Array<Maybe<ResolversTypes['Resource']>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+  edges?: Resolver<Array<ResolversTypes['Resource']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
@@ -2068,8 +2068,8 @@ export type ThreadContextResolvers<ContextType = any, ParentType extends Resolve
 };
 
 export type ThreadsPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['ThreadsPage'] = ResolversParentTypes['ThreadsPage']> = {
-  edges?: Resolver<Array<Maybe<ResolversTypes['Thread']>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+  edges?: Resolver<Array<ResolversTypes['Thread']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 

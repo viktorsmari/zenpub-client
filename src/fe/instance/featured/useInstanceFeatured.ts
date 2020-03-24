@@ -8,17 +8,17 @@ import { usePage } from 'fe/lib/helpers/usePage';
 export const useInstanceFeatured = () => {
   const featuredCollectionsQ = useInstanceFeaturedCollectionsQuery();
   const featuredCommunitiesQ = useInstanceFeaturedCommunitiesQuery();
-  const featuredCollectionsEdges = usePage(
+  const featuredCollectionsPage = usePage(
     featuredCollectionsQ.data?.instance?.featuredCollections
   );
-  const featuredCommunitiesEdges = usePage(
+  const featuredCommunitiesPage = usePage(
     featuredCommunitiesQ.data?.instance?.featuredCommunities
   );
 
   return useMemo(() => {
     return {
-      featuredCollectionsEdges,
-      featuredCommunitiesEdges
+      featuredCollectionsPage,
+      featuredCommunitiesPage
     };
   }, [featuredCollectionsQ, featuredCommunitiesQ]);
 };

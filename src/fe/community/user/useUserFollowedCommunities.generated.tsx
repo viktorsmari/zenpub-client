@@ -30,10 +30,10 @@ export type UserFollowedCommunitiesQuery = (
     & { followedCommunities: Types.Maybe<(
       { __typename: 'FollowedCommunitiesPage' }
       & Pick<Types.FollowedCommunitiesPage, 'totalCount'>
-      & { pageInfo: Types.Maybe<(
+      & { pageInfo: (
         { __typename: 'PageInfo' }
         & FullPageInfoFragment
-      )>, edges: Array<Types.Maybe<(
+      ), edges: Array<(
         { __typename: 'FollowedCommunity' }
         & { follow: (
           { __typename: 'Follow' }
@@ -42,7 +42,7 @@ export type UserFollowedCommunitiesQuery = (
           { __typename: 'Community' }
           & UserFollowedCommunityFragment
         ) }
-      )>> }
+      )> }
     )> }
   )> }
 );

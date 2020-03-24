@@ -28,13 +28,13 @@ export type GetMeInboxQuery = (
       { __typename: 'User' }
       & { inbox: Types.Maybe<(
         { __typename: 'ActivitiesPage' }
-        & { pageInfo: Types.Maybe<(
+        & { pageInfo: (
           { __typename: 'PageInfo' }
           & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-        )>, edges: Types.Maybe<Array<Types.Maybe<(
+        ), edges: Array<(
           { __typename: 'Activity' }
           & ActivityPreviewFragment
-        )>>> }
+        )> }
       )> }
       & BasicUserFragment
     ) }

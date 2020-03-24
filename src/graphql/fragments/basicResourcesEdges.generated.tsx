@@ -8,13 +8,13 @@ import { BasicResourceFragmentDoc } from './basicResource.generated';
 export type BasicResourcesPageFragment = (
   { __typename: 'ResourcesPage' }
   & Pick<Types.ResourcesPage, 'totalCount'>
-  & { pageInfo: Types.Maybe<(
+  & { pageInfo: (
     { __typename: 'PageInfo' }
     & Pick<Types.PageInfo, 'endCursor' | 'startCursor'>
-  )>, edges: Array<Types.Maybe<(
+  ), edges: Array<(
     { __typename: 'Resource' }
     & BasicResourceFragment
-  )>> }
+  )> }
 );
 
 export const BasicResourcesPageFragmentDoc = gql`

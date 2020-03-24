@@ -28,13 +28,13 @@ export type InstanceOutboxActivitiesQuery = (
     & { outbox: Types.Maybe<(
       { __typename: 'ActivitiesPage' }
       & Pick<Types.ActivitiesPage, 'totalCount'>
-      & { pageInfo: Types.Maybe<(
+      & { pageInfo: (
         { __typename: 'PageInfo' }
         & FullPageInfoFragment
-      )>, edges: Types.Maybe<Array<Types.Maybe<(
+      ), edges: Array<(
         { __typename: 'Activity' }
         & InstanceOutboxActivityFragment
-      )>>> }
+      )> }
     )> }
   )> }
 );

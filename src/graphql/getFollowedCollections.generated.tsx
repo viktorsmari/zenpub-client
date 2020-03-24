@@ -26,10 +26,10 @@ export type GetFollowedCollectionsQuery = (
       & Pick<Types.User, 'id' | 'canonicalUrl'>
       & { followedCollections: Types.Maybe<(
         { __typename: 'FollowedCollectionsPage' }
-        & { pageInfo: Types.Maybe<(
+        & { pageInfo: (
           { __typename: 'PageInfo' }
           & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-        )>, edges: Array<Types.Maybe<(
+        ), edges: Array<(
           { __typename: 'FollowedCollection' }
           & { follow: (
             { __typename: 'Follow' }
@@ -38,7 +38,7 @@ export type GetFollowedCollectionsQuery = (
             { __typename: 'Collection' }
             & BasicCollectionFragment
           ) }
-        )>> }
+        )> }
       )> }
     ) }
   )> }

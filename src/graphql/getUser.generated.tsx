@@ -38,10 +38,10 @@ export type GetUserQuery = (
       { __typename: 'User' }
       & { followedCommunities: Types.Maybe<(
         { __typename: 'FollowedCommunitiesPage' }
-        & { pageInfo: Types.Maybe<(
+        & { pageInfo: (
           { __typename: 'PageInfo' }
           & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-        )>, edges: Array<Types.Maybe<(
+        ), edges: Array<(
           { __typename: 'FollowedCommunity' }
           & { follow: (
             { __typename: 'Follow' }
@@ -50,22 +50,22 @@ export type GetUserQuery = (
             { __typename: 'Community' }
             & BasicCommunityFragment
           ) }
-        )>> }
+        )> }
       )>, outbox: Types.Maybe<(
         { __typename: 'ActivitiesPage' }
-        & { pageInfo: Types.Maybe<(
+        & { pageInfo: (
           { __typename: 'PageInfo' }
           & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-        )>, edges: Types.Maybe<Array<Types.Maybe<(
+        ), edges: Array<(
           { __typename: 'Activity' }
           & ActivityPreviewFragment
-        )>>> }
+        )> }
       )>, followedCollections: Types.Maybe<(
         { __typename: 'FollowedCollectionsPage' }
-        & { pageInfo: Types.Maybe<(
+        & { pageInfo: (
           { __typename: 'PageInfo' }
           & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-        )>, edges: Array<Types.Maybe<(
+        ), edges: Array<(
           { __typename: 'FollowedCollection' }
           & { follow: (
             { __typename: 'Follow' }
@@ -74,7 +74,7 @@ export type GetUserQuery = (
             { __typename: 'Collection' }
             & BasicCollectionFragment
           ) }
-        )>> }
+        )> }
       )> }
       & BasicUserFragment
     ) }

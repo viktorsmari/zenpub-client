@@ -23,10 +23,10 @@ export type GetSidebarQueryQuery = (
       & Pick<Types.User, 'id' | 'canonicalUrl' | 'name' | 'preferredUsername' | 'icon'>
       & { followedCommunities: Types.Maybe<(
         { __typename: 'FollowedCommunitiesPage' }
-        & { pageInfo: Types.Maybe<(
+        & { pageInfo: (
           { __typename: 'PageInfo' }
           & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-        )>, edges: Array<Types.Maybe<(
+        ), edges: Array<(
           { __typename: 'FollowedCommunity' }
           & { follow: (
             { __typename: 'Follow' }
@@ -35,7 +35,7 @@ export type GetSidebarQueryQuery = (
             { __typename: 'Community' }
             & Pick<Types.Community, 'id' | 'preferredUsername' | 'name' | 'icon'>
           ) }
-        )>> }
+        )> }
       )> }
     ) }
   )> }

@@ -33,13 +33,13 @@ export type CommunityCollectionsQuery = (
     & { collections: Types.Maybe<(
       { __typename: 'CollectionsPage' }
       & Pick<Types.CollectionsPage, 'totalCount'>
-      & { pageInfo: Types.Maybe<(
+      & { pageInfo: (
         { __typename: 'PageInfo' }
         & FullPageInfoFragment
-      )>, edges: Array<Types.Maybe<(
+      ), edges: Array<(
         { __typename: 'Collection' }
         & CommunityCollectionFragment
-      )>> }
+      )> }
     )> }
   )> }
 );

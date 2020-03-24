@@ -19,10 +19,10 @@ export type AllCollectionsQuery = (
   & { collections: (
     { __typename: 'CollectionsPage' }
     & Pick<Types.CollectionsPage, 'totalCount'>
-    & { edges: Array<Types.Maybe<(
+    & { edges: Array<(
       { __typename: 'Collection' }
       & CollectionPreviewFragment
-    )>> }
+    )> }
   ) }
 );
 

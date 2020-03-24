@@ -29,13 +29,13 @@ export type ThreadPageQuery = (
     & { comments: Types.Maybe<(
       { __typename: 'CommentsPage' }
       & Pick<Types.CommentsPage, 'totalCount'>
-      & { pageInfo: Types.Maybe<(
+      & { pageInfo: (
         { __typename: 'PageInfo' }
         & FullPageInfoFragment
-      )>, edges: Array<Types.Maybe<(
+      ), edges: Array<(
         { __typename: 'Comment' }
         & CommentPreviewFragment
-      )>> }
+      )> }
     )> }
   )> }
 );

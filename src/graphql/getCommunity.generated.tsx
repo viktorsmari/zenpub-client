@@ -34,19 +34,19 @@ export type GetCommunityQueryQuery = (
       & Pick<Types.Follow, 'id'>
     )>, outbox: Types.Maybe<(
       { __typename: 'ActivitiesPage' }
-      & { pageInfo: Types.Maybe<(
+      & { pageInfo: (
         { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-      )>, edges: Types.Maybe<Array<Types.Maybe<(
+      ), edges: Array<(
         { __typename: 'Activity' }
         & ActivityPreviewFragment
-      )>>> }
+      )> }
     )>, threads: Types.Maybe<(
       { __typename: 'ThreadsPage' }
-      & { pageInfo: Types.Maybe<(
+      & { pageInfo: (
         { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-      )>, edges: Array<Types.Maybe<(
+      ), edges: Array<(
         { __typename: 'Thread' }
         & Pick<Types.Thread, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'isHidden' | 'createdAt' | 'updatedAt' | 'lastActivity'>
         & { context: Types.Maybe<(
@@ -64,33 +64,33 @@ export type GetCommunityQueryQuery = (
         )>, comments: Types.Maybe<(
           { __typename: 'CommentsPage' }
           & Pick<Types.CommentsPage, 'totalCount'>
-          & { edges: Array<Types.Maybe<(
+          & { edges: Array<(
             { __typename: 'Comment' }
             & BasicCommentWithInReplyToFragment
-          )>> }
+          )> }
         )> }
-      )>> }
+      )> }
     )>, followers: Types.Maybe<(
       { __typename: 'FollowsPage' }
       & Pick<Types.FollowsPage, 'totalCount'>
-      & { pageInfo: Types.Maybe<(
+      & { pageInfo: (
         { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-      )>, edges: Array<Types.Maybe<(
+      ), edges: Array<(
         { __typename: 'Follow' }
         & Pick<Types.Follow, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic'>
         & { creator: Types.Maybe<(
           { __typename: 'User' }
           & Pick<Types.User, 'id' | 'icon'>
         )> }
-      )>> }
+      )> }
     )>, collections: Types.Maybe<(
       { __typename: 'CollectionsPage' }
       & Pick<Types.CollectionsPage, 'totalCount'>
-      & { pageInfo: Types.Maybe<(
+      & { pageInfo: (
         { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-      )>, edges: Array<Types.Maybe<(
+      ), edges: Array<(
         { __typename: 'Collection' }
         & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon'>
         & { myFollow: Types.Maybe<(
@@ -109,7 +109,7 @@ export type GetCommunityQueryQuery = (
           { __typename: 'ThreadsPage' }
           & Pick<Types.ThreadsPage, 'totalCount'>
         )> }
-      )>> }
+      )> }
     )> }
   )> }
 );
