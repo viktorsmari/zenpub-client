@@ -25,6 +25,7 @@ export interface Props {
   totalActivities: string;
   totalCollections: string;
   totalUsers: string;
+  userLink: string;
 }
 
 export const User: React.FC<Props> = ({
@@ -36,7 +37,7 @@ export const User: React.FC<Props> = ({
   basePath,
   Header,
   totalCommunities,
-  totalActivities,
+  userLink,
   totalCollections,
   totalUsers
 }) => {
@@ -72,21 +73,23 @@ export const User: React.FC<Props> = ({
         </WrapperCont>
       </HomeBox>
       <WrapperPanel>
-        <Panel>
-          <PanelTitle fontSize={0} fontWeight={'bold'}>
-            Relevant links
-          </PanelTitle>
-          <Nav>
-            <NavItem fontSize={1}>
-              <Flex>
-                <Link size={20} />{' '}
-                <Text ml={2} flex={1}>
-                  dougbelshaw.com
-                </Text>
-              </Flex>
-            </NavItem>
-          </Nav>
-        </Panel>
+        {userLink.length > 0 ? (
+          <Panel>
+            <PanelTitle fontSize={0} fontWeight={'bold'}>
+              Relevant links
+            </PanelTitle>
+            <Nav>
+              <NavItem fontSize={1}>
+                <Flex>
+                  <Link size={20} />{' '}
+                  <Text ml={2} flex={1}>
+                    {userLink}
+                  </Text>
+                </Flex>
+              </NavItem>
+            </Nav>
+          </Panel>
+        ) : null}
       </WrapperPanel>
     </MainContainer>
   );
