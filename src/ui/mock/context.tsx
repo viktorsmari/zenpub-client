@@ -48,7 +48,8 @@ import { FeaturedCollectionsData as FeaturedCollectionsProps } from 'ui/modules/
 import { FlaggedItem } from 'ui/modules/Previews/FlaggedItem';
 import {
   ActivityPreview,
-  Status as ActivityStatus
+  Status as ActivityStatus,
+  ActivityLoaded
 } from 'ui/modules/ActivityPreview';
 
 export const getEditCommunityProps = (): EditCommunityProps => {
@@ -227,7 +228,7 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
     name: 'Ivan'
   });
 
-  const activityPreviewProps = {
+  const activityPreviewProps: ActivityLoaded = {
     communityLink: 'communityLink',
     communityName: 'communityName',
     event: 'Flag a comment',
@@ -263,9 +264,9 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
 
   const ActivitiesBox = (
     <React.Fragment>
-      {/* <ActivityPreview {...activityPreviewProps} />
-      <ActivityPreview {...activityPreviewProps}  />
-      <ActivityPreview {...activityPreviewProps}  /> */}
+      <ActivityPreview {...activityPreviewProps} />
+      <ActivityPreview {...activityPreviewProps} />
+      <ActivityPreview {...activityPreviewProps} />
     </React.Fragment>
   );
 
