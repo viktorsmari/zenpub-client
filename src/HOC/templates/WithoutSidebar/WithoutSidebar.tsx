@@ -22,7 +22,7 @@ export const WithoutSidebarTemplate: FC<WithoutSidebarTemplate> = ({
         logout: meQ.logout,
         icon: user.icon || '',
         link: `/user/${user.id}`,
-        name: user.displayUsername
+        name: user.name || ''
       }
     };
     const props: Props = {
