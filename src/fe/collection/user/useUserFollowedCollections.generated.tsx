@@ -59,7 +59,7 @@ export const UserFollowedCollectionFragmentDoc = gql`
     ${CollectionPreviewFragmentDoc}`;
 export const UserFollowedCollectionsDocument = gql`
     query userFollowedCollections($userId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
-  user(userId: $userId) {
+  user(userId: $userId) @connection(key: "userFollowedCollections", filter: ["userId"]) {
     id
     followedCollections(limit: $limit, before: $before, after: $after) {
       totalCount

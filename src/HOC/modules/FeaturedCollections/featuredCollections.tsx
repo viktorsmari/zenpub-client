@@ -4,15 +4,15 @@ import {
   FeaturedCollectionsData
 } from 'ui/modules/FeaturedCollections';
 import { useMe } from 'fe/session/me';
-import { useInstanceFeatured } from 'fe/instance/featured/useInstanceFeatured';
 import { DiscoverPageFeaturedCollectionInfoFragment } from 'HOC/pages/discover/DiscoverPage.generated';
 import { CollectionBase } from 'ui/modules/FeaturedCollections/preview';
 import { FeatureModalHOC } from '../FeatureModal/FeatureModal';
+import { useInstanceFeaturedCollections } from 'fe/instance/featuredCollections/useInstanceFeaturedCollections';
 
 export interface FeaturedCollections {}
 export const FeaturedCollections: FC<FeaturedCollections> = () => {
   const { isAdmin } = useMe();
-  const { featuredCollectionsPage } = useInstanceFeatured();
+  const { featuredCollectionsPage } = useInstanceFeaturedCollections();
   const featuredCollections = useMemo<CollectionBase[]>(
     () =>
       featuredCollectionsPage.edges

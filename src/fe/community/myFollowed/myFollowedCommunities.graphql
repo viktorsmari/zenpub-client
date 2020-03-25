@@ -1,6 +1,6 @@
 
 query myFollowedCommunities {
-  me{
+  me @connection(key: "myFollowedCommunities"){
     ...MyFollowedCommunitiesMeData
   }
 }

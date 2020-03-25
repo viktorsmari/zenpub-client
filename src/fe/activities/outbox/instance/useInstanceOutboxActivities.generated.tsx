@@ -51,7 +51,7 @@ export const InstanceOutboxActivityFragmentDoc = gql`
     ${ActivityPreviewFragmentDoc}`;
 export const InstanceOutboxActivitiesDocument = gql`
     query instanceOutboxActivities($after: [Cursor], $before: [Cursor], $limit: Int) {
-  instance {
+  instance @connection(key: "instanceOutboxActivities") {
     outbox(after: $after, before: $before, limit: $limit) {
       totalCount
       pageInfo {

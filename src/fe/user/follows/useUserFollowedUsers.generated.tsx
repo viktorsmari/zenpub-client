@@ -58,8 +58,8 @@ export const UserFollowedUserFragmentDoc = gql`
 }
     ${UserPreviewFragmentDoc}`;
 export const UserFollowedUsersDocument = gql`
-    query UserFollowedUsers($userId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
-  user(userId: $userId) {
+    query userFollowedUsers($userId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
+  user(userId: $userId) @connection(key: "userFollowedUsers", filter: ["userId"]) {
     id
     followedUsers(limit: $limit, before: $before, after: $after) {
       totalCount
@@ -128,7 +128,7 @@ export type UserFollowedUsersQueryResult = ApolloReactCommon.QueryResult<UserFol
 
 
 export interface UserFollowedUsersQueryOperation {
-  operationName: 'UserFollowedUsers'
+  operationName: 'userFollowedUsers'
   result: UserFollowedUsersQuery
   variables: UserFollowedUsersQueryVariables
   type: 'query'

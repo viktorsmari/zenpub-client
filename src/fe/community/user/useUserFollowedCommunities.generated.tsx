@@ -58,8 +58,8 @@ export const UserFollowedCommunityFragmentDoc = gql`
 }
     ${CommunityPreviewFragmentDoc}`;
 export const UserFollowedCommunitiesDocument = gql`
-    query UserFollowedCommunities($userId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
-  user(userId: $userId) {
+    query userFollowedCommunities($userId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
+  user(userId: $userId) @connection(key: "userFollowedCommunities", filter: ["userId"]) {
     id
     followedCommunities(limit: $limit, before: $before, after: $after) {
       totalCount
@@ -128,7 +128,7 @@ export type UserFollowedCommunitiesQueryResult = ApolloReactCommon.QueryResult<U
 
 
 export interface UserFollowedCommunitiesQueryOperation {
-  operationName: 'UserFollowedCommunities'
+  operationName: 'userFollowedCommunities'
   result: UserFollowedCommunitiesQuery
   variables: UserFollowedCommunitiesQueryVariables
   type: 'query'

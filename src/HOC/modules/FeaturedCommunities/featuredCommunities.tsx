@@ -4,15 +4,15 @@ import {
   FeaturedCommunitiesData
 } from 'ui/modules/FeaturedCommunities';
 import { useMe } from 'fe/session/me';
-import { useInstanceFeatured } from 'fe/instance/featured/useInstanceFeatured';
 import { DiscoverPageFeaturedCommunityInfoFragment } from 'HOC/pages/discover/DiscoverPage.generated';
 import { CommunityBase } from 'ui/modules/FeaturedCommunities/preview';
 import { FeatureModalHOC } from '../FeatureModal/FeatureModal';
+import { useInstanceFeaturedCommunities } from 'fe/instance/featuredCommunities/useInstanceFeaturedCommunities';
 
 export interface FeaturedCommunities {}
 export const FeaturedCommunities: FC<FeaturedCommunities> = () => {
   const { isAdmin } = useMe();
-  const { featuredCommunitiesPage } = useInstanceFeatured();
+  const { featuredCommunitiesPage } = useInstanceFeaturedCommunities();
   const featuredCommunities = useMemo<CommunityBase[]>(
     () =>
       featuredCommunitiesPage.edges

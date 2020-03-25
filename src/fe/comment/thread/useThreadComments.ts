@@ -1,11 +1,11 @@
 import { Thread } from 'graphql/types.generated';
 import { useMemo } from 'react';
-import { useThreadPageQuery } from './useCommentThreadPage.generated';
+import { useThreadCommentsQuery } from './useThreadComments.generated';
 import { usePage } from 'fe/lib/helpers/usePage';
 import { DEFAULT_PAGE_SIZE } from 'mn-constants';
 
-export const useCommentThreadPage = (threadId: Thread['id']) => {
-  const threadPreviewQ = useThreadPageQuery({
+export const useThreadComments = (threadId: Thread['id']) => {
+  const threadPreviewQ = useThreadCommentsQuery({
     variables: { threadId, limit: DEFAULT_PAGE_SIZE }
   });
   const commentPage = usePage(

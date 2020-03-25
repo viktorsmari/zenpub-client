@@ -53,7 +53,7 @@ export const CollectionOutboxActivityFragmentDoc = gql`
     ${ActivityPreviewFragmentDoc}`;
 export const CollectionOutboxActivitiesDocument = gql`
     query collectionOutboxActivities($collectionId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
-  collection(collectionId: $collectionId) {
+  collection(collectionId: $collectionId) @connection(key: "collectionOutboxActivities", filter: ["collectionId"]) {
     id
     outbox(limit: $limit, before: $before, after: $after) {
       totalCount

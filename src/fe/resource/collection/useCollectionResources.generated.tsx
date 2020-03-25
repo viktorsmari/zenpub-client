@@ -53,7 +53,7 @@ export const CollectionResourceFragmentDoc = gql`
     ${CollectionPageResourceFragmentDoc}`;
 export const CollectionResourcesDocument = gql`
     query collectionResources($collectionId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
-  collection(collectionId: $collectionId) {
+  collection(collectionId: $collectionId) @connection(key: "collectionResources", filter: ["collectionId"]) {
     id
     resources(limit: $limit, before: $before, after: $after) {
       totalCount

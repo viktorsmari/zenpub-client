@@ -74,7 +74,7 @@ export const MyFollowedCommunitiesMeDataFragmentDoc = gql`
 ${SidebarFollowedCommunityFragmentDoc}`;
 export const MyFollowedCommunitiesDocument = gql`
     query myFollowedCommunities {
-  me {
+  me @connection(key: "myFollowedCommunities") {
     ...MyFollowedCommunitiesMeData
   }
 }

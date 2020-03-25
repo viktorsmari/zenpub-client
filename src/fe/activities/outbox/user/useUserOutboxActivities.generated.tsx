@@ -59,7 +59,7 @@ export const UserOutboxActivityFragmentDoc = gql`
 ${ActivityPreviewFragmentDoc}`;
 export const UserOutboxActivitiesDocument = gql`
     query userOutboxActivities($userId: String!, $after: [Cursor], $before: [Cursor], $limit: Int) {
-  user(userId: $userId) {
+  user(userId: $userId) @connection(key: "userOutboxActivities", filter: ["userId"]) {
     id
     outbox(after: $after, before: $before, limit: $limit) {
       totalCount

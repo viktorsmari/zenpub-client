@@ -53,7 +53,7 @@ export const CommunityOutboxActivityFragmentDoc = gql`
     ${ActivityPreviewFragmentDoc}`;
 export const CommunityOutboxActivitiesDocument = gql`
     query communityOutboxActivities($communityId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
-  community(communityId: $communityId) {
+  community(communityId: $communityId) @connection(key: "communityOutboxActivities", filter: ["communityId"]) {
     id
     outbox(limit: $limit, before: $before, after: $after) {
       totalCount

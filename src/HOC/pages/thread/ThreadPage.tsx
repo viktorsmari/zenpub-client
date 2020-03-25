@@ -10,13 +10,13 @@ import {
   ActivityLoaded as ActivityPreviewProps
 } from 'ui/modules/ActivityPreview';
 import { getActivityActor } from 'fe/lib/activity/getActivityActor';
-import { useCommentThreadPage } from 'fe/comment/page/thread/useCommentThreadPage';
+import { useThreadComments } from 'fe/comment/thread/useThreadComments';
 
 export interface ThreadPage {
   threadId: Thread['id'];
 }
 export const ThreadPage: FC<ThreadPage> = ({ threadId }) => {
-  const { commentPage } = useCommentThreadPage(threadId);
+  const { commentPage } = useThreadComments(threadId);
   const thread = useThreadPreview(threadId);
   const uiProps = useMemo<null | Props>(() => {
     const { context, mainComment } = thread;

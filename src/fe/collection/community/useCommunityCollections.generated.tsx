@@ -59,7 +59,7 @@ export const CommunityCollectionFragmentDoc = gql`
 ${CommunityPageCollectionBaseFragmentDoc}`;
 export const CommunityCollectionsDocument = gql`
     query communityCollections($communityId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
-  community(communityId: $communityId) {
+  community(communityId: $communityId) @connection(key: "communityCollections", filter: ["communityId"]) {
     id
     collections(limit: $limit, before: $before, after: $after) {
       totalCount
