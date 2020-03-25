@@ -31,7 +31,8 @@ export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
   const { collectionsPage } = useCommunityCollections(communityId);
   const { activitiesPage } = useCommunityOutboxActivities(communityId);
   const history = useHistory();
-
+  // //@ts-ignore
+  // window.xx={collectionsPage, activitiesPage, threadsPage}
   const newThreadFormik = useFormik<{ text: string }>({
     initialValues: { text: '' },
     onSubmit: ({ text }) =>

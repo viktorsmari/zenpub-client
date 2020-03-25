@@ -70,6 +70,7 @@ export const mngPage = <EdgeType>(
     };
   }
   const next: MngPageInitialized<EdgeType>['next'] = () =>
+    page.pageInfo.hasNextPage &&
     fetch({
       cursor: {
         after: page.pageInfo.endCursor,
@@ -80,6 +81,7 @@ export const mngPage = <EdgeType>(
     });
 
   const previous: MngPageInitialized<EdgeType>['previous'] = () =>
+    page.pageInfo.hasPreviousPage &&
     fetch({
       cursor: {
         before: page.pageInfo.startCursor,
