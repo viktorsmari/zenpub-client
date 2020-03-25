@@ -11,6 +11,7 @@ import {
 } from 'ui/modules/ActivityPreview';
 import { getActivityActor } from 'fe/lib/activity/getActivityActor';
 import { useThreadComments } from 'fe/comment/thread/useThreadComments';
+import { PreviewIndex } from 'HOC/modules/previews';
 
 export interface ThreadPage {
   threadId: Thread['id'];
@@ -76,9 +77,10 @@ export const ThreadPage: FC<ThreadPage> = ({ threadId }) => {
         ))}
       </>
     );
-
+    const Context = <PreviewIndex ctx={thread.context} />;
     const props: Props = {
       Comments,
+      Context,
       MainThread,
       communityIcon,
       communityId,

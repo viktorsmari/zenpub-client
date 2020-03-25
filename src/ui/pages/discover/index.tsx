@@ -3,7 +3,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import media from 'styled-media-query';
 
-import { Flex, Text } from 'rebass/styled-components';
+import { Flex } from 'rebass/styled-components';
 import {
   Nav,
   NavItem,
@@ -12,6 +12,7 @@ import {
   WrapperPanel
 } from 'ui/elements/Panel';
 import styled from 'ui/themes/styled';
+import { Header } from 'ui/modules/Header';
 
 export interface Props {
   FeaturedCommunitiesBox: JSX.Element;
@@ -30,14 +31,7 @@ export const Discover: React.FC<Props> = ({
           <WrapperFeatured>{FeaturedCommunitiesBox}</WrapperFeatured>
           <WrapperFeatured mt={2}>{FeaturedCollectionsBox}</WrapperFeatured>
           <Wrapper>
-            <Text
-              mb={3}
-              sx={{ borderBottom: '1px solid #dadada' }}
-              p={3}
-              variant="suptitle"
-            >
-              <Trans>Instance timeline</Trans>
-            </Text>
+            <Header name="Instance timeline" />
             {ActivitiesBox}
           </Wrapper>
         </WrapperCont>
@@ -60,52 +54,6 @@ export const Discover: React.FC<Props> = ({
             </NavItem>
           </Nav>
         </Panel>
-
-        {/* <Panel>
-          <PanelTitle fontSize={0} fontWeight={'bold'}>
-            <Trans>Popular hashtags: network</Trans>
-          </PanelTitle>
-          <Nav>
-            <NavItem mb={3} fontSize={1}>
-              <Trans>#pedagogy</Trans>
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              <Trans>#transition</Trans>
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              <Trans>#english</Trans>
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              <Trans>#template</Trans>
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              <Trans>#assessment</Trans>
-            </NavItem>
-          </Nav>
-        </Panel>
-
-        <Panel>
-          <PanelTitle fontSize={0} fontWeight={'bold'}>
-            <Trans>Popular hashtags: local instance</Trans>
-          </PanelTitle>
-          <Nav>
-            <NavItem mb={3} fontSize={1}>
-              <Trans>#pedagogy</Trans>
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              <Trans>#transition</Trans>
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              <Trans>#english</Trans>
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              <Trans>#template</Trans>
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              <Trans>#assessment</Trans>
-            </NavItem>
-          </Nav>
-        </Panel> */}
       </WrapperPanel>
     </MainContainer>
   );
@@ -117,7 +65,6 @@ const WrapperFeatured = styled(Flex)`
   flex: 1;
   background: white;
   border-radius: 8px;
-  box-shadow: 0 1px 4px 0px rgba(0, 0, 0, 0.1);
 `;
 
 export const HomeBox = styled(Flex)`
@@ -174,7 +121,6 @@ export const Wrapper = styled(Flex)`
   margin-top: 8px;
   background: white;
   border-radius: 8px;
-  box-shadow: 0 1px 4px 0px rgba(0, 0, 0, 0.1);
   & ul {
     display: block;
 
