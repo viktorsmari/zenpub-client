@@ -2,6 +2,7 @@ import * as React from 'react';
 import { NavLink, Route, Switch } from 'react-router-dom';
 import { Flex, Text, Box } from 'rebass/styled-components';
 import media from 'styled-media-query';
+import { Header } from 'ui/modules/Header';
 
 import {
   Nav,
@@ -16,7 +17,6 @@ import { Link } from 'react-feather';
 export interface Props {
   ActivityBoxes: JSX.Element;
   HeroUserBox: JSX.Element;
-  Header: JSX.Element;
   CommunityBoxes: JSX.Element;
   CollectionsBoxes: JSX.Element;
   UserBoxes: JSX.Element;
@@ -26,6 +26,7 @@ export interface Props {
   totalCollections: string;
   totalUsers: string;
   userLink: string;
+  userName: string;
 }
 
 export const User: React.FC<Props> = ({
@@ -35,11 +36,11 @@ export const User: React.FC<Props> = ({
   CollectionsBoxes,
   UserBoxes,
   basePath,
-  Header,
   totalCommunities,
   userLink,
   totalCollections,
-  totalUsers
+  totalUsers,
+  userName
 }) => {
   return (
     <MainContainer>
@@ -47,7 +48,7 @@ export const User: React.FC<Props> = ({
         <WrapperCont>
           <Wrapper>
             <Box mb={2} sx={{ background: 'white' }}>
-              {Header}
+              <Header name={userName} />
               {HeroUserBox}
               <Menu
                 basePath={basePath}

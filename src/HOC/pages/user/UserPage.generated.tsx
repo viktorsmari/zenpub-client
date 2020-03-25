@@ -12,7 +12,7 @@ export type UserPageActivitiesFragment = (
 
 export type UserPageUserDataFragment = (
   { __typename: 'User' }
-  & Pick<Types.User, 'id'>
+  & Pick<Types.User, 'id' | 'canonicalUrl'>
   & { followedCollections: Types.Maybe<(
     { __typename: 'FollowedCollectionsEdges' }
     & Pick<Types.FollowedCollectionsEdges, 'totalCount'>
@@ -49,6 +49,7 @@ export const UserPageUserDataFragmentDoc = gql`
   outbox {
     totalCount
   }
+  canonicalUrl
   ...HeroUserUserData
 }
     ${HeroUserUserDataFragmentDoc}`;
