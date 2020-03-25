@@ -18,5 +18,7 @@ fragment UserPageUserData on User {
   outbox{
     totalCount
   }
-  ...HeroUserUserData  
+  canonicalUrl
+  
+  ...HeroUserUserData
 }
