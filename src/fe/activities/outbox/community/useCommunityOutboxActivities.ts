@@ -16,10 +16,16 @@ export const useCommunityOutboxActivities = (communityId: Community['id']) => {
         variables: { ...cursor, communityId, limit: DEFAULT_PAGE_SIZE },
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.community?.outbox && prev.community?.outbox
-            ? update({
-                prev: prev.community.outbox,
-                fetched: fetchMoreResult.community.outbox
-              })
+            ? {
+                ...fetchMoreResult,
+                community: {
+                  ...fetchMoreResult.community,
+                  outbox: update({
+                    prev: prev.community.outbox,
+                    fetched: fetchMoreResult.community.outbox
+                  })
+                }
+              }
             : prev;
         }
       });

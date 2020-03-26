@@ -15,10 +15,16 @@ export const useInstanceOutboxActivities = () => {
         variables: { ...cursor, limit: DEFAULT_PAGE_SIZE },
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.instance?.outbox && prev.instance?.outbox
-            ? update({
-                prev: prev.instance.outbox,
-                fetched: fetchMoreResult.instance.outbox
-              })
+            ? {
+                ...fetchMoreResult,
+                instance: {
+                  ...fetchMoreResult.instance,
+                  outbox: update({
+                    prev: prev.instance.outbox,
+                    fetched: fetchMoreResult.instance.outbox
+                  })
+                }
+              }
             : prev;
         }
       });

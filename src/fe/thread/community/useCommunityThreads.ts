@@ -16,10 +16,16 @@ export const useCommunityThreads = (communityId: Community['id']) => {
         variables: { ...cursor, communityId, limit: DEFAULT_PAGE_SIZE },
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.community?.threads && prev.community?.threads
-            ? update({
-                prev: prev.community.threads,
-                fetched: fetchMoreResult.community.threads
-              })
+            ? {
+                ...fetchMoreResult,
+                community: {
+                  ...fetchMoreResult.community,
+                  threads: update({
+                    prev: prev.community.threads,
+                    fetched: fetchMoreResult.community.threads
+                  })
+                }
+              }
             : prev;
         }
       });

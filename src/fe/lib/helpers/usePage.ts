@@ -108,6 +108,7 @@ const updatePageNext = <EdgeType>({
   prev: Page<EdgeType>;
 }) => {
   return {
+    ...fetched,
     edges: prev.edges.concat(fetched.edges),
     totalCount: fetched.totalCount,
     pageInfo: {
@@ -125,6 +126,7 @@ const updatePagePrev = <EdgeType>({
   prev: Page<EdgeType>;
 }) => {
   return {
+    ...fetched,
     edges: fetched.edges.concat(prev.edges),
     totalCount: fetched.totalCount,
     pageInfo: {

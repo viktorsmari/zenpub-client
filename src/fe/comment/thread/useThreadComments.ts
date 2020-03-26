@@ -15,10 +15,16 @@ export const useThreadComments = (threadId: Thread['id']) => {
         variables: { ...cursor, limit: DEFAULT_PAGE_SIZE, threadId },
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.thread?.comments && prev.thread?.comments
-            ? update({
-                prev: prev.thread.comments,
-                fetched: fetchMoreResult.thread.comments
-              })
+            ? {
+                ...fetchMoreResult,
+                thread: {
+                  ...fetchMoreResult.thread,
+                  comments: update({
+                    prev: prev.thread.comments,
+                    fetched: fetchMoreResult.thread.comments
+                  })
+                }
+              }
             : prev;
         }
       });

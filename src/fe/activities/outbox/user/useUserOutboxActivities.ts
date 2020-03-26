@@ -16,10 +16,16 @@ export const useUserOutboxActivities = (userId: User['id']) => {
         variables: { ...cursor, limit: DEFAULT_PAGE_SIZE, userId },
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.user?.outbox && prev.user?.outbox
-            ? update({
-                prev: prev.user.outbox,
-                fetched: fetchMoreResult.user.outbox
-              })
+            ? {
+                ...fetchMoreResult,
+                user: {
+                  ...fetchMoreResult.user,
+                  outbox: update({
+                    prev: prev.user.outbox,
+                    fetched: fetchMoreResult.user.outbox
+                  })
+                }
+              }
             : prev;
         }
       });

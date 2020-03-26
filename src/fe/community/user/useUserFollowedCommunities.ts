@@ -21,10 +21,16 @@ export const useUserFollowedCommunities = (userId: User['id']) => {
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.user?.followedCommunities &&
             prev.user?.followedCommunities
-            ? update({
-                prev: prev.user.followedCommunities,
-                fetched: fetchMoreResult.user.followedCommunities
-              })
+            ? {
+                ...fetchMoreResult,
+                user: {
+                  ...fetchMoreResult.user,
+                  followedCommunities: update({
+                    prev: prev.user.followedCommunities,
+                    fetched: fetchMoreResult.user.followedCommunities
+                  })
+                }
+              }
             : prev;
         }
       });

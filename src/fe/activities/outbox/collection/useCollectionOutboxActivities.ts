@@ -18,10 +18,16 @@ export const useCollectionOutboxActivities = (
         variables: { ...cursor, collectionId, limit: DEFAULT_PAGE_SIZE },
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.collection?.outbox && prev.collection?.outbox
-            ? update({
-                prev: prev.collection.outbox,
-                fetched: fetchMoreResult.collection.outbox
-              })
+            ? {
+                ...fetchMoreResult,
+                collection: {
+                  ...fetchMoreResult.collection,
+                  outbox: update({
+                    prev: prev.collection.outbox,
+                    fetched: fetchMoreResult.collection.outbox
+                  })
+                }
+              }
             : prev;
         }
       });

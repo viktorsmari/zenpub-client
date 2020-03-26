@@ -21,10 +21,16 @@ export const useCommunityCollections = (communityId: Community['id']) => {
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.community?.collections &&
             prev.community?.collections
-            ? update({
-                prev: prev.community.collections,
-                fetched: fetchMoreResult.community.collections
-              })
+            ? {
+                ...fetchMoreResult,
+                community: {
+                  ...fetchMoreResult.community,
+                  collections: update({
+                    prev: prev.community.collections,
+                    fetched: fetchMoreResult.community.collections
+                  })
+                }
+              }
             : prev;
         }
       });

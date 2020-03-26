@@ -17,10 +17,16 @@ export const useCollectionResources = (collectionId: Collection['id']) => {
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.collection?.resources &&
             prev.collection?.resources
-            ? update({
-                prev: prev.collection.resources,
-                fetched: fetchMoreResult.collection.resources
-              })
+            ? {
+                ...fetchMoreResult,
+                collection: {
+                  ...fetchMoreResult.collection,
+                  resources: update({
+                    prev: prev.collection.resources,
+                    fetched: fetchMoreResult.collection.resources
+                  })
+                }
+              }
             : prev;
         }
       });

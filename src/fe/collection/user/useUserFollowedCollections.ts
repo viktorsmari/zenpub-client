@@ -21,10 +21,16 @@ export const useUserFollowedCollections = (userId: User['id']) => {
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.user?.followedCollections &&
             prev.user?.followedCollections
-            ? update({
-                prev: prev.user.followedCollections,
-                fetched: fetchMoreResult.user.followedCollections
-              })
+            ? {
+                ...fetchMoreResult,
+                user: {
+                  ...fetchMoreResult.user,
+                  followedCollections: update({
+                    prev: prev.user.followedCollections,
+                    fetched: fetchMoreResult.user.followedCollections
+                  })
+                }
+              }
             : prev;
         }
       });
