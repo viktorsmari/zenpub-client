@@ -94,17 +94,16 @@ const MultipleItems: React.FC = () => {
             ref={c => (sliderRef.current = c || undefined)}
             {...sliderSettings}
           >
-            {props.data.instance.featuredCommunities.edges.map(
-              (edge, i) =>
-                //FIXME https://gitlab.com/moodlenet/meta/issues/185
-                // edge &&
-                !edge || !edge.node.context
-                  ? null
-                  : edge.node.context.__typename === 'Community' && (
-                      <div key={i}>
-                        <CommunitySmall community={edge.node.context} />
-                      </div>
-                    )
+            {props.data.instance.featuredCommunities.edges.map((edge, i) =>
+              //FIXME https://gitlab.com/moodlenet/meta/issues/185
+              // edge &&
+              !edge || !edge.context
+                ? null
+                : edge.context.__typename === 'Community' && (
+                    <div key={i}>
+                      <CommunitySmall community={edge.context} />
+                    </div>
+                  )
             )}
           </Slider>
         )}

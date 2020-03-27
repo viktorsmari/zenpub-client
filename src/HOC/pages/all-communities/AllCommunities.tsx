@@ -8,11 +8,11 @@ import {
 
 export interface AllCommunitiesPage {}
 export const AllCommunitiesPage: FC<AllCommunitiesPage> = () => {
-  const allCommunities = useAllCommunities();
+  const { allCommunitiesPage } = useAllCommunities();
   const allCommunitiesUIProps = useMemo<AllCommunitiesUIProps>(() => {
     const CommunitiesBoxes = (
       <>
-        {allCommunities.list.map(communityPreview => (
+        {allCommunitiesPage.edges.map(communityPreview => (
           <CommunityPreviewHOC communityId={communityPreview.id} />
         ))}
       </>
@@ -22,7 +22,7 @@ export const AllCommunitiesPage: FC<AllCommunitiesPage> = () => {
     };
 
     return props;
-  }, [allCommunities]);
+  }, [allCommunitiesPage]);
 
   return <AllCommunitiesUI {...allCommunitiesUIProps} />;
 };

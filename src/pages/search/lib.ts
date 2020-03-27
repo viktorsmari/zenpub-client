@@ -121,9 +121,9 @@ export const getFollowingCollections = (
   if (!followingCollectionsEdges) {
     return [];
   }
-  const followingCollections = followingCollectionsEdges
-    .map(edge => edge && edge.node)
-    .filter((node): node is SearchFollowedCollectionFragment => !!node);
+  const followingCollections = followingCollectionsEdges.filter(
+    (node): node is SearchFollowedCollectionFragment => !!node
+  );
   return followingCollections;
 };
 
@@ -137,8 +137,8 @@ export const getFollowingCommunities = (
   if (!followingCommunitiesEdges) {
     return [];
   }
-  const followingCommunities = followingCommunitiesEdges
-    .map(edge => edge && edge.node)
-    .filter((node): node is SearchFollowedCommunityFragment => !!node);
+  const followingCommunities = followingCommunitiesEdges.filter(
+    (node): node is SearchFollowedCommunityFragment => !!node
+  );
   return followingCommunities;
 };

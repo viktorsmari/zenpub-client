@@ -1,7 +1,9 @@
 import * as Types from '../../../graphql/types.generated';
 
 import { CollectionPreviewFragment } from '../../../HOC/modules/previews/collection/CollectionPreview.generated';
+import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
+import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { CollectionPreviewFragmentDoc } from '../../../HOC/modules/previews/collection/CollectionPreview.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -11,11 +13,12 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
+
 export type UserFollowedCollectionsQueryVariables = {
   userId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Types.Scalars['String']>,
-  after?: Types.Maybe<Types.Scalars['String']>
+  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
+  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
 };
 
 
@@ -25,20 +28,21 @@ export type UserFollowedCollectionsQuery = (
     { __typename: 'User' }
     & Pick<Types.User, 'id'>
     & { followedCollections: Types.Maybe<(
-      { __typename: 'FollowedCollectionsEdges' }
-      & { edges: Array<Types.Maybe<(
-        { __typename: 'FollowedCollectionsEdge' }
-        & { node: (
-          { __typename: 'FollowedCollection' }
-          & { follow: (
-            { __typename: 'Follow' }
-            & Pick<Types.Follow, 'id'>
-          ), collection: (
-            { __typename: 'Collection' }
-            & UserFollowedCollectionFragment
-          ) }
+      { __typename: 'FollowedCollectionsPage' }
+      & Pick<Types.FollowedCollectionsPage, 'totalCount'>
+      & { pageInfo: (
+        { __typename: 'PageInfo' }
+        & FullPageInfoFragment
+      ), edges: Array<(
+        { __typename: 'FollowedCollection' }
+        & { follow: (
+          { __typename: 'Follow' }
+          & Pick<Types.Follow, 'id'>
+        ), collection: (
+          { __typename: 'Collection' }
+          & UserFollowedCollectionFragment
         ) }
-      )>> }
+      )> }
     )> }
   )> }
 );
@@ -54,24 +58,27 @@ export const UserFollowedCollectionFragmentDoc = gql`
 }
     ${CollectionPreviewFragmentDoc}`;
 export const UserFollowedCollectionsDocument = gql`
-    query userFollowedCollections($userId: String!, $limit: Int, $before: String, $after: String) {
-  user(userId: $userId) {
+    query userFollowedCollections($userId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
+  user(userId: $userId) @connection(key: "userFollowedCollections", filter: ["userId"]) {
     id
     followedCollections(limit: $limit, before: $before, after: $after) {
+      totalCount
+      pageInfo {
+        ...FullPageInfo
+      }
       edges {
-        node {
-          follow {
-            id
-          }
-          collection {
-            ...UserFollowedCollection
-          }
+        follow {
+          id
+        }
+        collection {
+          ...UserFollowedCollection
         }
       }
     }
   }
 }
-    ${UserFollowedCollectionFragmentDoc}`;
+    ${FullPageInfoFragmentDoc}
+${UserFollowedCollectionFragmentDoc}`;
 export type UserFollowedCollectionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UserFollowedCollectionsQuery, UserFollowedCollectionsQueryVariables>, 'query'> & ({ variables: UserFollowedCollectionsQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const UserFollowedCollectionsComponent = (props: UserFollowedCollectionsComponentProps) => (

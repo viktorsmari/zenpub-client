@@ -4,6 +4,8 @@ export const GRAPHQL_ENDPOINT = process.env.REACT_APP_GRAPHQL_ENDPOINT;
 export const NODE_ENV = process.env.NODE_ENV;
 export const PUBLIC_URL = process.env.PUBLIC_URL;
 export const SENTRY_KEY = process.env.SENTRY_KEY || '';
+export const DEFAULT_PAGE_SIZE =
+  parseInt(`${process.env.REACT_APP_DEFAULT_PAGE_SIZE}`) || 15;
 
 export const APP_NAME = 'MoodleNet';
 export const INSTANCE_DESCRIPTION =

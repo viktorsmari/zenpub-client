@@ -12,7 +12,7 @@ fragment BasicResource on Resource {
     updatedAt
     myLike { id }
     myFlag { id }
-    likes { totalCount }
+    likers { totalCount }
     creator { ...BasicUser }
     author
     collection {

@@ -42,24 +42,24 @@ export const CommunitiesJoined: React.FC<Props> = ({
                 community && (
                   <CommunityCard
                     key={i}
-                    summary={community.node.community.summary || ''}
-                    title={community.node.community.name || ''}
+                    summary={community.community.summary || ''}
+                    title={community.community.name || ''}
                     collectionsCount={
                       /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                      community.node.community.collections!.totalCount
+                      community.community.collections!.totalCount
                     }
-                    icon={community.node.community.icon || ''}
-                    followed={!!community.node.community.myFollow}
-                    id={community.node.community.id}
-                    externalId={community.node.community.canonicalUrl || ''}
+                    icon={community.community.icon || ''}
+                    followed={!!community.community.myFollow}
+                    id={community.community.id}
+                    externalId={community.community.canonicalUrl || ''}
                     followersCount={
                       /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
 
-                      community.node.community.followers!.totalCount
+                      community.community.followers!.totalCount
                     }
                     threadsCount={
                       /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                      community.node.community.threads!.totalCount
+                      community.community.threads!.totalCount
                     }
                   />
                 )

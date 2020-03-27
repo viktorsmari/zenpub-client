@@ -1,7 +1,8 @@
 import { User } from 'graphql/types.generated';
 import { useMemo } from 'react';
 import * as GQL from './useUserFollowedCommunities.generated';
-import { manageEdges } from 'fe/lib/helpers/edges';
+import { usePage } from 'fe/lib/helpers/usePage';
+import { DEFAULT_PAGE_SIZE } from 'mn-constants';
 
 export interface Props {
   userId: User['id'];
@@ -12,18 +13,34 @@ export const useUserFollowedCommunities = (userId: User['id']) => {
     variables: { userId }
   });
 
-  const communities = useMemo<GQL.UserFollowedCommunityFragment[]>(
-    () =>
-      manageEdges(userQ.data?.user?.followedCommunities).nodes.map(
-        followedCommunity => followedCommunity.community
-      ),
-    [userQ]
+  const followedCommunitiesPage = usePage(
+    userQ.data?.user?.followedCommunities,
+    ({ cursor, update }) => {
+      userQ.fetchMore({
+        variables: { ...cursor, limit: DEFAULT_PAGE_SIZE, userId },
+        updateQuery: (prev, { fetchMoreResult }) => {
+          return fetchMoreResult?.user?.followedCommunities &&
+            prev.user?.followedCommunities
+            ? {
+                ...fetchMoreResult,
+                user: {
+                  ...fetchMoreResult.user,
+                  followedCommunities: update({
+                    prev: prev.user.followedCommunities,
+                    fetched: fetchMoreResult.user.followedCommunities
+                  })
+                }
+              }
+            : prev;
+        }
+      });
+    }
   );
 
   return useMemo(
     () => ({
-      communities
+      followedCommunitiesPage
     }),
-    [communities]
+    [followedCommunitiesPage]
   );
 };

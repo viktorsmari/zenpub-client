@@ -46,7 +46,6 @@ export const EditCollectionPanelHOC: FC<Props> = ({
         {
           name: vals.name,
           icon: vals.icon || undefined,
-          preferredUsername: vals.name,
           summary: vals.summary || undefined
         },
         iconFile

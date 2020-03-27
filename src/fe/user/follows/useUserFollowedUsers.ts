@@ -1,7 +1,8 @@
 import { User } from 'graphql/types.generated';
 import { useMemo } from 'react';
 import * as GQL from './useUserFollowedUsers.generated';
-import { manageEdges } from 'fe/lib/helpers/edges';
+import { usePage } from 'fe/lib/helpers/usePage';
+import { DEFAULT_PAGE_SIZE } from 'mn-constants';
 
 export interface Props {
   userId: User['id'];
@@ -9,21 +10,37 @@ export interface Props {
 
 export const useUserFollowedUsers = (userId: User['id']) => {
   const userQ = GQL.useUserFollowedUsersQuery({
-    variables: { userId }
+    variables: { userId, limit: DEFAULT_PAGE_SIZE }
   });
 
-  const users = useMemo<GQL.UserFollowedUserFragment[]>(
-    () =>
-      manageEdges(userQ.data?.user?.followedUsers).nodes.map(
-        followedUser => followedUser.user
-      ),
-    [userQ]
+  const followedUsersPage = usePage(
+    userQ.data?.user?.followedUsers,
+    ({ cursor, update }) => {
+      userQ.fetchMore({
+        variables: { ...cursor, limit: DEFAULT_PAGE_SIZE, userId },
+        updateQuery: (prev, { fetchMoreResult }) => {
+          return fetchMoreResult?.user?.followedUsers &&
+            prev.user?.followedUsers
+            ? {
+                ...fetchMoreResult,
+                user: {
+                  ...fetchMoreResult.user,
+                  followedUsers: update({
+                    prev: prev.user.followedUsers,
+                    fetched: fetchMoreResult.user.followedUsers
+                  })
+                }
+              }
+            : prev;
+        }
+      });
+    }
   );
 
   return useMemo(
     () => ({
-      users
+      followedUsersPage
     }),
-    [users]
+    [followedUsersPage]
   );
 };

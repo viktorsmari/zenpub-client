@@ -16,7 +16,6 @@ export const validationSchema: Yup.ObjectSchema<ResourceFormValues> = Yup.object
     .max(90)
     .required(),
   summary: Yup.string().max(1000),
-  author: Yup.string().max(90),
   icon: Yup.string().url(),
   license: Yup.string()
 });
@@ -25,7 +24,6 @@ export const initialValues: ResourceFormValues = {
   url: '',
   name: '',
   summary: '',
-  author: '',
   icon: '',
   license: accepted_license_types[1],
   acceptedLicenses: accepted_license_types,
@@ -58,7 +56,6 @@ export const AddResourceHOC: FC<AddResourceHOC> = ({
       const resource = {
         name: vals.name,
         summary: vals.summary,
-        author: vals.author,
         icon: vals.icon,
         url: vals.url,
         license: vals.license

@@ -18,13 +18,13 @@ import CollectionModal from '../../components/elements/CollectionModal';
 import { AddResourceHOC } from '../../HOC/modules/AddResource/addResourceHOC';
 
 import { BasicCollectionFragment } from '../../graphql/fragments/basicCollection.generated';
-import { BasicResourcesEdgesFragment } from '../../graphql/fragments/basicResourcesEdges.generated';
+import { BasicResourcesPageFragment } from '../../graphql/fragments/basicResourcesEdges.generated';
 // import CollectionsLoadMore from 'src/components/elements/Loadmore/followingCollections';
 
 interface Props {
   collection: BasicCollectionFragment;
   community_name: string;
-  resources: BasicResourcesEdgesFragment;
+  resources: BasicResourcesPageFragment;
   fetchMore: any;
   type: string;
   addNewResource: any;
@@ -119,12 +119,12 @@ const CommunityPage: FC<Props> = ({
                         edge && (
                           <ResourceCard
                             key={i}
-                            icon={edge.node.icon}
-                            title={edge.node.name}
-                            summary={edge.node.summary}
-                            url={edge.node.url}
-                            id={edge.node.id}
-                            myFlag={edge.node.myFlag}
+                            icon={edge.icon}
+                            title={edge.name}
+                            summary={edge.summary}
+                            url={edge.url}
+                            id={edge.id}
+                            myFlag={edge.myFlag}
                           />
                         )
                     )
