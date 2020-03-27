@@ -23,6 +23,7 @@ export const Thread: React.FC<Props> = ({
   communityIcon,
   Context
 }) => {
+  console.log(Context);
   return (
     <MainContainer>
       <HomeBox>
@@ -34,7 +35,9 @@ export const Thread: React.FC<Props> = ({
                 name={communityName}
                 icon={communityIcon}
               />
-              <Box my={2}>{Context}</Box>
+              {Context.props.ctx.__typename !== 'Community' && (
+                <Box p={2}>{Context}</Box>
+              )}
               {MainThread}
             </Box>
             {Comments}
