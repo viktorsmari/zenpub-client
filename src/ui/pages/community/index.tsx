@@ -20,10 +20,11 @@ import { Header } from 'ui/modules/Header';
 export interface Props {
   isJoined: boolean;
   ActivitiesBox: JSX.Element;
-  UsersBoxes: JSX.Element;
+  UserBoxes: JSX.Element;
   CollectionsBox: JSX.Element;
   HeroCommunityBox: JSX.Element;
   ThreadsBox: JSX.Element;
+  communityName: string;
   basePath: string;
   newThreadFormik: null | FormikHook<{ text: string }>;
   CreateCollectionPanel: React.ComponentType<{ done(): any }>;
@@ -37,6 +38,7 @@ export const Community: React.FC<Props> = ({
   basePath,
   newThreadFormik,
   isJoined,
+  communityName,
   ThreadsBox,
   CreateCollectionPanel
 }) => {
@@ -54,7 +56,7 @@ export const Community: React.FC<Props> = ({
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <Header name={'Community name'} />
+            <Header name={communityName} />
             <Switch>
               <Route path={`${basePath}/members`}>
                 <FollowersMenu basePath={`${basePath}/members`} />

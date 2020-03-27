@@ -500,6 +500,7 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
       isAdmin: false,
       canModify: true,
       following: true,
+      basePath: '/',
       isFlagged: false,
       icon: 'https://picsum.photos/800/300',
       name: 'Favourite books',

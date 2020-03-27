@@ -14,15 +14,18 @@ import {
 } from 'ui/elements/Panel';
 import styled from 'ui/themes/styled';
 import Button from 'ui/elements/Button';
+import { Header } from 'ui/modules/Header';
 
 export interface Props {
   ActivitiesBox: JSX.Element;
   ResourcesBox: JSX.Element;
   HeroCollectionBox: JSX.Element;
+  UserBoxes: JSX.Element;
   ShareLinkModalPanel: React.ComponentType<{ done(): any }>;
   EditCollectionPanel: React.ComponentType<{ done(): any }>;
   UploadResourcePanel: React.ComponentType<{ done(): any }>;
   basePath: string;
+  collectionName: string;
 }
 
 export const Collection: React.FC<Props> = ({
@@ -31,8 +34,10 @@ export const Collection: React.FC<Props> = ({
   EditCollectionPanel,
   UploadResourcePanel,
   ActivitiesBox,
+  UserBoxes,
   ResourcesBox,
-  basePath
+  basePath,
+  collectionName
 }) => {
   const [isOpenEditCollection, setOpenEditCollection] = React.useState(false);
   const [isShareLinkOpen, setOpenShareLink] = React.useState(false);
@@ -52,11 +57,16 @@ export const Collection: React.FC<Props> = ({
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            {HeroCollectionBox}
-            <Menu basePath={basePath} />
+            <Header name={collectionName} />
             <Switch>
+              <Route path={`${basePath}/followers`}>
+                <FollowersMenu basePath={`${basePath}/followers`} />
+                {UserBoxes}
+              </Route>
               <Route exact path={`${basePath}/`}>
                 <>
+                  {HeroCollectionBox}
+                  <Menu basePath={basePath} />
                   <WrapButton px={3} pb={3} mb={2}>
                     <Button
                       mr={2}
@@ -79,7 +89,11 @@ export const Collection: React.FC<Props> = ({
                 </>
               </Route>
               <Route exact path={`${basePath}/activities`}>
-                {ActivitiesBox}
+                <>
+                  {HeroCollectionBox}
+                  <Menu basePath={basePath} />
+                  {ActivitiesBox}
+                </>
               </Route>
             </Switch>
           </Wrapper>
@@ -135,6 +149,14 @@ export const Collection: React.FC<Props> = ({
   );
 };
 export default Collection;
+
+const FollowersMenu = ({ basePath }: { basePath: string }) => (
+  <MenuWrapper m={2} p={2} pt={0}>
+    <NavLink exact to={`${basePath}`}>
+      Followers
+    </NavLink>
+  </MenuWrapper>
+);
 
 const Menu = ({ basePath }: { basePath: string }) => (
   <MenuWrapper p={3} pt={3}>
