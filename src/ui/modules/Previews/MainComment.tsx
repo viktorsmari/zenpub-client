@@ -22,7 +22,7 @@ export interface CommentProps {
   like: LikeActions;
   reply: ReplyActions;
   content: string;
-  flagId?: string;
+  isFlagged?: boolean;
   hideActions?: boolean;
 }
 
@@ -41,7 +41,7 @@ export const MainComment: React.SFC<CommentProps> = ({
   reply,
   like,
   FlagModal,
-  flagId,
+  isFlagged,
   hideActions
 }) => {
   const [talkModalVisible, showTalkModal] = React.useState(false);
@@ -128,7 +128,7 @@ export const MainComment: React.SFC<CommentProps> = ({
                       <DropdownItem onClick={() => setOpenFlagModal(true)}>
                         <Flag size={20} color={'rgb(101, 119, 134)'} />
                         <Text sx={{ flex: 1 }} ml={2}>
-                          {flagId == '' ? (
+                          {!isFlagged ? (
                             <Trans>Flag this comment</Trans>
                           ) : (
                             <Trans>Unflag this comment</Trans>
