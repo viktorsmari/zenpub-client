@@ -13,7 +13,6 @@ import Button from 'ui/elements/Button';
 import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
 import { Settings, MoreVertical, Flag as FlagIcon, Star } from 'react-feather';
 import { FormikHook } from 'ui/@types/types';
-import { Header } from 'ui/modules/Header';
 
 export enum Status {
   Loading,
