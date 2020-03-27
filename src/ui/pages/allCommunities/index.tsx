@@ -3,6 +3,7 @@ import { Box, Flex } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import { Header } from 'ui/modules/Header';
 import styled from 'ui/themes/styled';
+import { WrapperPanel } from 'ui/elements/Panel';
 
 export interface Props {
   CommunitiesBoxes: JSX.Element;
@@ -19,12 +20,13 @@ export const AllCommunities: React.FC<Props> = ({ CommunitiesBoxes }) => {
           </Wrapper>
         </WrapperCont>
       </HomeBox>
+      <WrapperPanel />
     </MainContainer>
   );
 };
 const WrapperBoxes = styled(Box)`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   grid-column-gap: 8px;
   grid-row-gap: 8px;
   padding: 8px;

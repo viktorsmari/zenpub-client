@@ -23,7 +23,7 @@ export const WithSidebarTemplate: FC<WithSidebarTemplate> = ({ children }) => {
         logout: meQ.logout,
         icon: user.icon || '',
         link: `/user/${user.id}`,
-        name: user.displayUsername
+        name: user.name || ''
       }
     };
     const props: SidebarProps = {

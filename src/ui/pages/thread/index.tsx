@@ -1,16 +1,15 @@
 import * as React from 'react';
 import { Flex, Box, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
-
 import styled from 'ui/themes/styled';
-import { useHistory, Link } from 'react-router-dom';
-import { ChevronLeft } from 'react-feather';
-import { Trans } from '@lingui/react';
+import { Link } from 'react-router-dom';
 import Avatar from 'ui/elements/Avatar';
+import { WrapperPanel } from 'ui/elements/Panel';
 
 export interface Props {
   MainThread: JSX.Element;
   Comments: JSX.Element;
+  Context: JSX.Element;
   communityId: string;
   communityName: string;
   communityIcon: string;
@@ -21,8 +20,10 @@ export const Thread: React.FC<Props> = ({
   Comments,
   communityId,
   communityName,
-  communityIcon
+  communityIcon,
+  Context
 }) => {
+  console.log(Context);
   return (
     <MainContainer>
       <HomeBox>
@@ -34,12 +35,16 @@ export const Thread: React.FC<Props> = ({
                 name={communityName}
                 icon={communityIcon}
               />
+              {Context.props.ctx.__typename !== 'Community' && (
+                <Box p={2}>{Context}</Box>
+              )}
               {MainThread}
             </Box>
             {Comments}
           </Wrapper>
         </WrapperCont>
       </HomeBox>
+      <WrapperPanel />
     </MainContainer>
   );
 };
@@ -49,33 +54,21 @@ const HeaderWrapper: React.FC<{ id: string; name: string; icon: string }> = ({
   name,
   icon
 }) => {
-  const history = useHistory();
   return (
-    <Header>
-      <Left onClick={() => history.goBack()}>
-        <Icon>
-          <ChevronLeft size="24" />
-        </Icon>
-        <Text ml={2}>
-          <Trans>Back</Trans>
-        </Text>
-      </Left>
-      <Right>
-        <Link to={`/communities/${id}`}>
-          <LinkImg>
-            <Avatar size="s" src={icon} />
-          </LinkImg>
-          <Text variant="suptitle">{name}</Text>
-        </Link>
-      </Right>
-    </Header>
+    <>
+      <Header>
+        <Right>
+          <Link to={`/communities/${id}`}>
+            <LinkImg>
+              <Avatar size="s" src={icon} />
+            </LinkImg>
+            <Text variant="suptitle">{name}</Text>
+          </Link>
+        </Right>
+      </Header>
+    </>
   );
 };
-
-const Left = styled(Flex)`
-  flex: auto;
-  align-items: center;
-`;
 
 const LinkImg = styled(Box)`
   margin-right: 8px;
@@ -106,25 +99,6 @@ const Header = styled(Flex)`
     display: flex;
     flex: 1;
     text-decoration: none;
-  }
-`;
-
-const Icon = styled(Box)`
-  cursor: pointer;
-  height: 40px;
-  width: 40px;
-  border-radius: 40px;
-  display: flex;
-  align-items: center;
-  &:hover {
-    background: ${props => props.theme.colors.lighter};
-    svg {
-      stroke: ${props => props.theme.colors.primary};
-    }
-  }
-  svg {
-    stroke: ${props => props.theme.colors.darkgray};
-    margin: 0 auto;
   }
 `;
 

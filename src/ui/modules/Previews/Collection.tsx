@@ -34,7 +34,7 @@ export const Collection: React.FC<Props> = ({
 }) => {
   return (
     // <WrapperLink to={link.url}>
-    <Bordered px={2}>
+    <Bordered px={2} m={2} mb={1}>
       <Box mt={2}>
         <Avatar src={icon} />
       </Box>
@@ -162,8 +162,8 @@ const Username = styled(Text)`
 `;
 
 const Bordered = styled(Flex)`
-  // border: 1px solid ${props => props.theme.colors.lightgray};
   border-radius: 4px;
+  border: 1px solid ${props => props.theme.colors.lightgray};
 `;
 
 const Infos = styled(Box)`

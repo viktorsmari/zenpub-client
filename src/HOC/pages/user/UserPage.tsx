@@ -74,7 +74,6 @@ export const UserPage: FC<UserPage> = ({ userId, basePath }) => {
     );
 
     const HeroUserBox = <HeroUser userId={userId} />;
-    const Header = <></>;
 
     const props: Props = {
       basePath,
@@ -83,11 +82,12 @@ export const UserPage: FC<UserPage> = ({ userId, basePath }) => {
       CollectionsBoxes,
       CommunityBoxes,
       UserBoxes,
-      Header,
+      userName: user.user?.name || '',
       totalActivities: `${totalActivities || '0'}`,
       totalCollections: `${totalCollections || '0'}`,
       totalCommunities: `${totalCommunities || '0'}`,
-      totalUsers: `${totalUsers || '0'}`
+      totalUsers: `${totalUsers || '0'}`,
+      userLink: user.user?.website || ''
     };
     return props;
   }, [activities, basePath, user, collections, communities, users]);

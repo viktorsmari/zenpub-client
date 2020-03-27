@@ -1,0 +1,22 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import { PropsTable } from '@storybook/components';
+import { Search } from '.';
+import {Box} from 'rebass'
+import {Header} from 'ui/modules/Header'
+import {Community} from 'ui/modules/Previews/Community';
+
+<Meta title="Pages|Search" component={Search}/>
+
+
+# Search
+Let's define a story for the `Search` page
+
+<Preview>
+  <Story name="Search page">
+    <Box sx={{margin: "0 auto", width: "fit-content"}}>
+        <Search  />
+    </Box>
+  </Story>
+</Preview>
+
+

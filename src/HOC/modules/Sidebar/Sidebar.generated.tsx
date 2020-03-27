@@ -9,7 +9,7 @@ export type SidebarFollowedCommunityFragment = (
 
 export type SidebarMeUserFragment = (
   { __typename: 'User' }
-  & Pick<Types.User, 'id' | 'displayUsername' | 'icon'>
+  & Pick<Types.User, 'id' | 'name' | 'icon'>
 );
 
 export const SidebarFollowedCommunityFragmentDoc = gql`
@@ -24,7 +24,7 @@ export const SidebarFollowedCommunityFragmentDoc = gql`
 export const SidebarMeUserFragmentDoc = gql`
     fragment SidebarMeUser on User {
   id
-  displayUsername
+  name
   icon
 }
     `;
