@@ -9,7 +9,15 @@ export type Scalars = {
   Boolean: boolean,
   Int: number,
   Float: number,
-  /** Used for pagination. Is actually a string, integer or list of string and/or integer */
+  /** 
+ * An opaque position marker for pagination. Paginated queries return
+   * a PageInfo struct with start and end cursors (which are actually
+   * lists of Cursor for ...reasons...). You can then issue queries
+   * requesting results `before` the `start` or `after` the `end`
+   * cursors to request the previous or next page respectively.
+   * 
+   * Is actually a string or integer. May be extended in future.
+ **/
   Cursor: any,
   /** Represents an uploaded file. */
   Upload: any,
@@ -624,10 +632,10 @@ export type Me = {
 /** Cursors for pagination */
 export type PageInfo = {
    __typename?: 'PageInfo',
-  endCursor: Array<Scalars['Cursor']>,
+  endCursor?: Maybe<Array<Scalars['Cursor']>>,
   hasNextPage: Scalars['Boolean'],
   hasPreviousPage: Scalars['Boolean'],
-  startCursor: Array<Scalars['Cursor']>,
+  startCursor?: Maybe<Array<Scalars['Cursor']>>,
 };
 
 export type RegistrationInput = {
@@ -1961,10 +1969,10 @@ export type MeResolvers<ContextType = any, ParentType extends ResolversParentTyp
 };
 
 export type PageInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
-  endCursor?: Resolver<Array<ResolversTypes['Cursor']>, ParentType, ContextType>,
+  endCursor?: Resolver<Maybe<Array<ResolversTypes['Cursor']>>, ParentType, ContextType>,
   hasNextPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   hasPreviousPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
-  startCursor?: Resolver<Array<ResolversTypes['Cursor']>, ParentType, ContextType>,
+  startCursor?: Resolver<Maybe<Array<ResolversTypes['Cursor']>>, ParentType, ContextType>,
 };
 
 export type ResourceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Resource'] = ResolversParentTypes['Resource']> = {

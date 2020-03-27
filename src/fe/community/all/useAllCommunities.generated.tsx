@@ -1,8 +1,10 @@
 import * as Types from '../../../graphql/types.generated';
 
+import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import { CommunityPreviewFragment } from '../../../HOC/modules/previews/community/CommunityPreview.generated';
 import gql from 'graphql-tag';
 import { CommunityPreviewFragmentDoc } from '../../../HOC/modules/previews/community/CommunityPreview.generated';
+import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -11,7 +13,12 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
-export type AllCommunitiesQueryVariables = {};
+
+export type AllCommunitiesQueryVariables = {
+  limit?: Types.Maybe<Types.Scalars['Int']>,
+  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
+  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+};
 
 
 export type AllCommunitiesQuery = (
@@ -22,21 +29,28 @@ export type AllCommunitiesQuery = (
     & { edges: Array<(
       { __typename: 'Community' }
       & CommunityPreviewFragment
-    )> }
+    )>, pageInfo: (
+      { __typename: 'PageInfo' }
+      & FullPageInfoFragment
+    ) }
   ) }
 );
 
 
 export const AllCommunitiesDocument = gql`
-    query allCommunities {
-  communities {
+    query allCommunities($limit: Int, $before: [Cursor], $after: [Cursor]) {
+  communities(limit: $limit, before: $before, after: $after) @connection(key: "allCommunities") {
     edges {
       ...CommunityPreview
     }
     totalCount
+    pageInfo {
+      ...FullPageInfo
+    }
   }
 }
-    ${CommunityPreviewFragmentDoc}`;
+    ${CommunityPreviewFragmentDoc}
+${FullPageInfoFragmentDoc}`;
 export type AllCommunitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<AllCommunitiesQuery, AllCommunitiesQueryVariables>, 'query'>;
 
     export const AllCommunitiesComponent = (props: AllCommunitiesComponentProps) => (
@@ -67,6 +81,9 @@ export function withAllCommunities<TProps, TChildProps = {}>(operationOptions?: 
  * @example
  * const { data, loading, error } = useAllCommunitiesQuery({
  *   variables: {
+ *      limit: // value for 'limit'
+ *      before: // value for 'before'
+ *      after: // value for 'after'
  *   },
  * });
  */

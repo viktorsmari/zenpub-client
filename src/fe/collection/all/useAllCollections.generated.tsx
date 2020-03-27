@@ -1,8 +1,10 @@
 import * as Types from '../../../graphql/types.generated';
 
+import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import { CollectionPreviewFragment } from '../../../HOC/modules/previews/collection/CollectionPreview.generated';
 import gql from 'graphql-tag';
 import { CollectionPreviewFragmentDoc } from '../../../HOC/modules/previews/collection/CollectionPreview.generated';
+import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -11,7 +13,12 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
-export type AllCollectionsQueryVariables = {};
+
+export type AllCollectionsQueryVariables = {
+  limit?: Types.Maybe<Types.Scalars['Int']>,
+  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
+  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+};
 
 
 export type AllCollectionsQuery = (
@@ -22,21 +29,28 @@ export type AllCollectionsQuery = (
     & { edges: Array<(
       { __typename: 'Collection' }
       & CollectionPreviewFragment
-    )> }
+    )>, pageInfo: (
+      { __typename: 'PageInfo' }
+      & FullPageInfoFragment
+    ) }
   ) }
 );
 
 
 export const AllCollectionsDocument = gql`
-    query allCollections {
-  collections {
+    query allCollections($limit: Int, $before: [Cursor], $after: [Cursor]) {
+  collections(limit: $limit, before: $before, after: $after) @connection(key: "allCollections") {
     edges {
       ...CollectionPreview
     }
     totalCount
+    pageInfo {
+      ...FullPageInfo
+    }
   }
 }
-    ${CollectionPreviewFragmentDoc}`;
+    ${CollectionPreviewFragmentDoc}
+${FullPageInfoFragmentDoc}`;
 export type AllCollectionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<AllCollectionsQuery, AllCollectionsQueryVariables>, 'query'>;
 
     export const AllCollectionsComponent = (props: AllCollectionsComponentProps) => (
@@ -67,6 +81,9 @@ export function withAllCollections<TProps, TChildProps = {}>(operationOptions?: 
  * @example
  * const { data, loading, error } = useAllCollectionsQuery({
  *   variables: {
+ *      limit: // value for 'limit'
+ *      before: // value for 'before'
+ *      after: // value for 'after'
  *   },
  * });
  */

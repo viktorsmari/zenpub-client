@@ -12,10 +12,10 @@ export interface Sidebar {
   user: SidebarMeUserFragment;
 }
 export const Sidebar: FC<Sidebar> = ({ user }) => {
-  const { communitiesPage } = useMyFollowedCommunities();
+  const { myFollowedCommunitiesPage } = useMyFollowedCommunities();
   const communities = useMemo(
     () =>
-      communitiesPage.edges.map<CommunityPreview>(commFollow => {
+      myFollowedCommunitiesPage.edges.map<CommunityPreview>(commFollow => {
         const { community } = commFollow;
         return {
           icon: community.icon || '',
@@ -26,7 +26,7 @@ export const Sidebar: FC<Sidebar> = ({ user }) => {
           name: community.name
         };
       }),
-    [communitiesPage]
+    [myFollowedCommunitiesPage]
   );
 
   const propsUI = useMemo<PropsUI>(() => {

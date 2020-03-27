@@ -8,7 +8,7 @@ export const useMyFollowedCommunities = () => {
     variables: { limit: DEFAULT_PAGE_SIZE }
   });
 
-  const communitiesPage = usePage(
+  const myFollowedCommunitiesPage = usePage(
     myFlwCommunitiesQ.data?.me?.user.followedCommunities,
     ({ cursor, update }) => {
       myFlwCommunitiesQ.fetchMore({
@@ -37,7 +37,7 @@ export const useMyFollowedCommunities = () => {
 
   return useMemo(() => {
     return {
-      communitiesPage
+      myFollowedCommunitiesPage
     };
-  }, [communitiesPage]);
+  }, [myFollowedCommunitiesPage]);
 };
