@@ -89,12 +89,12 @@ export const FlagModal: React.FC<Props> = ({
     <Container>
       <Header>
         <Heading m={2}>
-          <Trans>Flagged</Trans>
+          <Trans>Unflag</Trans>
         </Heading>
       </Header>
       <Row>
         <ContainerForm>
-          <Trans>You have already flagged this item.</Trans>
+          <Trans>Are you sure you want to unflag this item?</Trans>
         </ContainerForm>
       </Row>
       <Actions>

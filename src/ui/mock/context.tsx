@@ -270,7 +270,7 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
   const activityPreviewProps: ActivityLoaded = {
     communityLink: 'communityLink',
     communityName: 'communityName',
-    event: 'Flag a comment',
+    event: 'Flagged a comment',
     preview: (
       <FlaggedItem
         flaggedItemContext={
@@ -315,7 +315,7 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
   const activityCollectionPreviewProps: ActivityLoaded = {
     communityLink: 'communityLink',
     communityName: 'communityName',
-    event: 'Flag a comment',
+    event: 'Flagged a collection',
     preview: (
       <FlaggedItem
         flaggedItemContext={
@@ -358,8 +358,9 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
           });
           const getConfirmDeleteModalProps = {
             formik,
-            deleteTitle: 'Delete Comment',
-            deleteDescription: 'Are you sure you want to delete this comment?',
+            deleteTitle: 'Delete Collection',
+            deleteDescription:
+              'Are you sure you want to delete this colletion?',
             cancel: action('cancel')
           };
           return <ConfirmDeleteModal {...getConfirmDeleteModalProps} />;
@@ -377,7 +378,7 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
   const activityResourcePreviewProps: ActivityLoaded = {
     communityLink: 'communityLink',
     communityName: 'communityName',
-    event: 'Flag a comment',
+    event: 'Flagged a resource',
     preview: (
       <FlaggedItem
         flaggedItemContext={
@@ -429,8 +430,8 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
           });
           const getConfirmDeleteModalProps = {
             formik,
-            deleteTitle: 'Delete Comment',
-            deleteDescription: 'Are you sure you want to delete this comment?',
+            deleteTitle: 'Delete Resource',
+            deleteDescription: 'Are you sure you want to delete this resource?',
             cancel: action('cancel')
           };
           return <ConfirmDeleteModal {...getConfirmDeleteModalProps} />;

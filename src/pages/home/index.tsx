@@ -16,7 +16,6 @@ import {
 } from '../../graphql/getMeInbox.generated';
 import { LikeMutationMutationOperation } from '../../graphql/like.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
-import { Text } from 'rebass/styled-components';
 import {
   Nav,
   NavItem,
@@ -26,6 +25,7 @@ import {
 } from 'ui/elements/Panel';
 import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
+import { Header } from 'ui/modules/Header';
 
 interface Props {}
 
@@ -71,14 +71,7 @@ const Home: React.FC<Props> = () => {
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <Text
-              mb={3}
-              sx={{ borderBottom: '1px solid #dadada' }}
-              p={3}
-              variant="suptitle"
-            >
-              <Trans>Timeline</Trans>
-            </Text>
+            <Header name="Timeline" />
 
             {error ? (
               <Empty>
@@ -89,11 +82,6 @@ const Home: React.FC<Props> = () => {
             ) : (
               data &&
               data.me && (
-                /*   <ActivityPreviewCtx.Provider
-                  value={{
-                    refetchQueries: [{ query: GetMeInboxDocument, variables }]
-                  }}
-                > */
                 <div>
                   {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
                   data.me.user.inbox!.edges!.map(
@@ -105,15 +93,7 @@ const Home: React.FC<Props> = () => {
                         />
                       )
                   )}
-                  {/* data &&
-                          data.me && (
-                            <LoadMoreTimeline
-                              fetchMore={fetchMore}
-                              community={data.me.user}
-                            />
-                          ) */}
                 </div>
-                /*  </ActivityPreviewCtx.Provider> */
               )
             )}
           </Wrapper>

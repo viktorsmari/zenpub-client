@@ -84,7 +84,8 @@ export const ThreadPage: FC<ThreadPage> = ({ threadId }) => {
       MainThread,
       communityIcon,
       communityId,
-      communityName
+      communityName,
+      isCommunityContext: thread.context?.__typename === 'Community'
     };
 
     return props;

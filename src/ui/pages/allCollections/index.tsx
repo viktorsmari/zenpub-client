@@ -3,6 +3,7 @@ import { Flex } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import { Header } from 'ui/modules/Header';
 import styled from 'ui/themes/styled';
+import { WrapperPanel } from 'ui/elements/Panel';
 
 export interface Props {
   CollectionsBoxes: JSX.Element;
@@ -19,6 +20,7 @@ export const AllCollections: React.FC<Props> = ({ CollectionsBoxes }) => {
           </Wrapper>
         </WrapperCont>
       </HomeBox>
+      <WrapperPanel />
     </MainContainer>
   );
 };
