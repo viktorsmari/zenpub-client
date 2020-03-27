@@ -15,10 +15,12 @@ import {
 import styled from 'ui/themes/styled';
 import { FormikHook } from 'ui/@types/types';
 import Modal from 'ui/modules/Modal';
+import { Header } from 'ui/modules/Header';
 
 export interface Props {
   isJoined: boolean;
   ActivitiesBox: JSX.Element;
+  UsersBoxes: JSX.Element;
   CollectionsBox: JSX.Element;
   HeroCommunityBox: JSX.Element;
   ThreadsBox: JSX.Element;
@@ -31,6 +33,7 @@ export const Community: React.FC<Props> = ({
   ActivitiesBox,
   HeroCommunityBox,
   CollectionsBox,
+  UserBoxes,
   basePath,
   newThreadFormik,
   isJoined,
@@ -51,16 +54,23 @@ export const Community: React.FC<Props> = ({
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <Box sx={{ background: 'white' }}>
-              {HeroCommunityBox}
-              <Menu basePath={basePath} />
-            </Box>
+            <Header name={'Community name'} />
             <Switch>
+              <Route path={`${basePath}/members`}>
+                <FollowersMenu basePath={`${basePath}/members`} />
+                {UserBoxes}
+              </Route>
               <Route exact path={`${basePath}`}>
-                <Box mt={2}>{ActivitiesBox}</Box>
+                <>
+                  {HeroCommunityBox}
+                  <Menu basePath={basePath} />
+                  <Box mt={2}>{ActivitiesBox}</Box>
+                </>
               </Route>
               <Route path={`${basePath}/collections`}>
                 <>
+                  {HeroCommunityBox}
+                  <Menu basePath={basePath} />
                   {isJoined && (
                     <WrapButton p={2} mb={2}>
                       <Button
@@ -75,18 +85,22 @@ export const Community: React.FC<Props> = ({
                 </>
               </Route>
               <Route path={`${basePath}/discussions`}>
-                <WrapSocialText mt={3} px={3} pb={3} mb={2}>
-                  {newThreadFormik && (
-                    <SocialText
-                      placeholder="Start a new thread..."
-                      submit={text => {
-                        newThreadFormik.values.text = text;
-                        newThreadFormik.submitForm();
-                      }}
-                    />
-                  )}
-                </WrapSocialText>
-                {ThreadsBox}
+                <>
+                  {HeroCommunityBox}
+                  <Menu basePath={basePath} />
+                  <WrapSocialText mt={3} px={3} pb={3} mb={2}>
+                    {newThreadFormik && (
+                      <SocialText
+                        placeholder="Start a new thread..."
+                        submit={text => {
+                          newThreadFormik.values.text = text;
+                          newThreadFormik.submitForm();
+                        }}
+                      />
+                    )}
+                  </WrapSocialText>
+                  {ThreadsBox}
+                </>
               </Route>
             </Switch>
           </Wrapper>
@@ -141,6 +155,14 @@ export const Community: React.FC<Props> = ({
     </MainContainer>
   );
 };
+
+const FollowersMenu = ({ basePath }: { basePath: string }) => (
+  <MenuWrapper m={2} p={2} pt={0}>
+    <NavLink exact to={`${basePath}`}>
+      Members
+    </NavLink>
+  </MenuWrapper>
+);
 
 const Menu = ({ basePath }: { basePath: string }) => (
   <MenuWrapper p={3} pt={0}>

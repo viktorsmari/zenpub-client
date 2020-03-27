@@ -117,6 +117,7 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
     community: {
       isAdmin: false,
       // isFeatured: false,
+      basePath: '/',
       status: HeroCommunityStatus.Loaded,
       canModify: true,
       following: false,
