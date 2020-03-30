@@ -10,9 +10,13 @@ import { FeatureModalHOC } from 'HOC/modules/FeatureModal/FeatureModal';
 
 export interface HeroCollection {
   collectionId: Collection['id'];
+  basePath: string;
 }
 
-export const HeroCollection: FC<HeroCollection> = ({ collectionId }) => {
+export const HeroCollection: FC<HeroCollection> = ({
+  collectionId,
+  basePath
+}) => {
   const { collection, canModify, toggleJoin } = useCollection(collectionId);
   const { isAdmin } = useMe();
   const toggleJoinFormik = useFormik<{}>({
@@ -30,6 +34,7 @@ export const HeroCollection: FC<HeroCollection> = ({ collectionId }) => {
 
     const props: Props = {
       collection: {
+        basePath,
         isAdmin,
         status: Status.Loaded,
         canModify,

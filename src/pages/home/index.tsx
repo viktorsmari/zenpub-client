@@ -26,6 +26,7 @@ import {
 import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import { Header } from 'ui/modules/Header';
+import { useMe } from 'fe/session/me';
 
 interface Props {}
 
@@ -65,7 +66,7 @@ const Home: React.FC<Props> = () => {
     },
     [refetch]
   );
-
+  const { me } = useMe();
   return (
     <MainContainer>
       <HomeBox>
@@ -79,23 +80,20 @@ const Home: React.FC<Props> = () => {
               </Empty>
             ) : loading ? (
               <Loader />
-            ) : (
-              data &&
-              data.me && (
-                <div>
-                  {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                  data.me.user.inbox!.edges!.map(
-                    userActivityEdge =>
-                      userActivityEdge && (
-                        <ActivityPreviewHOC
-                          activityId={userActivityEdge.id}
-                          key={userActivityEdge.id}
-                        />
-                      )
-                  )}
-                </div>
-              )
-            )}
+            ) : data?.me?.user.inbox?.edges ? (
+              <div>
+                {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                data.me.user.inbox!.edges!.map(
+                  userActivityEdge =>
+                    userActivityEdge && (
+                      <ActivityPreviewHOC
+                        activityId={userActivityEdge.id}
+                        key={userActivityEdge.id}
+                      />
+                    )
+                )}
+              </div>
+            ) : null}
           </Wrapper>
         </WrapperCont>
       </HomeBox>
@@ -105,16 +103,20 @@ const Home: React.FC<Props> = () => {
             <Trans>My MoodleNet</Trans>
           </PanelTitle>
           <Nav>
-            <NavItem mb={4} fontSize={1} fontWeight={'bold'}>
-              <NavLink to="/mycommunities">
-                <Trans>Joined communities</Trans>
-              </NavLink>
-            </NavItem>
-            <NavItem fontSize={1} fontWeight={'bold'}>
-              <NavLink to="/mycollections">
-                <Trans>Followed collections</Trans>
-              </NavLink>
-            </NavItem>
+            {me ? (
+              <>
+                <NavItem mb={4} fontSize={1} fontWeight={'bold'}>
+                  <NavLink to={`/user/${me.user.id}/communities`}>
+                    <Trans>Joined communities</Trans>
+                  </NavLink>
+                </NavItem>
+                <NavItem fontSize={1} fontWeight={'bold'}>
+                  <NavLink to={`/user/${me.user.id}/collections`}>
+                    <Trans>Followed collections</Trans>
+                  </NavLink>
+                </NavItem>
+              </>
+            ) : null}
           </Nav>
         </Panel>
       </WrapperPanel>

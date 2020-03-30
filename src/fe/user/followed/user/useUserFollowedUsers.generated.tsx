@@ -1,10 +1,10 @@
-import * as Types from '../../../graphql/types.generated';
+import * as Types from '../../../../graphql/types.generated';
 
-import { UserPreviewFragment } from '../../../HOC/modules/previews/user/UserPreview.generated';
-import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
+import { UserPreviewFragment } from '../../../../HOC/modules/previews/user/UserPreview.generated';
+import { FullPageInfoFragment } from '../../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
-import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
-import { UserPreviewFragmentDoc } from '../../../HOC/modules/previews/user/UserPreview.generated';
+import { FullPageInfoFragmentDoc } from '../../../../@fragments/misc.generated';
+import { UserPreviewFragmentDoc } from '../../../../HOC/modules/previews/user/UserPreview.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';

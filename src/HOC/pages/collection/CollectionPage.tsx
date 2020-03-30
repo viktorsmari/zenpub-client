@@ -12,10 +12,14 @@ import CollectionPageUI, {
   Props as CollectionPageProps
 } from 'ui/pages/collection';
 import { Box } from 'rebass';
+import { useCollection } from 'fe/collection/useCollection';
+import { useCollectionFollowers } from 'fe/user/followers/collection/useCollectionFollowers';
+import { UserPreviewHOC } from 'HOC/modules/previews/user/UserPreview';
 
 export enum CollectionPageTab {
   Activities,
-  Resources
+  Resources,
+  Followers
 }
 export interface CollectionPage {
   collectionId: Collection['id'];
@@ -24,16 +28,22 @@ export interface CollectionPage {
 }
 
 export const CollectionPage: FC<CollectionPage> = props => {
+  const { collection } = useCollection(props.collectionId);
+  const { collectionFollowersPage } = useCollectionFollowers(
+    props.collectionId
+  );
   const { activitiesPage } = useCollectionOutboxActivities(props.collectionId);
   const { resourcesPage } = useCollectionResources(props.collectionId);
   const collectionPageProps = useMemo<CollectionPageProps | null>(() => {
-    const {
-      collectionId,
-      basePath
-      //tab
-    } = props;
+    if (!collection) {
+      return null;
+    }
+    const { collectionId, basePath /* ,
+      tab */ } = props;
 
-    const HeroCollectionBox = <HeroCollection collectionId={collectionId} />;
+    const HeroCollectionBox = (
+      <HeroCollection basePath={basePath} collectionId={collectionId} />
+    );
 
     const ActivitiesBox = (
       <>
@@ -61,6 +71,15 @@ export const CollectionPage: FC<CollectionPage> = props => {
       done
     }) => <AddResourceHOC done={done} collectionId={collectionId} />;
 
+    const FollowersBoxes: CollectionPageProps['FollowersBoxes'] = (
+      <>
+        {collectionFollowersPage.edges.map(
+          follow =>
+            follow.creator && <UserPreviewHOC userId={follow.creator?.userId} />
+        )}
+      </>
+    );
+
     const ShareLinkModalPanel: CollectionPageProps['ShareLinkModalPanel'] = ({
       done
     }) => {
@@ -81,9 +100,11 @@ export const CollectionPage: FC<CollectionPage> = props => {
       ResourcesBox,
       EditCollectionPanel,
       UploadResourcePanel,
-      basePath
+      basePath,
+      FollowersBoxes,
+      collectionName: collection.name
     };
     return uiProps;
-  }, [props, activitiesPage, resourcesPage]);
+  }, [props, activitiesPage, resourcesPage, collectionFollowersPage]);
   return collectionPageProps && <CollectionPageUI {...collectionPageProps} />;
 };

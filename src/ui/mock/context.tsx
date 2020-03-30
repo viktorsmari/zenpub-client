@@ -117,6 +117,7 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
     community: {
       isAdmin: false,
       // isFeatured: false,
+      basePath: '/',
       status: HeroCommunityStatus.Loaded,
       canModify: true,
       following: false,
@@ -150,6 +151,7 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
 export const getHeroCommunityPropsAdmin = (): HeroCommunityProps => {
   return {
     community: {
+      basePath: '/community/1',
       status: HeroCommunityStatus.Loaded,
       isAdmin: true,
       // isFeatured: true,
@@ -500,6 +502,7 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
       isAdmin: false,
       canModify: true,
       following: true,
+      basePath: '/',
       isFlagged: false,
       icon: 'https://picsum.photos/800/300',
       name: 'Favourite books',
@@ -539,6 +542,7 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
 export const getHeroCollectionPropsAdmin = (): HeroCollectionProps => {
   return {
     collection: {
+      basePath: '/collection/1',
       status: HeroCollectionStatus.Loaded,
       isAdmin: true,
       canModify: true,
