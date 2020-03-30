@@ -5,14 +5,14 @@ import { useMemo } from 'react';
 import * as GQL from './useCollectionFollowers.generated';
 
 export const useCollectionFollowers = (collectionId: Collection['id']) => {
-  const userQ = GQL.useCollectionFollowersQuery({
+  const collectionFollowersQ = GQL.useCollectionFollowersQuery({
     variables: { collectionId, limit: DEFAULT_PAGE_SIZE }
   });
 
   const collectionFollowersPage = usePage(
-    userQ.data?.collection?.followers,
+    collectionFollowersQ.data?.collection?.followers,
     ({ cursor, update }) => {
-      userQ.fetchMore({
+      collectionFollowersQ.fetchMore({
         variables: { ...cursor, limit: DEFAULT_PAGE_SIZE, collectionId },
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.collection?.followers &&

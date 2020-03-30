@@ -13,11 +13,14 @@ import React, { FC, useMemo } from 'react';
 import CommunityPageUI, { Props as CommunityProps } from 'ui/pages/community';
 import { Box } from 'rebass/styled-components';
 import { useHistory } from 'react-router-dom';
+import { useCommunityFollowers } from 'fe/user/followers/community/useCommunityFollowers';
+import { UserPreviewHOC } from 'HOC/modules/previews/user/UserPreview';
 
 export enum CommunityPageTab {
   Activities,
   Collections,
-  Discussions
+  Discussions,
+  Members
 }
 export interface CommunityPage {
   communityId: Community['id'];
@@ -27,6 +30,7 @@ export interface CommunityPage {
 
 export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
   const { community, createThread } = useCommunity(communityId);
+  const { communityFollowersPage } = useCommunityFollowers(communityId);
   const { threadsPage } = useCommunityThreads(communityId);
   const { collectionsPage } = useCommunityCollections(communityId);
   const { activitiesPage } = useCommunityOutboxActivities(communityId);
@@ -40,6 +44,9 @@ export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
   });
 
   const communityPageProps = useMemo<CommunityProps | null>(() => {
+    if (!community) {
+      return null;
+    }
     const ActivitiesBox = (
       <>
         {activitiesPage.edges.map(activity => (
@@ -71,7 +78,17 @@ export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
       </>
     );
 
-    const HeroCommunityBox = <HeroCommunity communityId={communityId} />;
+    const FollowersBoxes: CommunityProps['FollowersBoxes'] = (
+      <>
+        {communityFollowersPage.edges.map(
+          follow =>
+            follow.creator && <UserPreviewHOC userId={follow.creator?.userId} />
+        )}
+      </>
+    );
+    const HeroCommunityBox = (
+      <HeroCommunity communityId={communityId} basePath={basePath} />
+    );
 
     const CreateCollectionPanel: CommunityProps['CreateCollectionPanel'] = ({
       done
@@ -80,6 +97,8 @@ export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
     const myFollow = community?.myFollow;
 
     const props: CommunityProps = {
+      FollowersBoxes,
+      communityName: community.name,
       CreateCollectionPanel,
       ActivitiesBox,
       CollectionsBox,
@@ -90,7 +109,7 @@ export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
       newThreadFormik: myFollow ? newThreadFormik : null
     };
     return props;
-  }, [community, newThreadFormik, basePath]);
+  }, [community, newThreadFormik, basePath, communityFollowersPage]);
 
   return communityPageProps && <CommunityPageUI {...communityPageProps} />;
 };

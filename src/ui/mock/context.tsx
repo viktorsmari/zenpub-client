@@ -151,6 +151,7 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
 export const getHeroCommunityPropsAdmin = (): HeroCommunityProps => {
   return {
     community: {
+      basePath: '/community/1',
       status: HeroCommunityStatus.Loaded,
       isAdmin: true,
       // isFeatured: true,
@@ -541,6 +542,7 @@ export const getHeroCollectionProps = (): HeroCollectionProps => {
 export const getHeroCollectionPropsAdmin = (): HeroCollectionProps => {
   return {
     collection: {
+      basePath: '/collection/1',
       status: HeroCollectionStatus.Loaded,
       isAdmin: true,
       canModify: true,

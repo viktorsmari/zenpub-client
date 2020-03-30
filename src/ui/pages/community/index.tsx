@@ -20,7 +20,7 @@ import { Header } from 'ui/modules/Header';
 export interface Props {
   isJoined: boolean;
   ActivitiesBox: JSX.Element;
-  UserBoxes: JSX.Element;
+  FollowersBoxes: JSX.Element;
   CollectionsBox: JSX.Element;
   HeroCommunityBox: JSX.Element;
   ThreadsBox: JSX.Element;
@@ -34,7 +34,7 @@ export const Community: React.FC<Props> = ({
   ActivitiesBox,
   HeroCommunityBox,
   CollectionsBox,
-  UserBoxes,
+  FollowersBoxes,
   basePath,
   newThreadFormik,
   isJoined,
@@ -60,7 +60,7 @@ export const Community: React.FC<Props> = ({
             <Switch>
               <Route path={`${basePath}/members`}>
                 <FollowersMenu basePath={`${basePath}/members`} />
-                {UserBoxes}
+                {FollowersBoxes}
               </Route>
               <Route exact path={`${basePath}`}>
                 <>

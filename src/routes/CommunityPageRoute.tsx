@@ -19,6 +19,8 @@ const CommunityPageRouter: FC<RouteComponentProps<CommunityPageRouter>> = ({
   const tab =
     maybeTabStr === 'collections'
       ? CommunityPageTab.Collections
+      : maybeTabStr === 'members'
+      ? CommunityPageTab.Members
       : maybeTabStr === 'discussions'
       ? CommunityPageTab.Discussions
       : !maybeTabStr

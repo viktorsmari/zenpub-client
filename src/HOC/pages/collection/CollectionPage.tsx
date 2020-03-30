@@ -105,6 +105,6 @@ export const CollectionPage: FC<CollectionPage> = props => {
       collectionName: collection.name
     };
     return uiProps;
-  }, [props, activitiesPage, resourcesPage]);
+  }, [props, activitiesPage, resourcesPage, collectionFollowersPage]);
   return collectionPageProps && <CollectionPageUI {...collectionPageProps} />;
 };

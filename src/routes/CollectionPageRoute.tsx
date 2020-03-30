@@ -17,7 +17,7 @@ const CollectionPageRouter: FC<RouteComponentProps<CollectionPageRouter>> = ({
   const collectionId = match.params.collectionId;
   const maybeTabStr = match.params.tab;
   const tab =
-    maybeTabStr === 'folowers'
+    maybeTabStr === 'followers'
       ? CollectionPageTab.Followers
       : maybeTabStr === 'activities'
       ? CollectionPageTab.Activities

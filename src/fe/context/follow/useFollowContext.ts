@@ -4,6 +4,8 @@ import * as GQL from 'fe/mutation/follow/useMutateFollow.generated';
 import Maybe from 'graphql/tsutils/Maybe';
 import { Collection, Community, Thread, User } from 'graphql/types.generated';
 import { useCallback, useMemo } from 'react';
+import { CommunityFollowersDocument } from 'fe/user/followers/community/useCommunityFollowers.generated';
+import { CollectionFollowersDocument } from 'fe/user/followers/collection/useCollectionFollowers.generated';
 
 type Context = Collection | Community | Thread | User;
 
@@ -30,11 +32,23 @@ export const useFollowContext = (ctx: UseFollowContext) => {
           id,
           followerCount || 0
         ),
-        refetchQueries: [
-          ...(__typename === 'Community' // || __typename === 'Collection'
-            ? [{ query: MyFollowedCommunitiesDocument }]
-            : [])
-        ]
+        refetchQueries:
+          __typename === 'Community'
+            ? [
+                { query: MyFollowedCommunitiesDocument },
+                {
+                  query: CommunityFollowersDocument,
+                  variables: { communityId: id }
+                }
+              ]
+            : __typename === 'Collection'
+            ? [
+                {
+                  query: CollectionFollowersDocument,
+                  variables: { collectionId: id }
+                }
+              ]
+            : []
       });
     } else {
       return isOptimisticId(myFollow.id)
@@ -48,11 +62,23 @@ export const useFollowContext = (ctx: UseFollowContext) => {
               id,
               followerCount || 1
             ),
-            refetchQueries: [
-              ...(__typename === 'Community' // || __typename === 'Collection'
-                ? [{ query: MyFollowedCommunitiesDocument }]
-                : [])
-            ]
+            refetchQueries:
+              __typename === 'Community'
+                ? [
+                    { query: MyFollowedCommunitiesDocument },
+                    {
+                      query: CommunityFollowersDocument,
+                      variables: { communityId: id }
+                    }
+                  ]
+                : __typename === 'Collection'
+                ? [
+                    {
+                      query: CollectionFollowersDocument,
+                      variables: { collectionId: id }
+                    }
+                  ]
+                : []
           });
     }
   }, [ctx, mutating]);
