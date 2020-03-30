@@ -1,7 +1,7 @@
 import { useUserOutboxActivities } from 'fe/activities/outbox/user/useUserOutboxActivities';
 import { useUserFollowedCollections } from 'fe/collection/user/useUserFollowedCollections';
 import { useUserFollowedCommunities } from 'fe/community/user/useUserFollowedCommunities';
-import { useUserFollowedUsers } from 'fe/user/follows/useUserFollowedUsers';
+import { useUserFollowedUsers } from 'fe/user/followed/user/useUserFollowedUsers';
 import { useUser } from 'fe/user/useUser';
 import { User } from 'graphql/types.generated';
 import { HeroUser } from 'HOC/modules/HeroUser/HeroUser';

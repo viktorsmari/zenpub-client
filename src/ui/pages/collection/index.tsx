@@ -20,7 +20,7 @@ export interface Props {
   ActivitiesBox: JSX.Element;
   ResourcesBox: JSX.Element;
   HeroCollectionBox: JSX.Element;
-  UserBoxes: JSX.Element;
+  FollowersBoxes: JSX.Element;
   ShareLinkModalPanel: React.ComponentType<{ done(): any }>;
   EditCollectionPanel: React.ComponentType<{ done(): any }>;
   UploadResourcePanel: React.ComponentType<{ done(): any }>;
@@ -34,7 +34,7 @@ export const Collection: React.FC<Props> = ({
   EditCollectionPanel,
   UploadResourcePanel,
   ActivitiesBox,
-  UserBoxes,
+  FollowersBoxes,
   ResourcesBox,
   basePath,
   collectionName
@@ -61,7 +61,7 @@ export const Collection: React.FC<Props> = ({
             <Switch>
               <Route path={`${basePath}/followers`}>
                 <FollowersMenu basePath={`${basePath}/followers`} />
-                {UserBoxes}
+                {FollowersBoxes}
               </Route>
               <Route exact path={`${basePath}/`}>
                 <>
