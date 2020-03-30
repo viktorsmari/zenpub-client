@@ -13,6 +13,7 @@ export interface Props {
   communityId: string;
   communityName: string;
   communityIcon: string;
+  isCommunityContext: boolean;
 }
 
 export const Thread: React.FC<Props> = ({
@@ -21,9 +22,10 @@ export const Thread: React.FC<Props> = ({
   communityId,
   communityName,
   communityIcon,
-  Context
+  Context,
+  isCommunityContext
 }) => {
-  console.log(Context);
+  // console.log(Context);
   return (
     <MainContainer>
       <HomeBox>
@@ -35,9 +37,7 @@ export const Thread: React.FC<Props> = ({
                 name={communityName}
                 icon={communityIcon}
               />
-              {Context.props.ctx.__typename !== 'Community' && (
-                <Box p={2}>{Context}</Box>
-              )}
+              {!isCommunityContext && <Box p={2}>{Context}</Box>}
               {MainThread}
             </Box>
             {Comments}

@@ -1,7 +1,9 @@
 import * as Types from '../../../graphql/types.generated';
 
 import { UserPreviewFragment } from '../../../HOC/modules/previews/user/UserPreview.generated';
+import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
+import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { UserPreviewFragmentDoc } from '../../../HOC/modules/previews/user/UserPreview.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -11,11 +13,12 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
+
 export type UserFollowedUsersQueryVariables = {
   userId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Types.Scalars['String']>,
-  after?: Types.Maybe<Types.Scalars['String']>
+  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
+  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
 };
 
 
@@ -25,20 +28,21 @@ export type UserFollowedUsersQuery = (
     { __typename: 'User' }
     & Pick<Types.User, 'id'>
     & { followedUsers: Types.Maybe<(
-      { __typename: 'FollowedUsersEdges' }
-      & { edges: Array<Types.Maybe<(
-        { __typename: 'FollowedUsersEdge' }
-        & { node: (
-          { __typename: 'FollowedUser' }
-          & { follow: (
-            { __typename: 'Follow' }
-            & Pick<Types.Follow, 'id'>
-          ), user: (
-            { __typename: 'User' }
-            & UserFollowedUserFragment
-          ) }
+      { __typename: 'FollowedUsersPage' }
+      & Pick<Types.FollowedUsersPage, 'totalCount'>
+      & { pageInfo: (
+        { __typename: 'PageInfo' }
+        & FullPageInfoFragment
+      ), edges: Array<(
+        { __typename: 'FollowedUser' }
+        & { follow: (
+          { __typename: 'Follow' }
+          & Pick<Types.Follow, 'id'>
+        ), user: (
+          { __typename: 'User' }
+          & UserFollowedUserFragment
         ) }
-      )>> }
+      )> }
     )> }
   )> }
 );
@@ -54,24 +58,27 @@ export const UserFollowedUserFragmentDoc = gql`
 }
     ${UserPreviewFragmentDoc}`;
 export const UserFollowedUsersDocument = gql`
-    query UserFollowedUsers($userId: String!, $limit: Int, $before: String, $after: String) {
-  user(userId: $userId) {
+    query userFollowedUsers($userId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
+  user(userId: $userId) @connection(key: "userFollowedUsers", filter: ["userId"]) {
     id
     followedUsers(limit: $limit, before: $before, after: $after) {
+      totalCount
+      pageInfo {
+        ...FullPageInfo
+      }
       edges {
-        node {
-          follow {
-            id
-          }
-          user {
-            ...UserFollowedUser
-          }
+        follow {
+          id
+        }
+        user {
+          ...UserFollowedUser
         }
       }
     }
   }
 }
-    ${UserFollowedUserFragmentDoc}`;
+    ${FullPageInfoFragmentDoc}
+${UserFollowedUserFragmentDoc}`;
 export type UserFollowedUsersComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UserFollowedUsersQuery, UserFollowedUsersQueryVariables>, 'query'> & ({ variables: UserFollowedUsersQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const UserFollowedUsersComponent = (props: UserFollowedUsersComponentProps) => (
@@ -121,7 +128,7 @@ export type UserFollowedUsersQueryResult = ApolloReactCommon.QueryResult<UserFol
 
 
 export interface UserFollowedUsersQueryOperation {
-  operationName: 'UserFollowedUsers'
+  operationName: 'userFollowedUsers'
   result: UserFollowedUsersQuery
   variables: UserFollowedUsersQueryVariables
   type: 'query'

@@ -59,7 +59,7 @@ const Confirm = (props: Props) => {
     confirm({ variables: { token: props.token } });
   }, [props.token]);
   return !result.loading && result.data?.confirmEmail?.token ? (
-    <Redirect to="/#welcome" />
+    <Redirect to="/" />
   ) : (
     <Container>
       <LoginWrapper>

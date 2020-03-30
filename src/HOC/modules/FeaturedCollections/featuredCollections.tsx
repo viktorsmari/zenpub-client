@@ -4,20 +4,21 @@ import {
   FeaturedCollectionsData
 } from 'ui/modules/FeaturedCollections';
 import { useMe } from 'fe/session/me';
-import { useInstanceFeatured } from 'fe/instance/featured/useInstanceFeatured';
 import { DiscoverPageFeaturedCollectionInfoFragment } from 'HOC/pages/discover/DiscoverPage.generated';
 import { CollectionBase } from 'ui/modules/FeaturedCollections/preview';
 import { FeatureModalHOC } from '../FeatureModal/FeatureModal';
+import { useInstanceFeaturedCollections } from 'fe/instance/featuredCollections/useInstanceFeaturedCollections';
 
 export interface FeaturedCollections {}
 export const FeaturedCollections: FC<FeaturedCollections> = () => {
   const { isAdmin } = useMe();
-  const { featuredCollectionsEdges } = useInstanceFeatured();
+  const { featuredCollectionsPage } = useInstanceFeaturedCollections();
   const featuredCollections = useMemo<CollectionBase[]>(
     () =>
-      featuredCollectionsEdges.nodes
-        .map(node => node.context)
+      featuredCollectionsPage.edges
+        .map(feature => feature.context)
         .filter(
+          //FIXME: remove when fixed nullable context
           (maybeCtx): maybeCtx is DiscoverPageFeaturedCollectionInfoFragment =>
             !!maybeCtx && maybeCtx.__typename === 'Collection'
         )
@@ -25,15 +26,15 @@ export const FeaturedCollections: FC<FeaturedCollections> = () => {
           ...collection,
           icon: collection.icon || ''
         })),
-    [featuredCollectionsEdges]
+    [featuredCollectionsPage]
   );
 
   const FeaturedModal = useMemo<FeaturedCollectionsData['FeaturedModal']>(
     () => ({ collection, done }) => {
-      const collectionFeature = featuredCollectionsEdges.nodes.find(
-        node =>
-          node.context?.__typename === 'Collection' &&
-          node.context.id === collection.id
+      const collectionFeature = featuredCollectionsPage.edges.find(
+        feature =>
+          feature.context?.__typename === 'Collection' && //FIXME: remove ? when fixed
+          feature.context.id === collection.id
       );
       const featureId = collectionFeature?.id;
       return (

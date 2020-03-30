@@ -1,13 +1,13 @@
-query userFollowedCollections($userId: String!, $limit:Int, $before:String, $after:String) {
-  user(userId:$userId){
+query userFollowedCollections($userId: String!, $limit:Int, $before:[Cursor], $after:[Cursor]) {
+  user(userId:$userId) @connection(key: "userFollowedCollections", filter: ["userId"]){
     id
     followedCollections(limit:$limit, before:$before, after:$after){
+      totalCount,
+      pageInfo{ ...FullPageInfo }
       edges{
-        node{
-          follow { id }
-          collection{
-          ...UserFollowedCollection
-          }
+        follow { id }
+        collection{
+        ...UserFollowedCollection
         }
       }
     }

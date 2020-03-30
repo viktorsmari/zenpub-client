@@ -9,8 +9,8 @@ export type CommunityPreviewFragment = (
     { __typename: 'Flag' }
     & Pick<Types.Flag, 'id'>
   )>, threads: Types.Maybe<(
-    { __typename: 'ThreadsEdges' }
-    & Pick<Types.ThreadsEdges, 'totalCount'>
+    { __typename: 'ThreadsPage' }
+    & Pick<Types.ThreadsPage, 'totalCount'>
   )> }
   & CommunityInfoFragment
 );

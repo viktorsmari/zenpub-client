@@ -7,7 +7,6 @@ import gql from 'graphql-tag';
 import { HeroCommunityDataFragmentDoc } from '../../modules/HeroCommunity/HeroCommunity.generated';
 import { ThreadPreviewFragmentDoc } from '../../modules/previews/thread/ThreadPreview.generated';
 import { ActivityPreviewFragmentDoc } from '../../modules/previews/activity/ActivityPreview.generated';
-import { CommentPreviewFragment, CommentPreviewFragmentDoc } from 'HOC/modules/previews/comment/CommentPreview.generated';
 import { CollectionPreviewFragment, CollectionPreviewFragmentDoc } from 'HOC/modules/previews/collection/CollectionPreview.generated';
 
 
@@ -25,16 +24,7 @@ export type CommunityPageDataFragment = (
 
 export type CommunityPageThreadFragment = (
   { __typename: 'Thread' }
-  & { comments: Types.Maybe<(
-    { __typename: 'CommentsEdges' }
-    & { edges: Array<Types.Maybe<(
-      { __typename: 'CommentsEdge' }
-      & { node: (
-        { __typename: 'Comment' }
-        & CommentPreviewFragment
-      ) }
-    )>> }
-  )> }
+  & Pick<Types.Thread, 'id'>
   & ThreadPreviewFragment
 );
 
@@ -61,17 +51,10 @@ export const CommunityPageDataFragmentDoc = gql`
     ${HeroCommunityDataFragmentDoc}`;
 export const CommunityPageThreadFragmentDoc = gql`
     fragment CommunityPageThread on Thread {
+  id
   ...ThreadPreview
-  comments(limit: 1) {
-    edges {
-      node {
-        ...CommentPreview
-      }
-    }
-  }
 }
-    ${ThreadPreviewFragmentDoc}
-${CommentPreviewFragmentDoc}`;
+    ${ThreadPreviewFragmentDoc}`;
 export const CommunityPageCollectionBaseFragmentDoc = gql`
     fragment CommunityPageCollectionBase on Collection {
   id

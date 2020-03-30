@@ -1,9 +1,9 @@
-import * as GQL from 'fe/mutation/follow/useMutateFollow.generated';
+import { MyFollowedCommunitiesDocument } from 'fe/community/myFollowed/myFollowedCommunities.generated';
 import { isOptimisticId, OPTIMISTIC_ID_STRING } from 'fe/lib/helpers/mutations';
-import { GetSidebarQueryDocument } from 'graphql/getSidebar.generated';
+import * as GQL from 'fe/mutation/follow/useMutateFollow.generated';
+import Maybe from 'graphql/tsutils/Maybe';
 import { Collection, Community, Thread, User } from 'graphql/types.generated';
 import { useCallback, useMemo } from 'react';
-import Maybe from 'graphql/tsutils/Maybe';
 
 type Context = Collection | Community | Thread | User;
 
@@ -31,8 +31,8 @@ export const useFollowContext = (ctx: UseFollowContext) => {
           followerCount || 0
         ),
         refetchQueries: [
-          ...(__typename === 'Community' || __typename === 'Collection'
-            ? [{ query: GetSidebarQueryDocument }]
+          ...(__typename === 'Community' // || __typename === 'Collection'
+            ? [{ query: MyFollowedCommunitiesDocument }]
             : [])
         ]
       });
@@ -49,8 +49,8 @@ export const useFollowContext = (ctx: UseFollowContext) => {
               followerCount || 1
             ),
             refetchQueries: [
-              ...(__typename === 'Community' || __typename === 'Collection'
-                ? [{ query: GetSidebarQueryDocument }]
+              ...(__typename === 'Community' // || __typename === 'Collection'
+                ? [{ query: MyFollowedCommunitiesDocument }]
                 : [])
             ]
           });

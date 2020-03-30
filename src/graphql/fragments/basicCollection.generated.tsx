@@ -1,10 +1,10 @@
 import * as Types from '../types.generated';
 
-import { BasicResourcesEdgesFragment } from './basicResourcesEdges.generated';
+import { BasicResourcesPageFragment } from './basicResourcesEdges.generated';
 import { BasicUserFragment } from './basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from './basicUser.generated';
-import { BasicResourcesEdgesFragmentDoc } from './basicResourcesEdges.generated';
+import { BasicResourcesPageFragmentDoc } from './basicResourcesEdges.generated';
 
 
 
@@ -34,17 +34,17 @@ export type BasicCollectionFragment = (
       & Pick<Types.Flag, 'id'>
     )> }
   )>, resources: Types.Maybe<(
-    { __typename: 'ResourcesEdges' }
-    & BasicResourcesEdgesFragment
+    { __typename: 'ResourcesPage' }
+    & BasicResourcesPageFragment
   )>, followers: Types.Maybe<(
-    { __typename: 'FollowsEdges' }
-    & Pick<Types.FollowsEdges, 'totalCount'>
+    { __typename: 'FollowsPage' }
+    & Pick<Types.FollowsPage, 'totalCount'>
   )>, threads: Types.Maybe<(
-    { __typename: 'ThreadsEdges' }
-    & Pick<Types.ThreadsEdges, 'totalCount'>
+    { __typename: 'ThreadsPage' }
+    & Pick<Types.ThreadsPage, 'totalCount'>
   )>, outbox: Types.Maybe<(
-    { __typename: 'ActivitiesEdges' }
-    & Pick<Types.ActivitiesEdges, 'totalCount'>
+    { __typename: 'ActivitiesPage' }
+    & Pick<Types.ActivitiesPage, 'totalCount'>
   )> }
 );
 
@@ -86,7 +86,7 @@ export const BasicCollectionFragmentDoc = gql`
     }
   }
   resources {
-    ...BasicResourcesEdges
+    ...BasicResourcesPage
   }
   followers {
     totalCount
@@ -99,4 +99,4 @@ export const BasicCollectionFragmentDoc = gql`
   }
 }
     ${BasicUserFragmentDoc}
-${BasicResourcesEdgesFragmentDoc}`;
+${BasicResourcesPageFragmentDoc}`;

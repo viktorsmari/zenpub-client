@@ -59,12 +59,7 @@ const CommunityPage: FC<Props> = ({
                 {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
                 community.outbox!.edges!.map(
                   (t, i) =>
-                    t && (
-                      <ActivityPreviewHOC
-                        activityId={t.node.id}
-                        key={t.node.id}
-                      />
-                    )
+                    t && <ActivityPreviewHOC activityId={t.id} key={t.id} />
                 )}
                 {/* <LoadMoreTimeline fetchMore={fetchMore} community={community} /> */}
               </div>
@@ -86,18 +81,17 @@ const CommunityPage: FC<Props> = ({
                   community.threads.edges.map(
                     (t, i) =>
                       t &&
-                      t.node.comments &&
-                      t.node.comments.edges.map(
+                      t.comments &&
+                      t.comments.edges.map(
                         edge =>
                           edge &&
-                          edge.node &&
-                          edge.node.inReplyTo == null && (
+                          edge.inReplyTo == null && (
                             <FeedItem
                               key={
                                 /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                                edge.node.thread!.id
+                                edge.thread!.id
                               }
-                              comment={edge.node}
+                              comment={edge}
                             />
                           )
                       )

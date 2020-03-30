@@ -1,14 +1,13 @@
 
 
 
-query instanceOutboxActivities( $after:String, $before:String, $limit:Int){
-  instance{
+query instanceOutboxActivities( $after:[Cursor], $before:[Cursor], $limit:Int){
+  instance @connection(key: "instanceOutboxActivities"){
     outbox(after:$after, before:$before, limit:$limit){
       totalCount,
+      pageInfo{ ...FullPageInfo }
       edges{
-        node{
-          ...InstanceOutboxActivity
-        }
+        ...InstanceOutboxActivity
       }
     }
   }

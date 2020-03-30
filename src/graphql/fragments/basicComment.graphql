@@ -21,7 +21,7 @@ fragment BasicComment on Comment {
     creator {
         ...BasicUser
     }
-    likes { totalCount }
+    likers { totalCount }
     flags { totalCount }
     thread  {
         id

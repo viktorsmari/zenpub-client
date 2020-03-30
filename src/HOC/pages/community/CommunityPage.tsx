@@ -27,11 +27,10 @@ export interface CommunityPage {
 
 export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
   const { community, createThread } = useCommunity(communityId);
-  const { threads } = useCommunityThreads(communityId);
-  const { collections } = useCommunityCollections(communityId);
-  const { activities } = useCommunityOutboxActivities(communityId);
+  const { threadsPage } = useCommunityThreads(communityId);
+  const { collectionsPage } = useCommunityCollections(communityId);
+  const { activitiesPage } = useCommunityOutboxActivities(communityId);
   const history = useHistory();
-
   const newThreadFormik = useFormik<{ text: string }>({
     initialValues: { text: '' },
     onSubmit: ({ text }) =>
@@ -43,7 +42,7 @@ export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
   const communityPageProps = useMemo<CommunityProps | null>(() => {
     const ActivitiesBox = (
       <>
-        {activities.map(activity => (
+        {activitiesPage.edges.map(activity => (
           <ActivityPreviewHOC activityId={activity.id} key={activity.id} />
         ))}
       </>
@@ -51,7 +50,7 @@ export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
 
     const CollectionsBox = (
       <>
-        {collections.map(collection => (
+        {collectionsPage.edges.map(collection => (
           <Box m={2} key={collection.id}>
             <CollectionPreviewHOC
               collectionId={collection.id}
@@ -64,7 +63,7 @@ export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
 
     const ThreadsBox = (
       <>
-        {threads.map(thread => (
+        {threadsPage.edges.map(thread => (
           <Box mx={3} my={1} key={thread.id}>
             <ThreadPreviewHOC threadId={thread.id} />
           </Box>

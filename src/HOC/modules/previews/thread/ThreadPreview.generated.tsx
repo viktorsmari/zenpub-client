@@ -31,15 +31,12 @@ export type ThreadPreviewFragment = (
     { __typename: 'Resource' }
     & ResourcePreviewFragment
   )>, comments: Types.Maybe<(
-    { __typename: 'CommentsEdges' }
-    & Pick<Types.CommentsEdges, 'totalCount'>
-    & { edges: Array<Types.Maybe<(
-      { __typename: 'CommentsEdge' }
-      & { node: (
-        { __typename: 'Comment' }
-        & CommentPreviewFragment
-      ) }
-    )>> }
+    { __typename: 'CommentsPage' }
+    & Pick<Types.CommentsPage, 'totalCount'>
+    & { edges: Array<(
+      { __typename: 'Comment' }
+      & CommentPreviewFragment
+    )> }
   )> }
 );
 
@@ -63,9 +60,7 @@ export const ThreadPreviewFragmentDoc = gql`
   comments(limit: 1) {
     totalCount
     edges {
-      node {
-        ...CommentPreview
-      }
+      ...CommentPreview
     }
   }
 }

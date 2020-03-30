@@ -41,8 +41,7 @@ export const useEditCollection = (collectionId: Collection['id']) => {
             collection: {
               name: collectionInput.name,
               icon: iconFile ? undefined : collectionInput.icon,
-              summary: collectionInput.summary,
-              preferredUsername: collectionInput.preferredUsername
+              summary: collectionInput.summary
             }
           }
         })

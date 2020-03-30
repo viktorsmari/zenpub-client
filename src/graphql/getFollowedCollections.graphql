@@ -1,6 +1,6 @@
 #import "./fragments/basicCollection.graphql"
 
-query getFollowedCollections($limit: Int, $endColl: String) {
+query getFollowedCollections($limit: Int, $endColl: [Cursor]) {
     me {
         user {
             id
@@ -11,16 +11,14 @@ query getFollowedCollections($limit: Int, $endColl: String) {
             followedCollections(limit: $limit, after:$endColl) {
                 pageInfo { startCursor endCursor }
                 edges {
-                    node {
-                        follow {
-                            id
-                            canonicalUrl
-                        }
-                        collection {
-                            __typename
-                            ... on Collection {
-                                ...BasicCollection
-                            }
+                    follow {
+                        id
+                        canonicalUrl
+                    }
+                    collection {
+                        __typename
+                        ... on Collection {
+                            ...BasicCollection
                         }
                     }
                 }

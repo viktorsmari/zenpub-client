@@ -10,7 +10,7 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type GetSidebarQueryQueryVariables = {
   limitComm?: Types.Maybe<Types.Scalars['Int']>,
-  endComm?: Types.Maybe<Types.Scalars['String']>
+  endComm?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
 };
 
 
@@ -22,23 +22,20 @@ export type GetSidebarQueryQuery = (
       { __typename: 'User' }
       & Pick<Types.User, 'id' | 'canonicalUrl' | 'name' | 'preferredUsername' | 'icon'>
       & { followedCommunities: Types.Maybe<(
-        { __typename: 'FollowedCommunitiesEdges' }
-        & { pageInfo: Types.Maybe<(
+        { __typename: 'FollowedCommunitiesPage' }
+        & { pageInfo: (
           { __typename: 'PageInfo' }
           & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-        )>, edges: Array<Types.Maybe<(
-          { __typename: 'FollowedCommunitiesEdge' }
-          & { node: (
-            { __typename: 'FollowedCommunity' }
-            & { follow: (
-              { __typename: 'Follow' }
-              & Pick<Types.Follow, 'id'>
-            ), community: (
-              { __typename: 'Community' }
-              & Pick<Types.Community, 'id' | 'preferredUsername' | 'name' | 'icon'>
-            ) }
+        ), edges: Array<(
+          { __typename: 'FollowedCommunity' }
+          & { follow: (
+            { __typename: 'Follow' }
+            & Pick<Types.Follow, 'id'>
+          ), community: (
+            { __typename: 'Community' }
+            & Pick<Types.Community, 'id' | 'preferredUsername' | 'name' | 'icon'>
           ) }
-        )>> }
+        )> }
       )> }
     ) }
   )> }
@@ -46,7 +43,7 @@ export type GetSidebarQueryQuery = (
 
 
 export const GetSidebarQueryDocument = gql`
-    query getSidebarQuery($limitComm: Int, $endComm: String) {
+    query getSidebarQuery($limitComm: Int, $endComm: [Cursor]) {
   me {
     user {
       id
@@ -60,18 +57,16 @@ export const GetSidebarQueryDocument = gql`
           endCursor
         }
         edges {
-          node {
-            follow {
+          follow {
+            id
+          }
+          community {
+            __typename
+            ... on Community {
               id
-            }
-            community {
-              __typename
-              ... on Community {
-                id
-                preferredUsername
-                name
-                icon
-              }
+              preferredUsername
+              name
+              icon
             }
           }
         }

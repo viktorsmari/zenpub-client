@@ -100,8 +100,8 @@ const CommunitiesFeatured: React.FC<Props> = () => {
                           t =>
                             t && (
                               <ActivityPreviewHOC
-                                activityId={t.node.id}
-                                key={t.node.id}
+                                activityId={t.id}
+                                key={t.id}
                               />
                             )
                         )}
@@ -120,23 +120,21 @@ const CommunitiesFeatured: React.FC<Props> = () => {
                               coll && (
                                 <div key={i}>
                                   <CollectionPreview
-                                    icon={coll.node.collection.icon!}
-                                    name={coll.node.collection.name}
-                                    summary={coll.node.collection.summary!}
+                                    icon={coll.collection.icon!}
+                                    name={coll.collection.name}
+                                    summary={coll.collection.summary!}
                                     link={{
-                                      url:
-                                        'collections/' +
-                                        coll.node.collection.id,
+                                      url: 'collections/' + coll.collection.id,
                                       external: false
                                     }}
                                     totalResources={
-                                      coll.node.collection.resources!.totalCount
+                                      coll.collection.resources!.totalCount
                                     }
                                   />
                                 </div>
                                 // <CollectionCard
                                 //   key={i}
-                                //   collection={collection.node.collection}
+                                //   collection={collection.collection}
                                 // />
                               )
                           )}
@@ -157,33 +155,26 @@ const CommunitiesFeatured: React.FC<Props> = () => {
                                 community && (
                                   <CommunityCard
                                     key={i}
-                                    summary={
-                                      community.node.community.summary || ''
-                                    }
-                                    title={community.node.community.name || ''}
+                                    summary={community.community.summary || ''}
+                                    title={community.community.name || ''}
                                     collectionsCount={
                                       /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                                      community.node.community.collections!
+                                      community.community.collections!
                                         .totalCount
                                     }
-                                    icon={community.node.community.icon || ''}
-                                    followed={
-                                      !!community.node.community.myFollow
-                                    }
-                                    id={community.node.community.id}
+                                    icon={community.community.icon || ''}
+                                    followed={!!community.community.myFollow}
+                                    id={community.community.id}
                                     externalId={
-                                      community.node.community.canonicalUrl ||
-                                      ''
+                                      community.community.canonicalUrl || ''
                                     }
                                     followersCount={
                                       /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                                      community.node.community.followers!
-                                        .totalCount
+                                      community.community.followers!.totalCount
                                     }
                                     threadsCount={
                                       /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                                      community.node.community.threads!
-                                        .totalCount
+                                      community.community.threads!.totalCount
                                     }
                                   />
                                 )

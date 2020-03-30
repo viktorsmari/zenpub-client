@@ -8,7 +8,7 @@ fragment ResourcePreview on Resource {
     url
     myLike { id }
     myFlag { id }
-    likes { totalCount }
+    likers { totalCount }
     collection {
       id
       community {

@@ -1,7 +1,9 @@
 import * as Types from '../../../graphql/types.generated';
 
 import { CollectionPageResourceFragment } from '../../../HOC/pages/collection/CollectionPage.generated';
+import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
+import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { CollectionPageResourceFragmentDoc } from '../../../HOC/pages/collection/CollectionPage.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -11,11 +13,12 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
+
 export type CollectionResourcesQueryVariables = {
   collectionId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Types.Scalars['String']>,
-  after?: Types.Maybe<Types.Scalars['String']>
+  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
+  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
 };
 
 
@@ -25,14 +28,15 @@ export type CollectionResourcesQuery = (
     { __typename: 'Collection' }
     & Pick<Types.Collection, 'id'>
     & { resources: Types.Maybe<(
-      { __typename: 'ResourcesEdges' }
-      & { edges: Array<Types.Maybe<(
-        { __typename: 'ResourcesEdge' }
-        & { node: (
-          { __typename: 'Resource' }
-          & CollectionResourceFragment
-        ) }
-      )>> }
+      { __typename: 'ResourcesPage' }
+      & Pick<Types.ResourcesPage, 'totalCount'>
+      & { pageInfo: (
+        { __typename: 'PageInfo' }
+        & FullPageInfoFragment
+      ), edges: Array<(
+        { __typename: 'Resource' }
+        & CollectionResourceFragment
+      )> }
     )> }
   )> }
 );
@@ -48,19 +52,22 @@ export const CollectionResourceFragmentDoc = gql`
 }
     ${CollectionPageResourceFragmentDoc}`;
 export const CollectionResourcesDocument = gql`
-    query collectionResources($collectionId: String!, $limit: Int, $before: String, $after: String) {
-  collection(collectionId: $collectionId) {
+    query collectionResources($collectionId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
+  collection(collectionId: $collectionId) @connection(key: "collectionResources", filter: ["collectionId"]) {
     id
     resources(limit: $limit, before: $before, after: $after) {
+      totalCount
+      pageInfo {
+        ...FullPageInfo
+      }
       edges {
-        node {
-          ...CollectionResource
-        }
+        ...CollectionResource
       }
     }
   }
 }
-    ${CollectionResourceFragmentDoc}`;
+    ${FullPageInfoFragmentDoc}
+${CollectionResourceFragmentDoc}`;
 export type CollectionResourcesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CollectionResourcesQuery, CollectionResourcesQueryVariables>, 'query'> & ({ variables: CollectionResourcesQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const CollectionResourcesComponent = (props: CollectionResourcesComponentProps) => (

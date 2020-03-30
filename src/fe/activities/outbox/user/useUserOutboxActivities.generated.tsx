@@ -2,7 +2,9 @@ import * as Types from '../../../../graphql/types.generated';
 
 import { ActivityPreviewFragment } from '../../../../HOC/modules/previews/activity/ActivityPreview.generated';
 import { UserPageActivitiesFragment } from '../../../../HOC/pages/user/UserPage.generated';
+import { FullPageInfoFragment } from '../../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
+import { FullPageInfoFragmentDoc } from '../../../../@fragments/misc.generated';
 import { UserPageActivitiesFragmentDoc } from '../../../../HOC/pages/user/UserPage.generated';
 import { ActivityPreviewFragmentDoc } from '../../../../HOC/modules/previews/activity/ActivityPreview.generated';
 import * as React from 'react';
@@ -14,10 +16,11 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
+
 export type UserOutboxActivitiesQueryVariables = {
   userId: Types.Scalars['String'],
-  after?: Types.Maybe<Types.Scalars['String']>,
-  before?: Types.Maybe<Types.Scalars['String']>,
+  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
+  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
   limit?: Types.Maybe<Types.Scalars['Int']>
 };
 
@@ -28,15 +31,15 @@ export type UserOutboxActivitiesQuery = (
     { __typename: 'User' }
     & Pick<Types.User, 'id'>
     & { outbox: Types.Maybe<(
-      { __typename: 'ActivitiesEdges' }
-      & Pick<Types.ActivitiesEdges, 'totalCount'>
-      & { edges: Types.Maybe<Array<Types.Maybe<(
-        { __typename: 'ActivitiesEdge' }
-        & { node: (
-          { __typename: 'Activity' }
-          & UserOutboxActivityFragment
-        ) }
-      )>>> }
+      { __typename: 'ActivitiesPage' }
+      & Pick<Types.ActivitiesPage, 'totalCount'>
+      & { pageInfo: (
+        { __typename: 'PageInfo' }
+        & FullPageInfoFragment
+      ), edges: Array<(
+        { __typename: 'Activity' }
+        & UserOutboxActivityFragment
+      )> }
     )> }
   )> }
 );
@@ -55,20 +58,22 @@ export const UserOutboxActivityFragmentDoc = gql`
     ${UserPageActivitiesFragmentDoc}
 ${ActivityPreviewFragmentDoc}`;
 export const UserOutboxActivitiesDocument = gql`
-    query userOutboxActivities($userId: String!, $after: String, $before: String, $limit: Int) {
-  user(userId: $userId) {
+    query userOutboxActivities($userId: String!, $after: [Cursor], $before: [Cursor], $limit: Int) {
+  user(userId: $userId) @connection(key: "userOutboxActivities", filter: ["userId"]) {
     id
     outbox(after: $after, before: $before, limit: $limit) {
       totalCount
+      pageInfo {
+        ...FullPageInfo
+      }
       edges {
-        node {
-          ...UserOutboxActivity
-        }
+        ...UserOutboxActivity
       }
     }
   }
 }
-    ${UserOutboxActivityFragmentDoc}`;
+    ${FullPageInfoFragmentDoc}
+${UserOutboxActivityFragmentDoc}`;
 export type UserOutboxActivitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UserOutboxActivitiesQuery, UserOutboxActivitiesQueryVariables>, 'query'> & ({ variables: UserOutboxActivitiesQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const UserOutboxActivitiesComponent = (props: UserOutboxActivitiesComponentProps) => (
