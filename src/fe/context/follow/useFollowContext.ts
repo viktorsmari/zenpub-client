@@ -1,11 +1,8 @@
-import { MyFollowedCommunitiesDocument } from 'fe/community/myFollowed/myFollowedCommunities.generated';
 import { isOptimisticId, OPTIMISTIC_ID_STRING } from 'fe/lib/helpers/mutations';
 import * as GQL from 'fe/mutation/follow/useMutateFollow.generated';
 import Maybe from 'graphql/tsutils/Maybe';
 import { Collection, Community, Thread, User } from 'graphql/types.generated';
 import { useCallback, useMemo } from 'react';
-import { CommunityFollowersDocument } from 'fe/user/followers/community/useCommunityFollowers.generated';
-import { CollectionFollowersDocument } from 'fe/user/followers/collection/useCollectionFollowers.generated';
 
 type Context = Collection | Community | Thread | User;
 
@@ -34,20 +31,9 @@ export const useFollowContext = (ctx: UseFollowContext) => {
         ),
         refetchQueries:
           __typename === 'Community'
-            ? [
-                { query: MyFollowedCommunitiesDocument },
-                {
-                  query: CommunityFollowersDocument,
-                  variables: { communityId: id }
-                }
-              ]
+            ? ['myFollowedCommunities', 'communityFollowers']
             : __typename === 'Collection'
-            ? [
-                {
-                  query: CollectionFollowersDocument,
-                  variables: { collectionId: id }
-                }
-              ]
+            ? ['collectionFollowers']
             : []
       });
     } else {
@@ -64,20 +50,9 @@ export const useFollowContext = (ctx: UseFollowContext) => {
             ),
             refetchQueries:
               __typename === 'Community'
-                ? [
-                    { query: MyFollowedCommunitiesDocument },
-                    {
-                      query: CommunityFollowersDocument,
-                      variables: { communityId: id }
-                    }
-                  ]
+                ? ['myFollowedCommunities', 'communityFollowers']
                 : __typename === 'Collection'
-                ? [
-                    {
-                      query: CollectionFollowersDocument,
-                      variables: { collectionId: id }
-                    }
-                  ]
+                ? ['collectionFollowers']
                 : []
           });
     }
