@@ -9,8 +9,6 @@ import { CreateNewPasswordPageRoute } from 'routes/CreateNewPasswordPageRoute';
 import { DiscoverPageRoute } from 'routes/DiscoverPageRoute';
 import { HomePageRoute } from 'routes/HomePageRoute';
 import { LoginPageRoute } from 'routes/LoginPageRoute';
-import { MyCollectionsPageRoute } from 'routes/MyCollectionsPageRoute';
-import { MyCommunitiesPageRoute } from 'routes/MyCommunitiesPageRoute';
 import { ResetPasswordPageRoute } from 'routes/ResetPasswordPageRoute';
 import { SearchPageRoute } from 'routes/SearchPageRoute';
 import { SettingsPageRoute } from 'routes/SettingsPageRoute';
@@ -31,8 +29,6 @@ export const Router: React.FC = () => {
       <Route {...ThreadPageRoute} />
       <Route {...DiscoverPageRoute} />
       <Route {...HomePageRoute} />
-      <Route {...MyCommunitiesPageRoute} />
-      <Route {...MyCollectionsPageRoute} />
       <Route {...SearchPageRoute} />
       <Route {...ResetPasswordPageRoute} />
       <Route {...CreateNewPasswordPageRoute} />
