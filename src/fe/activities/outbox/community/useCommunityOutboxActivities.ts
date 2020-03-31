@@ -12,7 +12,7 @@ export const useCommunityOutboxActivities = (communityId: Community['id']) => {
   const activitiesPage = usePage(
     communityQ.data?.community?.outbox,
     ({ cursor, update }) => {
-      communityQ.fetchMore({
+      return communityQ.fetchMore({
         variables: { ...cursor, communityId, limit: DEFAULT_PAGE_SIZE },
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.community?.outbox && prev.community?.outbox

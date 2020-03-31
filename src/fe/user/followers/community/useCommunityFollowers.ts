@@ -12,7 +12,7 @@ export const useCommunityFollowers = (communityId: Community['id']) => {
   const communityFollowersPage = usePage(
     communityFolowersQ.data?.community?.followers,
     ({ cursor, update }) => {
-      communityFolowersQ.fetchMore({
+      return communityFolowersQ.fetchMore({
         variables: { ...cursor, limit: DEFAULT_PAGE_SIZE, communityId },
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.community?.followers &&

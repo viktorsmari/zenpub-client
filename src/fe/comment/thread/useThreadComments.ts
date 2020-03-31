@@ -11,7 +11,7 @@ export const useThreadComments = (threadId: Thread['id']) => {
   const commentPage = usePage(
     threadPreviewQ.data?.thread?.comments,
     ({ cursor, update }) => {
-      threadPreviewQ.fetchMore({
+      return threadPreviewQ.fetchMore({
         variables: { ...cursor, limit: DEFAULT_PAGE_SIZE, threadId },
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.thread?.comments && prev.thread?.comments
