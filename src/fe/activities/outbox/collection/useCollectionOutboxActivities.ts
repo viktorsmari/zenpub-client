@@ -14,7 +14,7 @@ export const useCollectionOutboxActivities = (
   const activitiesPage = usePage(
     collectionQ.data?.collection?.outbox,
     ({ cursor, update }) => {
-      collectionQ.fetchMore({
+      return collectionQ.fetchMore({
         variables: { ...cursor, collectionId, limit: DEFAULT_PAGE_SIZE },
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.collection?.outbox && prev.collection?.outbox

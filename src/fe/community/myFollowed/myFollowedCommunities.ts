@@ -11,7 +11,7 @@ export const useMyFollowedCommunities = () => {
   const myFollowedCommunitiesPage = usePage(
     myFlwCommunitiesQ.data?.me?.user.followedCommunities,
     ({ cursor, update }) => {
-      myFlwCommunitiesQ.fetchMore({
+      return myFlwCommunitiesQ.fetchMore({
         variables: { ...cursor, limit: DEFAULT_PAGE_SIZE },
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.me?.user?.followedCommunities &&

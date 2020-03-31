@@ -12,7 +12,7 @@ export const useCollectionResources = (collectionId: Collection['id']) => {
   const resourcesPage = usePage(
     collectionQ.data?.collection?.resources,
     ({ cursor, update }) => {
-      collectionQ.fetchMore({
+      return collectionQ.fetchMore({
         variables: { ...cursor, limit: DEFAULT_PAGE_SIZE, collectionId },
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.collection?.resources &&
