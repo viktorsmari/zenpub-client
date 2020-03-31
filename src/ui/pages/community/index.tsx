@@ -159,7 +159,7 @@ export const Community: React.FC<Props> = ({
 };
 
 const FollowersMenu = ({ basePath }: { basePath: string }) => (
-  <MenuWrapper m={2} p={2} pt={0}>
+  <MenuWrapper m={2}>
     <NavLink exact to={`${basePath}`}>
       Members
     </NavLink>

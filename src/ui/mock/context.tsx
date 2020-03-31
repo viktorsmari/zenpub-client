@@ -2,6 +2,7 @@ import { action } from '@storybook/addon-actions';
 import { useFormik } from 'formik';
 import React from 'react';
 import { Props as CollectionPreviewProps } from 'ui/modules/CollectionPreview';
+import { Props as LoadMoreProps } from 'ui/modules/Loadmore';
 import {
   EditCollectionFormValues,
   Props as EditCollectionPanelProps
@@ -492,6 +493,20 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
     Flags: <Flags ActivitiesBox={ActivitiesBox} />,
     Instance: <Instance />,
     isAdmin: true
+  };
+};
+
+export const getLoadMoreProps = (): LoadMoreProps => {
+  return {
+    loadMoreFormik: useFormik<{}>({
+      initialValues: {},
+      onSubmit: () => {
+        action('load more')();
+        return new Promise((resolve, reject) => {
+          setTimeout(resolve, 3000);
+        });
+      }
+    })
   };
 };
 
