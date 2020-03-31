@@ -43,8 +43,8 @@ type BaseMngPage<Ready extends boolean> = {
 interface MngPageInitialized<EdgeType>
   extends Page<EdgeType>,
     BaseMngPage<true> {
-  next(): void;
-  previous(): void;
+  next(): Promise<unknown>;
+  previous(): Promise<unknown>;
 }
 interface MngPageUninitialized<EdgeType> extends BaseMngPage<false> {
   edges: EdgeType[];
