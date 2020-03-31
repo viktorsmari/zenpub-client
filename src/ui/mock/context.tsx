@@ -498,7 +498,7 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
 
 export const getLoadMoreProps = (): LoadMoreProps => {
   return {
-    loadMoreFormik: useFormik<{}>({
+    LoadMoreFormik: useFormik<{}>({
       initialValues: {},
       onSubmit: () => {
         action('load more')();
