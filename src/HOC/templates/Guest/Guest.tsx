@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Guest, Props } from 'ui/templates/guest';
-import { SearchBox } from 'react-instantsearch-dom';
+import { SearchBox } from 'HOC/modules/SearchBox/SearchBox';
 import { MainHeader, Props as MainHeaderProps } from 'ui/modules/MainHeader';
 
 export interface GuestTemplate {}

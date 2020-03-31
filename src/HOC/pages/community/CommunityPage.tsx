@@ -82,7 +82,9 @@ export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
       <>
         {communityFollowersPage.edges.map(
           follow =>
-            follow.creator && <UserPreviewHOC userId={follow.creator?.userId} />
+            follow.creator && (
+              <UserPreviewHOC key={follow.id} userId={follow.creator?.userId} />
+            )
         )}
       </>
     );

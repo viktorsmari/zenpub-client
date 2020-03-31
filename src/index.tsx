@@ -15,9 +15,10 @@ import { integrateToastNotifications } from './integrations/Toast-Notifications'
 import { createDynamicLinkEnv } from './util/apollo/dynamicLink';
 import * as Sentry from '@sentry/browser';
 import * as K from './mn-constants';
-Sentry.init({
-  dsn: K.SENTRY_KEY
-});
+K.SENTRY_KEY &&
+  Sentry.init({
+    dsn: K.SENTRY_KEY
+  });
 
 run();
 async function run() {

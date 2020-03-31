@@ -4,14 +4,16 @@ import React from 'react';
 import { InstantSearch } from 'react-instantsearch-dom';
 import { useHistory, useLocation } from 'react-router-dom';
 import { LocationDescriptorObject } from 'history';
-import { algoliaCreds } from '../../mn-constants';
+import { mothershipCreds } from '../../mn-constants';
 const createURL = searchState => `?${qs.stringify(searchState)}`;
 
 const searchStateToUrl = searchState => `/search/${createURL(searchState)}`;
 
 const urlToSearchState = (search: string) => qs.parse(search.slice(1));
 const DEBOUNCE_TIME = 500;
-const searchClient = algoliasearch(algoliaCreds.appId, algoliaCreds.apiKey);
+const searchClient =
+  mothershipCreds &&
+  algoliasearch(mothershipCreds.appId, mothershipCreds.apiKey);
 
 export const ProvideAlgoliaContext: React.FC = ({ children }) => {
   const { push } = useHistory();
@@ -52,7 +54,7 @@ export const ProvideAlgoliaContext: React.FC = ({ children }) => {
       setSearchState(newSearchState);
     }
   }, []);
-  return (
+  return searchClient ? (
     <InstantSearch
       searchState={searchState}
       onSearchStateChange={handleSetSearchState}
@@ -63,6 +65,8 @@ export const ProvideAlgoliaContext: React.FC = ({ children }) => {
     >
       {children}
     </InstantSearch>
+  ) : (
+    <>{children}</>
   );
 };
 const isSearchLocation = (location: LocationDescriptorObject) =>
