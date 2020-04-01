@@ -32,7 +32,8 @@ import {
   Props as FlagModalProps
 } from 'ui/modules/FlagModal';
 import { Props as FeaturedModalProps } from 'ui/modules/FeaturedModal';
-
+import { SignUpFormValues, Props as SignUpProps } from 'ui/pages/signUp';
+import { LoginFormValues, Props as LoginProps } from 'ui/pages/login';
 import { FeaturedModal } from '../modules/FeaturedModal';
 import {
   ConfirmDeleteModal,
@@ -886,4 +887,39 @@ export const getFeaturedCollectionsPropsAdmin = (): FeaturedCollectionsProps => 
       return <FeaturedModal {...getFeaturedModalProps} />;
     }
   };
+};
+
+export const getSignUpProps = (): SignUpProps => {
+  const formik = useFormik<SignUpFormValues>({
+    initialValues: {
+      email: 'mary@moodlers.org',
+      username: 'moodlerMary',
+      name: 'Moodler Mary',
+      password: '',
+      passwordConfirm: ''
+    },
+    onSubmit: () => {
+      action('submit')();
+      return new Promise((resolve, reject) => {
+        setTimeout(resolve, 3000);
+      });
+    }
+  });
+  return { formik };
+};
+
+export const getLoginProps = (): LoginProps => {
+  const formik = useFormik<LoginFormValues>({
+    initialValues: {
+      email: '',
+      password: ''
+    },
+    onSubmit: () => {
+      action('submit')();
+      return new Promise((resolve, reject) => {
+        setTimeout(resolve, 3000);
+      });
+    }
+  });
+  return { formik };
 };
