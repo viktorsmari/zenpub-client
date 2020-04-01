@@ -128,7 +128,7 @@ const Menu = ({
 
 const WrapperBoxes = styled(Box)`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   grid-column-gap: 8px;
   grid-row-gap: 8px;
   padding: 8px;

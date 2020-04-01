@@ -62,6 +62,7 @@ const Icon = styled(Box)`
   }
   svg {
     stroke: ${props => props.theme.colors.gray};
+    margin: 0 auto;
   }
 `;
 

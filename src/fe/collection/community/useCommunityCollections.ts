@@ -16,7 +16,7 @@ export const useCommunityCollections = (communityId: Community['id']) => {
   const collectionsPage = usePage(
     communityQ.data?.community?.collections,
     ({ cursor, update }) => {
-      communityQ.fetchMore({
+      return communityQ.fetchMore({
         variables: { ...cursor, limit: DEFAULT_PAGE_SIZE, communityId },
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.community?.collections &&

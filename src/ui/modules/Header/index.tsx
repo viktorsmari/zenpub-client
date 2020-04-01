@@ -33,7 +33,6 @@ const HeaderWrapper = styled(Flex)`
   align-items: center;
   justify-content: space-between;
   padding: 0 8px;
-  cursor: pointer;
   background: #fff;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;

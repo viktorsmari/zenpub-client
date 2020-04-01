@@ -2,7 +2,7 @@ import { Trans } from '@lingui/macro';
 import { ellipsis } from 'polished';
 import * as React from 'react';
 import { Globe } from 'react-feather';
-import { SearchBox } from 'react-instantsearch-dom';
+import { SearchBox } from 'HOC/modules/SearchBox/SearchBox';
 import { NavLink } from 'react-router-dom';
 import { Box, Flex, Image, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';

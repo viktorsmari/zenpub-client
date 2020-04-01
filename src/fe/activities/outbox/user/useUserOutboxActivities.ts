@@ -12,7 +12,7 @@ export const useUserOutboxActivities = (userId: User['id']) => {
   const activitiesPage = usePage(
     activitiesQ.data?.user?.outbox,
     ({ cursor, update }) => {
-      activitiesQ.fetchMore({
+      return activitiesQ.fetchMore({
         variables: { ...cursor, limit: DEFAULT_PAGE_SIZE, userId },
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.user?.outbox && prev.user?.outbox

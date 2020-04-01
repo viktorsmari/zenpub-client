@@ -201,6 +201,10 @@ const MembersTot = styled(NavLink)`
   margin-top: 0px;
   cursor: pointer;
   cursor: pointer;
+  text-decoration: none;
+  * {
+    text-decoration: none;
+  }
   flex: 1;
   > div {
     display: flex;

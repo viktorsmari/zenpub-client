@@ -11,7 +11,7 @@ export const useInstanceOutboxActivities = () => {
   const activitiesPage = usePage(
     activitiesQ.data?.instance?.outbox,
     ({ cursor, update }) => {
-      activitiesQ.fetchMore({
+      return activitiesQ.fetchMore({
         variables: { ...cursor, limit: DEFAULT_PAGE_SIZE },
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.instance?.outbox && prev.instance?.outbox
