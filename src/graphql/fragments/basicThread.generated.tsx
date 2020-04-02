@@ -12,19 +12,15 @@ export type BasicThreadFragment = (
     { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
   )>, comments: Types.Maybe<(
-    { __typename: 'CommentsEdges' }
-    & Pick<Types.CommentsEdges, 'totalCount'>
-    & { pageInfo: Types.Maybe<(
+    { __typename: 'CommentsPage' }
+    & Pick<Types.CommentsPage, 'totalCount'>
+    & { pageInfo: (
       { __typename: 'PageInfo' }
       & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-    )>, edges: Array<Types.Maybe<(
-      { __typename: 'CommentsEdge' }
-      & Pick<Types.CommentsEdge, 'cursor'>
-      & { node: (
-        { __typename: 'Comment' }
-        & BasicCommentWithInReplyToFragment
-      ) }
-    )>> }
+    ), edges: Array<(
+      { __typename: 'Comment' }
+      & BasicCommentWithInReplyToFragment
+    )> }
   )> }
 );
 
@@ -45,10 +41,7 @@ export const BasicThreadFragmentDoc = gql`
       endCursor
     }
     edges {
-      cursor
-      node {
-        ...BasicCommentWithInReplyTo
-      }
+      ...BasicCommentWithInReplyTo
     }
   }
 }

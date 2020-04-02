@@ -3,7 +3,9 @@ export const PHOENIX_SOCKET_ENDPOINT =
 export const GRAPHQL_ENDPOINT = process.env.REACT_APP_GRAPHQL_ENDPOINT;
 export const NODE_ENV = process.env.NODE_ENV;
 export const PUBLIC_URL = process.env.PUBLIC_URL;
-export const SENTRY_KEY = process.env.SENTRY_KEY || '';
+export const SENTRY_KEY = process.env.REACT_APP_SENTRY_API_KEY;
+export const DEFAULT_PAGE_SIZE =
+  parseInt(`${process.env.REACT_APP_DEFAULT_PAGE_SIZE}`) || 15;
 
 export const APP_NAME = 'CommonsPub';
 export const INSTANCE_DESCRIPTION = 'This instance is currently invite-only.';
@@ -58,10 +60,16 @@ export const languages = {
 export type LocaleKey = keyof typeof languages;
 export const locales = Object.keys(languages) as LocaleKey[];
 
-export const algoliaCreds = {
-  appId: 'KVG4RFL0JJ',
-  apiKey: '884f8371d98c8c9837cf76f85f4b5daa'
-};
+const mothershipAppId = process.env.REACT_APP_MOTHERSHIP_APP_ID;
+const mothershipApiKey = process.env.REACT_APP_MOTHERSHIP_API_KEY;
+export const mothershipCreds =
+  mothershipAppId && mothershipApiKey
+    ? {
+        appId: mothershipAppId,
+        apiKey: mothershipApiKey
+      }
+    : null;
+export const searchDisabled = !mothershipCreds;
 
 export const max_file_size = '10MB';
 

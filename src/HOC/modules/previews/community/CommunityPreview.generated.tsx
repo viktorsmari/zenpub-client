@@ -9,15 +9,15 @@ export type CommunityPreviewFragment = (
     { __typename: 'Flag' }
     & Pick<Types.Flag, 'id'>
   )>, threads: Types.Maybe<(
-    { __typename: 'ThreadsEdges' }
-    & Pick<Types.ThreadsEdges, 'totalCount'>
+    { __typename: 'ThreadsPage' }
+    & Pick<Types.ThreadsPage, 'totalCount'>
   )> }
   & CommunityInfoFragment
 );
 
 export type CommunityInfoFragment = (
   { __typename: 'Community' }
-  & Pick<Types.Community, 'id' | 'name' | 'icon'>
+  & Pick<Types.Community, 'id' | 'name' | 'icon' | 'isLocal' | 'canonicalUrl' | 'displayUsername'>
   & { myFollow: Types.Maybe<(
     { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
@@ -29,9 +29,12 @@ export const CommunityInfoFragmentDoc = gql`
   id
   name
   icon
+  isLocal
   myFollow {
     id
   }
+  canonicalUrl
+  displayUsername
 }
     `;
 export const CommunityPreviewFragmentDoc = gql`

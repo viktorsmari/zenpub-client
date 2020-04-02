@@ -16,10 +16,7 @@ import {
   /* GetFollowedCommunitiesQueryDocument */
 } from 'graphql/getFollowedCommunities.generated';
 
-interface Props {
-  handleNewCommunity(): boolean;
-  isOpenCommunity: boolean;
-}
+interface Props {}
 
 export const CommunitiesYours: React.FC<Props> = () => {
   const queryResult = useGetFollowedCommunitiesQueryQuery({

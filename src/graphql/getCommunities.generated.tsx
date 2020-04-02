@@ -13,33 +13,33 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type GetCommunitiesQueryQueryVariables = {
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  end?: Types.Maybe<Types.Scalars['String']>
+  end?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
 };
 
 
 export type GetCommunitiesQueryQuery = (
   { __typename: 'RootQueryType' }
   & { communities: (
-    { __typename: 'CommunitiesNodes' }
-    & { pageInfo: Types.Maybe<(
+    { __typename: 'CommunitiesPage' }
+    & { pageInfo: (
       { __typename: 'PageInfo' }
       & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-    )>, nodes: Types.Maybe<Array<Types.Maybe<(
+    ), edges: Array<(
       { __typename: 'Community' }
       & BasicCommunityFragment
-    )>>> }
+    )> }
   ) }
 );
 
 
 export const GetCommunitiesQueryDocument = gql`
-    query getCommunitiesQuery($limit: Int, $end: String) {
+    query getCommunitiesQuery($limit: Int, $end: [Cursor]) {
   communities(limit: $limit, after: $end) {
     pageInfo {
       startCursor
       endCursor
     }
-    nodes {
+    edges {
       ...BasicCommunity
     }
   }

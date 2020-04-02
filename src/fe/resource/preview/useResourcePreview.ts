@@ -10,7 +10,7 @@ export const useResourcePreview = (resourceId: Resource['id']) => {
   const { toggleLike } = useLikeContext(
     resourcePreviewQ.data?.resource?.id,
     resourcePreviewQ.data?.resource?.myLike,
-    resourcePreviewQ.data?.resource?.likes?.totalCount,
+    resourcePreviewQ.data?.resource?.likers?.totalCount,
     'Resource'
   );
   return useMemo(() => {

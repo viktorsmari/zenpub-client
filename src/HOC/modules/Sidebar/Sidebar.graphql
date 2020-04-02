@@ -8,7 +8,7 @@ fragment SidebarFollowedCommunity on Community {
 
 fragment SidebarMeUser on User {
   id
-  displayUsername
+  name
   icon
 }
 

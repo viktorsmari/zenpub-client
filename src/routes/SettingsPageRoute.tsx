@@ -3,6 +3,7 @@ import { RedirectToLoginIfNotLoggedIn } from 'HOC/wrappers/RedirectToLoginIfNotL
 import NotFound from 'pages/not-found/NotFound';
 import React, { FC } from 'react';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
+import { WithoutSidebarTemplate } from 'HOC/templates/WithoutSidebar/WithoutSidebar';
 
 interface SettingsPageRouter {
   tab?: string;
@@ -14,6 +15,12 @@ const SettingsPageRouter: FC<RouteComponentProps<SettingsPageRouter>> = ({
   const tab =
     maybeTabStr === 'preferences'
       ? SettingsPageTab.Preferences
+      : maybeTabStr === 'invites'
+      ? SettingsPageTab.Invites
+      : maybeTabStr === 'instance'
+      ? SettingsPageTab.Instance
+      : maybeTabStr === 'flags'
+      ? SettingsPageTab.Flags
       : !maybeTabStr
       ? SettingsPageTab.General
       : null;
@@ -28,7 +35,9 @@ const SettingsPageRouter: FC<RouteComponentProps<SettingsPageRouter>> = ({
 
   return (
     <RedirectToLoginIfNotLoggedIn>
-      <SettingsPage {...props} />;
+      <WithoutSidebarTemplate>
+        <SettingsPage {...props} />
+      </WithoutSidebarTemplate>
     </RedirectToLoginIfNotLoggedIn>
   );
 };

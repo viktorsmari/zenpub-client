@@ -14,7 +14,11 @@ const checkUsername = require('../../../graphql/checkUsername.graphql');
 import Markdown from 'markdown-to-jsx';
 // import axios from 'axios';
 
-import { INVITE_ONLY_TEXT, terms_markdown_urls, terms_markdown_text } from './../../../mn-constants';
+import {
+  INVITE_ONLY_TEXT,
+  terms_markdown_urls,
+  terms_markdown_text
+} from './../../../mn-constants';
 import { LocaleContext } from '../../../context/global/localizationCtx';
 
 var terms_users = { data: terms_markdown_text.terms_users };
@@ -23,7 +27,7 @@ var terms_indexing = { data: terms_markdown_text.terms_indexing };
 
 async function getTerms() {
   try {
-    if(terms_markdown_urls){
+    if (terms_markdown_urls) {
       // if(undefined !==terms_markdown_urls.terms_users) terms_users = await axios.get(terms_markdown_urls.terms_users);
       // if(undefined !==terms_markdown_urls.terms_cookies) terms_cookies = await axios.get(terms_markdown_urls.terms_cookies);
       // if(undefined !==terms_markdown_urls.terms_indexing) terms_indexing = await axios.get(terms_markdown_urls.terms_indexing);

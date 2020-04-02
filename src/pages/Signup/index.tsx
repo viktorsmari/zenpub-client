@@ -210,6 +210,7 @@ const SignupModal = (props: Props) => {
       useCache: true
     });
   }
+
   console.log(terms_users_text);
   console.log(terms_cookies);
   console.log(terms_indexing);

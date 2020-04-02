@@ -34,10 +34,7 @@ export const FollowingCollectionsComponent: React.FC = () => {
             data.me.user.followedCollections.edges.map(
               (collection, i) =>
                 collection && (
-                  <CollectionCard
-                    key={i}
-                    collection={collection.node.collection}
-                  />
+                  <CollectionCard key={i} collection={collection.collection} />
                 )
             )}
         </List>

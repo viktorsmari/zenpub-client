@@ -162,7 +162,6 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
       collectionId: props.collectionId,
       collection: {
         name: values.name,
-        preferredUsername: values.name,
         summary: values.summary,
         icon: values.icon
       }

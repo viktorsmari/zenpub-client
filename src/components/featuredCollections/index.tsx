@@ -64,18 +64,14 @@ const MultipleItems: React.FC = () => {
             ref={c => (sliderRef.current = c || undefined)}
             {...sliderSettings}
           >
-            {props.data.instance.featuredCollections.edges.map(
-              edge =>
-                //FIXME https://gitlab.com/moodlenet/meta/issues/185
-                // edge &&
-                !edge || !edge.node.context
-                  ? null
-                  : edge.node.context.__typename === 'Collection' && (
-                      <CollectionSmall
-                        collection={edge.node.context}
-                        key={edge.node.id}
-                      />
-                    )
+            {props.data.instance.featuredCollections.edges.map(edge =>
+              //FIXME https://gitlab.com/moodlenet/meta/issues/185
+              // edge &&
+              !edge || !edge.context
+                ? null
+                : edge.context.__typename === 'Collection' && (
+                    <CollectionSmall collection={edge.context} key={edge.id} />
+                  )
             )}
           </Slider>
         )}

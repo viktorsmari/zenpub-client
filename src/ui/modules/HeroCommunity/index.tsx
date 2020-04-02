@@ -9,6 +9,7 @@ import Modal from 'ui/modules/Modal';
 import Button from 'ui/elements/Button';
 import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
 import { FormikHook } from 'ui/@types/types';
+import { NavLink } from 'react-router-dom';
 export enum Status {
   Loading,
   Loaded
@@ -18,6 +19,7 @@ export interface CommunityLoaded {
   status: Status.Loaded;
   isAdmin?: boolean;
   // isFeatured: boolean;
+  basePath: string;
   icon: string;
   name: string;
   summary: string;
@@ -41,7 +43,6 @@ export interface Props {
 }
 
 export const HeroCommunity: FC<Props> = ({ community: c }) => {
-  const [, setOpenMembers] = React.useState(false);
   const [isOpenSettings, setOpenSettings] = React.useState(false);
   const [isOpenDropdown, setOpenDropdown] = React.useState(false);
   const [isOpenFlag, setOpenFlag] = React.useState(false);
@@ -69,7 +70,7 @@ export const HeroCommunity: FC<Props> = ({ community: c }) => {
             </Summary>
           )}
           <Info mt={3}>
-            <MembersTot onClick={() => setOpenMembers(true)}>
+            <MembersTot to={`${c.basePath}/members`}>
               <Text variant="suptitle">
                 <Total mr={2}>{c.totalMembers}</Total> <Trans>Members</Trans>
               </Text>
@@ -196,10 +197,14 @@ const Username = styled(Text)`
   text-transform: lowercase;
 `;
 
-const MembersTot = styled(Flex)`
+const MembersTot = styled(NavLink)`
   margin-top: 0px;
   cursor: pointer;
   cursor: pointer;
+  text-decoration: none;
+  * {
+    text-decoration: none;
+  }
   flex: 1;
   > div {
     display: flex;

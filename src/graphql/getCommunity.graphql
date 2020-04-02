@@ -5,7 +5,7 @@
 #import "./fragments/basicUser.graphql"
 #import "../HOC/modules/ActivityPreview/getActivityPreview.graphql"
 
-query getCommunityQuery($communityId: String!, $limit: Int, $end: String) {
+query getCommunityQuery($communityId: String!, $limit: Int, $end: [Cursor]) {
     community(communityId: $communityId) {
         id
         canonicalUrl
@@ -24,7 +24,6 @@ query getCommunityQuery($communityId: String!, $limit: Int, $end: String) {
         outbox(limit: $limit, after: $end) {
             pageInfo { startCursor endCursor }
             edges {
-                node {
                     ...ActivityPreview
                     # id
                     # canonicalUrl
@@ -40,51 +39,46 @@ query getCommunityQuery($communityId: String!, $limit: Int, $end: String) {
                     #     ... on Collection { ...BasicCollection }
                     #     ... on Comment    { ...BasicCommentWithInReplyTo    }
                     # }       
-                }
             }
         }
         threads(limit: $limit, after: $end) {
             pageInfo { startCursor endCursor }
             edges {
-                node {
-                    id
-                    canonicalUrl
-                    isLocal
-                    isPublic
-                    isHidden
-                    createdAt
-                    updatedAt
-                    lastActivity
-                    context {
-                        __typename
-                        ... on Community { id icon name}
-                        ... on Collection { id icon name}
-                        ... on Resource { id icon name}
-                
-                    }
-                    myFollow { id }
-                    comments {
-                        totalCount
-                        edges {
-                            node { ...BasicCommentWithInReplyTo }
-                        }
-                    } 
+                id
+                canonicalUrl
+                isLocal
+                isPublic
+                isHidden
+                createdAt
+                updatedAt
+                lastActivity
+                context {
+                    __typename
+                    ... on Community { id icon name}
+                    ... on Collection { id icon name}
+                    ... on Resource { id icon name}
+            
                 }
+                myFollow { id }
+                comments {
+                    totalCount
+                    edges {
+                        ...BasicCommentWithInReplyTo
+                    }
+                } 
             }
         }
         followers {
             pageInfo { startCursor endCursor }
             totalCount
             edges {
-                node {
+                id
+                canonicalUrl
+                isLocal
+                isPublic
+                creator {
                     id
-                    canonicalUrl
-                    isLocal
-                    isPublic
-                    creator {
-                        id
-                        icon
-                    }
+                    icon
                 }
             }
         }
@@ -92,20 +86,18 @@ query getCommunityQuery($communityId: String!, $limit: Int, $end: String) {
             pageInfo { startCursor endCursor }
             totalCount
             edges {
-                node {
-                    id
-                    canonicalUrl
-                    preferredUsername
-                    name
-                    summary
-                    icon
-                    myFollow { id }
-		            likes     { totalCount}
-                    followers { totalCount }
-                    resources { totalCount }
-                    threads   { totalCount }
-                    # outbox    { totalCount }
-                }
+                id
+                canonicalUrl
+                preferredUsername
+                name
+                summary
+                icon
+                myFollow { id }
+                likers     { totalCount}
+                followers { totalCount }
+                resources { totalCount }
+                threads   { totalCount }
+                # outbox    { totalCount }
             }
         }
     }

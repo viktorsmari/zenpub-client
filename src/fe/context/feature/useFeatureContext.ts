@@ -4,10 +4,8 @@ import {
 } from 'fe/mutation/feature/useMutateFeature.generated';
 import { Collection, Community, Feature } from 'graphql/types.generated';
 import { useCallback, useMemo } from 'react';
-import {
-  InstanceFeaturedCommunitiesDocument,
-  InstanceFeaturedCollectionsDocument
-} from 'fe/instance/featured/featured.generated';
+import { InstanceFeaturedCommunitiesDocument } from 'fe/instance/featuredCommunities/instanceFeaturedCommunities.generated';
+import { InstanceFeaturedCollectionsDocument } from 'fe/instance/featuredCollections/instanceFeaturedCollections.generated';
 
 export type Actor = Collection | Community;
 

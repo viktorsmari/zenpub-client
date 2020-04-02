@@ -13,9 +13,10 @@ import { FlagModalHOC } from 'HOC/modules/FlagModal/flagModalHOC';
 
 export interface HeroCommunity {
   communityId: Community['id'];
+  basePath: string;
 }
 
-export const HeroCommunity: FC<HeroCommunity> = ({ communityId }) => {
+export const HeroCommunity: FC<HeroCommunity> = ({ communityId, basePath }) => {
   const { isAdmin } = useMe();
   const { toggleJoin, community, canModify } = useCommunity(communityId);
 
@@ -36,6 +37,7 @@ export const HeroCommunity: FC<HeroCommunity> = ({ communityId }) => {
 
     const props: HeroProps = {
       community: {
+        basePath,
         status: Status.Loaded,
         canModify,
         isAdmin,
@@ -57,7 +59,7 @@ export const HeroCommunity: FC<HeroCommunity> = ({ communityId }) => {
       }
     };
     return props;
-  }, [isAdmin, community, canModify, toggleJoinFormik]);
+  }, [isAdmin, community, canModify, toggleJoinFormik, basePath]);
 
   return <HeroCommunityUI {...heroProps} />;
 };

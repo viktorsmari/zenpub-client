@@ -96,10 +96,9 @@ const ResetPasswordPage = (props: Props & FormikProps<FormikValues>) => {
                   />
                 )}
               />
-              {props.errors.password &&
-                props.touched.password && (
-                  <Alert>{props.errors.password}</Alert>
-                )}
+              {props.errors.password && props.touched.password && (
+                <Alert>{props.errors.password}</Alert>
+              )}
 
               <Field
                 name="confirm"
@@ -114,8 +113,9 @@ const ResetPasswordPage = (props: Props & FormikProps<FormikValues>) => {
                   />
                 )}
               />
-              {props.errors.confirm &&
-                props.touched.confirm && <Alert>{props.errors.confirm}</Alert>}
+              {props.errors.confirm && props.touched.confirm && (
+                <Alert>{props.errors.confirm}</Alert>
+              )}
 
               <Button disabled={props.isSubmitting} type="submit">
                 <Trans>Save the new password</Trans>

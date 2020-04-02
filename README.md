@@ -44,8 +44,8 @@ docker-compose version 1.23.2
 
 2. Clone this repository and change into the directory:
 ```sh
-$ git clone https://gitlab.com/CommonsPub/Client.git
-$ cd react
+$ git clone https://gitlab.com/CommonsPub/Client.git commonspub
+$ cd commonspub
 ```
 
 3. Configuration

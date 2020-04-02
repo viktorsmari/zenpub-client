@@ -2,7 +2,9 @@ import * as Types from '../../../graphql/types.generated';
 
 import { CommunityPageCollectionBaseFragment } from '../../../HOC/pages/community/CommunityPage.generated';
 import { CollectionPreviewFragment } from '../../../HOC/modules/previews/collection/CollectionPreview.generated';
+import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
+import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { CollectionPreviewFragmentDoc } from '../../../HOC/modules/previews/collection/CollectionPreview.generated';
 import { CommunityPageCollectionBaseFragmentDoc } from '../../../HOC/pages/community/CommunityPage.generated';
 import * as React from 'react';
@@ -14,11 +16,12 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
+
 export type CommunityCollectionsQueryVariables = {
   communityId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Types.Scalars['String']>,
-  after?: Types.Maybe<Types.Scalars['String']>
+  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
+  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
 };
 
 
@@ -28,14 +31,15 @@ export type CommunityCollectionsQuery = (
     { __typename: 'Community' }
     & Pick<Types.Community, 'id'>
     & { collections: Types.Maybe<(
-      { __typename: 'CollectionsEdges' }
-      & { edges: Array<Types.Maybe<(
-        { __typename: 'CollectionsEdge' }
-        & { node: (
-          { __typename: 'Collection' }
-          & CommunityCollectionFragment
-        ) }
-      )>> }
+      { __typename: 'CollectionsPage' }
+      & Pick<Types.CollectionsPage, 'totalCount'>
+      & { pageInfo: (
+        { __typename: 'PageInfo' }
+        & FullPageInfoFragment
+      ), edges: Array<(
+        { __typename: 'Collection' }
+        & CommunityCollectionFragment
+      )> }
     )> }
   )> }
 );
@@ -54,19 +58,22 @@ export const CommunityCollectionFragmentDoc = gql`
     ${CollectionPreviewFragmentDoc}
 ${CommunityPageCollectionBaseFragmentDoc}`;
 export const CommunityCollectionsDocument = gql`
-    query communityCollections($communityId: String!, $limit: Int, $before: String, $after: String) {
-  community(communityId: $communityId) {
+    query communityCollections($communityId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
+  community(communityId: $communityId) @connection(key: "communityCollections", filter: ["communityId"]) {
     id
     collections(limit: $limit, before: $before, after: $after) {
+      totalCount
+      pageInfo {
+        ...FullPageInfo
+      }
       edges {
-        node {
-          ...CommunityCollection
-        }
+        ...CommunityCollection
       }
     }
   }
 }
-    ${CommunityCollectionFragmentDoc}`;
+    ${FullPageInfoFragmentDoc}
+${CommunityCollectionFragmentDoc}`;
 export type CommunityCollectionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CommunityCollectionsQuery, CommunityCollectionsQueryVariables>, 'query'> & ({ variables: CommunityCollectionsQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const CommunityCollectionsComponent = (props: CommunityCollectionsComponentProps) => (

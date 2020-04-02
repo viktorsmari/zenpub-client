@@ -22,26 +22,22 @@ export type GetFeaturedCollectionsQuery = (
   & { instance: Types.Maybe<(
     { __typename: 'Instance' }
     & { featuredCollections: Types.Maybe<(
-      { __typename: 'FeaturesEdges' }
-      & Pick<Types.FeaturesEdges, 'totalCount'>
-      & { pageInfo: Types.Maybe<(
+      { __typename: 'FeaturesPage' }
+      & Pick<Types.FeaturesPage, 'totalCount'>
+      & { pageInfo: (
         { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-      )>, edges: Array<Types.Maybe<(
-        { __typename: 'FeaturesEdge' }
-        & Pick<Types.FeaturesEdge, 'cursor'>
-        & { node: (
-          { __typename: 'Feature' }
-          & Pick<Types.Feature, 'id' | 'canonicalUrl' | 'isLocal' | 'createdAt'>
-          & { creator: Types.Maybe<(
-            { __typename: 'User' }
-            & BasicUserFragment
-          )>, context: Types.Maybe<(
-            { __typename: 'Collection' }
-            & BasicCollectionFragment
-          ) | { __typename: 'Community' }> }
-        ) }
-      )>> }
+      ), edges: Array<(
+        { __typename: 'Feature' }
+        & Pick<Types.Feature, 'id' | 'canonicalUrl' | 'isLocal' | 'createdAt'>
+        & { creator: Types.Maybe<(
+          { __typename: 'User' }
+          & BasicUserFragment
+        )>, context: Types.Maybe<(
+          { __typename: 'Collection' }
+          & BasicCollectionFragment
+        ) | { __typename: 'Community' }> }
+      )> }
     )> }
   )> }
 );
@@ -57,20 +53,17 @@ export const GetFeaturedCollectionsDocument = gql`
       }
       totalCount
       edges {
-        cursor
-        node {
-          id
-          canonicalUrl
-          isLocal
-          createdAt
-          creator {
-            ...BasicUser
-          }
-          context {
-            __typename
-            ... on Collection {
-              ...BasicCollection
-            }
+        id
+        canonicalUrl
+        isLocal
+        createdAt
+        creator {
+          ...BasicUser
+        }
+        context {
+          __typename
+          ... on Collection {
+            ...BasicCollection
           }
         }
       }
