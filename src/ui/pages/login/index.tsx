@@ -28,9 +28,9 @@ let tt = {
   }
 };
 
-type Props = {
+export interface Props {
   formik: FormikHook<LoginFormValues>;
-};
+}
 
 export interface LoginFormValues {
   email: string;

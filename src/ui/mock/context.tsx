@@ -967,7 +967,7 @@ export const getNewPasswordProps = (): NewPasswordProps => {
   const formik = useFormik<NewPasswordFormValues>({
     initialValues: {
       password: '',
-      confirmPassword: ''
+      passwordConfirm: ''
     },
     onSubmit: () => {
       action('submit')();
