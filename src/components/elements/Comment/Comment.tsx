@@ -30,17 +30,14 @@ const CommentWrapper: React.FC<EventProps> = ({
   const [undoLike /* , likeResult */] = useDeleteMutationMutation();
   const iLikeIt = !!comment.myLike;
   const [isOpen, onOpen] = React.useState(false);
-  const toggleLike = React.useCallback(
-    () => {
-      const variables = { contextId: comment.id };
-      (iLikeIt ? undoLike : like)({ variables });
-    },
-    [comment, iLikeIt]
-  );
+  const toggleLike = React.useCallback(() => {
+    const variables = { contextId: comment.id };
+    (iLikeIt ? undoLike : like)({ variables });
+  }, [comment, iLikeIt]);
 
   return (
     //FIXME https://gitlab.com/moodlenet/meta/issues/185
-    !comment.thread || !comment.likes ? null : (
+    !comment.thread || !comment.likers ? null : (
       <FeedItem>
         {noLink ? null : (
           <NavigateToThread to={`/thread/${comment.thread.id}`} />
@@ -96,7 +93,7 @@ const CommentWrapper: React.FC<EventProps> = ({
                         size="16"
                       />
                     </ActionIcon>
-                    <Text ml={2}>{comment.likes.totalCount}</Text>
+                    <Text ml={2}>{comment.likers.totalCount}</Text>
                   </ActionItem>
                 </Items>
               </Actions>

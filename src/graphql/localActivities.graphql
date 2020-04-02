@@ -4,13 +4,11 @@
 #import "./fragments/basicCommunity.graphql"
 #import "./fragments/basicUser.graphql"
 #import "../HOC/modules/ActivityPreview/getActivityPreview.graphql"
-query localActivities($limit: Int, $end: String) {
+query localActivities($limit: Int, $end: [Cursor]) {
     instance {
         outbox(limit: $limit, after: $end) {
             pageInfo { startCursor endCursor }
             edges {
-                cursor
-                node {
                     ...ActivityPreview
                     # id
                     # canonicalUrl
@@ -26,7 +24,6 @@ query localActivities($limit: Int, $end: String) {
                     #     ... on Collection { ...BasicCollection }
                     #     ... on Comment    { ...BasicCommentWithInReplyTo    }
                     # }
-                }
             }
         }
     }

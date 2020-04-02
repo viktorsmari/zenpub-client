@@ -6,6 +6,7 @@ import {
   Props as UserPreviewProps
 } from 'ui/modules/Previews/User';
 import { useFormik } from 'formik';
+import { Box } from 'rebass';
 
 export interface Props {
   userId: User['id'];
@@ -36,5 +37,11 @@ export const UserPreviewHOC: FC<Props> = ({ userId }) => {
     return props;
   }, [user, toggleFollowFormik]);
 
-  return userPreviewProps && <UserPreviewUI {...userPreviewProps} />;
+  return (
+    userPreviewProps && (
+      <Box px={2} py={1} pb={0}>
+        <UserPreviewUI {...userPreviewProps} />
+      </Box>
+    )
+  );
 };

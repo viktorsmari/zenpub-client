@@ -122,7 +122,7 @@ const Resource: React.FC<Props> = ({
       {hitCtl.isFollowing && (
         <Button variant="outline" onClick={hitCtl.unfollow}>
           {props.type === 'Community' ? (
-            <Trans>UnJoin</Trans>
+            <Trans>Leave</Trans>
           ) : (
             <Trans>Unfollow</Trans>
           )}

@@ -44,9 +44,9 @@ export type LikeMutation = (
       & { myLike: Types.Maybe<(
         { __typename: 'Like' }
         & Pick<Types.Like, 'id'>
-      )>, likes: Types.Maybe<(
-        { __typename: 'LikesEdges' }
-        & Pick<Types.LikesEdges, 'totalCount'>
+      )>, likers: Types.Maybe<(
+        { __typename: 'LikesPage' }
+        & Pick<Types.LikesPage, 'totalCount'>
       )> }
     ) | (
       { __typename: 'User' }
@@ -96,9 +96,9 @@ export type UnlikeMutation = (
       & { myLike: Types.Maybe<(
         { __typename: 'Like' }
         & Pick<Types.Like, 'id'>
-      )>, likes: Types.Maybe<(
-        { __typename: 'LikesEdges' }
-        & Pick<Types.LikesEdges, 'totalCount'>
+      )>, likers: Types.Maybe<(
+        { __typename: 'LikesPage' }
+        & Pick<Types.LikesPage, 'totalCount'>
       )> }
     ) | (
       { __typename: 'User' }
@@ -143,7 +143,7 @@ export const LikeDocument = gql`
         myLike {
           id
         }
-        likes {
+        likers {
           totalCount
         }
       }
@@ -231,7 +231,7 @@ export const UnlikeDocument = gql`
           myLike {
             id
           }
-          likes {
+          likers {
             totalCount
           }
         }

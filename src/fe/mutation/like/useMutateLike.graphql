@@ -19,7 +19,7 @@ mutation like($contextId: String!) {
         ...on Resource{
           id
           myLike{ id }
-          likes{ totalCount }
+          likers{ totalCount }
         }
         ...on User{
           userId: id
@@ -52,7 +52,7 @@ mutation unlike($contextId: String!) {
         ...on Resource{
           id
           myLike{ id }
-          likes{ totalCount }
+          likers{ totalCount }
         }
         ...on User{
           userId: id

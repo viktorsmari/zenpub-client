@@ -10,9 +10,7 @@ fragment CommentPreview on Comment {
     id
     comments(limit:1){
       edges{
-          node{
-            ...CommentPreviewBase
-          }
+        ...CommentPreviewBase
       }
     }
     context {

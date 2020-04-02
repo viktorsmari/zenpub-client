@@ -2,7 +2,8 @@ import * as React from 'react';
 import { Box } from 'rebass/styled-components';
 import { useConfirmEmailMutationMutation } from '../../graphql/confirmEmail.generated';
 import styled from '../../themes/styled';
-import { logo_large_url } from './../../mn-constants';
+import { Redirect } from 'react-router-dom';
+import { logo_large_url } from 'mn-constants';
 
 const LoginWrapper = styled.div`
   display: grid;
@@ -54,27 +55,25 @@ interface Props {
 
 const Confirm = (props: Props) => {
   const [confirm, result] = useConfirmEmailMutationMutation();
-  React.useEffect(
-    () => {
-      confirm({ variables: { token: props.token } });
-    },
-    [props.token]
-  );
-  return (
-    <>
-      <Container>
-        <LoginWrapper>
-          <FormWrapper>
-            <Logo />
-            <Box>
-              {result.error && (
-                <div>Error in email confirmation: {result.error.message}</div>
-              )}
-            </Box>
-          </FormWrapper>
-        </LoginWrapper>
-      </Container>
-    </>
+  React.useEffect(() => {
+    confirm({ variables: { token: props.token } });
+  }, [props.token]);
+  return !result.loading && result.data?.confirmEmail?.token ? (
+    <Redirect to="/" />
+  ) : (
+    <Container>
+      <LoginWrapper>
+        <FormWrapper>
+          <Logo />
+          <Box>
+            {result.loading && <div>Checking ...</div>}
+            {result.error && (
+              <div>Error in email confirmation: {result.error.message}</div>
+            )}
+          </Box>
+        </FormWrapper>
+      </LoginWrapper>
+    </Container>
   );
 };
 

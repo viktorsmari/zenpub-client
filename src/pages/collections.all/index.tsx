@@ -44,8 +44,8 @@ export const CollectionsYours: React.FC = () => {
                         <title>{APP_NAME} > All collections</title>
                       </Helmet> */}
                   <List>
-                    {data.collections.nodes &&
-                      data.collections.nodes.map(
+                    {data.collections.edges &&
+                      data.collections.edges.map(
                         (coll, i) =>
                           coll && (
                             <div key={i}>

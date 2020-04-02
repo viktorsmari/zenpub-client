@@ -4,20 +4,21 @@ import {
   FeaturedCommunitiesData
 } from 'ui/modules/FeaturedCommunities';
 import { useMe } from 'fe/session/me';
-import { useInstanceFeatured } from 'fe/instance/featured/useInstanceFeatured';
 import { DiscoverPageFeaturedCommunityInfoFragment } from 'HOC/pages/discover/DiscoverPage.generated';
 import { CommunityBase } from 'ui/modules/FeaturedCommunities/preview';
 import { FeatureModalHOC } from '../FeatureModal/FeatureModal';
+import { useInstanceFeaturedCommunities } from 'fe/instance/featuredCommunities/useInstanceFeaturedCommunities';
 
 export interface FeaturedCommunities {}
 export const FeaturedCommunities: FC<FeaturedCommunities> = () => {
   const { isAdmin } = useMe();
-  const { featuredCommunitiesEdges } = useInstanceFeatured();
+  const { featuredCommunitiesPage } = useInstanceFeaturedCommunities();
   const featuredCommunities = useMemo<CommunityBase[]>(
     () =>
-      featuredCommunitiesEdges.nodes
-        .map(node => node.context)
+      featuredCommunitiesPage.edges
+        .map(feature => feature.context)
         .filter(
+          //FIXME: remove when fixed nullable context
           (maybeCtx): maybeCtx is DiscoverPageFeaturedCommunityInfoFragment =>
             !!maybeCtx && maybeCtx.__typename === 'Community'
         )
@@ -25,15 +26,15 @@ export const FeaturedCommunities: FC<FeaturedCommunities> = () => {
           ...community,
           icon: community.icon || ''
         })),
-    [featuredCommunitiesEdges]
+    [featuredCommunitiesPage]
   );
 
   const FeaturedModal = useMemo<FeaturedCommunitiesData['FeaturedModal']>(
     () => ({ community, done }) => {
-      const communityFeature = featuredCommunitiesEdges.nodes.find(
-        node =>
-          node.context?.__typename === 'Community' &&
-          node.context.id === community.id
+      const communityFeature = featuredCommunitiesPage.edges.find(
+        feature =>
+          feature.context?.__typename === 'Community' && //FIXME: remove ? when fixed
+          feature.context.id === community.id
       );
       const featureId = communityFeature?.id;
       return (

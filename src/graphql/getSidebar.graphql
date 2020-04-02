@@ -1,4 +1,4 @@
-query getSidebarQuery($limitComm: Int, $endComm: String) {
+query getSidebarQuery($limitComm: Int, $endComm: [Cursor]) {
     me {
         user {
             id
@@ -9,28 +9,26 @@ query getSidebarQuery($limitComm: Int, $endComm: String) {
             followedCommunities(limit: $limitComm, after:$endComm) {
                 pageInfo { startCursor endCursor }
                 edges {
-                    node {
-                        follow {
+                    follow {
+                        id
+                        # canonicalUrl
+                    }
+                    community {
+                        __typename
+                        ... on Community {
                             id
-                            # canonicalUrl
-                        }
-                        community {
-                            __typename
-                            ... on Community {
-                                id
-                                preferredUsername
-                                name
-                                # summary
-                                icon
-                                # isLocal
-                                # isPublic
-                                # isDisabled
-                                # id
-                                # myFollow    { id }
-                                # collections { totalCount }
-                                # followers   { totalCount }
-                                # threads     { totalCount }
-                            }
+                            preferredUsername
+                            name
+                            # summary
+                            icon
+                            # isLocal
+                            # isPublic
+                            # isDisabled
+                            # id
+                            # myFollow    { id }
+                            # collections { totalCount }
+                            # followers   { totalCount }
+                            # threads     { totalCount }
                         }
                     }
                 }

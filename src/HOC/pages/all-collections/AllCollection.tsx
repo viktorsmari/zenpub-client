@@ -8,11 +8,11 @@ import { CollectionPreviewHOC } from 'HOC/modules/previews/collection/Collection
 
 export interface AllCollectionsPage {}
 export const AllCollectionsPage: FC<AllCollectionsPage> = () => {
-  const allCollections = useAllCollections();
+  const { allCollectionsPage } = useAllCollections();
   const allCollectionsUIProps = useMemo<AllCollectionsUIProps>(() => {
     const CollectionsBoxes = (
       <>
-        {allCollections.list.map(collectionPreview => (
+        {allCollectionsPage.edges.map(collectionPreview => (
           <CollectionPreviewHOC collectionId={collectionPreview.id} />
         ))}
       </>
@@ -22,7 +22,7 @@ export const AllCollectionsPage: FC<AllCollectionsPage> = () => {
     };
 
     return props;
-  }, [allCollections]);
+  }, [allCollectionsPage]);
 
   return <AllCollectionsUI {...allCollectionsUIProps} />;
 };

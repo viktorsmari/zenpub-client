@@ -38,6 +38,7 @@ export interface Props {
   type?: string;
   isFlagged: boolean;
   FlagModal: null | React.ComponentType<{ done(): unknown }>;
+  hideActions?: boolean;
 }
 
 export const Resource: React.FC<Props> = ({
@@ -51,7 +52,8 @@ export const Resource: React.FC<Props> = ({
   acceptedLicenses,
   type,
   isFlagged,
-  FlagModal
+  FlagModal,
+  hideActions
 }) => {
   const mediaType = type !== undefined ? type : 'image'; // FIXME remove after type field is added
   const isUploaded = license !== null ? true : false; // FIXME remove after isUploaded field is added
@@ -70,9 +72,9 @@ export const Resource: React.FC<Props> = ({
             {/* <Badge mt={1}>Video</Badge> */}
             <Title flex="1">
               {isUploaded ? (
-                <Paperclip size={21} />
+                <Paperclip strokeWidth="1" size={18} />
               ) : (
-                <ExternalLink size={19} />
+                <ExternalLink strokeWidth="1" size={18} />
               )}
               {name}
             </Title>
@@ -80,11 +82,11 @@ export const Resource: React.FC<Props> = ({
           {isUploaded ? (
             <>
               {/* <TypeItem mt={2}>{mediaType}</TypeItem> */}
-              <TypeItem mt={2}>{license}</TypeItem>
+              <TypeItem mt={1}>{license}</TypeItem>
             </>
           ) : (
             <>
-              <ActionItem mt={2}>
+              <ActionItem>
                 {/* <TypeItem>{mediaType}</TypeItem>  */}
                 <a href={link}>
                   {/* <ExternalLink size={17} /> */}
@@ -125,79 +127,81 @@ export const Resource: React.FC<Props> = ({
           </Hashtags> */}
         </Infos>
       </Wrapper>
-      <Actions>
-        <Box>
-          <Items>
-            <ActionItem onClick={like.toggleLikeFormik.submitForm}>
-              <ActionIcon>
-                <Star
-                  className="hover"
-                  color={like.iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'}
-                  strokeWidth="1"
-                  size="20"
-                />
-              </ActionIcon>
-              <Text
-                variant={'suptitle'}
-                sx={{ textTransform: 'capitalize' }}
-                ml={1}
+      {hideActions ? null : (
+        <Actions>
+          <Box>
+            <Items>
+              <ActionItem onClick={like.toggleLikeFormik.submitForm}>
+                <ActionIcon>
+                  <Star
+                    className="hover"
+                    color={like.iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'}
+                    strokeWidth="1"
+                    size="20"
+                  />
+                </ActionIcon>
+                <Text
+                  variant={'suptitle'}
+                  sx={{ textTransform: 'capitalize' }}
+                  ml={1}
+                >
+                  {like.totalLikes + ' '} <Trans>Favourite</Trans>
+                </Text>
+              </ActionItem>
+              <MoreActionItem
+                ml={4}
+                onClick={() => onOpen(true)}
+                sx={{ position: 'relative' }}
               >
-                {like.totalLikes + ' '} <Trans>Favourite</Trans>
-              </Text>
-            </ActionItem>
-            <MoreActionItem
-              ml={4}
-              onClick={() => onOpen(true)}
-              sx={{ position: 'relative' }}
-            >
-              <ActionIcon>
-                <MoreHorizontal
-                  className="hover"
-                  size={20}
-                  color="rgba(0,0,0,.4)"
-                />
-              </ActionIcon>
-              <Text
-                variant={'suptitle'}
-                sx={{ textTransform: 'capitalize' }}
-                ml={1}
-              >
-                {/* <Trans>More</Trans> */}
-              </Text>
-              {/* {isEnterUrlOpen && <EnterUrl close={onEnterUrlOpen} />} */}
-              {isOpen && (
-                <Dropdown orientation="bottom" cb={onOpen}>
-                  {/* {activity.context.type === ContextType.Resource && ( */}
-                  {/* <DropdownItem onClick={() => onEnterUrlOpen(true)}>
-                  <Upload size={20} color={'rgb(101, 119, 134)'} />
-                  <Text sx={{ flex: 1 }} ml={2}>
-                    Add to Moodle
-                  </Text>
-                </DropdownItem>
-                <DropdownItem>
-                  <Copy size={20} color={'rgb(101, 119, 134)'} />
-                  <Text sx={{ flex: 1 }} ml={2}>
-                    Copy link
-                  </Text>
-                </DropdownItem> */}
-                  {FlagModal && (
-                    <DropdownItem onClick={() => setOpenFlagModal(true)}>
-                      <Flag size={20} color={'rgb(101, 119, 134)'} />
-                      <Text sx={{ flex: 1 }} ml={2}>
-                        {!isFlagged ? (
-                          <Trans>Flag this resource</Trans>
-                        ) : (
-                          <Trans>Unflag this resource</Trans>
-                        )}
-                      </Text>
-                    </DropdownItem>
-                  )}
-                </Dropdown>
-              )}
-            </MoreActionItem>
-          </Items>
-        </Box>
-      </Actions>
+                <ActionIcon>
+                  <MoreHorizontal
+                    className="hover"
+                    size={20}
+                    color="rgba(0,0,0,.4)"
+                  />
+                </ActionIcon>
+                <Text
+                  variant={'suptitle'}
+                  sx={{ textTransform: 'capitalize' }}
+                  ml={1}
+                >
+                  {/* <Trans>More</Trans> */}
+                </Text>
+                {/* {isEnterUrlOpen && <EnterUrl close={onEnterUrlOpen} />} */}
+                {isOpen && (
+                  <Dropdown orientation="bottom" cb={onOpen}>
+                    {/* {activity.context.type === ContextType.Resource && ( */}
+                    {/* <DropdownItem onClick={() => onEnterUrlOpen(true)}>
+                    <Upload size={20} color={'rgb(101, 119, 134)'} />
+                    <Text sx={{ flex: 1 }} ml={2}>
+                      Add to Moodle
+                    </Text>
+                  </DropdownItem>
+                  <DropdownItem>
+                    <Copy size={20} color={'rgb(101, 119, 134)'} />
+                    <Text sx={{ flex: 1 }} ml={2}>
+                      Copy link
+                    </Text>
+                  </DropdownItem> */}
+                    {FlagModal && (
+                      <DropdownItem onClick={() => setOpenFlagModal(true)}>
+                        <Flag size={20} color={'rgb(101, 119, 134)'} />
+                        <Text sx={{ flex: 1 }} ml={2}>
+                          {!isFlagged ? (
+                            <Trans>Flag this resource</Trans>
+                          ) : (
+                            <Trans>Unflag this resource</Trans>
+                          )}
+                        </Text>
+                      </DropdownItem>
+                    )}
+                  </Dropdown>
+                )}
+              </MoreActionItem>
+            </Items>
+          </Box>
+        </Actions>
+      )}
       {FlagModal && isOpenFlagModal && (
         <Modal closeModal={() => setOpenFlagModal(false)}>
           <FlagModal done={() => setOpenFlagModal(false)} />
@@ -330,9 +334,6 @@ const TitleLink = styled.a`
   }
   &:hover {
     text-decoration: underline;
-    svg {
-      stroke: ${props => props.theme.colors.orange};
-    }
   }
 `;
 // const Hashtags = styled(Flex)`

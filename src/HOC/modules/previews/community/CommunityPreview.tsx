@@ -25,12 +25,15 @@ export const CommunityPreviewHOC: FC<Props> = ({ communityId }) => {
 
     const {
       icon,
+      isLocal,
       name,
       summary,
       myFollow,
       collectionCount,
       followerCount,
-      threads
+      threads,
+      canonicalUrl,
+      displayUsername
     } = community;
 
     const props: CommunityPreviewProps = {
@@ -41,7 +44,12 @@ export const CommunityPreviewHOC: FC<Props> = ({ communityId }) => {
       joined: !!myFollow,
       followersCount: followerCount || 0,
       threadsCount: threads?.totalCount || 0,
-      toggleJoinFormik
+      toggleJoinFormik,
+      link: {
+        url: isLocal ? `/communities/${communityId}` : canonicalUrl || '',
+        external: !isLocal
+      },
+      displayUsername
     };
     return props;
   }, [community, toggleJoinFormik]);

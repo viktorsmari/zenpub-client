@@ -13,7 +13,7 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type GetFollowedCollectionsQueryVariables = {
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  endColl?: Types.Maybe<Types.Scalars['String']>
+  endColl?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
 };
 
 
@@ -25,23 +25,20 @@ export type GetFollowedCollectionsQuery = (
       { __typename: 'User' }
       & Pick<Types.User, 'id' | 'canonicalUrl'>
       & { followedCollections: Types.Maybe<(
-        { __typename: 'FollowedCollectionsEdges' }
-        & { pageInfo: Types.Maybe<(
+        { __typename: 'FollowedCollectionsPage' }
+        & { pageInfo: (
           { __typename: 'PageInfo' }
           & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-        )>, edges: Array<Types.Maybe<(
-          { __typename: 'FollowedCollectionsEdge' }
-          & { node: (
-            { __typename: 'FollowedCollection' }
-            & { follow: (
-              { __typename: 'Follow' }
-              & Pick<Types.Follow, 'id' | 'canonicalUrl'>
-            ), collection: (
-              { __typename: 'Collection' }
-              & BasicCollectionFragment
-            ) }
+        ), edges: Array<(
+          { __typename: 'FollowedCollection' }
+          & { follow: (
+            { __typename: 'Follow' }
+            & Pick<Types.Follow, 'id' | 'canonicalUrl'>
+          ), collection: (
+            { __typename: 'Collection' }
+            & BasicCollectionFragment
           ) }
-        )>> }
+        )> }
       )> }
     ) }
   )> }
@@ -49,7 +46,7 @@ export type GetFollowedCollectionsQuery = (
 
 
 export const GetFollowedCollectionsDocument = gql`
-    query getFollowedCollections($limit: Int, $endColl: String) {
+    query getFollowedCollections($limit: Int, $endColl: [Cursor]) {
   me {
     user {
       id
@@ -60,16 +57,14 @@ export const GetFollowedCollectionsDocument = gql`
           endCursor
         }
         edges {
-          node {
-            follow {
-              id
-              canonicalUrl
-            }
-            collection {
-              __typename
-              ... on Collection {
-                ...BasicCollection
-              }
+          follow {
+            id
+            canonicalUrl
+          }
+          collection {
+            __typename
+            ... on Collection {
+              ...BasicCollection
             }
           }
         }

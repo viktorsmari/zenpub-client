@@ -1,19 +1,13 @@
 import React from 'react';
 import styled from 'ui/themes/styled';
 // import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router';
-import { ChevronLeft } from 'react-feather';
-import { Flex, Text, Box } from 'rebass/styled-components';
+import { Flex, Text } from 'rebass/styled-components';
 // import Avatar from 'ui/elements/Avatar';
 
 export const Header: React.FC<{ name: string }> = ({ name }) => {
-  const history = useHistory();
   return (
     <HeaderWrapper>
-      <Left onClick={() => history.goBack()}>
-        <Icon>
-          <ChevronLeft size="20" />
-        </Icon>
+      <Left>
         <SupText ml={2} variant="suptitle">
           {name}
         </SupText>
@@ -21,24 +15,6 @@ export const Header: React.FC<{ name: string }> = ({ name }) => {
     </HeaderWrapper>
   );
 };
-
-const Icon = styled(Box)`
-  cursor: pointer;
-  height: 40px;
-  width: 40px;
-  border-radius: 40px;
-  display: flex;
-  align-items: center;
-  &:hover {
-    background: ${props => props.theme.colors.lighter};
-    svg {
-      stroke: ${props => props.theme.colors.primary};
-    }
-  }
-  svg {
-    stroke: ${props => props.theme.colors.darkgray};
-  }
-`;
 
 const Left = styled(Flex)`
   flex: auto;
@@ -57,7 +33,6 @@ const HeaderWrapper = styled(Flex)`
   align-items: center;
   justify-content: space-between;
   padding: 0 8px;
-  cursor: pointer;
   background: #fff;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;

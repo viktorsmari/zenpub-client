@@ -27,13 +27,13 @@ const UsersModal = (props: Props) => {
         <Members>
           {members.map((edge, i) => (
             <Follower key={i}>
-              <Link to={'/user/' + edge.node.id}>
+              <Link to={'/user/' + edge.id}>
                 <Img
                   style={{
-                    backgroundImage: `url(${edge.node.icon})`
+                    backgroundImage: `url(${edge.icon})`
                   }}
                 />
-                <FollowerName>{edge.node.name}</FollowerName>
+                <FollowerName>{edge.name}</FollowerName>
               </Link>
             </Follower>
           ))}

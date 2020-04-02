@@ -6,7 +6,7 @@ export type SettingsPageMeFragment = (
   { __typename: 'Me' }
   & { user: (
     { __typename: 'User' }
-    & Pick<Types.User, 'id' | 'name' | 'icon' | 'image' | 'location' | 'summary' | 'displayUsername'>
+    & Pick<Types.User, 'id' | 'name' | 'icon' | 'image' | 'location' | 'summary' | 'displayUsername' | 'website'>
   ) }
 );
 
@@ -20,6 +20,7 @@ export const SettingsPageMeFragmentDoc = gql`
     location
     summary
     displayUsername
+    website
   }
 }
     `;
