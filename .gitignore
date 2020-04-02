@@ -19,6 +19,7 @@
 /build
 /styleguide
 /storybook-static
+/uploads
 
 # misc
 .DS_Store
