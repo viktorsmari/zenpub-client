@@ -4,7 +4,7 @@ import { Input, Textarea } from '@rebass/forms';
 import { FormikHook } from 'ui/@types/types';
 import * as React from 'react';
 import { LocaleContext } from '../../../context/global/localizationCtx';
-import styled from '../../../themes/styled';
+import styled from 'ui/themes/styled';
 import { Button, Box } from 'rebass/styled-components';
 import MNButton from 'ui/elements/Button';
 import {
@@ -30,7 +30,7 @@ const tt = {
     summary: i18nMark(
       'Please type or copy/paste a summary about the resource...'
     ),
-    author: i18nMark('A name for the resource author'),
+    //author: i18nMark('A name for the resource author'),
     submit: i18nMark('Uploading the resource')
     // image: i18nMark('Enter the URL of an image to represent the resource')
   }
@@ -45,7 +45,6 @@ export interface ResourceFormValues {
   url: string;
   name: string;
   summary: string;
-  author: string;
   icon: string;
   license: string;
   acceptedLicenses?: string[];
@@ -93,7 +92,7 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
           )}
         </ContainerForm>
       </Row>
-      <Row>
+      {/* <Row>
         <label>
           <Trans>Author</Trans>
         </label>
@@ -113,7 +112,7 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
             </AlertWrapper>
           )}
         </ContainerForm>
-      </Row>
+      </Row> */}
       <Row big>
         <label>
           <Trans>Description</Trans>

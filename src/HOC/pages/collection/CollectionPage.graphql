@@ -2,6 +2,7 @@
 
 
 fragment CollectionPageData on Collection {
+  name
   ...HeroCollectionData
 }
 

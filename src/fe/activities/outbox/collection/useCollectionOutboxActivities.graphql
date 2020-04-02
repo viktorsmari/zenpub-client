@@ -1,13 +1,13 @@
 
 
-query collectionOutboxActivities($collectionId: String!, $limit:Int, $before:String, $after:String) {
-  collection(collectionId:$collectionId){
+query collectionOutboxActivities($collectionId: String!, $limit:Int, $before:[Cursor], $after:[Cursor]) {
+  collection(collectionId:$collectionId) @connection(key: "collectionOutboxActivities", filter: ["collectionId"]){
     id
     outbox(limit:$limit, before:$before, after:$after){
+      totalCount,
+      pageInfo{ ...FullPageInfo }
       edges{
-        node{
-          ...CollectionOutboxActivity
-        }
+        ...CollectionOutboxActivity
       }
     }
   }

@@ -32,12 +32,12 @@ export type BasicCommentFragment = (
   )>, creator: Types.Maybe<(
     { __typename: 'User' }
     & BasicUserFragment
-  )>, likes: Types.Maybe<(
-    { __typename: 'LikesEdges' }
-    & Pick<Types.LikesEdges, 'totalCount'>
+  )>, likers: Types.Maybe<(
+    { __typename: 'LikesPage' }
+    & Pick<Types.LikesPage, 'totalCount'>
   )>, flags: Types.Maybe<(
-    { __typename: 'FlagsEdges' }
-    & Pick<Types.FlagsEdges, 'totalCount'>
+    { __typename: 'FlagsPage' }
+    & Pick<Types.FlagsPage, 'totalCount'>
   )>, thread: Types.Maybe<(
     { __typename: 'Thread' }
     & Pick<Types.Thread, 'id'>
@@ -70,7 +70,7 @@ export const BasicCommentFragmentDoc = gql`
   creator {
     ...BasicUser
   }
-  likes {
+  likers {
     totalCount
   }
   flags {

@@ -1,5 +1,4 @@
 import { useMyFollowedCommunities } from 'fe/community/myFollowed/myFollowedCommunities';
-import { useMe } from 'fe/session/me';
 import React, { FC, useMemo } from 'react';
 import {
   CommunityPreview,
@@ -8,42 +7,34 @@ import {
   Status as StatusUI
 } from 'ui/modules/Sidebar/index';
 import { SidebarMeUserFragment } from './Sidebar.generated';
-import { SearchBox } from 'react-instantsearch-dom';
 
 export interface Sidebar {
   user: SidebarMeUserFragment;
 }
 export const Sidebar: FC<Sidebar> = ({ user }) => {
-  const meQ = useMe();
-  const { communities: communitiesGQL } = useMyFollowedCommunities();
+  const { myFollowedCommunitiesPage } = useMyFollowedCommunities();
   const communities = useMemo(
     () =>
-      communitiesGQL.map<CommunityPreview>(commGql => {
+      myFollowedCommunitiesPage.edges.map<CommunityPreview>(commFollow => {
+        const { community } = commFollow;
         return {
-          icon: commGql.icon || '',
+          icon: community.icon || '',
           link: {
-            url: commGql.canonicalUrl || '',
-            external: !commGql.isLocal
+            url: `/communities/${community.id}`,
+            external: !community.isLocal
           },
-          name: commGql.name
+          name: community.name
         };
       }),
-    [communitiesGQL]
+    [myFollowedCommunitiesPage]
   );
 
   const propsUI = useMemo<PropsUI>(() => {
     const props: PropsUI = {
       status: StatusUI.Loaded,
-      communities,
-      logout: meQ.logout,
-      user: {
-        icon: user.icon || '',
-        id: user.id,
-        name: user.displayUsername
-      },
-      Search: SearchBox
+      communities
     };
     return props;
-  }, [meQ]);
+  }, [communities]);
   return <SidebarUI {...propsUI} />;
 };

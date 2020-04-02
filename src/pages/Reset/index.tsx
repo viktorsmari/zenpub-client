@@ -89,8 +89,9 @@ const ResetPasswordPage = (props: Props & FormikProps<FormikValues>) => {
                   />
                 )}
               />
-              {props.errors.email &&
-                props.touched.email && <Alert>{props.errors.email}</Alert>}
+              {props.errors.email && props.touched.email && (
+                <Alert>{props.errors.email}</Alert>
+              )}
               <Button disabled={props.isSubmitting} variant="primary">
                 <Trans>Reset the password</Trans>
               </Button>

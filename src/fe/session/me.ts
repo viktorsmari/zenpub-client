@@ -14,14 +14,27 @@ export const useMe = () => {
       if (loginStatus.loading || me?.user) {
         return;
       }
-      return loginMut({ variables: { email, password } });
+      return loginMut({
+        variables: { email, password },
+        refetchQueries: [{ query: GQL.MeDocument }]
+      });
     };
 
     const logout = () => {
       if (logoutStatus.loading || !me?.user) {
         return;
       }
-      return logoutMut();
+      return logoutMut({
+        update: proxy => {
+          proxy.writeQuery<GQL.MeQuery>({
+            data: {
+              __typename: 'RootQueryType',
+              me: null
+            },
+            query: GQL.MeDocument
+          });
+        }
+      });
     };
 
     return {

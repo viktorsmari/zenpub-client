@@ -79,10 +79,7 @@ const Dropdown: React.FC<{ userId: string }> = ({ userId }) => {
             </Item>
           </List>
           <List lined>
-            <a
-              href={related_urls.terms_users}
-              target="blank"
-            >
+            <a href={related_urls.terms_users} target="blank">
               <Item variant="link">
                 <Trans>Code of Conduct</Trans>
               </Item>

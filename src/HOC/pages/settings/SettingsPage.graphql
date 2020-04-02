@@ -6,6 +6,7 @@ fragment SettingsPageMe on Me{
     image,
     location,
     summary,
-    displayUsername
+    displayUsername,
+    website
   }
 }

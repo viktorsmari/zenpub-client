@@ -1,6 +1,7 @@
 import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
 import { PropsTable } from '@storybook/components';
 // import {getResourcePreviewProps} from 'ui/mock/context'
+import {ConfirmDeleteModal} from 'ui/modules/ConfirmDeleteModal'
 import { User } from './User';
 import { Resource } from './Resource';
 import {Community} from './Community';
@@ -8,6 +9,7 @@ import {Collection} from './Collection';
 import {Comment} from './Comment';
 import {MainComment} from './MainComment';
 import {LikedComment} from './LikedComment';
+import {FlaggedItem} from './FlaggedItem';
 import {Thread} from './Thread';
 import {Box} from 'rebass'
 import { useFormik } from 'formik';
@@ -214,6 +216,7 @@ Let's define a story for the `Community preview` module
         collectionsCount={6}
         followed={true}
         threadsCount={3}
+        link={{url: "/", external: true}}
         toggleJoinFormik = {useFormik<{}>({
           initialValues: {},
           onSubmit: vals => {
@@ -308,6 +311,7 @@ Let's define a story for the `Thread preview` module
         p={2}
       >
     <Thread
+        link="/"
         title="What do the avatars in the topic list mean?"
         content={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
         createdAt={"2019-11-09"}
@@ -318,6 +322,7 @@ Let's define a story for the `Thread preview` module
     </Box>
   </Story>
 </Preview>
+
 
 # Main Comment
 Let's define a story for the `Main Comment preview` module
@@ -367,4 +372,54 @@ Let's define a story for the `Liked Comment preview` module
     />
     </Box>
   </Story>
-</Preview>
+</Preview> 
+
+# Flagged Item
+Let's define a story for the `Flagged Item preview` module
+
+<Preview>
+  <Story name="Flagged Item preview module">
+     <Box
+        sx={{
+          borderRadius: '6px',
+          background: '#fff',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
+    <FlaggedItem
+        flaggedItemContext={(
+        <Comment
+          {...getActions()}
+          url="/"
+          content={
+            'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+          }
+          isFlagged={false}
+          hideActions={true}
+        />)}
+        ConfirmDeleteModal= {({ done }) => {
+          const formik = useFormik<{}>({
+          initialValues: {},
+            onSubmit: () => {
+              action('submit')();
+              return new Promise((resolve, reject) => {
+                setTimeout(resolve, 3000);
+              });
+            }
+          });
+          const getConfirmDeleteModalProps = {
+            formik,
+            deleteTitle: 'Delete Comment',
+            deleteDescription: 'Are you sure you want to delete this comment?',
+            cancel: action('cancel')
+          };
+          return <ConfirmDeleteModal {...getConfirmDeleteModalProps} />;
+        }}
+        type = "Comment"
+        reason = "Abusive speech"
+    />
+    </Box>
+  </Story>
+</Preview> 

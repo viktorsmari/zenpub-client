@@ -1,9 +1,9 @@
 #import "./fragments/basicCollection.graphql"
 
-query getCollectionsQuery($limit: Int, $end: String) {
+query getCollectionsQuery($limit: Int, $end: [Cursor]) {
     collections(limit: $limit, after:$end) {
         pageInfo { startCursor endCursor }
-        nodes {
+        edges{
             ...BasicCollection
         }
     }

@@ -13,7 +13,7 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type GetFollowedCommunitiesQueryQueryVariables = {
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  endComm?: Types.Maybe<Types.Scalars['String']>
+  endComm?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
 };
 
 
@@ -25,23 +25,20 @@ export type GetFollowedCommunitiesQueryQuery = (
       { __typename: 'User' }
       & Pick<Types.User, 'id'>
       & { followedCommunities: Types.Maybe<(
-        { __typename: 'FollowedCommunitiesEdges' }
-        & { pageInfo: Types.Maybe<(
+        { __typename: 'FollowedCommunitiesPage' }
+        & { pageInfo: (
           { __typename: 'PageInfo' }
           & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-        )>, edges: Array<Types.Maybe<(
-          { __typename: 'FollowedCommunitiesEdge' }
-          & { node: (
-            { __typename: 'FollowedCommunity' }
-            & { follow: (
-              { __typename: 'Follow' }
-              & Pick<Types.Follow, 'id' | 'canonicalUrl'>
-            ), community: (
-              { __typename: 'Community' }
-              & BasicCommunityFragment
-            ) }
+        ), edges: Array<(
+          { __typename: 'FollowedCommunity' }
+          & { follow: (
+            { __typename: 'Follow' }
+            & Pick<Types.Follow, 'id' | 'canonicalUrl'>
+          ), community: (
+            { __typename: 'Community' }
+            & BasicCommunityFragment
           ) }
-        )>> }
+        )> }
       )> }
     ) }
   )> }
@@ -49,7 +46,7 @@ export type GetFollowedCommunitiesQueryQuery = (
 
 
 export const GetFollowedCommunitiesQueryDocument = gql`
-    query getFollowedCommunitiesQuery($limit: Int, $endComm: String) {
+    query getFollowedCommunitiesQuery($limit: Int, $endComm: [Cursor]) {
   me {
     user {
       id
@@ -59,16 +56,14 @@ export const GetFollowedCommunitiesQueryDocument = gql`
           endCursor
         }
         edges {
-          node {
-            follow {
-              id
-              canonicalUrl
-            }
-            community {
-              __typename
-              ... on Community {
-                ...BasicCommunity
-              }
+          follow {
+            id
+            canonicalUrl
+          }
+          community {
+            __typename
+            ... on Community {
+              ...BasicCommunity
             }
           }
         }

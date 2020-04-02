@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { ThreadPage } from 'HOC/pages/thread/ThreadPage';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
+import { WithSidebarTemplate } from 'HOC/templates/WithSidebar/WithSidebar';
 
 interface ThreadPageRouter {
   threadId: string;
@@ -13,8 +14,11 @@ const ThreadPageRouter: FC<RouteComponentProps<ThreadPageRouter>> = ({
   const props: ThreadPage = {
     threadId
   };
-
-  return <ThreadPage {...props} />;
+  return (
+    <WithSidebarTemplate>
+      <ThreadPage {...props} />
+    </WithSidebarTemplate>
+  );
 };
 
 export const ThreadPageRoute: RouteProps = {

@@ -17,10 +17,16 @@ import { clearFix } from 'polished';
 import { Panel, WrapperPanel } from '../../sections/panel';
 import useAxios from 'axios-hooks';
 
-import { INSTANCE_TAGLINE, INVITE_ONLY_TEXT, terms_markdown_urls, terms_markdown_text, related_urls, logo_large_url } from './../../mn-constants';
+import {
+  INSTANCE_TAGLINE,
+  INVITE_ONLY_TEXT,
+  terms_markdown_urls,
+  terms_markdown_text,
+  related_urls,
+  logo_large_url
+} from './../../mn-constants';
 import { AlertCircle, Eye } from 'react-feather';
 import { LocaleContext } from '../../context/global/localizationCtx';
-
 
 let tt = {
   login: i18nMark('Sign in'),
@@ -186,16 +192,22 @@ const Aware = styled(Flex)<{ green: boolean }>`
 const SignupModal = (props: Props) => {
   const { i18n } = React.useContext(LocaleContext);
   const [createUser, createUserResp] = useCreateUserMutationMutation();
-  
-    var terms_users_text = { data: terms_markdown_text.terms_users };
-    var terms_cookies_text = { data: terms_markdown_text.terms_cookies };
-    var terms_indexing_text = { data: terms_markdown_text.terms_indexing };
 
-  if(terms_markdown_urls.enabled){
-    var [terms_users] = useAxios(terms_markdown_urls.terms_users, { useCache: true  });
-    var [terms_cookies] = useAxios(terms_markdown_urls.terms_cookies, { useCache: true  });
-    var [terms_indexing] = useAxios(terms_markdown_urls.terms_indexing, { useCache: true  });
-  }  
+  var terms_users_text = { data: terms_markdown_text.terms_users };
+  var terms_cookies_text = { data: terms_markdown_text.terms_cookies };
+  var terms_indexing_text = { data: terms_markdown_text.terms_indexing };
+
+  if (terms_markdown_urls.enabled) {
+    var [terms_users] = useAxios(terms_markdown_urls.terms_users, {
+      useCache: true
+    });
+    var [terms_cookies] = useAxios(terms_markdown_urls.terms_cookies, {
+      useCache: true
+    });
+    var [terms_indexing] = useAxios(terms_markdown_urls.terms_indexing, {
+      useCache: true
+    });
+  }
 
   return (
     <Container>
@@ -422,29 +434,32 @@ const SignupModal = (props: Props) => {
                 <WrapperPanel className="extra">
                   <Panel>
                     <Box p={3}>
-                        <Markdown>{terms_users.data || terms_users_text.data}</Markdown>
+                      <Markdown>
+                        {terms_users.data || terms_users_text.data}
+                      </Markdown>
                     </Box>
                     <Box p={3}>
-                        <Markdown>{terms_cookies.data || terms_cookies_text.data }</Markdown>
+                      <Markdown>
+                        {terms_cookies.data || terms_cookies_text.data}
+                      </Markdown>
                     </Box>
                     <Box p={3}>
-                        <Markdown>{terms_indexing.data || terms_indexing_text.data}</Markdown>
+                      <Markdown>
+                        {terms_indexing.data || terms_indexing_text.data}
+                      </Markdown>
                     </Box>
                   </Panel>
                 </WrapperPanel>
               </Right>
               <Footer>
-                 <ul>
+                <ul>
                   <li>
                     <a href={related_urls.project_homepage} target="blank">
                       About
                     </a>
                   </li>
                   <li>
-                    <a
-                      href={related_urls.terms_users}
-                      target="blank"
-                    >
+                    <a href={related_urls.terms_users} target="blank">
                       Code of Conduct
                     </a>
                   </li>
@@ -454,10 +469,7 @@ const SignupModal = (props: Props) => {
                     </a>
                   </li>
                   <li>
-                    <a
-                      href={related_urls.feedback}
-                      target="blank"
-                    >
+                    <a href={related_urls.feedback} target="blank">
                       Feedback
                     </a>
                   </li>
@@ -466,7 +478,7 @@ const SignupModal = (props: Props) => {
                       Privacy notice
                     </a>
                   </li>
-                </ul> 
+                </ul>
               </Footer>
             </LoginWrapper>
           )}

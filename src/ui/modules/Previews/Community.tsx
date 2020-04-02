@@ -1,9 +1,10 @@
 import { Trans } from '@lingui/macro';
 import React from 'react';
-import { Box, Flex, Text } from 'rebass/styled-components';
+import { Box, Flex, Text, Heading } from 'rebass/styled-components';
 import { FormikHook } from 'ui/@types/types';
 import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
+import { SimpleLink } from 'ui/helpers/SimpleLink';
 
 export interface Props {
   name: string;
@@ -14,6 +15,12 @@ export interface Props {
   threadsCount: number;
   toggleJoinFormik: FormikHook<{}>;
   joined: boolean;
+  link: {
+    url: string;
+    external: boolean;
+  };
+  displayUsername: string;
+  hideActons?: boolean;
 }
 
 export const Community: React.FC<Props> = ({
@@ -23,73 +30,78 @@ export const Community: React.FC<Props> = ({
   followersCount,
   joined,
   toggleJoinFormik,
-  collectionsCount
+  collectionsCount,
+  link,
+  displayUsername,
+  hideActons
 }) => (
   <Bordered>
     <Wrapper p={2}>
-      <WrapperImage>
-        <Avatar size="l" src={icon} />
-      </WrapperImage>
-      <Box p={2}>
-        <Flex>
-          <Box flex={1}>
-            <Text variant="heading" fontSize={3}>
-              {name.length > 60
-                ? name.replace(/^(.{56}[^\s]*).*/, '$1...')
-                : name}
-            </Text>
-            <Username>@ivan@moodle.net</Username>
-            <Meta mt={2}>
-              <Flex alignSelf="center" mr={3} alignItems="center">
-                <Text fontSize={'10px'} variant="suptitle">
-                  {followersCount || 0} <Trans>Users</Trans>
-                </Text>
-              </Flex>
-              <Flex alignSelf="center" alignItems="center">
-                <Text fontSize={'10px'} variant="suptitle">
-                  {collectionsCount || 0} <Trans>Collections</Trans>
-                </Text>
-              </Flex>
-            </Meta>
-          </Box>
-        </Flex>
+      <WrapperLink link={link}>
+        <WrapperImage>
+          <Avatar size="l" src={icon} />
+        </WrapperImage>
+        <Box p={2}>
+          <Flex>
+            <Box flex={1}>
+              <Title variant="heading" fontSize={3}>
+                {name.length > 60
+                  ? name.replace(/^(.{56}[^\s]*).*/, '$1...')
+                  : name}
+              </Title>
+              <Username>{displayUsername}</Username>
+            </Box>
+          </Flex>
 
-        <Text variant="text" mt={2}>
-          {summary.length > 160
-            ? summary.replace(/^([\s\S]{156}[^\s]*)[\s\S]*/, '$1...')
-            : summary}
-        </Text>
-      </Box>
+          <Text sx={{ height: '60px' }} variant="text" mt={2}>
+            {summary.length > 90
+              ? summary.replace(/^([\s\S]{86}[^\s]*)[\s\S]*/, '$1...')
+              : summary}
+          </Text>
+        </Box>
+      </WrapperLink>
     </Wrapper>
-    <Actions>
-      <Box>
-        <Items>
-          <ActionItem onClick={toggleJoinFormik.submitForm}>
-            <Text
-              ml={1}
-              variant={'suptitle'}
-              sx={{ textTransform: 'capitalize' }}
-            >
-              {joined ? <Trans>Leave</Trans> : <Trans>Join</Trans>}
-            </Text>
-          </ActionItem>
-        </Items>
-      </Box>
-    </Actions>
+    <Meta my={2}>
+      <Flex alignSelf="center" mr={3} alignItems="center">
+        <Text variant="suptitle">
+          {followersCount || 0} <Trans>Users</Trans>
+        </Text>
+      </Flex>
+      <Flex alignSelf="center" alignItems="center">
+        <Text variant="suptitle">
+          {collectionsCount || 0} <Trans>Collections</Trans>
+        </Text>
+      </Flex>
+      {hideActons ? null : (
+        <ActionItem onClick={toggleJoinFormik.submitForm}>
+          <Text ml={2} variant={'suptitle'}>
+            {joined ? <Trans>Leave</Trans> : <Trans>Join</Trans>}
+          </Text>
+        </ActionItem>
+      )}
+    </Meta>
   </Bordered>
 );
 
-const Items = styled(Flex)`
-  flex: 1;
-  justify-content: space-around;
+const WrapperLink = styled(SimpleLink)`
+  text-decoration: none;
 `;
 
-const Actions = styled(Box)`
-  position: relative;
-  z-index: 999999999999999999999999999999999999;
-  border-top: 1px solid #dadada;
-  padding: 8px;
-`;
+// const Items = styled(Flex)`
+//   flex: 1;
+//   justify-content: space-around;
+// `;
+// const Items = styled(Flex)`
+//   flex: 1;
+//   justify-content: space-around;
+// `;
+
+// const Actions = styled(Box)`
+//   position: relative;
+//   z-index: 999999999999999999999999999999999999;
+//   border-top: 1px solid #dadada;
+//   padding: 8px;
+// `;
 
 const ActionItem = styled(Flex)`
   align-items: center;
@@ -115,6 +127,7 @@ const Username = styled(Text)`
 
 const Meta = styled(Flex)`
   color: ${props => props.theme.colors.gray};
+  justify-content: space-evenly;
 `;
 
 const Bordered = styled(Box)`
@@ -134,10 +147,10 @@ const Wrapper = styled(Box)`
     background: ${props => props.theme.colors.lighter};
     text-decoration: none;
   }
-  & a {
+  &&& a {
     color: inherit;
     text-decoration: none;
-    &:hover {
+    &&&:hover {
       text-decoration: none;
     }
   }
@@ -157,4 +170,19 @@ const WrapperImage = styled.div`
       display: block;
     }
   }
+`;
+
+// const TitleLink = styled(SimpleLink)`
+//   text-decoration: none;
+//   color: ${props => props.theme.colors.darkgray};
+//   &:hover {
+//     text-decoration: underline;
+//   }
+// `;
+
+const Title = styled(Heading)`
+  color: ${props => props.theme.colors.darkgray};
+  font-size: 20px;
+  text-decoration: none;
+  word-break: break-all;
 `;

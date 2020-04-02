@@ -5,11 +5,14 @@ import {HeroUser} from 'ui/modules/HeroUser'
 import {getHeroUserProps, getResourcePreviewProps} from 'ui/mock/context'
 import {ActivityPreview} from 'ui/modules/ActivityPreview'
 import {activityPreviewProps} from 'ui/pages/community/a.stories.mdx'
-import {Box} from 'rebass'
 import {MainComment} from 'ui/modules/Previews/MainComment'
 import { useFormik } from 'formik';
 import { Comment } from 'ui/modules/Previews/Comment';
 import { Status } from 'ui/modules/HeroCommunity';
+import { WithSidebar } from 'ui/templates/withSidebar';
+import {Sidebar} from 'ui/modules/Sidebar'
+import {MainHeader} from 'ui/modules/MainHeader'
+import {Input} from '@rebass/forms'
 const getActions = () => ({
   FlagModal: () => {
     const formik = useFormik<{ reason: '' }>({
@@ -92,7 +95,35 @@ Let's define a story for the `Thread` page
 
 <Preview>
   <Story name="Thread page">
-    <Box sx={{margin: "0 auto", width: "fit-content"}}>
+    <WithSidebar 
+      HeaderBox={<MainHeader user={{
+        icon:'https://pbs.twimg.com/profile_images/1161428802091802627/O49Ggs-7_400x400.jpg',
+        name: '˗ˏˋ Doug Belshaw ˎˊ˗  🇪🇺 ☠️ ✊',
+        id: "/test"
+      }}
+      isLogged={true}
+      isOpen= {false}
+      Search={ <Input placeholder="Search..." />}
+      logout= {() => console.log(false)} />}
+      SidebarBox={<Sidebar 
+      status={Status.Loaded}
+      communities={[{
+        link: {
+          url: "string",
+          external: true,
+        },
+        name: "test",
+        icon: "",
+      }]}
+      user={{
+        icon:'https://pbs.twimg.com/profile_images/1161428802091802627/O49Ggs-7_400x400.jpg',
+        name: '˗ˏˋ Doug Belshaw ˎˊ˗  🇪🇺 ☠️ ✊',
+        id: "/test"
+      }}
+      isOpen= {false}
+      Search={ <input />}
+      logout= {() => console.log(false)}
+    />}>
         <Thread 
         communityIcon="https://i.ytimg.com/vi/k4Q_YUXj4bU/maxresdefault.jpg"
         communityName="MoodleNet devs" 
@@ -104,7 +135,7 @@ Let's define a story for the `Thread` page
         ]}
         basePath="/"
         />
-    </Box>
+    </WithSidebar>
   </Story>
 </Preview>
 

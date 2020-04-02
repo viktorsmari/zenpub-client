@@ -3,7 +3,7 @@ import { useCollectionOutboxActivities } from 'fe/activities/outbox/collection/u
 import { useCollectionResources } from 'fe/resource/collection/useCollectionResources';
 import { Collection } from 'graphql/types.generated';
 import { ActivityPreviewHOC } from 'HOC/modules/previews/activity/ActivityPreview';
-import UploadResourcePanelHOC from 'HOC/modules/AddResource/UploadResourceHOC';
+import { AddResourceHOC } from 'HOC/modules/AddResource/addResourceHOC';
 import { EditCollectionPanelHOC } from 'HOC/modules/EditCollectionPanel/editCollectionPanelHOC';
 import { HeroCollection } from 'HOC/modules/HeroCollection/HeroCollection';
 import { ResourcePreviewHOC } from 'HOC/modules/previews/resource/ResourcePreview';
@@ -12,10 +12,14 @@ import CollectionPageUI, {
   Props as CollectionPageProps
 } from 'ui/pages/collection';
 import { Box } from 'rebass';
+import { useCollection } from 'fe/collection/useCollection';
+import { useCollectionFollowers } from 'fe/user/followers/collection/useCollectionFollowers';
+import { UserPreviewHOC } from 'HOC/modules/previews/user/UserPreview';
 
 export enum CollectionPageTab {
   Activities,
-  Resources
+  Resources,
+  Followers
 }
 export interface CollectionPage {
   collectionId: Collection['id'];
@@ -24,20 +28,26 @@ export interface CollectionPage {
 }
 
 export const CollectionPage: FC<CollectionPage> = props => {
-  const { activities } = useCollectionOutboxActivities(props.collectionId);
-  const { resources } = useCollectionResources(props.collectionId);
+  const { collection } = useCollection(props.collectionId);
+  const { collectionFollowersPage } = useCollectionFollowers(
+    props.collectionId
+  );
+  const { activitiesPage } = useCollectionOutboxActivities(props.collectionId);
+  const { resourcesPage } = useCollectionResources(props.collectionId);
   const collectionPageProps = useMemo<CollectionPageProps | null>(() => {
-    const {
-      collectionId,
-      basePath
-      //tab
-    } = props;
+    if (!collection) {
+      return null;
+    }
+    const { collectionId, basePath /* ,
+      tab */ } = props;
 
-    const HeroCollectionBox = <HeroCollection collectionId={collectionId} />;
+    const HeroCollectionBox = (
+      <HeroCollection basePath={basePath} collectionId={collectionId} />
+    );
 
     const ActivitiesBox = (
       <>
-        {activities.map(activity => (
+        {activitiesPage.edges.map(activity => (
           <ActivityPreviewHOC activityId={activity.id} key={activity.id} />
         ))}
       </>
@@ -45,7 +55,7 @@ export const CollectionPage: FC<CollectionPage> = props => {
 
     const ResourcesBox = (
       <>
-        {resources.map(resource => (
+        {resourcesPage.edges.map(resource => (
           <Box mx={2} my={1}>
             <ResourcePreviewHOC resourceId={resource.id} key={resource.id} />
           </Box>
@@ -59,7 +69,16 @@ export const CollectionPage: FC<CollectionPage> = props => {
 
     const UploadResourcePanel: CollectionPageProps['UploadResourcePanel'] = ({
       done
-    }) => <UploadResourcePanelHOC done={done} collectionId={collectionId} />;
+    }) => <AddResourceHOC done={done} collectionId={collectionId} />;
+
+    const FollowersBoxes: CollectionPageProps['FollowersBoxes'] = (
+      <>
+        {collectionFollowersPage.edges.map(
+          follow =>
+            follow.creator && <UserPreviewHOC userId={follow.creator?.userId} />
+        )}
+      </>
+    );
 
     const ShareLinkModalPanel: CollectionPageProps['ShareLinkModalPanel'] = ({
       done
@@ -81,9 +100,11 @@ export const CollectionPage: FC<CollectionPage> = props => {
       ResourcesBox,
       EditCollectionPanel,
       UploadResourcePanel,
-      basePath
+      basePath,
+      FollowersBoxes,
+      collectionName: collection.name
     };
     return uiProps;
-  }, [props, activities, resources]);
+  }, [props, activitiesPage, resourcesPage, collectionFollowersPage]);
   return collectionPageProps && <CollectionPageUI {...collectionPageProps} />;
 };

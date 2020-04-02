@@ -14,8 +14,7 @@ fragment BasicThread on Thread {
             endCursor
         }
         edges {
-            cursor
-            node { ...BasicCommentWithInReplyTo }
+            ...BasicCommentWithInReplyTo
         }
     }
 }

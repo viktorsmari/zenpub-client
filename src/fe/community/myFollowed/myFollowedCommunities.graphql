@@ -1,6 +1,6 @@
 
 query myFollowedCommunities {
-  me{
+  me @connection(key: "myFollowedCommunities"){
     ...MyFollowedCommunitiesMeData
   }
 }
@@ -9,11 +9,11 @@ fragment MyFollowedCommunitiesMeData on Me {
   user{
     id
     followedCommunities{
+      totalCount,
+      pageInfo{ ...FullPageInfo }
       edges{
-        node{
-          community { ...SidebarFollowedCommunity }
-          follow { id }
-        }
+        community { ...SidebarFollowedCommunity }
+        follow { id }
       }
     }
   }

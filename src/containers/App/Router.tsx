@@ -1,167 +1,41 @@
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
-import { Flex } from 'rebass/styled-components';
+import { Route, Switch } from 'react-router-dom';
 import { AllCollectionsPageRoute } from 'routes/AllCollectionsPageRoute';
 import { AllCommunitiesPageRoute } from 'routes/AllCommunitiesPageRoute';
 import { CollectionPageRoute } from 'routes/CollectionPageRoute';
 import { CommunityPageRoute } from 'routes/CommunityPageRoute';
+import { ConfirmEmailRoute } from 'routes/ConfirmEmailPageRoute';
+import { CreateNewPasswordPageRoute } from 'routes/CreateNewPasswordPageRoute';
 import { DiscoverPageRoute } from 'routes/DiscoverPageRoute';
+import { HomePageRoute } from 'routes/HomePageRoute';
+import { LoginPageRoute } from 'routes/LoginPageRoute';
+import { ResetPasswordPageRoute } from 'routes/ResetPasswordPageRoute';
+import { SearchPageRoute } from 'routes/SearchPageRoute';
 import { SettingsPageRoute } from 'routes/SettingsPageRoute';
+import { SignupPageRoute } from 'routes/SignupPageRoute';
 import { ThreadPageRoute } from 'routes/ThreadPageRoute';
 import { UserPageRoute } from 'routes/UserPageRoute';
-import { SessionContext } from '../../context/global/sessionCtx';
-import { CollectionsYours } from '../../pages/collections.all';
-import MyCollections from '../../pages/collections.all/collectionsFollowed';
-import { CommunitiesYours } from '../../pages/communities.all/communitiesJoined';
-import ConfirmAccount from '../../pages/Confirm';
-import CreateNewPassword from '../../pages/CreateNewPassword';
-import Home from '../../pages/home';
-import Login from '../../pages/login/Login';
 import NotFound from '../../pages/not-found/NotFound';
-import Reset from '../../pages/Reset';
-import SearchComp from '../../pages/search/Search';
-import Signup from '../../pages/Signup';
-// import media from 'styled-media-query';
-import {
-  Inner,
-  MainWrapper,
-  WrapperDimension
-} from '../../sections/layoutUtils';
-import Sidebar from '../../sections/sidebar/sidebarHOC';
-import SidebarNoLoggedWrapper from '../../sections/sidebar/sidebar_not_logged';
-import styled from '../../themes/styled';
-import MobileHeader from './mobileHeader';
 
-const Main = styled(Flex)`
-  height: 100%;
-  font-family: 'Open Sans', sans-serif !important;
-`;
-
-const AppInner = styled.div`
-  align-items: stretch;
-  border: 0 solid black;
-  box-sizing: border-box;
-  flex-basis: auto;
-  flex-direction: column;
-  flex-shrink: 0;
-  margin: 0px;
-  min-height: 0px;
-  min-width: 0px;
-  padding: 0px;
-  position: relative;
-  z-index: 0;
-  flex-basis: 0%;
-  flex-grow: 1;
-  display: flex;
-  flex-shrink: 1;
-`;
-
-const PageContainer = styled(Flex)`
-  min-height: 100vh;
-  height: 100%;
-  width: 100%;
-  ponter-events: auto;
-  flex-direction: row;
-`;
-
-const Content: React.FC<{ onOpen(): any }> = ({ onOpen }) => {
-  const { me } = React.useContext(SessionContext);
-
+export const Router: React.FC = () => {
   return (
-    <>
-      <MobileHeader onOpen={onOpen} />
-      <Switch>
-        <Route {...UserPageRoute} />
-        <Route {...CommunityPageRoute} />
-        <Route {...CollectionPageRoute} />
-        <Route {...SettingsPageRoute} />
-        <Route {...AllCollectionsPageRoute} />
-        <Route {...AllCommunitiesPageRoute} />
-        <Route {...ThreadPageRoute} />
-        <Route {...DiscoverPageRoute} />
-
-        <Route exact path="/" component={me ? Home : Login} />
-        <Route
-          exact
-          path="/mycommunities"
-          component={me ? CommunitiesYours : Login}
-        />
-        <Route
-          exact
-          path="/mycollections"
-          component={me ? MyCollections : Login}
-        />
-
-        <Route path="/search" component={SearchComp} />
-        <Route exact path="/collections" component={CollectionsYours} />
-        <Route component={NotFound} />
-      </Switch>
-    </>
-  );
-};
-
-export interface Props {
-  location: any;
-  history: any;
-}
-const App: React.FC<Props> = props => {
-  const [isSidebarOpen, setSidebarOpen] = React.useState(false);
-  const { me } = React.useContext(SessionContext);
-  const onSidebarOpen = React.useCallback(() => {
-    setSidebarOpen(!isSidebarOpen);
-  }, [isSidebarOpen]);
-  return (
-    <Flex alignItems={'center'}>
-      <PageContainer>
-        {me ? (
-          <Sidebar isOpen={isSidebarOpen} />
-        ) : location.pathname !== '/' ? (
-          <SidebarNoLoggedWrapper isOpen={isSidebarOpen} />
-        ) : null}
-        <MainWrapper>
-          <WrapperDimension
-            isLogin={!me && location.pathname === '/' ? true : false}
-          >
-            <Inner>
-              <Content onOpen={onSidebarOpen} />
-            </Inner>
-          </WrapperDimension>
-        </MainWrapper>
-      </PageContainer>
-    </Flex>
-  );
-};
-
-export default _ => {
-  const { me } = React.useContext(SessionContext);
-
-  return (
-    <Main>
-      <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.1.1/themes/reset-min.css"
-      />
-      <AppInner>
-        <Switch>
-          <Route
-            exact
-            path="/confirm-email/:token"
-            render={route =>
-              me ? (
-                <Redirect to="/#welcome" />
-              ) : (
-                <ConfirmAccount token={route.match.params.token} />
-              )
-            }
-          />
-          <Route exact path="/reset" component={Reset} />
-          <Route exact path="/reset/:token" component={CreateNewPassword} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={Signup} />
-          <Route path="/" component={props => <App {...props} />} />
-          <Route component={NotFound} />
-        </Switch>
-      </AppInner>
-    </Main>
+    <Switch>
+      <Route {...UserPageRoute} />
+      <Route {...CommunityPageRoute} />
+      <Route {...CollectionPageRoute} />
+      <Route {...SettingsPageRoute} />
+      <Route {...AllCollectionsPageRoute} />
+      <Route {...AllCommunitiesPageRoute} />
+      <Route {...ThreadPageRoute} />
+      <Route {...DiscoverPageRoute} />
+      <Route {...HomePageRoute} />
+      <Route {...SearchPageRoute} />
+      <Route {...ResetPasswordPageRoute} />
+      <Route {...CreateNewPasswordPageRoute} />
+      <Route {...LoginPageRoute} />
+      <Route {...SignupPageRoute} />
+      <Route {...ConfirmEmailRoute} />
+      <Route component={NotFound} />
+    </Switch>
   );
 };

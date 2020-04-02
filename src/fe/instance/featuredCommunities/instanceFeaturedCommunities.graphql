@@ -1,0 +1,14 @@
+query instanceFeaturedCommunities {
+  instance @connection(key: "instanceFeaturedCommunities"){
+    featuredCommunities{
+      totalCount,
+      pageInfo{ ...FullPageInfo }
+      edges{
+        id
+        context{
+          ...DiscoverPageFeaturedCommunityInfo
+        }
+      }
+    }
+  }
+}

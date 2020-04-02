@@ -13,6 +13,7 @@ import { ActivityPreviewFragmentDoc } from '../../modules/previews/activity/Acti
 
 export type CollectionPageDataFragment = (
   { __typename: 'Collection' }
+  & Pick<Types.Collection, 'name'>
   & HeroCollectionDataFragment
 );
 
@@ -30,6 +31,7 @@ export type CollectionPageActivityFragment = (
 
 export const CollectionPageDataFragmentDoc = gql`
     fragment CollectionPageData on Collection {
+  name
   ...HeroCollectionData
 }
     ${HeroCollectionDataFragmentDoc}`;

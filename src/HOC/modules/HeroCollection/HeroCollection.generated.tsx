@@ -9,8 +9,8 @@ export type HeroCollectionDataFragment = (
     { __typename: 'Community' }
     & Pick<Types.Community, 'id' | 'name' | 'icon'>
   )>, followers: Types.Maybe<(
-    { __typename: 'FollowsEdges' }
-    & Pick<Types.FollowsEdges, 'totalCount'>
+    { __typename: 'FollowsPage' }
+    & Pick<Types.FollowsPage, 'totalCount'>
   )>, myFollow: Types.Maybe<(
     { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>

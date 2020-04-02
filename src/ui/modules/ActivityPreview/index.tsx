@@ -13,10 +13,10 @@ export enum Status {
   Loaded
 }
 export interface ActivityLoaded extends Activity {
-  status: Status.Loaded;
+  status: Status.Loaded; // FIX ME after fix flags story in settings page
 }
 export interface ActivityLoading {
-  status: Status.Loading;
+  status: Status.Loading; // FIX ME after fix flags story in settings page
 }
 
 export interface Activity {

@@ -30,14 +30,11 @@ export type CommentPreviewFragment = (
     { __typename: 'Thread' }
     & Pick<Types.Thread, 'id'>
     & { comments: Types.Maybe<(
-      { __typename: 'CommentsEdges' }
-      & { edges: Array<Types.Maybe<(
-        { __typename: 'CommentsEdge' }
-        & { node: (
-          { __typename: 'Comment' }
-          & CommentPreviewBaseFragment
-        ) }
-      )>> }
+      { __typename: 'CommentsPage' }
+      & { edges: Array<(
+        { __typename: 'Comment' }
+        & CommentPreviewBaseFragment
+      )> }
     )>, context: Types.Maybe<(
       { __typename: 'Collection' }
       & Pick<Types.Collection, 'id'>
@@ -129,9 +126,7 @@ export const CommentPreviewFragmentDoc = gql`
     id
     comments(limit: 1) {
       edges {
-        node {
-          ...CommentPreviewBase
-        }
+        ...CommentPreviewBase
       }
     }
     context {

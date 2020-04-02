@@ -52,6 +52,7 @@ const Thumb = styled.div`
     background: rgba(0, 0, 0, 0.3);
   }
   svg {
+    width: 40px;
   }
 `;
 
@@ -123,7 +124,7 @@ const DropzoneArea: React.FC<Props> = ({
         <InfoContainer className={isDragActive ? 'active' : 'none'}>
           {uploadType != 'resource' ? (
             <>
-              <Thumb key={fileUrl}>
+              <Thumb className="thumb" key={fileUrl}>
                 <WrapperIcon>
                   <Image
                     size={30}

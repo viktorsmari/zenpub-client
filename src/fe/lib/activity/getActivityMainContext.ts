@@ -17,7 +17,7 @@ export const getActivityMainContext = (
       return null;
     }
     if (context.context.__typename === 'Thread') {
-      return context.context.comments?.edges[0]?.node;
+      return context.context.comments?.edges[0];
     }
     return getActivityMainContext(context.context);
   }

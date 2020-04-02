@@ -9,6 +9,7 @@ import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
 // import { Link } from 'react-router-dom';
 import { FormikHook } from 'ui/@types/types';
 import Modal from 'ui/modules/Modal';
+import { NavLink } from 'react-router-dom';
 
 export enum Status {
   Loading,
@@ -63,9 +64,11 @@ export const HeroUser: FC<Props> = props => {
           </WrapperHero>
           <HeroAction mr={2}>
             {props.me ? (
-              <Button mr={2} variant={'outline'}>
-                <Trans>Edit Profile</Trans>
-              </Button>
+              <NavLink exact to={'/settings/'}>
+                <Button mr={2} variant={'outline'}>
+                  <Trans>Edit Profile</Trans>
+                </Button>
+              </NavLink>
             ) : (
               <>
                 <Button

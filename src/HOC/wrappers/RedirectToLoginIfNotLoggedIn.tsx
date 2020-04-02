@@ -4,7 +4,11 @@ import React, { FC } from 'react';
 
 export const RedirectToLoginIfNotLoggedIn: FC = ({ children }) => {
   const { me, loading } = useMe();
-  if (!loading && !me) {
+  if (loading) {
+    return null;
+  }
+
+  if (!me) {
     return <Login />;
   }
 
