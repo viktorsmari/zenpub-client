@@ -11,7 +11,7 @@ import { i18nMark } from '@lingui/react';
 
 export interface NewPasswordFormValues {
   password: string;
-  confirmPassword: string;
+  passwordConfirm: string;
 }
 
 export interface Props {
@@ -21,7 +21,7 @@ export interface Props {
 let tt = {
   placeholders: {
     password: i18nMark('Enter your new password'),
-    confirmPassword: i18nMark('Confirm your new password')
+    passwordConfirm: i18nMark('Confirm your new password')
   }
 };
 
@@ -45,14 +45,14 @@ const CreateNewPassword: React.FC<Props> = ({ formik }) => {
             )}
             <Spacer />
             <Input
-              placeholder={tt.placeholders.confirmPassword}
-              name="email"
-              value={formik.values.confirmPassword}
+              placeholder={tt.placeholders.passwordConfirm}
+              name="passwordConfirm"
+              value={formik.values.passwordConfirm}
               onChange={formik.handleChange}
             />
-            {formik.errors.confirmPassword && (
+            {formik.errors.passwordConfirm && (
               <AlertWrapper>
-                <Alert variant="bad">{formik.errors.confirmPassword}</Alert>
+                <Alert variant="bad">{formik.errors.passwordConfirm}</Alert>
               </AlertWrapper>
             )}
             <Button

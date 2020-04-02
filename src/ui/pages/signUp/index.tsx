@@ -47,7 +47,7 @@ export interface SignUpFormValues {
   passwordConfirm: string;
 }
 
-const SignupModal: React.FC<Props> = ({ formik, createUserResp }) => {
+const SignUpModal: React.FC<Props> = ({ formik, createUserResp }) => {
   var terms_users_text = { data: terms_markdown_text.terms_users };
   var terms_cookies_text = { data: terms_markdown_text.terms_cookies };
   var terms_indexing_text = { data: terms_markdown_text.terms_indexing };
@@ -256,7 +256,7 @@ const SignupModal: React.FC<Props> = ({ formik, createUserResp }) => {
     </Container>
   );
 };
-export default SignupModal;
+export default SignUpModal;
 
 const Tagline = styled.h5`
   font-size: 16px;
