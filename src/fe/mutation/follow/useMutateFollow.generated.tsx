@@ -17,7 +17,7 @@ export type FollowMutation = (
   { __typename: 'RootMutationType' }
   & { createFollow: Types.Maybe<(
     { __typename: 'Follow' }
-    & { context: Types.Maybe<(
+    & { context: (
       { __typename: 'Collection' }
       & Pick<Types.Collection, 'id' | 'followerCount'>
       & { myFollow: Types.Maybe<(
@@ -46,7 +46,7 @@ export type FollowMutation = (
         { __typename: 'Follow' }
         & Pick<Types.Follow, 'id'>
       )> }
-    )> }
+    ) }
   )> }
 );
 
@@ -59,7 +59,7 @@ export type UnfollowMutation = (
   { __typename: 'RootMutationType' }
   & { delete: Types.Maybe<{ __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Feature' } | { __typename: 'Flag' } | (
     { __typename: 'Follow' }
-    & { context: Types.Maybe<(
+    & { context: (
       { __typename: 'Collection' }
       & Pick<Types.Collection, 'id' | 'followerCount'>
       & { myFollow: Types.Maybe<(
@@ -88,7 +88,7 @@ export type UnfollowMutation = (
         { __typename: 'Follow' }
         & Pick<Types.Follow, 'id'>
       )> }
-    )> }
+    ) }
   ) | { __typename: 'Like' } | { __typename: 'Resource' } | { __typename: 'Thread' } | { __typename: 'User' }> }
 );
 

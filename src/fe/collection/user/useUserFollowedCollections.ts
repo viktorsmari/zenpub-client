@@ -14,20 +14,20 @@ export const useUserFollowedCollections = (userId: User['id']) => {
   });
 
   const followedCollectionsPage = usePage(
-    userQ.data?.user?.followedCollections,
+    userQ.data?.user?.collectionFollows,
     ({ cursor, update }) => {
       return userQ.fetchMore({
         variables: { ...cursor, limit: DEFAULT_PAGE_SIZE, userId },
         updateQuery: (prev, { fetchMoreResult }) => {
-          return fetchMoreResult?.user?.followedCollections &&
-            prev.user?.followedCollections
+          return fetchMoreResult?.user?.collectionFollows &&
+            prev.user?.collectionFollows
             ? {
                 ...fetchMoreResult,
                 user: {
                   ...fetchMoreResult.user,
-                  followedCollections: update({
-                    prev: prev.user.followedCollections,
-                    fetched: fetchMoreResult.user.followedCollections
+                  collectionFollows: update({
+                    prev: prev.user.collectionFollows,
+                    fetched: fetchMoreResult.user.collectionFollows
                   })
                 }
               }

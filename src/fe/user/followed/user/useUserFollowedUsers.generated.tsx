@@ -27,18 +27,16 @@ export type UserFollowedUsersQuery = (
   & { user: Types.Maybe<(
     { __typename: 'User' }
     & Pick<Types.User, 'id'>
-    & { followedUsers: Types.Maybe<(
-      { __typename: 'FollowedUsersPage' }
-      & Pick<Types.FollowedUsersPage, 'totalCount'>
+    & { userFollows: Types.Maybe<(
+      { __typename: 'FollowsPage' }
+      & Pick<Types.FollowsPage, 'totalCount'>
       & { pageInfo: (
         { __typename: 'PageInfo' }
         & FullPageInfoFragment
       ), edges: Array<(
-        { __typename: 'FollowedUser' }
-        & { follow: (
-          { __typename: 'Follow' }
-          & Pick<Types.Follow, 'id'>
-        ), user: (
+        { __typename: 'Follow' }
+        & Pick<Types.Follow, 'id'>
+        & { context: { __typename: 'Collection' } | { __typename: 'Community' } | { __typename: 'Thread' } | (
           { __typename: 'User' }
           & UserFollowedUserFragment
         ) }
@@ -61,17 +59,17 @@ export const UserFollowedUsersDocument = gql`
     query userFollowedUsers($userId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
   user(userId: $userId) @connection(key: "userFollowedUsers", filter: ["userId"]) {
     id
-    followedUsers(limit: $limit, before: $before, after: $after) {
+    userFollows(limit: $limit, before: $before, after: $after) {
       totalCount
       pageInfo {
         ...FullPageInfo
       }
       edges {
-        follow {
-          id
-        }
-        user {
-          ...UserFollowedUser
+        id
+        context {
+          ... on User {
+            ...UserFollowedUser
+          }
         }
       }
     }

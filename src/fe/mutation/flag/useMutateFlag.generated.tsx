@@ -18,7 +18,7 @@ export type FlagMutation = (
   { __typename: 'RootMutationType' }
   & { createFlag: Types.Maybe<(
     { __typename: 'Flag' }
-    & { context: Types.Maybe<(
+    & { context: (
       { __typename: 'Collection' }
       & Pick<Types.Collection, 'id'>
       & { myFlag: Types.Maybe<(
@@ -53,7 +53,7 @@ export type FlagMutation = (
         { __typename: 'Flag' }
         & Pick<Types.Flag, 'id'>
       )> }
-    )> }
+    ) }
   )> }
 );
 
@@ -66,7 +66,7 @@ export type UnflagMutation = (
   { __typename: 'RootMutationType' }
   & { delete: Types.Maybe<{ __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Feature' } | (
     { __typename: 'Flag' }
-    & { context: Types.Maybe<(
+    & { context: (
       { __typename: 'Collection' }
       & Pick<Types.Collection, 'id'>
       & { myFlag: Types.Maybe<(
@@ -101,7 +101,7 @@ export type UnflagMutation = (
         { __typename: 'Flag' }
         & Pick<Types.Flag, 'id'>
       )> }
-    )> }
+    ) }
   ) | { __typename: 'Follow' } | { __typename: 'Like' } | { __typename: 'Resource' } | { __typename: 'Thread' } | { __typename: 'User' }> }
 );
 

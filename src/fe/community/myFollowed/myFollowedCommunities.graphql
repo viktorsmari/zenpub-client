@@ -8,12 +8,14 @@ query myFollowedCommunities {
 fragment MyFollowedCommunitiesMeData on Me {
   user{
     id
-    followedCommunities{
+    communityFollows{
       totalCount,
       pageInfo{ ...FullPageInfo }
       edges{
-        community { ...SidebarFollowedCommunity }
-        follow { id }
+        id 
+        context{
+          ...on Community { ...SidebarFollowedCommunity }
+        }
       }
     }
   }

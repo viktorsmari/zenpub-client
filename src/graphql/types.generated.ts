@@ -467,7 +467,7 @@ export type Flag = {
   /** A url for the flag, may be to a remote instance */
   canonicalUrl?: Maybe<Scalars['String']>,
   /** The thing that is being flagged */
-  context?: Maybe<FlagContext>,
+  context: FlagContext,
   /** When the flag was created */
   createdAt: Scalars['String'],
   /** The user who flagged */
@@ -500,7 +500,7 @@ export type Follow = {
   /** A url for the flag, may be to a remote instance */
   canonicalUrl?: Maybe<Scalars['String']>,
   /** The thing that is being followed */
-  context?: Maybe<FollowContext>,
+  context: FollowContext,
   /** When the follow was created */
   createdAt: Scalars['String'],
   /** The user who followed */
@@ -517,45 +517,6 @@ export type Follow = {
 
 /** A thing that can be followed */
 export type FollowContext = Collection | Community | Thread | User;
-
-export type FollowedCollection = {
-   __typename?: 'FollowedCollection',
-  collection: Collection,
-  follow: Follow,
-};
-
-export type FollowedCollectionsPage = {
-   __typename?: 'FollowedCollectionsPage',
-  edges: Array<FollowedCollection>,
-  pageInfo: PageInfo,
-  totalCount: Scalars['Int'],
-};
-
-export type FollowedCommunitiesPage = {
-   __typename?: 'FollowedCommunitiesPage',
-  edges: Array<FollowedCommunity>,
-  pageInfo: PageInfo,
-  totalCount: Scalars['Int'],
-};
-
-export type FollowedCommunity = {
-   __typename?: 'FollowedCommunity',
-  community: Community,
-  follow: Follow,
-};
-
-export type FollowedUser = {
-   __typename?: 'FollowedUser',
-  follow: Follow,
-  user: User,
-};
-
-export type FollowedUsersPage = {
-   __typename?: 'FollowedUsersPage',
-  edges: Array<FollowedUser>,
-  pageInfo: PageInfo,
-  totalCount: Scalars['Int'],
-};
 
 export type FollowsPage = {
    __typename?: 'FollowsPage',
@@ -587,7 +548,7 @@ export type Like = {
   /** A url for the like, may be to a remote instance */
   canonicalUrl?: Maybe<Scalars['String']>,
   /** The thing that is liked */
-  context?: Maybe<LikeContext>,
+  context: LikeContext,
   /** When the like was created */
   createdAt: Scalars['String'],
   /** The user who liked */
@@ -633,8 +594,8 @@ export type Me = {
 export type PageInfo = {
    __typename?: 'PageInfo',
   endCursor?: Maybe<Array<Scalars['Cursor']>>,
-  hasNextPage: Scalars['Boolean'],
-  hasPreviousPage: Scalars['Boolean'],
+  hasNextPage?: Maybe<Scalars['Boolean']>,
+  hasPreviousPage?: Maybe<Scalars['Boolean']>,
   startCursor?: Maybe<Array<Scalars['Cursor']>>,
 };
 
@@ -1125,76 +1086,80 @@ export type UploadParent = Collection | Comment | Community | Resource | User;
 /** User profile information */
 export type User = {
    __typename?: 'User',
-  /** A url for the user, may be to a remote instance */
-  canonicalUrl?: Maybe<Scalars['String']>,
-  /** Comments the user has made, most recently created first */
-  comments?: Maybe<CommentsPage>,
-  /** When the user signed up */
-  createdAt: Scalars['String'],
-  /** A preferred username + the host domain */
-  displayUsername: Scalars['String'],
-  /** The collections a user is following, most recently followed first */
-  followedCollections?: Maybe<FollowedCollectionsPage>,
-  /** The communities a user is following, most recently followed first */
-  followedCommunities?: Maybe<FollowedCommunitiesPage>,
+  /** The likes a user has created */
+  likes?: Maybe<LikesPage>,
+  /** Whether the user is local to the instance */
+  isLocal: Scalars['Boolean'],
   /** The users a user is following, most recently followed first */
-  followedUsers?: Maybe<FollowedUsersPage>,
-  /** Total number of followers, including those we can't see */
-  followerCount?: Maybe<Scalars['Int']>,
-  /** Subscriptions users have to the collection */
-  followers?: Maybe<FollowsPage>,
-  /** An avatar url */
-  icon?: Maybe<Scalars['String']>,
-  /** An instance-local UUID identifying the user */
-  id: Scalars['ID'],
+  userFollows?: Maybe<FollowsPage>,
+  /** A valid URL */
+  website?: Maybe<Scalars['String']>,
   /** A header background image url */
   image?: Maybe<Scalars['String']>,
+  /** An instance-unique identifier shared with communities and collections */
+  preferredUsername: Scalars['String'],
+  /** Subscriptions users have to the collection */
+  follows?: Maybe<FollowsPage>,
+  /** Total number of followers, including private follows */
+  followerCount?: Maybe<Scalars['Int']>,
+  /** A preferred username + the host domain */
+  displayUsername: Scalars['String'],
+  /** The communities a user is following, most recently followed first */
+  communityFollows?: Maybe<FollowsPage>,
+  /** Possibly biographical information */
+  summary?: Maybe<Scalars['String']>,
+  /** When the user last updated their profile */
+  updatedAt: Scalars['String'],
+  /** A url for the user, may be to a remote instance */
+  canonicalUrl?: Maybe<Scalars['String']>,
+  /** The likes a user has from other people */
+  likers?: Maybe<LikesPage>,
+  /** The collections a user is following, most recently followed first */
+  collectionFollows?: Maybe<FollowsPage>,
+  /** An instance-local UUID identifying the user */
+  id: Scalars['ID'],
+  /** Total number of things the user follows, including privately */
+  followCount?: Maybe<Scalars['Int']>,
+  /** Free text */
+  location?: Maybe<Scalars['String']>,
+  /** The current user's flag of this user, if any */
+  myFlag?: Maybe<Flag>,
+  /** The last time the user did anything */
+  lastActivity?: Maybe<Scalars['String']>,
+  /** The current user's like of this user, if any */
+  myLike?: Maybe<Like>,
+  /** Activities of the user, most recently created first */
+  outbox?: Maybe<ActivitiesPage>,
+  /** A name field */
+  name?: Maybe<Scalars['String']>,
+  /** Subscriptions users have to the collection */
+  followers?: Maybe<FollowsPage>,
+  /** Comments the user has made, most recently created first */
+  comments?: Maybe<CommentsPage>,
+  /** Whether an instance admin has disabled the user's account */
+  isDisabled: Scalars['Boolean'],
+  /** The current user's follow of this user, if any */
+  myFollow?: Maybe<Follow>,
+  /** Whether the user has a public profile */
+  isPublic: Scalars['Boolean'],
   /** 
  * Activities of others the user is following, most recently created
    * first. Only available to the current user under `me`
  **/
   inbox?: Maybe<ActivitiesPage>,
-  /** Whether an instance admin has disabled the user's account */
-  isDisabled: Scalars['Boolean'],
-  /** Whether the user is local to the instance */
-  isLocal: Scalars['Boolean'],
-  /** Whether the user has a public profile */
-  isPublic: Scalars['Boolean'],
-  /** The last time the user did anything */
-  lastActivity?: Maybe<Scalars['String']>,
-  /** Total number of likes, including those we can't see */
-  likeCount?: Maybe<Scalars['Int']>,
   /** Total number of likers, including those we can't see */
   likerCount?: Maybe<Scalars['Int']>,
-  /** The likes a user has created */
-  likers?: Maybe<LikesPage>,
-  /** The likes a user has created */
-  likes?: Maybe<LikesPage>,
-  /** Free text */
-  location?: Maybe<Scalars['String']>,
-  /** The current user's flag of this user, if any */
-  myFlag?: Maybe<Flag>,
-  /** The current user's follow of this user, if any */
-  myFollow?: Maybe<Follow>,
-  /** The current user's like of this user, if any */
-  myLike?: Maybe<Like>,
-  /** A name field */
-  name?: Maybe<Scalars['String']>,
-  /** Activities of the user, most recently created first */
-  outbox?: Maybe<ActivitiesPage>,
-  /** An instance-unique identifier shared with communities and collections */
-  preferredUsername: Scalars['String'],
-  /** Possibly biographical information */
-  summary?: Maybe<Scalars['String']>,
-  /** When the user last updated their profile */
-  updatedAt: Scalars['String'],
-  /** A valid URL */
-  website?: Maybe<Scalars['String']>,
+  /** An avatar url */
+  icon?: Maybe<Scalars['String']>,
+  /** When the user signed up */
+  createdAt: Scalars['String'],
+  /** Total number of likes, including those we can't see */
+  likeCount?: Maybe<Scalars['Int']>,
 };
 
 
 /** User profile information */
-export type UserCommentsArgs = {
+export type UserLikesArgs = {
   after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
@@ -1202,7 +1167,7 @@ export type UserCommentsArgs = {
 
 
 /** User profile information */
-export type UserFollowedCollectionsArgs = {
+export type UserUserFollowsArgs = {
   after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
@@ -1210,7 +1175,7 @@ export type UserFollowedCollectionsArgs = {
 
 
 /** User profile information */
-export type UserFollowedCommunitiesArgs = {
+export type UserFollowsArgs = {
   after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
@@ -1218,23 +1183,7 @@ export type UserFollowedCommunitiesArgs = {
 
 
 /** User profile information */
-export type UserFollowedUsersArgs = {
-  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
-  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
-  limit?: Maybe<Scalars['Int']>
-};
-
-
-/** User profile information */
-export type UserFollowersArgs = {
-  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
-  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
-  limit?: Maybe<Scalars['Int']>
-};
-
-
-/** User profile information */
-export type UserInboxArgs = {
+export type UserCommunityFollowsArgs = {
   after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
@@ -1250,7 +1199,7 @@ export type UserLikersArgs = {
 
 
 /** User profile information */
-export type UserLikesArgs = {
+export type UserCollectionFollowsArgs = {
   after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
@@ -1259,6 +1208,30 @@ export type UserLikesArgs = {
 
 /** User profile information */
 export type UserOutboxArgs = {
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  limit?: Maybe<Scalars['Int']>
+};
+
+
+/** User profile information */
+export type UserFollowersArgs = {
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  limit?: Maybe<Scalars['Int']>
+};
+
+
+/** User profile information */
+export type UserCommentsArgs = {
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  limit?: Maybe<Scalars['Int']>
+};
+
+
+/** User profile information */
+export type UserInboxArgs = {
   after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
@@ -1326,7 +1299,7 @@ export type WebMetadata = {
       },
       {
         "kind": "UNION",
-        "name": "FlagContext",
+        "name": "LikeContext",
         "possibleTypes": [
           {
             "name": "Collection"
@@ -1347,7 +1320,7 @@ export type WebMetadata = {
       },
       {
         "kind": "UNION",
-        "name": "LikeContext",
+        "name": "FlagContext",
         "possibleTypes": [
           {
             "name": "Collection"
@@ -1560,26 +1533,20 @@ export type ResolversTypes = {
   PageInfo: ResolverTypeWrapper<PageInfo>,
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
   User: ResolverTypeWrapper<User>,
-  CommentsPage: ResolverTypeWrapper<CommentsPage>,
+  LikesPage: ResolverTypeWrapper<LikesPage>,
+  Like: ResolverTypeWrapper<Omit<Like, 'context'> & { context: ResolversTypes['LikeContext'] }>,
+  LikeContext: ResolversTypes['Collection'] | ResolversTypes['Comment'] | ResolversTypes['Community'] | ResolversTypes['Resource'] | ResolversTypes['User'],
   Comment: ResolverTypeWrapper<Comment>,
   FlagsPage: ResolverTypeWrapper<FlagsPage>,
-  Flag: ResolverTypeWrapper<Omit<Flag, 'context'> & { context?: Maybe<ResolversTypes['FlagContext']> }>,
+  Flag: ResolverTypeWrapper<Omit<Flag, 'context'> & { context: ResolversTypes['FlagContext'] }>,
   FlagContext: ResolversTypes['Collection'] | ResolversTypes['Comment'] | ResolversTypes['Community'] | ResolversTypes['Resource'] | ResolversTypes['User'],
   Resource: ResolverTypeWrapper<Resource>,
-  LikesPage: ResolverTypeWrapper<LikesPage>,
-  Like: ResolverTypeWrapper<Omit<Like, 'context'> & { context?: Maybe<ResolversTypes['LikeContext']> }>,
-  LikeContext: ResolversTypes['Collection'] | ResolversTypes['Comment'] | ResolversTypes['Community'] | ResolversTypes['Resource'] | ResolversTypes['User'],
   Thread: ResolverTypeWrapper<Omit<Thread, 'context'> & { context?: Maybe<ResolversTypes['ThreadContext']> }>,
+  CommentsPage: ResolverTypeWrapper<CommentsPage>,
   ThreadContext: ResolversTypes['Collection'] | ResolversTypes['Community'] | ResolversTypes['Flag'] | ResolversTypes['Resource'],
   FollowsPage: ResolverTypeWrapper<FollowsPage>,
-  Follow: ResolverTypeWrapper<Omit<Follow, 'context'> & { context?: Maybe<ResolversTypes['FollowContext']> }>,
+  Follow: ResolverTypeWrapper<Omit<Follow, 'context'> & { context: ResolversTypes['FollowContext'] }>,
   FollowContext: ResolversTypes['Collection'] | ResolversTypes['Community'] | ResolversTypes['Thread'] | ResolversTypes['User'],
-  FollowedCollectionsPage: ResolverTypeWrapper<FollowedCollectionsPage>,
-  FollowedCollection: ResolverTypeWrapper<FollowedCollection>,
-  FollowedCommunitiesPage: ResolverTypeWrapper<FollowedCommunitiesPage>,
-  FollowedCommunity: ResolverTypeWrapper<FollowedCommunity>,
-  FollowedUsersPage: ResolverTypeWrapper<FollowedUsersPage>,
-  FollowedUser: ResolverTypeWrapper<FollowedUser>,
   ID: ResolverTypeWrapper<Scalars['ID']>,
   ActivitiesPage: ResolverTypeWrapper<ActivitiesPage>,
   ThreadsPage: ResolverTypeWrapper<ThreadsPage>,
@@ -1624,26 +1591,20 @@ export type ResolversParentTypes = {
   PageInfo: PageInfo,
   Boolean: Scalars['Boolean'],
   User: User,
-  CommentsPage: CommentsPage,
+  LikesPage: LikesPage,
+  Like: Omit<Like, 'context'> & { context: ResolversParentTypes['LikeContext'] },
+  LikeContext: ResolversParentTypes['Collection'] | ResolversParentTypes['Comment'] | ResolversParentTypes['Community'] | ResolversParentTypes['Resource'] | ResolversParentTypes['User'],
   Comment: Comment,
   FlagsPage: FlagsPage,
-  Flag: Omit<Flag, 'context'> & { context?: Maybe<ResolversParentTypes['FlagContext']> },
+  Flag: Omit<Flag, 'context'> & { context: ResolversParentTypes['FlagContext'] },
   FlagContext: ResolversParentTypes['Collection'] | ResolversParentTypes['Comment'] | ResolversParentTypes['Community'] | ResolversParentTypes['Resource'] | ResolversParentTypes['User'],
   Resource: Resource,
-  LikesPage: LikesPage,
-  Like: Omit<Like, 'context'> & { context?: Maybe<ResolversParentTypes['LikeContext']> },
-  LikeContext: ResolversParentTypes['Collection'] | ResolversParentTypes['Comment'] | ResolversParentTypes['Community'] | ResolversParentTypes['Resource'] | ResolversParentTypes['User'],
   Thread: Omit<Thread, 'context'> & { context?: Maybe<ResolversParentTypes['ThreadContext']> },
+  CommentsPage: CommentsPage,
   ThreadContext: ResolversParentTypes['Collection'] | ResolversParentTypes['Community'] | ResolversParentTypes['Flag'] | ResolversParentTypes['Resource'],
   FollowsPage: FollowsPage,
-  Follow: Omit<Follow, 'context'> & { context?: Maybe<ResolversParentTypes['FollowContext']> },
+  Follow: Omit<Follow, 'context'> & { context: ResolversParentTypes['FollowContext'] },
   FollowContext: ResolversParentTypes['Collection'] | ResolversParentTypes['Community'] | ResolversParentTypes['Thread'] | ResolversParentTypes['User'],
-  FollowedCollectionsPage: FollowedCollectionsPage,
-  FollowedCollection: FollowedCollection,
-  FollowedCommunitiesPage: FollowedCommunitiesPage,
-  FollowedCommunity: FollowedCommunity,
-  FollowedUsersPage: FollowedUsersPage,
-  FollowedUser: FollowedUser,
   ID: Scalars['ID'],
   ActivitiesPage: ActivitiesPage,
   ThreadsPage: ThreadsPage,
@@ -1856,7 +1817,7 @@ export type FileUploadResolvers<ContextType = any, ParentType extends ResolversP
 
 export type FlagResolvers<ContextType = any, ParentType extends ResolversParentTypes['Flag'] = ResolversParentTypes['Flag']> = {
   canonicalUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  context?: Resolver<Maybe<ResolversTypes['FlagContext']>, ParentType, ContextType>,
+  context?: Resolver<ResolversTypes['FlagContext'], ParentType, ContextType>,
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   creator?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
@@ -1878,7 +1839,7 @@ export type FlagsPageResolvers<ContextType = any, ParentType extends ResolversPa
 
 export type FollowResolvers<ContextType = any, ParentType extends ResolversParentTypes['Follow'] = ResolversParentTypes['Follow']> = {
   canonicalUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  context?: Resolver<Maybe<ResolversTypes['FollowContext']>, ParentType, ContextType>,
+  context?: Resolver<ResolversTypes['FollowContext'], ParentType, ContextType>,
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   creator?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
@@ -1889,39 +1850,6 @@ export type FollowResolvers<ContextType = any, ParentType extends ResolversParen
 
 export type FollowContextResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowContext'] = ResolversParentTypes['FollowContext']> = {
   __resolveType: TypeResolveFn<'Collection' | 'Community' | 'Thread' | 'User', ParentType, ContextType>
-};
-
-export type FollowedCollectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowedCollection'] = ResolversParentTypes['FollowedCollection']> = {
-  collection?: Resolver<ResolversTypes['Collection'], ParentType, ContextType>,
-  follow?: Resolver<ResolversTypes['Follow'], ParentType, ContextType>,
-};
-
-export type FollowedCollectionsPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowedCollectionsPage'] = ResolversParentTypes['FollowedCollectionsPage']> = {
-  edges?: Resolver<Array<ResolversTypes['FollowedCollection']>, ParentType, ContextType>,
-  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
-  totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
-};
-
-export type FollowedCommunitiesPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowedCommunitiesPage'] = ResolversParentTypes['FollowedCommunitiesPage']> = {
-  edges?: Resolver<Array<ResolversTypes['FollowedCommunity']>, ParentType, ContextType>,
-  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
-  totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
-};
-
-export type FollowedCommunityResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowedCommunity'] = ResolversParentTypes['FollowedCommunity']> = {
-  community?: Resolver<ResolversTypes['Community'], ParentType, ContextType>,
-  follow?: Resolver<ResolversTypes['Follow'], ParentType, ContextType>,
-};
-
-export type FollowedUserResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowedUser'] = ResolversParentTypes['FollowedUser']> = {
-  follow?: Resolver<ResolversTypes['Follow'], ParentType, ContextType>,
-  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>,
-};
-
-export type FollowedUsersPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowedUsersPage'] = ResolversParentTypes['FollowedUsersPage']> = {
-  edges?: Resolver<Array<ResolversTypes['FollowedUser']>, ParentType, ContextType>,
-  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
-  totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
 export type FollowsPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowsPage'] = ResolversParentTypes['FollowsPage']> = {
@@ -1940,7 +1868,7 @@ export type InstanceResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type LikeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Like'] = ResolversParentTypes['Like']> = {
   canonicalUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  context?: Resolver<Maybe<ResolversTypes['LikeContext']>, ParentType, ContextType>,
+  context?: Resolver<ResolversTypes['LikeContext'], ParentType, ContextType>,
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   creator?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
@@ -1970,8 +1898,8 @@ export type MeResolvers<ContextType = any, ParentType extends ResolversParentTyp
 
 export type PageInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
   endCursor?: Resolver<Maybe<Array<ResolversTypes['Cursor']>>, ParentType, ContextType>,
-  hasNextPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
-  hasPreviousPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  hasNextPage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
+  hasPreviousPage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
   startCursor?: Resolver<Maybe<Array<ResolversTypes['Cursor']>>, ParentType, ContextType>,
 };
 
@@ -2090,37 +2018,39 @@ export type UploadParentResolvers<ContextType = any, ParentType extends Resolver
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  canonicalUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  comments?: Resolver<Maybe<ResolversTypes['CommentsPage']>, ParentType, ContextType, UserCommentsArgs>,
-  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  displayUsername?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  followedCollections?: Resolver<Maybe<ResolversTypes['FollowedCollectionsPage']>, ParentType, ContextType, UserFollowedCollectionsArgs>,
-  followedCommunities?: Resolver<Maybe<ResolversTypes['FollowedCommunitiesPage']>, ParentType, ContextType, UserFollowedCommunitiesArgs>,
-  followedUsers?: Resolver<Maybe<ResolversTypes['FollowedUsersPage']>, ParentType, ContextType, UserFollowedUsersArgs>,
-  followerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-  followers?: Resolver<Maybe<ResolversTypes['FollowsPage']>, ParentType, ContextType, UserFollowersArgs>,
-  icon?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
-  image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  inbox?: Resolver<Maybe<ResolversTypes['ActivitiesPage']>, ParentType, ContextType, UserInboxArgs>,
-  isDisabled?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
-  isLocal?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
-  isPublic?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
-  lastActivity?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  likeCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-  likerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-  likers?: Resolver<Maybe<ResolversTypes['LikesPage']>, ParentType, ContextType, UserLikersArgs>,
   likes?: Resolver<Maybe<ResolversTypes['LikesPage']>, ParentType, ContextType, UserLikesArgs>,
-  location?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  myFlag?: Resolver<Maybe<ResolversTypes['Flag']>, ParentType, ContextType>,
-  myFollow?: Resolver<Maybe<ResolversTypes['Follow']>, ParentType, ContextType>,
-  myLike?: Resolver<Maybe<ResolversTypes['Like']>, ParentType, ContextType>,
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  outbox?: Resolver<Maybe<ResolversTypes['ActivitiesPage']>, ParentType, ContextType, UserOutboxArgs>,
+  isLocal?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  userFollows?: Resolver<Maybe<ResolversTypes['FollowsPage']>, ParentType, ContextType, UserUserFollowsArgs>,
+  website?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   preferredUsername?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  follows?: Resolver<Maybe<ResolversTypes['FollowsPage']>, ParentType, ContextType, UserFollowsArgs>,
+  followerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  displayUsername?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  communityFollows?: Resolver<Maybe<ResolversTypes['FollowsPage']>, ParentType, ContextType, UserCommunityFollowsArgs>,
   summary?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  website?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  canonicalUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  likers?: Resolver<Maybe<ResolversTypes['LikesPage']>, ParentType, ContextType, UserLikersArgs>,
+  collectionFollows?: Resolver<Maybe<ResolversTypes['FollowsPage']>, ParentType, ContextType, UserCollectionFollowsArgs>,
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
+  followCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  location?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  myFlag?: Resolver<Maybe<ResolversTypes['Flag']>, ParentType, ContextType>,
+  lastActivity?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  myLike?: Resolver<Maybe<ResolversTypes['Like']>, ParentType, ContextType>,
+  outbox?: Resolver<Maybe<ResolversTypes['ActivitiesPage']>, ParentType, ContextType, UserOutboxArgs>,
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  followers?: Resolver<Maybe<ResolversTypes['FollowsPage']>, ParentType, ContextType, UserFollowersArgs>,
+  comments?: Resolver<Maybe<ResolversTypes['CommentsPage']>, ParentType, ContextType, UserCommentsArgs>,
+  isDisabled?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  myFollow?: Resolver<Maybe<ResolversTypes['Follow']>, ParentType, ContextType>,
+  isPublic?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  inbox?: Resolver<Maybe<ResolversTypes['ActivitiesPage']>, ParentType, ContextType, UserInboxArgs>,
+  likerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  icon?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  likeCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
 };
 
 export type WebMetadataResolvers<ContextType = any, ParentType extends ResolversParentTypes['WebMetadata'] = ResolversParentTypes['WebMetadata']> = {
@@ -2160,12 +2090,6 @@ export type Resolvers<ContextType = any> = {
   FlagsPage?: FlagsPageResolvers<ContextType>,
   Follow?: FollowResolvers<ContextType>,
   FollowContext?: FollowContextResolvers,
-  FollowedCollection?: FollowedCollectionResolvers<ContextType>,
-  FollowedCollectionsPage?: FollowedCollectionsPageResolvers<ContextType>,
-  FollowedCommunitiesPage?: FollowedCommunitiesPageResolvers<ContextType>,
-  FollowedCommunity?: FollowedCommunityResolvers<ContextType>,
-  FollowedUser?: FollowedUserResolvers<ContextType>,
-  FollowedUsersPage?: FollowedUsersPageResolvers<ContextType>,
   FollowsPage?: FollowsPageResolvers<ContextType>,
   Instance?: InstanceResolvers<ContextType>,
   Like?: LikeResolvers<ContextType>,

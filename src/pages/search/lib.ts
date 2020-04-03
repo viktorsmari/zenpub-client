@@ -116,8 +116,8 @@ export const getFollowingCollections = (
 ): SearchFollowedCollectionFragment[] => {
   const followingCollectionsEdges =
     info.me &&
-    info.me.user.followedCollections &&
-    info.me.user.followedCollections.edges;
+    info.me.user.collectionFollows &&
+    info.me.user.collectionFollows.edges;
   if (!followingCollectionsEdges) {
     return [];
   }
@@ -132,8 +132,8 @@ export const getFollowingCommunities = (
 ): SearchFollowedCommunityFragment[] => {
   const followingCommunitiesEdges =
     info.me &&
-    info.me.user.followedCommunities &&
-    info.me.user.followedCommunities.edges;
+    info.me.user.communityFollows &&
+    info.me.user.communityFollows.edges;
   if (!followingCommunitiesEdges) {
     return [];
   }

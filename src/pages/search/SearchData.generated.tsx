@@ -55,42 +55,32 @@ export type SearchMeFragment = (
   & { user: (
     { __typename: 'User' }
     & Pick<Types.User, 'id'>
-    & { followedCollections: Types.Maybe<(
-      { __typename: 'FollowedCollectionsPage' }
+    & { collectionFollows: Types.Maybe<(
+      { __typename: 'FollowsPage' }
       & { edges: Array<(
-        { __typename: 'FollowedCollection' }
-        & SearchFollowedCollectionFragment
+        { __typename: 'Follow' }
+        & SearchFollowFragment
       )> }
-    )>, followedCommunities: Types.Maybe<(
-      { __typename: 'FollowedCommunitiesPage' }
+    )>, communityFollows: Types.Maybe<(
+      { __typename: 'FollowsPage' }
       & { edges: Array<(
-        { __typename: 'FollowedCommunity' }
-        & SearchFollowedCommunityFragment
+        { __typename: 'Follow' }
+        & SearchFollowFragment
       )> }
     )> }
   ) }
 );
 
-export type SearchFollowedCommunityFragment = (
-  { __typename: 'FollowedCommunity' }
-  & { follow: (
-    { __typename: 'Follow' }
-    & Pick<Types.Follow, 'id'>
-  ), community: (
-    { __typename: 'Community' }
-    & Pick<Types.Community, 'id' | 'canonicalUrl'>
-  ) }
-);
-
-export type SearchFollowedCollectionFragment = (
-  { __typename: 'FollowedCollection' }
-  & { follow: (
-    { __typename: 'Follow' }
-    & Pick<Types.Follow, 'id'>
-  ), collection: (
+export type SearchFollowFragment = (
+  { __typename: 'Follow' }
+  & Pick<Types.Follow, 'id'>
+  & { context: (
     { __typename: 'Collection' }
     & Pick<Types.Collection, 'id' | 'canonicalUrl'>
-  ) }
+  ) | (
+    { __typename: 'Community' }
+    & Pick<Types.Community, 'id' | 'canonicalUrl'>
+  ) | { __typename: 'Thread' } | { __typename: 'User' } }
 );
 
 export const SearchInstanceFragmentDoc = gql`
@@ -98,25 +88,18 @@ export const SearchInstanceFragmentDoc = gql`
   hostname
 }
     `;
-export const SearchFollowedCollectionFragmentDoc = gql`
-    fragment SearchFollowedCollection on FollowedCollection {
-  follow {
-    id
-  }
-  collection {
-    id
-    canonicalUrl
-  }
-}
-    `;
-export const SearchFollowedCommunityFragmentDoc = gql`
-    fragment SearchFollowedCommunity on FollowedCommunity {
-  follow {
-    id
-  }
-  community {
-    id
-    canonicalUrl
+export const SearchFollowFragmentDoc = gql`
+    fragment SearchFollow on Follow {
+  id
+  context {
+    ... on Collection {
+      id
+      canonicalUrl
+    }
+    ... on Community {
+      id
+      canonicalUrl
+    }
   }
 }
     `;
@@ -124,20 +107,19 @@ export const SearchMeFragmentDoc = gql`
     fragment SearchMe on Me {
   user {
     id
-    followedCollections {
+    collectionFollows {
       edges {
-        ...SearchFollowedCollection
+        ...SearchFollow
       }
     }
-    followedCommunities {
+    communityFollows {
       edges {
-        ...SearchFollowedCommunity
+        ...SearchFollow
       }
     }
   }
 }
-    ${SearchFollowedCollectionFragmentDoc}
-${SearchFollowedCommunityFragmentDoc}`;
+    ${SearchFollowFragmentDoc}`;
 export const SearchHostIndexAndMyFollowingsDocument = gql`
     query SearchHostIndexAndMyFollowings {
   instance {

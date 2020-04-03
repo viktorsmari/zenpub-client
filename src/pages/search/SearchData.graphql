@@ -26,36 +26,29 @@ fragment SearchInstance on Instance {
 fragment SearchMe on Me {
   user{
     id
-    followedCollections{
+    collectionFollows{
       edges{
-        ...SearchFollowedCollection
+        ...SearchFollow
       }
     }
-    followedCommunities{
+    communityFollows{
       edges{
-        ...SearchFollowedCommunity
+        ...SearchFollow
       }
     }
   }
 }
 
-fragment SearchFollowedCommunity on FollowedCommunity {
-  follow{
-    id
-  }
-  community{
-    id
-    canonicalUrl
-  }
-}
-fragment SearchFollowedCollection on FollowedCollection {
-  follow{
-    id
-  }
-  collection{
-    id
-    canonicalUrl
+fragment SearchFollow on Follow {
+  id
+  context {
+    ... on Collection {
+      id
+      canonicalUrl
+    }
+    ... on Community {
+      id
+      canonicalUrl
+    }
   }
 }
-
-

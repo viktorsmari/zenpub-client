@@ -16,7 +16,7 @@ export const Sidebar: FC<Sidebar> = ({ user }) => {
   const communities = useMemo(
     () =>
       myFollowedCommunitiesPage.edges.map<CommunityPreview>(commFollow => {
-        const { community } = commFollow;
+        const { context: community } = commFollow;
         return {
           icon: community.icon || '',
           link: {

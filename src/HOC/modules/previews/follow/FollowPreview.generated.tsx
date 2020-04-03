@@ -17,7 +17,7 @@ import { ThreadPreviewFragmentDoc } from '../thread/ThreadPreview.generated';
 export type FollowPreviewFragment = (
   { __typename: 'Follow' }
   & Pick<Types.Follow, 'id'>
-  & { context: Types.Maybe<(
+  & { context: (
     { __typename: 'Collection' }
     & CollectionPreviewFragment
   ) | (
@@ -29,7 +29,7 @@ export type FollowPreviewFragment = (
   ) | (
     { __typename: 'User' }
     & UserPreviewFragment
-  )> }
+  ) }
 );
 
 export const FollowPreviewFragmentDoc = gql`

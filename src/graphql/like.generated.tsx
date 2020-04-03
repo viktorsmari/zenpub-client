@@ -18,7 +18,7 @@ export type LikeMutationMutation = (
   & { createLike: Types.Maybe<(
     { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
-    & { context: Types.Maybe<{ __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Resource' } | { __typename: 'User' }> }
+    & { context: { __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Resource' } | { __typename: 'User' } }
   )> }
 );
 

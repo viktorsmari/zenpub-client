@@ -9,22 +9,22 @@ export const useMyFollowedCommunities = () => {
   });
 
   const myFollowedCommunitiesPage = usePage(
-    myFlwCommunitiesQ.data?.me?.user.followedCommunities,
+    myFlwCommunitiesQ.data?.me?.user.communityFollows,
     ({ cursor, update }) => {
       return myFlwCommunitiesQ.fetchMore({
         variables: { ...cursor, limit: DEFAULT_PAGE_SIZE },
         updateQuery: (prev, { fetchMoreResult }) => {
-          return fetchMoreResult?.me?.user?.followedCommunities &&
-            prev.me?.user?.followedCommunities
+          return fetchMoreResult?.me?.user?.communityFollows &&
+            prev.me?.user?.communityFollows
             ? {
                 ...fetchMoreResult,
                 me: {
                   ...fetchMoreResult.me,
                   user: {
                     ...fetchMoreResult.me.user,
-                    followedCommunities: update({
-                      prev: prev.me?.user.followedCommunities,
-                      fetched: fetchMoreResult.me?.user.followedCommunities
+                    communityFollows: update({
+                      prev: prev.me?.user.communityFollows,
+                      fetched: fetchMoreResult.me?.user.communityFollows
                     })
                   }
                 }
