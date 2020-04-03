@@ -27,7 +27,7 @@ export const MainHeader: React.FC<Props> = props => {
   const history = useHistory();
   const [isOpenDropdown, setOpenDropdown] = React.useState(false);
   const openMenu = React.useCallback(() => setOpenDropdown(true), []);
-  // console.log(history);
+
   return (
     <HeaderWrapper>
       <FlexWrapper>

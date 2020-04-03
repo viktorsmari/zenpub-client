@@ -85,8 +85,8 @@ export const HeroCommunity: FC<Props> = ({ community: c }) => {
               >
                 {c.following ? <Trans>Leave</Trans> : <Trans>Join</Trans>}
               </Button>
-              <More>
-                <MoreVertical size={20} onClick={() => setOpenDropdown(true)} />
+              <More onClick={() => setOpenDropdown(true)}>
+                <MoreVertical size={20} />
                 {isOpenDropdown && (
                   <Dropdown orientation={'bottom'} cb={setOpenDropdown}>
                     {c.canModify && (

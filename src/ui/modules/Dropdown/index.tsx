@@ -23,7 +23,7 @@ const Wrapper = styled(Box)<{ orientation: string }>`
   box-shadow: rgba(101, 119, 134, 0.2) 0px 0px 15px,
     rgba(101, 119, 134, 0.15) 0px 0px 3px 1px;
   position: absolute;
-  top: ${props => (props.orientation === 'top' ? '8px' : 'auto')};
+  top: ${props => (props.orientation === 'top' ? '45px' : 'auto')};
 
   bottom: ${props => (props.orientation === 'bottom' ? '4px' : 'auto')};
 
