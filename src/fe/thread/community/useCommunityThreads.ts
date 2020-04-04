@@ -12,7 +12,7 @@ export const useCommunityThreads = (communityId: Community['id']) => {
   const threadsPage = usePage(
     communityQ.data?.community?.threads,
     ({ cursor, update }) => {
-      communityQ.fetchMore({
+      return communityQ.fetchMore({
         variables: { ...cursor, communityId, limit: DEFAULT_PAGE_SIZE },
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.community?.threads && prev.community?.threads

@@ -2,7 +2,7 @@ import React, { FC, useMemo } from 'react';
 import { useMe } from 'fe/session/me';
 
 import { WithoutSidebar, Props } from 'ui/templates/withoutSidebar';
-import { SearchBox } from 'react-instantsearch-dom';
+import { SearchBox } from 'HOC/modules/SearchBox/SearchBox';
 import { MainHeader, Props as MainHeaderProps } from 'ui/modules/MainHeader';
 import { GuestTemplate } from '../Guest/Guest';
 

@@ -11,7 +11,7 @@ export const useAllCollections = () => {
   const allCollectionsPage = usePage(
     allCollectionsQ.data?.collections,
     ({ cursor, update }) => {
-      allCollectionsQ.fetchMore({
+      return allCollectionsQ.fetchMore({
         variables: { ...cursor, limit: DEFAULT_PAGE_SIZE },
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.collections && prev.collections

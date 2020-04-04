@@ -10,7 +10,7 @@ export const useAllCommunities = () => {
   const allCommunitiesPage = usePage(
     allCommunitiesQ.data?.communities,
     ({ cursor, update }) => {
-      allCommunitiesQ.fetchMore({
+      return allCommunitiesQ.fetchMore({
         variables: { ...cursor, limit: DEFAULT_PAGE_SIZE },
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.communities && prev.communities

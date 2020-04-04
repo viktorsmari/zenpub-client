@@ -1,6 +1,7 @@
 import Maybe from 'graphql/tsutils/Maybe';
 import { PageInfo } from 'graphql/types.generated';
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
+import { useFormik } from 'formik';
 
 interface Page<EdgeType> {
   edges: EdgeType[];
@@ -33,7 +34,7 @@ type Fetch<EdgeType, Cursor extends FellowPageCursor> = (
   ) & {
     update: PageUpdater<EdgeType>;
   }
-) => unknown;
+) => Promise<unknown>;
 
 type FellowPageCursor = NextPageCursor | PreviousPageCursor;
 type BaseMngPage<Ready extends boolean> = {
@@ -42,8 +43,8 @@ type BaseMngPage<Ready extends boolean> = {
 interface MngPageInitialized<EdgeType>
   extends Page<EdgeType>,
     BaseMngPage<true> {
-  next(): void;
-  previous(): void;
+  next(): Promise<unknown>;
+  previous(): Promise<unknown>;
 }
 interface MngPageUninitialized<EdgeType> extends BaseMngPage<false> {
   edges: EdgeType[];
@@ -53,15 +54,35 @@ export type MngPage<EdgeType> =
   | MngPageUninitialized<EdgeType>
   | MngPageInitialized<EdgeType>;
 
+export const useFormikPage = <EdgeType>(page: MngPage<EdgeType>) => {
+  const nextPageFormik = useFormik({
+    initialValues: {},
+    onSubmit: useCallback(() => (page?.ready ? page.next() : undefined), [page])
+  });
+  const previousPageFormik = useFormik({
+    initialValues: {},
+    onSubmit: useCallback(() => (page?.ready ? page.previous() : undefined), [
+      page
+    ])
+  });
+  return useMemo(
+    () => ({
+      nextPageFormik,
+      previousPageFormik
+    }),
+    [nextPageFormik, previousPageFormik]
+  );
+};
+
 export const usePage = <EdgeType>(
   page: Maybe<Page<EdgeType>>,
-  fetch: Fetch<EdgeType, NextPageCursor> = () => {}
+  fetch: Fetch<EdgeType, NextPageCursor> = () => Promise.resolve()
 ): MngPage<EdgeType> =>
   useMemo<MngPage<EdgeType>>(() => mngPage(page, fetch), [page, fetch]);
 
 export const mngPage = <EdgeType>(
   page: Maybe<Page<EdgeType>>,
-  fetch: Fetch<EdgeType, NextPageCursor> = () => {}
+  fetch: Fetch<EdgeType, NextPageCursor> = () => Promise.resolve()
 ): MngPage<EdgeType> => {
   if (!page) {
     return {
@@ -69,7 +90,7 @@ export const mngPage = <EdgeType>(
       edges: []
     };
   }
-  const next: MngPageInitialized<EdgeType>['next'] = () =>
+  const next: MngPageInitialized<EdgeType>['next'] = async () =>
     page.pageInfo.hasNextPage &&
     fetch({
       cursor: {
@@ -80,7 +101,7 @@ export const mngPage = <EdgeType>(
       isNext: true
     });
 
-  const previous: MngPageInitialized<EdgeType>['previous'] = () =>
+  const previous: MngPageInitialized<EdgeType>['previous'] = async () =>
     page.pageInfo.hasPreviousPage &&
     fetch({
       cursor: {

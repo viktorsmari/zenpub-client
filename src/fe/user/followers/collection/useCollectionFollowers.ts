@@ -12,7 +12,7 @@ export const useCollectionFollowers = (collectionId: Collection['id']) => {
   const collectionFollowersPage = usePage(
     collectionFollowersQ.data?.collection?.followers,
     ({ cursor, update }) => {
-      collectionFollowersQ.fetchMore({
+      return collectionFollowersQ.fetchMore({
         variables: { ...cursor, limit: DEFAULT_PAGE_SIZE, collectionId },
         updateQuery: (prev, { fetchMoreResult }) => {
           return fetchMoreResult?.collection?.followers &&
