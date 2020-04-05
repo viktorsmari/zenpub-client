@@ -6,8 +6,7 @@ services:
     image: "commonspub/server:latest" # uncomment to use unstable/staging/develop backend branch
     # You can also build your own backend image from the source or deploy in other ways, see further docs at https://gitlab.com/moodlenet/servers/federated/blob/develop/DEPLOY.md
     ports:
-      - "4000:4000"
-      - "81:80"
+      - "4008:4000"
     env_file:
       - .env
       - .env.secrets
@@ -22,8 +21,8 @@ services:
       context: .
 #      dockerfile: "Dockerfile"
     ports:
-      - "80:80"
-      - "443:443"
+      - "88:80"
+#      - "443:443"
     env_file:
       - .env
     volumes:

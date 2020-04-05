@@ -11,8 +11,7 @@ export const APP_NAME = 'HAHA Academy';
 export const INSTANCE_DESCRIPTION = '21st Century Learning';
 export const INVITE_ONLY_TEXT =
   'Please note, signups on this instance are currently invite-only.';
-export const INSTANCE_TAGLINE =
-  'Free Access. Open Content. Collaborative Curation.';
+export const INSTANCE_TAGLINE = 'HAHA Academy';
 export const INSTANCE_PROMPT =
   "You don't need to sign up to preview what people are sharing and discussing publicly.";
 export const prompt_signin = 'Sign in';
