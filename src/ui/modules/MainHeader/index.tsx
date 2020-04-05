@@ -11,7 +11,8 @@ import media from 'styled-media-query';
 import { ellipsis } from 'polished';
 import { Link } from 'react-router-dom';
 import { Trans } from '@lingui/react';
-const MnetLogo = require('./moodle-logo.png');
+const MnetLogo = require('static/img/logo-icon.png');
+import { prompt_signin } from 'mn-constants';
 
 export interface Props {
   user: null | {
@@ -72,7 +73,7 @@ export const MainHeader: React.FC<Props> = props => {
               <NavItem>
                 <Link to="/">
                   <Text variant="link">
-                    <Trans>Signin</Trans>
+                    <Trans>{prompt_signin}</Trans>
                   </Text>
                 </Link>
               </NavItem>
