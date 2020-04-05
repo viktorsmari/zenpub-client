@@ -11,7 +11,7 @@ import media from 'styled-media-query';
 import { ellipsis } from 'polished';
 import { Link } from 'react-router-dom';
 import { Trans } from '@lingui/react';
-const MnetLogo = require('./moodle-logo.png');
+const MnetLogo = require('static/img/logo-icon.png');
 
 export interface Props {
   user: null | {
