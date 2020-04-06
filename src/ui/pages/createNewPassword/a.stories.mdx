@@ -1,0 +1,19 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import CreateNewPassword from '.';
+import {Box} from 'rebass'
+import {getNewPasswordProps} from 'ui/mock/context'
+import {WithoutSidebar} from 'ui/templates/withoutSidebar'
+
+<Meta title="Pages|CreateNewPassword" component={CreateNewPassword}/>
+
+
+# CreateNewPassword
+Let's define a story for the `Create New Password` page
+
+<Preview>
+  <Story name="CreateNewPassword page">
+    <WithoutSidebar>
+      <CreateNewPassword {...getNewPasswordProps()} />
+    </WithoutSidebar>
+  </Story>
+</Preview>
