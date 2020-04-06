@@ -1,18 +1,19 @@
-import { Trans } from '@lingui/macro';
+// import { Trans } from '@lingui/macro';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Route, Switch } from 'react-router-dom';
 import media from 'styled-media-query';
+import { SidePanel } from 'ui/modules/SidePanel';
 
 import { Flex } from 'rebass/styled-components';
-import {
-  Nav,
-  NavItem,
-  Panel,
-  PanelTitle,
-  WrapperPanel
-} from 'ui/elements/Panel';
+// import {
+//   Nav,
+//   NavItem,
+//   Panel,
+//   PanelTitle,
+//   WrapperPanel
+// } from 'ui/elements/Panel';
 import styled from 'ui/themes/styled';
-import { Header } from 'ui/modules/Header';
+import { SuperTab } from 'ui/modules/SuperTab';
 
 export interface Props {
   FeaturedCommunitiesBox: JSX.Element;
@@ -31,12 +32,19 @@ export const Discover: React.FC<Props> = ({
           <WrapperFeatured>{FeaturedCommunitiesBox}</WrapperFeatured>
           <WrapperFeatured mt={2}>{FeaturedCollectionsBox}</WrapperFeatured>
           <Wrapper>
-            <Header name="Instance timeline" />
-            {ActivitiesBox}
+            <Switch>
+              <Route path="/">
+                {/* FIX ME  */}
+                <Menu basePath="/" />
+                {ActivitiesBox}
+              </Route>
+            </Switch>
+            {/* <Header name="Federated timeline" />
+            {ActivitiesBox} */}
           </Wrapper>
         </WrapperCont>
       </HomeBox>
-      <WrapperPanel>
+      {/* <WrapperPanel>
         <Panel>
           <PanelTitle fontSize={0} fontWeight={'bold'}>
             <Trans>Browse Home instance</Trans>
@@ -54,10 +62,43 @@ export const Discover: React.FC<Props> = ({
             </NavItem>
           </Nav>
         </Panel>
-      </WrapperPanel>
+      </WrapperPanel> */}
+      <SidePanel />
     </MainContainer>
   );
 };
+
+const Menu = ({ basePath }: { basePath: string }) => (
+  <MenuWrapper p={3} pt={3}>
+    <NavLink exact to={'/'}>
+      <SuperTab name="Federated timeline" />
+    </NavLink>
+    <NavLink to={'/communities'}>
+      <SuperTab name="All communities" />
+    </NavLink>
+    <NavLink to="/collections">
+      <SuperTab name="All collections" />
+    </NavLink>
+  </MenuWrapper>
+);
+
+const MenuWrapper = styled(Flex)`
+  a {
+    font-weight: 700;
+    text-decoration: none;
+    margin-right: 8px;
+    color: ${props => props.theme.colors.gray};
+    letterspacing: 1px;
+    font-size: 13px;
+    padding: 0px 8px;
+    white-space: nowrap;
+    &.active {
+      color: #ffffff;
+      background: ${props => props.theme.colors.orange};
+      border-radius: 4px;
+    }
+  }
+`;
 
 const WrapperFeatured = styled(Flex)`
   display: flex;

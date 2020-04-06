@@ -4,9 +4,10 @@ import {
   /* ActivityPreviewCtx */
 } from 'HOC/modules/previews/activity/ActivityPreview';
 import React, { useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Route, Switch } from 'react-router-dom';
 import Empty from '../../components/elements/Empty';
 import Loader from '../../components/elements/Loader/Loader';
+import { SidePanel } from 'ui/modules/SidePanel';
 
 import { CreateReplyMutationMutationOperation } from '../../graphql/createReply.generated';
 import { DeleteMutationMutationOperation } from '../../graphql/delete.generated';
@@ -16,17 +17,19 @@ import {
 } from '../../graphql/getMeInbox.generated';
 import { LikeMutationMutationOperation } from '../../graphql/like.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
-import {
-  Nav,
-  NavItem,
-  Panel,
-  PanelTitle,
-  WrapperPanel
-} from 'ui/elements/Panel';
+// import {
+//   Nav,
+//   NavItem,
+//   Panel,
+//   PanelTitle,
+//   WrapperPanel
+// } from 'ui/elements/Panel';
 import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-import { Header } from 'ui/modules/Header';
+import { SuperTab } from 'ui/modules/SuperTab';
 import { useMe } from 'fe/session/me';
+import styled from 'ui/themes/styled';
+import { Flex } from 'rebass/styled-components';
 
 interface Props {}
 
@@ -66,38 +69,41 @@ const Home: React.FC<Props> = () => {
     },
     [refetch]
   );
-  const { me } = useMe();
   return (
     <MainContainer>
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <Header name="Timeline" />
-
-            {error ? (
-              <Empty>
-                <Trans>Error loading moodlenet timeline</Trans>
-              </Empty>
-            ) : loading ? (
-              <Loader />
-            ) : data?.me?.user.inbox?.edges ? (
-              <div>
-                {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                data.me.user.inbox!.edges!.map(
-                  userActivityEdge =>
-                    userActivityEdge && (
-                      <ActivityPreviewHOC
-                        activityId={userActivityEdge.id}
-                        key={userActivityEdge.id}
-                      />
-                    )
-                )}
-              </div>
-            ) : null}
+            <Switch>
+              <Route path="/">
+                {/* FIX ME  */}
+                <Menu basePath="/" />
+                {error ? (
+                  <Empty>
+                    <Trans>Error loading moodlenet timeline</Trans>
+                  </Empty>
+                ) : loading ? (
+                  <Loader />
+                ) : data?.me?.user.inbox?.edges ? (
+                  <div>
+                    {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                    data.me.user.inbox!.edges!.map(
+                      userActivityEdge =>
+                        userActivityEdge && (
+                          <ActivityPreviewHOC
+                            activityId={userActivityEdge.id}
+                            key={userActivityEdge.id}
+                          />
+                        )
+                    )}
+                  </div>
+                ) : null}
+              </Route>
+            </Switch>
           </Wrapper>
         </WrapperCont>
       </HomeBox>
-      <WrapperPanel>
+      {/* <WrapperPanel>
         <Panel>
           <PanelTitle fontSize={0} fontWeight={'bold'}>
             <Trans>My MoodleNet</Trans>
@@ -119,9 +125,49 @@ const Home: React.FC<Props> = () => {
             ) : null}
           </Nav>
         </Panel>
-      </WrapperPanel>
+      </WrapperPanel> */}
+      <SidePanel />
     </MainContainer>
   );
 };
 
 export default Home;
+
+const Menu = ({ basePath }: { basePath: string }) => {
+  const { me } = useMe();
+  return (
+    <MenuWrapper p={3} pt={3}>
+      <NavLink exact to={'/'}>
+        <SuperTab name="Federated timeline" />
+      </NavLink>
+      {me ? (
+        <>
+          <NavLink to={`/user/${me.user.id}/communities`}>
+            <SuperTab name="Joined communities" />
+          </NavLink>
+          <NavLink to={`/user/${me.user.id}/collections`}>
+            <SuperTab name="Followed collections" />
+          </NavLink>
+        </>
+      ) : null}
+    </MenuWrapper>
+  );
+};
+
+const MenuWrapper = styled(Flex)`
+  a {
+    font-weight: 700;
+    text-decoration: none;
+    margin-right: 8px;
+    color: ${props => props.theme.colors.gray};
+    letterspacing: 1px;
+    font-size: 13px;
+    padding: 4px 8px;
+    white-space: nowrap;
+    &.active {
+      color: #ffffff;
+      background: ${props => props.theme.colors.orange};
+      border-radius: 4px;
+    }
+  }
+`;
