@@ -1,0 +1,104 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import { PropsTable } from '@storybook/components';
+import { ActivityPreview } from '.';
+import { CollectionPreviewProps, CommunityPreviewProps, ResourcePreviewProps, UserPreviewProps, CommentPreviewProps, LikedCommentPreviewProps, FlaggedItemPreviewProps } from 'ui/mock/previews';
+import { activityPreviewProps } from 'ui/mock/activityPreview';
+import { Comment } from 'ui/modules/Previews/Comment';
+import { LikedComment } from 'ui/modules/Previews/LikedComment';
+import { FlaggedItem } from 'ui/modules/Previews/FlaggedItem';
+import { Collection } from '../Previews/Collection';
+import { Community } from '../Previews/Community';
+import { Resource } from '../Previews/Resource';
+import { User } from '../Previews/User';
+import {Box} from 'rebass'
+
+<Meta title="Modules|ActivityPreview" component={ActivityPreview}/>
+
+# Creates a collection
+Let's define a story for the `Collection preview` module
+
+<Preview>
+  <Story name="create a collection">
+    <Box p={2} width={"600px"}>
+      <ActivityPreview {...activityPreviewProps('Created a collection', <Collection {...CollectionPreviewProps() }/>)} />
+    </Box>
+  </Story>
+</Preview>
+
+# Creates a community
+Let's define a story for the `Collection preview` module
+
+<Preview>
+  <Story name="create a community">
+    <Box p={2} width={"600px"}>
+      <ActivityPreview {...activityPreviewProps('Created a community', <Community {...CommunityPreviewProps() }/>)} />
+    </Box>
+  </Story>
+</Preview>
+
+# Added a link
+Let's define a story for the `Collection preview` module
+
+<Preview>
+  <Story name="Added a link">
+    <Box p={2} width={"600px"}>
+      <ActivityPreview {...activityPreviewProps('Added a link', <Resource {...ResourcePreviewProps() }/>)} />
+    </Box>
+  </Story>
+</Preview>
+
+# Uploaded a resource
+Let's define a story for the `Collection preview` module
+
+<Preview>
+  <Story name="Uploaded a resource">
+    <Box p={2} width={"600px"}>
+      <ActivityPreview {...activityPreviewProps('Uploaded a resource', <Resource {...ResourcePreviewProps('license', 'pdf' ) }/>)} />
+    </Box>
+  </Story>
+</Preview>
+
+# Follow a user
+Let's define a story for the `Collection preview` module
+
+<Preview>
+  <Story name="Followed a user">
+    <Box p={2} width={"600px"}>
+      <ActivityPreview {...activityPreviewProps('Followed a user', <User {...UserPreviewProps() }/>)} />
+    </Box>
+  </Story>
+</Preview>
+
+# Created a comment
+Let's define a story for the `Collection preview` module
+
+<Preview>
+  <Story name="Created a comment">
+    <Box p={2} width={"600px"}>
+      <ActivityPreview {...activityPreviewProps('Created a comment', <Comment {...CommentPreviewProps() }/>)} />
+    </Box>
+  </Story>
+</Preview>
+
+# Liked a comment
+Let's define a story for the `Collection preview` module
+
+<Preview>
+  <Story name="Liked a comment">
+    <Box p={2} width={"600px"}>
+      <ActivityPreview {...activityPreviewProps('Like a comment', <LikedComment {...LikedCommentPreviewProps() }/>)} />
+    </Box>
+  </Story>
+</Preview>
+
+# Flag a comment
+Let's define a story for the `Collection preview` module
+
+<Preview>
+  <Story name="Flag a comment">
+    <Box p={2} width={"600px"}>
+      <ActivityPreview {...activityPreviewProps('Flag a comment', <FlaggedItem {...FlaggedItemPreviewProps() }/>)} />
+    </Box>
+  </Story>
+</Preview>
+

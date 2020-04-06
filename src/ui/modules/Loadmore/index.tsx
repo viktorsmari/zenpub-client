@@ -11,7 +11,7 @@ export interface Props {
 
 export const LoadMore: React.FC<Props> = props => {
   return (
-    <Wrapper>
+    <Wrapper p={2}>
       <Button
         isSubmitting={props.LoadMoreFormik.isSubmitting}
         isDisabled={props.LoadMoreFormik.isSubmitting}
@@ -25,11 +25,8 @@ export const LoadMore: React.FC<Props> = props => {
 };
 
 const Wrapper = styled(Box)`
-  border-top: 1px solid ${props => props.theme.colors.lightgray};
-  height: 40px;
   background: white;
   button {
     width: 100%;
-    heigth: 40px;
   }
 `;
