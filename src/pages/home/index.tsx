@@ -26,7 +26,6 @@ import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 // } from 'ui/elements/Panel';
 import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-import { SuperTab } from 'ui/modules/SuperTab';
 import { useMe } from 'fe/session/me';
 import styled from 'ui/themes/styled';
 import { Flex } from 'rebass/styled-components';
@@ -69,6 +68,8 @@ const Home: React.FC<Props> = () => {
     },
     [refetch]
   );
+  const { me } = useMe();
+
   return (
     <MainContainer>
       <HomeBox>
@@ -99,6 +100,16 @@ const Home: React.FC<Props> = () => {
                   </div>
                 ) : null}
               </Route>
+              {me ? (
+                <>
+                  <Route path={`/user/${me.user.id}/communities`}>
+                    {/* FIX ME add joined communities content*/}
+                  </Route>
+                  <Route path={`/user/${me.user.id}/collections`}>
+                    {/* FIX ME add followed collections content*/}
+                  </Route>
+                </>
+              ) : null}
             </Switch>
           </Wrapper>
         </WrapperCont>
@@ -138,15 +149,15 @@ const Menu = ({ basePath }: { basePath: string }) => {
   return (
     <MenuWrapper p={3} pt={3}>
       <NavLink exact to={'/'}>
-        <SuperTab name="Federated timeline" />
+        <Trans>My Timeline</Trans>
       </NavLink>
       {me ? (
         <>
           <NavLink to={`/user/${me.user.id}/communities`}>
-            <SuperTab name="Joined communities" />
+            <Trans>Joined communities</Trans>
           </NavLink>
           <NavLink to={`/user/${me.user.id}/collections`}>
-            <SuperTab name="Followed collections" />
+            <Trans>Followed collections</Trans>
           </NavLink>
         </>
       ) : null}
@@ -155,13 +166,14 @@ const Menu = ({ basePath }: { basePath: string }) => {
 };
 
 const MenuWrapper = styled(Flex)`
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
   a {
     font-weight: 700;
     text-decoration: none;
     margin-right: 8px;
     color: ${props => props.theme.colors.gray};
     letterspacing: 1px;
-    font-size: 13px;
+    font-size: 15px;
     padding: 4px 8px;
     white-space: nowrap;
     &.active {

@@ -93,7 +93,7 @@ export const HeroCollection: FC<Props> = ({ collection: c }) => {
             <More mr={2} onClick={() => setOpenDropdown(true)}>
               <MoreVertical size={20} />
               {isOpenDropdown && (
-                <Dropdown orientation={'top'} cb={setOpenDropdown}>
+                <Dropdown orientation={['top', 'left']} cb={setOpenDropdown}>
                   {c.canModify && (
                     <DropdownItem onClick={() => setOpenSettings(true)}>
                       <Settings size={20} color={'rgb(101, 119, 134)'} />

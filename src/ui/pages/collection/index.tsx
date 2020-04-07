@@ -21,9 +21,9 @@ export interface Props {
   UploadResourcePanel: React.ComponentType<{ done(): any }>;
   basePath: string;
   collectionName: string;
-  loadMoreActivities: FormikHook;
-  loadMoreResources: FormikHook;
-  loadMoreFollowers: FormikHook;
+  loadMoreActivities?: FormikHook;
+  loadMoreResources?: FormikHook;
+  loadMoreFollowers?: FormikHook;
 }
 
 export const Collection: React.FC<Props> = ({
@@ -63,7 +63,10 @@ export const Collection: React.FC<Props> = ({
               <Route path={`${basePath}/followers`}>
                 <FollowersMenu basePath={`${basePath}/followers`} />
                 {FollowersBoxes}
-                <LoadMore LoadMoreFormik={loadMoreFollowers} />
+                {/* FIX ME after loadMoreFollowers fix */}
+                {loadMoreFollowers ? (
+                  <LoadMore LoadMoreFormik={loadMoreFollowers} />
+                ) : null}
               </Route>
               <Route exact path={`${basePath}/`}>
                 <>
@@ -88,7 +91,10 @@ export const Collection: React.FC<Props> = ({
                     <UploadResourcePanel done={() => setUploadOpen(false)} />
                   )}
                   {ResourcesBox}
-                  <LoadMore LoadMoreFormik={loadMoreResources} />
+                  {/* FIX ME after loadMoreResources fix */}
+                  {loadMoreResources ? (
+                    <LoadMore LoadMoreFormik={loadMoreResources} />
+                  ) : null}
                 </>
               </Route>
               <Route exact path={`${basePath}/activities`}>
@@ -96,7 +102,10 @@ export const Collection: React.FC<Props> = ({
                   {HeroCollectionBox}
                   <Menu basePath={basePath} />
                   {ActivitiesBox}
-                  <LoadMore LoadMoreFormik={loadMoreActivities} />
+                  {/* FIX ME after loadMoreActivities fix */}
+                  {loadMoreActivities ? (
+                    <LoadMore LoadMoreFormik={loadMoreActivities} />
+                  ) : null}
                 </>
               </Route>
             </Switch>

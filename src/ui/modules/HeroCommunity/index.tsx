@@ -88,7 +88,7 @@ export const HeroCommunity: FC<Props> = ({ community: c }) => {
               <More onClick={() => setOpenDropdown(true)}>
                 <MoreVertical size={20} />
                 {isOpenDropdown && (
-                  <Dropdown orientation={'bottom'} cb={setOpenDropdown}>
+                  <Dropdown orientation={['top', 'right']} cb={setOpenDropdown}>
                     {c.canModify && (
                       <DropdownItem onClick={() => setOpenSettings(true)}>
                         <Settings size={20} color={'rgb(101, 119, 134)'} />

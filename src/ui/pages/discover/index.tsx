@@ -3,27 +3,27 @@ import React from 'react';
 import { NavLink, Route, Switch } from 'react-router-dom';
 import media from 'styled-media-query';
 import { SidePanel } from 'ui/modules/SidePanel';
-
-import { Flex } from 'rebass/styled-components';
-// import {
-//   Nav,
-//   NavItem,
-//   Panel,
-//   PanelTitle,
-//   WrapperPanel
-// } from 'ui/elements/Panel';
+import { LoadMore } from 'ui/modules/Loadmore';
+import { FormikHook } from 'ui/@types/types';
+import { Flex, Box } from 'rebass/styled-components';
 import styled from 'ui/themes/styled';
-import { SuperTab } from 'ui/modules/SuperTab';
+import { Trans } from '@lingui/react';
 
 export interface Props {
   FeaturedCommunitiesBox: JSX.Element;
   FeaturedCollectionsBox: JSX.Element;
   ActivitiesBox: JSX.Element;
+  CommunitiesBoxes?: JSX.Element; //FIX ME remove ? after fix
+  CollectionsBoxes?: JSX.Element; //FIX ME remove ? after fix
+  LoadMoreFormik?: FormikHook; //FIX ME remove ? after LoadMoreFormik fix
 }
 export const Discover: React.FC<Props> = ({
   ActivitiesBox,
+  CommunitiesBoxes,
+  CollectionsBoxes,
   FeaturedCommunitiesBox,
-  FeaturedCollectionsBox
+  FeaturedCollectionsBox,
+  LoadMoreFormik
 }) => {
   return (
     <MainContainer>
@@ -38,58 +38,57 @@ export const Discover: React.FC<Props> = ({
                 <Menu basePath="/" />
                 {ActivitiesBox}
               </Route>
+              <Route path="/communities">
+                {/* FIX ME add CommunitiesBoxes */}
+                <Menu basePath="/communities" />
+                <WrapperBoxes>{CommunitiesBoxes}</WrapperBoxes>
+                {/* FIX ME after LoadMoreFormik fix */}
+                {LoadMoreFormik ? (
+                  <LoadMore LoadMoreFormik={LoadMoreFormik} />
+                ) : null}
+              </Route>
+              <Route path="/collections">
+                {/* FIX ME  add CollectionsBoxes */}
+                <Menu basePath="/collections" />
+                {CollectionsBoxes}
+                {/* FIX ME after LoadMoreFormik fix */}
+                {LoadMoreFormik ? (
+                  <LoadMore LoadMoreFormik={LoadMoreFormik} />
+                ) : null}
+              </Route>
             </Switch>
-            {/* <Header name="Federated timeline" />
-            {ActivitiesBox} */}
           </Wrapper>
         </WrapperCont>
       </HomeBox>
-      {/* <WrapperPanel>
-        <Panel>
-          <PanelTitle fontSize={0} fontWeight={'bold'}>
-            <Trans>Browse Home instance</Trans>
-          </PanelTitle>
-          <Nav>
-            <NavItem mb={4} fontSize={1} fontWeight={'bold'}>
-              <NavLink to="/communities">
-                <Trans>All communities</Trans>
-              </NavLink>
-            </NavItem>
-            <NavItem fontSize={1} fontWeight={'bold'}>
-              <NavLink to="/collections">
-                <Trans>All collections</Trans>
-              </NavLink>
-            </NavItem>
-          </Nav>
-        </Panel>
-      </WrapperPanel> */}
       <SidePanel />
     </MainContainer>
   );
 };
 
 const Menu = ({ basePath }: { basePath: string }) => (
-  <MenuWrapper p={3} pt={3}>
+  <SuperTabWrapper p={3} pt={3}>
     <NavLink exact to={'/'}>
-      <SuperTab name="Federated timeline" />
+      <Trans>Timeline</Trans>
     </NavLink>
     <NavLink to={'/communities'}>
-      <SuperTab name="All communities" />
+      <Trans>All communities</Trans>
     </NavLink>
-    <NavLink to="/collections">
-      <SuperTab name="All collections" />
+    <NavLink to={'/collections'}>
+      <Trans>All collections</Trans>
     </NavLink>
-  </MenuWrapper>
+  </SuperTabWrapper>
 );
 
-const MenuWrapper = styled(Flex)`
+const SuperTabWrapper = styled(Flex)`
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+
   a {
     font-weight: 700;
     text-decoration: none;
     margin-right: 8px;
     color: ${props => props.theme.colors.gray};
     letterspacing: 1px;
-    font-size: 13px;
+    font-size: 15px;
     padding: 0px 8px;
     white-space: nowrap;
     &.active {
@@ -106,6 +105,14 @@ const WrapperFeatured = styled(Flex)`
   flex: 1;
   background: white;
   border-radius: 8px;
+`;
+
+const WrapperBoxes = styled(Box)`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column-gap: 8px;
+  grid-row-gap: 8px;
+  padding: 8px;
 `;
 
 export const HomeBox = styled(Flex)`

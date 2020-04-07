@@ -201,34 +201,6 @@ export const Sidebar: React.FC<Props> = props => {
           ) : (
             <SidebarOverflow>
               <>
-                {/* <Header alignItems={'center'}> */}
-                {/* {props.Search} */}
-                {/* <NavItem
-                    sx={{ position: 'relative' }}
-                    alignItems="center"
-                    onClick={openMenu}
-                  >
-                    <Avatar
-                      size="s"
-                      initials={props.user.name.substring(0, 2)}
-                      src={props.user.icon}
-                      variant="avatar"
-                    />
-                    <HeaderName ml={2} variant="link">
-                      {props.user.name}
-                    </HeaderName>
-                    <Right ml={2}>
-                      <ChevronDown size="20" />
-                    </Right>
-                    {isOpenDropdown && (
-                      <DropdownSidebar
-                        logout={props.logout}
-                        userId={props.user.id}
-                        setOpenDropdown={setOpenDropdown}
-                      />
-                    )}
-                  </NavItem> */}
-                {/* </Header> */}
                 <Nav>
                   <SidebarLink exact to={'/discover'}>
                     <NavItem alignItems={'center'}>
