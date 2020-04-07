@@ -3,9 +3,8 @@ fragment ActivityPreview on Activity {
   verb
   createdAt
   user {
-      icon{
- id, url }
-
+      icon{ id, url }
+      image{ id, url }
       userId: id 
       userName: name
       canonicalUrl

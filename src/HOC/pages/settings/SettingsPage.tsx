@@ -29,8 +29,8 @@ export const SettingsPage: FC<SettingsPage> = ({ basePath }) => {
   const { me } = useMe();
   const { profile, updateProfile } = useProfile();
   const initialValues: EditProfile = {
-    icon: profile?.icon || '',
-    image: profile?.image || '',
+    icon: profile?.icon?.url || '',
+    image: profile?.image?.url || '',
     location: profile?.location || '',
     name: profile?.name || '',
     summary: profile?.summary || '',

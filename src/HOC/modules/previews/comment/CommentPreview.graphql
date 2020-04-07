@@ -49,6 +49,7 @@ fragment CommentPreviewBase on Comment{
     createdAt
     creator  {
         icon{ id, url }
+        image{ id, url }
         userId: id 
         userName: name
         canonicalUrl

@@ -35,7 +35,7 @@ export const CollectionPreviewHOC: FC<Props> = ({ collectionId }) => {
 
     const props: CollectionPreviewProps = {
       displayUsername,
-      icon: icon || '',
+      icon: icon?.url || '',
       isFollowing: !!myFollow,
       link: {
         url: isLocal ? `/collections/${collectionId}` : canonicalUrl || '',

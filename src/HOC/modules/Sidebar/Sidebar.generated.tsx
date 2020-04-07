@@ -8,6 +8,9 @@ export type SidebarFollowedCommunityFragment = (
   & { icon: Types.Maybe<(
     { __typename: 'Content' }
     & Pick<Types.Content, 'id' | 'url'>
+  )>, image: Types.Maybe<(
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
   )> }
 );
 
@@ -15,6 +18,9 @@ export type SidebarMeUserFragment = (
   { __typename: 'User' }
   & Pick<Types.User, 'id' | 'name'>
   & { icon: Types.Maybe<(
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
+  )>, image: Types.Maybe<(
     { __typename: 'Content' }
     & Pick<Types.Content, 'id' | 'url'>
   )> }
@@ -29,6 +35,10 @@ export const SidebarFollowedCommunityFragmentDoc = gql`
     id
     url
   }
+  image {
+    id
+    url
+  }
   name
 }
     `;
@@ -37,6 +47,10 @@ export const SidebarMeUserFragmentDoc = gql`
   id
   name
   icon {
+    id
+    url
+  }
+  image {
     id
     url
   }

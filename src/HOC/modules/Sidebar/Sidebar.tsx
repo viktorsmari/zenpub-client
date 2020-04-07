@@ -6,26 +6,34 @@ import {
   Sidebar as SidebarUI,
   Status as StatusUI
 } from 'ui/modules/Sidebar/index';
-import { SidebarMeUserFragment } from './Sidebar.generated';
+import {
+  /* SidebarMeUserFragment, */ SidebarFollowedCommunityFragment
+} from './Sidebar.generated';
 
 export interface Sidebar {
-  user: SidebarMeUserFragment;
+  //FIXME: delete commented out stuff
+  // user: SidebarMeUserFragment;
 }
-export const Sidebar: FC<Sidebar> = ({ user }) => {
+export const Sidebar: FC<Sidebar> = (/* { user } */) => {
   const { myFollowedCommunitiesPage } = useMyFollowedCommunities();
   const communities = useMemo(
     () =>
-      myFollowedCommunitiesPage.edges.map<CommunityPreview>(commFollow => {
-        const { context: community } = commFollow;
-        return {
-          icon: community.icon || '',
-          link: {
-            url: `/communities/${community.id}`,
-            external: !community.isLocal
-          },
-          name: community.name
-        };
-      }),
+      myFollowedCommunitiesPage.edges
+        .map(follow => follow.context)
+        .filter(
+          (context): context is SidebarFollowedCommunityFragment =>
+            context.__typename === 'Community'
+        )
+        .map<CommunityPreview>(community => {
+          return {
+            icon: community.icon?.url || '',
+            link: {
+              url: `/communities/${community.id}`,
+              external: !community.isLocal
+            },
+            name: community.name
+          };
+        }),
     [myFollowedCommunitiesPage]
   );
 

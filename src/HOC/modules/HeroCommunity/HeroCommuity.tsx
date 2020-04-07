@@ -43,7 +43,7 @@ export const HeroCommunity: FC<HeroCommunity> = ({ communityId, basePath }) => {
         isAdmin,
         following: !!community.myFollow,
         isFlagged: !!community.myFlag,
-        icon: community.icon || '',
+        icon: community.icon?.url || '',
         name: community.name,
         fullName: community.displayUsername,
         totalMembers: community.followerCount || 0,

@@ -77,6 +77,9 @@ export type CommentPreviewBaseFragment = (
     & { icon: Types.Maybe<(
       { __typename: 'Content' }
       & Pick<Types.Content, 'id' | 'url'>
+    )>, image: Types.Maybe<(
+      { __typename: 'Content' }
+      & Pick<Types.Content, 'id' | 'url'>
     )> }
   )> }
 );
@@ -105,6 +108,10 @@ export const CommentPreviewBaseFragmentDoc = gql`
   createdAt
   creator {
     icon {
+      id
+      url
+    }
+    image {
       id
       url
     }

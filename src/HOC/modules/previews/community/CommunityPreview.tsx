@@ -37,7 +37,7 @@ export const CommunityPreviewHOC: FC<Props> = ({ communityId }) => {
     } = community;
 
     const props: CommunityPreviewProps = {
-      icon: icon || '',
+      icon: icon?.url || '',
       name,
       summary: summary || '',
       collectionsCount: collectionCount || 0,

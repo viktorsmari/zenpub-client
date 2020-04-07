@@ -36,6 +36,9 @@ export type ActivityPreviewFragment = (
     & { icon: Types.Maybe<(
       { __typename: 'Content' }
       & Pick<Types.Content, 'id' | 'url'>
+    )>, image: Types.Maybe<(
+      { __typename: 'Content' }
+      & Pick<Types.Content, 'id' | 'url'>
     )> }
   )>, context: Types.Maybe<(
     { __typename: 'Collection' }
@@ -71,6 +74,10 @@ export const ActivityPreviewFragmentDoc = gql`
   createdAt
   user {
     icon {
+      id
+      url
+    }
+    image {
       id
       url
     }
