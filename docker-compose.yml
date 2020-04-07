@@ -18,8 +18,8 @@ services:
       context: .
 #      dockerfile: "Dockerfile"
     ports:
-      - "80:80"
-      - "443:443"
+     - "80:80"
+     - "443:443"
     env_file:
       - .env
     volumes:
@@ -28,7 +28,7 @@ services:
         target: /etc/Caddyfile
         read_only: true
   db:
-    image: postgres:9.6.6-alpine
+    image: postgres:9.6-alpine
     volumes:
        - postgres_data:/var/lib/postgresql/data
     # ports:
