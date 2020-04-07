@@ -28,27 +28,34 @@ fragment SearchMe on Me {
     id
     collectionFollows{
       edges{
-        ...SearchFollow
+        id
+        context{
+          ... on Collection {
+            ...SearchFollowedCollection
+          }
+        }
       }
     }
     communityFollows{
       edges{
-        ...SearchFollow
+        id
+        context{
+          ... on Community {
+            ...SearchFollowedCommunity
+          }
+        }
       }
     }
   }
 }
 
-fragment SearchFollow on Follow {
+fragment SearchFollowedCommunity on Community {
   id
-  context {
-    ... on Collection {
-      id
-      canonicalUrl
-    }
-    ... on Community {
-      id
-      canonicalUrl
-    }
-  }
+  canonicalUrl
+  myFollow{ id }
+}
+fragment SearchFollowedCollection on Collection {
+  id
+  canonicalUrl
+  myFollow{ id }
 }
