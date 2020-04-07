@@ -5,7 +5,7 @@
 #import "./fragments/basicUser.graphql"
 #import "../HOC/modules/ActivityPreview/getActivityPreview.graphql"
 
-query getCommunityQuery($communityId: String!, $limit: Int, $end: [Cursor]) {
+query getCommunityQuery($communityId: String!, $limit: Int, $end: [Cursor!]) {
     community(communityId: $communityId) {
         id
         canonicalUrl

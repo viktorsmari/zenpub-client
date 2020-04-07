@@ -243,9 +243,7 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
       collectionId: props.collectionId,
       resource: {
         name: values.name,
-        summary: values.summary,
-        icon: values.image,
-        url: values.url
+        summary: values.summary
       }
     };
     return props
@@ -299,11 +297,11 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
       .then(res => {
         setSubmitting(false);
         props.isFetched(false);
-        props.onUrl(' ');
+        props.onUrl('');
         props.toggleModal();
       })
       .catch(err => {
-        props.onUrl(' ');
+        props.onUrl('');
       });
   }
 })(Fetched);

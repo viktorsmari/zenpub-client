@@ -13,7 +13,7 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type GetCommunitiesQueryQueryVariables = {
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  end?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+  end?: Types.Maybe<Array<Types.Scalars['Cursor']>>
 };
 
 
@@ -33,7 +33,7 @@ export type GetCommunitiesQueryQuery = (
 
 
 export const GetCommunitiesQueryDocument = gql`
-    query getCommunitiesQuery($limit: Int, $end: [Cursor]) {
+    query getCommunitiesQuery($limit: Int, $end: [Cursor!]) {
   communities(limit: $limit, after: $end) {
     pageInfo {
       startCursor
