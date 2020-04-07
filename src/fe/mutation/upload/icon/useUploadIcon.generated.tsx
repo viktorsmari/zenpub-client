@@ -10,55 +10,24 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type UploadIconMutationVariables = {
   contextId: Types.Scalars['ID'],
-  upload: Types.Scalars['Upload']
+  upload: Types.UploadInput
 };
 
 
 export type UploadIconMutation = (
   { __typename: 'RootMutationType' }
   & { uploadIcon: Types.Maybe<(
-    { __typename: 'FileUpload' }
-    & Pick<Types.FileUpload, 'id'>
-    & { parent: Types.Maybe<(
-      { __typename: 'Collection' }
-      & Pick<Types.Collection, 'id' | 'icon'>
-    ) | { __typename: 'Comment' } | (
-      { __typename: 'Community' }
-      & Pick<Types.Community, 'id' | 'icon'>
-    ) | (
-      { __typename: 'Resource' }
-      & Pick<Types.Resource, 'id' | 'icon'>
-    ) | (
-      { __typename: 'User' }
-      & Pick<Types.User, 'icon'>
-      & { userId: Types.User['id'] }
-    )> }
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
   )> }
 );
 
 
 export const UploadIconDocument = gql`
-    mutation uploadIcon($contextId: ID!, $upload: Upload!) {
+    mutation uploadIcon($contextId: ID!, $upload: UploadInput!) {
   uploadIcon(contextId: $contextId, upload: $upload) {
     id
-    parent {
-      ... on Collection {
-        id
-        icon
-      }
-      ... on Community {
-        id
-        icon
-      }
-      ... on Resource {
-        id
-        icon
-      }
-      ... on User {
-        userId: id
-        icon
-      }
-    }
+    url
   }
 }
     `;

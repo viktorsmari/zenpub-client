@@ -17,8 +17,12 @@ mutation updateProfileMutation($profile: UpdateProfileInput!) {
             id
             name
             summary
-            icon
-            image
+            icon{
+ id, url }
+
+            image{
+ id, url }
+
             location
             website
         }

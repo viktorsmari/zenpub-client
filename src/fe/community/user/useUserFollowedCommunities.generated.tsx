@@ -17,8 +17,8 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type UserFollowedCommunitiesQueryVariables = {
   userId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
-  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+  before?: Types.Maybe<Array<Types.Scalars['Cursor']>>,
+  after?: Types.Maybe<Array<Types.Scalars['Cursor']>>
 };
 
 
@@ -56,7 +56,7 @@ export const UserFollowedCommunityFragmentDoc = gql`
 }
     ${CommunityPreviewFragmentDoc}`;
 export const UserFollowedCommunitiesDocument = gql`
-    query userFollowedCommunities($userId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
+    query userFollowedCommunities($userId: String!, $limit: Int, $before: [Cursor!], $after: [Cursor!]) {
   user(userId: $userId) @connection(key: "userFollowedCommunities", filter: ["userId"]) {
     id
     communityFollows(limit: $limit, before: $before, after: $after) {

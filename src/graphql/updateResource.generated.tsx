@@ -18,7 +18,21 @@ export type UpdateResourceMutationMutation = (
   { __typename: 'RootMutationType' }
   & { updateResource: Types.Maybe<(
     { __typename: 'Resource' }
-    & Pick<Types.Resource, 'id' | 'name' | 'summary' | 'url' | 'license' | 'icon' | 'createdAt' | 'updatedAt'>
+    & Pick<Types.Resource, 'id' | 'name' | 'summary' | 'license' | 'createdAt' | 'updatedAt'>
+    & { content: Types.Maybe<(
+      { __typename: 'Content' }
+      & Pick<Types.Content, 'id' | 'mediaType' | 'url'>
+      & { mirror: Types.Maybe<(
+        { __typename: 'ContentMirror' }
+        & Pick<Types.ContentMirror, 'url'>
+      )>, upload: Types.Maybe<(
+        { __typename: 'ContentUpload' }
+        & Pick<Types.ContentUpload, 'size'>
+      )> }
+    )>, icon: Types.Maybe<(
+      { __typename: 'Content' }
+      & Pick<Types.Content, 'id' | 'url'>
+    )> }
   )> }
 );
 
@@ -29,9 +43,22 @@ export const UpdateResourceMutationDocument = gql`
     id
     name
     summary
-    url
+    content {
+      id
+      mediaType
+      mirror {
+        url
+      }
+      upload {
+        size
+      }
+      url
+    }
     license
-    icon
+    icon {
+      id
+      url
+    }
     createdAt
     updatedAt
   }

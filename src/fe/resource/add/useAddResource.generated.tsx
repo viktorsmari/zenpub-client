@@ -28,39 +28,29 @@ export type AddResourceCreateResourceMutation = (
 
 export type AddResourceUploadMutationVariables = {
   contextId: Types.Scalars['ID'],
-  upload: Types.Scalars['Upload']
+  upload: Types.UploadInput
 };
 
 
 export type AddResourceUploadMutation = (
   { __typename: 'RootMutationType' }
   & { uploadResource: Types.Maybe<(
-    { __typename: 'FileUpload' }
+    { __typename: 'Content' }
     & AddResourceUploadMutationResultFragment
   )> }
 );
 
 export type AddResourceUploadMutationResultFragment = (
-  { __typename: 'FileUpload' }
-  & Pick<Types.FileUpload, 'id'>
-  & { parent: Types.Maybe<{ __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | (
-    { __typename: 'Resource' }
-    & Pick<Types.Resource, 'id'>
-    & AddResourceCreateResourceMutationResultFragment
-  ) | { __typename: 'User' }> }
+  { __typename: 'Content' }
+  & Pick<Types.Content, 'id' | 'url'>
 );
 
 export const AddResourceUploadMutationResultFragmentDoc = gql`
-    fragment AddResourceUploadMutationResult on FileUpload {
+    fragment AddResourceUploadMutationResult on Content {
   id
-  parent {
-    ... on Resource {
-      id
-      ...AddResourceCreateResourceMutationResult
-    }
-  }
+  url
 }
-    ${AddResourceCreateResourceMutationResultFragmentDoc}`;
+    `;
 export const AddResourceCreateResourceDocument = gql`
     mutation addResourceCreateResource($collectionId: String!, $resource: ResourceInput!) {
   createResource(collectionId: $collectionId, resource: $resource) {
@@ -113,7 +103,7 @@ export type AddResourceCreateResourceMutationHookResult = ReturnType<typeof useA
 export type AddResourceCreateResourceMutationResult = ApolloReactCommon.MutationResult<AddResourceCreateResourceMutation>;
 export type AddResourceCreateResourceMutationOptions = ApolloReactCommon.BaseMutationOptions<AddResourceCreateResourceMutation, AddResourceCreateResourceMutationVariables>;
 export const AddResourceUploadDocument = gql`
-    mutation addResourceUpload($contextId: ID!, $upload: Upload!) {
+    mutation addResourceUpload($contextId: ID!, $upload: UploadInput!) {
   uploadResource(contextId: $contextId, upload: $upload) {
     ...AddResourceUploadMutationResult
   }

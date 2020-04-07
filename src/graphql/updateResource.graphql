@@ -1,10 +1,9 @@
 input ResourceInput {
-    icon: String!
-    license: String
     name: String!
     summary: String
-    url: String}
-
+    author: String
+    license: String
+}
 
 
  mutation updateResourceMutation($resource: ResourceInput!,$resourceId: String!) {
@@ -12,9 +11,15 @@ input ResourceInput {
         id
         name
         summary
-        url
+        content{
+            id
+            mediaType
+            mirror {url}
+            upload {size}
+            url
+        }
         license
-        icon
+        icon{ id, url }
         # isLocal
         # isPublic
         # isDisabled

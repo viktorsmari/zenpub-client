@@ -2,7 +2,9 @@ fragment EditCommunityQueryData on Community {
   id
   name
   summary
-  icon
+  icon{
+ id, url }
+
   updatedAt
 }
 query editCommunityData($communityId: String!) {

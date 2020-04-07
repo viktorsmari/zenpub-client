@@ -1,10 +1,6 @@
-mutation uploadImage($contextId: ID!,$upload: Upload!) {
-   uploadImage(contextId: $contextId, upload:$upload ){
+mutation uploadImage($contextId: ID!,$upload: UploadInput!) {
+    uploadImage(contextId: $contextId, upload:$upload ){
         id
-        metadata {
-            heightPx   
-            widthPx
-        }
         url 
     }
     

@@ -10,7 +10,11 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type EditCommunityQueryDataFragment = (
   { __typename: 'Community' }
-  & Pick<Types.Community, 'id' | 'name' | 'summary' | 'icon' | 'updatedAt'>
+  & Pick<Types.Community, 'id' | 'name' | 'summary' | 'updatedAt'>
+  & { icon: Types.Maybe<(
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
+  )> }
 );
 
 export type EditCommunityDataQueryVariables = {
@@ -45,7 +49,10 @@ export const EditCommunityQueryDataFragmentDoc = gql`
   id
   name
   summary
-  icon
+  icon {
+    id
+    url
+  }
   updatedAt
 }
     `;

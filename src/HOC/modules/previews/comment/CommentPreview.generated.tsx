@@ -72,8 +72,12 @@ export type CommentPreviewBaseFragment = (
   & Pick<Types.Comment, 'id' | 'isLocal' | 'content' | 'canonicalUrl' | 'createdAt'>
   & { creator: Types.Maybe<(
     { __typename: 'User' }
-    & Pick<Types.User, 'icon' | 'canonicalUrl'>
+    & Pick<Types.User, 'canonicalUrl'>
     & { userId: Types.User['id'], userName: Types.User['name'] }
+    & { icon: Types.Maybe<(
+      { __typename: 'Content' }
+      & Pick<Types.Content, 'id' | 'url'>
+    )> }
   )> }
 );
 
@@ -100,7 +104,10 @@ export const CommentPreviewBaseFragmentDoc = gql`
   canonicalUrl
   createdAt
   creator {
-    icon
+    icon {
+      id
+      url
+    }
     userId: id
     userName: name
     canonicalUrl

@@ -2,7 +2,9 @@ fragment EditCollectionQueryData on Collection {
   id
   name
   summary
-  icon
+  icon{
+ id, url }
+
   updatedAt
 }
 query editCollectionData($collectionId: String!) {

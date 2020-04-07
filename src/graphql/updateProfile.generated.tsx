@@ -20,7 +20,14 @@ export type UpdateProfileMutationMutation = (
     & Pick<Types.Me, 'wantsEmailDigest' | 'wantsNotifications'>
     & { user: (
       { __typename: 'User' }
-      & Pick<Types.User, 'id' | 'name' | 'summary' | 'icon' | 'image' | 'location' | 'website'>
+      & Pick<Types.User, 'id' | 'name' | 'summary' | 'location' | 'website'>
+      & { icon: Types.Maybe<(
+        { __typename: 'Content' }
+        & Pick<Types.Content, 'id' | 'url'>
+      )>, image: Types.Maybe<(
+        { __typename: 'Content' }
+        & Pick<Types.Content, 'id' | 'url'>
+      )> }
     ) }
   )> }
 );
@@ -35,8 +42,14 @@ export const UpdateProfileMutationDocument = gql`
       id
       name
       summary
-      icon
-      image
+      icon {
+        id
+        url
+      }
+      image {
+        id
+        url
+      }
       location
       website
     }

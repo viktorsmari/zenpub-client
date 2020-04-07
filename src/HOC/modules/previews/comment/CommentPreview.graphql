@@ -48,7 +48,7 @@ fragment CommentPreviewBase on Comment{
     canonicalUrl
     createdAt
     creator  {
-        icon
+        icon{ id, url }
         userId: id 
         userName: name
         canonicalUrl

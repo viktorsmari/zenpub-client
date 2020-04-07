@@ -4,8 +4,14 @@ import gql from 'graphql-tag';
 
 export type HeroUserUserDataFragment = (
   { __typename: 'User' }
-  & Pick<Types.User, 'id' | 'image' | 'icon' | 'displayUsername' | 'location' | 'summary' | 'name' | 'followerCount'>
-  & { myFollow: Types.Maybe<(
+  & Pick<Types.User, 'id' | 'displayUsername' | 'location' | 'summary' | 'name' | 'followerCount'>
+  & { image: Types.Maybe<(
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
+  )>, icon: Types.Maybe<(
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
+  )>, myFollow: Types.Maybe<(
     { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
   )>, myFlag: Types.Maybe<(
@@ -17,8 +23,14 @@ export type HeroUserUserDataFragment = (
 export const HeroUserUserDataFragmentDoc = gql`
     fragment HeroUserUserData on User {
   id
-  image
-  icon
+  image {
+    id
+    url
+  }
+  icon {
+    id
+    url
+  }
   displayUsername
   location
   summary

@@ -17,8 +17,8 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type CollectionResourcesQueryVariables = {
   collectionId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
-  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+  before?: Types.Maybe<Array<Types.Scalars['Cursor']>>,
+  after?: Types.Maybe<Array<Types.Scalars['Cursor']>>
 };
 
 
@@ -52,7 +52,7 @@ export const CollectionResourceFragmentDoc = gql`
 }
     ${CollectionPageResourceFragmentDoc}`;
 export const CollectionResourcesDocument = gql`
-    query collectionResources($collectionId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
+    query collectionResources($collectionId: String!, $limit: Int, $before: [Cursor!], $after: [Cursor!]) {
   collection(collectionId: $collectionId) @connection(key: "collectionResources", filter: ["collectionId"]) {
     id
     resources(limit: $limit, before: $before, after: $after) {

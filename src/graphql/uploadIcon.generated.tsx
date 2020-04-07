@@ -10,31 +10,23 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type UploadIconMutMutationVariables = {
   contextId: Types.Scalars['ID'],
-  upload: Types.Scalars['Upload']
+  upload: Types.UploadInput
 };
 
 
 export type UploadIconMutMutation = (
   { __typename: 'RootMutationType' }
   & { uploadIcon: Types.Maybe<(
-    { __typename: 'FileUpload' }
-    & Pick<Types.FileUpload, 'id' | 'url'>
-    & { metadata: Types.Maybe<(
-      { __typename: 'FileMetadata' }
-      & Pick<Types.FileMetadata, 'heightPx' | 'widthPx'>
-    )> }
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
   )> }
 );
 
 
 export const UploadIconMutDocument = gql`
-    mutation uploadIconMut($contextId: ID!, $upload: Upload!) {
+    mutation uploadIconMut($contextId: ID!, $upload: UploadInput!) {
   uploadIcon(contextId: $contextId, upload: $upload) {
     id
-    metadata {
-      heightPx
-      widthPx
-    }
     url
   }
 }

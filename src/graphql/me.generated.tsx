@@ -18,7 +18,14 @@ export type MeQueryQuery = (
     & Pick<Types.Me, 'email'>
     & { user: (
       { __typename: 'User' }
-      & Pick<Types.User, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'location' | 'icon' | 'image' | 'summary' | 'website' | 'isLocal' | 'isPublic' | 'isDisabled' | 'createdAt' | 'updatedAt' | 'lastActivity'>
+      & Pick<Types.User, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'location' | 'summary' | 'website' | 'isLocal' | 'isPublic' | 'isDisabled' | 'createdAt' | 'updatedAt' | 'lastActivity'>
+      & { icon: Types.Maybe<(
+        { __typename: 'Content' }
+        & Pick<Types.Content, 'id' | 'url'>
+      )>, image: Types.Maybe<(
+        { __typename: 'Content' }
+        & Pick<Types.Content, 'id' | 'url'>
+      )> }
     ) }
   )> }
 );
@@ -34,8 +41,14 @@ export const MeQueryDocument = gql`
       preferredUsername
       name
       location
-      icon
-      image
+      icon {
+        id
+        url
+      }
+      image {
+        id
+        url
+      }
       summary
       location
       website

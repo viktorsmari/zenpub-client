@@ -1,4 +1,4 @@
-query userFollowedCollections($userId: String!, $limit:Int, $before:[Cursor], $after:[Cursor]) {
+query userFollowedCollections($userId: String!, $limit:Int, $before:[Cursor!], $after:[Cursor!]) {
   user(userId:$userId) @connection(key: "userFollowedCollections", filter: ["userId"]){
     id
     collectionFollows(limit:$limit, before:$before, after:$after){

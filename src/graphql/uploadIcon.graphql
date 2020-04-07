@@ -1,10 +1,6 @@
-mutation uploadIconMut($contextId: ID!,$upload: Upload!) {
+mutation uploadIconMut($contextId: ID!,$upload: UploadInput!) {
    uploadIcon(contextId:$contextId, upload:$upload ){
         id
-        metadata {
-            heightPx
-            widthPx
-        }
         url 
     }
     
