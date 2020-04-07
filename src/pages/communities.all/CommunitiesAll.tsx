@@ -24,7 +24,7 @@ interface Props {
   loggedin: boolean;
 }
 
-export const CommunitiesAll: React.SFC<Props> = ({ loggedin }) => {
+export const CommunitiesAll: React.FC<Props> = ({ loggedin }) => {
   const {
     data,
     error,
@@ -84,8 +84,8 @@ export const CommunitiesAll: React.SFC<Props> = ({ loggedin }) => {
                     )}
                     <List>
                       {data &&
-                        data.communities.nodes &&
-                        data.communities.nodes.map((community, i) => {
+                        data.communities.edges &&
+                        data.communities.edges.map((community, i) => {
                           return (
                             community &&
                             /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */

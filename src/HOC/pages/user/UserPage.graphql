@@ -1,4 +1,4 @@
-#import "HOC/modules/HeroUser/HeroUser.graphql"
+
 
 fragment UserPageActivities on Activity {
   id
@@ -6,5 +6,20 @@ fragment UserPageActivities on Activity {
 
 fragment UserPageUserData on User {
   id
+  followedCollections{
+    totalCount
+  }
+  followedCommunities{
+    totalCount
+  }
+  followedUsers{
+    totalCount
+  }
+  outbox{
+    totalCount
+  }
+  website
+  name
+  
   ...HeroUserUserData
 }

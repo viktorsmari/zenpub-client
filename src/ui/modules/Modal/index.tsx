@@ -77,7 +77,7 @@ const Content = styled.div`
 export const Container = styled.div`
   font-family: ${props => props.theme.fontFamily};
 `;
-export const Actions = styled.div`
+export const Actions = styled(Box)`
   ${clearFix()};
   height: 60px;
   padding-top: 10px;

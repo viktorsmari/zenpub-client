@@ -14,15 +14,23 @@ import {
 } from 'ui/elements/Panel';
 import styled from 'ui/themes/styled';
 import Button from 'ui/elements/Button';
+import { Header } from 'ui/modules/Header';
+import { LoadMore } from 'ui/modules/Loadmore';
+import { FormikHook } from 'ui/@types/types';
 
 export interface Props {
   ActivitiesBox: JSX.Element;
   ResourcesBox: JSX.Element;
   HeroCollectionBox: JSX.Element;
+  FollowersBoxes: JSX.Element;
   ShareLinkModalPanel: React.ComponentType<{ done(): any }>;
   EditCollectionPanel: React.ComponentType<{ done(): any }>;
   UploadResourcePanel: React.ComponentType<{ done(): any }>;
   basePath: string;
+  collectionName: string;
+  loadMoreActivities: FormikHook;
+  loadMoreResources: FormikHook;
+  loadMoreFollowers: FormikHook;
 }
 
 export const Collection: React.FC<Props> = ({
@@ -31,8 +39,13 @@ export const Collection: React.FC<Props> = ({
   EditCollectionPanel,
   UploadResourcePanel,
   ActivitiesBox,
+  FollowersBoxes,
   ResourcesBox,
-  basePath
+  basePath,
+  collectionName,
+  loadMoreActivities,
+  loadMoreResources,
+  loadMoreFollowers
 }) => {
   const [isOpenEditCollection, setOpenEditCollection] = React.useState(false);
   const [isShareLinkOpen, setOpenShareLink] = React.useState(false);
@@ -52,14 +65,17 @@ export const Collection: React.FC<Props> = ({
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            {HeroCollectionBox}
-            <Menu basePath={basePath} />
+            <Header name={collectionName} />
             <Switch>
-              <Route exact path={`${basePath}/`}>
-                {ActivitiesBox}
+              <Route path={`${basePath}/followers`}>
+                <FollowersMenu basePath={`${basePath}/followers`} />
+                {FollowersBoxes}
+                <LoadMore LoadMoreFormik={loadMoreFollowers} />
               </Route>
-              <Route path={`${basePath}/resources`}>
+              <Route exact path={`${basePath}/`}>
                 <>
+                  {HeroCollectionBox}
+                  <Menu basePath={basePath} />
                   <WrapButton px={3} pb={3} mb={2}>
                     <Button
                       mr={2}
@@ -79,6 +95,15 @@ export const Collection: React.FC<Props> = ({
                     <UploadResourcePanel done={() => setUploadOpen(false)} />
                   )}
                   {ResourcesBox}
+                  <LoadMore LoadMoreFormik={loadMoreResources} />
+                </>
+              </Route>
+              <Route exact path={`${basePath}/activities`}>
+                <>
+                  {HeroCollectionBox}
+                  <Menu basePath={basePath} />
+                  {ActivitiesBox}
+                  <LoadMore LoadMoreFormik={loadMoreActivities} />
                 </>
               </Route>
             </Switch>
@@ -136,12 +161,22 @@ export const Collection: React.FC<Props> = ({
 };
 export default Collection;
 
+const FollowersMenu = ({ basePath }: { basePath: string }) => (
+  <MenuWrapper m={2} p={2} pt={0}>
+    <NavLink exact to={`${basePath}`}>
+      Followers
+    </NavLink>
+  </MenuWrapper>
+);
+
 const Menu = ({ basePath }: { basePath: string }) => (
   <MenuWrapper p={3} pt={3}>
     <NavLink exact to={`${basePath}`}>
-      Recent activities
+      Resources
     </NavLink>
-    <NavLink to={`${basePath}/resources`}>Resources</NavLink>
+    <NavLink exact to={`${basePath}/activities`}>
+      <Trans>Recent activity</Trans>
+    </NavLink>
   </MenuWrapper>
 );
 
@@ -170,8 +205,7 @@ const MenuWrapper = styled(Flex)`
   }
 `;
 export const HomeBox = styled(Flex)`
-  max-width: 600px;
-  width: 100%;
+  width: 600px;
   align-items: flex-start;
   flex-shrink: 1;
   flex-grow: 1;

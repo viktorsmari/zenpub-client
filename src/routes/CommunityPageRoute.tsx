@@ -5,6 +5,7 @@ import {
 } from 'HOC/pages/community/CommunityPage';
 import NotFound from 'pages/not-found/NotFound';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
+import { WithSidebarTemplate } from 'HOC/templates/WithSidebar/WithSidebar';
 
 interface CommunityPageRouter {
   communityId: string;
@@ -18,6 +19,8 @@ const CommunityPageRouter: FC<RouteComponentProps<CommunityPageRouter>> = ({
   const tab =
     maybeTabStr === 'collections'
       ? CommunityPageTab.Collections
+      : maybeTabStr === 'members'
+      ? CommunityPageTab.Members
       : maybeTabStr === 'discussions'
       ? CommunityPageTab.Discussions
       : !maybeTabStr
@@ -32,8 +35,11 @@ const CommunityPageRouter: FC<RouteComponentProps<CommunityPageRouter>> = ({
     tab,
     basePath: `/communities/${communityId}`
   };
-
-  return <CommunityPage {...props} />;
+  return (
+    <WithSidebarTemplate>
+      <CommunityPage {...props} />
+    </WithSidebarTemplate>
+  );
 };
 
 export const CommunityPageRoute: RouteProps = {

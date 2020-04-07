@@ -31,9 +31,8 @@ export const useReplyComment = (
 
   return useMemo(
     () => ({
-      reply,
-      mutating
+      reply
     }),
-    [reply, status]
+    [reply]
   );
 };

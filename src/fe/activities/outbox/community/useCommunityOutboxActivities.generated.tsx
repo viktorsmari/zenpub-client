@@ -1,8 +1,10 @@
 import * as Types from '../../../../graphql/types.generated';
 
-import { ActivityPreviewDataFragment } from '../../../../HOC/modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewFragment } from '../../../../HOC/modules/previews/activity/ActivityPreview.generated';
+import { FullPageInfoFragment } from '../../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
-import { ActivityPreviewDataFragmentDoc } from '../../../../HOC/modules/ActivityPreview/getActivityPreview.generated';
+import { FullPageInfoFragmentDoc } from '../../../../@fragments/misc.generated';
+import { ActivityPreviewFragmentDoc } from '../../../../HOC/modules/previews/activity/ActivityPreview.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -11,11 +13,12 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
+
 export type CommunityOutboxActivitiesQueryVariables = {
   communityId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Types.Scalars['String']>,
-  after?: Types.Maybe<Types.Scalars['String']>
+  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
+  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
 };
 
 
@@ -25,42 +28,46 @@ export type CommunityOutboxActivitiesQuery = (
     { __typename: 'Community' }
     & Pick<Types.Community, 'id'>
     & { outbox: Types.Maybe<(
-      { __typename: 'ActivitiesEdges' }
-      & { edges: Types.Maybe<Array<Types.Maybe<(
-        { __typename: 'ActivitiesEdge' }
-        & { node: (
-          { __typename: 'Activity' }
-          & CommunityOutboxActivityFragment
-        ) }
-      )>>> }
+      { __typename: 'ActivitiesPage' }
+      & Pick<Types.ActivitiesPage, 'totalCount'>
+      & { pageInfo: (
+        { __typename: 'PageInfo' }
+        & FullPageInfoFragment
+      ), edges: Array<(
+        { __typename: 'Activity' }
+        & CommunityOutboxActivityFragment
+      )> }
     )> }
   )> }
 );
 
 export type CommunityOutboxActivityFragment = (
   { __typename: 'Activity' }
-  & ActivityPreviewDataFragment
+  & ActivityPreviewFragment
 );
 
 export const CommunityOutboxActivityFragmentDoc = gql`
     fragment CommunityOutboxActivity on Activity {
-  ...ActivityPreviewData
+  ...ActivityPreview
 }
-    ${ActivityPreviewDataFragmentDoc}`;
+    ${ActivityPreviewFragmentDoc}`;
 export const CommunityOutboxActivitiesDocument = gql`
-    query communityOutboxActivities($communityId: String!, $limit: Int, $before: String, $after: String) {
-  community(communityId: $communityId) {
+    query communityOutboxActivities($communityId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
+  community(communityId: $communityId) @connection(key: "communityOutboxActivities", filter: ["communityId"]) {
     id
     outbox(limit: $limit, before: $before, after: $after) {
+      totalCount
+      pageInfo {
+        ...FullPageInfo
+      }
       edges {
-        node {
-          ...CommunityOutboxActivity
-        }
+        ...CommunityOutboxActivity
       }
     }
   }
 }
-    ${CommunityOutboxActivityFragmentDoc}`;
+    ${FullPageInfoFragmentDoc}
+${CommunityOutboxActivityFragmentDoc}`;
 export type CommunityOutboxActivitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CommunityOutboxActivitiesQuery, CommunityOutboxActivitiesQueryVariables>, 'query'> & ({ variables: CommunityOutboxActivitiesQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const CommunityOutboxActivitiesComponent = (props: CommunityOutboxActivitiesComponentProps) => (

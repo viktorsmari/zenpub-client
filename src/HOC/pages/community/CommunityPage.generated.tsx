@@ -1,23 +1,18 @@
 import * as Types from '../../../graphql/types.generated';
 
-import { ActivityPreviewDataFragment } from '../../modules/ActivityPreview/getActivityPreview.generated';
-import { CollectionPreviewDataFragment } from '../../modules/CollectionPreview/CollectionPreview.generated';
-import { ActivityPreviewCommentCtxExtendedFragment } from '../../modules/ActivityPreview/getActivityPreview.generated';
-import { ActivityPreviewExtendedThreadFragment } from '../../modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewFragment } from '../../modules/previews/activity/ActivityPreview.generated';
+import { ThreadPreviewFragment } from '../../modules/previews/thread/ThreadPreview.generated';
 import { HeroCommunityDataFragment } from '../../modules/HeroCommunity/HeroCommunity.generated';
 import gql from 'graphql-tag';
 import { HeroCommunityDataFragmentDoc } from '../../modules/HeroCommunity/HeroCommunity.generated';
-import { ActivityPreviewExtendedThreadFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
-import { ActivityPreviewCommentCtxExtendedFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
-import { CollectionPreviewDataFragmentDoc } from '../../modules/CollectionPreview/CollectionPreview.generated';
-import { ActivityPreviewDataFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
+import { ThreadPreviewFragmentDoc } from '../../modules/previews/thread/ThreadPreview.generated';
+import { ActivityPreviewFragmentDoc } from '../../modules/previews/activity/ActivityPreview.generated';
+import { CollectionPreviewFragment, CollectionPreviewFragmentDoc } from 'HOC/modules/previews/collection/CollectionPreview.generated';
 
 
 
 
-
-
-export type CommunityPageBaseFragment = (
+export type CommunityPageDataFragment = (
   { __typename: 'Community' }
   & Pick<Types.Community, 'id'>
   & { myFollow: Types.Maybe<(
@@ -29,33 +24,24 @@ export type CommunityPageBaseFragment = (
 
 export type CommunityPageThreadFragment = (
   { __typename: 'Thread' }
-  & { comments: Types.Maybe<(
-    { __typename: 'CommentsEdges' }
-    & { edges: Array<Types.Maybe<(
-      { __typename: 'CommentsEdge' }
-      & { node: (
-        { __typename: 'Comment' }
-        & ActivityPreviewCommentCtxExtendedFragment
-      ) }
-    )>> }
-  )> }
-  & ActivityPreviewExtendedThreadFragment
+  & Pick<Types.Thread, 'id'>
+  & ThreadPreviewFragment
 );
 
 export type CommunityPageCollectionBaseFragment = (
   { __typename: 'Collection' }
   & Pick<Types.Collection, 'id'>
-  & CollectionPreviewDataFragment
+  & CollectionPreviewFragment
 );
 
 export type CommunityPageActivityBaseFragment = (
   { __typename: 'Activity' }
   & Pick<Types.Activity, 'id'>
-  & ActivityPreviewDataFragment
+  & ActivityPreviewFragment
 );
 
-export const CommunityPageBaseFragmentDoc = gql`
-    fragment CommunityPageBase on Community {
+export const CommunityPageDataFragmentDoc = gql`
+    fragment CommunityPageData on Community {
   id
   myFollow {
     id
@@ -65,26 +51,19 @@ export const CommunityPageBaseFragmentDoc = gql`
     ${HeroCommunityDataFragmentDoc}`;
 export const CommunityPageThreadFragmentDoc = gql`
     fragment CommunityPageThread on Thread {
-  ...ActivityPreviewExtendedThread
-  comments(limit: 1) {
-    edges {
-      node {
-        ...ActivityPreviewCommentCtxExtended
-      }
-    }
-  }
+  id
+  ...ThreadPreview
 }
-    ${ActivityPreviewExtendedThreadFragmentDoc}
-${ActivityPreviewCommentCtxExtendedFragmentDoc}`;
+    ${ThreadPreviewFragmentDoc}`;
 export const CommunityPageCollectionBaseFragmentDoc = gql`
     fragment CommunityPageCollectionBase on Collection {
   id
-  ...CollectionPreviewData
+  ...CollectionPreview
 }
-    ${CollectionPreviewDataFragmentDoc}`;
+    ${CollectionPreviewFragmentDoc}`;
 export const CommunityPageActivityBaseFragmentDoc = gql`
     fragment CommunityPageActivityBase on Activity {
   id
-  ...ActivityPreviewData
+  ...ActivityPreview
 }
-    ${ActivityPreviewDataFragmentDoc}`;
+    ${ActivityPreviewFragmentDoc}`;

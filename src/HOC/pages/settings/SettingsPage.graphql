@@ -1,0 +1,12 @@
+fragment SettingsPageMe on Me{
+  user {
+    id
+    name
+    icon,
+    image,
+    location,
+    summary,
+    displayUsername,
+    website
+  }
+}

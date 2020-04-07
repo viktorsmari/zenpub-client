@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Box, Flex } from 'rebass/styled-components';
 import styled from '../../themes/styled';
 import { Menu } from 'react-feather';
-import { SearchBox } from 'react-instantsearch-dom';
+import { SearchBox } from 'HOC/modules/SearchBox/SearchBox';
 import media from 'styled-media-query';
 
 // import media from 'styled-media-query';

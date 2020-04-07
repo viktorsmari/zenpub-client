@@ -2,7 +2,7 @@ import { Trans } from '@lingui/macro';
 import {
   ActivityPreviewHOC
   /* ActivityPreviewCtx */
-} from 'HOC/modules/ActivityPreview/activityPreviewHOC';
+} from 'HOC/modules/previews/activity/ActivityPreview';
 import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import Empty from '../../components/elements/Empty';
@@ -16,7 +16,6 @@ import {
 } from '../../graphql/getMeInbox.generated';
 import { LikeMutationMutationOperation } from '../../graphql/like.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
-import { Text } from 'rebass/styled-components';
 import {
   Nav,
   NavItem,
@@ -26,6 +25,8 @@ import {
 } from 'ui/elements/Panel';
 import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
+import { Header } from 'ui/modules/Header';
+import { useMe } from 'fe/session/me';
 
 interface Props {}
 
@@ -65,20 +66,13 @@ const Home: React.FC<Props> = () => {
     },
     [refetch]
   );
-
+  const { me } = useMe();
   return (
     <MainContainer>
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <Text
-              mb={3}
-              sx={{ borderBottom: '1px solid #dadada' }}
-              p={3}
-              variant="suptitle"
-            >
-              <Trans>My MoodleNet timeline</Trans>
-            </Text>
+            <Header name="Timeline" />
 
             {error ? (
               <Empty>
@@ -86,55 +80,43 @@ const Home: React.FC<Props> = () => {
               </Empty>
             ) : loading ? (
               <Loader />
-            ) : (
-              data &&
-              data.me && (
-                /*   <ActivityPreviewCtx.Provider
-                  value={{
-                    refetchQueries: [{ query: GetMeInboxDocument, variables }]
-                  }}
-                > */
-                <div>
-                  {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                  data.me.user.inbox!.edges!.map(
-                    userActivityEdge =>
-                      userActivityEdge && (
-                        <ActivityPreviewHOC
-                          activityId={userActivityEdge.node.id}
-                          key={userActivityEdge.node.id}
-                        />
-                      )
-                  )}
-                  {/* data &&
-                          data.me && (
-                            <LoadMoreTimeline
-                              fetchMore={fetchMore}
-                              community={data.me.user}
-                            />
-                          ) */}
-                </div>
-                /*  </ActivityPreviewCtx.Provider> */
-              )
-            )}
+            ) : data?.me?.user.inbox?.edges ? (
+              <div>
+                {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                data.me.user.inbox!.edges!.map(
+                  userActivityEdge =>
+                    userActivityEdge && (
+                      <ActivityPreviewHOC
+                        activityId={userActivityEdge.id}
+                        key={userActivityEdge.id}
+                      />
+                    )
+                )}
+              </div>
+            ) : null}
           </Wrapper>
         </WrapperCont>
       </HomeBox>
       <WrapperPanel>
         <Panel>
           <PanelTitle fontSize={0} fontWeight={'bold'}>
-            <Trans>Browse Home instance</Trans>
+            <Trans>My MoodleNet</Trans>
           </PanelTitle>
           <Nav>
-            <NavItem mb={4} fontSize={1} fontWeight={'bold'}>
-              <NavLink to="/mycommunities">
-                <Trans>My communities</Trans>
-              </NavLink>
-            </NavItem>
-            <NavItem fontSize={1} fontWeight={'bold'}>
-              <NavLink to="/mycollections">
-                <Trans>My collections</Trans>
-              </NavLink>
-            </NavItem>
+            {me ? (
+              <>
+                <NavItem mb={4} fontSize={1} fontWeight={'bold'}>
+                  <NavLink to={`/user/${me.user.id}/communities`}>
+                    <Trans>Joined communities</Trans>
+                  </NavLink>
+                </NavItem>
+                <NavItem fontSize={1} fontWeight={'bold'}>
+                  <NavLink to={`/user/${me.user.id}/collections`}>
+                    <Trans>Followed collections</Trans>
+                  </NavLink>
+                </NavItem>
+              </>
+            ) : null}
           </Nav>
         </Panel>
       </WrapperPanel>

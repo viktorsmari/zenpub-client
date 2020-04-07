@@ -6,11 +6,11 @@
 #import "../HOC/modules/ActivityPreview/getActivityPreview.graphql"
 query getUser(
     $limitComm: Int,
-    $endComm: String,
+    $endComm: [Cursor],
     $limitColl: Int,
-    $endColl: String,
+    $endColl: [Cursor],
     $limitTimeline: Int,
-    $endTimeline: String
+    $endTimeline: [Cursor]
 ) {
     me {
         user {
@@ -18,16 +18,14 @@ query getUser(
             followedCommunities(limit: $limitComm, after: $endComm) {
                 pageInfo { startCursor endCursor }
                 edges {
-                    node {
-                        follow{
-                            id
-                            canonicalUrl
-                        }
-                        community {
-                            __typename
-                            ... on Community {
-                                ...BasicCommunity
-                            }
+                    follow{
+                        id
+                        canonicalUrl
+                    }
+                    community {
+                        __typename
+                        ... on Community {
+                            ...BasicCommunity
                         }
                     }
                 }
@@ -35,8 +33,7 @@ query getUser(
             outbox(limit: $limitTimeline, after: $endTimeline) {
                 pageInfo { startCursor endCursor }
                 edges {
-                    node {
-                        ...ActivityPreviewData
+                    ...ActivityPreview
                         # id
                         # canonicalUrl
                         # verb
@@ -51,22 +48,19 @@ query getUser(
                         #     ... on Collection { ...BasicCollection }
                         #     ... on Comment    { ...BasicCommentWithInReplyTo    }
                         # }
-                    }
                 }
             }
             followedCollections(limit: $limitColl, after: $endColl) {
                 pageInfo { startCursor endCursor }
                 edges {
-                    node {
-                        follow {
-                            id
-                            canonicalUrl
-                        }
-                        collection {
-                            __typename
-                            ... on Collection {
-                                ...BasicCollection
-                            }
+                    follow {
+                        id
+                        canonicalUrl
+                    }
+                    collection {
+                        __typename
+                        ... on Collection {
+                            ...BasicCollection
                         }
                     }
                 }

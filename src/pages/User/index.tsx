@@ -2,7 +2,7 @@
 
 import { Trans } from '@lingui/macro';
 import { useGetAgentQueryQuery } from 'graphql/getAgent.generated';
-import { ActivityPreviewHOC } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
+import { ActivityPreviewHOC } from 'HOC/modules/previews/activity/ActivityPreview';
 import * as React from 'react';
 import { TabPanel, Tabs } from 'react-tabs';
 import { Button } from 'rebass/styled-components';
@@ -43,7 +43,7 @@ interface Props {
   userId: string;
 }
 
-const CommunitiesFeatured: React.SFC<Props> = ({ userId }) => {
+const CommunitiesFeatured: React.FC<Props> = ({ userId }) => {
   const query = useGetAgentQueryQuery({
     variables: {
       userId: userId,
@@ -56,23 +56,20 @@ const CommunitiesFeatured: React.SFC<Props> = ({ userId }) => {
   const [follow, followStatus] = useFollowMutationMutation();
   const [unfollow, unfollowStatus] = useDeleteMutationMutation();
   const togglingFollow = followStatus.loading || unfollowStatus.loading;
-  const toggleFollow = React.useCallback(
-    () => {
-      if (!(!togglingFollow && query.data && query.data.user)) {
-        return;
-      }
-      if (query.data.user.myFollow) {
-        unfollow({
-          variables: { contextId: query.data.user.myFollow.id }
-        }).then(() => query.refetch());
-      } else {
-        follow({ variables: { contextId: query.data.user.id } }).then(() =>
-          query.refetch()
-        );
-      }
-    },
-    [query.data, togglingFollow]
-  );
+  const toggleFollow = React.useCallback(() => {
+    if (!(!togglingFollow && query.data && query.data.user)) {
+      return;
+    }
+    if (query.data.user.myFollow) {
+      unfollow({
+        variables: { contextId: query.data.user.myFollow.id }
+      }).then(() => query.refetch());
+    } else {
+      follow({ variables: { contextId: query.data.user.id } }).then(() =>
+        query.refetch()
+      );
+    }
+  }, [query.data, togglingFollow]);
   return (
     <MainContainer>
       <HomeBox>
@@ -94,7 +91,7 @@ const CommunitiesFeatured: React.SFC<Props> = ({ userId }) => {
                       <SuperTabList>
                         <SuperTab>
                           <h5>
-                            <Trans>Recent activities</Trans>
+                            <Trans>Recent activity</Trans>
                           </h5>
                         </SuperTab>
                         <SuperTab>
@@ -115,8 +112,8 @@ const CommunitiesFeatured: React.SFC<Props> = ({ userId }) => {
                             (t, i) =>
                               t && (
                                 <ActivityPreviewHOC
-                                  activityId={t.node.id}
-                                  key={t.node.id}
+                                  activityId={t.id}
+                                  key={t.id}
                                 />
                               )
                           )}
@@ -135,18 +132,16 @@ const CommunitiesFeatured: React.SFC<Props> = ({ userId }) => {
                                 edge && (
                                   <div key={i}>
                                     <CollectionPreview
-                                      icon={edge.node.collection.icon!}
-                                      name={edge.node.collection.name}
-                                      summary={edge.node.collection.summary!}
+                                      icon={edge.collection.icon!}
+                                      name={edge.collection.name}
+                                      summary={edge.collection.summary!}
                                       link={{
                                         url:
-                                          '/collections/' +
-                                          edge.node.collection.id,
+                                          '/collections/' + edge.collection.id,
                                         external: false
                                       }}
                                       totalResources={
-                                        edge.node.collection.resources!
-                                          .totalCount
+                                        edge.collection.resources!.totalCount
                                       }
                                     />
                                   </div>
@@ -172,33 +167,26 @@ const CommunitiesFeatured: React.SFC<Props> = ({ userId }) => {
                                 community && (
                                   <CommunityCard
                                     key={i}
-                                    summary={
-                                      community.node.community.summary || ''
-                                    }
-                                    title={community.node.community.name}
+                                    summary={community.community.summary || ''}
+                                    title={community.community.name}
                                     collectionsCount={
                                       /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                                      community.node.community.collections!
+                                      community.community.collections!
                                         .totalCount
                                     }
                                     threadsCount={
                                       /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                                      community.node.community.threads!
-                                        .totalCount
+                                      community.community.threads!.totalCount
                                     }
-                                    icon={community.node.community.icon || ''}
-                                    followed={
-                                      !!community.node.community.myFollow
-                                    }
-                                    id={community.node.community.id}
+                                    icon={community.community.icon || ''}
+                                    followed={!!community.community.myFollow}
+                                    id={community.community.id}
                                     externalId={
-                                      community.node.community.canonicalUrl ||
-                                      ''
+                                      community.community.canonicalUrl || ''
                                     }
                                     followersCount={
                                       /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                                      community.node.community.followers!
-                                        .totalCount
+                                      community.community.followers!.totalCount
                                     }
                                   />
                                 )

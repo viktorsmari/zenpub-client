@@ -1,0 +1,18 @@
+fragment FollowPreview on Follow{
+  id
+  context{
+    ...on Community {
+      ...CommunityPreview
+    }
+    ...on Collection {
+      ...CollectionPreview
+    }
+    ...on User {
+      ...UserPreview
+    }
+    ...on Thread {
+      ...ThreadPreview
+      # ...CommentPreviewThread
+    }
+  }
+}

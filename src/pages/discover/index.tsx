@@ -33,7 +33,7 @@ import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import {
   ActivityPreviewHOC
   /* ActivityPreviewCtx */
-} from 'HOC/modules/ActivityPreview/activityPreviewHOC';
+} from 'HOC/modules/previews/activity/ActivityPreview';
 
 interface Props {}
 
@@ -115,8 +115,8 @@ const Home: React.FC<Props> = props => {
                     activity =>
                       activity && (
                         <ActivityPreviewHOC
-                          activityId={activity.node.id}
-                          key={activity.node.id}
+                          activityId={activity.id}
+                          key={activity.id}
                         />
                       )
                   )}

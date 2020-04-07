@@ -1,31 +1,23 @@
-#import "HOC/modules/HeroCommunity/HeroCommunity.graphql"
-#import "HOC/modules/ActivityPreview/getActivityPreview.graphql"
-#import "HOC/modules/CollectionPreview/CollectionPreview.graphql"
 
-fragment CommunityPageBase on Community{
+
+
+fragment CommunityPageData on Community{
   id
   myFollow{id}
   ...HeroCommunityData
 }
 
 fragment CommunityPageThread on Thread {
-  ...ActivityPreviewExtendedThread
-  comments(limit:1){
-    edges{
-      node{
-        ...ActivityPreviewCommentCtxExtended
-        # createdAt
-      }
-    }
-  }
+  id
+  ...ThreadPreview
 }
 
 fragment CommunityPageCollectionBase on Collection{
   id
-  ...CollectionPreviewData
+  ...CollectionPreview
 }
 
 fragment CommunityPageActivityBase on Activity{
   id
-  ...ActivityPreviewData
+  ...ActivityPreview
 }

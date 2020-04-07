@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from 'react';
+import { useMemo } from 'react';
 import * as GQL from './me.generated';
 
 export const useMe = () => {
@@ -6,32 +6,43 @@ export const useMe = () => {
   const [loginMut, loginStatus] = GQL.useLoginMutation();
   const [logoutMut, logoutStatus] = GQL.useLogoutMutation();
 
-  const me = meQ.data?.me;
-  const isAdmin = !!me?.isInstanceAdmin;
+  return useMemo(() => {
+    const me = meQ.data?.me;
+    const isAdmin = !!me?.isInstanceAdmin;
 
-  const login = useCallback(
-    async (email: string, password: string) => {
+    const login = (email: string, password: string) => {
       if (loginStatus.loading || me?.user) {
         return;
       }
-      return loginMut({ variables: { email, password } });
-    },
-    [loginMut, loginStatus, me]
-  );
+      return loginMut({
+        variables: { email, password },
+        refetchQueries: [{ query: GQL.MeDocument }]
+      });
+    };
 
-  const logout = useCallback(async () => {
-    if (logoutStatus.loading || !me?.user) {
-      return;
-    }
-    return logoutMut();
-  }, [loginStatus, logoutStatus, me]);
+    const logout = () => {
+      if (logoutStatus.loading || !me?.user) {
+        return;
+      }
+      return logoutMut({
+        update: proxy => {
+          proxy.writeQuery<GQL.MeQuery>({
+            data: {
+              __typename: 'RootQueryType',
+              me: null
+            },
+            query: GQL.MeDocument
+          });
+        }
+      });
+    };
 
-  return useMemo(() => {
     return {
       me,
       isAdmin,
       login,
-      logout
+      logout,
+      loading: meQ.loading
     };
-  }, [me, isAdmin, login, logout]);
+  }, [meQ, loginStatus, logoutStatus]);
 };

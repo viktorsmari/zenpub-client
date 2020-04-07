@@ -3,62 +3,40 @@ import { PropsTable } from '@storybook/components';
 import { Community } from '.';
 import {recentActivitiesContext, collectionsContext, collectionPreviewContext, editProvider, heroContext, activityPreviewContext} from 'ui/mock/context'
 import {RecentActivitiesContext, CollectionsContext } from '.';
-import { CollectionPreviewContext, CollectionPreview } from 'ui/modules/CollectionPreview';
 import { HeroCommunity, Status, Props } from 'ui/modules/HeroCommunity';
 import { action } from '@storybook/addon-actions';
-import { ContextType, ContextVerb } from 'ui/modules/ActivityPreview/preview';
 import {ActivityPreview} from 'ui/modules/ActivityPreview'
 import { useFormik } from 'formik';
-// import {WithSidebar} from "ui/templates/withSidebar"
-// import {Sidebar} from 'ui/modules/Sidebar'
-// import {SidebarProps} from 'ui/modules/Sidebar/a.stories.mdx'
+import {Thread} from 'ui/modules/Previews/Thread'
+import {Collection} from 'ui/modules/Previews/Collection'
+import { Comment } from 'ui/modules/Previews/Comment';
 import {Box} from 'rebass'
-
-export const communityProps = {
-      community: {
-        status: Status.Loaded,
-        canModify: true,
-        following: true,
-        icon: 'https://home.next.moodle.net/uploads/01DZK8YWM9PZCDG9YP20509C73/triangles.jpeg',
-        name: 'Instructional Design in HE',
-        fullName: 'he@home.next.moodle.net',
-        summary: 'Come and share your top tips and resources for designing awesome learning experiences!',
-        totalMembers: 193,
-        toggleJoin: {
-          toggle: action('Unjoin !'),
-          isSubmitting: false
-        },
-        newThreadFormik: useFormik<{}>({
-          initialValues: {},
-          onSubmit: vals => {
-            action('submitting...')();
-            return new Promise(resolve =>
-              setTimeout(() => {
-                action('submitted...')();
-                resolve();
-              }, 2000)
-            );
-          }
-        }),
-        EditCommunityPanel: ({ done }) => (
-          <img
-            onClick={done}
-            src="https://via.placeholder.com/400x200.png?text=An editing panel"
-          />
-        )
+import {getHeroCommunityProps} from 'ui/mock/context'
+import {WithSidebar} from 'ui/templates/withSidebar'
+import {MainHeader} from 'ui/modules/MainHeader'
+import {Sidebar} from 'ui/modules/Sidebar'
+import {Input} from '@rebass/forms'
+const getActions = () => ({
+  FlagModal: () => {
+    const formik = useFormik<{ reason: '' }>({
+      initialValues: {
+        reason: ''
+      },
+      onSubmit: () => {
+        action('submit')();
+        return new Promise((resolve, reject) => {
+          setTimeout(resolve, 3000);
+        });
       }
+    });
+    const getFlagModalProps = {
+      formik,
+      flagId: '',
+      cancel: action('cancel')
     };
-
-export  const activityPreviewProps = {
-      status: Status.Loaded,
-      actor: {
-        icon: 'https://picsum.photos/80/80',
-  link: '1',
-  name: 'Ivan',
-  preferredUsername: 'tata'
+    return <FlagModal {...getFlagModalProps} />;
   },
-      actions: {
-      like: {
+  like: {
     totalLikes: 3,
     toggleLikeFormik: useFormik<{}>({
       initialValues: {},
@@ -75,7 +53,7 @@ export  const activityPreviewProps = {
     iLikeIt: true
   },
   reply: {
-    replyFormik: useFormik<{}>({
+    replyFormik: useFormik<{ replyMessage: String }>({
       initialValues: { replyMessage: '' },
       onSubmit: vals => {
         action(`submitting: ${vals.replyMessage}`)();
@@ -88,23 +66,28 @@ export  const activityPreviewProps = {
       }
     })
   }
-  },
-      createdAt: '29-01-2020',
-      context: {
-        link: 'https://picsum.photos/80/80',
-        verb: ContextVerb.Created,
-        type: ContextType.Comment,
-        content: 'I hitch hiked up to Alaska in the summer of 1992, the same year he did. He and I were the same exact age. Heck, we could have crossed paths in the youth hostel in Anchorage, or passed one another hitch hiking. Who knows. He died while still young and idealistic. A pure state.'
-      } /* ,
-      inReplyToCtx: {
-        link: 'https://picsum.photos/80/80',
-        actor: {
-        icon: 'https://picsum.photos/80/80',
+});
+const getActor = () => ({
+  icon: 'https://picsum.photos/80/80',
   link: '1',
-  name: 'Ivan',
-  preferredUsername: 'tata'
-  }
-      } */
+  name: 'Ivan'
+});
+export const activityPreviewProps = {
+      communityLink: 'communityLink',
+      communityName: 'communityName',
+      event: 'Created a comment',
+      preview: (
+        <Comment
+          {...getActions()}
+          content={
+            'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+          }
+        />
+      ),
+      status: Status.Loaded,
+      actor: getActor(),
+      createdAt: '2018-11-11',
+      link: 'https://picsum.photos/80/80'
     };
 
 
@@ -118,50 +101,155 @@ Let's define a story for the `community` page
 
 <Preview>
   <Story name="community page">
-     <Box sx={{margin: "0 auto", width: "fit-content"}}>
-    <Community {...{
-        newThreadFormik:null,
+    <WithSidebar 
+      HeaderBox={<MainHeader user={{
+        icon:'https://pbs.twimg.com/profile_images/1161428802091802627/O49Ggs-7_400x400.jpg',
+        name: '˗ˏˋ Doug Belshaw ˎˊ˗  🇪🇺 ☠️ ✊',
+        id: "/test"
+      }}
+      isLogged={true}
+      isOpen= {false}
+      Search={ <Input placeholder="Search..." />}
+      logout= {() => console.log(false)} />}
+    SidebarBox={<Sidebar 
+      status={Status.Loaded}
+      communities={[{
+        link: {
+          url: "string",
+          external: true,
+        },
+        name: "test",
+        icon: "",
+      }]}
+      user={{
+        icon:'https://pbs.twimg.com/profile_images/1161428802091802627/O49Ggs-7_400x400.jpg',
+        name: '˗ˏˋ Doug Belshaw ˎˊ˗  🇪🇺 ☠️ ✊',
+        id: "/test"
+      }}
+      isOpen= {false}
+      Search={ <input />}
+      logout= {() => console.log(false)}
+    />}>
+      <Community {...{
+        newThreadFormik: useFormik<{}>({
+          initialValues: { values: '' },
+          onSubmit: vals => {
+            action(`submitting: ${vals.values}`)();
+            return new Promise(resolve =>
+              setTimeout(() => {
+                action(`submitted: ${vals.values}`)();
+                resolve();
+              }, 2000)
+            );
+          }
+        }),
         ActivitiesBox: <React.Fragment>
           <ActivityPreview {...activityPreviewProps} key="1" />
           <ActivityPreview {...activityPreviewProps} key="2" />
           <ActivityPreview {...activityPreviewProps} key="3" />
         </React.Fragment>,
         CollectionsBox: <React.Fragment>
-          <CollectionPreview
+          <Box mb={2}>
+          <Collection
               key="1"
-              icon="https://i.picsum.photos/id/911/80/80.jpg"
-              name="Beatiful landscapes"
-              summary="There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle"
+              link={{url: "/", external: true}}
+              id={"1"}
+              icon={"https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png"}
+              name={"mantarai"}
+              summary={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
               totalResources={12}
-              link={{external:false,url:'#'}}
+              toggleFollowFormik = {useFormik<{}>({
+                initialValues: {},
+                onSubmit: vals => {
+                  action('submitting...')();
+                  return new Promise(resolve =>
+                    setTimeout(() => {
+                      action('submitted...')();
+                      resolve();
+                    }, 2000)
+                  );
+                }
+              })}
             />
-            <CollectionPreview
+            </Box>
+            <Box mb={2}>
+            <Collection
               key="2"
-              icon="https://i.picsum.photos/id/911/80/80.jpg"
-              name="Beatiful landscapes"
-              summary="There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle"
+              link={{url: "/", external: true}}
+              id={"1"}
+              icon={"https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png"}
+              name={"mantarai"}
+              summary={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
               totalResources={12}
-              link={{external:false,url:'#'}}
+              toggleFollowFormik = {useFormik<{}>({
+                initialValues: {},
+                onSubmit: vals => {
+                  action('submitting...')();
+                  return new Promise(resolve =>
+                    setTimeout(() => {
+                      action('submitted...')();
+                      resolve();
+                    }, 2000)
+                  );
+                }
+              })}
             />
-            <CollectionPreview
+            </Box>
+            <Box mb={2}>
+            <Collection
               key="3"
-              icon="https://i.picsum.photos/id/911/80/80.jpg"
-              name="Beatiful landscapes"
-              summary="There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle"
+              link={{url: "/", external: true}}
+              id={"1"}
+              icon={"https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png"}
+              name={"mantarai"}
+              summary={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
               totalResources={12}
-              link={{external:false,url:'#'}}
+              toggleFollowFormik = {useFormik<{}>({
+                initialValues: {},
+                onSubmit: vals => {
+                  action('submitting...')();
+                  return new Promise(resolve =>
+                    setTimeout(() => {
+                      action('submitted...')();
+                      resolve();
+                    }, 2000)
+                  );
+                }
+              })}
             />
+            </Box>
         </React.Fragment>,
-        HeroCommunityBox: (<HeroCommunity {...communityProps}/>),
+        HeroCommunityBox: (<HeroCommunity {...getHeroCommunityProps()}/>),
         basePath:"/",
         ThreadsBox: <React.Fragment>
-          <ActivityPreview {...activityPreviewProps} key="1" />
-          <ActivityPreview {...activityPreviewProps} key="2" />
-          <ActivityPreview {...activityPreviewProps} key="3" />
+          <Box mb={2}>
+          <Thread title="What do the avatars in the topic list mean?"
+        content={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
+        createdAt={"2019-11-09"}
+        totalReplies={"24"}
+        totalLikes={"17"}
+        members={["https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png", "https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png", "https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png"]} key="1" />
+         </Box>
+         <Box mb={2}>
+          <Thread title="What do the avatars in the topic list mean?"
+        content={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
+        createdAt={"2019-11-09"}
+        totalReplies={"24"}
+        totalLikes={"17"}
+        members={["https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png", "https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png", "https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png"]} key="2" />
+          </Box>
+          <Box mb={2}>
+          <Thread title="What do the avatars in the topic list mean?"
+        content={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
+        createdAt={"2019-11-09"}
+        totalReplies={"24"}
+        totalLikes={"17"}
+        members={["https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png", "https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png", "https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png"]} key="3" />
+       </Box>
         </React.Fragment>
         
     }} />
-    </Box>
+    </WithSidebar>
   </Story>
 </Preview>
 

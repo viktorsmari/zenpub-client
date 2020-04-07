@@ -31,17 +31,24 @@ const tt = {
 
 export interface Props {
   cancel(): any;
-  flagged: boolean;
-  formik: FormikHook<BasicCreateFlagFormValues>;
+  isFlagged: boolean;
+  flagFormik: FormikHook<BasicCreateFlagFormValues>;
+  unflagFormik: FormikHook;
 }
 
 export interface BasicCreateFlagFormValues {
   reason: string;
 }
 
-export const FlagModal: React.FC<Props> = ({ cancel, flagged, formik }) => {
+export const FlagModal: React.FC<Props> = ({
+  cancel,
+  flagFormik,
+  isFlagged,
+  unflagFormik
+}) => {
   const { i18n } = React.useContext(LocaleContext);
-  return !flagged ? (
+
+  return !isFlagged ? (
     <Container>
       <Header>
         <Heading m={2}>
@@ -53,23 +60,23 @@ export const FlagModal: React.FC<Props> = ({ cancel, flagged, formik }) => {
           <Textarea
             placeholder={i18n._(tt.placeholders.flag)}
             name="reason"
-            value={formik.values.reason}
-            onChange={formik.handleChange}
+            value={flagFormik.values.reason}
+            onChange={flagFormik.handleChange}
           />
-          <CounterChars>{200 - formik.values.reason.length}</CounterChars>
-          {formik.errors.reason && (
+          <CounterChars>{200 - flagFormik.values.reason.length}</CounterChars>
+          {flagFormik.errors.reason && (
             <AlertWrapper>
-              <Alert variant="bad">{formik.errors.reason}</Alert>
+              <Alert variant="bad">{flagFormik.errors.reason}</Alert>
             </AlertWrapper>
           )}
         </ContainerForm>
       </Row>
       <Actions>
         <SubmitButton
-          disabled={formik.isSubmitting}
+          disabled={flagFormik.isSubmitting}
           type="submit"
           style={{ marginLeft: '10px' }}
-          onClick={formik.submitForm}
+          onClick={flagFormik.submitForm}
         >
           <Trans>Send</Trans>
         </SubmitButton>
@@ -82,28 +89,29 @@ export const FlagModal: React.FC<Props> = ({ cancel, flagged, formik }) => {
     <Container>
       <Header>
         <Heading m={2}>
-          <Trans>Flagged</Trans>
+          <Trans>Unflag</Trans>
         </Heading>
       </Header>
       <Row>
         <ContainerForm>
-          <Trans>You have already flagged this item.</Trans>
+          <Trans>Are you sure you want to unflag this item?</Trans>
         </ContainerForm>
       </Row>
       <Actions>
-        {/* <Button
-              variant="primary"
-              onClick={undoflagItem}
-              style={{ marginLeft: '10px' }}
-            >
-              <Trans>Unflag</Trans>
-            </Button> 
-            <Button variant="outline" onClick={cancel}>
-              <Trans>Cancel</Trans>
-            </Button>*/}
-        <Button onClick={cancel}>
-          <Trans>OK</Trans>
+        <Button
+          disabled={unflagFormik.isSubmitting}
+          variant="primary"
+          onClick={unflagFormik.submitForm}
+          style={{ marginLeft: '10px' }}
+        >
+          <Trans>Unflag</Trans>
         </Button>
+        <Button variant="outline" onClick={cancel}>
+          <Trans>Cancel</Trans>
+        </Button>
+        {/* <Button onClick={cancel}>
+          <Trans>OK</Trans>
+        </Button> */}
       </Actions>
     </Container>
   );

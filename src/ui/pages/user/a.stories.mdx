@@ -7,6 +7,9 @@ import {ActivityPreview} from 'ui/modules/ActivityPreview'
 import {activityPreviewProps} from 'ui/pages/community/a.stories.mdx'
 import {ResourcePreview} from 'ui/modules/ResourcePreview'
 import {Box} from 'rebass'
+import { User as UserPreview } from 'ui/modules/Previews/User';
+import {Community} from 'ui/modules/Previews/Community';
+import {Collection} from 'ui/modules/Previews/Collection';
 
 <Meta title="Pages|User" component={User}/>
 
@@ -18,16 +21,81 @@ Let's define a story for the `User` page
   <Story name="User page">
     <Box sx={{margin: "0 auto", width: "fit-content"}}>
         <User 
+        totalCommunities={"23"}
+        totalActivities={"23"}
+        userLink=""
+        userName="˗ˏˋ Doug Belshaw ˎˊ˗ 🇪🇺 ☠️ ✊"
+        totalCollections={"23"}
+        totalUsers={"493"}
         HeroUserBox={(<HeroUser {...getHeroUserProps()} />)}
         ActivityBoxes={[
             (<ActivityPreview {...activityPreviewProps} key="1" />),
             (<ActivityPreview {...activityPreviewProps} key="2" />),
             (<ActivityPreview {...activityPreviewProps} key="3" />),
         ]}
-        ResourceBoxes={[
-            (<ResourcePreview {...getResourcePreviewProps()} key="1"/>),
-            (<ResourcePreview {...getResourcePreviewProps()} key="2"/>),
-            (<ResourcePreview {...getResourcePreviewProps()} key="3"/>),
+        CommunityBoxes={[
+            (<Community
+                id={"1"}
+                icon={"https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png"}
+                name={"mantarai"}
+                summary={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
+                followersCount={12}
+                collectionsCount={6}
+                followed={true}
+                threadsCount={3}
+            />),
+           (<Community
+                id={"2"}
+                icon={"https://reflowproject.eu/wp-content/uploads/2020/01/blog-glance.jpg"}
+                name={"The Lounge"}
+                summary={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
+                followersCount={12}
+                collectionsCount={6}
+                followed={true}
+                threadsCount={3}
+            />),
+            (<Community
+                id={"3"}
+                icon={"https://reflowproject.eu/wp-content/uploads/2018/11/cocreation-picture.jpg"}
+                name={"OER Projects"}
+                summary={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
+                followersCount={12}
+                collectionsCount={6}
+                followed={true}
+                threadsCount={3}
+            />),
+        ]}
+        CollectionsBoxes={[
+            (<Collection
+                link={{url: "/", external: true}}
+                id={"1"}
+                icon={"https://picsum.photos/536/354"}
+                name={"mantarai"}
+                summary={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
+                totalResources={12}
+            />),
+           (<Collection
+                link={{url: "/", external: true}}
+                id={"1"}
+                icon={"https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png"}
+                name={"mantarai"}
+                summary={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
+                totalResources={12}
+            />),
+            (<Collection
+                link={{url: "/", external: true}}
+                id={"1"}
+                icon={"https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png"}
+                name={"mantarai"}
+                summary={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
+                totalResources={12}
+            />),
+        ]}
+        UserBoxes={[
+            ( <UserPreview />),
+            ( <UserPreview />),
+            ( <UserPreview />),
+            ( <UserPreview />),   
         ]}
         basePath="/"
         />

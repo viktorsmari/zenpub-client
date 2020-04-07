@@ -7,6 +7,7 @@ import {ActivityPreview} from 'ui/modules/ActivityPreview'
 import {activityPreviewProps} from 'ui/pages/community/a.stories.mdx'
 import {ResourcePreview} from 'ui/modules/ResourcePreview'
 import {Box} from 'rebass'
+import {Header} from 'ui/modules/Header'
 
 <Meta title="Pages|Profile" component={User}/>
 
@@ -18,6 +19,12 @@ Let's define a story for the `Profile` page
   <Story name="Profile page">
     <Box sx={{margin: "0 auto", width: "fit-content"}}>
         <User 
+        userLink="www.ivanminutillo.com"
+        totalCommunities={"23"}
+        totalActivities={"23"}
+        totalCollections={"23"}
+        totalUsers={"493"}
+        userName="˗ˏˋ Doug Belshaw ˎˊ˗ 🇪🇺 ☠️ ✊"
         HeroUserBox={(<HeroUser {...getHeroUserProps2()} />)}
         ActivityBoxes={[
             (<ActivityPreview {...activityPreviewProps} key="1" />),

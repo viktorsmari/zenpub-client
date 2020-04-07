@@ -1,9 +1,8 @@
+import { isOptimisticId, OPTIMISTIC_ID_STRING } from 'fe/lib/helpers/mutations';
 import * as GQL from 'fe/mutation/follow/useMutateFollow.generated';
-import { isOptimisticId, OPTIMISTIC_ID_STRING } from 'fe/util';
-import { GetSidebarQueryDocument } from 'graphql/getSidebar.generated';
+import Maybe from 'graphql/tsutils/Maybe';
 import { Collection, Community, Thread, User } from 'graphql/types.generated';
 import { useCallback, useMemo } from 'react';
-import Maybe from 'graphql/tsutils/Maybe';
 
 type Context = Collection | Community | Thread | User;
 
@@ -30,11 +29,12 @@ export const useFollowContext = (ctx: UseFollowContext) => {
           id,
           followerCount || 0
         ),
-        refetchQueries: [
-          ...(__typename === 'Community'
-            ? [{ query: GetSidebarQueryDocument }]
-            : [])
-        ]
+        refetchQueries:
+          __typename === 'Community'
+            ? ['myFollowedCommunities', 'communityFollowers']
+            : __typename === 'Collection'
+            ? ['collectionFollowers']
+            : []
       });
     } else {
       return isOptimisticId(myFollow.id)
@@ -48,11 +48,12 @@ export const useFollowContext = (ctx: UseFollowContext) => {
               id,
               followerCount || 1
             ),
-            refetchQueries: [
-              ...(__typename === 'Community'
-                ? [{ query: GetSidebarQueryDocument }]
-                : [])
-            ]
+            refetchQueries:
+              __typename === 'Community'
+                ? ['myFollowedCommunities', 'communityFollowers']
+                : __typename === 'Collection'
+                ? ['collectionFollowers']
+                : []
           });
     }
   }, [ctx, mutating]);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SFC } from 'react';
+import { FC } from 'react';
 import { Trans } from '@lingui/macro';
 import { Tabs, TabPanel } from 'react-tabs';
 import styled from '../../themes/styled';
@@ -15,22 +15,22 @@ import {
   OverlayTab
 } from '../communities.community/Community';
 import CollectionModal from '../../components/elements/CollectionModal';
-import UploadResourcePanelHOC from '../../HOC/modules/AddResource/UploadResourceHOC';
+import { AddResourceHOC } from '../../HOC/modules/AddResource/addResourceHOC';
 
 import { BasicCollectionFragment } from '../../graphql/fragments/basicCollection.generated';
-import { BasicResourcesEdgesFragment } from '../../graphql/fragments/basicResourcesEdges.generated';
+import { BasicResourcesPageFragment } from '../../graphql/fragments/basicResourcesEdges.generated';
 // import CollectionsLoadMore from 'src/components/elements/Loadmore/followingCollections';
 
 interface Props {
   collection: BasicCollectionFragment;
   community_name: string;
-  resources: BasicResourcesEdgesFragment;
+  resources: BasicResourcesPageFragment;
   fetchMore: any;
   type: string;
   addNewResource: any;
 }
 
-const CommunityPage: SFC<Props> = ({
+const CommunityPage: FC<Props> = ({
   collection,
   community_name,
   resources
@@ -57,16 +57,15 @@ const CommunityPage: SFC<Props> = ({
               }}
             >
               <Wrapper>
-                {collection.community &&
-                  !collection.community.myFollow && (
-                    <Footer>
-                      <Trans>Join the community</Trans>{' '}
-                      <Link to={'/communities/' + collection.community.id}>
-                        {community_name}
-                      </Link>{' '}
-                      <Trans>to add a resource</Trans>
-                    </Footer>
-                  )}
+                {collection.community && !collection.community.myFollow && (
+                  <Footer>
+                    <Trans>Join the community</Trans>{' '}
+                    <Link to={'/communities/' + collection.community.id}>
+                      {community_name}
+                    </Link>{' '}
+                    <Trans>to add a resource</Trans>
+                  </Footer>
+                )}
                 <CollectionList>
                   {collection.community && collection.community.myFollow ? (
                     isOpen ? (
@@ -109,7 +108,7 @@ const CommunityPage: SFC<Props> = ({
                   ) : null}
 
                   {isUploadOpen && (
-                    <UploadResourcePanelHOC
+                    <AddResourceHOC
                       done={() => onUploadOpen(false)}
                       collectionId={collection.id}
                     />
@@ -120,12 +119,12 @@ const CommunityPage: SFC<Props> = ({
                         edge && (
                           <ResourceCard
                             key={i}
-                            icon={edge.node.icon}
-                            title={edge.node.name}
-                            summary={edge.node.summary}
-                            url={edge.node.url}
-                            id={edge.node.id}
-                            myFlag={edge.node.myFlag}
+                            icon={edge.icon}
+                            title={edge.name}
+                            summary={edge.summary}
+                            url={edge.url}
+                            id={edge.id}
+                            myFlag={edge.myFlag}
                           />
                         )
                     )

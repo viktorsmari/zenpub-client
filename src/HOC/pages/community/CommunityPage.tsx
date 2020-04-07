@@ -4,18 +4,23 @@ import { useCommunity } from 'fe/community/useCommunity';
 import { useCommunityThreads } from 'fe/thread/community/useCommunityThreads';
 import { useFormik } from 'formik';
 import { Community } from 'graphql/types.generated';
-import { ActivityPreviewHOC } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
-import { CollectionPreviewHOC } from 'HOC/modules/CollectionPreview/CollectionPreviewHOC';
+import { ActivityPreviewHOC } from 'HOC/modules/previews/activity/ActivityPreview';
 import { CreateCollectionPanelHOC } from 'HOC/modules/CreateCollectionPanel/createCollectionPanelHOC';
 import { HeroCommunity } from 'HOC/modules/HeroCommunity/HeroCommuity';
-import React, { SFC, useMemo } from 'react';
+import { CollectionPreviewHOC } from 'HOC/modules/previews/collection/CollectionPreview';
+import { ThreadPreviewHOC } from 'HOC/modules/previews/thread/ThreadPreview';
+import React, { FC, useMemo } from 'react';
 import CommunityPageUI, { Props as CommunityProps } from 'ui/pages/community';
-import { ThreadActivityMock } from './ThreadActivityMock';
+import { Box } from 'rebass/styled-components';
+import { useHistory } from 'react-router-dom';
+import { useCommunityFollowers } from 'fe/user/followers/community/useCommunityFollowers';
+import { UserPreviewHOC } from 'HOC/modules/previews/user/UserPreview';
 
 export enum CommunityPageTab {
   Activities,
   Collections,
-  Discussions
+  Discussions,
+  Members
 }
 export interface CommunityPage {
   communityId: Community['id'];
@@ -23,24 +28,28 @@ export interface CommunityPage {
   basePath: string;
 }
 
-export const CommunityPage: SFC<CommunityPage> = ({
-  communityId,
-  basePath
-}) => {
+export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
   const { community, createThread } = useCommunity(communityId);
-  const { threads } = useCommunityThreads(communityId);
-  const { collections } = useCommunityCollections(communityId);
-  const { activities } = useCommunityOutboxActivities(communityId);
-
+  const { communityFollowersPage } = useCommunityFollowers(communityId);
+  const { threadsPage } = useCommunityThreads(communityId);
+  const { collectionsPage } = useCommunityCollections(communityId);
+  const { activitiesPage } = useCommunityOutboxActivities(communityId);
+  const history = useHistory();
   const newThreadFormik = useFormik<{ text: string }>({
     initialValues: { text: '' },
-    onSubmit: ({ text }) => createThread(text)
+    onSubmit: ({ text }) =>
+      createThread(text).then(newThreadId =>
+        history.push(`/thread/${newThreadId}`)
+      )
   });
 
   const communityPageProps = useMemo<CommunityProps | null>(() => {
+    if (!community) {
+      return null;
+    }
     const ActivitiesBox = (
       <>
-        {activities.map(activity => (
+        {activitiesPage.edges.map(activity => (
           <ActivityPreviewHOC activityId={activity.id} key={activity.id} />
         ))}
       </>
@@ -48,21 +57,40 @@ export const CommunityPage: SFC<CommunityPage> = ({
 
     const CollectionsBox = (
       <>
-        {collections.map(collection => (
-          <CollectionPreviewHOC id={collection.id} key={collection.id} />
+        {collectionsPage.edges.map(collection => (
+          <Box m={2} key={collection.id}>
+            <CollectionPreviewHOC
+              collectionId={collection.id}
+              key={collection.id}
+            />
+          </Box>
         ))}
       </>
     );
 
     const ThreadsBox = (
       <>
-        {threads.map(thread => (
-          <ThreadActivityMock thread={thread} key={thread.id} />
+        {threadsPage.edges.map(thread => (
+          <Box mx={3} my={1} key={thread.id}>
+            <ThreadPreviewHOC threadId={thread.id} />
+          </Box>
         ))}
       </>
     );
 
-    const HeroCommunityBox = <HeroCommunity communityId={communityId} />;
+    const FollowersBoxes: CommunityProps['FollowersBoxes'] = (
+      <>
+        {communityFollowersPage.edges.map(
+          follow =>
+            follow.creator && (
+              <UserPreviewHOC key={follow.id} userId={follow.creator?.userId} />
+            )
+        )}
+      </>
+    );
+    const HeroCommunityBox = (
+      <HeroCommunity communityId={communityId} basePath={basePath} />
+    );
 
     const CreateCollectionPanel: CommunityProps['CreateCollectionPanel'] = ({
       done
@@ -71,16 +99,19 @@ export const CommunityPage: SFC<CommunityPage> = ({
     const myFollow = community?.myFollow;
 
     const props: CommunityProps = {
+      FollowersBoxes,
+      communityName: community.name,
       CreateCollectionPanel,
       ActivitiesBox,
       CollectionsBox,
       HeroCommunityBox,
       ThreadsBox,
       basePath,
+      isJoined: !!myFollow,
       newThreadFormik: myFollow ? newThreadFormik : null
     };
     return props;
-  }, [community, newThreadFormik, basePath]);
+  }, [community, newThreadFormik, basePath, communityFollowersPage]);
 
   return communityPageProps && <CommunityPageUI {...communityPageProps} />;
 };

@@ -1,0 +1,37 @@
+fragment ActivityPreview on Activity {
+  id
+  verb
+  createdAt
+  user {
+      icon
+      userId: id 
+      userName: name
+      canonicalUrl
+  }
+  context {
+    ...on Community {
+      ...CommunityPreview
+    }
+    ...on Collection {
+      ...CollectionPreview
+    }
+    ...on Resource {
+      ...ResourcePreview
+    }
+    ...on User {
+      ...UserPreview
+    }
+    ...on Comment {
+      ...CommentPreview
+    }
+    ... on Flag{
+      ...FlagPreview
+    }
+    ... on Like{
+      ...LikePreview
+    }
+    ... on Follow{
+      ...FollowPreview
+    }
+  }
+}

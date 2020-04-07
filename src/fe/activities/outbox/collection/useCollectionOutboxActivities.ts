@@ -1,31 +1,43 @@
 import { Collection } from 'graphql/types.generated';
 import { useMemo } from 'react';
 import * as GQL from './useCollectionOutboxActivities.generated';
+import { usePage } from 'fe/lib/helpers/usePage';
+import { DEFAULT_PAGE_SIZE } from 'mn-constants';
 
 export const useCollectionOutboxActivities = (
   collectionId: Collection['id']
 ) => {
   const collectionQ = GQL.useCollectionOutboxActivitiesQuery({
-    variables: { collectionId }
+    variables: { collectionId, limit: DEFAULT_PAGE_SIZE }
   });
 
-  const activities = useMemo<GQL.CollectionOutboxActivityFragment[]>(
-    () =>
-      (collectionQ.data?.collection?.outbox?.edges || [])
-        .map(activityEdge => activityEdge && activityEdge.node)
-        .filter(
-          (
-            maybeActivity
-          ): maybeActivity is GQL.CollectionOutboxActivityFragment =>
-            !!maybeActivity
-        ),
-    [collectionQ]
+  const activitiesPage = usePage(
+    collectionQ.data?.collection?.outbox,
+    ({ cursor, update }) => {
+      return collectionQ.fetchMore({
+        variables: { ...cursor, collectionId, limit: DEFAULT_PAGE_SIZE },
+        updateQuery: (prev, { fetchMoreResult }) => {
+          return fetchMoreResult?.collection?.outbox && prev.collection?.outbox
+            ? {
+                ...fetchMoreResult,
+                collection: {
+                  ...fetchMoreResult.collection,
+                  outbox: update({
+                    prev: prev.collection.outbox,
+                    fetched: fetchMoreResult.collection.outbox
+                  })
+                }
+              }
+            : prev;
+        }
+      });
+    }
   );
 
   return useMemo(
     () => ({
-      activities
+      activitiesPage
     }),
-    [activities]
+    [activitiesPage]
   );
 };

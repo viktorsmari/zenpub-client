@@ -1,8 +1,8 @@
 import * as Types from './types.generated';
 
-import { ActivityPreviewDataFragment } from '../HOC/modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewFragment } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import gql from 'graphql-tag';
-import { ActivityPreviewDataFragmentDoc } from '../HOC/modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewFragmentDoc } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -13,7 +13,7 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type LocalActivitiesQueryVariables = {
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  end?: Types.Maybe<Types.Scalars['String']>
+  end?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
 };
 
 
@@ -22,25 +22,21 @@ export type LocalActivitiesQuery = (
   & { instance: Types.Maybe<(
     { __typename: 'Instance' }
     & { outbox: Types.Maybe<(
-      { __typename: 'ActivitiesEdges' }
-      & { pageInfo: Types.Maybe<(
+      { __typename: 'ActivitiesPage' }
+      & { pageInfo: (
         { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-      )>, edges: Types.Maybe<Array<Types.Maybe<(
-        { __typename: 'ActivitiesEdge' }
-        & Pick<Types.ActivitiesEdge, 'cursor'>
-        & { node: (
-          { __typename: 'Activity' }
-          & ActivityPreviewDataFragment
-        ) }
-      )>>> }
+      ), edges: Array<(
+        { __typename: 'Activity' }
+        & ActivityPreviewFragment
+      )> }
     )> }
   )> }
 );
 
 
 export const LocalActivitiesDocument = gql`
-    query localActivities($limit: Int, $end: String) {
+    query localActivities($limit: Int, $end: [Cursor]) {
   instance {
     outbox(limit: $limit, after: $end) {
       pageInfo {
@@ -48,15 +44,12 @@ export const LocalActivitiesDocument = gql`
         endCursor
       }
       edges {
-        cursor
-        node {
-          ...ActivityPreviewData
-        }
+        ...ActivityPreview
       }
     }
   }
 }
-    ${ActivityPreviewDataFragmentDoc}`;
+    ${ActivityPreviewFragmentDoc}`;
 export type LocalActivitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<LocalActivitiesQuery, LocalActivitiesQueryVariables>, 'query'>;
 
     export const LocalActivitiesComponent = (props: LocalActivitiesComponentProps) => (

@@ -1,7 +1,9 @@
 import * as Types from '../../../graphql/types.generated';
 
 import { CommunityPageThreadFragment } from '../../../HOC/pages/community/CommunityPage.generated';
+import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
+import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { CommunityPageThreadFragmentDoc } from '../../../HOC/pages/community/CommunityPage.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -11,11 +13,12 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
+
 export type CommunityThreadsQueryVariables = {
   communityId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Types.Scalars['String']>,
-  after?: Types.Maybe<Types.Scalars['String']>
+  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
+  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
 };
 
 
@@ -25,14 +28,15 @@ export type CommunityThreadsQuery = (
     { __typename: 'Community' }
     & Pick<Types.Community, 'id'>
     & { threads: Types.Maybe<(
-      { __typename: 'ThreadsEdges' }
-      & { edges: Types.Maybe<Array<Types.Maybe<(
-        { __typename: 'ThreadsEdge' }
-        & { node: (
-          { __typename: 'Thread' }
-          & CommunityThreadFragment
-        ) }
-      )>>> }
+      { __typename: 'ThreadsPage' }
+      & Pick<Types.ThreadsPage, 'totalCount'>
+      & { pageInfo: (
+        { __typename: 'PageInfo' }
+        & FullPageInfoFragment
+      ), edges: Array<(
+        { __typename: 'Thread' }
+        & CommunityThreadFragment
+      )> }
     )> }
   )> }
 );
@@ -48,19 +52,22 @@ export const CommunityThreadFragmentDoc = gql`
 }
     ${CommunityPageThreadFragmentDoc}`;
 export const CommunityThreadsDocument = gql`
-    query communityThreads($communityId: String!, $limit: Int, $before: String, $after: String) {
-  community(communityId: $communityId) {
+    query communityThreads($communityId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
+  community(communityId: $communityId) @connection(key: "communityThreads", filter: ["communityId"]) {
     id
     threads(limit: $limit, before: $before, after: $after) {
+      totalCount
+      pageInfo {
+        ...FullPageInfo
+      }
       edges {
-        node {
-          ...CommunityThread
-        }
+        ...CommunityThread
       }
     }
   }
 }
-    ${CommunityThreadFragmentDoc}`;
+    ${FullPageInfoFragmentDoc}
+${CommunityThreadFragmentDoc}`;
 export type CommunityThreadsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CommunityThreadsQuery, CommunityThreadsQueryVariables>, 'query'> & ({ variables: CommunityThreadsQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const CommunityThreadsComponent = (props: CommunityThreadsComponentProps) => (

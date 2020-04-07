@@ -2,7 +2,7 @@
 // import { DateTime } from 'luxon';
 // import { clearFix } from 'polished';
 // import * as React from 'react';
-// import { SFC } from 'react';
+// import { FC } from 'react';
 // import { Star } from 'react-feather';
 // import { NavLink } from 'react-router-dom';
 // import { Box, Flex, Text } from 'rebass/styled-components';
@@ -21,7 +21,7 @@
 //   node: any;
 // }
 
-// const Item: SFC<Props> = ({ user, node, userpage }) => {
+// const Item: FC<Props> = ({ user, node, userpage }) => {
 //   const [iLikeIt, setiLikeIt] = React.useState(false);
 //   const [like] = useLikeMutationMutation();
 //   const [undoLike] = useDeleteMutation();
@@ -34,13 +34,13 @@
 //   );
 //   return (
 //     <FeedItem>
-//       {node.activityType === 'CreateComment' && node.object.inReplyTo ? (
-//         <NavigateToThread to={`/thread/${node.object.inReplyTo.id}`} />
-//       ) : node.activityType === 'CreateComment' ||
-//       node.activityType === 'LikeComment' ? (
-//         <NavigateToThread to={`/thread/${node.object.id}`} />
+//       {activityType === 'CreateComment' && object.inReplyTo ? (
+//         <NavigateToThread to={`/thread/${object.inReplyTo.id}`} />
+//       ) : activityType === 'CreateComment' ||
+//       activityType === 'LikeComment' ? (
+//         <NavigateToThread to={`/thread/${object.id}`} />
 //       ) : null}
-//       {node.activityType === 'LikeComment' ? (
+//       {activityType === 'LikeComment' ? (
 //         <Box>
 //           <SubText mb={2}>
 //             <Star size="20" color="#ca8f04" />
@@ -51,28 +51,28 @@
 //           </SubText>
 //           <MemberWrapped>
 //             <MemberItem mr={2}>
-//               <Img src={node.object.author.icon} />
+//               <Img src={object.author.icon} />
 //             </MemberItem>
 //             <MemberInfo>
 //               <Name>
-//                 <Link to={'/user/' + node.object.author.id}>
-//                   {node.object.author.name}{' '}
-//                   {node.object.author.preferredUsername ? (
+//                 <Link to={'/user/' + object.author.id}>
+//                   {object.author.name}{' '}
+//                   {object.author.preferredUsername ? (
 //                     <Username ml={2}>
-//                       @{node.object.author.preferredUsername}
+//                       @{object.author.preferredUsername}
 //                     </Username>
 //                   ) : null}
 //                 </Link>
 //                 <Spacer mr={2}>·</Spacer>{' '}
-//                 <Date>{DateTime.fromISO(node.published).toRelative()}</Date>
+//                 <Date>{DateTime.fromISO(published).toRelative()}</Date>
 //               </Name>
 //               <Comment>
-//                 {node.object.content && node.object.content.length > 320
-//                   ? removeMd(node.object.content).replace(
+//                 {object.content && object.content.length > 320
+//                   ? removeMd(object.content).replace(
 //                       /^([\s\S]{316}[^\s]*)[\s\S]*/,
 //                       '$1...'
 //                     )
-//                   : removeMd(node.object.content)}
+//                   : removeMd(object.content)}
 //               </Comment>
 //             </MemberInfo>
 //           </MemberWrapped>
@@ -94,7 +94,7 @@
 //                   ) : null}
 //                 </Link>
 //                 <Spacer mr={2}>·</Spacer>{' '}
-//                 <Date>{DateTime.fromISO(node.published).toRelative()}</Date>
+//                 <Date>{DateTime.fromISO(published).toRelative()}</Date>
 //               </Name>
 //             ) : (
 //               <Name>
@@ -102,141 +102,141 @@
 //               </Name>
 //             )}
 
-//             {node.activityType === 'JoinCommunity' ? (
+//             {activityType === 'JoinCommunity' ? (
 //               <SubText>
 //                 <Trans>joined</Trans>
-//                 <NavLink to={`/communities/${node.object.id}`}>
+//                 <NavLink to={`/communities/${object.id}`}>
 //                   {' '}
-//                   @{node.object.name}
+//                   @{object.name}
 //                 </NavLink>
 //               </SubText>
-//             ) : node.activityType === 'CreateComment' ? (
+//             ) : activityType === 'CreateComment' ? (
 //               <>
-//                 {node.object.inReplyTo !== null ? (
+//                 {object.inReplyTo !== null ? (
 //                   <InReply my={2}>
 //                     <MemberWrapped>
 //                       <MemberItem className={'miniavatar'} mr={2}>
-//                         <Img src={node.object.inReplyTo.author.icon} />
+//                         <Img src={object.inReplyTo.author.icon} />
 //                       </MemberItem>
 //                       <MemberInfo>
 //                         <Name>
 //                           <Link
-//                             to={'/user/' + node.object.inReplyTo.author.id}
+//                             to={'/user/' + object.inReplyTo.author.id}
 //                           >
-//                             {node.object.inReplyTo.author.name}
+//                             {object.inReplyTo.author.name}
 //                           </Link>
 //                           <Spacer mr={2}>·</Spacer>{' '}
 //                           <Date>
-//                             {DateTime.fromISO(node.published).toRelative()}
+//                             {DateTime.fromISO(published).toRelative()}
 //                           </Date>
 //                         </Name>
 //                         <Comment>
-//                           {node.object.inReplyTo.content &&
-//                           node.object.inReplyTo.content.length > 320
-//                             ? removeMd(node.object.inReplyTo.content).replace(
+//                           {object.inReplyTo.content &&
+//                           object.inReplyTo.content.length > 320
+//                             ? removeMd(object.inReplyTo.content).replace(
 //                                 /^([\s\S]{316}[^\s]*)[\s\S]*/,
 //                                 '$1...'
 //                               )
-//                             : removeMd(node.object.inReplyTo.content)}
+//                             : removeMd(object.inReplyTo.content)}
 //                         </Comment>
 //                       </MemberInfo>
 //                     </MemberWrapped>
 //                   </InReply>
 //                 ) : null}
 //                 <Comment>
-//                   {node.object.content && node.object.content.length > 320
-//                     ? removeMd(node.object.content).replace(
+//                   {object.content && object.content.length > 320
+//                     ? removeMd(object.content).replace(
 //                         /^([\s\S]{316}[^\s]*)[\s\S]*/,
 //                         '$1...'
 //                       )
-//                     : removeMd(node.object.content)}
+//                     : removeMd(object.content)}
 //                 </Comment>
 //               </>
-//             ) : node.activityType === 'UpdateCommunity' ? (
+//             ) : activityType === 'UpdateCommunity' ? (
 //               <SubText mt={1}>
 //                 <Trans>updated</Trans>{' '}
 //                 <NavLink
 //                   style={{ marginLeft: '4px' }}
-//                   to={`/communities/${node.object.id}`}
+//                   to={`/communities/${object.id}`}
 //                 >
-//                   @{node.object.name}
+//                   @{object.name}
 //                 </NavLink>
 //               </SubText>
-//             ) : node.activityType === 'UpdateCollection' ? (
+//             ) : activityType === 'UpdateCollection' ? (
 //               <SubText mt={1}>
 //                 <Trans>updated</Trans>{' '}
 //                 <NavLink
 //                   style={{ marginLeft: '4px' }}
-//                   to={`/collections/${node.object.id}`}
+//                   to={`/collections/${object.id}`}
 //                 >
-//                   +{node.object.name}
+//                   +{object.name}
 //                 </NavLink>
 //               </SubText>
-//             ) : node.activityType === 'FollowCollection' ? (
+//             ) : activityType === 'FollowCollection' ? (
 //               <SubText mt={1}>
 //                 <Trans>followed</Trans>
 //                 <NavLink
 //                   style={{ marginLeft: '4px' }}
-//                   to={`/collections/${node.object.id}`}
+//                   to={`/collections/${object.id}`}
 //                 >
-//                   +{node.object.name}
+//                   +{object.name}
 //                 </NavLink>
 //               </SubText>
-//             ) : node.activityType === 'CreateResource' ? (
+//             ) : activityType === 'CreateResource' ? (
 //               <Box>
 //                 <SubText mt={1}>
 //                   <Trans>added a new resource</Trans> <Trans>in</Trans>{' '}
 //                   <NavLink
-//                     to={`/collections/${node.object.collection.id}`}
+//                     to={`/collections/${object.collection.id}`}
 //                   >
-//                     +{node.object.collection.name}
+//                     +{object.collection.name}
 //                   </NavLink>
 //                 </SubText>
 //                 <Preview
-//                   icon={node.object.icon}
-//                   title={node.object.name}
-//                   summary={node.object.summary}
-//                   url={`/collections/${node.object.collection.id}`}
+//                   icon={object.icon}
+//                   title={object.name}
+//                   summary={object.summary}
+//                   url={`/collections/${object.collection.id}`}
 //                 />
 //               </Box>
-//             ) : node.activityType === 'CreateCollection' ? (
+//             ) : activityType === 'CreateCollection' ? (
 //               <Box>
 //                 <SubText mt={1}>
 //                   <Trans>created a new collection</Trans>{' '}
-//                   <NavLink to={`/collections/${node.object.id}`}>
-//                     +{node.object.name}
+//                   <NavLink to={`/collections/${object.id}`}>
+//                     +{object.name}
 //                   </NavLink>
 //                 </SubText>
 //                 <Preview
-//                   icon={node.object.icon}
-//                   title={node.object.name}
-//                   summary={node.object.summary}
-//                   url={`/collections/${node.object.id}`}
+//                   icon={object.icon}
+//                   title={object.name}
+//                   summary={object.summary}
+//                   url={`/collections/${object.id}`}
 //                 />
 //               </Box>
-//             ) : node.activityType === 'CreateCommunity' ? (
+//             ) : activityType === 'CreateCommunity' ? (
 //               <Box>
 //                 <SubText mt={1}>
 //                   <Trans>created a new community</Trans>{' '}
-//                   <NavLink to={`/communities/${node.object.id}`}>
-//                     @{node.object.name}
+//                   <NavLink to={`/communities/${object.id}`}>
+//                     @{object.name}
 //                   </NavLink>
 //                 </SubText>
 //                 <Preview
-//                   icon={node.object.icon}
-//                   title={node.object.name}
-//                   summary={node.object.summary}
-//                   url={`/communities/${node.object.id}`}
+//                   icon={object.icon}
+//                   title={object.name}
+//                   summary={object.summary}
+//                   url={`/communities/${object.id}`}
 //                 />
 //               </Box>
 //             ) : null}
 
-//             {node.activityType === 'CreateComment' ? (
+//             {activityType === 'CreateComment' ? (
 //               <Actions
-//                 totalReplies={node.object.replies.totalCount as number}
-//                 totalLikes={node.object.likers.totalCount as number}
-//                 comment={node.object}
-//                 toggleLike={toggleLike(node.object.id)}
+//                 totalReplies={object.replies.totalCount as number}
+//                 totalLikes={object.likers.totalCount as number}
+//                 comment={object}
+//                 toggleLike={toggleLike(object.id)}
 //                 iLikeIt={iLikeIt}
 //               />
 //             ) : null}

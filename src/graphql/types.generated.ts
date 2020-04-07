@@ -9,20 +9,24 @@ export type Scalars = {
   Boolean: boolean,
   Int: number,
   Float: number,
+  /** 
+ * An opaque position marker for pagination. Paginated queries return
+   * a PageInfo struct with start and end cursors (which are actually
+   * lists of Cursor for ...reasons...). You can then issue queries
+   * requesting results `before` the `start` or `after` the `end`
+   * cursors to request the previous or next page respectively.
+   * 
+   * Is actually a string or integer. May be extended in future.
+ **/
+  Cursor: any,
   /** Represents an uploaded file. */
   Upload: any,
 };
 
-export type ActivitiesEdge = {
-   __typename?: 'ActivitiesEdge',
-  cursor: Scalars['String'],
-  node: Activity,
-};
-
-export type ActivitiesEdges = {
-   __typename?: 'ActivitiesEdges',
-  edges?: Maybe<Array<Maybe<ActivitiesEdge>>>,
-  pageInfo?: Maybe<PageInfo>,
+export type ActivitiesPage = {
+   __typename?: 'ActivitiesPage',
+  edges: Array<Activity>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
@@ -76,11 +80,11 @@ export type Collection = {
   /** A preferred username + the host domain */
   displayUsername: Scalars['String'],
   /** Flags users have made about the collection, most recently created first */
-  flags?: Maybe<FlagsEdges>,
+  flags?: Maybe<FlagsPage>,
   /** Total number of followers, including those we can't see */
   followerCount?: Maybe<Scalars['Int']>,
   /** Subscriptions users have to the collection */
-  followers?: Maybe<FollowsEdges>,
+  followers?: Maybe<FollowsPage>,
   /** An avatar url */
   icon?: Maybe<Scalars['String']>,
   /** An instance-local UUID identifying the user */
@@ -98,8 +102,8 @@ export type Collection = {
   lastActivity: Scalars['String'],
   /** Total number of likers, including those we can't see */
   likerCount?: Maybe<Scalars['Int']>,
-  /** Likes users have given the collection */
-  likes?: Maybe<LikesEdges>,
+  /** Likes users have made of the collection */
+  likers?: Maybe<LikesPage>,
   /** The current user's flag of the collection, if any */
   myFlag?: Maybe<Flag>,
   /** The current user's follow of this collection, if any */
@@ -109,20 +113,20 @@ export type Collection = {
   /** A name field */
   name: Scalars['String'],
   /** Activities on the collection, most recent first */
-  outbox?: Maybe<ActivitiesEdges>,
+  outbox?: Maybe<ActivitiesPage>,
   /** An instance-unique identifier shared with users and communities */
   preferredUsername: Scalars['String'],
   /** The total number of resources in the collection, including private ones */
   resourceCount?: Maybe<Scalars['Int']>,
   /** The resources in the collection, most recently created last */
-  resources?: Maybe<ResourcesEdges>,
+  resources?: Maybe<ResourcesPage>,
   /** Possibly biographical information */
   summary?: Maybe<Scalars['String']>,
   /** 
  * The threads created on the collection, most recently created
    * first. Does not include threads created on resources.
  **/
-  threads?: Maybe<ThreadsEdges>,
+  threads?: Maybe<ThreadsPage>,
   /** When the collection was last updated */
   updatedAt: Scalars['String'],
 };
@@ -130,48 +134,48 @@ export type Collection = {
 
 /** A collection is the home of resources and discussion threads within a community */
 export type CollectionFlagsArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** A collection is the home of resources and discussion threads within a community */
 export type CollectionFollowersArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** A collection is the home of resources and discussion threads within a community */
-export type CollectionLikesArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+export type CollectionLikersArgs = {
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** A collection is the home of resources and discussion threads within a community */
 export type CollectionOutboxArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** A collection is the home of resources and discussion threads within a community */
 export type CollectionResourcesArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** A collection is the home of resources and discussion threads within a community */
 export type CollectionThreadsArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
@@ -182,30 +186,16 @@ export type CollectionInput = {
   summary?: Maybe<Scalars['String']>,
 };
 
-export type CollectionsEdge = {
-   __typename?: 'CollectionsEdge',
-  cursor: Scalars['String'],
-  node: Collection,
-};
-
-export type CollectionsEdges = {
-   __typename?: 'CollectionsEdges',
-  edges: Array<Maybe<CollectionsEdge>>,
-  pageInfo?: Maybe<PageInfo>,
-  totalCount: Scalars['Int'],
-};
-
-export type CollectionsNodes = {
-   __typename?: 'CollectionsNodes',
-  nodes?: Maybe<Array<Maybe<Collection>>>,
-  pageInfo?: Maybe<PageInfo>,
+export type CollectionsPage = {
+   __typename?: 'CollectionsPage',
+  edges: Array<Collection>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
 export type CollectionUpdateInput = {
   icon?: Maybe<Scalars['String']>,
   name: Scalars['String'],
-  preferredUsername: Scalars['String'],
   summary?: Maybe<Scalars['String']>,
 };
 
@@ -220,7 +210,7 @@ export type Comment = {
   /** The user who created this comment */
   creator?: Maybe<User>,
   /** Flags users have made about the comment, most recently created first */
-  flags?: Maybe<FlagsEdges>,
+  flags?: Maybe<FlagsPage>,
   /** An instance-local UUID identifying the thread */
   id: Scalars['String'],
   /** The id of the comment this one was a reply to */
@@ -234,7 +224,9 @@ export type Comment = {
   /** Total number of likers, including those we can't see */
   likerCount?: Maybe<Scalars['Int']>,
   /** Users who like the comment, most recently liked first */
-  likes?: Maybe<LikesEdges>,
+  likers?: Maybe<LikesPage>,
+  /** The current user's flag of this comment, if any */
+  myFlag?: Maybe<Flag>,
   /** The current user's like of this comment, if any */
   myLike?: Maybe<Like>,
   /** The thread this comment is part of */
@@ -245,15 +237,15 @@ export type Comment = {
 
 
 export type CommentFlagsArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
-export type CommentLikesArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+export type CommentLikersArgs = {
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
@@ -261,23 +253,17 @@ export type CommentInput = {
   content: Scalars['String'],
 };
 
-export type CommentsEdge = {
-   __typename?: 'CommentsEdge',
-  cursor: Scalars['String'],
-  node: Comment,
-};
-
-export type CommentsEdges = {
-   __typename?: 'CommentsEdges',
-  edges: Array<Maybe<CommentsEdge>>,
-  pageInfo?: Maybe<PageInfo>,
+export type CommentsPage = {
+   __typename?: 'CommentsPage',
+  edges: Array<Comment>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
-export type CommunitiesNodes = {
-   __typename?: 'CommunitiesNodes',
-  nodes?: Maybe<Array<Maybe<Community>>>,
-  pageInfo?: Maybe<PageInfo>,
+export type CommunitiesPage = {
+   __typename?: 'CommunitiesPage',
+  edges: Array<Community>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
@@ -288,7 +274,7 @@ export type Community = {
   /** The total number of collections in the community, including private ones */
   collectionCount?: Maybe<Scalars['Int']>,
   /** The communities a user has joined, most recently joined first */
-  collections?: Maybe<CollectionsEdges>,
+  collections?: Maybe<CollectionsPage>,
   /** When the community was created */
   createdAt: Scalars['String'],
   /** The user who created the community */
@@ -296,11 +282,11 @@ export type Community = {
   /** A preferred username + the host domain */
   displayUsername: Scalars['String'],
   /** Flags users have made about the community, most recently created first */
-  flags?: Maybe<FlagsEdges>,
+  flags?: Maybe<FlagsPage>,
   /** Total number of followers, including those we can't see */
   followerCount?: Maybe<Scalars['Int']>,
   /** Users following the community, most recently followed first */
-  followers?: Maybe<FollowsEdges>,
+  followers?: Maybe<FollowsPage>,
   /** An avatar url */
   icon?: Maybe<Scalars['String']>,
   /** An instance-local UUID identifying the user */
@@ -318,8 +304,10 @@ export type Community = {
    * updated or a thread or a comment was created or updated
  **/
   lastActivity: Scalars['String'],
-  /** Total number of likers, including those we can't see */
+  /** Total number of likes, including those we can't see */
   likerCount?: Maybe<Scalars['Int']>,
+  /** Likes users have given the community */
+  likers?: Maybe<LikesPage>,
   /** The current user's flag of the community, if any */
   myFlag?: Maybe<Flag>,
   /** The current user's follow of the community, if any */
@@ -329,7 +317,7 @@ export type Community = {
   /** A name field */
   name: Scalars['String'],
   /** Activities in the community, most recently created first */
-  outbox?: Maybe<ActivitiesEdges>,
+  outbox?: Maybe<ActivitiesPage>,
   /** An instance-unique identifier shared with users and collections */
   preferredUsername: Scalars['String'],
   /** Possibly biographical information */
@@ -339,43 +327,50 @@ export type Community = {
    * order. Does not include threads started on collections or
    * resources
  **/
-  threads?: Maybe<ThreadsEdges>,
+  threads?: Maybe<ThreadsPage>,
   /** When the community was last updated */
   updatedAt: Scalars['String'],
 };
 
 
 export type CommunityCollectionsArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 export type CommunityFlagsArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 export type CommunityFollowersArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  limit?: Maybe<Scalars['Int']>
+};
+
+
+export type CommunityLikersArgs = {
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 export type CommunityOutboxArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 export type CommunityThreadsArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
@@ -393,6 +388,7 @@ export type CommunityUpdateInput = {
   name: Scalars['String'],
   summary?: Maybe<Scalars['String']>,
 };
+
 
 /** A thing that can be deleted */
 export type DeleteContext = Collection | Comment | Community | Feature | Flag | Follow | Like | Resource | Thread | User;
@@ -417,16 +413,10 @@ export type Feature = {
 /** A thing that can be featured */
 export type FeatureContext = Collection | Community;
 
-export type FeaturesEdge = {
-   __typename?: 'FeaturesEdge',
-  cursor: Scalars['String'],
-  node: Feature,
-};
-
-export type FeaturesEdges = {
-   __typename?: 'FeaturesEdges',
-  edges: Array<Maybe<FeaturesEdge>>,
-  pageInfo?: Maybe<PageInfo>,
+export type FeaturesPage = {
+   __typename?: 'FeaturesPage',
+  edges: Array<Feature>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
@@ -497,16 +487,10 @@ export type Flag = {
 /** A thing that can be flagged */
 export type FlagContext = Collection | Comment | Community | Resource | User;
 
-export type FlagsEdge = {
-   __typename?: 'FlagsEdge',
-  cursor: Scalars['String'],
-  node: Flag,
-};
-
-export type FlagsEdges = {
-   __typename?: 'FlagsEdges',
-  edges: Array<Maybe<FlagsEdge>>,
-  pageInfo?: Maybe<PageInfo>,
+export type FlagsPage = {
+   __typename?: 'FlagsPage',
+  edges: Array<Flag>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
@@ -540,29 +524,17 @@ export type FollowedCollection = {
   follow: Follow,
 };
 
-export type FollowedCollectionsEdge = {
-   __typename?: 'FollowedCollectionsEdge',
-  cursor: Scalars['String'],
-  node: FollowedCollection,
-};
-
-export type FollowedCollectionsEdges = {
-   __typename?: 'FollowedCollectionsEdges',
-  edges: Array<Maybe<FollowedCollectionsEdge>>,
-  pageInfo?: Maybe<PageInfo>,
+export type FollowedCollectionsPage = {
+   __typename?: 'FollowedCollectionsPage',
+  edges: Array<FollowedCollection>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
-export type FollowedCommunitiesEdge = {
-   __typename?: 'FollowedCommunitiesEdge',
-  cursor: Scalars['String'],
-  node: FollowedCommunity,
-};
-
-export type FollowedCommunitiesEdges = {
-   __typename?: 'FollowedCommunitiesEdges',
-  edges: Array<Maybe<FollowedCommunitiesEdge>>,
-  pageInfo?: Maybe<PageInfo>,
+export type FollowedCommunitiesPage = {
+   __typename?: 'FollowedCommunitiesPage',
+  edges: Array<FollowedCommunity>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
@@ -578,46 +550,34 @@ export type FollowedUser = {
   user: User,
 };
 
-export type FollowedUsersEdge = {
-   __typename?: 'FollowedUsersEdge',
-  cursor: Scalars['String'],
-  node: FollowedUser,
-};
-
-export type FollowedUsersEdges = {
-   __typename?: 'FollowedUsersEdges',
-  edges: Array<Maybe<FollowedUsersEdge>>,
-  pageInfo?: Maybe<PageInfo>,
+export type FollowedUsersPage = {
+   __typename?: 'FollowedUsersPage',
+  edges: Array<FollowedUser>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
-export type FollowsEdge = {
-   __typename?: 'FollowsEdge',
-  cursor: Scalars['String'],
-  node: Follow,
-};
-
-export type FollowsEdges = {
-   __typename?: 'FollowsEdges',
-  edges: Array<Maybe<FollowsEdge>>,
-  pageInfo?: Maybe<PageInfo>,
+export type FollowsPage = {
+   __typename?: 'FollowsPage',
+  edges: Array<Follow>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
 export type Instance = {
    __typename?: 'Instance',
   description?: Maybe<Scalars['String']>,
-  featuredCollections?: Maybe<FeaturesEdges>,
-  featuredCommunities?: Maybe<FeaturesEdges>,
+  featuredCollections?: Maybe<FeaturesPage>,
+  featuredCommunities?: Maybe<FeaturesPage>,
   hostname: Scalars['String'],
   /** A list of public activity on the local instance, most recent first */
-  outbox?: Maybe<ActivitiesEdges>,
+  outbox?: Maybe<ActivitiesPage>,
 };
 
 
 export type InstanceOutboxArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
@@ -645,16 +605,10 @@ export type Like = {
 /** A thing which can be liked */
 export type LikeContext = Collection | Comment | Community | Resource | User;
 
-export type LikesEdge = {
-   __typename?: 'LikesEdge',
-  cursor: Scalars['String'],
-  node: Like,
-};
-
-export type LikesEdges = {
-   __typename?: 'LikesEdges',
-  edges: Array<Maybe<LikesEdge>>,
-  pageInfo?: Maybe<PageInfo>,
+export type LikesPage = {
+   __typename?: 'LikesPage',
+  edges: Array<Like>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
@@ -678,10 +632,10 @@ export type Me = {
 /** Cursors for pagination */
 export type PageInfo = {
    __typename?: 'PageInfo',
-  endCursor?: Maybe<Scalars['String']>,
-  hasNextPage?: Maybe<Scalars['Boolean']>,
-  hasPrevPage?: Maybe<Scalars['Boolean']>,
-  startCursor?: Maybe<Scalars['String']>,
+  endCursor?: Maybe<Array<Scalars['Cursor']>>,
+  hasNextPage: Scalars['Boolean'],
+  hasPreviousPage: Scalars['Boolean'],
+  startCursor?: Maybe<Array<Scalars['Cursor']>>,
 };
 
 export type RegistrationInput = {
@@ -700,6 +654,8 @@ export type RegistrationInput = {
 
 export type Resource = {
    __typename?: 'Resource',
+  /** The original author */
+  author?: Maybe<Scalars['String']>,
   /** A url for the user, may be to a remote instance */
   canonicalUrl?: Maybe<Scalars['String']>,
   /** The collection this resource is a part of */
@@ -709,7 +665,7 @@ export type Resource = {
   /** The user who created the resource */
   creator?: Maybe<User>,
   /** Flags users have made about the resource, most recently created first */
-  flags?: Maybe<FlagsEdges>,
+  flags?: Maybe<FlagsPage>,
   /** An avatar url */
   icon?: Maybe<Scalars['String']>,
   /** An instance-local UUID identifying the user */
@@ -722,8 +678,10 @@ export type Resource = {
   isPublic: Scalars['Boolean'],
   /** What license is it available under? */
   license?: Maybe<Scalars['String']>,
+  /** Total number of likers, including those we can't see */
+  likerCount?: Maybe<Scalars['Int']>,
   /** Users who like the resource, most recently liked first */
-  likes?: Maybe<LikesEdges>,
+  likers?: Maybe<LikesPage>,
   /** The current user's flag of the resource, if any */
   myFlag?: Maybe<Flag>,
   /** The current user's like of the resource, if any */
@@ -740,19 +698,20 @@ export type Resource = {
 
 
 export type ResourceFlagsArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
-export type ResourceLikesArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+export type ResourceLikersArgs = {
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 export type ResourceInput = {
+  author?: Maybe<Scalars['String']>,
   icon?: Maybe<Scalars['String']>,
   license?: Maybe<Scalars['String']>,
   name: Scalars['String'],
@@ -760,16 +719,10 @@ export type ResourceInput = {
   url?: Maybe<Scalars['String']>,
 };
 
-export type ResourcesEdge = {
-   __typename?: 'ResourcesEdge',
-  cursor: Scalars['String'],
-  node: Resource,
-};
-
-export type ResourcesEdges = {
-   __typename?: 'ResourcesEdges',
-  edges: Array<Maybe<ResourcesEdge>>,
-  pageInfo?: Maybe<PageInfo>,
+export type ResourcesPage = {
+   __typename?: 'ResourcesPage',
+  edges: Array<Resource>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
@@ -789,6 +742,8 @@ export type RootMutationType = {
   createFlag?: Maybe<Flag>,
   /** Follow a community, collection or thread returning the follow */
   createFollow?: Maybe<Follow>,
+  /** Follow a community, collection or a user by their canonical url returning the follow */
+  createFollowByUrl?: Maybe<Follow>,
   /** Like a comment, collection, or resource returning the like */
   createLike?: Maybe<Like>,
   /** Reply to an existing comment in a thread */
@@ -809,8 +764,6 @@ export type RootMutationType = {
   deleteSession?: Maybe<Scalars['Boolean']>,
   /** Fetch metadata from webpage */
   fetchWebMetadata?: Maybe<WebMetadata>,
-  /** Follow a community, collection or a user by their canonical url returning the follow */
-  followRemoteActor?: Maybe<Follow>,
   /** Reset password */
   resetPassword?: Maybe<AuthPayload>,
   /** Reset password request */
@@ -873,6 +826,11 @@ export type RootMutationTypeCreateFollowArgs = {
 };
 
 
+export type RootMutationTypeCreateFollowByUrlArgs = {
+  url: Scalars['String']
+};
+
+
 export type RootMutationTypeCreateLikeArgs = {
   contextId: Scalars['String']
 };
@@ -919,11 +877,6 @@ export type RootMutationTypeDeleteSelfArgs = {
 
 
 export type RootMutationTypeFetchWebMetadataArgs = {
-  url: Scalars['String']
-};
-
-
-export type RootMutationTypeFollowRemoteActorArgs = {
   url: Scalars['String']
 };
 
@@ -993,14 +946,14 @@ export type RootMutationTypeUploadResourceArgs = {
 export type RootQueryType = {
    __typename?: 'RootQueryType',
   activity?: Maybe<Activity>,
-  /** Get a collection */
+  /** Get a collection by id */
   collection?: Maybe<Collection>,
   /** Get list of collections, most recent activity first */
-  collections: CollectionsNodes,
+  collections: CollectionsPage,
   /** Get a comment by its id */
   comment?: Maybe<Comment>,
   /** Get list of communities, most followed first */
-  communities: CommunitiesNodes,
+  communities: CommunitiesPage,
   /** Get a community */
   community?: Maybe<Community>,
   feature?: Maybe<Feature>,
@@ -1035,8 +988,8 @@ export type RootQueryTypeCollectionArgs = {
 
 
 export type RootQueryTypeCollectionsArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
@@ -1047,8 +1000,8 @@ export type RootQueryTypeCommentArgs = {
 
 
 export type RootQueryTypeCommunitiesArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
@@ -1103,7 +1056,7 @@ export type Thread = {
   /** A url for the user, may be to a remote instance */
   canonicalUrl?: Maybe<Scalars['String']>,
   /** Comments in the thread, most recently created first */
-  comments?: Maybe<CommentsEdges>,
+  comments?: Maybe<CommentsPage>,
   /** The object the thread is attached to */
   context?: Maybe<ThreadContext>,
   /** When the thread was created */
@@ -1111,7 +1064,7 @@ export type Thread = {
   /** Total number of followers, including those we can't see */
   followerCount?: Maybe<Scalars['Int']>,
   /** Users following the collection, most recently followed first */
-  followers?: Maybe<FollowsEdges>,
+  followers?: Maybe<FollowsPage>,
   /** An instance-local UUID identifying the thread */
   id: Scalars['String'],
   /** Whether an instance admin has hidden the thread */
@@ -1131,32 +1084,26 @@ export type Thread = {
 
 /** A thread is essentially a list of comments */
 export type ThreadCommentsArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** A thread is essentially a list of comments */
 export type ThreadFollowersArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 /** The thing the comment is about */
 export type ThreadContext = Collection | Community | Flag | Resource;
 
-export type ThreadsEdge = {
-   __typename?: 'ThreadsEdge',
-  cursor: Scalars['String'],
-  node: Thread,
-};
-
-export type ThreadsEdges = {
-   __typename?: 'ThreadsEdges',
-  edges?: Maybe<Array<Maybe<ThreadsEdge>>>,
-  pageInfo?: Maybe<PageInfo>,
+export type ThreadsPage = {
+   __typename?: 'ThreadsPage',
+  edges: Array<Thread>,
+  pageInfo: PageInfo,
   totalCount: Scalars['Int'],
 };
 
@@ -1181,21 +1128,21 @@ export type User = {
   /** A url for the user, may be to a remote instance */
   canonicalUrl?: Maybe<Scalars['String']>,
   /** Comments the user has made, most recently created first */
-  comments?: Maybe<CommentsEdges>,
+  comments?: Maybe<CommentsPage>,
   /** When the user signed up */
   createdAt: Scalars['String'],
   /** A preferred username + the host domain */
   displayUsername: Scalars['String'],
   /** The collections a user is following, most recently followed first */
-  followedCollections?: Maybe<FollowedCollectionsEdges>,
+  followedCollections?: Maybe<FollowedCollectionsPage>,
   /** The communities a user is following, most recently followed first */
-  followedCommunities?: Maybe<FollowedCommunitiesEdges>,
+  followedCommunities?: Maybe<FollowedCommunitiesPage>,
   /** The users a user is following, most recently followed first */
-  followedUsers?: Maybe<FollowedUsersEdges>,
+  followedUsers?: Maybe<FollowedUsersPage>,
   /** Total number of followers, including those we can't see */
   followerCount?: Maybe<Scalars['Int']>,
   /** Subscriptions users have to the collection */
-  followers?: Maybe<FollowsEdges>,
+  followers?: Maybe<FollowsPage>,
   /** An avatar url */
   icon?: Maybe<Scalars['String']>,
   /** An instance-local UUID identifying the user */
@@ -1206,7 +1153,7 @@ export type User = {
  * Activities of others the user is following, most recently created
    * first. Only available to the current user under `me`
  **/
-  inbox?: Maybe<ActivitiesEdges>,
+  inbox?: Maybe<ActivitiesPage>,
   /** Whether an instance admin has disabled the user's account */
   isDisabled: Scalars['Boolean'],
   /** Whether the user is local to the instance */
@@ -1215,10 +1162,14 @@ export type User = {
   isPublic: Scalars['Boolean'],
   /** The last time the user did anything */
   lastActivity?: Maybe<Scalars['String']>,
+  /** Total number of likes, including those we can't see */
+  likeCount?: Maybe<Scalars['Int']>,
   /** Total number of likers, including those we can't see */
   likerCount?: Maybe<Scalars['Int']>,
   /** The likes a user has created */
-  likes?: Maybe<LikesEdges>,
+  likers?: Maybe<LikesPage>,
+  /** The likes a user has created */
+  likes?: Maybe<LikesPage>,
   /** Free text */
   location?: Maybe<Scalars['String']>,
   /** The current user's flag of this user, if any */
@@ -1230,7 +1181,7 @@ export type User = {
   /** A name field */
   name?: Maybe<Scalars['String']>,
   /** Activities of the user, most recently created first */
-  outbox?: Maybe<ActivitiesEdges>,
+  outbox?: Maybe<ActivitiesPage>,
   /** An instance-unique identifier shared with communities and collections */
   preferredUsername: Scalars['String'],
   /** Possibly biographical information */
@@ -1244,64 +1195,72 @@ export type User = {
 
 /** User profile information */
 export type UserCommentsArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** User profile information */
 export type UserFollowedCollectionsArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** User profile information */
 export type UserFollowedCommunitiesArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** User profile information */
 export type UserFollowedUsersArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** User profile information */
 export type UserFollowersArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** User profile information */
 export type UserInboxArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  limit?: Maybe<Scalars['Int']>
+};
+
+
+/** User profile information */
+export type UserLikersArgs = {
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** User profile information */
 export type UserLikesArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
 
 /** User profile information */
 export type UserOutboxArgs = {
-  after?: Maybe<Scalars['String']>,
-  before?: Maybe<Scalars['String']>,
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
@@ -1309,12 +1268,14 @@ export type WebMetadata = {
    __typename?: 'WebMetadata',
   author?: Maybe<Scalars['String']>,
   embedCode?: Maybe<Scalars['String']>,
+  embedType?: Maybe<Scalars['String']>,
   image?: Maybe<Scalars['String']>,
   language?: Maybe<Scalars['String']>,
-  resourceType?: Maybe<Scalars['String']>,
+  mimeType?: Maybe<Scalars['String']>,
   source?: Maybe<Scalars['String']>,
   summary?: Maybe<Scalars['String']>,
   title?: Maybe<Scalars['String']>,
+  url?: Maybe<Scalars['String']>,
 };
 
 
@@ -1594,53 +1555,41 @@ export type ResolversTypes = {
   Collection: ResolverTypeWrapper<Collection>,
   Community: ResolverTypeWrapper<Community>,
   Int: ResolverTypeWrapper<Scalars['Int']>,
-  CollectionsEdges: ResolverTypeWrapper<CollectionsEdges>,
-  CollectionsEdge: ResolverTypeWrapper<CollectionsEdge>,
+  Cursor: ResolverTypeWrapper<Scalars['Cursor']>,
+  CollectionsPage: ResolverTypeWrapper<CollectionsPage>,
   PageInfo: ResolverTypeWrapper<PageInfo>,
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
   User: ResolverTypeWrapper<User>,
-  CommentsEdges: ResolverTypeWrapper<CommentsEdges>,
-  CommentsEdge: ResolverTypeWrapper<CommentsEdge>,
+  CommentsPage: ResolverTypeWrapper<CommentsPage>,
   Comment: ResolverTypeWrapper<Comment>,
-  FlagsEdges: ResolverTypeWrapper<FlagsEdges>,
-  FlagsEdge: ResolverTypeWrapper<FlagsEdge>,
+  FlagsPage: ResolverTypeWrapper<FlagsPage>,
   Flag: ResolverTypeWrapper<Omit<Flag, 'context'> & { context?: Maybe<ResolversTypes['FlagContext']> }>,
   FlagContext: ResolversTypes['Collection'] | ResolversTypes['Comment'] | ResolversTypes['Community'] | ResolversTypes['Resource'] | ResolversTypes['User'],
   Resource: ResolverTypeWrapper<Resource>,
-  LikesEdges: ResolverTypeWrapper<LikesEdges>,
-  LikesEdge: ResolverTypeWrapper<LikesEdge>,
+  LikesPage: ResolverTypeWrapper<LikesPage>,
   Like: ResolverTypeWrapper<Omit<Like, 'context'> & { context?: Maybe<ResolversTypes['LikeContext']> }>,
   LikeContext: ResolversTypes['Collection'] | ResolversTypes['Comment'] | ResolversTypes['Community'] | ResolversTypes['Resource'] | ResolversTypes['User'],
   Thread: ResolverTypeWrapper<Omit<Thread, 'context'> & { context?: Maybe<ResolversTypes['ThreadContext']> }>,
   ThreadContext: ResolversTypes['Collection'] | ResolversTypes['Community'] | ResolversTypes['Flag'] | ResolversTypes['Resource'],
-  FollowsEdges: ResolverTypeWrapper<FollowsEdges>,
-  FollowsEdge: ResolverTypeWrapper<FollowsEdge>,
+  FollowsPage: ResolverTypeWrapper<FollowsPage>,
   Follow: ResolverTypeWrapper<Omit<Follow, 'context'> & { context?: Maybe<ResolversTypes['FollowContext']> }>,
   FollowContext: ResolversTypes['Collection'] | ResolversTypes['Community'] | ResolversTypes['Thread'] | ResolversTypes['User'],
-  FollowedCollectionsEdges: ResolverTypeWrapper<FollowedCollectionsEdges>,
-  FollowedCollectionsEdge: ResolverTypeWrapper<FollowedCollectionsEdge>,
+  FollowedCollectionsPage: ResolverTypeWrapper<FollowedCollectionsPage>,
   FollowedCollection: ResolverTypeWrapper<FollowedCollection>,
-  FollowedCommunitiesEdges: ResolverTypeWrapper<FollowedCommunitiesEdges>,
-  FollowedCommunitiesEdge: ResolverTypeWrapper<FollowedCommunitiesEdge>,
+  FollowedCommunitiesPage: ResolverTypeWrapper<FollowedCommunitiesPage>,
   FollowedCommunity: ResolverTypeWrapper<FollowedCommunity>,
-  FollowedUsersEdges: ResolverTypeWrapper<FollowedUsersEdges>,
-  FollowedUsersEdge: ResolverTypeWrapper<FollowedUsersEdge>,
+  FollowedUsersPage: ResolverTypeWrapper<FollowedUsersPage>,
   FollowedUser: ResolverTypeWrapper<FollowedUser>,
   ID: ResolverTypeWrapper<Scalars['ID']>,
-  ActivitiesEdges: ResolverTypeWrapper<ActivitiesEdges>,
-  ActivitiesEdge: ResolverTypeWrapper<ActivitiesEdge>,
-  ThreadsEdges: ResolverTypeWrapper<ThreadsEdges>,
-  ThreadsEdge: ResolverTypeWrapper<ThreadsEdge>,
-  ResourcesEdges: ResolverTypeWrapper<ResourcesEdges>,
-  ResourcesEdge: ResolverTypeWrapper<ResourcesEdge>,
+  ActivitiesPage: ResolverTypeWrapper<ActivitiesPage>,
+  ThreadsPage: ResolverTypeWrapper<ThreadsPage>,
+  ResourcesPage: ResolverTypeWrapper<ResourcesPage>,
   ActivityVerb: ActivityVerb,
-  CollectionsNodes: ResolverTypeWrapper<CollectionsNodes>,
-  CommunitiesNodes: ResolverTypeWrapper<CommunitiesNodes>,
+  CommunitiesPage: ResolverTypeWrapper<CommunitiesPage>,
   Feature: ResolverTypeWrapper<Omit<Feature, 'context'> & { context?: Maybe<ResolversTypes['FeatureContext']> }>,
   FeatureContext: ResolversTypes['Collection'] | ResolversTypes['Community'],
   Instance: ResolverTypeWrapper<Instance>,
-  FeaturesEdges: ResolverTypeWrapper<FeaturesEdges>,
-  FeaturesEdge: ResolverTypeWrapper<FeaturesEdge>,
+  FeaturesPage: ResolverTypeWrapper<FeaturesPage>,
   Me: ResolverTypeWrapper<Me>,
   RootMutationType: ResolverTypeWrapper<{}>,
   AuthPayload: ResolverTypeWrapper<AuthPayload>,
@@ -1670,53 +1619,41 @@ export type ResolversParentTypes = {
   Collection: Collection,
   Community: Community,
   Int: Scalars['Int'],
-  CollectionsEdges: CollectionsEdges,
-  CollectionsEdge: CollectionsEdge,
+  Cursor: Scalars['Cursor'],
+  CollectionsPage: CollectionsPage,
   PageInfo: PageInfo,
   Boolean: Scalars['Boolean'],
   User: User,
-  CommentsEdges: CommentsEdges,
-  CommentsEdge: CommentsEdge,
+  CommentsPage: CommentsPage,
   Comment: Comment,
-  FlagsEdges: FlagsEdges,
-  FlagsEdge: FlagsEdge,
+  FlagsPage: FlagsPage,
   Flag: Omit<Flag, 'context'> & { context?: Maybe<ResolversParentTypes['FlagContext']> },
   FlagContext: ResolversParentTypes['Collection'] | ResolversParentTypes['Comment'] | ResolversParentTypes['Community'] | ResolversParentTypes['Resource'] | ResolversParentTypes['User'],
   Resource: Resource,
-  LikesEdges: LikesEdges,
-  LikesEdge: LikesEdge,
+  LikesPage: LikesPage,
   Like: Omit<Like, 'context'> & { context?: Maybe<ResolversParentTypes['LikeContext']> },
   LikeContext: ResolversParentTypes['Collection'] | ResolversParentTypes['Comment'] | ResolversParentTypes['Community'] | ResolversParentTypes['Resource'] | ResolversParentTypes['User'],
   Thread: Omit<Thread, 'context'> & { context?: Maybe<ResolversParentTypes['ThreadContext']> },
   ThreadContext: ResolversParentTypes['Collection'] | ResolversParentTypes['Community'] | ResolversParentTypes['Flag'] | ResolversParentTypes['Resource'],
-  FollowsEdges: FollowsEdges,
-  FollowsEdge: FollowsEdge,
+  FollowsPage: FollowsPage,
   Follow: Omit<Follow, 'context'> & { context?: Maybe<ResolversParentTypes['FollowContext']> },
   FollowContext: ResolversParentTypes['Collection'] | ResolversParentTypes['Community'] | ResolversParentTypes['Thread'] | ResolversParentTypes['User'],
-  FollowedCollectionsEdges: FollowedCollectionsEdges,
-  FollowedCollectionsEdge: FollowedCollectionsEdge,
+  FollowedCollectionsPage: FollowedCollectionsPage,
   FollowedCollection: FollowedCollection,
-  FollowedCommunitiesEdges: FollowedCommunitiesEdges,
-  FollowedCommunitiesEdge: FollowedCommunitiesEdge,
+  FollowedCommunitiesPage: FollowedCommunitiesPage,
   FollowedCommunity: FollowedCommunity,
-  FollowedUsersEdges: FollowedUsersEdges,
-  FollowedUsersEdge: FollowedUsersEdge,
+  FollowedUsersPage: FollowedUsersPage,
   FollowedUser: FollowedUser,
   ID: Scalars['ID'],
-  ActivitiesEdges: ActivitiesEdges,
-  ActivitiesEdge: ActivitiesEdge,
-  ThreadsEdges: ThreadsEdges,
-  ThreadsEdge: ThreadsEdge,
-  ResourcesEdges: ResourcesEdges,
-  ResourcesEdge: ResourcesEdge,
+  ActivitiesPage: ActivitiesPage,
+  ThreadsPage: ThreadsPage,
+  ResourcesPage: ResourcesPage,
   ActivityVerb: ActivityVerb,
-  CollectionsNodes: CollectionsNodes,
-  CommunitiesNodes: CommunitiesNodes,
+  CommunitiesPage: CommunitiesPage,
   Feature: Omit<Feature, 'context'> & { context?: Maybe<ResolversParentTypes['FeatureContext']> },
   FeatureContext: ResolversParentTypes['Collection'] | ResolversParentTypes['Community'],
   Instance: Instance,
-  FeaturesEdges: FeaturesEdges,
-  FeaturesEdge: FeaturesEdge,
+  FeaturesPage: FeaturesPage,
   Me: Me,
   RootMutationType: {},
   AuthPayload: AuthPayload,
@@ -1737,14 +1674,9 @@ export type ResolversParentTypes = {
   UploadParent: ResolversParentTypes['Collection'] | ResolversParentTypes['Comment'] | ResolversParentTypes['Community'] | ResolversParentTypes['Resource'] | ResolversParentTypes['User'],
 };
 
-export type ActivitiesEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['ActivitiesEdge'] = ResolversParentTypes['ActivitiesEdge']> = {
-  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  node?: Resolver<ResolversTypes['Activity'], ParentType, ContextType>,
-};
-
-export type ActivitiesEdgesResolvers<ContextType = any, ParentType extends ResolversParentTypes['ActivitiesEdges'] = ResolversParentTypes['ActivitiesEdges']> = {
-  edges?: Resolver<Maybe<Array<Maybe<ResolversTypes['ActivitiesEdge']>>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+export type ActivitiesPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['ActivitiesPage'] = ResolversParentTypes['ActivitiesPage']> = {
+  edges?: Resolver<Array<ResolversTypes['Activity']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
@@ -1774,9 +1706,9 @@ export type CollectionResolvers<ContextType = any, ParentType extends ResolversP
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   creator?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
   displayUsername?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  flags?: Resolver<Maybe<ResolversTypes['FlagsEdges']>, ParentType, ContextType, CollectionFlagsArgs>,
+  flags?: Resolver<Maybe<ResolversTypes['FlagsPage']>, ParentType, ContextType, CollectionFlagsArgs>,
   followerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-  followers?: Resolver<Maybe<ResolversTypes['FollowsEdges']>, ParentType, ContextType, CollectionFollowersArgs>,
+  followers?: Resolver<Maybe<ResolversTypes['FollowsPage']>, ParentType, ContextType, CollectionFollowersArgs>,
   icon?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   isDisabled?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
@@ -1784,34 +1716,23 @@ export type CollectionResolvers<ContextType = any, ParentType extends ResolversP
   isPublic?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   lastActivity?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   likerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-  likes?: Resolver<Maybe<ResolversTypes['LikesEdges']>, ParentType, ContextType, CollectionLikesArgs>,
+  likers?: Resolver<Maybe<ResolversTypes['LikesPage']>, ParentType, ContextType, CollectionLikersArgs>,
   myFlag?: Resolver<Maybe<ResolversTypes['Flag']>, ParentType, ContextType>,
   myFollow?: Resolver<Maybe<ResolversTypes['Follow']>, ParentType, ContextType>,
   myLike?: Resolver<Maybe<ResolversTypes['Like']>, ParentType, ContextType>,
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  outbox?: Resolver<Maybe<ResolversTypes['ActivitiesEdges']>, ParentType, ContextType, CollectionOutboxArgs>,
+  outbox?: Resolver<Maybe<ResolversTypes['ActivitiesPage']>, ParentType, ContextType, CollectionOutboxArgs>,
   preferredUsername?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   resourceCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-  resources?: Resolver<Maybe<ResolversTypes['ResourcesEdges']>, ParentType, ContextType, CollectionResourcesArgs>,
+  resources?: Resolver<Maybe<ResolversTypes['ResourcesPage']>, ParentType, ContextType, CollectionResourcesArgs>,
   summary?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  threads?: Resolver<Maybe<ResolversTypes['ThreadsEdges']>, ParentType, ContextType, CollectionThreadsArgs>,
+  threads?: Resolver<Maybe<ResolversTypes['ThreadsPage']>, ParentType, ContextType, CollectionThreadsArgs>,
   updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
 };
 
-export type CollectionsEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['CollectionsEdge'] = ResolversParentTypes['CollectionsEdge']> = {
-  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  node?: Resolver<ResolversTypes['Collection'], ParentType, ContextType>,
-};
-
-export type CollectionsEdgesResolvers<ContextType = any, ParentType extends ResolversParentTypes['CollectionsEdges'] = ResolversParentTypes['CollectionsEdges']> = {
-  edges?: Resolver<Array<Maybe<ResolversTypes['CollectionsEdge']>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
-  totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
-};
-
-export type CollectionsNodesResolvers<ContextType = any, ParentType extends ResolversParentTypes['CollectionsNodes'] = ResolversParentTypes['CollectionsNodes']> = {
-  nodes?: Resolver<Maybe<Array<Maybe<ResolversTypes['Collection']>>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+export type CollectionsPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['CollectionsPage'] = ResolversParentTypes['CollectionsPage']> = {
+  edges?: Resolver<Array<ResolversTypes['Collection']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
@@ -1820,46 +1741,42 @@ export type CommentResolvers<ContextType = any, ParentType extends ResolversPare
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   creator?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
-  flags?: Resolver<Maybe<ResolversTypes['FlagsEdges']>, ParentType, ContextType, CommentFlagsArgs>,
+  flags?: Resolver<Maybe<ResolversTypes['FlagsPage']>, ParentType, ContextType, CommentFlagsArgs>,
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   inReplyTo?: Resolver<Maybe<ResolversTypes['Comment']>, ParentType, ContextType>,
   isHidden?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   isLocal?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   isPublic?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   likerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-  likes?: Resolver<Maybe<ResolversTypes['LikesEdges']>, ParentType, ContextType, CommentLikesArgs>,
+  likers?: Resolver<Maybe<ResolversTypes['LikesPage']>, ParentType, ContextType, CommentLikersArgs>,
+  myFlag?: Resolver<Maybe<ResolversTypes['Flag']>, ParentType, ContextType>,
   myLike?: Resolver<Maybe<ResolversTypes['Like']>, ParentType, ContextType>,
   thread?: Resolver<Maybe<ResolversTypes['Thread']>, ParentType, ContextType>,
   updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
 };
 
-export type CommentsEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['CommentsEdge'] = ResolversParentTypes['CommentsEdge']> = {
-  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  node?: Resolver<ResolversTypes['Comment'], ParentType, ContextType>,
-};
-
-export type CommentsEdgesResolvers<ContextType = any, ParentType extends ResolversParentTypes['CommentsEdges'] = ResolversParentTypes['CommentsEdges']> = {
-  edges?: Resolver<Array<Maybe<ResolversTypes['CommentsEdge']>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+export type CommentsPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['CommentsPage'] = ResolversParentTypes['CommentsPage']> = {
+  edges?: Resolver<Array<ResolversTypes['Comment']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
-export type CommunitiesNodesResolvers<ContextType = any, ParentType extends ResolversParentTypes['CommunitiesNodes'] = ResolversParentTypes['CommunitiesNodes']> = {
-  nodes?: Resolver<Maybe<Array<Maybe<ResolversTypes['Community']>>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+export type CommunitiesPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['CommunitiesPage'] = ResolversParentTypes['CommunitiesPage']> = {
+  edges?: Resolver<Array<ResolversTypes['Community']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
 export type CommunityResolvers<ContextType = any, ParentType extends ResolversParentTypes['Community'] = ResolversParentTypes['Community']> = {
   canonicalUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   collectionCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-  collections?: Resolver<Maybe<ResolversTypes['CollectionsEdges']>, ParentType, ContextType, CommunityCollectionsArgs>,
+  collections?: Resolver<Maybe<ResolversTypes['CollectionsPage']>, ParentType, ContextType, CommunityCollectionsArgs>,
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   creator?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
   displayUsername?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  flags?: Resolver<Maybe<ResolversTypes['FlagsEdges']>, ParentType, ContextType, CommunityFlagsArgs>,
+  flags?: Resolver<Maybe<ResolversTypes['FlagsPage']>, ParentType, ContextType, CommunityFlagsArgs>,
   followerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-  followers?: Resolver<Maybe<ResolversTypes['FollowsEdges']>, ParentType, ContextType, CommunityFollowersArgs>,
+  followers?: Resolver<Maybe<ResolversTypes['FollowsPage']>, ParentType, ContextType, CommunityFollowersArgs>,
   icon?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
@@ -1868,16 +1785,21 @@ export type CommunityResolvers<ContextType = any, ParentType extends ResolversPa
   isPublic?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   lastActivity?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   likerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  likers?: Resolver<Maybe<ResolversTypes['LikesPage']>, ParentType, ContextType, CommunityLikersArgs>,
   myFlag?: Resolver<Maybe<ResolversTypes['Flag']>, ParentType, ContextType>,
   myFollow?: Resolver<Maybe<ResolversTypes['Follow']>, ParentType, ContextType>,
   myLike?: Resolver<Maybe<ResolversTypes['Like']>, ParentType, ContextType>,
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  outbox?: Resolver<Maybe<ResolversTypes['ActivitiesEdges']>, ParentType, ContextType, CommunityOutboxArgs>,
+  outbox?: Resolver<Maybe<ResolversTypes['ActivitiesPage']>, ParentType, ContextType, CommunityOutboxArgs>,
   preferredUsername?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   summary?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  threads?: Resolver<Maybe<ResolversTypes['ThreadsEdges']>, ParentType, ContextType, CommunityThreadsArgs>,
+  threads?: Resolver<Maybe<ResolversTypes['ThreadsPage']>, ParentType, ContextType, CommunityThreadsArgs>,
   updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
 };
+
+export interface CursorScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Cursor'], any> {
+  name: 'Cursor'
+}
 
 export type DeleteContextResolvers<ContextType = any, ParentType extends ResolversParentTypes['DeleteContext'] = ResolversParentTypes['DeleteContext']> = {
   __resolveType: TypeResolveFn<'Collection' | 'Comment' | 'Community' | 'Feature' | 'Flag' | 'Follow' | 'Like' | 'Resource' | 'Thread' | 'User', ParentType, ContextType>
@@ -1896,14 +1818,9 @@ export type FeatureContextResolvers<ContextType = any, ParentType extends Resolv
   __resolveType: TypeResolveFn<'Collection' | 'Community', ParentType, ContextType>
 };
 
-export type FeaturesEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['FeaturesEdge'] = ResolversParentTypes['FeaturesEdge']> = {
-  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  node?: Resolver<ResolversTypes['Feature'], ParentType, ContextType>,
-};
-
-export type FeaturesEdgesResolvers<ContextType = any, ParentType extends ResolversParentTypes['FeaturesEdges'] = ResolversParentTypes['FeaturesEdges']> = {
-  edges?: Resolver<Array<Maybe<ResolversTypes['FeaturesEdge']>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+export type FeaturesPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['FeaturesPage'] = ResolversParentTypes['FeaturesPage']> = {
+  edges?: Resolver<Array<ResolversTypes['Feature']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
@@ -1953,14 +1870,9 @@ export type FlagContextResolvers<ContextType = any, ParentType extends Resolvers
   __resolveType: TypeResolveFn<'Collection' | 'Comment' | 'Community' | 'Resource' | 'User', ParentType, ContextType>
 };
 
-export type FlagsEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['FlagsEdge'] = ResolversParentTypes['FlagsEdge']> = {
-  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  node?: Resolver<ResolversTypes['Flag'], ParentType, ContextType>,
-};
-
-export type FlagsEdgesResolvers<ContextType = any, ParentType extends ResolversParentTypes['FlagsEdges'] = ResolversParentTypes['FlagsEdges']> = {
-  edges?: Resolver<Array<Maybe<ResolversTypes['FlagsEdge']>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+export type FlagsPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['FlagsPage'] = ResolversParentTypes['FlagsPage']> = {
+  edges?: Resolver<Array<ResolversTypes['Flag']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
@@ -1984,25 +1896,15 @@ export type FollowedCollectionResolvers<ContextType = any, ParentType extends Re
   follow?: Resolver<ResolversTypes['Follow'], ParentType, ContextType>,
 };
 
-export type FollowedCollectionsEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowedCollectionsEdge'] = ResolversParentTypes['FollowedCollectionsEdge']> = {
-  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  node?: Resolver<ResolversTypes['FollowedCollection'], ParentType, ContextType>,
-};
-
-export type FollowedCollectionsEdgesResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowedCollectionsEdges'] = ResolversParentTypes['FollowedCollectionsEdges']> = {
-  edges?: Resolver<Array<Maybe<ResolversTypes['FollowedCollectionsEdge']>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+export type FollowedCollectionsPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowedCollectionsPage'] = ResolversParentTypes['FollowedCollectionsPage']> = {
+  edges?: Resolver<Array<ResolversTypes['FollowedCollection']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
-export type FollowedCommunitiesEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowedCommunitiesEdge'] = ResolversParentTypes['FollowedCommunitiesEdge']> = {
-  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  node?: Resolver<ResolversTypes['FollowedCommunity'], ParentType, ContextType>,
-};
-
-export type FollowedCommunitiesEdgesResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowedCommunitiesEdges'] = ResolversParentTypes['FollowedCommunitiesEdges']> = {
-  edges?: Resolver<Array<Maybe<ResolversTypes['FollowedCommunitiesEdge']>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+export type FollowedCommunitiesPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowedCommunitiesPage'] = ResolversParentTypes['FollowedCommunitiesPage']> = {
+  edges?: Resolver<Array<ResolversTypes['FollowedCommunity']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
@@ -2016,34 +1918,24 @@ export type FollowedUserResolvers<ContextType = any, ParentType extends Resolver
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>,
 };
 
-export type FollowedUsersEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowedUsersEdge'] = ResolversParentTypes['FollowedUsersEdge']> = {
-  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  node?: Resolver<ResolversTypes['FollowedUser'], ParentType, ContextType>,
-};
-
-export type FollowedUsersEdgesResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowedUsersEdges'] = ResolversParentTypes['FollowedUsersEdges']> = {
-  edges?: Resolver<Array<Maybe<ResolversTypes['FollowedUsersEdge']>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+export type FollowedUsersPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowedUsersPage'] = ResolversParentTypes['FollowedUsersPage']> = {
+  edges?: Resolver<Array<ResolversTypes['FollowedUser']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
-export type FollowsEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowsEdge'] = ResolversParentTypes['FollowsEdge']> = {
-  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  node?: Resolver<ResolversTypes['Follow'], ParentType, ContextType>,
-};
-
-export type FollowsEdgesResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowsEdges'] = ResolversParentTypes['FollowsEdges']> = {
-  edges?: Resolver<Array<Maybe<ResolversTypes['FollowsEdge']>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+export type FollowsPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowsPage'] = ResolversParentTypes['FollowsPage']> = {
+  edges?: Resolver<Array<ResolversTypes['Follow']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
 export type InstanceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Instance'] = ResolversParentTypes['Instance']> = {
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  featuredCollections?: Resolver<Maybe<ResolversTypes['FeaturesEdges']>, ParentType, ContextType>,
-  featuredCommunities?: Resolver<Maybe<ResolversTypes['FeaturesEdges']>, ParentType, ContextType>,
+  featuredCollections?: Resolver<Maybe<ResolversTypes['FeaturesPage']>, ParentType, ContextType>,
+  featuredCommunities?: Resolver<Maybe<ResolversTypes['FeaturesPage']>, ParentType, ContextType>,
   hostname?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  outbox?: Resolver<Maybe<ResolversTypes['ActivitiesEdges']>, ParentType, ContextType, InstanceOutboxArgs>,
+  outbox?: Resolver<Maybe<ResolversTypes['ActivitiesPage']>, ParentType, ContextType, InstanceOutboxArgs>,
 };
 
 export type LikeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Like'] = ResolversParentTypes['Like']> = {
@@ -2061,14 +1953,9 @@ export type LikeContextResolvers<ContextType = any, ParentType extends Resolvers
   __resolveType: TypeResolveFn<'Collection' | 'Comment' | 'Community' | 'Resource' | 'User', ParentType, ContextType>
 };
 
-export type LikesEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['LikesEdge'] = ResolversParentTypes['LikesEdge']> = {
-  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  node?: Resolver<ResolversTypes['Like'], ParentType, ContextType>,
-};
-
-export type LikesEdgesResolvers<ContextType = any, ParentType extends ResolversParentTypes['LikesEdges'] = ResolversParentTypes['LikesEdges']> = {
-  edges?: Resolver<Array<Maybe<ResolversTypes['LikesEdge']>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+export type LikesPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['LikesPage'] = ResolversParentTypes['LikesPage']> = {
+  edges?: Resolver<Array<ResolversTypes['Like']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
@@ -2082,25 +1969,27 @@ export type MeResolvers<ContextType = any, ParentType extends ResolversParentTyp
 };
 
 export type PageInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
-  endCursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  hasNextPage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
-  hasPrevPage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
-  startCursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  endCursor?: Resolver<Maybe<Array<ResolversTypes['Cursor']>>, ParentType, ContextType>,
+  hasNextPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  hasPreviousPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  startCursor?: Resolver<Maybe<Array<ResolversTypes['Cursor']>>, ParentType, ContextType>,
 };
 
 export type ResourceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Resource'] = ResolversParentTypes['Resource']> = {
+  author?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   canonicalUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   collection?: Resolver<Maybe<ResolversTypes['Collection']>, ParentType, ContextType>,
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   creator?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
-  flags?: Resolver<Maybe<ResolversTypes['FlagsEdges']>, ParentType, ContextType, ResourceFlagsArgs>,
+  flags?: Resolver<Maybe<ResolversTypes['FlagsPage']>, ParentType, ContextType, ResourceFlagsArgs>,
   icon?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   isDisabled?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   isLocal?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   isPublic?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   license?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  likes?: Resolver<Maybe<ResolversTypes['LikesEdges']>, ParentType, ContextType, ResourceLikesArgs>,
+  likerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  likers?: Resolver<Maybe<ResolversTypes['LikesPage']>, ParentType, ContextType, ResourceLikersArgs>,
   myFlag?: Resolver<Maybe<ResolversTypes['Flag']>, ParentType, ContextType>,
   myLike?: Resolver<Maybe<ResolversTypes['Like']>, ParentType, ContextType>,
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
@@ -2109,14 +1998,9 @@ export type ResourceResolvers<ContextType = any, ParentType extends ResolversPar
   url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
 };
 
-export type ResourcesEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['ResourcesEdge'] = ResolversParentTypes['ResourcesEdge']> = {
-  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  node?: Resolver<ResolversTypes['Resource'], ParentType, ContextType>,
-};
-
-export type ResourcesEdgesResolvers<ContextType = any, ParentType extends ResolversParentTypes['ResourcesEdges'] = ResolversParentTypes['ResourcesEdges']> = {
-  edges?: Resolver<Array<Maybe<ResolversTypes['ResourcesEdge']>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+export type ResourcesPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['ResourcesPage'] = ResolversParentTypes['ResourcesPage']> = {
+  edges?: Resolver<Array<ResolversTypes['Resource']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
@@ -2128,6 +2012,7 @@ export type RootMutationTypeResolvers<ContextType = any, ParentType extends Reso
   createFeature?: Resolver<Maybe<ResolversTypes['Feature']>, ParentType, ContextType, RequireFields<RootMutationTypeCreateFeatureArgs, 'contextId'>>,
   createFlag?: Resolver<Maybe<ResolversTypes['Flag']>, ParentType, ContextType, RequireFields<RootMutationTypeCreateFlagArgs, 'contextId' | 'message'>>,
   createFollow?: Resolver<Maybe<ResolversTypes['Follow']>, ParentType, ContextType, RequireFields<RootMutationTypeCreateFollowArgs, 'contextId'>>,
+  createFollowByUrl?: Resolver<Maybe<ResolversTypes['Follow']>, ParentType, ContextType, RequireFields<RootMutationTypeCreateFollowByUrlArgs, 'url'>>,
   createLike?: Resolver<Maybe<ResolversTypes['Like']>, ParentType, ContextType, RequireFields<RootMutationTypeCreateLikeArgs, 'contextId'>>,
   createReply?: Resolver<Maybe<ResolversTypes['Comment']>, ParentType, ContextType, RequireFields<RootMutationTypeCreateReplyArgs, 'comment' | 'inReplyToId' | 'threadId'>>,
   createResource?: Resolver<Maybe<ResolversTypes['Resource']>, ParentType, ContextType, RequireFields<RootMutationTypeCreateResourceArgs, 'collectionId' | 'resource'>>,
@@ -2138,7 +2023,6 @@ export type RootMutationTypeResolvers<ContextType = any, ParentType extends Reso
   deleteSelf?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationTypeDeleteSelfArgs, 'iAmSure'>>,
   deleteSession?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
   fetchWebMetadata?: Resolver<Maybe<ResolversTypes['WebMetadata']>, ParentType, ContextType, RequireFields<RootMutationTypeFetchWebMetadataArgs, 'url'>>,
-  followRemoteActor?: Resolver<Maybe<ResolversTypes['Follow']>, ParentType, ContextType, RequireFields<RootMutationTypeFollowRemoteActorArgs, 'url'>>,
   resetPassword?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<RootMutationTypeResetPasswordArgs, 'password' | 'token'>>,
   resetPasswordRequest?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationTypeResetPasswordRequestArgs, 'email'>>,
   resolveFlag?: Resolver<Maybe<ResolversTypes['Flag']>, ParentType, ContextType, RequireFields<RootMutationTypeResolveFlagArgs, 'flagId'>>,
@@ -2155,9 +2039,9 @@ export type RootMutationTypeResolvers<ContextType = any, ParentType extends Reso
 export type RootQueryTypeResolvers<ContextType = any, ParentType extends ResolversParentTypes['RootQueryType'] = ResolversParentTypes['RootQueryType']> = {
   activity?: Resolver<Maybe<ResolversTypes['Activity']>, ParentType, ContextType, RequireFields<RootQueryTypeActivityArgs, 'activityId'>>,
   collection?: Resolver<Maybe<ResolversTypes['Collection']>, ParentType, ContextType, RequireFields<RootQueryTypeCollectionArgs, 'collectionId'>>,
-  collections?: Resolver<ResolversTypes['CollectionsNodes'], ParentType, ContextType, RootQueryTypeCollectionsArgs>,
+  collections?: Resolver<ResolversTypes['CollectionsPage'], ParentType, ContextType, RootQueryTypeCollectionsArgs>,
   comment?: Resolver<Maybe<ResolversTypes['Comment']>, ParentType, ContextType, RequireFields<RootQueryTypeCommentArgs, 'commentId'>>,
-  communities?: Resolver<ResolversTypes['CommunitiesNodes'], ParentType, ContextType, RootQueryTypeCommunitiesArgs>,
+  communities?: Resolver<ResolversTypes['CommunitiesPage'], ParentType, ContextType, RootQueryTypeCommunitiesArgs>,
   community?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType, RequireFields<RootQueryTypeCommunityArgs, 'communityId'>>,
   feature?: Resolver<Maybe<ResolversTypes['Feature']>, ParentType, ContextType, RequireFields<RootQueryTypeFeatureArgs, 'featureId'>>,
   flag?: Resolver<Maybe<ResolversTypes['Flag']>, ParentType, ContextType, RequireFields<RootQueryTypeFlagArgs, 'flagId'>>,
@@ -2173,11 +2057,11 @@ export type RootQueryTypeResolvers<ContextType = any, ParentType extends Resolve
 
 export type ThreadResolvers<ContextType = any, ParentType extends ResolversParentTypes['Thread'] = ResolversParentTypes['Thread']> = {
   canonicalUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  comments?: Resolver<Maybe<ResolversTypes['CommentsEdges']>, ParentType, ContextType, ThreadCommentsArgs>,
+  comments?: Resolver<Maybe<ResolversTypes['CommentsPage']>, ParentType, ContextType, ThreadCommentsArgs>,
   context?: Resolver<Maybe<ResolversTypes['ThreadContext']>, ParentType, ContextType>,
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   followerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-  followers?: Resolver<Maybe<ResolversTypes['FollowsEdges']>, ParentType, ContextType, ThreadFollowersArgs>,
+  followers?: Resolver<Maybe<ResolversTypes['FollowsPage']>, ParentType, ContextType, ThreadFollowersArgs>,
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   isHidden?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   isLocal?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
@@ -2191,14 +2075,9 @@ export type ThreadContextResolvers<ContextType = any, ParentType extends Resolve
   __resolveType: TypeResolveFn<'Collection' | 'Community' | 'Flag' | 'Resource', ParentType, ContextType>
 };
 
-export type ThreadsEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['ThreadsEdge'] = ResolversParentTypes['ThreadsEdge']> = {
-  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  node?: Resolver<ResolversTypes['Thread'], ParentType, ContextType>,
-};
-
-export type ThreadsEdgesResolvers<ContextType = any, ParentType extends ResolversParentTypes['ThreadsEdges'] = ResolversParentTypes['ThreadsEdges']> = {
-  edges?: Resolver<Maybe<Array<Maybe<ResolversTypes['ThreadsEdge']>>>, ParentType, ContextType>,
-  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>,
+export type ThreadsPageResolvers<ContextType = any, ParentType extends ResolversParentTypes['ThreadsPage'] = ResolversParentTypes['ThreadsPage']> = {
+  edges?: Resolver<Array<ResolversTypes['Thread']>, ParentType, ContextType>,
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>,
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
 };
 
@@ -2212,30 +2091,32 @@ export type UploadParentResolvers<ContextType = any, ParentType extends Resolver
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   canonicalUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  comments?: Resolver<Maybe<ResolversTypes['CommentsEdges']>, ParentType, ContextType, UserCommentsArgs>,
+  comments?: Resolver<Maybe<ResolversTypes['CommentsPage']>, ParentType, ContextType, UserCommentsArgs>,
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   displayUsername?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  followedCollections?: Resolver<Maybe<ResolversTypes['FollowedCollectionsEdges']>, ParentType, ContextType, UserFollowedCollectionsArgs>,
-  followedCommunities?: Resolver<Maybe<ResolversTypes['FollowedCommunitiesEdges']>, ParentType, ContextType, UserFollowedCommunitiesArgs>,
-  followedUsers?: Resolver<Maybe<ResolversTypes['FollowedUsersEdges']>, ParentType, ContextType, UserFollowedUsersArgs>,
+  followedCollections?: Resolver<Maybe<ResolversTypes['FollowedCollectionsPage']>, ParentType, ContextType, UserFollowedCollectionsArgs>,
+  followedCommunities?: Resolver<Maybe<ResolversTypes['FollowedCommunitiesPage']>, ParentType, ContextType, UserFollowedCommunitiesArgs>,
+  followedUsers?: Resolver<Maybe<ResolversTypes['FollowedUsersPage']>, ParentType, ContextType, UserFollowedUsersArgs>,
   followerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-  followers?: Resolver<Maybe<ResolversTypes['FollowsEdges']>, ParentType, ContextType, UserFollowersArgs>,
+  followers?: Resolver<Maybe<ResolversTypes['FollowsPage']>, ParentType, ContextType, UserFollowersArgs>,
   icon?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
   image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  inbox?: Resolver<Maybe<ResolversTypes['ActivitiesEdges']>, ParentType, ContextType, UserInboxArgs>,
+  inbox?: Resolver<Maybe<ResolversTypes['ActivitiesPage']>, ParentType, ContextType, UserInboxArgs>,
   isDisabled?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   isLocal?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   isPublic?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   lastActivity?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  likeCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   likerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-  likes?: Resolver<Maybe<ResolversTypes['LikesEdges']>, ParentType, ContextType, UserLikesArgs>,
+  likers?: Resolver<Maybe<ResolversTypes['LikesPage']>, ParentType, ContextType, UserLikersArgs>,
+  likes?: Resolver<Maybe<ResolversTypes['LikesPage']>, ParentType, ContextType, UserLikesArgs>,
   location?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   myFlag?: Resolver<Maybe<ResolversTypes['Flag']>, ParentType, ContextType>,
   myFollow?: Resolver<Maybe<ResolversTypes['Follow']>, ParentType, ContextType>,
   myLike?: Resolver<Maybe<ResolversTypes['Like']>, ParentType, ContextType>,
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  outbox?: Resolver<Maybe<ResolversTypes['ActivitiesEdges']>, ParentType, ContextType, UserOutboxArgs>,
+  outbox?: Resolver<Maybe<ResolversTypes['ActivitiesPage']>, ParentType, ContextType, UserOutboxArgs>,
   preferredUsername?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   summary?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
@@ -2245,70 +2126,60 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 export type WebMetadataResolvers<ContextType = any, ParentType extends ResolversParentTypes['WebMetadata'] = ResolversParentTypes['WebMetadata']> = {
   author?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   embedCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  embedType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   language?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  resourceType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  mimeType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   source?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   summary?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
 };
 
 export type Resolvers<ContextType = any> = {
-  ActivitiesEdge?: ActivitiesEdgeResolvers<ContextType>,
-  ActivitiesEdges?: ActivitiesEdgesResolvers<ContextType>,
+  ActivitiesPage?: ActivitiesPageResolvers<ContextType>,
   Activity?: ActivityResolvers<ContextType>,
   ActivityContext?: ActivityContextResolvers,
   AuthPayload?: AuthPayloadResolvers<ContextType>,
   Collection?: CollectionResolvers<ContextType>,
-  CollectionsEdge?: CollectionsEdgeResolvers<ContextType>,
-  CollectionsEdges?: CollectionsEdgesResolvers<ContextType>,
-  CollectionsNodes?: CollectionsNodesResolvers<ContextType>,
+  CollectionsPage?: CollectionsPageResolvers<ContextType>,
   Comment?: CommentResolvers<ContextType>,
-  CommentsEdge?: CommentsEdgeResolvers<ContextType>,
-  CommentsEdges?: CommentsEdgesResolvers<ContextType>,
-  CommunitiesNodes?: CommunitiesNodesResolvers<ContextType>,
+  CommentsPage?: CommentsPageResolvers<ContextType>,
+  CommunitiesPage?: CommunitiesPageResolvers<ContextType>,
   Community?: CommunityResolvers<ContextType>,
+  Cursor?: GraphQLScalarType,
   DeleteContext?: DeleteContextResolvers,
   Feature?: FeatureResolvers<ContextType>,
   FeatureContext?: FeatureContextResolvers,
-  FeaturesEdge?: FeaturesEdgeResolvers<ContextType>,
-  FeaturesEdges?: FeaturesEdgesResolvers<ContextType>,
+  FeaturesPage?: FeaturesPageResolvers<ContextType>,
   FileIntrinsics?: FileIntrinsicsResolvers<ContextType>,
   FileMetadata?: FileMetadataResolvers<ContextType>,
   FileUpload?: FileUploadResolvers<ContextType>,
   Flag?: FlagResolvers<ContextType>,
   FlagContext?: FlagContextResolvers,
-  FlagsEdge?: FlagsEdgeResolvers<ContextType>,
-  FlagsEdges?: FlagsEdgesResolvers<ContextType>,
+  FlagsPage?: FlagsPageResolvers<ContextType>,
   Follow?: FollowResolvers<ContextType>,
   FollowContext?: FollowContextResolvers,
   FollowedCollection?: FollowedCollectionResolvers<ContextType>,
-  FollowedCollectionsEdge?: FollowedCollectionsEdgeResolvers<ContextType>,
-  FollowedCollectionsEdges?: FollowedCollectionsEdgesResolvers<ContextType>,
-  FollowedCommunitiesEdge?: FollowedCommunitiesEdgeResolvers<ContextType>,
-  FollowedCommunitiesEdges?: FollowedCommunitiesEdgesResolvers<ContextType>,
+  FollowedCollectionsPage?: FollowedCollectionsPageResolvers<ContextType>,
+  FollowedCommunitiesPage?: FollowedCommunitiesPageResolvers<ContextType>,
   FollowedCommunity?: FollowedCommunityResolvers<ContextType>,
   FollowedUser?: FollowedUserResolvers<ContextType>,
-  FollowedUsersEdge?: FollowedUsersEdgeResolvers<ContextType>,
-  FollowedUsersEdges?: FollowedUsersEdgesResolvers<ContextType>,
-  FollowsEdge?: FollowsEdgeResolvers<ContextType>,
-  FollowsEdges?: FollowsEdgesResolvers<ContextType>,
+  FollowedUsersPage?: FollowedUsersPageResolvers<ContextType>,
+  FollowsPage?: FollowsPageResolvers<ContextType>,
   Instance?: InstanceResolvers<ContextType>,
   Like?: LikeResolvers<ContextType>,
   LikeContext?: LikeContextResolvers,
-  LikesEdge?: LikesEdgeResolvers<ContextType>,
-  LikesEdges?: LikesEdgesResolvers<ContextType>,
+  LikesPage?: LikesPageResolvers<ContextType>,
   Me?: MeResolvers<ContextType>,
   PageInfo?: PageInfoResolvers<ContextType>,
   Resource?: ResourceResolvers<ContextType>,
-  ResourcesEdge?: ResourcesEdgeResolvers<ContextType>,
-  ResourcesEdges?: ResourcesEdgesResolvers<ContextType>,
+  ResourcesPage?: ResourcesPageResolvers<ContextType>,
   RootMutationType?: RootMutationTypeResolvers<ContextType>,
   RootQueryType?: RootQueryTypeResolvers<ContextType>,
   Thread?: ThreadResolvers<ContextType>,
   ThreadContext?: ThreadContextResolvers,
-  ThreadsEdge?: ThreadsEdgeResolvers<ContextType>,
-  ThreadsEdges?: ThreadsEdgesResolvers<ContextType>,
+  ThreadsPage?: ThreadsPageResolvers<ContextType>,
   Upload?: GraphQLScalarType,
   UploadParent?: UploadParentResolvers,
   User?: UserResolvers<ContextType>,

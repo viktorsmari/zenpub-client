@@ -1,9 +1,9 @@
 import * as Types from './types.generated';
 
 import { BasicCommentWithInReplyToFragment } from './fragments/basicComment.generated';
-import { ActivityPreviewDataFragment } from '../HOC/modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewFragment } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import gql from 'graphql-tag';
-import { ActivityPreviewDataFragmentDoc } from '../HOC/modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewFragmentDoc } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import { BasicCommentWithInReplyToFragmentDoc } from './fragments/basicComment.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
@@ -17,7 +17,7 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type GetCommunityQueryQueryVariables = {
   communityId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  end?: Types.Maybe<Types.Scalars['String']>
+  end?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
 };
 
 
@@ -33,105 +33,90 @@ export type GetCommunityQueryQuery = (
       { __typename: 'Follow' }
       & Pick<Types.Follow, 'id'>
     )>, outbox: Types.Maybe<(
-      { __typename: 'ActivitiesEdges' }
-      & { pageInfo: Types.Maybe<(
+      { __typename: 'ActivitiesPage' }
+      & { pageInfo: (
         { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-      )>, edges: Types.Maybe<Array<Types.Maybe<(
-        { __typename: 'ActivitiesEdge' }
-        & { node: (
-          { __typename: 'Activity' }
-          & ActivityPreviewDataFragment
-        ) }
-      )>>> }
+      ), edges: Array<(
+        { __typename: 'Activity' }
+        & ActivityPreviewFragment
+      )> }
     )>, threads: Types.Maybe<(
-      { __typename: 'ThreadsEdges' }
-      & { pageInfo: Types.Maybe<(
+      { __typename: 'ThreadsPage' }
+      & { pageInfo: (
         { __typename: 'PageInfo' }
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-      )>, edges: Types.Maybe<Array<Types.Maybe<(
-        { __typename: 'ThreadsEdge' }
-        & { node: (
-          { __typename: 'Thread' }
-          & Pick<Types.Thread, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'isHidden' | 'createdAt' | 'updatedAt' | 'lastActivity'>
-          & { context: Types.Maybe<(
-            { __typename: 'Collection' }
-            & Pick<Types.Collection, 'id' | 'icon' | 'name'>
-          ) | (
-            { __typename: 'Community' }
-            & Pick<Types.Community, 'id' | 'icon' | 'name'>
-          ) | { __typename: 'Flag' } | (
-            { __typename: 'Resource' }
-            & Pick<Types.Resource, 'id' | 'icon' | 'name'>
-          )>, myFollow: Types.Maybe<(
-            { __typename: 'Follow' }
-            & Pick<Types.Follow, 'id'>
-          )>, comments: Types.Maybe<(
-            { __typename: 'CommentsEdges' }
-            & Pick<Types.CommentsEdges, 'totalCount'>
-            & { edges: Array<Types.Maybe<(
-              { __typename: 'CommentsEdge' }
-              & { node: (
-                { __typename: 'Comment' }
-                & BasicCommentWithInReplyToFragment
-              ) }
-            )>> }
-          )> }
-        ) }
-      )>>> }
-    )>, followers: Types.Maybe<(
-      { __typename: 'FollowsEdges' }
-      & Pick<Types.FollowsEdges, 'totalCount'>
-      & { pageInfo: Types.Maybe<(
-        { __typename: 'PageInfo' }
-        & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-      )>, edges: Array<Types.Maybe<(
-        { __typename: 'FollowsEdge' }
-        & { node: (
-          { __typename: 'Follow' }
-          & Pick<Types.Follow, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic'>
-          & { creator: Types.Maybe<(
-            { __typename: 'User' }
-            & Pick<Types.User, 'id' | 'icon'>
-          )> }
-        ) }
-      )>> }
-    )>, collections: Types.Maybe<(
-      { __typename: 'CollectionsEdges' }
-      & Pick<Types.CollectionsEdges, 'totalCount'>
-      & { pageInfo: Types.Maybe<(
-        { __typename: 'PageInfo' }
-        & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-      )>, edges: Array<Types.Maybe<(
-        { __typename: 'CollectionsEdge' }
-        & { node: (
+      ), edges: Array<(
+        { __typename: 'Thread' }
+        & Pick<Types.Thread, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'isHidden' | 'createdAt' | 'updatedAt' | 'lastActivity'>
+        & { context: Types.Maybe<(
           { __typename: 'Collection' }
-          & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon'>
-          & { myFollow: Types.Maybe<(
-            { __typename: 'Follow' }
-            & Pick<Types.Follow, 'id'>
-          )>, likes: Types.Maybe<(
-            { __typename: 'LikesEdges' }
-            & Pick<Types.LikesEdges, 'totalCount'>
-          )>, followers: Types.Maybe<(
-            { __typename: 'FollowsEdges' }
-            & Pick<Types.FollowsEdges, 'totalCount'>
-          )>, resources: Types.Maybe<(
-            { __typename: 'ResourcesEdges' }
-            & Pick<Types.ResourcesEdges, 'totalCount'>
-          )>, threads: Types.Maybe<(
-            { __typename: 'ThreadsEdges' }
-            & Pick<Types.ThreadsEdges, 'totalCount'>
+          & Pick<Types.Collection, 'id' | 'icon' | 'name'>
+        ) | (
+          { __typename: 'Community' }
+          & Pick<Types.Community, 'id' | 'icon' | 'name'>
+        ) | { __typename: 'Flag' } | (
+          { __typename: 'Resource' }
+          & Pick<Types.Resource, 'id' | 'icon' | 'name'>
+        )>, myFollow: Types.Maybe<(
+          { __typename: 'Follow' }
+          & Pick<Types.Follow, 'id'>
+        )>, comments: Types.Maybe<(
+          { __typename: 'CommentsPage' }
+          & Pick<Types.CommentsPage, 'totalCount'>
+          & { edges: Array<(
+            { __typename: 'Comment' }
+            & BasicCommentWithInReplyToFragment
           )> }
-        ) }
-      )>> }
+        )> }
+      )> }
+    )>, followers: Types.Maybe<(
+      { __typename: 'FollowsPage' }
+      & Pick<Types.FollowsPage, 'totalCount'>
+      & { pageInfo: (
+        { __typename: 'PageInfo' }
+        & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
+      ), edges: Array<(
+        { __typename: 'Follow' }
+        & Pick<Types.Follow, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic'>
+        & { creator: Types.Maybe<(
+          { __typename: 'User' }
+          & Pick<Types.User, 'id' | 'icon'>
+        )> }
+      )> }
+    )>, collections: Types.Maybe<(
+      { __typename: 'CollectionsPage' }
+      & Pick<Types.CollectionsPage, 'totalCount'>
+      & { pageInfo: (
+        { __typename: 'PageInfo' }
+        & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
+      ), edges: Array<(
+        { __typename: 'Collection' }
+        & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon'>
+        & { myFollow: Types.Maybe<(
+          { __typename: 'Follow' }
+          & Pick<Types.Follow, 'id'>
+        )>, likers: Types.Maybe<(
+          { __typename: 'LikesPage' }
+          & Pick<Types.LikesPage, 'totalCount'>
+        )>, followers: Types.Maybe<(
+          { __typename: 'FollowsPage' }
+          & Pick<Types.FollowsPage, 'totalCount'>
+        )>, resources: Types.Maybe<(
+          { __typename: 'ResourcesPage' }
+          & Pick<Types.ResourcesPage, 'totalCount'>
+        )>, threads: Types.Maybe<(
+          { __typename: 'ThreadsPage' }
+          & Pick<Types.ThreadsPage, 'totalCount'>
+        )> }
+      )> }
     )> }
   )> }
 );
 
 
 export const GetCommunityQueryDocument = gql`
-    query getCommunityQuery($communityId: String!, $limit: Int, $end: String) {
+    query getCommunityQuery($communityId: String!, $limit: Int, $end: [Cursor]) {
   community(communityId: $communityId) {
     id
     canonicalUrl
@@ -157,9 +142,7 @@ export const GetCommunityQueryDocument = gql`
         endCursor
       }
       edges {
-        node {
-          ...ActivityPreviewData
-        }
+        ...ActivityPreview
       }
     }
     threads(limit: $limit, after: $end) {
@@ -168,43 +151,39 @@ export const GetCommunityQueryDocument = gql`
         endCursor
       }
       edges {
-        node {
-          id
-          canonicalUrl
-          isLocal
-          isPublic
-          isHidden
-          createdAt
-          updatedAt
-          lastActivity
-          context {
-            __typename
-            ... on Community {
-              id
-              icon
-              name
-            }
-            ... on Collection {
-              id
-              icon
-              name
-            }
-            ... on Resource {
-              id
-              icon
-              name
-            }
-          }
-          myFollow {
+        id
+        canonicalUrl
+        isLocal
+        isPublic
+        isHidden
+        createdAt
+        updatedAt
+        lastActivity
+        context {
+          __typename
+          ... on Community {
             id
+            icon
+            name
           }
-          comments {
-            totalCount
-            edges {
-              node {
-                ...BasicCommentWithInReplyTo
-              }
-            }
+          ... on Collection {
+            id
+            icon
+            name
+          }
+          ... on Resource {
+            id
+            icon
+            name
+          }
+        }
+        myFollow {
+          id
+        }
+        comments {
+          totalCount
+          edges {
+            ...BasicCommentWithInReplyTo
           }
         }
       }
@@ -216,15 +195,13 @@ export const GetCommunityQueryDocument = gql`
       }
       totalCount
       edges {
-        node {
+        id
+        canonicalUrl
+        isLocal
+        isPublic
+        creator {
           id
-          canonicalUrl
-          isLocal
-          isPublic
-          creator {
-            id
-            icon
-          }
+          icon
         }
       }
     }
@@ -235,34 +212,32 @@ export const GetCommunityQueryDocument = gql`
       }
       totalCount
       edges {
-        node {
+        id
+        canonicalUrl
+        preferredUsername
+        name
+        summary
+        icon
+        myFollow {
           id
-          canonicalUrl
-          preferredUsername
-          name
-          summary
-          icon
-          myFollow {
-            id
-          }
-          likes {
-            totalCount
-          }
-          followers {
-            totalCount
-          }
-          resources {
-            totalCount
-          }
-          threads {
-            totalCount
-          }
+        }
+        likers {
+          totalCount
+        }
+        followers {
+          totalCount
+        }
+        resources {
+          totalCount
+        }
+        threads {
+          totalCount
         }
       }
     }
   }
 }
-    ${ActivityPreviewDataFragmentDoc}
+    ${ActivityPreviewFragmentDoc}
 ${BasicCommentWithInReplyToFragmentDoc}`;
 export type GetCommunityQueryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetCommunityQueryQuery, GetCommunityQueryQueryVariables>, 'query'> & ({ variables: GetCommunityQueryQueryVariables; skip?: boolean; } | { skip: boolean; });
 

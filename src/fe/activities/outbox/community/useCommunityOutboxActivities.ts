@@ -1,29 +1,40 @@
 import { Community } from 'graphql/types.generated';
 import { useMemo } from 'react';
 import * as GQL from './useCommunityOutboxActivities.generated';
+import { usePage } from 'fe/lib/helpers/usePage';
+import { DEFAULT_PAGE_SIZE } from 'mn-constants';
 
 export const useCommunityOutboxActivities = (communityId: Community['id']) => {
   const communityQ = GQL.useCommunityOutboxActivitiesQuery({
-    variables: { communityId }
+    variables: { communityId, limit: DEFAULT_PAGE_SIZE }
   });
 
-  const activities = useMemo<GQL.CommunityOutboxActivityFragment[]>(
-    () =>
-      (communityQ.data?.community?.outbox?.edges || [])
-        .map(activityEdge => activityEdge && activityEdge.node)
-        .filter(
-          (
-            maybeActivity
-          ): maybeActivity is GQL.CommunityOutboxActivityFragment =>
-            !!maybeActivity
-        ),
-    [communityQ]
+  const activitiesPage = usePage(
+    communityQ.data?.community?.outbox,
+    ({ cursor, update }) => {
+      return communityQ.fetchMore({
+        variables: { ...cursor, communityId, limit: DEFAULT_PAGE_SIZE },
+        updateQuery: (prev, { fetchMoreResult }) => {
+          return fetchMoreResult?.community?.outbox && prev.community?.outbox
+            ? {
+                ...fetchMoreResult,
+                community: {
+                  ...fetchMoreResult.community,
+                  outbox: update({
+                    prev: prev.community.outbox,
+                    fetched: fetchMoreResult.community.outbox
+                  })
+                }
+              }
+            : prev;
+        }
+      });
+    }
   );
-
   return useMemo(
     () => ({
-      activities
+      activitiesPage
     }),
-    [activities]
+    [activitiesPage]
   );
 };

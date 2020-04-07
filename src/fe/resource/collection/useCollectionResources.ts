@@ -1,27 +1,42 @@
 import { Collection } from 'graphql/types.generated';
 import { useMemo } from 'react';
 import * as GQL from './useCollectionResources.generated';
+import { usePage } from 'fe/lib/helpers/usePage';
+import { DEFAULT_PAGE_SIZE } from 'mn-constants';
 
 export const useCollectionResources = (collectionId: Collection['id']) => {
   const collectionQ = GQL.useCollectionResourcesQuery({
-    variables: { collectionId }
+    variables: { collectionId, limit: DEFAULT_PAGE_SIZE }
   });
 
-  const resources = useMemo<GQL.CollectionResourceFragment[]>(
-    () =>
-      (collectionQ.data?.collection?.resources?.edges || [])
-        .map(resourceEdge => resourceEdge?.node)
-        .filter(
-          (maybeResource): maybeResource is GQL.CollectionResourceFragment =>
-            !!maybeResource
-        ),
-    [collectionQ]
+  const resourcesPage = usePage(
+    collectionQ.data?.collection?.resources,
+    ({ cursor, update }) => {
+      return collectionQ.fetchMore({
+        variables: { ...cursor, limit: DEFAULT_PAGE_SIZE, collectionId },
+        updateQuery: (prev, { fetchMoreResult }) => {
+          return fetchMoreResult?.collection?.resources &&
+            prev.collection?.resources
+            ? {
+                ...fetchMoreResult,
+                collection: {
+                  ...fetchMoreResult.collection,
+                  resources: update({
+                    prev: prev.collection.resources,
+                    fetched: fetchMoreResult.collection.resources
+                  })
+                }
+              }
+            : prev;
+        }
+      });
+    }
   );
 
   return useMemo(
     () => ({
-      resources
+      resourcesPage
     }),
-    [resources]
+    [resourcesPage]
   );
 };

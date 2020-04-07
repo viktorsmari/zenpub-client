@@ -1,0 +1,26 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import { PropsTable } from '@storybook/components';
+import { MainHeader } from '.';
+import {Box} from 'rebass'
+
+<Meta title="Modules|MainHeader" component={MainHeader}/>
+
+# HeroCollection
+Let's define a story for the `Hero collection preview` module
+
+<Preview>
+  <Story name="MainHeader module">
+    <Box>
+      <MainHeader user={{
+        icon:'https://pbs.twimg.com/profile_images/1161428802091802627/O49Ggs-7_400x400.jpg',
+        name: '˗ˏˋ Doug Belshaw ˎˊ˗  🇪🇺 ☠️ ✊',
+        id: "/test"
+      }}
+      isOpen= {false}
+      isLogged={false}
+      Search={ <input />}
+      logout= {() => console.log(false)} />
+    </Box>
+  </Story>
+</Preview>
+

@@ -1,4 +1,4 @@
-import { LocaleKey } from '../../constants';
+import { LocaleKey } from '../../mn-constants';
 
 export interface State {
   locale: LocaleKey;

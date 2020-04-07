@@ -9,7 +9,7 @@ import { WrapperPanel } from '../../sections/panel';
 import styled from '../../themes/styled';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 
-export const CollectionsYours: React.SFC = () => {
+export const CollectionsYours: React.FC = () => {
   const { error, data, loading, refetch } = useGetCollectionsQueryQuery({
     variables: {
       limit: 15
@@ -44,8 +44,8 @@ export const CollectionsYours: React.SFC = () => {
                         <title>{APP_NAME} > All collections</title>
                       </Helmet> */}
                   <List>
-                    {data.collections.nodes &&
-                      data.collections.nodes.map(
+                    {data.collections.edges &&
+                      data.collections.edges.map(
                         (coll, i) =>
                           coll && (
                             <div key={i}>

@@ -11,7 +11,7 @@ import { UploadCloud } from 'react-feather';
 import { Heading, Button } from 'rebass/styled-components';
 import { Actions, Container, Header } from '../Modal/modal';
 import { useUploadImageMutation } from '../../../graphql/uploadImage.generated';
-import { useUploadIconMutation } from '../../../graphql/uploadIcon.generated';
+import { useUploadIconMutMutation } from '../../../graphql/uploadIcon.generated';
 import { useFormikContext } from 'formik';
 
 interface Props {
@@ -37,7 +37,7 @@ const ImageDropzoneModal: React.FC<Props> = ({
 }) => {
   const { setFieldValue, setFieldTouched } = useFormikContext();
   const [files, setFiles] = useState([] as any);
-  const [mutateIcon] = useUploadIconMutation();
+  const [mutateIcon] = useUploadIconMutMutation();
   const [mutateImage] = useUploadImageMutation();
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

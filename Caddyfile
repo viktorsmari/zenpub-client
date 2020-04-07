@@ -4,7 +4,7 @@
 
 #   tls self_signed # for local testing - make sure to disable in prod
 
-	root /frontend
+  root /frontend
 
   proxy /api backend:4000 {
     websocket
@@ -24,5 +24,14 @@
   }
 
   gzip
+  errors
+
+  rewrite / {
+    to {path} {path}/ /
+    if {path} not_starts_with /pub
+    if {path} not_starts_with /api
+    if {path} not_starts_with /oauth
+    if {path} not_starts_with /.well-known
+  }
 
 }

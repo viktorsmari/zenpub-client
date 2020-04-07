@@ -1,0 +1,142 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import { PropsTable } from '@storybook/components';
+import { Thread } from '.';
+import {HeroUser} from 'ui/modules/HeroUser'
+import {getHeroUserProps, getResourcePreviewProps} from 'ui/mock/context'
+import {ActivityPreview} from 'ui/modules/ActivityPreview'
+import {activityPreviewProps} from 'ui/pages/community/a.stories.mdx'
+import {MainComment} from 'ui/modules/Previews/MainComment'
+import { useFormik } from 'formik';
+import { Comment } from 'ui/modules/Previews/Comment';
+import { Status } from 'ui/modules/HeroCommunity';
+import { WithSidebar } from 'ui/templates/withSidebar';
+import {Sidebar} from 'ui/modules/Sidebar'
+import {MainHeader} from 'ui/modules/MainHeader'
+import {Input} from '@rebass/forms'
+const getActions = () => ({
+  FlagModal: () => {
+    const formik = useFormik<{ reason: '' }>({
+      initialValues: {
+        reason: ''
+      },
+      onSubmit: () => {
+        action('submit')();
+        return new Promise((resolve, reject) => {
+          setTimeout(resolve, 3000);
+        });
+      }
+    });
+    const getFlagModalProps = {
+      formik,
+      flagged: false,
+      cancel: action('cancel')
+    };
+    return <FlagModal {...getFlagModalProps} />;
+  },
+  like: {
+    totalLikes: 3,
+    toggleLikeFormik: useFormik<{}>({
+      initialValues: {},
+      onSubmit: vals => {
+        action('submitting...')();
+        return new Promise(resolve =>
+          setTimeout(() => {
+            action('submitted...')();
+            resolve();
+          }, 2000)
+        );
+      }
+    }),
+    iLikeIt: true
+  },
+  reply: {
+    replyFormik: useFormik<{ replyMessage: String }>({
+      initialValues: { replyMessage: '' },
+      onSubmit: vals => {
+        action(`submitting: ${vals.replyMessage}`)();
+        return new Promise(resolve =>
+          setTimeout(() => {
+            action(`submitted: ${vals.replyMessage}`)();
+            resolve();
+          }, 2000)
+        );
+      }
+    })
+  }
+});
+const getActor = () => ({
+  icon: 'https://picsum.photos/80/80',
+  link: '1',
+  name: 'Ivan'
+});
+export const MainCommentPreviewProps = {
+      communityLink: 'communityLink',
+      communityName: 'communityName',
+      event: 'Created a comment',
+      preview: (
+        <MainComment
+          {...getActions()}
+          content={
+            'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+          }
+        />
+      ),
+      status: Status.Loaded,
+      actor: getActor(),
+      createdAt: '2018-11-11',
+      link: 'https://picsum.photos/80/80'
+    };
+
+<Meta title="Pages|Thread" component={Thread}/>
+
+
+# Thread
+Let's define a story for the `Thread` page
+
+<Preview>
+  <Story name="Thread page">
+    <WithSidebar 
+      HeaderBox={<MainHeader user={{
+        icon:'https://pbs.twimg.com/profile_images/1161428802091802627/O49Ggs-7_400x400.jpg',
+        name: '˗ˏˋ Doug Belshaw ˎˊ˗  🇪🇺 ☠️ ✊',
+        id: "/test"
+      }}
+      isLogged={true}
+      isOpen= {false}
+      Search={ <Input placeholder="Search..." />}
+      logout= {() => console.log(false)} />}
+      SidebarBox={<Sidebar 
+      status={Status.Loaded}
+      communities={[{
+        link: {
+          url: "string",
+          external: true,
+        },
+        name: "test",
+        icon: "",
+      }]}
+      user={{
+        icon:'https://pbs.twimg.com/profile_images/1161428802091802627/O49Ggs-7_400x400.jpg',
+        name: '˗ˏˋ Doug Belshaw ˎˊ˗  🇪🇺 ☠️ ✊',
+        id: "/test"
+      }}
+      isOpen= {false}
+      Search={ <input />}
+      logout= {() => console.log(false)}
+    />}>
+        <Thread 
+        communityIcon="https://i.ytimg.com/vi/k4Q_YUXj4bU/maxresdefault.jpg"
+        communityName="MoodleNet devs" 
+        MainThread={ <ActivityPreview {...MainCommentPreviewProps} />}
+        Comments={[
+            (<ActivityPreview {...activityPreviewProps} key="1" />),
+            (<ActivityPreview {...activityPreviewProps} key="2" />),
+            (<ActivityPreview {...activityPreviewProps} key="3" />),
+        ]}
+        basePath="/"
+        />
+    </WithSidebar>
+  </Story>
+</Preview>
+
+

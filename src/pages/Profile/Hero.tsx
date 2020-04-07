@@ -1,4 +1,4 @@
-import React, { SFC } from 'react';
+import React, { FC } from 'react';
 import { Box, Text, Flex } from 'rebass/styled-components';
 import { Globe } from '../../components/elements/Icons';
 import styled from '../../themes/styled';
@@ -12,7 +12,7 @@ interface Props {
   >;
 }
 
-const HeroComp: SFC<Props> = ({ user }) => (
+const HeroComp: FC<Props> = ({ user }) => (
   <ProfileBox p={1} mb={2}>
     {/* <Helmet>
       <title>

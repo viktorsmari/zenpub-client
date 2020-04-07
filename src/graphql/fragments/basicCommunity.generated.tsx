@@ -18,17 +18,17 @@ export type BasicCommunityFragment = (
     { __typename: 'Flag' }
     & Pick<Types.Flag, 'id'>
   )>, collections: Types.Maybe<(
-    { __typename: 'CollectionsEdges' }
-    & Pick<Types.CollectionsEdges, 'totalCount'>
+    { __typename: 'CollectionsPage' }
+    & Pick<Types.CollectionsPage, 'totalCount'>
   )>, followers: Types.Maybe<(
-    { __typename: 'FollowsEdges' }
-    & Pick<Types.FollowsEdges, 'totalCount'>
+    { __typename: 'FollowsPage' }
+    & Pick<Types.FollowsPage, 'totalCount'>
   )>, threads: Types.Maybe<(
-    { __typename: 'ThreadsEdges' }
-    & Pick<Types.ThreadsEdges, 'totalCount'>
+    { __typename: 'ThreadsPage' }
+    & Pick<Types.ThreadsPage, 'totalCount'>
   )>, outbox: Types.Maybe<(
-    { __typename: 'ActivitiesEdges' }
-    & Pick<Types.ActivitiesEdges, 'totalCount'>
+    { __typename: 'ActivitiesPage' }
+    & Pick<Types.ActivitiesPage, 'totalCount'>
   )> }
 );
 

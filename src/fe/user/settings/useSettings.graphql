@@ -1,0 +1,11 @@
+query myProfile {
+  me{
+    ...SettingsPageMe
+  }
+}
+
+mutation updateMyProfile($profile:UpdateProfileInput!) {
+  updateProfile(profile:$profile){
+    ...SettingsPageMe
+  }
+}

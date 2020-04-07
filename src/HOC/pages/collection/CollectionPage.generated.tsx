@@ -1,35 +1,37 @@
 import * as Types from '../../../graphql/types.generated';
 
-import { ActivityPreviewDataFragment } from '../../modules/ActivityPreview/getActivityPreview.generated';
-import { ActivityPreviewResourceCtxFragment } from '../../modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewFragment } from '../../modules/previews/activity/ActivityPreview.generated';
+import { ResourcePreviewFragment } from '../../modules/previews/resource/ResourcePreview.generated';
 import { HeroCollectionDataFragment } from '../../modules/HeroCollection/HeroCollection.generated';
 import gql from 'graphql-tag';
 import { HeroCollectionDataFragmentDoc } from '../../modules/HeroCollection/HeroCollection.generated';
-import { ActivityPreviewResourceCtxFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
-import { ActivityPreviewDataFragmentDoc } from '../../modules/ActivityPreview/getActivityPreview.generated';
+import { ResourcePreviewFragmentDoc } from '../../modules/previews/resource/ResourcePreview.generated';
+import { ActivityPreviewFragmentDoc } from '../../modules/previews/activity/ActivityPreview.generated';
 
 
 
 
 export type CollectionPageDataFragment = (
   { __typename: 'Collection' }
+  & Pick<Types.Collection, 'name'>
   & HeroCollectionDataFragment
 );
 
 export type CollectionPageResourceFragment = (
   { __typename: 'Resource' }
   & Pick<Types.Resource, 'id' | 'createdAt'>
-  & ActivityPreviewResourceCtxFragment
+  & ResourcePreviewFragment
 );
 
 export type CollectionPageActivityFragment = (
   { __typename: 'Activity' }
   & Pick<Types.Activity, 'id'>
-  & ActivityPreviewDataFragment
+  & ActivityPreviewFragment
 );
 
 export const CollectionPageDataFragmentDoc = gql`
     fragment CollectionPageData on Collection {
+  name
   ...HeroCollectionData
 }
     ${HeroCollectionDataFragmentDoc}`;
@@ -37,12 +39,12 @@ export const CollectionPageResourceFragmentDoc = gql`
     fragment CollectionPageResource on Resource {
   id
   createdAt
-  ...ActivityPreviewResourceCtx
+  ...ResourcePreview
 }
-    ${ActivityPreviewResourceCtxFragmentDoc}`;
+    ${ResourcePreviewFragmentDoc}`;
 export const CollectionPageActivityFragmentDoc = gql`
     fragment CollectionPageActivity on Activity {
   id
-  ...ActivityPreviewData
+  ...ActivityPreview
 }
-    ${ActivityPreviewDataFragmentDoc}`;
+    ${ActivityPreviewFragmentDoc}`;

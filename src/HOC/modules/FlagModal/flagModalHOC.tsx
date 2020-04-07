@@ -1,63 +1,50 @@
+import { FollowContext, useFlagContext } from 'fe/context/flag/useFlagContext';
 import { useFormik } from 'formik';
-import React, { createContext, SFC, useContext, useMemo } from 'react';
+import React, { FC } from 'react';
 import { BasicCreateFlagFormValues, FlagModal } from 'ui/modules/FlagModal';
-// import { useDeleteMutationMutation } from '../../../graphql/delete.generated';
 import * as Yup from 'yup';
-import * as GQL from './flagModal.generated';
 
-export const validationSchema: Yup.ObjectSchema<
+export const validationSchema: Yup.ObjectSchema<BasicCreateFlagFormValues> = Yup.object<
   BasicCreateFlagFormValues
-> = Yup.object<BasicCreateFlagFormValues>({
+>({
   reason: Yup.string()
     .max(200)
     .required()
 });
 
-export const createFlagFormInitialValues: BasicCreateFlagFormValues = {
-  reason: ''
-};
-
-export interface Props {
-  contextId: string;
-  flagged: boolean;
+export interface FlagModalHOC {
+  ctx: FollowContext;
   done(): any;
 }
 
-export interface FlagModalCtx {
-  useCreateFlagPanelCreateMutation: typeof GQL.useCreateFlagPanelCreateMutation;
-}
-export const FlagModalCtx = createContext<FlagModalCtx>({
-  useCreateFlagPanelCreateMutation: GQL.useCreateFlagPanelCreateMutation
-});
+export const FlagModalHOC: FC<FlagModalHOC> = ({ done, ctx }) => {
+  const { unflag, flag } = useFlagContext(ctx);
 
-export const FlagModalHOC: SFC<Props> = ({
-  done,
-  contextId,
-  flagged
-}: Props) => {
-  const { useCreateFlagPanelCreateMutation } = useContext(FlagModalCtx);
-  const [flag] = useCreateFlagPanelCreateMutation();
-  // const [undoflag] = useDeleteMutationMutation();
-  const initialValues = useMemo<BasicCreateFlagFormValues>(
-    () => createFlagFormInitialValues,
-    []
-  );
-  const formik = useFormik<BasicCreateFlagFormValues>({
+  const unflagFormik = useFormik({
+    onSubmit: () => {
+      unflag();
+      done();
+    },
+    initialValues: {}
+  });
+
+  const flagFormik = useFormik<BasicCreateFlagFormValues>({
     enableReinitialize: true,
     onSubmit: vals => {
-      flag({
-        variables: {
-          contextId: contextId!,
-          message: vals.reason!
-        }
-      })
-        .then(done)
-        .catch(err => console.log(err));
+      flag(vals.reason);
+      done();
     },
     validationSchema,
-    initialValues
+    initialValues: { reason: '' }
   });
-  return <FlagModal cancel={done} flagged={flagged} formik={formik} />;
+  return (
+    <FlagModal
+      cancel={done}
+      isFlagged={!!ctx.myFlag}
+      flagFormik={flagFormik}
+      unflagFormik={unflagFormik}
+    />
+  );
 };
 
 export default FlagModalHOC;
