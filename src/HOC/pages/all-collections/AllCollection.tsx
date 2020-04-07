@@ -5,10 +5,16 @@ import {
 } from 'ui/pages/allCollections';
 import { useAllCollections } from 'fe/collection/all/useAllCollections';
 import { CollectionPreviewHOC } from 'HOC/modules/previews/collection/CollectionPreview';
+import { useFormik } from 'formik';
 
 export interface AllCollectionsPage {}
 export const AllCollectionsPage: FC<AllCollectionsPage> = () => {
   const { allCollectionsPage } = useAllCollections();
+  const LoadMoreFormik = useFormik({
+    initialValues: {},
+    onSubmit: () =>
+      allCollectionsPage.ready ? allCollectionsPage.next() : undefined
+  });
   const allCollectionsUIProps = useMemo<AllCollectionsUIProps>(() => {
     const CollectionsBoxes = (
       <>
@@ -18,11 +24,12 @@ export const AllCollectionsPage: FC<AllCollectionsPage> = () => {
       </>
     );
     const props: AllCollectionsUIProps = {
-      CollectionsBoxes
+      CollectionsBoxes,
+      LoadMoreFormik
     };
 
     return props;
-  }, [allCollectionsPage]);
+  }, [allCollectionsPage, LoadMoreFormik]);
 
   return <AllCollectionsUI {...allCollectionsUIProps} />;
 };

@@ -99,7 +99,6 @@ const ResetPasswordPage = (props: Props & FormikProps<FormikValues>) => {
               {props.errors.password && props.touched.password && (
                 <Alert>{props.errors.password}</Alert>
               )}
-
               <Field
                 name="confirm"
                 render={({ field }) => (
