@@ -13,8 +13,8 @@ query editCommunityData($communityId: String!) {
     }
 }
 
-mutation editCommunity($community: CommunityUpdateInput!, $communityId: String!) {
-  updateCommunity(communityId: $communityId, community: $community) {
+mutation editCommunity($community: CommunityUpdateInput!, $communityId: String!, $icon: UploadInput) {
+  updateCommunity(community: $community, communityId: $communityId, icon:$icon) {
     ...EditCommunityQueryData
   }
 }

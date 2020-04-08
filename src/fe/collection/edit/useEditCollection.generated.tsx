@@ -32,7 +32,8 @@ export type EditCollectionDataQuery = (
 
 export type EditCollectionMutationVariables = {
   collection: Types.CollectionUpdateInput,
-  collectionId: Types.Scalars['String']
+  collectionId: Types.Scalars['String'],
+  icon?: Types.Maybe<Types.UploadInput>
 };
 
 
@@ -107,8 +108,8 @@ export type EditCollectionDataQueryHookResult = ReturnType<typeof useEditCollect
 export type EditCollectionDataLazyQueryHookResult = ReturnType<typeof useEditCollectionDataLazyQuery>;
 export type EditCollectionDataQueryResult = ApolloReactCommon.QueryResult<EditCollectionDataQuery, EditCollectionDataQueryVariables>;
 export const EditCollectionDocument = gql`
-    mutation editCollection($collection: CollectionUpdateInput!, $collectionId: String!) {
-  updateCollection(collectionId: $collectionId, collection: $collection) {
+    mutation editCollection($collection: CollectionUpdateInput!, $collectionId: String!, $icon: UploadInput) {
+  updateCollection(collection: $collection, collectionId: $collectionId, icon: $icon) {
     ...EditCollectionQueryData
   }
 }
@@ -147,6 +148,7 @@ export function withEditCollection<TProps, TChildProps = {}>(operationOptions?: 
  *   variables: {
  *      collection: // value for 'collection'
  *      collectionId: // value for 'collectionId'
+ *      icon: // value for 'icon'
  *   },
  * });
  */

@@ -1,7 +1,0 @@
-mutation uploadImage($contextId: ID!,$upload: UploadInput!) {
-    uploadImage(contextId: $contextId, upload:$upload ){
-        id
-        url 
-    }
-    
-}

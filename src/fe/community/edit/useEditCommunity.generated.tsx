@@ -32,7 +32,8 @@ export type EditCommunityDataQuery = (
 
 export type EditCommunityMutationVariables = {
   community: Types.CommunityUpdateInput,
-  communityId: Types.Scalars['String']
+  communityId: Types.Scalars['String'],
+  icon?: Types.Maybe<Types.UploadInput>
 };
 
 
@@ -107,8 +108,8 @@ export type EditCommunityDataQueryHookResult = ReturnType<typeof useEditCommunit
 export type EditCommunityDataLazyQueryHookResult = ReturnType<typeof useEditCommunityDataLazyQuery>;
 export type EditCommunityDataQueryResult = ApolloReactCommon.QueryResult<EditCommunityDataQuery, EditCommunityDataQueryVariables>;
 export const EditCommunityDocument = gql`
-    mutation editCommunity($community: CommunityUpdateInput!, $communityId: String!) {
-  updateCommunity(communityId: $communityId, community: $community) {
+    mutation editCommunity($community: CommunityUpdateInput!, $communityId: String!, $icon: UploadInput) {
+  updateCommunity(community: $community, communityId: $communityId, icon: $icon) {
     ...EditCommunityQueryData
   }
 }
@@ -147,6 +148,7 @@ export function withEditCommunity<TProps, TChildProps = {}>(operationOptions?: A
  *   variables: {
  *      community: // value for 'community'
  *      communityId: // value for 'communityId'
+ *      icon: // value for 'icon'
  *   },
  * });
  */

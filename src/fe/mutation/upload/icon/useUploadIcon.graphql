@@ -1,6 +1,0 @@
-mutation uploadIcon($contextId:ID!, $upload:UploadInput!){
-  uploadIcon(contextId:$contextId, upload:$upload){
-    id
-    url
-  }
-}

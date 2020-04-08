@@ -1,11 +1,10 @@
 import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
-import { FormikHook } from 'ui/@types/types';
 import * as React from 'react';
-import { LocaleContext } from '../../../context/global/localizationCtx';
-import styled from 'ui/themes/styled';
-import { Button, Box } from 'rebass/styled-components';
+import { Box, Button } from 'rebass/styled-components';
+import { FormikHook } from 'ui/@types/types';
+import Alert from 'ui/elements/Alert';
 import MNButton from 'ui/elements/Button';
 import {
   Actions,
@@ -14,9 +13,10 @@ import {
   CounterChars,
   Row
 } from 'ui/modules/Modal';
+import styled from 'ui/themes/styled';
 // import { clearFix } from 'polished';
 import DropzoneArea from '../../../components/elements/DropzoneModal';
-import Alert from 'ui/elements/Alert';
+import { LocaleContext } from '../../../context/global/localizationCtx';
 
 // these icons must match the types and order of the `accepted_license_types` configured in constants.tsx
 const LicenseIcon0 = require('./cc-zero.png');
@@ -39,23 +39,33 @@ const tt = {
 export interface Props {
   cancel: () => any;
   formik: FormikHook<ResourceFormValues>;
+  acceptedLicenses: string[];
 }
 
 export interface ResourceFormValues {
-  url: string;
+  license: string;
   name: string;
   summary: string;
-  icon: string;
-  license: string;
-  acceptedLicenses?: string[];
-  resourceFiles?: File[];
-  imageFiles?: File[];
+  resource: File | string;
+  icon?: File | string;
 }
 
 export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
   const { i18n } = React.useContext(LocaleContext);
   // console.log(formik.values.resourceFiles);
   // {formik.values.resourceFiles![0] !== undefined ? console.log('re %',formik.values.resourceFiles![0].type) : null}
+  const onResourceFileSelect = React.useCallback(
+    (file: File) => formik.setFieldValue('resource', file, true),
+    []
+  );
+  const initialResourceUrl =
+    'string' === typeof formik.values.resource ? formik.values.resource : '';
+  const onIconFileSelect = React.useCallback(
+    (file: File) => formik.setFieldValue('icon', file, true),
+    []
+  );
+  const initialIconUrl =
+    'string' === typeof formik.values.icon ? formik.values.icon : '';
   return (
     <div>
       <Row>
@@ -64,10 +74,10 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
         </label>
         <ContainerForm>
           <DropzoneArea
-            initialUrl={formik.values.url}
-            formikForm={formik}
+            initialUrl={initialResourceUrl}
+            onFileSelect={onResourceFileSelect}
+            filePattern="*"
             uploadType="resource"
-            touchedField="resourceFiles"
           />
         </ContainerForm>
       </Row>
@@ -129,26 +139,20 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
           </>
         </ContainerForm>
       </Row>
-      {(formik.values.resourceFiles &&
-        formik.values.resourceFiles.length == 0) ||
-      (formik.values.resourceFiles &&
-        formik.values.resourceFiles.length > 0 &&
-        formik.values.resourceFiles[0].type.indexOf('image') == -1) ? (
-        <Row>
-          <label>
-            <Trans>Image</Trans>
-          </label>
-          <ContainerForm>
-            <Box sx={{ width: '120px', height: '120px' }}>
-              <DropzoneArea
-                initialUrl={formik.values.icon}
-                formikForm={formik}
-                touchedField="imageFiles"
-              />
-            </Box>
-          </ContainerForm>
-        </Row>
-      ) : null}
+      <Row>
+        <label>
+          <Trans>Image</Trans>
+        </label>
+        <ContainerForm>
+          <Box sx={{ width: '120px', height: '120px' }}>
+            <DropzoneArea
+              initialUrl={initialIconUrl}
+              onFileSelect={onIconFileSelect}
+              filePattern={'image/*'}
+            />
+          </Box>
+        </ContainerForm>
+      </Row>
       <Row>
         <LabelWrapper>
           <label>
@@ -165,41 +169,35 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
           <RadioButton
             type="radio"
             name="license"
-            id={formik.values.acceptedLicenses![0]}
-            value={formik.values.acceptedLicenses![0]}
-            checked={
-              formik.values.license === formik.values.acceptedLicenses![0]
-            }
+            id={formik.values.license![0]}
+            value={formik.values.license![0]}
+            checked={formik.values.license === formik.values.license![0]}
             onChange={formik.handleChange}
           />
-          <LicenseLabel0 htmlFor={formik.values.acceptedLicenses![0]}>
-            {formik.values.acceptedLicenses![0]}
+          <LicenseLabel0 htmlFor={formik.values.license![0]}>
+            {formik.values.license![0]}
           </LicenseLabel0>
           <RadioButton
             type="radio"
             name="license"
-            id={formik.values.acceptedLicenses![1]}
-            value={formik.values.acceptedLicenses![1]}
-            checked={
-              formik.values.license === formik.values.acceptedLicenses![1]
-            }
+            id={formik.values.license![1]}
+            value={formik.values.license![1]}
+            checked={formik.values.license === formik.values.license![1]}
             onChange={formik.handleChange}
           />
-          <LicenseLabel1 htmlFor={formik.values.acceptedLicenses![1]}>
-            {formik.values.acceptedLicenses![1]}
+          <LicenseLabel1 htmlFor={formik.values.license![1]}>
+            {formik.values.license![1]}
           </LicenseLabel1>
           <RadioButton
             type="radio"
             name="license"
-            id={formik.values.acceptedLicenses![2]}
-            value={formik.values.acceptedLicenses![2]}
-            checked={
-              formik.values.license === formik.values.acceptedLicenses![2]
-            }
+            id={formik.values.license![2]}
+            value={formik.values.license![2]}
+            checked={formik.values.license === formik.values.license![2]}
             onChange={formik.handleChange}
           />
-          <LicenseLabel2 htmlFor={formik.values.acceptedLicenses![2]}>
-            {formik.values.acceptedLicenses![2]}
+          <LicenseLabel2 htmlFor={formik.values.license![2]}>
+            {formik.values.license![2]}
           </LicenseLabel2>
         </ContainerForm>
       </Row>

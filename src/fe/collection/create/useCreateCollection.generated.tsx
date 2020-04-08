@@ -13,7 +13,8 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type CreateCollectionMutationVariables = {
   collection: Types.CollectionInput,
-  communityId: Types.Scalars['String']
+  communityId: Types.Scalars['String'],
+  icon?: Types.Maybe<Types.UploadInput>
 };
 
 
@@ -27,8 +28,8 @@ export type CreateCollectionMutation = (
 
 
 export const CreateCollectionDocument = gql`
-    mutation createCollection($collection: CollectionInput!, $communityId: String!) {
-  createCollection(communityId: $communityId, collection: $collection) {
+    mutation createCollection($collection: CollectionInput!, $communityId: String!, $icon: UploadInput) {
+  createCollection(collection: $collection, communityId: $communityId, icon: $icon) {
     ...CollectionPageData
   }
 }
@@ -67,6 +68,7 @@ export function withCreateCollection<TProps, TChildProps = {}>(operationOptions?
  *   variables: {
  *      collection: // value for 'collection'
  *      communityId: // value for 'communityId'
+ *      icon: // value for 'icon'
  *   },
  * });
  */

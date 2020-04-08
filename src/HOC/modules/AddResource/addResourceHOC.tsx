@@ -26,9 +26,9 @@ export const initialValues: ResourceFormValues = {
   summary: '',
   icon: '',
   license: accepted_license_types[1],
-  acceptedLicenses: accepted_license_types,
-  resourceFiles: [],
-  imageFiles: []
+  license: accepted_license_types,
+  resource: [],
+  icon: []
 };
 
 export interface AddResourceHOC {
@@ -50,7 +50,7 @@ export const AddResourceHOC: FC<AddResourceHOC> = ({
       const fileToUpload = vals.resourceFiles?.map(file => {
         return file;
       })[0];
-      const iconToUpload = vals.imageFiles?.map(file => {
+      const iconToUpload = vals.icon?.map(file => {
         return file;
       })[0];
       const resource = {

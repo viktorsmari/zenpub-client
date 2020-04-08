@@ -12,7 +12,8 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type CreateCommunityMutationVariables = {
-  community: Types.CommunityInput
+  community: Types.CommunityInput,
+  icon?: Types.Maybe<Types.UploadInput>
 };
 
 
@@ -26,8 +27,8 @@ export type CreateCommunityMutation = (
 
 
 export const CreateCommunityDocument = gql`
-    mutation createCommunity($community: CommunityInput!) {
-  createCommunity(community: $community) {
+    mutation createCommunity($community: CommunityInput!, $icon: UploadInput) {
+  createCommunity(community: $community, icon: $icon) {
     ...CommunityPageData
   }
 }
@@ -65,6 +66,7 @@ export function withCreateCommunity<TProps, TChildProps = {}>(operationOptions?:
  * const [createCommunityMutation, { data, loading, error }] = useCreateCommunityMutation({
  *   variables: {
  *      community: // value for 'community'
+ *      icon: // value for 'icon'
  *   },
  * });
  */

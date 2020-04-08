@@ -1,22 +1,6 @@
-input ResourceInput {
-    name: String!
-    summary: String
-    author: String
-    license: String
-}
-mutation addResourceCreateResource($collectionId: String!, $resource: ResourceInput!) {
-    createResource(collectionId: $collectionId, resource: $resource) {
+mutation addResourceCreateResource($collectionId: String!, $resource: ResourceInput!, $icon:UploadInput, $content:UploadInput!) {
+    createResource(collectionId: $collectionId, resource: $resource, content: $content, icon:$icon) {
         id
         ...AddResourceCreateResourceMutationResult
     }
-}
-
-mutation addResourceUpload($contextId: ID!,$upload: UploadInput!) {
-   uploadResource(contextId:$contextId, upload:$upload ){
-        ...AddResourceUploadMutationResult 
-    }   
-}
-fragment AddResourceUploadMutationResult on Content {
-    id
-    url
 }

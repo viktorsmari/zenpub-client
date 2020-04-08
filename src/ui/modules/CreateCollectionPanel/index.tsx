@@ -37,11 +37,17 @@ interface Props {
 export interface BasicCreateCollectionFormValues {
   name: string;
   summary: string;
-  icon: string;
-  files?: File[];
+  icon: File | string | undefined;
 }
 
 export const CreateCollectionPanel: React.FC<Props> = ({ cancel, formik }) => {
+  const onIconFileSelected = React.useCallback(
+    (file: File) => formik.setFieldValue('icon', file, true),
+    []
+  );
+  const initialIconUrl =
+    'string' === typeof formik.values.icon ? formik.values.icon : '';
+
   return (
     <Container>
       <Header>
@@ -51,7 +57,11 @@ export const CreateCollectionPanel: React.FC<Props> = ({ cancel, formik }) => {
       </Header>
       <Hero>
         <Box sx={{ width: '120px', height: '120px' }}>
-          <DropzoneArea initialUrl={formik.values.icon} formikForm={formik} />
+          <DropzoneArea
+            initialUrl={initialIconUrl}
+            onFileSelect={onIconFileSelected}
+            filePattern="image/*"
+          />
         </Box>
         {/* <Background style={{ backgroundImage: `url(${c.icon})` }} /> */}
         <HeroInfo>
