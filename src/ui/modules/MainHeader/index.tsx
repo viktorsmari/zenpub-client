@@ -33,17 +33,15 @@ export const MainHeader: React.FC<Props> = props => {
     <HeaderWrapper>
       <FlexWrapper>
         <Left>
-          <Icon mx={2} onClick={() => history.goBack()}>
+          <Icon onClick={() => history.goBack()}>
             <ChevronLeft size="20" />
           </Icon>
-          <Link to="/">
+          <HamburgerIcon onClick={() => alert('dd')}>
+            <Menu size="20" />
+          </HamburgerIcon>
+          <HomeLink to="/">
             <Avatar size="s" src={MnetLogo} />
-          </Link>
-          {media.lessThan('medium') ? (
-            <Icon mx={2} onClick={() => alert('dd')}>
-              <Menu size="20" />
-            </Icon>
-          ) : null}
+          </HomeLink>
         </Left>
         <Center>{props.Search}</Center>
         <Header alignItems={'center'}>
@@ -162,6 +160,7 @@ const Icon = styled(Box)`
   cursor: pointer;
   height: 40px;
   width: 40px;
+  min-width: 40px;
   border-radius: 40px;
   display: flex;
   align-items: center;
@@ -204,4 +203,16 @@ const HeaderWrapper = styled(Box)`
     flex: 1;
     text-decoration: none;
   }
+`;
+
+const HamburgerIcon = styled(Icon)`
+  display: none;
+  min-width: 40px;
+  ${media.lessThan('medium')`
+      display: flex;
+  `};
+`;
+
+const HomeLink = styled(Link)`
+  margin-left: 8px;
 `;

@@ -66,7 +66,7 @@ export const Discover: React.FC<Props> = ({
 };
 
 const Menu = ({ basePath }: { basePath: string }) => (
-  <SuperTabWrapper p={3} pt={3}>
+  <SuperTabWrapper>
     <NavLink exact to={'/'}>
       <Trans>Timeline</Trans>
     </NavLink>
@@ -81,14 +81,14 @@ const Menu = ({ basePath }: { basePath: string }) => (
 
 const SuperTabWrapper = styled(Flex)`
   border-bottom: 1px solid ${props => props.theme.colors.lightgray};
-
+  padding: 12px 8px;
   a {
     font-weight: 700;
     text-decoration: none;
     margin-right: 8px;
     color: ${props => props.theme.colors.gray};
     letterspacing: 1px;
-    font-size: 15px;
+    font-size: 14px;
     padding: 0px 8px;
     white-space: nowrap;
     &.active {
@@ -141,6 +141,7 @@ export const MainContainer = styled(Flex)`
   flex-grow: 1;
   flex-direction: row;
   width: 100%;
+  margin-right: 8px;
 `;
 
 export const WrapperCont = styled(Flex)`
@@ -169,6 +170,7 @@ export const Wrapper = styled(Flex)`
   margin-top: 8px;
   background: white;
   border-radius: 8px;
+  overflow: hidden;
   & ul {
     display: block;
 

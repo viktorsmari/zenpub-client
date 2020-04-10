@@ -18,6 +18,9 @@ export enum Status {
 
 const SidebarComponent = styled(Flex)`
   width: 240px;
+  ${media.lessThan('medium')`
+      display: none;
+  `};
 `;
 
 const InternalWrapper = styled(Box)<{ isOpen: boolean }>`
@@ -190,62 +193,68 @@ export interface SidebarLoading {
 export type Props = SidebarLoaded | SidebarLoading;
 
 export const Sidebar: React.FC<Props> = props => {
-  // const [isOpenDropdown, setOpenDropdown] = React.useState(false);
+  const [isOpenSidebar] = React.useState(true);
   // const openMenu = React.useCallback(() => setOpenDropdown(true), []);
   return (
-    <SidebarComponent>
-      <InternalWrapper>
-        <SidebarFixed>
-          {props.status === Status.Loading ? (
-            <Text>Loading</Text>
-          ) : (
-            <SidebarOverflow>
-              <>
-                <Nav>
-                  <SidebarLink exact to={'/discover'}>
-                    <NavItem alignItems={'center'}>
-                      <Box>
-                        <Globe size={36} strokeWidth="1" />
-                      </Box>
-                      <ItemTitleDir variant="link">
-                        <Trans>Discover</Trans>
-                      </ItemTitleDir>
-                    </NavItem>
-                  </SidebarLink>
-                  <SidebarLink exact to={'/'}>
-                    <NavItem alignItems={'center'}>
-                      <Avatar size="s" src={MnetLogo} />
-                      <ItemTitleDir variant="link">
-                        <Trans>My MoodleNet</Trans>
-                      </ItemTitleDir>
-                    </NavItem>
-                  </SidebarLink>
-                </Nav>
-                <Nav>
-                  {props.communities.map((community: CommunityPreview, i) => (
-                    <CommunityLink
-                      key={community.link.url}
-                      to={community.link.url}
-                    >
-                      <NavItem alignItems={'center'} mb={2}>
-                        <Avatar
-                          size="s"
-                          initials={community.name.substr(0, 2)}
-                          src={community.icon}
-                        />
-                        <ItemTitleDir variant="link">
-                          {community.name}
-                        </ItemTitleDir>
-                      </NavItem>
-                    </CommunityLink>
-                  ))}
-                </Nav>
-              </>
-            </SidebarOverflow>
-          )}
-        </SidebarFixed>
-      </InternalWrapper>
-    </SidebarComponent>
+    <>
+      {isOpenSidebar ? (
+        <SidebarComponent>
+          <InternalWrapper>
+            <SidebarFixed>
+              {props.status === Status.Loading ? (
+                <Text>Loading</Text>
+              ) : (
+                <SidebarOverflow>
+                  <>
+                    <Nav>
+                      <SidebarLink exact to={'/discover'}>
+                        <NavItem alignItems={'center'}>
+                          <Box>
+                            <Globe size={36} strokeWidth="1" />
+                          </Box>
+                          <ItemTitleDir variant="link">
+                            <Trans>Discover</Trans>
+                          </ItemTitleDir>
+                        </NavItem>
+                      </SidebarLink>
+                      <SidebarLink exact to={'/'}>
+                        <NavItem alignItems={'center'}>
+                          <Avatar size="s" src={MnetLogo} />
+                          <ItemTitleDir variant="link">
+                            <Trans>My MoodleNet</Trans>
+                          </ItemTitleDir>
+                        </NavItem>
+                      </SidebarLink>
+                    </Nav>
+                    <Nav>
+                      {props.communities.map(
+                        (community: CommunityPreview, i) => (
+                          <CommunityLink
+                            key={community.link.url}
+                            to={community.link.url}
+                          >
+                            <NavItem alignItems={'center'} mb={2}>
+                              <Avatar
+                                size="s"
+                                initials={community.name.substr(0, 2)}
+                                src={community.icon}
+                              />
+                              <ItemTitleDir variant="link">
+                                {community.name}
+                              </ItemTitleDir>
+                            </NavItem>
+                          </CommunityLink>
+                        )
+                      )}
+                    </Nav>
+                  </>
+                </SidebarOverflow>
+              )}
+            </SidebarFixed>
+          </InternalWrapper>
+        </SidebarComponent>
+      ) : null}
+    </>
   );
 };
 

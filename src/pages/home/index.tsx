@@ -147,7 +147,7 @@ export default Home;
 const Menu = ({ basePath }: { basePath: string }) => {
   const { me } = useMe();
   return (
-    <MenuWrapper p={3} pt={3}>
+    <MenuWrapper>
       <NavLink exact to={'/'}>
         <Trans>My Timeline</Trans>
       </NavLink>
@@ -167,15 +167,16 @@ const Menu = ({ basePath }: { basePath: string }) => {
 
 const MenuWrapper = styled(Flex)`
   border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+  padding: 12px 8px;
   a {
     font-weight: 700;
     text-decoration: none;
     margin-right: 8px;
     color: ${props => props.theme.colors.gray};
     letterspacing: 1px;
-    font-size: 15px;
+    font-size: 14px;
     padding: 4px 8px;
-    white-space: nowrap;
+    // white-space: nowrap;
     &.active {
       color: #ffffff;
       background: ${props => props.theme.colors.orange};
