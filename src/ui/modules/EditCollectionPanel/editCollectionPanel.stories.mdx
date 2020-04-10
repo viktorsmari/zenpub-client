@@ -1,7 +1,7 @@
 import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
 import { PropsTable } from '@storybook/components';
-import {getEditCollectionProps} from 'ui/mock/context'
-import { EditCollectionPanel, EditCollectionContext } from 'ui/modules/EditCollectionPanel';
+import {getEditCollectionModalProps} from 'ui/mock/editCollectionModal'
+import { EditCollectionPanel } from 'ui/modules/EditCollectionPanel';
 import { action } from '@storybook/addon-actions';
 import Modal from 'ui/modules/Modal'
 
@@ -13,7 +13,7 @@ Let's define a story for the `Activity preview` module
 <Preview>
   <Story name="edit collection module">
     <Modal closeModal={action('close modal')}>
-      <EditCollectionPanel {...getEditCollectionProps()} />
+      <EditCollectionPanel {...getEditCollectionModalProps()} />
     </Modal>
   </Story>  
 </Preview>

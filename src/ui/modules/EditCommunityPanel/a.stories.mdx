@@ -1,6 +1,6 @@
 import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
 import { PropsTable } from '@storybook/components';
-import {getEditCommunityProps} from 'ui/mock/context'
+import {getEditCommunityModalProps} from 'ui/mock/editCommunityModal'
 import { EditCommunityPanel } from '.';
 import { action } from '@storybook/addon-actions';
 import {Box} from 'rebass'
@@ -14,7 +14,7 @@ Let's define a story for the `Activity preview` module
 <Preview>
   <Story name="edit community module">
     <Modal closeModal={action('close modal')}>
-      <EditCommunityPanel {...getEditCommunityProps()}/>
+      <EditCommunityPanel {...getEditCommunityModalProps()}/>
     </Modal>
   </Story>
 </Preview>
