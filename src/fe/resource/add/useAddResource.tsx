@@ -14,15 +14,15 @@ export const useAddResource = () => {
     createResourceStatus
   ] = GQL.useAddResourceCreateResourceMutation();
   return useMemo(() => {
-    if (createResourceStatus.loading) {
-      return;
-    }
-    const create = (
+    const create = async (
       collectionId: Collection['id'],
       resource: ResourceInput,
       content: File,
       icon: Maybe<File | string>
     ) => {
+      if (createResourceStatus.loading) {
+        return;
+      }
       const refetchQueries = [
         {
           query: CollectionResourcesDocument,

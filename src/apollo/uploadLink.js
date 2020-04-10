@@ -197,10 +197,12 @@ exports.createUploadLink = ({
         .then(response => {
           // Forward the response on the context.
           operation.setContext({ response });
+          debugger;
           return response;
         })
         .then(parseAndCheckHttpResponse(operation))
         .then(result => {
+          debugger;
           observer.next(result);
           observer.complete();
         })

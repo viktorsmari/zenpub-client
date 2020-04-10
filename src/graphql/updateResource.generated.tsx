@@ -10,7 +10,8 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type UpdateResourceMutationMutationVariables = {
   resource: Types.ResourceInput,
-  resourceId: Types.Scalars['String']
+  resourceId: Types.Scalars['String'],
+  icon?: Types.Maybe<Types.UploadInput>
 };
 
 
@@ -38,8 +39,8 @@ export type UpdateResourceMutationMutation = (
 
 
 export const UpdateResourceMutationDocument = gql`
-    mutation updateResourceMutation($resource: ResourceInput!, $resourceId: String!) {
-  updateResource(resource: $resource, resourceId: $resourceId) {
+    mutation updateResourceMutation($resource: ResourceInput!, $resourceId: String!, $icon: UploadInput) {
+  updateResource(resource: $resource, resourceId: $resourceId, icon: $icon) {
     id
     name
     summary
@@ -98,6 +99,7 @@ export function withUpdateResourceMutation<TProps, TChildProps = {}>(operationOp
  *   variables: {
  *      resource: // value for 'resource'
  *      resourceId: // value for 'resourceId'
+ *      icon: // value for 'icon'
  *   },
  * });
  */

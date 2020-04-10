@@ -46,11 +46,16 @@ export interface ResourceFormValues {
   license: string;
   name: string;
   summary: string;
-  resource: File | string;
+  resource?: File;
   icon?: File | string;
 }
 
-export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
+export const UploadResource: React.FC<Props> = ({
+  cancel,
+  formik,
+  acceptedLicenses
+}) => {
+  const [license0, license1, license2] = acceptedLicenses;
   const { i18n } = React.useContext(LocaleContext);
   // console.log(formik.values.resourceFiles);
   // {formik.values.resourceFiles![0] !== undefined ? console.log('re %',formik.values.resourceFiles![0].type) : null}
@@ -169,36 +174,30 @@ export const UploadResource: React.FC<Props> = ({ cancel, formik }) => {
           <RadioButton
             type="radio"
             name="license"
-            id={formik.values.license![0]}
-            value={formik.values.license![0]}
-            checked={formik.values.license === formik.values.license![0]}
+            id={license0}
+            value={license0}
+            checked={formik.setFieldValue('license', license0, true)}
             onChange={formik.handleChange}
           />
-          <LicenseLabel0 htmlFor={formik.values.license![0]}>
-            {formik.values.license![0]}
-          </LicenseLabel0>
+          <LicenseLabel0 htmlFor={license0}>{license0}</LicenseLabel0>
           <RadioButton
             type="radio"
             name="license"
-            id={formik.values.license![1]}
-            value={formik.values.license![1]}
-            checked={formik.values.license === formik.values.license![1]}
+            id={license1}
+            value={license1}
+            checked={formik.setFieldValue('license', license1, true)}
             onChange={formik.handleChange}
           />
-          <LicenseLabel1 htmlFor={formik.values.license![1]}>
-            {formik.values.license![1]}
-          </LicenseLabel1>
+          <LicenseLabel1 htmlFor={license1}>{license1}</LicenseLabel1>
           <RadioButton
             type="radio"
             name="license"
-            id={formik.values.license![2]}
-            value={formik.values.license![2]}
-            checked={formik.values.license === formik.values.license![2]}
+            id={license2}
+            value={license2}
+            checked={formik.setFieldValue('license', license2, true)}
             onChange={formik.handleChange}
           />
-          <LicenseLabel2 htmlFor={formik.values.license![2]}>
-            {formik.values.license![2]}
-          </LicenseLabel2>
+          <LicenseLabel2 htmlFor={license2}>{license2}</LicenseLabel2>
         </ContainerForm>
       </Row>
       <Actions>

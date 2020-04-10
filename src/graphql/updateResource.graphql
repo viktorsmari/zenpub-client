@@ -6,8 +6,8 @@ input ResourceInput {
 }
 
 
- mutation updateResourceMutation($resource: ResourceInput!,$resourceId: String!) {
-    updateResource(resource: $resource, resourceId: $resourceId) {
+ mutation updateResourceMutation($resource: ResourceInput!,$resourceId: String!, $icon:UploadInput) {
+    updateResource(resource: $resource, resourceId: $resourceId, icon:$icon) {
         id
         name
         summary
