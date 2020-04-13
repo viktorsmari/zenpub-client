@@ -34,12 +34,12 @@ export const Discover: React.FC<Props> = ({
           <Wrapper>
             <Switch>
               <Route path="/">
-                {/* FIX ME  */}
+                {/* FIX ME fix url  */}
                 <Menu basePath="/" />
                 {ActivitiesBox}
               </Route>
               <Route path="/communities">
-                {/* FIX ME add CommunitiesBoxes */}
+                {/* FIX ME fix url and add CommunitiesBoxes */}
                 <Menu basePath="/communities" />
                 <WrapperBoxes>{CommunitiesBoxes}</WrapperBoxes>
                 {/* FIX ME after LoadMoreFormik fix */}
@@ -48,7 +48,7 @@ export const Discover: React.FC<Props> = ({
                 ) : null}
               </Route>
               <Route path="/collections">
-                {/* FIX ME  add CollectionsBoxes */}
+                {/* FIX ME fix url and add CollectionsBoxes */}
                 <Menu basePath="/collections" />
                 {CollectionsBoxes}
                 {/* FIX ME after LoadMoreFormik fix */}
@@ -67,7 +67,7 @@ export const Discover: React.FC<Props> = ({
 
 const Menu = ({ basePath }: { basePath: string }) => (
   <SuperTabWrapper>
-    <NavLink exact to={'/'}>
+    <NavLink to={'/'}>
       <Trans>Timeline</Trans>
     </NavLink>
     <NavLink to={'/communities'}>
@@ -89,7 +89,7 @@ const SuperTabWrapper = styled(Flex)`
     color: ${props => props.theme.colors.gray};
     letterspacing: 1px;
     font-size: 14px;
-    padding: 0px 8px;
+    padding: 4px 8px;
     white-space: nowrap;
     &.active {
       color: #ffffff;

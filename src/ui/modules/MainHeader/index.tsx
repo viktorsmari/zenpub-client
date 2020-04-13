@@ -36,7 +36,8 @@ export const MainHeader: React.FC<Props> = props => {
           <Icon onClick={() => history.goBack()}>
             <ChevronLeft size="20" />
           </Icon>
-          <HamburgerIcon onClick={() => alert('dd')}>
+          <HamburgerIcon>
+            {/* <HamburgerIcon onClick={() => toggleSideBar()}> FIX ME AFTER HOC */}
             <Menu size="20" />
           </HamburgerIcon>
           <HomeLink to="/">
