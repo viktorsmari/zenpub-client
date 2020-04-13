@@ -44,3 +44,7 @@ src/fragmentTypes.json
 
 # sentry
 sentry.tsx
+
+# user uploads
+uploads/*
+!uploads/index.html
