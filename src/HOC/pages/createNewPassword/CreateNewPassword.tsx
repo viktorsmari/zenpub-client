@@ -4,14 +4,14 @@ import CreateNewPassword, {
   NewPasswordFormValues
 } from 'ui/pages/createNewPassword';
 import { useFormik } from 'formik';
-import Yup from 'yup';
+import * as Yup from 'yup';
 import { useAnon } from 'fe/session/useAnon';
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
     .min(6)
     .required('Password is required'),
-  confirm: Yup.string()
+  passwordConfirm: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
     .required('Password confirm is required')
 });

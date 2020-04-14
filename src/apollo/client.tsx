@@ -7,13 +7,14 @@ import {
   IntrospectionFragmentMatcher
 } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
-import { ApolloLink, Observable, FetchResult } from 'apollo-link';
+import { ApolloLink, FetchResult, Observable } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 // import { createHttpLink } from 'apollo-link-http';
 import apolloLogger from 'apollo-link-logger';
-import { ResetPasswordRequestMutationOperation } from 'graphql/resetPasswordRequest.generated';
+import { AnonResetPasswordMutationOperation } from 'fe/session/anon.generated';
 import { Socket as PhoenixSocket } from 'phoenix';
+import { logout } from 'redux/session';
 import { UsernameAvailableQueryOperation } from '../graphql/checkUsername.generated';
 import { ConfirmEmailMutationMutationOperation } from '../graphql/confirmEmail.generated';
 import { CreateUserMutationMutationOperation } from '../graphql/createUser.generated';
@@ -26,13 +27,12 @@ import {
   PHOENIX_SOCKET_ENDPOINT
 } from '../mn-constants';
 import {
+  getOperationNameAndType,
   getOpType,
-  Name,
-  getOperationNameAndType
+  Name
 } from '../util/apollo/operation';
 import { KVStore } from '../util/keyvaluestore/types';
 import { createUploadLink } from './uploadLink.js';
-import { logout } from 'redux/session';
 const introspectionQueryResultData = require('../fragmentTypes.json');
 
 export type MutationName = keyof RootMutationType;
@@ -199,9 +199,9 @@ export default async function initialise({
     | LogoutMutationMutationOperation
     | ConfirmEmailMutationMutationOperation
     | UsernameAvailableQueryOperation
-    | ResetPasswordRequestMutationOperation
+    | AnonResetPasswordMutationOperation
   >[] = [
-    'resetPasswordRequest',
+    'anonResetPassword',
     'confirmEmailMutation',
     'createUserMutation',
     'loginMutation',
