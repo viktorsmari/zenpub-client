@@ -1,5 +1,5 @@
 import React, { FC, useMemo } from 'react';
-import { useMe } from 'fe/session/me';
+import { useMe } from 'fe/session/useMe';
 
 import { WithoutSidebar, Props } from 'ui/templates/withoutSidebar';
 import { SearchBox } from 'HOC/modules/SearchBox/SearchBox';

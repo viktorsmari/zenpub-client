@@ -1,5 +1,5 @@
 import { useCommunity } from 'fe/community/useCommunity';
-import { useMe } from 'fe/session/me';
+import { useMe } from 'fe/session/useMe';
 import { useFormik } from 'formik';
 import { Community } from 'graphql/types.generated';
 import React, { FC, useMemo } from 'react';

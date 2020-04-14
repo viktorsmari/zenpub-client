@@ -1,99 +1,28 @@
 import { Meta, Story, Preview } from '@storybook/addon-docs/blocks';
 import { PropsTable } from '@storybook/components';
 import { Community } from '.';
-import {recentActivitiesContext, collectionsContext, collectionPreviewContext, editProvider, heroContext, activityPreviewContext} from 'ui/mock/context'
-import {RecentActivitiesContext, CollectionsContext } from '.';
-import { HeroCommunity, Status, Props } from 'ui/modules/HeroCommunity';
 import { action } from '@storybook/addon-actions';
-import {ActivityPreview} from 'ui/modules/ActivityPreview'
-import { useFormik } from 'formik';
-import {Thread} from 'ui/modules/Previews/Thread'
-import {Collection} from 'ui/modules/Previews/Collection'
-import { Comment } from 'ui/modules/Previews/Comment';
 import {Box} from 'rebass'
-import {getHeroCommunityProps} from 'ui/mock/context'
 import {WithSidebar} from 'ui/templates/withSidebar'
 import {MainHeader} from 'ui/modules/MainHeader'
 import {Sidebar} from 'ui/modules/Sidebar'
-import {Input} from '@rebass/forms'
-const getActions = () => ({
-  FlagModal: () => {
-    const formik = useFormik<{ reason: '' }>({
-      initialValues: {
-        reason: ''
-      },
-      onSubmit: () => {
-        action('submit')();
-        return new Promise((resolve, reject) => {
-          setTimeout(resolve, 3000);
-        });
-      }
-    });
-    const getFlagModalProps = {
-      formik,
-      flagId: '',
-      cancel: action('cancel')
-    };
-    return <FlagModal {...getFlagModalProps} />;
-  },
-  like: {
-    totalLikes: 3,
-    toggleLikeFormik: useFormik<{}>({
-      initialValues: {},
-      onSubmit: vals => {
-        action('submitting...')();
-        return new Promise(resolve =>
-          setTimeout(() => {
-            action('submitted...')();
-            resolve();
-          }, 2000)
-        );
-      }
-    }),
-    iLikeIt: true
-  },
-  reply: {
-    replyFormik: useFormik<{ replyMessage: String }>({
-      initialValues: { replyMessage: '' },
-      onSubmit: vals => {
-        action(`submitting: ${vals.replyMessage}`)();
-        return new Promise(resolve =>
-          setTimeout(() => {
-            action(`submitted: ${vals.replyMessage}`)();
-            resolve();
-          }, 2000)
-        );
-      }
-    })
-  }
-});
-const getActor = () => ({
-  icon: 'https://picsum.photos/80/80',
-  link: '1',
-  name: 'Ivan'
-});
-export const activityPreviewProps = {
-      communityLink: 'communityLink',
-      communityName: 'communityName',
-      event: 'Created a comment',
-      preview: (
-        <Comment
-          {...getActions()}
-          content={
-            'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
-          }
-        />
-      ),
-      status: Status.Loaded,
-      actor: getActor(),
-      createdAt: '2018-11-11',
-      link: 'https://picsum.photos/80/80'
-    };
-
+import { HeroCommunity } from 'ui/modules/HeroCommunity';
+import {getHeroCommunityProps} from 'ui/mock/heroCommunity'
+import {ToggleFormik} from 'ui/mock/formik'
+import {ActivityPreview} from 'ui/modules/ActivityPreview'
+import {activityPreviewProps} from 'ui/mock/activityPreview'
+import {ResourcePreviewProps, CollectionPreviewProps, ThreadPreviewProps, CommentPreviewProps, LikedCommentPreviewProps } from 'ui/mock/previews'
+import {getSidebarProps} from 'ui/mock/sidebar'
+import {getLoadMoreProps} from 'ui/mock/loadmore'
+import {getMainHeaderProps} from 'ui/mock/mainHeader'
+import {Resource} from 'ui/modules/Previews/Resource'
+import {Collection} from 'ui/modules/Previews/Collection'
+import {Comment} from 'ui/modules/Previews/Comment'
+import {Thread} from 'ui/modules/Previews/Thread'
+import {LikedComment} from 'ui/modules/Previews/LikedComment'
 
 
 <Meta title="Pages|Community" component={Community}/>
-
 
 
 # Community
@@ -102,152 +31,38 @@ Let's define a story for the `community` page
 <Preview>
   <Story name="community page">
     <WithSidebar 
-      HeaderBox={<MainHeader user={{
-        icon:'https://pbs.twimg.com/profile_images/1161428802091802627/O49Ggs-7_400x400.jpg',
-        name: '˗ˏˋ Doug Belshaw ˎˊ˗  🇪🇺 ☠️ ✊',
-        id: "/test"
-      }}
-      isLogged={true}
-      isOpen= {false}
-      Search={ <Input placeholder="Search..." />}
-      logout= {() => console.log(false)} />}
-    SidebarBox={<Sidebar 
-      status={Status.Loaded}
-      communities={[{
-        link: {
-          url: "string",
-          external: true,
-        },
-        name: "test",
-        icon: "",
-      }]}
-      user={{
-        icon:'https://pbs.twimg.com/profile_images/1161428802091802627/O49Ggs-7_400x400.jpg',
-        name: '˗ˏˋ Doug Belshaw ˎˊ˗  🇪🇺 ☠️ ✊',
-        id: "/test"
-      }}
-      isOpen= {false}
-      Search={ <input />}
-      logout= {() => console.log(false)}
-    />}>
+      HeaderBox={<MainHeader {...getMainHeaderProps() } />}
+      SidebarBox={<Sidebar {...getSidebarProps()}/>}>
       <Community {...{
-        newThreadFormik: useFormik<{}>({
-          initialValues: { values: '' },
-          onSubmit: vals => {
-            action(`submitting: ${vals.values}`)();
-            return new Promise(resolve =>
-              setTimeout(() => {
-                action(`submitted: ${vals.values}`)();
-                resolve();
-              }, 2000)
-            );
-          }
-        }),
+        communityName: "Community test name",
+        newThreadFormik: ToggleFormik(),
         ActivitiesBox: <React.Fragment>
-          <ActivityPreview {...activityPreviewProps} key="1" />
-          <ActivityPreview {...activityPreviewProps} key="2" />
-          <ActivityPreview {...activityPreviewProps} key="3" />
+          <ActivityPreview {...activityPreviewProps('Added a link', <Resource {...ResourcePreviewProps() }/>)} />
+          <ActivityPreview {...activityPreviewProps('Uploaded a resource', <Resource {...ResourcePreviewProps('license', 'pdf' ) }/>)} />
+          <ActivityPreview {...activityPreviewProps('Created a comment', <Comment {...CommentPreviewProps() }/>)} />
+          <ActivityPreview {...activityPreviewProps('Created a comment', <Comment {...CommentPreviewProps() }/>)} />
+          <ActivityPreview {...activityPreviewProps('Like a comment', <LikedComment {...LikedCommentPreviewProps() }/>)} />
+          <ActivityPreview {...activityPreviewProps('Created a comment', <Comment {...CommentPreviewProps() }/>)} />
+          <ActivityPreview {...activityPreviewProps('Created a comment', <Comment {...CommentPreviewProps() }/>)} />
         </React.Fragment>,
         CollectionsBox: <React.Fragment>
-          <Box mb={2}>
-          <Collection
-              key="1"
-              link={{url: "/", external: true}}
-              id={"1"}
-              icon={"https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png"}
-              name={"mantarai"}
-              summary={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
-              totalResources={12}
-              toggleFollowFormik = {useFormik<{}>({
-                initialValues: {},
-                onSubmit: vals => {
-                  action('submitting...')();
-                  return new Promise(resolve =>
-                    setTimeout(() => {
-                      action('submitted...')();
-                      resolve();
-                    }, 2000)
-                  );
-                }
-              })}
-            />
-            </Box>
-            <Box mb={2}>
-            <Collection
-              key="2"
-              link={{url: "/", external: true}}
-              id={"1"}
-              icon={"https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png"}
-              name={"mantarai"}
-              summary={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
-              totalResources={12}
-              toggleFollowFormik = {useFormik<{}>({
-                initialValues: {},
-                onSubmit: vals => {
-                  action('submitting...')();
-                  return new Promise(resolve =>
-                    setTimeout(() => {
-                      action('submitted...')();
-                      resolve();
-                    }, 2000)
-                  );
-                }
-              })}
-            />
-            </Box>
-            <Box mb={2}>
-            <Collection
-              key="3"
-              link={{url: "/", external: true}}
-              id={"1"}
-              icon={"https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png"}
-              name={"mantarai"}
-              summary={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
-              totalResources={12}
-              toggleFollowFormik = {useFormik<{}>({
-                initialValues: {},
-                onSubmit: vals => {
-                  action('submitting...')();
-                  return new Promise(resolve =>
-                    setTimeout(() => {
-                      action('submitted...')();
-                      resolve();
-                    }, 2000)
-                  );
-                }
-              })}
-            />
-            </Box>
+          <Box mb={2}><Collection {...CollectionPreviewProps()} /></Box>
+          <Box mb={2}><Collection {...CollectionPreviewProps()} /></Box>
+          <Box mb={2}><Collection {...CollectionPreviewProps()} /></Box>
+          <Box mb={2}><Collection {...CollectionPreviewProps()} /></Box>
+          <Box mb={2}><Collection {...CollectionPreviewProps()} /></Box>
+          <Box mb={2}><Collection {...CollectionPreviewProps()} /></Box>
         </React.Fragment>,
         HeroCommunityBox: (<HeroCommunity {...getHeroCommunityProps()}/>),
         basePath:"/",
         ThreadsBox: <React.Fragment>
-          <Box mb={2}>
-          <Thread title="What do the avatars in the topic list mean?"
-        content={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
-        createdAt={"2019-11-09"}
-        totalReplies={"24"}
-        totalLikes={"17"}
-        members={["https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png", "https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png", "https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png"]} key="1" />
-         </Box>
-         <Box mb={2}>
-          <Thread title="What do the avatars in the topic list mean?"
-        content={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
-        createdAt={"2019-11-09"}
-        totalReplies={"24"}
-        totalLikes={"17"}
-        members={["https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png", "https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png", "https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png"]} key="2" />
-          </Box>
-          <Box mb={2}>
-          <Thread title="What do the avatars in the topic list mean?"
-        content={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
-        createdAt={"2019-11-09"}
-        totalReplies={"24"}
-        totalLikes={"17"}
-        members={["https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png", "https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png", "https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png"]} key="3" />
-       </Box>
+          <Box mb={2}><Thread {...ThreadPreviewProps()}/></Box>
+          <Box mb={2}><Thread {...ThreadPreviewProps()}/></Box>
+          <Box mb={2}><Thread {...ThreadPreviewProps()}/></Box>
+          <Box mb={2}><Thread {...ThreadPreviewProps()}/></Box>
+          <Box mb={2}><Thread {...ThreadPreviewProps()}/></Box>
+          <Box mb={2}><Thread {...ThreadPreviewProps()}/></Box>
         </React.Fragment>
-        
     }} />
     </WithSidebar>
   </Story>

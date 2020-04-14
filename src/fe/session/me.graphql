@@ -5,16 +5,7 @@ query me {
   }
 }
 
-mutation login ($email: String!, $password: String!){
-  createSession(email: $email, password: $password){
-    me{
-      ...useMeData
-    }
-    token
-  }
-}
-
-mutation logout {
+mutation meLogout {
   deleteSession
 }
 
@@ -25,3 +16,4 @@ fragment useMeData on Me {
     ...SidebarMeUser
   }
 }
+

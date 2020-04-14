@@ -1,14 +1,22 @@
 import { Trans } from '@lingui/macro';
+import { useMyFollowedCollections } from 'fe/collection/myFollowed/myFollowedCollections';
+import { useMyFollowedCommunities } from 'fe/community/myFollowed/myFollowedCommunities';
+import { useFormikPage } from 'fe/lib/helpers/usePage';
+import { useMe } from 'fe/session/useMe';
 import {
   ActivityPreviewHOC
   /* ActivityPreviewCtx */
 } from 'HOC/modules/previews/activity/ActivityPreview';
+import { CollectionPreviewHOC } from 'HOC/modules/previews/collection/CollectionPreview';
+import { CommunityPreviewHOC } from 'HOC/modules/previews/community/CommunityPreview';
 import React, { useEffect } from 'react';
-import { NavLink, Route, Switch } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import { Flex } from 'rebass/styled-components';
+import { LoadMore } from 'ui/modules/Loadmore';
+import { SidePanel } from 'ui/modules/SidePanel';
+import styled from 'ui/themes/styled';
 import Empty from '../../components/elements/Empty';
 import Loader from '../../components/elements/Loader/Loader';
-import { SidePanel } from 'ui/modules/SidePanel';
-
 import { CreateReplyMutationMutationOperation } from '../../graphql/createReply.generated';
 import { DeleteMutationMutationOperation } from '../../graphql/delete.generated';
 import {
@@ -26,13 +34,17 @@ import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 // } from 'ui/elements/Panel';
 import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-import { useMe } from 'fe/session/me';
-import styled from 'ui/themes/styled';
-import { Flex } from 'rebass/styled-components';
+export enum HomePageTab {
+  Activities = 1,
+  MyCommunities,
+  MyCollections
+}
 
-interface Props {}
+export interface Props {
+  tab: HomePageTab;
+}
 
-const Home: React.FC<Props> = () => {
+export const Home: React.FC<Props> = ({ tab }) => {
   const {
     data,
     loading,
@@ -69,16 +81,19 @@ const Home: React.FC<Props> = () => {
     [refetch]
   );
   const { me } = useMe();
-
+  const { myFollowedCommunitiesPage } = useMyFollowedCommunities();
+  const [nextCommunitiesFormik] = useFormikPage(myFollowedCommunitiesPage);
+  const { myFollowedCollectionsPage } = useMyFollowedCollections();
+  const [nextCollectionsFormik] = useFormikPage(myFollowedCollectionsPage);
   return (
     <MainContainer>
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <Switch>
-              <Route path="/">
+            <Menu basePath="/" />
+            {tab === HomePageTab.Activities && (
+              <>
                 {/* FIX ME  */}
-                <Menu basePath="/" />
                 {error ? (
                   <Empty>
                     <Trans>Error loading moodlenet timeline</Trans>
@@ -99,18 +114,32 @@ const Home: React.FC<Props> = () => {
                     )}
                   </div>
                 ) : null}
-              </Route>
-              {me ? (
-                <>
-                  <Route path={`/user/${me.user.id}/communities`}>
-                    {/* FIX ME add joined communities content*/}
-                  </Route>
-                  <Route path={`/user/${me.user.id}/collections`}>
-                    {/* FIX ME add followed collections content*/}
-                  </Route>
-                </>
-              ) : null}
-            </Switch>
+              </>
+            )}
+            {me ? (
+              <>
+                {tab === HomePageTab.MyCommunities && (
+                  <>
+                    {myFollowedCommunitiesPage.edges.map(_ => (
+                      <CommunityPreviewHOC communityId={_.community.id} />
+                    ))}
+                    {nextCommunitiesFormik && (
+                      <LoadMore LoadMoreFormik={nextCommunitiesFormik} />
+                    )}
+                  </>
+                )}
+                {tab === HomePageTab.MyCommunities && (
+                  <>
+                    {myFollowedCollectionsPage.edges.map(_ => (
+                      <CollectionPreviewHOC collectionId={_.collection.id} />
+                    ))}
+                    {nextCollectionsFormik && (
+                      <LoadMore LoadMoreFormik={nextCollectionsFormik} />
+                    )}
+                  </>
+                )}
+              </>
+            ) : null}
           </Wrapper>
         </WrapperCont>
       </HomeBox>
@@ -153,10 +182,10 @@ const Menu = ({ basePath }: { basePath: string }) => {
       </NavLink>
       {me ? (
         <>
-          <NavLink to={`/user/${me.user.id}/communities`}>
+          <NavLink to={`/mycommunities`}>
             <Trans>Joined communities</Trans>
           </NavLink>
-          <NavLink to={`/user/${me.user.id}/collections`}>
+          <NavLink to={`/mycollections`}>
             <Trans>Followed collections</Trans>
           </NavLink>
         </>

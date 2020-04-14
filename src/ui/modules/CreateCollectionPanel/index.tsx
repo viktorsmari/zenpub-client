@@ -29,7 +29,7 @@ const tt = {
   }
 };
 
-interface Props {
+export interface Props {
   cancel(): any;
   formik: FormikHook<BasicCreateCollectionFormValues>;
 }

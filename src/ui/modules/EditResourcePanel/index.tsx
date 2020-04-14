@@ -33,12 +33,12 @@ const tt = {
   }
 };
 
-interface Props {
+export interface Props {
   cancel(): any;
   formik: FormikHook<EditResourceFormValues>;
 }
 
-const EditResourcePanel: React.FC<Props> = ({ cancel, formik }) => {
+export const EditResourcePanel: React.FC<Props> = ({ cancel, formik }) => {
   return (
     <Container>
       <Header>

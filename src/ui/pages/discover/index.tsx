@@ -10,14 +10,16 @@ import styled from 'ui/themes/styled';
 import { Trans } from '@lingui/react';
 
 export interface Props {
+  basePath: string;
   FeaturedCommunitiesBox: JSX.Element;
   FeaturedCollectionsBox: JSX.Element;
   ActivitiesBox: JSX.Element;
-  CommunitiesBoxes: JSX.Element; //FIX ME remove ? after fix
-  CollectionsBoxes: JSX.Element; //FIX ME remove ? after fix
-  LoadMoreFormik?: FormikHook; //FIX ME remove ? after LoadMoreFormik fix
+  CommunitiesBoxes: JSX.Element;
+  CollectionsBoxes: JSX.Element;
+  LoadMoreFormik?: FormikHook;
 }
 export const Discover: React.FC<Props> = ({
+  basePath,
   ActivitiesBox,
   CommunitiesBoxes,
   CollectionsBoxes,
@@ -32,29 +34,19 @@ export const Discover: React.FC<Props> = ({
           <WrapperFeatured>{FeaturedCommunitiesBox}</WrapperFeatured>
           <WrapperFeatured mt={2}>{FeaturedCollectionsBox}</WrapperFeatured>
           <Wrapper>
+            <Menu basePath={basePath} />
             <Switch>
-              <Route path="/">
-                {/* FIX ME fix url  */}
-                <Menu basePath="/" />
-                {ActivitiesBox}
-              </Route>
-              <Route path="/communities">
-                {/* FIX ME fix url and add CommunitiesBoxes */}
-                <Menu basePath="/communities" />
+              <Route path={`${basePath}/communities`}>
                 <WrapperBoxes>{CommunitiesBoxes}</WrapperBoxes>
-                {/* FIX ME after LoadMoreFormik fix */}
-                {LoadMoreFormik ? (
-                  <LoadMore LoadMoreFormik={LoadMoreFormik} />
-                ) : null}
+                {LoadMoreFormik && <LoadMore LoadMoreFormik={LoadMoreFormik} />}
               </Route>
-              <Route path="/collections">
-                {/* FIX ME fix url and add CollectionsBoxes */}
-                <Menu basePath="/collections" />
+              <Route path={`${basePath}/collections`}>
                 {CollectionsBoxes}
-                {/* FIX ME after LoadMoreFormik fix */}
-                {LoadMoreFormik ? (
-                  <LoadMore LoadMoreFormik={LoadMoreFormik} />
-                ) : null}
+                {LoadMoreFormik && <LoadMore LoadMoreFormik={LoadMoreFormik} />}
+              </Route>
+              <Route path={`${basePath}`}>
+                {ActivitiesBox}
+                {LoadMoreFormik && <LoadMore LoadMoreFormik={LoadMoreFormik} />}
               </Route>
             </Switch>
           </Wrapper>
@@ -67,13 +59,13 @@ export const Discover: React.FC<Props> = ({
 
 const Menu = ({ basePath }: { basePath: string }) => (
   <SuperTabWrapper>
-    <NavLink to={'/'}>
+    <NavLink exact to={`${basePath}`}>
       <Trans>Timeline</Trans>
     </NavLink>
-    <NavLink to={'/communities'}>
+    <NavLink exact to={`${basePath}/communities`}>
       <Trans>All communities</Trans>
     </NavLink>
-    <NavLink to={'/collections'}>
+    <NavLink exact to={`${basePath}/collections`}>
       <Trans>All collections</Trans>
     </NavLink>
   </SuperTabWrapper>

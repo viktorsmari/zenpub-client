@@ -1,6 +1,6 @@
 import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
 import { PropsTable } from '@storybook/components';
-import {getFeaturedCommunitiesPropsAdmin} from 'ui/mock/context'
+import {getFeaturedCommunitiesProps} from 'ui/mock/featuredCommunities'
 import { FeaturedCommunities } from 'ui/modules/FeaturedCommunities';
 import {Box} from 'rebass';
 
@@ -20,7 +20,7 @@ Let's define a story for the `Featured Communities preview` module
         }}
         p={2}
       >
-        <FeaturedCommunities {...getFeaturedCommunitiesPropsAdmin()} />
+        <FeaturedCommunities {...getFeaturedCommunitiesProps(true)} />
     </Box>  
   </Story>
 </Preview>

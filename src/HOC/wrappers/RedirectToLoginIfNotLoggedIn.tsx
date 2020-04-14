@@ -1,4 +1,4 @@
-import { useMe } from 'fe/session/me';
+import { useMe } from 'fe/session/useMe';
 import Login from 'pages/login/Login';
 import React, { FC } from 'react';
 
