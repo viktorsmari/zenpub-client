@@ -22,28 +22,10 @@ export type MeQuery = (
   )> }
 );
 
-export type LoginMutationVariables = {
-  email: Types.Scalars['String'],
-  password: Types.Scalars['String']
-};
+export type MeLogoutMutationVariables = {};
 
 
-export type LoginMutation = (
-  { __typename: 'RootMutationType' }
-  & { createSession: Types.Maybe<(
-    { __typename: 'AuthPayload' }
-    & Pick<Types.AuthPayload, 'token'>
-    & { me: (
-      { __typename: 'Me' }
-      & UseMeDataFragment
-    ) }
-  )> }
-);
-
-export type LogoutMutationVariables = {};
-
-
-export type LogoutMutation = (
+export type MeLogoutMutation = (
   { __typename: 'RootMutationType' }
   & Pick<Types.RootMutationType, 'deleteSession'>
 );
@@ -116,105 +98,52 @@ export function useMeLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptio
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = ApolloReactCommon.QueryResult<MeQuery, MeQueryVariables>;
-export const LoginDocument = gql`
-    mutation login($email: String!, $password: String!) {
-  createSession(email: $email, password: $password) {
-    me {
-      ...useMeData
-    }
-    token
-  }
-}
-    ${UseMeDataFragmentDoc}`;
-export type LoginMutationFn = ApolloReactCommon.MutationFunction<LoginMutation, LoginMutationVariables>;
-export type LoginComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<LoginMutation, LoginMutationVariables>, 'mutation'>;
-
-    export const LoginComponent = (props: LoginComponentProps) => (
-      <ApolloReactComponents.Mutation<LoginMutation, LoginMutationVariables> mutation={LoginDocument} {...props} />
-    );
-    
-export type LoginProps<TChildProps = {}> = ApolloReactHoc.MutateProps<LoginMutation, LoginMutationVariables> & TChildProps;
-export function withLogin<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  LoginMutation,
-  LoginMutationVariables,
-  LoginProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, LoginMutation, LoginMutationVariables, LoginProps<TChildProps>>(LoginDocument, {
-      alias: 'login',
-      ...operationOptions
-    });
-};
-
-/**
- * __useLoginMutation__
- *
- * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useLoginMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [loginMutation, { data, loading, error }] = useLoginMutation({
- *   variables: {
- *      email: // value for 'email'
- *      password: // value for 'password'
- *   },
- * });
- */
-export function useLoginMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
-        return ApolloReactHooks.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, baseOptions);
-      }
-export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
-export type LoginMutationResult = ApolloReactCommon.MutationResult<LoginMutation>;
-export type LoginMutationOptions = ApolloReactCommon.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
-export const LogoutDocument = gql`
-    mutation logout {
+export const MeLogoutDocument = gql`
+    mutation meLogout {
   deleteSession
 }
     `;
-export type LogoutMutationFn = ApolloReactCommon.MutationFunction<LogoutMutation, LogoutMutationVariables>;
-export type LogoutComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<LogoutMutation, LogoutMutationVariables>, 'mutation'>;
+export type MeLogoutMutationFn = ApolloReactCommon.MutationFunction<MeLogoutMutation, MeLogoutMutationVariables>;
+export type MeLogoutComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<MeLogoutMutation, MeLogoutMutationVariables>, 'mutation'>;
 
-    export const LogoutComponent = (props: LogoutComponentProps) => (
-      <ApolloReactComponents.Mutation<LogoutMutation, LogoutMutationVariables> mutation={LogoutDocument} {...props} />
+    export const MeLogoutComponent = (props: MeLogoutComponentProps) => (
+      <ApolloReactComponents.Mutation<MeLogoutMutation, MeLogoutMutationVariables> mutation={MeLogoutDocument} {...props} />
     );
     
-export type LogoutProps<TChildProps = {}> = ApolloReactHoc.MutateProps<LogoutMutation, LogoutMutationVariables> & TChildProps;
-export function withLogout<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+export type MeLogoutProps<TChildProps = {}> = ApolloReactHoc.MutateProps<MeLogoutMutation, MeLogoutMutationVariables> & TChildProps;
+export function withMeLogout<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  LogoutMutation,
-  LogoutMutationVariables,
-  LogoutProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, LogoutMutation, LogoutMutationVariables, LogoutProps<TChildProps>>(LogoutDocument, {
-      alias: 'logout',
+  MeLogoutMutation,
+  MeLogoutMutationVariables,
+  MeLogoutProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, MeLogoutMutation, MeLogoutMutationVariables, MeLogoutProps<TChildProps>>(MeLogoutDocument, {
+      alias: 'meLogout',
       ...operationOptions
     });
 };
 
 /**
- * __useLogoutMutation__
+ * __useMeLogoutMutation__
  *
- * To run a mutation, you first call `useLogoutMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useLogoutMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useMeLogoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMeLogoutMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [logoutMutation, { data, loading, error }] = useLogoutMutation({
+ * const [meLogoutMutation, { data, loading, error }] = useMeLogoutMutation({
  *   variables: {
  *   },
  * });
  */
-export function useLogoutMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
-        return ApolloReactHooks.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, baseOptions);
+export function useMeLogoutMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<MeLogoutMutation, MeLogoutMutationVariables>) {
+        return ApolloReactHooks.useMutation<MeLogoutMutation, MeLogoutMutationVariables>(MeLogoutDocument, baseOptions);
       }
-export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
-export type LogoutMutationResult = ApolloReactCommon.MutationResult<LogoutMutation>;
-export type LogoutMutationOptions = ApolloReactCommon.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export type MeLogoutMutationHookResult = ReturnType<typeof useMeLogoutMutation>;
+export type MeLogoutMutationResult = ApolloReactCommon.MutationResult<MeLogoutMutation>;
+export type MeLogoutMutationOptions = ApolloReactCommon.BaseMutationOptions<MeLogoutMutation, MeLogoutMutationVariables>;
 
 
 export interface MeQueryOperation {
@@ -225,17 +154,9 @@ export interface MeQueryOperation {
 }
 
 
-export interface LoginMutationOperation {
-  operationName: 'login'
-  result: LoginMutation
-  variables: LoginMutationVariables
-  type: 'mutation'
-}
-
-
-export interface LogoutMutationOperation {
-  operationName: 'logout'
-  result: LogoutMutation
-  variables: LogoutMutationVariables
+export interface MeLogoutMutationOperation {
+  operationName: 'meLogout'
+  result: MeLogoutMutation
+  variables: MeLogoutMutationVariables
   type: 'mutation'
 }

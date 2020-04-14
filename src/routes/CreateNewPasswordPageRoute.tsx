@@ -1,15 +1,26 @@
-import CreateNewPasswordComp from 'pages/CreateNewPassword';
-import React, { FC } from 'react';
-import { RouteComponentProps, RouteProps } from 'react-router-dom';
+import { CreateNewPasswordPageHOC } from 'HOC/pages/createNewPassword/CreateNewPassword';
 import { GuestTemplate } from 'HOC/templates/Guest/Guest';
+import React, { FC, useMemo } from 'react';
+import { RouteComponentProps, RouteProps } from 'react-router-dom';
 
-interface CreateNewPasswordPageRouter {}
+interface CreateNewPasswordPageRouter {
+  token: string;
+}
 const CreateNewPasswordPageRouter: FC<RouteComponentProps<
   CreateNewPasswordPageRouter
->> = ({ match }) => {
+>> = ({
+  match: {
+    params: { token }
+  }
+}) => {
+  let props = useMemo<CreateNewPasswordPageHOC>(() => {
+    return {
+      token
+    };
+  }, [token]);
   return (
     <GuestTemplate>
-      <CreateNewPasswordComp {...{ match }} />
+      <CreateNewPasswordPageHOC {...props} />
     </GuestTemplate>
   );
 };
