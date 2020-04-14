@@ -1,7 +1,6 @@
 import { action } from '@storybook/addon-actions';
 import { useFormik } from 'formik';
 import React from 'react';
-import { Props as CollectionPreviewProps } from 'ui/modules/CollectionPreview';
 import { Props as LoadMoreProps } from 'ui/modules/Loadmore';
 import {
   EditCollectionFormValues,
@@ -666,20 +665,6 @@ export const getHeroUserProps2 = (): HeroUserProps => {
     FlagModal: ({ done }) => {
       return <></>;
     }
-  };
-};
-
-export const getCollectionPreviewProps = (): CollectionPreviewProps => {
-  return {
-    link: {
-      url: '#',
-      external: false
-    },
-    icon: 'https://picsum.photos/id/200/200/200',
-    name: 'awesome collection',
-    summary:
-      'More simply put, the difference is in the standards and documentation that accompanies the assets. With a guide on why and how to use them, design components because easier to use and clearer to discern.',
-    totalResources: 12
   };
 };
 
