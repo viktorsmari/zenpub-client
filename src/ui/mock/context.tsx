@@ -46,9 +46,9 @@ import {
 
 import { FeaturedModal } from '../modules/FeaturedModal';
 import {
-  ConfirmDeleteModal,
-  Props as ConfirmDeleteModalProps
-} from '../modules/ConfirmDeleteModal';
+  ConfirmationModal,
+  Props as ConfirmationModalProps
+} from '../modules/ConfirmationModal';
 import { Props as EditProfileProps, EditProfile } from 'ui/pages/settings';
 import Flags from 'ui/pages/settings/flags';
 import Preferences from 'ui/pages/settings/preferences';
@@ -297,7 +297,7 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
             hideActions={true}
           />
         }
-        ConfirmDeleteModal={({ done }) => {
+        DeleteModal={({ done }) => {
           const formik = useFormik<{}>({
             initialValues: {},
             onSubmit: () => {
@@ -307,13 +307,34 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
               });
             }
           });
-          const getConfirmDeleteModalProps = {
+          const getConfirmationModalProps = {
             formik,
-            deleteTitle: 'Delete Comment',
-            deleteDescription: 'Are you sure you want to delete this comment?',
+            modalTitle: 'Delete Comment',
+            modalDescription: 'Are you sure you want to delete this comment?',
+            modalAction: 'Delete',
             cancel: action('cancel')
           };
-          return <ConfirmDeleteModal {...getConfirmDeleteModalProps} />;
+          return <ConfirmationModal {...getConfirmationModalProps} />;
+        }}
+        IgnoreModal={({ done }) => {
+          const formik = useFormik<{}>({
+            initialValues: {},
+            onSubmit: () => {
+              action('submit')();
+              return new Promise((resolve, reject) => {
+                setTimeout(resolve, 3000);
+              });
+            }
+          });
+          const getConfirmationModalProps = {
+            formik,
+            modalTitle: 'Ignore Flag',
+            modalDescription:
+              'Are you sure you want to delete the flag for this comment?',
+            modalAction: 'Delete',
+            cancel: action('cancel')
+          };
+          return <ConfirmationModal {...getConfirmationModalProps} />;
         }}
         type="Comment"
         reason="Abusive speech"
@@ -359,7 +380,7 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
             })}
           />
         }
-        ConfirmDeleteModal={({ done }) => {
+        DeleteModal={({ done }) => {
           const formik = useFormik<{}>({
             initialValues: {},
             onSubmit: () => {
@@ -369,14 +390,34 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
               });
             }
           });
-          const getConfirmDeleteModalProps = {
+          const getConfirmationModalProps = {
             formik,
-            deleteTitle: 'Delete Collection',
-            deleteDescription:
-              'Are you sure you want to delete this colletion?',
+            modalTitle: 'Delete Collection',
+            modalDescription: 'Are you sure you want to delete this colletion?',
+            modalAction: 'Delete',
             cancel: action('cancel')
           };
-          return <ConfirmDeleteModal {...getConfirmDeleteModalProps} />;
+          return <ConfirmationModal {...getConfirmationModalProps} />;
+        }}
+        IgnoreModal={({ done }) => {
+          const formik = useFormik<{}>({
+            initialValues: {},
+            onSubmit: () => {
+              action('submit')();
+              return new Promise((resolve, reject) => {
+                setTimeout(resolve, 3000);
+              });
+            }
+          });
+          const getIgnoreModalProps = {
+            formik,
+            modalTitle: 'Ignore Flag',
+            modalDescription:
+              'Are you sure you want to delete the flag for this collection?',
+            modalAction: 'Delete',
+            cancel: action('cancel')
+          };
+          return <ConfirmationModal {...getIgnoreModalProps} />;
         }}
         type="Collection"
         reason="Inappropriate Content"
@@ -431,7 +472,7 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
             }}
           />
         }
-        ConfirmDeleteModal={({ done }) => {
+        DeleteModal={({ done }) => {
           const formik = useFormik<{}>({
             initialValues: {},
             onSubmit: () => {
@@ -441,13 +482,34 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
               });
             }
           });
-          const getConfirmDeleteModalProps = {
+          const getConfirmationModalProps = {
             formik,
-            deleteTitle: 'Delete Resource',
-            deleteDescription: 'Are you sure you want to delete this resource?',
+            modalTitle: 'Delete Resource',
+            modalDescription: 'Are you sure you want to delete this resource?',
+            modalAction: 'Delete',
             cancel: action('cancel')
           };
-          return <ConfirmDeleteModal {...getConfirmDeleteModalProps} />;
+          return <ConfirmationModal {...getConfirmationModalProps} />;
+        }}
+        IgnoreModal={({ done }) => {
+          const formik = useFormik<{}>({
+            initialValues: {},
+            onSubmit: () => {
+              action('submit')();
+              return new Promise((resolve, reject) => {
+                setTimeout(resolve, 3000);
+              });
+            }
+          });
+          const getIgnoreModalProps = {
+            formik,
+            modalTitle: 'Ignore Flag',
+            modalDescription:
+              'Are you sure you want to delete the flag for this resource?',
+            modalAction: 'Delete',
+            cancel: action('cancel')
+          };
+          return <ConfirmationModal {...getIgnoreModalProps} />;
         }}
         type="Resource"
         reason="Inappropriate content"
@@ -501,7 +563,7 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
       />
     ),
     Flags: <Flags ActivitiesBox={ActivitiesBox} />,
-    Instance: <Instance />,
+    Instance: <Instance domainsList={['moodle.com']} />,
     isAdmin: true
   };
 };
@@ -743,7 +805,7 @@ export const getFeaturedModalProps = (): FeaturedModalProps => {
   };
 };
 
-export const getConfirmDeleteModalProps = (): ConfirmDeleteModalProps => {
+export const getConfirmationModalProps = (): ConfirmationModalProps => {
   const formik = useFormik<{}>({
     initialValues: [],
     onSubmit: () => {
@@ -756,8 +818,9 @@ export const getConfirmDeleteModalProps = (): ConfirmDeleteModalProps => {
 
   return {
     cancel: action('cancel'),
-    deleteTitle: 'Remove email from whitelist',
-    deleteDescription: `Are you sure you want to remove test@moodle.net from the whitelisted emails`,
+    modalTitle: 'Remove email from whitelist',
+    modalDescription: `Are you sure you want to remove test@moodle.net from the whitelisted emails`,
+    modalAction: 'Delete',
     formik
   };
 };

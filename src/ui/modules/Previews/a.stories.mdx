@@ -1,7 +1,7 @@
 import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
 import { PropsTable } from '@storybook/components';
 // import {getResourcePreviewProps} from 'ui/mock/context'
-import {ConfirmDeleteModal} from 'ui/modules/ConfirmDeleteModal'
+import {ConfirmationModal} from 'ui/modules/ConfirmationModal'
 import { User } from './User';
 import { Resource } from './Resource';
 import {Community} from './Community';
@@ -399,7 +399,7 @@ Let's define a story for the `Flagged Item preview` module
           isFlagged={false}
           hideActions={true}
         />)}
-        ConfirmDeleteModal= {({ done }) => {
+        ConfirmationModal= {({ done }) => {
           const formik = useFormik<{}>({
           initialValues: {},
             onSubmit: () => {
@@ -409,13 +409,14 @@ Let's define a story for the `Flagged Item preview` module
               });
             }
           });
-          const getConfirmDeleteModalProps = {
+          const getConfirmationModalProps = {
             formik,
-            deleteTitle: 'Delete Comment',
-            deleteDescription: 'Are you sure you want to delete this comment?',
+            modalTitle: 'Delete Comment',
+            modalDescription: 'Are you sure you want to delete this comment?',
+            modalAction: 'Delete',
             cancel: action('cancel')
           };
-          return <ConfirmDeleteModal {...getConfirmDeleteModalProps} />;
+          return <ConfirmationModal {...getConfirmationModalProps} />;
         }}
         type = "Comment"
         reason = "Abusive speech"

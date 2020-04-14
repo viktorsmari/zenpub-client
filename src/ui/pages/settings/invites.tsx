@@ -5,30 +5,31 @@ import { i18nMark, Trans } from '@lingui/react';
 import { Actions, Row, ContainerForm } from 'ui/modules/Modal';
 import { Label, Input } from '@rebass/forms';
 import Button from 'ui/elements/Button';
-import { X } from 'react-feather';
+import { RotateCw } from 'react-feather';
 // import { FormikHook } from 'ui/@types/types';
 import Modal from 'ui/modules/Modal';
 
 const tt = {
   placeholders: {
-    email: i18nMark('Enter email or domain to allowlist')
+    email: i18nMark(
+      'Add email addresses (comma-separated) to invite to instance'
+    )
   }
 };
 export interface Props {
   // formik: FormikHook<AddEmail>;
   emailsList?: string[];
-  ConfirmDeleteModal?: ComponentType<{ email: string; done(): any }>;
+  ConfirmResendInvitationModal?: ComponentType<{ email: string; done(): any }>;
 }
 
 export interface AddEmail {
-  email: string;
+  email: string[];
 }
 
-// const Emails = props => (
 const Emails: React.FC<Props> = ({
   // formik,
   emailsList,
-  ConfirmDeleteModal
+  ConfirmResendInvitationModal
 }) => {
   const [selectedEmailForModal, setselectedEmailForModal] = React.useState<
     null | string
@@ -40,7 +41,7 @@ const Emails: React.FC<Props> = ({
       </Text>
       <EmailWrapper>
         <Label pt={3}>
-          <Trans>Email or Domain</Trans>
+          <Trans>Email</Trans>
         </Label>
         <EmailContainerForm>
           <EmailInput
@@ -65,22 +66,22 @@ const Emails: React.FC<Props> = ({
       </EmailWrapper>
       <Box p={3}>
         <Text p={3} variant="suptitle">
-          <Trans>Allowlisted emails and domains</Trans>
+          <Trans>Sent invitations</Trans>
         </Text>
         {emailsList &&
           emailsList.map((email, i) => (
             <ListRow key={i}>
               <EmailText>{email}</EmailText>
-              <Remove onClick={() => setselectedEmailForModal(email)}>
-                <X color="#fff" size={16} />
-              </Remove>
+              <Resend onClick={() => setselectedEmailForModal(email)}>
+                <RotateCw size={16} />
+              </Resend>
               {/* <Button variant="danger"><Trans>Delete</Trans></Button> */}
             </ListRow>
           ))}
       </Box>
-      {selectedEmailForModal && ConfirmDeleteModal != null && (
+      {selectedEmailForModal && ConfirmResendInvitationModal != null && (
         <Modal closeModal={() => setselectedEmailForModal(null)}>
-          <ConfirmDeleteModal
+          <ConfirmResendInvitationModal
             email={selectedEmailForModal}
             done={() => setselectedEmailForModal(null)}
           />
@@ -107,18 +108,25 @@ const ListRow = styled(Row)`
   align-items: center;
 `;
 
-const Remove = styled(Box)`
+const Resend = styled(Box)`
   cursor: pointer;
-  background: ${props => props.theme.colors.gray};
-  width: 20px;
-  height: 20px;
-  border-radius: 20px;
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  &:hover {
-    background: ${props => props.theme.colors.primary};
+  svg {
+    stroke: ${props => props.theme.colors.gray};
   }
+
+  &:hover {    
+    // background: ${props => props.theme.colors.lighter};   
+    svg {
+      stroke: ${props => props.theme.colors.primary};
+    }   
+  }  
+}
 `;
 
 const EmailContainerForm = styled(ContainerForm)`
