@@ -1,6 +1,6 @@
 import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
 import { PropsTable } from '@storybook/components';
-import {getCreateCommunityProps} from 'ui/mock/context'
+import {getCreateCollectionModalProps} from 'ui/mock/createCollectionModal'
 import { CreateCollectionPanel } from 'ui/modules/CreateCollectionPanel';
 import { action } from '@storybook/addon-actions';
 import Modal from 'ui/modules/Modal'
@@ -13,7 +13,7 @@ Let's define a story for the `Create Collection Panel preview` module
 <Preview>
   <Story name="Create a Collection">
     <Modal closeModal={action('close modal')}>
-      <CreateCollectionPanel {...getCreateCommunityProps()} />
+      <CreateCollectionPanel {...getCreateCollectionModalProps()} />
     </Modal>
   </Story>  
 </Preview>

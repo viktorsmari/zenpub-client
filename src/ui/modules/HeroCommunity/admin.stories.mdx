@@ -1,6 +1,6 @@
 import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
 import { PropsTable } from '@storybook/components';
-import {getHeroCommunityPropsAdmin} from 'ui/mock/context'
+import {getHeroCommunityProps} from 'ui/mock/heroCommunity'
 import { HeroCommunity } from '.';
 import {Box} from 'rebass'
 
@@ -12,7 +12,7 @@ Let's define a story for the `Hero community preview` module
 <Preview>
   <Story name="Hero community module">
     <Box sx={{width: '600px', margin: '0 auto'}}>
-      <HeroCommunity {...getHeroCommunityPropsAdmin()}/>
+      <HeroCommunity {...getHeroCommunityProps(true)}/>
     </Box>
   </Story>
 </Preview>
