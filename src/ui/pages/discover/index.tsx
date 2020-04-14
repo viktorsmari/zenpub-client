@@ -13,8 +13,8 @@ export interface Props {
   FeaturedCommunitiesBox: JSX.Element;
   FeaturedCollectionsBox: JSX.Element;
   ActivitiesBox: JSX.Element;
-  CommunitiesBoxes?: JSX.Element; //FIX ME remove ? after fix
-  CollectionsBoxes?: JSX.Element; //FIX ME remove ? after fix
+  CommunitiesBoxes: JSX.Element; //FIX ME remove ? after fix
+  CollectionsBoxes: JSX.Element; //FIX ME remove ? after fix
   LoadMoreFormik?: FormikHook; //FIX ME remove ? after LoadMoreFormik fix
 }
 export const Discover: React.FC<Props> = ({

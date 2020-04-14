@@ -4,10 +4,27 @@ import { Discover, Props } from 'ui/pages/discover';
 import { useInstanceOutboxActivities } from 'fe/activities/outbox/instance/useInstanceOutboxActivities';
 import { ActivityPreviewHOC } from 'HOC/modules/previews/activity/ActivityPreview';
 import { FeaturedCommunities } from 'HOC/modules/FeaturedCommunities/featuredCommunities';
+import { useAllCommunities } from 'fe/community/all/useAllCommunities';
+import { CommunityPreviewHOC } from 'HOC/modules/previews/community/CommunityPreview';
+import { CollectionPreviewHOC } from 'HOC/modules/previews/collection/CollectionPreview';
+import { useAllCollections } from 'fe/collection/all/useAllCollections';
 
-export interface DiscoverPage {}
-export const DiscoverPage: FC<DiscoverPage> = () => {
+export enum DiscoverPageTabs {
+  Activities = 1,
+  Communities,
+  Collections
+}
+export interface DiscoverPage {
+  tab: DiscoverPageTabs;
+}
+export const DiscoverPage: FC<DiscoverPage> = (
+  {
+    /* tab */
+  }
+) => {
   const { activitiesPage } = useInstanceOutboxActivities();
+  const { allCommunitiesPage } = useAllCommunities();
+  const { allCollectionsPage } = useAllCollections();
   const propsUI = useMemo<Props>(() => {
     const FeaturedCollectionsBox = <FeaturedCollections />;
     const FeaturedCommunitiesBox = <FeaturedCommunities />;
@@ -19,14 +36,31 @@ export const DiscoverPage: FC<DiscoverPage> = () => {
       </>
     );
 
+    const CollectionsBoxes = (
+      <>
+        {allCollectionsPage.edges.map(collection => (
+          <CollectionPreviewHOC collectionId={collection.id} />
+        ))}
+      </>
+    );
+    const CommunitiesBoxes = (
+      <>
+        {allCommunitiesPage.edges.map(community => (
+          <CommunityPreviewHOC communityId={community.id} />
+        ))}
+      </>
+    );
+
     const props: Props = {
       ActivitiesBox,
       FeaturedCollectionsBox,
-      FeaturedCommunitiesBox
+      FeaturedCommunitiesBox,
+      CollectionsBoxes,
+      CommunitiesBoxes
     };
 
     return props;
-  }, [activitiesPage]);
+  }, [activitiesPage, allCommunitiesPage]);
 
   return <Discover {...propsUI} />;
 };

@@ -47,11 +47,11 @@ export const SettingsPage: FC<SettingsPage> = ({ basePath }) => {
       basePath,
       displayUsername: profile?.displayUsername || '',
       formik: updateProfileFormik,
-      Preferences: <Preferences />,
-      Instance: <Instance />,
-      Invites: <Emails />,
-      Flags: <Flags />,
-      isAdmin: me?.isInstanceAdmin
+      Preferences: <Preferences />, // FIXME: pass in props and remove optionals in UI
+      Instance: <Instance />, // FIXME: pass in props and remove optionals in UI
+      Invites: <Emails />, // FIXME: pass in props and remove optionals in UI
+      Flags: <Flags />, // FIXME: pass in props and remove optionals in UI
+      isAdmin: !!me?.isInstanceAdmin
     };
     return props;
   }, [profile, updateProfileFormik]);
