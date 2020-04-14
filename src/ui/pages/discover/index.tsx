@@ -1,28 +1,29 @@
-import { Trans } from '@lingui/macro';
+// import { Trans } from '@lingui/macro';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Route, Switch } from 'react-router-dom';
 import media from 'styled-media-query';
-
-import { Flex } from 'rebass/styled-components';
-import {
-  Nav,
-  NavItem,
-  Panel,
-  PanelTitle,
-  WrapperPanel
-} from 'ui/elements/Panel';
+import { SidePanel } from 'ui/modules/SidePanel';
+import { LoadMore } from 'ui/modules/Loadmore';
+import { FormikHook } from 'ui/@types/types';
+import { Flex, Box } from 'rebass/styled-components';
 import styled from 'ui/themes/styled';
-import { Header } from 'ui/modules/Header';
+import { Trans } from '@lingui/react';
 
 export interface Props {
   FeaturedCommunitiesBox: JSX.Element;
   FeaturedCollectionsBox: JSX.Element;
   ActivitiesBox: JSX.Element;
+  CommunitiesBoxes: JSX.Element; //FIX ME remove ? after fix
+  CollectionsBoxes: JSX.Element; //FIX ME remove ? after fix
+  LoadMoreFormik?: FormikHook; //FIX ME remove ? after LoadMoreFormik fix
 }
 export const Discover: React.FC<Props> = ({
   ActivitiesBox,
+  CommunitiesBoxes,
+  CollectionsBoxes,
   FeaturedCommunitiesBox,
-  FeaturedCollectionsBox
+  FeaturedCollectionsBox,
+  LoadMoreFormik
 }) => {
   return (
     <MainContainer>
@@ -31,33 +32,72 @@ export const Discover: React.FC<Props> = ({
           <WrapperFeatured>{FeaturedCommunitiesBox}</WrapperFeatured>
           <WrapperFeatured mt={2}>{FeaturedCollectionsBox}</WrapperFeatured>
           <Wrapper>
-            <Header name="Instance timeline" />
-            {ActivitiesBox}
+            <Switch>
+              <Route path="/">
+                {/* FIX ME fix url  */}
+                <Menu basePath="/" />
+                {ActivitiesBox}
+              </Route>
+              <Route path="/communities">
+                {/* FIX ME fix url and add CommunitiesBoxes */}
+                <Menu basePath="/communities" />
+                <WrapperBoxes>{CommunitiesBoxes}</WrapperBoxes>
+                {/* FIX ME after LoadMoreFormik fix */}
+                {LoadMoreFormik ? (
+                  <LoadMore LoadMoreFormik={LoadMoreFormik} />
+                ) : null}
+              </Route>
+              <Route path="/collections">
+                {/* FIX ME fix url and add CollectionsBoxes */}
+                <Menu basePath="/collections" />
+                {CollectionsBoxes}
+                {/* FIX ME after LoadMoreFormik fix */}
+                {LoadMoreFormik ? (
+                  <LoadMore LoadMoreFormik={LoadMoreFormik} />
+                ) : null}
+              </Route>
+            </Switch>
           </Wrapper>
         </WrapperCont>
       </HomeBox>
-      <WrapperPanel>
-        <Panel>
-          <PanelTitle fontSize={0} fontWeight={'bold'}>
-            <Trans>Browse Home instance</Trans>
-          </PanelTitle>
-          <Nav>
-            <NavItem mb={4} fontSize={1} fontWeight={'bold'}>
-              <NavLink to="/communities">
-                <Trans>All communities</Trans>
-              </NavLink>
-            </NavItem>
-            <NavItem fontSize={1} fontWeight={'bold'}>
-              <NavLink to="/collections">
-                <Trans>All collections</Trans>
-              </NavLink>
-            </NavItem>
-          </Nav>
-        </Panel>
-      </WrapperPanel>
+      <SidePanel />
     </MainContainer>
   );
 };
+
+const Menu = ({ basePath }: { basePath: string }) => (
+  <SuperTabWrapper>
+    <NavLink to={'/'}>
+      <Trans>Timeline</Trans>
+    </NavLink>
+    <NavLink to={'/communities'}>
+      <Trans>All communities</Trans>
+    </NavLink>
+    <NavLink to={'/collections'}>
+      <Trans>All collections</Trans>
+    </NavLink>
+  </SuperTabWrapper>
+);
+
+const SuperTabWrapper = styled(Flex)`
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+  padding: 12px 8px;
+  a {
+    font-weight: 700;
+    text-decoration: none;
+    margin-right: 8px;
+    color: ${props => props.theme.colors.gray};
+    letterspacing: 1px;
+    font-size: 14px;
+    padding: 4px 8px;
+    white-space: nowrap;
+    &.active {
+      color: #ffffff;
+      background: ${props => props.theme.colors.orange};
+      border-radius: 4px;
+    }
+  }
+`;
 
 const WrapperFeatured = styled(Flex)`
   display: flex;
@@ -65,6 +105,14 @@ const WrapperFeatured = styled(Flex)`
   flex: 1;
   background: white;
   border-radius: 8px;
+`;
+
+const WrapperBoxes = styled(Box)`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column-gap: 8px;
+  grid-row-gap: 8px;
+  padding: 8px;
 `;
 
 export const HomeBox = styled(Flex)`
@@ -93,6 +141,7 @@ export const MainContainer = styled(Flex)`
   flex-grow: 1;
   flex-direction: row;
   width: 100%;
+  margin-right: 8px;
 `;
 
 export const WrapperCont = styled(Flex)`
@@ -121,6 +170,7 @@ export const Wrapper = styled(Flex)`
   margin-top: 8px;
   background: white;
   border-radius: 8px;
+  overflow: hidden;
   & ul {
     display: block;
 

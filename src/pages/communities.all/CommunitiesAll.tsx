@@ -179,6 +179,7 @@ export const Wrapper = styled(Flex)`
   display: flex;
   flex-direction: column;
   flex: 1;
+  overflow: hidden;
   & ul {
     display: block;
 

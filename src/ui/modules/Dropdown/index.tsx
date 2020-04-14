@@ -6,7 +6,7 @@ import styled from 'ui/themes/styled';
 
 interface Props {
   cb(open: boolean): unknown;
-  orientation: string;
+  orientation: string[];
 }
 export const Dropdown: FC<Props> = ({ orientation, cb, children }) => (
   <OutsideClickHandler onOutsideClick={() => cb(false)}>
@@ -14,7 +14,7 @@ export const Dropdown: FC<Props> = ({ orientation, cb, children }) => (
   </OutsideClickHandler>
 );
 
-const Wrapper = styled(Box)<{ orientation: string }>`
+const Wrapper = styled(Box)<{ orientation: string[] }>`
   text-align: left;
   background: white;
   min-width: 200px;
@@ -23,12 +23,13 @@ const Wrapper = styled(Box)<{ orientation: string }>`
   box-shadow: rgba(101, 119, 134, 0.2) 0px 0px 15px,
     rgba(101, 119, 134, 0.15) 0px 0px 3px 1px;
   position: absolute;
-  top: ${props => (props.orientation === 'top' ? '8px' : 'auto')};
+  top: ${props => (props.orientation[0] === 'top' ? '45px' : 'auto')};
 
-  bottom: ${props => (props.orientation === 'bottom' ? '4px' : 'auto')};
+  bottom: ${props => (props.orientation[0] === 'bottom' ? '4px' : 'auto')};
 
-  left: ${props => (props.orientation === 'top' ? '0px' : 'auto')};
-  right: ${props => (props.orientation === 'bottom' ? '0px' : 'auto')};
+  left: ${props => (props.orientation[1] === 'left' ? '0px' : 'auto')};
+  right: ${props => (props.orientation[1] === 'right' ? '0px' : 'auto')};
+
   z-index: 9999999999999999999999999999;
 `;
 export const DropdownItem = styled(Flex)`

@@ -27,6 +27,7 @@ export const MainContainer = styled(Flex)`
   flex-grow: 1;
   flex-direction: row;
   width: 100%;
+  margin-right: 8px;
 `;
 
 export const MainWrapper = styled(Flex)`

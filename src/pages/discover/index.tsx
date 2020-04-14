@@ -91,7 +91,7 @@ const Home: React.FC<Props> = props => {
               p={3}
               variant="suptitle"
             >
-              <Trans>Instance timeline</Trans>
+              <Trans>Federated timeline</Trans>
             </Text>
             {error ? (
               <Empty>

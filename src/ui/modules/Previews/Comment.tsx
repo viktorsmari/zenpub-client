@@ -129,7 +129,7 @@ export const Comment: React.SFC<CommentProps> = ({
                   {/* <Trans>More</Trans> */}
                 </Text>
                 {isOpen && (
-                  <Dropdown orientation="bottom" cb={onOpen}>
+                  <Dropdown orientation={['bottom', 'right']} cb={onOpen}>
                     {FlagModal && (
                       <DropdownItem onClick={() => setOpenFlagModal(true)}>
                         <Flag size={20} color={'rgb(101, 119, 134)'} />

@@ -4,14 +4,7 @@ import { Flex } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import { Trans } from '@lingui/react';
 import Modal from 'ui/modules/Modal';
-
-import {
-  Nav,
-  NavItem,
-  Panel,
-  PanelTitle,
-  WrapperPanel
-} from 'ui/elements/Panel';
+import { SidePanel } from 'ui/modules/SidePanel';
 import styled from 'ui/themes/styled';
 import Button from 'ui/elements/Button';
 import { Header } from 'ui/modules/Header';
@@ -28,9 +21,9 @@ export interface Props {
   UploadResourcePanel: React.ComponentType<{ done(): any }>;
   basePath: string;
   collectionName: string;
-  loadMoreActivities: FormikHook;
-  loadMoreResources: FormikHook;
-  loadMoreFollowers: FormikHook;
+  loadMoreActivities?: FormikHook;
+  loadMoreResources?: FormikHook;
+  loadMoreFollowers?: FormikHook;
 }
 
 export const Collection: React.FC<Props> = ({
@@ -70,7 +63,10 @@ export const Collection: React.FC<Props> = ({
               <Route path={`${basePath}/followers`}>
                 <FollowersMenu basePath={`${basePath}/followers`} />
                 {FollowersBoxes}
-                <LoadMore LoadMoreFormik={loadMoreFollowers} />
+                {/* FIX ME after loadMoreFollowers fix */}
+                {loadMoreFollowers ? (
+                  <LoadMore LoadMoreFormik={loadMoreFollowers} />
+                ) : null}
               </Route>
               <Route exact path={`${basePath}/`}>
                 <>
@@ -95,7 +91,10 @@ export const Collection: React.FC<Props> = ({
                     <UploadResourcePanel done={() => setUploadOpen(false)} />
                   )}
                   {ResourcesBox}
-                  <LoadMore LoadMoreFormik={loadMoreResources} />
+                  {/* FIX ME after loadMoreResources fix */}
+                  {loadMoreResources ? (
+                    <LoadMore LoadMoreFormik={loadMoreResources} />
+                  ) : null}
                 </>
               </Route>
               <Route exact path={`${basePath}/activities`}>
@@ -103,59 +102,17 @@ export const Collection: React.FC<Props> = ({
                   {HeroCollectionBox}
                   <Menu basePath={basePath} />
                   {ActivitiesBox}
-                  <LoadMore LoadMoreFormik={loadMoreActivities} />
+                  {/* FIX ME after loadMoreActivities fix */}
+                  {loadMoreActivities ? (
+                    <LoadMore LoadMoreFormik={loadMoreActivities} />
+                  ) : null}
                 </>
               </Route>
             </Switch>
           </Wrapper>
         </WrapperCont>
       </HomeBox>
-      <WrapperPanel>
-        <Panel>
-          <PanelTitle fontSize={0} fontWeight={'bold'}>
-            Popular hashtags
-          </PanelTitle>
-          <Nav>
-            <NavItem mb={3} fontSize={1}>
-              #pedagogy
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              #transition
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              #english
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              #template
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              #assessment
-            </NavItem>
-          </Nav>
-        </Panel>
-        <Panel>
-          <PanelTitle fontSize={0} fontWeight={'bold'}>
-            Popular categories
-          </PanelTitle>
-          <Nav>
-            <NavItem mb={3} fontSize={1}>
-              Humanities
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              Behavioural science
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              English
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              Romana
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              Postgraduate
-            </NavItem>
-          </Nav>
-        </Panel>
-      </WrapperPanel>
+      <SidePanel />
     </MainContainer>
   );
 };

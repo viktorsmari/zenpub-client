@@ -9,7 +9,7 @@ import { FormikHook } from 'ui/@types/types';
 
 export interface Props {
   CommunitiesBoxes: JSX.Element;
-  LoadMoreFormik: FormikHook;
+  LoadMoreFormik?: FormikHook; //FIX ME remove ? after LoadMoreFormik fix
 }
 
 export const AllCommunities: React.FC<Props> = ({
@@ -23,7 +23,10 @@ export const AllCommunities: React.FC<Props> = ({
           <Wrapper>
             <Header name="All Communities" />
             <WrapperBoxes>{CommunitiesBoxes}</WrapperBoxes>
-            <LoadMore LoadMoreFormik={LoadMoreFormik} />
+            {/* FIX ME after LoadMoreFormik fix */}
+            {LoadMoreFormik ? (
+              <LoadMore LoadMoreFormik={LoadMoreFormik} />
+            ) : null}
           </Wrapper>
         </WrapperCont>
       </HomeBox>

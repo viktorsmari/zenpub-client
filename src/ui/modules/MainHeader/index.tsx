@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'ui/themes/styled';
 // import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
-import { ChevronLeft, ChevronDown } from 'react-feather';
+import { ChevronLeft, ChevronDown, Menu } from 'react-feather';
 import { Flex, Text, Box } from 'rebass/styled-components';
 import Avatar from 'ui/elements/Avatar';
 // import Avatar from 'ui/elements/Avatar';
@@ -12,6 +12,7 @@ import { ellipsis } from 'polished';
 import { Link } from 'react-router-dom';
 import { Trans } from '@lingui/react';
 const MnetLogo = require('./moodle-logo.png');
+// import MainSidebarMenu from '../Sidebar';
 
 export interface Props {
   user: null | {
@@ -27,17 +28,21 @@ export const MainHeader: React.FC<Props> = props => {
   const history = useHistory();
   const [isOpenDropdown, setOpenDropdown] = React.useState(false);
   const openMenu = React.useCallback(() => setOpenDropdown(true), []);
-  // console.log(history);
+
   return (
     <HeaderWrapper>
       <FlexWrapper>
         <Left>
-          <Icon mx={2} onClick={() => history.goBack()}>
+          <Icon onClick={() => history.goBack()}>
             <ChevronLeft size="20" />
           </Icon>
-          <Link to="/">
+          <HamburgerIcon>
+            {/* <HamburgerIcon onClick={() => toggleSideBar()}> FIX ME AFTER HOC */}
+            <Menu size="20" />
+          </HamburgerIcon>
+          <HomeLink to="/">
             <Avatar size="s" src={MnetLogo} />
-          </Link>
+          </HomeLink>
         </Left>
         <Center>{props.Search}</Center>
         <Header alignItems={'center'}>
@@ -66,6 +71,11 @@ export const MainHeader: React.FC<Props> = props => {
                   setOpenDropdown={setOpenDropdown}
                 />
               )}
+              {/* {isOpenMainDropdown && (
+                <DropdownMenu
+                  setOpenMainDropdown={setOpenMainDropdown}
+                />
+              )} */}
             </NavItem>
           ) : (
             <Flex justifyContent="space-evenly">
@@ -114,7 +124,7 @@ const Right = styled(Box)`
 `;
 
 const HeaderName = styled(Text)`
-  ${ellipsis('180px')};
+  ${ellipsis('140px')};
 `;
 
 const NavItem = styled(Flex)`
@@ -142,12 +152,16 @@ const Header = styled(Box)`
     height: 36px;
     border-radius: 36px;
   }
+  ${media.lessThan('medium')`
+    flex: 0 0 210px;
+  `};
 `;
 
 const Icon = styled(Box)`
   cursor: pointer;
   height: 40px;
   width: 40px;
+  min-width: 40px;
   border-radius: 40px;
   display: flex;
   align-items: center;
@@ -168,6 +182,9 @@ const Left = styled(Flex)`
   flex: 0 0 240px;
   order: 0;
   justify-content: flex-start;
+  ${media.lessThan('medium')`
+    flex: 0 0 100px;
+  `};
 `;
 
 const HeaderWrapper = styled(Box)`
@@ -187,4 +204,16 @@ const HeaderWrapper = styled(Box)`
     flex: 1;
     text-decoration: none;
   }
+`;
+
+const HamburgerIcon = styled(Icon)`
+  display: none;
+  min-width: 40px;
+  ${media.lessThan('medium')`
+      display: flex;
+  `};
+`;
+
+const HomeLink = styled(Link)`
+  margin-left: 8px;
 `;
