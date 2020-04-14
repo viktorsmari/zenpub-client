@@ -2,7 +2,7 @@ import { GuestTemplate } from 'HOC/templates/Guest/Guest';
 import ConfirmAccountComp from 'pages/Confirm';
 import React, { FC } from 'react';
 import { RouteComponentProps, RouteProps, Redirect } from 'react-router-dom';
-import { useMe } from 'fe/session/me';
+import { useMe } from 'fe/session/useMe';
 
 interface ConfirmEmailRouter {
   token: string;

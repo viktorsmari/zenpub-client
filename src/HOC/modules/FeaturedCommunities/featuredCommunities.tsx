@@ -3,7 +3,7 @@ import {
   FeaturedCommunities as FeaturedCommunitiesUI,
   FeaturedCommunitiesData
 } from 'ui/modules/FeaturedCommunities';
-import { useMe } from 'fe/session/me';
+import { useMe } from 'fe/session/useMe';
 import { DiscoverPageFeaturedCommunityInfoFragment } from 'HOC/pages/discover/DiscoverPage.generated';
 import { CommunityBase } from 'ui/modules/FeaturedCommunities/preview';
 import { FeatureModalHOC } from '../FeatureModal/FeatureModal';

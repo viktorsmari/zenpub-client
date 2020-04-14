@@ -1,6 +1,6 @@
 import { useProfile } from 'fe/user/settings/useSettings';
 import { useFormik } from 'formik';
-import { useMe } from 'fe/session/me';
+import { useMe } from 'fe/session/useMe';
 import React, { FC, useMemo } from 'react';
 import {
   Settings as SettingsPageUI,

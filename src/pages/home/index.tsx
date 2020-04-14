@@ -2,7 +2,7 @@ import { Trans } from '@lingui/macro';
 import { useMyFollowedCollections } from 'fe/collection/myFollowed/myFollowedCollections';
 import { useMyFollowedCommunities } from 'fe/community/myFollowed/myFollowedCommunities';
 import { useFormikPage } from 'fe/lib/helpers/usePage';
-import { useMe } from 'fe/session/me';
+import { useMe } from 'fe/session/useMe';
 import {
   ActivityPreviewHOC
   /* ActivityPreviewCtx */
