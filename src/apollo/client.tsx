@@ -12,7 +12,10 @@ import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 // import { createHttpLink } from 'apollo-link-http';
 import apolloLogger from 'apollo-link-logger';
-import { AnonResetPasswordMutationOperation } from 'fe/session/anon.generated';
+import {
+  AnonResetPasswordMutationOperation,
+  AnonResetPasswordRequestMutationOperation
+} from 'fe/session/anon.generated';
 import { Socket as PhoenixSocket } from 'phoenix';
 import { logout } from 'redux/session';
 import { UsernameAvailableQueryOperation } from '../graphql/checkUsername.generated';
@@ -200,13 +203,15 @@ export default async function initialise({
     | ConfirmEmailMutationMutationOperation
     | UsernameAvailableQueryOperation
     | AnonResetPasswordMutationOperation
+    | AnonResetPasswordRequestMutationOperation
   >[] = [
-    'anonResetPassword',
     'confirmEmailMutation',
     'createUserMutation',
     'loginMutation',
     'logoutMutation',
-    'usernameAvailable'
+    'usernameAvailable',
+    'anonResetPassword',
+    'anonResetPasswordRequest'
   ];
   const alertBlockMutationsForAnonymousLink = new ApolloLink(
     (operation, nextLink) => {
