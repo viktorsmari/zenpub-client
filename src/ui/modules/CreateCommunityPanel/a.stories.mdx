@@ -1,6 +1,6 @@
 import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
 import { PropsTable } from '@storybook/components';
-import {getCreateCommunityProps} from 'ui/mock/context'
+import {getCreateCommunityModalProps} from 'ui/mock/createCommunityModal'
 import { CreateCommunityPanel } from 'ui/modules/CreateCommunityPanel';
 import { action } from '@storybook/addon-actions';
 import Modal from 'ui/modules/Modal'
@@ -13,7 +13,7 @@ Let's define a story for the `CreateCommunityPanel preview` module
 <Preview>
   <Story name="Create a Community">
     <Modal closeModal={action('close modal')}>
-      <CreateCommunityPanel {...getCreateCommunityProps()} />
+      <CreateCommunityPanel {...getCreateCommunityModalProps()} />
     </Modal>
   </Story>  
 </Preview>
