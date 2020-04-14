@@ -5,44 +5,35 @@ import media from 'styled-media-query';
 import SocialText from 'ui/modules/SocialText';
 import { Trans } from '@lingui/react';
 import Button from 'ui/elements/Button';
-import {
-  Nav,
-  NavItem,
-  Panel,
-  PanelTitle,
-  WrapperPanel
-} from 'ui/elements/Panel';
+import { SidePanel } from 'ui/modules/SidePanel';
 import styled from 'ui/themes/styled';
 import { FormikHook } from 'ui/@types/types';
 import Modal from 'ui/modules/Modal';
-
-// interface Collection {
-//   id: any;
-// }
-// type CollectionBox = React.ComponentType<{ collection: Collection }>;
-
-// interface Activity {
-//   id: any;
-// }
-// type ActivityBox = React.ComponentType<{ activity: Activity }>;
+import { Header } from 'ui/modules/Header';
 
 export interface Props {
-  ActivityBoxes: JSX.Element[];
-  CollectionBoxes: JSX.Element[];
+  isJoined: boolean;
+  ActivitiesBox: JSX.Element;
+  FollowersBoxes: JSX.Element;
+  CollectionsBox: JSX.Element;
   HeroCommunityBox: JSX.Element;
-  ThreadBoxes: JSX.Element[];
+  ThreadsBox: JSX.Element;
+  communityName: string;
   basePath: string;
   newThreadFormik: null | FormikHook<{ text: string }>;
   CreateCollectionPanel: React.ComponentType<{ done(): any }>;
 }
 
 export const Community: React.FC<Props> = ({
-  ActivityBoxes,
+  ActivitiesBox,
   HeroCommunityBox,
-  CollectionBoxes,
+  CollectionsBox,
+  FollowersBoxes,
   basePath,
   newThreadFormik,
-  ThreadBoxes,
+  isJoined,
+  communityName,
+  ThreadsBox,
   CreateCollectionPanel
 }) => {
   const [isOpenCreateCollection, setOpenCreateCollection] = React.useState(
@@ -59,131 +50,75 @@ export const Community: React.FC<Props> = ({
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            {HeroCommunityBox}
-            <Menu basePath={basePath} />
+            <Header name={communityName} />
             <Switch>
+              <Route path={`${basePath}/members`}>
+                <FollowersMenu basePath={`${basePath}/members`} />
+                {FollowersBoxes}
+              </Route>
               <Route exact path={`${basePath}`}>
-                {ActivityBoxes}
+                <>
+                  {HeroCommunityBox}
+                  <Menu basePath={basePath} />
+                  <Box mt={2}>{ActivitiesBox}</Box>
+                </>
               </Route>
               <Route path={`${basePath}/collections`}>
                 <>
-                  <WrapButton mt={3} px={3} pb={3} mb={2}>
-                    <Button
-                      variant="outline"
-                      onClick={() => setOpenCreateCollection(true)}
-                    >
-                      <Trans>Create a new collection</Trans>
-                    </Button>
-                  </WrapButton>
-                  {CollectionBoxes}
+                  {HeroCommunityBox}
+                  <Menu basePath={basePath} />
+                  {isJoined && (
+                    <WrapButton p={2} mb={2}>
+                      <Button
+                        variant="outline"
+                        onClick={() => setOpenCreateCollection(true)}
+                      >
+                        <Trans>Create a new collection</Trans>
+                      </Button>
+                    </WrapButton>
+                  )}
+                  {CollectionsBox}
                 </>
               </Route>
               <Route path={`${basePath}/discussions`}>
-                <WrapSocialText mt={3} px={3} pb={3} mb={2}>
-                  {newThreadFormik && (
-                    <SocialText
-                      placeholder="Start a new thread..."
-                      submit={text => {
-                        newThreadFormik.values.text = text;
-                        newThreadFormik.submitForm();
-                      }}
-                    />
-                  )}
-                </WrapSocialText>
-                {ThreadBoxes}
+                <>
+                  {HeroCommunityBox}
+                  <Menu basePath={basePath} />
+                  <WrapSocialText mt={3} px={3} pb={3} mb={2}>
+                    {newThreadFormik && (
+                      <SocialText
+                        placeholder="Start a new thread..."
+                        submit={text => {
+                          newThreadFormik.values.text = text;
+                          newThreadFormik.submitForm();
+                        }}
+                      />
+                    )}
+                  </WrapSocialText>
+                  {ThreadsBox}
+                </>
               </Route>
             </Switch>
           </Wrapper>
         </WrapperCont>
       </HomeBox>
-      <WrapperPanel>
-        <Panel>
-          <PanelTitle fontSize={0} fontWeight={'bold'}>
-            Popular hashtags
-          </PanelTitle>
-          <Nav>
-            <NavItem mb={3} fontSize={1}>
-              #pedagogy
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              #transition
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              #english
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              #template
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              #assessment
-            </NavItem>
-          </Nav>
-        </Panel>
-        <Panel>
-          <PanelTitle fontSize={0} fontWeight={'bold'}>
-            Popular categories
-          </PanelTitle>
-          <Nav>
-            <NavItem mb={3} fontSize={1}>
-              Humanities
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              Behavioural science
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              English
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              Romana
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              Postgraduate
-            </NavItem>
-          </Nav>
-        </Panel>
-      </WrapperPanel>
+      <SidePanel />
     </MainContainer>
   );
 };
 
-// export interface RecentActivitiesProps {
-//   activities: Activity[];
-//   ActivityBox: ActivityBox;
-// }
-// const RecentActivities: React.SFC<RecentActivitiesProps> = ({
-//   activities,
-//   ActivityBox
-// }) => {
-//   return (
-//     <>
-//       {activities.map(activity => (
-//         <ActivityBox activity={activity} key={activity.id} />
-//       ))}
-//     </>
-//   );
-// };
-
-// export interface CollectionsProps {
-//   collections: Collection[];
-//   CollectionBox: CollectionBox;
-// }
-// const Collections: React.SFC<CollectionsProps> = ({
-//   collections,
-//   CollectionBox
-// }) => {
-//   return (
-//     <>
-//       {collections.map(collection => (
-//         <CollectionBox collection={collection} key={collection.id} />
-//       ))}
-//     </>
-//   );
-// };
+const FollowersMenu = ({ basePath }: { basePath: string }) => (
+  <MenuWrapper m={2}>
+    <NavLink exact to={`${basePath}`}>
+      Members
+    </NavLink>
+  </MenuWrapper>
+);
 
 const Menu = ({ basePath }: { basePath: string }) => (
   <MenuWrapper p={3} pt={0}>
     <NavLink exact to={`${basePath}`}>
-      Recent activities
+      Recent activity
     </NavLink>
     <NavLink to={`${basePath}/collections`}>Collections</NavLink>
     <NavLink to={`${basePath}/discussions`}>Discussions</NavLink>
@@ -191,16 +126,14 @@ const Menu = ({ basePath }: { basePath: string }) => (
 );
 
 const WrapButton = styled(Flex)`
-  border-bottom: 3px solid ${props => props.theme.colors.lightgray};
+  background: white;
   button {
     width: 100%;
     height: 50px;
   }
 `;
 
-const WrapSocialText = styled(Box)`
-  border-bottom: 3px solid ${props => props.theme.colors.lightgray};
-`;
+const WrapSocialText = styled(Box)``;
 
 const MenuWrapper = styled(Flex)`
   a {
@@ -208,19 +141,18 @@ const MenuWrapper = styled(Flex)`
     text-decoration: none;
     margin-right: 8px;
     color: ${props => props.theme.colors.gray};
-    letterspacing: '1px';
-    font-size: 14px;
+    letterspacing: 1px;
+    font-size: 13px;
     padding: 4px 8px;
     &.active {
       color: #ffffff;
       background: ${props => props.theme.colors.orange};
-      border-radius: 8px;
+      border-radius: 4px;
     }
   }
 `;
 export const HomeBox = styled(Flex)`
-      max-width: 600px;
-        width: 100%;
+        width: 600px;
         align-items: flex-start;
         flex-shrink: 1;
         flex-grow: 1;
@@ -260,11 +192,10 @@ export const WrapperCont = styled(Flex)`
   flex-shrink: 0;
   margin: 0px;
   min-height: 0px;
+  background: white;
   min-width: 0px;
   padding: 0px;
   position: relative;
-  background: white;
-  border-radius: 4px;
   z-index: 0;
 `;
 

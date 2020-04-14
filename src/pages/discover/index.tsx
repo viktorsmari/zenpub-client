@@ -16,8 +16,8 @@ import { CreateReplyMutationMutationOperation } from '../../graphql/createReply.
 import { DeleteMutationMutationOperation } from '../../graphql/delete.generated';
 import { LikeMutationMutationOperation } from '../../graphql/like.generated';
 import {
-  useLocalActivitiesQuery,
-  LocalActivitiesDocument
+  useLocalActivitiesQuery
+  /* LocalActivitiesDocument */
 } from '../../graphql/localActivities.generated';
 // import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 import {
@@ -31,9 +31,9 @@ import styled from 'ui/themes/styled';
 import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 // import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
 import {
-  ActivityPreviewHOC,
-  ActivityPreviewCtx
-} from 'HOC/modules/ActivityPreview/activityPreviewHOC';
+  ActivityPreviewHOC
+  /* ActivityPreviewCtx */
+} from 'HOC/modules/previews/activity/ActivityPreview';
 
 interface Props {}
 
@@ -42,7 +42,7 @@ const Home: React.FC<Props> = props => {
     error,
     loading,
     refetch,
-    variables,
+    /* variables */
     data /* , fetchMore */
   } = useLocalActivitiesQuery({
     variables: {
@@ -91,7 +91,7 @@ const Home: React.FC<Props> = props => {
               p={3}
               variant="suptitle"
             >
-              <Trans>Instance timeline</Trans>
+              <Trans>Federated timeline</Trans>
             </Text>
             {error ? (
               <Empty>
@@ -102,30 +102,30 @@ const Home: React.FC<Props> = props => {
             ) : (
               data &&
               data.instance && (
-                <ActivityPreviewCtx.Provider
+                /*  <ActivityPreviewCtx.Provider
                   value={{
                     refetchQueries: [
                       { query: LocalActivitiesDocument, variables }
                     ]
                   }}
-                >
-                  <div>
-                    {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                    data.instance.outbox!.edges!.map(
-                      activity =>
-                        activity && (
-                          <ActivityPreviewHOC
-                            activityId={activity.node.id}
-                            key={activity.node.id}
-                          />
-                        )
-                    )}
-                    {/* <LoadMoreTimeline
+                > */
+                <div>
+                  {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                  data.instance.outbox!.edges!.map(
+                    activity =>
+                      activity && (
+                        <ActivityPreviewHOC
+                          activityId={activity.id}
+                          key={activity.id}
+                        />
+                      )
+                  )}
+                  {/* <LoadMoreTimeline
                           fetchMore={fetchMore}
                           outbox={data.instance.outbox}
                         /> */}
-                  </div>
-                </ActivityPreviewCtx.Provider>
+                </div>
+                /*  </ActivityPreviewCtx.Provider> */
               )
             )}
           </Wrapper>

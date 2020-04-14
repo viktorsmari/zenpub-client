@@ -4,10 +4,10 @@ import * as React from 'react';
 import CollectionCard from '../../components/elements/Collection/Collection';
 import Loader from '../../components/elements/Loader/Loader';
 // import CollectionsLoadMore from '../../components/elements/Loadmore/followingCollections';
-// import { APP_NAME } from '../../constants';
+// import { APP_NAME } from '../../mn-constants';
 import styled from '../../themes/styled';
 
-export const FollowingCollectionsComponent: React.SFC = () => {
+export const FollowingCollectionsComponent: React.FC = () => {
   const { data, error, loading } = useGetFollowedCollectionsQuery({
     variables: {
       limit: 15
@@ -34,10 +34,7 @@ export const FollowingCollectionsComponent: React.SFC = () => {
             data.me.user.followedCollections.edges.map(
               (collection, i) =>
                 collection && (
-                  <CollectionCard
-                    key={i}
-                    collection={collection.node.collection}
-                  />
+                  <CollectionCard key={i} collection={collection.collection} />
                 )
             )}
         </List>

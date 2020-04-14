@@ -1,0 +1,25 @@
+
+
+fragment UserPageActivities on Activity {
+  id
+}
+
+fragment UserPageUserData on User {
+  id
+  followedCollections{
+    totalCount
+  }
+  followedCommunities{
+    totalCount
+  }
+  followedUsers{
+    totalCount
+  }
+  outbox{
+    totalCount
+  }
+  website
+  name
+  
+  ...HeroUserUserData
+}

@@ -4,25 +4,26 @@ import { Flex } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import { Trans } from '@lingui/react';
 import Modal from 'ui/modules/Modal';
-
-import {
-  Nav,
-  NavItem,
-  Panel,
-  PanelTitle,
-  WrapperPanel
-} from 'ui/elements/Panel';
+import { SidePanel } from 'ui/modules/SidePanel';
 import styled from 'ui/themes/styled';
 import Button from 'ui/elements/Button';
+import { Header } from 'ui/modules/Header';
+import { LoadMore } from 'ui/modules/Loadmore';
+import { FormikHook } from 'ui/@types/types';
 
 export interface Props {
-  ActivityBoxes: JSX.Element[];
-  ResourceBoxes: JSX.Element[];
+  ActivitiesBox: JSX.Element;
+  ResourcesBox: JSX.Element;
   HeroCollectionBox: JSX.Element;
+  FollowersBoxes: JSX.Element;
   ShareLinkModalPanel: React.ComponentType<{ done(): any }>;
   EditCollectionPanel: React.ComponentType<{ done(): any }>;
   UploadResourcePanel: React.ComponentType<{ done(): any }>;
   basePath: string;
+  collectionName: string;
+  loadMoreActivities?: FormikHook;
+  loadMoreResources?: FormikHook;
+  loadMoreFollowers?: FormikHook;
 }
 
 export const Collection: React.FC<Props> = ({
@@ -30,9 +31,14 @@ export const Collection: React.FC<Props> = ({
   ShareLinkModalPanel,
   EditCollectionPanel,
   UploadResourcePanel,
-  ActivityBoxes,
-  ResourceBoxes,
-  basePath
+  ActivitiesBox,
+  FollowersBoxes,
+  ResourcesBox,
+  basePath,
+  collectionName,
+  loadMoreActivities,
+  loadMoreResources,
+  loadMoreFollowers
 }) => {
   const [isOpenEditCollection, setOpenEditCollection] = React.useState(false);
   const [isShareLinkOpen, setOpenShareLink] = React.useState(false);
@@ -52,14 +58,20 @@ export const Collection: React.FC<Props> = ({
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            {HeroCollectionBox}
-            <Menu basePath={basePath} />
+            <Header name={collectionName} />
             <Switch>
-              <Route exact path={`${basePath}/`}>
-                {ActivityBoxes}
+              <Route path={`${basePath}/followers`}>
+                <FollowersMenu basePath={`${basePath}/followers`} />
+                {FollowersBoxes}
+                {/* FIX ME after loadMoreFollowers fix */}
+                {loadMoreFollowers ? (
+                  <LoadMore LoadMoreFormik={loadMoreFollowers} />
+                ) : null}
               </Route>
-              <Route path={`${basePath}/resources`}>
+              <Route exact path={`${basePath}/`}>
                 <>
+                  {HeroCollectionBox}
+                  <Menu basePath={basePath} />
                   <WrapButton px={3} pb={3} mb={2}>
                     <Button
                       mr={2}
@@ -78,87 +90,50 @@ export const Collection: React.FC<Props> = ({
                   {isUploadOpen && (
                     <UploadResourcePanel done={() => setUploadOpen(false)} />
                   )}
-                  {ResourceBoxes}
+                  {ResourcesBox}
+                  {/* FIX ME after loadMoreResources fix */}
+                  {loadMoreResources ? (
+                    <LoadMore LoadMoreFormik={loadMoreResources} />
+                  ) : null}
+                </>
+              </Route>
+              <Route exact path={`${basePath}/activities`}>
+                <>
+                  {HeroCollectionBox}
+                  <Menu basePath={basePath} />
+                  {ActivitiesBox}
+                  {/* FIX ME after loadMoreActivities fix */}
+                  {loadMoreActivities ? (
+                    <LoadMore LoadMoreFormik={loadMoreActivities} />
+                  ) : null}
                 </>
               </Route>
             </Switch>
           </Wrapper>
         </WrapperCont>
       </HomeBox>
-      <WrapperPanel>
-        <Panel>
-          <PanelTitle fontSize={0} fontWeight={'bold'}>
-            Popular hashtags
-          </PanelTitle>
-          <Nav>
-            <NavItem mb={3} fontSize={1}>
-              #pedagogy
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              #transition
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              #english
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              #template
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              #assessment
-            </NavItem>
-          </Nav>
-        </Panel>
-        <Panel>
-          <PanelTitle fontSize={0} fontWeight={'bold'}>
-            Popular categories
-          </PanelTitle>
-          <Nav>
-            <NavItem mb={3} fontSize={1}>
-              Humanities
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              Behavioural science
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              English
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              Romana
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              Postgraduate
-            </NavItem>
-          </Nav>
-        </Panel>
-      </WrapperPanel>
+      <SidePanel />
     </MainContainer>
   );
 };
 export default Collection;
-// export interface RecentActivitiesProps {
-//   activities: Activity[];
-//   ActivityBox: ActivityBox;
-// }
 
-// const RecentActivities: React.SFC<RecentActivitiesProps> = ({
-//   activities,
-//   ActivityBox
-// }) => {
-//   return (
-//     <>
-//       {activities.map(activity => (
-//         <ActivityBox activity={activity} key={activity.id} />
-//       ))}
-//     </>
-//   );
-// };
+const FollowersMenu = ({ basePath }: { basePath: string }) => (
+  <MenuWrapper m={2} p={2} pt={0}>
+    <NavLink exact to={`${basePath}`}>
+      Followers
+    </NavLink>
+  </MenuWrapper>
+);
 
 const Menu = ({ basePath }: { basePath: string }) => (
   <MenuWrapper p={3} pt={3}>
     <NavLink exact to={`${basePath}`}>
-      Recent activities
+      Resources
     </NavLink>
-    <NavLink to={`${basePath}/resources`}>Resources</NavLink>
+    <NavLink exact to={`${basePath}/activities`}>
+      <Trans>Recent activity</Trans>
+    </NavLink>
   </MenuWrapper>
 );
 
@@ -171,33 +146,23 @@ const WrapButton = styled(Flex)`
 `;
 
 const MenuWrapper = styled(Flex)`
-  border-top: 3px solid ${props => props.theme.colors.lightgray};
   a {
-    font-weight: 800;
+    font-weight: 700;
     text-decoration: none;
-    margin-right: 24px;
+    margin-right: 8px;
     color: ${props => props.theme.colors.gray};
-    letterspacing: '1px';
-    font-size: 16px;
+    letterspacing: 1px;
+    font-size: 13px;
+    padding: 4px 8px;
     &.active {
-      color: ${props => props.theme.colors.orange};
-      position: relative;
-      &:after {
-        position: absolute;
-        content: '';
-        display: block;
-        top: -19px;
-        width: 100%;
-        height: 3px;
-        background: ${props => props.theme.colors.orange};
-      }
+      color: #ffffff;
+      background: ${props => props.theme.colors.orange};
+      border-radius: 4px;
     }
   }
 `;
-
 export const HomeBox = styled(Flex)`
-  max-width: 600px;
-  width: 100%;
+  width: 600px;
   align-items: flex-start;
   flex-shrink: 1;
   flex-grow: 1;

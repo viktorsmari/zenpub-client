@@ -3,7 +3,7 @@
     "types": [
       {
         "kind": "UNION",
-        "name": "FlagContext",
+        "name": "UploadParent",
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Comment" },
@@ -19,17 +19,6 @@
       },
       {
         "kind": "UNION",
-        "name": "UploadParent",
-        "possibleTypes": [
-          { "name": "Collection" },
-          { "name": "Comment" },
-          { "name": "Community" },
-          { "name": "Resource" },
-          { "name": "User" }
-        ]
-      },
-      {
-        "kind": "UNION",
         "name": "ThreadContext",
         "possibleTypes": [
           { "name": "Collection" },
@@ -40,26 +29,12 @@
       },
       {
         "kind": "UNION",
-        "name": "FollowContext",
-        "possibleTypes": [
-          { "name": "Collection" },
-          { "name": "Community" },
-          { "name": "Thread" },
-          { "name": "User" }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "DeleteContext",
+        "name": "FlagContext",
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Comment" },
           { "name": "Community" },
-          { "name": "Feature" },
-          { "name": "Follow" },
-          { "name": "Like" },
           { "name": "Resource" },
-          { "name": "Thread" },
           { "name": "User" }
         ]
       },
@@ -85,6 +60,32 @@
           { "name": "Comment" },
           { "name": "Community" },
           { "name": "Resource" },
+          { "name": "User" }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "DeleteContext",
+        "possibleTypes": [
+          { "name": "Collection" },
+          { "name": "Comment" },
+          { "name": "Community" },
+          { "name": "Feature" },
+          { "name": "Flag" },
+          { "name": "Follow" },
+          { "name": "Like" },
+          { "name": "Resource" },
+          { "name": "Thread" },
+          { "name": "User" }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "FollowContext",
+        "possibleTypes": [
+          { "name": "Collection" },
+          { "name": "Community" },
+          { "name": "Thread" },
           { "name": "User" }
         ]
       }

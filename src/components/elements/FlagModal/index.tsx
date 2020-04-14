@@ -96,7 +96,7 @@ const FlagModal: React.FC<Props> = ({
           contextId: myFlag!.id!
         }
       });
-      flagItem(false);
+      // flagItem(false);
       closeModal(false);
     },
     [error, text]

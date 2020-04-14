@@ -1,0 +1,19 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import { PropsTable } from '@storybook/components';
+import { MainHeader } from '.';
+import {Box} from 'rebass'
+import {getMainHeaderProps} from 'ui/mock/mainHeader'
+
+<Meta title="Modules|MainHeader" component={MainHeader}/>
+
+# HeroCollection
+Let's define a story for the `Hero collection preview` module
+
+<Preview>
+  <Story name="MainHeader module">
+    <Box height={"300px"}>
+      <MainHeader {...getMainHeaderProps()} />
+    </Box>
+  </Story>
+</Preview>
+

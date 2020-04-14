@@ -3,8 +3,7 @@ import { Box, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 
 export const WrapperPanel = styled(Flex)`
-  margin-right: 8px;
-  width: 350px;
+  width: 300px;
   align-items: stretch;
   border: 0 solid black;
   box-sizing: border-box;
@@ -18,9 +17,7 @@ export const WrapperPanel = styled(Flex)`
   position: relative;
   z-index: 0;
   margin-left: 8px;
-  // margin-top: 16px !important;
   font-family: ${props => props.theme.fontFamily};
-  // margin-right: 10px;
   &.extra {
     width: 100%;
   }

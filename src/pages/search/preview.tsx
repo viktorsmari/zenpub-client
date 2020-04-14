@@ -110,15 +110,22 @@ const Resource: React.FC<Props> = ({
           )}
         </Infos>
       </WrapperLink>
-      {hitCtl.isFollowable &&
-        !hitCtl.isFollowing && (
-          <Button variant="outline" onClick={hitCtl.follow}>
+      {hitCtl.isFollowable && !hitCtl.isFollowing && (
+        <Button variant="outline" onClick={hitCtl.follow}>
+          {props.type === 'Community' ? (
+            <Trans>Join</Trans>
+          ) : (
             <Trans>Follow</Trans>
-          </Button>
-        )}
+          )}
+        </Button>
+      )}
       {hitCtl.isFollowing && (
         <Button variant="outline" onClick={hitCtl.unfollow}>
-          <Trans>Unfollow</Trans>
+          {props.type === 'Community' ? (
+            <Trans>Leave</Trans>
+          ) : (
+            <Trans>Unfollow</Trans>
+          )}
         </Button>
       )}
     </Wrapper>

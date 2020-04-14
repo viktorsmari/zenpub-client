@@ -1,0 +1,38 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import { PropsTable } from '@storybook/components';
+import { AllCommunities } from '.';
+import {Box} from 'rebass'
+import {Header} from 'ui/modules/Header'
+import {Community} from 'ui/modules/Previews/Community';
+import { useFormik } from 'formik';
+import {getLoadMoreProps} from 'ui/mock/loadmore'
+import {CommunityPreviewProps} from 'ui/mock/previews'
+
+<Meta title="Pages|AllCommunities" component={AllCommunities}/>
+
+
+# AllCommunities
+Let's define a story for the `AllCommunities` page
+
+<Preview>
+  <Story name="AllCommunities page">
+    <Box sx={{margin: "0 auto", width: "fit-content"}}>
+        <AllCommunities 
+        Header={(<Header name="All Communities" />)}
+        CommunitiesBoxes={[
+            (<Community {...CommunityPreviewProps()} />),
+            (<Community {...CommunityPreviewProps()} />),
+            (<Community {...CommunityPreviewProps()} />),
+            (<Community {...CommunityPreviewProps()} />),
+            (<Community {...CommunityPreviewProps()} />),
+            (<Community {...CommunityPreviewProps()} />),
+            (<Community {...CommunityPreviewProps()} />)
+        ]}
+        {...getLoadMoreProps()}
+        basePath="/"
+        />
+    </Box>
+  </Story>
+</Preview>
+
+

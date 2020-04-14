@@ -2,23 +2,28 @@ version: '3.5'
 
 services:
   backend:
-    image: "moodlenet/moodlenet:stable" # use stable/production/master release of backend
-    #image: "moodlenet/moodlenet:latest" # uncomment to use unstable/staging/develop backend branch
+    #image: "moodlenet/moodlenet:stable" # use stable/production/master release of backend
+    image: "moodlenet/moodlenet:latest" # uncomment to use unstable/staging/develop backend branch
     # You can also build your own backend image from the source or deploy in other ways, see further docs at https://gitlab.com/moodlenet/servers/federated/blob/develop/DEPLOY.md
     ports:
       - "4000:4000"
+      - "81:80"
     env_file:
       - .env
       - .env.secrets
     depends_on:
       - db
+    volumes:
+      - type: bind
+        source: ./uploads
+        target: /var/www/uploads
   frontend:
     build:
       context: .
 #      dockerfile: "Dockerfile"
     ports:
-      - "80:80"
-      - "443:443"
+     - "80:80"
+     - "443:443"
     env_file:
       - .env
     volumes:
@@ -26,11 +31,18 @@ services:
         source: ./Caddyfile
         target: /etc/Caddyfile
         read_only: true
+      - type: bind
+        source: ./uploads
+        target: /frontend/uploads
   db:
-    image: postgres:9.6.6-alpine
-    # volumes:
-    #   - "./volumes/postgres:/var/lib/postgresql/data"
+    image: postgres:9.6-alpine
+    volumes:
+       - postgres_data:/var/lib/postgresql/data
     # ports:
     #   - "5432:5432"
     env_file:
+      - .env
       - .env.secrets
+
+volumes:
+   postgres_data:

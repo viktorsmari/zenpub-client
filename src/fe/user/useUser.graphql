@@ -1,0 +1,7 @@
+
+
+query userData($userId:String!) {
+  user(userId:$userId){
+    ...UserPageUserData
+  }
+}

@@ -1,10 +1,10 @@
 import * as Types from './types.generated';
 
-import { ActivityPreviewDataFragment } from '../HOC/modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewFragment } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import { BasicUserFragment } from './fragments/basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from './fragments/basicUser.generated';
-import { ActivityPreviewDataFragmentDoc } from '../HOC/modules/ActivityPreview/getActivityPreview.generated';
+import { ActivityPreviewFragmentDoc } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
@@ -16,7 +16,7 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type GetMeInboxQueryVariables = {
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  end?: Types.Maybe<Types.Scalars['String']>
+  end?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
 };
 
 
@@ -27,17 +27,14 @@ export type GetMeInboxQuery = (
     & { user: (
       { __typename: 'User' }
       & { inbox: Types.Maybe<(
-        { __typename: 'ActivitiesEdges' }
-        & { pageInfo: Types.Maybe<(
+        { __typename: 'ActivitiesPage' }
+        & { pageInfo: (
           { __typename: 'PageInfo' }
           & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
-        )>, edges: Types.Maybe<Array<Types.Maybe<(
-          { __typename: 'ActivitiesEdge' }
-          & { node: (
-            { __typename: 'Activity' }
-            & ActivityPreviewDataFragment
-          ) }
-        )>>> }
+        ), edges: Array<(
+          { __typename: 'Activity' }
+          & ActivityPreviewFragment
+        )> }
       )> }
       & BasicUserFragment
     ) }
@@ -46,7 +43,7 @@ export type GetMeInboxQuery = (
 
 
 export const GetMeInboxDocument = gql`
-    query getMeInbox($limit: Int, $end: String) {
+    query getMeInbox($limit: Int, $end: [Cursor]) {
   me {
     user {
       ...BasicUser
@@ -56,16 +53,14 @@ export const GetMeInboxDocument = gql`
           endCursor
         }
         edges {
-          node {
-            ...ActivityPreviewData
-          }
+          ...ActivityPreview
         }
       }
     }
   }
 }
     ${BasicUserFragmentDoc}
-${ActivityPreviewDataFragmentDoc}`;
+${ActivityPreviewFragmentDoc}`;
 export type GetMeInboxComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetMeInboxQuery, GetMeInboxQueryVariables>, 'query'>;
 
     export const GetMeInboxComponent = (props: GetMeInboxComponentProps) => (

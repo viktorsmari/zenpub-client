@@ -12,7 +12,7 @@ interface CollectionProps {
 /**
  * Collection component.
  */
-const Component: React.SFC<CollectionProps> = ({ collection }) => (
+const Component: React.FC<CollectionProps> = ({ collection }) => (
   <Wrapper p={3}>
     <Link
       to={

@@ -9,7 +9,7 @@ import { Input } from '@rebass/forms';
 import { withFormik, FormikProps, Form, Field, FormikValues } from 'formik';
 import * as Yup from 'yup';
 const resetPassword = require('../../graphql/resetPassword.graphql');
-
+import { logo_large_url } from './../../mn-constants';
 import Alert from '../../components/elements/Alert';
 
 const LoginWrapper = styled.div`
@@ -34,7 +34,7 @@ const Container = styled.div`
 `;
 
 const Logo = styled.div`
-  background: url(https://i.imgur.com/YdflNQp.png);
+  background: url(${logo_large_url});
   width: 159px;
   display: block;
   height: 30px;
@@ -96,11 +96,9 @@ const ResetPasswordPage = (props: Props & FormikProps<FormikValues>) => {
                   />
                 )}
               />
-              {props.errors.password &&
-                props.touched.password && (
-                  <Alert>{props.errors.password}</Alert>
-                )}
-
+              {props.errors.password && props.touched.password && (
+                <Alert>{props.errors.password}</Alert>
+              )}
               <Field
                 name="confirm"
                 render={({ field }) => (
@@ -114,8 +112,9 @@ const ResetPasswordPage = (props: Props & FormikProps<FormikValues>) => {
                   />
                 )}
               />
-              {props.errors.confirm &&
-                props.touched.confirm && <Alert>{props.errors.confirm}</Alert>}
+              {props.errors.confirm && props.touched.confirm && (
+                <Alert>{props.errors.confirm}</Alert>
+              )}
 
               <Button disabled={props.isSubmitting} type="submit">
                 <Trans>Save the new password</Trans>

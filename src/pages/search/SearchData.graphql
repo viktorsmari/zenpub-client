@@ -7,13 +7,8 @@ query SearchHostIndexAndMyFollowings{
   }
 }
 
-mutation searchFollowLocal($contextId:String!){
-  createFollow(contextId:$contextId){
-    id
-  }
-}
-mutation searchFollowRemote($url:String!){
-  followRemoteActor(url:$url){
+mutation searchFollow($url:String!){
+  createFollowByUrl(url:$url){
     id
   }
 }
@@ -33,16 +28,12 @@ fragment SearchMe on Me {
     id
     followedCollections{
       edges{
-        node{
-          ...SearchFollowedCollection
-        }
+        ...SearchFollowedCollection
       }
     }
     followedCommunities{
       edges{
-        node{
-          ...SearchFollowedCommunity
-        }
+        ...SearchFollowedCommunity
       }
     }
   }

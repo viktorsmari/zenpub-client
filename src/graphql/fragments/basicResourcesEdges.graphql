@@ -1,14 +1,12 @@
 #import "./basicResource.graphql"
 
-fragment BasicResourcesEdges on ResourcesEdges {
+fragment BasicResourcesPage on ResourcesPage {
     totalCount
     pageInfo {
         endCursor
         startCursor
     } 
     edges {
-        node {
-          ...BasicResource
-        }
+        ...BasicResource
     }
 }

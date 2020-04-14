@@ -2,7 +2,7 @@ import { Trans } from '@lingui/macro';
 import { ellipsis } from 'polished';
 import * as React from 'react';
 import { Globe, MoreHorizontal } from 'react-feather';
-import { SearchBox } from 'react-instantsearch-dom';
+import { SearchBox } from 'HOC/modules/SearchBox/SearchBox';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass/styled-components';
@@ -14,7 +14,7 @@ import { GetSidebarQueryQueryResult } from '../../graphql/getSidebar.generated';
 import Empty from '../../components/elements/Empty';
 import Avatar from 'ui/elements/Avatar';
 
-const MnetLogo = require('./moodle-logo.png');
+const MnetLogo = require('../../static/img/logo-icon.png');
 const SidebarComponent = styled(Flex)`
   flex-grow: 1;
   align-items: flex-end;
@@ -249,7 +249,7 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
                     <>
                       <OutsideClickHandler onOutsideClick={closeMenu}>
                         <div onClick={closeMenu}>
-                          <Dropdown />
+                          <Dropdown userId={data.me.user.id} />
                         </div>
                       </OutsideClickHandler>
                       <Layer />
@@ -282,8 +282,7 @@ const Sidebar: React.FC<Props> = ({ resp, isOpen }) => {
                       if (!userJoinedCommunitiesEdge) {
                         return null;
                       }
-                      const community =
-                        userJoinedCommunitiesEdge.node.community;
+                      const community = userJoinedCommunitiesEdge.community;
                       return (
                         <CommunityLink
                           key={community.id}

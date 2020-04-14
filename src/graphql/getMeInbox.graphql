@@ -5,7 +5,7 @@
 #import "./fragments/basicUser.graphql"
 #import "../HOC/modules/ActivityPreview/getActivityPreview.graphql"
 
-query getMeInbox($limit: Int, $end: String) {
+query getMeInbox($limit: Int, $end: [Cursor]) {
     me {
         user {
             ...BasicUser
@@ -15,8 +15,7 @@ query getMeInbox($limit: Int, $end: String) {
                     endCursor
                 }
                 edges {
-                    node {
-                    ...ActivityPreviewData
+                    ...ActivityPreview
                         # __typename
                         # id
                         # canonicalUrl
@@ -32,7 +31,6 @@ query getMeInbox($limit: Int, $end: String) {
                         #     ... on Collection { ...BasicCollection }
                         #     ... on Comment    { ...BasicCommentWithInReplyTo    }
                         # }
-                    }
                 }
             }
         }

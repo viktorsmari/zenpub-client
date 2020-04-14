@@ -1,0 +1,14 @@
+fragment SidebarFollowedCommunity on Community {
+  id
+  isLocal
+  canonicalUrl
+  icon
+  name
+}
+
+fragment SidebarMeUser on User {
+  id
+  name
+  icon
+}
+

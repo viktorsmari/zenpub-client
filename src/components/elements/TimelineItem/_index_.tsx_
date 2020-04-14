@@ -2,7 +2,7 @@ import { Trans } from '@lingui/react';
 import { DateTime } from 'luxon';
 import { clearFix } from 'polished';
 import * as React from 'react';
-import { SFC } from 'react';
+import { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import removeMd from 'remove-markdown';
@@ -21,7 +21,7 @@ interface Props {
   activity:ActivityObject
 }
 
-const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
+const Item: FC<Props> = ({ user, node, userpage, activity }) => {
   const [iLikeIt, setiLikeIt] = React.useState(false);
   const [like] = useLikeCommentMutationMutation();
   const [undoLike] = useUndoLikeCommentMutationMutation();
@@ -40,7 +40,7 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
         activity.__typename === 'Comment'  ? (
           
           /** Comment : CreateComment */
-          node.activityType === 'CreateComment'  ?(
+          activityType === 'CreateComment'  ?(
             activity.inReplyTo 
             ?  <NavigateToThread to={`/thread/${activity.inReplyTo.id}`} />
             :null
@@ -48,7 +48,7 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
           /** END Comment : CreateComment */
         ):
           /** Comment : LikeComment */
-        node.activityType === 'LikeComment' 
+        activityType === 'LikeComment' 
         ? <NavigateToThread to={`/thread/${activity.id}`} />
         : null
           /** END Comment : LikeComment */
@@ -57,13 +57,13 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
       :
     }
       {
-        node.activityType === 'CreateComment' && activity.inReplyTo ? (
+        activityType === 'CreateComment' && activity.inReplyTo ? (
         <NavigateToThread to={`/thread/${activity.inReplyTo.id}`} />
-      ) : node.activityType === 'CreateComment' ||
-      node.activityType === 'LikeComment' ? (
+      ) : activityType === 'CreateComment' ||
+      activityType === 'LikeComment' ? (
         <NavigateToThread to={`/thread/${activity.id}`} />
       ) : null}
-      {node.activityType === 'LikeComment' ? (
+      {activityType === 'LikeComment' ? (
         <Box>
           <SubText mb={2}>
             <Star size="20" color="#ca8f04" />
@@ -87,7 +87,7 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
                   ) : null}
                 </Link>
                 <Spacer mr={2}>·</Spacer>{' '}
-                <Date>{DateTime.fromISO(node.published).toRelative()}</Date>
+                <Date>{DateTime.fromISO(published).toRelative()}</Date>
               </Name>
               <Comment>
                 {activity.content && activity.content.length > 320
@@ -117,7 +117,7 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
                   ) : null}
                 </Link>
                 <Spacer mr={2}>·</Spacer>{' '}
-                <Date>{DateTime.fromISO(node.published).toRelative()}</Date>
+                <Date>{DateTime.fromISO(published).toRelative()}</Date>
               </Name>
             ) : (
               <Name>
@@ -125,7 +125,7 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
               </Name>
             )}
 
-            {node.activityType === 'JoinCommunity' ? (
+            {activityType === 'JoinCommunity' ? (
               <SubText>
                 <Trans>joined</Trans>
                 <NavLink to={`/communities/${activity.id}`}>
@@ -133,7 +133,7 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
                   @{activity.name}
                 </NavLink>
               </SubText>
-            ) : node.activityType === 'CreateComment' ? (
+            ) : activityType === 'CreateComment' ? (
               <>
                 {activity.inReplyTo !== null ? (
                   <InReply my={2}>
@@ -150,7 +150,7 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
                           </Link>
                           <Spacer mr={2}>·</Spacer>{' '}
                           <Date>
-                            {DateTime.fromISO(node.published).toRelative()}
+                            {DateTime.fromISO(published).toRelative()}
                           </Date>
                         </Name>
                         <Comment>
@@ -175,14 +175,14 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
                     : removeMd(activity.content)}
                 </Comment>
               </>
-            ) : node.activityType === 'UpdateCommunity' ? (
+            ) : activityType === 'UpdateCommunity' ? (
               <SubText mt={1}>
                 <Trans>updated</Trans>{' '}
                 <NavLink to={`/communities/${activity.id}`}>
                   @{activity.name}
                 </NavLink>
               </SubText>
-            ) : node.activityType === 'UpdateCollection' ? (
+            ) : activityType === 'UpdateCollection' ? (
               <SubText mt={1}>
                 <Trans>updated</Trans>{' '}
                 <NavLink
@@ -193,7 +193,7 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
                   +{activity.name}
                 </NavLink>
               </SubText>
-            ) : node.activityType === 'FollowCollection' ? (
+            ) : activityType === 'FollowCollection' ? (
               <SubText mt={1}>
                 <Trans>followed</Trans>{' '}
                 <NavLink
@@ -204,7 +204,7 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
                   +{activity.name}
                 </NavLink>
               </SubText>
-            ) : node.activityType === 'CreateResource' ? (
+            ) : activityType === 'CreateResource' ? (
               <Box>
                 <SubText mt={1}>
                   <Trans>added a new resource</Trans> <Trans>in</Trans>{' '}
@@ -225,7 +225,7 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
                   }/collections/${activity.collection.id}`}
                 />
               </Box>
-            ) : node.activityType === 'CreateCollection' ? (
+            ) : activityType === 'CreateCollection' ? (
               <Box>
                 <SubText mt={1}>
                   <Trans>created a new collection</Trans>{' '}
@@ -246,7 +246,7 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
                   }/collections/${activity.id}`}
                 />
               </Box>
-            ) : node.activityType === 'CreateCommunity' ? (
+            ) : activityType === 'CreateCommunity' ? (
               <Box>
                 <SubText mt={1}>
                   <Trans>created a new community</Trans>{' '}
@@ -263,7 +263,7 @@ const Item: SFC<Props> = ({ user, node, userpage, activity }) => {
               </Box>
             ) : null}
 
-            {node.activityType === 'CreateComment' ? (
+            {activityType === 'CreateComment' ? (
               <Actions
                 totalReplies={activity.replies.totalCount as number}
                 totalLikes={activity.likers.totalCount as number}

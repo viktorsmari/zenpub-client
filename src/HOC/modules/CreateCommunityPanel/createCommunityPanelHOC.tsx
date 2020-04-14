@@ -1,91 +1,57 @@
-import React, { createContext, useContext } from 'react';
+import { useCreateCommunity } from 'fe/community/create/useCreateCommunity';
 import { useFormik } from 'formik';
-import { useCreateCommunityMutationMutation } from 'graphql/createCommunity.generated';
-import { useUploadImageMutation } from 'graphql/uploadImage.generated';
-import { useMemo, SFC } from 'react';
+import React, { FC } from 'react';
 import { useHistory } from 'react-router';
-import * as Yup from 'yup';
 import {
-  BasicCreateCommunityFormValues,
+  CreateCommunityFormValues,
   CreateCommunityPanel
 } from 'ui/modules/CreateCommunityPanel';
-import { PureQueryOptions } from 'apollo-client';
+import * as Yup from 'yup';
 
-export const validationSchema: Yup.ObjectSchema<
-  BasicCreateCommunityFormValues
-> = Yup.object<BasicCreateCommunityFormValues>({
+export const validationSchema: Yup.ObjectSchema<CreateCommunityFormValues> = Yup.object<
+  CreateCommunityFormValues
+>({
   name: Yup.string()
     .min(2)
     .max(60)
     .required(),
   summary: Yup.string().max(500),
-  icon: Yup.string().url()
+  icon: Yup.string().url(),
+  files: Yup.array()
 });
-export interface CreateCommunityPanelCtx {
-  refetchQueries: Array<string | PureQueryOptions>;
-}
-export const CreateCommunityPanelCtx = createContext<CreateCommunityPanelCtx>({
-  refetchQueries: []
-});
-export const createCommunityFormInitialValues: BasicCreateCommunityFormValues = {
-  name: '',
-  summary: '',
-  icon: '',
-  files: []
-};
 export interface Props {
   done(): any;
 }
-export const CreateCommunityPanelHOC: SFC<Props> = ({ done }: Props) => {
-  const ctx = useContext(CreateCommunityPanelCtx);
-
-  // const community = useGetCommunityForEditQuery({ variables: { communityId } });
-  const [create /* , result */] = useCreateCommunityMutationMutation();
-  const [mutateImage] = useUploadImageMutation();
+export const CreateCommunityPanelHOC: FC<Props> = ({ done }: Props) => {
   const history = useHistory();
-  const initialValues = useMemo<BasicCreateCommunityFormValues>(
-    () => createCommunityFormInitialValues,
-    []
-  );
-  const formik = useFormik<BasicCreateCommunityFormValues>({
+  const { create } = useCreateCommunity();
+  const formik = useFormik<CreateCommunityFormValues>({
     enableReinitialize: true,
+    validationSchema,
+    initialValues: {
+      name: '',
+      summary: '',
+      icon: '',
+      files: []
+    },
     onSubmit: vals => {
-      const fileToUpload = vals!.files!.map(file => {
-        return file;
-      })[0];
-      return create({
-        variables: {
-          community: {
-            preferredUsername: vals.name.split(' ').join('_'),
-            name: vals.name,
-            summary: vals.summary
-          }
+      const fileToUpload = vals.files?.shift();
+      return create(
+        {
+          icon: vals.icon,
+          image: vals.icon,
+          preferredUsername: vals.name.split(' ').join('_'),
+          name: vals.name,
+          summary: vals.summary
         },
-        refetchQueries: fileToUpload ? [] : ctx.refetchQueries
-      })
-        .then(res => {
-          const createdCommunityId = res.data!.createCommunity!.id;
-
-          if (fileToUpload) {
-            mutateImage({
-              variables: {
-                contextId: createdCommunityId,
-                upload: fileToUpload
-              },
-              refetchQueries: ctx.refetchQueries
-            })
-              .then(() => createdCommunityId)
-              .catch(err => console.log(err));
-          }
-          return createdCommunityId;
-        })
+        fileToUpload
+      )
         .then(createdCommunityId => {
-          history.push(`/communities/${createdCommunityId}`);
+          createdCommunityId &&
+            history.push(`/communities/${createdCommunityId}`);
         })
         .catch(err => console.log(err));
-    },
-    validationSchema,
-    initialValues
+    }
   });
   return <CreateCommunityPanel cancel={done} formik={formik} />;
 };

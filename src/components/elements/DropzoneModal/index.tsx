@@ -1,47 +1,79 @@
 import React, { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Trans } from '@lingui/macro';
+// import { Trans } from '@lingui/macro';
 import styled from '../../../themes/styled';
-import { UploadCloud } from 'react-feather';
-import { accepted_file_types } from '../../../constants';
+// import { UploadCloud } from 'react-feather';
+import { accepted_file_types } from '../../../mn-constants';
+import { Box, Flex } from 'rebass/styled-components';
+import { Image, FileText } from 'react-feather';
+import { FormikHook } from 'ui/@types/types';
 
-const ThumbsContainer = styled.aside`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-top: 16;
+// const ThumbsContainer = styled.aside`
+//   display: flex;
+//   flex-direction: row;
+//   flex-wrap: wrap;
+//   margin-top: 16;
+// `;
+
+const WrapperIcon = styled(Flex)`
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  border-radius: 100px;
+  position: absolute;
+  left: 50%;
+  margin-left: -20px;
+  top: 50%;
+  margin-top: -20px;
+  z-index: 9;
+  &:hover {
+    background: #ffffff4a;
+  }
+`;
+
+const WrapperFile = styled.div`
+  padding: 20px 10px;
 `;
 
 const Thumb = styled.div`
-  display: inline-flex;
-  border-radius: 2;
-  // border: 1px solid #eaeaea;
-  margin: 8px auto;
   width: 100%;
-  max-width: 300px;
-  height: auto;
-  padding: 4;
   box-sizing: border-box;
+  position: relative;
+  height: 120px;
+  &:after {
+    position: absolute;
+    content: '';
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 4px;
+    display: block;
+    background: rgba(0, 0, 0, 0.3);
+  }
+  svg {
+    width: 40px;
+  }
 `;
 
-const ThumbInner = styled.div`
-  display: flex;
-  min-width: 0;
-  overflow: hidden;
-`;
+// const ThumbInner = styled.div`
+//   // display: flex;
+//   min-width: 0;
+//   overflow: hidden;
+// `;
 
-const Img = styled.img`
-  display: block;
-  width: 100%;
-  height: auto;
-  margin: auto;
-  text-align: center;
+const Img = styled(Box)`
+    display: block;
+    border-radius: 4px;
+    height: inherit;
+    background-size: cover;
+}
 `;
 
 interface Props {
   initialUrl: any;
   uploadType?: string;
-  formikForm?: any;
+  formikForm?: FormikHook;
   touchedField?: string;
 }
 
@@ -58,30 +90,26 @@ const DropzoneArea: React.FC<Props> = ({
   const acceptedTypes =
     uploadType != 'resource' ? 'image/*' : accepted_file_types;
 
-  useEffect(
-    () => {
-      return () => {
-        files.forEach(file => URL.revokeObjectURL(file.preview));
-      };
-    },
-    [files]
-  );
+  useEffect(() => {
+    return () => {
+      files.forEach(file => URL.revokeObjectURL(file.preview));
+    };
+  }, [files]);
 
-  useEffect(
-    () => {
-      return () => {
-        files.forEach(file => URL.revokeObjectURL(file.preview));
-      };
-    },
-    [files]
-  );
+  useEffect(() => {
+    return () => {
+      files.forEach(file => URL.revokeObjectURL(file.preview));
+    };
+  }, [files]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: acceptedTypes,
     onDrop: acceptedFiles => {
       const uploadField = touchedField ? touchedField : 'files';
-      formikForm.setFieldValue(uploadField, acceptedFiles);
-      formikForm.setFieldTouched(uploadField, true);
+      if (formikForm) {
+        formikForm.setFieldValue(uploadField, acceptedFiles);
+        formikForm.setFieldTouched(uploadField, true);
+      }
       setFiles(acceptedFiles);
       acceptedFiles.map(file => onFile(URL.createObjectURL(file)));
     }
@@ -89,23 +117,53 @@ const DropzoneArea: React.FC<Props> = ({
 
   return (
     <>
-      <div {...getRootProps({ className: 'dropzone' })}>
-        {uploadType != 'resource' ? (
-          <ThumbsContainer>
-            <Thumb key={fileUrl}>
-              <ThumbInner>
-                <Img src={fileUrl} />
-              </ThumbInner>
-            </Thumb>
-          </ThumbsContainer>
-        ) : null}
-        {uploadType == 'resource' && files.length != 0 ? (
-          <FileName>{files[0].name}</FileName>
-        ) : null}
+      <Box
+        sx={{ height: 'inherit' }}
+        {...getRootProps({ className: 'dropzone' })}
+      >
+        <InfoContainer className={isDragActive ? 'active' : 'none'}>
+          {uploadType != 'resource' ? (
+            <>
+              <Thumb className="thumb" key={fileUrl}>
+                <WrapperIcon>
+                  <Image
+                    size={30}
+                    strokeWidth={1}
+                    color={'rgba(250,250,250, .5)'}
+                  />
+                </WrapperIcon>
+                <Img style={{ backgroundImage: `url(${fileUrl})` }} />
+              </Thumb>
+            </>
+          ) : null}
+          {uploadType == 'resource' ? (
+            files.length == 0 || files[0].type.indexOf('image') == -1 ? (
+              <WrapperFile>
+                <FileText size={20} />
+                {files.length != 0 ? (
+                  <FileName>{files[0].name}</FileName>
+                ) : null}
+              </WrapperFile>
+            ) : (
+              <WrapperFile>
+                <Thumb key={fileUrl}>
+                  <WrapperIcon>
+                    <Image
+                      size={30}
+                      strokeWidth={1}
+                      color={'rgba(250,250,250, .5)'}
+                    />
+                  </WrapperIcon>
+                  <Img style={{ backgroundImage: `url(${fileUrl})` }} />
+                </Thumb>
+                <FileName>{files[0].name}</FileName>
+              </WrapperFile>
+            )
+          ) : null}
 
-        <input {...getInputProps()} />
-        <InfoContainer>
-          <UploadCloud width={45} height={45} strokeWidth={2} />
+          <input {...getInputProps()} />
+
+          {/* <UploadCloud size={30} strokeWidth={1} />
           {isDragActive ? (
             <Info>
               <Trans>Drop the file here ...</Trans>
@@ -114,9 +172,9 @@ const DropzoneArea: React.FC<Props> = ({
             <Info>
               <Trans>Drag 'n' drop a file here, or click to select file</Trans>
             </Info>
-          )}
+          )} */}
         </InfoContainer>
-      </div>
+      </Box>
     </>
   );
 };
@@ -125,26 +183,30 @@ export default DropzoneArea;
 
 const InfoContainer = styled.div`
   background: ${props => props.theme.colors.lighter};
-  border-radius: 2px;
+  border-radius: 4px;
   text-align: center;
-  padding: 10px 20px;
-  font-style: italic;
   cursor: pointer;
-  border: 2px dashed ${props => props.theme.colors.gray};
+  box-sizing: border-box;
+  height: inherit;
   margin: 0px;
+  &.active {
+    border: 1px dashed ${props => props.theme.colors.orange};
+  }
+  .;
 `;
 
 const FileName = styled.p`
-  margin-bottom: 10px;
+  margin-bottom: 0px;
+  margin-top: 5px;
   font-weight: bold;
-  text-align: right;
+  text-align: center;
   font-style: italic;
 `;
 
-const Info = styled.p`
-  margin-top: 0px;
-  margin-bottom: 5px;
-`;
+// const Info = styled.p`
+//   margin-top: 0px;
+//   margin-bottom: 5px;
+// `;
 
 // const ClearButton = styled.button`
 //   width: 100px;

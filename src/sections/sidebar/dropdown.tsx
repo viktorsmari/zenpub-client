@@ -6,6 +6,7 @@ import { useHistory } from 'react-router';
 import { useLogoutMutationMutation } from '../../graphql/logout.generated';
 import { Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
+import { related_urls } from './../../mn-constants';
 
 const WrapperMenu = styled.div`
   box-sizing: border-box;
@@ -55,7 +56,7 @@ const Item = styled(Text)`
   }
 `;
 
-const Dropdown: React.FC = () => {
+const Dropdown: React.FC<{ userId: string }> = ({ userId }) => {
   const { push } = useHistory();
   const [logoutMut /* , logoutMutResp */] = useLogoutMutationMutation();
   const logout = React.useCallback(() => logoutMut(), [logoutMut]);
@@ -64,7 +65,7 @@ const Dropdown: React.FC = () => {
       <WrapperMenu>
         <ProfileMenu>
           <List lined>
-            <Item variant="link" onClick={() => push('/profile')}>
+            <Item variant="link" onClick={() => push(`/user/${userId}`)}>
               <span>
                 <User size={18} color={'#333'} />
               </span>
@@ -78,16 +79,13 @@ const Dropdown: React.FC = () => {
             </Item>
           </List>
           <List lined>
-            <a
-              href="https://docs.moodle.org/dev/MoodleNet/Code_of_Conduct"
-              target="blank"
-            >
+            <a href={related_urls.terms_users} target="blank">
               <Item variant="link">
                 <Trans>Code of Conduct</Trans>
               </Item>
             </a>
 
-            <a href="https://changemap.co/moodle/moodlenet/" target="blank">
+            <a href={related_urls.feedback} target="blank">
               <Item variant="link">
                 <Trans>Feedback &amp; Suggestions</Trans>
               </Item>

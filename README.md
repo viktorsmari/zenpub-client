@@ -44,8 +44,8 @@ docker-compose version 1.23.2
 
 2. Clone this repository and change into the directory:
 ```sh
-$ git clone https://gitlab.com/moodlenet/clients/react.git
-$ cd react
+$ git clone https://gitlab.com/moodlenet/clients/react.git moodlenet
+$ cd moodlenet
 ```
 
 3. Configuration
@@ -67,6 +67,11 @@ We need to set some environment variables in order for MoodleNet to function, a 
 $ docker-compose build
 ```
 
+Or if you're building on a Rasperry Pi:
+```
+$ docker-compose -f docker-compose.pi.yml build
+```
+
 5. Try it out 
 
 a) run the backend in console mode: `docker-compose run --rm backend bin/moodle_net start_iex`
@@ -79,11 +84,21 @@ c) Start the docker containers with docker-compose:
 $ docker-compose up
 ```
 
+Or if you're running on a Rasperry Pi:
+```
+$ docker-compose -f docker-compose.pi.yml up
+```
+
 6. The MoodleNet backend and frontend should now be running at [http://localhost/](http://localhost/) on your machine and at https://your-domain-name.tld/ with SSL certificates automatically configured thanks to letsencrypt.org (if your domain was correctly configured).
 
 7. If that worked, start the app as a daemon next time:
 ```sh
 $ docker-compose up -d
+```
+
+Or if you're running on a Rasperry Pi:
+```
+$ docker-compose -f docker-compose.pi.yml up -d
 ```
 
 

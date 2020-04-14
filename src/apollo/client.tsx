@@ -7,24 +7,28 @@ import {
   IntrospectionFragmentMatcher
 } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
-import { ApolloLink } from 'apollo-link';
+import { ApolloLink, FetchResult, Observable } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 // import { createHttpLink } from 'apollo-link-http';
 import apolloLogger from 'apollo-link-logger';
-import { ResetPasswordRequestMutationOperation } from 'graphql/resetPasswordRequest.generated';
-import { Socket as PhoenixSocket } from 'phoenix';
 import {
-  GRAPHQL_ENDPOINT,
-  IS_DEV,
-  PHOENIX_SOCKET_ENDPOINT
-} from '../constants';
+  AnonResetPasswordMutationOperation,
+  AnonResetPasswordRequestMutationOperation
+} from 'fe/session/anon.generated';
+import { Socket as PhoenixSocket } from 'phoenix';
+import { logout } from 'redux/session';
 import { UsernameAvailableQueryOperation } from '../graphql/checkUsername.generated';
 import { ConfirmEmailMutationMutationOperation } from '../graphql/confirmEmail.generated';
 import { CreateUserMutationMutationOperation } from '../graphql/createUser.generated';
 import { LoginMutationMutationOperation } from '../graphql/login.generated';
 import { LogoutMutationMutationOperation } from '../graphql/logout.generated';
 import { RootMutationType, RootQueryType } from '../graphql/types.generated';
+import {
+  GRAPHQL_ENDPOINT,
+  IS_DEV,
+  PHOENIX_SOCKET_ENDPOINT
+} from '../mn-constants';
 import {
   getOperationNameAndType,
   getOpType,
@@ -42,11 +46,16 @@ export type OperationName = QueryName | MutationName;
 interface Cfg {
   localKVStore: KVStore;
   appLink: ApolloLink;
+  dispatch(payload: any);
 }
 
 const AUTH_TOKEN_KEY = 'AUTH_TOKEN';
 
-export default async function initialise({ localKVStore, appLink }: Cfg) {
+export default async function initialise({
+  localKVStore,
+  appLink,
+  dispatch
+}: Cfg) {
   let authToken = localKVStore.get(AUTH_TOKEN_KEY);
   const fragmentMatcher = new IntrospectionFragmentMatcher({
     introspectionQueryResultData
@@ -57,7 +66,19 @@ export default async function initialise({ localKVStore, appLink }: Cfg) {
     cacheRedirects: {
       Query: {
         activity: (_, args, { getCacheKey }) =>
-          getCacheKey({ __typename: 'Activity', id: args.activityId })
+          getCacheKey({ __typename: 'Activity', id: args.activityId }),
+        collection: (_, args, { getCacheKey }) =>
+          getCacheKey({ __typename: 'Collection', id: args.collectionId }),
+        community: (_, args, { getCacheKey }) =>
+          getCacheKey({ __typename: 'Community', id: args.communityId }),
+        comment: (_, args, { getCacheKey }) =>
+          getCacheKey({ __typename: 'Comment', id: args.commentId }),
+        user: (_, args, { getCacheKey }) =>
+          getCacheKey({ __typename: 'User', id: args.userId }),
+        thread: (_, args, { getCacheKey }) =>
+          getCacheKey({ __typename: 'Thread', id: args.threadId }),
+        resource: (_, args, { getCacheKey }) =>
+          getCacheKey({ __typename: 'Resource', id: args.resourceId })
       }
     },
     dataIdFromObject: obj => {
@@ -70,25 +91,37 @@ export default async function initialise({ localKVStore, appLink }: Cfg) {
     }
   });
 
+  const setToken = (token?: string | null | undefined) => {
+    if (!token) {
+      delToken();
+    } else {
+      authToken = token;
+      localKVStore.set(AUTH_TOKEN_KEY, token);
+    }
+  };
+
+  const delToken = () => {
+    authToken = undefined;
+    localKVStore.del(AUTH_TOKEN_KEY);
+    dispatch(logout.create());
+  };
+
   const setTokenLink = new ApolloLink((operation, nextLink) => {
-    const createSessionOpName: OperationName = 'createSession';
-    const deleteSessionOpName: OperationName = 'deleteSession';
+    const confirmEmailOpName = 'confirmEmail';
+    const createSessionOpName = 'createSession';
+    const deleteSessionOpName = 'deleteSession';
 
     const [opName] = getOperationNameAndType<OperationName>(operation.query);
 
     if (opName === deleteSessionOpName) {
-      authToken = undefined;
-      localKVStore.del(AUTH_TOKEN_KEY);
+      delToken();
     }
 
     return nextLink(operation).map(resp => {
-      if (opName === createSessionOpName) {
-        const authPyload = resp.data && resp.data[opName];
-        authToken =
-          authPyload && authPyload.token ? authPyload.token : undefined;
-        authToken
-          ? localKVStore.set(AUTH_TOKEN_KEY, authToken)
-          : localKVStore.del(AUTH_TOKEN_KEY);
+      if (opName === createSessionOpName || opName === confirmEmailOpName) {
+        setToken(
+          resp?.data?.createSession?.token || resp?.data?.confirmEmail?.token
+        );
       }
       return resp;
     });
@@ -115,7 +148,8 @@ export default async function initialise({ localKVStore, appLink }: Cfg) {
 
   function handleErrorGraphQL(message, locations, path) {
     console.log(
-      `! GraphQL error: Message: ${message}, Location: ${locations}, Path: ${path}`
+      `! GraphQL error: Message: ${message}, Path: ${path}, Locations: `,
+      locations
     );
 
     if (!message.includes('You need to log in first')) {
@@ -126,8 +160,18 @@ export default async function initialise({ localKVStore, appLink }: Cfg) {
 
   const errorLink = onError(
     ({ operation, response, graphQLErrors, networkError }) => {
-      // console.log( 'errorLink', operation, response );
-
+      console.log('errorLink', {
+        operation,
+        response,
+        graphQLErrors,
+        networkError
+      });
+      const needs_login = !!response?.errors?.find(
+        (error: any) => error.code === 'needs_login'
+      );
+      if (needs_login) {
+        delToken();
+      }
       if (graphQLErrors) {
         graphQLErrors.map(({ message, locations, path }) =>
           handleErrorGraphQL(message, locations, path)
@@ -158,14 +202,16 @@ export default async function initialise({ localKVStore, appLink }: Cfg) {
     | LogoutMutationMutationOperation
     | ConfirmEmailMutationMutationOperation
     | UsernameAvailableQueryOperation
-    | ResetPasswordRequestMutationOperation
+    | AnonResetPasswordMutationOperation
+    | AnonResetPasswordRequestMutationOperation
   >[] = [
-    'resetPasswordRequest',
     'confirmEmailMutation',
     'createUserMutation',
     'loginMutation',
     'logoutMutation',
-    'usernameAvailable'
+    'usernameAvailable',
+    'anonResetPassword',
+    'anonResetPasswordRequest'
   ];
   const alertBlockMutationsForAnonymousLink = new ApolloLink(
     (operation, nextLink) => {
@@ -177,7 +223,16 @@ export default async function initialise({ localKVStore, appLink }: Cfg) {
           !ALLOWED_ANONYMOUS_MUTATIONS.includes(operation.operationName)
         ) {
           alert(i18nMark('You should log in for performing this operation!'));
-          return null;
+
+          return Observable.of<FetchResult>({
+            errors: [
+              {
+                message: 'You should log in for performing this operation!',
+                //@ts-ignore
+                code: 'needs_login'
+              }
+            ]
+          });
         }
       }
 

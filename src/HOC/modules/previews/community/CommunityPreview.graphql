@@ -1,0 +1,22 @@
+fragment CommunityPreview on Community {
+    ...CommunityInfo
+    id
+    icon
+    summary
+    myFlag { id }
+    collectionCount
+    followerCount
+    threads { totalCount }
+    # myLike { id }
+    # likerCount
+}
+
+fragment CommunityInfo on Community {
+    id
+    name
+    icon
+    isLocal
+    myFollow { id }
+    canonicalUrl
+    displayUsername
+}

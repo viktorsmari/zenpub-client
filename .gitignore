@@ -31,10 +31,7 @@ yarn-error.log*
 yarn.lock
 
 # i18n
-/src/locales/_build
-/src/locales/*/messages.js
-/src/locales/*/messages.po
-!/src/locales/ar_SA/messages.po
+/src/locales/
 
 ## env
 .env*
@@ -47,3 +44,7 @@ src/fragmentTypes.json
 
 # sentry
 sentry.tsx
+
+# user uploads
+uploads/*
+!uploads/index.html

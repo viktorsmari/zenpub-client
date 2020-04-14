@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/macro';
-import { ActivityPreviewHOC } from 'HOC/modules/ActivityPreview/activityPreviewHOC';
-import React, { SFC, useState } from 'react';
+import { ActivityPreviewHOC } from 'HOC/modules/previews/activity/ActivityPreview';
+import React, { FC, useState } from 'react';
 import { TabPanel, Tabs } from 'react-tabs';
 import { Button, Flex } from 'rebass/styled-components';
 import { CreateCollectionPanelHOC } from '../../HOC/modules/CreateCollectionPanel/createCollectionPanelHOC';
@@ -22,7 +22,7 @@ interface Props {
   refetch: () => unknown;
 }
 
-const CommunityPage: SFC<Props> = ({
+const CommunityPage: FC<Props> = ({
   collections,
   id,
   followed,
@@ -40,7 +40,7 @@ const CommunityPage: SFC<Props> = ({
             <SuperTabList>
               <SuperTab>
                 <h5>
-                  <Trans>Recent activities</Trans>
+                  <Trans>Recent activity</Trans>
                 </h5>
               </SuperTab>
               <SuperTab>
@@ -59,12 +59,7 @@ const CommunityPage: SFC<Props> = ({
                 {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
                 community.outbox!.edges!.map(
                   (t, i) =>
-                    t && (
-                      <ActivityPreviewHOC
-                        activityId={t.node.id}
-                        key={t.node.id}
-                      />
-                    )
+                    t && <ActivityPreviewHOC activityId={t.id} key={t.id} />
                 )}
                 {/* <LoadMoreTimeline fetchMore={fetchMore} community={community} /> */}
               </div>
@@ -86,21 +81,20 @@ const CommunityPage: SFC<Props> = ({
                   community.threads.edges.map(
                     (t, i) =>
                       t &&
-                      (t.node.comments &&
-                        t.node.comments.edges.map(
-                          edge =>
-                            edge &&
-                            edge.node &&
-                            edge.node.inReplyTo == null && (
-                              <FeedItem
-                                key={
-                                  /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                                  edge.node.thread!.id
-                                }
-                                comment={edge.node}
-                              />
-                            )
-                        ))
+                      t.comments &&
+                      t.comments.edges.map(
+                        edge =>
+                          edge &&
+                          edge.inReplyTo == null && (
+                            <FeedItem
+                              key={
+                                /* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                                edge.thread!.id
+                              }
+                              comment={edge}
+                            />
+                          )
+                      )
                   )}
                 {/* <LoadMoreTimeline fetchMore={fetchMore} community={community} /> */}
               </div>

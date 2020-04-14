@@ -1,0 +1,6 @@
+mutation createCommunity($community: CommunityInput!) {
+  createCommunity(community: $community) {
+    ...CommunityPageData
+  }
+}
+

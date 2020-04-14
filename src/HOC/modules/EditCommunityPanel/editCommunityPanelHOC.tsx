@@ -1,105 +1,56 @@
-import React from 'react';
+import { useEditCommunity } from 'fe/community/edit/useEditCommunity';
 import { useFormik } from 'formik';
-import { useUpdateCommunityMutationMutation } from 'graphql/updateCommunity.generated';
-import { useUploadIconMutation } from 'graphql/uploadIcon.generated';
-import { useMemo, SFC } from 'react';
-import * as Yup from 'yup';
-import { useGetCommunityForEditQuery } from './getCommunityForEdit.generated';
+import { Community } from 'graphql/types.generated';
+import React, { FC, useMemo } from 'react';
 import {
   EditCommunityFormValues,
   EditCommunityPanel
 } from 'ui/modules/EditCommunityPanel';
-import { Community } from 'graphql/types.generated';
+import * as Yup from 'yup';
 
-export const validationSchema: Yup.ObjectSchema<
+export const validationSchema: Yup.ObjectSchema<EditCommunityFormValues> = Yup.object<
   EditCommunityFormValues
-> = Yup.object<EditCommunityFormValues>({
+>({
   name: Yup.string()
     .min(2)
     .max(60)
     .required(),
   summary: Yup.string().max(500),
-  icon: Yup.string() //.url()
+  icon: Yup.string(), //.url(),
+  files: Yup.array()
 });
 
-export const editCommunityFormInitialValues: EditCommunityFormValues = {
-  name: '',
-  summary: '',
-  icon: '',
-  files: []
-};
 export interface Props {
   communityId: Community['id'];
   done(): any;
 }
-export const EditCommunityPanelHOC: SFC<Props> = ({
+export const EditCommunityPanelHOC: FC<Props> = ({
   done,
   communityId
 }: Props) => {
-  const community = useGetCommunityForEditQuery({ variables: { communityId } });
-  const [update /* , result */] = useUpdateCommunityMutationMutation();
-  const [mutateIcon] = useUploadIconMutation();
+  const { community, edit } = useEditCommunity(communityId);
   const initialValues = useMemo<EditCommunityFormValues>(
-    () =>
-      community.data && community.data.community
-        ? {
-            icon: community.data.community.icon || '',
-            name: community.data.community.name,
-            summary: community.data.community.summary || '',
-            files: []
-          }
-        : editCommunityFormInitialValues,
+    () => ({
+      icon: community?.icon || '',
+      name: community?.name || '',
+      summary: community?.summary || ''
+    }),
     [community]
   );
-
-  const uploadIcon = file =>
-    mutateIcon({
-      variables: { contextId: communityId, upload: file }
-    })
-      .then(res => {
-        return (
-          (res && res.data && res.data.uploadIcon && res.data.uploadIcon.url) ||
-          ''
-        );
-      })
-      .catch(err => console.log(err));
 
   const formik = useFormik<EditCommunityFormValues>({
     enableReinitialize: true,
     onSubmit: vals => {
-      const file = vals.files!.map(file => {
-        return file;
-      })[0];
-      if (file) {
-        uploadIcon(file)
-          .then(uploadedIcon => {
-            update({
-              variables: {
-                community: {
-                  icon: uploadedIcon || '',
-                  name: vals.name,
-                  summary: vals.summary
-                },
-                communityId
-              }
-            });
-          })
-          .then(done)
-          .catch(err => console.log(err));
-      } else {
-        update({
-          variables: {
-            community: {
-              icon: vals.icon,
-              name: vals.name,
-              summary: vals.summary
-            },
-            communityId
-          }
-        })
-          .then(done)
-          .catch(err => console.log(err));
-      }
+      const iconFile = vals.files?.shift();
+      return edit(
+        {
+          name: vals.name,
+          icon: vals.icon || undefined,
+          image: vals.icon || undefined,
+          summary: vals.summary || undefined
+        },
+        iconFile
+      );
     },
     validationSchema,
     initialValues
