@@ -1,0 +1,20 @@
+
+query myFollowedCollections {
+  me @connection(key: "myFollowedCollections"){
+    ...MyFollowedCollectionsMeData
+  }
+}
+
+fragment MyFollowedCollectionsMeData on Me {
+  user{
+    id
+    followedCollections{
+      totalCount,
+      pageInfo{ ...FullPageInfo }
+      edges{
+        collection { ...CollectionPreview }
+        follow { id }
+      }
+    }
+  }
+}

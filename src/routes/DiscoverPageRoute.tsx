@@ -25,6 +25,7 @@ const DiscoverPageRouter: FC<RouteComponentProps<DiscoverPageRouter>> = ({
   const props = useMemo<DiscoverPage | null>(() => {
     return (
       tab && {
+        basePath: '/discover',
         tab
       }
     );
@@ -42,6 +43,6 @@ const DiscoverPageRouter: FC<RouteComponentProps<DiscoverPageRouter>> = ({
 
 export const DiscoverPageRoute: RouteProps = {
   exact: true,
-  path: '/discover',
+  path: '/discover/:tab?',
   component: DiscoverPageRouter
 };
