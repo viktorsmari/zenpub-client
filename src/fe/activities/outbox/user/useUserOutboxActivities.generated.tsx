@@ -7,12 +7,8 @@ import gql from 'graphql-tag';
 import { FullPageInfoFragmentDoc } from '../../../../@fragments/misc.generated';
 import { UserPageActivitiesFragmentDoc } from '../../../../HOC/pages/user/UserPage.generated';
 import { ActivityPreviewFragmentDoc } from '../../../../HOC/modules/previews/activity/ActivityPreview.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
@@ -74,23 +70,6 @@ export const UserOutboxActivitiesDocument = gql`
 }
     ${FullPageInfoFragmentDoc}
 ${UserOutboxActivityFragmentDoc}`;
-export type UserOutboxActivitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UserOutboxActivitiesQuery, UserOutboxActivitiesQueryVariables>, 'query'> & ({ variables: UserOutboxActivitiesQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const UserOutboxActivitiesComponent = (props: UserOutboxActivitiesComponentProps) => (
-      <ApolloReactComponents.Query<UserOutboxActivitiesQuery, UserOutboxActivitiesQueryVariables> query={UserOutboxActivitiesDocument} {...props} />
-    );
-    
-export type UserOutboxActivitiesProps<TChildProps = {}> = ApolloReactHoc.DataProps<UserOutboxActivitiesQuery, UserOutboxActivitiesQueryVariables> & TChildProps;
-export function withUserOutboxActivities<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  UserOutboxActivitiesQuery,
-  UserOutboxActivitiesQueryVariables,
-  UserOutboxActivitiesProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, UserOutboxActivitiesQuery, UserOutboxActivitiesQueryVariables, UserOutboxActivitiesProps<TChildProps>>(UserOutboxActivitiesDocument, {
-      alias: 'userOutboxActivities',
-      ...operationOptions
-    });
-};
 
 /**
  * __useUserOutboxActivitiesQuery__
@@ -128,3 +107,4 @@ export interface UserOutboxActivitiesQueryOperation {
   variables: UserOutboxActivitiesQueryVariables
   type: 'query'
 }
+export const UserOutboxActivitiesQueryName:UserOutboxActivitiesQueryOperation['operationName'] = 'userOutboxActivities'

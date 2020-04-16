@@ -5,12 +5,8 @@ import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
 import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { CollectionPageResourceFragmentDoc } from '../../../HOC/pages/collection/CollectionPage.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
@@ -68,23 +64,6 @@ export const CollectionResourcesDocument = gql`
 }
     ${FullPageInfoFragmentDoc}
 ${CollectionResourceFragmentDoc}`;
-export type CollectionResourcesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CollectionResourcesQuery, CollectionResourcesQueryVariables>, 'query'> & ({ variables: CollectionResourcesQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const CollectionResourcesComponent = (props: CollectionResourcesComponentProps) => (
-      <ApolloReactComponents.Query<CollectionResourcesQuery, CollectionResourcesQueryVariables> query={CollectionResourcesDocument} {...props} />
-    );
-    
-export type CollectionResourcesProps<TChildProps = {}> = ApolloReactHoc.DataProps<CollectionResourcesQuery, CollectionResourcesQueryVariables> & TChildProps;
-export function withCollectionResources<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  CollectionResourcesQuery,
-  CollectionResourcesQueryVariables,
-  CollectionResourcesProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, CollectionResourcesQuery, CollectionResourcesQueryVariables, CollectionResourcesProps<TChildProps>>(CollectionResourcesDocument, {
-      alias: 'collectionResources',
-      ...operationOptions
-    });
-};
 
 /**
  * __useCollectionResourcesQuery__
@@ -122,3 +101,4 @@ export interface CollectionResourcesQueryOperation {
   variables: CollectionResourcesQueryVariables
   type: 'query'
 }
+export const CollectionResourcesQueryName:CollectionResourcesQueryOperation['operationName'] = 'collectionResources'

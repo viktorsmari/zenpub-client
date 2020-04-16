@@ -2,11 +2,7 @@ import * as Types from './types.generated';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type UpdateCommunityMutationMutationVariables = {
   community: Types.CommunityUpdateInput,
@@ -38,23 +34,6 @@ export const UpdateCommunityMutationDocument = gql`
 }
     `;
 export type UpdateCommunityMutationMutationFn = ApolloReactCommon.MutationFunction<UpdateCommunityMutationMutation, UpdateCommunityMutationMutationVariables>;
-export type UpdateCommunityMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UpdateCommunityMutationMutation, UpdateCommunityMutationMutationVariables>, 'mutation'>;
-
-    export const UpdateCommunityMutationComponent = (props: UpdateCommunityMutationComponentProps) => (
-      <ApolloReactComponents.Mutation<UpdateCommunityMutationMutation, UpdateCommunityMutationMutationVariables> mutation={UpdateCommunityMutationDocument} {...props} />
-    );
-    
-export type UpdateCommunityMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<UpdateCommunityMutationMutation, UpdateCommunityMutationMutationVariables> & TChildProps;
-export function withUpdateCommunityMutation<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  UpdateCommunityMutationMutation,
-  UpdateCommunityMutationMutationVariables,
-  UpdateCommunityMutationProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, UpdateCommunityMutationMutation, UpdateCommunityMutationMutationVariables, UpdateCommunityMutationProps<TChildProps>>(UpdateCommunityMutationDocument, {
-      alias: 'updateCommunityMutation',
-      ...operationOptions
-    });
-};
 
 /**
  * __useUpdateCommunityMutationMutation__
@@ -88,3 +67,4 @@ export interface UpdateCommunityMutationMutationOperation {
   variables: UpdateCommunityMutationMutationVariables
   type: 'mutation'
 }
+export const UpdateCommunityMutationMutationName:UpdateCommunityMutationMutationOperation['operationName'] = 'updateCommunityMutation'

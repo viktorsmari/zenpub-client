@@ -3,12 +3,8 @@ import * as Types from '../../../graphql/types.generated';
 import { SettingsPageMeFragment } from '../../../HOC/pages/settings/SettingsPage.generated';
 import gql from 'graphql-tag';
 import { SettingsPageMeFragmentDoc } from '../../../HOC/pages/settings/SettingsPage.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type MyProfileQueryVariables = {};
@@ -43,23 +39,6 @@ export const MyProfileDocument = gql`
   }
 }
     ${SettingsPageMeFragmentDoc}`;
-export type MyProfileComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<MyProfileQuery, MyProfileQueryVariables>, 'query'>;
-
-    export const MyProfileComponent = (props: MyProfileComponentProps) => (
-      <ApolloReactComponents.Query<MyProfileQuery, MyProfileQueryVariables> query={MyProfileDocument} {...props} />
-    );
-    
-export type MyProfileProps<TChildProps = {}> = ApolloReactHoc.DataProps<MyProfileQuery, MyProfileQueryVariables> & TChildProps;
-export function withMyProfile<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  MyProfileQuery,
-  MyProfileQueryVariables,
-  MyProfileProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, MyProfileQuery, MyProfileQueryVariables, MyProfileProps<TChildProps>>(MyProfileDocument, {
-      alias: 'myProfile',
-      ...operationOptions
-    });
-};
 
 /**
  * __useMyProfileQuery__
@@ -93,23 +72,6 @@ export const UpdateMyProfileDocument = gql`
 }
     ${SettingsPageMeFragmentDoc}`;
 export type UpdateMyProfileMutationFn = ApolloReactCommon.MutationFunction<UpdateMyProfileMutation, UpdateMyProfileMutationVariables>;
-export type UpdateMyProfileComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UpdateMyProfileMutation, UpdateMyProfileMutationVariables>, 'mutation'>;
-
-    export const UpdateMyProfileComponent = (props: UpdateMyProfileComponentProps) => (
-      <ApolloReactComponents.Mutation<UpdateMyProfileMutation, UpdateMyProfileMutationVariables> mutation={UpdateMyProfileDocument} {...props} />
-    );
-    
-export type UpdateMyProfileProps<TChildProps = {}> = ApolloReactHoc.MutateProps<UpdateMyProfileMutation, UpdateMyProfileMutationVariables> & TChildProps;
-export function withUpdateMyProfile<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  UpdateMyProfileMutation,
-  UpdateMyProfileMutationVariables,
-  UpdateMyProfileProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, UpdateMyProfileMutation, UpdateMyProfileMutationVariables, UpdateMyProfileProps<TChildProps>>(UpdateMyProfileDocument, {
-      alias: 'updateMyProfile',
-      ...operationOptions
-    });
-};
 
 /**
  * __useUpdateMyProfileMutation__
@@ -142,6 +104,7 @@ export interface MyProfileQueryOperation {
   variables: MyProfileQueryVariables
   type: 'query'
 }
+export const MyProfileQueryName:MyProfileQueryOperation['operationName'] = 'myProfile'
 
 
 export interface UpdateMyProfileMutationOperation {
@@ -150,3 +113,4 @@ export interface UpdateMyProfileMutationOperation {
   variables: UpdateMyProfileMutationVariables
   type: 'mutation'
 }
+export const UpdateMyProfileMutationName:UpdateMyProfileMutationOperation['operationName'] = 'updateMyProfile'

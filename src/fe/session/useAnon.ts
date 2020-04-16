@@ -1,9 +1,23 @@
+import { DataProxy } from 'apollo-cache';
+import { MeQueryDocument } from 'graphql/me.generated';
+import Maybe from 'graphql/tsutils/Maybe';
+import { RegistrationInput } from 'graphql/types.generated';
 import { useMemo } from 'react';
+import { useApolloClient } from 'react-apollo';
+import { Result } from 'util/apollo/operation';
 import * as GQL from './anon.generated';
+import { MeQueryOperation, UseMeDataFragment } from './me.generated';
 
 export const useAnon = () => {
+  const client = useApolloClient();
   const [loginMut, loginStatus] = GQL.useAnonLoginMutation();
   const [resetPwdMut, resetPwdStatus] = GQL.useAnonResetPasswordMutation();
+  const [
+    confirmEmailMut,
+    confirmEmailStatus
+  ] = GQL.useAnonConfirmEmailMutation();
+  const [signUpMut, signUpStatus] = GQL.useAnonSignUpMutation();
+  //  const [usernameAvailableQ, usernameAvailableStatus] = GQL.useAnonUsernameAvailableLazyQuery();
   const [
     resetPwdReqMut,
     resetPwdReqStatus
@@ -21,7 +35,28 @@ export const useAnon = () => {
         return;
       }
       return resetPwdMut({
-        variables: { password, token }
+        variables: { password, token },
+        update: (proxy, resp) => updateMe(proxy, resp.data?.resetPassword?.me)
+      });
+    };
+
+    const confirmEmail = (token: string) => {
+      if (confirmEmailStatus.loading) {
+        return;
+      }
+      return confirmEmailMut({
+        variables: { token },
+        update: (proxy, resp) => updateMe(proxy, resp.data?.confirmEmail?.me)
+      });
+    };
+
+    const signUp = (registration: RegistrationInput) => {
+      if (signUpStatus.loading) {
+        return;
+      }
+      return signUpMut({
+        variables: { registration },
+        update: (proxy, resp) => updateMe(proxy, resp.data?.createUser)
       });
     };
 
@@ -39,21 +74,70 @@ export const useAnon = () => {
         return;
       }
       return loginMut({
-        variables: { email, password }
+        variables: { email, password },
+        update: (proxy, resp) => updateMe(proxy, resp.data?.createSession?.me)
       });
+    };
+    const usernameAvailable = (username: string) => {
+      return client
+        .query<
+          GQL.AnonUsernameAvailableQuery,
+          GQL.AnonUsernameAvailableQueryVariables
+        >({
+          query: GQL.AnonUsernameAvailableDocument,
+          variables: { username }
+        })
+        .then(_ => _.data.usernameAvailable);
     };
 
     return {
       login,
+      loginStatus,
+
+      resetPwdReq,
+      resetPwdReqStatus,
+
+      confirmEmail,
+      confirmEmailStatus,
+
+      signUp,
+      signUpStatus,
+
       resetPwd,
-      resetPwdReq
+      resetPwdStatus,
+
+      usernameAvailable
     };
   }, [
+    signUpStatus,
+    signUpMut,
+    confirmEmailMut,
+    confirmEmailStatus,
     loginMut,
     loginStatus,
     resetPwdMut,
     resetPwdStatus,
     resetPwdReqMut,
-    resetPwdReqStatus
+    resetPwdReqStatus,
+    client
   ]);
+};
+
+const updateMe = (proxy: DataProxy, me: Maybe<UseMeDataFragment>) => {
+  proxy.writeQuery<Result<MeQueryOperation>>({
+    query: MeQueryDocument,
+    data: {
+      __typename: 'RootQueryType',
+      me: me
+        ? {
+            __typename: 'Me' as 'Me',
+            ...me,
+            user: {
+              __typename: 'User' as 'User',
+              ...me.user
+            }
+          }
+        : null
+    }
+  });
 };

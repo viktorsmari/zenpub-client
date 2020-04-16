@@ -1,9 +1,9 @@
 import { SettingsPage, SettingsPageTab } from 'HOC/pages/settings/SettingsPage';
-import { RedirectToLoginIfNotLoggedIn } from 'HOC/wrappers/RedirectToLoginIfNotLoggedIn';
 import NotFound from 'pages/not-found/NotFound';
 import React, { FC } from 'react';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
 import { WithoutSidebarTemplate } from 'HOC/templates/WithoutSidebar/WithoutSidebar';
+import { RedirectAnonymousToLogin } from './wrappers/RedirectBySession';
 
 interface SettingsPageRouter {
   tab?: string;
@@ -34,11 +34,11 @@ const SettingsPageRouter: FC<RouteComponentProps<SettingsPageRouter>> = ({
   };
 
   return (
-    <RedirectToLoginIfNotLoggedIn>
+    <RedirectAnonymousToLogin>
       <WithoutSidebarTemplate>
         <SettingsPage {...props} />
       </WithoutSidebarTemplate>
-    </RedirectToLoginIfNotLoggedIn>
+    </RedirectAnonymousToLogin>
   );
 };
 

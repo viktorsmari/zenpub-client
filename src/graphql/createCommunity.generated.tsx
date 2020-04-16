@@ -4,11 +4,7 @@ import { BasicCommunityFragment } from './fragments/basicCommunity.generated';
 import gql from 'graphql-tag';
 import { BasicCommunityFragmentDoc } from './fragments/basicCommunity.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type CreateCommunityMutationMutationVariables = {
@@ -33,23 +29,6 @@ export const CreateCommunityMutationDocument = gql`
 }
     ${BasicCommunityFragmentDoc}`;
 export type CreateCommunityMutationMutationFn = ApolloReactCommon.MutationFunction<CreateCommunityMutationMutation, CreateCommunityMutationMutationVariables>;
-export type CreateCommunityMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateCommunityMutationMutation, CreateCommunityMutationMutationVariables>, 'mutation'>;
-
-    export const CreateCommunityMutationComponent = (props: CreateCommunityMutationComponentProps) => (
-      <ApolloReactComponents.Mutation<CreateCommunityMutationMutation, CreateCommunityMutationMutationVariables> mutation={CreateCommunityMutationDocument} {...props} />
-    );
-    
-export type CreateCommunityMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<CreateCommunityMutationMutation, CreateCommunityMutationMutationVariables> & TChildProps;
-export function withCreateCommunityMutation<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  CreateCommunityMutationMutation,
-  CreateCommunityMutationMutationVariables,
-  CreateCommunityMutationProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, CreateCommunityMutationMutation, CreateCommunityMutationMutationVariables, CreateCommunityMutationProps<TChildProps>>(CreateCommunityMutationDocument, {
-      alias: 'createCommunityMutation',
-      ...operationOptions
-    });
-};
 
 /**
  * __useCreateCommunityMutationMutation__
@@ -82,3 +61,4 @@ export interface CreateCommunityMutationMutationOperation {
   variables: CreateCommunityMutationMutationVariables
   type: 'mutation'
 }
+export const CreateCommunityMutationMutationName:CreateCommunityMutationMutationOperation['operationName'] = 'createCommunityMutation'

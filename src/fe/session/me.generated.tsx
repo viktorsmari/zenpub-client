@@ -3,12 +3,8 @@ import * as Types from '../../graphql/types.generated';
 import { SidebarMeUserFragment } from '../../HOC/modules/Sidebar/Sidebar.generated';
 import gql from 'graphql-tag';
 import { SidebarMeUserFragmentDoc } from '../../HOC/modules/Sidebar/Sidebar.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type MeQueryVariables = {};
@@ -32,7 +28,7 @@ export type MeLogoutMutation = (
 
 export type UseMeDataFragment = (
   { __typename: 'Me' }
-  & Pick<Types.Me, 'isInstanceAdmin'>
+  & Pick<Types.Me, 'isInstanceAdmin' | 'email' | 'isConfirmed' | 'wantsEmailDigest' | 'wantsNotifications'>
   & { user: (
     { __typename: 'User' }
     & Pick<Types.User, 'id'>
@@ -41,8 +37,12 @@ export type UseMeDataFragment = (
 );
 
 export const UseMeDataFragmentDoc = gql`
-    fragment useMeData on Me {
+    fragment UseMeData on Me {
   isInstanceAdmin
+  email
+  isConfirmed
+  wantsEmailDigest
+  wantsNotifications
   user {
     id
     ...SidebarMeUser
@@ -52,27 +52,10 @@ export const UseMeDataFragmentDoc = gql`
 export const MeDocument = gql`
     query me {
   me {
-    ...useMeData
+    ...UseMeData
   }
 }
     ${UseMeDataFragmentDoc}`;
-export type MeComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<MeQuery, MeQueryVariables>, 'query'>;
-
-    export const MeComponent = (props: MeComponentProps) => (
-      <ApolloReactComponents.Query<MeQuery, MeQueryVariables> query={MeDocument} {...props} />
-    );
-    
-export type MeProps<TChildProps = {}> = ApolloReactHoc.DataProps<MeQuery, MeQueryVariables> & TChildProps;
-export function withMe<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  MeQuery,
-  MeQueryVariables,
-  MeProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, MeQuery, MeQueryVariables, MeProps<TChildProps>>(MeDocument, {
-      alias: 'me',
-      ...operationOptions
-    });
-};
 
 /**
  * __useMeQuery__
@@ -104,23 +87,6 @@ export const MeLogoutDocument = gql`
 }
     `;
 export type MeLogoutMutationFn = ApolloReactCommon.MutationFunction<MeLogoutMutation, MeLogoutMutationVariables>;
-export type MeLogoutComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<MeLogoutMutation, MeLogoutMutationVariables>, 'mutation'>;
-
-    export const MeLogoutComponent = (props: MeLogoutComponentProps) => (
-      <ApolloReactComponents.Mutation<MeLogoutMutation, MeLogoutMutationVariables> mutation={MeLogoutDocument} {...props} />
-    );
-    
-export type MeLogoutProps<TChildProps = {}> = ApolloReactHoc.MutateProps<MeLogoutMutation, MeLogoutMutationVariables> & TChildProps;
-export function withMeLogout<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  MeLogoutMutation,
-  MeLogoutMutationVariables,
-  MeLogoutProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, MeLogoutMutation, MeLogoutMutationVariables, MeLogoutProps<TChildProps>>(MeLogoutDocument, {
-      alias: 'meLogout',
-      ...operationOptions
-    });
-};
 
 /**
  * __useMeLogoutMutation__
@@ -152,6 +118,7 @@ export interface MeQueryOperation {
   variables: MeQueryVariables
   type: 'query'
 }
+export const MeQueryName:MeQueryOperation['operationName'] = 'me'
 
 
 export interface MeLogoutMutationOperation {
@@ -160,3 +127,4 @@ export interface MeLogoutMutationOperation {
   variables: MeLogoutMutationVariables
   type: 'mutation'
 }
+export const MeLogoutMutationName:MeLogoutMutationOperation['operationName'] = 'meLogout'

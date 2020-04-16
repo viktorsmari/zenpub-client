@@ -58,6 +58,9 @@ export interface ${def.operationResultType}Operation {
   variables: ${def.operationVariablesTypes}
   type: '${def.operationType.toLocaleLowerCase()}'
 }
+export const ${def.operationResultType}Name:${
+        def.operationResultType
+      }Operation['operationName'] = '${def.name}'
 `
     )
     .join('');

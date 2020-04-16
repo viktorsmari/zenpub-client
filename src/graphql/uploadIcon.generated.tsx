@@ -2,11 +2,7 @@ import * as Types from './types.generated';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type UploadIconMutMutationVariables = {
   contextId: Types.Scalars['ID'],
@@ -40,23 +36,6 @@ export const UploadIconMutDocument = gql`
 }
     `;
 export type UploadIconMutMutationFn = ApolloReactCommon.MutationFunction<UploadIconMutMutation, UploadIconMutMutationVariables>;
-export type UploadIconMutComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UploadIconMutMutation, UploadIconMutMutationVariables>, 'mutation'>;
-
-    export const UploadIconMutComponent = (props: UploadIconMutComponentProps) => (
-      <ApolloReactComponents.Mutation<UploadIconMutMutation, UploadIconMutMutationVariables> mutation={UploadIconMutDocument} {...props} />
-    );
-    
-export type UploadIconMutProps<TChildProps = {}> = ApolloReactHoc.MutateProps<UploadIconMutMutation, UploadIconMutMutationVariables> & TChildProps;
-export function withUploadIconMut<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  UploadIconMutMutation,
-  UploadIconMutMutationVariables,
-  UploadIconMutProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, UploadIconMutMutation, UploadIconMutMutationVariables, UploadIconMutProps<TChildProps>>(UploadIconMutDocument, {
-      alias: 'uploadIconMut',
-      ...operationOptions
-    });
-};
 
 /**
  * __useUploadIconMutMutation__
@@ -90,3 +69,4 @@ export interface UploadIconMutMutationOperation {
   variables: UploadIconMutMutationVariables
   type: 'mutation'
 }
+export const UploadIconMutMutationName:UploadIconMutMutationOperation['operationName'] = 'uploadIconMut'

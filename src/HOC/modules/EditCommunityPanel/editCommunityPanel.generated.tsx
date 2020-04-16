@@ -1,12 +1,8 @@
 import * as Types from '../../../graphql/types.generated';
 
 import gql from 'graphql-tag';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type EditCommunityPanelQueryVariables = {
   communityId: Types.Scalars['String']
@@ -90,23 +86,6 @@ export const EditCommunityPanelDocument = gql`
   }
 }
     ${EditCommunityPanelDataFragmentDoc}`;
-export type EditCommunityPanelComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<EditCommunityPanelQuery, EditCommunityPanelQueryVariables>, 'query'> & ({ variables: EditCommunityPanelQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const EditCommunityPanelComponent = (props: EditCommunityPanelComponentProps) => (
-      <ApolloReactComponents.Query<EditCommunityPanelQuery, EditCommunityPanelQueryVariables> query={EditCommunityPanelDocument} {...props} />
-    );
-    
-export type EditCommunityPanelProps<TChildProps = {}> = ApolloReactHoc.DataProps<EditCommunityPanelQuery, EditCommunityPanelQueryVariables> & TChildProps;
-export function withEditCommunityPanel<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  EditCommunityPanelQuery,
-  EditCommunityPanelQueryVariables,
-  EditCommunityPanelProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, EditCommunityPanelQuery, EditCommunityPanelQueryVariables, EditCommunityPanelProps<TChildProps>>(EditCommunityPanelDocument, {
-      alias: 'editCommunityPanel',
-      ...operationOptions
-    });
-};
 
 /**
  * __useEditCommunityPanelQuery__
@@ -141,23 +120,6 @@ export const EditCommunityPanelUpdateDocument = gql`
 }
     ${EditCommunityPanelUpdateMutationResultFragmentDoc}`;
 export type EditCommunityPanelUpdateMutationFn = ApolloReactCommon.MutationFunction<EditCommunityPanelUpdateMutation, EditCommunityPanelUpdateMutationVariables>;
-export type EditCommunityPanelUpdateComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<EditCommunityPanelUpdateMutation, EditCommunityPanelUpdateMutationVariables>, 'mutation'>;
-
-    export const EditCommunityPanelUpdateComponent = (props: EditCommunityPanelUpdateComponentProps) => (
-      <ApolloReactComponents.Mutation<EditCommunityPanelUpdateMutation, EditCommunityPanelUpdateMutationVariables> mutation={EditCommunityPanelUpdateDocument} {...props} />
-    );
-    
-export type EditCommunityPanelUpdateProps<TChildProps = {}> = ApolloReactHoc.MutateProps<EditCommunityPanelUpdateMutation, EditCommunityPanelUpdateMutationVariables> & TChildProps;
-export function withEditCommunityPanelUpdate<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  EditCommunityPanelUpdateMutation,
-  EditCommunityPanelUpdateMutationVariables,
-  EditCommunityPanelUpdateProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, EditCommunityPanelUpdateMutation, EditCommunityPanelUpdateMutationVariables, EditCommunityPanelUpdateProps<TChildProps>>(EditCommunityPanelUpdateDocument, {
-      alias: 'editCommunityPanelUpdate',
-      ...operationOptions
-    });
-};
 
 /**
  * __useEditCommunityPanelUpdateMutation__
@@ -191,23 +153,6 @@ export const EditCommunityPanelUploadIconDocument = gql`
 }
     ${EditCommunityPanelUploadIconMutationResultFragmentDoc}`;
 export type EditCommunityPanelUploadIconMutationFn = ApolloReactCommon.MutationFunction<EditCommunityPanelUploadIconMutation, EditCommunityPanelUploadIconMutationVariables>;
-export type EditCommunityPanelUploadIconComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<EditCommunityPanelUploadIconMutation, EditCommunityPanelUploadIconMutationVariables>, 'mutation'>;
-
-    export const EditCommunityPanelUploadIconComponent = (props: EditCommunityPanelUploadIconComponentProps) => (
-      <ApolloReactComponents.Mutation<EditCommunityPanelUploadIconMutation, EditCommunityPanelUploadIconMutationVariables> mutation={EditCommunityPanelUploadIconDocument} {...props} />
-    );
-    
-export type EditCommunityPanelUploadIconProps<TChildProps = {}> = ApolloReactHoc.MutateProps<EditCommunityPanelUploadIconMutation, EditCommunityPanelUploadIconMutationVariables> & TChildProps;
-export function withEditCommunityPanelUploadIcon<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  EditCommunityPanelUploadIconMutation,
-  EditCommunityPanelUploadIconMutationVariables,
-  EditCommunityPanelUploadIconProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, EditCommunityPanelUploadIconMutation, EditCommunityPanelUploadIconMutationVariables, EditCommunityPanelUploadIconProps<TChildProps>>(EditCommunityPanelUploadIconDocument, {
-      alias: 'editCommunityPanelUploadIcon',
-      ...operationOptions
-    });
-};
 
 /**
  * __useEditCommunityPanelUploadIconMutation__
@@ -241,6 +186,7 @@ export interface EditCommunityPanelQueryOperation {
   variables: EditCommunityPanelQueryVariables
   type: 'query'
 }
+export const EditCommunityPanelQueryName:EditCommunityPanelQueryOperation['operationName'] = 'editCommunityPanel'
 
 
 export interface EditCommunityPanelUpdateMutationOperation {
@@ -249,6 +195,7 @@ export interface EditCommunityPanelUpdateMutationOperation {
   variables: EditCommunityPanelUpdateMutationVariables
   type: 'mutation'
 }
+export const EditCommunityPanelUpdateMutationName:EditCommunityPanelUpdateMutationOperation['operationName'] = 'editCommunityPanelUpdate'
 
 
 export interface EditCommunityPanelUploadIconMutationOperation {
@@ -257,3 +204,4 @@ export interface EditCommunityPanelUploadIconMutationOperation {
   variables: EditCommunityPanelUploadIconMutationVariables
   type: 'mutation'
 }
+export const EditCommunityPanelUploadIconMutationName:EditCommunityPanelUploadIconMutationOperation['operationName'] = 'editCommunityPanelUploadIcon'

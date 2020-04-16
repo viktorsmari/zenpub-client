@@ -1,12 +1,8 @@
 import * as Types from '../../../graphql/types.generated';
 
 import gql from 'graphql-tag';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type EditCollectionPanelQueryVariables = {
   collectionId: Types.Scalars['String']
@@ -90,23 +86,6 @@ export const EditCollectionPanelDocument = gql`
   }
 }
     ${EditCollectionPanelDataFragmentDoc}`;
-export type EditCollectionPanelComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<EditCollectionPanelQuery, EditCollectionPanelQueryVariables>, 'query'> & ({ variables: EditCollectionPanelQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const EditCollectionPanelComponent = (props: EditCollectionPanelComponentProps) => (
-      <ApolloReactComponents.Query<EditCollectionPanelQuery, EditCollectionPanelQueryVariables> query={EditCollectionPanelDocument} {...props} />
-    );
-    
-export type EditCollectionPanelProps<TChildProps = {}> = ApolloReactHoc.DataProps<EditCollectionPanelQuery, EditCollectionPanelQueryVariables> & TChildProps;
-export function withEditCollectionPanel<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  EditCollectionPanelQuery,
-  EditCollectionPanelQueryVariables,
-  EditCollectionPanelProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, EditCollectionPanelQuery, EditCollectionPanelQueryVariables, EditCollectionPanelProps<TChildProps>>(EditCollectionPanelDocument, {
-      alias: 'editCollectionPanel',
-      ...operationOptions
-    });
-};
 
 /**
  * __useEditCollectionPanelQuery__
@@ -141,23 +120,6 @@ export const EditCollectionPanelUpdateCollectionDocument = gql`
 }
     ${EditCollectionPanelUpdateCollectionMutationResultFragmentDoc}`;
 export type EditCollectionPanelUpdateCollectionMutationFn = ApolloReactCommon.MutationFunction<EditCollectionPanelUpdateCollectionMutation, EditCollectionPanelUpdateCollectionMutationVariables>;
-export type EditCollectionPanelUpdateCollectionComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<EditCollectionPanelUpdateCollectionMutation, EditCollectionPanelUpdateCollectionMutationVariables>, 'mutation'>;
-
-    export const EditCollectionPanelUpdateCollectionComponent = (props: EditCollectionPanelUpdateCollectionComponentProps) => (
-      <ApolloReactComponents.Mutation<EditCollectionPanelUpdateCollectionMutation, EditCollectionPanelUpdateCollectionMutationVariables> mutation={EditCollectionPanelUpdateCollectionDocument} {...props} />
-    );
-    
-export type EditCollectionPanelUpdateCollectionProps<TChildProps = {}> = ApolloReactHoc.MutateProps<EditCollectionPanelUpdateCollectionMutation, EditCollectionPanelUpdateCollectionMutationVariables> & TChildProps;
-export function withEditCollectionPanelUpdateCollection<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  EditCollectionPanelUpdateCollectionMutation,
-  EditCollectionPanelUpdateCollectionMutationVariables,
-  EditCollectionPanelUpdateCollectionProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, EditCollectionPanelUpdateCollectionMutation, EditCollectionPanelUpdateCollectionMutationVariables, EditCollectionPanelUpdateCollectionProps<TChildProps>>(EditCollectionPanelUpdateCollectionDocument, {
-      alias: 'editCollectionPanelUpdateCollection',
-      ...operationOptions
-    });
-};
 
 /**
  * __useEditCollectionPanelUpdateCollectionMutation__
@@ -191,23 +153,6 @@ export const EditCollectionPanelUploadIconDocument = gql`
 }
     ${EditCollectionPanelUploadIconMutationResultFragmentDoc}`;
 export type EditCollectionPanelUploadIconMutationFn = ApolloReactCommon.MutationFunction<EditCollectionPanelUploadIconMutation, EditCollectionPanelUploadIconMutationVariables>;
-export type EditCollectionPanelUploadIconComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<EditCollectionPanelUploadIconMutation, EditCollectionPanelUploadIconMutationVariables>, 'mutation'>;
-
-    export const EditCollectionPanelUploadIconComponent = (props: EditCollectionPanelUploadIconComponentProps) => (
-      <ApolloReactComponents.Mutation<EditCollectionPanelUploadIconMutation, EditCollectionPanelUploadIconMutationVariables> mutation={EditCollectionPanelUploadIconDocument} {...props} />
-    );
-    
-export type EditCollectionPanelUploadIconProps<TChildProps = {}> = ApolloReactHoc.MutateProps<EditCollectionPanelUploadIconMutation, EditCollectionPanelUploadIconMutationVariables> & TChildProps;
-export function withEditCollectionPanelUploadIcon<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  EditCollectionPanelUploadIconMutation,
-  EditCollectionPanelUploadIconMutationVariables,
-  EditCollectionPanelUploadIconProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, EditCollectionPanelUploadIconMutation, EditCollectionPanelUploadIconMutationVariables, EditCollectionPanelUploadIconProps<TChildProps>>(EditCollectionPanelUploadIconDocument, {
-      alias: 'editCollectionPanelUploadIcon',
-      ...operationOptions
-    });
-};
 
 /**
  * __useEditCollectionPanelUploadIconMutation__
@@ -241,6 +186,7 @@ export interface EditCollectionPanelQueryOperation {
   variables: EditCollectionPanelQueryVariables
   type: 'query'
 }
+export const EditCollectionPanelQueryName:EditCollectionPanelQueryOperation['operationName'] = 'editCollectionPanel'
 
 
 export interface EditCollectionPanelUpdateCollectionMutationOperation {
@@ -249,6 +195,7 @@ export interface EditCollectionPanelUpdateCollectionMutationOperation {
   variables: EditCollectionPanelUpdateCollectionMutationVariables
   type: 'mutation'
 }
+export const EditCollectionPanelUpdateCollectionMutationName:EditCollectionPanelUpdateCollectionMutationOperation['operationName'] = 'editCollectionPanelUpdateCollection'
 
 
 export interface EditCollectionPanelUploadIconMutationOperation {
@@ -257,3 +204,4 @@ export interface EditCollectionPanelUploadIconMutationOperation {
   variables: EditCollectionPanelUploadIconMutationVariables
   type: 'mutation'
 }
+export const EditCollectionPanelUploadIconMutationName:EditCollectionPanelUploadIconMutationOperation['operationName'] = 'editCollectionPanelUploadIcon'
