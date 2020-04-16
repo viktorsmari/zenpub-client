@@ -36,7 +36,7 @@ let tt = {
 
 export interface Props {
   formik: FormikHook<SignUpFormValues>;
-  createUserResp?: any; //FIXME after HOC
+  registeredUsername?: string;
 }
 
 export interface SignUpFormValues {
@@ -47,7 +47,7 @@ export interface SignUpFormValues {
   passwordConfirm: string;
 }
 
-const SignUpModal: React.FC<Props> = ({ formik, createUserResp }) => {
+const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
   var terms_users_text = { data: terms_markdown_text.terms_users };
   var terms_cookies_text = { data: terms_markdown_text.terms_cookies };
   var terms_indexing_text = { data: terms_markdown_text.terms_indexing };
@@ -66,13 +66,10 @@ const SignUpModal: React.FC<Props> = ({ formik, createUserResp }) => {
 
   return (
     <Container>
-      {createUserResp &&
-      createUserResp.data &&
-      createUserResp.data.createUser ? (
+      {!formik.isSubmitting && formik.submitCount && registeredUsername ? (
         <Box mt={3}>
           <p>
-            <Trans>Welcome</Trans>{' '}
-            {createUserResp.data.createUser.user.preferredUsername}
+            <Trans>Welcome</Trans> {registeredUsername}
           </p>
           <p>
             <Trans>
@@ -256,7 +253,7 @@ const SignUpModal: React.FC<Props> = ({ formik, createUserResp }) => {
     </Container>
   );
 };
-export default SignUpModal;
+export default SignUpPage;
 
 const Tagline = styled.h5`
   font-size: 16px;

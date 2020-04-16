@@ -3,12 +3,8 @@ import * as Types from './types.generated';
 import { BasicCollectionFragment } from './fragments/basicCollection.generated';
 import gql from 'graphql-tag';
 import { BasicCollectionFragmentDoc } from './fragments/basicCollection.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type GetFollowedCollectionsQueryVariables = {
@@ -73,23 +69,6 @@ export const GetFollowedCollectionsDocument = gql`
   }
 }
     ${BasicCollectionFragmentDoc}`;
-export type GetFollowedCollectionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetFollowedCollectionsQuery, GetFollowedCollectionsQueryVariables>, 'query'>;
-
-    export const GetFollowedCollectionsComponent = (props: GetFollowedCollectionsComponentProps) => (
-      <ApolloReactComponents.Query<GetFollowedCollectionsQuery, GetFollowedCollectionsQueryVariables> query={GetFollowedCollectionsDocument} {...props} />
-    );
-    
-export type GetFollowedCollectionsProps<TChildProps = {}> = ApolloReactHoc.DataProps<GetFollowedCollectionsQuery, GetFollowedCollectionsQueryVariables> & TChildProps;
-export function withGetFollowedCollections<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  GetFollowedCollectionsQuery,
-  GetFollowedCollectionsQueryVariables,
-  GetFollowedCollectionsProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, GetFollowedCollectionsQuery, GetFollowedCollectionsQueryVariables, GetFollowedCollectionsProps<TChildProps>>(GetFollowedCollectionsDocument, {
-      alias: 'getFollowedCollections',
-      ...operationOptions
-    });
-};
 
 /**
  * __useGetFollowedCollectionsQuery__
@@ -125,3 +104,4 @@ export interface GetFollowedCollectionsQueryOperation {
   variables: GetFollowedCollectionsQueryVariables
   type: 'query'
 }
+export const GetFollowedCollectionsQueryName:GetFollowedCollectionsQueryOperation['operationName'] = 'getFollowedCollections'

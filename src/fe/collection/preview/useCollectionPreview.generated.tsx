@@ -3,12 +3,8 @@ import * as Types from '../../../graphql/types.generated';
 import { CollectionPreviewFragment } from '../../../HOC/modules/previews/collection/CollectionPreview.generated';
 import gql from 'graphql-tag';
 import { CollectionPreviewFragmentDoc } from '../../../HOC/modules/previews/collection/CollectionPreview.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type CollectionPreviewQueryVariables = {
@@ -34,23 +30,6 @@ export const CollectionPreviewDocument = gql`
   }
 }
     ${CollectionPreviewFragmentDoc}`;
-export type CollectionPreviewComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CollectionPreviewQuery, CollectionPreviewQueryVariables>, 'query'> & ({ variables: CollectionPreviewQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const CollectionPreviewComponent = (props: CollectionPreviewComponentProps) => (
-      <ApolloReactComponents.Query<CollectionPreviewQuery, CollectionPreviewQueryVariables> query={CollectionPreviewDocument} {...props} />
-    );
-    
-export type CollectionPreviewProps<TChildProps = {}> = ApolloReactHoc.DataProps<CollectionPreviewQuery, CollectionPreviewQueryVariables> & TChildProps;
-export function withCollectionPreview<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  CollectionPreviewQuery,
-  CollectionPreviewQueryVariables,
-  CollectionPreviewProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, CollectionPreviewQuery, CollectionPreviewQueryVariables, CollectionPreviewProps<TChildProps>>(CollectionPreviewDocument, {
-      alias: 'collectionPreview',
-      ...operationOptions
-    });
-};
 
 /**
  * __useCollectionPreviewQuery__
@@ -85,3 +64,4 @@ export interface CollectionPreviewQueryOperation {
   variables: CollectionPreviewQueryVariables
   type: 'query'
 }
+export const CollectionPreviewQueryName:CollectionPreviewQueryOperation['operationName'] = 'collectionPreview'

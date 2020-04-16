@@ -2,11 +2,7 @@ import * as Types from './types.generated';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type ResolveFlagMutationMutationVariables = {
   flagId: Types.Scalars['String']
@@ -32,23 +28,6 @@ export const ResolveFlagMutationDocument = gql`
 }
     `;
 export type ResolveFlagMutationMutationFn = ApolloReactCommon.MutationFunction<ResolveFlagMutationMutation, ResolveFlagMutationMutationVariables>;
-export type ResolveFlagMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<ResolveFlagMutationMutation, ResolveFlagMutationMutationVariables>, 'mutation'>;
-
-    export const ResolveFlagMutationComponent = (props: ResolveFlagMutationComponentProps) => (
-      <ApolloReactComponents.Mutation<ResolveFlagMutationMutation, ResolveFlagMutationMutationVariables> mutation={ResolveFlagMutationDocument} {...props} />
-    );
-    
-export type ResolveFlagMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<ResolveFlagMutationMutation, ResolveFlagMutationMutationVariables> & TChildProps;
-export function withResolveFlagMutation<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  ResolveFlagMutationMutation,
-  ResolveFlagMutationMutationVariables,
-  ResolveFlagMutationProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, ResolveFlagMutationMutation, ResolveFlagMutationMutationVariables, ResolveFlagMutationProps<TChildProps>>(ResolveFlagMutationDocument, {
-      alias: 'resolveFlagMutation',
-      ...operationOptions
-    });
-};
 
 /**
  * __useResolveFlagMutationMutation__
@@ -81,3 +60,4 @@ export interface ResolveFlagMutationMutationOperation {
   variables: ResolveFlagMutationMutationVariables
   type: 'mutation'
 }
+export const ResolveFlagMutationMutationName:ResolveFlagMutationMutationOperation['operationName'] = 'resolveFlagMutation'

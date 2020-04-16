@@ -5,12 +5,8 @@ import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
 import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { CollectionPreviewFragmentDoc } from '../../../HOC/modules/previews/collection/CollectionPreview.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
@@ -79,23 +75,6 @@ export const MyFollowedCollectionsDocument = gql`
   }
 }
     ${MyFollowedCollectionsMeDataFragmentDoc}`;
-export type MyFollowedCollectionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<MyFollowedCollectionsQuery, MyFollowedCollectionsQueryVariables>, 'query'>;
-
-    export const MyFollowedCollectionsComponent = (props: MyFollowedCollectionsComponentProps) => (
-      <ApolloReactComponents.Query<MyFollowedCollectionsQuery, MyFollowedCollectionsQueryVariables> query={MyFollowedCollectionsDocument} {...props} />
-    );
-    
-export type MyFollowedCollectionsProps<TChildProps = {}> = ApolloReactHoc.DataProps<MyFollowedCollectionsQuery, MyFollowedCollectionsQueryVariables> & TChildProps;
-export function withMyFollowedCollections<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  MyFollowedCollectionsQuery,
-  MyFollowedCollectionsQueryVariables,
-  MyFollowedCollectionsProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, MyFollowedCollectionsQuery, MyFollowedCollectionsQueryVariables, MyFollowedCollectionsProps<TChildProps>>(MyFollowedCollectionsDocument, {
-      alias: 'myFollowedCollections',
-      ...operationOptions
-    });
-};
 
 /**
  * __useMyFollowedCollectionsQuery__
@@ -129,3 +108,4 @@ export interface MyFollowedCollectionsQueryOperation {
   variables: MyFollowedCollectionsQueryVariables
   type: 'query'
 }
+export const MyFollowedCollectionsQueryName:MyFollowedCollectionsQueryOperation['operationName'] = 'myFollowedCollections'

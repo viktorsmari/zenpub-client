@@ -5,12 +5,8 @@ import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
 import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { CommunityPageThreadFragmentDoc } from '../../../HOC/pages/community/CommunityPage.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
@@ -68,23 +64,6 @@ export const CommunityThreadsDocument = gql`
 }
     ${FullPageInfoFragmentDoc}
 ${CommunityThreadFragmentDoc}`;
-export type CommunityThreadsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CommunityThreadsQuery, CommunityThreadsQueryVariables>, 'query'> & ({ variables: CommunityThreadsQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const CommunityThreadsComponent = (props: CommunityThreadsComponentProps) => (
-      <ApolloReactComponents.Query<CommunityThreadsQuery, CommunityThreadsQueryVariables> query={CommunityThreadsDocument} {...props} />
-    );
-    
-export type CommunityThreadsProps<TChildProps = {}> = ApolloReactHoc.DataProps<CommunityThreadsQuery, CommunityThreadsQueryVariables> & TChildProps;
-export function withCommunityThreads<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  CommunityThreadsQuery,
-  CommunityThreadsQueryVariables,
-  CommunityThreadsProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, CommunityThreadsQuery, CommunityThreadsQueryVariables, CommunityThreadsProps<TChildProps>>(CommunityThreadsDocument, {
-      alias: 'communityThreads',
-      ...operationOptions
-    });
-};
 
 /**
  * __useCommunityThreadsQuery__
@@ -122,3 +101,4 @@ export interface CommunityThreadsQueryOperation {
   variables: CommunityThreadsQueryVariables
   type: 'query'
 }
+export const CommunityThreadsQueryName:CommunityThreadsQueryOperation['operationName'] = 'communityThreads'

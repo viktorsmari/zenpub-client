@@ -9,12 +9,8 @@ import { BasicUserFragmentDoc } from './fragments/basicUser.generated';
 import { BasicCommunityFragmentDoc } from './fragments/basicCommunity.generated';
 import { ActivityPreviewFragmentDoc } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import { BasicCollectionFragmentDoc } from './fragments/basicCollection.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
@@ -139,23 +135,6 @@ export const GetUserDocument = gql`
 ${BasicCommunityFragmentDoc}
 ${ActivityPreviewFragmentDoc}
 ${BasicCollectionFragmentDoc}`;
-export type GetUserComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetUserQuery, GetUserQueryVariables>, 'query'>;
-
-    export const GetUserComponent = (props: GetUserComponentProps) => (
-      <ApolloReactComponents.Query<GetUserQuery, GetUserQueryVariables> query={GetUserDocument} {...props} />
-    );
-    
-export type GetUserProps<TChildProps = {}> = ApolloReactHoc.DataProps<GetUserQuery, GetUserQueryVariables> & TChildProps;
-export function withGetUser<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  GetUserQuery,
-  GetUserQueryVariables,
-  GetUserProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, GetUserQuery, GetUserQueryVariables, GetUserProps<TChildProps>>(GetUserDocument, {
-      alias: 'getUser',
-      ...operationOptions
-    });
-};
 
 /**
  * __useGetUserQuery__
@@ -195,3 +174,4 @@ export interface GetUserQueryOperation {
   variables: GetUserQueryVariables
   type: 'query'
 }
+export const GetUserQueryName:GetUserQueryOperation['operationName'] = 'getUser'

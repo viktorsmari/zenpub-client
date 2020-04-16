@@ -1,12 +1,8 @@
 import * as Types from './types.generated';
 
 import gql from 'graphql-tag';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type MeQueryQueryVariables = {};
 
@@ -49,23 +45,6 @@ export const MeQueryDocument = gql`
   }
 }
     `;
-export type MeQueryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<MeQueryQuery, MeQueryQueryVariables>, 'query'>;
-
-    export const MeQueryComponent = (props: MeQueryComponentProps) => (
-      <ApolloReactComponents.Query<MeQueryQuery, MeQueryQueryVariables> query={MeQueryDocument} {...props} />
-    );
-    
-export type MeQueryProps<TChildProps = {}> = ApolloReactHoc.DataProps<MeQueryQuery, MeQueryQueryVariables> & TChildProps;
-export function withMeQuery<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  MeQueryQuery,
-  MeQueryQueryVariables,
-  MeQueryProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, MeQueryQuery, MeQueryQueryVariables, MeQueryProps<TChildProps>>(MeQueryDocument, {
-      alias: 'meQuery',
-      ...operationOptions
-    });
-};
 
 /**
  * __useMeQueryQuery__
@@ -99,3 +78,4 @@ export interface MeQueryQueryOperation {
   variables: MeQueryQueryVariables
   type: 'query'
 }
+export const MeQueryQueryName:MeQueryQueryOperation['operationName'] = 'meQuery'

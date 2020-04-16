@@ -5,12 +5,8 @@ import { ActivityPreviewFragment } from '../HOC/modules/previews/activity/Activi
 import gql from 'graphql-tag';
 import { ActivityPreviewFragmentDoc } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import { BasicCommentWithInReplyToFragmentDoc } from './fragments/basicComment.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
@@ -239,23 +235,6 @@ export const GetCommunityQueryDocument = gql`
 }
     ${ActivityPreviewFragmentDoc}
 ${BasicCommentWithInReplyToFragmentDoc}`;
-export type GetCommunityQueryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetCommunityQueryQuery, GetCommunityQueryQueryVariables>, 'query'> & ({ variables: GetCommunityQueryQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const GetCommunityQueryComponent = (props: GetCommunityQueryComponentProps) => (
-      <ApolloReactComponents.Query<GetCommunityQueryQuery, GetCommunityQueryQueryVariables> query={GetCommunityQueryDocument} {...props} />
-    );
-    
-export type GetCommunityQueryProps<TChildProps = {}> = ApolloReactHoc.DataProps<GetCommunityQueryQuery, GetCommunityQueryQueryVariables> & TChildProps;
-export function withGetCommunityQuery<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  GetCommunityQueryQuery,
-  GetCommunityQueryQueryVariables,
-  GetCommunityQueryProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, GetCommunityQueryQuery, GetCommunityQueryQueryVariables, GetCommunityQueryProps<TChildProps>>(GetCommunityQueryDocument, {
-      alias: 'getCommunityQuery',
-      ...operationOptions
-    });
-};
 
 /**
  * __useGetCommunityQueryQuery__
@@ -292,3 +271,4 @@ export interface GetCommunityQueryQueryOperation {
   variables: GetCommunityQueryQueryVariables
   type: 'query'
 }
+export const GetCommunityQueryQueryName:GetCommunityQueryQueryOperation['operationName'] = 'getCommunityQuery'

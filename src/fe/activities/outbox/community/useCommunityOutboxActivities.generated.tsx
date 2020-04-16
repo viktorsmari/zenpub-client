@@ -5,12 +5,8 @@ import { FullPageInfoFragment } from '../../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
 import { FullPageInfoFragmentDoc } from '../../../../@fragments/misc.generated';
 import { ActivityPreviewFragmentDoc } from '../../../../HOC/modules/previews/activity/ActivityPreview.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
@@ -68,23 +64,6 @@ export const CommunityOutboxActivitiesDocument = gql`
 }
     ${FullPageInfoFragmentDoc}
 ${CommunityOutboxActivityFragmentDoc}`;
-export type CommunityOutboxActivitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CommunityOutboxActivitiesQuery, CommunityOutboxActivitiesQueryVariables>, 'query'> & ({ variables: CommunityOutboxActivitiesQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const CommunityOutboxActivitiesComponent = (props: CommunityOutboxActivitiesComponentProps) => (
-      <ApolloReactComponents.Query<CommunityOutboxActivitiesQuery, CommunityOutboxActivitiesQueryVariables> query={CommunityOutboxActivitiesDocument} {...props} />
-    );
-    
-export type CommunityOutboxActivitiesProps<TChildProps = {}> = ApolloReactHoc.DataProps<CommunityOutboxActivitiesQuery, CommunityOutboxActivitiesQueryVariables> & TChildProps;
-export function withCommunityOutboxActivities<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  CommunityOutboxActivitiesQuery,
-  CommunityOutboxActivitiesQueryVariables,
-  CommunityOutboxActivitiesProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, CommunityOutboxActivitiesQuery, CommunityOutboxActivitiesQueryVariables, CommunityOutboxActivitiesProps<TChildProps>>(CommunityOutboxActivitiesDocument, {
-      alias: 'communityOutboxActivities',
-      ...operationOptions
-    });
-};
 
 /**
  * __useCommunityOutboxActivitiesQuery__
@@ -122,3 +101,4 @@ export interface CommunityOutboxActivitiesQueryOperation {
   variables: CommunityOutboxActivitiesQueryVariables
   type: 'query'
 }
+export const CommunityOutboxActivitiesQueryName:CommunityOutboxActivitiesQueryOperation['operationName'] = 'communityOutboxActivities'

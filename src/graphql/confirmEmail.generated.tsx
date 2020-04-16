@@ -4,11 +4,7 @@ import { BasicAuthPayloadFragment } from './fragments/basicAuthPayload.generated
 import gql from 'graphql-tag';
 import { BasicAuthPayloadFragmentDoc } from './fragments/basicAuthPayload.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type ConfirmEmailMutationMutationVariables = {
@@ -33,23 +29,6 @@ export const ConfirmEmailMutationDocument = gql`
 }
     ${BasicAuthPayloadFragmentDoc}`;
 export type ConfirmEmailMutationMutationFn = ApolloReactCommon.MutationFunction<ConfirmEmailMutationMutation, ConfirmEmailMutationMutationVariables>;
-export type ConfirmEmailMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<ConfirmEmailMutationMutation, ConfirmEmailMutationMutationVariables>, 'mutation'>;
-
-    export const ConfirmEmailMutationComponent = (props: ConfirmEmailMutationComponentProps) => (
-      <ApolloReactComponents.Mutation<ConfirmEmailMutationMutation, ConfirmEmailMutationMutationVariables> mutation={ConfirmEmailMutationDocument} {...props} />
-    );
-    
-export type ConfirmEmailMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<ConfirmEmailMutationMutation, ConfirmEmailMutationMutationVariables> & TChildProps;
-export function withConfirmEmailMutation<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  ConfirmEmailMutationMutation,
-  ConfirmEmailMutationMutationVariables,
-  ConfirmEmailMutationProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, ConfirmEmailMutationMutation, ConfirmEmailMutationMutationVariables, ConfirmEmailMutationProps<TChildProps>>(ConfirmEmailMutationDocument, {
-      alias: 'confirmEmailMutation',
-      ...operationOptions
-    });
-};
 
 /**
  * __useConfirmEmailMutationMutation__
@@ -82,3 +61,4 @@ export interface ConfirmEmailMutationMutationOperation {
   variables: ConfirmEmailMutationMutationVariables
   type: 'mutation'
 }
+export const ConfirmEmailMutationMutationName:ConfirmEmailMutationMutationOperation['operationName'] = 'confirmEmailMutation'

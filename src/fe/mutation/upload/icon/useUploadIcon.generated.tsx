@@ -2,11 +2,7 @@ import * as Types from '../../../../graphql/types.generated';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type UploadIconMutationVariables = {
   contextId: Types.Scalars['ID'],
@@ -63,23 +59,6 @@ export const UploadIconDocument = gql`
 }
     `;
 export type UploadIconMutationFn = ApolloReactCommon.MutationFunction<UploadIconMutation, UploadIconMutationVariables>;
-export type UploadIconComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UploadIconMutation, UploadIconMutationVariables>, 'mutation'>;
-
-    export const UploadIconComponent = (props: UploadIconComponentProps) => (
-      <ApolloReactComponents.Mutation<UploadIconMutation, UploadIconMutationVariables> mutation={UploadIconDocument} {...props} />
-    );
-    
-export type UploadIconProps<TChildProps = {}> = ApolloReactHoc.MutateProps<UploadIconMutation, UploadIconMutationVariables> & TChildProps;
-export function withUploadIcon<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  UploadIconMutation,
-  UploadIconMutationVariables,
-  UploadIconProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, UploadIconMutation, UploadIconMutationVariables, UploadIconProps<TChildProps>>(UploadIconDocument, {
-      alias: 'uploadIcon',
-      ...operationOptions
-    });
-};
 
 /**
  * __useUploadIconMutation__
@@ -113,3 +92,4 @@ export interface UploadIconMutationOperation {
   variables: UploadIconMutationVariables
   type: 'mutation'
 }
+export const UploadIconMutationName:UploadIconMutationOperation['operationName'] = 'uploadIcon'

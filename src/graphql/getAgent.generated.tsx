@@ -11,12 +11,8 @@ import { BasicResourceFragmentDoc } from './fragments/basicResource.generated';
 import { BasicCommunityFragmentDoc } from './fragments/basicCommunity.generated';
 import { BasicCollectionFragmentDoc } from './fragments/basicCollection.generated';
 import { BasicCommentWithInReplyToFragmentDoc } from './fragments/basicComment.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
@@ -184,23 +180,6 @@ ${BasicResourceFragmentDoc}
 ${BasicCommunityFragmentDoc}
 ${BasicCollectionFragmentDoc}
 ${BasicCommentWithInReplyToFragmentDoc}`;
-export type GetAgentQueryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetAgentQueryQuery, GetAgentQueryQueryVariables>, 'query'> & ({ variables: GetAgentQueryQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const GetAgentQueryComponent = (props: GetAgentQueryComponentProps) => (
-      <ApolloReactComponents.Query<GetAgentQueryQuery, GetAgentQueryQueryVariables> query={GetAgentQueryDocument} {...props} />
-    );
-    
-export type GetAgentQueryProps<TChildProps = {}> = ApolloReactHoc.DataProps<GetAgentQueryQuery, GetAgentQueryQueryVariables> & TChildProps;
-export function withGetAgentQuery<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  GetAgentQueryQuery,
-  GetAgentQueryQueryVariables,
-  GetAgentQueryProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, GetAgentQueryQuery, GetAgentQueryQueryVariables, GetAgentQueryProps<TChildProps>>(GetAgentQueryDocument, {
-      alias: 'getAgentQuery',
-      ...operationOptions
-    });
-};
 
 /**
  * __useGetAgentQueryQuery__
@@ -241,3 +220,4 @@ export interface GetAgentQueryQueryOperation {
   variables: GetAgentQueryQueryVariables
   type: 'query'
 }
+export const GetAgentQueryQueryName:GetAgentQueryQueryOperation['operationName'] = 'getAgentQuery'

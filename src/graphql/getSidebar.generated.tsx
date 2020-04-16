@@ -1,12 +1,8 @@
 import * as Types from './types.generated';
 
 import gql from 'graphql-tag';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type GetSidebarQueryQueryVariables = {
   limitComm?: Types.Maybe<Types.Scalars['Int']>,
@@ -75,23 +71,6 @@ export const GetSidebarQueryDocument = gql`
   }
 }
     `;
-export type GetSidebarQueryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetSidebarQueryQuery, GetSidebarQueryQueryVariables>, 'query'>;
-
-    export const GetSidebarQueryComponent = (props: GetSidebarQueryComponentProps) => (
-      <ApolloReactComponents.Query<GetSidebarQueryQuery, GetSidebarQueryQueryVariables> query={GetSidebarQueryDocument} {...props} />
-    );
-    
-export type GetSidebarQueryProps<TChildProps = {}> = ApolloReactHoc.DataProps<GetSidebarQueryQuery, GetSidebarQueryQueryVariables> & TChildProps;
-export function withGetSidebarQuery<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  GetSidebarQueryQuery,
-  GetSidebarQueryQueryVariables,
-  GetSidebarQueryProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, GetSidebarQueryQuery, GetSidebarQueryQueryVariables, GetSidebarQueryProps<TChildProps>>(GetSidebarQueryDocument, {
-      alias: 'getSidebarQuery',
-      ...operationOptions
-    });
-};
 
 /**
  * __useGetSidebarQueryQuery__
@@ -127,3 +106,4 @@ export interface GetSidebarQueryQueryOperation {
   variables: GetSidebarQueryQueryVariables
   type: 'query'
 }
+export const GetSidebarQueryQueryName:GetSidebarQueryQueryOperation['operationName'] = 'getSidebarQuery'

@@ -10,6 +10,7 @@ import { useAnon } from 'fe/session/useAnon';
 const validationSchema = Yup.object().shape({
   password: Yup.string()
     .min(6)
+    .max(50)
     .required('Password is required'),
   passwordConfirm: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')

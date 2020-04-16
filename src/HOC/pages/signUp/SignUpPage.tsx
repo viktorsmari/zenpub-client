@@ -1,43 +1,74 @@
 import { useFormik } from 'formik';
-import React, { FC } from 'react';
-import SignUpModal, { SignUpFormValues } from 'ui/pages/signUp';
+import React, { FC, useMemo } from 'react';
+import SignUpPage, { SignUpFormValues, Props } from 'ui/pages/signUp';
 import * as Yup from 'yup';
+import { useAnon } from 'fe/session/useAnon';
 
-export const validationSchema: Yup.ObjectSchema<SignUpFormValues> = Yup.object<
-  SignUpFormValues
->({
-  username: Yup.string()
-    .min(3)
-    .max(16)
-    .required(),
-  email: Yup.string()
-    .max(50)
-    .required(),
-  name: Yup.string()
-    .max(50)
-    .required(),
-  password: Yup.string()
-    .max(50)
-    .required(),
-  passwordConfirm: Yup.string()
-    .max(50)
-    .required()
-});
+const initialValues = {
+  name: '',
+  email: '',
+  password: '',
+  username: '',
+  passwordConfirm: ''
+};
+export interface SignUpPageHOC {}
 
-export interface Props {}
+export const SignUpPageHOC: FC<SignUpPageHOC> = () => {
+  const { signUp, signUpStatus, usernameAvailable } = useAnon();
+  const validationSchema: Yup.ObjectSchema<SignUpFormValues> = Yup.object<
+    SignUpFormValues
+  >({
+    username: Yup.string()
+      .min(3)
+      .max(16)
+      .required()
+      .test(
+        'checkDuplUsername',
+        'username already exists',
+        username => username && usernameAvailable(username)
+      ),
+    email: Yup.string()
+      .max(50)
+      .required(),
+    name: Yup.string()
+      .max(50)
+      .required(),
+    password: Yup.string()
+      .min(6)
+      .max(50)
+      .required(),
+    passwordConfirm: Yup.string()
+      .oneOf([Yup.ref('password'), null], 'Passwords must match')
+      .required()
+  });
 
-export const SignUpPageHOC: FC<Props> = ({}: Props) => {
   const formik = useFormik<SignUpFormValues>({
-    initialValues: {
-      name: '',
-      email: '',
-      password: '',
-      username: '',
-      passwordConfirm: ''
-    },
+    initialValues,
     enableReinitialize: true,
-    onSubmit: vals => {},
+    onSubmit: regInput =>
+      signUp({
+        email: regInput.email,
+        name: regInput.name,
+        password: regInput.password,
+        preferredUsername: regInput.username,
+        wantsEmailDigest: false,
+        wantsNotifications: false
+      }),
     validationSchema
   });
-  return <SignUpModal formik={formik} />;
+
+  const props = useMemo<Props>(
+    () =>
+      signUpStatus.called && signUpStatus.data?.createUser?.user.name
+        ? {
+            formik,
+            registeredUsername: signUpStatus.data.createUser.user.name
+          }
+        : {
+            formik
+          },
+    [signUpStatus, formik]
+  );
+
+  return <SignUpPage {...props} />;
 };

@@ -3,12 +3,8 @@ import * as Types from './types.generated';
 import { BasicCommunityFragment } from './fragments/basicCommunity.generated';
 import gql from 'graphql-tag';
 import { BasicCommunityFragmentDoc } from './fragments/basicCommunity.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type GetFollowedCommunitiesQueryQueryVariables = {
@@ -72,23 +68,6 @@ export const GetFollowedCommunitiesQueryDocument = gql`
   }
 }
     ${BasicCommunityFragmentDoc}`;
-export type GetFollowedCommunitiesQueryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetFollowedCommunitiesQueryQuery, GetFollowedCommunitiesQueryQueryVariables>, 'query'>;
-
-    export const GetFollowedCommunitiesQueryComponent = (props: GetFollowedCommunitiesQueryComponentProps) => (
-      <ApolloReactComponents.Query<GetFollowedCommunitiesQueryQuery, GetFollowedCommunitiesQueryQueryVariables> query={GetFollowedCommunitiesQueryDocument} {...props} />
-    );
-    
-export type GetFollowedCommunitiesQueryProps<TChildProps = {}> = ApolloReactHoc.DataProps<GetFollowedCommunitiesQueryQuery, GetFollowedCommunitiesQueryQueryVariables> & TChildProps;
-export function withGetFollowedCommunitiesQuery<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  GetFollowedCommunitiesQueryQuery,
-  GetFollowedCommunitiesQueryQueryVariables,
-  GetFollowedCommunitiesQueryProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, GetFollowedCommunitiesQueryQuery, GetFollowedCommunitiesQueryQueryVariables, GetFollowedCommunitiesQueryProps<TChildProps>>(GetFollowedCommunitiesQueryDocument, {
-      alias: 'getFollowedCommunitiesQuery',
-      ...operationOptions
-    });
-};
 
 /**
  * __useGetFollowedCommunitiesQueryQuery__
@@ -124,3 +103,4 @@ export interface GetFollowedCommunitiesQueryQueryOperation {
   variables: GetFollowedCommunitiesQueryQueryVariables
   type: 'query'
 }
+export const GetFollowedCommunitiesQueryQueryName:GetFollowedCommunitiesQueryQueryOperation['operationName'] = 'getFollowedCommunitiesQuery'

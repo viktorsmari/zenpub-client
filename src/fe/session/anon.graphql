@@ -15,10 +15,25 @@ mutation anonLogin ($email: String!, $password: String!){
   }
 }
 
+mutation anonConfirmEmail($token: String!){ 
+  confirmEmail(token: $token){
+    ...AuthData
+  }
+}
+
+mutation anonSignUp($registration: RegistrationInput!){
+  createUser(user: $registration){
+    ...UseMeData
+  }
+}
+
+query anonUsernameAvailable($username: String!){
+  usernameAvailable(username: $username)
+}
 
 fragment AuthData on AuthPayload {
-    me{
-      ...useMeData
-    }
-    token
+  me{
+    ...UseMeData
+  }
+  token
 }

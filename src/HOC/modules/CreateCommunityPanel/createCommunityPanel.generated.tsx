@@ -2,11 +2,7 @@ import * as Types from '../../../graphql/types.generated';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type CreateCommunityPanelCreateMutationVariables = {
   community: Types.CommunityInput
@@ -63,23 +59,6 @@ export const CreateCommunityPanelCreateDocument = gql`
 }
     ${CreateCommunityPanelCreateResultFragmentDoc}`;
 export type CreateCommunityPanelCreateMutationFn = ApolloReactCommon.MutationFunction<CreateCommunityPanelCreateMutation, CreateCommunityPanelCreateMutationVariables>;
-export type CreateCommunityPanelCreateComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateCommunityPanelCreateMutation, CreateCommunityPanelCreateMutationVariables>, 'mutation'>;
-
-    export const CreateCommunityPanelCreateComponent = (props: CreateCommunityPanelCreateComponentProps) => (
-      <ApolloReactComponents.Mutation<CreateCommunityPanelCreateMutation, CreateCommunityPanelCreateMutationVariables> mutation={CreateCommunityPanelCreateDocument} {...props} />
-    );
-    
-export type CreateCommunityPanelCreateProps<TChildProps = {}> = ApolloReactHoc.MutateProps<CreateCommunityPanelCreateMutation, CreateCommunityPanelCreateMutationVariables> & TChildProps;
-export function withCreateCommunityPanelCreate<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  CreateCommunityPanelCreateMutation,
-  CreateCommunityPanelCreateMutationVariables,
-  CreateCommunityPanelCreateProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, CreateCommunityPanelCreateMutation, CreateCommunityPanelCreateMutationVariables, CreateCommunityPanelCreateProps<TChildProps>>(CreateCommunityPanelCreateDocument, {
-      alias: 'createCommunityPanelCreate',
-      ...operationOptions
-    });
-};
 
 /**
  * __useCreateCommunityPanelCreateMutation__
@@ -112,23 +91,6 @@ export const CreateCommunityPanelUploadIconDocument = gql`
 }
     ${CreateCommunityPanelUploadIconResultFragmentDoc}`;
 export type CreateCommunityPanelUploadIconMutationFn = ApolloReactCommon.MutationFunction<CreateCommunityPanelUploadIconMutation, CreateCommunityPanelUploadIconMutationVariables>;
-export type CreateCommunityPanelUploadIconComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateCommunityPanelUploadIconMutation, CreateCommunityPanelUploadIconMutationVariables>, 'mutation'>;
-
-    export const CreateCommunityPanelUploadIconComponent = (props: CreateCommunityPanelUploadIconComponentProps) => (
-      <ApolloReactComponents.Mutation<CreateCommunityPanelUploadIconMutation, CreateCommunityPanelUploadIconMutationVariables> mutation={CreateCommunityPanelUploadIconDocument} {...props} />
-    );
-    
-export type CreateCommunityPanelUploadIconProps<TChildProps = {}> = ApolloReactHoc.MutateProps<CreateCommunityPanelUploadIconMutation, CreateCommunityPanelUploadIconMutationVariables> & TChildProps;
-export function withCreateCommunityPanelUploadIcon<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  CreateCommunityPanelUploadIconMutation,
-  CreateCommunityPanelUploadIconMutationVariables,
-  CreateCommunityPanelUploadIconProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, CreateCommunityPanelUploadIconMutation, CreateCommunityPanelUploadIconMutationVariables, CreateCommunityPanelUploadIconProps<TChildProps>>(CreateCommunityPanelUploadIconDocument, {
-      alias: 'createCommunityPanelUploadIcon',
-      ...operationOptions
-    });
-};
 
 /**
  * __useCreateCommunityPanelUploadIconMutation__
@@ -162,6 +124,7 @@ export interface CreateCommunityPanelCreateMutationOperation {
   variables: CreateCommunityPanelCreateMutationVariables
   type: 'mutation'
 }
+export const CreateCommunityPanelCreateMutationName:CreateCommunityPanelCreateMutationOperation['operationName'] = 'createCommunityPanelCreate'
 
 
 export interface CreateCommunityPanelUploadIconMutationOperation {
@@ -170,3 +133,4 @@ export interface CreateCommunityPanelUploadIconMutationOperation {
   variables: CreateCommunityPanelUploadIconMutationVariables
   type: 'mutation'
 }
+export const CreateCommunityPanelUploadIconMutationName:CreateCommunityPanelUploadIconMutationOperation['operationName'] = 'createCommunityPanelUploadIcon'
