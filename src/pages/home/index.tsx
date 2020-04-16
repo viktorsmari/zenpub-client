@@ -33,7 +33,7 @@ import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 //   WrapperPanel
 // } from 'ui/elements/Panel';
 import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
-import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
+import { Wrapper, WrapperCont } from '../wrappers/Wrappers';
 export enum HomePageTab {
   Activities = 1,
   MyCommunities,
