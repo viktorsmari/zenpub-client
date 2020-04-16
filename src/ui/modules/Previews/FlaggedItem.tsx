@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'ui/themes/styled';
-import { XCircle, Slash, ShieldOff } from 'react-feather';
+import { XCircle, Slash, Flag } from 'react-feather';
 
 import { Box, Text, Flex } from 'rebass/styled-components';
 import { Trans } from '@lingui/react';
@@ -8,7 +8,9 @@ import Modal from 'ui/modules/Modal';
 
 export interface FlaggedProps {
   flaggedItemContext: JSX.Element;
-  ConfirmDeleteModal?: null | React.ComponentType<{ done(): unknown }>;
+  BlockModal?: null | React.ComponentType<{ done(): unknown }>;
+  DeleteModal?: null | React.ComponentType<{ done(): unknown }>;
+  IgnoreModal?: null | React.ComponentType<{ done(): unknown }>;
   type: string;
   // flaggedItemId: string;
   reason: string;
@@ -16,7 +18,9 @@ export interface FlaggedProps {
 
 export const FlaggedItem: React.SFC<FlaggedProps> = ({
   flaggedItemContext,
-  ConfirmDeleteModal,
+  BlockModal,
+  DeleteModal,
+  IgnoreModal,
   type,
   // flaggedItemId,
   reason
@@ -72,13 +76,8 @@ export const FlaggedItem: React.SFC<FlaggedProps> = ({
               </ActionItem>
             )}
             <ActionItem ml={4} onClick={() => setOpenIgnore(true)}>
-              <ActionIcon>
-                <ShieldOff
-                  className="hover"
-                  color="rgba(0,0,0,.4)"
-                  strokeWidth="1"
-                  size="20"
-                />
+              <ActionIcon className="unflag">
+                <Flag className="hover" strokeWidth="1" size="16" />
               </ActionIcon>
               <Text
                 variant={'suptitle'}
@@ -89,19 +88,19 @@ export const FlaggedItem: React.SFC<FlaggedProps> = ({
               </Text>
             </ActionItem>
           </Items>
-          {ConfirmDeleteModal && isOpenDelete && (
+          {DeleteModal && isOpenDelete && (
             <Modal closeModal={() => setOpenDelete(false)}>
-              <ConfirmDeleteModal done={() => setOpenDelete(false)} />
+              <DeleteModal done={() => setOpenDelete(false)} />
             </Modal>
           )}
-          {ConfirmDeleteModal && isOpenBlock && (
+          {BlockModal && isOpenBlock && (
             <Modal closeModal={() => setOpenBlock(false)}>
-              <ConfirmDeleteModal done={() => setOpenBlock(false)} />
+              <BlockModal done={() => setOpenBlock(false)} />
             </Modal>
           )}
-          {ConfirmDeleteModal && isOpenIgnore && (
+          {IgnoreModal && isOpenIgnore && (
             <Modal closeModal={() => setOpenIgnore(false)}>
-              <ConfirmDeleteModal done={() => setOpenIgnore(false)} />
+              <IgnoreModal done={() => setOpenIgnore(false)} />
             </Modal>
           )}
         </Box>
@@ -124,15 +123,38 @@ const ActionItem = styled(Flex)`
   align-items: center;
   color: ${props => props.theme.colors.gray};
   cursor: pointer;
+  .unflag {
+    position: relative;
+    &:after {
+      display: block;
+      content: '';
+      width: 0px;
+      height: 25px;
+      transform: rotateZ(-45deg);
+      position: absolute;
+      left: 14px;
+      border-right: 3px solid #fff;
+      border-left: 1px solid;
+      top: 1px;
+    }
+  }
   a {
     display: flex;
     align-items: center;
     position: relative;
     z-index: 9;
   }
+  .hover {
+    stroke: ${props => props.theme.colors.gray};
+  }
   &:hover {
-    svg.hover {
-      stroke: ${props => props.theme.colors.orange};
+    svg {
+      &.hover {
+        stroke: ${props => props.theme.colors.orange};
+      }
+    }
+    .unflag:after {
+      border-left-color: ${props => props.theme.colors.orange};
     }
   }
 `;

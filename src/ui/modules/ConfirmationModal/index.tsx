@@ -13,26 +13,28 @@ import {
 
 export interface Props {
   cancel(): any;
-  deleteTitle: string;
-  deleteDescription: string;
+  modalTitle: string;
+  modalDescription: string;
+  modalAction: string;
   formik: FormikHook;
 }
 
-export const ConfirmDeleteModal: React.FC<Props> = ({
+export const ConfirmationModal: React.FC<Props> = ({
   cancel,
-  deleteTitle,
-  deleteDescription,
+  modalTitle,
+  modalDescription,
+  modalAction,
   formik
 }) => {
   // const { i18n } = React.useContext(LocaleContext);
   return (
     <Container>
       <Header>
-        <Heading m={2}>{deleteTitle}</Heading>
+        <Heading m={2}>{modalTitle}</Heading>
       </Header>
       <Row>
         <ContainerForm>
-          <Text>{deleteDescription}</Text>
+          <Text>{modalDescription}</Text>
         </ContainerForm>
       </Row>
       <Actions>
@@ -42,7 +44,7 @@ export const ConfirmDeleteModal: React.FC<Props> = ({
           style={{ marginLeft: '10px' }}
           onClick={formik.submitForm}
         >
-          <Trans>Delete</Trans>
+          {modalAction}
         </SubmitButton>
         <Button variant="outline" onClick={cancel}>
           <Trans>Cancel</Trans>
@@ -52,7 +54,7 @@ export const ConfirmDeleteModal: React.FC<Props> = ({
   );
 };
 
-export default ConfirmDeleteModal;
+export default ConfirmationModal;
 
 const SubmitButton = styled(Button)`
   margin-left: 8px;
