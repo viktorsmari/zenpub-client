@@ -5,12 +5,8 @@ import { FullPageInfoFragment } from '../../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
 import { FullPageInfoFragmentDoc } from '../../../../@fragments/misc.generated';
 import { ActivityPreviewFragmentDoc } from '../../../../HOC/modules/previews/activity/ActivityPreview.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
@@ -68,23 +64,6 @@ export const CollectionOutboxActivitiesDocument = gql`
 }
     ${FullPageInfoFragmentDoc}
 ${CollectionOutboxActivityFragmentDoc}`;
-export type CollectionOutboxActivitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CollectionOutboxActivitiesQuery, CollectionOutboxActivitiesQueryVariables>, 'query'> & ({ variables: CollectionOutboxActivitiesQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const CollectionOutboxActivitiesComponent = (props: CollectionOutboxActivitiesComponentProps) => (
-      <ApolloReactComponents.Query<CollectionOutboxActivitiesQuery, CollectionOutboxActivitiesQueryVariables> query={CollectionOutboxActivitiesDocument} {...props} />
-    );
-    
-export type CollectionOutboxActivitiesProps<TChildProps = {}> = ApolloReactHoc.DataProps<CollectionOutboxActivitiesQuery, CollectionOutboxActivitiesQueryVariables> & TChildProps;
-export function withCollectionOutboxActivities<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  CollectionOutboxActivitiesQuery,
-  CollectionOutboxActivitiesQueryVariables,
-  CollectionOutboxActivitiesProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, CollectionOutboxActivitiesQuery, CollectionOutboxActivitiesQueryVariables, CollectionOutboxActivitiesProps<TChildProps>>(CollectionOutboxActivitiesDocument, {
-      alias: 'collectionOutboxActivities',
-      ...operationOptions
-    });
-};
 
 /**
  * __useCollectionOutboxActivitiesQuery__
@@ -122,3 +101,4 @@ export interface CollectionOutboxActivitiesQueryOperation {
   variables: CollectionOutboxActivitiesQueryVariables
   type: 'query'
 }
+export const CollectionOutboxActivitiesQueryName:CollectionOutboxActivitiesQueryOperation['operationName'] = 'collectionOutboxActivities'

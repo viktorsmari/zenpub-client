@@ -4,11 +4,7 @@ import { BasicCommentWithInReplyToFragment } from './fragments/basicComment.gene
 import gql from 'graphql-tag';
 import { BasicCommentWithInReplyToFragmentDoc } from './fragments/basicComment.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type CreateReplyMutationMutationVariables = {
@@ -75,23 +71,6 @@ export const CreateReplyMutationDocument = gql`
 }
     ${BasicCommentWithInReplyToFragmentDoc}`;
 export type CreateReplyMutationMutationFn = ApolloReactCommon.MutationFunction<CreateReplyMutationMutation, CreateReplyMutationMutationVariables>;
-export type CreateReplyMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateReplyMutationMutation, CreateReplyMutationMutationVariables>, 'mutation'>;
-
-    export const CreateReplyMutationComponent = (props: CreateReplyMutationComponentProps) => (
-      <ApolloReactComponents.Mutation<CreateReplyMutationMutation, CreateReplyMutationMutationVariables> mutation={CreateReplyMutationDocument} {...props} />
-    );
-    
-export type CreateReplyMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<CreateReplyMutationMutation, CreateReplyMutationMutationVariables> & TChildProps;
-export function withCreateReplyMutation<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  CreateReplyMutationMutation,
-  CreateReplyMutationMutationVariables,
-  CreateReplyMutationProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, CreateReplyMutationMutation, CreateReplyMutationMutationVariables, CreateReplyMutationProps<TChildProps>>(CreateReplyMutationDocument, {
-      alias: 'createReplyMutation',
-      ...operationOptions
-    });
-};
 
 /**
  * __useCreateReplyMutationMutation__
@@ -126,3 +105,4 @@ export interface CreateReplyMutationMutationOperation {
   variables: CreateReplyMutationMutationVariables
   type: 'mutation'
 }
+export const CreateReplyMutationMutationName:CreateReplyMutationMutationOperation['operationName'] = 'createReplyMutation'

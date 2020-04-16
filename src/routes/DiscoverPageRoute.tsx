@@ -1,15 +1,39 @@
-import { DiscoverPage } from 'HOC/pages/discover/DiscoverPage';
-import React, { FC } from 'react';
+import {
+  DiscoverPage,
+  DiscoverPageTabs
+} from 'HOC/pages/discover/DiscoverPage';
+import React, { FC, useMemo } from 'react';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
 import { WithSidebarTemplate } from 'HOC/templates/WithSidebar/WithSidebar';
+import NotFound from 'pages/not-found/NotFound';
 
-interface DiscoverPageRouter {}
-const DiscoverPageRouter: FC<RouteComponentProps<DiscoverPageRouter>> = (
-  {
-    /* match */
+interface DiscoverPageRouter {
+  tab?: string;
+}
+const DiscoverPageRouter: FC<RouteComponentProps<DiscoverPageRouter>> = ({
+  match
+}) => {
+  const maybeTabStr = match.params.tab;
+  const tab =
+    maybeTabStr === 'collections'
+      ? DiscoverPageTabs.Collections
+      : maybeTabStr === 'communities'
+      ? DiscoverPageTabs.Communities
+      : !maybeTabStr
+      ? DiscoverPageTabs.Activities
+      : null;
+  const props = useMemo<DiscoverPage | null>(() => {
+    return (
+      tab && {
+        basePath: '/discover',
+        tab
+      }
+    );
+  }, [tab]);
+  if (!props) {
+    return <NotFound />;
   }
-) => {
-  const props: DiscoverPage = {};
+
   return (
     <WithSidebarTemplate>
       <DiscoverPage {...props} />
@@ -19,6 +43,6 @@ const DiscoverPageRouter: FC<RouteComponentProps<DiscoverPageRouter>> = (
 
 export const DiscoverPageRoute: RouteProps = {
   exact: true,
-  path: '/discover',
+  path: '/discover/:tab?',
   component: DiscoverPageRouter
 };

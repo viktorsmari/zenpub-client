@@ -1,13 +1,21 @@
 import { Trans } from '@lingui/macro';
+import { useMyFollowedCollections } from 'fe/collection/myFollowed/myFollowedCollections';
+import { useMyFollowedCommunities } from 'fe/community/myFollowed/myFollowedCommunities';
+import { useFormikPage } from 'fe/lib/helpers/usePage';
+import { useMe } from 'fe/session/useMe';
 import {
   ActivityPreviewHOC
   /* ActivityPreviewCtx */
 } from 'HOC/modules/previews/activity/ActivityPreview';
+import { CollectionPreviewHOC } from 'HOC/modules/previews/collection/CollectionPreview';
+import { CommunityPreviewHOC } from 'HOC/modules/previews/community/CommunityPreview';
 import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import { Flex } from 'rebass/styled-components';
+import { LoadMore } from 'ui/modules/Loadmore';
+import styled from 'ui/themes/styled';
 import Empty from '../../components/elements/Empty';
 import Loader from '../../components/elements/Loader/Loader';
-
 import { CreateReplyMutationMutationOperation } from '../../graphql/createReply.generated';
 import { DeleteMutationMutationOperation } from '../../graphql/delete.generated';
 import {
@@ -24,13 +32,18 @@ import {
   WrapperPanel
 } from 'ui/elements/Panel';
 import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
-import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
-import { Header } from 'ui/modules/Header';
-import { useMe } from 'fe/session/me';
+import { Wrapper, WrapperCont } from '../wrappers/Wrappers';
+export enum HomePageTab {
+  Activities = 1,
+  MyCommunities,
+  MyCollections
+}
 
-interface Props {}
+export interface Props {
+  tab: HomePageTab;
+}
 
-const Home: React.FC<Props> = () => {
+export const Home: React.FC<Props> = ({ tab }) => {
   const {
     data,
     loading,
@@ -67,32 +80,70 @@ const Home: React.FC<Props> = () => {
     [refetch]
   );
   const { me } = useMe();
+  const { myFollowedCommunitiesPage } = useMyFollowedCommunities();
+  const [nextCommunitiesFormik] = useFormikPage(myFollowedCommunitiesPage);
+  const { myFollowedCollectionsPage } = useMyFollowedCollections();
+  const [nextCollectionsFormik] = useFormikPage(myFollowedCollectionsPage);
   return (
     <MainContainer>
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <Header name="Timeline" />
-
-            {error ? (
-              <Empty>
-                <Trans>Error loading moodlenet timeline</Trans>
-              </Empty>
-            ) : loading ? (
-              <Loader />
-            ) : data?.me?.user.inbox?.edges ? (
-              <div>
-                {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
-                data.me.user.inbox!.edges!.map(
-                  userActivityEdge =>
-                    userActivityEdge && (
-                      <ActivityPreviewHOC
-                        activityId={userActivityEdge.id}
-                        key={userActivityEdge.id}
-                      />
-                    )
+            <Menu basePath="/" />
+            {tab === HomePageTab.Activities && (
+              <>
+                {/* FIX ME  */}
+                {error ? (
+                  <Empty>
+                    <Trans>Error loading moodlenet timeline</Trans>
+                  </Empty>
+                ) : loading ? (
+                  <Loader />
+                ) : data?.me?.user.inbox?.edges ? (
+                  <div>
+                    {/* FIXME https://gitlab.com/moodlenet/meta/issues/185 */
+                    data.me.user.inbox!.edges!.map(
+                      userActivityEdge =>
+                        userActivityEdge && (
+                          <ActivityPreviewHOC
+                            activityId={userActivityEdge.id}
+                            key={userActivityEdge.id}
+                          />
+                        )
+                    )}
+                  </div>
+                ) : null}
+              </>
+            )}
+            {me ? (
+              <>
+                {tab === HomePageTab.MyCommunities && (
+                  <>
+                    {myFollowedCommunitiesPage.edges.map(
+                      _ =>
+                        _.context.__typename === 'Community' && (
+                          <CommunityPreviewHOC communityId={_.context.id} />
+                        )
+                    )}
+                    {nextCommunitiesFormik && (
+                      <LoadMore LoadMoreFormik={nextCommunitiesFormik} />
+                    )}
+                  </>
                 )}
-              </div>
+                {tab === HomePageTab.MyCommunities && (
+                  <>
+                    {myFollowedCollectionsPage.edges.map(
+                      _ =>
+                        _.context.__typename === 'Collection' && (
+                          <CollectionPreviewHOC collectionId={_.context.id} />
+                        )
+                    )}
+                    {nextCollectionsFormik && (
+                      <LoadMore LoadMoreFormik={nextCollectionsFormik} />
+                    )}
+                  </>
+                )}
+              </>
             ) : null}
           </Wrapper>
         </WrapperCont>
@@ -125,3 +176,44 @@ const Home: React.FC<Props> = () => {
 };
 
 export default Home;
+
+const Menu = ({ basePath }: { basePath: string }) => {
+  const { me } = useMe();
+  return (
+    <MenuWrapper>
+      <NavLink exact to={'/'}>
+        <Trans>My Timeline</Trans>
+      </NavLink>
+      {me ? (
+        <>
+          <NavLink to={`/mycommunities`}>
+            <Trans>Joined communities</Trans>
+          </NavLink>
+          <NavLink to={`/mycollections`}>
+            <Trans>Followed collections</Trans>
+          </NavLink>
+        </>
+      ) : null}
+    </MenuWrapper>
+  );
+};
+
+const MenuWrapper = styled(Flex)`
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+  padding: 12px 8px;
+  a {
+    font-weight: 700;
+    text-decoration: none;
+    margin-right: 8px;
+    color: ${props => props.theme.colors.gray};
+    letterspacing: 1px;
+    font-size: 14px;
+    padding: 4px 8px;
+    // white-space: nowrap;
+    &.active {
+      color: #ffffff;
+      background: ${props => props.theme.colors.orange};
+      border-radius: 4px;
+    }
+  }
+`;

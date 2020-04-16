@@ -1,8 +1,8 @@
+import { ConfirmEmailPage } from 'HOC/pages/confirmEmail/ConfirmEmailPage';
 import { GuestTemplate } from 'HOC/templates/Guest/Guest';
-import ConfirmAccountComp from 'pages/Confirm';
 import React, { FC } from 'react';
-import { RouteComponentProps, RouteProps, Redirect } from 'react-router-dom';
-import { useMe } from 'fe/session/me';
+import { RouteComponentProps, RouteProps } from 'react-router-dom';
+import { RedirectAuthenticated } from './wrappers/RedirectBySession';
 
 interface ConfirmEmailRouter {
   token: string;
@@ -10,17 +10,12 @@ interface ConfirmEmailRouter {
 const ConfirmEmailRouter: FC<RouteComponentProps<ConfirmEmailRouter>> = ({
   match
 }) => {
-  const meQ = useMe();
-  if (meQ.loading) {
-    return null;
-  }
-  if (meQ.me) {
-    return <Redirect to="/#welcome" />;
-  }
   return (
-    <GuestTemplate>
-      <ConfirmAccountComp token={match.params.token} />
-    </GuestTemplate>
+    <RedirectAuthenticated to="/#welcome">
+      <GuestTemplate>
+        <ConfirmEmailPage token={match.params.token} />
+      </GuestTemplate>
+    </RedirectAuthenticated>
   );
 };
 

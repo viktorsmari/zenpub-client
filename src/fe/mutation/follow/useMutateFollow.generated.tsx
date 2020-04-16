@@ -2,11 +2,7 @@ import * as Types from '../../../graphql/types.generated';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type FollowMutationVariables = {
   contextId: Types.Scalars['String']
@@ -130,23 +126,6 @@ export const FollowDocument = gql`
 }
     `;
 export type FollowMutationFn = ApolloReactCommon.MutationFunction<FollowMutation, FollowMutationVariables>;
-export type FollowComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<FollowMutation, FollowMutationVariables>, 'mutation'>;
-
-    export const FollowComponent = (props: FollowComponentProps) => (
-      <ApolloReactComponents.Mutation<FollowMutation, FollowMutationVariables> mutation={FollowDocument} {...props} />
-    );
-    
-export type FollowProps<TChildProps = {}> = ApolloReactHoc.MutateProps<FollowMutation, FollowMutationVariables> & TChildProps;
-export function withFollow<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  FollowMutation,
-  FollowMutationVariables,
-  FollowProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, FollowMutation, FollowMutationVariables, FollowProps<TChildProps>>(FollowDocument, {
-      alias: 'follow',
-      ...operationOptions
-    });
-};
 
 /**
  * __useFollowMutation__
@@ -210,23 +189,6 @@ export const UnfollowDocument = gql`
 }
     `;
 export type UnfollowMutationFn = ApolloReactCommon.MutationFunction<UnfollowMutation, UnfollowMutationVariables>;
-export type UnfollowComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UnfollowMutation, UnfollowMutationVariables>, 'mutation'>;
-
-    export const UnfollowComponent = (props: UnfollowComponentProps) => (
-      <ApolloReactComponents.Mutation<UnfollowMutation, UnfollowMutationVariables> mutation={UnfollowDocument} {...props} />
-    );
-    
-export type UnfollowProps<TChildProps = {}> = ApolloReactHoc.MutateProps<UnfollowMutation, UnfollowMutationVariables> & TChildProps;
-export function withUnfollow<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  UnfollowMutation,
-  UnfollowMutationVariables,
-  UnfollowProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, UnfollowMutation, UnfollowMutationVariables, UnfollowProps<TChildProps>>(UnfollowDocument, {
-      alias: 'unfollow',
-      ...operationOptions
-    });
-};
 
 /**
  * __useUnfollowMutation__
@@ -259,6 +221,7 @@ export interface FollowMutationOperation {
   variables: FollowMutationVariables
   type: 'mutation'
 }
+export const FollowMutationName:FollowMutationOperation['operationName'] = 'follow'
 
 
 export interface UnfollowMutationOperation {
@@ -267,3 +230,4 @@ export interface UnfollowMutationOperation {
   variables: UnfollowMutationVariables
   type: 'mutation'
 }
+export const UnfollowMutationName:UnfollowMutationOperation['operationName'] = 'unfollow'

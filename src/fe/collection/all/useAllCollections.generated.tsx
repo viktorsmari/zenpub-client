@@ -5,12 +5,8 @@ import { CollectionPreviewFragment } from '../../../HOC/modules/previews/collect
 import gql from 'graphql-tag';
 import { CollectionPreviewFragmentDoc } from '../../../HOC/modules/previews/collection/CollectionPreview.generated';
 import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
@@ -51,23 +47,6 @@ export const AllCollectionsDocument = gql`
 }
     ${CollectionPreviewFragmentDoc}
 ${FullPageInfoFragmentDoc}`;
-export type AllCollectionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<AllCollectionsQuery, AllCollectionsQueryVariables>, 'query'>;
-
-    export const AllCollectionsComponent = (props: AllCollectionsComponentProps) => (
-      <ApolloReactComponents.Query<AllCollectionsQuery, AllCollectionsQueryVariables> query={AllCollectionsDocument} {...props} />
-    );
-    
-export type AllCollectionsProps<TChildProps = {}> = ApolloReactHoc.DataProps<AllCollectionsQuery, AllCollectionsQueryVariables> & TChildProps;
-export function withAllCollections<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  AllCollectionsQuery,
-  AllCollectionsQueryVariables,
-  AllCollectionsProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, AllCollectionsQuery, AllCollectionsQueryVariables, AllCollectionsProps<TChildProps>>(AllCollectionsDocument, {
-      alias: 'allCollections',
-      ...operationOptions
-    });
-};
 
 /**
  * __useAllCollectionsQuery__
@@ -104,3 +83,4 @@ export interface AllCollectionsQueryOperation {
   variables: AllCollectionsQueryVariables
   type: 'query'
 }
+export const AllCollectionsQueryName:AllCollectionsQueryOperation['operationName'] = 'allCollections'

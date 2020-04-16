@@ -5,12 +5,8 @@ import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
 import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { CommunityPreviewFragmentDoc } from '../../../HOC/modules/previews/community/CommunityPreview.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
@@ -77,23 +73,6 @@ export const UserFollowedCommunitiesDocument = gql`
 }
     ${FullPageInfoFragmentDoc}
 ${UserFollowedCommunityFragmentDoc}`;
-export type UserFollowedCommunitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UserFollowedCommunitiesQuery, UserFollowedCommunitiesQueryVariables>, 'query'> & ({ variables: UserFollowedCommunitiesQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const UserFollowedCommunitiesComponent = (props: UserFollowedCommunitiesComponentProps) => (
-      <ApolloReactComponents.Query<UserFollowedCommunitiesQuery, UserFollowedCommunitiesQueryVariables> query={UserFollowedCommunitiesDocument} {...props} />
-    );
-    
-export type UserFollowedCommunitiesProps<TChildProps = {}> = ApolloReactHoc.DataProps<UserFollowedCommunitiesQuery, UserFollowedCommunitiesQueryVariables> & TChildProps;
-export function withUserFollowedCommunities<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  UserFollowedCommunitiesQuery,
-  UserFollowedCommunitiesQueryVariables,
-  UserFollowedCommunitiesProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, UserFollowedCommunitiesQuery, UserFollowedCommunitiesQueryVariables, UserFollowedCommunitiesProps<TChildProps>>(UserFollowedCommunitiesDocument, {
-      alias: 'userFollowedCommunities',
-      ...operationOptions
-    });
-};
 
 /**
  * __useUserFollowedCommunitiesQuery__
@@ -131,3 +110,4 @@ export interface UserFollowedCommunitiesQueryOperation {
   variables: UserFollowedCommunitiesQueryVariables
   type: 'query'
 }
+export const UserFollowedCommunitiesQueryName:UserFollowedCommunitiesQueryOperation['operationName'] = 'userFollowedCommunities'

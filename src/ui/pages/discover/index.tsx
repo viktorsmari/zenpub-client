@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/macro';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Switch, Route } from 'react-router-dom';
 import media from 'styled-media-query';
 
 import { Flex } from 'rebass/styled-components';
@@ -12,17 +12,26 @@ import {
   WrapperPanel
 } from 'ui/elements/Panel';
 import styled from 'ui/themes/styled';
-import { Header } from 'ui/modules/Header';
+import { LoadMore } from 'ui/modules/Loadmore';
+import { FormikHook } from 'ui/@types/types';
 
 export interface Props {
+  basePath: string;
   FeaturedCommunitiesBox: JSX.Element;
   FeaturedCollectionsBox: JSX.Element;
   ActivitiesBox: JSX.Element;
+  CommunitiesBoxes: JSX.Element;
+  CollectionsBoxes: JSX.Element;
+  LoadMoreFormik?: FormikHook;
 }
 export const Discover: React.FC<Props> = ({
+  basePath,
   ActivitiesBox,
   FeaturedCommunitiesBox,
-  FeaturedCollectionsBox
+  FeaturedCollectionsBox,
+  CollectionsBoxes,
+  CommunitiesBoxes,
+  LoadMoreFormik
 }) => {
   return (
     <MainContainer>
@@ -31,8 +40,21 @@ export const Discover: React.FC<Props> = ({
           <WrapperFeatured>{FeaturedCommunitiesBox}</WrapperFeatured>
           <WrapperFeatured mt={2}>{FeaturedCollectionsBox}</WrapperFeatured>
           <Wrapper>
-            <Header name="Instance timeline" />
-            {ActivitiesBox}
+            <Menu basePath={basePath} />
+            <Switch>
+              <Route path={`${basePath}/communities`}>
+                {CommunitiesBoxes}
+                {LoadMoreFormik && <LoadMore LoadMoreFormik={LoadMoreFormik} />}
+              </Route>
+              <Route path={`${basePath}/collections`}>
+                {CollectionsBoxes}
+                {LoadMoreFormik && <LoadMore LoadMoreFormik={LoadMoreFormik} />}
+              </Route>
+              <Route path={`${basePath}`}>
+                {ActivitiesBox}
+                {LoadMoreFormik && <LoadMore LoadMoreFormik={LoadMoreFormik} />}
+              </Route>
+            </Switch>
           </Wrapper>
         </WrapperCont>
       </HomeBox>
@@ -58,6 +80,40 @@ export const Discover: React.FC<Props> = ({
     </MainContainer>
   );
 };
+
+const Menu = ({ basePath }: { basePath: string }) => (
+  <SuperTabWrapper>
+    <NavLink exact to={`${basePath}`}>
+      <Trans>Timeline</Trans>
+    </NavLink>
+    <NavLink exact to={`${basePath}/communities`}>
+      <Trans>All communities</Trans>
+    </NavLink>
+    <NavLink exact to={`${basePath}/collections`}>
+      <Trans>All collections</Trans>
+    </NavLink>
+  </SuperTabWrapper>
+);
+
+const SuperTabWrapper = styled(Flex)`
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+  padding: 12px 8px;
+  a {
+    font-weight: 700;
+    text-decoration: none;
+    margin-right: 8px;
+    color: ${props => props.theme.colors.gray};
+    letterspacing: 1px;
+    font-size: 14px;
+    padding: 4px 8px;
+    white-space: nowrap;
+    &.active {
+      color: #ffffff;
+      background: ${props => props.theme.colors.orange};
+      border-radius: 4px;
+    }
+  }
+`;
 
 const WrapperFeatured = styled(Flex)`
   display: flex;
@@ -93,6 +149,7 @@ export const MainContainer = styled(Flex)`
   flex-grow: 1;
   flex-direction: row;
   width: 100%;
+  margin-right: 8px;
 `;
 
 export const WrapperCont = styled(Flex)`
@@ -121,6 +178,7 @@ export const Wrapper = styled(Flex)`
   margin-top: 8px;
   background: white;
   border-radius: 8px;
+  overflow: hidden;
   & ul {
     display: block;
 

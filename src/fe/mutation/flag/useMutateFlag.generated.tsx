@@ -2,11 +2,7 @@ import * as Types from '../../../graphql/types.generated';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type FlagMutationVariables = {
   contextId: Types.Scalars['String'],
@@ -145,23 +141,6 @@ export const FlagDocument = gql`
 }
     `;
 export type FlagMutationFn = ApolloReactCommon.MutationFunction<FlagMutation, FlagMutationVariables>;
-export type FlagComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<FlagMutation, FlagMutationVariables>, 'mutation'>;
-
-    export const FlagComponent = (props: FlagComponentProps) => (
-      <ApolloReactComponents.Mutation<FlagMutation, FlagMutationVariables> mutation={FlagDocument} {...props} />
-    );
-    
-export type FlagProps<TChildProps = {}> = ApolloReactHoc.MutateProps<FlagMutation, FlagMutationVariables> & TChildProps;
-export function withFlag<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  FlagMutation,
-  FlagMutationVariables,
-  FlagProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, FlagMutation, FlagMutationVariables, FlagProps<TChildProps>>(FlagDocument, {
-      alias: 'flag',
-      ...operationOptions
-    });
-};
 
 /**
  * __useFlagMutation__
@@ -228,23 +207,6 @@ export const UnflagDocument = gql`
 }
     `;
 export type UnflagMutationFn = ApolloReactCommon.MutationFunction<UnflagMutation, UnflagMutationVariables>;
-export type UnflagComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UnflagMutation, UnflagMutationVariables>, 'mutation'>;
-
-    export const UnflagComponent = (props: UnflagComponentProps) => (
-      <ApolloReactComponents.Mutation<UnflagMutation, UnflagMutationVariables> mutation={UnflagDocument} {...props} />
-    );
-    
-export type UnflagProps<TChildProps = {}> = ApolloReactHoc.MutateProps<UnflagMutation, UnflagMutationVariables> & TChildProps;
-export function withUnflag<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  UnflagMutation,
-  UnflagMutationVariables,
-  UnflagProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, UnflagMutation, UnflagMutationVariables, UnflagProps<TChildProps>>(UnflagDocument, {
-      alias: 'unflag',
-      ...operationOptions
-    });
-};
 
 /**
  * __useUnflagMutation__
@@ -277,6 +239,7 @@ export interface FlagMutationOperation {
   variables: FlagMutationVariables
   type: 'mutation'
 }
+export const FlagMutationName:FlagMutationOperation['operationName'] = 'flag'
 
 
 export interface UnflagMutationOperation {
@@ -285,3 +248,4 @@ export interface UnflagMutationOperation {
   variables: UnflagMutationVariables
   type: 'mutation'
 }
+export const UnflagMutationName:UnflagMutationOperation['operationName'] = 'unflag'

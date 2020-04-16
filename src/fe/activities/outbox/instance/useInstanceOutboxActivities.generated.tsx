@@ -5,12 +5,8 @@ import { FullPageInfoFragment } from '../../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
 import { FullPageInfoFragmentDoc } from '../../../../@fragments/misc.generated';
 import { ActivityPreviewFragmentDoc } from '../../../../HOC/modules/previews/activity/ActivityPreview.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
@@ -65,23 +61,6 @@ export const InstanceOutboxActivitiesDocument = gql`
 }
     ${FullPageInfoFragmentDoc}
 ${InstanceOutboxActivityFragmentDoc}`;
-export type InstanceOutboxActivitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<InstanceOutboxActivitiesQuery, InstanceOutboxActivitiesQueryVariables>, 'query'>;
-
-    export const InstanceOutboxActivitiesComponent = (props: InstanceOutboxActivitiesComponentProps) => (
-      <ApolloReactComponents.Query<InstanceOutboxActivitiesQuery, InstanceOutboxActivitiesQueryVariables> query={InstanceOutboxActivitiesDocument} {...props} />
-    );
-    
-export type InstanceOutboxActivitiesProps<TChildProps = {}> = ApolloReactHoc.DataProps<InstanceOutboxActivitiesQuery, InstanceOutboxActivitiesQueryVariables> & TChildProps;
-export function withInstanceOutboxActivities<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  InstanceOutboxActivitiesQuery,
-  InstanceOutboxActivitiesQueryVariables,
-  InstanceOutboxActivitiesProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, InstanceOutboxActivitiesQuery, InstanceOutboxActivitiesQueryVariables, InstanceOutboxActivitiesProps<TChildProps>>(InstanceOutboxActivitiesDocument, {
-      alias: 'instanceOutboxActivities',
-      ...operationOptions
-    });
-};
 
 /**
  * __useInstanceOutboxActivitiesQuery__
@@ -118,3 +97,4 @@ export interface InstanceOutboxActivitiesQueryOperation {
   variables: InstanceOutboxActivitiesQueryVariables
   type: 'query'
 }
+export const InstanceOutboxActivitiesQueryName:InstanceOutboxActivitiesQueryOperation['operationName'] = 'instanceOutboxActivities'

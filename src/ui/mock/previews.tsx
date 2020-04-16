@@ -8,6 +8,7 @@ import { CommentProps as MainCommentProps } from 'ui/modules/Previews/MainCommen
 import { ToggleFormik } from './formik';
 import { getActions } from './activityPreview';
 import { FlaggedProps } from 'ui/modules/Previews/FlaggedItem';
+import { CommentProps as ThreadProps } from 'ui/modules/Previews/Thread';
 
 export function CollectionPreviewProps(
   username = 'Test collection',
@@ -133,6 +134,25 @@ export function MainCommentPreviewProps(
   return {
     ...getActions(),
     content
+  };
+}
+
+export function ThreadPreviewProps(
+  content = 'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+): ThreadProps {
+  return {
+    link: '/',
+    // title:"What do the avatars in the topic list mean?",
+    content:
+      'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here ',
+    createdAt: '2019-11-09',
+    totalReplies: '24',
+    totalLikes: '17',
+    members: [
+      'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png',
+      'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png',
+      'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png'
+    ]
   };
 }
 

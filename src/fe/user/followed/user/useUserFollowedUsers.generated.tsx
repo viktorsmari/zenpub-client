@@ -5,12 +5,8 @@ import { FullPageInfoFragment } from '../../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
 import { FullPageInfoFragmentDoc } from '../../../../@fragments/misc.generated';
 import { UserPreviewFragmentDoc } from '../../../../HOC/modules/previews/user/UserPreview.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
@@ -77,23 +73,6 @@ export const UserFollowedUsersDocument = gql`
 }
     ${FullPageInfoFragmentDoc}
 ${UserFollowedUserFragmentDoc}`;
-export type UserFollowedUsersComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UserFollowedUsersQuery, UserFollowedUsersQueryVariables>, 'query'> & ({ variables: UserFollowedUsersQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const UserFollowedUsersComponent = (props: UserFollowedUsersComponentProps) => (
-      <ApolloReactComponents.Query<UserFollowedUsersQuery, UserFollowedUsersQueryVariables> query={UserFollowedUsersDocument} {...props} />
-    );
-    
-export type UserFollowedUsersProps<TChildProps = {}> = ApolloReactHoc.DataProps<UserFollowedUsersQuery, UserFollowedUsersQueryVariables> & TChildProps;
-export function withUserFollowedUsers<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  UserFollowedUsersQuery,
-  UserFollowedUsersQueryVariables,
-  UserFollowedUsersProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, UserFollowedUsersQuery, UserFollowedUsersQueryVariables, UserFollowedUsersProps<TChildProps>>(UserFollowedUsersDocument, {
-      alias: 'userFollowedUsers',
-      ...operationOptions
-    });
-};
 
 /**
  * __useUserFollowedUsersQuery__
@@ -131,3 +110,4 @@ export interface UserFollowedUsersQueryOperation {
   variables: UserFollowedUsersQueryVariables
   type: 'query'
 }
+export const UserFollowedUsersQueryName:UserFollowedUsersQueryOperation['operationName'] = 'userFollowedUsers'

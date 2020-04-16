@@ -1,7 +1,7 @@
-import ResetPasswordComp from 'pages/Reset';
 import React, { FC } from 'react';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
 import { GuestTemplate } from 'HOC/templates/Guest/Guest';
+import { ResetPasswordPageHOC } from 'HOC/pages/resetPasswordRequest/resetPasswordRequestPage';
 
 interface ResetPasswordPageRouter {}
 const ResetPasswordPageRouter: FC<RouteComponentProps<
@@ -9,7 +9,7 @@ const ResetPasswordPageRouter: FC<RouteComponentProps<
 >> = ({ match }) => {
   return (
     <GuestTemplate>
-      <ResetPasswordComp />
+      <ResetPasswordPageHOC />
     </GuestTemplate>
   );
 };

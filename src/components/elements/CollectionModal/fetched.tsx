@@ -244,49 +244,13 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
       resource: {
         name: values.name,
         summary: values.summary
-      }
+      },
+      icon: props.image ? { url: props.image } : undefined,
+      content: { url: props.url }
     };
     return props
       .createResource({
         variables: variables,
-        // update: (proxy, { data: { createResource } }) => {
-        //   const fragment = gql`
-        //     fragment Res on Collection {
-        //       id
-        //       icon
-        //       name
-        //       summary
-        //       resources {
-        //         totalCount
-        //         edges {
-        //           node {
-        //             id
-        //             name
-        //             summary
-        //             url
-        //             icon
-        //           }
-        //         }
-        //       }
-        //     }
-        //   `;
-        //   const collection = proxy.readFragment({
-        //     id: `Collection:${props.collectionExternalId}`,
-        //     fragment: fragment,
-        //     fragmentName: 'Res'
-        //   });
-        //   collection.resources.edges.push({
-        //     __typename: 'CollectionFollowersEdge',
-        //     node: createResource
-        //   });
-        //   collection.resources.totalCount++;
-        //   proxy.writeFragment({
-        //     id: `Collection:${props.collectionExternalId}`,
-        //     fragment: fragment,
-        //     fragmentName: 'Res',
-        //     data: collection
-        //   });
-        // },
         refetchQueries: [
           {
             query: CollectionResourcesDocument,

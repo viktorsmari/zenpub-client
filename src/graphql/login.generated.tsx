@@ -4,11 +4,7 @@ import { BasicAuthPayloadFragment } from './fragments/basicAuthPayload.generated
 import gql from 'graphql-tag';
 import { BasicAuthPayloadFragmentDoc } from './fragments/basicAuthPayload.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type LoginMutationMutationVariables = {
@@ -34,23 +30,6 @@ export const LoginMutationDocument = gql`
 }
     ${BasicAuthPayloadFragmentDoc}`;
 export type LoginMutationMutationFn = ApolloReactCommon.MutationFunction<LoginMutationMutation, LoginMutationMutationVariables>;
-export type LoginMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<LoginMutationMutation, LoginMutationMutationVariables>, 'mutation'>;
-
-    export const LoginMutationComponent = (props: LoginMutationComponentProps) => (
-      <ApolloReactComponents.Mutation<LoginMutationMutation, LoginMutationMutationVariables> mutation={LoginMutationDocument} {...props} />
-    );
-    
-export type LoginMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<LoginMutationMutation, LoginMutationMutationVariables> & TChildProps;
-export function withLoginMutation<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  LoginMutationMutation,
-  LoginMutationMutationVariables,
-  LoginMutationProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, LoginMutationMutation, LoginMutationMutationVariables, LoginMutationProps<TChildProps>>(LoginMutationDocument, {
-      alias: 'loginMutation',
-      ...operationOptions
-    });
-};
 
 /**
  * __useLoginMutationMutation__
@@ -84,3 +63,4 @@ export interface LoginMutationMutationOperation {
   variables: LoginMutationMutationVariables
   type: 'mutation'
 }
+export const LoginMutationMutationName:LoginMutationMutationOperation['operationName'] = 'loginMutation'

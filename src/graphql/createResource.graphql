@@ -7,8 +7,8 @@ input ResourceInput {
     license: String
 }
 
-mutation createResourceMutation($collectionId: String!, $resource: ResourceInput!) {
-    createResource(collectionId: $collectionId, resource: $resource) {
+mutation createResourceMutation($collectionId: String!, $resource: ResourceInput!, $icon:UploadInput, $content:UploadInput!) {
+    createResource(collectionId: $collectionId, resource: $resource, content: $content, icon:$icon) {
         ...BasicResource
     }
 }

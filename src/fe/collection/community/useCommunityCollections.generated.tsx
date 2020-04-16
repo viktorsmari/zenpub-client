@@ -7,12 +7,8 @@ import gql from 'graphql-tag';
 import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { CollectionPreviewFragmentDoc } from '../../../HOC/modules/previews/collection/CollectionPreview.generated';
 import { CommunityPageCollectionBaseFragmentDoc } from '../../../HOC/pages/community/CommunityPage.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
@@ -74,23 +70,6 @@ export const CommunityCollectionsDocument = gql`
 }
     ${FullPageInfoFragmentDoc}
 ${CommunityCollectionFragmentDoc}`;
-export type CommunityCollectionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CommunityCollectionsQuery, CommunityCollectionsQueryVariables>, 'query'> & ({ variables: CommunityCollectionsQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const CommunityCollectionsComponent = (props: CommunityCollectionsComponentProps) => (
-      <ApolloReactComponents.Query<CommunityCollectionsQuery, CommunityCollectionsQueryVariables> query={CommunityCollectionsDocument} {...props} />
-    );
-    
-export type CommunityCollectionsProps<TChildProps = {}> = ApolloReactHoc.DataProps<CommunityCollectionsQuery, CommunityCollectionsQueryVariables> & TChildProps;
-export function withCommunityCollections<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  CommunityCollectionsQuery,
-  CommunityCollectionsQueryVariables,
-  CommunityCollectionsProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, CommunityCollectionsQuery, CommunityCollectionsQueryVariables, CommunityCollectionsProps<TChildProps>>(CommunityCollectionsDocument, {
-      alias: 'communityCollections',
-      ...operationOptions
-    });
-};
 
 /**
  * __useCommunityCollectionsQuery__
@@ -128,3 +107,4 @@ export interface CommunityCollectionsQueryOperation {
   variables: CommunityCollectionsQueryVariables
   type: 'query'
 }
+export const CommunityCollectionsQueryName:CommunityCollectionsQueryOperation['operationName'] = 'communityCollections'

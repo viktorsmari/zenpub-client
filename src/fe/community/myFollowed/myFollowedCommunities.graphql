@@ -1,11 +1,11 @@
 
 query myFollowedCommunities {
   me @connection(key: "myFollowedCommunities"){
-    ...MyFollowedCommunitiesMeData
+    ...MyFollowedCommunitiesData
   }
 }
 
-fragment MyFollowedCommunitiesMeData on Me {
+fragment MyFollowedCommunitiesData on Me {
   user{
     id
     communityFollows{

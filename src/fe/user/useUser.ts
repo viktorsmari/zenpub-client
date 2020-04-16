@@ -1,7 +1,7 @@
 import { User } from 'graphql/types.generated';
 import { useMemo } from 'react';
 import * as GQL from './useUser.generated';
-import { useMe } from 'fe/session/me';
+import { useMe } from 'fe/session/useMe';
 import { useFollowContext } from 'fe/context/follow/useFollowContext';
 
 export const useUser = (userId: User['id']) => {

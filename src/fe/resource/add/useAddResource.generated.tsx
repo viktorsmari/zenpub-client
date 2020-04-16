@@ -4,11 +4,7 @@ import { AddResourceCreateResourceMutationResultFragment } from '../../../HOC/mo
 import gql from 'graphql-tag';
 import { AddResourceCreateResourceMutationResultFragmentDoc } from '../../../HOC/modules/AddResource/addResource.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type AddResourceCreateResourceMutationVariables = {
@@ -38,23 +34,6 @@ export const AddResourceCreateResourceDocument = gql`
 }
     ${AddResourceCreateResourceMutationResultFragmentDoc}`;
 export type AddResourceCreateResourceMutationFn = ApolloReactCommon.MutationFunction<AddResourceCreateResourceMutation, AddResourceCreateResourceMutationVariables>;
-export type AddResourceCreateResourceComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<AddResourceCreateResourceMutation, AddResourceCreateResourceMutationVariables>, 'mutation'>;
-
-    export const AddResourceCreateResourceComponent = (props: AddResourceCreateResourceComponentProps) => (
-      <ApolloReactComponents.Mutation<AddResourceCreateResourceMutation, AddResourceCreateResourceMutationVariables> mutation={AddResourceCreateResourceDocument} {...props} />
-    );
-    
-export type AddResourceCreateResourceProps<TChildProps = {}> = ApolloReactHoc.MutateProps<AddResourceCreateResourceMutation, AddResourceCreateResourceMutationVariables> & TChildProps;
-export function withAddResourceCreateResource<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  AddResourceCreateResourceMutation,
-  AddResourceCreateResourceMutationVariables,
-  AddResourceCreateResourceProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, AddResourceCreateResourceMutation, AddResourceCreateResourceMutationVariables, AddResourceCreateResourceProps<TChildProps>>(AddResourceCreateResourceDocument, {
-      alias: 'addResourceCreateResource',
-      ...operationOptions
-    });
-};
 
 /**
  * __useAddResourceCreateResourceMutation__
@@ -90,3 +69,4 @@ export interface AddResourceCreateResourceMutationOperation {
   variables: AddResourceCreateResourceMutationVariables
   type: 'mutation'
 }
+export const AddResourceCreateResourceMutationName:AddResourceCreateResourceMutationOperation['operationName'] = 'addResourceCreateResource'

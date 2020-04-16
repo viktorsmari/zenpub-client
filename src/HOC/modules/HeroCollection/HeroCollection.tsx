@@ -1,5 +1,5 @@
 import { useCollection } from 'fe/collection/useCollection';
-import { useMe } from 'fe/session/me';
+import { useMe } from 'fe/session/useMe';
 import { useFormik } from 'formik';
 import { Collection } from 'graphql/types.generated';
 import { EditCollectionPanelHOC } from 'HOC/modules/EditCollectionPanel/editCollectionPanelHOC';

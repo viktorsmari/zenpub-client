@@ -5,12 +5,8 @@ import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
 import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { SidebarFollowedCommunityFragmentDoc } from '../../../HOC/modules/Sidebar/Sidebar.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
@@ -77,23 +73,6 @@ export const MyFollowedCommunitiesDocument = gql`
   }
 }
     ${MyFollowedCommunitiesMeDataFragmentDoc}`;
-export type MyFollowedCommunitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<MyFollowedCommunitiesQuery, MyFollowedCommunitiesQueryVariables>, 'query'>;
-
-    export const MyFollowedCommunitiesComponent = (props: MyFollowedCommunitiesComponentProps) => (
-      <ApolloReactComponents.Query<MyFollowedCommunitiesQuery, MyFollowedCommunitiesQueryVariables> query={MyFollowedCommunitiesDocument} {...props} />
-    );
-    
-export type MyFollowedCommunitiesProps<TChildProps = {}> = ApolloReactHoc.DataProps<MyFollowedCommunitiesQuery, MyFollowedCommunitiesQueryVariables> & TChildProps;
-export function withMyFollowedCommunities<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  MyFollowedCommunitiesQuery,
-  MyFollowedCommunitiesQueryVariables,
-  MyFollowedCommunitiesProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, MyFollowedCommunitiesQuery, MyFollowedCommunitiesQueryVariables, MyFollowedCommunitiesProps<TChildProps>>(MyFollowedCommunitiesDocument, {
-      alias: 'myFollowedCommunities',
-      ...operationOptions
-    });
-};
 
 /**
  * __useMyFollowedCommunitiesQuery__
@@ -127,3 +106,4 @@ export interface MyFollowedCommunitiesQueryOperation {
   variables: MyFollowedCommunitiesQueryVariables
   type: 'query'
 }
+export const MyFollowedCommunitiesQueryName:MyFollowedCommunitiesQueryOperation['operationName'] = 'myFollowedCommunities'
