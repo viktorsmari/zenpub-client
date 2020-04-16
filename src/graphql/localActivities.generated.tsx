@@ -3,12 +3,8 @@ import * as Types from './types.generated';
 import { ActivityPreviewFragment } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import gql from 'graphql-tag';
 import { ActivityPreviewFragmentDoc } from '../HOC/modules/previews/activity/ActivityPreview.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type LocalActivitiesQueryVariables = {
@@ -50,23 +46,6 @@ export const LocalActivitiesDocument = gql`
   }
 }
     ${ActivityPreviewFragmentDoc}`;
-export type LocalActivitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<LocalActivitiesQuery, LocalActivitiesQueryVariables>, 'query'>;
-
-    export const LocalActivitiesComponent = (props: LocalActivitiesComponentProps) => (
-      <ApolloReactComponents.Query<LocalActivitiesQuery, LocalActivitiesQueryVariables> query={LocalActivitiesDocument} {...props} />
-    );
-    
-export type LocalActivitiesProps<TChildProps = {}> = ApolloReactHoc.DataProps<LocalActivitiesQuery, LocalActivitiesQueryVariables> & TChildProps;
-export function withLocalActivities<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  LocalActivitiesQuery,
-  LocalActivitiesQueryVariables,
-  LocalActivitiesProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, LocalActivitiesQuery, LocalActivitiesQueryVariables, LocalActivitiesProps<TChildProps>>(LocalActivitiesDocument, {
-      alias: 'localActivities',
-      ...operationOptions
-    });
-};
 
 /**
  * __useLocalActivitiesQuery__
@@ -102,3 +81,4 @@ export interface LocalActivitiesQueryOperation {
   variables: LocalActivitiesQueryVariables
   type: 'query'
 }
+export const LocalActivitiesQueryName:LocalActivitiesQueryOperation['operationName'] = 'localActivities'

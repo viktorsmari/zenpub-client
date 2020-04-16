@@ -3,12 +3,8 @@ import * as Types from '../../../graphql/types.generated';
 import { ThreadPreviewFragment } from '../../../HOC/modules/previews/thread/ThreadPreview.generated';
 import gql from 'graphql-tag';
 import { ThreadPreviewFragmentDoc } from '../../../HOC/modules/previews/thread/ThreadPreview.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type ThreadPreviewQueryVariables = {
@@ -34,23 +30,6 @@ export const ThreadPreviewDocument = gql`
   }
 }
     ${ThreadPreviewFragmentDoc}`;
-export type ThreadPreviewComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ThreadPreviewQuery, ThreadPreviewQueryVariables>, 'query'> & ({ variables: ThreadPreviewQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const ThreadPreviewComponent = (props: ThreadPreviewComponentProps) => (
-      <ApolloReactComponents.Query<ThreadPreviewQuery, ThreadPreviewQueryVariables> query={ThreadPreviewDocument} {...props} />
-    );
-    
-export type ThreadPreviewProps<TChildProps = {}> = ApolloReactHoc.DataProps<ThreadPreviewQuery, ThreadPreviewQueryVariables> & TChildProps;
-export function withThreadPreview<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  ThreadPreviewQuery,
-  ThreadPreviewQueryVariables,
-  ThreadPreviewProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, ThreadPreviewQuery, ThreadPreviewQueryVariables, ThreadPreviewProps<TChildProps>>(ThreadPreviewDocument, {
-      alias: 'threadPreview',
-      ...operationOptions
-    });
-};
 
 /**
  * __useThreadPreviewQuery__
@@ -85,3 +64,4 @@ export interface ThreadPreviewQueryOperation {
   variables: ThreadPreviewQueryVariables
   type: 'query'
 }
+export const ThreadPreviewQueryName:ThreadPreviewQueryOperation['operationName'] = 'threadPreview'

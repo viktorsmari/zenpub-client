@@ -5,12 +5,8 @@ import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
 import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { CollectionPreviewFragmentDoc } from '../../../HOC/modules/previews/collection/CollectionPreview.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
@@ -79,23 +75,6 @@ export const UserFollowedCollectionsDocument = gql`
 }
     ${FullPageInfoFragmentDoc}
 ${UserFollowedCollectionFragmentDoc}`;
-export type UserFollowedCollectionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UserFollowedCollectionsQuery, UserFollowedCollectionsQueryVariables>, 'query'> & ({ variables: UserFollowedCollectionsQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const UserFollowedCollectionsComponent = (props: UserFollowedCollectionsComponentProps) => (
-      <ApolloReactComponents.Query<UserFollowedCollectionsQuery, UserFollowedCollectionsQueryVariables> query={UserFollowedCollectionsDocument} {...props} />
-    );
-    
-export type UserFollowedCollectionsProps<TChildProps = {}> = ApolloReactHoc.DataProps<UserFollowedCollectionsQuery, UserFollowedCollectionsQueryVariables> & TChildProps;
-export function withUserFollowedCollections<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  UserFollowedCollectionsQuery,
-  UserFollowedCollectionsQueryVariables,
-  UserFollowedCollectionsProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, UserFollowedCollectionsQuery, UserFollowedCollectionsQueryVariables, UserFollowedCollectionsProps<TChildProps>>(UserFollowedCollectionsDocument, {
-      alias: 'userFollowedCollections',
-      ...operationOptions
-    });
-};
 
 /**
  * __useUserFollowedCollectionsQuery__
@@ -133,3 +112,4 @@ export interface UserFollowedCollectionsQueryOperation {
   variables: UserFollowedCollectionsQueryVariables
   type: 'query'
 }
+export const UserFollowedCollectionsQueryName:UserFollowedCollectionsQueryOperation['operationName'] = 'userFollowedCollections'

@@ -2,8 +2,8 @@ import React, { FC, useMemo } from 'react';
 import { Home, HomePageTab, Props } from 'pages/home';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
 import { WithSidebarTemplate } from 'HOC/templates/WithSidebar/WithSidebar';
-import { RedirectToLoginIfNotLoggedIn } from 'HOC/wrappers/RedirectToLoginIfNotLoggedIn';
 import NotFound from 'pages/not-found/NotFound';
+import { RedirectAnonymousToLogin } from './wrappers/RedirectBySession';
 
 interface HomePageRouter {
   tab?: string;
@@ -31,11 +31,11 @@ const HomePageRouter: FC<RouteComponentProps<HomePageRouter>> = ({ match }) => {
   }
 
   return (
-    <RedirectToLoginIfNotLoggedIn>
+    <RedirectAnonymousToLogin>
       <WithSidebarTemplate>
         <Home {...homeProps} />
       </WithSidebarTemplate>
-    </RedirectToLoginIfNotLoggedIn>
+    </RedirectAnonymousToLogin>
   );
 };
 

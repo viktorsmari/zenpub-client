@@ -3,12 +3,8 @@ import * as Types from '../../../graphql/types.generated';
 import { ResourcePreviewFragment } from '../../../HOC/modules/previews/resource/ResourcePreview.generated';
 import gql from 'graphql-tag';
 import { ResourcePreviewFragmentDoc } from '../../../HOC/modules/previews/resource/ResourcePreview.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type ResourcePreviewQueryVariables = {
@@ -34,23 +30,6 @@ export const ResourcePreviewDocument = gql`
   }
 }
     ${ResourcePreviewFragmentDoc}`;
-export type ResourcePreviewComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ResourcePreviewQuery, ResourcePreviewQueryVariables>, 'query'> & ({ variables: ResourcePreviewQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const ResourcePreviewComponent = (props: ResourcePreviewComponentProps) => (
-      <ApolloReactComponents.Query<ResourcePreviewQuery, ResourcePreviewQueryVariables> query={ResourcePreviewDocument} {...props} />
-    );
-    
-export type ResourcePreviewProps<TChildProps = {}> = ApolloReactHoc.DataProps<ResourcePreviewQuery, ResourcePreviewQueryVariables> & TChildProps;
-export function withResourcePreview<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  ResourcePreviewQuery,
-  ResourcePreviewQueryVariables,
-  ResourcePreviewProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, ResourcePreviewQuery, ResourcePreviewQueryVariables, ResourcePreviewProps<TChildProps>>(ResourcePreviewDocument, {
-      alias: 'resourcePreview',
-      ...operationOptions
-    });
-};
 
 /**
  * __useResourcePreviewQuery__
@@ -85,3 +64,4 @@ export interface ResourcePreviewQueryOperation {
   variables: ResourcePreviewQueryVariables
   type: 'query'
 }
+export const ResourcePreviewQueryName:ResourcePreviewQueryOperation['operationName'] = 'resourcePreview'

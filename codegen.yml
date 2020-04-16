@@ -33,5 +33,6 @@ generates:
       avoidOptionals: false
       reactApolloVersion: 3
       withHooks: true
-      withHOC: true
+      withHOC: false
+      withComponent: false
       nonOptionalTypename: true

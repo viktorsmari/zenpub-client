@@ -3,12 +3,8 @@ import * as Types from './types.generated';
 import { BasicCollectionFragment } from './fragments/basicCollection.generated';
 import gql from 'graphql-tag';
 import { BasicCollectionFragmentDoc } from './fragments/basicCollection.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type GetCollectionQueryVariables = {
@@ -32,23 +28,6 @@ export const GetCollectionDocument = gql`
   }
 }
     ${BasicCollectionFragmentDoc}`;
-export type GetCollectionComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetCollectionQuery, GetCollectionQueryVariables>, 'query'> & ({ variables: GetCollectionQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const GetCollectionComponent = (props: GetCollectionComponentProps) => (
-      <ApolloReactComponents.Query<GetCollectionQuery, GetCollectionQueryVariables> query={GetCollectionDocument} {...props} />
-    );
-    
-export type GetCollectionProps<TChildProps = {}> = ApolloReactHoc.DataProps<GetCollectionQuery, GetCollectionQueryVariables> & TChildProps;
-export function withGetCollection<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  GetCollectionQuery,
-  GetCollectionQueryVariables,
-  GetCollectionProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, GetCollectionQuery, GetCollectionQueryVariables, GetCollectionProps<TChildProps>>(GetCollectionDocument, {
-      alias: 'getCollection',
-      ...operationOptions
-    });
-};
 
 /**
  * __useGetCollectionQuery__
@@ -83,3 +62,4 @@ export interface GetCollectionQueryOperation {
   variables: GetCollectionQueryVariables
   type: 'query'
 }
+export const GetCollectionQueryName:GetCollectionQueryOperation['operationName'] = 'getCollection'

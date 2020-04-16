@@ -2,11 +2,7 @@ import * as Types from './types.generated';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type ResetPasswordMutationVariables = {
   password: Types.Scalars['String'],
@@ -31,23 +27,6 @@ export const ResetPasswordDocument = gql`
 }
     `;
 export type ResetPasswordMutationFn = ApolloReactCommon.MutationFunction<ResetPasswordMutation, ResetPasswordMutationVariables>;
-export type ResetPasswordComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<ResetPasswordMutation, ResetPasswordMutationVariables>, 'mutation'>;
-
-    export const ResetPasswordComponent = (props: ResetPasswordComponentProps) => (
-      <ApolloReactComponents.Mutation<ResetPasswordMutation, ResetPasswordMutationVariables> mutation={ResetPasswordDocument} {...props} />
-    );
-    
-export type ResetPasswordProps<TChildProps = {}> = ApolloReactHoc.MutateProps<ResetPasswordMutation, ResetPasswordMutationVariables> & TChildProps;
-export function withResetPassword<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  ResetPasswordMutation,
-  ResetPasswordMutationVariables,
-  ResetPasswordProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, ResetPasswordMutation, ResetPasswordMutationVariables, ResetPasswordProps<TChildProps>>(ResetPasswordDocument, {
-      alias: 'resetPassword',
-      ...operationOptions
-    });
-};
 
 /**
  * __useResetPasswordMutation__
@@ -81,3 +60,4 @@ export interface ResetPasswordMutationOperation {
   variables: ResetPasswordMutationVariables
   type: 'mutation'
 }
+export const ResetPasswordMutationName:ResetPasswordMutationOperation['operationName'] = 'resetPassword'

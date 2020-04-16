@@ -3,6 +3,7 @@ import { createAbsintheSocketLink } from '@absinthe/socket-apollo-link';
 import { hasSubscription } from '@jumpn/utils-graphql';
 import { i18nMark } from '@lingui/react';
 import {
+  defaultDataIdFromObject,
   InMemoryCache,
   IntrospectionFragmentMatcher
 } from 'apollo-cache-inmemory';
@@ -13,27 +14,22 @@ import { onError } from 'apollo-link-error';
 // import { createHttpLink } from 'apollo-link-http';
 import apolloLogger from 'apollo-link-logger';
 import {
-  AnonResetPasswordMutationOperation,
-  AnonResetPasswordRequestMutationOperation
+  AnonConfirmEmailMutationName,
+  AnonLoginMutationName,
+  AnonResetPasswordMutationName,
+  AnonResetPasswordRequestMutationName,
+  AnonSignUpMutationName
 } from 'fe/session/anon.generated';
+import { MeLogoutMutationName } from 'fe/session/me.generated';
 import { Socket as PhoenixSocket } from 'phoenix';
 import { logout } from 'redux/session';
-import { UsernameAvailableQueryOperation } from '../graphql/checkUsername.generated';
-import { ConfirmEmailMutationMutationOperation } from '../graphql/confirmEmail.generated';
-import { CreateUserMutationMutationOperation } from '../graphql/createUser.generated';
-import { LoginMutationMutationOperation } from '../graphql/login.generated';
-import { LogoutMutationMutationOperation } from '../graphql/logout.generated';
 import { RootMutationType, RootQueryType } from '../graphql/types.generated';
 import {
   GRAPHQL_ENDPOINT,
   IS_DEV,
   PHOENIX_SOCKET_ENDPOINT
 } from '../mn-constants';
-import {
-  getOperationNameAndType,
-  getOpType,
-  Name
-} from '../util/apollo/operation';
+import { getOpType } from '../util/apollo/operation';
 import { KVStore } from '../util/keyvaluestore/types';
 import { createUploadLink } from './uploadLink.js';
 const introspectionQueryResultData = require('../fragmentTypes.json');
@@ -82,11 +78,13 @@ export default async function initialise({
       }
     },
     dataIdFromObject: obj => {
-      if (obj.__typename === 'User' && 'userId' in obj) {
+      switch (obj.__typename) {
         //@ts-ignore
-        return obj.userId;
-      } else {
-        return obj.id;
+        case 'User':
+          return 'userId' in obj ? obj.userId : obj.id;
+        //   case 'Me': return (obj as Me).email
+        default:
+          return defaultDataIdFromObject(obj); // fall back to default handling
       }
     }
   });
@@ -107,18 +105,17 @@ export default async function initialise({
   };
 
   const setTokenLink = new ApolloLink((operation, nextLink) => {
-    const confirmEmailOpName = 'confirmEmail';
-    const createSessionOpName = 'createSession';
-    const deleteSessionOpName = 'deleteSession';
+    const { operationName } = operation;
 
-    const [opName] = getOperationNameAndType<OperationName>(operation.query);
-
-    if (opName === deleteSessionOpName) {
+    if (operationName === MeLogoutMutationName) {
       delToken();
     }
 
     return nextLink(operation).map(resp => {
-      if (opName === createSessionOpName || opName === confirmEmailOpName) {
+      if (
+        operationName === AnonLoginMutationName ||
+        operationName === AnonConfirmEmailMutationName
+      ) {
         setToken(
           resp?.data?.createSession?.token || resp?.data?.confirmEmail?.token
         );
@@ -196,22 +193,12 @@ export default async function initialise({
     };
   });
 
-  const ALLOWED_ANONYMOUS_MUTATIONS: Name<
-    | CreateUserMutationMutationOperation
-    | LoginMutationMutationOperation
-    | LogoutMutationMutationOperation
-    | ConfirmEmailMutationMutationOperation
-    | UsernameAvailableQueryOperation
-    | AnonResetPasswordMutationOperation
-    | AnonResetPasswordRequestMutationOperation
-  >[] = [
-    'confirmEmailMutation',
-    'createUserMutation',
-    'loginMutation',
-    'logoutMutation',
-    'usernameAvailable',
-    'anonResetPassword',
-    'anonResetPasswordRequest'
+  const ALLOWED_ANONYMOUS_MUTATIONS = [
+    AnonSignUpMutationName,
+    AnonLoginMutationName,
+    AnonConfirmEmailMutationName,
+    AnonResetPasswordMutationName,
+    AnonResetPasswordRequestMutationName
   ];
   const alertBlockMutationsForAnonymousLink = new ApolloLink(
     (operation, nextLink) => {

@@ -4,11 +4,7 @@ import { BasicResourceFragment } from './fragments/basicResource.generated';
 import gql from 'graphql-tag';
 import { BasicResourceFragmentDoc } from './fragments/basicResource.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type CreateResourceMutationMutationVariables = {
@@ -34,23 +30,6 @@ export const CreateResourceMutationDocument = gql`
 }
     ${BasicResourceFragmentDoc}`;
 export type CreateResourceMutationMutationFn = ApolloReactCommon.MutationFunction<CreateResourceMutationMutation, CreateResourceMutationMutationVariables>;
-export type CreateResourceMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateResourceMutationMutation, CreateResourceMutationMutationVariables>, 'mutation'>;
-
-    export const CreateResourceMutationComponent = (props: CreateResourceMutationComponentProps) => (
-      <ApolloReactComponents.Mutation<CreateResourceMutationMutation, CreateResourceMutationMutationVariables> mutation={CreateResourceMutationDocument} {...props} />
-    );
-    
-export type CreateResourceMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<CreateResourceMutationMutation, CreateResourceMutationMutationVariables> & TChildProps;
-export function withCreateResourceMutation<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  CreateResourceMutationMutation,
-  CreateResourceMutationMutationVariables,
-  CreateResourceMutationProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, CreateResourceMutationMutation, CreateResourceMutationMutationVariables, CreateResourceMutationProps<TChildProps>>(CreateResourceMutationDocument, {
-      alias: 'createResourceMutation',
-      ...operationOptions
-    });
-};
 
 /**
  * __useCreateResourceMutationMutation__
@@ -84,3 +63,4 @@ export interface CreateResourceMutationMutationOperation {
   variables: CreateResourceMutationMutationVariables
   type: 'mutation'
 }
+export const CreateResourceMutationMutationName:CreateResourceMutationMutationOperation['operationName'] = 'createResourceMutation'

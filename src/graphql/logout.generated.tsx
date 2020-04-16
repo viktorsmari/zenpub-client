@@ -2,11 +2,7 @@ import * as Types from './types.generated';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type LogoutMutationMutationVariables = {};
 
@@ -23,23 +19,6 @@ export const LogoutMutationDocument = gql`
 }
     `;
 export type LogoutMutationMutationFn = ApolloReactCommon.MutationFunction<LogoutMutationMutation, LogoutMutationMutationVariables>;
-export type LogoutMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<LogoutMutationMutation, LogoutMutationMutationVariables>, 'mutation'>;
-
-    export const LogoutMutationComponent = (props: LogoutMutationComponentProps) => (
-      <ApolloReactComponents.Mutation<LogoutMutationMutation, LogoutMutationMutationVariables> mutation={LogoutMutationDocument} {...props} />
-    );
-    
-export type LogoutMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<LogoutMutationMutation, LogoutMutationMutationVariables> & TChildProps;
-export function withLogoutMutation<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  LogoutMutationMutation,
-  LogoutMutationMutationVariables,
-  LogoutMutationProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, LogoutMutationMutation, LogoutMutationMutationVariables, LogoutMutationProps<TChildProps>>(LogoutMutationDocument, {
-      alias: 'logoutMutation',
-      ...operationOptions
-    });
-};
 
 /**
  * __useLogoutMutationMutation__
@@ -71,3 +50,4 @@ export interface LogoutMutationMutationOperation {
   variables: LogoutMutationMutationVariables
   type: 'mutation'
 }
+export const LogoutMutationMutationName:LogoutMutationMutationOperation['operationName'] = 'logoutMutation'

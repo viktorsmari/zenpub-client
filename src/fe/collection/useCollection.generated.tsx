@@ -3,12 +3,8 @@ import * as Types from '../../graphql/types.generated';
 import { CollectionPageDataFragment } from '../../HOC/pages/collection/CollectionPage.generated';
 import gql from 'graphql-tag';
 import { CollectionPageDataFragmentDoc } from '../../HOC/pages/collection/CollectionPage.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type CollectionDataQueryVariables = {
@@ -32,23 +28,6 @@ export const CollectionDataDocument = gql`
   }
 }
     ${CollectionPageDataFragmentDoc}`;
-export type CollectionDataComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CollectionDataQuery, CollectionDataQueryVariables>, 'query'> & ({ variables: CollectionDataQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const CollectionDataComponent = (props: CollectionDataComponentProps) => (
-      <ApolloReactComponents.Query<CollectionDataQuery, CollectionDataQueryVariables> query={CollectionDataDocument} {...props} />
-    );
-    
-export type CollectionDataProps<TChildProps = {}> = ApolloReactHoc.DataProps<CollectionDataQuery, CollectionDataQueryVariables> & TChildProps;
-export function withCollectionData<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  CollectionDataQuery,
-  CollectionDataQueryVariables,
-  CollectionDataProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, CollectionDataQuery, CollectionDataQueryVariables, CollectionDataProps<TChildProps>>(CollectionDataDocument, {
-      alias: 'collectionData',
-      ...operationOptions
-    });
-};
 
 /**
  * __useCollectionDataQuery__
@@ -83,3 +62,4 @@ export interface CollectionDataQueryOperation {
   variables: CollectionDataQueryVariables
   type: 'query'
 }
+export const CollectionDataQueryName:CollectionDataQueryOperation['operationName'] = 'collectionData'

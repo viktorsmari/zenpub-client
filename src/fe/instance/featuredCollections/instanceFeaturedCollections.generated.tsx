@@ -5,12 +5,8 @@ import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
 import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { DiscoverPageFeaturedCollectionInfoFragmentDoc } from '../../../HOC/pages/discover/DiscoverPage.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
@@ -59,23 +55,6 @@ export const InstanceFeaturedCollectionsDocument = gql`
 }
     ${FullPageInfoFragmentDoc}
 ${DiscoverPageFeaturedCollectionInfoFragmentDoc}`;
-export type InstanceFeaturedCollectionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<InstanceFeaturedCollectionsQuery, InstanceFeaturedCollectionsQueryVariables>, 'query'>;
-
-    export const InstanceFeaturedCollectionsComponent = (props: InstanceFeaturedCollectionsComponentProps) => (
-      <ApolloReactComponents.Query<InstanceFeaturedCollectionsQuery, InstanceFeaturedCollectionsQueryVariables> query={InstanceFeaturedCollectionsDocument} {...props} />
-    );
-    
-export type InstanceFeaturedCollectionsProps<TChildProps = {}> = ApolloReactHoc.DataProps<InstanceFeaturedCollectionsQuery, InstanceFeaturedCollectionsQueryVariables> & TChildProps;
-export function withInstanceFeaturedCollections<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  InstanceFeaturedCollectionsQuery,
-  InstanceFeaturedCollectionsQueryVariables,
-  InstanceFeaturedCollectionsProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, InstanceFeaturedCollectionsQuery, InstanceFeaturedCollectionsQueryVariables, InstanceFeaturedCollectionsProps<TChildProps>>(InstanceFeaturedCollectionsDocument, {
-      alias: 'instanceFeaturedCollections',
-      ...operationOptions
-    });
-};
 
 /**
  * __useInstanceFeaturedCollectionsQuery__
@@ -109,3 +88,4 @@ export interface InstanceFeaturedCollectionsQueryOperation {
   variables: InstanceFeaturedCollectionsQueryVariables
   type: 'query'
 }
+export const InstanceFeaturedCollectionsQueryName:InstanceFeaturedCollectionsQueryOperation['operationName'] = 'instanceFeaturedCollections'

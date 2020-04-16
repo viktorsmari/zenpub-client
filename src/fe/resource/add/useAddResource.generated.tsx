@@ -4,11 +4,7 @@ import { AddResourceCreateResourceMutationResultFragment } from '../../../HOC/mo
 import gql from 'graphql-tag';
 import { AddResourceCreateResourceMutationResultFragmentDoc } from '../../../HOC/modules/AddResource/addResource.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type AddResourceCreateResourceMutationVariables = {
@@ -70,23 +66,6 @@ export const AddResourceCreateResourceDocument = gql`
 }
     ${AddResourceCreateResourceMutationResultFragmentDoc}`;
 export type AddResourceCreateResourceMutationFn = ApolloReactCommon.MutationFunction<AddResourceCreateResourceMutation, AddResourceCreateResourceMutationVariables>;
-export type AddResourceCreateResourceComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<AddResourceCreateResourceMutation, AddResourceCreateResourceMutationVariables>, 'mutation'>;
-
-    export const AddResourceCreateResourceComponent = (props: AddResourceCreateResourceComponentProps) => (
-      <ApolloReactComponents.Mutation<AddResourceCreateResourceMutation, AddResourceCreateResourceMutationVariables> mutation={AddResourceCreateResourceDocument} {...props} />
-    );
-    
-export type AddResourceCreateResourceProps<TChildProps = {}> = ApolloReactHoc.MutateProps<AddResourceCreateResourceMutation, AddResourceCreateResourceMutationVariables> & TChildProps;
-export function withAddResourceCreateResource<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  AddResourceCreateResourceMutation,
-  AddResourceCreateResourceMutationVariables,
-  AddResourceCreateResourceProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, AddResourceCreateResourceMutation, AddResourceCreateResourceMutationVariables, AddResourceCreateResourceProps<TChildProps>>(AddResourceCreateResourceDocument, {
-      alias: 'addResourceCreateResource',
-      ...operationOptions
-    });
-};
 
 /**
  * __useAddResourceCreateResourceMutation__
@@ -120,23 +99,6 @@ export const AddResourceUploadDocument = gql`
 }
     ${AddResourceUploadMutationResultFragmentDoc}`;
 export type AddResourceUploadMutationFn = ApolloReactCommon.MutationFunction<AddResourceUploadMutation, AddResourceUploadMutationVariables>;
-export type AddResourceUploadComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<AddResourceUploadMutation, AddResourceUploadMutationVariables>, 'mutation'>;
-
-    export const AddResourceUploadComponent = (props: AddResourceUploadComponentProps) => (
-      <ApolloReactComponents.Mutation<AddResourceUploadMutation, AddResourceUploadMutationVariables> mutation={AddResourceUploadDocument} {...props} />
-    );
-    
-export type AddResourceUploadProps<TChildProps = {}> = ApolloReactHoc.MutateProps<AddResourceUploadMutation, AddResourceUploadMutationVariables> & TChildProps;
-export function withAddResourceUpload<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  AddResourceUploadMutation,
-  AddResourceUploadMutationVariables,
-  AddResourceUploadProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, AddResourceUploadMutation, AddResourceUploadMutationVariables, AddResourceUploadProps<TChildProps>>(AddResourceUploadDocument, {
-      alias: 'addResourceUpload',
-      ...operationOptions
-    });
-};
 
 /**
  * __useAddResourceUploadMutation__
@@ -170,6 +132,7 @@ export interface AddResourceCreateResourceMutationOperation {
   variables: AddResourceCreateResourceMutationVariables
   type: 'mutation'
 }
+export const AddResourceCreateResourceMutationName:AddResourceCreateResourceMutationOperation['operationName'] = 'addResourceCreateResource'
 
 
 export interface AddResourceUploadMutationOperation {
@@ -178,3 +141,4 @@ export interface AddResourceUploadMutationOperation {
   variables: AddResourceUploadMutationVariables
   type: 'mutation'
 }
+export const AddResourceUploadMutationName:AddResourceUploadMutationOperation['operationName'] = 'addResourceUpload'

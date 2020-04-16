@@ -1,12 +1,8 @@
 import * as Types from '../../graphql/types.generated';
 
 import gql from 'graphql-tag';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type SearchHostIndexAndMyFollowingsQueryVariables = {};
 
@@ -149,23 +145,6 @@ export const SearchHostIndexAndMyFollowingsDocument = gql`
 }
     ${SearchInstanceFragmentDoc}
 ${SearchMeFragmentDoc}`;
-export type SearchHostIndexAndMyFollowingsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<SearchHostIndexAndMyFollowingsQuery, SearchHostIndexAndMyFollowingsQueryVariables>, 'query'>;
-
-    export const SearchHostIndexAndMyFollowingsComponent = (props: SearchHostIndexAndMyFollowingsComponentProps) => (
-      <ApolloReactComponents.Query<SearchHostIndexAndMyFollowingsQuery, SearchHostIndexAndMyFollowingsQueryVariables> query={SearchHostIndexAndMyFollowingsDocument} {...props} />
-    );
-    
-export type SearchHostIndexAndMyFollowingsProps<TChildProps = {}> = ApolloReactHoc.DataProps<SearchHostIndexAndMyFollowingsQuery, SearchHostIndexAndMyFollowingsQueryVariables> & TChildProps;
-export function withSearchHostIndexAndMyFollowings<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  SearchHostIndexAndMyFollowingsQuery,
-  SearchHostIndexAndMyFollowingsQueryVariables,
-  SearchHostIndexAndMyFollowingsProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, SearchHostIndexAndMyFollowingsQuery, SearchHostIndexAndMyFollowingsQueryVariables, SearchHostIndexAndMyFollowingsProps<TChildProps>>(SearchHostIndexAndMyFollowingsDocument, {
-      alias: 'searchHostIndexAndMyFollowings',
-      ...operationOptions
-    });
-};
 
 /**
  * __useSearchHostIndexAndMyFollowingsQuery__
@@ -199,23 +178,6 @@ export const SearchFollowDocument = gql`
 }
     `;
 export type SearchFollowMutationFn = ApolloReactCommon.MutationFunction<SearchFollowMutation, SearchFollowMutationVariables>;
-export type SearchFollowComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<SearchFollowMutation, SearchFollowMutationVariables>, 'mutation'>;
-
-    export const SearchFollowComponent = (props: SearchFollowComponentProps) => (
-      <ApolloReactComponents.Mutation<SearchFollowMutation, SearchFollowMutationVariables> mutation={SearchFollowDocument} {...props} />
-    );
-    
-export type SearchFollowProps<TChildProps = {}> = ApolloReactHoc.MutateProps<SearchFollowMutation, SearchFollowMutationVariables> & TChildProps;
-export function withSearchFollow<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  SearchFollowMutation,
-  SearchFollowMutationVariables,
-  SearchFollowProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, SearchFollowMutation, SearchFollowMutationVariables, SearchFollowProps<TChildProps>>(SearchFollowDocument, {
-      alias: 'searchFollow',
-      ...operationOptions
-    });
-};
 
 /**
  * __useSearchFollowMutation__
@@ -248,23 +210,6 @@ export const SearchUnfollowDocument = gql`
 }
     `;
 export type SearchUnfollowMutationFn = ApolloReactCommon.MutationFunction<SearchUnfollowMutation, SearchUnfollowMutationVariables>;
-export type SearchUnfollowComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<SearchUnfollowMutation, SearchUnfollowMutationVariables>, 'mutation'>;
-
-    export const SearchUnfollowComponent = (props: SearchUnfollowComponentProps) => (
-      <ApolloReactComponents.Mutation<SearchUnfollowMutation, SearchUnfollowMutationVariables> mutation={SearchUnfollowDocument} {...props} />
-    );
-    
-export type SearchUnfollowProps<TChildProps = {}> = ApolloReactHoc.MutateProps<SearchUnfollowMutation, SearchUnfollowMutationVariables> & TChildProps;
-export function withSearchUnfollow<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  SearchUnfollowMutation,
-  SearchUnfollowMutationVariables,
-  SearchUnfollowProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, SearchUnfollowMutation, SearchUnfollowMutationVariables, SearchUnfollowProps<TChildProps>>(SearchUnfollowDocument, {
-      alias: 'searchUnfollow',
-      ...operationOptions
-    });
-};
 
 /**
  * __useSearchUnfollowMutation__
@@ -297,6 +242,7 @@ export interface SearchHostIndexAndMyFollowingsQueryOperation {
   variables: SearchHostIndexAndMyFollowingsQueryVariables
   type: 'query'
 }
+export const SearchHostIndexAndMyFollowingsQueryName:SearchHostIndexAndMyFollowingsQueryOperation['operationName'] = 'SearchHostIndexAndMyFollowings'
 
 
 export interface SearchFollowMutationOperation {
@@ -305,6 +251,7 @@ export interface SearchFollowMutationOperation {
   variables: SearchFollowMutationVariables
   type: 'mutation'
 }
+export const SearchFollowMutationName:SearchFollowMutationOperation['operationName'] = 'searchFollow'
 
 
 export interface SearchUnfollowMutationOperation {
@@ -313,3 +260,4 @@ export interface SearchUnfollowMutationOperation {
   variables: SearchUnfollowMutationVariables
   type: 'mutation'
 }
+export const SearchUnfollowMutationName:SearchUnfollowMutationOperation['operationName'] = 'searchUnfollow'
