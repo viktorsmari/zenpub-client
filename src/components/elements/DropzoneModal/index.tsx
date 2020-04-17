@@ -72,7 +72,7 @@ interface Props {
   initialUrl: string | undefined | null;
   onFileSelect(file: File): unknown;
   uploadType?: 'resource' | string;
-  filePattern: FilePattern;
+  filePattern?: FilePattern;
 }
 
 type FilePattern = 'image/*' | '*';
@@ -108,10 +108,7 @@ const DropzoneArea: React.FC<Props> = ({
 
   return (
     <>
-      <Box
-        sx={{ height: 'inherit' }}
-        {...getRootProps({ className: 'dropzone' })}
-      >
+      <Box sx={{ height: '100%' }} {...getRootProps({ className: 'dropzone' })}>
         <InfoContainer className={isDragActive ? 'active' : 'none'}>
           {uploadType !== 'resource' ? (
             <Thumb className="thumb">

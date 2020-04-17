@@ -81,7 +81,6 @@ export const UploadResource: React.FC<Props> = ({
           <DropzoneArea
             initialUrl={initialResourceUrl}
             onFileSelect={onResourceFileSelect}
-            filePattern="*"
             uploadType="resource"
           />
         </ContainerForm>
@@ -176,7 +175,7 @@ export const UploadResource: React.FC<Props> = ({
             name="license"
             id={license0}
             value={license0}
-            checked={formik.setFieldValue('license', license0, true)}
+            checked={formik.values.license === license0}
             onChange={formik.handleChange}
           />
           <LicenseLabel0 htmlFor={license0}>{license0}</LicenseLabel0>
@@ -185,7 +184,7 @@ export const UploadResource: React.FC<Props> = ({
             name="license"
             id={license1}
             value={license1}
-            checked={formik.setFieldValue('license', license1, true)}
+            checked={formik.values.license === license1}
             onChange={formik.handleChange}
           />
           <LicenseLabel1 htmlFor={license1}>{license1}</LicenseLabel1>
@@ -194,7 +193,7 @@ export const UploadResource: React.FC<Props> = ({
             name="license"
             id={license2}
             value={license2}
-            checked={formik.setFieldValue('license', license2, true)}
+            checked={formik.values.license === license2}
             onChange={formik.handleChange}
           />
           <LicenseLabel2 htmlFor={license2}>{license2}</LicenseLabel2>
