@@ -97,6 +97,7 @@ const WrapperFeatured = styled(Flex)`
   flex: 1;
   background: white;
   border-radius: 8px;
+  max-height: 200px;
 `;
 
 const WrapperBoxes = styled(Box)`

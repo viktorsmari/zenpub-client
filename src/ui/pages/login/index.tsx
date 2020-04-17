@@ -58,6 +58,7 @@ const Login: React.FC<Props> = ({ formik }) => {
                   />
                   <Spacer />
                   <Input
+                    type="password"
                     placeholder={tt.placeholders.password}
                     name="password"
                     value={formik.values.password}
