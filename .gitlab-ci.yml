@@ -25,10 +25,10 @@ default:
     - if [ ! -z "$TX_TOKEN" ]; then pip --cache-dir=.pip install transifex-client ; else echo "Skipping..."; fi # install transifex cli
     #- rm -rf node_modules
     - yarn # Install all JS dependencies
-    - yarn add-locale en_GB # make sure we have default language
-    - yarn extract # extract latest strings from source into English PO file for localisation
+    # - yarn add-locale en_GB # make sure we have default language
+    # - yarn extract # extract latest strings from source into English PO file for localisation
     - if [ ! -z "$TX_TOKEN" ]; then tx pull --force --no-interactive ; else echo "Skipping..."; fi #  pull all the latest localised PO files from transifex to be used by frontend
-    - yarn compile # compile localisation PO files into .js files 
+    # - yarn compile # compile localisation PO files into .js files 
 
 docs: # build and deploy documentation
 #   stage: docs
