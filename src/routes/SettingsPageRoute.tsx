@@ -1,5 +1,5 @@
 import { SettingsPage, SettingsPageTab } from 'HOC/pages/settings/SettingsPage';
-import NotFound from 'pages/not-found/NotFound';
+import { NotFound } from 'ui/pages/notFound';
 import React, { FC } from 'react';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
 import { WithoutSidebarTemplate } from 'HOC/templates/WithoutSidebar/WithoutSidebar';

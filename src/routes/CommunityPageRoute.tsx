@@ -3,7 +3,7 @@ import {
   CommunityPageTab,
   CommunityPage
 } from 'HOC/pages/community/CommunityPage';
-import NotFound from 'pages/not-found/NotFound';
+import { NotFound } from 'ui/pages/notFound';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
 import { WithSidebarTemplate } from 'HOC/templates/WithSidebar/WithSidebar';
 

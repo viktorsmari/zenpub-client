@@ -3,7 +3,7 @@ import {
   CollectionPageTab,
   CollectionPage
 } from 'HOC/pages/collection/CollectionPage';
-import NotFound from 'pages/not-found/NotFound';
+import { NotFound } from 'ui/pages/notFound';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
 import { WithSidebarTemplate } from 'HOC/templates/WithSidebar/WithSidebar';
 

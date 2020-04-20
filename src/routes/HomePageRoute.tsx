@@ -2,7 +2,7 @@ import React, { FC, useMemo } from 'react';
 import { Home, HomePageTab, Props } from 'pages/home';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
 import { WithSidebarTemplate } from 'HOC/templates/WithSidebar/WithSidebar';
-import NotFound from 'pages/not-found/NotFound';
+import { NotFound } from 'ui/pages/notFound';
 import { RedirectAnonymousToLogin } from './wrappers/RedirectBySession';
 
 interface HomePageRouter {
