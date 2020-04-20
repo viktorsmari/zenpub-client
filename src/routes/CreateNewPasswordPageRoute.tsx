@@ -21,7 +21,7 @@ const CreateNewPasswordPageRouter: FC<RouteComponentProps<
   }, [token]);
   return (
     <RedirectAuthenticatedToHome>
-      <GuestTemplate>
+      <GuestTemplate withoutHeader>
         <CreateNewPasswordPageHOC {...props} />
       </GuestTemplate>
     </RedirectAuthenticatedToHome>
