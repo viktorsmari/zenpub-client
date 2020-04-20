@@ -10,7 +10,7 @@ const LoginPageRouter: FC<RouteComponentProps<LoginPageRouter>> = ({
 }) => {
   return (
     <RedirectAuthenticatedToHome>
-      <GuestTemplate>
+      <GuestTemplate withoutHeader>
         <LoginPageHOC />
       </GuestTemplate>
     </RedirectAuthenticatedToHome>

@@ -1,11 +1,11 @@
 
-query myFollowedCommunities {
-  me @connection(key: "myFollowedCommunities"){
-    ...MyFollowedCommunitiesData
+query myCommunityFollows {
+  me @connection(key: "myCommunityFollows"){
+    ...MyCommunityFollowsData
   }
 }
 
-fragment MyFollowedCommunitiesData on Me {
+fragment MyCommunityFollowsData on Me {
   user{
     id
     communityFollows{
@@ -14,9 +14,14 @@ fragment MyFollowedCommunitiesData on Me {
       edges{
         id 
         context{
-          ...on Community { ...SidebarFollowedCommunity }
+          ...on Community { ...MyFollowedCommunityData }
         }
       }
     }
   }
+}
+
+fragment MyFollowedCommunityData on Community{
+  ...SidebarFollowedCommunity,
+  ...CommunityPreview
 }

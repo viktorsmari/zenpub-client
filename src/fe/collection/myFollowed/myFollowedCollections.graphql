@@ -1,11 +1,11 @@
 
-query myFollowedCollections {
-  me @connection(key: "myFollowedCollections"){
-    ...MyFollowedCollectionsData
+query myCollectionFollows {
+  me @connection(key: "myCollectionFollows"){
+    ...MyCollectionFollowsData
   }
 }
 
-fragment MyFollowedCollectionsData on Me {
+fragment MyCollectionFollowsData on Me {
   user{
     id
     collectionFollows{
@@ -14,9 +14,13 @@ fragment MyFollowedCollectionsData on Me {
       edges{
         id
         context {
-          ...on Collection { ...CollectionPreview }
+          ...on Collection { ...MyFollowedCollectionData }
         }
       }
     }
   }
+}
+
+fragment MyFollowedCollectionData on Collection{ 
+  ...CollectionPreview 
 }

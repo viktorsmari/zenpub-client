@@ -80,9 +80,13 @@ export const Home: React.FC<Props> = ({ tab }) => {
     [refetch]
   );
   const { me } = useMe();
-  const { myFollowedCommunitiesPage } = useMyFollowedCommunities();
+  const {
+    myCommunityFollowsPage: myFollowedCommunitiesPage
+  } = useMyFollowedCommunities();
   const [nextCommunitiesFormik] = useFormikPage(myFollowedCommunitiesPage);
-  const { myFollowedCollectionsPage } = useMyFollowedCollections();
+  const {
+    myCollectionFollowsPage: myFollowedCollectionsPage
+  } = useMyFollowedCollections();
   const [nextCollectionsFormik] = useFormikPage(myFollowedCollectionsPage);
   return (
     <MainContainer>

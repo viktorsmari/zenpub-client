@@ -15,7 +15,7 @@ import { SettingsPageRoute } from 'routes/SettingsPageRoute';
 import { SignupPageRoute } from 'routes/SignupPageRoute';
 import { ThreadPageRoute } from 'routes/ThreadPageRoute';
 import { UserPageRoute } from 'routes/UserPageRoute';
-import NotFound from '../../pages/not-found/NotFound';
+import { NotFound } from 'ui/pages/notFound';
 export const Router: React.FC = () => {
   return (
     <Switch>

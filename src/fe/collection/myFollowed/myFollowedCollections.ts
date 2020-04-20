@@ -1,14 +1,14 @@
-import { useMemo } from 'react';
-import * as GQL from './myFollowedCollections.generated';
 import { usePage } from 'fe/lib/helpers/usePage';
 import { DEFAULT_PAGE_SIZE } from 'mn-constants';
+import { useMemo } from 'react';
+import * as GQL from './myFollowedCollections.generated';
 
 export const useMyFollowedCollections = () => {
-  const myFlwCollectionsQ = GQL.useMyFollowedCollectionsQuery({
+  const myFlwCollectionsQ = GQL.useMyCollectionFollowsQuery({
     variables: { limit: DEFAULT_PAGE_SIZE }
   });
 
-  const myFollowedCollectionsPage = usePage(
+  const myCollectionFollowsPage = usePage(
     myFlwCollectionsQ.data?.me?.user.collectionFollows,
     ({ cursor, update }) => {
       return myFlwCollectionsQ.fetchMore({
@@ -37,7 +37,7 @@ export const useMyFollowedCollections = () => {
 
   return useMemo(() => {
     return {
-      myFollowedCollectionsPage
+      myCollectionFollowsPage
     };
-  }, [myFollowedCollectionsPage]);
+  }, [myCollectionFollowsPage]);
 };

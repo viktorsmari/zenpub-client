@@ -1,12 +1,10 @@
 import { DataProxy } from 'apollo-cache';
-import { MeQueryDocument } from 'graphql/me.generated';
 import Maybe from 'graphql/tsutils/Maybe';
 import { RegistrationInput } from 'graphql/types.generated';
 import { useMemo } from 'react';
 import { useApolloClient } from 'react-apollo';
-import { Result } from 'util/apollo/operation';
 import * as GQL from './anon.generated';
-import { MeQueryOperation, UseMeDataFragment } from './me.generated';
+import { MeDocument, MeQuery, UseMeDataFragment } from './me.generated';
 
 export const useAnon = () => {
   const client = useApolloClient();
@@ -79,6 +77,7 @@ export const useAnon = () => {
       });
     };
     const usernameAvailable = (username: string) => {
+      MeDocument;
       return client
         .query<
           GQL.AnonUsernameAvailableQuery,
@@ -124,8 +123,8 @@ export const useAnon = () => {
 };
 
 const updateMe = (proxy: DataProxy, me: Maybe<UseMeDataFragment>) => {
-  proxy.writeQuery<Result<MeQueryOperation>>({
-    query: MeQueryDocument,
+  proxy.writeQuery<MeQuery>({
+    query: MeDocument,
     data: {
       __typename: 'RootQueryType',
       me: me

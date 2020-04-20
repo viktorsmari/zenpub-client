@@ -38,8 +38,9 @@
         "name": "FollowContext",
         "possibleTypes": [
           { "name": "Collection" },
+          { "name": "Comment" },
           { "name": "Community" },
-          { "name": "Thread" },
+          { "name": "Resource" },
           { "name": "User" }
         ]
       },
@@ -50,6 +51,9 @@
           { "name": "Collection" },
           { "name": "Comment" },
           { "name": "Community" },
+          { "name": "Flag" },
+          { "name": "Follow" },
+          { "name": "Like" },
           { "name": "Resource" },
           { "name": "User" }
         ]
@@ -86,10 +90,12 @@
           { "name": "Collection" },
           { "name": "Comment" },
           { "name": "Community" },
+          { "name": "Feature" },
           { "name": "Flag" },
           { "name": "Follow" },
           { "name": "Like" },
           { "name": "Resource" },
+          { "name": "Thread" },
           { "name": "User" }
         ]
       }

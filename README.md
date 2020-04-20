@@ -67,7 +67,7 @@ We need to set some environment variables in order for MoodleNet to function, a 
 $ docker-compose build
 ```
 
-Or if you're building on a Rasperry Pi:
+Or if you're building on a Raspberry Pi:
 ```
 $ docker-compose -f docker-compose.pi.yml build
 ```
@@ -84,7 +84,7 @@ c) Start the docker containers with docker-compose:
 $ docker-compose up
 ```
 
-Or if you're running on a Rasperry Pi:
+Or if you're running on a Raspberry Pi:
 ```
 $ docker-compose -f docker-compose.pi.yml up
 ```
@@ -96,7 +96,7 @@ $ docker-compose -f docker-compose.pi.yml up
 $ docker-compose up -d
 ```
 
-Or if you're running on a Rasperry Pi:
+Or if you're running on a Raspberry Pi:
 ```
 $ docker-compose -f docker-compose.pi.yml up -d
 ```

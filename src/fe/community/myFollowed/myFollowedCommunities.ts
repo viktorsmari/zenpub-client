@@ -4,11 +4,11 @@ import { usePage } from 'fe/lib/helpers/usePage';
 import { DEFAULT_PAGE_SIZE } from 'mn-constants';
 
 export const useMyFollowedCommunities = () => {
-  const myFlwCommunitiesQ = GQL.useMyFollowedCommunitiesQuery({
+  const myFlwCommunitiesQ = GQL.useMyCommunityFollowsQuery({
     variables: { limit: DEFAULT_PAGE_SIZE }
   });
 
-  const myFollowedCommunitiesPage = usePage(
+  const myCommunityFollowsPage = usePage(
     myFlwCommunitiesQ.data?.me?.user.communityFollows,
     ({ cursor, update }) => {
       return myFlwCommunitiesQ.fetchMore({
@@ -37,7 +37,7 @@ export const useMyFollowedCommunities = () => {
 
   return useMemo(() => {
     return {
-      myFollowedCommunitiesPage
+      myCommunityFollowsPage
     };
-  }, [myFollowedCommunitiesPage]);
+  }, [myCommunityFollowsPage]);
 };

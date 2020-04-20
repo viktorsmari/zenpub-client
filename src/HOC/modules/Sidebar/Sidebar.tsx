@@ -6,22 +6,20 @@ import {
   Sidebar as SidebarUI,
   Status as StatusUI
 } from 'ui/modules/Sidebar/index';
-import {
-  /* SidebarMeUserFragment, */ SidebarFollowedCommunityFragment
-} from './Sidebar.generated';
+import { MyFollowedCommunityDataFragment } from 'fe/community/myFollowed/myFollowedCommunities.generated';
 
 export interface Sidebar {
   //FIXME: delete commented out stuff
   // user: SidebarMeUserFragment;
 }
 export const Sidebar: FC<Sidebar> = (/* { user } */) => {
-  const { myFollowedCommunitiesPage } = useMyFollowedCommunities();
+  const { myCommunityFollowsPage } = useMyFollowedCommunities();
   const communities = useMemo(
     () =>
-      myFollowedCommunitiesPage.edges
+      myCommunityFollowsPage.edges
         .map(follow => follow.context)
         .filter(
-          (context): context is SidebarFollowedCommunityFragment =>
+          (context): context is MyFollowedCommunityDataFragment =>
             context.__typename === 'Community'
         )
         .map<CommunityPreview>(community => {
@@ -34,7 +32,7 @@ export const Sidebar: FC<Sidebar> = (/* { user } */) => {
             name: community.name
           };
         }),
-    [myFollowedCommunitiesPage]
+    [myCommunityFollowsPage]
   );
 
   const propsUI = useMemo<PropsUI>(() => {

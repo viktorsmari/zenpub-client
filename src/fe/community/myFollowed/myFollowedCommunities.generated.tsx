@@ -1,27 +1,30 @@
 import * as Types from '../../../graphql/types.generated';
 
+import { CommunityPreviewFragment } from '../../../HOC/modules/previews/community/CommunityPreview.generated';
 import { SidebarFollowedCommunityFragment } from '../../../HOC/modules/Sidebar/Sidebar.generated';
 import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
 import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { SidebarFollowedCommunityFragmentDoc } from '../../../HOC/modules/Sidebar/Sidebar.generated';
+import { CommunityPreviewFragmentDoc } from '../../../HOC/modules/previews/community/CommunityPreview.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 
 
 
-export type MyFollowedCommunitiesQueryVariables = {};
+
+export type MyCommunityFollowsQueryVariables = {};
 
 
-export type MyFollowedCommunitiesQuery = (
+export type MyCommunityFollowsQuery = (
   { __typename: 'RootQueryType' }
   & { me: Types.Maybe<(
     { __typename: 'Me' }
-    & MyFollowedCommunitiesMeDataFragment
+    & MyCommunityFollowsDataFragment
   )> }
 );
 
-export type MyFollowedCommunitiesMeDataFragment = (
+export type MyCommunityFollowsDataFragment = (
   { __typename: 'Me' }
   & { user: (
     { __typename: 'User' }
@@ -37,15 +40,28 @@ export type MyFollowedCommunitiesMeDataFragment = (
         & Pick<Types.Follow, 'id'>
         & { context: { __typename: 'Collection' } | (
           { __typename: 'Community' }
-          & SidebarFollowedCommunityFragment
+          & MyFollowedCommunityDataFragment
         ) | { __typename: 'Thread' } | { __typename: 'User' } }
       )> }
     )> }
   ) }
 );
 
-export const MyFollowedCommunitiesMeDataFragmentDoc = gql`
-    fragment MyFollowedCommunitiesMeData on Me {
+export type MyFollowedCommunityDataFragment = (
+  { __typename: 'Community' }
+  & SidebarFollowedCommunityFragment
+  & CommunityPreviewFragment
+);
+
+export const MyFollowedCommunityDataFragmentDoc = gql`
+    fragment MyFollowedCommunityData on Community {
+  ...SidebarFollowedCommunity
+  ...CommunityPreview
+}
+    ${SidebarFollowedCommunityFragmentDoc}
+${CommunityPreviewFragmentDoc}`;
+export const MyCommunityFollowsDataFragmentDoc = gql`
+    fragment MyCommunityFollowsData on Me {
   user {
     id
     communityFollows {
@@ -57,7 +73,7 @@ export const MyFollowedCommunitiesMeDataFragmentDoc = gql`
         id
         context {
           ... on Community {
-            ...SidebarFollowedCommunity
+            ...MyFollowedCommunityData
           }
         }
       }
@@ -65,45 +81,45 @@ export const MyFollowedCommunitiesMeDataFragmentDoc = gql`
   }
 }
     ${FullPageInfoFragmentDoc}
-${SidebarFollowedCommunityFragmentDoc}`;
-export const MyFollowedCommunitiesDocument = gql`
-    query myFollowedCommunities {
-  me @connection(key: "myFollowedCommunities") {
-    ...MyFollowedCommunitiesMeData
+${MyFollowedCommunityDataFragmentDoc}`;
+export const MyCommunityFollowsDocument = gql`
+    query myCommunityFollows {
+  me @connection(key: "myCommunityFollows") {
+    ...MyCommunityFollowsData
   }
 }
-    ${MyFollowedCommunitiesMeDataFragmentDoc}`;
+    ${MyCommunityFollowsDataFragmentDoc}`;
 
 /**
- * __useMyFollowedCommunitiesQuery__
+ * __useMyCommunityFollowsQuery__
  *
- * To run a query within a React component, call `useMyFollowedCommunitiesQuery` and pass it any options that fit your needs.
- * When your component renders, `useMyFollowedCommunitiesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * To run a query within a React component, call `useMyCommunityFollowsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyCommunityFollowsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useMyFollowedCommunitiesQuery({
+ * const { data, loading, error } = useMyCommunityFollowsQuery({
  *   variables: {
  *   },
  * });
  */
-export function useMyFollowedCommunitiesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<MyFollowedCommunitiesQuery, MyFollowedCommunitiesQueryVariables>) {
-        return ApolloReactHooks.useQuery<MyFollowedCommunitiesQuery, MyFollowedCommunitiesQueryVariables>(MyFollowedCommunitiesDocument, baseOptions);
+export function useMyCommunityFollowsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<MyCommunityFollowsQuery, MyCommunityFollowsQueryVariables>) {
+        return ApolloReactHooks.useQuery<MyCommunityFollowsQuery, MyCommunityFollowsQueryVariables>(MyCommunityFollowsDocument, baseOptions);
       }
-export function useMyFollowedCommunitiesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MyFollowedCommunitiesQuery, MyFollowedCommunitiesQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<MyFollowedCommunitiesQuery, MyFollowedCommunitiesQueryVariables>(MyFollowedCommunitiesDocument, baseOptions);
+export function useMyCommunityFollowsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MyCommunityFollowsQuery, MyCommunityFollowsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<MyCommunityFollowsQuery, MyCommunityFollowsQueryVariables>(MyCommunityFollowsDocument, baseOptions);
         }
-export type MyFollowedCommunitiesQueryHookResult = ReturnType<typeof useMyFollowedCommunitiesQuery>;
-export type MyFollowedCommunitiesLazyQueryHookResult = ReturnType<typeof useMyFollowedCommunitiesLazyQuery>;
-export type MyFollowedCommunitiesQueryResult = ApolloReactCommon.QueryResult<MyFollowedCommunitiesQuery, MyFollowedCommunitiesQueryVariables>;
+export type MyCommunityFollowsQueryHookResult = ReturnType<typeof useMyCommunityFollowsQuery>;
+export type MyCommunityFollowsLazyQueryHookResult = ReturnType<typeof useMyCommunityFollowsLazyQuery>;
+export type MyCommunityFollowsQueryResult = ApolloReactCommon.QueryResult<MyCommunityFollowsQuery, MyCommunityFollowsQueryVariables>;
 
 
-export interface MyFollowedCommunitiesQueryOperation {
-  operationName: 'myFollowedCommunities'
-  result: MyFollowedCommunitiesQuery
-  variables: MyFollowedCommunitiesQueryVariables
+export interface MyCommunityFollowsQueryOperation {
+  operationName: 'myCommunityFollows'
+  result: MyCommunityFollowsQuery
+  variables: MyCommunityFollowsQueryVariables
   type: 'query'
 }
-export const MyFollowedCommunitiesQueryName:MyFollowedCommunitiesQueryOperation['operationName'] = 'myFollowedCommunities'
+export const MyCommunityFollowsQueryName:MyCommunityFollowsQueryOperation['operationName'] = 'myCommunityFollows'

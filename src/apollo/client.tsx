@@ -116,10 +116,13 @@ export default async function initialise({
     return nextLink(operation).map(resp => {
       if (
         operationName === AnonLoginMutationName ||
+        operationName === AnonResetPasswordMutationName ||
         operationName === AnonConfirmEmailMutationName
       ) {
         setToken(
-          resp?.data?.createSession?.token || resp?.data?.confirmEmail?.token
+          resp?.data?.createSession?.token ||
+            resp?.data?.confirmEmail?.token ||
+            resp.data?.resetPassword?.token
         );
       }
       return resp;

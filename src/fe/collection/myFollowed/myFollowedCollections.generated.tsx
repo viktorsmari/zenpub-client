@@ -10,18 +10,18 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 
 
 
-export type MyFollowedCollectionsQueryVariables = {};
+export type MyCollectionFollowsQueryVariables = {};
 
 
-export type MyFollowedCollectionsQuery = (
+export type MyCollectionFollowsQuery = (
   { __typename: 'RootQueryType' }
   & { me: Types.Maybe<(
     { __typename: 'Me' }
-    & MyFollowedCollectionsDataFragment
+    & MyCollectionFollowsDataFragment
   )> }
 );
 
-export type MyFollowedCollectionsDataFragment = (
+export type MyCollectionFollowsDataFragment = (
   { __typename: 'Me' }
   & { user: (
     { __typename: 'User' }
@@ -37,15 +37,25 @@ export type MyFollowedCollectionsDataFragment = (
         & Pick<Types.Follow, 'id'>
         & { context: (
           { __typename: 'Collection' }
-          & CollectionPreviewFragment
+          & MyFollowedCollectionDataFragment
         ) | { __typename: 'Community' } | { __typename: 'Thread' } | { __typename: 'User' } }
       )> }
     )> }
   ) }
 );
 
-export const MyFollowedCollectionsDataFragmentDoc = gql`
-    fragment MyFollowedCollectionsData on Me {
+export type MyFollowedCollectionDataFragment = (
+  { __typename: 'Collection' }
+  & CollectionPreviewFragment
+);
+
+export const MyFollowedCollectionDataFragmentDoc = gql`
+    fragment MyFollowedCollectionData on Collection {
+  ...CollectionPreview
+}
+    ${CollectionPreviewFragmentDoc}`;
+export const MyCollectionFollowsDataFragmentDoc = gql`
+    fragment MyCollectionFollowsData on Me {
   user {
     id
     collectionFollows {
@@ -57,7 +67,7 @@ export const MyFollowedCollectionsDataFragmentDoc = gql`
         id
         context {
           ... on Collection {
-            ...CollectionPreview
+            ...MyFollowedCollectionData
           }
         }
       }
@@ -65,45 +75,45 @@ export const MyFollowedCollectionsDataFragmentDoc = gql`
   }
 }
     ${FullPageInfoFragmentDoc}
-${CollectionPreviewFragmentDoc}`;
-export const MyFollowedCollectionsDocument = gql`
-    query myFollowedCollections {
-  me @connection(key: "myFollowedCollections") {
-    ...MyFollowedCollectionsData
+${MyFollowedCollectionDataFragmentDoc}`;
+export const MyCollectionFollowsDocument = gql`
+    query myCollectionFollows {
+  me @connection(key: "myCollectionFollows") {
+    ...MyCollectionFollowsData
   }
 }
-    ${MyFollowedCollectionsDataFragmentDoc}`;
+    ${MyCollectionFollowsDataFragmentDoc}`;
 
 /**
- * __useMyFollowedCollectionsQuery__
+ * __useMyCollectionFollowsQuery__
  *
- * To run a query within a React component, call `useMyFollowedCollectionsQuery` and pass it any options that fit your needs.
- * When your component renders, `useMyFollowedCollectionsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * To run a query within a React component, call `useMyCollectionFollowsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyCollectionFollowsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useMyFollowedCollectionsQuery({
+ * const { data, loading, error } = useMyCollectionFollowsQuery({
  *   variables: {
  *   },
  * });
  */
-export function useMyFollowedCollectionsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<MyFollowedCollectionsQuery, MyFollowedCollectionsQueryVariables>) {
-        return ApolloReactHooks.useQuery<MyFollowedCollectionsQuery, MyFollowedCollectionsQueryVariables>(MyFollowedCollectionsDocument, baseOptions);
+export function useMyCollectionFollowsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<MyCollectionFollowsQuery, MyCollectionFollowsQueryVariables>) {
+        return ApolloReactHooks.useQuery<MyCollectionFollowsQuery, MyCollectionFollowsQueryVariables>(MyCollectionFollowsDocument, baseOptions);
       }
-export function useMyFollowedCollectionsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MyFollowedCollectionsQuery, MyFollowedCollectionsQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<MyFollowedCollectionsQuery, MyFollowedCollectionsQueryVariables>(MyFollowedCollectionsDocument, baseOptions);
+export function useMyCollectionFollowsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MyCollectionFollowsQuery, MyCollectionFollowsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<MyCollectionFollowsQuery, MyCollectionFollowsQueryVariables>(MyCollectionFollowsDocument, baseOptions);
         }
-export type MyFollowedCollectionsQueryHookResult = ReturnType<typeof useMyFollowedCollectionsQuery>;
-export type MyFollowedCollectionsLazyQueryHookResult = ReturnType<typeof useMyFollowedCollectionsLazyQuery>;
-export type MyFollowedCollectionsQueryResult = ApolloReactCommon.QueryResult<MyFollowedCollectionsQuery, MyFollowedCollectionsQueryVariables>;
+export type MyCollectionFollowsQueryHookResult = ReturnType<typeof useMyCollectionFollowsQuery>;
+export type MyCollectionFollowsLazyQueryHookResult = ReturnType<typeof useMyCollectionFollowsLazyQuery>;
+export type MyCollectionFollowsQueryResult = ApolloReactCommon.QueryResult<MyCollectionFollowsQuery, MyCollectionFollowsQueryVariables>;
 
 
-export interface MyFollowedCollectionsQueryOperation {
-  operationName: 'myFollowedCollections'
-  result: MyFollowedCollectionsQuery
-  variables: MyFollowedCollectionsQueryVariables
+export interface MyCollectionFollowsQueryOperation {
+  operationName: 'myCollectionFollows'
+  result: MyCollectionFollowsQuery
+  variables: MyCollectionFollowsQueryVariables
   type: 'query'
 }
-export const MyFollowedCollectionsQueryName:MyFollowedCollectionsQueryOperation['operationName'] = 'myFollowedCollections'
+export const MyCollectionFollowsQueryName:MyCollectionFollowsQueryOperation['operationName'] = 'myCollectionFollows'
