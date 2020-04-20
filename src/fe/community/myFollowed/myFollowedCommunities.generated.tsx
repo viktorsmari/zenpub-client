@@ -1,12 +1,15 @@
 import * as Types from '../../../graphql/types.generated';
 
+import { CommunityPreviewFragment } from '../../../HOC/modules/previews/community/CommunityPreview.generated';
 import { SidebarFollowedCommunityFragment } from '../../../HOC/modules/Sidebar/Sidebar.generated';
 import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
 import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { SidebarFollowedCommunityFragmentDoc } from '../../../HOC/modules/Sidebar/Sidebar.generated';
+import { CommunityPreviewFragmentDoc } from '../../../HOC/modules/previews/community/CommunityPreview.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactHooks from '@apollo/react-hooks';
+
 
 
 
@@ -37,6 +40,7 @@ export type MyFollowedCommunitiesMeDataFragment = (
         & { community: (
           { __typename: 'Community' }
           & SidebarFollowedCommunityFragment
+          & CommunityPreviewFragment
         ), follow: (
           { __typename: 'Follow' }
           & Pick<Types.Follow, 'id'>
@@ -58,6 +62,7 @@ export const MyFollowedCommunitiesMeDataFragmentDoc = gql`
       edges {
         community {
           ...SidebarFollowedCommunity
+          ...CommunityPreview
         }
         follow {
           id
@@ -67,7 +72,8 @@ export const MyFollowedCommunitiesMeDataFragmentDoc = gql`
   }
 }
     ${FullPageInfoFragmentDoc}
-${SidebarFollowedCommunityFragmentDoc}`;
+${SidebarFollowedCommunityFragmentDoc}
+${CommunityPreviewFragmentDoc}`;
 export const MyFollowedCommunitiesDocument = gql`
     query myFollowedCommunities {
   me @connection(key: "myFollowedCommunities") {

@@ -16,22 +16,22 @@ export enum HomePageTab {
 
 export interface Props {
   tab: HomePageTab;
-  nextCommunitiesFormik: FormikHook;
-  nextCollectionsFormik: FormikHook;
-  nextInboxFormik: FormikHook;
-  myFollowedCommunitiesPage: JSX.Element;
-  myFollowedCollectionsPage: JSX.Element;
-  InboxPage: JSX.Element;
+  nextCommunitiesFormik?: FormikHook;
+  nextCollectionsFormik?: FormikHook;
+  nextInboxFormik?: FormikHook;
+  FollowedCommunitiesElements: JSX.Element;
+  FollowedCollectionsElements: JSX.Element;
+  InboxElements: JSX.Element;
 }
 
 export const Home: React.FC<Props> = ({
   tab,
-  InboxPage,
+  InboxElements,
   nextInboxFormik,
   nextCommunitiesFormik,
   nextCollectionsFormik,
-  myFollowedCommunitiesPage,
-  myFollowedCollectionsPage
+  FollowedCommunitiesElements,
+  FollowedCollectionsElements
 }) => {
   return (
     <MainContainer>
@@ -41,9 +41,8 @@ export const Home: React.FC<Props> = ({
             <Menu basePath="/" />
             {tab === HomePageTab.Activities && (
               <>
-                <h1>act</h1>
-                {InboxPage}
-                {nextCommunitiesFormik && (
+                {InboxElements}
+                {nextInboxFormik && (
                   <LoadMore LoadMoreFormik={nextInboxFormik} />
                 )}
               </>
@@ -51,8 +50,7 @@ export const Home: React.FC<Props> = ({
             <>
               {tab === HomePageTab.MyCommunities && (
                 <>
-                  <h1>comm</h1>
-                  {myFollowedCommunitiesPage}
+                  {FollowedCommunitiesElements}
                   {nextCommunitiesFormik && (
                     <LoadMore LoadMoreFormik={nextCommunitiesFormik} />
                   )}
@@ -60,8 +58,7 @@ export const Home: React.FC<Props> = ({
               )}
               {tab === HomePageTab.MyCollections && (
                 <>
-                  <h1>coll</h1>
-                  {myFollowedCollectionsPage}
+                  {FollowedCollectionsElements}
                   {nextCollectionsFormik && (
                     <LoadMore LoadMoreFormik={nextCollectionsFormik} />
                   )}
