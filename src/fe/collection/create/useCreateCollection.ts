@@ -6,11 +6,15 @@ import { useCallback, useMemo } from 'react';
 import { CommunityCollectionsDocument } from '../community/useCommunityCollections.generated';
 import { useCreateCollectionMutation } from './useCreateCollection.generated';
 
+export interface CreateCollection {
+  collection: CollectionInput;
+  icon: Maybe<File | string>;
+}
 export const useCreateCollection = (communityId: Community['id']) => {
   const [createMut, createMutStatus] = useCreateCollectionMutation();
 
   const create = useCallback(
-    async (collectionInput: CollectionInput, icon: Maybe<File | string>) => {
+    async ({ collection, icon }: CreateCollection) => {
       if (createMutStatus.loading) {
         return;
       }
@@ -26,9 +30,9 @@ export const useCreateCollection = (communityId: Community['id']) => {
           communityId: communityId,
           icon: getMaybeUploadInput(icon),
           collection: {
-            name: collectionInput.name,
-            summary: collectionInput.summary,
-            preferredUsername: collectionInput.preferredUsername
+            name: collection.name,
+            summary: collection.summary,
+            preferredUsername: collection.preferredUsername
           }
         },
         refetchQueries: refetchQueries

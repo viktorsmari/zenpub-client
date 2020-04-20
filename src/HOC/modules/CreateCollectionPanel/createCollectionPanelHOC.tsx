@@ -37,14 +37,14 @@ export const CreateCollectionPanelHOC: FC<Props> = ({
     },
     enableReinitialize: true,
     onSubmit: vals => {
-      return create(
-        {
+      return create({
+        collection: {
           preferredUsername: vals.name.split(' ').join('_'),
           name: vals.name,
           summary: vals.summary
         },
-        vals.icon
-      )
+        icon: vals.icon
+      })
         .then(
           createdCollectionId =>
             createdCollectionId &&

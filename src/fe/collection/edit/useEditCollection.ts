@@ -7,6 +7,10 @@ import {
 } from './useEditCollection.generated';
 import { getMaybeUploadInput } from 'fe/mutation/upload/getUploadInput';
 
+export interface EditCollection {
+  collection: CollectionUpdateInput;
+  icon: Maybe<File | string>;
+}
 export const useEditCollection = (collectionId: Collection['id']) => {
   const [editMut, editMutStatus] = useEditCollectionMutation();
   const collectionEditQ = useEditCollectionDataQuery({
@@ -14,20 +18,17 @@ export const useEditCollection = (collectionId: Collection['id']) => {
   });
 
   const edit = useCallback(
-    async (
-      collectionInput: CollectionUpdateInput,
-      iconFile: Maybe<File | string>
-    ) => {
+    async ({ collection, icon }: EditCollection) => {
       if (editMutStatus.loading) {
         return;
       }
       return editMut({
         variables: {
           collectionId,
-          icon: getMaybeUploadInput(iconFile),
+          icon: getMaybeUploadInput(icon),
           collection: {
-            name: collectionInput.name,
-            summary: collectionInput.summary
+            name: collection.name,
+            summary: collection.summary
           }
         }
       });

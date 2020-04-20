@@ -8,18 +8,24 @@ import {
   getUploadInput
 } from 'fe/mutation/upload/getUploadInput';
 
+export interface AddResource {
+  collectionId: Collection['id'];
+  resource: ResourceInput;
+  content: File;
+  icon: Maybe<File | string>;
+}
 export const useAddResource = () => {
   const [
     createResource,
     createResourceStatus
   ] = GQL.useAddResourceCreateResourceMutation();
   return useMemo(() => {
-    const create = async (
-      collectionId: Collection['id'],
-      resource: ResourceInput,
-      content: File,
-      icon: Maybe<File | string>
-    ) => {
+    const create = async ({
+      collectionId,
+      content,
+      icon,
+      resource
+    }: AddResource) => {
       if (createResourceStatus.loading) {
         return;
       }

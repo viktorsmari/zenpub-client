@@ -7,6 +7,10 @@ import {
 } from './useEditCommunity.generated';
 import { getMaybeUploadInput } from 'fe/mutation/upload/getUploadInput';
 
+export interface UpdateCommunity {
+  community: CommunityUpdateInput;
+  icon: Maybe<File | string>;
+}
 export const useEditCommunity = (communityId: Community['id']) => {
   const [editMut, editMutStatus] = useEditCommunityMutation();
   const communityEditQ = useEditCommunityDataQuery({
@@ -14,20 +18,17 @@ export const useEditCommunity = (communityId: Community['id']) => {
   });
 
   const edit = useCallback(
-    async (
-      communityInput: CommunityUpdateInput,
-      iconFile: Maybe<File | string>
-    ) => {
+    async ({ community, icon }: UpdateCommunity) => {
       if (editMutStatus.loading) {
         return;
       }
       return editMut({
         variables: {
           communityId,
-          icon: getMaybeUploadInput(iconFile),
+          icon: getMaybeUploadInput(icon),
           community: {
-            name: communityInput.name,
-            summary: communityInput.summary
+            name: community.name,
+            summary: community.summary
           }
         }
       });

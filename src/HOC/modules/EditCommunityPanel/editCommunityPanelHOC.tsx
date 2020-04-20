@@ -40,13 +40,13 @@ export const EditCommunityPanelHOC: FC<Props> = ({
   const formik = useFormik<EditCommunityFormValues>({
     enableReinitialize: true,
     onSubmit: vals => {
-      return edit(
-        {
+      return edit({
+        community: {
           name: vals.name,
           summary: vals.summary || undefined
         },
-        vals.icon
-      );
+        icon: vals.icon
+      });
     },
     validationSchema,
     initialValues

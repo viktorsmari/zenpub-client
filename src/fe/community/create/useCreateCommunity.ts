@@ -5,11 +5,15 @@ import { useCallback, useMemo } from 'react';
 import { useCreateCommunityMutation } from './useCreateCommunity.generated';
 import { getMaybeUploadInput } from 'fe/mutation/upload/getUploadInput';
 
+export interface CreateCommunity {
+  community: CommunityInput;
+  icon: Maybe<File | string>;
+}
 export const useCreateCommunity = () => {
   const [createMut, createMutStatus] = useCreateCommunityMutation();
 
   const create = useCallback(
-    async (communityInput: CommunityInput, iconFile: Maybe<File | string>) => {
+    async ({ community, icon }: CreateCommunity) => {
       if (createMutStatus.loading) {
         return;
       }
@@ -17,11 +21,11 @@ export const useCreateCommunity = () => {
 
       return createMut({
         variables: {
-          icon: getMaybeUploadInput(iconFile),
+          icon: getMaybeUploadInput(icon),
           community: {
-            name: communityInput.name,
-            summary: communityInput.summary,
-            preferredUsername: communityInput.preferredUsername
+            name: community.name,
+            summary: community.summary,
+            preferredUsername: community.preferredUsername
           }
         },
         refetchQueries

@@ -40,13 +40,13 @@ export const EditCollectionPanelHOC: FC<Props> = ({
   const formik = useFormik<EditCollectionFormValues>({
     enableReinitialize: true,
     onSubmit: vals => {
-      return edit(
-        {
+      return edit({
+        collection: {
           name: vals.name,
           summary: vals.summary || undefined
         },
-        vals.icon
-      );
+        icon: vals.icon
+      });
     },
     validationSchema,
     initialValues

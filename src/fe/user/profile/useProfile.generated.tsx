@@ -19,7 +19,9 @@ export type MyProfileQuery = (
 );
 
 export type UpdateMyProfileMutationVariables = {
-  profile: Types.UpdateProfileInput
+  profile: Types.UpdateProfileInput,
+  icon?: Types.Maybe<Types.UploadInput>,
+  image?: Types.Maybe<Types.UploadInput>
 };
 
 
@@ -65,8 +67,8 @@ export type MyProfileQueryHookResult = ReturnType<typeof useMyProfileQuery>;
 export type MyProfileLazyQueryHookResult = ReturnType<typeof useMyProfileLazyQuery>;
 export type MyProfileQueryResult = ApolloReactCommon.QueryResult<MyProfileQuery, MyProfileQueryVariables>;
 export const UpdateMyProfileDocument = gql`
-    mutation updateMyProfile($profile: UpdateProfileInput!) {
-  updateProfile(profile: $profile) {
+    mutation updateMyProfile($profile: UpdateProfileInput!, $icon: UploadInput, $image: UploadInput) {
+  updateProfile(profile: $profile, icon: $icon, image: $image) {
     ...SettingsPageMe
   }
 }
@@ -87,6 +89,8 @@ export type UpdateMyProfileMutationFn = ApolloReactCommon.MutationFunction<Updat
  * const [updateMyProfileMutation, { data, loading, error }] = useUpdateMyProfileMutation({
  *   variables: {
  *      profile: // value for 'profile'
+ *      icon: // value for 'icon'
+ *      image: // value for 'image'
  *   },
  * });
  */

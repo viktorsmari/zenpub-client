@@ -33,14 +33,14 @@ export const CreateCommunityPanelHOC: FC<Props> = ({ done }: Props) => {
       icon: ''
     },
     onSubmit: vals => {
-      return create(
-        {
+      return create({
+        community: {
           preferredUsername: vals.name.split(' ').join('_'),
           name: vals.name,
           summary: vals.summary
         },
-        vals.icon
-      ).then(createdCommunityId => {
+        icon: vals.icon
+      }).then(createdCommunityId => {
         createdCommunityId &&
           history.push(`/communities/${createdCommunityId}`);
       });

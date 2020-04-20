@@ -56,7 +56,12 @@ export const AddResourceHOC: FC<AddResourceHOC> = ({
         license: vals.license
       };
 
-      return create(collectionId, resource, resFile, vals.icon).then(done);
+      return create({
+        collectionId,
+        resource,
+        content: resFile,
+        icon: vals.icon
+      }).then(done);
     }
   });
 
