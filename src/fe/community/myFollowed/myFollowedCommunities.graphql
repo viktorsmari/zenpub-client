@@ -12,7 +12,7 @@ fragment MyFollowedCommunitiesMeData on Me {
       totalCount,
       pageInfo{ ...FullPageInfo }
       edges{
-        community { ...SidebarFollowedCommunity }
+        community { ...SidebarFollowedCommunity, ...CommunityPreview }
         follow { id }
       }
     }

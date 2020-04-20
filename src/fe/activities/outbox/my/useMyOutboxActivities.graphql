@@ -1,0 +1,22 @@
+
+
+
+query myOutboxActivities($after:[Cursor], $before:[Cursor], $limit:Int){
+  me @connection(key: "myOutboxActivities"){
+    user{
+
+      id
+      outbox(after:$after, before:$before, limit:$limit){
+        totalCount,
+        pageInfo{ ...FullPageInfo }
+        edges{
+          ...MyOutboxActivity
+        }
+      }
+    }
+  }
+}
+
+fragment MyOutboxActivity on Activity {
+  ...ActivityPreview
+}
