@@ -1,36 +1,36 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import * as GQL from './me.generated';
 
 export const useMe = () => {
   const meQ = GQL.useMeQuery();
   const [logoutMut, logoutStatus] = GQL.useMeLogoutMutation();
 
-  return useMemo(() => {
-    const me = meQ.data?.me;
-    const isAdmin = !!me?.isInstanceAdmin;
-
-    const logout = () => {
-      if (logoutStatus.loading || !me?.user) {
-        return;
+  const me = meQ.data?.me;
+  const loading = meQ.loading;
+  const isAdmin = !!me?.isInstanceAdmin;
+  const logout = useCallback(() => {
+    if (logoutStatus.loading || !me?.user) {
+      return;
+    }
+    return logoutMut({
+      update: proxy => {
+        proxy.writeQuery<GQL.MeQuery>({
+          data: {
+            __typename: 'RootQueryType',
+            me: null
+          },
+          query: GQL.MeDocument
+        });
       }
-      return logoutMut({
-        update: proxy => {
-          proxy.writeQuery<GQL.MeQuery>({
-            data: {
-              __typename: 'RootQueryType',
-              me: null
-            },
-            query: GQL.MeDocument
-          });
-        }
-      });
-    };
+    });
+  }, [me, logoutStatus.loading]);
 
+  return useMemo(() => {
     return {
       me,
       isAdmin,
       logout,
-      loading: meQ.loading
+      loading
     };
-  }, [meQ, logoutStatus]);
+  }, [me, loading, isAdmin, logout]);
 };
