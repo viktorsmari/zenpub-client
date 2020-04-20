@@ -1,5 +1,5 @@
 import { DataProxy } from 'apollo-cache';
-import { MeQueryDocument } from 'graphql/me.generated';
+import { MeDocument } from './me.generated';
 import Maybe from 'graphql/tsutils/Maybe';
 import { RegistrationInput } from 'graphql/types.generated';
 import { useMemo } from 'react';
@@ -79,6 +79,7 @@ export const useAnon = () => {
       });
     };
     const usernameAvailable = (username: string) => {
+      MeDocument;
       return client
         .query<
           GQL.AnonUsernameAvailableQuery,
@@ -124,8 +125,9 @@ export const useAnon = () => {
 };
 
 const updateMe = (proxy: DataProxy, me: Maybe<UseMeDataFragment>) => {
+  debugger;
   proxy.writeQuery<Result<MeQueryOperation>>({
-    query: MeQueryDocument,
+    query: MeDocument,
     data: {
       __typename: 'RootQueryType',
       me: me
