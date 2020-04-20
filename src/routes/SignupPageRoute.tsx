@@ -8,7 +8,7 @@ const SignupPageRouter: FC<RouteComponentProps<SignupPageRouter>> = ({
   match
 }) => {
   return (
-    <GuestTemplate>
+    <GuestTemplate withoutHeader>
       <SignUpPageHOC />
     </GuestTemplate>
   );
