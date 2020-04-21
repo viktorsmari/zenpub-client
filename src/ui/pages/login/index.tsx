@@ -322,7 +322,7 @@ const ResetPass = styled(Text)`
   }
 `;
 
-const LoginForm = styled.form`
+const LoginForm = styled.div`
   margin: 0;
   margin-bottom: 16px;
   input {
