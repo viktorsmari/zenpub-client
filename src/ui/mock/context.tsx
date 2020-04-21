@@ -545,6 +545,24 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
       });
     }
   });
+  const formikAddDomain = useFormik<{ domain: string }>({
+    initialValues: { domain: '' },
+    onSubmit: ({ domain }) => {
+      action(`formikAddDomain ${domain}`)();
+      return new Promise((resolve, reject) => {
+        setTimeout(resolve, 3000);
+      });
+    }
+  });
+  const formikRemoveDomain = useFormik<{ domain: string }>({
+    initialValues: { domain: '' },
+    onSubmit: ({ domain }) => {
+      action(`formikRemoveDomain ${domain}`)();
+      return new Promise((resolve, reject) => {
+        setTimeout(resolve, 3000);
+      });
+    }
+  });
   return {
     formik,
     basePath: '/',
@@ -561,7 +579,13 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
       />
     ),
     Flags: <Flags ActivitiesBox={ActivitiesBox} />,
-    Instance: <Instance domainsList={['moodle.com']} />,
+    Instance: (
+      <Instance
+        formikAddDomain={formikAddDomain}
+        formikRemoveDomain={formikRemoveDomain}
+        domainsList={['moodle.com']}
+      />
+    ),
     isAdmin: true
   };
 };
