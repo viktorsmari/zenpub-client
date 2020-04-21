@@ -31,14 +31,14 @@ const PlaceholderImg = require('../../components/elements/Icons/resourcePlacehol
 //   summary: string;
 //   url: string;
 //   type: string;
-//   coreIntegrationURL?: any;
+//   moodleLMSURL?: any;
 // }
 // icon={hit.icon || hit.image}
 // title={hit.name}
 // summary={hit.summary}
 // url={hit.url || hit.canonicalUrl || ''}
 // type={hit.index_type}
-// coreIntegrationURL={
+// moodleLMSURL={
 //   moodle_core_download_url
 //     ? moodle_core_download_url +
 //       `&sourceurl=` +
@@ -69,17 +69,7 @@ const Resource: React.FC<Props> = ({
     summary: hit.summary,
     url: hit.url || hit.canonicalUrl || '',
     type: hit.index_type,
-    coreIntegrationURL: moodle_core_download_url
-      ? moodle_core_download_url +
-        `&sourceurl=` +
-        encodeURIComponent(hit.url) +
-        `&moodleneturl=` +
-        encodeURIComponent(hit.canonicalUrl || '') +
-        `&name=` +
-        encodeURIComponent(hit.name) +
-        `&description=` +
-        encodeURIComponent(hit.summary)
-      : null
+    moodleLMSURL: moodle_core_download_url
   };
   const hitCtl = useHit(myInfo, hit);
   return (
@@ -99,15 +89,6 @@ const Resource: React.FC<Props> = ({
           </Text>
 
           <Type variant="suptitle">{props.type}</Type>
-          {!props.coreIntegrationURL ? null : (
-            <Actions>
-              <a href={props.coreIntegrationURL} target="_top">
-                <Button variant="outline">
-                  <Trans>To Moodle!</Trans>
-                </Button>
-              </a>
-            </Actions>
-          )}
         </Infos>
       </WrapperLink>
       {hitCtl.isFollowable && !hitCtl.isFollowing && (
@@ -128,6 +109,22 @@ const Resource: React.FC<Props> = ({
           )}
         </Button>
       )}
+      {(!props.moodleLMSURL && !hitCtl.moodleLMSURL) ||
+      props.type != 'Resource' ? null : (
+        <form
+          method="post"
+          action={
+            (props.moodleLMSURL || hitCtl.moodleLMSURL) +
+            '/admin/tool/moodlenet/import.php'
+          }
+          target="_blank"
+        >
+          <input type="hidden" name="resourceurl" value={hit.url} />
+          <Button variant="outline">
+            <Trans>To Moodle</Trans>
+          </Button>
+        </form>
+      )}
     </Wrapper>
   );
 };
@@ -138,20 +135,20 @@ const Type = styled(Text)`
   padding: 4px 16px;
   border-radius: 30px;
 `;
-const Actions = styled.div`
-  width: 100px;
-  text-align: right;
-  & button {
-    height: 25x;
-    max-width: 80px;
-    min-width: 80px;
-    border-width: 1px !important;
-    line-height: 25px;
-    color: ${props => props.theme.colors.lightgray} svg {
-      color: inherit !important;
-    }
-  }
-`;
+// const Actions = styled.div`
+//   width: 100px;
+//   text-align: right;
+//   & button {
+//     height: 25x;
+//     max-width: 80px;
+//     min-width: 80px;
+//     border-width: 1px !important;
+//     line-height: 25px;
+//     color: ${props => props.theme.colors.lightgray} svg {
+//       color: inherit !important;
+//     }
+//   }
+// `;
 
 const WrapperLink = styled.a`
   display: flex;

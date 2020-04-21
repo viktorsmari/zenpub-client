@@ -1,4 +1,4 @@
-import { useMyOutboxActivities } from 'fe/activities/outbox/my/useMyOutboxActivities';
+import { useMyInboxActivities } from 'fe/activities/inbox/my/useMyInboxActivities';
 import { useMyFollowedCollections } from 'fe/collection/myFollowed/myFollowedCollections';
 import { useMyFollowedCommunities } from 'fe/community/myFollowed/myFollowedCommunities';
 import { useFormikPage } from 'fe/lib/helpers/usePage';
@@ -64,7 +64,7 @@ export const HomePageHOC: FC<HomePageHOC> = ({ tab }) => {
     );
   }, [myFollowedCollectionsPage]);
 
-  const { activitiesPage } = useMyOutboxActivities();
+  const { activitiesPage } = useMyInboxActivities();
   const [nextInboxFormik] = useFormikPage(activitiesPage);
   const InboxElements = useMemo<Props['InboxElements']>(() => {
     return (
