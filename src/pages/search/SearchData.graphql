@@ -26,6 +26,7 @@ fragment SearchInstance on Instance {
 fragment SearchMe on Me {
   user{
     id
+    extraInfo
     collectionFollows{
       edges{
         id

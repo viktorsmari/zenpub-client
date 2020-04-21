@@ -76,7 +76,7 @@ export const MainHeader: React.FC<Props> = props => {
               <NavItem>
                 <Link to="/">
                   <Text variant="link">
-                    <Trans>Signin</Trans>
+                    <Trans>Sign in</Trans>
                   </Text>
                 </Link>
               </NavItem>

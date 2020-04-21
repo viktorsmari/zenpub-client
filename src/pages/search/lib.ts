@@ -12,6 +12,8 @@ import { useMemo, useCallback } from 'react';
 
 type Q = SearchHostIndexAndMyFollowingsQuery;
 export const useHit = (info: Q, hit: Hit) => {
+  const moodleLMSURL = useMemo(() => getLMSURL(info), [info]);
+
   const [followHit, followHitResult] = useSearchFollowMutation();
   const [unfollowHit, unfollowResult] = useSearchUnfollowMutation();
 
@@ -61,9 +63,10 @@ export const useHit = (info: Q, hit: Hit) => {
       isFollowable,
       follow,
       unfollow,
-      mutating
+      mutating,
+      moodleLMSURL
     };
-  }, [isFollowing, isFollowable, follow, unfollow, mutating]);
+  }, [isFollowing, isFollowable, follow, unfollow, mutating, moodleLMSURL]);
 };
 
 // export const isHitLocal = (hit: Hit, info: Q) => {
@@ -143,4 +146,16 @@ export const getCommunityFollows = (
         context.__typename === 'Community'
     );
   return communityFollows;
+};
+
+export const getLMSURL = (info: Q): any => {
+  const url =
+    info.me &&
+    info.me.user &&
+    info.me.user.extraInfo &&
+    info.me.user.extraInfo.preferred_moodle_lms_url;
+  if (!url) {
+    return null;
+  }
+  return url;
 };

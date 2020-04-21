@@ -50,7 +50,7 @@ export type SearchMeFragment = (
   { __typename: 'Me' }
   & { user: (
     { __typename: 'User' }
-    & Pick<Types.User, 'id'>
+    & Pick<Types.User, 'id' | 'extraInfo'>
     & { collectionFollows: Types.Maybe<(
       { __typename: 'FollowsPage' }
       & { edges: Array<(
@@ -120,6 +120,7 @@ export const SearchMeFragmentDoc = gql`
     fragment SearchMe on Me {
   user {
     id
+    extraInfo
     collectionFollows {
       edges {
         id
