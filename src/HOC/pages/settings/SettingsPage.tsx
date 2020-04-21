@@ -1,17 +1,16 @@
+import { useMe } from 'fe/session/useMe';
 import { useProfile } from 'fe/user/profile/useProfile';
 import { useFormik } from 'formik';
-import { useMe } from 'fe/session/useMe';
 import React, { FC, useMemo } from 'react';
 import {
-  Settings as SettingsPageUI,
+  EditProfile,
   Props as SettingsUIProps,
-  EditProfile
+  Settings as SettingsPageUI
 } from 'ui/pages/settings';
-
-import Preferences from 'ui/pages/settings/preferences';
-import Emails from 'ui/pages/settings/invites';
-import Instance from 'ui/pages/settings/instance';
 import Flags from 'ui/pages/settings/flags';
+import Emails from 'ui/pages/settings/invites';
+import Preferences from 'ui/pages/settings/preferences';
+import { InstanceSettingsSection } from './instance/InstanceSettingsSection';
 
 export enum SettingsPageTab {
   General,
@@ -49,7 +48,7 @@ export const SettingsPage: FC<SettingsPage> = ({ basePath }) => {
       displayUsername: profile?.displayUsername || '',
       formik: updateProfileFormik,
       Preferences: <Preferences />, // FIXME: pass in props and remove optionals in UI
-      Instance: <Instance />, // FIXME: pass in props and remove optionals in UI
+      Instance: <InstanceSettingsSection />, // FIXME: pass in props and remove optionals in UI
       Invites: <Emails />, // FIXME: pass in props and remove optionals in UI
       Flags: <Flags />, // FIXME: pass in props and remove optionals in UI
       isAdmin: !!me?.isInstanceAdmin

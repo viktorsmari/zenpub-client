@@ -6,10 +6,10 @@ export const getSidebarProps = (): Props => {
     communities: [
       {
         link: {
-          url: 'string',
+          url: 'https://live.staticflickr.com/855/30064665718_d43727c1b8_b.jpg',
           external: true
         },
-        name: 'test',
+        name: 'OER Licensing',
         icon: ''
       }
     ]

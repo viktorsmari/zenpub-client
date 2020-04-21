@@ -8,11 +8,9 @@ import { action } from '@storybook/addon-actions';
 export const getEditCollectionModalProps = (): EditCollectionPanelProps => {
   const formik = useFormik<EditCollectionFormValues>({
     initialValues: {
-      icon:
-        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.MPaPKKyEuv4RMPDu3T_ppgHaE7%26pid%3DApi&f=1',
-      name: '24grana best songs',
-      summary:
-        '24 Grana appeared on the Italian underground scene in the mid 90s, in a period of a great social, political and cultural ferment. The band is named after a coin used at the times of Kind Ferdinand of Aragona.'
+      icon: 'https://images.unsplash.com/photo-1468487422149-5edc5034604f',
+      name: 'Great education-related books',
+      summary: 'Here are some fantastic books all educators should read.'
     },
     onSubmit: () => {
       action('submit')();

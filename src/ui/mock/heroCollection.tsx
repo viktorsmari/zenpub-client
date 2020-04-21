@@ -7,12 +7,12 @@ import { ToggleFormik } from './formik';
 export const getHeroCollectionProps = (
   isAdmin = false,
   following = true,
-  icon = 'https://picsum.photos/800/300',
-  name = 'Favourite books',
-  fullName = 'favbooks@abc.com',
-  communityIcon = 'https://picsum.photos/800/300',
+  icon = 'https://i0.wp.com/japanese-journey.com/wp-content/uploads/2016/03/spaced-repetition.png',
+  name = 'Spaced repetition',
+  fullName = 'spaced_repetition@home.moodle.net',
+  communityIcon = 'https://i0.wp.com/japanese-journey.com/wp-content/uploads/2016/03/spaced-repetition.png',
   communityName = 'Super community',
-  summary = 'Cooperation combined with network effects is more effective than capitalist competition'
+  summary = 'Technology such as games and mobile apps can help manage your learning and your forgetting.'
 ): HeroCollectionProps => {
   return {
     collection: {
