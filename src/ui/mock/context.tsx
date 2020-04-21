@@ -53,18 +53,21 @@ import Flags from 'ui/pages/settings/flags';
 import Preferences from 'ui/pages/settings/preferences';
 import Emails from 'ui/pages/settings/invites';
 import Instance from 'ui/pages/settings/instance';
+import ModerationLog from 'ui/pages/settings/logs';
 import { FeaturedCommunitiesData as FeaturedCommunitiesProps } from 'ui/modules/FeaturedCommunities';
 import { FeaturedCollectionsData as FeaturedCollectionsProps } from 'ui/modules/FeaturedCollections';
 import { FlaggedItem } from 'ui/modules/Previews/FlaggedItem';
 import { Comment } from 'ui/modules/Previews/Comment';
 import { Collection } from 'ui/modules/Previews/Collection';
 import { Resource } from 'ui/modules/Previews/Resource';
+import { User } from 'ui/modules/Previews/User';
 
 import {
   ActivityPreview,
   Status as ActivityStatus,
   ActivityLoaded
 } from 'ui/modules/ActivityPreview';
+// import { User as UserIcon } from 'react-feather';
 
 export const getEditCommunityProps = (): EditCommunityProps => {
   const formik = useFormik<EditCommunityFormValues>({
@@ -519,11 +522,92 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
     link: 'https://picsum.photos/80/80'
   };
 
+  const activityUserPreviewProps: ActivityLoaded = {
+    communityLink: 'communityLink',
+    communityName: 'communityName',
+    event: 'Flagged a user',
+    preview: (
+      <FlaggedItem
+        flaggedItemContext={
+          <User
+            hideActions={true}
+            image={
+              'https://pbs.twimg.com/profile_images/1161428802091802627/O49Ggs-7_400x400.jpg'
+            }
+            bio={`I'm a cool user`}
+            username={'@favbooks@abc.com'}
+            name={'˗ˏˋ Doug Belshaw ˎˊ˗ '}
+            isFollowing={true}
+            toggleFollowFormik={useFormik<{}>({
+              initialValues: {},
+              onSubmit: vals => {
+                action('submitting...')();
+                return new Promise(resolve =>
+                  setTimeout(() => {
+                    action('submitted...')();
+                    resolve();
+                  }, 2000)
+                );
+              }
+            })}
+          />
+        }
+        BlockModal={({ done }) => {
+          const formik = useFormik<{}>({
+            initialValues: {},
+            onSubmit: () => {
+              action('submit')();
+              return new Promise((resolve, reject) => {
+                setTimeout(resolve, 3000);
+              });
+            }
+          });
+          const getConfirmationModalProps = {
+            formik,
+            modalTitle: 'Block User',
+            modalDescription:
+              'Are you sure you want to block the user on this instance?',
+            modalAction: 'Block',
+            cancel: action('cancel')
+          };
+          return <ConfirmationModal {...getConfirmationModalProps} />;
+        }}
+        IgnoreModal={({ done }) => {
+          const formik = useFormik<{}>({
+            initialValues: {},
+            onSubmit: () => {
+              action('submit')();
+              return new Promise((resolve, reject) => {
+                setTimeout(resolve, 3000);
+              });
+            }
+          });
+          const getIgnoreModalProps = {
+            formik,
+            modalTitle: 'Ignore Flag',
+            modalDescription:
+              'Are you sure you want to delete the flag for this user?',
+            modalAction: 'Delete',
+            cancel: action('cancel')
+          };
+          return <ConfirmationModal {...getIgnoreModalProps} />;
+        }}
+        type="User"
+        reason="Inappropriate language"
+      />
+    ),
+    status: ActivityStatus.Loaded,
+    actor: getActor(),
+    createdAt: '2018-11-11',
+    link: 'https://picsum.photos/80/80'
+  };
+
   const ActivitiesBox = (
     <React.Fragment>
       <ActivityPreview {...activityPreviewProps} />
       <ActivityPreview {...activityCollectionPreviewProps} />
       <ActivityPreview {...activityResourcePreviewProps} />
+      <ActivityPreview {...activityUserPreviewProps} />
     </React.Fragment>
   );
 
@@ -562,6 +646,7 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
     ),
     Flags: <Flags ActivitiesBox={ActivitiesBox} />,
     Instance: <Instance domainsList={['moodle.com']} />,
+    ModerationLog: <ModerationLog />,
     isAdmin: true
   };
 };
