@@ -96,7 +96,7 @@ export function UserPreviewProps(
 
 export function CommentPreviewProps(
   url = '/',
-  content = 'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here ',
+  content = 'After <i>longtime</i> I made a design for <a href="https://moodle.com">Uplabs Music player</a> design challenge. <br/> i hope you all like this. if you <b>like my design</b> dont forgot to Vote in Uplabs ( 25 June ). Vote Here ',
   isFlagged = false
 ): CommentProps {
   return {
