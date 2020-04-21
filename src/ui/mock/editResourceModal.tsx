@@ -9,12 +9,12 @@ export const getEditResourceModalProps = (): EditResourceProps => {
   const formik = useFormik<EditResourceFormValues>({
     initialValues: {
       image:
-        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.MPaPKKyEuv4RMPDu3T_ppgHaE7%26pid%3DApi&f=1',
+        'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1388528253l/79681.jpg',
       url:
-        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.MPaPKKyEuv4RMPDu3T_ppgHaE7%26pid%3DApi&f=1',
-      name: '24grana best songs',
+        'https://www.goodreads.com/book/show/79681.Teaching_as_a_Subversive_Activity',
+      name: 'Teaching as a Subversive Activity',
       summary:
-        '24 Grana appeared on the Italian underground scene in the mid 90s, in a period of a great social, political and cultural ferment. The band is named after a coin used at the times of Kind Ferdinand of Aragona.'
+        'A no-holds-barred assault on outdated teaching methods - with dramatic & practical proposals on how education can be made relevant to todays world.'
     },
     onSubmit: () => {
       action('submit')();

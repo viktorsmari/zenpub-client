@@ -11,7 +11,7 @@ import { FlaggedProps } from 'ui/modules/Previews/FlaggedItem';
 import { CommentProps as ThreadProps } from 'ui/modules/Previews/Thread';
 
 export function CollectionPreviewProps(
-  username = 'Test collection',
+  username = 'Awesomeness',
   isFollowing = true,
   icon = 'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png',
   summary = 'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
@@ -30,7 +30,7 @@ export function CollectionPreviewProps(
 
 export function CommunityPreviewProps(
   icon = 'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png',
-  name = 'mantarai',
+  name = 'Amazing community',
   displayUsername = '@community@moodle.net',
   summary = 'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
 ): CommunityProps {

@@ -132,10 +132,10 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
       following: false,
       isFlagged: false,
       icon: 'https://picsum.photos/800/300',
-      name: 'Community nino',
-      fullName: 'ninos@abc.com',
+      name: 'Creative Commons licensing',
+      fullName: 'creative_commons_licensing@home.moodle.net',
       summary:
-        'Cooperation combined with network effects is more effective than capitalist competition',
+        'This community aims to help those new to openly licensing their resources with choosing the correct Creative Commons license.',
       totalMembers: 193,
       toggleJoinFormik: useFormik<{}>({
         initialValues: {},
@@ -545,6 +545,24 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
       });
     }
   });
+  const formikAddDomain = useFormik<{ domain: string }>({
+    initialValues: { domain: '' },
+    onSubmit: ({ domain }) => {
+      action(`formikAddDomain ${domain}`)();
+      return new Promise((resolve, reject) => {
+        setTimeout(resolve, 3000);
+      });
+    }
+  });
+  const formikRemoveDomain = useFormik<{ domain: string }>({
+    initialValues: { domain: '' },
+    onSubmit: ({ domain }) => {
+      action(`formikRemoveDomain ${domain}`)();
+      return new Promise((resolve, reject) => {
+        setTimeout(resolve, 3000);
+      });
+    }
+  });
   return {
     formik,
     basePath: '/',
@@ -561,7 +579,13 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
       />
     ),
     Flags: <Flags ActivitiesBox={ActivitiesBox} />,
-    Instance: <Instance domainsList={['moodle.com']} />,
+    Instance: (
+      <Instance
+        formikAddDomain={formikAddDomain}
+        formikRemoveDomain={formikRemoveDomain}
+        domainsList={['moodle.com']}
+      />
+    ),
     isAdmin: true
   };
 };
