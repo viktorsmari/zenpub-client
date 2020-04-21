@@ -3,49 +3,41 @@
     "types": [
       {
         "kind": "UNION",
-        "name": "UploadParent",
+        "name": "ProductionFlowItem",
+        "possibleTypes": [{ "name": "EconomicResource" }, { "name": "Process" }]
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "Agent",
+        "possibleTypes": [{ "name": "Organization" }, { "name": "Person" }]
+      },
+      {
+        "kind": "UNION",
+        "name": "ActivityContext",
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Comment" },
           { "name": "Community" },
+          { "name": "Flag" },
+          { "name": "Follow" },
+          { "name": "Like" },
           { "name": "Resource" },
           { "name": "User" }
         ]
       },
       {
         "kind": "UNION",
-        "name": "FeatureContext",
-        "possibleTypes": [{ "name": "Collection" }, { "name": "Community" }]
-      },
-      {
-        "kind": "UNION",
-        "name": "ThreadContext",
+        "name": "FollowContext",
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Community" },
-          { "name": "Flag" },
-          { "name": "Resource" }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "FlagContext",
-        "possibleTypes": [
-          { "name": "Collection" },
-          { "name": "Comment" },
-          { "name": "Community" },
-          { "name": "Feature" },
-          { "name": "Flag" },
-          { "name": "Follow" },
-          { "name": "Like" },
-          { "name": "Resource" },
           { "name": "Thread" },
           { "name": "User" }
         ]
       },
       {
         "kind": "UNION",
-        "name": "ActivityContext",
+        "name": "DeleteContext",
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Comment" },
@@ -72,23 +64,39 @@
       },
       {
         "kind": "UNION",
-        "name": "DeleteContext",
+        "name": "FeatureContext",
+        "possibleTypes": [{ "name": "Collection" }, { "name": "Community" }]
+      },
+      {
+        "kind": "UNION",
+        "name": "EventOrCommitment",
+        "possibleTypes": [{ "name": "Commitment" }, { "name": "EconomicEvent" }]
+      },
+      {
+        "kind": "UNION",
+        "name": "FlagContext",
         "possibleTypes": [
           { "name": "Collection" },
+          { "name": "Comment" },
           { "name": "Community" },
-          { "name": "Thread" },
+          { "name": "Resource" },
           { "name": "User" }
         ]
       },
       {
         "kind": "UNION",
-        "name": "FollowContext",
+        "name": "ThreadContext",
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Community" },
-          { "name": "Thread" },
-          { "name": "User" }
+          { "name": "Flag" },
+          { "name": "Resource" }
         ]
+      },
+      {
+        "kind": "UNION",
+        "name": "ScopeContext",
+        "possibleTypes": [{ "name": "Collection" }, { "name": "Community" }]
       }
     ]
   }
