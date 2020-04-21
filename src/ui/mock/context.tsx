@@ -132,10 +132,10 @@ export const getHeroCommunityProps = (): HeroCommunityProps => {
       following: false,
       isFlagged: false,
       icon: 'https://picsum.photos/800/300',
-      name: 'Community nino',
-      fullName: 'ninos@abc.com',
+      name: 'Creative Commons licensing',
+      fullName: 'creative_commons_licensing@home.moodle.net',
       summary:
-        'Cooperation combined with network effects is more effective than capitalist competition',
+        'This community aims to help those new to openly licensing their resources with choosing the correct Creative Commons license.',
       totalMembers: 193,
       toggleJoinFormik: useFormik<{}>({
         initialValues: {},
