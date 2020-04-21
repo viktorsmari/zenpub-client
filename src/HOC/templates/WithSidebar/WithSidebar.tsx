@@ -21,7 +21,7 @@ export const WithSidebarTemplate: FC<WithSidebarTemplate> = ({ children }) => {
       Search: <SearchBox />,
       user: {
         logout: meQ.logout,
-        icon: user.icon || '',
+        icon: user.icon?.url || '',
         link: `/user/${user.id}`,
         name: user.name || ''
       }

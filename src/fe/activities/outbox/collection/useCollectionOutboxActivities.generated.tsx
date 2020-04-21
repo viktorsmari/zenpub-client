@@ -13,8 +13,8 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type CollectionOutboxActivitiesQueryVariables = {
   collectionId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
-  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+  before?: Types.Maybe<Array<Types.Scalars['Cursor']>>,
+  after?: Types.Maybe<Array<Types.Scalars['Cursor']>>
 };
 
 
@@ -48,7 +48,7 @@ export const CollectionOutboxActivityFragmentDoc = gql`
 }
     ${ActivityPreviewFragmentDoc}`;
 export const CollectionOutboxActivitiesDocument = gql`
-    query collectionOutboxActivities($collectionId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
+    query collectionOutboxActivities($collectionId: String!, $limit: Int, $before: [Cursor!], $after: [Cursor!]) {
   collection(collectionId: $collectionId) @connection(key: "collectionOutboxActivities", filter: ["collectionId"]) {
     id
     outbox(limit: $limit, before: $before, after: $after) {

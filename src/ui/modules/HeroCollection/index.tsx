@@ -90,10 +90,10 @@ export const HeroCollection: FC<Props> = ({ collection: c }) => {
             </CountTot>
           </CountWrapper>
           <ActionsHero mt={3} alignItems={'center'}>
-            <More mr={2} onClick={() => setOpenDropdown(true)}>
-              <MoreVertical size={20} />
+            <More mr={2}>
+              <MoreVertical size={20} onClick={() => setOpenDropdown(true)} />
               {isOpenDropdown && (
-                <Dropdown orientation={['top', 'left']} cb={setOpenDropdown}>
+                <Dropdown orientation={'top'} cb={setOpenDropdown}>
                   {c.canModify && (
                     <DropdownItem onClick={() => setOpenSettings(true)}>
                       <Settings size={20} color={'rgb(101, 119, 134)'} />

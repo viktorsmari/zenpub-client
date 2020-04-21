@@ -1,6 +1,6 @@
 fragment UserPreview on User {
-  icon
-  image
+  icon{ id, url }
+  image{ id, url }
   userId: id 
   userName: name
   displayUsername

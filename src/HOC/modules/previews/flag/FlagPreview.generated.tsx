@@ -20,7 +20,7 @@ import { CommentPreviewFragmentDoc } from '../comment/CommentPreview.generated';
 export type FlagPreviewFragment = (
   { __typename: 'Flag' }
   & Pick<Types.Flag, 'id'>
-  & { context: Types.Maybe<(
+  & { context: (
     { __typename: 'Collection' }
     & CollectionPreviewFragment
   ) | (
@@ -35,7 +35,7 @@ export type FlagPreviewFragment = (
   ) | (
     { __typename: 'User' }
     & UserPreviewFragment
-  )> }
+  ) }
 );
 
 export const FlagPreviewFragmentDoc = gql`

@@ -13,7 +13,7 @@ export type LikeMutation = (
   { __typename: 'RootMutationType' }
   & { createLike: Types.Maybe<(
     { __typename: 'Like' }
-    & { context: Types.Maybe<(
+    & { context: (
       { __typename: 'Collection' }
       & Pick<Types.Collection, 'id' | 'likerCount'>
       & { myLike: Types.Maybe<(
@@ -52,7 +52,7 @@ export type LikeMutation = (
         { __typename: 'Like' }
         & Pick<Types.Like, 'id'>
       )> }
-    )> }
+    ) }
   )> }
 );
 
@@ -65,7 +65,7 @@ export type UnlikeMutation = (
   { __typename: 'RootMutationType' }
   & { delete: Types.Maybe<{ __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Feature' } | { __typename: 'Flag' } | { __typename: 'Follow' } | (
     { __typename: 'Like' }
-    & { context: Types.Maybe<(
+    & { context: (
       { __typename: 'Collection' }
       & Pick<Types.Collection, 'id' | 'likerCount'>
       & { myLike: Types.Maybe<(
@@ -104,7 +104,7 @@ export type UnlikeMutation = (
         { __typename: 'Like' }
         & Pick<Types.Like, 'id'>
       )> }
-    )> }
+    ) }
   ) | { __typename: 'Resource' } | { __typename: 'Thread' } | { __typename: 'User' }> }
 );
 

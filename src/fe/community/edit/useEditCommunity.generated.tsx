@@ -6,7 +6,11 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 
 export type EditCommunityQueryDataFragment = (
   { __typename: 'Community' }
-  & Pick<Types.Community, 'id' | 'name' | 'summary' | 'icon' | 'updatedAt'>
+  & Pick<Types.Community, 'id' | 'name' | 'summary' | 'updatedAt'>
+  & { icon: Types.Maybe<(
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
+  )> }
 );
 
 export type EditCommunityDataQueryVariables = {
@@ -24,7 +28,8 @@ export type EditCommunityDataQuery = (
 
 export type EditCommunityMutationVariables = {
   community: Types.CommunityUpdateInput,
-  communityId: Types.Scalars['String']
+  communityId: Types.Scalars['String'],
+  icon?: Types.Maybe<Types.UploadInput>
 };
 
 
@@ -41,7 +46,10 @@ export const EditCommunityQueryDataFragmentDoc = gql`
   id
   name
   summary
-  icon
+  icon {
+    id
+    url
+  }
   updatedAt
 }
     `;
@@ -79,8 +87,8 @@ export type EditCommunityDataQueryHookResult = ReturnType<typeof useEditCommunit
 export type EditCommunityDataLazyQueryHookResult = ReturnType<typeof useEditCommunityDataLazyQuery>;
 export type EditCommunityDataQueryResult = ApolloReactCommon.QueryResult<EditCommunityDataQuery, EditCommunityDataQueryVariables>;
 export const EditCommunityDocument = gql`
-    mutation editCommunity($community: CommunityUpdateInput!, $communityId: String!) {
-  updateCommunity(communityId: $communityId, community: $community) {
+    mutation editCommunity($community: CommunityUpdateInput!, $communityId: String!, $icon: UploadInput) {
+  updateCommunity(community: $community, communityId: $communityId, icon: $icon) {
     ...EditCommunityQueryData
   }
 }
@@ -102,6 +110,7 @@ export type EditCommunityMutationFn = ApolloReactCommon.MutationFunction<EditCom
  *   variables: {
  *      community: // value for 'community'
  *      communityId: // value for 'communityId'
+ *      icon: // value for 'icon'
  *   },
  * });
  */

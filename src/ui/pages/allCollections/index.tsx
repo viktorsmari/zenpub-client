@@ -9,7 +9,7 @@ import { FormikHook } from 'ui/@types/types';
 
 export interface Props {
   CollectionsBoxes: JSX.Element;
-  LoadMoreFormik?: FormikHook; //FIX ME remove ? after LoadMoreFormik fix
+  LoadMoreFormik: FormikHook;
 }
 
 export const AllCollections: React.FC<Props> = ({
@@ -23,10 +23,7 @@ export const AllCollections: React.FC<Props> = ({
           <Wrapper>
             <Header name="All Collections" />
             {CollectionsBoxes}
-            {/* FIX ME after LoadMoreFormik fix */}
-            {LoadMoreFormik ? (
-              <LoadMore LoadMoreFormik={LoadMoreFormik} />
-            ) : null}
+            <LoadMore LoadMoreFormik={LoadMoreFormik} />
           </Wrapper>
         </WrapperCont>
       </HomeBox>

@@ -7,7 +7,9 @@ fragment BasicCommunity on Community {
     name
     summary
     creator { ...BasicUser }
-    icon
+    icon{
+ id, url }
+
     createdAt
     updatedAt
     lastActivity

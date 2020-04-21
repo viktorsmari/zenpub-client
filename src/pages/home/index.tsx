@@ -13,7 +13,6 @@ import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
 import { LoadMore } from 'ui/modules/Loadmore';
-import { SidePanel } from 'ui/modules/SidePanel';
 import styled from 'ui/themes/styled';
 import Empty from '../../components/elements/Empty';
 import Loader from '../../components/elements/Loader/Loader';
@@ -25,13 +24,13 @@ import {
 } from '../../graphql/getMeInbox.generated';
 import { LikeMutationMutationOperation } from '../../graphql/like.generated';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
-// import {
-//   Nav,
-//   NavItem,
-//   Panel,
-//   PanelTitle,
-//   WrapperPanel
-// } from 'ui/elements/Panel';
+import {
+  Nav,
+  NavItem,
+  Panel,
+  PanelTitle,
+  WrapperPanel
+} from 'ui/elements/Panel';
 import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 import { Wrapper, WrapperCont } from '../wrappers/Wrappers';
 export enum HomePageTab {
@@ -81,9 +80,13 @@ export const Home: React.FC<Props> = ({ tab }) => {
     [refetch]
   );
   const { me } = useMe();
-  const { myFollowedCommunitiesPage } = useMyFollowedCommunities();
+  const {
+    myCommunityFollowsPage: myFollowedCommunitiesPage
+  } = useMyFollowedCommunities();
   const [nextCommunitiesFormik] = useFormikPage(myFollowedCommunitiesPage);
-  const { myFollowedCollectionsPage } = useMyFollowedCollections();
+  const {
+    myCollectionFollowsPage: myFollowedCollectionsPage
+  } = useMyFollowedCollections();
   const [nextCollectionsFormik] = useFormikPage(myFollowedCollectionsPage);
   return (
     <MainContainer>
@@ -120,9 +123,12 @@ export const Home: React.FC<Props> = ({ tab }) => {
               <>
                 {tab === HomePageTab.MyCommunities && (
                   <>
-                    {myFollowedCommunitiesPage.edges.map(_ => (
-                      <CommunityPreviewHOC communityId={_.community.id} />
-                    ))}
+                    {myFollowedCommunitiesPage.edges.map(
+                      _ =>
+                        _.context.__typename === 'Community' && (
+                          <CommunityPreviewHOC communityId={_.context.id} />
+                        )
+                    )}
                     {nextCommunitiesFormik && (
                       <LoadMore LoadMoreFormik={nextCommunitiesFormik} />
                     )}
@@ -130,9 +136,12 @@ export const Home: React.FC<Props> = ({ tab }) => {
                 )}
                 {tab === HomePageTab.MyCommunities && (
                   <>
-                    {myFollowedCollectionsPage.edges.map(_ => (
-                      <CollectionPreviewHOC collectionId={_.collection.id} />
-                    ))}
+                    {myFollowedCollectionsPage.edges.map(
+                      _ =>
+                        _.context.__typename === 'Collection' && (
+                          <CollectionPreviewHOC collectionId={_.context.id} />
+                        )
+                    )}
                     {nextCollectionsFormik && (
                       <LoadMore LoadMoreFormik={nextCollectionsFormik} />
                     )}
@@ -143,7 +152,7 @@ export const Home: React.FC<Props> = ({ tab }) => {
           </Wrapper>
         </WrapperCont>
       </HomeBox>
-      {/* <WrapperPanel>
+      <WrapperPanel>
         <Panel>
           <PanelTitle fontSize={0} fontWeight={'bold'}>
             <Trans>My MoodleNet</Trans>
@@ -165,8 +174,7 @@ export const Home: React.FC<Props> = ({ tab }) => {
             ) : null}
           </Nav>
         </Panel>
-      </WrapperPanel> */}
-      <SidePanel />
+      </WrapperPanel>
     </MainContainer>
   );
 };

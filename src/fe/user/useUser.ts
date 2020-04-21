@@ -12,9 +12,9 @@ export const useUser = (userId: User['id']) => {
 
   return useMemo(() => {
     const user = userQ.data?.user;
-    const totalCollections = user?.followedCollections?.totalCount;
-    const totalCommunities = user?.followedCommunities?.totalCount;
-    const totalUsers = user?.followedUsers?.totalCount;
+    const totalCollections = user?.collectionFollows?.totalCount;
+    const totalCommunities = user?.communityFollows?.totalCount;
+    const totalUsers = user?.userFollows?.totalCount;
     const totalActivities = user?.outbox?.totalCount;
     const isMe = !!(me && user && me.user.id == user.id);
 

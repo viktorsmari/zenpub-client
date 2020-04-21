@@ -12,7 +12,7 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 
 export type GetMeInboxQueryVariables = {
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  end?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+  end?: Types.Maybe<Array<Types.Scalars['Cursor']>>
 };
 
 
@@ -39,7 +39,7 @@ export type GetMeInboxQuery = (
 
 
 export const GetMeInboxDocument = gql`
-    query getMeInbox($limit: Int, $end: [Cursor]) {
+    query getMeInbox($limit: Int, $end: [Cursor!]) {
   me {
     user {
       ...BasicUser

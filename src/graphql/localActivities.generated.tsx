@@ -9,7 +9,7 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 
 export type LocalActivitiesQueryVariables = {
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  end?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+  end?: Types.Maybe<Array<Types.Scalars['Cursor']>>
 };
 
 
@@ -32,7 +32,7 @@ export type LocalActivitiesQuery = (
 
 
 export const LocalActivitiesDocument = gql`
-    query localActivities($limit: Int, $end: [Cursor]) {
+    query localActivities($limit: Int, $end: [Cursor!]) {
   instance {
     outbox(limit: $limit, after: $end) {
       pageInfo {

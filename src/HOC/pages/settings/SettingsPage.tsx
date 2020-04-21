@@ -1,4 +1,4 @@
-import { useProfile } from 'fe/user/settings/useSettings';
+import { useProfile } from 'fe/user/profile/useProfile';
 import { useFormik } from 'formik';
 import { useMe } from 'fe/session/useMe';
 import React, { FC, useMemo } from 'react';
@@ -29,17 +29,18 @@ export const SettingsPage: FC<SettingsPage> = ({ basePath }) => {
   const { me } = useMe();
   const { profile, updateProfile } = useProfile();
   const initialValues: EditProfile = {
-    icon: profile?.icon || '',
-    image: profile?.image || '',
+    icon: profile?.icon?.url || undefined,
+    image: profile?.image?.url || undefined,
     location: profile?.location || '',
     name: profile?.name || '',
-    summary: profile?.summary || '',
-    website: profile?.website || ''
+    website: profile?.website || '',
+    summary: profile?.summary || ''
   };
   const updateProfileFormik = useFormik<EditProfile>({
     initialValues,
     enableReinitialize: true,
-    onSubmit: editVals => updateProfile(editVals)
+    onSubmit: ({ icon, image, ...profile }) =>
+      updateProfile({ profile, icon, image })
   });
 
   const settingsPageProps = useMemo<SettingsUIProps | null>(() => {

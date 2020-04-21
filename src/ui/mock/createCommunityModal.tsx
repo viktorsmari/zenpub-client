@@ -10,8 +10,7 @@ export const getCreateCommunityModalProps = (): CreateCommunityProps => {
     initialValues: {
       icon: '',
       name: '',
-      summary: '',
-      files: []
+      summary: ''
     },
     onSubmit: () => {
       action('submit')();

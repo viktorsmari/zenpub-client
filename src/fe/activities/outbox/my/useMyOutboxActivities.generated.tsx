@@ -11,8 +11,8 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 
 
 export type MyOutboxActivitiesQueryVariables = {
-  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
-  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
+  after?: Types.Maybe<Array<Types.Scalars['Cursor']>>,
+  before?: Types.Maybe<Array<Types.Scalars['Cursor']>>,
   limit?: Types.Maybe<Types.Scalars['Int']>
 };
 
@@ -50,7 +50,7 @@ export const MyOutboxActivityFragmentDoc = gql`
 }
     ${ActivityPreviewFragmentDoc}`;
 export const MyOutboxActivitiesDocument = gql`
-    query myOutboxActivities($after: [Cursor], $before: [Cursor], $limit: Int) {
+    query myOutboxActivities($after: [Cursor!], $before: [Cursor!], $limit: Int) {
   me @connection(key: "myOutboxActivities") {
     user {
       id

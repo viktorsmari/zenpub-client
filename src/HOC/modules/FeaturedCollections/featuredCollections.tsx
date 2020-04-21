@@ -24,7 +24,7 @@ export const FeaturedCollections: FC<FeaturedCollections> = () => {
         )
         .map<CollectionBase>(collection => ({
           ...collection,
-          icon: collection.icon || ''
+          icon: collection.icon?.url || ''
         })),
     [featuredCollectionsPage]
   );

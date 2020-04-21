@@ -4,12 +4,26 @@ import gql from 'graphql-tag';
 
 export type SidebarFollowedCommunityFragment = (
   { __typename: 'Community' }
-  & Pick<Types.Community, 'id' | 'isLocal' | 'canonicalUrl' | 'icon' | 'name'>
+  & Pick<Types.Community, 'id' | 'isLocal' | 'canonicalUrl' | 'name'>
+  & { icon: Types.Maybe<(
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
+  )>, image: Types.Maybe<(
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
+  )> }
 );
 
 export type SidebarMeUserFragment = (
   { __typename: 'User' }
-  & Pick<Types.User, 'id' | 'name' | 'icon'>
+  & Pick<Types.User, 'id' | 'name'>
+  & { icon: Types.Maybe<(
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
+  )>, image: Types.Maybe<(
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
+  )> }
 );
 
 export const SidebarFollowedCommunityFragmentDoc = gql`
@@ -17,7 +31,14 @@ export const SidebarFollowedCommunityFragmentDoc = gql`
   id
   isLocal
   canonicalUrl
-  icon
+  icon {
+    id
+    url
+  }
+  image {
+    id
+    url
+  }
   name
 }
     `;
@@ -25,6 +46,13 @@ export const SidebarMeUserFragmentDoc = gql`
     fragment SidebarMeUser on User {
   id
   name
-  icon
+  icon {
+    id
+    url
+  }
+  image {
+    id
+    url
+  }
 }
     `;

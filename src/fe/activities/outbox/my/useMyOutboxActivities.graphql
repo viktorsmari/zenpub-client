@@ -1,7 +1,7 @@
 
 
 
-query myOutboxActivities($after:[Cursor], $before:[Cursor], $limit:Int){
+query myOutboxActivities($after:[Cursor!], $before:[Cursor!], $limit:Int){
   me @connection(key: "myOutboxActivities"){
     user{
 

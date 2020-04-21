@@ -10,8 +10,7 @@ export const getCreateCollectionModalProps = (): CreateCollectionProps => {
     initialValues: {
       icon: '',
       name: '',
-      summary: '',
-      files: []
+      summary: ''
     },
     onSubmit: () => {
       action('submit')();

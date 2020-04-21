@@ -23,7 +23,11 @@ export type CreateThreadMutationMutation = (
       & BasicCommentWithInReplyToFragment
     )>, creator: Types.Maybe<(
       { __typename: 'User' }
-      & Pick<Types.User, 'name' | 'icon'>
+      & Pick<Types.User, 'name'>
+      & { icon: Types.Maybe<(
+        { __typename: 'Content' }
+        & Pick<Types.Content, 'id' | 'url'>
+      )> }
     )>, thread: Types.Maybe<(
       { __typename: 'Thread' }
       & Pick<Types.Thread, 'id'>
@@ -48,7 +52,10 @@ export const CreateThreadMutationDocument = gql`
     updatedAt
     creator {
       name
-      icon
+      icon {
+        id
+        url
+      }
     }
     thread {
       id

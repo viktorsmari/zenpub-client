@@ -13,8 +13,8 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type UserFollowedCommunitiesQueryVariables = {
   userId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
-  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+  before?: Types.Maybe<Array<Types.Scalars['Cursor']>>,
+  after?: Types.Maybe<Array<Types.Scalars['Cursor']>>
 };
 
 
@@ -23,21 +23,19 @@ export type UserFollowedCommunitiesQuery = (
   & { user: Types.Maybe<(
     { __typename: 'User' }
     & Pick<Types.User, 'id'>
-    & { followedCommunities: Types.Maybe<(
-      { __typename: 'FollowedCommunitiesPage' }
-      & Pick<Types.FollowedCommunitiesPage, 'totalCount'>
+    & { communityFollows: Types.Maybe<(
+      { __typename: 'FollowsPage' }
+      & Pick<Types.FollowsPage, 'totalCount'>
       & { pageInfo: (
         { __typename: 'PageInfo' }
         & FullPageInfoFragment
       ), edges: Array<(
-        { __typename: 'FollowedCommunity' }
-        & { follow: (
-          { __typename: 'Follow' }
-          & Pick<Types.Follow, 'id'>
-        ), community: (
+        { __typename: 'Follow' }
+        & Pick<Types.Follow, 'id'>
+        & { context: { __typename: 'Collection' } | (
           { __typename: 'Community' }
           & UserFollowedCommunityFragment
-        ) }
+        ) | { __typename: 'Thread' } | { __typename: 'User' } }
       )> }
     )> }
   )> }
@@ -54,20 +52,20 @@ export const UserFollowedCommunityFragmentDoc = gql`
 }
     ${CommunityPreviewFragmentDoc}`;
 export const UserFollowedCommunitiesDocument = gql`
-    query userFollowedCommunities($userId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
+    query userFollowedCommunities($userId: String!, $limit: Int, $before: [Cursor!], $after: [Cursor!]) {
   user(userId: $userId) @connection(key: "userFollowedCommunities", filter: ["userId"]) {
     id
-    followedCommunities(limit: $limit, before: $before, after: $after) {
+    communityFollows(limit: $limit, before: $before, after: $after) {
       totalCount
       pageInfo {
         ...FullPageInfo
       }
       edges {
-        follow {
-          id
-        }
-        community {
-          ...UserFollowedCommunity
+        id
+        context {
+          ... on Community {
+            ...UserFollowedCommunity
+          }
         }
       }
     }

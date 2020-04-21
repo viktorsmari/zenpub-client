@@ -1,5 +1,5 @@
-mutation createCollection($collection: CollectionInput!, $communityId: String!) {
-  createCollection(communityId: $communityId, collection: $collection) {
+mutation createCollection($collection: CollectionInput!, $communityId: String!, $icon: UploadInput) {
+  createCollection(collection: $collection, communityId: $communityId, icon:$icon) {
     ...CollectionPageData
   }
 }

@@ -8,7 +8,8 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 
 
 export type CreateCommunityMutationVariables = {
-  community: Types.CommunityInput
+  community: Types.CommunityInput,
+  icon?: Types.Maybe<Types.UploadInput>
 };
 
 
@@ -22,8 +23,8 @@ export type CreateCommunityMutation = (
 
 
 export const CreateCommunityDocument = gql`
-    mutation createCommunity($community: CommunityInput!) {
-  createCommunity(community: $community) {
+    mutation createCommunity($community: CommunityInput!, $icon: UploadInput) {
+  createCommunity(community: $community, icon: $icon) {
     ...CommunityPageData
   }
 }
@@ -44,6 +45,7 @@ export type CreateCommunityMutationFn = ApolloReactCommon.MutationFunction<Creat
  * const [createCommunityMutation, { data, loading, error }] = useCreateCommunityMutation({
  *   variables: {
  *      community: // value for 'community'
+ *      icon: // value for 'icon'
  *   },
  * });
  */

@@ -14,8 +14,11 @@ export type UpdateCollectionMutationMutation = (
   { __typename: 'RootMutationType' }
   & { updateCollection: Types.Maybe<(
     { __typename: 'Collection' }
-    & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'createdAt' | 'updatedAt'>
-    & { resources: Types.Maybe<(
+    & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'createdAt' | 'updatedAt'>
+    & { icon: Types.Maybe<(
+      { __typename: 'Content' }
+      & Pick<Types.Content, 'id' | 'url'>
+    )>, resources: Types.Maybe<(
       { __typename: 'ResourcesPage' }
       & Pick<Types.ResourcesPage, 'totalCount'>
     )> }
@@ -31,7 +34,10 @@ export const UpdateCollectionMutationDocument = gql`
     preferredUsername
     name
     summary
-    icon
+    icon {
+      id
+      url
+    }
     createdAt
     updatedAt
     resources {

@@ -1,20 +1,27 @@
 
-query myFollowedCommunities {
-  me @connection(key: "myFollowedCommunities"){
-    ...MyFollowedCommunitiesMeData
+query myCommunityFollows {
+  me @connection(key: "myCommunityFollows"){
+    ...MyCommunityFollowsData
   }
 }
 
-fragment MyFollowedCommunitiesMeData on Me {
+fragment MyCommunityFollowsData on Me {
   user{
     id
-    followedCommunities{
+    communityFollows{
       totalCount,
       pageInfo{ ...FullPageInfo }
       edges{
-        community { ...SidebarFollowedCommunity, ...CommunityPreview }
-        follow { id }
+        id 
+        context{
+          ...on Community { ...MyFollowedCommunityData }
+        }
       }
     }
   }
+}
+
+fragment MyFollowedCommunityData on Community{
+  ...SidebarFollowedCommunity,
+  ...CommunityPreview
 }

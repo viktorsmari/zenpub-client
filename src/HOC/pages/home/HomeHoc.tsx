@@ -7,6 +7,8 @@ import { CollectionPreviewHOC } from 'HOC/modules/previews/collection/Collection
 import { CommunityPreviewHOC } from 'HOC/modules/previews/community/CommunityPreview';
 import React, { FC, useMemo } from 'react';
 import { Home, HomePageTab, Props } from 'ui/pages/home';
+import { MyFollowedCommunityDataFragment } from 'fe/community/myFollowed/myFollowedCommunities.generated';
+import { MyFollowedCollectionDataFragment } from 'fe/collection/myFollowed/myFollowedCollections.generated';
 export { HomePageTab } from 'ui/pages/home';
 
 export interface HomePageHOC {
@@ -14,42 +16,50 @@ export interface HomePageHOC {
 }
 
 export const HomePageHOC: FC<HomePageHOC> = ({ tab }) => {
-  const { myFollowedCommunitiesPage } = useMyFollowedCommunities();
-  const [nextCommunitiesFormik] = useFormikPage(myFollowedCommunitiesPage);
+  const { myCommunityFollowsPage } = useMyFollowedCommunities();
+  const [nextCommunitiesFormik] = useFormikPage(myCommunityFollowsPage);
   const FollowedCommunitiesElements = useMemo<
     Props['FollowedCommunitiesElements']
   >(() => {
     return (
       <>
-        {myFollowedCommunitiesPage.edges!.map(
-          followedCommunityEdge =>
-            followedCommunityEdge && (
-              <CommunityPreviewHOC
-                communityId={followedCommunityEdge.community.id}
-                key={followedCommunityEdge.community.id}
-              />
-            )
-        )}
+        {myCommunityFollowsPage
+          .edges!.map(follow => follow.context)
+          .filter(
+            (context): context is MyFollowedCommunityDataFragment =>
+              context.__typename === 'Community'
+          )
+          .map(community => (
+            <CommunityPreviewHOC
+              communityId={community.id}
+              key={community.id}
+            />
+          ))}
       </>
     );
-  }, [myFollowedCommunitiesPage]);
+  }, [myCommunityFollowsPage]);
 
-  const { myFollowedCollectionsPage } = useMyFollowedCollections();
+  const {
+    myCollectionFollowsPage: myFollowedCollectionsPage
+  } = useMyFollowedCollections();
   const [nextCollectionsFormik] = useFormikPage(myFollowedCollectionsPage);
   const FollowedCollectionsElements = useMemo<
     Props['FollowedCollectionsElements']
   >(() => {
     return (
       <>
-        {myFollowedCollectionsPage.edges!.map(
-          followedCollectionEdge =>
-            followedCollectionEdge && (
-              <CollectionPreviewHOC
-                collectionId={followedCollectionEdge.collection.id}
-                key={followedCollectionEdge.collection.id}
-              />
-            )
-        )}
+        {myFollowedCollectionsPage
+          .edges!.map(follow => follow.context)
+          .filter(
+            (context): context is MyFollowedCollectionDataFragment =>
+              context.__typename === 'Collection'
+          )
+          .map(collection => (
+            <CollectionPreviewHOC
+              collectionId={collection.id}
+              key={collection.id}
+            />
+          ))}
       </>
     );
   }, [myFollowedCollectionsPage]);

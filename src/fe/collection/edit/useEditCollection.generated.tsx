@@ -6,7 +6,11 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 
 export type EditCollectionQueryDataFragment = (
   { __typename: 'Collection' }
-  & Pick<Types.Collection, 'id' | 'name' | 'summary' | 'icon' | 'updatedAt'>
+  & Pick<Types.Collection, 'id' | 'name' | 'summary' | 'updatedAt'>
+  & { icon: Types.Maybe<(
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
+  )> }
 );
 
 export type EditCollectionDataQueryVariables = {
@@ -24,7 +28,8 @@ export type EditCollectionDataQuery = (
 
 export type EditCollectionMutationVariables = {
   collection: Types.CollectionUpdateInput,
-  collectionId: Types.Scalars['String']
+  collectionId: Types.Scalars['String'],
+  icon?: Types.Maybe<Types.UploadInput>
 };
 
 
@@ -41,7 +46,10 @@ export const EditCollectionQueryDataFragmentDoc = gql`
   id
   name
   summary
-  icon
+  icon {
+    id
+    url
+  }
   updatedAt
 }
     `;
@@ -79,8 +87,8 @@ export type EditCollectionDataQueryHookResult = ReturnType<typeof useEditCollect
 export type EditCollectionDataLazyQueryHookResult = ReturnType<typeof useEditCollectionDataLazyQuery>;
 export type EditCollectionDataQueryResult = ApolloReactCommon.QueryResult<EditCollectionDataQuery, EditCollectionDataQueryVariables>;
 export const EditCollectionDocument = gql`
-    mutation editCollection($collection: CollectionUpdateInput!, $collectionId: String!) {
-  updateCollection(collectionId: $collectionId, collection: $collection) {
+    mutation editCollection($collection: CollectionUpdateInput!, $collectionId: String!, $icon: UploadInput) {
+  updateCollection(collection: $collection, collectionId: $collectionId, icon: $icon) {
     ...EditCollectionQueryData
   }
 }
@@ -102,6 +110,7 @@ export type EditCollectionMutationFn = ApolloReactCommon.MutationFunction<EditCo
  *   variables: {
  *      collection: // value for 'collection'
  *      collectionId: // value for 'collectionId'
+ *      icon: // value for 'icon'
  *   },
  * });
  */

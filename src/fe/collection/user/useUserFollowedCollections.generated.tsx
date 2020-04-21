@@ -13,8 +13,8 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type UserFollowedCollectionsQueryVariables = {
   userId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
-  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+  before?: Types.Maybe<Array<Types.Scalars['Cursor']>>,
+  after?: Types.Maybe<Array<Types.Scalars['Cursor']>>
 };
 
 
@@ -23,21 +23,19 @@ export type UserFollowedCollectionsQuery = (
   & { user: Types.Maybe<(
     { __typename: 'User' }
     & Pick<Types.User, 'id'>
-    & { followedCollections: Types.Maybe<(
-      { __typename: 'FollowedCollectionsPage' }
-      & Pick<Types.FollowedCollectionsPage, 'totalCount'>
+    & { collectionFollows: Types.Maybe<(
+      { __typename: 'FollowsPage' }
+      & Pick<Types.FollowsPage, 'totalCount'>
       & { pageInfo: (
         { __typename: 'PageInfo' }
         & FullPageInfoFragment
       ), edges: Array<(
-        { __typename: 'FollowedCollection' }
-        & { follow: (
-          { __typename: 'Follow' }
-          & Pick<Types.Follow, 'id'>
-        ), collection: (
+        { __typename: 'Follow' }
+        & Pick<Types.Follow, 'id'>
+        & { context: (
           { __typename: 'Collection' }
           & UserFollowedCollectionFragment
-        ) }
+        ) | { __typename: 'Community' } | { __typename: 'Thread' } | { __typename: 'User' } }
       )> }
     )> }
   )> }
@@ -54,20 +52,20 @@ export const UserFollowedCollectionFragmentDoc = gql`
 }
     ${CollectionPreviewFragmentDoc}`;
 export const UserFollowedCollectionsDocument = gql`
-    query userFollowedCollections($userId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
+    query userFollowedCollections($userId: String!, $limit: Int, $before: [Cursor!], $after: [Cursor!]) {
   user(userId: $userId) @connection(key: "userFollowedCollections", filter: ["userId"]) {
     id
-    followedCollections(limit: $limit, before: $before, after: $after) {
+    collectionFollows(limit: $limit, before: $before, after: $after) {
       totalCount
       pageInfo {
         ...FullPageInfo
       }
       edges {
-        follow {
-          id
-        }
-        collection {
-          ...UserFollowedCollection
+        id
+        context {
+          ... on Collection {
+            ...UserFollowedCollection
+          }
         }
       }
     }

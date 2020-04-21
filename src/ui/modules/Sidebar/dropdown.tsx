@@ -48,7 +48,7 @@ export const DropdownSidebar: React.FC<Props> = ({
 }) => {
   const { push } = useHistory();
   return (
-    <Dropdown orientation={['top', 'left']} cb={setOpenDropdown}>
+    <Dropdown orientation={'top'} cb={setOpenDropdown}>
       <List lined>
         <Item variant="link" onClick={() => push(`/user/${userId}`)}>
           <span>

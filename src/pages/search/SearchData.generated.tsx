@@ -51,42 +51,46 @@ export type SearchMeFragment = (
   & { user: (
     { __typename: 'User' }
     & Pick<Types.User, 'id'>
-    & { followedCollections: Types.Maybe<(
-      { __typename: 'FollowedCollectionsPage' }
+    & { collectionFollows: Types.Maybe<(
+      { __typename: 'FollowsPage' }
       & { edges: Array<(
-        { __typename: 'FollowedCollection' }
-        & SearchFollowedCollectionFragment
+        { __typename: 'Follow' }
+        & Pick<Types.Follow, 'id'>
+        & { context: (
+          { __typename: 'Collection' }
+          & SearchFollowedCollectionFragment
+        ) | { __typename: 'Community' } | { __typename: 'Thread' } | { __typename: 'User' } }
       )> }
-    )>, followedCommunities: Types.Maybe<(
-      { __typename: 'FollowedCommunitiesPage' }
+    )>, communityFollows: Types.Maybe<(
+      { __typename: 'FollowsPage' }
       & { edges: Array<(
-        { __typename: 'FollowedCommunity' }
-        & SearchFollowedCommunityFragment
+        { __typename: 'Follow' }
+        & Pick<Types.Follow, 'id'>
+        & { context: { __typename: 'Collection' } | (
+          { __typename: 'Community' }
+          & SearchFollowedCommunityFragment
+        ) | { __typename: 'Thread' } | { __typename: 'User' } }
       )> }
     )> }
   ) }
 );
 
 export type SearchFollowedCommunityFragment = (
-  { __typename: 'FollowedCommunity' }
-  & { follow: (
+  { __typename: 'Community' }
+  & Pick<Types.Community, 'id' | 'canonicalUrl'>
+  & { myFollow: Types.Maybe<(
     { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
-  ), community: (
-    { __typename: 'Community' }
-    & Pick<Types.Community, 'id' | 'canonicalUrl'>
-  ) }
+  )> }
 );
 
 export type SearchFollowedCollectionFragment = (
-  { __typename: 'FollowedCollection' }
-  & { follow: (
+  { __typename: 'Collection' }
+  & Pick<Types.Collection, 'id' | 'canonicalUrl'>
+  & { myFollow: Types.Maybe<(
     { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
-  ), collection: (
-    { __typename: 'Collection' }
-    & Pick<Types.Collection, 'id' | 'canonicalUrl'>
-  ) }
+  )> }
 );
 
 export const SearchInstanceFragmentDoc = gql`
@@ -95,24 +99,20 @@ export const SearchInstanceFragmentDoc = gql`
 }
     `;
 export const SearchFollowedCollectionFragmentDoc = gql`
-    fragment SearchFollowedCollection on FollowedCollection {
-  follow {
+    fragment SearchFollowedCollection on Collection {
+  id
+  canonicalUrl
+  myFollow {
     id
-  }
-  collection {
-    id
-    canonicalUrl
   }
 }
     `;
 export const SearchFollowedCommunityFragmentDoc = gql`
-    fragment SearchFollowedCommunity on FollowedCommunity {
-  follow {
+    fragment SearchFollowedCommunity on Community {
+  id
+  canonicalUrl
+  myFollow {
     id
-  }
-  community {
-    id
-    canonicalUrl
   }
 }
     `;
@@ -120,14 +120,24 @@ export const SearchMeFragmentDoc = gql`
     fragment SearchMe on Me {
   user {
     id
-    followedCollections {
+    collectionFollows {
       edges {
-        ...SearchFollowedCollection
+        id
+        context {
+          ... on Collection {
+            ...SearchFollowedCollection
+          }
+        }
       }
     }
-    followedCommunities {
+    communityFollows {
       edges {
-        ...SearchFollowedCommunity
+        id
+        context {
+          ... on Community {
+            ...SearchFollowedCommunity
+          }
+        }
       }
     }
   }

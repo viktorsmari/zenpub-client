@@ -6,7 +6,8 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 
 export type UpdateResourceMutationMutationVariables = {
   resource: Types.ResourceInput,
-  resourceId: Types.Scalars['String']
+  resourceId: Types.Scalars['String'],
+  icon?: Types.Maybe<Types.UploadInput>
 };
 
 
@@ -14,20 +15,47 @@ export type UpdateResourceMutationMutation = (
   { __typename: 'RootMutationType' }
   & { updateResource: Types.Maybe<(
     { __typename: 'Resource' }
-    & Pick<Types.Resource, 'id' | 'name' | 'summary' | 'url' | 'license' | 'icon' | 'createdAt' | 'updatedAt'>
+    & Pick<Types.Resource, 'id' | 'name' | 'summary' | 'license' | 'createdAt' | 'updatedAt'>
+    & { content: Types.Maybe<(
+      { __typename: 'Content' }
+      & Pick<Types.Content, 'id' | 'mediaType' | 'url'>
+      & { mirror: Types.Maybe<(
+        { __typename: 'ContentMirror' }
+        & Pick<Types.ContentMirror, 'url'>
+      )>, upload: Types.Maybe<(
+        { __typename: 'ContentUpload' }
+        & Pick<Types.ContentUpload, 'size'>
+      )> }
+    )>, icon: Types.Maybe<(
+      { __typename: 'Content' }
+      & Pick<Types.Content, 'id' | 'url'>
+    )> }
   )> }
 );
 
 
 export const UpdateResourceMutationDocument = gql`
-    mutation updateResourceMutation($resource: ResourceInput!, $resourceId: String!) {
-  updateResource(resource: $resource, resourceId: $resourceId) {
+    mutation updateResourceMutation($resource: ResourceInput!, $resourceId: String!, $icon: UploadInput) {
+  updateResource(resource: $resource, resourceId: $resourceId, icon: $icon) {
     id
     name
     summary
-    url
+    content {
+      id
+      mediaType
+      mirror {
+        url
+      }
+      upload {
+        size
+      }
+      url
+    }
     license
-    icon
+    icon {
+      id
+      url
+    }
     createdAt
     updatedAt
   }
@@ -50,6 +78,7 @@ export type UpdateResourceMutationMutationFn = ApolloReactCommon.MutationFunctio
  *   variables: {
  *      resource: // value for 'resource'
  *      resourceId: // value for 'resourceId'
+ *      icon: // value for 'icon'
  *   },
  * });
  */

@@ -12,7 +12,6 @@ import { ellipsis } from 'polished';
 import { Link } from 'react-router-dom';
 import { Trans } from '@lingui/react';
 const MnetLogo = require('./moodle-logo.png');
-// import MainSidebarMenu from '../Sidebar';
 
 export interface Props {
   user: null | {
@@ -28,7 +27,7 @@ export const MainHeader: React.FC<Props> = props => {
   const history = useHistory();
   const [isOpenDropdown, setOpenDropdown] = React.useState(false);
   const openMenu = React.useCallback(() => setOpenDropdown(true), []);
-
+  // console.log(history);
   return (
     <HeaderWrapper>
       <FlexWrapper>
@@ -71,11 +70,6 @@ export const MainHeader: React.FC<Props> = props => {
                   setOpenDropdown={setOpenDropdown}
                 />
               )}
-              {/* {isOpenMainDropdown && (
-                <DropdownMenu
-                  setOpenMainDropdown={setOpenMainDropdown}
-                />
-              )} */}
             </NavItem>
           ) : (
             <Flex justifyContent="space-evenly">
@@ -124,7 +118,7 @@ const Right = styled(Box)`
 `;
 
 const HeaderName = styled(Text)`
-  ${ellipsis('140px')};
+  ${ellipsis('180px')};
 `;
 
 const NavItem = styled(Flex)`
@@ -152,9 +146,6 @@ const Header = styled(Box)`
     height: 36px;
     border-radius: 36px;
   }
-  ${media.lessThan('medium')`
-    flex: 0 0 210px;
-  `};
 `;
 
 const Icon = styled(Box)`
@@ -182,9 +173,6 @@ const Left = styled(Flex)`
   flex: 0 0 240px;
   order: 0;
   justify-content: flex-start;
-  ${media.lessThan('medium')`
-    flex: 0 0 100px;
-  `};
 `;
 
 const HeaderWrapper = styled(Box)`

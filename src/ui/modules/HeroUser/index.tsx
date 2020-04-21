@@ -90,10 +90,7 @@ export const HeroUser: FC<Props> = props => {
                     onClick={() => props.setOpenDropdown(true)}
                   />
                   {props.isOpenDropdown && (
-                    <Dropdown
-                      orientation={['top', 'right']}
-                      cb={props.setOpenDropdown}
-                    >
+                    <Dropdown orientation={'bottom'} cb={props.setOpenDropdown}>
                       <DropdownItem onClick={() => setOpenFlag(true)}>
                         <Flag size={20} color={'rgb(101, 119, 134)'} />
                         <Text sx={{ flex: 1 }} ml={2}>

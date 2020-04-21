@@ -57,8 +57,8 @@ export interface Props {
 export interface EditProfile {
   name: string;
   summary: string;
-  icon: string;
-  image: string;
+  icon: string | File | undefined;
+  image: string | File | undefined;
   location: string;
   website: string;
 }
@@ -81,7 +81,19 @@ export const Settings: React.FC<Props> = ({
   displayUsername,
   isAdmin
 }) => {
-  // isAdmin = true; //FIXME remove after HOC
+  const onIconFileSelected = React.useCallback(
+    (file: File) => formik.setFieldValue('icon', file, true),
+    []
+  );
+  const initialIconUrl =
+    'string' === typeof formik.values.icon ? formik.values.icon : '';
+  const onImageFileSelected = React.useCallback(
+    (file: File) => formik.setFieldValue('image', file, true),
+    []
+  );
+  const initialImageUrl =
+    'string' === typeof formik.values.image ? formik.values.image : '';
+
   return (
     <MainContainer>
       <Sidebar basePath={basePath} isAdmin={isAdmin} />
@@ -103,8 +115,9 @@ export const Settings: React.FC<Props> = ({
                       <Flex>
                         <Bg>
                           <DropzoneArea
-                            initialUrl={formik.values.image}
-                            formikForm={formik}
+                            initialUrl={initialImageUrl}
+                            filePattern="image/*"
+                            onFileSelect={onImageFileSelected}
                           />
                         </Bg>
                       </Flex>
@@ -112,8 +125,9 @@ export const Settings: React.FC<Props> = ({
                         <WrapperHero>
                           <Img>
                             <DropzoneArea
-                              initialUrl={formik.values.icon}
-                              formikForm={formik}
+                              initialUrl={initialIconUrl}
+                              filePattern="image/*"
+                              onFileSelect={onIconFileSelected}
                             />
                           </Img>
                         </WrapperHero>

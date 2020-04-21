@@ -2,8 +2,12 @@ fragment SettingsPageMe on Me{
   user {
     id
     name
-    icon,
-    image,
+    icon{
+ id, url }
+,
+    image{
+ id, url }
+,
     location,
     summary,
     displayUsername,

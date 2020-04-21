@@ -13,8 +13,8 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type UserFollowedUsersQueryVariables = {
   userId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
-  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+  before?: Types.Maybe<Array<Types.Scalars['Cursor']>>,
+  after?: Types.Maybe<Array<Types.Scalars['Cursor']>>
 };
 
 
@@ -23,18 +23,16 @@ export type UserFollowedUsersQuery = (
   & { user: Types.Maybe<(
     { __typename: 'User' }
     & Pick<Types.User, 'id'>
-    & { followedUsers: Types.Maybe<(
-      { __typename: 'FollowedUsersPage' }
-      & Pick<Types.FollowedUsersPage, 'totalCount'>
+    & { userFollows: Types.Maybe<(
+      { __typename: 'FollowsPage' }
+      & Pick<Types.FollowsPage, 'totalCount'>
       & { pageInfo: (
         { __typename: 'PageInfo' }
         & FullPageInfoFragment
       ), edges: Array<(
-        { __typename: 'FollowedUser' }
-        & { follow: (
-          { __typename: 'Follow' }
-          & Pick<Types.Follow, 'id'>
-        ), user: (
+        { __typename: 'Follow' }
+        & Pick<Types.Follow, 'id'>
+        & { context: { __typename: 'Collection' } | { __typename: 'Community' } | { __typename: 'Thread' } | (
           { __typename: 'User' }
           & UserFollowedUserFragment
         ) }
@@ -54,20 +52,20 @@ export const UserFollowedUserFragmentDoc = gql`
 }
     ${UserPreviewFragmentDoc}`;
 export const UserFollowedUsersDocument = gql`
-    query userFollowedUsers($userId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
+    query userFollowedUsers($userId: String!, $limit: Int, $before: [Cursor!], $after: [Cursor!]) {
   user(userId: $userId) @connection(key: "userFollowedUsers", filter: ["userId"]) {
     id
-    followedUsers(limit: $limit, before: $before, after: $after) {
+    userFollows(limit: $limit, before: $before, after: $after) {
       totalCount
       pageInfo {
         ...FullPageInfo
       }
       edges {
-        follow {
-          id
-        }
-        user {
-          ...UserFollowedUser
+        id
+        context {
+          ... on User {
+            ...UserFollowedUser
+          }
         }
       }
     }

@@ -44,7 +44,7 @@ const CommentWrapper: React.FC<EventProps> = ({
         )}
         <Member>
           <MemberItem mr={2}>
-            <Img src={(creator && creator.icon) || ''} />
+            <Img src={creator?.icon?.url || ''} />
           </MemberItem>
           <MemberInfo>
             {typeof comment!.id == 'string' ? (

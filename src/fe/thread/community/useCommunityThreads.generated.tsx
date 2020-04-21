@@ -13,8 +13,8 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type CommunityThreadsQueryVariables = {
   communityId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
-  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+  before?: Types.Maybe<Array<Types.Scalars['Cursor']>>,
+  after?: Types.Maybe<Array<Types.Scalars['Cursor']>>
 };
 
 
@@ -48,7 +48,7 @@ export const CommunityThreadFragmentDoc = gql`
 }
     ${CommunityPageThreadFragmentDoc}`;
 export const CommunityThreadsDocument = gql`
-    query communityThreads($communityId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
+    query communityThreads($communityId: String!, $limit: Int, $before: [Cursor!], $after: [Cursor!]) {
   community(communityId: $communityId) @connection(key: "communityThreads", filter: ["communityId"]) {
     id
     threads(limit: $limit, before: $before, after: $after) {

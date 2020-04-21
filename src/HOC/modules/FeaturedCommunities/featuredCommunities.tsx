@@ -24,7 +24,7 @@ export const FeaturedCommunities: FC<FeaturedCommunities> = () => {
         )
         .map<CommunityBase>(community => ({
           ...community,
-          icon: community.icon || ''
+          icon: community.icon?.url || ''
         })),
     [featuredCommunitiesPage]
   );

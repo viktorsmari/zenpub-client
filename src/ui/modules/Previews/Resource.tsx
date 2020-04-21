@@ -169,7 +169,7 @@ export const Resource: React.FC<Props> = ({
                 </Text>
                 {/* {isEnterUrlOpen && <EnterUrl close={onEnterUrlOpen} />} */}
                 {isOpen && (
-                  <Dropdown orientation={['bottom', 'right']} cb={onOpen}>
+                  <Dropdown orientation="bottom" cb={onOpen}>
                     {/* {activity.context.type === ContextType.Resource && ( */}
                     {/* <DropdownItem onClick={() => onEnterUrlOpen(true)}>
                     <Upload size={20} color={'rgb(101, 119, 134)'} />

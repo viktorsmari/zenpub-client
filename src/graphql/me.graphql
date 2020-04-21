@@ -7,8 +7,12 @@ query meQuery {
             preferredUsername
             name
             location
-            icon
-            image
+            icon{
+ id, url }
+
+            image{
+ id, url }
+
             summary
             location
             website

@@ -1,20 +1,26 @@
 
-query myFollowedCollections {
-  me @connection(key: "myFollowedCollections"){
-    ...MyFollowedCollectionsMeData
+query myCollectionFollows {
+  me @connection(key: "myCollectionFollows"){
+    ...MyCollectionFollowsData
   }
 }
 
-fragment MyFollowedCollectionsMeData on Me {
+fragment MyCollectionFollowsData on Me {
   user{
     id
-    followedCollections{
+    collectionFollows{
       totalCount,
       pageInfo{ ...FullPageInfo }
       edges{
-        collection { ...CollectionPreview }
-        follow { id }
+        id
+        context {
+          ...on Collection { ...MyFollowedCollectionData }
+        }
       }
     }
   }
+}
+
+fragment MyFollowedCollectionData on Collection{ 
+  ...CollectionPreview 
 }

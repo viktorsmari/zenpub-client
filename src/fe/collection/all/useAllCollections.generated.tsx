@@ -12,8 +12,8 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 
 export type AllCollectionsQueryVariables = {
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
-  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+  before?: Types.Maybe<Array<Types.Scalars['Cursor']>>,
+  after?: Types.Maybe<Array<Types.Scalars['Cursor']>>
 };
 
 
@@ -34,7 +34,7 @@ export type AllCollectionsQuery = (
 
 
 export const AllCollectionsDocument = gql`
-    query allCollections($limit: Int, $before: [Cursor], $after: [Cursor]) {
+    query allCollections($limit: Int, $before: [Cursor!], $after: [Cursor!]) {
   collections(limit: $limit, before: $before, after: $after) @connection(key: "allCollections") {
     edges {
       ...CollectionPreview

@@ -13,8 +13,8 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 export type ThreadCommentsQueryVariables = {
   threadId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
-  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+  before?: Types.Maybe<Array<Types.Scalars['Cursor']>>,
+  after?: Types.Maybe<Array<Types.Scalars['Cursor']>>
 };
 
 
@@ -38,7 +38,7 @@ export type ThreadCommentsQuery = (
 
 
 export const ThreadCommentsDocument = gql`
-    query threadComments($threadId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
+    query threadComments($threadId: String!, $limit: Int, $before: [Cursor!], $after: [Cursor!]) {
   thread(threadId: $threadId) @connection(key: "threadComments", filter: ["threadId"]) {
     comments(limit: $limit, before: $before, after: $after) {
       totalCount

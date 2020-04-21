@@ -27,7 +27,11 @@ export type CreateReplyMutationMutation = (
       & Pick<Types.Like, 'id'>
     )>, creator: Types.Maybe<(
       { __typename: 'User' }
-      & Pick<Types.User, 'id' | 'preferredUsername' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'isDisabled' | 'icon' | 'name'>
+      & Pick<Types.User, 'id' | 'preferredUsername' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'isDisabled' | 'name'>
+      & { icon: Types.Maybe<(
+        { __typename: 'Content' }
+        & Pick<Types.Content, 'id' | 'url'>
+      )> }
     )> }
   )> }
 );
@@ -57,7 +61,10 @@ export const CreateReplyMutationDocument = gql`
       isLocal
       isPublic
       isDisabled
-      icon
+      icon {
+        id
+        url
+      }
       name
     }
   }

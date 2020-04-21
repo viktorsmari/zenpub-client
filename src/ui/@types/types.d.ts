@@ -29,7 +29,11 @@ export interface FormikHook<Values = {}> {
     touched?: boolean,
     shouldValidate?: boolean
   ) => any;
-  setFieldValue: (field: string, value: any, shouldValidate?: boolean) => any;
+  setFieldValue: <F extends keyof Values>(
+    field: F,
+    value: Values[F],
+    shouldValidate?: boolean
+  ) => any;
   setFieldError: (field: string, value: string | undefined) => void;
   setStatus: (status: any) => void;
   setSubmitting: (isSubmitting: boolean) => void;

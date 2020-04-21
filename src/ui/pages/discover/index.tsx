@@ -1,13 +1,19 @@
-// import { Trans } from '@lingui/macro';
+import { Trans } from '@lingui/macro';
 import React from 'react';
-import { NavLink, Route, Switch } from 'react-router-dom';
+import { NavLink, Switch, Route } from 'react-router-dom';
 import media from 'styled-media-query';
-import { SidePanel } from 'ui/modules/SidePanel';
+
+import { Flex } from 'rebass/styled-components';
+import {
+  Nav,
+  NavItem,
+  Panel,
+  PanelTitle,
+  WrapperPanel
+} from 'ui/elements/Panel';
+import styled from 'ui/themes/styled';
 import { LoadMore } from 'ui/modules/Loadmore';
 import { FormikHook } from 'ui/@types/types';
-import { Flex, Box } from 'rebass/styled-components';
-import styled from 'ui/themes/styled';
-import { Trans } from '@lingui/react';
 
 export interface Props {
   basePath: string;
@@ -21,10 +27,10 @@ export interface Props {
 export const Discover: React.FC<Props> = ({
   basePath,
   ActivitiesBox,
-  CommunitiesBoxes,
-  CollectionsBoxes,
   FeaturedCommunitiesBox,
   FeaturedCollectionsBox,
+  CollectionsBoxes,
+  CommunitiesBoxes,
   LoadMoreFormik
 }) => {
   return (
@@ -37,7 +43,7 @@ export const Discover: React.FC<Props> = ({
             <Menu basePath={basePath} />
             <Switch>
               <Route path={`${basePath}/communities`}>
-                <WrapperBoxes>{CommunitiesBoxes}</WrapperBoxes>
+                {CommunitiesBoxes}
                 {LoadMoreFormik && <LoadMore LoadMoreFormik={LoadMoreFormik} />}
               </Route>
               <Route path={`${basePath}/collections`}>
@@ -52,7 +58,25 @@ export const Discover: React.FC<Props> = ({
           </Wrapper>
         </WrapperCont>
       </HomeBox>
-      <SidePanel />
+      <WrapperPanel>
+        <Panel>
+          <PanelTitle fontSize={0} fontWeight={'bold'}>
+            <Trans>Browse Home instance</Trans>
+          </PanelTitle>
+          <Nav>
+            <NavItem mb={4} fontSize={1} fontWeight={'bold'}>
+              <NavLink to="/communities">
+                <Trans>All communities</Trans>
+              </NavLink>
+            </NavItem>
+            <NavItem fontSize={1} fontWeight={'bold'}>
+              <NavLink to="/collections">
+                <Trans>All collections</Trans>
+              </NavLink>
+            </NavItem>
+          </Nav>
+        </Panel>
+      </WrapperPanel>
     </MainContainer>
   );
 };
@@ -98,14 +122,6 @@ const WrapperFeatured = styled(Flex)`
   background: white;
   border-radius: 8px;
   max-height: 200px;
-`;
-
-const WrapperBoxes = styled(Box)`
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-column-gap: 8px;
-  grid-row-gap: 8px;
-  padding: 8px;
 `;
 
 export const HomeBox = styled(Flex)`

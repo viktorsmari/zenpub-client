@@ -1,30 +1,30 @@
-import { useMemo } from 'react';
-import * as GQL from './myFollowedCollections.generated';
 import { usePage } from 'fe/lib/helpers/usePage';
 import { DEFAULT_PAGE_SIZE } from 'mn-constants';
+import { useMemo } from 'react';
+import * as GQL from './myFollowedCollections.generated';
 
 export const useMyFollowedCollections = () => {
-  const myFlwCollectionsQ = GQL.useMyFollowedCollectionsQuery({
+  const myFlwCollectionsQ = GQL.useMyCollectionFollowsQuery({
     variables: { limit: DEFAULT_PAGE_SIZE }
   });
 
-  const myFollowedCollectionsPage = usePage(
-    myFlwCollectionsQ.data?.me?.user.followedCollections,
+  const myCollectionFollowsPage = usePage(
+    myFlwCollectionsQ.data?.me?.user.collectionFollows,
     ({ cursor, update }) => {
       return myFlwCollectionsQ.fetchMore({
         variables: { ...cursor, limit: DEFAULT_PAGE_SIZE },
         updateQuery: (prev, { fetchMoreResult }) => {
-          return fetchMoreResult?.me?.user?.followedCollections &&
-            prev.me?.user?.followedCollections
+          return fetchMoreResult?.me?.user?.collectionFollows &&
+            prev.me?.user?.collectionFollows
             ? {
                 ...fetchMoreResult,
                 me: {
                   ...fetchMoreResult.me,
                   user: {
                     ...fetchMoreResult.me.user,
-                    followedCollections: update({
-                      prev: prev.me?.user.followedCollections,
-                      fetched: fetchMoreResult.me?.user.followedCollections
+                    collectionFollows: update({
+                      prev: prev.me?.user.collectionFollows,
+                      fetched: fetchMoreResult.me?.user.collectionFollows
                     })
                   }
                 }
@@ -37,7 +37,7 @@ export const useMyFollowedCollections = () => {
 
   return useMemo(() => {
     return {
-      myFollowedCollectionsPage
+      myCollectionFollowsPage
     };
-  }, [myFollowedCollectionsPage]);
+  }, [myCollectionFollowsPage]);
 };

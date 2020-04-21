@@ -7,8 +7,21 @@ import { BasicUserFragmentDoc } from './basicUser.generated';
 
 export type BasicResourceFragment = (
   { __typename: 'Resource' }
-  & Pick<Types.Resource, 'id' | 'name' | 'summary' | 'icon' | 'url' | 'canonicalUrl' | 'license' | 'createdAt' | 'updatedAt' | 'author'>
-  & { myLike: Types.Maybe<(
+  & Pick<Types.Resource, 'id' | 'name' | 'summary' | 'canonicalUrl' | 'license' | 'createdAt' | 'updatedAt' | 'author'>
+  & { icon: Types.Maybe<(
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
+  )>, content: Types.Maybe<(
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'mediaType' | 'url'>
+    & { mirror: Types.Maybe<(
+      { __typename: 'ContentMirror' }
+      & Pick<Types.ContentMirror, 'url'>
+    )>, upload: Types.Maybe<(
+      { __typename: 'ContentUpload' }
+      & Pick<Types.ContentUpload, 'size'>
+    )> }
+  )>, myLike: Types.Maybe<(
     { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
   )>, myFlag: Types.Maybe<(
@@ -35,8 +48,21 @@ export const BasicResourceFragmentDoc = gql`
   id
   name
   summary
-  icon
-  url
+  icon {
+    id
+    url
+  }
+  content {
+    id
+    mediaType
+    mirror {
+      url
+    }
+    upload {
+      size
+    }
+    url
+  }
   canonicalUrl
   license
   createdAt

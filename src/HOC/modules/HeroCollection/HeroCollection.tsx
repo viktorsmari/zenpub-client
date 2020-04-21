@@ -41,15 +41,13 @@ export const HeroCollection: FC<HeroCollection> = ({
         following: !!collection.myFollow,
         isFlagged: !!collection.myFlag,
         followerCount: collection.followerCount || 0,
-        icon: collection.icon || '',
+        icon: collection.icon?.url || '',
         name: collection.name,
         fullName: collection.displayUsername,
         summary: collection.summary || '',
-        communityName:
-          (collection.community && collection.community.name) || '',
-        communityId: (collection.community && collection.community.id) || '',
-        communityIcon:
-          (collection.community && collection.community.icon) || '',
+        communityName: collection.community?.name || '',
+        communityId: collection.community?.id || '',
+        communityIcon: collection.community?.icon?.url || '',
         toggleJoinFormik,
         EditCollectionPanel: ({ done }) => (
           <EditCollectionPanelHOC done={done} collectionId={collection.id} />
