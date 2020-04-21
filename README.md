@@ -76,7 +76,7 @@ $ docker-compose -f docker-compose.pi.yml build
 
 a) run the backend in console mode: `docker-compose run --rm backend bin/moodle_net start_iex`
 
-b) add your email to the allowlist in order to be able to sign up: `MoodleNet.Access.create_register_email("myemail@domain.com")` and then exit (Ctrl+C and then `abort`)
+b) if you're in invite-only mode, add your email to the allowlist in order to be able to sign up: `MoodleNet.Access.create_register_email("myemail@domain.com")` and then exit (Ctrl+C and then `abort`)
 
 c) Start the docker containers with docker-compose:
 
@@ -90,6 +90,8 @@ $ docker-compose -f docker-compose.pi.yml up
 ```
 
 6. The MoodleNet backend and frontend should now be running at [http://localhost/](http://localhost/) on your machine and at https://your-domain-name.tld/ with SSL certificates automatically configured thanks to letsencrypt.org (if your domain was correctly configured).
+
+Once you've signed up, you may want to make yourself an instance admin, by running this in the backend console (see above): `MoodleNet.ReleaseTasks.make_instance_admin("your_username")`
 
 7. If that worked, start the app as a daemon next time:
 ```sh
