@@ -45,10 +45,12 @@
           { "name": "Collection" },
           { "name": "Comment" },
           { "name": "Community" },
+          { "name": "Feature" },
           { "name": "Flag" },
           { "name": "Follow" },
           { "name": "Like" },
           { "name": "Resource" },
+          { "name": "Thread" },
           { "name": "User" }
         ]
       },
@@ -68,13 +70,7 @@
         "name": "DeleteContext",
         "possibleTypes": [
           { "name": "Collection" },
-          { "name": "Comment" },
           { "name": "Community" },
-          { "name": "Feature" },
-          { "name": "Flag" },
-          { "name": "Follow" },
-          { "name": "Like" },
-          { "name": "Resource" },
           { "name": "Thread" },
           { "name": "User" }
         ]
