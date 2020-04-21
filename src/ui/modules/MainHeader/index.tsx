@@ -21,13 +21,14 @@ export interface Props {
     logout(): unknown;
   };
   Search: JSX.Element;
+  CreateCommunityModal: JSX.Element;
 }
 
 export const MainHeader: React.FC<Props> = props => {
   const history = useHistory();
   const [isOpenDropdown, setOpenDropdown] = React.useState(false);
+  const [isOpenCreateCommunity, createCommunity] = React.useState(false);
   const openMenu = React.useCallback(() => setOpenDropdown(true), []);
-  // console.log(history);
   return (
     <HeaderWrapper>
       <FlexWrapper>
@@ -36,7 +37,6 @@ export const MainHeader: React.FC<Props> = props => {
             <ChevronLeft size="20" />
           </Icon>
           <HamburgerIcon>
-            {/* <HamburgerIcon onClick={() => toggleSideBar()}> FIX ME AFTER HOC */}
             <Menu size="20" />
           </HamburgerIcon>
           <HomeLink to="/">
@@ -65,6 +65,7 @@ export const MainHeader: React.FC<Props> = props => {
               </Right>
               {isOpenDropdown && (
                 <DropdownSidebar
+                  createCommunity={createCommunity}
                   logout={props.user.logout}
                   userLink={props.user.link}
                   setOpenDropdown={setOpenDropdown}
@@ -91,6 +92,7 @@ export const MainHeader: React.FC<Props> = props => {
           )}
         </Header>
       </FlexWrapper>
+      {isOpenCreateCommunity && props.CreateCommunityModal}
     </HeaderWrapper>
   );
 };
