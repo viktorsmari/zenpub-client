@@ -59,7 +59,21 @@ export type RemoveEmailFromAllowListMutation = (
   )> }
 );
 
-export type InstanceRegisterEmailAccessesQueryVariables = {};
+export type SendInviteEmailMutationVariables = {
+  email: Types.Scalars['String']
+};
+
+
+export type SendInviteEmailMutation = (
+  { __typename: 'RootMutationType' }
+  & Pick<Types.RootMutationType, 'sendInvite'>
+);
+
+export type InstanceRegisterEmailAccessesQueryVariables = {
+  limit?: Types.Maybe<Types.Scalars['Int']>,
+  before?: Types.Maybe<Array<Types.Scalars['Cursor']>>,
+  after?: Types.Maybe<Array<Types.Scalars['Cursor']>>
+};
 
 
 export type InstanceRegisterEmailAccessesQuery = (
@@ -77,7 +91,11 @@ export type InstanceRegisterEmailAccessesQuery = (
   ) }
 );
 
-export type InstanceRegisterEmailDomainAccessesQueryVariables = {};
+export type InstanceRegisterEmailDomainAccessesQueryVariables = {
+  limit?: Types.Maybe<Types.Scalars['Int']>,
+  before?: Types.Maybe<Array<Types.Scalars['Cursor']>>,
+  after?: Types.Maybe<Array<Types.Scalars['Cursor']>>
+};
 
 
 export type InstanceRegisterEmailDomainAccessesQuery = (
@@ -226,9 +244,39 @@ export function useRemoveEmailFromAllowListMutation(baseOptions?: ApolloReactHoo
 export type RemoveEmailFromAllowListMutationHookResult = ReturnType<typeof useRemoveEmailFromAllowListMutation>;
 export type RemoveEmailFromAllowListMutationResult = ApolloReactCommon.MutationResult<RemoveEmailFromAllowListMutation>;
 export type RemoveEmailFromAllowListMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveEmailFromAllowListMutation, RemoveEmailFromAllowListMutationVariables>;
+export const SendInviteEmailDocument = gql`
+    mutation sendInviteEmail($email: String!) {
+  sendInvite(email: $email)
+}
+    `;
+export type SendInviteEmailMutationFn = ApolloReactCommon.MutationFunction<SendInviteEmailMutation, SendInviteEmailMutationVariables>;
+
+/**
+ * __useSendInviteEmailMutation__
+ *
+ * To run a mutation, you first call `useSendInviteEmailMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendInviteEmailMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [sendInviteEmailMutation, { data, loading, error }] = useSendInviteEmailMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useSendInviteEmailMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SendInviteEmailMutation, SendInviteEmailMutationVariables>) {
+        return ApolloReactHooks.useMutation<SendInviteEmailMutation, SendInviteEmailMutationVariables>(SendInviteEmailDocument, baseOptions);
+      }
+export type SendInviteEmailMutationHookResult = ReturnType<typeof useSendInviteEmailMutation>;
+export type SendInviteEmailMutationResult = ApolloReactCommon.MutationResult<SendInviteEmailMutation>;
+export type SendInviteEmailMutationOptions = ApolloReactCommon.BaseMutationOptions<SendInviteEmailMutation, SendInviteEmailMutationVariables>;
 export const InstanceRegisterEmailAccessesDocument = gql`
-    query instanceRegisterEmailAccesses {
-  registerEmailAccesses @connection(key: "instanceRegisterEmailAccesses") {
+    query instanceRegisterEmailAccesses($limit: Int, $before: [Cursor!], $after: [Cursor!]) {
+  registerEmailAccesses(limit: $limit, before: $before, after: $after) @connection(key: "instanceRegisterEmailAccesses") {
     totalCount
     pageInfo {
       ...FullPageInfo
@@ -253,6 +301,9 @@ export const InstanceRegisterEmailAccessesDocument = gql`
  * @example
  * const { data, loading, error } = useInstanceRegisterEmailAccessesQuery({
  *   variables: {
+ *      limit: // value for 'limit'
+ *      before: // value for 'before'
+ *      after: // value for 'after'
  *   },
  * });
  */
@@ -266,8 +317,8 @@ export type InstanceRegisterEmailAccessesQueryHookResult = ReturnType<typeof use
 export type InstanceRegisterEmailAccessesLazyQueryHookResult = ReturnType<typeof useInstanceRegisterEmailAccessesLazyQuery>;
 export type InstanceRegisterEmailAccessesQueryResult = ApolloReactCommon.QueryResult<InstanceRegisterEmailAccessesQuery, InstanceRegisterEmailAccessesQueryVariables>;
 export const InstanceRegisterEmailDomainAccessesDocument = gql`
-    query instanceRegisterEmailDomainAccesses {
-  registerEmailDomainAccesses @connection(key: "instanceRegisterEmailDomainAccesses") {
+    query instanceRegisterEmailDomainAccesses($limit: Int, $before: [Cursor!], $after: [Cursor!]) {
+  registerEmailDomainAccesses(limit: $limit, before: $before, after: $after) @connection(key: "instanceRegisterEmailDomainAccesses") {
     totalCount
     pageInfo {
       ...FullPageInfo
@@ -292,6 +343,9 @@ export const InstanceRegisterEmailDomainAccessesDocument = gql`
  * @example
  * const { data, loading, error } = useInstanceRegisterEmailDomainAccessesQuery({
  *   variables: {
+ *      limit: // value for 'limit'
+ *      before: // value for 'before'
+ *      after: // value for 'after'
  *   },
  * });
  */
@@ -340,6 +394,15 @@ export interface RemoveEmailFromAllowListMutationOperation {
   type: 'mutation'
 }
 export const RemoveEmailFromAllowListMutationName:RemoveEmailFromAllowListMutationOperation['operationName'] = 'removeEmailFromAllowList'
+
+
+export interface SendInviteEmailMutationOperation {
+  operationName: 'sendInviteEmail'
+  result: SendInviteEmailMutation
+  variables: SendInviteEmailMutationVariables
+  type: 'mutation'
+}
+export const SendInviteEmailMutationName:SendInviteEmailMutationOperation['operationName'] = 'sendInviteEmail'
 
 
 export interface InstanceRegisterEmailAccessesQueryOperation {

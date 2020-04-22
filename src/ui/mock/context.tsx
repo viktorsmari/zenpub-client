@@ -647,6 +647,34 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
       });
     }
   });
+  const formikAddEmail = useFormik<{ email: string }>({
+    initialValues: { email: '' },
+    onSubmit: ({ email }) => {
+      action(`formikAddEmail ${email}`)();
+      return new Promise((resolve, reject) => {
+        setTimeout(resolve, 3000);
+      });
+    }
+  });
+  const formikRemoveEmail = useFormik<{ email: string }>({
+    initialValues: { email: '' },
+    onSubmit: ({ email }) => {
+      action(`formikRemoveEmail ${email}`)();
+      return new Promise((resolve, reject) => {
+        setTimeout(resolve, 3000);
+      });
+    }
+  });
+  const formikSendInvite = useFormik<{ email: string }>({
+    initialValues: { email: '' },
+    onSubmit: ({ email }) => {
+      action(`formikSendInvite ${email}`)();
+      return new Promise((resolve, reject) => {
+        setTimeout(resolve, 3000);
+      });
+    }
+  });
+
   return {
     formik,
     basePath: '/',
@@ -660,6 +688,9 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
           'test1@moodle.com',
           'test@moodle.com'
         ]}
+        formikAddEmail={formikAddEmail}
+        formikRemoveEmail={formikRemoveEmail}
+        formikSendInvite={formikSendInvite}
       />
     ),
     Flags: <Flags ActivitiesBox={ActivitiesBox} />,

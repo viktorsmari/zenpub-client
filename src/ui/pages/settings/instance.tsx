@@ -17,12 +17,12 @@ const tt = {
 };
 
 export interface Props {
-  formikAddDomain: FormikHook<AddDomain>;
-  formikRemoveDomain: FormikHook<AddDomain>;
+  formikAddDomain: FormikHook<WithDomain>;
+  formikRemoveDomain: FormikHook<WithDomain>;
   domainsList: string[];
 }
 
-export interface AddDomain {
+export interface WithDomain {
   domain: string;
 }
 
@@ -105,24 +105,23 @@ const Instance: React.FC<Props> = ({
         <Text p={3} variant="suptitle">
           <Trans>Allowed Domains</Trans>
         </Text>
-        {domainsList &&
-          domainsList.map((domain, i) => (
-            <ListRow key={i}>
-              <DomainText>{domain}</DomainText>
-              <Delete onClick={() => formikRemoveDomain.setValues({ domain })}>
-                <XCircle size={21} />
-              </Delete>
-            </ListRow>
-          ))}
+        {domainsList.map((domain, i) => (
+          <ListRow key={i}>
+            <DomainText>{domain}</DomainText>
+            <Delete onClick={() => formikRemoveDomain.setValues({ domain })}>
+              <XCircle size={21} />
+            </Delete>
+          </ListRow>
+        ))}
       </Box>
       {formikRemoveDomain.values.domain && (
         <Modal closeModal={() => formikRemoveDomain.setValues({ domain: '' })}>
           <ConfirmationModal
             cancel={() => formikRemoveDomain.setValues({ domain: '' })}
             formik={formikRemoveDomain}
-            modalAction="**modalAction**"
-            modalDescription="**modalDescription**"
-            modalTitle="**modalTitle**"
+            modalAction="**modalAction**" //FIXME
+            modalDescription="**modalDescription**" //FIXME
+            modalTitle="**modalTitle**" //FIXME
           />
         </Modal>
       )}

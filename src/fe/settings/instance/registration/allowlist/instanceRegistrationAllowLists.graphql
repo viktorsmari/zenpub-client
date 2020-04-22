@@ -17,14 +17,19 @@ mutation addEmailToAllowList($email: String!){
     id
   }
 }
+
 mutation removeEmailFromAllowList($id: String!){
   deleteRegisterEmailAccess(id:$id){
     id
   }
 }
 
-query instanceRegisterEmailAccesses {
-  registerEmailAccesses @connection(key: "instanceRegisterEmailAccesses"){
+mutation sendInviteEmail($email: String!){
+  sendInvite(email:$email)
+}
+
+query instanceRegisterEmailAccesses($limit:Int, $before:[Cursor!], $after:[Cursor!]) {
+  registerEmailAccesses(limit:$limit, before:$before, after:$after) @connection(key: "instanceRegisterEmailAccesses"){
     totalCount,
     pageInfo{ ...FullPageInfo }
     edges{
@@ -34,8 +39,8 @@ query instanceRegisterEmailAccesses {
   }
 }
 
-query instanceRegisterEmailDomainAccesses {
-  registerEmailDomainAccesses @connection(key: "instanceRegisterEmailDomainAccesses"){
+query instanceRegisterEmailDomainAccesses($limit:Int, $before:[Cursor!], $after:[Cursor!]) {
+  registerEmailDomainAccesses(limit:$limit, before:$before, after:$after) @connection(key: "instanceRegisterEmailDomainAccesses"){
     totalCount,
     pageInfo{ ...FullPageInfo }
     edges{

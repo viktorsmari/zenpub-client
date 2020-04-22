@@ -8,9 +8,9 @@ import {
   Settings as SettingsPageUI
 } from 'ui/pages/settings';
 import Flags from 'ui/pages/settings/flags';
-import Emails from 'ui/pages/settings/invites';
 import Preferences from 'ui/pages/settings/preferences';
 import { InstanceSettingsSection } from './instance/InstanceSettingsSection';
+import { InstanceInvitesSection } from './invites/InstanceInvitesSection';
 
 export enum SettingsPageTab {
   General,
@@ -49,7 +49,7 @@ export const SettingsPage: FC<SettingsPage> = ({ basePath }) => {
       formik: updateProfileFormik,
       Preferences: <Preferences />, // FIXME: pass in props and remove optionals in UI
       Instance: <InstanceSettingsSection />, // FIXME: pass in props and remove optionals in UI
-      Invites: <Emails />, // FIXME: pass in props and remove optionals in UI
+      Invites: <InstanceInvitesSection />, // FIXME: pass in props and remove optionals in UI
       Flags: <Flags />, // FIXME: pass in props and remove optionals in UI
       isAdmin: !!me?.isInstanceAdmin
     };
