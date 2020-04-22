@@ -31,8 +31,15 @@ export type ActivityPreviewFragment = (
   & Pick<Types.Activity, 'id' | 'verb' | 'createdAt'>
   & { user: Types.Maybe<(
     { __typename: 'User' }
-    & Pick<Types.User, 'icon' | 'canonicalUrl'>
+    & Pick<Types.User, 'canonicalUrl'>
     & { userId: Types.User['id'], userName: Types.User['name'] }
+    & { icon: Types.Maybe<(
+      { __typename: 'Content' }
+      & Pick<Types.Content, 'id' | 'url'>
+    )>, image: Types.Maybe<(
+      { __typename: 'Content' }
+      & Pick<Types.Content, 'id' | 'url'>
+    )> }
   )>, context: Types.Maybe<(
     { __typename: 'Collection' }
     & CollectionPreviewFragment
@@ -66,7 +73,14 @@ export const ActivityPreviewFragmentDoc = gql`
   verb
   createdAt
   user {
-    icon
+    icon {
+      id
+      url
+    }
+    image {
+      id
+      url
+    }
     userId: id
     userName: name
     canonicalUrl

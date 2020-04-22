@@ -2,13 +2,15 @@ fragment SidebarFollowedCommunity on Community {
   id
   isLocal
   canonicalUrl
-  icon
+  icon{ id, url }
+  image{ id, url }
   name
 }
 
 fragment SidebarMeUser on User {
   id
   name
-  icon
+  icon{ id, url }
+  image{ id, url }
 }
 

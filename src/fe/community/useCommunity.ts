@@ -1,6 +1,6 @@
 import { useCreateThreadContext } from 'fe/context/createThread/useCreateThreadContext';
 import { useFollowContext } from 'fe/context/follow/useFollowContext';
-import { useMe } from 'fe/session/me';
+import { useMe } from 'fe/session/useMe';
 import { Community } from 'graphql/types.generated';
 import { useMemo } from 'react';
 import { useEditCommunity } from './edit/useEditCommunity';

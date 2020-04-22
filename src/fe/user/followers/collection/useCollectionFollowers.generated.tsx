@@ -5,20 +5,16 @@ import { FullPageInfoFragment } from '../../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
 import { FullPageInfoFragmentDoc } from '../../../../@fragments/misc.generated';
 import { UserPreviewFragmentDoc } from '../../../../HOC/modules/previews/user/UserPreview.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
 export type CollectionFollowersQueryVariables = {
   collectionId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
-  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+  before?: Types.Maybe<Array<Types.Scalars['Cursor']>>,
+  after?: Types.Maybe<Array<Types.Scalars['Cursor']>>
 };
 
 
@@ -56,7 +52,7 @@ export const CollectionFollowerFragmentDoc = gql`
 }
     ${UserPreviewFragmentDoc}`;
 export const CollectionFollowersDocument = gql`
-    query collectionFollowers($collectionId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
+    query collectionFollowers($collectionId: String!, $limit: Int, $before: [Cursor!], $after: [Cursor!]) {
   collection(collectionId: $collectionId) @connection(key: "collectionFollowers", filter: ["collectionId"]) {
     id
     followers(limit: $limit, before: $before, after: $after) {
@@ -75,23 +71,6 @@ export const CollectionFollowersDocument = gql`
 }
     ${FullPageInfoFragmentDoc}
 ${CollectionFollowerFragmentDoc}`;
-export type CollectionFollowersComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CollectionFollowersQuery, CollectionFollowersQueryVariables>, 'query'> & ({ variables: CollectionFollowersQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const CollectionFollowersComponent = (props: CollectionFollowersComponentProps) => (
-      <ApolloReactComponents.Query<CollectionFollowersQuery, CollectionFollowersQueryVariables> query={CollectionFollowersDocument} {...props} />
-    );
-    
-export type CollectionFollowersProps<TChildProps = {}> = ApolloReactHoc.DataProps<CollectionFollowersQuery, CollectionFollowersQueryVariables> & TChildProps;
-export function withCollectionFollowers<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  CollectionFollowersQuery,
-  CollectionFollowersQueryVariables,
-  CollectionFollowersProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, CollectionFollowersQuery, CollectionFollowersQueryVariables, CollectionFollowersProps<TChildProps>>(CollectionFollowersDocument, {
-      alias: 'collectionFollowers',
-      ...operationOptions
-    });
-};
 
 /**
  * __useCollectionFollowersQuery__
@@ -129,3 +108,4 @@ export interface CollectionFollowersQueryOperation {
   variables: CollectionFollowersQueryVariables
   type: 'query'
 }
+export const CollectionFollowersQueryName:CollectionFollowersQueryOperation['operationName'] = 'collectionFollowers'

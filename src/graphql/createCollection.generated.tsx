@@ -4,11 +4,7 @@ import { BasicCollectionFragment } from './fragments/basicCollection.generated';
 import gql from 'graphql-tag';
 import { BasicCollectionFragmentDoc } from './fragments/basicCollection.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type CreateCollectionMutationMutationVariables = {
@@ -34,23 +30,6 @@ export const CreateCollectionMutationDocument = gql`
 }
     ${BasicCollectionFragmentDoc}`;
 export type CreateCollectionMutationMutationFn = ApolloReactCommon.MutationFunction<CreateCollectionMutationMutation, CreateCollectionMutationMutationVariables>;
-export type CreateCollectionMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateCollectionMutationMutation, CreateCollectionMutationMutationVariables>, 'mutation'>;
-
-    export const CreateCollectionMutationComponent = (props: CreateCollectionMutationComponentProps) => (
-      <ApolloReactComponents.Mutation<CreateCollectionMutationMutation, CreateCollectionMutationMutationVariables> mutation={CreateCollectionMutationDocument} {...props} />
-    );
-    
-export type CreateCollectionMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<CreateCollectionMutationMutation, CreateCollectionMutationMutationVariables> & TChildProps;
-export function withCreateCollectionMutation<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  CreateCollectionMutationMutation,
-  CreateCollectionMutationMutationVariables,
-  CreateCollectionMutationProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, CreateCollectionMutationMutation, CreateCollectionMutationMutationVariables, CreateCollectionMutationProps<TChildProps>>(CreateCollectionMutationDocument, {
-      alias: 'createCollectionMutation',
-      ...operationOptions
-    });
-};
 
 /**
  * __useCreateCollectionMutationMutation__
@@ -84,3 +63,4 @@ export interface CreateCollectionMutationMutationOperation {
   variables: CreateCollectionMutationMutationVariables
   type: 'mutation'
 }
+export const CreateCollectionMutationMutationName:CreateCollectionMutationMutationOperation['operationName'] = 'createCollectionMutation'

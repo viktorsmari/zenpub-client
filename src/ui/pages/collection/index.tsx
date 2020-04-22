@@ -15,6 +15,8 @@ import {
 import styled from 'ui/themes/styled';
 import Button from 'ui/elements/Button';
 import { Header } from 'ui/modules/Header';
+import { LoadMore } from 'ui/modules/Loadmore';
+import { FormikHook } from 'ui/@types/types';
 
 export interface Props {
   ActivitiesBox: JSX.Element;
@@ -26,6 +28,9 @@ export interface Props {
   UploadResourcePanel: React.ComponentType<{ done(): any }>;
   basePath: string;
   collectionName: string;
+  loadMoreActivities: FormikHook;
+  loadMoreResources: FormikHook;
+  loadMoreFollowers: FormikHook;
 }
 
 export const Collection: React.FC<Props> = ({
@@ -37,7 +42,10 @@ export const Collection: React.FC<Props> = ({
   FollowersBoxes,
   ResourcesBox,
   basePath,
-  collectionName
+  collectionName,
+  loadMoreActivities,
+  loadMoreResources,
+  loadMoreFollowers
 }) => {
   const [isOpenEditCollection, setOpenEditCollection] = React.useState(false);
   const [isShareLinkOpen, setOpenShareLink] = React.useState(false);
@@ -62,6 +70,7 @@ export const Collection: React.FC<Props> = ({
               <Route path={`${basePath}/followers`}>
                 <FollowersMenu basePath={`${basePath}/followers`} />
                 {FollowersBoxes}
+                <LoadMore LoadMoreFormik={loadMoreFollowers} />
               </Route>
               <Route exact path={`${basePath}/`}>
                 <>
@@ -86,6 +95,7 @@ export const Collection: React.FC<Props> = ({
                     <UploadResourcePanel done={() => setUploadOpen(false)} />
                   )}
                   {ResourcesBox}
+                  <LoadMore LoadMoreFormik={loadMoreResources} />
                 </>
               </Route>
               <Route exact path={`${basePath}/activities`}>
@@ -93,6 +103,7 @@ export const Collection: React.FC<Props> = ({
                   {HeroCollectionBox}
                   <Menu basePath={basePath} />
                   {ActivitiesBox}
+                  <LoadMore LoadMoreFormik={loadMoreActivities} />
                 </>
               </Route>
             </Switch>

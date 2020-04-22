@@ -4,8 +4,14 @@ fragment BasicResource on Resource {
     id
     name
     summary
-    icon
-    url
+    icon{ id, url }
+    content{
+      id
+      mediaType
+      mirror {url}
+      upload {size}
+      url
+    }
     canonicalUrl
     license
     createdAt

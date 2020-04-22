@@ -9,7 +9,7 @@ import media from 'styled-media-query';
 import styled from '../../themes/styled';
 // import Dropdown from "./dropdown";
 import Avatar from 'ui/elements/Avatar';
-import { my_timeline } from '../../../mn-constants';
+// import { my_timeline } from '../../../mn-constants';
 const MnetLogo = require('static/img/logo-icon.png');
 
 export enum Status {
@@ -19,6 +19,9 @@ export enum Status {
 
 const SidebarComponent = styled(Flex)`
   width: 240px;
+  ${media.lessThan('medium')`
+      display: none;
+  `};
 `;
 
 const InternalWrapper = styled(Box)<{ isOpen: boolean }>`
@@ -191,90 +194,68 @@ export interface SidebarLoading {
 export type Props = SidebarLoaded | SidebarLoading;
 
 export const Sidebar: React.FC<Props> = props => {
-  // const [isOpenDropdown, setOpenDropdown] = React.useState(false);
+  const [isOpenSidebar] = React.useState(true);
   // const openMenu = React.useCallback(() => setOpenDropdown(true), []);
   return (
-    <SidebarComponent>
-      <InternalWrapper>
-        <SidebarFixed>
-          {props.status === Status.Loading ? (
-            <Text>Loading</Text>
-          ) : (
-            <SidebarOverflow>
-              <>
-                {/* <Header alignItems={'center'}> */}
-                {/* {props.Search} */}
-                {/* <NavItem
-                    sx={{ position: 'relative' }}
-                    alignItems="center"
-                    onClick={openMenu}
-                  >
-                    <Avatar
-                      size="s"
-                      initials={props.user.name.substring(0, 2)}
-                      src={props.user.icon}
-                      variant="avatar"
-                    />
-                    <HeaderName ml={2} variant="link">
-                      {props.user.name}
-                    </HeaderName>
-                    <Right ml={2}>
-                      <ChevronDown size="20" />
-                    </Right>
-                    {isOpenDropdown && (
-                      <DropdownSidebar
-                        logout={props.logout}
-                        userId={props.user.id}
-                        setOpenDropdown={setOpenDropdown}
-                      />
-                    )}
-                  </NavItem> */}
-                {/* </Header> */}
-                <Nav>
-                  <SidebarLink exact to={'/discover'}>
-                    <NavItem alignItems={'center'}>
-                      <Box>
-                        <Globe size={36} strokeWidth="1" />
-                      </Box>
-                      <ItemTitleDir variant="link">
-                        <Trans>Discover</Trans>
-                      </ItemTitleDir>
-                    </NavItem>
-                  </SidebarLink>
-                  <SidebarLink exact to={'/'}>
-                    <NavItem alignItems={'center'}>
-                      <Avatar size="s" src={MnetLogo} />
-                      <ItemTitleDir variant="link">
-                        <Trans>{my_timeline}</Trans>
-                      </ItemTitleDir>
-                    </NavItem>
-                  </SidebarLink>
-                </Nav>
-                <Nav>
-                  {props.communities.map((community: CommunityPreview, i) => (
-                    <CommunityLink
-                      key={community.link.url}
-                      to={community.link.url}
-                    >
-                      <NavItem alignItems={'center'} mb={2}>
-                        <Avatar
-                          size="s"
-                          initials={community.name.substr(0, 2)}
-                          src={community.icon}
-                        />
-                        <ItemTitleDir variant="link">
-                          {community.name}
-                        </ItemTitleDir>
-                      </NavItem>
-                    </CommunityLink>
-                  ))}
-                </Nav>
-              </>
-            </SidebarOverflow>
-          )}
-        </SidebarFixed>
-      </InternalWrapper>
-    </SidebarComponent>
+    <>
+      {isOpenSidebar ? (
+        <SidebarComponent>
+          <InternalWrapper>
+            <SidebarFixed>
+              {props.status === Status.Loading ? (
+                <Text>Loading</Text>
+              ) : (
+                <SidebarOverflow>
+                  <>
+                    <Nav>
+                      <SidebarLink exact to={'/discover'}>
+                        <NavItem alignItems={'center'}>
+                          <Box>
+                            <Globe size={36} strokeWidth="1" />
+                          </Box>
+                          <ItemTitleDir variant="link">
+                            <Trans>Discover</Trans>
+                          </ItemTitleDir>
+                        </NavItem>
+                      </SidebarLink>
+                      <SidebarLink exact to={'/'}>
+                        <NavItem alignItems={'center'}>
+                          <Avatar size="s" src={MnetLogo} />
+                          <ItemTitleDir variant="link">
+                            <Trans>My MoodleNet</Trans>
+                          </ItemTitleDir>
+                        </NavItem>
+                      </SidebarLink>
+                    </Nav>
+                    <Nav>
+                      {props.communities.map(
+                        (community: CommunityPreview, i) => (
+                          <CommunityLink
+                            key={community.link.url}
+                            to={community.link.url}
+                          >
+                            <NavItem alignItems={'center'} mb={2}>
+                              <Avatar
+                                size="s"
+                                initials={community.name.substr(0, 2)}
+                                src={community.icon}
+                              />
+                              <ItemTitleDir variant="link">
+                                {community.name}
+                              </ItemTitleDir>
+                            </NavItem>
+                          </CommunityLink>
+                        )
+                      )}
+                    </Nav>
+                  </>
+                </SidebarOverflow>
+              )}
+            </SidebarFixed>
+          </InternalWrapper>
+        </SidebarComponent>
+      ) : null}
+    </>
   );
 };
 

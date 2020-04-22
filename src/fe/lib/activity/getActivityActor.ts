@@ -8,7 +8,7 @@ export const getActivityActor = (
   >
 ): UIT.Actor => {
   return {
-    icon: usr.icon || usr.image || '',
+    icon: usr.icon?.url || usr.image?.url || '',
     name: usr.userName || '',
     link: getActivitySimpleLink(usr)
   };

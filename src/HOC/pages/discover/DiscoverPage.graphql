@@ -1,12 +1,16 @@
 
 fragment DiscoverPageFeaturedCommunityInfo on Community{
   id
-  icon
+  icon{
+ id, url }
+
   name
 }
 
 fragment DiscoverPageFeaturedCollectionInfo on Collection{
   id
-  icon
+  icon{
+ id, url }
+
   name
 }

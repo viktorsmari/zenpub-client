@@ -7,10 +7,13 @@ import { BasicUserFragmentDoc } from './basicUser.generated';
 
 export type BasicCommunityFragment = (
   { __typename: 'Community' }
-  & Pick<Types.Community, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'createdAt' | 'updatedAt' | 'lastActivity' | 'isLocal' | 'isPublic' | 'isDisabled'>
+  & Pick<Types.Community, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'createdAt' | 'updatedAt' | 'lastActivity' | 'isLocal' | 'isPublic' | 'isDisabled'>
   & { creator: Types.Maybe<(
     { __typename: 'User' }
     & BasicUserFragment
+  )>, icon: Types.Maybe<(
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
   )>, myFollow: Types.Maybe<(
     { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
@@ -42,7 +45,10 @@ export const BasicCommunityFragmentDoc = gql`
   creator {
     ...BasicUser
   }
-  icon
+  icon {
+    id
+    url
+  }
   createdAt
   updatedAt
   lastActivity

@@ -3,12 +3,8 @@ import * as Types from '../../../graphql/types.generated';
 import { CommentPreviewFragment } from '../../../HOC/modules/previews/comment/CommentPreview.generated';
 import gql from 'graphql-tag';
 import { CommentPreviewFragmentDoc } from '../../../HOC/modules/previews/comment/CommentPreview.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type CommentPreviewQueryVariables = {
@@ -34,23 +30,6 @@ export const CommentPreviewDocument = gql`
   }
 }
     ${CommentPreviewFragmentDoc}`;
-export type CommentPreviewComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CommentPreviewQuery, CommentPreviewQueryVariables>, 'query'> & ({ variables: CommentPreviewQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const CommentPreviewComponent = (props: CommentPreviewComponentProps) => (
-      <ApolloReactComponents.Query<CommentPreviewQuery, CommentPreviewQueryVariables> query={CommentPreviewDocument} {...props} />
-    );
-    
-export type CommentPreviewProps<TChildProps = {}> = ApolloReactHoc.DataProps<CommentPreviewQuery, CommentPreviewQueryVariables> & TChildProps;
-export function withCommentPreview<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  CommentPreviewQuery,
-  CommentPreviewQueryVariables,
-  CommentPreviewProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, CommentPreviewQuery, CommentPreviewQueryVariables, CommentPreviewProps<TChildProps>>(CommentPreviewDocument, {
-      alias: 'commentPreview',
-      ...operationOptions
-    });
-};
 
 /**
  * __useCommentPreviewQuery__
@@ -85,3 +64,4 @@ export interface CommentPreviewQueryOperation {
   variables: CommentPreviewQueryVariables
   type: 'query'
 }
+export const CommentPreviewQueryName:CommentPreviewQueryOperation['operationName'] = 'commentPreview'

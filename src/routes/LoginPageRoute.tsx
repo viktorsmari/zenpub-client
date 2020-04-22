@@ -1,16 +1,19 @@
-import LoginComp from 'pages/login/Login';
+import { LoginPageHOC } from 'HOC/pages/login/LoginPage';
+import { GuestTemplate } from 'HOC/templates/Guest/Guest';
 import React, { FC } from 'react';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
-import { GuestTemplate } from 'HOC/templates/Guest/Guest';
+import { RedirectAuthenticatedToHome } from './wrappers/RedirectBySession';
 
 interface LoginPageRouter {}
 const LoginPageRouter: FC<RouteComponentProps<LoginPageRouter>> = ({
   match
 }) => {
   return (
-    <GuestTemplate>
-      <LoginComp />
-    </GuestTemplate>
+    <RedirectAuthenticatedToHome>
+      <GuestTemplate withoutHeader>
+        <LoginPageHOC />
+      </GuestTemplate>
+    </RedirectAuthenticatedToHome>
   );
 };
 

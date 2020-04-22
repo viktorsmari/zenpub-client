@@ -11,7 +11,9 @@ mutation updateCollectionMutation($collection: CollectionUpdateInput!, $collecti
         preferredUsername
         name
         summary
-        icon
+        icon{
+ id, url }
+
         createdAt
         updatedAt
         resources { totalCount }

@@ -6,10 +6,10 @@ import media from 'styled-media-query';
 import Button from 'ui/elements/Button';
 import { Trans } from '@lingui/react';
 import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
-// import { Link } from 'react-router-dom';
 import { FormikHook } from 'ui/@types/types';
 import Modal from 'ui/modules/Modal';
 import { NavLink } from 'react-router-dom';
+import DOMPurify from 'dompurify';
 
 export enum Status {
   Loading,
@@ -122,9 +122,13 @@ export const HeroUser: FC<Props> = props => {
             @{props.displayUsername}
             {props.me && props.isAdmin && <AdminBadge ml={2}>Admin</AdminBadge>}
           </Username>
-          <Text variant="text" mt={2}>
-            {props.summary}
-          </Text>
+          <Text
+            variant="text"
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(props.summary)
+            }}
+            mt={2}
+          />
           {props.location ? (
             <Location mt={2}>
               <span>

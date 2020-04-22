@@ -8,6 +8,7 @@ import { FormikHook } from 'ui/@types/types';
 import { MessageCircle, Star, MoreHorizontal, Flag } from 'react-feather';
 import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
 import Modal from 'ui/modules/Modal';
+import DOMPurify from 'dompurify';
 
 export interface LikeActions {
   toggleLikeFormik: FormikHook<{}>;
@@ -51,9 +52,12 @@ export const MainComment: React.SFC<CommentProps> = ({
 
   return (
     <Wrapper>
-      <Text sx={{ fontSize: '24px' }} variant="text" mb={2}>
-        {content}
-      </Text>
+      <Text
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }}
+        sx={{ fontSize: '24px' }}
+        variant="text"
+        mb={2}
+      />
       <Actions mt={2}>
         {talkModalVisible && (
           <SocialText

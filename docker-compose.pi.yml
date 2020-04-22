@@ -1,0 +1,49 @@
+version: '3.5'
+
+services:
+  backend:
+    #image: "moodlenet/moodlenet:stable" # use stable/production/master release of backend
+    image: "moodlenet/moodlenet:latest" # uncomment to use unstable/staging/develop backend branch
+    # On a Raspbery Pi, you must first build your own backend Docker image from the source
+    # see the backend docs at https://gitlab.com/moodlenet/servers/federated/blob/develop/DEPLOY.md
+    ports:
+      - "4000:4000"
+      - "81:80"
+    env_file:
+      - .env
+      - .env.secrets
+    depends_on:
+      - db
+    volumes:
+      - type: bind
+        source: ./uploads
+        target: /var/www/uploads
+  frontend:
+    build:
+      context: .
+      dockerfile: "Dockerfile.pi"
+    ports:
+     - "80:80"
+     - "443:443"
+    env_file:
+      - .env
+    volumes:
+      - type: bind
+        source: ./Caddyfile
+        target: /etc/Caddyfile
+        read_only: true
+      - type: bind
+        source: ./uploads
+        target: /frontend/uploads
+  db:
+    image: postgres:9.6-alpine
+    volumes:
+       - postgres_data:/var/lib/postgresql/data
+    # ports:
+    #   - "5432:5432"
+    env_file:
+      - .env
+      - .env.secrets
+
+volumes:
+   postgres_data:

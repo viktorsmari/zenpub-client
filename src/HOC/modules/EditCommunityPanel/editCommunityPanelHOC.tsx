@@ -16,8 +16,7 @@ export const validationSchema: Yup.ObjectSchema<EditCommunityFormValues> = Yup.o
     .max(60)
     .required(),
   summary: Yup.string().max(500),
-  icon: Yup.string(), //.url(),
-  files: Yup.array()
+  icon: Yup.mixed<File | string>() //.url(),
 });
 
 export interface Props {
@@ -31,7 +30,7 @@ export const EditCommunityPanelHOC: FC<Props> = ({
   const { community, edit } = useEditCommunity(communityId);
   const initialValues = useMemo<EditCommunityFormValues>(
     () => ({
-      icon: community?.icon || '',
+      icon: community?.icon?.url || '',
       name: community?.name || '',
       summary: community?.summary || ''
     }),
@@ -41,16 +40,13 @@ export const EditCommunityPanelHOC: FC<Props> = ({
   const formik = useFormik<EditCommunityFormValues>({
     enableReinitialize: true,
     onSubmit: vals => {
-      const iconFile = vals.files?.shift();
-      return edit(
-        {
+      return edit({
+        community: {
           name: vals.name,
-          icon: vals.icon || undefined,
-          image: vals.icon || undefined,
           summary: vals.summary || undefined
         },
-        iconFile
-      );
+        icon: vals.icon
+      });
     },
     validationSchema,
     initialValues

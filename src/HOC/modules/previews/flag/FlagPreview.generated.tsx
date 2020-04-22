@@ -19,8 +19,8 @@ import { CommentPreviewFragmentDoc } from '../comment/CommentPreview.generated';
 
 export type FlagPreviewFragment = (
   { __typename: 'Flag' }
-  & Pick<Types.Flag, 'id'>
-  & { context: Types.Maybe<(
+  & Pick<Types.Flag, 'id' | 'message' | 'isResolved'>
+  & { context: (
     { __typename: 'Collection' }
     & CollectionPreviewFragment
   ) | (
@@ -35,12 +35,14 @@ export type FlagPreviewFragment = (
   ) | (
     { __typename: 'User' }
     & UserPreviewFragment
-  )> }
+  ) }
 );
 
 export const FlagPreviewFragmentDoc = gql`
     fragment FlagPreview on Flag {
   id
+  message
+  isResolved
   context {
     ... on Community {
       ...CommunityPreview

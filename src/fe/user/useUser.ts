@@ -1,7 +1,7 @@
 import { User } from 'graphql/types.generated';
 import { useMemo } from 'react';
 import * as GQL from './useUser.generated';
-import { useMe } from 'fe/session/me';
+import { useMe } from 'fe/session/useMe';
 import { useFollowContext } from 'fe/context/follow/useFollowContext';
 
 export const useUser = (userId: User['id']) => {
@@ -12,9 +12,9 @@ export const useUser = (userId: User['id']) => {
 
   return useMemo(() => {
     const user = userQ.data?.user;
-    const totalCollections = user?.followedCollections?.totalCount;
-    const totalCommunities = user?.followedCommunities?.totalCount;
-    const totalUsers = user?.followedUsers?.totalCount;
+    const totalCollections = user?.collectionFollows?.totalCount;
+    const totalCommunities = user?.communityFollows?.totalCount;
+    const totalUsers = user?.userFollows?.totalCount;
     const totalActivities = user?.outbox?.totalCount;
     const isMe = !!(me && user && me.user.id == user.id);
 

@@ -10,10 +10,13 @@ import { BasicResourcesPageFragmentDoc } from './basicResourcesEdges.generated';
 
 export type BasicCollectionFragment = (
   { __typename: 'Collection' }
-  & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'isLocal' | 'isPublic' | 'createdAt'>
+  & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'isLocal' | 'isPublic' | 'createdAt'>
   & { creator: Types.Maybe<(
     { __typename: 'User' }
     & BasicUserFragment
+  )>, icon: Types.Maybe<(
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
   )>, myLike: Types.Maybe<(
     { __typename: 'Like' }
     & Pick<Types.Like, 'id'>
@@ -25,8 +28,11 @@ export type BasicCollectionFragment = (
     & Pick<Types.Flag, 'id'>
   )>, community: Types.Maybe<(
     { __typename: 'Community' }
-    & Pick<Types.Community, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'name' | 'icon'>
-    & { myFollow: Types.Maybe<(
+    & Pick<Types.Community, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'name'>
+    & { icon: Types.Maybe<(
+      { __typename: 'Content' }
+      & Pick<Types.Content, 'id' | 'url'>
+    )>, myFollow: Types.Maybe<(
       { __typename: 'Follow' }
       & Pick<Types.Follow, 'id'>
     )>, myFlag: Types.Maybe<(
@@ -58,7 +64,10 @@ export const BasicCollectionFragmentDoc = gql`
   creator {
     ...BasicUser
   }
-  icon
+  icon {
+    id
+    url
+  }
   isLocal
   isPublic
   createdAt
@@ -77,7 +86,10 @@ export const BasicCollectionFragmentDoc = gql`
     isLocal
     isPublic
     name
-    icon
+    icon {
+      id
+      url
+    }
     myFollow {
       id
     }

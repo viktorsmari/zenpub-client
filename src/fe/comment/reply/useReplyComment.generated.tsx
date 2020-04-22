@@ -4,11 +4,7 @@ import { CommentPreviewFragment } from '../../../HOC/modules/previews/comment/Co
 import gql from 'graphql-tag';
 import { CommentPreviewFragmentDoc } from '../../../HOC/modules/previews/comment/CommentPreview.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type ReplyMutationVariables = {
@@ -35,23 +31,6 @@ export const ReplyDocument = gql`
 }
     ${CommentPreviewFragmentDoc}`;
 export type ReplyMutationFn = ApolloReactCommon.MutationFunction<ReplyMutation, ReplyMutationVariables>;
-export type ReplyComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<ReplyMutation, ReplyMutationVariables>, 'mutation'>;
-
-    export const ReplyComponent = (props: ReplyComponentProps) => (
-      <ApolloReactComponents.Mutation<ReplyMutation, ReplyMutationVariables> mutation={ReplyDocument} {...props} />
-    );
-    
-export type ReplyProps<TChildProps = {}> = ApolloReactHoc.MutateProps<ReplyMutation, ReplyMutationVariables> & TChildProps;
-export function withReply<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  ReplyMutation,
-  ReplyMutationVariables,
-  ReplyProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, ReplyMutation, ReplyMutationVariables, ReplyProps<TChildProps>>(ReplyDocument, {
-      alias: 'reply',
-      ...operationOptions
-    });
-};
 
 /**
  * __useReplyMutation__
@@ -86,3 +65,4 @@ export interface ReplyMutationOperation {
   variables: ReplyMutationVariables
   type: 'mutation'
 }
+export const ReplyMutationName:ReplyMutationOperation['operationName'] = 'reply'

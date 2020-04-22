@@ -22,6 +22,7 @@ import {
   Header
 } from '../Modal/modal';
 import { UpdateResourceMutationMutationVariables } from '../../../graphql/updateResource.generated';
+import { getMaybeUploadInput } from 'fe/mutation/upload/getUploadInput';
 
 interface Props {
   toggleModal?: any;
@@ -183,17 +184,16 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
       .max(90)
       .required(),
     summary: Yup.string().max(1000),
-    image: Yup.string().url()
+    image: Yup.mixed<string | File>()
   }),
   handleSubmit: (values, { props, setSubmitting }) => {
     const variables: UpdateResourceMutationMutationVariables = {
       resourceId: props.id,
       resource: {
         name: values.name,
-        summary: values.summary,
-        icon: values.image,
-        url: values.url
-      }
+        summary: values.summary
+      },
+      icon: getMaybeUploadInput(values.image)
     };
     return props
       .updateResource({

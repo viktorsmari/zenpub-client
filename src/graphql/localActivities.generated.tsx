@@ -3,17 +3,13 @@ import * as Types from './types.generated';
 import { ActivityPreviewFragment } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import gql from 'graphql-tag';
 import { ActivityPreviewFragmentDoc } from '../HOC/modules/previews/activity/ActivityPreview.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type LocalActivitiesQueryVariables = {
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  end?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+  end?: Types.Maybe<Array<Types.Scalars['Cursor']>>
 };
 
 
@@ -36,7 +32,7 @@ export type LocalActivitiesQuery = (
 
 
 export const LocalActivitiesDocument = gql`
-    query localActivities($limit: Int, $end: [Cursor]) {
+    query localActivities($limit: Int, $end: [Cursor!]) {
   instance {
     outbox(limit: $limit, after: $end) {
       pageInfo {
@@ -50,23 +46,6 @@ export const LocalActivitiesDocument = gql`
   }
 }
     ${ActivityPreviewFragmentDoc}`;
-export type LocalActivitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<LocalActivitiesQuery, LocalActivitiesQueryVariables>, 'query'>;
-
-    export const LocalActivitiesComponent = (props: LocalActivitiesComponentProps) => (
-      <ApolloReactComponents.Query<LocalActivitiesQuery, LocalActivitiesQueryVariables> query={LocalActivitiesDocument} {...props} />
-    );
-    
-export type LocalActivitiesProps<TChildProps = {}> = ApolloReactHoc.DataProps<LocalActivitiesQuery, LocalActivitiesQueryVariables> & TChildProps;
-export function withLocalActivities<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  LocalActivitiesQuery,
-  LocalActivitiesQueryVariables,
-  LocalActivitiesProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, LocalActivitiesQuery, LocalActivitiesQueryVariables, LocalActivitiesProps<TChildProps>>(LocalActivitiesDocument, {
-      alias: 'localActivities',
-      ...operationOptions
-    });
-};
 
 /**
  * __useLocalActivitiesQuery__
@@ -102,3 +81,4 @@ export interface LocalActivitiesQueryOperation {
   variables: LocalActivitiesQueryVariables
   type: 'query'
 }
+export const LocalActivitiesQueryName:LocalActivitiesQueryOperation['operationName'] = 'localActivities'

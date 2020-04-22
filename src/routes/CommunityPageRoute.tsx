@@ -1,9 +1,9 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import {
   CommunityPageTab,
   CommunityPage
 } from 'HOC/pages/community/CommunityPage';
-import NotFound from 'pages/not-found/NotFound';
+import { NotFound } from 'ui/pages/notFound';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
 import { WithSidebarTemplate } from 'HOC/templates/WithSidebar/WithSidebar';
 
@@ -26,15 +26,21 @@ const CommunityPageRouter: FC<RouteComponentProps<CommunityPageRouter>> = ({
       : !maybeTabStr
       ? CommunityPageTab.Activities
       : null;
-  if (tab === null) {
+
+  const props = useMemo<CommunityPage | null>(() => {
+    return (
+      tab && {
+        communityId,
+        tab,
+        basePath: `/communities/${communityId}`
+      }
+    );
+  }, [tab]);
+
+  if (props === null) {
     return <NotFound />;
   }
 
-  const props: CommunityPage = {
-    communityId,
-    tab,
-    basePath: `/communities/${communityId}`
-  };
   return (
     <WithSidebarTemplate>
       <CommunityPage {...props} />

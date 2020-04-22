@@ -1,0 +1,39 @@
+mutation anonResetPassword ($password: String!, $token: String!){
+  resetPassword(token: $token, password: $password){
+    ...AuthData
+  }
+}
+
+mutation anonResetPasswordRequest($email: String!){
+  resetPasswordRequest(email: $email)
+}
+
+
+mutation anonLogin ($email: String!, $password: String!){
+  createSession(email: $email, password: $password){
+    ...AuthData
+  }
+}
+
+mutation anonConfirmEmail($token: String!){ 
+  confirmEmail(token: $token){
+    ...AuthData
+  }
+}
+
+mutation anonSignUp($registration: RegistrationInput!){
+  createUser(user: $registration){
+    ...UseMeData
+  }
+}
+
+query anonUsernameAvailable($username: String!){
+  usernameAvailable(username: $username)
+}
+
+fragment AuthData on AuthPayload {
+  me{
+    ...UseMeData
+  }
+  token
+}

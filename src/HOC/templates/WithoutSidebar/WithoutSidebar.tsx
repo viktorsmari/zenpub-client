@@ -1,5 +1,5 @@
 import React, { FC, useMemo } from 'react';
-import { useMe } from 'fe/session/me';
+import { useMe } from 'fe/session/useMe';
 
 import { WithoutSidebar, Props } from 'ui/templates/withoutSidebar';
 import { SearchBox } from 'HOC/modules/SearchBox/SearchBox';
@@ -20,7 +20,7 @@ export const WithoutSidebarTemplate: FC<WithoutSidebarTemplate> = ({
       Search: <SearchBox />,
       user: {
         logout: meQ.logout,
-        icon: user.icon || '',
+        icon: user.icon?.url || '',
         link: `/user/${user.id}`,
         name: user.name || ''
       }

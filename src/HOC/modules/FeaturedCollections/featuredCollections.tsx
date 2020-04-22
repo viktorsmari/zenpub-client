@@ -3,7 +3,7 @@ import {
   FeaturedCollections as FeaturedCollectionsUI,
   FeaturedCollectionsData
 } from 'ui/modules/FeaturedCollections';
-import { useMe } from 'fe/session/me';
+import { useMe } from 'fe/session/useMe';
 import { DiscoverPageFeaturedCollectionInfoFragment } from 'HOC/pages/discover/DiscoverPage.generated';
 import { CollectionBase } from 'ui/modules/FeaturedCollections/preview';
 import { FeatureModalHOC } from '../FeatureModal/FeatureModal';
@@ -24,7 +24,7 @@ export const FeaturedCollections: FC<FeaturedCollections> = () => {
         )
         .map<CollectionBase>(collection => ({
           ...collection,
-          icon: collection.icon || ''
+          icon: collection.icon?.url || ''
         })),
     [featuredCollectionsPage]
   );

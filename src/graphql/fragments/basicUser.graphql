@@ -3,10 +3,14 @@ fragment BasicUser on User {
     canonicalUrl
     displayUsername
     name
-    icon
+    icon{
+ id, url }
+
     location
     summary
-    image
+    image{
+ id, url }
+
     isLocal
     # isPublic
     # isDisabled

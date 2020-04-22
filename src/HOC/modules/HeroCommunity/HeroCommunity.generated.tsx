@@ -4,8 +4,11 @@ import gql from 'graphql-tag';
 
 export type HeroCommunityDataFragment = (
   { __typename: 'Community' }
-  & Pick<Types.Community, 'id' | 'displayUsername' | 'name' | 'summary' | 'icon' | 'followerCount'>
-  & { myFollow: Types.Maybe<(
+  & Pick<Types.Community, 'id' | 'displayUsername' | 'name' | 'summary' | 'followerCount'>
+  & { icon: Types.Maybe<(
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
+  )>, myFollow: Types.Maybe<(
     { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
   )>, myFlag: Types.Maybe<(
@@ -31,7 +34,10 @@ export const HeroCommunityDataFragmentDoc = gql`
   displayUsername
   name
   summary
-  icon
+  icon {
+    id
+    url
+  }
   followerCount
   myFollow {
     id

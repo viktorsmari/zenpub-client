@@ -5,12 +5,8 @@ import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
 import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { DiscoverPageFeaturedCommunityInfoFragmentDoc } from '../../../HOC/pages/discover/DiscoverPage.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
@@ -59,23 +55,6 @@ export const InstanceFeaturedCommunitiesDocument = gql`
 }
     ${FullPageInfoFragmentDoc}
 ${DiscoverPageFeaturedCommunityInfoFragmentDoc}`;
-export type InstanceFeaturedCommunitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<InstanceFeaturedCommunitiesQuery, InstanceFeaturedCommunitiesQueryVariables>, 'query'>;
-
-    export const InstanceFeaturedCommunitiesComponent = (props: InstanceFeaturedCommunitiesComponentProps) => (
-      <ApolloReactComponents.Query<InstanceFeaturedCommunitiesQuery, InstanceFeaturedCommunitiesQueryVariables> query={InstanceFeaturedCommunitiesDocument} {...props} />
-    );
-    
-export type InstanceFeaturedCommunitiesProps<TChildProps = {}> = ApolloReactHoc.DataProps<InstanceFeaturedCommunitiesQuery, InstanceFeaturedCommunitiesQueryVariables> & TChildProps;
-export function withInstanceFeaturedCommunities<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  InstanceFeaturedCommunitiesQuery,
-  InstanceFeaturedCommunitiesQueryVariables,
-  InstanceFeaturedCommunitiesProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, InstanceFeaturedCommunitiesQuery, InstanceFeaturedCommunitiesQueryVariables, InstanceFeaturedCommunitiesProps<TChildProps>>(InstanceFeaturedCommunitiesDocument, {
-      alias: 'instanceFeaturedCommunities',
-      ...operationOptions
-    });
-};
 
 /**
  * __useInstanceFeaturedCommunitiesQuery__
@@ -109,3 +88,4 @@ export interface InstanceFeaturedCommunitiesQueryOperation {
   variables: InstanceFeaturedCommunitiesQueryVariables
   type: 'query'
 }
+export const InstanceFeaturedCommunitiesQueryName:InstanceFeaturedCommunitiesQueryOperation['operationName'] = 'instanceFeaturedCommunities'

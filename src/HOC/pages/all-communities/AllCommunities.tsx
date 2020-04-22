@@ -5,10 +5,17 @@ import {
   AllCommunities as AllCommunitiesUI,
   Props as AllCommunitiesUIProps
 } from 'ui/pages/allCommunities';
+import { useFormik } from 'formik';
 
 export interface AllCommunitiesPage {}
 export const AllCommunitiesPage: FC<AllCommunitiesPage> = () => {
   const { allCommunitiesPage } = useAllCommunities();
+  const LoadMoreFormik = useFormik({
+    initialValues: {},
+    onSubmit: () =>
+      allCommunitiesPage.ready ? allCommunitiesPage.next() : undefined
+  });
+
   const allCommunitiesUIProps = useMemo<AllCommunitiesUIProps>(() => {
     const CommunitiesBoxes = (
       <>
@@ -18,11 +25,12 @@ export const AllCommunitiesPage: FC<AllCommunitiesPage> = () => {
       </>
     );
     const props: AllCommunitiesUIProps = {
-      CommunitiesBoxes
+      CommunitiesBoxes,
+      LoadMoreFormik
     };
 
     return props;
-  }, [allCommunitiesPage]);
+  }, [allCommunitiesPage, LoadMoreFormik]);
 
   return <AllCommunitiesUI {...allCommunitiesUIProps} />;
 };
