@@ -2,15 +2,15 @@ import { configure, addDecorator, addParameters } from '@storybook/react';
 import { withA11y } from '@storybook/addon-a11y';
 import { themeDeco } from 'ui/styleguide/storiesThemeDecorator';
 import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
-import MoodleNetLogo from './assets/moodlenet.png';
+import {logo_large_url, APP_NAME, related_urls} from 'mn-constants';
 import { create } from '@storybook/theming';
 import StoryRouter from 'storybook-react-router';
 
 
 const theme = create({
-  brandImage: MoodleNetLogo,
-  brandTitle: 'MoodleNet',
-  url: 'https://gitlab.com/moodlenet/clients/react'
+  brandImage: logo_large_url,
+  brandTitle: APP_NAME,
+  url: related_urls.code
 });
 
 
