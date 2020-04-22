@@ -1,0 +1,6 @@
+query flagPreviewData($flagId:String!) {
+  flag(flagId:$flagId){
+    ...FlagPreview
+  }
+}
+

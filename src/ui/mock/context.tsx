@@ -1,7 +1,15 @@
 import { action } from '@storybook/addon-actions';
 import { useFormik } from 'formik';
 import React from 'react';
-import { Props as LoadMoreProps } from 'ui/modules/Loadmore';
+import {
+  ActivityLoaded,
+  ActivityPreview,
+  Status as ActivityStatus
+} from 'ui/modules/ActivityPreview';
+import {
+  CreateCommunityFormValues,
+  Props as CreateCommunityProps
+} from 'ui/modules/CreateCommunityPanel';
 import {
   EditCollectionFormValues,
   Props as EditCollectionPanelProps
@@ -10,10 +18,13 @@ import {
   EditCommunityFormValues,
   Props as EditCommunityProps
 } from 'ui/modules/EditCommunityPanel';
+import { FeaturedCollectionsData as FeaturedCollectionsProps } from 'ui/modules/FeaturedCollections';
+import { FeaturedCommunitiesData as FeaturedCommunitiesProps } from 'ui/modules/FeaturedCommunities';
+import { Props as FeaturedModalProps } from 'ui/modules/FeaturedModal';
 import {
-  CreateCommunityFormValues,
-  Props as CreateCommunityProps
-} from 'ui/modules/CreateCommunityPanel';
+  BasicCreateFlagFormValues,
+  Props as FlagModalProps
+} from 'ui/modules/FlagModal';
 import {
   Props as HeroCollectionProps,
   Status as HeroCollectionStatus
@@ -26,45 +37,29 @@ import {
   Props as HeroUserProps,
   Status as HeroUserStatus
 } from 'ui/modules/HeroUser';
+import { Props as LoadMoreProps } from 'ui/modules/Loadmore';
+import { Collection } from 'ui/modules/Previews/Collection';
+import { Comment } from 'ui/modules/Previews/Comment';
+import { FlaggedItem } from 'ui/modules/Previews/FlaggedItem';
+import { Resource } from 'ui/modules/Previews/Resource';
 import { Props as ResourcePreviewProps } from 'ui/modules/ResourcePreview';
-import {
-  BasicCreateFlagFormValues,
-  Props as FlagModalProps
-} from 'ui/modules/FlagModal';
-import { Props as FeaturedModalProps } from 'ui/modules/FeaturedModal';
-import { SignUpFormValues, Props as SignUpProps } from 'ui/pages/signUp';
-import { LoginFormValues, Props as LoginProps } from 'ui/pages/login';
-import {
-  ResetPasswordFormValues,
-  Props as ResetPasswordProps
-} from 'ui/pages/resetPassword';
 import {
   NewPasswordFormValues,
   Props as NewPasswordProps
 } from 'ui/pages/createNewPassword';
-
-import { FeaturedModal } from '../modules/FeaturedModal';
+import { LoginFormValues, Props as LoginProps } from 'ui/pages/login';
 import {
-  ConfirmationModal,
-  Props as ConfirmationModalProps
-} from '../modules/ConfirmationModal';
-import { Props as EditProfileProps, EditProfile } from 'ui/pages/settings';
+  Props as ResetPasswordProps,
+  ResetPasswordFormValues
+} from 'ui/pages/resetPassword';
+import { EditProfile, Props as EditProfileProps } from 'ui/pages/settings';
 import Flags from 'ui/pages/settings/flags';
-import Preferences from 'ui/pages/settings/preferences';
-import Emails from 'ui/pages/settings/invites';
 import Instance from 'ui/pages/settings/instance';
-import { FeaturedCommunitiesData as FeaturedCommunitiesProps } from 'ui/modules/FeaturedCommunities';
-import { FeaturedCollectionsData as FeaturedCollectionsProps } from 'ui/modules/FeaturedCollections';
-import { FlaggedItem } from 'ui/modules/Previews/FlaggedItem';
-import { Comment } from 'ui/modules/Previews/Comment';
-import { Collection } from 'ui/modules/Previews/Collection';
-import { Resource } from 'ui/modules/Previews/Resource';
-
-import {
-  ActivityPreview,
-  Status as ActivityStatus,
-  ActivityLoaded
-} from 'ui/modules/ActivityPreview';
+import Emails from 'ui/pages/settings/invites';
+import Preferences from 'ui/pages/settings/preferences';
+import { Props as SignUpProps, SignUpFormValues } from 'ui/pages/signUp';
+import { Props as ConfirmationModalProps } from '../modules/ConfirmationModal';
+import { FeaturedModal } from '../modules/FeaturedModal';
 
 export const getEditCommunityProps = (): EditCommunityProps => {
   const formik = useFormik<EditCommunityFormValues>({
@@ -284,7 +279,7 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
     event: 'Flagged a comment',
     preview: (
       <FlaggedItem
-        flaggedItemContext={
+        FlaggedItemContextElement={
           <Comment
             {...getActions()}
             url="/"
@@ -295,45 +290,33 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
             hideActions={true}
           />
         }
-        DeleteModal={({ done }) => {
-          const formik = useFormik<{}>({
-            initialValues: {},
-            onSubmit: () => {
-              action('submit')();
-              return new Promise((resolve, reject) => {
-                setTimeout(resolve, 3000);
-              });
-            }
-          });
-          const getConfirmationModalProps = {
-            formik,
-            modalTitle: 'Delete Comment',
-            modalDescription: 'Are you sure you want to delete this comment?',
-            modalAction: 'Delete',
-            cancel: action('cancel')
-          };
-          return <ConfirmationModal {...getConfirmationModalProps} />;
-        }}
-        IgnoreModal={({ done }) => {
-          const formik = useFormik<{}>({
-            initialValues: {},
-            onSubmit: () => {
-              action('submit')();
-              return new Promise((resolve, reject) => {
-                setTimeout(resolve, 3000);
-              });
-            }
-          });
-          const getConfirmationModalProps = {
-            formik,
-            modalTitle: 'Ignore Flag',
-            modalDescription:
-              'Are you sure you want to delete the flag for this comment?',
-            modalAction: 'Delete',
-            cancel: action('cancel')
-          };
-          return <ConfirmationModal {...getConfirmationModalProps} />;
-        }}
+        ignoreFlagFormik={useFormik({
+          initialValues: {},
+          onSubmit: () => {
+            action('ignoreFlagFormik')();
+            return new Promise((resolve, reject) => {
+              setTimeout(resolve, 3000);
+            });
+          }
+        })}
+        deleteContentFormik={useFormik<{}>({
+          initialValues: {},
+          onSubmit: () => {
+            action('deleteContentFormik')();
+            return new Promise((resolve, reject) => {
+              setTimeout(resolve, 3000);
+            });
+          }
+        })}
+        blockUserFormik={useFormik<{}>({
+          initialValues: {},
+          onSubmit: () => {
+            action('blockUserFormik')();
+            return new Promise((resolve, reject) => {
+              setTimeout(resolve, 3000);
+            });
+          }
+        })}
         type="Comment"
         reason="Abusive speech"
       />
@@ -350,7 +333,7 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
     event: 'Flagged a collection',
     preview: (
       <FlaggedItem
-        flaggedItemContext={
+        FlaggedItemContextElement={
           <Collection
             hideActions={true}
             link={{ url: '/', external: true }}
@@ -378,45 +361,33 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
             })}
           />
         }
-        DeleteModal={({ done }) => {
-          const formik = useFormik<{}>({
-            initialValues: {},
-            onSubmit: () => {
-              action('submit')();
-              return new Promise((resolve, reject) => {
-                setTimeout(resolve, 3000);
-              });
-            }
-          });
-          const getConfirmationModalProps = {
-            formik,
-            modalTitle: 'Delete Collection',
-            modalDescription: 'Are you sure you want to delete this colletion?',
-            modalAction: 'Delete',
-            cancel: action('cancel')
-          };
-          return <ConfirmationModal {...getConfirmationModalProps} />;
-        }}
-        IgnoreModal={({ done }) => {
-          const formik = useFormik<{}>({
-            initialValues: {},
-            onSubmit: () => {
-              action('submit')();
-              return new Promise((resolve, reject) => {
-                setTimeout(resolve, 3000);
-              });
-            }
-          });
-          const getIgnoreModalProps = {
-            formik,
-            modalTitle: 'Ignore Flag',
-            modalDescription:
-              'Are you sure you want to delete the flag for this collection?',
-            modalAction: 'Delete',
-            cancel: action('cancel')
-          };
-          return <ConfirmationModal {...getIgnoreModalProps} />;
-        }}
+        ignoreFlagFormik={useFormik({
+          initialValues: {},
+          onSubmit: () => {
+            action('ignoreFlagFormik')();
+            return new Promise((resolve, reject) => {
+              setTimeout(resolve, 3000);
+            });
+          }
+        })}
+        deleteContentFormik={useFormik<{}>({
+          initialValues: {},
+          onSubmit: () => {
+            action('deleteContentFormik')();
+            return new Promise((resolve, reject) => {
+              setTimeout(resolve, 3000);
+            });
+          }
+        })}
+        blockUserFormik={useFormik<{}>({
+          initialValues: {},
+          onSubmit: () => {
+            action('blockUserFormik')();
+            return new Promise((resolve, reject) => {
+              setTimeout(resolve, 3000);
+            });
+          }
+        })}
         type="Collection"
         reason="Inappropriate Content"
       />
@@ -433,7 +404,7 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
     event: 'Flagged a resource',
     preview: (
       <FlaggedItem
-        flaggedItemContext={
+        FlaggedItemContextElement={
           <Resource
             hideActions={true}
             like={{
@@ -470,45 +441,33 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
             }}
           />
         }
-        DeleteModal={({ done }) => {
-          const formik = useFormik<{}>({
-            initialValues: {},
-            onSubmit: () => {
-              action('submit')();
-              return new Promise((resolve, reject) => {
-                setTimeout(resolve, 3000);
-              });
-            }
-          });
-          const getConfirmationModalProps = {
-            formik,
-            modalTitle: 'Delete Resource',
-            modalDescription: 'Are you sure you want to delete this resource?',
-            modalAction: 'Delete',
-            cancel: action('cancel')
-          };
-          return <ConfirmationModal {...getConfirmationModalProps} />;
-        }}
-        IgnoreModal={({ done }) => {
-          const formik = useFormik<{}>({
-            initialValues: {},
-            onSubmit: () => {
-              action('submit')();
-              return new Promise((resolve, reject) => {
-                setTimeout(resolve, 3000);
-              });
-            }
-          });
-          const getIgnoreModalProps = {
-            formik,
-            modalTitle: 'Ignore Flag',
-            modalDescription:
-              'Are you sure you want to delete the flag for this resource?',
-            modalAction: 'Delete',
-            cancel: action('cancel')
-          };
-          return <ConfirmationModal {...getIgnoreModalProps} />;
-        }}
+        ignoreFlagFormik={useFormik({
+          initialValues: {},
+          onSubmit: () => {
+            action('ignoreFlagFormik')();
+            return new Promise((resolve, reject) => {
+              setTimeout(resolve, 3000);
+            });
+          }
+        })}
+        deleteContentFormik={useFormik<{}>({
+          initialValues: {},
+          onSubmit: () => {
+            action('deleteContentFormik')();
+            return new Promise((resolve, reject) => {
+              setTimeout(resolve, 3000);
+            });
+          }
+        })}
+        blockUserFormik={useFormik<{}>({
+          initialValues: {},
+          onSubmit: () => {
+            action('blockUserFormik')();
+            return new Promise((resolve, reject) => {
+              setTimeout(resolve, 3000);
+            });
+          }
+        })}
         type="Resource"
         reason="Inappropriate content"
       />

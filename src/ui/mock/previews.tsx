@@ -164,6 +164,6 @@ export function FlaggedItemPreviewProps(
   return {
     type,
     reason,
-    flaggedItemContext: context
+    FlaggedItemContextElement: context
   };
 }
