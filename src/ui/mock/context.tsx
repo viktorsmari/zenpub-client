@@ -60,6 +60,10 @@ import Preferences from 'ui/pages/settings/preferences';
 import { Props as SignUpProps, SignUpFormValues } from 'ui/pages/signUp';
 import { Props as ConfirmationModalProps } from '../modules/ConfirmationModal';
 import { FeaturedModal } from '../modules/FeaturedModal';
+import ModerationLog from 'ui/pages/settings/logs';
+import { User } from 'ui/modules/Previews/User';
+
+// import { User as UserIcon } from 'react-feather';
 
 export const getEditCommunityProps = (): EditCommunityProps => {
   const formik = useFormik<EditCommunityFormValues>({
@@ -228,7 +232,11 @@ export const getEditProfileProps = (): EditProfileProps => {
     basePath: '/',
     displayUsername: '@tata@app.moodle.net',
     isAdmin: false,
-    Preferences: <Preferences />
+    Preferences: <Preferences />,
+    Flags: <div>Flags section </div>, //FIXME
+    Instance: <div>Instance section </div>, //FIXME
+    Invites: <div>Invites section </div>, //FIXME,
+    ModerationLog: <div>ModerationLog section </div> //FIXME,
   };
 };
 
@@ -478,11 +486,79 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
     link: 'https://picsum.photos/80/80'
   };
 
+  const activityUserPreviewProps: ActivityLoaded = {
+    communityLink: 'communityLink',
+    communityName: 'communityName',
+    event: 'Flagged a user',
+    preview: (
+      <FlaggedItem
+        FlaggedItemContextElement={
+          <User
+            hideActions={true}
+            image={
+              'https://pbs.twimg.com/profile_images/1161428802091802627/O49Ggs-7_400x400.jpg'
+            }
+            bio={`I'm a cool user`}
+            username={'@favbooks@abc.com'}
+            name={'˗ˏˋ Doug Belshaw ˎˊ˗ '}
+            isFollowing={true}
+            toggleFollowFormik={useFormik<{}>({
+              initialValues: {},
+              onSubmit: vals => {
+                action('submitting...')();
+                return new Promise(resolve =>
+                  setTimeout(() => {
+                    action('submitted...')();
+                    resolve();
+                  }, 2000)
+                );
+              }
+            })}
+          />
+        }
+        blockUserFormik={useFormik<{}>({
+          initialValues: {},
+          onSubmit: () => {
+            action('blockUserFormik')();
+            return new Promise((resolve, reject) => {
+              setTimeout(resolve, 3000);
+            });
+          }
+        })}
+        deleteContentFormik={useFormik<{}>({
+          initialValues: {},
+          onSubmit: () => {
+            action('deleteContentFormik')();
+            return new Promise((resolve, reject) => {
+              setTimeout(resolve, 3000);
+            });
+          }
+        })}
+        ignoreFlagFormik={useFormik<{}>({
+          initialValues: {},
+          onSubmit: () => {
+            action('ignoreFlagFormik')();
+            return new Promise((resolve, reject) => {
+              setTimeout(resolve, 3000);
+            });
+          }
+        })}
+        type="User"
+        reason="Inappropriate language"
+      />
+    ),
+    status: ActivityStatus.Loaded,
+    actor: getActor(),
+    createdAt: '2018-11-11',
+    link: 'https://picsum.photos/80/80'
+  };
+
   const ActivitiesBox = (
     <React.Fragment>
       <ActivityPreview {...activityPreviewProps} />
       <ActivityPreview {...activityCollectionPreviewProps} />
       <ActivityPreview {...activityResourcePreviewProps} />
+      <ActivityPreview {...activityUserPreviewProps} />
     </React.Fragment>
   );
 
@@ -568,7 +644,7 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
         formikSendInvite={formikSendInvite}
       />
     ),
-    Flags: <Flags ActivitiesBox={ActivitiesBox} />,
+    Flags: <Flags FlagsBox={ActivitiesBox} />,
     Instance: (
       <Instance
         formikAddDomain={formikAddDomain}
@@ -576,6 +652,7 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
         domainsList={['moodle.com']}
       />
     ),
+    ModerationLog: <ModerationLog />,
     isAdmin: true
   };
 };

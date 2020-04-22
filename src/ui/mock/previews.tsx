@@ -1,14 +1,13 @@
 import { Props as CollectionProps } from 'ui/modules/Previews/Collection';
-import { Props as CommunityProps } from 'ui/modules/Previews/Community';
-import { Props as ResourceProps } from 'ui/modules/Previews/Resource';
-import { Props as UserProps } from 'ui/modules/Previews/User';
 import { CommentProps } from 'ui/modules/Previews/Comment';
+import { Props as CommunityProps } from 'ui/modules/Previews/Community';
 import { CommentProps as LikedCommentProps } from 'ui/modules/Previews/LikedComment';
 import { CommentProps as MainCommentProps } from 'ui/modules/Previews/MainComment';
-import { ToggleFormik } from './formik';
-import { getActions } from './activityPreview';
-import { FlaggedProps } from 'ui/modules/Previews/FlaggedItem';
+import { Props as ResourceProps } from 'ui/modules/Previews/Resource';
 import { CommentProps as ThreadProps } from 'ui/modules/Previews/Thread';
+import { Props as UserProps } from 'ui/modules/Previews/User';
+import { getActions } from './activityPreview';
+import { ToggleFormik } from './formik';
 
 export function CollectionPreviewProps(
   username = 'Awesomeness',
@@ -156,14 +155,14 @@ export function ThreadPreviewProps(
   };
 }
 
-export function FlaggedItemPreviewProps(
-  context,
-  type,
-  reason = 'Abusive speech'
-): FlaggedProps {
-  return {
-    type,
-    reason,
-    FlaggedItemContextElement: context
-  };
-}
+// export function FlaggedItemPreviewProps(
+//   context,
+//   type,
+//   reason = 'Abusive speech'
+// ): FlaggedProps {
+//   return {
+//     type,
+//     reason,
+//     FlaggedItemContextElement: context
+//   };
+// }
