@@ -5,19 +5,15 @@ import { CommunityPreviewFragment } from '../../../HOC/modules/previews/communit
 import gql from 'graphql-tag';
 import { CommunityPreviewFragmentDoc } from '../../../HOC/modules/previews/community/CommunityPreview.generated';
 import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
 export type AllCommunitiesQueryVariables = {
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
-  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+  before?: Types.Maybe<Array<Types.Scalars['Cursor']>>,
+  after?: Types.Maybe<Array<Types.Scalars['Cursor']>>
 };
 
 
@@ -38,7 +34,7 @@ export type AllCommunitiesQuery = (
 
 
 export const AllCommunitiesDocument = gql`
-    query allCommunities($limit: Int, $before: [Cursor], $after: [Cursor]) {
+    query allCommunities($limit: Int, $before: [Cursor!], $after: [Cursor!]) {
   communities(limit: $limit, before: $before, after: $after) @connection(key: "allCommunities") {
     edges {
       ...CommunityPreview
@@ -51,23 +47,6 @@ export const AllCommunitiesDocument = gql`
 }
     ${CommunityPreviewFragmentDoc}
 ${FullPageInfoFragmentDoc}`;
-export type AllCommunitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<AllCommunitiesQuery, AllCommunitiesQueryVariables>, 'query'>;
-
-    export const AllCommunitiesComponent = (props: AllCommunitiesComponentProps) => (
-      <ApolloReactComponents.Query<AllCommunitiesQuery, AllCommunitiesQueryVariables> query={AllCommunitiesDocument} {...props} />
-    );
-    
-export type AllCommunitiesProps<TChildProps = {}> = ApolloReactHoc.DataProps<AllCommunitiesQuery, AllCommunitiesQueryVariables> & TChildProps;
-export function withAllCommunities<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  AllCommunitiesQuery,
-  AllCommunitiesQueryVariables,
-  AllCommunitiesProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, AllCommunitiesQuery, AllCommunitiesQueryVariables, AllCommunitiesProps<TChildProps>>(AllCommunitiesDocument, {
-      alias: 'allCommunities',
-      ...operationOptions
-    });
-};
 
 /**
  * __useAllCommunitiesQuery__
@@ -104,3 +83,4 @@ export interface AllCommunitiesQueryOperation {
   variables: AllCommunitiesQueryVariables
   type: 'query'
 }
+export const AllCommunitiesQueryName:AllCommunitiesQueryOperation['operationName'] = 'allCommunities'

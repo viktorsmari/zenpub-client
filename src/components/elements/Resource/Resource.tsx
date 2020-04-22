@@ -61,7 +61,7 @@ const Resource: React.FC<Props> = props => {
               <Actions>
                 <a href={props.coreIntegrationURL} target="_top">
                   <Button hovered>
-                    <Trans>To Moodle!</Trans>
+                    <Trans>To Moodle (TODO)</Trans>
                   </Button>
                 </a>
               </Actions>

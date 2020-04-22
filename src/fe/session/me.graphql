@@ -1,27 +1,23 @@
 
 query me {
   me{
-    ...useMeData
+    ...UseMeData
   }
 }
 
-mutation login ($email: String!, $password: String!){
-  createSession(email: $email, password: $password){
-    me{
-      ...useMeData
-    }
-    token
-  }
-}
-
-mutation logout {
+mutation meLogout {
   deleteSession
 }
 
-fragment useMeData on Me {
-  isInstanceAdmin,
+fragment UseMeData on Me {
+  isInstanceAdmin
+  email
+  isConfirmed
+  wantsEmailDigest
+  wantsNotifications 
   user{
     id
     ...SidebarMeUser
   }
 }
+

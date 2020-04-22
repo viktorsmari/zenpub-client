@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { FileText, Image } from 'react-feather';
+import { Box, Flex } from 'rebass/styled-components';
+// import { UploadCloud } from 'react-feather';
 // import { Trans } from '@lingui/macro';
 import styled from '../../../themes/styled';
-// import { UploadCloud } from 'react-feather';
-import { accepted_file_types } from '../../../mn-constants';
-import { Box, Flex } from 'rebass/styled-components';
-import { Image, FileText } from 'react-feather';
-import { FormikHook } from 'ui/@types/types';
 
 // const ThumbsContainer = styled.aside`
 //   display: flex;
@@ -71,82 +69,68 @@ const Img = styled(Box)`
 `;
 
 interface Props {
-  initialUrl: any;
-  uploadType?: string;
-  formikForm?: FormikHook;
-  touchedField?: string;
+  initialUrl: string | undefined | null;
+  onFileSelect(file: File): unknown;
+  uploadType?: 'resource' | string;
+  filePattern?: FilePattern;
 }
+
+type FilePattern = 'image/*' | '*';
 
 const DropzoneArea: React.FC<Props> = ({
   initialUrl,
   uploadType,
-  formikForm,
-  touchedField
+  onFileSelect,
+  filePattern
 }) => {
-  // const { setFieldValue, setFieldTouched } = useFormikContext();
-  const [files, setFiles] = useState([] as any);
-  const [fileUrl, onFile] = useState(initialUrl);
+  const [fileUrl, setFileUrl] = useState(initialUrl);
+  const [currentFile, setCurrentFile] = useState<File>();
 
-  const acceptedTypes =
-    uploadType != 'resource' ? 'image/*' : accepted_file_types;
-
-  useEffect(() => {
-    return () => {
-      files.forEach(file => URL.revokeObjectURL(file.preview));
-    };
-  }, [files]);
-
-  useEffect(() => {
-    return () => {
-      files.forEach(file => URL.revokeObjectURL(file.preview));
-    };
-  }, [files]);
+  useEffect(
+    () => () => {
+      fileUrl && URL.revokeObjectURL(fileUrl);
+    },
+    [fileUrl]
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    accept: acceptedTypes,
+    accept: filePattern,
     onDrop: acceptedFiles => {
-      const uploadField = touchedField ? touchedField : 'files';
-      if (formikForm) {
-        formikForm.setFieldValue(uploadField, acceptedFiles);
-        formikForm.setFieldTouched(uploadField, true);
+      const file = acceptedFiles[0];
+      if (!file) {
+        return;
       }
-      setFiles(acceptedFiles);
-      acceptedFiles.map(file => onFile(URL.createObjectURL(file)));
+      onFileSelect(file);
+      setFileUrl(URL.createObjectURL(file));
+      setCurrentFile(file);
     }
   });
 
   return (
     <>
-      <Box
-        sx={{ height: 'inherit' }}
-        {...getRootProps({ className: 'dropzone' })}
-      >
+      <Box sx={{ height: '100%' }} {...getRootProps({ className: 'dropzone' })}>
         <InfoContainer className={isDragActive ? 'active' : 'none'}>
-          {uploadType != 'resource' ? (
-            <>
-              <Thumb className="thumb" key={fileUrl}>
-                <WrapperIcon>
-                  <Image
-                    size={30}
-                    strokeWidth={1}
-                    color={'rgba(250,250,250, .5)'}
-                  />
-                </WrapperIcon>
-                <Img style={{ backgroundImage: `url(${fileUrl})` }} />
-              </Thumb>
-            </>
+          {uploadType !== 'resource' ? (
+            <Thumb className="thumb">
+              <WrapperIcon>
+                <Image
+                  size={30}
+                  strokeWidth={1}
+                  color={'rgba(250,250,250, .5)'}
+                />
+              </WrapperIcon>
+              <Img style={{ backgroundImage: `url(${fileUrl})` }} />
+            </Thumb>
           ) : null}
-          {uploadType == 'resource' ? (
-            files.length == 0 || files[0].type.indexOf('image') == -1 ? (
+          {!currentFile ? null : uploadType === 'resource' ? (
+            currentFile.type.indexOf('image') == -1 ? (
               <WrapperFile>
                 <FileText size={20} />
-                {files.length != 0 ? (
-                  <FileName>{files[0].name}</FileName>
-                ) : null}
+                {currentFile && <FileName>{currentFile.name}</FileName>}
               </WrapperFile>
             ) : (
               <WrapperFile>
-                <Thumb key={fileUrl}>
+                <Thumb>
                   <WrapperIcon>
                     <Image
                       size={30}
@@ -156,7 +140,7 @@ const DropzoneArea: React.FC<Props> = ({
                   </WrapperIcon>
                   <Img style={{ backgroundImage: `url(${fileUrl})` }} />
                 </Thumb>
-                <FileName>{files[0].name}</FileName>
+                <FileName>{currentFile && currentFile.name}</FileName>
               </WrapperFile>
             )
           ) : null}

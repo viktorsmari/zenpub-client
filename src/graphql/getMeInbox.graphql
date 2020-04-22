@@ -5,7 +5,7 @@
 #import "./fragments/basicUser.graphql"
 #import "../HOC/modules/ActivityPreview/getActivityPreview.graphql"
 
-query getMeInbox($limit: Int, $end: [Cursor]) {
+query getMeInbox($limit: Int, $end: [Cursor!]) {
     me {
         user {
             ...BasicUser

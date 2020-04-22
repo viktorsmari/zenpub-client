@@ -1,4 +1,4 @@
-import { useMe } from 'fe/session/me';
+import { useMe } from 'fe/session/useMe';
 import { Sidebar } from 'HOC/modules/Sidebar/Sidebar';
 import React, { FC, useMemo } from 'react';
 import { SidebarProps, WithSidebar } from 'ui/templates/withSidebar';
@@ -21,7 +21,7 @@ export const WithSidebarTemplate: FC<WithSidebarTemplate> = ({ children }) => {
       Search: <SearchBox />,
       user: {
         logout: meQ.logout,
-        icon: user.icon || '',
+        icon: user.icon?.url || '',
         link: `/user/${user.id}`,
         name: user.name || ''
       }

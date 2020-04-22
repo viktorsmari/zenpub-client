@@ -27,8 +27,6 @@ export const useAllCollections = () => {
       });
     }
   );
-  //@ts-ignore
-  window.page = { ...window.page, allCollectionsPage };
   return useMemo(() => {
     return {
       allCollectionsPage

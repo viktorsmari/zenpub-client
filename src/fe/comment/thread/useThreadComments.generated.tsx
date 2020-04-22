@@ -5,20 +5,16 @@ import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
 import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { CommentPreviewFragmentDoc } from '../../../HOC/modules/previews/comment/CommentPreview.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
 export type ThreadCommentsQueryVariables = {
   threadId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
-  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+  before?: Types.Maybe<Array<Types.Scalars['Cursor']>>,
+  after?: Types.Maybe<Array<Types.Scalars['Cursor']>>
 };
 
 
@@ -42,7 +38,7 @@ export type ThreadCommentsQuery = (
 
 
 export const ThreadCommentsDocument = gql`
-    query threadComments($threadId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
+    query threadComments($threadId: String!, $limit: Int, $before: [Cursor!], $after: [Cursor!]) {
   thread(threadId: $threadId) @connection(key: "threadComments", filter: ["threadId"]) {
     comments(limit: $limit, before: $before, after: $after) {
       totalCount
@@ -57,23 +53,6 @@ export const ThreadCommentsDocument = gql`
 }
     ${FullPageInfoFragmentDoc}
 ${CommentPreviewFragmentDoc}`;
-export type ThreadCommentsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ThreadCommentsQuery, ThreadCommentsQueryVariables>, 'query'> & ({ variables: ThreadCommentsQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const ThreadCommentsComponent = (props: ThreadCommentsComponentProps) => (
-      <ApolloReactComponents.Query<ThreadCommentsQuery, ThreadCommentsQueryVariables> query={ThreadCommentsDocument} {...props} />
-    );
-    
-export type ThreadCommentsProps<TChildProps = {}> = ApolloReactHoc.DataProps<ThreadCommentsQuery, ThreadCommentsQueryVariables> & TChildProps;
-export function withThreadComments<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  ThreadCommentsQuery,
-  ThreadCommentsQueryVariables,
-  ThreadCommentsProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, ThreadCommentsQuery, ThreadCommentsQueryVariables, ThreadCommentsProps<TChildProps>>(ThreadCommentsDocument, {
-      alias: 'threadComments',
-      ...operationOptions
-    });
-};
 
 /**
  * __useThreadCommentsQuery__
@@ -111,3 +90,4 @@ export interface ThreadCommentsQueryOperation {
   variables: ThreadCommentsQueryVariables
   type: 'query'
 }
+export const ThreadCommentsQueryName:ThreadCommentsQueryOperation['operationName'] = 'threadComments'

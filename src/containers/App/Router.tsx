@@ -15,8 +15,7 @@ import { SettingsPageRoute } from 'routes/SettingsPageRoute';
 import { SignupPageRoute } from 'routes/SignupPageRoute';
 import { ThreadPageRoute } from 'routes/ThreadPageRoute';
 import { UserPageRoute } from 'routes/UserPageRoute';
-import NotFound from '../../pages/not-found/NotFound';
-
+import { NotFound } from 'ui/pages/notFound';
 export const Router: React.FC = () => {
   return (
     <Switch>
@@ -28,13 +27,13 @@ export const Router: React.FC = () => {
       <Route {...AllCommunitiesPageRoute} />
       <Route {...ThreadPageRoute} />
       <Route {...DiscoverPageRoute} />
-      <Route {...HomePageRoute} />
       <Route {...SearchPageRoute} />
-      <Route {...ResetPasswordPageRoute} />
       <Route {...CreateNewPasswordPageRoute} />
+      <Route {...ResetPasswordPageRoute} />
       <Route {...LoginPageRoute} />
       <Route {...SignupPageRoute} />
       <Route {...ConfirmEmailRoute} />
+      <Route {...HomePageRoute} />
       <Route component={NotFound} />
     </Switch>
   );

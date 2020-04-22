@@ -5,12 +5,8 @@ import { BasicUserFragment } from './fragments/basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from './fragments/basicUser.generated';
 import { BasicCommunityFragmentDoc } from './fragments/basicCommunity.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
@@ -72,23 +68,6 @@ export const GetFeaturedCommunitiesDocument = gql`
 }
     ${BasicUserFragmentDoc}
 ${BasicCommunityFragmentDoc}`;
-export type GetFeaturedCommunitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetFeaturedCommunitiesQuery, GetFeaturedCommunitiesQueryVariables>, 'query'>;
-
-    export const GetFeaturedCommunitiesComponent = (props: GetFeaturedCommunitiesComponentProps) => (
-      <ApolloReactComponents.Query<GetFeaturedCommunitiesQuery, GetFeaturedCommunitiesQueryVariables> query={GetFeaturedCommunitiesDocument} {...props} />
-    );
-    
-export type GetFeaturedCommunitiesProps<TChildProps = {}> = ApolloReactHoc.DataProps<GetFeaturedCommunitiesQuery, GetFeaturedCommunitiesQueryVariables> & TChildProps;
-export function withGetFeaturedCommunities<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  GetFeaturedCommunitiesQuery,
-  GetFeaturedCommunitiesQueryVariables,
-  GetFeaturedCommunitiesProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, GetFeaturedCommunitiesQuery, GetFeaturedCommunitiesQueryVariables, GetFeaturedCommunitiesProps<TChildProps>>(GetFeaturedCommunitiesDocument, {
-      alias: 'getFeaturedCommunities',
-      ...operationOptions
-    });
-};
 
 /**
  * __useGetFeaturedCommunitiesQuery__
@@ -122,3 +101,4 @@ export interface GetFeaturedCommunitiesQueryOperation {
   variables: GetFeaturedCommunitiesQueryVariables
   type: 'query'
 }
+export const GetFeaturedCommunitiesQueryName:GetFeaturedCommunitiesQueryOperation['operationName'] = 'getFeaturedCommunities'

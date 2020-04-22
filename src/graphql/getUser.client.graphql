@@ -7,7 +7,9 @@ query getUserQuery {
         #     name
         #     preferredUsername
         #     location
-        #     icon
+        #     icon{
+ id, url }
+
         #     summary
         # }
     }

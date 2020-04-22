@@ -3,17 +3,13 @@ import * as Types from './types.generated';
 import { BasicCommunityFragment } from './fragments/basicCommunity.generated';
 import gql from 'graphql-tag';
 import { BasicCommunityFragmentDoc } from './fragments/basicCommunity.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type GetCommunitiesQueryQueryVariables = {
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  end?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+  end?: Types.Maybe<Array<Types.Scalars['Cursor']>>
 };
 
 
@@ -33,7 +29,7 @@ export type GetCommunitiesQueryQuery = (
 
 
 export const GetCommunitiesQueryDocument = gql`
-    query getCommunitiesQuery($limit: Int, $end: [Cursor]) {
+    query getCommunitiesQuery($limit: Int, $end: [Cursor!]) {
   communities(limit: $limit, after: $end) {
     pageInfo {
       startCursor
@@ -45,23 +41,6 @@ export const GetCommunitiesQueryDocument = gql`
   }
 }
     ${BasicCommunityFragmentDoc}`;
-export type GetCommunitiesQueryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetCommunitiesQueryQuery, GetCommunitiesQueryQueryVariables>, 'query'>;
-
-    export const GetCommunitiesQueryComponent = (props: GetCommunitiesQueryComponentProps) => (
-      <ApolloReactComponents.Query<GetCommunitiesQueryQuery, GetCommunitiesQueryQueryVariables> query={GetCommunitiesQueryDocument} {...props} />
-    );
-    
-export type GetCommunitiesQueryProps<TChildProps = {}> = ApolloReactHoc.DataProps<GetCommunitiesQueryQuery, GetCommunitiesQueryQueryVariables> & TChildProps;
-export function withGetCommunitiesQuery<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  GetCommunitiesQueryQuery,
-  GetCommunitiesQueryQueryVariables,
-  GetCommunitiesQueryProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, GetCommunitiesQueryQuery, GetCommunitiesQueryQueryVariables, GetCommunitiesQueryProps<TChildProps>>(GetCommunitiesQueryDocument, {
-      alias: 'getCommunitiesQuery',
-      ...operationOptions
-    });
-};
 
 /**
  * __useGetCommunitiesQueryQuery__
@@ -97,3 +76,4 @@ export interface GetCommunitiesQueryQueryOperation {
   variables: GetCommunitiesQueryQueryVariables
   type: 'query'
 }
+export const GetCommunitiesQueryQueryName:GetCommunitiesQueryQueryOperation['operationName'] = 'getCommunitiesQuery'

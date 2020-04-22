@@ -12,6 +12,9 @@ import { UserPreviewHOC } from 'HOC/modules/previews/user/UserPreview';
 import React, { FC, useMemo } from 'react';
 import { Box } from 'rebass';
 import { Props, User as UserPageUI } from 'ui/pages/user';
+import { UserFollowedCollectionFragment } from 'fe/collection/user/useUserFollowedCollections.generated';
+import { UserFollowedCommunityFragment } from 'fe/community/user/useUserFollowedCommunities.generated';
+import { UserFollowedUserFragment } from 'fe/user/followed/user/useUserFollowedUsers.generated';
 export interface UserPage {
   userId: User['id'];
   tab: UserPageTab;
@@ -46,35 +49,53 @@ export const UserPage: FC<UserPage> = ({ userId, basePath }) => {
     );
     const CollectionsBoxes = (
       <>
-        {followedCollectionsPage.edges.map(follow => (
-          <Box m={2} mb={0} key={follow.collection.id}>
-            <CollectionPreviewHOC
-              collectionId={follow.collection.id}
-              key={follow.collection.id}
-            />
-          </Box>
-        ))}
+        {followedCollectionsPage.edges
+          .map(follow => follow.context)
+          .filter(
+            (context): context is UserFollowedCollectionFragment =>
+              context.__typename === 'Collection'
+          )
+          .map(followedCollection => (
+            <Box m={2} mb={0} key={followedCollection.id}>
+              <CollectionPreviewHOC
+                collectionId={followedCollection.id}
+                key={followedCollection.id}
+              />
+            </Box>
+          ))}
       </>
     );
     const CommunityBoxes = (
       <>
-        {followedCommunitiesPage.edges.map(follow => (
-          <CommunityPreviewHOC
-            communityId={follow.community.id}
-            key={follow.community.id}
-          />
-        ))}
+        {followedCommunitiesPage.edges
+          .map(follow => follow.context)
+          .filter(
+            (context): context is UserFollowedCommunityFragment =>
+              context.__typename === 'Community'
+          )
+          .map(followedCommunity => (
+            <CommunityPreviewHOC
+              communityId={followedCommunity.id}
+              key={followedCommunity.id}
+            />
+          ))}
       </>
     );
 
     const UserBoxes = (
       <>
-        {followedUsersPage.edges.map(follow => (
-          <UserPreviewHOC
-            userId={follow.user.userId}
-            key={follow.user.userId}
-          />
-        ))}
+        {followedUsersPage.edges
+          .map(follow => follow.context)
+          .filter(
+            (context): context is UserFollowedUserFragment =>
+              context.__typename === 'User'
+          )
+          .map(followedUser => (
+            <UserPreviewHOC
+              userId={followedUser.userId}
+              key={followedUser.userId}
+            />
+          ))}
       </>
     );
 

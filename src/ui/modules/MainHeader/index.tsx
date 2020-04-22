@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'ui/themes/styled';
 // import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
-import { ChevronLeft, ChevronDown } from 'react-feather';
+import { ChevronLeft, ChevronDown, Menu } from 'react-feather';
 import { Flex, Text, Box } from 'rebass/styled-components';
 import Avatar from 'ui/elements/Avatar';
 // import Avatar from 'ui/elements/Avatar';
@@ -33,12 +33,16 @@ export const MainHeader: React.FC<Props> = props => {
     <HeaderWrapper>
       <FlexWrapper>
         <Left>
-          <Icon mx={2} onClick={() => history.goBack()}>
+          <Icon onClick={() => history.goBack()}>
             <ChevronLeft size="20" />
           </Icon>
-          <Link to="/">
+          <HamburgerIcon>
+            {/* <HamburgerIcon onClick={() => toggleSideBar()}> FIX ME AFTER HOC */}
+            <Menu size="20" />
+          </HamburgerIcon>
+          <HomeLink to="/">
             <Avatar size="s" src={MnetLogo} />
-          </Link>
+          </HomeLink>
         </Left>
         <Center>{props.Search}</Center>
         <Header alignItems={'center'}>
@@ -149,6 +153,7 @@ const Icon = styled(Box)`
   cursor: pointer;
   height: 40px;
   width: 40px;
+  min-width: 40px;
   border-radius: 40px;
   display: flex;
   align-items: center;
@@ -188,4 +193,16 @@ const HeaderWrapper = styled(Box)`
     flex: 1;
     text-decoration: none;
   }
+`;
+
+const HamburgerIcon = styled(Icon)`
+  display: none;
+  min-width: 40px;
+  ${media.lessThan('medium')`
+      display: flex;
+  `};
+`;
+
+const HomeLink = styled(Link)`
+  margin-left: 8px;
 `;

@@ -3,12 +3,8 @@ import * as Types from '../../../graphql/types.generated';
 import { UserPreviewFragment } from '../../../HOC/modules/previews/user/UserPreview.generated';
 import gql from 'graphql-tag';
 import { UserPreviewFragmentDoc } from '../../../HOC/modules/previews/user/UserPreview.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type UserPreviewQueryVariables = {
@@ -34,23 +30,6 @@ export const UserPreviewDocument = gql`
   }
 }
     ${UserPreviewFragmentDoc}`;
-export type UserPreviewComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UserPreviewQuery, UserPreviewQueryVariables>, 'query'> & ({ variables: UserPreviewQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const UserPreviewComponent = (props: UserPreviewComponentProps) => (
-      <ApolloReactComponents.Query<UserPreviewQuery, UserPreviewQueryVariables> query={UserPreviewDocument} {...props} />
-    );
-    
-export type UserPreviewProps<TChildProps = {}> = ApolloReactHoc.DataProps<UserPreviewQuery, UserPreviewQueryVariables> & TChildProps;
-export function withUserPreview<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  UserPreviewQuery,
-  UserPreviewQueryVariables,
-  UserPreviewProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, UserPreviewQuery, UserPreviewQueryVariables, UserPreviewProps<TChildProps>>(UserPreviewDocument, {
-      alias: 'userPreview',
-      ...operationOptions
-    });
-};
 
 /**
  * __useUserPreviewQuery__
@@ -85,3 +64,4 @@ export interface UserPreviewQueryOperation {
   variables: UserPreviewQueryVariables
   type: 'query'
 }
+export const UserPreviewQueryName:UserPreviewQueryOperation['operationName'] = 'userPreview'

@@ -6,27 +6,33 @@ import {
   Sidebar as SidebarUI,
   Status as StatusUI
 } from 'ui/modules/Sidebar/index';
-import { SidebarMeUserFragment } from './Sidebar.generated';
+import { MyFollowedCommunityDataFragment } from 'fe/community/myFollowed/myFollowedCommunities.generated';
 
 export interface Sidebar {
-  user: SidebarMeUserFragment;
+  //FIXME: delete commented out stuff
+  // user: SidebarMeUserFragment;
 }
-export const Sidebar: FC<Sidebar> = ({ user }) => {
-  const { myFollowedCommunitiesPage } = useMyFollowedCommunities();
+export const Sidebar: FC<Sidebar> = (/* { user } */) => {
+  const { myCommunityFollowsPage } = useMyFollowedCommunities();
   const communities = useMemo(
     () =>
-      myFollowedCommunitiesPage.edges.map<CommunityPreview>(commFollow => {
-        const { community } = commFollow;
-        return {
-          icon: community.icon || '',
-          link: {
-            url: `/communities/${community.id}`,
-            external: !community.isLocal
-          },
-          name: community.name
-        };
-      }),
-    [myFollowedCommunitiesPage]
+      myCommunityFollowsPage.edges
+        .map(follow => follow.context)
+        .filter(
+          (context): context is MyFollowedCommunityDataFragment =>
+            context.__typename === 'Community'
+        )
+        .map<CommunityPreview>(community => {
+          return {
+            icon: community.icon?.url || '',
+            link: {
+              url: `/communities/${community.id}`,
+              external: !community.isLocal
+            },
+            name: community.name
+          };
+        }),
+    [myCommunityFollowsPage]
   );
 
   const propsUI = useMemo<PropsUI>(() => {

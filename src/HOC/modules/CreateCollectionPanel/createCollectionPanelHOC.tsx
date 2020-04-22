@@ -16,8 +16,7 @@ export const validationSchema: Yup.ObjectSchema<BasicCreateCollectionFormValues>
     .max(60)
     .required(),
   summary: Yup.string().max(500),
-  icon: Yup.string().url(),
-  files: Yup.array()
+  icon: Yup.mixed<string | File>()
 });
 export interface Props {
   communityId: string;
@@ -34,22 +33,18 @@ export const CreateCollectionPanelHOC: FC<Props> = ({
     initialValues: {
       name: '',
       summary: '',
-      icon: '',
-      files: []
+      icon: ''
     },
     enableReinitialize: true,
     onSubmit: vals => {
-      const fileToUpload = vals.files?.shift();
-
-      return create(
-        {
+      return create({
+        collection: {
           preferredUsername: vals.name.split(' ').join('_'),
           name: vals.name,
-          summary: vals.summary,
-          icon: vals.icon
+          summary: vals.summary
         },
-        fileToUpload
-      )
+        icon: vals.icon
+      })
         .then(
           createdCollectionId =>
             createdCollectionId &&

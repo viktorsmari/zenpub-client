@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ContainerForm, Row } from 'ui/modules/Modal';
 import { Trans } from '@lingui/macro';
-import { Box, Flex, Heading } from 'rebass/styled-components';
+import { Box, Flex, Heading, Text } from 'rebass/styled-components';
 import { ArrowLeft, ArrowRight } from 'react-feather';
 import media from 'styled-media-query';
 import styled from '../../themes/styled';
@@ -90,9 +90,31 @@ const Preferences = props => (
             <LanguageSelect />
           </ContainerForm>
         </Row>
+        <TransifexLink variant="text" my={3} mt={2}>
+          <a
+            href="https://www.transifex.com/moodlenet/moodlenet/"
+            target="_blank"
+          >
+            <Trans>Want to contibute to MoodleNet translation?</Trans>
+          </a>
+        </TransifexLink>
       </Box>
     )}
   </LocaleContext.Consumer>
 );
 
 export default Preferences;
+
+const TransifexLink = styled(Text)`
+  text-align: right;
+  padding: 0px 20px;
+
+  a {
+    font-size: 12px;
+    text-decoration: underline;
+    color: ${props => props.theme.colors.gray};
+    &:hover {
+      color: ${props => props.theme.colors.darkgray};
+    }
+  }
+`;

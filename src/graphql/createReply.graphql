@@ -27,7 +27,7 @@ mutation createReplyMutation(
             isLocal
             isPublic
             isDisabled
-            icon
+            icon{ id, url }
             name
         }
     }

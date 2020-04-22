@@ -4,9 +4,15 @@ import gql from 'graphql-tag';
 
 export type UserPreviewFragment = (
   { __typename: 'User' }
-  & Pick<Types.User, 'icon' | 'image' | 'displayUsername' | 'summary' | 'canonicalUrl'>
+  & Pick<Types.User, 'displayUsername' | 'summary' | 'canonicalUrl'>
   & { userId: Types.User['id'], userName: Types.User['name'] }
-  & { myFollow: Types.Maybe<(
+  & { icon: Types.Maybe<(
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
+  )>, image: Types.Maybe<(
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
+  )>, myFollow: Types.Maybe<(
     { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
   )>, myFlag: Types.Maybe<(
@@ -17,8 +23,14 @@ export type UserPreviewFragment = (
 
 export const UserPreviewFragmentDoc = gql`
     fragment UserPreview on User {
-  icon
-  image
+  icon {
+    id
+    url
+  }
+  image {
+    id
+    url
+  }
   userId: id
   userName: name
   displayUsername

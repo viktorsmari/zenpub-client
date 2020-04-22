@@ -1,0 +1,69 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import { PropsTable } from '@storybook/components';
+import { Home, HomePageTab } from '.';
+import {WithSidebar} from 'ui/templates/withSidebar'
+import {MainHeader} from 'ui/modules/MainHeader'
+import {Sidebar} from 'ui/modules/Sidebar'
+import { ToggleFormik } from 'ui/mock/formik';
+
+import {CommunityPreviewProps} from 'ui/mock/previews'
+import {ActivityPreview} from 'ui/modules/ActivityPreview'
+import {activityPreviewProps} from 'ui/mock/activityPreview'
+import {ResourcePreviewProps, CollectionPreviewProps, ThreadPreviewProps, CommentPreviewProps, LikedCommentPreviewProps } from 'ui/mock/previews'
+import {getSidebarProps} from 'ui/mock/sidebar'
+
+import {getMainHeaderProps} from 'ui/mock/mainHeader'
+import {Resource} from 'ui/modules/Previews/Resource'
+import {Collection} from 'ui/modules/Previews/Collection'
+import {Comment} from 'ui/modules/Previews/Comment'
+import {Thread} from 'ui/modules/Previews/Thread'
+import {LikedComment} from 'ui/modules/Previews/LikedComment'
+
+<Meta title="Pages|Home" component={Home}/>
+
+
+# Home
+Let's define a story for the `Home` page
+
+<Preview>
+  <Story name="Home page">
+    <WithSidebar 
+      HeaderBox={<MainHeader {...getMainHeaderProps() } />}
+      SidebarBox={<Sidebar {...getSidebarProps()}/>}>
+        <Home 
+        me={true}
+        tab={HomePageTab}
+        nextCommunitiesFormik={ToggleFormik()}
+        nextCollectionsFormik={ToggleFormik()}
+        nextInboxFormik={ToggleFormik()}
+        myFollowedCommunitiesPage={
+          <React.Fragment>
+            (<Community {...CommunityPreviewProps()} />)
+            (<Community {...CommunityPreviewProps()} />)
+            (<Community {...CommunityPreviewProps()} />)
+            (<Community {...CommunityPreviewProps()} />)
+            (<Community {...CommunityPreviewProps()} />)
+            (<Community {...CommunityPreviewProps()} />)
+            (<Community {...CommunityPreviewProps()} />)
+        </React.Fragment>
+        }
+        myFollowedCollectionsPage={[
+            (<Collection {...CollectionPreviewProps()} />),
+            (<Collection {...CollectionPreviewProps()} />),
+            (<Collection {...CollectionPreviewProps()} />),
+          ]}
+        InboxPage={<React.Fragment>
+          <ActivityPreview {...activityPreviewProps('Added a link', <Resource {...ResourcePreviewProps() }/>)} />
+          <ActivityPreview {...activityPreviewProps('Uploaded a resource', <Resource {...ResourcePreviewProps('license', 'pdf' ) }/>)} />
+          <ActivityPreview {...activityPreviewProps('Created a comment', <Comment {...CommentPreviewProps() }/>)} />
+          <ActivityPreview {...activityPreviewProps('Created a comment', <Comment {...CommentPreviewProps() }/>)} />
+          <ActivityPreview {...activityPreviewProps('Like a comment', <LikedComment {...LikedCommentPreviewProps() }/>)} />
+          <ActivityPreview {...activityPreviewProps('Created a comment', <Comment {...CommentPreviewProps() }/>)} />
+          <ActivityPreview {...activityPreviewProps('Created a comment', <Comment {...CommentPreviewProps() }/>)} />
+        </React.Fragment>}
+        />
+    </WithSidebar>
+  </Story>
+</Preview>
+
+

@@ -5,22 +5,19 @@ import { Row } from 'ui/modules/Modal';
 // import DropzoneArea from '../../../components/elements/DropzoneModal';
 
 export interface Props {
-  ActivitiesBox?: JSX.Element; //FIXME remove ? after HOC
+  FlagsBox: JSX.Element;
 }
 
-const Flags: React.FC<Props> = ({
-  // formik,
-  ActivitiesBox
-}) => {
+const Flags: React.FC<Props> = ({ FlagsBox }) => {
   return (
     <Box>
       <Text px={3} mt={2} variant="heading">
         <Trans>Flags</Trans>
       </Text>
       <Row>
-        {ActivitiesBox ? (
+        {FlagsBox ? (
           <Box mt={2} sx={{ width: '600px' }}>
-            {ActivitiesBox}
+            {FlagsBox}
           </Box>
         ) : (
           <Text pt={3}>

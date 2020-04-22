@@ -27,7 +27,7 @@ export const UserPreviewHOC: FC<Props> = ({ userId }) => {
     const { userName, displayUsername, image, icon, summary, myFollow } = user;
 
     const props: UserPreviewProps = {
-      image: icon || image || '',
+      image: icon?.url || image?.url || '',
       name: userName || '',
       username: displayUsername,
       bio: summary || '',

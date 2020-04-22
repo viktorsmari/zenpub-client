@@ -1,23 +1,34 @@
-import { useUploadIconMutation } from 'fe/mutation/upload/icon/useUploadIcon.generated';
 import Maybe from 'graphql/tsutils/Maybe';
 import { Collection, ResourceInput } from 'graphql/types.generated';
 import { useMemo } from 'react';
 import { CollectionResourcesDocument } from '../collection/useCollectionResources.generated';
 import * as GQL from './useAddResource.generated';
+import {
+  getMaybeUploadInput,
+  getUploadInput
+} from 'fe/mutation/upload/getUploadInput';
 
+export interface AddResource {
+  collectionId: Collection['id'];
+  resource: ResourceInput;
+  content: File;
+  icon: Maybe<File | string>;
+}
 export const useAddResource = () => {
   const [
-    createResource /* , result */
+    createResource,
+    createResourceStatus
   ] = GQL.useAddResourceCreateResourceMutation();
-  const [mutateResource] = GQL.useAddResourceUploadMutation();
-  const [mutateIcon] = useUploadIconMutation();
   return useMemo(() => {
-    const create = (
-      collectionId: Collection['id'],
-      input: ResourceInput,
-      fileToUpload: Maybe<Blob>,
-      iconToUpload: Maybe<Blob>
-    ) => {
+    const create = async ({
+      collectionId,
+      content,
+      icon,
+      resource
+    }: AddResource) => {
+      if (createResourceStatus.loading) {
+        return;
+      }
       const refetchQueries = [
         {
           query: CollectionResourcesDocument,
@@ -28,39 +39,15 @@ export const useAddResource = () => {
       return createResource({
         variables: {
           collectionId: collectionId,
-          resource: input
+          resource,
+          content: getUploadInput(content),
+          icon: getMaybeUploadInput(icon)
         },
-        refetchQueries: fileToUpload || iconToUpload ? [] : refetchQueries
-      })
-        .then(res => {
-          const createdResourceId = res.data!.createResource!.id;
-
-          if (fileToUpload) {
-            return mutateResource({
-              variables: {
-                contextId: createdResourceId,
-                upload: fileToUpload
-              },
-              refetchQueries: iconToUpload ? [] : refetchQueries
-            }).then(() => createdResourceId);
-          }
-          return createdResourceId;
-        })
-        .then(createdResourceId => {
-          if (iconToUpload) {
-            return mutateIcon({
-              variables: {
-                contextId: createdResourceId,
-                upload: iconToUpload
-              },
-              refetchQueries
-            });
-          }
-          return;
-        });
+        refetchQueries
+      });
     };
     return {
       create
     };
-  }, []);
+  }, [createResourceStatus, createResource]);
 };

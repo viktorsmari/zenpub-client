@@ -14,20 +14,19 @@ export const useUserFollowedUsers = (userId: User['id']) => {
   });
 
   const followedUsersPage = usePage(
-    userQ.data?.user?.followedUsers,
+    userQ.data?.user?.userFollows,
     ({ cursor, update }) => {
       return userQ.fetchMore({
         variables: { ...cursor, limit: DEFAULT_PAGE_SIZE, userId },
         updateQuery: (prev, { fetchMoreResult }) => {
-          return fetchMoreResult?.user?.followedUsers &&
-            prev.user?.followedUsers
+          return fetchMoreResult?.user?.userFollows && prev.user?.userFollows
             ? {
                 ...fetchMoreResult,
                 user: {
                   ...fetchMoreResult.user,
-                  followedUsers: update({
-                    prev: prev.user.followedUsers,
-                    fetched: fetchMoreResult.user.followedUsers
+                  userFollows: update({
+                    prev: prev.user.userFollows,
+                    fetched: fetchMoreResult.user.userFollows
                   })
                 }
               }

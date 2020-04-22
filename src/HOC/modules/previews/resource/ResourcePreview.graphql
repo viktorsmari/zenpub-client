@@ -1,11 +1,17 @@
 fragment ResourcePreview on Resource {
     id
     # isLocal
-    icon
+    icon{ id, url }
     name
     summary
     canonicalUrl
-    url
+    payload:content{
+      id
+      mediaType
+      mirror {url}
+      upload {size}
+      url
+    }
     myLike { id }
     myFlag { id }
     likers { totalCount }
@@ -16,7 +22,6 @@ fragment ResourcePreview on Resource {
         ...CommunityInfo
       }
     }
-    isLocal
     license
     # likerCount
 }

@@ -1,12 +1,8 @@
 import * as Types from './types.generated';
 
 import gql from 'graphql-tag';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type MeQueryQueryVariables = {};
 
@@ -18,7 +14,14 @@ export type MeQueryQuery = (
     & Pick<Types.Me, 'email'>
     & { user: (
       { __typename: 'User' }
-      & Pick<Types.User, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'location' | 'icon' | 'image' | 'summary' | 'website' | 'isLocal' | 'isPublic' | 'isDisabled' | 'createdAt' | 'updatedAt' | 'lastActivity'>
+      & Pick<Types.User, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'location' | 'summary' | 'website' | 'isLocal' | 'isPublic' | 'isDisabled' | 'createdAt' | 'updatedAt' | 'lastActivity'>
+      & { icon: Types.Maybe<(
+        { __typename: 'Content' }
+        & Pick<Types.Content, 'id' | 'url'>
+      )>, image: Types.Maybe<(
+        { __typename: 'Content' }
+        & Pick<Types.Content, 'id' | 'url'>
+      )> }
     ) }
   )> }
 );
@@ -34,8 +37,14 @@ export const MeQueryDocument = gql`
       preferredUsername
       name
       location
-      icon
-      image
+      icon {
+        id
+        url
+      }
+      image {
+        id
+        url
+      }
       summary
       location
       website
@@ -49,23 +58,6 @@ export const MeQueryDocument = gql`
   }
 }
     `;
-export type MeQueryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<MeQueryQuery, MeQueryQueryVariables>, 'query'>;
-
-    export const MeQueryComponent = (props: MeQueryComponentProps) => (
-      <ApolloReactComponents.Query<MeQueryQuery, MeQueryQueryVariables> query={MeQueryDocument} {...props} />
-    );
-    
-export type MeQueryProps<TChildProps = {}> = ApolloReactHoc.DataProps<MeQueryQuery, MeQueryQueryVariables> & TChildProps;
-export function withMeQuery<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  MeQueryQuery,
-  MeQueryQueryVariables,
-  MeQueryProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, MeQueryQuery, MeQueryQueryVariables, MeQueryProps<TChildProps>>(MeQueryDocument, {
-      alias: 'meQuery',
-      ...operationOptions
-    });
-};
 
 /**
  * __useMeQueryQuery__
@@ -99,3 +91,4 @@ export interface MeQueryQueryOperation {
   variables: MeQueryQueryVariables
   type: 'query'
 }
+export const MeQueryQueryName:MeQueryQueryOperation['operationName'] = 'meQuery'

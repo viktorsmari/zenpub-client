@@ -4,6 +4,9 @@ import { AllCommunities } from '.';
 import {Box} from 'rebass'
 import {Header} from 'ui/modules/Header'
 import {Community} from 'ui/modules/Previews/Community';
+import { useFormik } from 'formik';
+import {getLoadMoreProps} from 'ui/mock/loadmore'
+import {CommunityPreviewProps} from 'ui/mock/previews'
 
 <Meta title="Pages|AllCommunities" component={AllCommunities}/>
 
@@ -16,40 +19,16 @@ Let's define a story for the `AllCommunities` page
     <Box sx={{margin: "0 auto", width: "fit-content"}}>
         <AllCommunities 
         Header={(<Header name="All Communities" />)}
-        
-        CommunityBoxes={[
-            (<Community
-                id={"1"}
-                icon={"https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png"}
-                name={"mantarai"}
-                summary={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
-                followersCount={12}
-                collectionsCount={6}
-                followed={true}
-                threadsCount={3}
-            />),
-           (<Community
-                id={"2"}
-                icon={"https://reflowproject.eu/wp-content/uploads/2020/01/blog-glance.jpg"}
-                name={"The Lounge"}
-                summary={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
-                followersCount={12}
-                collectionsCount={6}
-                followed={true}
-                threadsCount={3}
-            />),
-            (<Community
-                id={"3"}
-                icon={"https://reflowproject.eu/wp-content/uploads/2018/11/cocreation-picture.jpg"}
-                name={"OER Projects"}
-                summary={"After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here "}
-                followersCount={12}
-                collectionsCount={6}
-                followed={true}
-                threadsCount={3}
-            />),
+        CommunitiesBoxes={[
+            (<Community {...CommunityPreviewProps()} />),
+            (<Community {...CommunityPreviewProps()} />),
+            (<Community {...CommunityPreviewProps()} />),
+            (<Community {...CommunityPreviewProps()} />),
+            (<Community {...CommunityPreviewProps()} />),
+            (<Community {...CommunityPreviewProps()} />),
+            (<Community {...CommunityPreviewProps()} />)
         ]}
-       
+        {...getLoadMoreProps()}
         basePath="/"
         />
     </Box>

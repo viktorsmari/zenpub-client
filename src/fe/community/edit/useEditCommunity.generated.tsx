@@ -1,16 +1,16 @@
 import * as Types from '../../../graphql/types.generated';
 
 import gql from 'graphql-tag';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type EditCommunityQueryDataFragment = (
   { __typename: 'Community' }
-  & Pick<Types.Community, 'id' | 'name' | 'summary' | 'icon' | 'updatedAt'>
+  & Pick<Types.Community, 'id' | 'name' | 'summary' | 'updatedAt'>
+  & { icon: Types.Maybe<(
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
+  )> }
 );
 
 export type EditCommunityDataQueryVariables = {
@@ -28,7 +28,8 @@ export type EditCommunityDataQuery = (
 
 export type EditCommunityMutationVariables = {
   community: Types.CommunityUpdateInput,
-  communityId: Types.Scalars['String']
+  communityId: Types.Scalars['String'],
+  icon?: Types.Maybe<Types.UploadInput>
 };
 
 
@@ -45,7 +46,10 @@ export const EditCommunityQueryDataFragmentDoc = gql`
   id
   name
   summary
-  icon
+  icon {
+    id
+    url
+  }
   updatedAt
 }
     `;
@@ -56,23 +60,6 @@ export const EditCommunityDataDocument = gql`
   }
 }
     ${EditCommunityQueryDataFragmentDoc}`;
-export type EditCommunityDataComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<EditCommunityDataQuery, EditCommunityDataQueryVariables>, 'query'> & ({ variables: EditCommunityDataQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const EditCommunityDataComponent = (props: EditCommunityDataComponentProps) => (
-      <ApolloReactComponents.Query<EditCommunityDataQuery, EditCommunityDataQueryVariables> query={EditCommunityDataDocument} {...props} />
-    );
-    
-export type EditCommunityDataProps<TChildProps = {}> = ApolloReactHoc.DataProps<EditCommunityDataQuery, EditCommunityDataQueryVariables> & TChildProps;
-export function withEditCommunityData<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  EditCommunityDataQuery,
-  EditCommunityDataQueryVariables,
-  EditCommunityDataProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, EditCommunityDataQuery, EditCommunityDataQueryVariables, EditCommunityDataProps<TChildProps>>(EditCommunityDataDocument, {
-      alias: 'editCommunityData',
-      ...operationOptions
-    });
-};
 
 /**
  * __useEditCommunityDataQuery__
@@ -100,30 +87,13 @@ export type EditCommunityDataQueryHookResult = ReturnType<typeof useEditCommunit
 export type EditCommunityDataLazyQueryHookResult = ReturnType<typeof useEditCommunityDataLazyQuery>;
 export type EditCommunityDataQueryResult = ApolloReactCommon.QueryResult<EditCommunityDataQuery, EditCommunityDataQueryVariables>;
 export const EditCommunityDocument = gql`
-    mutation editCommunity($community: CommunityUpdateInput!, $communityId: String!) {
-  updateCommunity(communityId: $communityId, community: $community) {
+    mutation editCommunity($community: CommunityUpdateInput!, $communityId: String!, $icon: UploadInput) {
+  updateCommunity(community: $community, communityId: $communityId, icon: $icon) {
     ...EditCommunityQueryData
   }
 }
     ${EditCommunityQueryDataFragmentDoc}`;
 export type EditCommunityMutationFn = ApolloReactCommon.MutationFunction<EditCommunityMutation, EditCommunityMutationVariables>;
-export type EditCommunityComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<EditCommunityMutation, EditCommunityMutationVariables>, 'mutation'>;
-
-    export const EditCommunityComponent = (props: EditCommunityComponentProps) => (
-      <ApolloReactComponents.Mutation<EditCommunityMutation, EditCommunityMutationVariables> mutation={EditCommunityDocument} {...props} />
-    );
-    
-export type EditCommunityProps<TChildProps = {}> = ApolloReactHoc.MutateProps<EditCommunityMutation, EditCommunityMutationVariables> & TChildProps;
-export function withEditCommunity<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  EditCommunityMutation,
-  EditCommunityMutationVariables,
-  EditCommunityProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, EditCommunityMutation, EditCommunityMutationVariables, EditCommunityProps<TChildProps>>(EditCommunityDocument, {
-      alias: 'editCommunity',
-      ...operationOptions
-    });
-};
 
 /**
  * __useEditCommunityMutation__
@@ -140,6 +110,7 @@ export function withEditCommunity<TProps, TChildProps = {}>(operationOptions?: A
  *   variables: {
  *      community: // value for 'community'
  *      communityId: // value for 'communityId'
+ *      icon: // value for 'icon'
  *   },
  * });
  */
@@ -157,6 +128,7 @@ export interface EditCommunityDataQueryOperation {
   variables: EditCommunityDataQueryVariables
   type: 'query'
 }
+export const EditCommunityDataQueryName:EditCommunityDataQueryOperation['operationName'] = 'editCommunityData'
 
 
 export interface EditCommunityMutationOperation {
@@ -165,3 +137,4 @@ export interface EditCommunityMutationOperation {
   variables: EditCommunityMutationVariables
   type: 'mutation'
 }
+export const EditCommunityMutationName:EditCommunityMutationOperation['operationName'] = 'editCommunity'

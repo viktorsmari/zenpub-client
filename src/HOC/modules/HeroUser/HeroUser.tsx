@@ -31,8 +31,8 @@ export const HeroUser: FC<HeroUser> = ({ userId }) => {
     const loadedProps: Omit<Loaded, 'me'> = {
       status: Status.Loaded,
       displayUsername: user.displayUsername,
-      icon: user.icon || '',
-      image: user.image || '',
+      icon: user.icon?.url || '',
+      image: user.image?.url || '',
       location: user.location || '',
       name: user.name || '',
       summary: user.summary || '',

@@ -4,12 +4,18 @@ import media from 'styled-media-query';
 import { Header } from 'ui/modules/Header';
 import styled from 'ui/themes/styled';
 import { WrapperPanel } from 'ui/elements/Panel';
+import { LoadMore } from 'ui/modules/Loadmore';
+import { FormikHook } from 'ui/@types/types';
 
 export interface Props {
   CommunitiesBoxes: JSX.Element;
+  LoadMoreFormik: FormikHook;
 }
 
-export const AllCommunities: React.FC<Props> = ({ CommunitiesBoxes }) => {
+export const AllCommunities: React.FC<Props> = ({
+  CommunitiesBoxes,
+  LoadMoreFormik
+}) => {
   return (
     <MainContainer>
       <HomeBox>
@@ -17,6 +23,7 @@ export const AllCommunities: React.FC<Props> = ({ CommunitiesBoxes }) => {
           <Wrapper>
             <Header name="All Communities" />
             <WrapperBoxes>{CommunitiesBoxes}</WrapperBoxes>
+            <LoadMore LoadMoreFormik={LoadMoreFormik} />
           </Wrapper>
         </WrapperCont>
       </HomeBox>

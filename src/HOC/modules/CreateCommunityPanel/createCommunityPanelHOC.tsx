@@ -16,8 +16,7 @@ export const validationSchema: Yup.ObjectSchema<CreateCommunityFormValues> = Yup
     .max(60)
     .required(),
   summary: Yup.string().max(500),
-  icon: Yup.string().url(),
-  files: Yup.array()
+  icon: Yup.mixed<File | string>()
 });
 export interface Props {
   done(): any;
@@ -31,26 +30,20 @@ export const CreateCommunityPanelHOC: FC<Props> = ({ done }: Props) => {
     initialValues: {
       name: '',
       summary: '',
-      icon: '',
-      files: []
+      icon: ''
     },
     onSubmit: vals => {
-      const fileToUpload = vals.files?.shift();
-      return create(
-        {
-          icon: vals.icon,
-          image: vals.icon,
+      return create({
+        community: {
           preferredUsername: vals.name.split(' ').join('_'),
           name: vals.name,
           summary: vals.summary
         },
-        fileToUpload
-      )
-        .then(createdCommunityId => {
-          createdCommunityId &&
-            history.push(`/communities/${createdCommunityId}`);
-        })
-        .catch(err => console.log(err));
+        icon: vals.icon
+      }).then(createdCommunityId => {
+        createdCommunityId &&
+          history.push(`/communities/${createdCommunityId}`);
+      });
     }
   });
   return <CreateCommunityPanel cancel={done} formik={formik} />;

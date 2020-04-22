@@ -3,7 +3,7 @@ import { Flex } from 'rebass/styled-components';
 import styled from 'ui/themes/styled';
 
 export interface Props {
-  HeaderBox: JSX.Element;
+  HeaderBox?: JSX.Element;
 }
 export const Guest: React.FC<Props> = ({ children, HeaderBox }) => (
   <CenteredWrapper>

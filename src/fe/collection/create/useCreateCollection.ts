@@ -1,23 +1,21 @@
 import { PureQueryOptions } from 'apollo-client';
-import { useUploadIconMutation } from 'fe/mutation/upload/icon/useUploadIcon.generated';
+import { getMaybeUploadInput } from 'fe/mutation/upload/getUploadInput';
 import Maybe from 'graphql/tsutils/Maybe';
-import {
-  Collection,
-  Community,
-  CollectionInput
-} from 'graphql/types.generated';
+import { CollectionInput, Community } from 'graphql/types.generated';
 import { useCallback, useMemo } from 'react';
 import { CommunityCollectionsDocument } from '../community/useCommunityCollections.generated';
 import { useCreateCollectionMutation } from './useCreateCollection.generated';
 
+export interface CreateCollection {
+  collection: CollectionInput;
+  icon: Maybe<File | string>;
+}
 export const useCreateCollection = (communityId: Community['id']) => {
   const [createMut, createMutStatus] = useCreateCollectionMutation();
-  const [uploadIconMut, uploadIconStatus] = useUploadIconMutation();
-  const mutating = createMutStatus.loading || uploadIconStatus.loading;
 
   const create = useCallback(
-    async (collectionInput: CollectionInput, iconFile: Maybe<File>) => {
-      if (mutating) {
+    async ({ collection, icon }: CreateCollection) => {
+      if (createMutStatus.loading) {
         return;
       }
       const refetchQueries: PureQueryOptions[] = [
@@ -27,36 +25,20 @@ export const useCreateCollection = (communityId: Community['id']) => {
         }
       ];
 
-      const uploadIcon = async (collectionId: Maybe<Collection['id']>) => {
-        return (
-          iconFile &&
-          collectionId &&
-          uploadIconMut({
-            variables: { contextId: collectionId, upload: iconFile },
-            refetchQueries: refetchQueries
-          })
-        );
-      };
-
       return createMut({
         variables: {
           communityId: communityId,
+          icon: getMaybeUploadInput(icon),
           collection: {
-            name: collectionInput.name,
-            icon: iconFile ? undefined : collectionInput.icon,
-            summary: collectionInput.summary,
-            preferredUsername: collectionInput.preferredUsername
+            name: collection.name,
+            summary: collection.summary,
+            preferredUsername: collection.preferredUsername
           }
         },
-        refetchQueries: iconFile ? [] : refetchQueries
-      }).then(({ data }) => {
-        const createdCollectionId = data?.createCollection?.id;
-        return iconFile && createdCollectionId
-          ? uploadIcon(createdCollectionId).then(() => createdCollectionId)
-          : createdCollectionId;
+        refetchQueries: refetchQueries
       });
     },
-    [communityId, mutating]
+    [communityId, createMutStatus, createMut]
   );
   return useMemo(() => {
     return {

@@ -2,11 +2,7 @@ import * as Types from '../../../graphql/types.generated';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type CreateThreadMutationVariables = {
   contextId: Types.Scalars['String'],
@@ -36,23 +32,6 @@ export const CreateThreadDocument = gql`
 }
     `;
 export type CreateThreadMutationFn = ApolloReactCommon.MutationFunction<CreateThreadMutation, CreateThreadMutationVariables>;
-export type CreateThreadComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateThreadMutation, CreateThreadMutationVariables>, 'mutation'>;
-
-    export const CreateThreadComponent = (props: CreateThreadComponentProps) => (
-      <ApolloReactComponents.Mutation<CreateThreadMutation, CreateThreadMutationVariables> mutation={CreateThreadDocument} {...props} />
-    );
-    
-export type CreateThreadProps<TChildProps = {}> = ApolloReactHoc.MutateProps<CreateThreadMutation, CreateThreadMutationVariables> & TChildProps;
-export function withCreateThread<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  CreateThreadMutation,
-  CreateThreadMutationVariables,
-  CreateThreadProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, CreateThreadMutation, CreateThreadMutationVariables, CreateThreadProps<TChildProps>>(CreateThreadDocument, {
-      alias: 'createThread',
-      ...operationOptions
-    });
-};
 
 /**
  * __useCreateThreadMutation__
@@ -86,3 +65,4 @@ export interface CreateThreadMutationOperation {
   variables: CreateThreadMutationVariables
   type: 'mutation'
 }
+export const CreateThreadMutationName:CreateThreadMutationOperation['operationName'] = 'createThread'

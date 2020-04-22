@@ -17,7 +17,7 @@ mutation createThreadMutation($contextId: String!, $comment: CommentInput!) {
         updatedAt
         creator {
             name
-            icon
+            icon{ id, url }
         }
         thread {
             id

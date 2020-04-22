@@ -17,7 +17,7 @@ import { useCommunityFollowers } from 'fe/user/followers/community/useCommunityF
 import { UserPreviewHOC } from 'HOC/modules/previews/user/UserPreview';
 
 export enum CommunityPageTab {
-  Activities,
+  Activities = 1,
   Collections,
   Discussions,
   Members

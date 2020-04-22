@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { UserPage, UserPageTab } from 'HOC/pages/user/UserPage';
-import NotFound from 'pages/not-found/NotFound';
+import { NotFound } from 'ui/pages/notFound';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
 import { WithSidebarTemplate } from 'HOC/templates/WithSidebar/WithSidebar';
 

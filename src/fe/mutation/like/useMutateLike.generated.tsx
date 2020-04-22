@@ -2,11 +2,7 @@ import * as Types from '../../../graphql/types.generated';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type LikeMutationVariables = {
   contextId: Types.Scalars['String']
@@ -17,7 +13,7 @@ export type LikeMutation = (
   { __typename: 'RootMutationType' }
   & { createLike: Types.Maybe<(
     { __typename: 'Like' }
-    & { context: Types.Maybe<(
+    & { context: (
       { __typename: 'Collection' }
       & Pick<Types.Collection, 'id' | 'likerCount'>
       & { myLike: Types.Maybe<(
@@ -56,7 +52,7 @@ export type LikeMutation = (
         { __typename: 'Like' }
         & Pick<Types.Like, 'id'>
       )> }
-    )> }
+    ) }
   )> }
 );
 
@@ -69,7 +65,7 @@ export type UnlikeMutation = (
   { __typename: 'RootMutationType' }
   & { delete: Types.Maybe<{ __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Community' } | { __typename: 'Feature' } | { __typename: 'Flag' } | { __typename: 'Follow' } | (
     { __typename: 'Like' }
-    & { context: Types.Maybe<(
+    & { context: (
       { __typename: 'Collection' }
       & Pick<Types.Collection, 'id' | 'likerCount'>
       & { myLike: Types.Maybe<(
@@ -108,7 +104,7 @@ export type UnlikeMutation = (
         { __typename: 'Like' }
         & Pick<Types.Like, 'id'>
       )> }
-    )> }
+    ) }
   ) | { __typename: 'Resource' } | { __typename: 'Thread' } | { __typename: 'User' }> }
 );
 
@@ -159,23 +155,6 @@ export const LikeDocument = gql`
 }
     `;
 export type LikeMutationFn = ApolloReactCommon.MutationFunction<LikeMutation, LikeMutationVariables>;
-export type LikeComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<LikeMutation, LikeMutationVariables>, 'mutation'>;
-
-    export const LikeComponent = (props: LikeComponentProps) => (
-      <ApolloReactComponents.Mutation<LikeMutation, LikeMutationVariables> mutation={LikeDocument} {...props} />
-    );
-    
-export type LikeProps<TChildProps = {}> = ApolloReactHoc.MutateProps<LikeMutation, LikeMutationVariables> & TChildProps;
-export function withLike<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  LikeMutation,
-  LikeMutationVariables,
-  LikeProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, LikeMutation, LikeMutationVariables, LikeProps<TChildProps>>(LikeDocument, {
-      alias: 'like',
-      ...operationOptions
-    });
-};
 
 /**
  * __useLikeMutation__
@@ -248,23 +227,6 @@ export const UnlikeDocument = gql`
 }
     `;
 export type UnlikeMutationFn = ApolloReactCommon.MutationFunction<UnlikeMutation, UnlikeMutationVariables>;
-export type UnlikeComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UnlikeMutation, UnlikeMutationVariables>, 'mutation'>;
-
-    export const UnlikeComponent = (props: UnlikeComponentProps) => (
-      <ApolloReactComponents.Mutation<UnlikeMutation, UnlikeMutationVariables> mutation={UnlikeDocument} {...props} />
-    );
-    
-export type UnlikeProps<TChildProps = {}> = ApolloReactHoc.MutateProps<UnlikeMutation, UnlikeMutationVariables> & TChildProps;
-export function withUnlike<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  UnlikeMutation,
-  UnlikeMutationVariables,
-  UnlikeProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, UnlikeMutation, UnlikeMutationVariables, UnlikeProps<TChildProps>>(UnlikeDocument, {
-      alias: 'unlike',
-      ...operationOptions
-    });
-};
 
 /**
  * __useUnlikeMutation__
@@ -297,6 +259,7 @@ export interface LikeMutationOperation {
   variables: LikeMutationVariables
   type: 'mutation'
 }
+export const LikeMutationName:LikeMutationOperation['operationName'] = 'like'
 
 
 export interface UnlikeMutationOperation {
@@ -305,3 +268,4 @@ export interface UnlikeMutationOperation {
   variables: UnlikeMutationVariables
   type: 'mutation'
 }
+export const UnlikeMutationName:UnlikeMutationOperation['operationName'] = 'unlike'

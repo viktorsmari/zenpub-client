@@ -26,9 +26,6 @@ export const useAllCommunities = () => {
       });
     }
   );
-  //@ts-ignore
-  window.page = { ...window.page, allCommunitiesPage };
-
   return useMemo(() => {
     return {
       allCommunitiesPage
