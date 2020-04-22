@@ -7,18 +7,19 @@ import { FormikHook } from 'ui/@types/types';
 import { Link } from 'react-router-dom';
 // import SignupModal from '../../components/elements/SignupModal';
 import styled from '../../themes/styled';
-import { Box, Text, Image } from 'rebass/styled-components';
+import { Box, Text } from 'rebass/styled-components';
 import Button from 'ui/elements/Button';
 import { Input } from '@rebass/forms';
 import { Panel, WrapperPanel } from 'ui/elements/Panel';
-const MnetLogin = require('static/img/login.jpg');
+// const MnetLogin = require('static/img/login.jpg');
 import {
   INSTANCE_DESCRIPTION,
   INSTANCE_TAGLINE,
   INSTANCE_PROMPT,
   logo_large_url,
+  instance_bg_img,
   related_urls
-} from '../../../mn-constants'; // + instance_bg_img
+} from 'mn-constants'; // + instance_bg_img
 
 let tt = {
   login: i18nMark('Sign in'),
@@ -90,7 +91,7 @@ const Login: React.FC<Props> = ({ formik }) => {
                 <Trans>Browse this instance</Trans>
               </Text>
               <Text variant="text" mt={2}>
-                <Trans>{INSTANCE_PROMPT}</Trans>
+                {INSTANCE_PROMPT}
               </Text>
               <Link to={'/discover'}>
                 <Button mt={3} variant="outline">
@@ -112,14 +113,14 @@ const Login: React.FC<Props> = ({ formik }) => {
             </Link>
             <WrapperPanel className="extra">
               <Panel>
-                <Background src={MnetLogin} />
+                <Background />
                 <Infos p={3}>
                   <Info>
                     <Text variant="suptitle">
                       <Trans>Instance description</Trans>
                     </Text>
                     <Text mt={2} variant="text">
-                      <Trans>{INSTANCE_DESCRIPTION}</Trans>
+                      {INSTANCE_DESCRIPTION}
                     </Text>
                   </Info>
                 </Infos>
@@ -127,7 +128,7 @@ const Login: React.FC<Props> = ({ formik }) => {
             </WrapperPanel>
           </Right>
 
-          <Footer>
+          <Footer mt={3}>
             <ul>
               <li>
                 <a href={related_urls.project_homepage} target="blank">
@@ -157,11 +158,6 @@ const Login: React.FC<Props> = ({ formik }) => {
             </ul>
           </Footer>
         </LoginWrapper>
-
-        {/* <SignupModal
-              toggleModal={this.props.handleSignup}
-              modalIsOpen={this.props.isOpen}
-            /> */}
       </Container>
     </>
   );
@@ -169,11 +165,13 @@ const Login: React.FC<Props> = ({ formik }) => {
 
 export default Login;
 
-const Background = styled(Image)`
+const Background = styled(Box)`
+  background: url(${instance_bg_img});
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  width: 100%;
+  padding: 50%;
+  width: 400px;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 `;
@@ -193,10 +191,12 @@ const Info = styled(Box)``;
 
 const Logo = styled.div`
   background: url(${logo_large_url});
-  width: 159px;
+  width: 300px;
   display: inline-block;
-  height: 30px;
-  background-size: cover;
+  height: 100px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const LoginWrapper = styled.div`
@@ -246,9 +246,8 @@ const Right = styled(Box)`
   }
 `;
 
-const Footer = styled.div`
+const Footer = styled(Box)`
 grid-area: footer
-margin-top: 100px;
 border-top: 1px solid rgba(0,0,0,.2);
 padding-top: 24px;
 & ul {

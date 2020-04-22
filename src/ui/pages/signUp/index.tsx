@@ -18,7 +18,7 @@ import {
   terms_markdown_text,
   related_urls,
   logo_large_url
-} from './../../../mn-constants';
+} from 'mn-constants';
 import useAxios from 'axios-hooks';
 import media from 'styled-media-query';
 import { clearFix } from 'polished';
@@ -84,141 +84,142 @@ const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
           <Header>
             <Logo />
             <Tagline>{INSTANCE_TAGLINE}</Tagline>
-          </Header>
-          <FormWrapper>
-            <Box>
-              <label>
-                <Trans>Email</Trans>
-              </label>
-              <Input
-                placeholder={tt.placeholders.email}
-                name="email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-              />
-              {formik.errors.email && (
-                <AlertWrapper>
-                  <Alert variant="bad">{formik.errors.email}</Alert>
-                </AlertWrapper>
-              )}
-            </Box>
-            <Box mt={3}>
-              <label>
-                <Trans>Display Name</Trans>
-              </label>
-              <Input
-                placeholder={tt.placeholders.name}
-                name="name"
-                value={formik.values.name}
-                onChange={formik.handleChange}
-              />
-              {formik.errors.name && (
-                <AlertWrapper>
-                  <Alert variant="bad">{formik.errors.name}</Alert>
-                </AlertWrapper>
-              )}
-            </Box>
-            <Box mt={3}>
-              <label>
-                <Trans>Preferred username</Trans>
-              </label>
-              <Input
-                placeholder={tt.placeholders.preferredUsername}
-                name="username"
-                value={formik.values.username}
-                onChange={formik.handleChange}
-              />
-              {formik.errors.username && (
-                <AlertWrapper>
-                  <Alert variant="bad">{formik.errors.username}</Alert>
-                </AlertWrapper>
-              )}
-            </Box>
-            <Box mt={3}>
-              <label>
-                <Trans>Password</Trans>
-              </label>
-              <Input
-                placeholder={tt.placeholders.password}
-                name="password"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-              />
-              {formik.errors.password && (
-                <AlertWrapper>
-                  <Alert variant="bad">{formik.errors.password}</Alert>
-                </AlertWrapper>
-              )}
-            </Box>
-            <Box mt={3}>
-              <label>
-                <Trans>Confirm password</Trans>
-              </label>
-              <Input
-                placeholder={tt.placeholders.passwordConfirm}
-                name="passwordConfirm"
-                value={formik.values.passwordConfirm}
-                onChange={formik.handleChange}
-              />
-              {formik.errors.passwordConfirm && (
-                <AlertWrapper>
-                  <Alert variant="bad">{formik.errors.passwordConfirm}</Alert>
-                </AlertWrapper>
-              )}
-            </Box>
-            <Box mt={3}>
-              <Button
-                variant="primary"
-                disabled={formik.isSubmitting}
-                type="submit"
-                onClick={formik.submitForm}
-              >
-                <Trans>Signup</Trans>
-              </Button>
-            </Box>
-            {/* {formik.errors && (
-              <AlertWrapper>
-                <Alert variant="bad">{formik.errors}</Alert>
-              </AlertWrapper>
-            )} */}
-          </FormWrapper>
-          <Right>
             <Aware p={3}>
               <Box mr={2}>
                 <AlertCircle size="20" color="white" />
               </Box>
               <Text variant="suptitle">{INVITE_ONLY_TEXT}</Text>
             </Aware>
-            <Aware green mt={3} p={3}>
-              <Box mr={2}>
-                <Eye size="20" color="white" />
+          </Header>
+          <Flex mt={2}>
+            <FormWrapper>
+              <Box>
+                <label>
+                  <Trans>Email</Trans>
+                </label>
+                <Input
+                  placeholder={tt.placeholders.email}
+                  name="email"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                />
+                {formik.errors.email && (
+                  <AlertWrapper>
+                    <Alert variant="bad">{formik.errors.email}</Alert>
+                  </AlertWrapper>
+                )}
               </Box>
-              <Text variant="suptitle">
-                {' '}
-                Please read the following. By signing up your are consenting to
-                these agreements.
-              </Text>
-            </Aware>
-            <WrapperPanel className="extra">
-              <Panel>
-                <Box p={3}>
-                  <Markdown>
-                    {terms_users.data || terms_users_text.data}
-                  </Markdown>
-                </Box>
-                <Box p={3}>
-                  <Markdown>
-                    {terms_cookies.data || terms_cookies_text.data}
-                  </Markdown>
-                </Box>
-                <Box p={3}>
-                  <Markdown>
-                    {terms_indexing.data || terms_indexing_text.data}
-                  </Markdown>
-                </Box>
-              </Panel>
-            </WrapperPanel>
-          </Right>
+              <Box mt={3}>
+                <label>
+                  <Trans>Display Name</Trans>
+                </label>
+                <Input
+                  placeholder={tt.placeholders.name}
+                  name="name"
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
+                />
+                {formik.errors.name && (
+                  <AlertWrapper>
+                    <Alert variant="bad">{formik.errors.name}</Alert>
+                  </AlertWrapper>
+                )}
+              </Box>
+              <Box mt={3}>
+                <label>
+                  <Trans>Preferred username</Trans>
+                </label>
+                <Input
+                  placeholder={tt.placeholders.preferredUsername}
+                  name="username"
+                  value={formik.values.username}
+                  onChange={formik.handleChange}
+                />
+                {formik.errors.username && (
+                  <AlertWrapper>
+                    <Alert variant="bad">{formik.errors.username}</Alert>
+                  </AlertWrapper>
+                )}
+              </Box>
+              <Box mt={3}>
+                <label>
+                  <Trans>Password</Trans>
+                </label>
+                <Input
+                  placeholder={tt.placeholders.password}
+                  name="password"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                />
+                {formik.errors.password && (
+                  <AlertWrapper>
+                    <Alert variant="bad">{formik.errors.password}</Alert>
+                  </AlertWrapper>
+                )}
+              </Box>
+              <Box mt={3}>
+                <label>
+                  <Trans>Confirm password</Trans>
+                </label>
+                <Input
+                  placeholder={tt.placeholders.passwordConfirm}
+                  name="passwordConfirm"
+                  value={formik.values.passwordConfirm}
+                  onChange={formik.handleChange}
+                />
+                {formik.errors.passwordConfirm && (
+                  <AlertWrapper>
+                    <Alert variant="bad">{formik.errors.passwordConfirm}</Alert>
+                  </AlertWrapper>
+                )}
+              </Box>
+              <Box mt={3}>
+                <Button
+                  variant="primary"
+                  disabled={formik.isSubmitting}
+                  type="submit"
+                  onClick={formik.submitForm}
+                >
+                  <Trans>Signup</Trans>
+                </Button>
+              </Box>
+            </FormWrapper>
+            <Right>
+              {terms_markdown_urls.enabled && (
+                <>
+                  <Aware green mt={3} p={3}>
+                    <Box mr={2}>
+                      <Eye size="20" color="white" />
+                    </Box>
+                    <Text variant="suptitle">
+                      {' '}
+                      Please read the following. By signing up your are
+                      consenting to these agreements.
+                    </Text>
+                  </Aware>
+                  <WrapperPanel className="extra">
+                    <Panel>
+                      <Box p={3}>
+                        <Markdown>
+                          {terms_users.data || terms_users_text.data}
+                        </Markdown>
+                      </Box>
+                      <Box p={3}>
+                        <Markdown>
+                          {terms_cookies.data || terms_cookies_text.data}
+                        </Markdown>
+                      </Box>
+                      <Box p={3}>
+                        <Markdown>
+                          {terms_indexing.data || terms_indexing_text.data}
+                        </Markdown>
+                      </Box>
+                    </Panel>
+                  </WrapperPanel>
+                </>
+              )}
+            </Right>
+          </Flex>
           <Footer>
             <ul>
               <li>
@@ -265,28 +266,25 @@ const Tagline = styled.h5`
 
 const Logo = styled.div`
   background: url(${logo_large_url});
-  width: 159px;
+  width: 300px;
   display: inline-block;
-  height: 30px;
-  background-size: cover;
+  height: 100px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
-const LoginWrapper = styled.div`
-  display: grid;
-  grid-column-gap: 16px;
-  grid-template-columns: 1fr;
-  grid-template-areas: 'header' 'image' 'form' 'footer';
+const LoginWrapper = styled(Box)`
   ${media.lessThan('medium')`
+    display: grid;
     grid-template-columns: 1fr;
-    grid-template-areas: 'header' 'image' 'form' 'footer';
     padding: 16px
   `};
 `;
 
 const Container = styled.div`
   margin: 0 auto;
-  max-width: 900px;
-  margin-top: 60px;
+  max-width: 1020px;
 `;
 
 const Header = styled.div`
@@ -294,10 +292,9 @@ const Header = styled.div`
   text-align: center;
 `;
 
-const FormWrapper = styled.div`
-  grid-area: form;
+const FormWrapper = styled(Box)`
   margin: 0;
-  margin-bottom: 16px;
+  flex: 1;
   input {
     height: 50px;
     color: inherit;
@@ -315,43 +312,39 @@ const FormWrapper = styled.div`
 `;
 
 const Right = styled(Box)`
-  margin-top: -16px !important;
-  grid-area: image;
   .extra {
     width: 100%;
     margin-right: 0;
   }
 `;
 
-const Footer = styled.div`
-grid-area: footer
-margin-top: 100px;
-border-top: 1px solid rgba(0,0,0,.2);
-padding-top: 24px;
-& ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  margin: 0 auto;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  flex: 1;
-  ${clearFix()}
-  & li {
-    float: left;
-    margin-right: 16px;
-    font-size: 13px;
-    & a {
-      color: rgba(0,0,0,.45);
-      text-decoration: none;
-      &:hover {
-        text-decoration: underline;
+const Footer = styled(Box)`
+  border-top: 1px solid ${props => props.theme.colors.lightgray};
+  padding-top: 24px;
+  & ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex: 1;
+    ${clearFix()}
+    & li {
+      float: left;
+      margin-right: 16px;
+      font-size: 13px;
+      & a {
+        color: rgba(0, 0, 0, 0.45);
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
   }
-}
 `;
 
 const Aware = styled(Flex)<{ green: boolean }>`

@@ -5,6 +5,11 @@ import {Box} from 'rebass'
 import {Collection} from 'ui/modules/Previews/Collection';
 import {getLoadMoreProps} from 'ui/mock/loadmore'
 import {CollectionPreviewProps} from 'ui/mock/previews'
+import {WithSidebar} from 'ui/templates/withSidebar'
+import {MainHeader} from 'ui/modules/MainHeader'
+import {Sidebar} from 'ui/modules/Sidebar'
+import {getSidebarProps} from 'ui/mock/sidebar'
+import {getMainHeaderProps} from 'ui/mock/mainHeader'
 
 <Meta title="Pages|AllCollections" component={AllCollections}/>
 
@@ -14,7 +19,9 @@ Let's define a story for the `AllCollections` page
 
 <Preview>
   <Story name="AllCollections page">
-    <Box sx={{margin: "0 auto", width: "fit-content"}}>
+    <WithSidebar 
+      HeaderBox={<MainHeader {...getMainHeaderProps() } />}
+      SidebarBox={<Sidebar {...getSidebarProps()}/>}>
         <AllCollections 
           basePath="/"
           CollectionsBoxes={[
@@ -24,7 +31,7 @@ Let's define a story for the `AllCollections` page
           ]}
           {...getLoadMoreProps()}
         />
-    </Box>
+    </WithSidebar>
   </Story>
 </Preview>
 
