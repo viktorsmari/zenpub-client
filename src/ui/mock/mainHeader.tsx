@@ -11,6 +11,7 @@ export const getMainHeaderProps = (): Props => {
       link: '/',
       logout: () => console.log(false)
     },
+    toggleSideBar: () => {},
     Search: <Input placeholder="Search..." />
   };
 };

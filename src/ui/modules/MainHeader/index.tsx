@@ -21,6 +21,7 @@ export interface Props {
     logout(): unknown;
   };
   Search: JSX.Element;
+  toggleSideBar(): unknown;
 }
 
 export const MainHeader: React.FC<Props> = props => {
@@ -35,8 +36,7 @@ export const MainHeader: React.FC<Props> = props => {
           <Icon onClick={() => history.goBack()}>
             <ChevronLeft size="20" />
           </Icon>
-          <HamburgerIcon>
-            {/* <HamburgerIcon onClick={() => toggleSideBar()}> FIX ME AFTER HOC */}
+          <HamburgerIcon onClick={props.toggleSideBar}>
             <Menu size="20" />
           </HamburgerIcon>
           <HomeLink to="/">
