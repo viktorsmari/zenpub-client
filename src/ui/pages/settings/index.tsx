@@ -47,12 +47,12 @@ export interface Props {
   formik: FormikHook<EditProfile>;
   basePath: string;
   displayUsername: string;
-  isAdmin: boolean; //FIXME remove ? after HOC
-  Preferences?: JSX.Element; //FIXME remove ? after HOC
-  Instance?: JSX.Element; //FIXME remove ? after HOC
-  Invites?: JSX.Element; //FIXME remove ? after HOC
-  Flags?: JSX.Element; //FIXME remove ? after HOC
-  ModerationLog?: JSX.Element; //FIXME remove ? after HOC
+  isAdmin: boolean;
+  Preferences: JSX.Element;
+  Instance: JSX.Element;
+  Invites: JSX.Element;
+  Flags: JSX.Element;
+  ModerationLog: JSX.Element;
 }
 
 export interface EditProfile {

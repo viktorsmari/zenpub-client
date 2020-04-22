@@ -48,14 +48,15 @@
         "name": "LikeContext",
         "possibleTypes": [
           { "name": "Collection" },
+          { "name": "Comment" },
           { "name": "Community" },
-          { "name": "Thread" },
+          { "name": "Resource" },
           { "name": "User" }
         ]
       },
       {
         "kind": "UNION",
-        "name": "DeleteContext",
+        "name": "ActivityContext",
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Comment" },
@@ -89,18 +90,13 @@
       },
       {
         "kind": "UNION",
-        "name": "ThreadContext",
+        "name": "FollowContext",
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Community" },
-          { "name": "Flag" },
-          { "name": "Resource" }
+          { "name": "Thread" },
+          { "name": "User" }
         ]
-      },
-      {
-        "kind": "UNION",
-        "name": "ScopeContext",
-        "possibleTypes": [{ "name": "Collection" }, { "name": "Community" }]
       }
     ]
   }
