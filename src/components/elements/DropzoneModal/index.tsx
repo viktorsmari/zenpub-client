@@ -83,8 +83,12 @@ const DropzoneArea: React.FC<Props> = ({
   onFileSelect,
   filePattern
 }) => {
-  const [fileUrl, setFileUrl] = useState(initialUrl);
-  const [currentFile, setCurrentFile] = useState<File>();
+  const [fileUrl, setFileUrl] = useState<undefined | null | string>();
+
+  const [currentFile, setCurrentFile] = useState<{
+    file: File;
+    localUrl: string;
+  }>();
 
   useEffect(
     () => () => {
@@ -92,6 +96,10 @@ const DropzoneArea: React.FC<Props> = ({
     },
     [fileUrl]
   );
+
+  useEffect(() => {
+    setFileUrl(initialUrl);
+  }, [initialUrl]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: filePattern,
@@ -101,8 +109,7 @@ const DropzoneArea: React.FC<Props> = ({
         return;
       }
       onFileSelect(file);
-      setFileUrl(URL.createObjectURL(file));
-      setCurrentFile(file);
+      setCurrentFile({ file, localUrl: URL.createObjectURL(file) });
     }
   });
 
@@ -119,14 +126,18 @@ const DropzoneArea: React.FC<Props> = ({
                   color={'rgba(250,250,250, .5)'}
                 />
               </WrapperIcon>
-              <Img style={{ backgroundImage: `url(${fileUrl})` }} />
+              <Img
+                style={{
+                  backgroundImage: `url(${currentFile?.localUrl || fileUrl})`
+                }}
+              />
             </Thumb>
           ) : null}
           {!currentFile ? null : uploadType === 'resource' ? (
-            currentFile.type.indexOf('image') == -1 ? (
+            currentFile.file.type.indexOf('image') == -1 ? (
               <WrapperFile>
                 <FileText size={20} />
-                {currentFile && <FileName>{currentFile.name}</FileName>}
+                {currentFile && <FileName>{currentFile.file.name}</FileName>}
               </WrapperFile>
             ) : (
               <WrapperFile>
@@ -138,9 +149,11 @@ const DropzoneArea: React.FC<Props> = ({
                       color={'rgba(250,250,250, .5)'}
                     />
                   </WrapperIcon>
-                  <Img style={{ backgroundImage: `url(${fileUrl})` }} />
+                  <Img
+                    style={{ backgroundImage: `url(${currentFile.localUrl})` }}
+                  />
                 </Thumb>
-                <FileName>{currentFile && currentFile.name}</FileName>
+                <FileName>{currentFile && currentFile.file.name}</FileName>
               </WrapperFile>
             )
           ) : null}
