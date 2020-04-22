@@ -30,14 +30,17 @@ export const SettingsPage: FC<SettingsPage> = ({ basePath }) => {
   const { me } = useMe();
   const { profile, updateProfile } = useProfile();
 
-  const initialValues: EditProfile = {
-    icon: profile?.icon?.url || undefined,
-    image: profile?.image?.url || undefined,
-    location: profile?.location || '',
-    name: profile?.name || '',
-    website: profile?.website || '',
-    summary: profile?.summary || ''
-  };
+  const initialValues = useMemo<EditProfile>(
+    () => ({
+      icon: profile?.icon?.url || undefined,
+      image: profile?.image?.url || undefined,
+      location: profile?.location || '',
+      name: profile?.name || '',
+      website: profile?.website || '',
+      summary: profile?.summary || ''
+    }),
+    [profile]
+  );
 
   const updateProfileFormik = useFormik<EditProfile>({
     initialValues,
