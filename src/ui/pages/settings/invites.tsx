@@ -1,13 +1,14 @@
-import React, { ComponentType } from 'react';
-import { Box, Text } from 'rebass/styled-components';
-import styled from 'ui/themes/styled';
 import { i18nMark, Trans } from '@lingui/react';
-import { Actions, Row, ContainerForm } from 'ui/modules/Modal';
-import { Label, Input } from '@rebass/forms';
+import { Input, Label } from '@rebass/forms';
+import React from 'react';
+import { Box, Text } from 'rebass/styled-components';
+import { FormikHook } from 'ui/@types/types';
 import Button from 'ui/elements/Button';
-import { RotateCw } from 'react-feather';
+import ConfirmationModal from 'ui/modules/ConfirmationModal';
 // import { FormikHook } from 'ui/@types/types';
-import Modal from 'ui/modules/Modal';
+import Modal, { Actions, ContainerForm, Row } from 'ui/modules/Modal';
+import styled from 'ui/themes/styled';
+import { RotateCw } from 'react-feather';
 
 const tt = {
   placeholders: {
@@ -17,23 +18,22 @@ const tt = {
   }
 };
 export interface Props {
-  // formik: FormikHook<AddEmail>;
-  emailsList?: string[];
-  ConfirmResendInvitationModal?: ComponentType<{ email: string; done(): any }>;
+  formikRemoveEmail: FormikHook<WithEmail>;
+  formikSendInvite: FormikHook<WithEmail>;
+  formikAddEmail: FormikHook<WithEmail>;
+  emailsList: string[];
 }
 
-export interface AddEmail {
-  email: string[];
+export interface WithEmail {
+  email: string;
 }
 
 const Emails: React.FC<Props> = ({
-  // formik,
   emailsList,
-  ConfirmResendInvitationModal
+  formikAddEmail,
+  formikSendInvite,
+  formikRemoveEmail
 }) => {
-  const [selectedEmailForModal, setselectedEmailForModal] = React.useState<
-    null | string
-  >(null);
   return (
     <Box>
       <Text variant="heading" px={3} mt={2}>
@@ -46,18 +46,18 @@ const Emails: React.FC<Props> = ({
         <EmailContainerForm>
           <EmailInput
             placeholder={tt.placeholders.email}
-            // disabled={formik.isSubmitting}
+            disabled={formikAddEmail.isSubmitting}
             name="email"
-            // value={formik.values.email}
-            // onChange={formik.handleChange}
+            value={formikAddEmail.values.email}
+            onChange={formikAddEmail.handleChange}
           />
           <Actions>
             <Button
               variant="primary"
-              // disabled={formik.isSubmitting}
+              disabled={formikAddEmail.isSubmitting}
               type="submit"
               style={{ marginLeft: '10px' }}
-              // onClick={formik.submitForm}
+              onClick={formikAddEmail.submitForm}
             >
               <Trans>Add</Trans>
             </Button>
@@ -68,22 +68,34 @@ const Emails: React.FC<Props> = ({
         <Text p={3} variant="suptitle">
           <Trans>Sent invitations</Trans>
         </Text>
-        {emailsList &&
-          emailsList.map((email, i) => (
-            <ListRow key={i}>
-              <EmailText>{email}</EmailText>
-              <Resend onClick={() => setselectedEmailForModal(email)}>
-                <RotateCw size={16} />
-              </Resend>
-              {/* <Button variant="danger"><Trans>Delete</Trans></Button> */}
-            </ListRow>
-          ))}
+        {emailsList.map((email, i) => (
+          <ListRow key={`${i}-${email}`}>
+            <EmailText>{email}</EmailText>
+            <Resend
+              onClick={() => {
+                formikSendInvite.setValues({ email });
+                formikSendInvite.submitForm();
+              }}
+            >
+              <RotateCw size={16} />
+            </Resend>
+            <Button
+              variant="danger"
+              onClick={() => formikRemoveEmail.setValues({ email })}
+            >
+              <Trans>Delete</Trans>
+            </Button>
+          </ListRow>
+        ))}
       </Box>
-      {selectedEmailForModal && ConfirmResendInvitationModal != null && (
-        <Modal closeModal={() => setselectedEmailForModal(null)}>
-          <ConfirmResendInvitationModal
-            email={selectedEmailForModal}
-            done={() => setselectedEmailForModal(null)}
+      {formikRemoveEmail.values.email && (
+        <Modal closeModal={() => formikRemoveEmail.setValues({ email: '' })}>
+          <ConfirmationModal
+            cancel={() => formikRemoveEmail.setValues({ email: '' })}
+            formik={formikRemoveEmail}
+            modalAction="**modalAction**" //FIXME
+            modalDescription="**modalDescription**" //FIXME
+            modalTitle="**modalTitle**" //FIXME
           />
         </Modal>
       )}

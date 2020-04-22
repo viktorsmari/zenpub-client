@@ -17,10 +17,15 @@ mutation addEmailToAllowList($email: String!){
     id
   }
 }
+
 mutation removeEmailFromAllowList($id: String!){
   deleteRegisterEmailAccess(id:$id){
     id
   }
+}
+
+mutation sendInviteEmail($email: String!){
+  sendInvite(email:$email)
 }
 
 query instanceRegisterEmailAccesses($limit:Int, $before:[Cursor!], $after:[Cursor!]) {
