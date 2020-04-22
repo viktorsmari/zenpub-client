@@ -7,17 +7,19 @@ import {
   Props as SettingsUIProps,
   Settings as SettingsPageUI
 } from 'ui/pages/settings';
-import Flags from 'ui/pages/settings/flags';
-import Preferences from 'ui/pages/settings/preferences';
+import { InstanceFlagsSection } from './flags/InstanceFlagsSection';
 import { InstanceSettingsSection } from './instance/InstanceSettingsSection';
 import { InstanceInvitesSection } from './invites/InstanceInvitesSection';
+import { InstanceModerationLogSection } from './moderationLog/InstanceModerationLogSection';
+import { PreferencesSettingsSection } from './preferences/PreferencesSettingsSection';
 
 export enum SettingsPageTab {
   General,
   Preferences,
   Invites,
   Instance,
-  Flags
+  Flags,
+  ModerationLogs
 }
 export interface SettingsPage {
   tab: SettingsPageTab;
@@ -27,14 +29,19 @@ export interface SettingsPage {
 export const SettingsPage: FC<SettingsPage> = ({ basePath }) => {
   const { me } = useMe();
   const { profile, updateProfile } = useProfile();
-  const initialValues: EditProfile = {
-    icon: profile?.icon?.url || undefined,
-    image: profile?.image?.url || undefined,
-    location: profile?.location || '',
-    name: profile?.name || '',
-    website: profile?.website || '',
-    summary: profile?.summary || ''
-  };
+
+  const initialValues = useMemo<EditProfile>(
+    () => ({
+      icon: profile?.icon?.url || undefined,
+      image: profile?.image?.url || undefined,
+      location: profile?.location || '',
+      name: profile?.name || '',
+      website: profile?.website || '',
+      summary: profile?.summary || ''
+    }),
+    [profile]
+  );
+
   const updateProfileFormik = useFormik<EditProfile>({
     initialValues,
     enableReinitialize: true,
@@ -46,12 +53,13 @@ export const SettingsPage: FC<SettingsPage> = ({ basePath }) => {
     const props: SettingsUIProps = {
       basePath,
       displayUsername: profile?.displayUsername || '',
+      isAdmin: !!me?.isInstanceAdmin,
       formik: updateProfileFormik,
-      Preferences: <Preferences />, // FIXME: pass in props and remove optionals in UI
-      Instance: <InstanceSettingsSection />, // FIXME: pass in props and remove optionals in UI
-      Invites: <InstanceInvitesSection />, // FIXME: pass in props and remove optionals in UI
-      Flags: <Flags />, // FIXME: pass in props and remove optionals in UI
-      isAdmin: !!me?.isInstanceAdmin
+      Preferences: <PreferencesSettingsSection />,
+      Instance: <InstanceSettingsSection />,
+      Invites: <InstanceInvitesSection />,
+      Flags: <InstanceFlagsSection />,
+      ModerationLog: <InstanceModerationLogSection />
     };
     return props;
   }, [profile, updateProfileFormik]);

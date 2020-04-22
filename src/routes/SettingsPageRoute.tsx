@@ -15,6 +15,8 @@ const SettingsPageRouter: FC<RouteComponentProps<SettingsPageRouter>> = ({
   const tab =
     maybeTabStr === 'preferences'
       ? SettingsPageTab.Preferences
+      : maybeTabStr === 'logs'
+      ? SettingsPageTab.ModerationLogs
       : maybeTabStr === 'invites'
       ? SettingsPageTab.Invites
       : maybeTabStr === 'instance'

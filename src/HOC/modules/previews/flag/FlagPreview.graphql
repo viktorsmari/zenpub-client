@@ -1,5 +1,7 @@
 fragment FlagPreview on Flag{
   id
+  message
+  isResolved
   context{
     ...on Community {
       ...CommunityPreview

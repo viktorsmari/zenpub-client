@@ -3750,6 +3750,7 @@ export type RootQueryType = {
   organization?: Maybe<Organization>,
   /** Get list of communities, most followed first */
   communities: CommunitiesPage,
+  flags?: Maybe<FlagsPage>,
   units?: Maybe<Array<UnitsPage>>,
   /** Get a resource */
   resource?: Maybe<Resource>,
@@ -4070,6 +4071,13 @@ export type RootQueryTypeOrganizationArgs = {
 export type RootQueryTypeCommunitiesArgs = {
   after?: Maybe<Array<Scalars['Cursor']>>,
   before?: Maybe<Array<Scalars['Cursor']>>,
+  limit?: Maybe<Scalars['Int']>
+};
+
+
+export type RootQueryTypeFlagsArgs = {
+  after?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
+  before?: Maybe<Array<Maybe<Scalars['Cursor']>>>,
   limit?: Maybe<Scalars['Int']>
 };
 
@@ -6532,6 +6540,7 @@ export type RootQueryTypeResolvers<ContextType = any, ParentType extends Resolve
   follow?: Resolver<Maybe<ResolversTypes['Follow']>, ParentType, ContextType, RequireFields<RootQueryTypeFollowArgs, 'followId'>>,
   organization?: Resolver<Maybe<ResolversTypes['Organization']>, ParentType, ContextType, RootQueryTypeOrganizationArgs>,
   communities?: Resolver<ResolversTypes['CommunitiesPage'], ParentType, ContextType, RootQueryTypeCommunitiesArgs>,
+  flags?: Resolver<Maybe<ResolversTypes['FlagsPage']>, ParentType, ContextType, RootQueryTypeFlagsArgs>,
   units?: Resolver<Maybe<Array<ResolversTypes['UnitsPage']>>, ParentType, ContextType, RootQueryTypeUnitsArgs>,
   resource?: Resolver<Maybe<ResolversTypes['Resource']>, ParentType, ContextType, RequireFields<RootQueryTypeResourceArgs, 'resourceId'>>,
   tags?: Resolver<ResolversTypes['TagsNodes'], ParentType, ContextType, RootQueryTypeTagsArgs>,
