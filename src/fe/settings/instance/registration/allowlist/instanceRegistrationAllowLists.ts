@@ -16,6 +16,9 @@ export const useInstanceRegistrationAllowLists = () => {
   const [
     removeEmailMut /* ,removeEmailStatus */
   ] = GQL.useRemoveEmailFromAllowListMutation();
+  const [
+    sendInviteEmailMut /* ,sendInviteEmailStatus */
+  ] = GQL.useSendInviteEmailMutation();
 
   const listEmailsQ = GQL.useInstanceRegisterEmailAccessesQuery({
     variables: { limit: DEFAULT_PAGE_SIZE }
@@ -42,6 +45,13 @@ export const useInstanceRegistrationAllowLists = () => {
     [removeEmailDomainMut]
   );
 
+  const sendInviteEmail = useCallback(
+    (email: string) => {
+      return sendInviteEmailMut({ variables: { email } });
+    },
+    [sendInviteEmailMut]
+  );
+
   const addEmail = useCallback(
     (email: string) => {
       return addEmailMut({ variables: { email } });
@@ -62,7 +72,8 @@ export const useInstanceRegistrationAllowLists = () => {
       addEmailDomain,
       removeEmailDomain,
       addEmail,
-      removeEmail
+      removeEmail,
+      sendInviteEmail
     };
   }, [
     listEmailDomainsPage,
@@ -70,6 +81,7 @@ export const useInstanceRegistrationAllowLists = () => {
     addEmailDomain,
     removeEmailDomain,
     addEmail,
-    removeEmail
+    removeEmail,
+    sendInviteEmail
   ]);
 };
