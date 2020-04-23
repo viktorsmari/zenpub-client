@@ -63,3 +63,13 @@ export interface UserDataQueryOperation {
   type: 'query'
 }
 export const UserDataQueryName:UserDataQueryOperation['operationName'] = 'userData'
+
+export const UserDataQueryRefetch = (
+  variables:UserDataQueryVariables, 
+  context?:any
+)=>({
+  query:UserDataDocument,
+  variables,
+  context
+})
+      

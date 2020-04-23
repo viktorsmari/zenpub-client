@@ -1,12 +1,12 @@
-import Maybe from 'graphql/tsutils/Maybe';
-import { Collection, ResourceInput } from 'graphql/types.generated';
-import { useMemo } from 'react';
-import { CollectionResourcesDocument } from '../collection/useCollectionResources.generated';
-import * as GQL from './useAddResource.generated';
 import {
   getMaybeUploadInput,
   getUploadInput
 } from 'fe/mutation/upload/getUploadInput';
+import Maybe from 'graphql/tsutils/Maybe';
+import { Collection, ResourceInput } from 'graphql/types.generated';
+import { useMemo } from 'react';
+import { CollectionResourcesQueryRefetch } from '../collection/useCollectionResources.generated';
+import * as GQL from './useAddResource.generated';
 
 export interface AddResource {
   collectionId: Collection['id'];
@@ -29,12 +29,6 @@ export const useAddResource = () => {
       if (createResourceStatus.loading) {
         return;
       }
-      const refetchQueries = [
-        {
-          query: CollectionResourcesDocument,
-          variables: { collectionId }
-        }
-      ];
 
       return createResource({
         variables: {
@@ -43,7 +37,7 @@ export const useAddResource = () => {
           content: getUploadInput(content),
           icon: getMaybeUploadInput(icon)
         },
-        refetchQueries
+        refetchQueries: [CollectionResourcesQueryRefetch({ collectionId })]
       });
     };
     return {

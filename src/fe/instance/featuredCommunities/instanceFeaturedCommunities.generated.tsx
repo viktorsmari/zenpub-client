@@ -89,3 +89,13 @@ export interface InstanceFeaturedCommunitiesQueryOperation {
   type: 'query'
 }
 export const InstanceFeaturedCommunitiesQueryName:InstanceFeaturedCommunitiesQueryOperation['operationName'] = 'instanceFeaturedCommunities'
+
+export const InstanceFeaturedCommunitiesQueryRefetch = (
+  variables:InstanceFeaturedCommunitiesQueryVariables, 
+  context?:any
+)=>({
+  query:InstanceFeaturedCommunitiesDocument,
+  variables,
+  context
+})
+      

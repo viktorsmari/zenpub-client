@@ -93,3 +93,13 @@ export interface GetMeInboxQueryOperation {
   type: 'query'
 }
 export const GetMeInboxQueryName:GetMeInboxQueryOperation['operationName'] = 'getMeInbox'
+
+export const GetMeInboxQueryRefetch = (
+  variables:GetMeInboxQueryVariables, 
+  context?:any
+)=>({
+  query:GetMeInboxDocument,
+  variables,
+  context
+})
+      

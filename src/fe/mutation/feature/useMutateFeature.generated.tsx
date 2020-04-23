@@ -133,6 +133,16 @@ export interface AddFeaturedMutationOperation {
 }
 export const AddFeaturedMutationName:AddFeaturedMutationOperation['operationName'] = 'addFeatured'
 
+export const AddFeaturedMutationRefetch = (
+  variables:AddFeaturedMutationVariables, 
+  context?:any
+)=>({
+  query:AddFeaturedDocument,
+  variables,
+  context
+})
+      
+
 
 export interface RemoveFeaturedMutationOperation {
   operationName: 'removeFeatured'
@@ -141,3 +151,13 @@ export interface RemoveFeaturedMutationOperation {
   type: 'mutation'
 }
 export const RemoveFeaturedMutationName:RemoveFeaturedMutationOperation['operationName'] = 'removeFeatured'
+
+export const RemoveFeaturedMutationRefetch = (
+  variables:RemoveFeaturedMutationVariables, 
+  context?:any
+)=>({
+  query:RemoveFeaturedDocument,
+  variables,
+  context
+})
+      

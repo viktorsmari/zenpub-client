@@ -66,3 +66,13 @@ export interface CreateThreadMutationOperation {
   type: 'mutation'
 }
 export const CreateThreadMutationName:CreateThreadMutationOperation['operationName'] = 'createThread'
+
+export const CreateThreadMutationRefetch = (
+  variables:CreateThreadMutationVariables, 
+  context?:any
+)=>({
+  query:CreateThreadDocument,
+  variables,
+  context
+})
+      

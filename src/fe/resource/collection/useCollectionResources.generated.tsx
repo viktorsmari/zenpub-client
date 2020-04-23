@@ -102,3 +102,13 @@ export interface CollectionResourcesQueryOperation {
   type: 'query'
 }
 export const CollectionResourcesQueryName:CollectionResourcesQueryOperation['operationName'] = 'collectionResources'
+
+export const CollectionResourcesQueryRefetch = (
+  variables:CollectionResourcesQueryVariables, 
+  context?:any
+)=>({
+  query:CollectionResourcesDocument,
+  variables,
+  context
+})
+      

@@ -92,3 +92,13 @@ export interface MeQueryQueryOperation {
   type: 'query'
 }
 export const MeQueryQueryName:MeQueryQueryOperation['operationName'] = 'meQuery'
+
+export const MeQueryQueryRefetch = (
+  variables:MeQueryQueryVariables, 
+  context?:any
+)=>({
+  query:MeQueryDocument,
+  variables,
+  context
+})
+      

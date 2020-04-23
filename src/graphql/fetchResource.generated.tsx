@@ -68,3 +68,13 @@ export interface FetchResourceMutationOperation {
   type: 'mutation'
 }
 export const FetchResourceMutationName:FetchResourceMutationOperation['operationName'] = 'fetchResource'
+
+export const FetchResourceMutationRefetch = (
+  variables:FetchResourceMutationVariables, 
+  context?:any
+)=>({
+  query:FetchResourceDocument,
+  variables,
+  context
+})
+      

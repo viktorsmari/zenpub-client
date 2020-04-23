@@ -368,6 +368,16 @@ export interface AddEmailDomainToAllowListMutationOperation {
 }
 export const AddEmailDomainToAllowListMutationName:AddEmailDomainToAllowListMutationOperation['operationName'] = 'addEmailDomainToAllowList'
 
+export const AddEmailDomainToAllowListMutationRefetch = (
+  variables:AddEmailDomainToAllowListMutationVariables, 
+  context?:any
+)=>({
+  query:AddEmailDomainToAllowListDocument,
+  variables,
+  context
+})
+      
+
 
 export interface RemoveEmailDomainFromAllowListMutationOperation {
   operationName: 'removeEmailDomainFromAllowList'
@@ -376,6 +386,16 @@ export interface RemoveEmailDomainFromAllowListMutationOperation {
   type: 'mutation'
 }
 export const RemoveEmailDomainFromAllowListMutationName:RemoveEmailDomainFromAllowListMutationOperation['operationName'] = 'removeEmailDomainFromAllowList'
+
+export const RemoveEmailDomainFromAllowListMutationRefetch = (
+  variables:RemoveEmailDomainFromAllowListMutationVariables, 
+  context?:any
+)=>({
+  query:RemoveEmailDomainFromAllowListDocument,
+  variables,
+  context
+})
+      
 
 
 export interface AddEmailToAllowListMutationOperation {
@@ -386,6 +406,16 @@ export interface AddEmailToAllowListMutationOperation {
 }
 export const AddEmailToAllowListMutationName:AddEmailToAllowListMutationOperation['operationName'] = 'addEmailToAllowList'
 
+export const AddEmailToAllowListMutationRefetch = (
+  variables:AddEmailToAllowListMutationVariables, 
+  context?:any
+)=>({
+  query:AddEmailToAllowListDocument,
+  variables,
+  context
+})
+      
+
 
 export interface RemoveEmailFromAllowListMutationOperation {
   operationName: 'removeEmailFromAllowList'
@@ -394,6 +424,16 @@ export interface RemoveEmailFromAllowListMutationOperation {
   type: 'mutation'
 }
 export const RemoveEmailFromAllowListMutationName:RemoveEmailFromAllowListMutationOperation['operationName'] = 'removeEmailFromAllowList'
+
+export const RemoveEmailFromAllowListMutationRefetch = (
+  variables:RemoveEmailFromAllowListMutationVariables, 
+  context?:any
+)=>({
+  query:RemoveEmailFromAllowListDocument,
+  variables,
+  context
+})
+      
 
 
 export interface SendInviteEmailMutationOperation {
@@ -404,6 +444,16 @@ export interface SendInviteEmailMutationOperation {
 }
 export const SendInviteEmailMutationName:SendInviteEmailMutationOperation['operationName'] = 'sendInviteEmail'
 
+export const SendInviteEmailMutationRefetch = (
+  variables:SendInviteEmailMutationVariables, 
+  context?:any
+)=>({
+  query:SendInviteEmailDocument,
+  variables,
+  context
+})
+      
+
 
 export interface InstanceRegisterEmailAccessesQueryOperation {
   operationName: 'instanceRegisterEmailAccesses'
@@ -413,6 +463,16 @@ export interface InstanceRegisterEmailAccessesQueryOperation {
 }
 export const InstanceRegisterEmailAccessesQueryName:InstanceRegisterEmailAccessesQueryOperation['operationName'] = 'instanceRegisterEmailAccesses'
 
+export const InstanceRegisterEmailAccessesQueryRefetch = (
+  variables:InstanceRegisterEmailAccessesQueryVariables, 
+  context?:any
+)=>({
+  query:InstanceRegisterEmailAccessesDocument,
+  variables,
+  context
+})
+      
+
 
 export interface InstanceRegisterEmailDomainAccessesQueryOperation {
   operationName: 'instanceRegisterEmailDomainAccesses'
@@ -421,3 +481,13 @@ export interface InstanceRegisterEmailDomainAccessesQueryOperation {
   type: 'query'
 }
 export const InstanceRegisterEmailDomainAccessesQueryName:InstanceRegisterEmailDomainAccessesQueryOperation['operationName'] = 'instanceRegisterEmailDomainAccesses'
+
+export const InstanceRegisterEmailDomainAccessesQueryRefetch = (
+  variables:InstanceRegisterEmailDomainAccessesQueryVariables, 
+  context?:any
+)=>({
+  query:InstanceRegisterEmailDomainAccessesDocument,
+  variables,
+  context
+})
+      

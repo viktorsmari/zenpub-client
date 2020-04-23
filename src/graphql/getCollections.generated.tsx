@@ -77,3 +77,13 @@ export interface GetCollectionsQueryQueryOperation {
   type: 'query'
 }
 export const GetCollectionsQueryQueryName:GetCollectionsQueryQueryOperation['operationName'] = 'getCollectionsQuery'
+
+export const GetCollectionsQueryQueryRefetch = (
+  variables:GetCollectionsQueryQueryVariables, 
+  context?:any
+)=>({
+  query:GetCollectionsQueryDocument,
+  variables,
+  context
+})
+      

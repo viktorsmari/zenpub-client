@@ -63,3 +63,13 @@ export interface GetCollectionQueryOperation {
   type: 'query'
 }
 export const GetCollectionQueryName:GetCollectionQueryOperation['operationName'] = 'getCollection'
+
+export const GetCollectionQueryRefetch = (
+  variables:GetCollectionQueryVariables, 
+  context?:any
+)=>({
+  query:GetCollectionDocument,
+  variables,
+  context
+})
+      

@@ -312,3 +312,13 @@ export interface GetCommunityQueryQueryOperation {
   type: 'query'
 }
 export const GetCommunityQueryQueryName:GetCommunityQueryQueryOperation['operationName'] = 'getCommunityQuery'
+
+export const GetCommunityQueryQueryRefetch = (
+  variables:GetCommunityQueryQueryVariables, 
+  context?:any
+)=>({
+  query:GetCommunityQueryDocument,
+  variables,
+  context
+})
+      

@@ -130,6 +130,16 @@ export interface EditCollectionDataQueryOperation {
 }
 export const EditCollectionDataQueryName:EditCollectionDataQueryOperation['operationName'] = 'editCollectionData'
 
+export const EditCollectionDataQueryRefetch = (
+  variables:EditCollectionDataQueryVariables, 
+  context?:any
+)=>({
+  query:EditCollectionDataDocument,
+  variables,
+  context
+})
+      
+
 
 export interface EditCollectionMutationOperation {
   operationName: 'editCollection'
@@ -138,3 +148,13 @@ export interface EditCollectionMutationOperation {
   type: 'mutation'
 }
 export const EditCollectionMutationName:EditCollectionMutationOperation['operationName'] = 'editCollection'
+
+export const EditCollectionMutationRefetch = (
+  variables:EditCollectionMutationVariables, 
+  context?:any
+)=>({
+  query:EditCollectionDocument,
+  variables,
+  context
+})
+      

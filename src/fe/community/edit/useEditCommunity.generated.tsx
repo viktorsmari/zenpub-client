@@ -130,6 +130,16 @@ export interface EditCommunityDataQueryOperation {
 }
 export const EditCommunityDataQueryName:EditCommunityDataQueryOperation['operationName'] = 'editCommunityData'
 
+export const EditCommunityDataQueryRefetch = (
+  variables:EditCommunityDataQueryVariables, 
+  context?:any
+)=>({
+  query:EditCommunityDataDocument,
+  variables,
+  context
+})
+      
+
 
 export interface EditCommunityMutationOperation {
   operationName: 'editCommunity'
@@ -138,3 +148,13 @@ export interface EditCommunityMutationOperation {
   type: 'mutation'
 }
 export const EditCommunityMutationName:EditCommunityMutationOperation['operationName'] = 'editCommunity'
+
+export const EditCommunityMutationRefetch = (
+  variables:EditCommunityMutationVariables, 
+  context?:any
+)=>({
+  query:EditCommunityDocument,
+  variables,
+  context
+})
+      

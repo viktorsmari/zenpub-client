@@ -63,3 +63,13 @@ export interface CommunityDataQueryOperation {
   type: 'query'
 }
 export const CommunityDataQueryName:CommunityDataQueryOperation['operationName'] = 'communityData'
+
+export const CommunityDataQueryRefetch = (
+  variables:CommunityDataQueryVariables, 
+  context?:any
+)=>({
+  query:CommunityDataDocument,
+  variables,
+  context
+})
+      

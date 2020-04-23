@@ -111,3 +111,13 @@ export interface UserFollowedCollectionsQueryOperation {
   type: 'query'
 }
 export const UserFollowedCollectionsQueryName:UserFollowedCollectionsQueryOperation['operationName'] = 'userFollowedCollections'
+
+export const UserFollowedCollectionsQueryRefetch = (
+  variables:UserFollowedCollectionsQueryVariables, 
+  context?:any
+)=>({
+  query:UserFollowedCollectionsDocument,
+  variables,
+  context
+})
+      

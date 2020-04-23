@@ -55,3 +55,13 @@ export interface UsernameAvailableQueryOperation {
   type: 'query'
 }
 export const UsernameAvailableQueryName:UsernameAvailableQueryOperation['operationName'] = 'usernameAvailable'
+
+export const UsernameAvailableQueryRefetch = (
+  variables:UsernameAvailableQueryVariables, 
+  context?:any
+)=>({
+  query:UsernameAvailableDocument,
+  variables,
+  context
+})
+      
