@@ -11,6 +11,7 @@ import {getMainHeaderProps} from 'ui/mock/mainHeader'
 import {getSidebarProps} from 'ui/mock/sidebar'
 import {activityPreviewProps} from 'ui/mock/activityPreview'
 import {CommentPreviewProps, MainCommentPreviewProps} from 'ui/mock/previews'
+import {getLoadMoreProps} from 'ui/mock/loadmore'
 const Head = () => <MainHeader {...getMainHeaderProps() } />
 
 
@@ -36,6 +37,7 @@ Let's define a story for the `Thread` page
             <ActivityPreview {...activityPreviewProps('Created a comment', <Comment {...CommentPreviewProps() }/>)} />,
             <ActivityPreview {...activityPreviewProps('Created a comment', <Comment {...CommentPreviewProps() }/>)} />
         ]}
+        loadMoreComments={getLoadMoreProps()}
         basePath="/"
         />
     </WithSidebar>

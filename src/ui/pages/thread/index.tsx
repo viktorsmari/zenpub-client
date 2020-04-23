@@ -5,6 +5,8 @@ import styled from 'ui/themes/styled';
 import { Link } from 'react-router-dom';
 import Avatar from 'ui/elements/Avatar';
 import { WrapperPanel } from 'ui/elements/Panel';
+import { FormikHook } from 'ui/@types/types';
+import { LoadMore } from 'ui/modules/Loadmore';
 
 export interface Props {
   MainThread: JSX.Element;
@@ -14,6 +16,7 @@ export interface Props {
   communityName: string;
   communityIcon: string;
   isCommunityContext: boolean;
+  loadMoreComments?: FormikHook; // FIX ME remove ? after add LoadMoreFormik
 }
 
 export const Thread: React.FC<Props> = ({
@@ -23,7 +26,8 @@ export const Thread: React.FC<Props> = ({
   communityName,
   communityIcon,
   Context,
-  isCommunityContext
+  isCommunityContext,
+  loadMoreComments
 }) => {
   // console.log(Context);
   return (
@@ -40,7 +44,13 @@ export const Thread: React.FC<Props> = ({
               {!isCommunityContext && <Box p={2}>{Context}</Box>}
               <MainThreadContainer p={3}>{MainThread}</MainThreadContainer>
             </Box>
-            <CommentsWrapper>{Comments}</CommentsWrapper>
+            <CommentsWrapper>
+              {Comments}
+              {loadMoreComments ? (
+                <LoadMore LoadMoreFormik={loadMoreComments} />
+              ) : null}{' '}
+              {/* FIX ME after add LoadMoreFormik */}
+            </CommentsWrapper>
           </Wrapper>
         </WrapperCont>
       </HomeBox>

@@ -37,7 +37,9 @@ import {
   Props as HeroUserProps,
   Status as HeroUserStatus
 } from 'ui/modules/HeroUser';
-import { Props as LoadMoreProps } from 'ui/modules/Loadmore';
+// import { Props as LoadMoreProps } from 'ui/modules/Loadmore';
+import { ToggleFormik } from './formik';
+
 import { Collection } from 'ui/modules/Previews/Collection';
 import { Comment } from 'ui/modules/Previews/Comment';
 import { FlaggedItem } from 'ui/modules/Previews/FlaggedItem';
@@ -62,7 +64,6 @@ import { Props as ConfirmationModalProps } from '../modules/ConfirmationModal';
 import { FeaturedModal } from '../modules/FeaturedModal';
 import ModerationLog from 'ui/pages/settings/logs';
 import { User } from 'ui/modules/Previews/User';
-
 // import { User as UserIcon } from 'react-feather';
 
 export const getEditCommunityProps = (): EditCommunityProps => {
@@ -642,14 +643,16 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
         formikAddEmail={formikAddEmail}
         formikRemoveEmail={formikRemoveEmail}
         formikSendInvite={formikSendInvite}
+        loadMoreEmails={ToggleFormik()}
       />
     ),
-    Flags: <Flags FlagsBox={ActivitiesBox} />,
+    Flags: <Flags FlagsBox={ActivitiesBox} loadMoreFlags={ToggleFormik()} />,
     Instance: (
       <Instance
         formikAddDomain={formikAddDomain}
         formikRemoveDomain={formikRemoveDomain}
         domainsList={['moodle.com']}
+        loadMoreDomains={ToggleFormik()}
       />
     ),
     ModerationLog: <ModerationLog />,
@@ -657,19 +660,19 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
   };
 };
 
-export const getLoadMoreProps = (): LoadMoreProps => {
-  return {
-    LoadMoreFormik: useFormik<{}>({
-      initialValues: {},
-      onSubmit: () => {
-        action('load more')();
-        return new Promise((resolve, reject) => {
-          setTimeout(resolve, 3000);
-        });
-      }
-    })
-  };
-};
+// export const getLoadMoreProps = (): LoadMoreProps => {
+//   return {
+//     LoadMoreFormik: useFormik<{}>({
+//       initialValues: {},
+//       onSubmit: () => {
+//         action('load more')();
+//         return new Promise((resolve, reject) => {
+//           setTimeout(resolve, 3000);
+//         });
+//       }
+//     })
+//   };
+// };
 
 export const getHeroCollectionProps = (): HeroCollectionProps => {
   return {

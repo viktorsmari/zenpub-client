@@ -10,6 +10,7 @@ import Modal, { Actions, ContainerForm, Row } from 'ui/modules/Modal';
 // import DropzoneArea from '../../../components/elements/DropzoneModal';
 import styled from 'ui/themes/styled';
 import { LocaleContext } from 'context/global/localizationCtx';
+import { LoadMore } from 'ui/modules/Loadmore';
 
 const tt = {
   placeholders: {
@@ -21,6 +22,7 @@ export interface Props {
   formikAddDomain: FormikHook<WithDomain>;
   formikRemoveDomain: FormikHook<WithDomain>;
   domainsList: string[];
+  loadMoreDomains?: FormikHook; // FIX ME after add LoadMoreFormik
 }
 
 export interface WithDomain {
@@ -31,7 +33,8 @@ export interface WithDomain {
 const Instance: React.FC<Props> = ({
   formikAddDomain,
   formikRemoveDomain,
-  domainsList
+  domainsList,
+  loadMoreDomains
 }) => {
   const { i18n } = React.useContext(LocaleContext);
 
@@ -117,6 +120,8 @@ const Instance: React.FC<Props> = ({
             </Delete>
           </ListRow>
         ))}
+        {loadMoreDomains ? <LoadMore LoadMoreFormik={loadMoreDomains} /> : null}{' '}
+        {/* FIX ME after add LoadMoreFormik */}
       </Box>
       {formikRemoveDomain.values.domain && (
         <Modal closeModal={() => formikRemoveDomain.setValues({ domain: '' })}>

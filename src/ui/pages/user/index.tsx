@@ -3,6 +3,8 @@ import { NavLink, Route, Switch } from 'react-router-dom';
 import { Flex, Text, Box } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import { Header } from 'ui/modules/Header';
+import { FormikHook } from 'ui/@types/types';
+import { LoadMore } from 'ui/modules/Loadmore';
 
 import {
   Nav,
@@ -27,6 +29,12 @@ export interface Props {
   totalUsers: string;
   userLink: string;
   userName: string;
+  loadMoreFormik?: FormikHook; // FIX ME remove ? after add LoadMoreFormik
+  loadMoreActivities?: FormikHook; // FIX ME remove ? after add LoadMoreFormik
+  loadMoreLikes?: FormikHook; // FIX ME remove ? after add LoadMoreFormik
+  loadMoreCommunities?: FormikHook; // FIX ME remove ? after add LoadMoreFormik
+  loadMoreCollections?: FormikHook; // FIX ME remove ? after add LoadMoreFormik
+  loadMoreFollowing?: FormikHook; // FIX ME remove ? after add LoadMoreFormik
 }
 
 export const User: React.FC<Props> = ({
@@ -40,7 +48,12 @@ export const User: React.FC<Props> = ({
   userLink,
   totalCollections,
   totalUsers,
-  userName
+  userName,
+  loadMoreActivities,
+  loadMoreLikes,
+  loadMoreCommunities,
+  loadMoreCollections,
+  loadMoreFollowing
 }) => {
   return (
     <MainContainer>
@@ -60,15 +73,41 @@ export const User: React.FC<Props> = ({
             <Switch>
               <Route exact path={`${basePath}/`}>
                 {ActivityBoxes}
+                {loadMoreActivities ? (
+                  <LoadMore LoadMoreFormik={loadMoreActivities} />
+                ) : null}{' '}
+                {/* FIX ME after add LoadMoreFormik */}
               </Route>
               <Route exact path={`${basePath}/likes`}>
                 {ActivityBoxes}
+                {loadMoreLikes ? (
+                  <LoadMore LoadMoreFormik={loadMoreLikes} />
+                ) : null}{' '}
+                {/* FIX ME after add LoadMoreFormik */}
               </Route>
               <Route path={`${basePath}/communities`}>
-                <WrapperBoxes>{CommunityBoxes}</WrapperBoxes>
+                <WrapperBoxes>
+                  {CommunityBoxes}
+                  {loadMoreCommunities ? (
+                    <LoadMore LoadMoreFormik={loadMoreCommunities} />
+                  ) : null}{' '}
+                  {/* FIX ME after add LoadMoreFormik */}
+                </WrapperBoxes>
               </Route>
-              <Route path={`${basePath}/collections`}>{CollectionsBoxes}</Route>
-              <Route path={`${basePath}/following`}>{UserBoxes}</Route>
+              <Route path={`${basePath}/collections`}>
+                {CollectionsBoxes}
+                {loadMoreCollections ? (
+                  <LoadMore LoadMoreFormik={loadMoreCollections} />
+                ) : null}{' '}
+                {/* FIX ME after add LoadMoreFormik */}
+              </Route>
+              <Route path={`${basePath}/following`}>
+                {UserBoxes}
+                {loadMoreFollowing ? (
+                  <LoadMore LoadMoreFormik={loadMoreFollowing} />
+                ) : null}{' '}
+                {/* FIX ME after add LoadMoreFormik */}
+              </Route>
             </Switch>
           </Wrapper>
         </WrapperCont>

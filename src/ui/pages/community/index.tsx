@@ -16,6 +16,7 @@ import styled from 'ui/themes/styled';
 import { FormikHook } from 'ui/@types/types';
 import Modal from 'ui/modules/Modal';
 import { Header } from 'ui/modules/Header';
+import { LoadMore } from 'ui/modules/Loadmore';
 
 export interface Props {
   isJoined: boolean;
@@ -28,6 +29,9 @@ export interface Props {
   basePath: string;
   newThreadFormik: null | FormikHook<{ text: string }>;
   CreateCollectionPanel: React.ComponentType<{ done(): any }>;
+  loadMoreActivities?: FormikHook; // FIX ME remove ? after add LoadMoreFormik
+  loadMoreCollections?: FormikHook; // FIX ME remove ? after add LoadMoreFormik
+  loadMoreThreads?: FormikHook; // FIX ME remove ? after add LoadMoreFormik
 }
 
 export const Community: React.FC<Props> = ({
@@ -40,7 +44,10 @@ export const Community: React.FC<Props> = ({
   isJoined,
   communityName,
   ThreadsBox,
-  CreateCollectionPanel
+  CreateCollectionPanel,
+  loadMoreActivities,
+  loadMoreCollections,
+  loadMoreThreads
 }) => {
   const [isOpenCreateCollection, setOpenCreateCollection] = React.useState(
     false
@@ -66,7 +73,13 @@ export const Community: React.FC<Props> = ({
                 <>
                   {HeroCommunityBox}
                   <Menu basePath={basePath} />
-                  <Box mt={2}>{ActivitiesBox}</Box>
+                  <Box mt={2}>
+                    {ActivitiesBox}
+                    {loadMoreActivities ? (
+                      <LoadMore LoadMoreFormik={loadMoreActivities} />
+                    ) : null}{' '}
+                    {/* FIX ME after add LoadMoreFormik */}
+                  </Box>
                 </>
               </Route>
               <Route path={`${basePath}/collections`}>
@@ -84,6 +97,10 @@ export const Community: React.FC<Props> = ({
                     </WrapButton>
                   )}
                   {CollectionsBox}
+                  {loadMoreCollections ? (
+                    <LoadMore LoadMoreFormik={loadMoreCollections} />
+                  ) : null}{' '}
+                  {/* FIX ME after add LoadMoreFormik */}
                 </>
               </Route>
               <Route path={`${basePath}/discussions`}>
@@ -102,6 +119,10 @@ export const Community: React.FC<Props> = ({
                     )}
                   </WrapSocialText>
                   {ThreadsBox}
+                  {loadMoreThreads ? (
+                    <LoadMore LoadMoreFormik={loadMoreThreads} />
+                  ) : null}{' '}
+                  {/* FIX ME after add LoadMoreFormik */}
                 </>
               </Route>
             </Switch>

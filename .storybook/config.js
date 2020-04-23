@@ -40,6 +40,7 @@ const loaderFn = () => {
     require('./welcome.stories.mdx'),
     require('../src/ui/pages/login/a.stories.mdx'),
     require('../src/ui/pages/signUp/a.stories.mdx'),
+    require('../src/ui/pages/termsAndConditions/a.stories.mdx'),
     require('../src/ui/pages/confirmEmail/a.stories.mdx'),
     require('../src/ui/pages/createNewPassword/a.stories.mdx'),
     require('../src/ui/pages/resetPassword/a.stories.mdx'),

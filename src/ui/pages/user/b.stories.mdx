@@ -41,6 +41,11 @@ Let's define a story for the `User` page
         userName="˗ˏˋ Doug Belshaw ˎˊ˗ 🇪🇺 ☠️ ✊"
         totalCollections={"23"}
         totalUsers={"493"}
+        loadMoreActivities={getLoadMoreProps()}
+        loadMoreLikes={getLoadMoreProps()}
+        loadMoreCommunities={getLoadMoreProps()}
+        loadMoreCollections={getLoadMoreProps()}
+        loadMoreFollowing={getLoadMoreProps()}
         HeroUserBox={(<HeroUser {...getHeroUserProps(true)} />)}
         ActivityBoxes={[
           (<ActivityPreview key="1" {...activityPreviewProps('Added a link', <Resource {...ResourcePreviewProps() }/>)} />),

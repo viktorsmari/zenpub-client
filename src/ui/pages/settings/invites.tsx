@@ -4,6 +4,7 @@ import React from 'react';
 import { Box, Text } from 'rebass/styled-components';
 import { FormikHook } from 'ui/@types/types';
 import Button from 'ui/elements/Button';
+import { LoadMore } from 'ui/modules/Loadmore';
 import ConfirmationModal from 'ui/modules/ConfirmationModal';
 // import { FormikHook } from 'ui/@types/types';
 import Modal, { Actions, ContainerForm, Row } from 'ui/modules/Modal';
@@ -23,6 +24,7 @@ export interface Props {
   formikSendInvite: FormikHook<WithEmail>;
   formikAddEmail: FormikHook<WithEmail>;
   emailsList: string[];
+  loadMoreEmails?: FormikHook; // FIX ME after add LoadMoreFormik
 }
 
 export interface WithEmail {
@@ -33,7 +35,8 @@ const Emails: React.FC<Props> = ({
   emailsList,
   formikAddEmail,
   formikSendInvite,
-  formikRemoveEmail
+  formikRemoveEmail,
+  loadMoreEmails
 }) => {
   const { i18n } = React.useContext(LocaleContext);
 
@@ -91,6 +94,8 @@ const Emails: React.FC<Props> = ({
             </Button>
           </ListRow>
         ))}
+        {loadMoreEmails ? <LoadMore LoadMoreFormik={loadMoreEmails} /> : null}{' '}
+        {/* FIX ME after add LoadMoreFormik */}
       </Box>
       {formikRemoveEmail.values.email && (
         <Modal closeModal={() => formikRemoveEmail.setValues({ email: '' })}>

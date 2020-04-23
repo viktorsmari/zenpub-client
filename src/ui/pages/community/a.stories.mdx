@@ -38,6 +38,9 @@ Let's define a story for the `community` page
         isJoined: true,
         communityName: "Community test name",
         newThreadFormik: ToggleFormik(),
+        loadMoreActivities: getLoadMoreProps(),
+        loadMoreCollections: getLoadMoreProps(),
+        loadMoreThreads: getLoadMoreProps(),
         ActivitiesBox: <React.Fragment>
           <ActivityPreview {...activityPreviewProps('Added a link', <Resource {...ResourcePreviewProps() }/>)} />
           <ActivityPreview {...activityPreviewProps('Uploaded a resource', <Resource {...ResourcePreviewProps('license', 'pdf' ) }/>)} />

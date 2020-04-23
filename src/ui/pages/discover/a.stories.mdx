@@ -15,9 +15,11 @@ import {getSidebarProps} from 'ui/mock/sidebar'
 import {getMainHeaderProps} from 'ui/mock/mainHeader'
 import {Resource} from 'ui/modules/Previews/Resource'
 import {Collection} from 'ui/modules/Previews/Collection'
+import {Community} from 'ui/modules/Previews/Community';
 import {Comment} from 'ui/modules/Previews/Comment'
 import {Thread} from 'ui/modules/Previews/Thread'
 import {LikedComment} from 'ui/modules/Previews/LikedComment'
+import {getLoadMoreProps} from 'ui/mock/loadmore'
 
 import {FeaturedCommunities} from 'ui/modules/FeaturedCommunities'
 import {FeaturedCollections} from 'ui/modules/FeaturedCollections'
@@ -38,6 +40,7 @@ Let's define a story for the `Discover` page
       SidebarBox={<Sidebar {...getSidebarProps()}/>}>
         <Discover 
         basePath={"/"}
+        LoadMoreFormik={getLoadMoreProps()}
         FeaturedCommunitiesBox={<FeaturedCommunities {...getFeaturedCommunitiesProps(true)} />}
         FeaturedCollectionsBox={<FeaturedCollections {...getFeaturedCollectionsProps(true)} />}
         ActivitiesBox={<React.Fragment>
@@ -50,13 +53,13 @@ Let's define a story for the `Discover` page
           <ActivityPreview {...activityPreviewProps('Created a comment', <Comment {...CommentPreviewProps() }/>)} />
         </React.Fragment>}
         CommunitiesBoxes={<React.Fragment>
-            (<Community {...CommunityPreviewProps()} />)
-            (<Community {...CommunityPreviewProps()} />)
-            (<Community {...CommunityPreviewProps()} />)
-            (<Community {...CommunityPreviewProps()} />)
-            (<Community {...CommunityPreviewProps()} />)
-            (<Community {...CommunityPreviewProps()} />)
-            (<Community {...CommunityPreviewProps()} />)
+            <Community {...CommunityPreviewProps()} />
+            <Community {...CommunityPreviewProps()} />
+            <Community {...CommunityPreviewProps()} />
+            <Community {...CommunityPreviewProps()} />
+            <Community {...CommunityPreviewProps()} />
+            <Community {...CommunityPreviewProps()} />
+            <Community {...CommunityPreviewProps()} />
         </React.Fragment>}
         CollectionsBoxes={[
             (<Collection {...CollectionPreviewProps()} />),
