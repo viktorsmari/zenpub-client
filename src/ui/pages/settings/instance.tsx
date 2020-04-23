@@ -94,7 +94,8 @@ const Instance: React.FC<Props> = ({
           <Actions>
             <Button
               variant="primary"
-              disabled={formikAddDomain.isSubmitting}
+              isSubmitting={formikAddDomain.isSubmitting}
+              isDisabled={formikAddDomain.isSubmitting}
               type="submit"
               style={{ marginLeft: '10px' }}
               onClick={formikAddDomain.submitForm}

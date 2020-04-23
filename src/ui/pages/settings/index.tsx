@@ -191,7 +191,8 @@ export const Settings: React.FC<Props> = ({
                     <Actions sx={{ height: 'inherit !important' }}>
                       <Button
                         variant="primary"
-                        disabled={formik.isSubmitting}
+                        isSubmitting={formik.isSubmitting}
+                        isDisabled={formik.isSubmitting}
                         type="submit"
                         style={{ marginLeft: '10px' }}
                         onClick={formik.submitForm}

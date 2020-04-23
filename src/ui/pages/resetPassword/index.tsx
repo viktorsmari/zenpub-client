@@ -43,7 +43,8 @@ const ResetPassword: React.FC<Props> = ({ formik }) => {
             )}
             <Button
               variant="primary"
-              disabled={formik.isSubmitting}
+              isSubmitting={formik.isSubmitting}
+              isDisabled={formik.isSubmitting}
               type="submit"
               onClick={formik.submitForm}
             >

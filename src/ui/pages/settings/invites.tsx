@@ -57,7 +57,8 @@ const Emails: React.FC<Props> = ({
           <Actions>
             <Button
               variant="primary"
-              disabled={formikAddEmail.isSubmitting}
+              isSubmitting={formikAddEmail.isSubmitting}
+              isDisabled={formikAddEmail.isSubmitting}
               type="submit"
               style={{ marginLeft: '10px' }}
               onClick={formikAddEmail.submitForm}

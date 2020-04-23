@@ -184,13 +184,13 @@ export interface CommunityPreview {
 
 interface SidebarLoaded {
   status: Status.Loaded;
-  isOpenSidebar?: boolean;
+  isOpenSidebar?: boolean | null;
   communities: CommunityPreview[];
 }
 
 export interface SidebarLoading {
   status: Status.Loading;
-  isOpenSidebar?: boolean;
+  isOpenSidebar?: boolean | null;
 }
 
 export type Props = SidebarLoaded | SidebarLoading;
@@ -198,7 +198,7 @@ export type Props = SidebarLoaded | SidebarLoading;
 export const Sidebar: React.FC<Props> = props => {
   return (
     <>
-      {props.isOpenSidebar ? (
+      {props.isOpenSidebar == true || props.isOpenSidebar == null ? (
         <SidebarComponent>
           <InternalWrapper>
             <SidebarFixed>

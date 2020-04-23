@@ -68,7 +68,8 @@ const Login: React.FC<Props> = ({ formik }) => {
                   <Button
                     mt={3}
                     variant="primary"
-                    disabled={formik.isSubmitting}
+                    isSubmitting={formik.isSubmitting}
+                    isDisabled={formik.isSubmitting}
                     type="submit"
                     style={{ width: '100%' }}
                     onClick={formik.submitForm}

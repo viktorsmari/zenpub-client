@@ -176,7 +176,8 @@ const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
               <Box mt={3}>
                 <Button
                   variant="primary"
-                  disabled={formik.isSubmitting}
+                  isSubmitting={formik.isSubmitting}
+                  isDisabled={formik.isSubmitting}
                   type="submit"
                   onClick={formik.submitForm}
                 >
