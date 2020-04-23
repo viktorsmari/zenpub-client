@@ -47,11 +47,12 @@ export interface Props {
   formik: FormikHook<EditProfile>;
   basePath: string;
   displayUsername: string;
-  isAdmin: boolean; //FIXME remove ? after HOC
-  Preferences?: JSX.Element; //FIXME remove ? after HOC
-  Instance?: JSX.Element; //FIXME remove ? after HOC
-  Invites?: JSX.Element; //FIXME remove ? after HOC
-  Flags?: JSX.Element; //FIXME remove ? after HOC
+  isAdmin: boolean;
+  Preferences: JSX.Element;
+  Instance: JSX.Element;
+  Invites: JSX.Element;
+  Flags: JSX.Element;
+  ModerationLog: JSX.Element;
 }
 
 export interface EditProfile {
@@ -78,6 +79,7 @@ export const Settings: React.FC<Props> = ({
   Instance,
   Invites,
   Flags,
+  ModerationLog,
   displayUsername,
   isAdmin
 }) => {
@@ -106,6 +108,7 @@ export const Settings: React.FC<Props> = ({
                 <Route path={`${basePath}/instance`}>{Instance}</Route>
                 <Route path={`${basePath}/invites`}>{Invites}</Route>
                 <Route path={`${basePath}/flags`}>{Flags}</Route>
+                <Route path={`${basePath}/logs`}>{ModerationLog}</Route>
                 {/* <Route path={`${basePath}/accounts`}>acc</Route>
               <Route path={`${basePath}/notifications`}>notif</Route>
               <Route path={`${basePath}/admin`}>admin</Route> */}
@@ -202,10 +205,28 @@ export const Settings: React.FC<Props> = ({
             </Box>
           </Wrapper>
         </WrapperCont>
+        <RepoLink variant="text" my={3} mt={2}>
+          <a href="https://gitlab.com/moodlenet/meta/-/issues" target="_blank">
+            <Trans>Want to report a bug?</Trans>
+          </a>
+        </RepoLink>
       </HomeBox>
     </MainContainer>
   );
 };
+
+const RepoLink = styled(Text)`
+  text-align: right;
+  width: 100%;
+  a {
+    text-decoration: underline;
+    font-size: 12px;
+    color: ${props => props.theme.colors.gray};
+    &:hover {
+      color: ${props => props.theme.colors.darkgray};
+    }
+  }
+`;
 
 const Sidebar = ({ basePath, isAdmin }) => {
   return (

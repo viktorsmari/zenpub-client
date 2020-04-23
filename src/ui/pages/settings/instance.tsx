@@ -1,13 +1,14 @@
-import React, { ComponentType } from 'react';
-import { Box, Text, Flex } from 'rebass/styled-components';
 import { i18nMark, Trans } from '@lingui/react';
-import { Actions, Row, ContainerForm } from 'ui/modules/Modal';
-import { Input, /* Textarea,*/ Checkbox, Label } from '@rebass/forms';
+import { /* Textarea,*/ Checkbox, Input, Label } from '@rebass/forms';
+import React from 'react';
+import { XCircle } from 'react-feather';
+import { Box, Flex, Text } from 'rebass/styled-components';
+import { FormikHook } from 'ui/@types/types';
+import Button from 'ui/elements/Button';
+import ConfirmationModal from 'ui/modules/ConfirmationModal';
+import Modal, { Actions, ContainerForm, Row } from 'ui/modules/Modal';
 // import DropzoneArea from '../../../components/elements/DropzoneModal';
 import styled from 'ui/themes/styled';
-import Button from 'ui/elements/Button';
-import { XCircle } from 'react-feather';
-import Modal from 'ui/modules/Modal';
 
 const tt = {
   placeholders: {
@@ -16,24 +17,21 @@ const tt = {
 };
 
 export interface Props {
-  // formik: FormikHook<AddDomain>;
-  domainsList?: string[];
-  ConfirmRemoveDomainModal?: ComponentType<{ domain: string; done(): any }>;
+  formikAddDomain: FormikHook<WithDomain>;
+  formikRemoveDomain: FormikHook<WithDomain>;
+  domainsList: string[];
 }
 
-export interface AddDomain {
-  domain: string[];
+export interface WithDomain {
+  domain: string;
 }
 
 // export const Instance = props => (
 const Instance: React.FC<Props> = ({
-  // formik,
-  domainsList,
-  ConfirmRemoveDomainModal
+  formikAddDomain,
+  formikRemoveDomain,
+  domainsList
 }) => {
-  const [selectedDomainForModal, setselectedDomainForModal] = React.useState<
-    null | string
-  >(null);
   return (
     <Box>
       <Text px={3} mt={2} variant="heading">
@@ -85,18 +83,18 @@ const Instance: React.FC<Props> = ({
         <DomainContainerForm>
           <DomainInput
             placeholder={tt.placeholders.domain}
-            // disabled={formik.isSubmitting}
+            disabled={formikAddDomain.isSubmitting}
             name="domain"
-            // value={formik.values.domain}
-            // onChange={formik.handleChange}
+            value={formikAddDomain.values.domain}
+            onChange={formikAddDomain.handleChange}
           />
           <Actions>
             <Button
               variant="primary"
-              // disabled={formik.isSubmitting}
+              disabled={formikAddDomain.isSubmitting}
               type="submit"
               style={{ marginLeft: '10px' }}
-              // onClick={formik.submitForm}
+              onClick={formikAddDomain.submitForm}
             >
               <Trans>Add</Trans>
             </Button>
@@ -105,23 +103,25 @@ const Instance: React.FC<Props> = ({
       </DomainWrapper>
       <Box p={3}>
         <Text p={3} variant="suptitle">
-          <Trans>Sent invitations</Trans>
+          <Trans>Allowed Domains</Trans>
         </Text>
-        {domainsList &&
-          domainsList.map((domain, i) => (
-            <ListRow key={i}>
-              <DomainText>{domain}</DomainText>
-              <Delete onClick={() => setselectedDomainForModal(domain)}>
-                <XCircle size={21} />
-              </Delete>
-            </ListRow>
-          ))}
+        {domainsList.map((domain, i) => (
+          <ListRow key={i}>
+            <DomainText>{domain}</DomainText>
+            <Delete onClick={() => formikRemoveDomain.setValues({ domain })}>
+              <XCircle size={21} />
+            </Delete>
+          </ListRow>
+        ))}
       </Box>
-      {selectedDomainForModal && ConfirmRemoveDomainModal != null && (
-        <Modal closeModal={() => setselectedDomainForModal(null)}>
-          <ConfirmRemoveDomainModal
-            domain={selectedDomainForModal}
-            done={() => setselectedDomainForModal(null)}
+      {formikRemoveDomain.values.domain && (
+        <Modal closeModal={() => formikRemoveDomain.setValues({ domain: '' })}>
+          <ConfirmationModal
+            cancel={() => formikRemoveDomain.setValues({ domain: '' })}
+            formik={formikRemoveDomain}
+            modalAction="**modalAction**" //FIXME
+            modalDescription="**modalDescription**" //FIXME
+            modalTitle="**modalTitle**" //FIXME
           />
         </Modal>
       )}

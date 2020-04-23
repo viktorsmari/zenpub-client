@@ -9,6 +9,7 @@ import media from 'styled-media-query';
 import styled from '../../themes/styled';
 // import Dropdown from "./dropdown";
 import Avatar from 'ui/elements/Avatar';
+// import { my_timeline } from '../../../mn-constants';
 const MnetLogo = require('static/img/logo-icon.png');
 
 export enum Status {

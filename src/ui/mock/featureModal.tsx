@@ -7,7 +7,7 @@ export const getFeaturedModalProps = (): FeaturedModalProps => {
   return {
     formik,
     isFeatured: false,
-    itemName: 'Type Theory',
+    itemName: 'Spaced repetition',
     itemType: 'community',
     cancel: action('cancel')
   };

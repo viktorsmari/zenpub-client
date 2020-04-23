@@ -7,12 +7,12 @@ import { ToggleFormik } from './formik';
 
 export const getHeroUserProps = (
   me = false,
-  name = '˗ˏˋ Doug Belshaw ˎˊ˗  🇪🇺 ☠️ ✊',
-  displayUsername = 'dajbelshaw@team.moodle.net',
-  image = 'https://pbs.twimg.com/profile_banners/764365/1574452341/1500x500',
-  icon = 'https://pbs.twimg.com/profile_images/1161428802091802627/O49Ggs-7_400x400.jpg',
-  location = 'Morpeth, UK',
-  summary = 'Open Educational Thinkerer. Product Manager @MoodleNet & Co-op founder @WeAreOpenCoop. Aspiring Mountain Leader. Previously: @Mozilla @Jisc teacher'
+  name = 'Estrella',
+  displayUsername = 'estrella@home.moodle.net',
+  image = 'https://images.unsplash.com/photo-1543783207-ec64e4d95325?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
+  icon = 'https://docs.moodle.org/dev/images_dev/thumb/2/2b/estrella.jpg/100px-estrella.jpg',
+  location = 'Madrid',
+  summary = 'Spanish educator teaching at a local ESO (secondary) school, and leading a busy life!'
 ) => {
   if (me) {
     const props: HeroUserProps = {

@@ -7,20 +7,18 @@ export const SENTRY_KEY = process.env.REACT_APP_SENTRY_API_KEY;
 export const DEFAULT_PAGE_SIZE =
   parseInt(`${process.env.REACT_APP_DEFAULT_PAGE_SIZE}`) || 15;
 
-export const APP_NAME = 'MoodleNet';
-export const INSTANCE_DESCRIPTION =
-  process.env.INSTANCE_DESCRIPTION || 'An instance of MoodleNet.';
+export const APP_NAME = 'CommonsPub';
+export const INSTANCE_DESCRIPTION = 'This instance is currently invite-only.';
 export const INVITE_ONLY_TEXT =
-  process.env.REACT_APP_INVITE_ONLY_TEXT ||
   'Please note, signups on this instance are currently invite-only.';
-export const INSTANCE_TAGLINE = 'Share. Curate. Discuss.';
+export const INSTANCE_TAGLINE = 'Connect. Organise. Share.';
 export const INSTANCE_PROMPT =
   "You don't need to sign up to preview what people are sharing and discussing publicly.";
-export const prompt_signin = 'Sign in to MoodleNet';
+export const prompt_signin = 'Sign in';
+export const my_timeline = 'My Network';
 export const instance_bg_img =
   'http://nycicarus.org/images/mad-solidarity-fists.png';
-export const logo_large_url =
-  'https://moodle.net/images/logos/moodlenet-logo.png';
+export const logo_large_url = 'http://commonspub.org/logo-small.png'; // https://moodle.net/images/logos/moodlenet-logo.png
 
 export const terms_markdown_text = {
   // replace the text as needed
@@ -40,12 +38,12 @@ export const terms_markdown_urls = {
 
 export const related_urls = {
   // replace the URLs as needed
-  project_homepage: 'https://moodle.net',
-  terms_users: 'https://moodle.net/terms/users/index.html',
-  terms_cookies: 'https://moodle.net/terms/cookies/index.html',
-  terms_indexing: 'https://moodle.net/terms/indexing/index.html',
-  code: 'https://gitlab.com/moodlenet',
-  feedback: 'https://changemap.co/moodle/moodlenet/'
+  project_homepage: 'http://commonspub.org',
+  terms_users: 'http://commonspub.org',
+  terms_cookies: 'http://commonspub.org',
+  terms_indexing: 'http://commonspub.org',
+  code: 'https://gitlab.com/CommonsPub',
+  feedback: 'http://zo.team'
 };
 
 export const IS_DEV = NODE_ENV === 'development';
