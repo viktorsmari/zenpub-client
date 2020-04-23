@@ -9,6 +9,7 @@ import ConfirmationModal from 'ui/modules/ConfirmationModal';
 import Modal, { Actions, ContainerForm, Row } from 'ui/modules/Modal';
 import styled from 'ui/themes/styled';
 import { RotateCw } from 'react-feather';
+import { LocaleContext } from 'context/global/localizationCtx';
 
 const tt = {
   placeholders: {
@@ -34,6 +35,8 @@ const Emails: React.FC<Props> = ({
   formikSendInvite,
   formikRemoveEmail
 }) => {
+  const { i18n } = React.useContext(LocaleContext);
+
   return (
     <Box>
       <Text variant="heading" px={3} mt={2}>
@@ -93,9 +96,11 @@ const Emails: React.FC<Props> = ({
           <ConfirmationModal
             cancel={() => formikRemoveEmail.setValues({ email: '' })}
             formik={formikRemoveEmail}
-            modalAction="**modalAction**" //FIXME
-            modalDescription="**modalDescription**" //FIXME
-            modalTitle="**modalTitle**" //FIXME
+            modalAction={i18n._(`Remove email from whitelist`)}
+            modalDescription={i18n._(
+              `Are you sure you want to remove ${formikRemoveEmail.values.email} from the whitelisted emails?`
+            )}
+            modalTitle={i18n._(`Delete`)}
           />
         </Modal>
       )}

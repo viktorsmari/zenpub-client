@@ -9,6 +9,7 @@ import ConfirmationModal from 'ui/modules/ConfirmationModal';
 import Modal, { Actions, ContainerForm, Row } from 'ui/modules/Modal';
 // import DropzoneArea from '../../../components/elements/DropzoneModal';
 import styled from 'ui/themes/styled';
+import { LocaleContext } from 'context/global/localizationCtx';
 
 const tt = {
   placeholders: {
@@ -32,6 +33,8 @@ const Instance: React.FC<Props> = ({
   formikRemoveDomain,
   domainsList
 }) => {
+  const { i18n } = React.useContext(LocaleContext);
+
   return (
     <Box>
       <Text px={3} mt={2} variant="heading">
@@ -119,9 +122,11 @@ const Instance: React.FC<Props> = ({
           <ConfirmationModal
             cancel={() => formikRemoveDomain.setValues({ domain: '' })}
             formik={formikRemoveDomain}
-            modalAction="**modalAction**" //FIXME
-            modalDescription="**modalDescription**" //FIXME
-            modalTitle="**modalTitle**" //FIXME
+            modalAction={i18n._(`Delete domain from whitelist`)}
+            modalDescription={i18n._(
+              `Are you sure you want to delete ${formikRemoveDomain.values.domain} from whitelist?`
+            )}
+            modalTitle={i18n._(`Delete`)}
           />
         </Modal>
       )}
