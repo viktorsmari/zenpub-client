@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ComponentType } from 'react';
 import styled from 'ui/themes/styled';
 // import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
@@ -23,14 +23,22 @@ export interface Props {
   };
   Search: JSX.Element;
   toggleSideBar(): unknown;
-  CreateCommunityModal: JSX.Element;
+  CreateCommunityModal: ComponentType<{ done(): unknown }>;
 }
 
 export const MainHeader: React.FC<Props> = props => {
   const history = useHistory();
   const [isOpenDropdown, setOpenDropdown] = React.useState(false);
-  const [isOpenCreateCommunity, createCommunity] = React.useState(false);
+  const [isOpenCreateCommunity, setOpenCreateCommunity] = React.useState(false);
   const openMenu = React.useCallback(() => setOpenDropdown(true), []);
+  const openCreateCommunity = React.useCallback(
+    () => setOpenCreateCommunity(true),
+    []
+  );
+  const closeCreateCommunity = React.useCallback(
+    () => setOpenCreateCommunity(false),
+    []
+  );
   return (
     <HeaderWrapper>
       <FlexWrapper>
@@ -67,7 +75,7 @@ export const MainHeader: React.FC<Props> = props => {
               </Right>
               {isOpenDropdown && (
                 <DropdownSidebar
-                  createCommunity={createCommunity}
+                  createCommunity={openCreateCommunity}
                   logout={props.user.logout}
                   userLink={props.user.link}
                   setOpenDropdown={setOpenDropdown}
@@ -94,7 +102,9 @@ export const MainHeader: React.FC<Props> = props => {
           )}
         </Header>
       </FlexWrapper>
-      {isOpenCreateCommunity && props.CreateCommunityModal}
+      {isOpenCreateCommunity && (
+        <props.CreateCommunityModal done={closeCreateCommunity} />
+      )}
     </HeaderWrapper>
   );
 };

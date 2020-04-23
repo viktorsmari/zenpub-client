@@ -40,9 +40,9 @@ export const CreateCommunityPanelHOC: FC<Props> = ({ done }: Props) => {
           summary: vals.summary
         },
         icon: vals.icon
-      }).then(createdCommunityId => {
-        createdCommunityId &&
-          history.push(`/communities/${createdCommunityId}`);
+      }).then(res => {
+        res?.data?.createCommunity?.id &&
+          history.push(`/communities/${res.data.createCommunity.id}`);
       });
     }
   });
