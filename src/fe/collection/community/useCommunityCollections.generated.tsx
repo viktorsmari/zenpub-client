@@ -108,3 +108,13 @@ export interface CommunityCollectionsQueryOperation {
   type: 'query'
 }
 export const CommunityCollectionsQueryName:CommunityCollectionsQueryOperation['operationName'] = 'communityCollections'
+
+export const CommunityCollectionsQueryRefetch = (
+  variables:CommunityCollectionsQueryVariables, 
+  context?:any
+)=>({
+  query:CommunityCollectionsDocument,
+  variables,
+  context
+})
+      

@@ -56,3 +56,13 @@ export interface DeleteMutationMutationOperation {
   type: 'mutation'
 }
 export const DeleteMutationMutationName:DeleteMutationMutationOperation['operationName'] = 'deleteMutation'
+
+export const DeleteMutationMutationRefetch = (
+  variables:DeleteMutationMutationVariables, 
+  context?:any
+)=>({
+  query:DeleteMutationDocument,
+  variables,
+  context
+})
+      

@@ -64,3 +64,13 @@ export interface LoginMutationMutationOperation {
   type: 'mutation'
 }
 export const LoginMutationMutationName:LoginMutationMutationOperation['operationName'] = 'loginMutation'
+
+export const LoginMutationMutationRefetch = (
+  variables:LoginMutationMutationVariables, 
+  context?:any
+)=>({
+  query:LoginMutationDocument,
+  variables,
+  context
+})
+      

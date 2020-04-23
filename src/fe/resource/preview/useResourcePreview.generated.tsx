@@ -65,3 +65,13 @@ export interface ResourcePreviewQueryOperation {
   type: 'query'
 }
 export const ResourcePreviewQueryName:ResourcePreviewQueryOperation['operationName'] = 'resourcePreview'
+
+export const ResourcePreviewQueryRefetch = (
+  variables:ResourcePreviewQueryVariables, 
+  context?:any
+)=>({
+  query:ResourcePreviewDocument,
+  variables,
+  context
+})
+      

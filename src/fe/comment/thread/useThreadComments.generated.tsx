@@ -91,3 +91,13 @@ export interface ThreadCommentsQueryOperation {
   type: 'query'
 }
 export const ThreadCommentsQueryName:ThreadCommentsQueryOperation['operationName'] = 'threadComments'
+
+export const ThreadCommentsQueryRefetch = (
+  variables:ThreadCommentsQueryVariables, 
+  context?:any
+)=>({
+  query:ThreadCommentsDocument,
+  variables,
+  context
+})
+      

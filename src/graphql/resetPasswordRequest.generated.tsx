@@ -54,3 +54,13 @@ export interface ResetPasswordRequestMutationOperation {
   type: 'mutation'
 }
 export const ResetPasswordRequestMutationName:ResetPasswordRequestMutationOperation['operationName'] = 'resetPasswordRequest'
+
+export const ResetPasswordRequestMutationRefetch = (
+  variables:ResetPasswordRequestMutationVariables, 
+  context?:any
+)=>({
+  query:ResetPasswordRequestDocument,
+  variables,
+  context
+})
+      

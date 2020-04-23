@@ -84,3 +84,13 @@ export interface AllCollectionsQueryOperation {
   type: 'query'
 }
 export const AllCollectionsQueryName:AllCollectionsQueryOperation['operationName'] = 'allCollections'
+
+export const AllCollectionsQueryRefetch = (
+  variables:AllCollectionsQueryVariables, 
+  context?:any
+)=>({
+  query:AllCollectionsDocument,
+  variables,
+  context
+})
+      

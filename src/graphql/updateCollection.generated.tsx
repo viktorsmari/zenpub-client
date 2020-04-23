@@ -81,3 +81,13 @@ export interface UpdateCollectionMutationMutationOperation {
   type: 'mutation'
 }
 export const UpdateCollectionMutationMutationName:UpdateCollectionMutationMutationOperation['operationName'] = 'updateCollectionMutation'
+
+export const UpdateCollectionMutationMutationRefetch = (
+  variables:UpdateCollectionMutationMutationVariables, 
+  context?:any
+)=>({
+  query:UpdateCollectionMutationDocument,
+  variables,
+  context
+})
+      

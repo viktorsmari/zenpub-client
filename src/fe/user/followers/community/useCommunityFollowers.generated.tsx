@@ -109,3 +109,13 @@ export interface CommunityFollowersQueryOperation {
   type: 'query'
 }
 export const CommunityFollowersQueryName:CommunityFollowersQueryOperation['operationName'] = 'communityFollowers'
+
+export const CommunityFollowersQueryRefetch = (
+  variables:CommunityFollowersQueryVariables, 
+  context?:any
+)=>({
+  query:CommunityFollowersDocument,
+  variables,
+  context
+})
+      

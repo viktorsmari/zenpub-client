@@ -74,3 +74,13 @@ export interface CreateUserMutationMutationOperation {
   type: 'mutation'
 }
 export const CreateUserMutationMutationName:CreateUserMutationMutationOperation['operationName'] = 'createUserMutation'
+
+export const CreateUserMutationMutationRefetch = (
+  variables:CreateUserMutationMutationVariables, 
+  context?:any
+)=>({
+  query:CreateUserMutationDocument,
+  variables,
+  context
+})
+      

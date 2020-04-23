@@ -65,3 +65,13 @@ export interface ActivityPreviewQueryOperation {
   type: 'query'
 }
 export const ActivityPreviewQueryName:ActivityPreviewQueryOperation['operationName'] = 'activityPreview'
+
+export const ActivityPreviewQueryRefetch = (
+  variables:ActivityPreviewQueryVariables, 
+  context?:any
+)=>({
+  query:ActivityPreviewDocument,
+  variables,
+  context
+})
+      

@@ -84,3 +84,13 @@ export interface AllFlagsQueryOperation {
   type: 'query'
 }
 export const AllFlagsQueryName:AllFlagsQueryOperation['operationName'] = 'allFlags'
+
+export const AllFlagsQueryRefetch = (
+  variables:AllFlagsQueryVariables, 
+  context?:any
+)=>({
+  query:AllFlagsDocument,
+  variables,
+  context
+})
+      

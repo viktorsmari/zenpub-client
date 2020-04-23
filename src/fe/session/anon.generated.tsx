@@ -299,6 +299,16 @@ export interface AnonResetPasswordMutationOperation {
 }
 export const AnonResetPasswordMutationName:AnonResetPasswordMutationOperation['operationName'] = 'anonResetPassword'
 
+export const AnonResetPasswordMutationRefetch = (
+  variables:AnonResetPasswordMutationVariables, 
+  context?:any
+)=>({
+  query:AnonResetPasswordDocument,
+  variables,
+  context
+})
+      
+
 
 export interface AnonResetPasswordRequestMutationOperation {
   operationName: 'anonResetPasswordRequest'
@@ -307,6 +317,16 @@ export interface AnonResetPasswordRequestMutationOperation {
   type: 'mutation'
 }
 export const AnonResetPasswordRequestMutationName:AnonResetPasswordRequestMutationOperation['operationName'] = 'anonResetPasswordRequest'
+
+export const AnonResetPasswordRequestMutationRefetch = (
+  variables:AnonResetPasswordRequestMutationVariables, 
+  context?:any
+)=>({
+  query:AnonResetPasswordRequestDocument,
+  variables,
+  context
+})
+      
 
 
 export interface AnonLoginMutationOperation {
@@ -317,6 +337,16 @@ export interface AnonLoginMutationOperation {
 }
 export const AnonLoginMutationName:AnonLoginMutationOperation['operationName'] = 'anonLogin'
 
+export const AnonLoginMutationRefetch = (
+  variables:AnonLoginMutationVariables, 
+  context?:any
+)=>({
+  query:AnonLoginDocument,
+  variables,
+  context
+})
+      
+
 
 export interface AnonConfirmEmailMutationOperation {
   operationName: 'anonConfirmEmail'
@@ -325,6 +355,16 @@ export interface AnonConfirmEmailMutationOperation {
   type: 'mutation'
 }
 export const AnonConfirmEmailMutationName:AnonConfirmEmailMutationOperation['operationName'] = 'anonConfirmEmail'
+
+export const AnonConfirmEmailMutationRefetch = (
+  variables:AnonConfirmEmailMutationVariables, 
+  context?:any
+)=>({
+  query:AnonConfirmEmailDocument,
+  variables,
+  context
+})
+      
 
 
 export interface AnonSignUpMutationOperation {
@@ -335,6 +375,16 @@ export interface AnonSignUpMutationOperation {
 }
 export const AnonSignUpMutationName:AnonSignUpMutationOperation['operationName'] = 'anonSignUp'
 
+export const AnonSignUpMutationRefetch = (
+  variables:AnonSignUpMutationVariables, 
+  context?:any
+)=>({
+  query:AnonSignUpDocument,
+  variables,
+  context
+})
+      
+
 
 export interface AnonUsernameAvailableQueryOperation {
   operationName: 'anonUsernameAvailable'
@@ -343,3 +393,13 @@ export interface AnonUsernameAvailableQueryOperation {
   type: 'query'
 }
 export const AnonUsernameAvailableQueryName:AnonUsernameAvailableQueryOperation['operationName'] = 'anonUsernameAvailable'
+
+export const AnonUsernameAvailableQueryRefetch = (
+  variables:AnonUsernameAvailableQueryVariables, 
+  context?:any
+)=>({
+  query:AnonUsernameAvailableDocument,
+  variables,
+  context
+})
+      

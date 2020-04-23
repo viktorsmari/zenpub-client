@@ -66,3 +66,13 @@ export interface ReplyMutationOperation {
   type: 'mutation'
 }
 export const ReplyMutationName:ReplyMutationOperation['operationName'] = 'reply'
+
+export const ReplyMutationRefetch = (
+  variables:ReplyMutationVariables, 
+  context?:any
+)=>({
+  query:ReplyDocument,
+  variables,
+  context
+})
+      

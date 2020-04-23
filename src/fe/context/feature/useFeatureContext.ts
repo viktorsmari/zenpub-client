@@ -1,11 +1,11 @@
+import { InstanceFeaturedCollectionsQueryRefetch } from 'fe/instance/featuredCollections/instanceFeaturedCollections.generated';
+import { InstanceFeaturedCommunitiesQueryRefetch } from 'fe/instance/featuredCommunities/instanceFeaturedCommunities.generated';
 import {
   useAddFeaturedMutation,
   useRemoveFeaturedMutation
 } from 'fe/mutation/feature/useMutateFeature.generated';
 import { Collection, Community, Feature } from 'graphql/types.generated';
 import { useCallback, useMemo } from 'react';
-import { InstanceFeaturedCommunitiesDocument } from 'fe/instance/featuredCommunities/instanceFeaturedCommunities.generated';
-import { InstanceFeaturedCollectionsDocument } from 'fe/instance/featuredCollections/instanceFeaturedCollections.generated';
 
 export type Actor = Collection | Community;
 
@@ -65,12 +65,9 @@ export const useFeaturedContext = (ctx: UseFeaturedContext) => {
           contextId: id
         },
         refetchQueries: [
-          {
-            query:
-              __typename === 'Community'
-                ? InstanceFeaturedCommunitiesDocument
-                : InstanceFeaturedCollectionsDocument
-          }
+          __typename === 'Community'
+            ? InstanceFeaturedCommunitiesQueryRefetch({})
+            : InstanceFeaturedCollectionsQueryRefetch({})
         ]
       });
     } else {
@@ -79,12 +76,9 @@ export const useFeaturedContext = (ctx: UseFeaturedContext) => {
           contextId: ctx.featureId // need it
         },
         refetchQueries: [
-          {
-            query:
-              ctx.__typename === 'Community'
-                ? InstanceFeaturedCommunitiesDocument
-                : InstanceFeaturedCollectionsDocument
-          }
+          ctx.__typename === 'Community'
+            ? InstanceFeaturedCommunitiesQueryRefetch({})
+            : InstanceFeaturedCollectionsQueryRefetch({})
         ]
       });
     }

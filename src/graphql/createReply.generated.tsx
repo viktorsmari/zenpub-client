@@ -106,3 +106,13 @@ export interface CreateReplyMutationMutationOperation {
   type: 'mutation'
 }
 export const CreateReplyMutationMutationName:CreateReplyMutationMutationOperation['operationName'] = 'createReplyMutation'
+
+export const CreateReplyMutationMutationRefetch = (
+  variables:CreateReplyMutationMutationVariables, 
+  context?:any
+)=>({
+  query:CreateReplyMutationDocument,
+  variables,
+  context
+})
+      

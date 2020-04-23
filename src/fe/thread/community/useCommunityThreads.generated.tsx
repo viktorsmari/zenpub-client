@@ -102,3 +102,13 @@ export interface CommunityThreadsQueryOperation {
   type: 'query'
 }
 export const CommunityThreadsQueryName:CommunityThreadsQueryOperation['operationName'] = 'communityThreads'
+
+export const CommunityThreadsQueryRefetch = (
+  variables:CommunityThreadsQueryVariables, 
+  context?:any
+)=>({
+  query:CommunityThreadsDocument,
+  variables,
+  context
+})
+      

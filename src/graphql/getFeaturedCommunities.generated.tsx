@@ -102,3 +102,13 @@ export interface GetFeaturedCommunitiesQueryOperation {
   type: 'query'
 }
 export const GetFeaturedCommunitiesQueryName:GetFeaturedCommunitiesQueryOperation['operationName'] = 'getFeaturedCommunities'
+
+export const GetFeaturedCommunitiesQueryRefetch = (
+  variables:GetFeaturedCommunitiesQueryVariables, 
+  context?:any
+)=>({
+  query:GetFeaturedCommunitiesDocument,
+  variables,
+  context
+})
+      

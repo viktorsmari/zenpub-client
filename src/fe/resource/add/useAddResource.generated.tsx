@@ -70,3 +70,13 @@ export interface AddResourceCreateResourceMutationOperation {
   type: 'mutation'
 }
 export const AddResourceCreateResourceMutationName:AddResourceCreateResourceMutationOperation['operationName'] = 'addResourceCreateResource'
+
+export const AddResourceCreateResourceMutationRefetch = (
+  variables:AddResourceCreateResourceMutationVariables, 
+  context?:any
+)=>({
+  query:AddResourceCreateResourceDocument,
+  variables,
+  context
+})
+      

@@ -120,6 +120,16 @@ export interface MeQueryOperation {
 }
 export const MeQueryName:MeQueryOperation['operationName'] = 'me'
 
+export const MeQueryRefetch = (
+  variables:MeQueryVariables, 
+  context?:any
+)=>({
+  query:MeDocument,
+  variables,
+  context
+})
+      
+
 
 export interface MeLogoutMutationOperation {
   operationName: 'meLogout'
@@ -128,3 +138,13 @@ export interface MeLogoutMutationOperation {
   type: 'mutation'
 }
 export const MeLogoutMutationName:MeLogoutMutationOperation['operationName'] = 'meLogout'
+
+export const MeLogoutMutationRefetch = (
+  variables:MeLogoutMutationVariables, 
+  context?:any
+)=>({
+  query:MeLogoutDocument,
+  variables,
+  context
+})
+      

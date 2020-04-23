@@ -89,3 +89,13 @@ export interface InstanceFeaturedCollectionsQueryOperation {
   type: 'query'
 }
 export const InstanceFeaturedCollectionsQueryName:InstanceFeaturedCollectionsQueryOperation['operationName'] = 'instanceFeaturedCollections'
+
+export const InstanceFeaturedCollectionsQueryRefetch = (
+  variables:InstanceFeaturedCollectionsQueryVariables, 
+  context?:any
+)=>({
+  query:InstanceFeaturedCollectionsDocument,
+  variables,
+  context
+})
+      
