@@ -11,8 +11,8 @@ import media from 'styled-media-query';
 import { ellipsis } from 'polished';
 import { Link } from 'react-router-dom';
 import { Trans } from '@lingui/react';
-const MnetLogo = require('static/img/logo-icon.png');
-import { prompt_signin } from 'mn-constants';
+// const MnetLogo = require('static/img/logo-icon.png');
+import { prompt_signin, logo_small_url } from 'mn-constants';
 
 export interface Props {
   user: null | {
@@ -41,7 +41,7 @@ export const MainHeader: React.FC<Props> = props => {
             <Menu size="20" />
           </HamburgerIcon>
           <HomeLink to="/">
-            <Avatar size="s" src={MnetLogo} />
+            <Avatar size="s" src={logo_small_url} />
           </HomeLink>
         </Left>
         <Center>{props.Search}</Center>
