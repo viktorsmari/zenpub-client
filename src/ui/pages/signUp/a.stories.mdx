@@ -2,7 +2,7 @@ import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
 import Signup from '.';
 import {Box} from 'rebass'
 import {getSignUpProps} from 'ui/mock/signup'
-import {WithoutSidebar} from 'ui/templates/withoutSidebar'
+import {Guest} from 'ui/templates/guest'
 
 <Meta title="Pages|SignUp" component={Signup}/>
 
@@ -12,8 +12,8 @@ Let's define a story for the `Sign Up` page
 
 <Preview>
   <Story name="Sign up page">
-    <WithoutSidebar>
+    <Guest>
       <Signup {...getSignUpProps()} />
-    </WithoutSidebar>
+    </Guest>
   </Story>
 </Preview>
