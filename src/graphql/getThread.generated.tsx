@@ -63,3 +63,13 @@ export interface GetThreadQueryOperation {
   type: 'query'
 }
 export const GetThreadQueryName:GetThreadQueryOperation['operationName'] = 'getThread'
+
+export const GetThreadQueryRefetch = (
+  variables:GetThreadQueryVariables, 
+  context?:any
+)=>({
+  query:GetThreadDocument,
+  variables,
+  context
+})
+      

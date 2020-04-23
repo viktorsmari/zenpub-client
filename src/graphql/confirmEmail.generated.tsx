@@ -62,3 +62,13 @@ export interface ConfirmEmailMutationMutationOperation {
   type: 'mutation'
 }
 export const ConfirmEmailMutationMutationName:ConfirmEmailMutationMutationOperation['operationName'] = 'confirmEmailMutation'
+
+export const ConfirmEmailMutationMutationRefetch = (
+  variables:ConfirmEmailMutationMutationVariables, 
+  context?:any
+)=>({
+  query:ConfirmEmailMutationDocument,
+  variables,
+  context
+})
+      

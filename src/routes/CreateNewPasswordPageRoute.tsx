@@ -14,11 +14,12 @@ const CreateNewPasswordPageRouter: FC<RouteComponentProps<
     params: { token }
   }
 }) => {
-  let props = useMemo<CreateNewPasswordPageHOC>(() => {
+  const props = useMemo<CreateNewPasswordPageHOC>(() => {
     return {
       token
     };
   }, [token]);
+
   return (
     <RedirectAuthenticatedToHome>
       <GuestTemplate withoutHeader>

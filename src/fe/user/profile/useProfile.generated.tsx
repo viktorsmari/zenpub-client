@@ -110,6 +110,16 @@ export interface MyProfileQueryOperation {
 }
 export const MyProfileQueryName:MyProfileQueryOperation['operationName'] = 'myProfile'
 
+export const MyProfileQueryRefetch = (
+  variables:MyProfileQueryVariables, 
+  context?:any
+)=>({
+  query:MyProfileDocument,
+  variables,
+  context
+})
+      
+
 
 export interface UpdateMyProfileMutationOperation {
   operationName: 'updateMyProfile'
@@ -118,3 +128,13 @@ export interface UpdateMyProfileMutationOperation {
   type: 'mutation'
 }
 export const UpdateMyProfileMutationName:UpdateMyProfileMutationOperation['operationName'] = 'updateMyProfile'
+
+export const UpdateMyProfileMutationRefetch = (
+  variables:UpdateMyProfileMutationVariables, 
+  context?:any
+)=>({
+  query:UpdateMyProfileDocument,
+  variables,
+  context
+})
+      

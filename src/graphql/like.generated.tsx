@@ -63,3 +63,13 @@ export interface LikeMutationMutationOperation {
   type: 'mutation'
 }
 export const LikeMutationMutationName:LikeMutationMutationOperation['operationName'] = 'likeMutation'
+
+export const LikeMutationMutationRefetch = (
+  variables:LikeMutationMutationVariables, 
+  context?:any
+)=>({
+  query:LikeMutationDocument,
+  variables,
+  context
+})
+      

@@ -241,6 +241,16 @@ export interface FlagMutationOperation {
 }
 export const FlagMutationName:FlagMutationOperation['operationName'] = 'flag'
 
+export const FlagMutationRefetch = (
+  variables:FlagMutationVariables, 
+  context?:any
+)=>({
+  query:FlagDocument,
+  variables,
+  context
+})
+      
+
 
 export interface UnflagMutationOperation {
   operationName: 'unflag'
@@ -249,3 +259,13 @@ export interface UnflagMutationOperation {
   type: 'mutation'
 }
 export const UnflagMutationName:UnflagMutationOperation['operationName'] = 'unflag'
+
+export const UnflagMutationRefetch = (
+  variables:UnflagMutationVariables, 
+  context?:any
+)=>({
+  query:UnflagDocument,
+  variables,
+  context
+})
+      

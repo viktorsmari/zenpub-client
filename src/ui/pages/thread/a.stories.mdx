@@ -11,6 +11,7 @@ import {getMainHeaderProps} from 'ui/mock/mainHeader'
 import {getSidebarProps} from 'ui/mock/sidebar'
 import {activityPreviewProps} from 'ui/mock/activityPreview'
 import {CommentPreviewProps, MainCommentPreviewProps} from 'ui/mock/previews'
+const Head = () => <MainHeader {...getMainHeaderProps() } />
 
 
 <Meta title="Pages|Thread" component={Thread}/>
@@ -22,7 +23,7 @@ Let's define a story for the `Thread` page
 <Preview>
   <Story name="Thread page">
     <WithSidebar 
-      HeaderBox={<MainHeader {...getMainHeaderProps() } />}
+      HeaderBox={Head}
       SidebarBox={<Sidebar {...getSidebarProps()}/>}>
         <Thread 
         isCommunityContext={true}

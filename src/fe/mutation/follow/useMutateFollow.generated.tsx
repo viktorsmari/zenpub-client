@@ -223,6 +223,16 @@ export interface FollowMutationOperation {
 }
 export const FollowMutationName:FollowMutationOperation['operationName'] = 'follow'
 
+export const FollowMutationRefetch = (
+  variables:FollowMutationVariables, 
+  context?:any
+)=>({
+  query:FollowDocument,
+  variables,
+  context
+})
+      
+
 
 export interface UnfollowMutationOperation {
   operationName: 'unfollow'
@@ -231,3 +241,13 @@ export interface UnfollowMutationOperation {
   type: 'mutation'
 }
 export const UnfollowMutationName:UnfollowMutationOperation['operationName'] = 'unfollow'
+
+export const UnfollowMutationRefetch = (
+  variables:UnfollowMutationVariables, 
+  context?:any
+)=>({
+  query:UnfollowDocument,
+  variables,
+  context
+})
+      

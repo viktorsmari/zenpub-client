@@ -75,3 +75,13 @@ export interface UpdateCommunityMutationMutationOperation {
   type: 'mutation'
 }
 export const UpdateCommunityMutationMutationName:UpdateCommunityMutationMutationOperation['operationName'] = 'updateCommunityMutation'
+
+export const UpdateCommunityMutationMutationRefetch = (
+  variables:UpdateCommunityMutationMutationVariables, 
+  context?:any
+)=>({
+  query:UpdateCommunityMutationDocument,
+  variables,
+  context
+})
+      

@@ -51,3 +51,13 @@ export interface LogoutMutationMutationOperation {
   type: 'mutation'
 }
 export const LogoutMutationMutationName:LogoutMutationMutationOperation['operationName'] = 'logoutMutation'
+
+export const LogoutMutationMutationRefetch = (
+  variables:LogoutMutationMutationVariables, 
+  context?:any
+)=>({
+  query:LogoutMutationDocument,
+  variables,
+  context
+})
+      

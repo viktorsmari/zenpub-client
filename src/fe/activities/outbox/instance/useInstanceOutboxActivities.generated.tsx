@@ -98,3 +98,13 @@ export interface InstanceOutboxActivitiesQueryOperation {
   type: 'query'
 }
 export const InstanceOutboxActivitiesQueryName:InstanceOutboxActivitiesQueryOperation['operationName'] = 'instanceOutboxActivities'
+
+export const InstanceOutboxActivitiesQueryRefetch = (
+  variables:InstanceOutboxActivitiesQueryVariables, 
+  context?:any
+)=>({
+  query:InstanceOutboxActivitiesDocument,
+  variables,
+  context
+})
+      

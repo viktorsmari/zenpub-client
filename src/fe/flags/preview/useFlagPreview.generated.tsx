@@ -253,6 +253,16 @@ export interface FlagPreviewDataQueryOperation {
 }
 export const FlagPreviewDataQueryName:FlagPreviewDataQueryOperation['operationName'] = 'flagPreviewData'
 
+export const FlagPreviewDataQueryRefetch = (
+  variables:FlagPreviewDataQueryVariables, 
+  context?:any
+)=>({
+  query:FlagPreviewDataDocument,
+  variables,
+  context
+})
+      
+
 
 export interface DeleteFlagMutationOperation {
   operationName: 'deleteFlag'
@@ -261,6 +271,16 @@ export interface DeleteFlagMutationOperation {
   type: 'mutation'
 }
 export const DeleteFlagMutationName:DeleteFlagMutationOperation['operationName'] = 'deleteFlag'
+
+export const DeleteFlagMutationRefetch = (
+  variables:DeleteFlagMutationVariables, 
+  context?:any
+)=>({
+  query:DeleteFlagDocument,
+  variables,
+  context
+})
+      
 
 
 export interface DeleteFlagContextMutationOperation {
@@ -271,6 +291,16 @@ export interface DeleteFlagContextMutationOperation {
 }
 export const DeleteFlagContextMutationName:DeleteFlagContextMutationOperation['operationName'] = 'deleteFlagContext'
 
+export const DeleteFlagContextMutationRefetch = (
+  variables:DeleteFlagContextMutationVariables, 
+  context?:any
+)=>({
+  query:DeleteFlagContextDocument,
+  variables,
+  context
+})
+      
+
 
 export interface DeactivateFlaggedUserMutationOperation {
   operationName: 'deactivateFlaggedUser'
@@ -279,3 +309,13 @@ export interface DeactivateFlaggedUserMutationOperation {
   type: 'mutation'
 }
 export const DeactivateFlaggedUserMutationName:DeactivateFlaggedUserMutationOperation['operationName'] = 'deactivateFlaggedUser'
+
+export const DeactivateFlaggedUserMutationRefetch = (
+  variables:DeactivateFlaggedUserMutationVariables, 
+  context?:any
+)=>({
+  query:DeactivateFlaggedUserDocument,
+  variables,
+  context
+})
+      

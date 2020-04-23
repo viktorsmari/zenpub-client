@@ -36,7 +36,7 @@
 // import { useDynamicLinkOpResult } from '../../util/apollo/dynamicLink';
 // import { Wrapper, WrapperCont } from '../wrappers/Wrappers';
 // export enum HomePageTab {
-//   Activities = 1,
+//   Activities ,
 //   MyCommunities,
 //   MyCollections
 // }

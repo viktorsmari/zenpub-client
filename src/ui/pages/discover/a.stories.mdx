@@ -23,6 +23,7 @@ import {FeaturedCommunities} from 'ui/modules/FeaturedCommunities'
 import {FeaturedCollections} from 'ui/modules/FeaturedCollections'
 import {getFeaturedCommunitiesProps} from 'ui/mock/featuredCommunities'
 import {getFeaturedCollectionsProps} from 'ui/mock/featuredCollections'
+const Head = () => <MainHeader {...getMainHeaderProps() } />
 
 <Meta title="Pages|Discover" component={Discover}/>
 
@@ -33,7 +34,7 @@ Let's define a story for the `Discover` page
 <Preview>
   <Story name="Discover page">
     <WithSidebar 
-      HeaderBox={<MainHeader {...getMainHeaderProps() } />}
+      HeaderBox={Head}
       SidebarBox={<Sidebar {...getSidebarProps()}/>}>
         <Discover 
         basePath={"/"}

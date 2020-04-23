@@ -19,12 +19,10 @@ const HomePageRouter: FC<RouteComponentProps<HomePageRouter>> = ({ match }) => {
       ? HomePageTab.Activities
       : null;
 
-  const homeProps: HomePageHOC | null = useMemo(() => {
-    if (!tab) {
-      return null;
-    }
-    return { tab };
-  }, [tab]);
+  const homeProps: HomePageHOC | null = useMemo(
+    () => (tab === null ? null : { tab }),
+    [tab]
+  );
 
   if (!homeProps) {
     return <NotFound />;

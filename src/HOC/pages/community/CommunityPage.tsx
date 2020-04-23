@@ -15,9 +15,10 @@ import { Box } from 'rebass/styled-components';
 import { useHistory } from 'react-router-dom';
 import { useCommunityFollowers } from 'fe/user/followers/community/useCommunityFollowers';
 import { UserPreviewHOC } from 'HOC/modules/previews/user/UserPreview';
+import * as Yup from 'yup';
 
 export enum CommunityPageTab {
-  Activities = 1,
+  Activities,
   Collections,
   Discussions,
   Members
@@ -27,7 +28,11 @@ export interface CommunityPage {
   tab: CommunityPageTab;
   basePath: string;
 }
-
+const validationSchema = Yup.object().shape({
+  text: Yup.string()
+    .min(1)
+    .required()
+});
 export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
   const { community, createThread } = useCommunity(communityId);
   const { communityFollowersPage } = useCommunityFollowers(communityId);
@@ -37,10 +42,11 @@ export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
   const history = useHistory();
   const newThreadFormik = useFormik<{ text: string }>({
     initialValues: { text: '' },
+    validationSchema,
     onSubmit: ({ text }) =>
-      createThread(text).then(newThreadId =>
-        history.push(`/thread/${newThreadId}`)
-      )
+      createThread(text).then(newThreadId => {
+        history.push(`/thread/${newThreadId}`);
+      })
   });
 
   const communityPageProps = useMemo<CommunityProps | null>(() => {
