@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import {
   CollectionPageTab,
   CollectionPage
@@ -24,15 +24,23 @@ const CollectionPageRouter: FC<RouteComponentProps<CollectionPageRouter>> = ({
       : !maybeTabStr
       ? CollectionPageTab.Resources
       : null;
-  if (tab === null) {
+
+  const props = useMemo<CollectionPage | null>(
+    () =>
+      tab === null
+        ? null
+        : {
+            collectionId,
+            tab,
+            basePath: `/collections/${collectionId}`
+          },
+    [collectionId, tab]
+  );
+
+  if (!props) {
     return <NotFound />;
   }
 
-  const props: CollectionPage = {
-    collectionId,
-    tab,
-    basePath: `/collections/${collectionId}`
-  };
   return (
     <WithSidebarTemplate>
       <CollectionPage {...props} />
