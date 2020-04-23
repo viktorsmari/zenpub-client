@@ -1,6 +1,7 @@
 import React from 'react';
 import { Props } from 'ui/modules/MainHeader';
 import { Input } from '@rebass/forms';
+import Modal from 'ui/modules/Modal';
 
 export const getMainHeaderProps = (): Props => {
   return {
@@ -12,6 +13,9 @@ export const getMainHeaderProps = (): Props => {
       logout: () => console.log(false)
     },
     toggleSideBar: () => {},
-    Search: <Input placeholder="Search..." />
+    Search: <Input placeholder="Search..." />,
+    CreateCommunityModal: ({ done }) => (
+      <Modal closeModal={done}>Community creation modal</Modal>
+    )
   };
 };
