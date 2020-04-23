@@ -1,19 +1,21 @@
 import * as React from 'react';
-import { Settings, User, Power } from 'react-feather';
+import { Settings, User, Power, Users } from 'react-feather';
 import styled from '../../themes/styled';
 import { Trans } from '@lingui/macro';
 import { useHistory } from 'react-router';
-import { Text } from 'rebass/styled-components';
+import { Text, Flex } from 'rebass/styled-components';
 import { Dropdown } from '../Dropdown';
+import { related_urls } from 'mn-constants';
 
 const List = styled.div<{ lined?: boolean }>`
   padding: 8px;
   border-bottom: ${props => (props.lined ? '1px solid #dadada' : null)};
 `;
-const Item = styled(Text)`
+const Item = styled(Flex)`
   line-height: 50px;
   height: 50px;
   cursor: pointer;
+  align-items: center;
   & span {
     display: inline-block;
     margin-right: 8px;
@@ -38,12 +40,14 @@ export interface Props {
   logout(): void;
   setOpenDropdown: any;
   userLink: string;
+  createCommunity: any;
 }
 
 export const DropdownSidebar: React.FC<Props> = ({
   logout,
   userLink,
-  setOpenDropdown
+  setOpenDropdown,
+  createCommunity
 }) => {
   const { push } = useHistory();
   return (
@@ -53,27 +57,36 @@ export const DropdownSidebar: React.FC<Props> = ({
           <span>
             <User size={18} color={'#333'} />
           </span>
-          <Trans>Profile</Trans>
+          <Text>
+            <Trans>Profile</Trans>
+          </Text>
+        </Item>
+        <Item variant="link" onClick={() => createCommunity()}>
+          <span>
+            <Users size={18} color={'#333'} />
+          </span>
+          <Text>
+            <Trans>New Community</Trans>
+          </Text>
         </Item>
         <Item variant="link" onClick={() => push('/settings')}>
           <span>
             <Settings size={18} color={'#333'} />
           </span>
-          <Trans>Settings</Trans>
+          <Text>
+            <Trans>Settings</Trans>
+          </Text>
         </Item>
       </List>
       <List lined>
         <Item variant="link">
-          <a
-            href="https://docs.moodle.org/dev/MoodleNet/Code_of_Conduct"
-            target="blank"
-          >
+          <a href={related_urls.terms_users} target="blank">
             <Trans>Code of Conduct</Trans>
           </a>
         </Item>
 
         <Item variant="link">
-          <a href="https://changemap.co/moodle/moodlenet/" target="blank">
+          <a href={related_urls.feedback} target="blank">
             <Trans>Feedback &amp; Suggestions</Trans>
           </a>
         </Item>

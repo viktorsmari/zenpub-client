@@ -2,9 +2,10 @@ import { Trans } from '@lingui/macro';
 import * as React from 'react';
 import { Heading } from 'rebass/styled-components';
 import styled from 'ui/themes/styled';
+import { WrapperPanel } from 'ui/elements/Panel';
 
 const Wrapper = styled.div`
-  width: 100%;
+  width: 600px;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -14,10 +15,13 @@ const Wrapper = styled.div`
 
 export const NotFound = () => {
   return (
-    <Wrapper>
-      <Heading>
-        <Trans>Page not found</Trans>
-      </Heading>
-    </Wrapper>
+    <>
+      <Wrapper>
+        <Heading>
+          <Trans>Page not found</Trans>
+        </Heading>
+      </Wrapper>
+      <WrapperPanel />
+    </>
   );
 };

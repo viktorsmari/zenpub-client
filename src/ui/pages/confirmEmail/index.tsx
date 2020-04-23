@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box } from 'rebass/styled-components';
+import { Box, Text } from 'rebass/styled-components';
 import styled from '../../themes/styled';
 import { logo_large_url } from 'mn-constants';
 
@@ -28,17 +28,17 @@ const Container = styled.div`
 
 const Logo = styled.div`
   background: url(${logo_large_url});
-  width: 159px;
+  width: 300px;
   display: block;
-  height: 30px;
-  background-size: cover;
+  height: 100px;
   margin: 0 auto;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
-const FormWrapper = styled.div`
-  grid-area: form;
-`;
+const FormWrapper = styled(Box)``;
 
 export interface Props {
   result:
@@ -65,13 +65,17 @@ const ConfirmEmail: React.FC<Props> = ({ result }) => {
       <LoginWrapper>
         <FormWrapper>
           <Logo />
-          <Box>
+          <Box sx={{ textAlign: 'center' }}>
             {!result ? (
-              <div>Checking ...</div>
+              <Text variant="text">Checking ...</Text>
             ) : result.error === null ? (
-              <div>Email confirmed, Welcome: {result.username}</div>
+              <Text variant="text">
+                Email confirmed, Welcome: {result.username}
+              </Text>
             ) : (
-              <div>Error in email confirmation: {result.error}</div>
+              <Text variant="text">
+                Error in email confirmation: {result.error}
+              </Text>
             )}
           </Box>
         </FormWrapper>

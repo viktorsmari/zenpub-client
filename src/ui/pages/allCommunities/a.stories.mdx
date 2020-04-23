@@ -8,6 +8,12 @@ import { useFormik } from 'formik';
 import {getLoadMoreProps} from 'ui/mock/loadmore'
 import {CommunityPreviewProps} from 'ui/mock/previews'
 
+import {WithSidebar} from 'ui/templates/withSidebar'
+import {MainHeader} from 'ui/modules/MainHeader'
+import {Sidebar} from 'ui/modules/Sidebar'
+import {getSidebarProps} from 'ui/mock/sidebar'
+import {getMainHeaderProps} from 'ui/mock/mainHeader'
+
 <Meta title="Pages|AllCommunities" component={AllCommunities}/>
 
 
@@ -16,7 +22,9 @@ Let's define a story for the `AllCommunities` page
 
 <Preview>
   <Story name="AllCommunities page">
-    <Box sx={{margin: "0 auto", width: "fit-content"}}>
+    <WithSidebar 
+      HeaderBox={<MainHeader {...getMainHeaderProps() } />}
+      SidebarBox={<Sidebar {...getSidebarProps()}/>}>
         <AllCommunities 
         Header={(<Header name="All Communities" />)}
         CommunitiesBoxes={[
@@ -31,7 +39,7 @@ Let's define a story for the `AllCommunities` page
         {...getLoadMoreProps()}
         basePath="/"
         />
-    </Box>
+    </WithSidebar>
   </Story>
 </Preview>
 

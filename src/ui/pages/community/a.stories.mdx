@@ -34,6 +34,7 @@ Let's define a story for the `community` page
       HeaderBox={<MainHeader {...getMainHeaderProps() } />}
       SidebarBox={<Sidebar {...getSidebarProps()}/>}>
       <Community {...{
+        isJoined: true,
         communityName: "Community test name",
         newThreadFormik: ToggleFormik(),
         ActivitiesBox: <React.Fragment>
@@ -46,22 +47,22 @@ Let's define a story for the `community` page
           <ActivityPreview {...activityPreviewProps('Created a comment', <Comment {...CommentPreviewProps() }/>)} />
         </React.Fragment>,
         CollectionsBox: <React.Fragment>
-          <Box mb={2}><Collection {...CollectionPreviewProps()} /></Box>
-          <Box mb={2}><Collection {...CollectionPreviewProps()} /></Box>
-          <Box mb={2}><Collection {...CollectionPreviewProps()} /></Box>
-          <Box mb={2}><Collection {...CollectionPreviewProps()} /></Box>
-          <Box mb={2}><Collection {...CollectionPreviewProps()} /></Box>
-          <Box mb={2}><Collection {...CollectionPreviewProps()} /></Box>
+          <Box sx={{marginBottom: 0}}><Collection {...CollectionPreviewProps()} /></Box>
+          <Box sx={{marginBottom: 0}}><Collection {...CollectionPreviewProps()} /></Box>
+          <Box sx={{marginBottom: 0}}><Collection {...CollectionPreviewProps()} /></Box>
+          <Box sx={{marginBottom: 0}}><Collection {...CollectionPreviewProps()} /></Box>
+          <Box sx={{marginBottom: 0}}><Collection {...CollectionPreviewProps()} /></Box>
+          <Box sx={{marginBottom: 0}}><Collection {...CollectionPreviewProps()} /></Box>
         </React.Fragment>,
         HeroCommunityBox: (<HeroCommunity {...getHeroCommunityProps()}/>),
         basePath:"/",
         ThreadsBox: <React.Fragment>
-          <Box mb={2}><Thread {...ThreadPreviewProps()}/></Box>
-          <Box mb={2}><Thread {...ThreadPreviewProps()}/></Box>
-          <Box mb={2}><Thread {...ThreadPreviewProps()}/></Box>
-          <Box mb={2}><Thread {...ThreadPreviewProps()}/></Box>
-          <Box mb={2}><Thread {...ThreadPreviewProps()}/></Box>
-          <Box mb={2}><Thread {...ThreadPreviewProps()}/></Box>
+          <Box mx={2} mb={2}><Thread {...ThreadPreviewProps()}/></Box>
+          <Box mx={2} mb={2}><Thread {...ThreadPreviewProps()}/></Box>
+          <Box mx={2} mb={2}><Thread {...ThreadPreviewProps()}/></Box>
+          <Box mx={2} mb={2}><Thread {...ThreadPreviewProps()}/></Box>
+          <Box mx={2} mb={2}><Thread {...ThreadPreviewProps()}/></Box>
+          <Box mx={2} mb={2}><Thread {...ThreadPreviewProps()}/></Box>
         </React.Fragment>
     }} />
     </WithSidebar>

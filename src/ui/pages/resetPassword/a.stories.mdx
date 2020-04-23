@@ -2,7 +2,7 @@ import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
 import ResetPassword from '.';
 import {Box} from 'rebass'
 import {getResetPasswordProps} from 'ui/mock/context'
-import {WithoutSidebar} from 'ui/templates/withoutSidebar'
+import {Guest} from 'ui/templates/guest'
 
 <Meta title="Pages|ResetPassword" component={ResetPassword}/>
 
@@ -12,8 +12,8 @@ Let's define a story for the `Reset Password` page
 
 <Preview>
   <Story name="ResetPassword page">
-    <WithoutSidebar>
+    <Guest>
       <ResetPassword {...getResetPasswordProps()} />
-    </WithoutSidebar>
+    </Guest>
   </Story>
 </Preview>
