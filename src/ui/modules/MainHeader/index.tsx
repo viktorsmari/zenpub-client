@@ -11,7 +11,8 @@ import media from 'styled-media-query';
 import { ellipsis } from 'polished';
 import { Link } from 'react-router-dom';
 import { Trans } from '@lingui/react';
-const MnetLogo = require('./moodle-logo.png');
+// const MnetLogo = require('static/img/logo-icon.png');
+import { prompt_signin, logo_small_url } from 'mn-constants';
 
 export interface Props {
   user: null | {
@@ -22,13 +23,14 @@ export interface Props {
   };
   Search: JSX.Element;
   toggleSideBar(): unknown;
+  CreateCommunityModal: JSX.Element;
 }
 
 export const MainHeader: React.FC<Props> = props => {
   const history = useHistory();
   const [isOpenDropdown, setOpenDropdown] = React.useState(false);
+  const [isOpenCreateCommunity, createCommunity] = React.useState(false);
   const openMenu = React.useCallback(() => setOpenDropdown(true), []);
-  // console.log(history);
   return (
     <HeaderWrapper>
       <FlexWrapper>
@@ -40,7 +42,7 @@ export const MainHeader: React.FC<Props> = props => {
             <Menu size="20" />
           </HamburgerIcon>
           <HomeLink to="/">
-            <Avatar size="s" src={MnetLogo} />
+            <Avatar size="s" src={logo_small_url} />
           </HomeLink>
         </Left>
         <Center>{props.Search}</Center>
@@ -65,6 +67,7 @@ export const MainHeader: React.FC<Props> = props => {
               </Right>
               {isOpenDropdown && (
                 <DropdownSidebar
+                  createCommunity={createCommunity}
                   logout={props.user.logout}
                   userLink={props.user.link}
                   setOpenDropdown={setOpenDropdown}
@@ -76,7 +79,7 @@ export const MainHeader: React.FC<Props> = props => {
               <NavItem>
                 <Link to="/">
                   <Text variant="link">
-                    <Trans>Sign in</Trans>
+                    <Trans>{prompt_signin}</Trans>
                   </Text>
                 </Link>
               </NavItem>
@@ -91,6 +94,7 @@ export const MainHeader: React.FC<Props> = props => {
           )}
         </Header>
       </FlexWrapper>
+      {isOpenCreateCommunity && props.CreateCommunityModal}
     </HeaderWrapper>
   );
 };

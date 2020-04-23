@@ -9,7 +9,8 @@ import media from 'styled-media-query';
 import styled from '../../themes/styled';
 // import Dropdown from "./dropdown";
 import Avatar from 'ui/elements/Avatar';
-const MnetLogo = require('static/img/logo-icon.png');
+import { my_timeline, logo_small_url } from '../../../mn-constants';
+// const MnetLogo = require('static/img/logo-icon.png');
 
 export enum Status {
   Loading,
@@ -219,9 +220,9 @@ export const Sidebar: React.FC<Props> = props => {
                       </SidebarLink>
                       <SidebarLink exact to={'/'}>
                         <NavItem alignItems={'center'}>
-                          <Avatar size="s" src={MnetLogo} />
+                          <Avatar size="s" src={logo_small_url} />
                           <ItemTitleDir variant="link">
-                            <Trans>My MoodleNet</Trans>
+                            {my_timeline}
                           </ItemTitleDir>
                         </NavItem>
                       </SidebarLink>

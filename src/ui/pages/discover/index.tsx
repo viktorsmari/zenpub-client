@@ -121,7 +121,7 @@ const WrapperFeatured = styled(Flex)`
   flex: 1;
   background: white;
   border-radius: 8px;
-  max-height: 200px;
+  max-height: 270px;
 `;
 
 export const HomeBox = styled(Flex)`

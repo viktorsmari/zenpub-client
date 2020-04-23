@@ -80,7 +80,7 @@ const LoginWrapper = styled.div`
   input {
     height: 50px;
     color: inherit;
-    background-color: transparent;
+    background-color: white;
     border-radius: 4px;
     border: 1px solid #dadada;
   }
@@ -102,12 +102,14 @@ const Container = styled.div`
 
 const Logo = styled.div`
   background: url(${logo_large_url});
-  width: 159px;
+  width: 300px;
   display: block;
-  height: 30px;
-  background-size: cover;
   margin: 0 auto;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
+  height: 100px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const FormWrapper = styled.div`
