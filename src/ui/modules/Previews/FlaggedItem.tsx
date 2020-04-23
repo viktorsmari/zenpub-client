@@ -93,9 +93,9 @@ export const FlaggedItem: React.SFC<FlaggedProps> = ({
               <ConfirmationModal
                 cancel={() => setOpenDelete(false)}
                 formik={deleteContentFormik}
-                modalAction="**modalAction**" //FIXME
-                modalDescription="**modalDescription**" //FIXME
-                modalTitle="**modalTitle**" //FIXME
+                modalAction="Delete"
+                modalDescription={`Are you sure you want to delete this ${type}`}
+                modalTitle={`Delete ${type}`}
               />
             </Modal>
           )}
@@ -104,9 +104,9 @@ export const FlaggedItem: React.SFC<FlaggedProps> = ({
               <ConfirmationModal
                 cancel={() => setOpenBlock(false)}
                 formik={blockUserFormik}
-                modalAction="**modalAction**" //FIXME
-                modalDescription="**modalDescription**" //FIXME
-                modalTitle="**modalTitle**" //FIXME
+                modalAction="Block"
+                modalDescription="Are you sure you want to block the user on this instance?"
+                modalTitle="Block User"
               />
             </Modal>
           )}
@@ -115,9 +115,9 @@ export const FlaggedItem: React.SFC<FlaggedProps> = ({
               <ConfirmationModal
                 cancel={() => setOpenIgnore(false)}
                 formik={ignoreFlagFormik}
-                modalAction="**modalAction**" //FIXME
-                modalDescription="**modalDescription**" //FIXME
-                modalTitle="**modalTitle**" //FIXME
+                modalAction="Delete"
+                modalDescription={`Are you sure you want to delete the flag for this ${type}`}
+                modalTitle="Ignore Flag"
               />
             </Modal>
           )}

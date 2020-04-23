@@ -183,21 +183,21 @@ export interface CommunityPreview {
 
 interface SidebarLoaded {
   status: Status.Loaded;
+  isOpenSidebar?: boolean;
   communities: CommunityPreview[];
 }
 
 export interface SidebarLoading {
   status: Status.Loading;
+  isOpenSidebar?: boolean;
 }
 
 export type Props = SidebarLoaded | SidebarLoading;
 
 export const Sidebar: React.FC<Props> = props => {
-  const [isOpenSidebar] = React.useState(true);
-  // const openMenu = React.useCallback(() => setOpenDropdown(true), []);
   return (
     <>
-      {isOpenSidebar ? (
+      {props.isOpenSidebar ? (
         <SidebarComponent>
           <InternalWrapper>
             <SidebarFixed>
