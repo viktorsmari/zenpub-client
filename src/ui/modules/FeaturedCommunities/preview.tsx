@@ -54,7 +54,7 @@ const Wrapper = styled(Box)`
   cursor: pointer;
   position: relative;
   max-width: 200px;
-  max-height: 200px;
+  max-height: 270px;
   border-radius: 4px;
   padding-top: 10px;
   ${media.lessThan('medium')`

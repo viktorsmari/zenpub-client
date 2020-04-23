@@ -10,18 +10,18 @@ import { Box, Flex } from 'rebass';
 import Button from 'ui/elements/Button';
 import Modal from 'ui/modules/Modal';
 
-export const Title = styled.div`
+export const Title = styled(Flex)`
   font-size: 15px;
   font-weight: 700;
   padding: 8px;
   border-bottom: 1px solid ${props => props.theme.colors.lightgray};
   margin: 0;
-  margin-bottom: 8px;
   color: ${props => props.theme.colors.darkgray};
   & h5 {
     margin: 0;
     color: ${props => props.theme.colors.darkgray};
     display: inline-block;
+    flex: 1;
     padding: 0;
     font-size: 12px;
     text-transform: uppercase;
@@ -31,7 +31,7 @@ export const Title = styled.div`
   }
 `;
 
-export const RightContext = styled.div`
+export const RightContext = styled(Flex)`
   & span {
     cursor: pointer;
     display: inline-block;
@@ -48,11 +48,6 @@ export const RightContext = styled.div`
     }
   }
   float: right;
-
-  // .--rtl & {
-  //   flex-direction: row-reverse;
-  //   float: left;
-  // }
 `;
 
 const ActionContainer = styled(Flex)`
@@ -65,7 +60,10 @@ const ActionItem = styled(Flex)`
   color: ${props => props.theme.colors.gray};
   cursor: pointer;
   padding-right: 10px;
-
+  button {
+    height: 30px;
+    line-height: 10px;
+  }
   &:hover {
     svg.hover {
       stroke: ${props => props.theme.colors.orange};
@@ -98,6 +96,21 @@ export const FeaturedCollections: SFC<FeaturedCollectionsData> = props => {
         </h5>
 
         <RightContext>
+          {props.isAdmin ? (
+            <ActionContainer>
+              <ActionItem onClick={() => setEditing(!isEditing)}>
+                {!isEditing ? (
+                  <Button variant={'outline'}>
+                    <Trans>Edit</Trans>
+                  </Button>
+                ) : (
+                  <Button variant={'outline'}>
+                    <Trans>Done</Trans>
+                  </Button>
+                )}
+              </ActionItem>
+            </ActionContainer>
+          ) : null}
           <span onClick={sliderRef.current && sliderRef.current.slickPrev}>
             <ChevronLeft
               width={26}
@@ -111,7 +124,7 @@ export const FeaturedCollections: SFC<FeaturedCollectionsData> = props => {
           </span>
         </RightContext>
       </Title>
-      <Box p={2}>
+      <Box px={2}>
         <Slider
           ref={c => (sliderRef.current = c || undefined)}
           {...sliderSettings}
@@ -127,21 +140,6 @@ export const FeaturedCollections: SFC<FeaturedCollectionsData> = props => {
             </div>
           ))}
         </Slider>
-        {props.isAdmin ? (
-          <ActionContainer>
-            <ActionItem onClick={() => setEditing(!isEditing)}>
-              {!isEditing ? (
-                <Button variant={'outline'}>
-                  <Trans>Edit</Trans>
-                </Button>
-              ) : (
-                <Button variant={'outline'}>
-                  <Trans>Done</Trans>
-                </Button>
-              )}
-            </ActionItem>
-          </ActionContainer>
-        ) : null}
       </Box>
       {selectedCollectionForModal && props.isAdmin && (
         <Modal closeModal={() => setSelectedCollectionForModal(null)}>

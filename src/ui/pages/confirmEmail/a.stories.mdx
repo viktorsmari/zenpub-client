@@ -1,19 +1,19 @@
 import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
-import Login from '.';
+import Confirm from '.';
 import {Box} from 'rebass'
 import {getLoginProps} from 'ui/mock/context'
 import {Guest} from 'ui/templates/guest'
 
-<Meta title="Pages|Login" component={Login}/>
+<Meta title="Pages|Confirm Email" component={Confirm}/>
 
 
-# Login
-Let's define a story for the `Login` page
+# Confirm Email
+Let's define a story for the `Confirm` page
 
 <Preview>
-  <Story name="Login page">
+  <Story name="Confirm email page">
     <Guest>
-      <Login {...getLoginProps()} />
+      <Confirm result={{username:"Ivan Minutillo", error: null}}  />
     </Guest>
   </Story>
 </Preview>

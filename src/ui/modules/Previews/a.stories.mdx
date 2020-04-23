@@ -20,7 +20,7 @@ CollectionPreviewProps,
 CommentPreviewProps,
 MainCommentPreviewProps,
 LikedCommentPreviewProps,
-FlaggedItemPreviewProps,
+// FlaggedItemPreviewProps,
 ThreadPreviewProps
  } from 'ui/mock/previews'
 
@@ -194,25 +194,6 @@ Let's define a story for the `Liked Comment preview` module
         p={2}
       >
     <LikedComment {...LikedCommentPreviewProps()} />
-    </Box>
-  </Story>
-</Preview> 
-
-# Flagged Item
-Let's define a story for the `Flagged Item preview` module
-
-<Preview>
-  <Story name="Flagged Item preview module">
-     <Box
-        sx={{
-          borderRadius: '6px',
-          background: '#fff',
-          width: '600px',
-          margin: '0 auto'
-        }}
-        p={2}
-      >
-    <FlaggedItem {...FlaggedItemPreviewProps(<Comment {...CommentPreviewProps()} />, "Comment" )} />
     </Box>
   </Story>
 </Preview> 

@@ -38,9 +38,9 @@ export const Thread: React.FC<Props> = ({
                 icon={communityIcon}
               />
               {!isCommunityContext && <Box p={2}>{Context}</Box>}
-              {MainThread}
+              <MainThreadContainer p={3}>{MainThread}</MainThreadContainer>
             </Box>
-            {Comments}
+            <CommentsWrapper>{Comments}</CommentsWrapper>
           </Wrapper>
         </WrapperCont>
       </HomeBox>
@@ -69,6 +69,16 @@ const HeaderWrapper: React.FC<{ id: string; name: string; icon: string }> = ({
     </>
   );
 };
+
+const CommentsWrapper = styled(Box)`
+  div:last-of-type {
+    border-bottom: none;
+  }
+`;
+
+const MainThreadContainer = styled(Box)`
+  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+`;
 
 const LinkImg = styled(Box)`
   margin-right: 8px;

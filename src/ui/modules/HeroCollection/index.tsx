@@ -13,6 +13,7 @@ import Button from 'ui/elements/Button';
 import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
 import { Settings, MoreVertical, Flag as FlagIcon, Star } from 'react-feather';
 import { FormikHook } from 'ui/@types/types';
+import DOMPurify from 'dompurify';
 
 export enum Status {
   Loading,
@@ -77,10 +78,11 @@ export const HeroCollection: FC<Props> = ({ collection: c }) => {
           <Username mt={1} fontSize={2}>
             +{c.fullName}
           </Username>
-
-          <Description fontSize={2} mt={2}>
-            {c.summary}
-          </Description>
+          <Description
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(c.summary) }}
+            fontSize={2}
+            mt={2}
+          />
           <CountWrapper>
             <CountTot to={`${c.basePath}/followers`}>
               <Text variant="suptitle">

@@ -46,9 +46,9 @@ export const CreateCollectionPanelHOC: FC<Props> = ({
         icon: vals.icon
       })
         .then(
-          createdCollectionId =>
-            createdCollectionId &&
-            history.push(`/collections/${createdCollectionId}`)
+          res =>
+            res?.data?.createCollection?.id &&
+            history.push(`/collections/${res.data.createCollection.id}`)
         )
         .catch(err => console.log(err));
     },

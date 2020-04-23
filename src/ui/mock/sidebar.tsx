@@ -3,6 +3,7 @@ import { Props, Status } from 'ui/modules/Sidebar';
 export const getSidebarProps = (): Props => {
   return {
     status: Status.Loaded,
+    isOpenSidebar: true,
     communities: [
       {
         link: {

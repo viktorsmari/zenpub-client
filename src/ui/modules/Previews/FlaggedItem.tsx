@@ -7,6 +7,7 @@ import { Trans } from '@lingui/react';
 import Modal from 'ui/modules/Modal';
 import { FormikHook } from 'ui/@types/types';
 import ConfirmationModal from '../ConfirmationModal';
+import { LocaleContext } from 'context/global/localizationCtx';
 
 export interface FlaggedProps {
   FlaggedItemContextElement: JSX.Element;
@@ -28,6 +29,7 @@ export const FlaggedItem: React.SFC<FlaggedProps> = ({
   const [isOpenDelete, setOpenDelete] = React.useState(false);
   const [isOpenBlock, setOpenBlock] = React.useState(false);
   const [isOpenIgnore, setOpenIgnore] = React.useState(false);
+  const { i18n } = React.useContext(LocaleContext);
 
   return (
     <Wrapper>
@@ -93,9 +95,11 @@ export const FlaggedItem: React.SFC<FlaggedProps> = ({
               <ConfirmationModal
                 cancel={() => setOpenDelete(false)}
                 formik={deleteContentFormik}
-                modalAction="Delete"
-                modalDescription={`Are you sure you want to delete this ${type}`}
-                modalTitle={`Delete ${type}`}
+                modalAction={i18n._(`Delete flagged content`)}
+                modalDescription={i18n._(
+                  `Are you sure you want to permanently delete this ${type} content?`
+                )}
+                modalTitle={i18n._(`Delete`)}
               />
             </Modal>
           )}
@@ -104,9 +108,11 @@ export const FlaggedItem: React.SFC<FlaggedProps> = ({
               <ConfirmationModal
                 cancel={() => setOpenBlock(false)}
                 formik={blockUserFormik}
-                modalAction="Block"
-                modalDescription="Are you sure you want to block the user on this instance?"
-                modalTitle="Block User"
+                modalAction={i18n._(`Delete user`)}
+                modalDescription={i18n._(
+                  `Are you sure you want to permanently delete this user?`
+                )}
+                modalTitle={i18n._(`Delete`)}
               />
             </Modal>
           )}
@@ -115,9 +121,11 @@ export const FlaggedItem: React.SFC<FlaggedProps> = ({
               <ConfirmationModal
                 cancel={() => setOpenIgnore(false)}
                 formik={ignoreFlagFormik}
-                modalAction="Delete"
-                modalDescription={`Are you sure you want to delete the flag for this ${type}`}
-                modalTitle="Ignore Flag"
+                modalAction={i18n._(`Ignore flag`)}
+                modalDescription={i18n._(
+                  `Are you sure you want to ignore and delete this flag?`
+                )}
+                modalTitle={i18n._(`Ignore`)}
               />
             </Modal>
           )}
