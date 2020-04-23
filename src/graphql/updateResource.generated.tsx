@@ -97,3 +97,13 @@ export interface UpdateResourceMutationMutationOperation {
   type: 'mutation'
 }
 export const UpdateResourceMutationMutationName:UpdateResourceMutationMutationOperation['operationName'] = 'updateResourceMutation'
+
+export const UpdateResourceMutationMutationRefetch = (
+  variables:UpdateResourceMutationMutationVariables, 
+  context?:any
+)=>({
+  query:UpdateResourceMutationDocument,
+  variables,
+  context
+})
+      

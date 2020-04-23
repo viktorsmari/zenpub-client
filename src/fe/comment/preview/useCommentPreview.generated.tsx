@@ -65,3 +65,13 @@ export interface CommentPreviewQueryOperation {
   type: 'query'
 }
 export const CommentPreviewQueryName:CommentPreviewQueryOperation['operationName'] = 'commentPreview'
+
+export const CommentPreviewQueryRefetch = (
+  variables:CommentPreviewQueryVariables, 
+  context?:any
+)=>({
+  query:CommentPreviewDocument,
+  variables,
+  context
+})
+      

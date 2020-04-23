@@ -1,6 +1,6 @@
 import { SettingsPage, SettingsPageTab } from 'HOC/pages/settings/SettingsPage';
 import { NotFound } from 'ui/pages/notFound';
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
 import { WithoutSidebarTemplate } from 'HOC/templates/WithoutSidebar/WithoutSidebar';
 import { RedirectAnonymousToLogin } from './wrappers/RedirectBySession';
@@ -26,14 +26,21 @@ const SettingsPageRouter: FC<RouteComponentProps<SettingsPageRouter>> = ({
       : !maybeTabStr
       ? SettingsPageTab.General
       : null;
-  if (tab === null) {
+
+  const props = useMemo<SettingsPage | null>(
+    () =>
+      tab === null
+        ? null
+        : {
+            tab,
+            basePath: `/settings`
+          },
+    [tab]
+  );
+
+  if (!props) {
     return <NotFound />;
   }
-
-  const props: SettingsPage = {
-    tab,
-    basePath: `/settings`
-  };
 
   return (
     <RedirectAnonymousToLogin>

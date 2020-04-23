@@ -65,3 +65,13 @@ export interface CollectionPreviewQueryOperation {
   type: 'query'
 }
 export const CollectionPreviewQueryName:CollectionPreviewQueryOperation['operationName'] = 'collectionPreview'
+
+export const CollectionPreviewQueryRefetch = (
+  variables:CollectionPreviewQueryVariables, 
+  context?:any
+)=>({
+  query:CollectionPreviewDocument,
+  variables,
+  context
+})
+      

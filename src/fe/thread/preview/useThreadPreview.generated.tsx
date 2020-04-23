@@ -65,3 +65,13 @@ export interface ThreadPreviewQueryOperation {
   type: 'query'
 }
 export const ThreadPreviewQueryName:ThreadPreviewQueryOperation['operationName'] = 'threadPreview'
+
+export const ThreadPreviewQueryRefetch = (
+  variables:ThreadPreviewQueryVariables, 
+  context?:any
+)=>({
+  query:ThreadPreviewDocument,
+  variables,
+  context
+})
+      

@@ -9,7 +9,7 @@ import { FormikHook } from 'ui/@types/types';
 import media from 'styled-media-query';
 
 export enum HomePageTab {
-  Activities = 1,
+  Activities,
   MyCommunities,
   MyCollections
 }

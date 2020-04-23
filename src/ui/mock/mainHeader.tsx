@@ -12,7 +12,7 @@ export const getMainHeaderProps = (): Props => {
       link: '/',
       logout: () => console.log(false)
     },
-    toggleSideBar: () => {},
+    toggleSideBar: () => console.log(true),
     Search: <Input placeholder="Search..." />,
     CreateCommunityModal: ({ done }) => (
       <Modal closeModal={done}>Community creation modal</Modal>

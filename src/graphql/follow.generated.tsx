@@ -59,3 +59,13 @@ export interface FollowMutationMutationOperation {
   type: 'mutation'
 }
 export const FollowMutationMutationName:FollowMutationMutationOperation['operationName'] = 'followMutation'
+
+export const FollowMutationMutationRefetch = (
+  variables:FollowMutationMutationVariables, 
+  context?:any
+)=>({
+  query:FollowMutationDocument,
+  variables,
+  context
+})
+      

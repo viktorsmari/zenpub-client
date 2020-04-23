@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { ThreadPage } from 'HOC/pages/thread/ThreadPage';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
 import { WithSidebarTemplate } from 'HOC/templates/WithSidebar/WithSidebar';
@@ -11,9 +11,13 @@ const ThreadPageRouter: FC<RouteComponentProps<ThreadPageRouter>> = ({
 }) => {
   const threadId = match.params.threadId;
 
-  const props: ThreadPage = {
-    threadId
-  };
+  const props = useMemo<ThreadPage>(
+    () => ({
+      threadId
+    }),
+    []
+  );
+
   return (
     <WithSidebarTemplate>
       <ThreadPage {...props} />

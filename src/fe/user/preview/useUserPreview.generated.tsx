@@ -65,3 +65,13 @@ export interface UserPreviewQueryOperation {
   type: 'query'
 }
 export const UserPreviewQueryName:UserPreviewQueryOperation['operationName'] = 'userPreview'
+
+export const UserPreviewQueryRefetch = (
+  variables:UserPreviewQueryVariables, 
+  context?:any
+)=>({
+  query:UserPreviewDocument,
+  variables,
+  context
+})
+      

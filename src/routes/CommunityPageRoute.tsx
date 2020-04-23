@@ -28,14 +28,14 @@ const CommunityPageRouter: FC<RouteComponentProps<CommunityPageRouter>> = ({
       : null;
 
   const props = useMemo<CommunityPage | null>(() => {
-    return (
-      tab && {
-        communityId,
-        tab,
-        basePath: `/communities/${communityId}`
-      }
-    );
-  }, [tab]);
+    return tab === null
+      ? null
+      : {
+          communityId,
+          tab,
+          basePath: `/communities/${communityId}`
+        };
+  }, [tab, communityId]);
 
   if (props === null) {
     return <NotFound />;

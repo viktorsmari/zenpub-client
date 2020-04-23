@@ -23,12 +23,12 @@ const DiscoverPageRouter: FC<RouteComponentProps<DiscoverPageRouter>> = ({
       ? DiscoverPageTabs.Activities
       : null;
   const props = useMemo<DiscoverPage | null>(() => {
-    return (
-      tab && {
-        basePath: '/discover',
-        tab
-      }
-    );
+    return tab === null
+      ? null
+      : {
+          basePath: '/discover',
+          tab
+        };
   }, [tab]);
   if (!props) {
     return <NotFound />;

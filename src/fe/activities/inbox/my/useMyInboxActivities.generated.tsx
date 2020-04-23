@@ -105,3 +105,13 @@ export interface MyInboxActivitiesQueryOperation {
   type: 'query'
 }
 export const MyInboxActivitiesQueryName:MyInboxActivitiesQueryOperation['operationName'] = 'myInboxActivities'
+
+export const MyInboxActivitiesQueryRefetch = (
+  variables:MyInboxActivitiesQueryVariables, 
+  context?:any
+)=>({
+  query:MyInboxActivitiesDocument,
+  variables,
+  context
+})
+      

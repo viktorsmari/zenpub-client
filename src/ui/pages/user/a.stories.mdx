@@ -20,6 +20,7 @@ import {LikedComment} from 'ui/modules/Previews/LikedComment'
 import {WithSidebar} from 'ui/templates/withSidebar'
 import {MainHeader} from 'ui/modules/MainHeader'
 import {Sidebar} from 'ui/modules/Sidebar'
+const Head = () => <MainHeader {...getMainHeaderProps() } />
 
 
 <Meta title="Pages|User" component={User}/>
@@ -31,7 +32,7 @@ Let's define a story for the `User` page
 <Preview>
   <Story name="User page">
     <WithSidebar 
-      HeaderBox={<MainHeader {...getMainHeaderProps() } />}
+      HeaderBox={Head}
       SidebarBox={<Sidebar {...getSidebarProps()}/>}>
         <User 
         totalCommunities={"23"}

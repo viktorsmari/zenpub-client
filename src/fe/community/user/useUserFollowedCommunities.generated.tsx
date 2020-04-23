@@ -111,3 +111,13 @@ export interface UserFollowedCommunitiesQueryOperation {
   type: 'query'
 }
 export const UserFollowedCommunitiesQueryName:UserFollowedCommunitiesQueryOperation['operationName'] = 'userFollowedCommunities'
+
+export const UserFollowedCommunitiesQueryRefetch = (
+  variables:UserFollowedCommunitiesQueryVariables, 
+  context?:any
+)=>({
+  query:UserFollowedCommunitiesDocument,
+  variables,
+  context
+})
+      

@@ -67,3 +67,13 @@ export interface GetUserBasicQueryOperation {
   type: 'query'
 }
 export const GetUserBasicQueryName:GetUserBasicQueryOperation['operationName'] = 'getUserBasic'
+
+export const GetUserBasicQueryRefetch = (
+  variables:GetUserBasicQueryVariables, 
+  context?:any
+)=>({
+  query:GetUserBasicDocument,
+  variables,
+  context
+})
+      
