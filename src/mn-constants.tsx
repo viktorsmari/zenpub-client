@@ -8,7 +8,7 @@ export const DEFAULT_PAGE_SIZE =
   parseInt(`${process.env.REACT_APP_DEFAULT_PAGE_SIZE}`) || 15;
 
 export const APP_NAME = 'CommonsPub';
-export const INSTANCE_DESCRIPTION = 'This instance is currently invite-only.';
+export const INSTANCE_DESCRIPTION = 'Federated app for open and cooperative networks.';
 export const INVITE_ONLY_TEXT =
   'Please note, signups on this instance are currently invite-only.';
 export const INSTANCE_TAGLINE = 'Connect. Organise. Share.';
