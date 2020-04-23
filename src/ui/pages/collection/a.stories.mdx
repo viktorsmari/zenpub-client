@@ -15,6 +15,7 @@ import {Resource} from 'ui/modules/Previews/Resource'
 import {Comment} from 'ui/modules/Previews/Comment'
 import {LikedComment} from 'ui/modules/Previews/LikedComment'
 import {MainHeader} from 'ui/modules/MainHeader'
+const Head = () => <MainHeader {...getMainHeaderProps() } />
 
 <Meta title="Pages|Collection" component={Collection}/>
 
@@ -24,7 +25,7 @@ Let's define a story for the `Collection` page
 <Preview>
   <Story name="Collection page">
     <WithSidebar 
-      HeaderBox={<MainHeader {...getMainHeaderProps() } />}
+      HeaderBox={Head}
       SidebarBox={<Sidebar {...getSidebarProps()}/>}>
       <Collection 
         collectionName="Collection test name"
