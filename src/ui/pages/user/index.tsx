@@ -101,13 +101,13 @@ export const User: React.FC<Props> = ({
                 ) : null}{' '}
                 {/* FIX ME after add LoadMoreFormik */}
               </Route>
-              <Route path={`${basePath}/following`}>
+              {/* <Route path={`${basePath}/following`}>
                 {UserBoxes}
                 {loadMoreFollowing ? (
                   <LoadMore LoadMoreFormik={loadMoreFollowing} />
-                ) : null}{' '}
-                {/* FIX ME after add LoadMoreFormik */}
-              </Route>
+                ) : null}{' '} */}
+              {/* FIX ME after add LoadMoreFormik */}
+              {/* </Route> */}
             </Switch>
           </Wrapper>
         </WrapperCont>
@@ -159,9 +159,9 @@ const Menu = ({
     <NavLink exact to={`${basePath}/collections`}>
       {totalCollections} collections
     </NavLink>
-    <NavLink exact to={`${basePath}/following`}>
+    {/* <NavLink exact to={`${basePath}/following`}>
       {totalUsers} following
-    </NavLink>
+    </NavLink> */}
   </MenuWrapper>
 );
 

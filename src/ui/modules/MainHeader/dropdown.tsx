@@ -61,20 +61,22 @@ export const DropdownSidebar: React.FC<Props> = ({
             <Trans>Profile</Trans>
           </Text>
         </Item>
-        <Item variant="link" onClick={() => createCommunity()}>
-          <span>
-            <Users size={18} color={'#333'} />
-          </span>
-          <Text>
-            <Trans>New Community</Trans>
-          </Text>
-        </Item>
         <Item variant="link" onClick={() => push('/settings')}>
           <span>
             <Settings size={18} color={'#333'} />
           </span>
           <Text>
             <Trans>Settings</Trans>
+          </Text>
+        </Item>
+      </List>
+      <List lined>
+        <Item variant="link" onClick={() => createCommunity()}>
+          <span>
+            <Users size={18} color={'#333'} />
+          </span>
+          <Text>
+            <Trans>New Community</Trans>
           </Text>
         </Item>
       </List>
