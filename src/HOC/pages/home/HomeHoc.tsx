@@ -6,16 +6,16 @@ import { ActivityPreviewHOC } from 'HOC/modules/previews/activity/ActivityPrevie
 import { CollectionPreviewHOC } from 'HOC/modules/previews/collection/CollectionPreview';
 import { CommunityPreviewHOC } from 'HOC/modules/previews/community/CommunityPreview';
 import React, { FC, useMemo } from 'react';
-import { Home, HomePageTab, Props } from 'ui/pages/home';
+import { Home, Props } from 'ui/pages/home';
 import { MyFollowedCommunityDataFragment } from 'fe/community/myFollowed/myFollowedCommunities.generated';
 import { MyFollowedCollectionDataFragment } from 'fe/collection/myFollowed/myFollowedCollections.generated';
 export { HomePageTab } from 'ui/pages/home';
 
 export interface HomePageHOC {
-  tab: HomePageTab;
+  basePath: string;
 }
 
-export const HomePageHOC: FC<HomePageHOC> = ({ tab }) => {
+export const HomePageHOC: FC<HomePageHOC> = ({ basePath }) => {
   const { myCommunityFollowsPage } = useMyFollowedCommunities();
   const [nextCommunitiesFormik] = useFormikPage(myCommunityFollowsPage);
   const FollowedCommunitiesElements = useMemo<
@@ -90,7 +90,7 @@ export const HomePageHOC: FC<HomePageHOC> = ({ tab }) => {
       nextCollectionsFormik,
       nextCommunitiesFormik,
       nextInboxFormik,
-      tab
+      basePath
     };
     return props;
   }, [
@@ -100,7 +100,7 @@ export const HomePageHOC: FC<HomePageHOC> = ({ tab }) => {
     nextCollectionsFormik,
     nextCommunitiesFormik,
     nextInboxFormik,
-    tab
+    basePath
   ]);
   return <Home {...homeProps} />;
 };

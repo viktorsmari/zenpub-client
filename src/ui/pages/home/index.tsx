@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/macro';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Switch, Route } from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
 import { LoadMore } from 'ui/modules/Loadmore';
 import { SidePanel } from 'ui/modules/SidePanel';
@@ -15,17 +15,18 @@ export enum HomePageTab {
 }
 
 export interface Props {
-  tab: HomePageTab;
+  // tab: HomePageTab;
   nextCommunitiesFormik?: FormikHook;
   nextCollectionsFormik?: FormikHook;
   nextInboxFormik?: FormikHook;
   FollowedCommunitiesElements: JSX.Element;
   FollowedCollectionsElements: JSX.Element;
   InboxElements: JSX.Element;
+  basePath: string;
 }
 
 export const Home: React.FC<Props> = ({
-  tab,
+  basePath,
   InboxElements,
   nextInboxFormik,
   nextCommunitiesFormik,
@@ -38,33 +39,27 @@ export const Home: React.FC<Props> = ({
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <Menu basePath="/" />
-            {tab === HomePageTab.Activities && (
-              <>
+            <Menu basePath={basePath} />
+            <Switch>
+              <Route path={`${basePath}/mycommunities`}>
+                {FollowedCommunitiesElements}
+                {nextCommunitiesFormik && (
+                  <LoadMore LoadMoreFormik={nextCommunitiesFormik} />
+                )}
+              </Route>
+              <Route path={`${basePath}/mycollections`}>
+                {FollowedCollectionsElements}
+                {nextCollectionsFormik && (
+                  <LoadMore LoadMoreFormik={nextCollectionsFormik} />
+                )}
+              </Route>
+              <Route path={`${basePath}`}>
                 {InboxElements}
                 {nextInboxFormik && (
                   <LoadMore LoadMoreFormik={nextInboxFormik} />
                 )}
-              </>
-            )}
-            <>
-              {tab === HomePageTab.MyCommunities && (
-                <>
-                  {FollowedCommunitiesElements}
-                  {nextCommunitiesFormik && (
-                    <LoadMore LoadMoreFormik={nextCommunitiesFormik} />
-                  )}
-                </>
-              )}
-              {tab === HomePageTab.MyCollections && (
-                <>
-                  {FollowedCollectionsElements}
-                  {nextCollectionsFormik && (
-                    <LoadMore LoadMoreFormik={nextCollectionsFormik} />
-                  )}
-                </>
-              )}
-            </>
+              </Route>
+            </Switch>
           </Wrapper>
         </WrapperCont>
       </HomeBox>
@@ -78,14 +73,14 @@ export default Home;
 const Menu = ({ basePath }: { basePath: string }) => {
   return (
     <MenuWrapper>
-      <NavLink exact to={'/'}>
+      <NavLink exact to={`${basePath}`}>
         <Trans>My Timeline</Trans>
       </NavLink>
       <>
-        <NavLink to={`/mycommunities`}>
+        <NavLink to={`${basePath}/mycommunities`}>
           <Trans>Joined communities</Trans>
         </NavLink>
-        <NavLink to={`/mycollections`}>
+        <NavLink to={`${basePath}/mycollections`}>
           <Trans>Followed collections</Trans>
         </NavLink>
       </>

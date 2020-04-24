@@ -3,25 +3,18 @@ import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { FormikHook } from 'ui/@types/types';
 import Alert from '../../elements/Alert';
-import { Input } from '@rebass/forms';
+import { Input, Label, Checkbox } from '@rebass/forms';
 import Button from 'ui/elements/Button';
 import { Box, Text, Flex } from 'rebass/styled-components';
 import styled from '../../themes/styled';
-// import { Panel, WrapperPanel } from 'ui/elements/Panel';
 import { AlertCircle } from 'react-feather';
-// import Markdown from 'markdown-to-jsx';
 import { AlertWrapper } from 'ui/modules/Modal';
 import {
   INSTANCE_TAGLINE,
   INVITE_ONLY_TEXT,
-  // terms_markdown_urls,
-  // terms_markdown_text,
-  // related_urls,
   logo_large_url
 } from 'mn-constants';
-// import useAxios from 'axios-hooks';
 import media from 'styled-media-query';
-// import { clearFix } from 'polished';
 
 let tt = {
   login: i18nMark('Sign in'),
@@ -48,22 +41,6 @@ export interface SignUpFormValues {
 }
 
 const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
-  // var terms_users_text = { data: terms_markdown_text.terms_users };
-  // var terms_cookies_text = { data: terms_markdown_text.terms_cookies };
-  // var terms_indexing_text = { data: terms_markdown_text.terms_indexing };
-
-  // if (terms_markdown_urls.enabled) {
-  //   var [terms_users] = useAxios(terms_markdown_urls.terms_users, {
-  //     useCache: true
-  //   });
-  //   var [terms_cookies] = useAxios(terms_markdown_urls.terms_cookies, {
-  //     useCache: true
-  //   });
-  //   var [terms_indexing] = useAxios(terms_markdown_urls.terms_indexing, {
-  //     useCache: true
-  //   });
-  // }
-
   return (
     <Container>
       {!formik.isSubmitting && formik.submitCount && registeredUsername ? (
@@ -172,6 +149,12 @@ const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
                     <Alert variant="bad">{formik.errors.passwordConfirm}</Alert>
                   </AlertWrapper>
                 )}
+              </Box>
+              <Box mt={3}>
+                <Label width={[1 / 2, 1 / 4]} p={2}>
+                  <Checkbox id="remember" name="remember" />
+                  Remember Me
+                </Label>
               </Box>
               <Box mt={3}>
                 <Button

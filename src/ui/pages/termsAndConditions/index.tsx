@@ -38,36 +38,16 @@ const TermsAndConditionsPage: React.FC<Props> = ({}) => {
 
   return (
     <Container>
-      {/* {!formik.isSubmitting && formik.submitCount && registeredUsername ? (
-        <Box mt={3}>
-          <p>
-            <Trans>Welcome</Trans> {registeredUsername}
-          </p>
-          <p>
-            <Trans>
-              Please confirm your email clicking on the link we sent you at
-            </Trans>
-          </p>
-
-          <Alert variant="bad">{formik.errors.email}</Alert>
-        </Box>
-      ) : ( */}
       <LoginWrapper>
         <Header>
           <Logo />
           <Tagline>{INSTANCE_TAGLINE}</Tagline>
-          {/* <Aware p={3}>
-              <Box mr={2}>
-                <AlertCircle size="20" color="white" />
-              </Box>
-              <Text variant="suptitle">{INVITE_ONLY_TEXT}</Text>
-            </Aware> */}
         </Header>
         <Flex mt={2}>
           <Right>
             {terms_markdown_urls.enabled && (
               <>
-                <Aware green mt={3} p={3}>
+                <Aware green mb={3} mt={3} p={3}>
                   <Box mr={2}>
                     <Eye size="20" color="white" />
                   </Box>
@@ -195,6 +175,7 @@ const Right = styled(Box)`
   .extra {
     width: 100%;
     margin-right: 0;
+    margin-left: 0;
   }
 `;
 

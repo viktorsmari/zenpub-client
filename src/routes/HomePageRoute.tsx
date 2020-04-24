@@ -20,7 +20,13 @@ const HomePageRouter: FC<RouteComponentProps<HomePageRouter>> = ({ match }) => {
       : null;
 
   const homeProps: HomePageHOC | null = useMemo(
-    () => (tab === null ? null : { tab }),
+    () =>
+      tab === null
+        ? null
+        : {
+            basePath: '/',
+            tab
+          },
     [tab]
   );
 
