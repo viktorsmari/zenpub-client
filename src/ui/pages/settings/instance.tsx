@@ -1,8 +1,8 @@
 import { i18nMark, Trans } from '@lingui/react';
-import { /* Textarea,*/ Checkbox, Input, Label } from '@rebass/forms';
+import { /* Textarea,*/ /* Checkbox, */ Input, Label } from '@rebass/forms';
 import React from 'react';
 import { XCircle } from 'react-feather';
-import { Box, Flex, Text } from 'rebass/styled-components';
+import { Box, /* Flex, */ Text } from 'rebass/styled-components';
 import { FormikHook } from 'ui/@types/types';
 import Button from 'ui/elements/Button';
 import ConfirmationModal from 'ui/modules/ConfirmationModal';
@@ -72,7 +72,7 @@ const Instance: React.FC<Props> = ({
         </Bg>
       </ContainerForm>
     </Row> */}
-      <Row>
+      {/* <Row>
         <ContainerForm>
           <Invite>
             <Label>
@@ -81,7 +81,7 @@ const Instance: React.FC<Props> = ({
             </Label>
           </Invite>
         </ContainerForm>
-      </Row>
+      </Row> */}
       <DomainWrapper>
         <Label pt={3}>
           <Trans>Add Domain to allowlist</Trans>
@@ -144,14 +144,14 @@ const Instance: React.FC<Props> = ({
   );
 };
 
-const Invite = styled(Flex)`
-  align-items: center;
-  label {
-    width: 100%;
-    line-height: auto;
-    align-items: center;
-  }
-`;
+// const Invite = styled(Flex)`
+//   align-items: center;
+//   label {
+//     width: 100%;
+//     line-height: auto;
+//     align-items: center;
+//   }
+// `;
 
 const DomainText = styled(Text)`
   flex:1;

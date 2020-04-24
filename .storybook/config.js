@@ -38,6 +38,9 @@ const loaderFn = () => {
   // const Intro = []
   const allExports = [
     require('./welcome.stories.mdx'),
+    require('./designer.stories.mdx'),
+    require('./developer.stories.mdx'),
+    require('./admin.stories.mdx'),
     require('../src/ui/pages/login/a.stories.mdx'),
     require('../src/ui/pages/signUp/a.stories.mdx'),
     require('../src/ui/pages/termsAndConditions/a.stories.mdx'),

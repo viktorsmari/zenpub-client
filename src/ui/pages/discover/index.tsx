@@ -3,17 +3,11 @@ import React from 'react';
 import { NavLink, Switch, Route } from 'react-router-dom';
 import media from 'styled-media-query';
 
-import { Flex } from 'rebass/styled-components';
-import {
-  Nav,
-  NavItem,
-  Panel,
-  PanelTitle,
-  WrapperPanel
-} from 'ui/elements/Panel';
+import { Flex, Box, Text } from 'rebass/styled-components';
 import styled from 'ui/themes/styled';
 import { LoadMore } from 'ui/modules/Loadmore';
 import { FormikHook } from 'ui/@types/types';
+import { SidePanel } from 'ui/modules/SidePanel';
 
 export interface Props {
   basePath: string;
@@ -58,41 +52,28 @@ export const Discover: React.FC<Props> = ({
           </Wrapper>
         </WrapperCont>
       </HomeBox>
-      <WrapperPanel>
-        <Panel>
-          <PanelTitle fontSize={0} fontWeight={'bold'}>
-            <Trans>Browse Home instance</Trans>
-          </PanelTitle>
-          <Nav>
-            <NavItem mb={4} fontSize={1} fontWeight={'bold'}>
-              <NavLink to="/communities">
-                <Trans>All communities</Trans>
-              </NavLink>
-            </NavItem>
-            <NavItem fontSize={1} fontWeight={'bold'}>
-              <NavLink to="/collections">
-                <Trans>All collections</Trans>
-              </NavLink>
-            </NavItem>
-          </Nav>
-        </Panel>
-      </WrapperPanel>
+      <SidePanel />
     </MainContainer>
   );
 };
 
 const Menu = ({ basePath }: { basePath: string }) => (
-  <SuperTabWrapper>
-    <NavLink exact to={`${basePath}`}>
-      <Trans>Timeline</Trans>
-    </NavLink>
-    <NavLink exact to={`${basePath}/communities`}>
-      <Trans>All communities</Trans>
-    </NavLink>
-    <NavLink exact to={`${basePath}/collections`}>
-      <Trans>All collections</Trans>
-    </NavLink>
-  </SuperTabWrapper>
+  <>
+    <Box p={2} mt={2}>
+      <Text variant="suptitle">Browse Home instance</Text>
+    </Box>
+    <SuperTabWrapper>
+      <NavLink exact to={`${basePath}`}>
+        <Trans>Timeline</Trans>
+      </NavLink>
+      <NavLink exact to={`${basePath}/communities`}>
+        <Trans>All communities</Trans>
+      </NavLink>
+      <NavLink exact to={`${basePath}/collections`}>
+        <Trans>All collections</Trans>
+      </NavLink>
+    </SuperTabWrapper>
+  </>
 );
 
 const SuperTabWrapper = styled(Flex)`

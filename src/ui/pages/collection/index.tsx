@@ -72,7 +72,7 @@ export const Collection: React.FC<Props> = ({
                 {FollowersBoxes}
                 <LoadMore LoadMoreFormik={loadMoreFollowers} />
               </Route>
-              <Route exact path={`${basePath}/`}>
+              <Route exact path={`${basePath}/resources`}>
                 <>
                   {HeroCollectionBox}
                   <Menu basePath={basePath} />
@@ -98,7 +98,7 @@ export const Collection: React.FC<Props> = ({
                   <LoadMore LoadMoreFormik={loadMoreResources} />
                 </>
               </Route>
-              <Route exact path={`${basePath}/activities`}>
+              <Route exact path={`${basePath}/`}>
                 <>
                   {HeroCollectionBox}
                   <Menu basePath={basePath} />
@@ -172,10 +172,10 @@ const FollowersMenu = ({ basePath }: { basePath: string }) => (
 const Menu = ({ basePath }: { basePath: string }) => (
   <MenuWrapper p={3} pt={3}>
     <NavLink exact to={`${basePath}`}>
-      Resources
+      Recent activity
     </NavLink>
-    <NavLink exact to={`${basePath}/activities`}>
-      <Trans>Recent activity</Trans>
+    <NavLink exact to={`${basePath}/resources`}>
+      <Trans>Resources</Trans>
     </NavLink>
   </MenuWrapper>
 );
