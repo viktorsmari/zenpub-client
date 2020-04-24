@@ -128,7 +128,7 @@ export function LikedCommentPreviewProps(
 }
 
 export function MainCommentPreviewProps(
-  content = 'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+  content = 'Hey everyone, new here and just wondering where the best place would be to go and find more information about how to deploy MoodleNet? Thanks in advance!'
 ): MainCommentProps {
   return {
     ...getActions(),
@@ -137,13 +137,13 @@ export function MainCommentPreviewProps(
 }
 
 export function ThreadPreviewProps(
-  content = 'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+  content = 'Hey everyone, new here and just wondering where the best place would be to go and find more information about how to deploy MoodleNet? Thanks in advance!'
 ): ThreadProps {
   return {
     link: '/',
     // title:"What do the avatars in the topic list mean?",
     content:
-      'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here ',
+      'Hey everyone, new here and just wondering where the best place would be to go and find more information about how to deploy MoodleNet? Thanks in advance!',
     createdAt: '2019-11-09',
     totalReplies: '24',
     totalLikes: '17',

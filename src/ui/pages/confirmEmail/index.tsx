@@ -70,7 +70,7 @@ const ConfirmEmail: React.FC<Props> = ({ result }) => {
               <Text variant="text">Checking ...</Text>
             ) : result.error === null ? (
               <Text variant="text">
-                Email confirmed, Welcome: {result.username}
+                Email confirmed! Welcome {result.username}!
               </Text>
             ) : (
               <Text variant="text">

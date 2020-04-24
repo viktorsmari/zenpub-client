@@ -58,7 +58,7 @@ Let's define a story for the `community` page
           <Box sx={{marginBottom: 0}}><Collection {...CollectionPreviewProps()} /></Box>
           <Box sx={{marginBottom: 0}}><Collection {...CollectionPreviewProps()} /></Box>
         </React.Fragment>,
-        HeroCommunityBox: (<HeroCommunity {...getHeroCommunityProps()}/>),
+        HeroCommunityBox: (<HeroCommunity {...getHeroCommunityProps(true)}/>),
         basePath:"/",
         ThreadsBox: <React.Fragment>
           <Box mx={2} mb={2}><Thread {...ThreadPreviewProps()}/></Box>
