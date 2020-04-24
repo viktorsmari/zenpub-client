@@ -1,21 +1,19 @@
-import * as React from 'react';
-import { i18nMark } from '@lingui/react';
-import { FormikHook } from 'ui/@types/types';
-import { Box, Text, Flex } from 'rebass/styled-components';
-import styled from '../../themes/styled';
-import { Panel, WrapperPanel } from 'ui/elements/Panel';
-import { Eye } from 'react-feather';
+import useAxios from 'axios-hooks';
 import Markdown from 'markdown-to-jsx';
 import {
   INSTANCE_TAGLINE,
-  terms_markdown_urls,
-  terms_markdown_text,
+  logo_large_url,
   related_urls,
-  logo_large_url
+  terms_markdown_text,
+  terms_markdown_urls
 } from 'mn-constants';
-import useAxios from 'axios-hooks';
-import media from 'styled-media-query';
 import { clearFix } from 'polished';
+import * as React from 'react';
+import { Eye } from 'react-feather';
+import { Box, Flex, Text } from 'rebass/styled-components';
+import media from 'styled-media-query';
+import { Panel, WrapperPanel } from 'ui/elements/Panel';
+import styled from '../../themes/styled';
 
 export interface Props {}
 
