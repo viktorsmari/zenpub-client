@@ -601,6 +601,7 @@ export const HomeBox = styled(Flex)`
   padding: 0px;
   position: relative;
   z-index: 0;
+  padding-bottom: 30px;
   ${media.lessThan('1005px')`
   max-width: 100%;
   `};

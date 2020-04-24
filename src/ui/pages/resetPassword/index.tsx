@@ -8,6 +8,8 @@ import { logo_large_url } from '../../../mn-constants';
 import Alert from '../../elements/Alert';
 import { AlertWrapper } from 'ui/modules/Modal';
 import { i18nMark } from '@lingui/react';
+import { Link } from 'react-router-dom';
+import LogoContainer from 'ui/elements/Logo';
 
 export interface ResetPasswordFormValues {
   email: string;
@@ -29,7 +31,7 @@ const ResetPassword: React.FC<Props> = ({ formik }) => {
       <Container>
         <LoginWrapper>
           <FormWrapper>
-            <Logo />
+            <LogoContainer />
             <Input
               placeholder={tt.placeholders.email}
               name="email"
@@ -75,9 +77,10 @@ const LoginWrapper = styled.div`
 
 const Container = styled.div`
   margin: 0 auto;
-  width: 432px;
+  max-width: 900px;
   margin-top: 60px;
   padding: 16px;
+  padding-bottom: 50px;
   & button {
     margin-top: 16px;
     width: 100%;
@@ -103,4 +106,5 @@ const Logo = styled.div`
 
 const FormWrapper = styled.div`
   grid-area: form;
+  width: 432px;
 `;

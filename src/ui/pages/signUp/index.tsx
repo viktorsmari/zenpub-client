@@ -9,13 +9,10 @@ import { Box, Text, Flex } from 'rebass/styled-components';
 import styled from '../../themes/styled';
 import { AlertCircle } from 'react-feather';
 import { AlertWrapper } from 'ui/modules/Modal';
-import {
-  INSTANCE_TAGLINE,
-  INVITE_ONLY_TEXT,
-  logo_large_url
-} from 'mn-constants';
+import { INVITE_ONLY_TEXT } from 'mn-constants';
 import media from 'styled-media-query';
 import { NavLink } from 'react-router-dom';
+import LogoContainer from 'ui/elements/Logo';
 
 let tt = {
   login: i18nMark('Sign in'),
@@ -60,9 +57,8 @@ const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
         </Box>
       ) : (
         <LoginWrapper>
+          <LogoContainer />
           <Header>
-            <Logo />
-            <Tagline>{INSTANCE_TAGLINE}</Tagline>
             <Aware p={3}>
               <Box mr={2}>
                 <AlertCircle size="20" color="white" />
@@ -176,71 +172,7 @@ const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
                 </Button>
               </Box>
             </FormWrapper>
-            {/* <Right>
-              {terms_markdown_urls.enabled && (
-                <>
-                  <Aware green mt={3} p={3}>
-                    <Box mr={2}>
-                      <Eye size="20" color="white" />
-                    </Box>
-                    <Text variant="suptitle">
-                      {' '}
-                      Please read the following. By signing up your are
-                      consenting to these agreements.
-                    </Text>
-                  </Aware>
-                  <WrapperPanel className="extra">
-                    <Panel>
-                      <Box p={3}>
-                        <Markdown>
-                          {terms_users.data || terms_users_text.data}
-                        </Markdown>
-                      </Box>
-                      <Box p={3}>
-                        <Markdown>
-                          {terms_cookies.data || terms_cookies_text.data}
-                        </Markdown>
-                      </Box>
-                      <Box p={3}>
-                        <Markdown>
-                          {terms_indexing.data || terms_indexing_text.data}
-                        </Markdown>
-                      </Box>
-                    </Panel>
-                  </WrapperPanel>
-                </>
-              )}
-            </Right> */}
           </Flex>
-          {/* <Footer>
-            <ul>
-              <li>
-                <a href={related_urls.project_homepage} target="blank">
-                  About
-                </a>
-              </li>
-              <li>
-                <a href={related_urls.terms_users} target="blank">
-                  Code of Conduct
-                </a>
-              </li>
-              <li>
-                <a href={related_urls.code} target="blank">
-                  Open source
-                </a>
-              </li>
-              <li>
-                <a href={related_urls.feedback} target="blank">
-                  Feedback
-                </a>
-              </li>
-              <li>
-                <a href={related_urls.terms_cookies} target="blank">
-                  Privacy notice
-                </a>
-              </li>
-            </ul>
-          </Footer> */}
         </LoginWrapper>
       )}
     </Container>
@@ -248,35 +180,18 @@ const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
 };
 export default SignUpPage;
 
-const Tagline = styled.h5`
-  font-size: 16px;
-  margin-top: 8px;
-  margin-bottom: 40px;
-  color: #000000a1;
-  font-weight: 500;
-`;
-
-const Logo = styled.div`
-  background: url(${logo_large_url});
-  width: 300px;
-  display: inline-block;
-  height: 100px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-`;
-
 const LoginWrapper = styled(Box)`
   ${media.lessThan('medium')`
-    display: grid;
-    grid-template-columns: 1fr;
+    // display: grid;
+    // grid-template-columns: 1fr;
     padding: 16px
   `};
 `;
 
 const Container = styled.div`
   margin: 0 auto;
-  max-width: 1020px;
+  max-width: 900px;
+  padding-bottom: 50px;
 `;
 
 const Header = styled.div`
@@ -302,42 +217,6 @@ const FormWrapper = styled(Box)`
   height: fit-content;
   padding: 16px;
 `;
-
-// const Right = styled(Box)`
-//   .extra {
-//     width: 100%;
-//     margin-right: 0;
-//   }
-// `;
-
-// const Footer = styled(Box)`
-//   border-top: 1px solid ${props => props.theme.colors.lightgray};
-//   padding-top: 24px;
-//   & ul {
-//     list-style-type: none;
-//     margin: 0;
-//     padding: 0;
-//     text-align: center;
-//     margin: 0 auto;
-//     justify-content: center;
-//     align-items: center;
-//     display: flex;
-//     flex: 1;
-//     ${clearFix()}
-//     & li {
-//       float: left;
-//       margin-right: 16px;
-//       font-size: 13px;
-//       & a {
-//         color: rgba(0, 0, 0, 0.45);
-//         text-decoration: none;
-//         &:hover {
-//           text-decoration: underline;
-//         }
-//       }
-//     }
-//   }
-// `;
 
 const Aware = styled(Flex)<{ green: boolean }>`
   background: ${props => (props.green ? '#546d4f' : props.theme.colors.orange)};
