@@ -18,7 +18,7 @@ export const NotFound = () => {
     <>
       <Wrapper>
         <Heading>
-          <Trans>Page not found</Trans>
+          <Trans>🤔 Page not found</Trans>
         </Heading>
       </Wrapper>
       <WrapperPanel />

@@ -1,5 +1,6 @@
 export const getActor = () => ({
-  icon: 'https://dougbelshaw.com/images/doug-belshaw.jpg',
+  icon:
+    'https://docs.moodle.org/dev/images_dev/thumb/2/2b/estrella.jpg/100px-estrella.jpg',
   link: '1',
-  name: 'Joe Bloggs'
+  name: 'Estrella'
 });
