@@ -15,6 +15,7 @@ import {
   logo_large_url
 } from 'mn-constants';
 import media from 'styled-media-query';
+import { NavLink } from 'react-router-dom';
 
 let tt = {
   login: i18nMark('Sign in'),
@@ -38,6 +39,7 @@ export interface SignUpFormValues {
   password: string;
   username: string;
   passwordConfirm: string;
+  terms: boolean;
 }
 
 const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
@@ -150,10 +152,16 @@ const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
                   </AlertWrapper>
                 )}
               </Box>
-              <Box mt={3}>
-                <Label width={[1 / 2, 1 / 4]} p={2}>
-                  <Checkbox id="remember" name="remember" />
-                  Remember Me
+              <Box mt={3} mb={3}>
+                <Label alignItems="center">
+                  <Checkbox
+                    name="terms"
+                    id="remember"
+                    value={formik.values.terms}
+                    onChange={formik.handleChange}
+                  />
+                  I have read and agreed the{' '}
+                  <NavLink to="/terms"> Terms and Conditions </NavLink>
                 </Label>
               </Box>
               <Box mt={3}>
