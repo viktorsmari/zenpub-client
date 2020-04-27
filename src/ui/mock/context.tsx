@@ -1055,7 +1055,8 @@ export const getSignUpProps = (): SignUpProps => {
       username: 'moodlerMary',
       name: 'Moodler Mary',
       password: '',
-      passwordConfirm: ''
+      passwordConfirm: '',
+      terms: false
     },
     onSubmit: () => {
       action('submit')();
