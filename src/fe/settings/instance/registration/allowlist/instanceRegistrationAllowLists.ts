@@ -34,13 +34,23 @@ export const useInstanceRegistrationAllowLists = () => {
 
   const addEmailDomain = useCallback(
     (domain: string) => {
-      return addEmailDomainMut({ variables: { domain } });
+      return addEmailDomainMut({
+        variables: { domain },
+        refetchQueries: [
+          GQL.InstanceRegisterEmailDomainAccessesQueryRefetch({})
+        ]
+      });
     },
     [addEmailDomainMut]
   );
   const removeEmailDomain = useCallback(
     (id: string) => {
-      return removeEmailDomainMut({ variables: { id } });
+      return removeEmailDomainMut({
+        variables: { id },
+        refetchQueries: [
+          GQL.InstanceRegisterEmailDomainAccessesQueryRefetch({})
+        ]
+      });
     },
     [removeEmailDomainMut]
   );
@@ -54,13 +64,19 @@ export const useInstanceRegistrationAllowLists = () => {
 
   const addEmail = useCallback(
     (email: string) => {
-      return addEmailMut({ variables: { email } });
+      return addEmailMut({
+        variables: { email },
+        refetchQueries: [GQL.InstanceRegisterEmailAccessesQueryRefetch({})]
+      });
     },
     [addEmailMut]
   );
   const removeEmail = useCallback(
     (id: string) => {
-      return removeEmailMut({ variables: { id } });
+      return removeEmailMut({
+        variables: { id },
+        refetchQueries: [GQL.InstanceRegisterEmailAccessesQueryRefetch({})]
+      });
     },
     [removeEmailMut]
   );
