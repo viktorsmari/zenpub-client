@@ -10,7 +10,7 @@ export const useCommunity = (communityId: Community['id']) => {
   const { me } = useMe();
 
   const communityQ = useCommunityDataQuery({ variables: { communityId } });
-  const { createThread } = useCreateThreadContext(communityId);
+  const { createThread } = useCreateThreadContext(communityId, 'Community');
   const community = communityQ.data?.community;
   const { toggleFollow: toggleJoin } = useFollowContext(community);
   const { edit } = useEditCommunity(communityId);

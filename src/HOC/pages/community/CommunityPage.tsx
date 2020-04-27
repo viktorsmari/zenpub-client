@@ -16,6 +16,7 @@ import { useHistory } from 'react-router-dom';
 import { useCommunityFollowers } from 'fe/user/followers/community/useCommunityFollowers';
 import { UserPreviewHOC } from 'HOC/modules/previews/user/UserPreview';
 import * as Yup from 'yup';
+import { useFormikPage } from 'fe/lib/helpers/usePage';
 
 export enum CommunityPageTab {
   Activities,
@@ -37,8 +38,12 @@ export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
   const { community, createThread } = useCommunity(communityId);
   const { communityFollowersPage } = useCommunityFollowers(communityId);
   const { threadsPage } = useCommunityThreads(communityId);
+  const [loadMoreThreads] = useFormikPage(threadsPage);
   const { collectionsPage } = useCommunityCollections(communityId);
+  const [loadMoreCollections] = useFormikPage(collectionsPage);
   const { activitiesPage } = useCommunityOutboxActivities(communityId);
+  const [loadMoreActivities] = useFormikPage(activitiesPage);
+
   const history = useHistory();
   const newThreadFormik = useFormik<{ text: string }>({
     initialValues: { text: '' },
@@ -114,7 +119,10 @@ export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
       ThreadsBox,
       basePath,
       isJoined: !!myFollow,
-      newThreadFormik: myFollow ? newThreadFormik : null
+      newThreadFormik: myFollow ? newThreadFormik : null,
+      loadMoreActivities,
+      loadMoreCollections,
+      loadMoreThreads
     };
     return props;
   }, [community, newThreadFormik, basePath, communityFollowersPage]);
