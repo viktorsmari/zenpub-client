@@ -6,6 +6,7 @@ import { useCallback, useMemo } from 'react';
 import { MyCommunityFollowsQueryRefetch } from 'fe/community/myFollowed/myFollowedCommunities.generated';
 import { CommunityFollowersQueryRefetch } from 'fe/user/followers/community/useCommunityFollowers.generated';
 import { CollectionFollowersQueryRefetch } from 'fe/user/followers/collection/useCollectionFollowers.generated';
+import { MyCollectionFollowsQueryRefetch } from 'fe/collection/myFollowed/myFollowedCollections.generated';
 
 type Context = Collection | Community | Thread | User;
 
@@ -39,7 +40,10 @@ export const useFollowContext = (ctx: UseFollowContext) => {
                 CommunityFollowersQueryRefetch({ communityId: id })
               ]
             : __typename === 'Collection'
-            ? [CollectionFollowersQueryRefetch({ collectionId: id })]
+            ? [
+                MyCollectionFollowsQueryRefetch({}),
+                CollectionFollowersQueryRefetch({ collectionId: id })
+              ]
             : []
       });
     } else {
@@ -61,7 +65,10 @@ export const useFollowContext = (ctx: UseFollowContext) => {
                     CommunityFollowersQueryRefetch({ communityId: id })
                   ]
                 : __typename === 'Collection'
-                ? [CollectionFollowersQueryRefetch({ collectionId: id })]
+                ? [
+                    MyCollectionFollowsQueryRefetch({}),
+                    CollectionFollowersQueryRefetch({ collectionId: id })
+                  ]
                 : []
           });
     }
