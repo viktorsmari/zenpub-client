@@ -9,6 +9,7 @@ import {
   User
 } from 'graphql/types.generated';
 import { OPTIMISTIC_ID_STRING, isOptimisticId } from 'fe/lib/helpers/mutations';
+import { AllFlagsQueryRefetch } from 'fe/flags/all/useAllFlags.generated';
 
 type Context = Collection | Comment | Community | User | Resource;
 
@@ -30,7 +31,8 @@ export const useFlagContext = (ctx: Maybe<UseFollowContext>) => {
           contextId: ctx.id,
           message
         },
-        optimisticResponse: optimisticFlag(ctx.__typename, ctx.id)
+        optimisticResponse: optimisticFlag(ctx.__typename, ctx.id),
+        refetchQueries: [AllFlagsQueryRefetch({})]
       });
     },
     [ctx, mutating]
