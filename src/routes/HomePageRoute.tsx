@@ -24,7 +24,7 @@ const HomePageRouter: FC<RouteComponentProps<HomePageRouter>> = ({ match }) => {
       tab === null
         ? null
         : {
-            basePath: '/',
+            basePath: '',
             tab
           },
     [tab]
