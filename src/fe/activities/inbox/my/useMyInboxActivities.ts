@@ -17,12 +17,15 @@ export const useMyInboxActivities = () => {
           return fetchMoreResult?.me?.user.inbox && prev.me?.user.inbox
             ? {
                 ...fetchMoreResult,
-                user: {
-                  ...fetchMoreResult.me.user,
-                  inbox: update({
-                    prev: prev.me.user.inbox,
-                    fetched: fetchMoreResult.me.user.inbox
-                  })
+                me: {
+                  ...fetchMoreResult.me,
+                  user: {
+                    ...fetchMoreResult.me.user,
+                    inbox: update({
+                      prev: prev.me.user.inbox,
+                      fetched: fetchMoreResult.me.user.inbox
+                    })
+                  }
                 }
               }
             : prev;

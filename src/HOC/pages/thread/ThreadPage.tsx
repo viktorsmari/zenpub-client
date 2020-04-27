@@ -57,24 +57,28 @@ export const ThreadPage: FC<ThreadPage> = ({ threadId }) => {
         }}
       />
     );
-
     const Comments = (
       <>
-        {commentPage.edges.map(comment => (
-          <ActivityPreview
-            key={comment.id}
-            {...{
-              ...activityProps,
-              actor: comment.creator
-                ? getActivityActor(comment.creator)
-                : { icon: '', link: '', name: '' },
-              preview: (
-                <CommentPreviewHOC commentId={comment.id} mainComment={false} />
-              ),
-              createdAt: comment.createdAt
-            }}
-          />
-        ))}
+        {commentPage.edges
+          .filter(comment => comment.id !== thread.mainComment?.id)
+          .map(comment => (
+            <ActivityPreview
+              key={comment.id}
+              {...{
+                ...activityProps,
+                actor: comment.creator
+                  ? getActivityActor(comment.creator)
+                  : { icon: '', link: '', name: '' },
+                preview: (
+                  <CommentPreviewHOC
+                    commentId={comment.id}
+                    mainComment={false}
+                  />
+                ),
+                createdAt: comment.createdAt
+              }}
+            />
+          ))}
       </>
     );
     const Context = <PreviewIndex ctx={thread.context} />;
@@ -89,6 +93,6 @@ export const ThreadPage: FC<ThreadPage> = ({ threadId }) => {
     };
 
     return props;
-  }, [thread]);
+  }, [thread, commentPage]);
   return uiProps && <ThreadPageUI {...uiProps} />;
 };

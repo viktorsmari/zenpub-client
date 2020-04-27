@@ -6,7 +6,7 @@ export const useThreadPreview = (threadId: Thread['id']) => {
   const threadPreviewQ = useThreadPreviewQuery({ variables: { threadId } });
   const thread = threadPreviewQ.data?.thread;
   return useMemo(() => {
-    let mainComment = thread?.comments?.edges[0];
+    const mainComment = thread?.comments?.edges[0];
     const commentCount = thread?.comments?.totalCount;
     const context = thread?.context;
     return {
