@@ -152,7 +152,7 @@ img {
 
 const Header = styled(Box)`
   cursor: pointer;
-  flex: 0 0 300px;
+  flex: 0 0 200px;
   order: 2;
   justify-content: flex-end;
   img {
