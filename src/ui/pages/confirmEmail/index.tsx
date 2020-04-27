@@ -78,7 +78,7 @@ const ConfirmEmail: React.FC<Props> = ({ result }) => {
               <Browse>
                 <Link to={'/'}>
                   <Button mt={3} variant="primary">
-                    <Trans>Login</Trans>
+                    <Trans>Sign in</Trans>
                   </Button>
                 </Link>
               </Browse>

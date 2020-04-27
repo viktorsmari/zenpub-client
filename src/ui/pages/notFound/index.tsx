@@ -28,7 +28,7 @@ export const NotFound = () => {
         <Box sx={{ textAlign: 'center' }}>
           <LogoContainer />
           <Heading>
-            <Trans>Page not found</Trans>
+            <Trans>🤔 Page not found</Trans>
           </Heading>
         </Box>
       </Container>

@@ -15,7 +15,6 @@ import LogoContainer from 'ui/elements/Logo';
 import {
   INSTANCE_DESCRIPTION,
   INSTANCE_PROMPT,
-  logo_large_url,
   instance_bg_img
 } from 'mn-constants'; // + instance_bg_img
 

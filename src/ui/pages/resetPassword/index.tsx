@@ -4,11 +4,9 @@ import styled from '../../themes/styled';
 import Button from 'ui/elements/Button';
 import { Input } from '@rebass/forms';
 import { FormikHook } from 'ui/@types/types';
-import { logo_large_url } from '../../../mn-constants';
 import Alert from '../../elements/Alert';
 import { AlertWrapper } from 'ui/modules/Modal';
 import { i18nMark } from '@lingui/react';
-import { Link } from 'react-router-dom';
 import LogoContainer from 'ui/elements/Logo';
 
 export interface ResetPasswordFormValues {
@@ -90,18 +88,6 @@ const Container = styled.div`
       background: #d67218 !important;
     }
   }
-`;
-
-const Logo = styled.div`
-  background: url(${logo_large_url});
-  width: 300px;
-  display: block;
-  height: 100px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  margin: 0 auto;
-  margin-bottom: 40px;
 `;
 
 const FormWrapper = styled.div`

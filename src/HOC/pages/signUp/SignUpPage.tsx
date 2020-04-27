@@ -4,12 +4,13 @@ import SignUpPage, { SignUpFormValues, Props } from 'ui/pages/signUp';
 import * as Yup from 'yup';
 import { useAnon } from 'fe/session/useAnon';
 
-const initialValues = {
+const initialValues: SignUpFormValues = {
   name: '',
   email: '',
   password: '',
   username: '',
-  passwordConfirm: ''
+  passwordConfirm: '',
+  terms: false
 };
 export interface SignUpPageHOC {}
 
@@ -39,7 +40,8 @@ export const SignUpPageHOC: FC<SignUpPageHOC> = () => {
       .required(),
     passwordConfirm: Yup.string()
       .oneOf([Yup.ref('password'), null], 'Passwords must match')
-      .required()
+      .required(),
+    terms: Yup.boolean()
   });
 
   const formik = useFormik<SignUpFormValues>({
