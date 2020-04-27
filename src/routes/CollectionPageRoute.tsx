@@ -17,12 +17,10 @@ const CollectionPageRouter: FC<RouteComponentProps<CollectionPageRouter>> = ({
   const collectionId = match.params.collectionId;
   const maybeTabStr = match.params.tab;
   const tab =
-    maybeTabStr === 'followers'
-      ? CollectionPageTab.Followers
-      : maybeTabStr === 'activities'
-      ? CollectionPageTab.Activities
-      : !maybeTabStr
+    maybeTabStr === 'resources'
       ? CollectionPageTab.Resources
+      : !maybeTabStr
+      ? CollectionPageTab.Activities
       : null;
 
   const props = useMemo<CollectionPage | null>(

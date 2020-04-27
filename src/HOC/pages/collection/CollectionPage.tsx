@@ -19,8 +19,7 @@ import { useFormik } from 'formik';
 
 export enum CollectionPageTab {
   Activities,
-  Resources,
-  Followers
+  Resources
 }
 export interface CollectionPage {
   collectionId: Collection['id'];
