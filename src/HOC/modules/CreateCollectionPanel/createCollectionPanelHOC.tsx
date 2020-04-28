@@ -7,6 +7,7 @@ import {
 } from 'ui/modules/CreateCollectionPanel';
 import * as Yup from 'yup';
 import { useHistory } from 'react-router-dom';
+import { TestUrlOrFile } from 'HOC/lib/formik-validations';
 
 export const validationSchema: Yup.ObjectSchema<BasicCreateCollectionFormValues> = Yup.object<
   BasicCreateCollectionFormValues
@@ -16,7 +17,7 @@ export const validationSchema: Yup.ObjectSchema<BasicCreateCollectionFormValues>
     .max(60)
     .required(),
   summary: Yup.string().max(500),
-  icon: Yup.mixed<string | File>()
+  icon: Yup.mixed<string | File>().test(...TestUrlOrFile)
 });
 export interface Props {
   communityId: string;

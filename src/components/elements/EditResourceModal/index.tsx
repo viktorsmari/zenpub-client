@@ -1,28 +1,29 @@
-import * as React from 'react';
-import Modal from '../Modal';
 import { Trans } from '@lingui/macro';
-import { Button, Heading } from 'rebass/styled-components';
 import { Input, Textarea } from '@rebass/forms';
-import { compose } from 'recompose';
-import { withFormik, FormikProps, Form, Field } from 'formik';
-import * as Yup from 'yup';
-import Alert from '../Alert';
+import { getMaybeUploadInput } from 'fe/mutation/upload/getUploadInput';
+import { Field, Form, FormikProps, withFormik } from 'formik';
+import { TestUrlOrFile } from 'HOC/lib/formik-validations';
+import * as React from 'react';
 import { graphql, OperationOption } from 'react-apollo';
+import { Button, Heading } from 'rebass/styled-components';
+import { compose } from 'recompose';
+import * as Yup from 'yup';
+import { UpdateResourceMutationMutationVariables } from '../../../graphql/updateResource.generated';
 import styled from '../../../themes/styled';
+import Alert from '../Alert';
+import Modal from '../Modal';
+import {
+  Actions,
+  Container,
+  ContainerForm,
+  CounterChars,
+  Header,
+  Row
+} from '../Modal/modal';
 
 const {
   updateResourceMutation
 } = require('../../../graphql/updateResource.graphql');
-import {
-  Row,
-  Container,
-  Actions,
-  CounterChars,
-  ContainerForm,
-  Header
-} from '../Modal/modal';
-import { UpdateResourceMutationMutationVariables } from '../../../graphql/updateResource.generated';
-import { getMaybeUploadInput } from 'fe/mutation/upload/getUploadInput';
 
 interface Props {
   toggleModal?: any;
@@ -184,7 +185,7 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
       .max(90)
       .required(),
     summary: Yup.string().max(1000),
-    image: Yup.mixed<string | File>()
+    image: Yup.mixed<string | File>().test(...TestUrlOrFile)
   }),
   handleSubmit: (values, { props, setSubmitting }) => {
     const variables: UpdateResourceMutationMutationVariables = {
