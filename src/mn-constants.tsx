@@ -65,7 +65,7 @@ export const languages = {
 export type LocaleKey = keyof typeof languages;
 export const locales = Object.keys(languages) as LocaleKey[];
 
-const mothershipAppId = process.env.REACT_APP_MOTHERSHIP_APP_ID;
+const mothershipAppId = process.env.REACT_APP_MOTHERSHIP_API_ID;
 const mothershipApiKey = process.env.REACT_APP_MOTHERSHIP_API_KEY;
 export const mothershipCreds =
   mothershipAppId && mothershipApiKey
