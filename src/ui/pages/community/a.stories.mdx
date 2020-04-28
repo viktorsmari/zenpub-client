@@ -1,4 +1,4 @@
-import { Meta, Story, Preview } from '@storybook/addon-docs/blocks';
+import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
 import { PropsTable } from '@storybook/components';
 import { Community } from '.';
 import { action } from '@storybook/addon-actions';
@@ -20,22 +20,32 @@ import {Collection} from 'ui/modules/Previews/Collection'
 import {Comment} from 'ui/modules/Previews/Comment'
 import {Thread} from 'ui/modules/Previews/Thread'
 import {LikedComment} from 'ui/modules/Previews/LikedComment'
+const Head = () => <MainHeader {...getMainHeaderProps() } />
 
 
 <Meta title="Pages|Community" component={Community}/>
 
 
 # Community
-Let's define a story for the `community` page
+The community is where things happen in moodlenet.
+- **[Story](#story)**
+- **[Building blocks](#modules)**
+- **[Props](#props)**
+
+<div id="story">Story</div>
 
 <Preview>
   <Story name="community page">
     <WithSidebar 
-      HeaderBox={<MainHeader {...getMainHeaderProps() } />}
+      HeaderBox={Head}
       SidebarBox={<Sidebar {...getSidebarProps()}/>}>
       <Community {...{
-        communityName: "Community test name",
+        isJoined: true,
+        communityName: "OER licensing",
         newThreadFormik: ToggleFormik(),
+        loadMoreActivities: getLoadMoreProps(),
+        loadMoreCollections: getLoadMoreProps(),
+        loadMoreThreads: getLoadMoreProps(),
         ActivitiesBox: <React.Fragment>
           <ActivityPreview {...activityPreviewProps('Added a link', <Resource {...ResourcePreviewProps() }/>)} />
           <ActivityPreview {...activityPreviewProps('Uploaded a resource', <Resource {...ResourcePreviewProps('license', 'pdf' ) }/>)} />
@@ -46,25 +56,40 @@ Let's define a story for the `community` page
           <ActivityPreview {...activityPreviewProps('Created a comment', <Comment {...CommentPreviewProps() }/>)} />
         </React.Fragment>,
         CollectionsBox: <React.Fragment>
-          <Box mb={2}><Collection {...CollectionPreviewProps()} /></Box>
-          <Box mb={2}><Collection {...CollectionPreviewProps()} /></Box>
-          <Box mb={2}><Collection {...CollectionPreviewProps()} /></Box>
-          <Box mb={2}><Collection {...CollectionPreviewProps()} /></Box>
-          <Box mb={2}><Collection {...CollectionPreviewProps()} /></Box>
-          <Box mb={2}><Collection {...CollectionPreviewProps()} /></Box>
+          <Box sx={{marginBottom: 0}}><Collection {...CollectionPreviewProps('a new collection name', true, 'https://linktoimage', 'a description of the collection')} /></Box>
+          <Box sx={{marginBottom: 0}}><Collection {...CollectionPreviewProps('a new collection name', true, 'https://linktoimage', 'a description of the collection')} /></Box>
+          <Box sx={{marginBottom: 0}}><Collection {...CollectionPreviewProps()} /></Box>
+          <Box sx={{marginBottom: 0}}><Collection {...CollectionPreviewProps()} /></Box>
+          <Box sx={{marginBottom: 0}}><Collection {...CollectionPreviewProps()} /></Box>
+          <Box sx={{marginBottom: 0}}><Collection {...CollectionPreviewProps()} /></Box>
         </React.Fragment>,
-        HeroCommunityBox: (<HeroCommunity {...getHeroCommunityProps()}/>),
+        HeroCommunityBox: (<HeroCommunity {...getHeroCommunityProps(true)}/>),
         basePath:"/",
         ThreadsBox: <React.Fragment>
-          <Box mb={2}><Thread {...ThreadPreviewProps()}/></Box>
-          <Box mb={2}><Thread {...ThreadPreviewProps()}/></Box>
-          <Box mb={2}><Thread {...ThreadPreviewProps()}/></Box>
-          <Box mb={2}><Thread {...ThreadPreviewProps()}/></Box>
-          <Box mb={2}><Thread {...ThreadPreviewProps()}/></Box>
-          <Box mb={2}><Thread {...ThreadPreviewProps()}/></Box>
+          <Box mx={2} mb={2}><Thread {...ThreadPreviewProps()}/></Box>
+          <Box mx={2} mb={2}><Thread {...ThreadPreviewProps()}/></Box>
+          <Box mx={2} mb={2}><Thread {...ThreadPreviewProps()}/></Box>
+          <Box mx={2} mb={2}><Thread {...ThreadPreviewProps()}/></Box>
+          <Box mx={2} mb={2}><Thread {...ThreadPreviewProps()}/></Box>
+          <Box mx={2} mb={2}><Thread {...ThreadPreviewProps()}/></Box>
         </React.Fragment>
     }} />
     </WithSidebar>
   </Story>
 </Preview>
 
+<div id="modules">Building blocks</div>
+
+- **[WithSidebar](#)**
+- **[Nav, NavItem, Panel, PanelTitle, WrapperPanel](#)**
+- **[Button](#)**
+- **[Header](#)**
+- **[LoadMore](#)**
+- **[ActivityPreview](#)**
+- **[Collection](#)**
+- **[Thread](#)**
+- **[Community](#)**
+
+<div id="props">Props</div>
+
+<Props of={Community} />

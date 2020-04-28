@@ -8,17 +8,22 @@ export const DEFAULT_PAGE_SIZE =
   parseInt(`${process.env.REACT_APP_DEFAULT_PAGE_SIZE}`) || 15;
 
 export const APP_NAME = 'CommonsPub';
-export const INSTANCE_DESCRIPTION = 'Federated app for open and cooperative networks.';
+export const INSTANCE_DESCRIPTION =
+  'Federated app for open and cooperative networks.';
 export const INVITE_ONLY_TEXT =
+  process.env.REACT_APP_INVITE_ONLY_TEXT ||
   'Please note, signups on this instance are currently invite-only.';
-export const INSTANCE_TAGLINE = 'Connect. Organise. Share.';
+export const INSTANCE_TAGLINE = 'Share. Curate. Discuss.';
 export const INSTANCE_PROMPT =
   "You don't need to sign up to preview what people are sharing and discussing publicly.";
-export const prompt_signin = 'Sign in';
-export const my_timeline = 'My Network';
+export const prompt_signin = 'Sign in to MoodleNet';
+export const my_timeline = 'My MoodleNet';
 export const instance_bg_img =
-  'http://nycicarus.org/images/mad-solidarity-fists.png';
-export const logo_large_url = 'http://commonspub.org/logo-small.png'; // https://moodle.net/images/logos/moodlenet-logo.png
+  'https://gitlab.com/moodlenet/frontend/-/raw/develop/src/static/img/login.jpg';
+export const logo_large_url =
+  'https://moodle.net/images/logos/moodlenet-logo.png';
+export const logo_small_url =
+  'https://gitlab.com/moodlenet/homepage/-/raw/master/static/images/logos/moodle-logo.png';
 
 export const terms_markdown_text = {
   // replace the text as needed
@@ -38,12 +43,12 @@ export const terms_markdown_urls = {
 
 export const related_urls = {
   // replace the URLs as needed
-  project_homepage: 'http://commonspub.org',
-  terms_users: 'http://commonspub.org',
-  terms_cookies: 'http://commonspub.org',
-  terms_indexing: 'http://commonspub.org',
-  code: 'https://gitlab.com/CommonsPub',
-  feedback: 'http://zo.team'
+  project_homepage: 'https://moodle.net',
+  terms_users: 'https://moodle.net/terms/users/index.html',
+  terms_cookies: 'https://moodle.net/terms/cookies/index.html',
+  terms_indexing: 'https://moodle.net/terms/indexing/index.html',
+  code: 'https://gitlab.com/moodlenet',
+  feedback: 'https://changemap.co/moodle/moodlenet/'
 };
 
 export const IS_DEV = NODE_ENV === 'development';
@@ -60,7 +65,7 @@ export const languages = {
 export type LocaleKey = keyof typeof languages;
 export const locales = Object.keys(languages) as LocaleKey[];
 
-const mothershipAppId = process.env.REACT_APP_MOTHERSHIP_APP_ID;
+const mothershipAppId = process.env.REACT_APP_MOTHERSHIP_API_ID;
 const mothershipApiKey = process.env.REACT_APP_MOTHERSHIP_API_KEY;
 export const mothershipCreds =
   mothershipAppId && mothershipApiKey

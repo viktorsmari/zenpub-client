@@ -1,11 +1,11 @@
-import React, { useRef, useState, useCallback } from 'react';
+import { Textarea } from '@rebass/forms';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Send } from 'react-feather';
+import { Box, Flex } from 'rebass/styled-components';
 // import { dropEmoji } from '../../lib/emoji';
 // import EmojiPicker from 'emoji-picker-react';
 // import OutsideClickHandler from 'react-outside-click-handler';
 import styled from 'styled-components';
-import { Textarea } from '@rebass/forms';
-import { Box, Flex } from 'rebass/styled-components';
-import { Send } from 'react-feather';
 // const PickerWrap = styled.div`
 //   position: absolute;
 //   right: 10px;
@@ -52,16 +52,16 @@ const SocialActions = styled(Flex)`
 export interface Props {
   submit(text: string): void;
   defaultValue?: string;
-  clearOnSubmit?: boolean;
+  keepTextOnSubmit?: boolean;
   placeholder?: string;
 }
 export const SocialText: React.FC<Props> = ({
   submit,
   defaultValue = '',
-  clearOnSubmit = true,
+  keepTextOnSubmit = false,
   placeholder = ''
 }) => {
-  const ref = useRef<any>();
+  const ref = useRef<any>(null);
   const [text, setText] = useState(defaultValue);
   // const [isEmojiOpen, setEmojiOpen] = useState(false);
   // const toggleEmoji = useCallback(() => setEmojiOpen(!isEmojiOpen), [
@@ -84,23 +84,28 @@ export const SocialText: React.FC<Props> = ({
   //   },
   //   [ref.current]
   // );
-  const handleSubmit = useCallback(
-    () => {
-      submit(text);
-      if (clearOnSubmit) {
-        const textarea = ref.current as HTMLTextAreaElement;
-        textarea.value = '';
-      }
-    },
-    [ref.current, text]
-  );
-  const onChange = useCallback(
-    () => {
-      const textarea = ref.current as HTMLTextAreaElement;
-      setText(textarea.value);
-    },
-    [ref.current, setText]
-  );
+  const handleSubmit = useCallback(() => {
+    if (!text) {
+      return;
+    }
+    submit(text);
+    if (!keepTextOnSubmit) {
+      setText('');
+    }
+  }, [text]);
+  useEffect(() => {
+    if (!ref.current) {
+      return;
+    }
+    ref.current.value = text;
+  }, [text]);
+  const onChange = useCallback(() => {
+    if (!ref.current) {
+      return;
+    }
+    const txt = ref.current.value;
+    setText(txt);
+  }, [ref.current, setText]);
   return (
     <Wrapper>
       <SocialTextDiv>
@@ -114,8 +119,15 @@ export const SocialText: React.FC<Props> = ({
           {/* <EmojiPickerTrigger onClick={toggleEmoji}>
             <Smile color={'rgba(0,0,0,.4)'} size="24" />
           </EmojiPickerTrigger> */}
-          <Box style={{ cursor: 'pointer' }} ml={3} onClick={handleSubmit}>
-            <Send color={'rgba(0,0,0,.4)'} size="24" />
+          <Box
+            style={{ cursor: text ? 'pointer' : 'default' }}
+            ml={3}
+            onClick={handleSubmit}
+          >
+            <Send
+              color={text ? 'rgba(0,0,0,.4)' : 'rgba(0,0,0,.1)'}
+              size="24"
+            />
           </Box>
         </SocialActions>
         {/* {isEmojiOpen && (

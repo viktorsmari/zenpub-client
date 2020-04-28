@@ -1,9 +1,9 @@
-import { PureQueryOptions } from 'apollo-client';
+import { getMaybeUploadInput } from 'fe/mutation/upload/getUploadInput';
 import Maybe from 'graphql/tsutils/Maybe';
 import { CommunityInput } from 'graphql/types.generated';
 import { useCallback, useMemo } from 'react';
+import { MyCommunityFollowsQueryRefetch } from '../myFollowed/myFollowedCommunities.generated';
 import { useCreateCommunityMutation } from './useCreateCommunity.generated';
-import { getMaybeUploadInput } from 'fe/mutation/upload/getUploadInput';
 
 export interface CreateCommunity {
   community: CommunityInput;
@@ -17,7 +17,6 @@ export const useCreateCommunity = () => {
       if (createMutStatus.loading) {
         return;
       }
-      const refetchQueries: PureQueryOptions[] = [];
 
       return createMut({
         variables: {
@@ -28,7 +27,7 @@ export const useCreateCommunity = () => {
             preferredUsername: community.preferredUsername
           }
         },
-        refetchQueries
+        refetchQueries: [MyCommunityFollowsQueryRefetch({})]
       });
     },
     [createMutStatus, createMut]

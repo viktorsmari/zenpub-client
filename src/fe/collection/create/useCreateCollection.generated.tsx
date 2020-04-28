@@ -66,3 +66,13 @@ export interface CreateCollectionMutationOperation {
   type: 'mutation'
 }
 export const CreateCollectionMutationName:CreateCollectionMutationOperation['operationName'] = 'createCollection'
+
+export const CreateCollectionMutationRefetch = (
+  variables:CreateCollectionMutationVariables, 
+  context?:any
+)=>({
+  query:CreateCollectionDocument,
+  variables,
+  context
+})
+      

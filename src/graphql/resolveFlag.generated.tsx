@@ -61,3 +61,13 @@ export interface ResolveFlagMutationMutationOperation {
   type: 'mutation'
 }
 export const ResolveFlagMutationMutationName:ResolveFlagMutationMutationOperation['operationName'] = 'resolveFlagMutation'
+
+export const ResolveFlagMutationMutationRefetch = (
+  variables:ResolveFlagMutationMutationVariables, 
+  context?:any
+)=>({
+  query:ResolveFlagMutationDocument,
+  variables,
+  context
+})
+      

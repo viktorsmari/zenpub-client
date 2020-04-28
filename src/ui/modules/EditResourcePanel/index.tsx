@@ -3,7 +3,8 @@ import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
 import { FormikHook } from 'ui/@types/types';
 import * as React from 'react';
-import { Button, Heading } from 'rebass/styled-components';
+import { Heading } from 'rebass/styled-components';
+import Button from 'ui/elements/Button';
 import Alert from 'ui/elements/Alert';
 import {
   Actions,
@@ -122,7 +123,9 @@ export const EditResourcePanel: React.FC<Props> = ({ cancel, formik }) => {
       </Row>
       <Actions>
         <Button
-          disabled={formik.isSubmitting}
+          variant="primary"
+          isSubmitting={formik.isSubmitting}
+          isDisabled={formik.isSubmitting}
           type="submit"
           style={{ marginLeft: '10px' }}
           onClick={formik.submitForm}

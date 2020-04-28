@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ComponentType } from 'react';
 import styled from 'ui/themes/styled';
 // import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
@@ -11,8 +11,8 @@ import media from 'styled-media-query';
 import { ellipsis } from 'polished';
 import { Link } from 'react-router-dom';
 import { Trans } from '@lingui/react';
-const MnetLogo = require('static/img/logo-icon.png');
-import { prompt_signin } from 'mn-constants';
+// const MnetLogo = require('static/img/logo-icon.png');
+import { prompt_signin, logo_small_url } from 'mn-constants';
 
 export interface Props {
   user: null | {
@@ -22,13 +22,23 @@ export interface Props {
     logout(): unknown;
   };
   Search: JSX.Element;
+  toggleSideBar(): unknown;
+  CreateCommunityModal: ComponentType<{ done(): unknown }>;
 }
 
 export const MainHeader: React.FC<Props> = props => {
   const history = useHistory();
   const [isOpenDropdown, setOpenDropdown] = React.useState(false);
+  const [isOpenCreateCommunity, setOpenCreateCommunity] = React.useState(false);
   const openMenu = React.useCallback(() => setOpenDropdown(true), []);
-  // console.log(history);
+  const openCreateCommunity = React.useCallback(
+    () => setOpenCreateCommunity(true),
+    []
+  );
+  const closeCreateCommunity = React.useCallback(
+    () => setOpenCreateCommunity(false),
+    []
+  );
   return (
     <HeaderWrapper>
       <FlexWrapper>
@@ -36,12 +46,11 @@ export const MainHeader: React.FC<Props> = props => {
           <Icon onClick={() => history.goBack()}>
             <ChevronLeft size="20" />
           </Icon>
-          <HamburgerIcon>
-            {/* <HamburgerIcon onClick={() => toggleSideBar()}> FIX ME AFTER HOC */}
+          <HamburgerIcon onClick={props.toggleSideBar}>
             <Menu size="20" />
           </HamburgerIcon>
           <HomeLink to="/">
-            <Avatar size="s" src={MnetLogo} />
+            <Avatar size="s" src={logo_small_url} />
           </HomeLink>
         </Left>
         <Center>{props.Search}</Center>
@@ -66,6 +75,7 @@ export const MainHeader: React.FC<Props> = props => {
               </Right>
               {isOpenDropdown && (
                 <DropdownSidebar
+                  createCommunity={openCreateCommunity}
                   logout={props.user.logout}
                   userLink={props.user.link}
                   setOpenDropdown={setOpenDropdown}
@@ -92,6 +102,9 @@ export const MainHeader: React.FC<Props> = props => {
           )}
         </Header>
       </FlexWrapper>
+      {isOpenCreateCommunity && (
+        <props.CreateCommunityModal done={closeCreateCommunity} />
+      )}
     </HeaderWrapper>
   );
 };
@@ -179,14 +192,13 @@ const Left = styled(Flex)`
 const HeaderWrapper = styled(Box)`
   border-bottom: 1px solid ${props => props.theme.colors.lightgray};
   height: 50px;
-  //   justify-content: space-between;
   cursor: pointer;
   background: #fff;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 99999999999999999999;
+  z-index: 999999999999999;
   padding: 0 8px;
   a {
     display: flex;

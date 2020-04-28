@@ -10,10 +10,10 @@ import { getActions } from './activityPreview';
 import { ToggleFormik } from './formik';
 
 export function CollectionPreviewProps(
-  username = 'Awesomeness',
+  username = 'Collection',
   isFollowing = true,
-  icon = 'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png',
-  summary = 'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+  icon = 'https://images.pexels.com/photos/1389460/pexels-photo-1389460.jpeg',
+  summary = 'Example of a collection.'
 ): CollectionProps {
   return {
     link: { url: '/', external: true },
@@ -28,10 +28,10 @@ export function CollectionPreviewProps(
 }
 
 export function CommunityPreviewProps(
-  icon = 'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png',
-  name = 'Amazing community',
+  icon = 'https://images.pexels.com/photos/209728/pexels-photo-209728.jpeg',
+  name = 'Community',
   displayUsername = '@community@moodle.net',
-  summary = 'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+  summary = 'Example of a community.'
 ): CommunityProps {
   return {
     icon,
@@ -39,8 +39,8 @@ export function CommunityPreviewProps(
     link: { url: '/', external: true },
     displayUsername,
     summary,
-    followersCount: 12,
-    collectionsCount: 6,
+    followersCount: 172,
+    collectionsCount: 16,
     joined: true,
     toggleJoinFormik: ToggleFormik(),
     threadsCount: 3
@@ -48,12 +48,12 @@ export function CommunityPreviewProps(
 }
 
 export function ResourcePreviewProps(
-  icon = 'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png',
+  icon = 'https://images.pexels.com/photos/745365/pexels-photo-745365.jpeg',
   license = null,
   type = 'image',
   isLocal = true,
-  name = 'mantarain',
-  summary = 'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+  name = 'Intro to Spaced Repetition',
+  summary = 'I find these resources really useful for introducing the concept of spaced repetition to the students that I teach, especially the ones revising for exams!'
 ): ResourceProps {
   return {
     icon,
@@ -67,7 +67,7 @@ export function ResourcePreviewProps(
       totalLikes: 5
     },
     summary,
-    link: 'https://www.pinterest.it/topics/anime/',
+    link: 'https://www.pinterest.it/topics/spacedrepetition/',
     type,
     isFlagged: false,
     FlagModal: ({ done }) => {
@@ -81,12 +81,14 @@ export function UserPreviewProps(
   bio = `I'm a cool user`,
   username = '@favbooks@abc.com',
   name = '˗ˏˋ Doug Belshaw ˎˊ˗ ',
-  isFollowing = true
+  isFollowing = true,
+  profileUrl = '#'
 ): UserProps {
   return {
     image,
     bio,
     username,
+    profileUrl,
     name,
     isFollowing,
     toggleFollowFormik: ToggleFormik()
@@ -128,7 +130,7 @@ export function LikedCommentPreviewProps(
 }
 
 export function MainCommentPreviewProps(
-  content = 'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+  content = 'Hey everyone, new here and just wondering where the best place would be to go and find more information about how to deploy MoodleNet? Thanks in advance!'
 ): MainCommentProps {
   return {
     ...getActions(),
@@ -137,13 +139,13 @@ export function MainCommentPreviewProps(
 }
 
 export function ThreadPreviewProps(
-  content = 'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+  content = 'Hey everyone, new here and just wondering where the best place would be to go and find more information about how to deploy MoodleNet? Thanks in advance!'
 ): ThreadProps {
   return {
     link: '/',
     // title:"What do the avatars in the topic list mean?",
     content:
-      'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here ',
+      'Hey everyone, new here and just wondering where the best place would be to go and find more information about how to deploy MoodleNet? Thanks in advance!',
     createdAt: '2019-11-09',
     totalReplies: '24',
     totalLikes: '17',

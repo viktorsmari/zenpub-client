@@ -10,6 +10,8 @@ import Button from 'ui/elements/Button';
 import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
 import { FormikHook } from 'ui/@types/types';
 import { NavLink } from 'react-router-dom';
+import DOMPurify from 'dompurify';
+
 export enum Status {
   Loading,
   Loaded
@@ -65,9 +67,13 @@ export const HeroCommunity: FC<Props> = ({ community: c }) => {
           </Title>
           <Username fontSize={1}>@{c.fullName}</Username>
           {c.summary && (
-            <Summary variant="text" mt={2}>
-              {c.summary}
-            </Summary>
+            <Summary
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(c.summary)
+              }}
+              variant="text"
+              mt={2}
+            />
           )}
           <Info mt={3}>
             <MembersTot to={`${c.basePath}/members`}>
@@ -85,8 +91,8 @@ export const HeroCommunity: FC<Props> = ({ community: c }) => {
               >
                 {c.following ? <Trans>Leave</Trans> : <Trans>Join</Trans>}
               </Button>
-              <More>
-                <MoreVertical size={20} onClick={() => setOpenDropdown(true)} />
+              <More onClick={() => setOpenDropdown(true)}>
+                <MoreVertical size={20} />
                 {isOpenDropdown && (
                   <Dropdown orientation={'bottom'} cb={setOpenDropdown}>
                     {c.canModify && (

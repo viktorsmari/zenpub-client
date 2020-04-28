@@ -52,6 +52,7 @@ interface FormValues {
   password: string;
   username: string;
   passwordConfirm: string;
+  terms: boolean;
 }
 
 async function validateUsername(value, client) {

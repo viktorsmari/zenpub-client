@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import styled from 'ui/themes/styled';
 import Loader from '../Loader';
 import { darken, lighten, transitions } from 'polished';
-// import { Button, ButtonProps } from 'rebass/styled-components';
 import { Button } from 'rebass/styled-components';
 import { ButtonProps } from 'rebass';
 

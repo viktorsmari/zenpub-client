@@ -11,7 +11,7 @@ const Background = styled.div`
   right: 0;
   bottom: 0;
   background-color: rgba(51, 60, 69, 0.95);
-  z-index: 10000000;
+  z-index: 999999999999999999999999;
   height: 100%;
   justify-content: center;
   overflow: auto;
@@ -21,13 +21,14 @@ const Background = styled.div`
 const Dialog = styled.div`
   width: 700px;
   box-shadow: 0 2px 8px 3px rgba(0, 0, 0, 0.3);
-  z-index: 9999999999;
+  z-index: 9999999999999999;
   background-color: #ffffff;
   padding: 0;
   margin: 40px auto;
   position: fixed;
-  top: 10px;
+  top: 50%;
   left: 50%;
+  margin-top: -100px;
   margin-left: -350px;
   border-radius: 3px;
   outline: none;

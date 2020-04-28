@@ -65,3 +65,13 @@ export interface CommunityPreviewQueryOperation {
   type: 'query'
 }
 export const CommunityPreviewQueryName:CommunityPreviewQueryOperation['operationName'] = 'communityPreview'
+
+export const CommunityPreviewQueryRefetch = (
+  variables:CommunityPreviewQueryVariables, 
+  context?:any
+)=>({
+  query:CommunityPreviewDocument,
+  variables,
+  context
+})
+      

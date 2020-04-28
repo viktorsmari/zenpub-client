@@ -11,6 +11,8 @@ import {getMainHeaderProps} from 'ui/mock/mainHeader'
 import {getSidebarProps} from 'ui/mock/sidebar'
 import {activityPreviewProps} from 'ui/mock/activityPreview'
 import {CommentPreviewProps, MainCommentPreviewProps} from 'ui/mock/previews'
+import {getLoadMoreProps} from 'ui/mock/loadmore'
+const Head = () => <MainHeader {...getMainHeaderProps() } />
 
 
 <Meta title="Pages|Thread" component={Thread}/>
@@ -19,15 +21,21 @@ import {CommentPreviewProps, MainCommentPreviewProps} from 'ui/mock/previews'
 # Thread
 Let's define a story for the `Thread` page
 
+- **[Story](#story)**
+- **[Building blocks](#modules)**
+- **[Props](#props)**
+
+<div id="story">Story</div>
+
 <Preview>
   <Story name="Thread page">
     <WithSidebar 
-      HeaderBox={<MainHeader {...getMainHeaderProps() } />}
+      HeaderBox={Head}
       SidebarBox={<Sidebar {...getSidebarProps()}/>}>
         <Thread 
         isCommunityContext={true}
         communityId="/"
-        communityIcon="https://i.ytimg.com/vi/k4Q_YUXj4bU/maxresdefault.jpg"
+        communityIcon="https://pbs.twimg.com/profile_images/458816335900733440/lQx_HLvS.png"
         communityName="MoodleNet devs" 
         MainThread={ <MainComment {...MainCommentPreviewProps()} />}
         Comments={[
@@ -35,10 +43,20 @@ Let's define a story for the `Thread` page
             <ActivityPreview {...activityPreviewProps('Created a comment', <Comment {...CommentPreviewProps() }/>)} />,
             <ActivityPreview {...activityPreviewProps('Created a comment', <Comment {...CommentPreviewProps() }/>)} />
         ]}
+        loadMoreComments={getLoadMoreProps()}
         basePath="/"
         />
     </WithSidebar>
   </Story>
 </Preview>
 
+<div id="modules">Building blocks</div>
 
+- **[WithSidebar](#)**
+- **[ActivityPreview](#)**
+- **[MainComment](#)**
+- **[WrapperPanel](#)**
+
+<div id="props">Props</div>
+
+<Props of={Thread} />

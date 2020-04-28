@@ -255,6 +255,16 @@ export interface SearchHostIndexAndMyFollowingsQueryOperation {
 }
 export const SearchHostIndexAndMyFollowingsQueryName:SearchHostIndexAndMyFollowingsQueryOperation['operationName'] = 'SearchHostIndexAndMyFollowings'
 
+export const SearchHostIndexAndMyFollowingsQueryRefetch = (
+  variables:SearchHostIndexAndMyFollowingsQueryVariables, 
+  context?:any
+)=>({
+  query:SearchHostIndexAndMyFollowingsDocument,
+  variables,
+  context
+})
+      
+
 
 export interface SearchFollowMutationOperation {
   operationName: 'searchFollow'
@@ -264,6 +274,16 @@ export interface SearchFollowMutationOperation {
 }
 export const SearchFollowMutationName:SearchFollowMutationOperation['operationName'] = 'searchFollow'
 
+export const SearchFollowMutationRefetch = (
+  variables:SearchFollowMutationVariables, 
+  context?:any
+)=>({
+  query:SearchFollowDocument,
+  variables,
+  context
+})
+      
+
 
 export interface SearchUnfollowMutationOperation {
   operationName: 'searchUnfollow'
@@ -272,3 +292,13 @@ export interface SearchUnfollowMutationOperation {
   type: 'mutation'
 }
 export const SearchUnfollowMutationName:SearchUnfollowMutationOperation['operationName'] = 'searchUnfollow'
+
+export const SearchUnfollowMutationRefetch = (
+  variables:SearchUnfollowMutationVariables, 
+  context?:any
+)=>({
+  query:SearchUnfollowDocument,
+  variables,
+  context
+})
+      

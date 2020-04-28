@@ -261,6 +261,16 @@ export interface LikeMutationOperation {
 }
 export const LikeMutationName:LikeMutationOperation['operationName'] = 'like'
 
+export const LikeMutationRefetch = (
+  variables:LikeMutationVariables, 
+  context?:any
+)=>({
+  query:LikeDocument,
+  variables,
+  context
+})
+      
+
 
 export interface UnlikeMutationOperation {
   operationName: 'unlike'
@@ -269,3 +279,13 @@ export interface UnlikeMutationOperation {
   type: 'mutation'
 }
 export const UnlikeMutationName:UnlikeMutationOperation['operationName'] = 'unlike'
+
+export const UnlikeMutationRefetch = (
+  variables:UnlikeMutationVariables, 
+  context?:any
+)=>({
+  query:UnlikeDocument,
+  variables,
+  context
+})
+      

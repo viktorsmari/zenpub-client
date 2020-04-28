@@ -1,14 +1,16 @@
 import { i18nMark, Trans } from '@lingui/react';
-import { /* Textarea,*/ Checkbox, Input, Label } from '@rebass/forms';
+import { /* Textarea,*/ /* Checkbox, */ Input, Label } from '@rebass/forms';
 import React from 'react';
 import { XCircle } from 'react-feather';
-import { Box, Flex, Text } from 'rebass/styled-components';
+import { Box, /* Flex, */ Text } from 'rebass/styled-components';
 import { FormikHook } from 'ui/@types/types';
 import Button from 'ui/elements/Button';
 import ConfirmationModal from 'ui/modules/ConfirmationModal';
 import Modal, { Actions, ContainerForm, Row } from 'ui/modules/Modal';
 // import DropzoneArea from '../../../components/elements/DropzoneModal';
 import styled from 'ui/themes/styled';
+import { LocaleContext } from 'context/global/localizationCtx';
+import { LoadMore } from 'ui/modules/Loadmore';
 
 const tt = {
   placeholders: {
@@ -20,6 +22,7 @@ export interface Props {
   formikAddDomain: FormikHook<WithDomain>;
   formikRemoveDomain: FormikHook<WithDomain>;
   domainsList: string[];
+  loadMoreDomains?: FormikHook; // FIX ME after add LoadMoreFormik
 }
 
 export interface WithDomain {
@@ -30,8 +33,11 @@ export interface WithDomain {
 const Instance: React.FC<Props> = ({
   formikAddDomain,
   formikRemoveDomain,
-  domainsList
+  domainsList,
+  loadMoreDomains
 }) => {
+  const { i18n } = React.useContext(LocaleContext);
+
   return (
     <Box>
       <Text px={3} mt={2} variant="heading">
@@ -66,7 +72,7 @@ const Instance: React.FC<Props> = ({
         </Bg>
       </ContainerForm>
     </Row> */}
-      <Row>
+      {/* <Row>
         <ContainerForm>
           <Invite>
             <Label>
@@ -75,7 +81,7 @@ const Instance: React.FC<Props> = ({
             </Label>
           </Invite>
         </ContainerForm>
-      </Row>
+      </Row> */}
       <DomainWrapper>
         <Label pt={3}>
           <Trans>Add Domain to allowlist</Trans>
@@ -91,7 +97,8 @@ const Instance: React.FC<Props> = ({
           <Actions>
             <Button
               variant="primary"
-              disabled={formikAddDomain.isSubmitting}
+              isSubmitting={formikAddDomain.isSubmitting}
+              isDisabled={formikAddDomain.isSubmitting}
               type="submit"
               style={{ marginLeft: '10px' }}
               onClick={formikAddDomain.submitForm}
@@ -113,15 +120,19 @@ const Instance: React.FC<Props> = ({
             </Delete>
           </ListRow>
         ))}
+        {loadMoreDomains ? <LoadMore LoadMoreFormik={loadMoreDomains} /> : null}{' '}
+        {/* FIX ME after add LoadMoreFormik */}
       </Box>
       {formikRemoveDomain.values.domain && (
         <Modal closeModal={() => formikRemoveDomain.setValues({ domain: '' })}>
           <ConfirmationModal
             cancel={() => formikRemoveDomain.setValues({ domain: '' })}
             formik={formikRemoveDomain}
-            modalAction="**modalAction**" //FIXME
-            modalDescription="**modalDescription**" //FIXME
-            modalTitle="**modalTitle**" //FIXME
+            modalAction={i18n._(`Delete domain from whitelist`)}
+            modalDescription={i18n._(
+              `Are you sure you want to delete ${formikRemoveDomain.values.domain} from whitelist?`
+            )}
+            modalTitle={i18n._(`Delete`)}
           />
         </Modal>
       )}
@@ -133,14 +144,14 @@ const Instance: React.FC<Props> = ({
   );
 };
 
-const Invite = styled(Flex)`
-  align-items: center;
-  label {
-    width: 100%;
-    line-height: auto;
-    align-items: center;
-  }
-`;
+// const Invite = styled(Flex)`
+//   align-items: center;
+//   label {
+//     width: 100%;
+//     line-height: auto;
+//     align-items: center;
+//   }
+// `;
 
 const DomainText = styled(Text)`
   flex:1;

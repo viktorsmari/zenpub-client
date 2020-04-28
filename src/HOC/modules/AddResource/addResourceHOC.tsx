@@ -8,6 +8,7 @@ import {
 import * as Yup from 'yup';
 import { accepted_license_types } from 'mn-constants';
 import { ResourceInput } from 'graphql/types.generated';
+import { TestUrlOrFile } from 'HOC/lib/formik-validations';
 
 export const validationSchema: Yup.ObjectSchema<ResourceFormValues> = Yup.object<
   ResourceFormValues
@@ -16,7 +17,7 @@ export const validationSchema: Yup.ObjectSchema<ResourceFormValues> = Yup.object
     .max(90)
     .required(),
   summary: Yup.string().max(1000),
-  icon: Yup.mixed<File | string>(),
+  icon: Yup.mixed<File | string>().test(...TestUrlOrFile),
   resource: Yup.mixed<File>().required(),
   license: Yup.string()
 });

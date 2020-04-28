@@ -5,6 +5,8 @@ import { FormikHook } from 'ui/@types/types';
 import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
 import { SimpleLink } from 'ui/helpers/SimpleLink';
+import { Users, Folder } from 'react-feather';
+import Button from 'ui/elements/Button';
 
 export interface Props {
   name: string;
@@ -21,6 +23,7 @@ export interface Props {
   };
   displayUsername: string;
   hideActons?: boolean;
+  // followers: string[]
 }
 
 export const Community: React.FC<Props> = ({
@@ -34,6 +37,7 @@ export const Community: React.FC<Props> = ({
   link,
   displayUsername,
   hideActons
+  // followers
 }) => (
   <Bordered>
     <Wrapper p={2}>
@@ -53,35 +57,64 @@ export const Community: React.FC<Props> = ({
             </Box>
           </Flex>
 
-          <Text sx={{ height: '60px' }} variant="text" mt={2}>
-            {summary.length > 90
-              ? summary.replace(/^([\s\S]{86}[^\s]*)[\s\S]*/, '$1...')
-              : summary}
-          </Text>
+          {summary ? (
+            <Text variant="text" mt={2}>
+              {summary.length > 90
+                ? summary.replace(/^([\s\S]{86}[^\s]*)[\s\S]*/, '$1...')
+                : summary}
+            </Text>
+          ) : null}
+
+          {/* <Users>
+            {followers.map((u, i) => (<Avatar key={i} src={u}/>))}
+          </Users> */}
         </Box>
+        <Meta px={2}>
+          <MetaWrapper mt={2} alignItems="center">
+            <Users size={18} />
+            <Text ml={2} variant="suptitle">
+              {followersCount || 0} <Trans>Users</Trans>
+            </Text>
+          </MetaWrapper>
+
+          <MetaWrapper mt={2} alignSelf="center" alignItems="center">
+            <Folder size={18} />
+            <Text ml={2} variant="suptitle">
+              {collectionsCount || 0} <Trans>Collections</Trans>
+            </Text>
+          </MetaWrapper>
+          {hideActons ? null : (
+            <Actions my={3}>
+              <Button
+                variant="outline"
+                isSubmitting={toggleJoinFormik.isSubmitting}
+                onClick={toggleJoinFormik.submitForm}
+              >
+                <Text variant={'suptitle'}>
+                  {joined ? <Trans>Leave</Trans> : <Trans>Join</Trans>}
+                </Text>
+              </Button>
+            </Actions>
+          )}
+        </Meta>
       </WrapperLink>
     </Wrapper>
-    <Meta my={2}>
-      <Flex alignSelf="center" mr={3} alignItems="center">
-        <Text variant="suptitle">
-          {followersCount || 0} <Trans>Users</Trans>
-        </Text>
-      </Flex>
-      <Flex alignSelf="center" alignItems="center">
-        <Text variant="suptitle">
-          {collectionsCount || 0} <Trans>Collections</Trans>
-        </Text>
-      </Flex>
-      {hideActons ? null : (
-        <ActionItem onClick={toggleJoinFormik.submitForm}>
-          <Text ml={2} variant={'suptitle'}>
-            {joined ? <Trans>Leave</Trans> : <Trans>Join</Trans>}
-          </Text>
-        </ActionItem>
-      )}
-    </Meta>
   </Bordered>
 );
+
+// const Users = styled(Box)``
+
+const Actions = styled(Box)`
+  button {
+    width: 100%;
+  }
+`;
+
+const MetaWrapper = styled(Flex)`
+  svg  {
+    margin: 0;
+  }
+`;
 
 const WrapperLink = styled(SimpleLink)`
   text-decoration: none;
@@ -103,31 +136,31 @@ const WrapperLink = styled(SimpleLink)`
 //   padding: 8px;
 // `;
 
-const ActionItem = styled(Flex)`
-  align-items: center;
-  color: ${props => props.theme.colors.gray};
-  cursor: pointer;
-  a {
-    display: flex;
-    align-items: center;
-    position: relative;
-    z-index: 9;
-  }
-  &:hover {
-    svg.hover {
-      stroke: ${props => props.theme.colors.orange};
-    }
-  }
-`;
+// const Button = styled(Flex)`
+//   align-items: center;
+//   color: ${props => props.theme.colors.gray};
+//   cursor: pointer;
+//   a {
+//     display: flex;
+//     align-items: center;
+//     position: relative;
+//     z-index: 9;
+//   }
+//   &:hover {
+//     svg.hover {
+//       stroke: ${props => props.theme.colors.orange};
+//     }
+//   }
+// `;
 
 const Username = styled(Text)`
   color: ${props => props.theme.colors.gray};
   flex: 1;
 `;
 
-const Meta = styled(Flex)`
+const Meta = styled(Box)`
   color: ${props => props.theme.colors.gray};
-  justify-content: space-evenly;
+  // justify-content: space-evenly;
 `;
 
 const Bordered = styled(Box)`

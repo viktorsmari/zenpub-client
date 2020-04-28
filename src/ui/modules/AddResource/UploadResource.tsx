@@ -2,10 +2,10 @@ import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
 import * as React from 'react';
-import { Box, Button } from 'rebass/styled-components';
+import { Box } from 'rebass/styled-components';
 import { FormikHook } from 'ui/@types/types';
 import Alert from 'ui/elements/Alert';
-import MNButton from 'ui/elements/Button';
+import Button from 'ui/elements/Button';
 import {
   Actions,
   AlertWrapper,
@@ -280,7 +280,7 @@ const FormInput = styled(Input)`
   border: 1px solid ${props => props.theme.colors.lightgray};
 `;
 
-const SubmitButton = styled(MNButton)`
+const SubmitButton = styled(Button)`
   margin-left: 8px;
   .--rtl & {
     margin-right: 8px;

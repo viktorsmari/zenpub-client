@@ -13,17 +13,21 @@ import {MainHeader} from 'ui/modules/MainHeader'
 import {Sidebar} from 'ui/modules/Sidebar'
 import {getSidebarProps} from 'ui/mock/sidebar'
 import {getMainHeaderProps} from 'ui/mock/mainHeader'
+const Head = () => <MainHeader {...getMainHeaderProps() } />
 
 <Meta title="Pages|AllCommunities" component={AllCommunities}/>
 
 
 # AllCommunities
 Let's define a story for the `AllCommunities` page
+- **[Story](#story)**
+- **[Building blocks](#modules)**
+- **[Props](#props)**
 
 <Preview>
   <Story name="AllCommunities page">
     <WithSidebar 
-      HeaderBox={<MainHeader {...getMainHeaderProps() } />}
+      HeaderBox={Head}
       SidebarBox={<Sidebar {...getSidebarProps()}/>}>
         <AllCommunities 
         Header={(<Header name="All Communities" />)}
@@ -43,4 +47,13 @@ Let's define a story for the `AllCommunities` page
   </Story>
 </Preview>
 
+<div id="modules">Building blocks</div>
 
+- **[WithSidebar](#)**
+- **[Header](#)**
+- **[WrapperPanel](#)**
+- **[LoadMore](#)**
+
+<div id="props">Props</div>
+
+<Props of={AllCommunities} />

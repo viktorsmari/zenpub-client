@@ -82,3 +82,13 @@ export interface LocalActivitiesQueryOperation {
   type: 'query'
 }
 export const LocalActivitiesQueryName:LocalActivitiesQueryOperation['operationName'] = 'localActivities'
+
+export const LocalActivitiesQueryRefetch = (
+  variables:LocalActivitiesQueryVariables, 
+  context?:any
+)=>({
+  query:LocalActivitiesDocument,
+  variables,
+  context
+})
+      

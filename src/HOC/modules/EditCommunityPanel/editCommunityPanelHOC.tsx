@@ -7,6 +7,7 @@ import {
   EditCommunityPanel
 } from 'ui/modules/EditCommunityPanel';
 import * as Yup from 'yup';
+import { TestUrlOrFile } from 'HOC/lib/formik-validations';
 
 export const validationSchema: Yup.ObjectSchema<EditCommunityFormValues> = Yup.object<
   EditCommunityFormValues
@@ -16,7 +17,7 @@ export const validationSchema: Yup.ObjectSchema<EditCommunityFormValues> = Yup.o
     .max(60)
     .required(),
   summary: Yup.string().max(500),
-  icon: Yup.mixed<File | string>() //.url(),
+  icon: Yup.mixed<File | string>().test(...TestUrlOrFile)
 });
 
 export interface Props {

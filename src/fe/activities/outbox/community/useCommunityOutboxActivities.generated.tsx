@@ -102,3 +102,13 @@ export interface CommunityOutboxActivitiesQueryOperation {
   type: 'query'
 }
 export const CommunityOutboxActivitiesQueryName:CommunityOutboxActivitiesQueryOperation['operationName'] = 'communityOutboxActivities'
+
+export const CommunityOutboxActivitiesQueryRefetch = (
+  variables:CommunityOutboxActivitiesQueryVariables, 
+  context?:any
+)=>({
+  query:CommunityOutboxActivitiesDocument,
+  variables,
+  context
+})
+      

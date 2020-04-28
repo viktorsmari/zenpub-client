@@ -10,6 +10,7 @@ export interface Props {
   name: string;
   username: string;
   bio: string;
+  profileUrl: string;
   toggleFollowFormik: FormikHook;
   isFollowing: boolean;
   hideActions?: boolean;
@@ -20,6 +21,7 @@ export const User: React.SFC<Props> = ({
   name,
   username,
   bio,
+  // usami profileUrl,
   toggleFollowFormik /* , isFollowing */,
   hideActions
 }) => (

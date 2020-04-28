@@ -37,7 +37,9 @@ import {
   Props as HeroUserProps,
   Status as HeroUserStatus
 } from 'ui/modules/HeroUser';
-import { Props as LoadMoreProps } from 'ui/modules/Loadmore';
+// import { Props as LoadMoreProps } from 'ui/modules/Loadmore';
+import { ToggleFormik } from './formik';
+
 import { Collection } from 'ui/modules/Previews/Collection';
 import { Comment } from 'ui/modules/Previews/Comment';
 import { FlaggedItem } from 'ui/modules/Previews/FlaggedItem';
@@ -62,17 +64,14 @@ import { Props as ConfirmationModalProps } from '../modules/ConfirmationModal';
 import { FeaturedModal } from '../modules/FeaturedModal';
 import ModerationLog from 'ui/pages/settings/logs';
 import { User } from 'ui/modules/Previews/User';
-
 // import { User as UserIcon } from 'react-feather';
 
 export const getEditCommunityProps = (): EditCommunityProps => {
   const formik = useFormik<EditCommunityFormValues>({
     initialValues: {
-      icon:
-        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.MPaPKKyEuv4RMPDu3T_ppgHaE7%26pid%3DApi&f=1',
-      name: '24grana best songs',
-      summary:
-        '24 Grana appeared on the Italian underground scene in the mid 90s, in a period of a great social, political and cultural ferment. The band is named after a coin used at the times of Kind Ferdinand of Aragona.'
+      icon: 'https://docs.moodle.org/dev/images_dev/4/4e/ammaarah.jpg',
+      name: 'Ammaarah',
+      summary: 'change'
     },
     onSubmit: () => {
       action('submit')();
@@ -104,11 +103,9 @@ export const getCreateCommunityProps = (): CreateCommunityProps => {
 export const getEditCollectionProps = (): EditCollectionPanelProps => {
   const formik = useFormik<EditCollectionFormValues>({
     initialValues: {
-      icon:
-        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.MPaPKKyEuv4RMPDu3T_ppgHaE7%26pid%3DApi&f=1',
+      icon: '',
       name: '24grana best songs',
-      summary:
-        '24 Grana appeared on the Italian underground scene in the mid 90s, in a period of a great social, political and cultural ferment. The band is named after a coin used at the times of Kind Ferdinand of Aragona.'
+      summary: 'Ammaarah'
     },
     onSubmit: () => {
       action('submit')();
@@ -211,14 +208,14 @@ export const getHeroCommunityPropsAdmin = (): HeroCommunityProps => {
 export const getEditProfileProps = (): EditProfileProps => {
   const formik = useFormik<EditProfile>({
     initialValues: {
-      image: '',
-      location: '',
-      icon:
-        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.MPaPKKyEuv4RMPDu3T_ppgHaE7%26pid%3DApi&f=1',
-      name: '24grana best songs',
+      image:
+        'https://images.unsplash.com/photo-1543783207-ec64e4d95325?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
+      location: 'Madrid',
+      icon: 'https://docs.moodle.org/dev/images_dev/2/2b/estrella.jpg',
+      name: 'Estrella',
       summary:
-        '24 Grana appeared on the Italian underground scene in the mid 90s, in a period of a great social, political and cultural ferment. The band is named after a coin used at the times of Kind Ferdinand of Aragona.',
-      website: 'https://moodle.net'
+        'Spanish educator teaching at a local ESO (secondary) school, and leading a busy life!',
+      website: 'https://estrella.xyz'
     },
     onSubmit: () => {
       action('submit')();
@@ -230,7 +227,7 @@ export const getEditProfileProps = (): EditProfileProps => {
   return {
     formik,
     basePath: '/',
-    displayUsername: '@tata@app.moodle.net',
+    displayUsername: '@estrella@home.moodle.net',
     isAdmin: false,
     Preferences: <Preferences />,
     Flags: <div>Flags section </div>, //FIXME
@@ -292,7 +289,7 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
             {...getActions()}
             url="/"
             content={
-              'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+              'lol we should dox Estrella here is her address: 40 Camiño Bruno, Madrid but I have not got her postal code'
             }
             isFlagged={false}
             hideActions={true}
@@ -345,13 +342,13 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
           <Collection
             hideActions={true}
             link={{ url: '/', external: true }}
-            displayUsername={'@tata@app.moodle.net'}
+            displayUsername={'@interesting_resources@app.moodle.net'}
             icon={
-              'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png'
+              'https://images.unsplash.com/photo-1562240020-ce31ccb0fa7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1234&q=80'
             }
-            name={'mantarai'}
+            name={'Interesting resources ;)'}
             summary={
-              'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
+              'A collection of copyrighted resources for your viewing pleasure!'
             }
             totalResources={12}
             isFollowing={true}
@@ -433,12 +430,10 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
             }}
             isFlagged={true}
             icon={
-              'https://files.mastodon.social/accounts/headers/001/105/637/original/6da7b224d62ebeb5.png'
+              'http://cutcompcosts.com/wp-content/uploads/2014/06/Student-Teacher-Violence.jpg'
             }
-            name={'mantarai'}
-            summary={
-              'After longtime I made a design for Uplabs Music player design challenge. i hope you all like this. if you like my design dont forgot to Vote in Uplabs ( 25 June ). Vote Here '
-            }
+            name={'my teacher iz a loser'}
+            summary={'mr james is rubbish and i dont lik him'}
             link={'anime.pdf'}
             license={'CC-BY-4.0'}
             acceptedLicenses={['CC0-1.0', 'CC-BY-4.0', 'CC-BY-SA-4.0']}
@@ -502,6 +497,7 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
             username={'@favbooks@abc.com'}
             name={'˗ˏˋ Doug Belshaw ˎˊ˗ '}
             isFollowing={true}
+            profileUrl={'#'}
             toggleFollowFormik={useFormik<{}>({
               initialValues: {},
               onSubmit: vals => {
@@ -564,14 +560,14 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
 
   const formik = useFormik<EditProfile>({
     initialValues: {
-      image: '',
-      location: '',
-      icon:
-        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.MPaPKKyEuv4RMPDu3T_ppgHaE7%26pid%3DApi&f=1',
-      name: '24grana best songs',
+      image:
+        'https://images.unsplash.com/photo-1526583547718-e88dc16de312?ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80',
+      location: 'Soweto, South Africa',
+      icon: 'https://docs.moodle.org/dev/images_dev/4/4e/ammaarah.jpg',
+      name: 'Ammaaarah',
       summary:
-        '24 Grana appeared on the Italian underground scene in the mid 90s, in a period of a great social, political and cultural ferment. The band is named after a coin used at the times of Kind Ferdinand of Aragona.',
-      website: 'https://moodle.net'
+        'Programme Co-ordinator working at a South African university with a deep experience of Moodle and other open source software projects. ',
+      website: 'https://soweto.ac.za/ammaarah'
     },
     onSubmit: () => {
       action('submit')();
@@ -629,7 +625,7 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
   return {
     formik,
     basePath: '/',
-    displayUsername: '@tata@app.moodle.net',
+    displayUsername: '@ammaarah@home.moodle.net',
     Preferences: <Preferences />,
     Invites: (
       <Emails
@@ -642,14 +638,16 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
         formikAddEmail={formikAddEmail}
         formikRemoveEmail={formikRemoveEmail}
         formikSendInvite={formikSendInvite}
+        loadMoreEmails={ToggleFormik()}
       />
     ),
-    Flags: <Flags FlagsBox={ActivitiesBox} />,
+    Flags: <Flags FlagsBox={ActivitiesBox} loadMoreFlags={ToggleFormik()} />,
     Instance: (
       <Instance
         formikAddDomain={formikAddDomain}
         formikRemoveDomain={formikRemoveDomain}
         domainsList={['moodle.com']}
+        loadMoreDomains={ToggleFormik()}
       />
     ),
     ModerationLog: <ModerationLog />,
@@ -657,19 +655,19 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
   };
 };
 
-export const getLoadMoreProps = (): LoadMoreProps => {
-  return {
-    LoadMoreFormik: useFormik<{}>({
-      initialValues: {},
-      onSubmit: () => {
-        action('load more')();
-        return new Promise((resolve, reject) => {
-          setTimeout(resolve, 3000);
-        });
-      }
-    })
-  };
-};
+// export const getLoadMoreProps = (): LoadMoreProps => {
+//   return {
+//     LoadMoreFormik: useFormik<{}>({
+//       initialValues: {},
+//       onSubmit: () => {
+//         action('load more')();
+//         return new Promise((resolve, reject) => {
+//           setTimeout(resolve, 3000);
+//         });
+//       }
+//     })
+//   };
+// };
 
 export const getHeroCollectionProps = (): HeroCollectionProps => {
   return {
@@ -1058,7 +1056,8 @@ export const getSignUpProps = (): SignUpProps => {
       username: 'moodlerMary',
       name: 'Moodler Mary',
       password: '',
-      passwordConfirm: ''
+      passwordConfirm: '',
+      terms: false
     },
     onSubmit: () => {
       action('submit')();

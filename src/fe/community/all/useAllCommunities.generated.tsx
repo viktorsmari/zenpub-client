@@ -84,3 +84,13 @@ export interface AllCommunitiesQueryOperation {
   type: 'query'
 }
 export const AllCommunitiesQueryName:AllCommunitiesQueryOperation['operationName'] = 'allCommunities'
+
+export const AllCommunitiesQueryRefetch = (
+  variables:AllCommunitiesQueryVariables, 
+  context?:any
+)=>({
+  query:AllCommunitiesDocument,
+  variables,
+  context
+})
+      

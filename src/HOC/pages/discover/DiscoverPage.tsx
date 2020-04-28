@@ -11,7 +11,7 @@ import { useAllCollections } from 'fe/collection/all/useAllCollections';
 import { useFormikPage } from 'fe/lib/helpers/usePage';
 
 export enum DiscoverPageTabs {
-  Activities = 1,
+  Activities,
   Communities,
   Collections
 }

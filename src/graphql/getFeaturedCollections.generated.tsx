@@ -102,3 +102,13 @@ export interface GetFeaturedCollectionsQueryOperation {
   type: 'query'
 }
 export const GetFeaturedCollectionsQueryName:GetFeaturedCollectionsQueryOperation['operationName'] = 'getFeaturedCollections'
+
+export const GetFeaturedCollectionsQueryRefetch = (
+  variables:GetFeaturedCollectionsQueryVariables, 
+  context?:any
+)=>({
+  query:GetFeaturedCollectionsDocument,
+  variables,
+  context
+})
+      

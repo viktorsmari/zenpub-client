@@ -123,3 +123,13 @@ export interface MyCommunityFollowsQueryOperation {
   type: 'query'
 }
 export const MyCommunityFollowsQueryName:MyCommunityFollowsQueryOperation['operationName'] = 'myCommunityFollows'
+
+export const MyCommunityFollowsQueryRefetch = (
+  variables:MyCommunityFollowsQueryVariables, 
+  context?:any
+)=>({
+  query:MyCommunityFollowsDocument,
+  variables,
+  context
+})
+      

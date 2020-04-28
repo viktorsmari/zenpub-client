@@ -1,6 +1,7 @@
 import { Trans } from '@lingui/macro';
 import * as React from 'react';
-import { Button, Heading, Text } from 'rebass/styled-components';
+import { Heading, Text } from 'rebass/styled-components';
+import Button from 'ui/elements/Button';
 import styled from 'ui/themes/styled';
 import { FormikHook } from 'ui/@types/types';
 import {
@@ -44,7 +45,9 @@ export const FeaturedModal: React.FC<Props> = ({
       </Row>
       <Actions>
         <SubmitButton
-          disabled={formik.isSubmitting}
+          variant="primary"
+          isSubmitting={formik.isSubmitting}
+          isDisabled={formik.isSubmitting}
           type="submit"
           style={{ marginLeft: '10px' }}
           onClick={formik.submitForm}
@@ -73,8 +76,9 @@ export const FeaturedModal: React.FC<Props> = ({
       </Row>
       <Actions>
         <SubmitButton
-          disabled={formik.isSubmitting}
-          type="submit"
+          variant="primary"
+          isSubmitting={formik.isSubmitting}
+          isDisabled={formik.isSubmitting}
           style={{ marginLeft: '10px' }}
           onClick={formik.submitForm}
         >

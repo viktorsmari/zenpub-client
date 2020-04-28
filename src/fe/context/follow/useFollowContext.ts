@@ -3,6 +3,10 @@ import * as GQL from 'fe/mutation/follow/useMutateFollow.generated';
 import Maybe from 'graphql/tsutils/Maybe';
 import { Collection, Community, Thread, User } from 'graphql/types.generated';
 import { useCallback, useMemo } from 'react';
+import { MyCommunityFollowsQueryRefetch } from 'fe/community/myFollowed/myFollowedCommunities.generated';
+import { CommunityFollowersQueryRefetch } from 'fe/user/followers/community/useCommunityFollowers.generated';
+import { CollectionFollowersQueryRefetch } from 'fe/user/followers/collection/useCollectionFollowers.generated';
+import { MyCollectionFollowsQueryRefetch } from 'fe/collection/myFollowed/myFollowedCollections.generated';
 
 type Context = Collection | Community | Thread | User;
 
@@ -31,9 +35,15 @@ export const useFollowContext = (ctx: UseFollowContext) => {
         ),
         refetchQueries:
           __typename === 'Community'
-            ? ['myFollowedCommunities', 'communityFollowers']
+            ? [
+                MyCommunityFollowsQueryRefetch({}),
+                CommunityFollowersQueryRefetch({ communityId: id })
+              ]
             : __typename === 'Collection'
-            ? ['collectionFollowers']
+            ? [
+                MyCollectionFollowsQueryRefetch({}),
+                CollectionFollowersQueryRefetch({ collectionId: id })
+              ]
             : []
       });
     } else {
@@ -50,9 +60,15 @@ export const useFollowContext = (ctx: UseFollowContext) => {
             ),
             refetchQueries:
               __typename === 'Community'
-                ? ['myFollowedCommunities', 'communityFollowers']
+                ? [
+                    MyCommunityFollowsQueryRefetch({}),
+                    CommunityFollowersQueryRefetch({ communityId: id })
+                  ]
                 : __typename === 'Collection'
-                ? ['collectionFollowers']
+                ? [
+                    MyCollectionFollowsQueryRefetch({}),
+                    CollectionFollowersQueryRefetch({ collectionId: id })
+                  ]
                 : []
           });
     }

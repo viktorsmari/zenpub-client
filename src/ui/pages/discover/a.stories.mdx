@@ -15,28 +15,38 @@ import {getSidebarProps} from 'ui/mock/sidebar'
 import {getMainHeaderProps} from 'ui/mock/mainHeader'
 import {Resource} from 'ui/modules/Previews/Resource'
 import {Collection} from 'ui/modules/Previews/Collection'
+import {Community} from 'ui/modules/Previews/Community';
 import {Comment} from 'ui/modules/Previews/Comment'
 import {Thread} from 'ui/modules/Previews/Thread'
 import {LikedComment} from 'ui/modules/Previews/LikedComment'
+import {getLoadMoreProps} from 'ui/mock/loadmore'
 
 import {FeaturedCommunities} from 'ui/modules/FeaturedCommunities'
 import {FeaturedCollections} from 'ui/modules/FeaturedCollections'
 import {getFeaturedCommunitiesProps} from 'ui/mock/featuredCommunities'
 import {getFeaturedCollectionsProps} from 'ui/mock/featuredCollections'
+const Head = () => <MainHeader {...getMainHeaderProps() } />
 
 <Meta title="Pages|Discover" component={Discover}/>
 
 
 # Discover
 Let's define a story for the `Discover` page
+- **[Story](#story)**
+- **[Building blocks](#modules)**
+- **[Props](#props)**
+
+
+<div id="story">Story</div>
 
 <Preview>
   <Story name="Discover page">
     <WithSidebar 
-      HeaderBox={<MainHeader {...getMainHeaderProps() } />}
+      HeaderBox={Head}
       SidebarBox={<Sidebar {...getSidebarProps()}/>}>
         <Discover 
         basePath={"/"}
+        LoadMoreFormik={getLoadMoreProps()}
         FeaturedCommunitiesBox={<FeaturedCommunities {...getFeaturedCommunitiesProps(true)} />}
         FeaturedCollectionsBox={<FeaturedCollections {...getFeaturedCollectionsProps(true)} />}
         ActivitiesBox={<React.Fragment>
@@ -49,13 +59,13 @@ Let's define a story for the `Discover` page
           <ActivityPreview {...activityPreviewProps('Created a comment', <Comment {...CommentPreviewProps() }/>)} />
         </React.Fragment>}
         CommunitiesBoxes={<React.Fragment>
-            (<Community {...CommunityPreviewProps()} />)
-            (<Community {...CommunityPreviewProps()} />)
-            (<Community {...CommunityPreviewProps()} />)
-            (<Community {...CommunityPreviewProps()} />)
-            (<Community {...CommunityPreviewProps()} />)
-            (<Community {...CommunityPreviewProps()} />)
-            (<Community {...CommunityPreviewProps()} />)
+            <Community {...CommunityPreviewProps()} />
+            <Community {...CommunityPreviewProps()} />
+            <Community {...CommunityPreviewProps()} />
+            <Community {...CommunityPreviewProps()} />
+            <Community {...CommunityPreviewProps()} />
+            <Community {...CommunityPreviewProps()} />
+            <Community {...CommunityPreviewProps()} />
         </React.Fragment>}
         CollectionsBoxes={[
             (<Collection {...CollectionPreviewProps()} />),
@@ -67,4 +77,17 @@ Let's define a story for the `Discover` page
   </Story>
 </Preview>
 
+<div id="modules">Building blocks</div>
 
+- **[WithSidebar](#)**
+- **[LoadMore](#)**
+- **[SidePanel](#)**
+- **[FeaturedCommunities](#)**
+- **[FeaturedCollections](#)**
+- **[ActivityPreview](#)**
+- **[Community](#)**
+- **[Collection](#)**
+
+<div id="props">Props</div>
+
+<Props of={Discover} />

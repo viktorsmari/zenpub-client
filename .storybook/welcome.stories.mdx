@@ -1,7 +1,76 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Welcome|Welcome" />
+<Meta title="Getting started|Welcome" />
 
-# Welcome to CommonsPub Components Library
-Let's define a story for the `Hero collection preview` module
+# 👋 MoodleNet Design Library: Welcome!
+
+
+Welcome to the MoodleNet Design Library, a styleguide for [MoodleNet](https://moodle.com/moodlenet). This area is designed to help: 
+* Designers
+* Developers
+* Administrators
+
+...and anyone interested in configuring, or contributing to, MoodleNet!
+
+-----
+
+⬅️ To get started, choose <code>Designer</code>, <code>Developer</code>, or <code>Admin</code> in the menu to the your left.
+
+
+## Getting started
+
+The MoodleNet client connects to a graphql endpoint to perform queries and mutation over the database. 
+In order to launch locally the client, you’ll need a running backend. [Here](https://new.next.moodle.net/docs/server/hacking.html) you will find a detailed documentation about how to run the MoodleNet backend locally (manually or with docker).
+Once you’ve a backend up and running on http://localhost:4000/api/graphql, you can move further running the client.
+*(nd. If you just want to run `storybook`, there is no need to install and run any backend, as stories are populated with fake data)*
+##### Get the code
+`git clone https://gitlab.com/moodlenet/frontend.git`
+##### Install the needed dependencies
+```
+cd frontend
+yarn
+```
+##### Extract the languages
+MoodleNet uses [linguijs](https://lingui.js.org/index.html) to provide multi-languages. Before launching the app, make sure you’ve added one or more translations to the app.
+
+Currently MoodleNet is translated in the following languages: 
+
+	en_GB: 'English, British',
+    en_US: 'English, USA',
+    es_MX: 'Español, Méjico',
+    es_ES: 'Español, España',
+    fr_FR: 'Français, France',
+    eu: 'Euskara',
+    ar_SA: 'العربية, المملكة العربية السعودية'
+    
+
+Apart from en_GB that is the default language, feel free do add the needed translations for your scope, when launching the script:
+ 
+```
+yarn add locale en_GB en_US es_MX es_ES fr_FR eu ar_SA
+```
+
+
+##### Launch MoodleNet
+`yarn start`
+
+Visit http://localhost:3000 🌱
+
+##### or launch Storybook
+`yarn storybook`
+
+Visit http://localhost:5000 🍄
+
+## The tech stack
+*(Describe the main libraries we use, and how they are related to each others)*
+
+Our main dependencies are:
+- [Typescript](https://www.typescriptlang.org/) - *a strict syntactical superset of JavaScript*
+- [React](https://reactjs.org/) - *a JavaScript library for building user interfaces*
+- [Apollo](https://www.apollographql.com/docs/react/) - *a complete state management library for JavaScript apps*    
+- [Rebass](https://rebassjs.org/) - *react primitive UI components built with styled-system* 
+- [Styled-components](https://styled-components.com/) - *styled-components allows you to write actual CSS code to style your components*
+- [Storybook](https://storybook.js.org/) - *It makes building stunning UIs organized and efficient*
+- [Lingui](https://lingui.js.org/index.html) - *A readable, automated, and optimized (5 kb) internationalization for JavaScript*
+
 

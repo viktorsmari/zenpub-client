@@ -64,3 +64,13 @@ export interface CreateCommunityMutationOperation {
   type: 'mutation'
 }
 export const CreateCommunityMutationName:CreateCommunityMutationOperation['operationName'] = 'createCommunity'
+
+export const CreateCommunityMutationRefetch = (
+  variables:CreateCommunityMutationVariables, 
+  context?:any
+)=>({
+  query:CreateCommunityDocument,
+  variables,
+  context
+})
+      

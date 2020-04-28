@@ -86,3 +86,13 @@ export interface UpdateProfileMutationMutationOperation {
   type: 'mutation'
 }
 export const UpdateProfileMutationMutationName:UpdateProfileMutationMutationOperation['operationName'] = 'updateProfileMutation'
+
+export const UpdateProfileMutationMutationRefetch = (
+  variables:UpdateProfileMutationMutationVariables, 
+  context?:any
+)=>({
+  query:UpdateProfileMutationDocument,
+  variables,
+  context
+})
+      

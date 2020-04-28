@@ -7,6 +7,7 @@ import {
   CreateCommunityPanel
 } from 'ui/modules/CreateCommunityPanel';
 import * as Yup from 'yup';
+import { TestUrlOrFile } from 'HOC/lib/formik-validations';
 
 export const validationSchema: Yup.ObjectSchema<CreateCommunityFormValues> = Yup.object<
   CreateCommunityFormValues
@@ -16,7 +17,7 @@ export const validationSchema: Yup.ObjectSchema<CreateCommunityFormValues> = Yup
     .max(60)
     .required(),
   summary: Yup.string().max(500),
-  icon: Yup.mixed<File | string>()
+  icon: Yup.mixed<File | string>().test(...TestUrlOrFile)
 });
 export interface Props {
   done(): any;
@@ -40,9 +41,9 @@ export const CreateCommunityPanelHOC: FC<Props> = ({ done }: Props) => {
           summary: vals.summary
         },
         icon: vals.icon
-      }).then(createdCommunityId => {
-        createdCommunityId &&
-          history.push(`/communities/${createdCommunityId}`);
+      }).then(res => {
+        res?.data?.createCommunity?.id &&
+          history.push(`/communities/${res.data.createCommunity.id}`);
       });
     }
   });

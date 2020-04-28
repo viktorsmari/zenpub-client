@@ -1,4 +1,4 @@
-# CommonsPub Web Client
+# MoodleNet Web Client
 
 This React project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 It has changed dramatically since its initial creation so the CRA documentation is no longer relevant and has been
@@ -6,7 +6,7 @@ removed from the README, however this notice is left here just in case it can be
 
 ## Index
 
-- [Deploying](#deploying)
+- [Deploying MoodleNet](#deploying-moodlenet)
 - [Structure](#structure)
     - [High level folder structure](#high-level-folder-structure)
     - [Application source folder structure](#application-source-folder-structure)
@@ -27,7 +27,7 @@ removed from the README, however this notice is left here just in case it can be
     - [Updating language files](#updating-language-files)
 - [Dependencies](#dependencies)
 
-## Deploying
+## Deploying MoodleNet
 
 
 ### Install using Docker containers (recommended)
@@ -44,17 +44,18 @@ docker-compose version 1.23.2
 
 2. Clone this repository and change into the directory:
 ```sh
-$ git clone https://gitlab.com/CommonsPub/Client.git commonspub
-$ cd commonspub
+$ git clone https://gitlab.com/moodlenet/clients/react.git moodlenet
+$ cd moodlenet
 ```
 
 3. Configuration
 
 First make sure to configure your domain name or subdomain to point to your server's IP address.
 
-We need to set some environment variables in order for it to function, a list of which can be found in these files:
+We need to set some environment variables in order for MoodleNet to function, a list of which can be found in these files:
 - `.env` 
 	- If you have a domain configured to point to your server, replace every instance of 'localhost' with 'your-domain-here.tld' and those of 'http:' with 'https:'  (the 's' is critical)
+	- **If you want to connect your instance with the MoodleNet "mothership" for indexing public content, search, and discovery**, and you agree with the [Terms for Instance Administrators](https://moodle.net/terms/admins/index.html), set CONNECT_WITH_MOTHERSHIP to true, otherwise set it to false. You should then email moodlenet-moderators@moodle.com to request an API key. 
 - `.env.secrets.example` (which you must copy to `.env.secrets`)
 	- set each password and secret with something random and secure
 	- MAIL_DOMAIN and MAIL_KEY are needed to configure transactional email, sign up at [Mailgun](https://www.mailgun.com/) and then configure the domain name and key 

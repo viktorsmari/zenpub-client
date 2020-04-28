@@ -1,7 +1,7 @@
 import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
 import { PropsTable } from '@storybook/components';
 import { NotFound } from '.';
-import {WithSidebar} from 'ui/templates/withSidebar'
+import {Guest} from 'ui/templates/guest'
 import {Sidebar} from 'ui/modules/Sidebar'
 import {getSidebarProps} from 'ui/mock/sidebar'
 import {getMainHeaderProps} from 'ui/mock/mainHeader'
@@ -16,11 +16,9 @@ Let's define a story for the `NotFound` page
 
 <Preview>
   <Story name="NotFound page">
-    <WithSidebar 
-      HeaderBox={<MainHeader {...getMainHeaderProps() } />}
-      SidebarBox={<Sidebar {...getSidebarProps()}/>}>
+    <Guest>
         <NotFound  />
-    </WithSidebar>
+    </Guest>
   </Story>
 </Preview>
 

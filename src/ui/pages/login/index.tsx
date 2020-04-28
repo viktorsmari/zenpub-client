@@ -6,7 +6,7 @@ import media from 'styled-media-query';
 import { FormikHook } from 'ui/@types/types';
 import { Link } from 'react-router-dom';
 // import SignupModal from '../../components/elements/SignupModal';
-import styled from '../../themes/styled';
+import styled from 'ui/themes/styled';
 import { Box, Text } from 'rebass/styled-components';
 import Button from 'ui/elements/Button';
 import { Input } from '@rebass/forms';
@@ -38,7 +38,7 @@ export interface LoginFormValues {
   password: string;
 }
 
-const Login: React.FC<Props> = ({ formik }) => {
+export const Login: React.FC<Props> = ({ formik }) => {
   return (
     <>
       <Container>
@@ -68,7 +68,8 @@ const Login: React.FC<Props> = ({ formik }) => {
                   <Button
                     mt={3}
                     variant="primary"
-                    disabled={formik.isSubmitting}
+                    isSubmitting={formik.isSubmitting}
+                    isDisabled={formik.isSubmitting}
                     type="submit"
                     style={{ width: '100%' }}
                     onClick={formik.submitForm}

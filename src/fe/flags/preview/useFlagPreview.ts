@@ -6,6 +6,7 @@ import {
   useDeleteFlagMutation,
   useDeactivateFlaggedUserMutation
 } from './useFlagPreview.generated';
+import { AllFlagsQueryRefetch } from '../all/useAllFlags.generated';
 
 export const useFlagPreview = (flagId: Flag['id']) => {
   const flagQ = useFlagPreviewDataQuery({ variables: { flagId } });
@@ -45,7 +46,10 @@ export const useFlagPreview = (flagId: Flag['id']) => {
     }
 
     return Promise.all([
-      deleteFlagMut({ variables: { flagId: flag.id } }),
+      deleteFlagMut({
+        variables: { flagId: flag.id },
+        refetchQueries: [AllFlagsQueryRefetch({})]
+      }),
       deleteFlagContextMut({ variables: { contextId: flag.context.id } })
     ]);
   }, [flag]);
@@ -55,7 +59,10 @@ export const useFlagPreview = (flagId: Flag['id']) => {
       return;
     }
 
-    return deleteFlagMut({ variables: { flagId: flag.id } });
+    return deleteFlagMut({
+      variables: { flagId: flag.id },
+      refetchQueries: [AllFlagsQueryRefetch({})]
+    });
   }, [flag]);
 
   return useMemo(() => {

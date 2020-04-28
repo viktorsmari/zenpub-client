@@ -3,25 +3,19 @@ import { Trans } from '@lingui/macro';
 import { i18nMark } from '@lingui/react';
 import { FormikHook } from 'ui/@types/types';
 import Alert from '../../elements/Alert';
-import { Input } from '@rebass/forms';
+import { Input, Label, Checkbox } from '@rebass/forms';
 import Button from 'ui/elements/Button';
 import { Box, Text, Flex } from 'rebass/styled-components';
 import styled from '../../themes/styled';
-import { Panel, WrapperPanel } from 'ui/elements/Panel';
-import { AlertCircle, Eye } from 'react-feather';
-import Markdown from 'markdown-to-jsx';
+import { AlertCircle } from 'react-feather';
 import { AlertWrapper } from 'ui/modules/Modal';
 import {
   INSTANCE_TAGLINE,
   INVITE_ONLY_TEXT,
-  terms_markdown_urls,
-  terms_markdown_text,
-  related_urls,
   logo_large_url
 } from 'mn-constants';
-import useAxios from 'axios-hooks';
 import media from 'styled-media-query';
-import { clearFix } from 'polished';
+import { NavLink } from 'react-router-dom';
 
 let tt = {
   login: i18nMark('Sign in'),
@@ -45,25 +39,10 @@ export interface SignUpFormValues {
   password: string;
   username: string;
   passwordConfirm: string;
+  terms: boolean;
 }
 
-const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
-  var terms_users_text = { data: terms_markdown_text.terms_users };
-  var terms_cookies_text = { data: terms_markdown_text.terms_cookies };
-  var terms_indexing_text = { data: terms_markdown_text.terms_indexing };
-
-  if (terms_markdown_urls.enabled) {
-    var [terms_users] = useAxios(terms_markdown_urls.terms_users, {
-      useCache: true
-    });
-    var [terms_cookies] = useAxios(terms_markdown_urls.terms_cookies, {
-      useCache: true
-    });
-    var [terms_indexing] = useAxios(terms_markdown_urls.terms_indexing, {
-      useCache: true
-    });
-  }
-
+export const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
   return (
     <Container>
       {!formik.isSubmitting && formik.submitCount && registeredUsername ? (
@@ -148,6 +127,7 @@ const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
                 <Input
                   placeholder={tt.placeholders.password}
                   name="password"
+                  type="password"
                   value={formik.values.password}
                   onChange={formik.handleChange}
                 />
@@ -164,6 +144,7 @@ const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
                 <Input
                   placeholder={tt.placeholders.passwordConfirm}
                   name="passwordConfirm"
+                  type="password"
                   value={formik.values.passwordConfirm}
                   onChange={formik.handleChange}
                 />
@@ -173,10 +154,23 @@ const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
                   </AlertWrapper>
                 )}
               </Box>
+              <Box mt={3} mb={3}>
+                <Label alignItems="center">
+                  <Checkbox
+                    name="terms"
+                    id="remember"
+                    value={formik.values.terms}
+                    onChange={formik.handleChange}
+                  />
+                  I have read and agreed the{' '}
+                  <NavLink to="/terms"> Terms and Conditions </NavLink>
+                </Label>
+              </Box>
               <Box mt={3}>
                 <Button
                   variant="primary"
-                  disabled={formik.isSubmitting}
+                  isSubmitting={formik.isSubmitting}
+                  isDisabled={formik.isSubmitting}
                   type="submit"
                   onClick={formik.submitForm}
                 >
@@ -184,7 +178,7 @@ const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
                 </Button>
               </Box>
             </FormWrapper>
-            <Right>
+            {/* <Right>
               {terms_markdown_urls.enabled && (
                 <>
                   <Aware green mt={3} p={3}>
@@ -218,9 +212,9 @@ const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
                   </WrapperPanel>
                 </>
               )}
-            </Right>
+            </Right> */}
           </Flex>
-          <Footer>
+          {/* <Footer>
             <ul>
               <li>
                 <a href={related_urls.project_homepage} target="blank">
@@ -248,7 +242,7 @@ const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
                 </a>
               </li>
             </ul>
-          </Footer>
+          </Footer> */}
         </LoginWrapper>
       )}
     </Container>
@@ -311,41 +305,41 @@ const FormWrapper = styled(Box)`
   padding: 16px;
 `;
 
-const Right = styled(Box)`
-  .extra {
-    width: 100%;
-    margin-right: 0;
-  }
-`;
+// const Right = styled(Box)`
+//   .extra {
+//     width: 100%;
+//     margin-right: 0;
+//   }
+// `;
 
-const Footer = styled(Box)`
-  border-top: 1px solid ${props => props.theme.colors.lightgray};
-  padding-top: 24px;
-  & ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    margin: 0 auto;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex: 1;
-    ${clearFix()}
-    & li {
-      float: left;
-      margin-right: 16px;
-      font-size: 13px;
-      & a {
-        color: rgba(0, 0, 0, 0.45);
-        text-decoration: none;
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-    }
-  }
-`;
+// const Footer = styled(Box)`
+//   border-top: 1px solid ${props => props.theme.colors.lightgray};
+//   padding-top: 24px;
+//   & ul {
+//     list-style-type: none;
+//     margin: 0;
+//     padding: 0;
+//     text-align: center;
+//     margin: 0 auto;
+//     justify-content: center;
+//     align-items: center;
+//     display: flex;
+//     flex: 1;
+//     ${clearFix()}
+//     & li {
+//       float: left;
+//       margin-right: 16px;
+//       font-size: 13px;
+//       & a {
+//         color: rgba(0, 0, 0, 0.45);
+//         text-decoration: none;
+//         &:hover {
+//           text-decoration: underline;
+//         }
+//       }
+//     }
+//   }
+// `;
 
 const Aware = styled(Flex)<{ green: boolean }>`
   background: ${props => (props.green ? '#546d4f' : props.theme.colors.orange)};

@@ -100,7 +100,8 @@ export const EditCommunityPanel: React.FC<Props> = ({ cancel, formik }) => {
       <Actions>
         <Button
           variant="primary"
-          disabled={formik.isSubmitting}
+          isSubmitting={formik.isSubmitting}
+          isDisabled={formik.isSubmitting}
           type="submit"
           style={{ marginLeft: '10px' }}
           onClick={formik.submitForm}
