@@ -85,6 +85,9 @@ export const SocialText: React.FC<Props> = ({
   //   [ref.current]
   // );
   const handleSubmit = useCallback(() => {
+    if (!text) {
+      return;
+    }
     submit(text);
     if (!keepTextOnSubmit) {
       setText('');
@@ -116,8 +119,15 @@ export const SocialText: React.FC<Props> = ({
           {/* <EmojiPickerTrigger onClick={toggleEmoji}>
             <Smile color={'rgba(0,0,0,.4)'} size="24" />
           </EmojiPickerTrigger> */}
-          <Box style={{ cursor: 'pointer' }} ml={3} onClick={handleSubmit}>
-            <Send color={'rgba(0,0,0,.4)'} size="24" />
+          <Box
+            style={{ cursor: text ? 'pointer' : 'default' }}
+            ml={3}
+            onClick={handleSubmit}
+          >
+            <Send
+              color={text ? 'rgba(0,0,0,.4)' : 'rgba(0,0,0,.1)'}
+              size="24"
+            />
           </Box>
         </SocialActions>
         {/* {isEmojiOpen && (
