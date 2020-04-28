@@ -1,12 +1,18 @@
 import * as React from 'react';
 import { Flex, Box, Text } from 'rebass/styled-components';
-import media from 'styled-media-query';
 import styled from 'ui/themes/styled';
 import { Link } from 'react-router-dom';
 import Avatar from 'ui/elements/Avatar';
 import { WrapperPanel } from 'ui/elements/Panel';
 import { FormikHook } from 'ui/@types/types';
 import { LoadMore } from 'ui/modules/Loadmore';
+import {
+  Wrapper,
+  WrapperCont,
+  ObjectsList,
+  MainContainer,
+  HomeBox
+} from 'ui/elements/Layout';
 
 export interface Props {
   MainThread: JSX.Element;
@@ -44,13 +50,8 @@ export const Thread: React.FC<Props> = ({
               {!isCommunityContext && <Box p={2}>{Context}</Box>}
               <MainThreadContainer p={3}>{MainThread}</MainThreadContainer>
             </Box>
-            <CommentsWrapper>
-              {Comments}
-              {loadMoreComments ? (
-                <LoadMore LoadMoreFormik={loadMoreComments} />
-              ) : null}{' '}
-              {/* FIX ME after add LoadMoreFormik */}
-            </CommentsWrapper>
+            <ObjectsList>{Comments}</ObjectsList>
+            {loadMoreComments && <LoadMore LoadMoreFormik={loadMoreComments} />}
           </Wrapper>
         </WrapperCont>
       </HomeBox>
@@ -79,12 +80,6 @@ const HeaderWrapper: React.FC<{ id: string; name: string; icon: string }> = ({
     </>
   );
 };
-
-const CommentsWrapper = styled(Box)`
-  div:last-of-type {
-    border-bottom: none;
-  }
-`;
 
 const MainThreadContainer = styled(Box)`
   border-bottom: 1px solid ${props => props.theme.colors.lightgray};
@@ -119,75 +114,5 @@ const Header = styled(Flex)`
     display: flex;
     flex: 1;
     text-decoration: none;
-  }
-`;
-
-export const HomeBox = styled(Flex)`
-  width: 600px;
-  align-items: flex-start;
-  flex-shrink: 1;
-  flex-grow: 1;
-  flex-basis: auto;
-  flex-direction: column;
-  margin: 0px;
-  min-height: 0px;
-  min-width: 0px;
-  padding: 0px;
-  position: relative;
-  z-index: 0;
-  ${media.lessThan('1005px')`
-    max-width: 100%;
-  `};
-`;
-
-export const MainContainer = styled(Flex)`
-  align-items: stretch;
-  flex-grow: 1;
-  flex-direction: row;
-  width: 100%;
-`;
-
-export const WrapperCont = styled(Flex)`
-  width: 100%;
-  margin: 0 auto;
-  height: 100%;
-  align-items: stretch;
-  border: 0 solid black;
-  box-sizing: border-box;
-  display: flex;
-  flex-basis: auto;
-  flex-direction: column;
-  flex-shrink: 0;
-  margin: 0px;
-  min-height: 0px;
-  min-width: 0px;
-  padding: 0px;
-  position: relative;
-  background: white;
-  z-index: 0;
-`;
-
-export const Wrapper = styled(Flex)`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  & ul {
-    display: block;
-
-    & li {
-      display: inline-block;
-
-      & h5 {
-        font-size: 13px;
-        font-weight: 500;
-      }
-    }
-  }
-  & h4 {
-    margin: 0;
-    font-weight: 400 !important;
-    font-size: 14px !important;
-    color: #151b26;
-    line-height: 40px;
   }
 `;

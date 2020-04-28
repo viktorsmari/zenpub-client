@@ -13,7 +13,7 @@ const Background = styled.div`
   right: 0;
   bottom: 0;
   background-color: rgba(51, 60, 69, 0.95);
-  z-index: 10000000;
+  z-index: 9999999999999;
   height: 100%;
   justify-content: center;
   overflow: auto;

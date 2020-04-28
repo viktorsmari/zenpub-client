@@ -192,14 +192,13 @@ const Left = styled(Flex)`
 const HeaderWrapper = styled(Box)`
   border-bottom: 1px solid ${props => props.theme.colors.lightgray};
   height: 50px;
-  //   justify-content: space-between;
   cursor: pointer;
   background: #fff;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 99999999999999999999;
+  z-index: 999999999999999;
   padding: 0 8px;
   a {
     display: flex;
