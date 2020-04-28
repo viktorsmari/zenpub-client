@@ -112,7 +112,7 @@ export const Community: React.FC<Props> = ({
                       <SocialText
                         placeholder="Start a new thread..."
                         submit={text => {
-                          newThreadFormik.setFieldValue('text', text, true);
+                          newThreadFormik.setValues({ text });
                           newThreadFormik.submitForm();
                         }}
                       />

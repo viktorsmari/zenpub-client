@@ -15,7 +15,6 @@ import { Box } from 'rebass/styled-components';
 import { useHistory } from 'react-router-dom';
 import { useCommunityFollowers } from 'fe/user/followers/community/useCommunityFollowers';
 import { UserPreviewHOC } from 'HOC/modules/previews/user/UserPreview';
-import * as Yup from 'yup';
 import { useFormikPage } from 'fe/lib/helpers/usePage';
 
 export enum CommunityPageTab {
@@ -29,11 +28,7 @@ export interface CommunityPage {
   tab: CommunityPageTab;
   basePath: string;
 }
-const validationSchema = Yup.object().shape({
-  text: Yup.string()
-    .min(1)
-    .required()
-});
+
 export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
   const { community, createThread } = useCommunity(communityId);
   const { communityFollowersPage } = useCommunityFollowers(communityId);
@@ -47,7 +42,7 @@ export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
   const history = useHistory();
   const newThreadFormik = useFormik<{ text: string }>({
     initialValues: { text: '' },
-    validationSchema,
+    // validationSchema,
     onSubmit: ({ text }) =>
       createThread(text).then(newThreadId => {
         history.push(`/thread/${newThreadId}`);
@@ -107,7 +102,7 @@ export const CommunityPage: FC<CommunityPage> = ({ communityId, basePath }) => {
       done
     }) => <CreateCollectionPanelHOC done={done} communityId={communityId} />;
 
-    const myFollow = community?.myFollow;
+    const myFollow = community.myFollow;
 
     const props: CommunityProps = {
       FollowersBoxes,
