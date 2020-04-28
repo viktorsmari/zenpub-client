@@ -19,7 +19,7 @@ const SearchPageRouter: FC<RouteComponentProps<SearchPageRouter>> = ({
 };
 
 export const SearchPageRoute: RouteProps = {
-  exact: true,
+  exact: false,
   path: '/search',
   component: SearchPageRouter
 };
