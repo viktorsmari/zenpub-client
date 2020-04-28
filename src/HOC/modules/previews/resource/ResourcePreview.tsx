@@ -39,8 +39,8 @@ export const ResourcePreviewHOC: FC<Props> = ({ resourceId }) => {
       acceptedLicenses: accepted_license_types,
       license: resource.license || null,
       isFlagged: !!resource.myFlag,
-      FlagModal: ({ done }) => <FlagModalHOC done={done} ctx={resource} />
-      //  type: resource.type FIXME add type of the resource field
+      FlagModal: ({ done }) => <FlagModalHOC done={done} ctx={resource} />,
+      type: resource.payload?.mediaType
     };
     return props;
   }, [resource, toggleLikeFormik]);

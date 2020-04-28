@@ -92,8 +92,8 @@ export const HeroCollection: FC<Props> = ({ collection: c }) => {
             </CountTot>
           </CountWrapper>
           <ActionsHero mt={3} alignItems={'center'}>
-            <More mr={2}>
-              <MoreVertical size={20} onClick={() => setOpenDropdown(true)} />
+            <More mr={2} onClick={() => setOpenDropdown(true)}>
+              <MoreVertical size={20} />
               {isOpenDropdown && (
                 <Dropdown orientation={'top'} cb={setOpenDropdown}>
                   {c.canModify && (
