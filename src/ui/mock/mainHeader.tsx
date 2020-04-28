@@ -6,9 +6,9 @@ import Modal from 'ui/modules/Modal';
 export const getMainHeaderProps = (): Props => {
   return {
     user: {
-      name: '˗ˏˋ Doug Belshaw ˎˊ˗  🇪🇺 ☠️ ✊',
+      name: 'Estrella',
       icon:
-        'https://pbs.twimg.com/profile_images/1161428802091802627/O49Ggs-7_400x400.jpg',
+        'https://docs.moodle.org/dev/images_dev/thumb/2/2b/estrella.jpg/100px-estrella.jpg',
       link: '/',
       logout: () => console.log(false)
     },

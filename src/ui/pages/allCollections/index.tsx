@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Flex } from 'rebass/styled-components';
 import media from 'styled-media-query';
-import { Header } from 'ui/modules/Header';
 import styled from 'ui/themes/styled';
+import { FormikHook } from 'ui/@types/types';
+import { Header } from 'ui/modules/Header';
 import { WrapperPanel } from 'ui/elements/Panel';
 import { LoadMore } from 'ui/modules/Loadmore';
-import { FormikHook } from 'ui/@types/types';
 
 export interface Props {
   CollectionsBoxes: JSX.Element;

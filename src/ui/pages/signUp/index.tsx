@@ -42,7 +42,7 @@ export interface SignUpFormValues {
   terms: boolean;
 }
 
-const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
+export const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
   return (
     <Container>
       {!formik.isSubmitting && formik.submitCount && registeredUsername ? (
@@ -127,6 +127,7 @@ const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
                 <Input
                   placeholder={tt.placeholders.password}
                   name="password"
+                  type="password"
                   value={formik.values.password}
                   onChange={formik.handleChange}
                 />
@@ -143,6 +144,7 @@ const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
                 <Input
                   placeholder={tt.placeholders.passwordConfirm}
                   name="passwordConfirm"
+                  type="password"
                   value={formik.values.passwordConfirm}
                   onChange={formik.handleChange}
                 />

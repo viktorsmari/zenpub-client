@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Box, Text } from 'rebass/styled-components';
-import styled from '../../themes/styled';
+import styled from 'ui/themes/styled';
 import { logo_large_url } from 'mn-constants';
 
 const LoginWrapper = styled.div`
@@ -52,14 +52,7 @@ export interface Props {
       };
 }
 
-/**
- * @param Component
- * @param data {Object} the user object from local cache
- * @param rest
- * @constructor
- */
-
-const ConfirmEmail: React.FC<Props> = ({ result }) => {
+export const ConfirmEmail: React.FC<Props> = ({ result }) => {
   return (
     <Container>
       <LoginWrapper>

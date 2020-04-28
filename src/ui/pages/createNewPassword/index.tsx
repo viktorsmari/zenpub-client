@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Trans } from '@lingui/macro';
-import styled from '../../themes/styled';
-import Button from 'ui/elements/Button';
+import styled from 'ui/themes/styled';
 import { Input } from '@rebass/forms';
 import { FormikHook } from 'ui/@types/types';
-import { logo_large_url } from '../../../mn-constants';
-import Alert from '../../elements/Alert';
-import { AlertWrapper } from 'ui/modules/Modal';
+import { logo_large_url } from 'mn-constants';
 import { i18nMark } from '@lingui/react';
+import Button from 'ui/elements/Button';
+import Alert from 'ui/elements/Alert';
+import { AlertWrapper } from 'ui/modules/Modal';
 
 export interface NewPasswordFormValues {
   password: string;
@@ -25,7 +25,7 @@ let tt = {
   }
 };
 
-const CreateNewPassword: React.FC<Props> = ({ formik }) => {
+export const CreateNewPassword: React.FC<Props> = ({ formik }) => {
   return (
     <>
       <Container>

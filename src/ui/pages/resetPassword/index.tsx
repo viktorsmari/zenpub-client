@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Trans } from '@lingui/macro';
-import styled from '../../themes/styled';
+import styled from 'ui/themes/styled';
 import Button from 'ui/elements/Button';
 import { Input } from '@rebass/forms';
 import { FormikHook } from 'ui/@types/types';
-import { logo_large_url } from '../../../mn-constants';
-import Alert from '../../elements/Alert';
+import { logo_large_url } from 'mn-constants';
+import Alert from 'ui/elements/Alert';
 import { AlertWrapper } from 'ui/modules/Modal';
 import { i18nMark } from '@lingui/react';
 
@@ -23,7 +23,7 @@ let tt = {
   }
 };
 
-const ResetPassword: React.FC<Props> = ({ formik }) => {
+export const ResetPassword: React.FC<Props> = ({ formik }) => {
   return (
     <>
       <Container>

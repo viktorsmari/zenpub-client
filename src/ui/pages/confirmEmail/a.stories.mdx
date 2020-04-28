@@ -1,19 +1,29 @@
 import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
-import Confirm from '.';
+import {ConfirmEmail} from '.';
 import {Box} from 'rebass'
 import {getLoginProps} from 'ui/mock/context'
 import {Guest} from 'ui/templates/guest'
 
-<Meta title="Pages|Confirm Email" component={Confirm}/>
+<Meta title="Pages|Confirm Email" component={ConfirmEmail}/>
 
 
 # Confirm Email
 Let's define a story for the `Confirm` page
+- **[Story](#story)**
+- **[Props](#props)**
 
 <Preview>
   <Story name="Confirm email page">
     <Guest>
-      <Confirm result={{username:"Ivan Minutillo", error: null}}  />
+      <ConfirmEmail result={{username:"Ivan Minutillo", error: null}}  />
     </Guest>
   </Story>
 </Preview>
+
+<div id="modules">Building blocks</div>
+
+- **[Guest](#)**
+
+<div id="props">Props</div>
+
+<Props of={ConfirmEmail} />

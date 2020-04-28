@@ -3,8 +3,9 @@ import { NavLink, Route, Switch } from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
 import media from 'styled-media-query';
 import { Trans } from '@lingui/react';
+import styled from 'ui/themes/styled';
+import { FormikHook } from 'ui/@types/types';
 import Modal from 'ui/modules/Modal';
-
 import {
   Nav,
   NavItem,
@@ -12,11 +13,9 @@ import {
   PanelTitle,
   WrapperPanel
 } from 'ui/elements/Panel';
-import styled from 'ui/themes/styled';
 import Button from 'ui/elements/Button';
 import { Header } from 'ui/modules/Header';
 import { LoadMore } from 'ui/modules/Loadmore';
-import { FormikHook } from 'ui/@types/types';
 
 export interface Props {
   ActivitiesBox: JSX.Element;

@@ -1,5 +1,5 @@
 import { Trans } from '@lingui/macro';
-import React from 'react';
+import * as React from 'react';
 import { NavLink, Switch, Route } from 'react-router-dom';
 import { Flex } from 'rebass/styled-components';
 import { LoadMore } from 'ui/modules/Loadmore';
@@ -33,7 +33,7 @@ export const Home: React.FC<Props> = ({
   nextCollectionsFormik,
   FollowedCommunitiesElements,
   FollowedCollectionsElements
-}) => {
+}: Props) => {
   return (
     <MainContainer>
       <HomeBox>

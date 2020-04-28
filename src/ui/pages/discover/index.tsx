@@ -1,12 +1,13 @@
 import { Trans } from '@lingui/macro';
-import React from 'react';
+import * as React from 'react';
 import { NavLink, Switch, Route } from 'react-router-dom';
 import media from 'styled-media-query';
 
 import { Flex, Box, Text } from 'rebass/styled-components';
 import styled from 'ui/themes/styled';
-import { LoadMore } from 'ui/modules/Loadmore';
 import { FormikHook } from 'ui/@types/types';
+
+import { LoadMore } from 'ui/modules/Loadmore';
 import { SidePanel } from 'ui/modules/SidePanel';
 
 export interface Props {
