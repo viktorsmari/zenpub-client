@@ -81,12 +81,14 @@ export function UserPreviewProps(
   bio = `I'm a cool user`,
   username = '@favbooks@abc.com',
   name = '˗ˏˋ Doug Belshaw ˎˊ˗ ',
-  isFollowing = true
+  isFollowing = true,
+  profileUrl = '#'
 ): UserProps {
   return {
     image,
     bio,
     username,
+    profileUrl,
     name,
     isFollowing,
     toggleFollowFormik: ToggleFormik()
