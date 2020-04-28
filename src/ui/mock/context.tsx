@@ -497,6 +497,7 @@ export const getEditProfilePropsAdmin = (): EditProfileProps => {
             username={'@favbooks@abc.com'}
             name={'˗ˏˋ Doug Belshaw ˎˊ˗ '}
             isFollowing={true}
+            profileUrl={'#'}
             toggleFollowFormik={useFormik<{}>({
               initialValues: {},
               onSubmit: vals => {
