@@ -47,7 +47,7 @@ export const EditCommunityPanelHOC: FC<Props> = ({
           summary: vals.summary || undefined
         },
         icon: vals.icon
-      });
+      }).then(done);
     },
     validationSchema,
     initialValues
