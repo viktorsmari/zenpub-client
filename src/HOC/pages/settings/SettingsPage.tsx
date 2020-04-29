@@ -1,6 +1,7 @@
 import { useMe } from 'fe/session/useMe';
 import { useProfile } from 'fe/user/profile/useProfile';
 import { useFormik } from 'formik';
+import { useToast } from 'HOC/lib/notify/toast';
 import React, { FC, useMemo } from 'react';
 import {
   EditProfile,
@@ -29,6 +30,7 @@ export interface SettingsPage {
 export const SettingsPage: FC<SettingsPage> = ({ basePath }) => {
   const { me } = useMe();
   const { profile, updateProfile } = useProfile();
+  const toast = useToast();
 
   const initialValues = useMemo<EditProfile>(
     () => ({
@@ -46,7 +48,9 @@ export const SettingsPage: FC<SettingsPage> = ({ basePath }) => {
     initialValues,
     enableReinitialize: true,
     onSubmit: ({ icon, image, ...profile }) =>
-      updateProfile({ profile, icon, image })
+      updateProfile({ profile, icon, image }).then(() =>
+        toast({ content: 'Profile updated' })
+      )
   });
 
   const settingsPageProps = useMemo<SettingsUIProps | null>(() => {
