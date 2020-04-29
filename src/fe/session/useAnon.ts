@@ -5,6 +5,7 @@ import { useMemo } from 'react';
 import { useApolloClient } from 'react-apollo';
 import * as GQL from './anon.generated';
 import { MeDocument, MeQuery, UseMeDataFragment } from './me.generated';
+import { useToast } from 'fe/lib/notify/toast';
 
 export const useAnon = () => {
   const client = useApolloClient();
@@ -20,7 +21,7 @@ export const useAnon = () => {
     resetPwdReqMut,
     resetPwdReqStatus
   ] = GQL.useAnonResetPasswordRequestMutation();
-
+  const { gqlResponseToast: showIfErrorResponse } = useToast();
   return useMemo(() => {
     const resetPwd = ({
       password,
@@ -74,7 +75,7 @@ export const useAnon = () => {
       return loginMut({
         variables: { email, password },
         update: (proxy, resp) => updateMe(proxy, resp.data?.createSession?.me)
-      });
+      }).then(showIfErrorResponse({ ctx: 'Login' }));
     };
     const usernameAvailable = (username: string) => {
       MeDocument;
