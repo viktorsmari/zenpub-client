@@ -5,8 +5,6 @@ export const TestUrlOrFile: Parameters<Schema<File | string>['test']> = ([
   'imageurl',
   'need a file or an url',
   (val: File | string) => {
-    debugger;
-
     return !val
       ? true
       : typeof val === 'string'

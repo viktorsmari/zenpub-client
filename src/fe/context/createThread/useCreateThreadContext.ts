@@ -4,6 +4,8 @@ import Maybe from 'graphql/tsutils/Maybe';
 import { CommunityThreadsQueryRefetch } from 'fe/thread/community/useCommunityThreads.generated';
 import { Community } from 'graphql/types.generated';
 import { DEFAULT_PAGE_SIZE } from 'mn-constants';
+import { CommunityOutboxActivitiesQueryRefetch } from 'fe/activities/outbox/community/useCommunityOutboxActivities.generated';
+import { InstanceOutboxActivitiesQueryRefetch } from 'fe/activities/outbox/instance/useInstanceOutboxActivities.generated';
 
 export type ContextTypes = Community;
 export type Context = Pick<ContextTypes, '__typename' | 'id'>;
@@ -24,15 +26,21 @@ export const useCreateThreadContext = (
           contextId,
           comment: { content }
         },
-        refetchQueries:
-          __typename === 'Community'
+        refetchQueries: [
+          InstanceOutboxActivitiesQueryRefetch({ limit: DEFAULT_PAGE_SIZE }),
+          ...(__typename === 'Community'
             ? [
                 CommunityThreadsQueryRefetch({
                   communityId: contextId,
                   limit: DEFAULT_PAGE_SIZE
+                }),
+                CommunityOutboxActivitiesQueryRefetch({
+                  communityId: contextId,
+                  limit: DEFAULT_PAGE_SIZE
                 })
               ]
-            : undefined
+            : [])
+        ]
       }).then(res => res.data?.createThread?.thread?.id);
     },
     [contextId, __typename, mutating]

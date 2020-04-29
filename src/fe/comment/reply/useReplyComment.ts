@@ -1,7 +1,9 @@
+import { InstanceOutboxActivitiesQueryRefetch } from 'fe/activities/outbox/instance/useInstanceOutboxActivities.generated';
+import Maybe from 'graphql/tsutils/Maybe';
+import { Comment, Thread } from 'graphql/types.generated';
+import { DEFAULT_PAGE_SIZE } from 'mn-constants';
 import { useCallback, useMemo } from 'react';
 import * as GQL from './useReplyComment.generated';
-import { Comment, Thread } from 'graphql/types.generated';
-import Maybe from 'graphql/tsutils/Maybe';
 
 export const useReplyComment = (
   comment: Maybe<{
@@ -23,7 +25,10 @@ export const useReplyComment = (
           threadId: comment.thread.id,
           inReplyToCommentId: comment.id,
           comment: { content }
-        }
+        },
+        refetchQueries: [
+          InstanceOutboxActivitiesQueryRefetch({ limit: DEFAULT_PAGE_SIZE })
+        ]
       });
     },
     [mutating]
