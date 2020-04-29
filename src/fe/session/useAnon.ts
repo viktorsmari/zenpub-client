@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import { useApolloClient } from 'react-apollo';
 import * as GQL from './anon.generated';
 import { MeDocument, MeQuery, UseMeDataFragment } from './me.generated';
-import { useNotifyGqlResponse } from 'fe/lib/helpers/notify';
+import { mnCtx } from 'fe/lib/graphql/ctx';
 
 export const useAnon = () => {
   const client = useApolloClient();
@@ -21,7 +21,6 @@ export const useAnon = () => {
     resetPwdReqMut,
     resetPwdReqStatus
   ] = GQL.useAnonResetPasswordRequestMutation();
-  const notifyGqlResponse = useNotifyGqlResponse();
   return useMemo(() => {
     const resetPwd = ({
       password,
@@ -74,11 +73,11 @@ export const useAnon = () => {
       }
       return loginMut({
         variables: { email, password },
+        context: mnCtx({ ctx: 'Login' }),
         update: (proxy, resp) => updateMe(proxy, resp.data?.createSession?.me)
-      }).then(notifyGqlResponse({ ctx: 'Login' }));
+      });
     };
     const usernameAvailable = (username: string) => {
-      MeDocument;
       return client
         .query<
           GQL.AnonUsernameAvailableQuery,
