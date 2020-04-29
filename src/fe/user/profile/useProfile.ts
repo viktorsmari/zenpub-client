@@ -1,7 +1,7 @@
 import { getMaybeUploadInput } from 'fe/mutation/upload/getUploadInput';
 import Maybe from 'graphql/tsutils/Maybe';
 import { UpdateProfileInput } from 'graphql/types.generated';
-import { useToast } from 'fe/lib/notify/toast';
+import { useNotifyGqlResponse } from 'fe/lib/helpers/notify';
 import { useCallback, useMemo } from 'react';
 import {
   useMyProfileQuery,
@@ -15,7 +15,7 @@ export interface UpdateProfile {
 }
 
 export const useProfile = () => {
-  const { gqlResponseToast } = useToast();
+  const notifyGqlResponse = useNotifyGqlResponse();
   const profileQ = useMyProfileQuery();
   const [updateProfileMutation] = useUpdateMyProfileMutation();
 
@@ -27,7 +27,7 @@ export const useProfile = () => {
           icon: getMaybeUploadInput(icon),
           image: getMaybeUploadInput(image)
         }
-      }).then(gqlResponseToast({ ctx: 'Profile update' })),
+      }).then(notifyGqlResponse({ ctx: 'Profile update' })),
     [updateProfileMutation]
   );
   return useMemo(() => {
