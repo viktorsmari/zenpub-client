@@ -1,6 +1,16 @@
-# How we develop our interfaces
+<div style="
+    text-align: center;
+">
 
-![Artwork by Rocco Lombardi](https://www.tekegallery.com/store/image/thumbnails/18/c8/Rocco_Lombardi_1_jpg-101504-2048x1524.jpg)
+# How we develop our interfaces
+
+</div>
+
+<div style="
+    text-align: center;
+">
+<img src="https://user-content.gitlab-static.net/ad5bff60561e4253b2793ab58506a4870fd9ff4e/68747470733a2f2f7777772e74656b6567616c6c6572792e636f6d2f73746f72652f696d6167652f7468756d626e61696c732f31382f63382f526f63636f5f4c6f6d62617264695f315f6a70672d3130313530342d3230343878313532342e6a7067" alt="Artwork by Rocco Lombardi | medium" data-canonical-src="https://www.tekegallery.com/store/image/thumbnails/18/c8/Rocco_Lombardi_1_jpg-101504-2048x1524.jpg" class="js-lazy-loaded qa-js-lazy-loaded" width="500" height="400">
+</div>
 
 CommonsPub is a multifunctional federated network that allows communities to coordinate a wide range of needs together and connect to other like-minded communities. 
 
