@@ -188,7 +188,6 @@ export default async function initialise({
   });
 
   const ALLOWED_ANONYMOUS_MUTATIONS = [
-    AnonResetPasswordRequestMutationName,
     AnonSignUpMutationName,
     AnonLoginMutationName,
     AnonConfirmEmailMutationName,
