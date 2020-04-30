@@ -22,12 +22,12 @@ Do you wish to run the client on your local machine? Read the [Getting started](
 CommonsPub comes in different flavours, which are made up of a combination of extensions and probably some custom branding. Each flavour has its own branch in the [CommonsPub repo](https://gitlab.com/CommonsPub/Server) regularly merged back-and-forth with its own repository.
 
 - `flavour/commonspub` - Contains the generic flavour of [CommonsPub](http://commonspub.org) (currently packaged with all extensions except for `extension/valueflows`). 
-- `flavour/moodlenet` - The original [MoodleNet](https://gitlab.com/moodlenet/backend) flavour (with only  `extension/activitypub`). 
-- `flavour/zenpub` - WIP [ZenPub](https://github.com/dyne/zenpub/) flavour (with all extensions), which will use [ZenRoom](https://zenroom.org/) for public key signing and end-to-end encryption.
+- `flavour/moodlenet` - The original [MoodleNet](https://gitlab.com/moodlenet/frontend) flavour. 
+- `flavour/zenpub` - WIP [ZenPub](https://github.com/dyne/zenpub-client) flavour (with all extensions), which will use [ZenRoom](https://zenroom.org/) for public key signing and end-to-end encryption.
 
 ### Extensions
 
-New functionality should be developed in seperate namespaces in order to make the software more modular (there are future plans for a plugin system). Each "extension" has its own branch in the [CommonsPub repo](https://gitlab.com/CommonsPub/Server). Here are some examples of extensions:
+New functionality should be developed in seperate namespaces in order to make the software more modular (there are future plans for a plugin system). Each "extension" has its own branch in the [CommonsPub repo](https://gitlab.com/CommonsPub/Client). Here are some examples of extensions:
 
 - `extension/valueflows` - WIP implementation of the [ValueFlows](https://valueflo.ws/) economic vocabulary, to power distributed economic networks for the next economy.
 - `extension/organisation` - Adds functionality for organisations to maintain a shared profile.
@@ -46,7 +46,7 @@ Avoid commiting directly to `flavour/commonspub` or any of the flavours.
 
 If you made changes to an extension used by a flavour, merge it into the appropriate flavour branche(s).
 
-If you made changes to core functionality (`MoodleNet[Web].*` namespaces), merge those (and only those) into `flavour/moodlenet`.
+If you made changes to core functionality (outside of any extension), merge those (and only those) into `flavour/moodlenet`.
 
 #### Please **avoid mixing flavours!** 
 
