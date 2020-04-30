@@ -7,21 +7,24 @@ export const SENTRY_KEY = process.env.REACT_APP_SENTRY_API_KEY;
 export const DEFAULT_PAGE_SIZE =
   parseInt(`${process.env.REACT_APP_DEFAULT_PAGE_SIZE}`) || 15;
 
-export const APP_NAME = 'CommonsPub';
+export const APP_NAME = 'ZenPub';
 export const INSTANCE_DESCRIPTION =
-  'Federated app for open and cooperative networks.';
+  'Federated economic network for Reflow pilots';
 export const INVITE_ONLY_TEXT =
   process.env.REACT_APP_INVITE_ONLY_TEXT ||
   'Please note, signups on this instance are currently invite-only.';
-export const INSTANCE_TAGLINE = 'Share. Curate. Discuss.';
+export const INSTANCE_TAGLINE =
+  'Co-creating circular and regenerative resource flows in cities';
 export const INSTANCE_PROMPT =
   "You don't need to sign up to preview what people are sharing and discussing publicly.";
 export const prompt_signin = 'Sign in';
 export const my_timeline = 'My Timeline';
 export const instance_bg_img =
-  'http://nycicarus.org/images/mad-solidarity-fists.png';
-export const logo_large_url = 'http://commonspub.org/logo-small.png';
-export const logo_small_url = 'http://commonspub.org/logo-small.png';
+  'https://reflowproject.eu/wp-content/uploads/2019/08/reflow-cocreation-1.png';
+export const logo_large_url =
+  'https://pbs.twimg.com/profile_images/1176826011293556738/9jzWwP_g.png';
+export const logo_small_url =
+  'https://pbs.twimg.com/profile_images/1176826011293556738/9jzWwP_g.png';
 
 export const terms_markdown_text = {
   // replace the text as needed
