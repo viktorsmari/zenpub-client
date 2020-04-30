@@ -1,7 +1,7 @@
-# CommonsPub Client
+# ZenPub Client
 
 ## About the project
-[CommonsPub](http://commonspub.org) is a project to create a generic federated server, based on the `ActivityPub` and `ActivityStreams` web standards). 
+This app is based on [CommonsPub](http://commonspub.org), a project to create a generic federated server, based on the `ActivityPub` and `ActivityStreams` web standards). 
 
 This is the front-end, written in Typescript that uses Apollo to fetch and update contents against a Graphql API.
 
