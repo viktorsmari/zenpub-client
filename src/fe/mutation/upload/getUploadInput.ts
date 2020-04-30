@@ -3,14 +3,14 @@ import Maybe from 'graphql/tsutils/Maybe';
 import { UrlString, isUrlString } from 'fe/lib/helpers/data';
 
 export const getMaybeUploadInput = (
-  maybeFileOrString: Maybe<File | string>
+  maybeFileOrString: Maybe<File | string>,
+  currentUploadUrl: Maybe<string>
 ): UploadInput | undefined =>
-  !maybeFileOrString
+  !maybeFileOrString ||
+  (isUrlString(maybeFileOrString) && maybeFileOrString === currentUploadUrl)
     ? void 0
-    : isUrlString(maybeFileOrString)
+    : maybeFileOrString instanceof File || isUrlString(maybeFileOrString)
     ? getUploadInput(maybeFileOrString)
-    : maybeFileOrString instanceof File
-    ? getUploadInput(maybeFileOrString as File)
     : void 0;
 
 export const getUploadInput = (fileOrString: File | UrlString): UploadInput =>

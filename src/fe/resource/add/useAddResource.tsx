@@ -35,7 +35,7 @@ export const useAddResource = () => {
           collectionId: collectionId,
           resource,
           content: getUploadInput(content),
-          icon: getMaybeUploadInput(icon)
+          icon: getMaybeUploadInput(icon, null)
         },
         refetchQueries: [CollectionResourcesQueryRefetch({ collectionId })]
       });

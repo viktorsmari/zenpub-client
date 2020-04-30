@@ -4,6 +4,8 @@ import { CommunityInput } from 'graphql/types.generated';
 import { useCallback, useMemo } from 'react';
 import { MyCommunityFollowsQueryRefetch } from '../myFollowed/myFollowedCommunities.generated';
 import { useCreateCommunityMutation } from './useCreateCommunity.generated';
+import { DEFAULT_PAGE_SIZE } from 'mn-constants';
+import { InstanceOutboxActivitiesQueryRefetch } from 'fe/activities/outbox/instance/useInstanceOutboxActivities.generated';
 
 export interface CreateCommunity {
   community: CommunityInput;
@@ -20,14 +22,17 @@ export const useCreateCommunity = () => {
 
       return createMut({
         variables: {
-          icon: getMaybeUploadInput(icon),
+          icon: getMaybeUploadInput(icon, null),
           community: {
             name: community.name,
             summary: community.summary,
             preferredUsername: community.preferredUsername
           }
         },
-        refetchQueries: [MyCommunityFollowsQueryRefetch({})]
+        refetchQueries: [
+          MyCommunityFollowsQueryRefetch({}),
+          InstanceOutboxActivitiesQueryRefetch({ limit: DEFAULT_PAGE_SIZE })
+        ]
       });
     },
     [createMutStatus, createMut]
