@@ -25,7 +25,10 @@ export const useEditCollection = (collectionId: Collection['id']) => {
       return editMut({
         variables: {
           collectionId,
-          icon: getMaybeUploadInput(icon),
+          icon: getMaybeUploadInput(
+            icon,
+            collectionEditQ.data?.collection?.icon?.url
+          ),
           collection: {
             name: collection.name,
             summary: collection.summary
@@ -33,7 +36,7 @@ export const useEditCollection = (collectionId: Collection['id']) => {
         }
       });
     },
-    [collectionId, editMut, editMutStatus]
+    [collectionId, editMut, editMutStatus, collectionEditQ]
   );
   return useMemo(() => {
     const collection = collectionEditQ.data?.collection;

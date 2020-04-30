@@ -22,7 +22,7 @@ export const useCreateCommunity = () => {
 
       return createMut({
         variables: {
-          icon: getMaybeUploadInput(icon),
+          icon: getMaybeUploadInput(icon, null),
           community: {
             name: community.name,
             summary: community.summary,

@@ -23,12 +23,12 @@ export const useProfile = () => {
       updateProfileMutation({
         variables: {
           profile,
-          icon: getMaybeUploadInput(icon),
-          image: getMaybeUploadInput(image)
+          icon: getMaybeUploadInput(icon, profileQ.data?.me?.user.icon?.url),
+          image: getMaybeUploadInput(image, profileQ.data?.me?.user.image?.url)
         },
         context: mnCtx({ ctx: 'Profile update' })
       }),
-    [updateProfileMutation]
+    [updateProfileMutation, profileQ]
   );
   return useMemo(() => {
     const profile = profileQ.data?.me?.user;
