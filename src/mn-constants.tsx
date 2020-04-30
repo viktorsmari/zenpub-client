@@ -16,14 +16,12 @@ export const INVITE_ONLY_TEXT =
 export const INSTANCE_TAGLINE = 'Share. Curate. Discuss.';
 export const INSTANCE_PROMPT =
   "You don't need to sign up to preview what people are sharing and discussing publicly.";
-export const prompt_signin = 'Sign in to MoodleNet';
-export const my_timeline = 'My MoodleNet';
+export const prompt_signin = 'Sign in';
+export const my_timeline = 'My Timeline';
 export const instance_bg_img =
-  'https://gitlab.com/moodlenet/frontend/-/raw/develop/src/static/img/login.jpg';
-export const logo_large_url =
-  'https://moodle.net/images/logos/moodlenet-logo.png';
-export const logo_small_url =
-  'https://gitlab.com/moodlenet/homepage/-/raw/master/static/images/logos/moodle-logo.png';
+  'http://nycicarus.org/images/mad-solidarity-fists.png';
+export const logo_large_url = 'http://commonspub.org/logo-small.png';
+export const logo_small_url = 'http://commonspub.org/logo-small.png';
 
 export const terms_markdown_text = {
   // replace the text as needed

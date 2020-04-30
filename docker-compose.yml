@@ -4,7 +4,7 @@ services:
   backend:
     #image: "commonspub/commonspub:stable" # use stable/production/master release of backend
     image: "commonspub/commonspub:latest" # uncomment to use unstable/staging/develop backend branch
-    # You can also build your own backend image from the source or deploy in other ways, see further docs at https://gitlab.com/moodlenet/servers/federated/blob/develop/DEPLOY.md
+    # You can also build your own backend image from the source or deploy in other ways
     ports:
       - "4000:4000"
       - "81:80"
