@@ -2,11 +2,7 @@ import * as Types from './types.generated';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type ResetPasswordRequestMutationVariables = {
   email: Types.Scalars['String']
@@ -25,23 +21,6 @@ export const ResetPasswordRequestDocument = gql`
 }
     `;
 export type ResetPasswordRequestMutationFn = ApolloReactCommon.MutationFunction<ResetPasswordRequestMutation, ResetPasswordRequestMutationVariables>;
-export type ResetPasswordRequestComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<ResetPasswordRequestMutation, ResetPasswordRequestMutationVariables>, 'mutation'>;
-
-    export const ResetPasswordRequestComponent = (props: ResetPasswordRequestComponentProps) => (
-      <ApolloReactComponents.Mutation<ResetPasswordRequestMutation, ResetPasswordRequestMutationVariables> mutation={ResetPasswordRequestDocument} {...props} />
-    );
-    
-export type ResetPasswordRequestProps<TChildProps = {}> = ApolloReactHoc.MutateProps<ResetPasswordRequestMutation, ResetPasswordRequestMutationVariables> & TChildProps;
-export function withResetPasswordRequest<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  ResetPasswordRequestMutation,
-  ResetPasswordRequestMutationVariables,
-  ResetPasswordRequestProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, ResetPasswordRequestMutation, ResetPasswordRequestMutationVariables, ResetPasswordRequestProps<TChildProps>>(ResetPasswordRequestDocument, {
-      alias: 'resetPasswordRequest',
-      ...operationOptions
-    });
-};
 
 /**
  * __useResetPasswordRequestMutation__
@@ -74,3 +53,14 @@ export interface ResetPasswordRequestMutationOperation {
   variables: ResetPasswordRequestMutationVariables
   type: 'mutation'
 }
+export const ResetPasswordRequestMutationName:ResetPasswordRequestMutationOperation['operationName'] = 'resetPasswordRequest'
+
+export const ResetPasswordRequestMutationRefetch = (
+  variables:ResetPasswordRequestMutationVariables, 
+  context?:any
+)=>({
+  query:ResetPasswordRequestDocument,
+  variables,
+  context
+})
+      

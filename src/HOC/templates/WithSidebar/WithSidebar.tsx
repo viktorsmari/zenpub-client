@@ -1,9 +1,8 @@
-import { useMe } from 'fe/session/me';
+import { useMe } from 'fe/session/useMe';
+import { MainHeaderHOC } from 'HOC/modules/previews/Header/Header';
 import { Sidebar } from 'HOC/modules/Sidebar/Sidebar';
 import React, { FC, useMemo } from 'react';
 import { SidebarProps, WithSidebar } from 'ui/templates/withSidebar';
-import { MainHeader, Props as MainHeaderProps } from 'ui/modules/MainHeader';
-import { SearchBox } from 'HOC/modules/SearchBox/SearchBox';
 import { GuestTemplate } from '../Guest/Guest';
 
 export interface WithSidebarTemplate {}
@@ -17,18 +16,9 @@ export const WithSidebarTemplate: FC<WithSidebarTemplate> = ({ children }) => {
     const sidebarHocProps: Sidebar = {
       user
     };
-    const headerProps: MainHeaderProps = {
-      Search: <SearchBox />,
-      user: {
-        logout: meQ.logout,
-        icon: user.icon || '',
-        link: `/user/${user.id}`,
-        name: user.name || ''
-      }
-    };
     const props: SidebarProps = {
       SidebarBox: <Sidebar {...sidebarHocProps} />,
-      HeaderBox: <MainHeader {...headerProps} />
+      HeaderBox: MainHeaderHOC
     };
     return props;
   }, [meQ]);

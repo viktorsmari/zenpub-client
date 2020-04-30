@@ -1,38 +1,45 @@
-import React, { ComponentType } from 'react';
-import { Box, Text } from 'rebass/styled-components';
-import styled from 'ui/themes/styled';
 import { i18nMark, Trans } from '@lingui/react';
-import { Actions, Row, ContainerForm } from 'ui/modules/Modal';
-import { Label, Input } from '@rebass/forms';
+import { Input, Label } from '@rebass/forms';
+import React from 'react';
+import { Box, Text } from 'rebass/styled-components';
+import { FormikHook } from 'ui/@types/types';
 import Button from 'ui/elements/Button';
-import { X } from 'react-feather';
+import { LoadMore } from 'ui/modules/Loadmore';
+import ConfirmationModal from 'ui/modules/ConfirmationModal';
 // import { FormikHook } from 'ui/@types/types';
-import Modal from 'ui/modules/Modal';
+import Modal, { Actions, ContainerForm, Row } from 'ui/modules/Modal';
+import styled from 'ui/themes/styled';
+import { RotateCw } from 'react-feather';
+import { LocaleContext } from 'context/global/localizationCtx';
 
 const tt = {
   placeholders: {
-    email: i18nMark('Enter email or domain to allowlist')
+    email: i18nMark(
+      'Add email addresses (comma-separated) to invite to instance'
+    )
   }
 };
 export interface Props {
-  // formik: FormikHook<AddEmail>;
-  emailsList?: string[];
-  ConfirmDeleteModal?: ComponentType<{ email: string; done(): any }>;
+  formikRemoveEmail: FormikHook<WithEmail>;
+  formikSendInvite: FormikHook<WithEmail>;
+  formikAddEmail: FormikHook<WithEmail>;
+  emailsList: string[];
+  loadMoreEmails?: FormikHook; // FIX ME after add LoadMoreFormik
 }
 
-export interface AddEmail {
+export interface WithEmail {
   email: string;
 }
 
-// const Emails = props => (
 const Emails: React.FC<Props> = ({
-  // formik,
   emailsList,
-  ConfirmDeleteModal
+  formikAddEmail,
+  formikSendInvite,
+  formikRemoveEmail,
+  loadMoreEmails
 }) => {
-  const [selectedEmailForModal, setselectedEmailForModal] = React.useState<
-    null | string
-  >(null);
+  const { i18n } = React.useContext(LocaleContext);
+
   return (
     <Box>
       <Text variant="heading" px={3} mt={2}>
@@ -40,23 +47,24 @@ const Emails: React.FC<Props> = ({
       </Text>
       <EmailWrapper>
         <Label pt={3}>
-          <Trans>Email or Domain</Trans>
+          <Trans>Email</Trans>
         </Label>
         <EmailContainerForm>
           <EmailInput
             placeholder={tt.placeholders.email}
-            // disabled={formik.isSubmitting}
+            disabled={formikAddEmail.isSubmitting}
             name="email"
-            // value={formik.values.email}
-            // onChange={formik.handleChange}
+            value={formikAddEmail.values.email}
+            onChange={formikAddEmail.handleChange}
           />
           <Actions>
             <Button
               variant="primary"
-              // disabled={formik.isSubmitting}
+              isSubmitting={formikAddEmail.isSubmitting}
+              isDisabled={formikAddEmail.isSubmitting}
               type="submit"
               style={{ marginLeft: '10px' }}
-              // onClick={formik.submitForm}
+              onClick={formikAddEmail.submitForm}
             >
               <Trans>Add</Trans>
             </Button>
@@ -65,24 +73,40 @@ const Emails: React.FC<Props> = ({
       </EmailWrapper>
       <Box p={3}>
         <Text p={3} variant="suptitle">
-          <Trans>Allowlisted emails and domains</Trans>
+          <Trans>Sent invitations</Trans>
         </Text>
-        {emailsList &&
-          emailsList.map((email, i) => (
-            <ListRow key={i}>
-              <EmailText>{email}</EmailText>
-              <Remove onClick={() => setselectedEmailForModal(email)}>
-                <X color="#fff" size={16} />
-              </Remove>
-              {/* <Button variant="danger"><Trans>Delete</Trans></Button> */}
-            </ListRow>
-          ))}
+        {emailsList.map((email, i) => (
+          <ListRow key={`${i}-${email}`}>
+            <EmailText>{email}</EmailText>
+            <Resend
+              onClick={() => {
+                formikSendInvite.setValues({ email });
+                formikSendInvite.submitForm();
+              }}
+            >
+              <RotateCw size={16} />
+            </Resend>
+            <Button
+              variant="danger"
+              onClick={() => formikRemoveEmail.setValues({ email })}
+            >
+              <Trans>Delete</Trans>
+            </Button>
+          </ListRow>
+        ))}
+        {loadMoreEmails ? <LoadMore LoadMoreFormik={loadMoreEmails} /> : null}{' '}
+        {/* FIX ME after add LoadMoreFormik */}
       </Box>
-      {selectedEmailForModal && ConfirmDeleteModal != null && (
-        <Modal closeModal={() => setselectedEmailForModal(null)}>
-          <ConfirmDeleteModal
-            email={selectedEmailForModal}
-            done={() => setselectedEmailForModal(null)}
+      {formikRemoveEmail.values.email && (
+        <Modal closeModal={() => formikRemoveEmail.setValues({ email: '' })}>
+          <ConfirmationModal
+            cancel={() => formikRemoveEmail.setValues({ email: '' })}
+            formik={formikRemoveEmail}
+            modalAction={i18n._(`Remove email from whitelist`)}
+            modalDescription={i18n._(
+              `Are you sure you want to remove ${formikRemoveEmail.values.email} from the whitelisted emails?`
+            )}
+            modalTitle={i18n._(`Delete`)}
           />
         </Modal>
       )}
@@ -107,18 +131,25 @@ const ListRow = styled(Row)`
   align-items: center;
 `;
 
-const Remove = styled(Box)`
+const Resend = styled(Box)`
   cursor: pointer;
-  background: ${props => props.theme.colors.gray};
-  width: 20px;
-  height: 20px;
-  border-radius: 20px;
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  &:hover {
-    background: ${props => props.theme.colors.primary};
+  svg {
+    stroke: ${props => props.theme.colors.gray};
   }
+
+  &:hover {    
+    // background: ${props => props.theme.colors.lighter};   
+    svg {
+      stroke: ${props => props.theme.colors.primary};
+    }   
+  }  
+}
 `;
 
 const EmailContainerForm = styled(ContainerForm)`

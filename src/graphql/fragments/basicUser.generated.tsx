@@ -4,8 +4,14 @@ import gql from 'graphql-tag';
 
 export type BasicUserFragment = (
   { __typename: 'User' }
-  & Pick<Types.User, 'id' | 'canonicalUrl' | 'displayUsername' | 'name' | 'icon' | 'location' | 'summary' | 'image' | 'isLocal' | 'createdAt' | 'updatedAt' | 'lastActivity'>
-  & { myFollow: Types.Maybe<(
+  & Pick<Types.User, 'id' | 'canonicalUrl' | 'displayUsername' | 'name' | 'location' | 'summary' | 'isLocal' | 'createdAt' | 'updatedAt' | 'lastActivity'>
+  & { icon: Types.Maybe<(
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
+  )>, image: Types.Maybe<(
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
+  )>, myFollow: Types.Maybe<(
     { __typename: 'Follow' }
     & Pick<Types.Follow, 'id'>
   )>, myLike: Types.Maybe<(
@@ -23,10 +29,16 @@ export const BasicUserFragmentDoc = gql`
   canonicalUrl
   displayUsername
   name
-  icon
+  icon {
+    id
+    url
+  }
   location
   summary
-  image
+  image {
+    id
+    url
+  }
   isLocal
   createdAt
   updatedAt

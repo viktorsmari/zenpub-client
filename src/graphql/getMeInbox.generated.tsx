@@ -5,18 +5,14 @@ import { BasicUserFragment } from './fragments/basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from './fragments/basicUser.generated';
 import { ActivityPreviewFragmentDoc } from '../HOC/modules/previews/activity/ActivityPreview.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
 export type GetMeInboxQueryVariables = {
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  end?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+  end?: Types.Maybe<Array<Types.Scalars['Cursor']>>
 };
 
 
@@ -43,7 +39,7 @@ export type GetMeInboxQuery = (
 
 
 export const GetMeInboxDocument = gql`
-    query getMeInbox($limit: Int, $end: [Cursor]) {
+    query getMeInbox($limit: Int, $end: [Cursor!]) {
   me {
     user {
       ...BasicUser
@@ -61,23 +57,6 @@ export const GetMeInboxDocument = gql`
 }
     ${BasicUserFragmentDoc}
 ${ActivityPreviewFragmentDoc}`;
-export type GetMeInboxComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetMeInboxQuery, GetMeInboxQueryVariables>, 'query'>;
-
-    export const GetMeInboxComponent = (props: GetMeInboxComponentProps) => (
-      <ApolloReactComponents.Query<GetMeInboxQuery, GetMeInboxQueryVariables> query={GetMeInboxDocument} {...props} />
-    );
-    
-export type GetMeInboxProps<TChildProps = {}> = ApolloReactHoc.DataProps<GetMeInboxQuery, GetMeInboxQueryVariables> & TChildProps;
-export function withGetMeInbox<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  GetMeInboxQuery,
-  GetMeInboxQueryVariables,
-  GetMeInboxProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, GetMeInboxQuery, GetMeInboxQueryVariables, GetMeInboxProps<TChildProps>>(GetMeInboxDocument, {
-      alias: 'getMeInbox',
-      ...operationOptions
-    });
-};
 
 /**
  * __useGetMeInboxQuery__
@@ -113,3 +92,14 @@ export interface GetMeInboxQueryOperation {
   variables: GetMeInboxQueryVariables
   type: 'query'
 }
+export const GetMeInboxQueryName:GetMeInboxQueryOperation['operationName'] = 'getMeInbox'
+
+export const GetMeInboxQueryRefetch = (
+  variables:GetMeInboxQueryVariables, 
+  context?:any
+)=>({
+  query:GetMeInboxDocument,
+  variables,
+  context
+})
+      

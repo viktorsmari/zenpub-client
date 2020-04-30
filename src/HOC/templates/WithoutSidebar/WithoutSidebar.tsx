@@ -1,9 +1,7 @@
+import { useMe } from 'fe/session/useMe';
+import { MainHeaderHOC } from 'HOC/modules/previews/Header/Header';
 import React, { FC, useMemo } from 'react';
-import { useMe } from 'fe/session/me';
-
-import { WithoutSidebar, Props } from 'ui/templates/withoutSidebar';
-import { SearchBox } from 'HOC/modules/SearchBox/SearchBox';
-import { MainHeader, Props as MainHeaderProps } from 'ui/modules/MainHeader';
+import { Props, WithoutSidebar } from 'ui/templates/withoutSidebar';
 import { GuestTemplate } from '../Guest/Guest';
 
 export interface WithoutSidebarTemplate {}
@@ -16,17 +14,8 @@ export const WithoutSidebarTemplate: FC<WithoutSidebarTemplate> = ({
     if (!user) {
       return null;
     }
-    const headerProps: MainHeaderProps = {
-      Search: <SearchBox />,
-      user: {
-        logout: meQ.logout,
-        icon: user.icon || '',
-        link: `/user/${user.id}`,
-        name: user.name || ''
-      }
-    };
     const props: Props = {
-      HeaderBox: <MainHeader {...headerProps} />
+      HeaderBox: MainHeaderHOC
     };
     return props;
   }, [meQ]);

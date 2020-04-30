@@ -6,6 +6,7 @@ import { i18nMark, Trans } from '@lingui/react';
 import { LocaleContext } from '../../../context/global/localizationCtx';
 import { FormikHook } from 'ui/@types/types';
 import { MessageCircle, Star } from 'react-feather';
+import DOMPurify from 'dompurify';
 
 import Modal from 'ui/modules/Modal';
 import { ActorComp } from '../ActivityPreview';
@@ -64,9 +65,12 @@ export const LikedComment: React.SFC<CommentProps> = ({
         communityName={communityName}
         communityLink={communityLink}
       />
-      <Text variant="text" mt={2} mb={2}>
-        {content}
-      </Text>
+      <Text
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }}
+        sx={{ textDecoration: 'none' }}
+        variant="text"
+        mb={2}
+      />
       <Actions mt={2}>
         {talkModalVisible && (
           <SocialText

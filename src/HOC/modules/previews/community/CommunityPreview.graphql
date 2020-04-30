@@ -1,7 +1,7 @@
 fragment CommunityPreview on Community {
     ...CommunityInfo
     id
-    icon
+    icon{ id, url }
     summary
     myFlag { id }
     collectionCount
@@ -14,7 +14,7 @@ fragment CommunityPreview on Community {
 fragment CommunityInfo on Community {
     id
     name
-    icon
+    icon{ id, url }
     isLocal
     myFollow { id }
     canonicalUrl

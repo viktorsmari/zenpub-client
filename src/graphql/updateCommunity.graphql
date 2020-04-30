@@ -11,7 +11,9 @@ mutation updateCommunityMutation($community: CommunityUpdateInput!, $communityId
     preferredUsername
     name
     summary
-    icon
+    icon{
+ id, url }
+
     # isLocal
     # isPublic
     createdAt

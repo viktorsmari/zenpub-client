@@ -1,4 +1,4 @@
-import SignupComp from 'pages/Signup';
+import { SignUpPageHOC } from 'HOC/pages/signUp/SignUpPage';
 import React, { FC } from 'react';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
 import { GuestTemplate } from 'HOC/templates/Guest/Guest';
@@ -8,8 +8,8 @@ const SignupPageRouter: FC<RouteComponentProps<SignupPageRouter>> = ({
   match
 }) => {
   return (
-    <GuestTemplate>
-      <SignupComp />
+    <GuestTemplate withoutHeader>
+      <SignUpPageHOC />
     </GuestTemplate>
   );
 };

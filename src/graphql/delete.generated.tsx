@@ -2,11 +2,7 @@ import * as Types from './types.generated';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type DeleteMutationMutationVariables = {
   contextId: Types.Scalars['String']
@@ -27,23 +23,6 @@ export const DeleteMutationDocument = gql`
 }
     `;
 export type DeleteMutationMutationFn = ApolloReactCommon.MutationFunction<DeleteMutationMutation, DeleteMutationMutationVariables>;
-export type DeleteMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<DeleteMutationMutation, DeleteMutationMutationVariables>, 'mutation'>;
-
-    export const DeleteMutationComponent = (props: DeleteMutationComponentProps) => (
-      <ApolloReactComponents.Mutation<DeleteMutationMutation, DeleteMutationMutationVariables> mutation={DeleteMutationDocument} {...props} />
-    );
-    
-export type DeleteMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<DeleteMutationMutation, DeleteMutationMutationVariables> & TChildProps;
-export function withDeleteMutation<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  DeleteMutationMutation,
-  DeleteMutationMutationVariables,
-  DeleteMutationProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, DeleteMutationMutation, DeleteMutationMutationVariables, DeleteMutationProps<TChildProps>>(DeleteMutationDocument, {
-      alias: 'deleteMutation',
-      ...operationOptions
-    });
-};
 
 /**
  * __useDeleteMutationMutation__
@@ -76,3 +55,14 @@ export interface DeleteMutationMutationOperation {
   variables: DeleteMutationMutationVariables
   type: 'mutation'
 }
+export const DeleteMutationMutationName:DeleteMutationMutationOperation['operationName'] = 'deleteMutation'
+
+export const DeleteMutationMutationRefetch = (
+  variables:DeleteMutationMutationVariables, 
+  context?:any
+)=>({
+  query:DeleteMutationDocument,
+  variables,
+  context
+})
+      

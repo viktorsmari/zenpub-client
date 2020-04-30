@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useState, useCallback, ComponentType } from 'react';
 import { Flex } from 'rebass/styled-components';
 import styled from 'ui/themes/styled';
 
 export interface Props {
-  HeaderBox: JSX.Element;
+  HeaderBox?: ComponentType<{ toggleSideBar(): unknown }>;
 }
-export const Guest: React.FC<Props> = ({ children, HeaderBox }) => (
-  <CenteredWrapper>
-    {HeaderBox}
-    <Flex ml={2}>{children}</Flex>
-  </CenteredWrapper>
-);
+export const Guest: React.FC<Props> = ({ children, HeaderBox }) => {
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const toggleSideBar = useCallback(() => setSidebarOpen(!isSidebarOpen), [
+    isSidebarOpen
+  ]);
+
+  return (
+    <CenteredWrapper>
+      {HeaderBox && <HeaderBox toggleSideBar={toggleSideBar} />}
+      <Flex ml={2}>{children}</Flex>
+    </CenteredWrapper>
+  );
+};
 
 const CenteredWrapper = styled(Flex)`
   justify-content: center;

@@ -1,4 +1,4 @@
-// const util = require('util')
+//const util = require('util')
 const visitor_plugin_common_1 = require('@graphql-codegen/visitor-plugin-common');
 const autoBind = require('auto-bind');
 const graphql = require('graphql');
@@ -58,6 +58,19 @@ export interface ${def.operationResultType}Operation {
   variables: ${def.operationVariablesTypes}
   type: '${def.operationType.toLocaleLowerCase()}'
 }
+export const ${def.operationResultType}Name:${
+        def.operationResultType
+      }Operation['operationName'] = '${def.name}'
+
+export const ${def.operationResultType}Refetch = (
+  variables:${def.operationVariablesTypes}, 
+  context?:any
+)=>({
+  query:${def.name[0].toUpperCase()}${def.name.substring(1)}Document,
+  variables,
+  context
+})
+      
 `
     )
     .join('');

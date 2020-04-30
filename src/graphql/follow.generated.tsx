@@ -2,11 +2,7 @@ import * as Types from './types.generated';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type FollowMutationMutationVariables = {
   contextId: Types.Scalars['String']
@@ -30,23 +26,6 @@ export const FollowMutationDocument = gql`
 }
     `;
 export type FollowMutationMutationFn = ApolloReactCommon.MutationFunction<FollowMutationMutation, FollowMutationMutationVariables>;
-export type FollowMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<FollowMutationMutation, FollowMutationMutationVariables>, 'mutation'>;
-
-    export const FollowMutationComponent = (props: FollowMutationComponentProps) => (
-      <ApolloReactComponents.Mutation<FollowMutationMutation, FollowMutationMutationVariables> mutation={FollowMutationDocument} {...props} />
-    );
-    
-export type FollowMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<FollowMutationMutation, FollowMutationMutationVariables> & TChildProps;
-export function withFollowMutation<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  FollowMutationMutation,
-  FollowMutationMutationVariables,
-  FollowMutationProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, FollowMutationMutation, FollowMutationMutationVariables, FollowMutationProps<TChildProps>>(FollowMutationDocument, {
-      alias: 'followMutation',
-      ...operationOptions
-    });
-};
 
 /**
  * __useFollowMutationMutation__
@@ -79,3 +58,14 @@ export interface FollowMutationMutationOperation {
   variables: FollowMutationMutationVariables
   type: 'mutation'
 }
+export const FollowMutationMutationName:FollowMutationMutationOperation['operationName'] = 'followMutation'
+
+export const FollowMutationMutationRefetch = (
+  variables:FollowMutationMutationVariables, 
+  context?:any
+)=>({
+  query:FollowMutationDocument,
+  variables,
+  context
+})
+      

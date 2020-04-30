@@ -10,6 +10,7 @@ export const DEFAULT_PAGE_SIZE =
 export const APP_NAME = 'HAHA Academy';
 export const INSTANCE_DESCRIPTION = '21st Century Learning';
 export const INVITE_ONLY_TEXT =
+  process.env.REACT_APP_INVITE_ONLY_TEXT ||
   'Please note, signups on this instance are currently invite-only.';
 export const INSTANCE_TAGLINE = 'HAHA Academy';
 export const INSTANCE_PROMPT =
@@ -18,6 +19,7 @@ export const prompt_signin = 'Sign in';
 export const my_timeline = 'My Learning Network';
 export const instance_bg_img = 'https://haha.academy/images/OER.png';
 export const logo_large_url = 'https://haha.academy/images/logo-large.png';
+export const logo_small_url = '/static/img/logo-icon.png';
 
 export const terms_markdown_text = {
   // replace the text as needed
@@ -29,7 +31,7 @@ export const terms_markdown_text = {
 
 export const terms_markdown_urls = {
   // replace the URLs as needed, or enable/disable to use `terms_markdown_text` instead
-  enabled: false,
+  enabled: true,
   terms_users: 'https://moodle.net/terms/users.md',
   terms_cookies: 'https://moodle.net/terms/cookies.md',
   terms_indexing: 'https://moodle.net/terms/indexing.md'
@@ -59,7 +61,7 @@ export const languages = {
 export type LocaleKey = keyof typeof languages;
 export const locales = Object.keys(languages) as LocaleKey[];
 
-const mothershipAppId = process.env.REACT_APP_MOTHERSHIP_APP_ID;
+const mothershipAppId = process.env.REACT_APP_MOTHERSHIP_API_ID;
 const mothershipApiKey = process.env.REACT_APP_MOTHERSHIP_API_KEY;
 export const mothershipCreds =
   mothershipAppId && mothershipApiKey

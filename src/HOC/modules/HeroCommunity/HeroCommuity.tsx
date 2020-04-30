@@ -1,5 +1,5 @@
 import { useCommunity } from 'fe/community/useCommunity';
-import { useMe } from 'fe/session/me';
+import { useMe } from 'fe/session/useMe';
 import { useFormik } from 'formik';
 import { Community } from 'graphql/types.generated';
 import React, { FC, useMemo } from 'react';
@@ -43,7 +43,7 @@ export const HeroCommunity: FC<HeroCommunity> = ({ communityId, basePath }) => {
         isAdmin,
         following: !!community.myFollow,
         isFlagged: !!community.myFlag,
-        icon: community.icon || '',
+        icon: community.icon?.url || '',
         name: community.name,
         fullName: community.displayUsername,
         totalMembers: community.followerCount || 0,

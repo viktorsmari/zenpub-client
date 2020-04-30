@@ -2,11 +2,7 @@ import * as Types from '../../../graphql/types.generated';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type AddFeaturedMutationVariables = {
   contextId: Types.Scalars['String']
@@ -62,23 +58,6 @@ export const AddFeaturedDocument = gql`
 }
     `;
 export type AddFeaturedMutationFn = ApolloReactCommon.MutationFunction<AddFeaturedMutation, AddFeaturedMutationVariables>;
-export type AddFeaturedComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<AddFeaturedMutation, AddFeaturedMutationVariables>, 'mutation'>;
-
-    export const AddFeaturedComponent = (props: AddFeaturedComponentProps) => (
-      <ApolloReactComponents.Mutation<AddFeaturedMutation, AddFeaturedMutationVariables> mutation={AddFeaturedDocument} {...props} />
-    );
-    
-export type AddFeaturedProps<TChildProps = {}> = ApolloReactHoc.MutateProps<AddFeaturedMutation, AddFeaturedMutationVariables> & TChildProps;
-export function withAddFeatured<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  AddFeaturedMutation,
-  AddFeaturedMutationVariables,
-  AddFeaturedProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, AddFeaturedMutation, AddFeaturedMutationVariables, AddFeaturedProps<TChildProps>>(AddFeaturedDocument, {
-      alias: 'addFeatured',
-      ...operationOptions
-    });
-};
 
 /**
  * __useAddFeaturedMutation__
@@ -120,23 +99,6 @@ export const RemoveFeaturedDocument = gql`
 }
     `;
 export type RemoveFeaturedMutationFn = ApolloReactCommon.MutationFunction<RemoveFeaturedMutation, RemoveFeaturedMutationVariables>;
-export type RemoveFeaturedComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<RemoveFeaturedMutation, RemoveFeaturedMutationVariables>, 'mutation'>;
-
-    export const RemoveFeaturedComponent = (props: RemoveFeaturedComponentProps) => (
-      <ApolloReactComponents.Mutation<RemoveFeaturedMutation, RemoveFeaturedMutationVariables> mutation={RemoveFeaturedDocument} {...props} />
-    );
-    
-export type RemoveFeaturedProps<TChildProps = {}> = ApolloReactHoc.MutateProps<RemoveFeaturedMutation, RemoveFeaturedMutationVariables> & TChildProps;
-export function withRemoveFeatured<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  RemoveFeaturedMutation,
-  RemoveFeaturedMutationVariables,
-  RemoveFeaturedProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, RemoveFeaturedMutation, RemoveFeaturedMutationVariables, RemoveFeaturedProps<TChildProps>>(RemoveFeaturedDocument, {
-      alias: 'removeFeatured',
-      ...operationOptions
-    });
-};
 
 /**
  * __useRemoveFeaturedMutation__
@@ -169,6 +131,17 @@ export interface AddFeaturedMutationOperation {
   variables: AddFeaturedMutationVariables
   type: 'mutation'
 }
+export const AddFeaturedMutationName:AddFeaturedMutationOperation['operationName'] = 'addFeatured'
+
+export const AddFeaturedMutationRefetch = (
+  variables:AddFeaturedMutationVariables, 
+  context?:any
+)=>({
+  query:AddFeaturedDocument,
+  variables,
+  context
+})
+      
 
 
 export interface RemoveFeaturedMutationOperation {
@@ -177,3 +150,14 @@ export interface RemoveFeaturedMutationOperation {
   variables: RemoveFeaturedMutationVariables
   type: 'mutation'
 }
+export const RemoveFeaturedMutationName:RemoveFeaturedMutationOperation['operationName'] = 'removeFeatured'
+
+export const RemoveFeaturedMutationRefetch = (
+  variables:RemoveFeaturedMutationVariables, 
+  context?:any
+)=>({
+  query:RemoveFeaturedDocument,
+  variables,
+  context
+})
+      

@@ -2,51 +2,58 @@ import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
 import { PropsTable } from '@storybook/components';
 import { Collection } from '.';
 import {HeroCollection} from 'ui/modules/HeroCollection'
-import {getHeroCollectionProps, getResourcePreviewProps} from 'ui/mock/context'
 import {ActivityPreview} from 'ui/modules/ActivityPreview'
-import {activityPreviewProps} from 'ui/pages/community/a.stories.mdx'
-import {ResourcePreview} from 'ui/modules/ResourcePreview'
 import {WithSidebar} from 'ui/templates/withSidebar'
-import {Sidebar, Status} from 'ui/modules/Sidebar'
+import {Sidebar} from 'ui/modules/Sidebar'
+import {getSidebarProps} from 'ui/mock/sidebar'
+import {getHeroCollectionProps} from 'ui/mock/heroCollection'
+import {activityPreviewProps} from 'ui/mock/activityPreview'
+import {ResourcePreviewProps,CommentPreviewProps, LikedCommentPreviewProps } from 'ui/mock/previews'
+import {getLoadMoreProps} from 'ui/mock/loadmore'
+import {getMainHeaderProps} from 'ui/mock/mainHeader'
+import {Resource} from 'ui/modules/Previews/Resource'
+import {Comment} from 'ui/modules/Previews/Comment'
+import {LikedComment} from 'ui/modules/Previews/LikedComment'
+import {MainHeader} from 'ui/modules/MainHeader'
+const Head = () => <MainHeader {...getMainHeaderProps() } />
 
 <Meta title="Pages|Collection" component={Collection}/>
 
-
 # Collection
 Let's define a story for the `Collection` page
+- **[Story](#story)**
+- **[Building blocks](#modules)**
+- **[Props](#props)**
 
 <Preview>
   <Story name="Collection page">
-    <WithSidebar SidebarBox={<Sidebar 
-      status={Status.Loaded}
-      communities={[{
-        link: {
-          url: "string",
-          external: true,
-        },
-        name: "test",
-        icon: "",
-      }]}
-      user={{
-        icon:'https://pbs.twimg.com/profile_images/1161428802091802627/O49Ggs-7_400x400.jpg',
-        name: '˗ˏˋ Doug Belshaw ˎˊ˗  🇪🇺 ☠️ ✊',
-        id: "/test"
-      }}
-      isOpen= {false}
-      Search={ <input />}
-      logout= {() => console.log(false)}
-    />}>
+    <WithSidebar 
+      HeaderBox={Head}
+      SidebarBox={<Sidebar {...getSidebarProps()}/>}>
       <Collection 
-        HeroCollectionBox={(<HeroCollection {...getHeroCollectionProps()} />)}
+        collectionName="Spaced repetition"
+        loadMoreActivities={getLoadMoreProps()}
+        loadMoreResources={getLoadMoreProps()}
+        loadMoreFollowers={getLoadMoreProps()}
+        HeroCollectionBox={(<HeroCollection {...getHeroCollectionProps(true)} />)}
         ActivitiesBox={(<React.Fragment>
-          <ActivityPreview {...activityPreviewProps} key="1" />
-          <ActivityPreview {...activityPreviewProps} key="2" />
-          <ActivityPreview {...activityPreviewProps} key="3" />
+          <ActivityPreview {...activityPreviewProps('Added a link', <Resource {...ResourcePreviewProps() }/>)} />
+          <ActivityPreview {...activityPreviewProps('Uploaded a resource', <Resource {...ResourcePreviewProps('license', 'pdf' ) }/>)} />
+          <ActivityPreview {...activityPreviewProps('Created a comment', <Comment {...CommentPreviewProps() }/>)} />
+          <ActivityPreview {...activityPreviewProps('Created a comment', <Comment {...CommentPreviewProps() }/>)} />
+          <ActivityPreview {...activityPreviewProps('Like a comment', <LikedComment {...LikedCommentPreviewProps() }/>)} />
+          <ActivityPreview {...activityPreviewProps('Created a comment', <Comment {...CommentPreviewProps() }/>)} />
+          <ActivityPreview {...activityPreviewProps('Created a comment', <Comment {...CommentPreviewProps() }/>)} />
         </React.Fragment>)}
         ResourcesBox={(<React.Fragment>
-          <ResourcePreview {...getResourcePreviewProps()} key="1"/>
-          <ResourcePreview {...getResourcePreviewProps()} key="2"/>
-          <ResourcePreview {...getResourcePreviewProps()} key="3"/>
+          <Resource {...ResourcePreviewProps() } />
+          <Resource {...ResourcePreviewProps('license', 'pdf') } />
+          <Resource {...ResourcePreviewProps() } />
+          <Resource {...ResourcePreviewProps('license', 'pdf') } />
+          <Resource {...ResourcePreviewProps() } />
+          <Resource {...ResourcePreviewProps('license', 'pdf') } />
+          <Resource {...ResourcePreviewProps() } />
+          <Resource {...ResourcePreviewProps() } />
         </React.Fragment>)}
         basePath="/"
       />
@@ -54,4 +61,14 @@ Let's define a story for the `Collection` page
   </Story>
 </Preview>
 
+<div id="modules">Building blocks</div>
 
+- **[WithSidebar](#)**
+- **[Nav, NavItem, Panel, PanelTitle, WrapperPanel](#)**
+- **[Button](#)**
+- **[Header](#)**
+- **[LoadMore](#)**
+
+<div id="props">Props</div>
+
+<Props of={Collection} />

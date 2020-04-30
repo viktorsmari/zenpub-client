@@ -3,12 +3,8 @@ import * as Types from '../../graphql/types.generated';
 import { CommunityPageDataFragment } from '../../HOC/pages/community/CommunityPage.generated';
 import gql from 'graphql-tag';
 import { CommunityPageDataFragmentDoc } from '../../HOC/pages/community/CommunityPage.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type CommunityDataQueryVariables = {
@@ -32,23 +28,6 @@ export const CommunityDataDocument = gql`
   }
 }
     ${CommunityPageDataFragmentDoc}`;
-export type CommunityDataComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CommunityDataQuery, CommunityDataQueryVariables>, 'query'> & ({ variables: CommunityDataQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const CommunityDataComponent = (props: CommunityDataComponentProps) => (
-      <ApolloReactComponents.Query<CommunityDataQuery, CommunityDataQueryVariables> query={CommunityDataDocument} {...props} />
-    );
-    
-export type CommunityDataProps<TChildProps = {}> = ApolloReactHoc.DataProps<CommunityDataQuery, CommunityDataQueryVariables> & TChildProps;
-export function withCommunityData<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  CommunityDataQuery,
-  CommunityDataQueryVariables,
-  CommunityDataProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, CommunityDataQuery, CommunityDataQueryVariables, CommunityDataProps<TChildProps>>(CommunityDataDocument, {
-      alias: 'communityData',
-      ...operationOptions
-    });
-};
 
 /**
  * __useCommunityDataQuery__
@@ -83,3 +62,14 @@ export interface CommunityDataQueryOperation {
   variables: CommunityDataQueryVariables
   type: 'query'
 }
+export const CommunityDataQueryName:CommunityDataQueryOperation['operationName'] = 'communityData'
+
+export const CommunityDataQueryRefetch = (
+  variables:CommunityDataQueryVariables, 
+  context?:any
+)=>({
+  query:CommunityDataDocument,
+  variables,
+  context
+})
+      

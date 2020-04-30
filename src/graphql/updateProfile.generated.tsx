@@ -2,11 +2,7 @@ import * as Types from './types.generated';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type UpdateProfileMutationMutationVariables = {
   profile: Types.UpdateProfileInput
@@ -20,7 +16,14 @@ export type UpdateProfileMutationMutation = (
     & Pick<Types.Me, 'wantsEmailDigest' | 'wantsNotifications'>
     & { user: (
       { __typename: 'User' }
-      & Pick<Types.User, 'id' | 'name' | 'summary' | 'icon' | 'image' | 'location' | 'website'>
+      & Pick<Types.User, 'id' | 'name' | 'summary' | 'location' | 'website'>
+      & { icon: Types.Maybe<(
+        { __typename: 'Content' }
+        & Pick<Types.Content, 'id' | 'url'>
+      )>, image: Types.Maybe<(
+        { __typename: 'Content' }
+        & Pick<Types.Content, 'id' | 'url'>
+      )> }
     ) }
   )> }
 );
@@ -35,8 +38,14 @@ export const UpdateProfileMutationDocument = gql`
       id
       name
       summary
-      icon
-      image
+      icon {
+        id
+        url
+      }
+      image {
+        id
+        url
+      }
       location
       website
     }
@@ -44,23 +53,6 @@ export const UpdateProfileMutationDocument = gql`
 }
     `;
 export type UpdateProfileMutationMutationFn = ApolloReactCommon.MutationFunction<UpdateProfileMutationMutation, UpdateProfileMutationMutationVariables>;
-export type UpdateProfileMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UpdateProfileMutationMutation, UpdateProfileMutationMutationVariables>, 'mutation'>;
-
-    export const UpdateProfileMutationComponent = (props: UpdateProfileMutationComponentProps) => (
-      <ApolloReactComponents.Mutation<UpdateProfileMutationMutation, UpdateProfileMutationMutationVariables> mutation={UpdateProfileMutationDocument} {...props} />
-    );
-    
-export type UpdateProfileMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<UpdateProfileMutationMutation, UpdateProfileMutationMutationVariables> & TChildProps;
-export function withUpdateProfileMutation<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  UpdateProfileMutationMutation,
-  UpdateProfileMutationMutationVariables,
-  UpdateProfileMutationProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, UpdateProfileMutationMutation, UpdateProfileMutationMutationVariables, UpdateProfileMutationProps<TChildProps>>(UpdateProfileMutationDocument, {
-      alias: 'updateProfileMutation',
-      ...operationOptions
-    });
-};
 
 /**
  * __useUpdateProfileMutationMutation__
@@ -93,3 +85,14 @@ export interface UpdateProfileMutationMutationOperation {
   variables: UpdateProfileMutationMutationVariables
   type: 'mutation'
 }
+export const UpdateProfileMutationMutationName:UpdateProfileMutationMutationOperation['operationName'] = 'updateProfileMutation'
+
+export const UpdateProfileMutationMutationRefetch = (
+  variables:UpdateProfileMutationMutationVariables, 
+  context?:any
+)=>({
+  query:UpdateProfileMutationDocument,
+  variables,
+  context
+})
+      

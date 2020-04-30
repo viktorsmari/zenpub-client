@@ -1,16 +1,16 @@
 import * as Types from '../../../graphql/types.generated';
 
 import gql from 'graphql-tag';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type EditCollectionQueryDataFragment = (
   { __typename: 'Collection' }
-  & Pick<Types.Collection, 'id' | 'name' | 'summary' | 'icon' | 'updatedAt'>
+  & Pick<Types.Collection, 'id' | 'name' | 'summary' | 'updatedAt'>
+  & { icon: Types.Maybe<(
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
+  )> }
 );
 
 export type EditCollectionDataQueryVariables = {
@@ -28,7 +28,8 @@ export type EditCollectionDataQuery = (
 
 export type EditCollectionMutationVariables = {
   collection: Types.CollectionUpdateInput,
-  collectionId: Types.Scalars['String']
+  collectionId: Types.Scalars['String'],
+  icon?: Types.Maybe<Types.UploadInput>
 };
 
 
@@ -45,7 +46,10 @@ export const EditCollectionQueryDataFragmentDoc = gql`
   id
   name
   summary
-  icon
+  icon {
+    id
+    url
+  }
   updatedAt
 }
     `;
@@ -56,23 +60,6 @@ export const EditCollectionDataDocument = gql`
   }
 }
     ${EditCollectionQueryDataFragmentDoc}`;
-export type EditCollectionDataComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<EditCollectionDataQuery, EditCollectionDataQueryVariables>, 'query'> & ({ variables: EditCollectionDataQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const EditCollectionDataComponent = (props: EditCollectionDataComponentProps) => (
-      <ApolloReactComponents.Query<EditCollectionDataQuery, EditCollectionDataQueryVariables> query={EditCollectionDataDocument} {...props} />
-    );
-    
-export type EditCollectionDataProps<TChildProps = {}> = ApolloReactHoc.DataProps<EditCollectionDataQuery, EditCollectionDataQueryVariables> & TChildProps;
-export function withEditCollectionData<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  EditCollectionDataQuery,
-  EditCollectionDataQueryVariables,
-  EditCollectionDataProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, EditCollectionDataQuery, EditCollectionDataQueryVariables, EditCollectionDataProps<TChildProps>>(EditCollectionDataDocument, {
-      alias: 'editCollectionData',
-      ...operationOptions
-    });
-};
 
 /**
  * __useEditCollectionDataQuery__
@@ -100,30 +87,13 @@ export type EditCollectionDataQueryHookResult = ReturnType<typeof useEditCollect
 export type EditCollectionDataLazyQueryHookResult = ReturnType<typeof useEditCollectionDataLazyQuery>;
 export type EditCollectionDataQueryResult = ApolloReactCommon.QueryResult<EditCollectionDataQuery, EditCollectionDataQueryVariables>;
 export const EditCollectionDocument = gql`
-    mutation editCollection($collection: CollectionUpdateInput!, $collectionId: String!) {
-  updateCollection(collectionId: $collectionId, collection: $collection) {
+    mutation editCollection($collection: CollectionUpdateInput!, $collectionId: String!, $icon: UploadInput) {
+  updateCollection(collection: $collection, collectionId: $collectionId, icon: $icon) {
     ...EditCollectionQueryData
   }
 }
     ${EditCollectionQueryDataFragmentDoc}`;
 export type EditCollectionMutationFn = ApolloReactCommon.MutationFunction<EditCollectionMutation, EditCollectionMutationVariables>;
-export type EditCollectionComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<EditCollectionMutation, EditCollectionMutationVariables>, 'mutation'>;
-
-    export const EditCollectionComponent = (props: EditCollectionComponentProps) => (
-      <ApolloReactComponents.Mutation<EditCollectionMutation, EditCollectionMutationVariables> mutation={EditCollectionDocument} {...props} />
-    );
-    
-export type EditCollectionProps<TChildProps = {}> = ApolloReactHoc.MutateProps<EditCollectionMutation, EditCollectionMutationVariables> & TChildProps;
-export function withEditCollection<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  EditCollectionMutation,
-  EditCollectionMutationVariables,
-  EditCollectionProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, EditCollectionMutation, EditCollectionMutationVariables, EditCollectionProps<TChildProps>>(EditCollectionDocument, {
-      alias: 'editCollection',
-      ...operationOptions
-    });
-};
 
 /**
  * __useEditCollectionMutation__
@@ -140,6 +110,7 @@ export function withEditCollection<TProps, TChildProps = {}>(operationOptions?: 
  *   variables: {
  *      collection: // value for 'collection'
  *      collectionId: // value for 'collectionId'
+ *      icon: // value for 'icon'
  *   },
  * });
  */
@@ -157,6 +128,17 @@ export interface EditCollectionDataQueryOperation {
   variables: EditCollectionDataQueryVariables
   type: 'query'
 }
+export const EditCollectionDataQueryName:EditCollectionDataQueryOperation['operationName'] = 'editCollectionData'
+
+export const EditCollectionDataQueryRefetch = (
+  variables:EditCollectionDataQueryVariables, 
+  context?:any
+)=>({
+  query:EditCollectionDataDocument,
+  variables,
+  context
+})
+      
 
 
 export interface EditCollectionMutationOperation {
@@ -165,3 +147,14 @@ export interface EditCollectionMutationOperation {
   variables: EditCollectionMutationVariables
   type: 'mutation'
 }
+export const EditCollectionMutationName:EditCollectionMutationOperation['operationName'] = 'editCollection'
+
+export const EditCollectionMutationRefetch = (
+  variables:EditCollectionMutationVariables, 
+  context?:any
+)=>({
+  query:EditCollectionDocument,
+  variables,
+  context
+})
+      

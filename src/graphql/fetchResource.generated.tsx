@@ -2,11 +2,7 @@ import * as Types from './types.generated';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type FetchResourceMutationVariables = {
   url: Types.Scalars['String']
@@ -39,23 +35,6 @@ export const FetchResourceDocument = gql`
 }
     `;
 export type FetchResourceMutationFn = ApolloReactCommon.MutationFunction<FetchResourceMutation, FetchResourceMutationVariables>;
-export type FetchResourceComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<FetchResourceMutation, FetchResourceMutationVariables>, 'mutation'>;
-
-    export const FetchResourceComponent = (props: FetchResourceComponentProps) => (
-      <ApolloReactComponents.Mutation<FetchResourceMutation, FetchResourceMutationVariables> mutation={FetchResourceDocument} {...props} />
-    );
-    
-export type FetchResourceProps<TChildProps = {}> = ApolloReactHoc.MutateProps<FetchResourceMutation, FetchResourceMutationVariables> & TChildProps;
-export function withFetchResource<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  FetchResourceMutation,
-  FetchResourceMutationVariables,
-  FetchResourceProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, FetchResourceMutation, FetchResourceMutationVariables, FetchResourceProps<TChildProps>>(FetchResourceDocument, {
-      alias: 'fetchResource',
-      ...operationOptions
-    });
-};
 
 /**
  * __useFetchResourceMutation__
@@ -88,3 +67,14 @@ export interface FetchResourceMutationOperation {
   variables: FetchResourceMutationVariables
   type: 'mutation'
 }
+export const FetchResourceMutationName:FetchResourceMutationOperation['operationName'] = 'fetchResource'
+
+export const FetchResourceMutationRefetch = (
+  variables:FetchResourceMutationVariables, 
+  context?:any
+)=>({
+  query:FetchResourceDocument,
+  variables,
+  context
+})
+      

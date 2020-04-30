@@ -3,12 +3,8 @@ import * as Types from './types.generated';
 import { CommunityPageThreadFragment } from '../HOC/pages/community/CommunityPage.generated';
 import gql from 'graphql-tag';
 import { CommunityPageThreadFragmentDoc } from '../HOC/pages/community/CommunityPage.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type GetThreadQueryVariables = {
@@ -32,23 +28,6 @@ export const GetThreadDocument = gql`
   }
 }
     ${CommunityPageThreadFragmentDoc}`;
-export type GetThreadComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetThreadQuery, GetThreadQueryVariables>, 'query'> & ({ variables: GetThreadQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const GetThreadComponent = (props: GetThreadComponentProps) => (
-      <ApolloReactComponents.Query<GetThreadQuery, GetThreadQueryVariables> query={GetThreadDocument} {...props} />
-    );
-    
-export type GetThreadProps<TChildProps = {}> = ApolloReactHoc.DataProps<GetThreadQuery, GetThreadQueryVariables> & TChildProps;
-export function withGetThread<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  GetThreadQuery,
-  GetThreadQueryVariables,
-  GetThreadProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, GetThreadQuery, GetThreadQueryVariables, GetThreadProps<TChildProps>>(GetThreadDocument, {
-      alias: 'getThread',
-      ...operationOptions
-    });
-};
 
 /**
  * __useGetThreadQuery__
@@ -83,3 +62,14 @@ export interface GetThreadQueryOperation {
   variables: GetThreadQueryVariables
   type: 'query'
 }
+export const GetThreadQueryName:GetThreadQueryOperation['operationName'] = 'getThread'
+
+export const GetThreadQueryRefetch = (
+  variables:GetThreadQueryVariables, 
+  context?:any
+)=>({
+  query:GetThreadDocument,
+  variables,
+  context
+})
+      

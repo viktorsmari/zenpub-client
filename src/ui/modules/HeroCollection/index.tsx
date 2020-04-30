@@ -13,6 +13,7 @@ import Button from 'ui/elements/Button';
 import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
 import { Settings, MoreVertical, Flag as FlagIcon, Star } from 'react-feather';
 import { FormikHook } from 'ui/@types/types';
+import DOMPurify from 'dompurify';
 
 export enum Status {
   Loading,
@@ -77,10 +78,11 @@ export const HeroCollection: FC<Props> = ({ collection: c }) => {
           <Username mt={1} fontSize={2}>
             +{c.fullName}
           </Username>
-
-          <Description fontSize={2} mt={2}>
-            {c.summary}
-          </Description>
+          <Description
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(c.summary) }}
+            fontSize={2}
+            mt={2}
+          />
           <CountWrapper>
             <CountTot to={`${c.basePath}/followers`}>
               <Text variant="suptitle">
@@ -90,8 +92,8 @@ export const HeroCollection: FC<Props> = ({ collection: c }) => {
             </CountTot>
           </CountWrapper>
           <ActionsHero mt={3} alignItems={'center'}>
-            <More mr={2}>
-              <MoreVertical size={20} onClick={() => setOpenDropdown(true)} />
+            <More mr={2} onClick={() => setOpenDropdown(true)}>
+              <MoreVertical size={20} />
               {isOpenDropdown && (
                 <Dropdown orientation={'top'} cb={setOpenDropdown}>
                   {c.canModify && (

@@ -3,7 +3,8 @@ import { i18nMark } from '@lingui/react';
 import * as React from 'react';
 import { LocaleContext } from '../../../context/global/localizationCtx';
 import { Textarea } from '@rebass/forms';
-import { Button, Heading } from 'rebass/styled-components';
+import { Heading } from 'rebass/styled-components';
+import Button from 'ui/elements/Button';
 import styled from '../../../themes/styled';
 import Alert from '../../elements/Alert';
 import { FormikHook } from 'ui/@types/types';
@@ -73,7 +74,9 @@ export const FlagModal: React.FC<Props> = ({
       </Row>
       <Actions>
         <SubmitButton
-          disabled={flagFormik.isSubmitting}
+          variant="primary"
+          isSubmitting={flagFormik.isSubmitting}
+          isDisabled={flagFormik.isSubmitting}
           type="submit"
           style={{ marginLeft: '10px' }}
           onClick={flagFormik.submitForm}
@@ -99,8 +102,9 @@ export const FlagModal: React.FC<Props> = ({
       </Row>
       <Actions>
         <Button
-          disabled={unflagFormik.isSubmitting}
           variant="primary"
+          isSubmitting={unflagFormik.isSubmitting}
+          isDisabled={unflagFormik.isSubmitting}
           onClick={unflagFormik.submitForm}
           style={{ marginLeft: '10px' }}
         >
@@ -109,9 +113,6 @@ export const FlagModal: React.FC<Props> = ({
         <Button variant="outline" onClick={cancel}>
           <Trans>Cancel</Trans>
         </Button>
-        {/* <Button onClick={cancel}>
-          <Trans>OK</Trans>
-        </Button> */}
       </Actions>
     </Container>
   );

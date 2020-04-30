@@ -1,16 +1,9 @@
 import { useActivityPreview } from 'fe/activities/preview/useActivityPreview';
+import { getActivityActor } from 'fe/lib/activity/getActivityActor';
 import * as GQL from 'graphql/types.generated';
 import React, { FC, useMemo } from 'react';
 import * as UI from 'ui/modules/ActivityPreview';
-import { getActivityActor } from 'fe/lib/activity/getActivityActor';
-import { getActivityMainContext } from 'fe/lib/activity/getActivityMainContext';
-import { ActivityContextPreviewFragment } from 'fe/lib/activity/types';
-import { CollectionPreviewHOC } from 'HOC/modules/previews/collection/CollectionPreview';
-import { CommentPreviewHOC } from 'HOC/modules/previews/comment/CommentPreview';
-import { CommunityPreviewHOC } from 'HOC/modules/previews/community/CommunityPreview';
-import { ResourcePreviewHOC } from 'HOC/modules/previews/resource/ResourcePreview';
-import { UserPreviewHOC } from 'HOC/modules/previews/user/UserPreview';
-import { LikedCommentPreviewHOC } from '../commentLiked/CommentLikedPreview';
+import { PreviewComponent } from './PreviewComponent';
 
 export interface Props {
   activityId: GQL.Activity['id'];
@@ -42,30 +35,4 @@ export const ActivityPreviewHOC: FC<Props> = ({ activityId }) => {
   }, [activityBox]);
 
   return props && <UI.ActivityPreview {...props} />;
-};
-
-export const PreviewComponent: FC<{
-  context: ActivityContextPreviewFragment;
-}> = ({ context }) => {
-  if (context.__typename === 'Collection') {
-    return <CollectionPreviewHOC collectionId={context.id} />;
-  } else if (context.__typename === 'Comment') {
-    return <CommentPreviewHOC commentId={context.id} mainComment={false} />;
-  } else if (context.__typename === 'Community') {
-    return <CommunityPreviewHOC communityId={context.id} />;
-  } else if (context.__typename === 'Resource') {
-    return <ResourcePreviewHOC resourceId={context.id} />;
-  } else if (context.__typename === 'User') {
-    return <UserPreviewHOC userId={context.userId} />;
-  } else {
-    if (
-      context.__typename === 'Like' &&
-      context.context?.__typename === 'Comment'
-    ) {
-      return <LikedCommentPreviewHOC commentId={context.context.id} />;
-    } else {
-      const mainContext = getActivityMainContext(context);
-      return mainContext ? <PreviewComponent context={mainContext} /> : null;
-    }
-  }
 };

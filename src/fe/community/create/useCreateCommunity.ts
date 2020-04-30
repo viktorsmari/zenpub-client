@@ -1,54 +1,36 @@
-import { PureQueryOptions } from 'apollo-client';
-import { useUploadIconMutation } from 'fe/mutation/upload/icon/useUploadIcon.generated';
+import { getMaybeUploadInput } from 'fe/mutation/upload/getUploadInput';
 import Maybe from 'graphql/tsutils/Maybe';
-import { Community, CommunityInput } from 'graphql/types.generated';
+import { CommunityInput } from 'graphql/types.generated';
 import { useCallback, useMemo } from 'react';
+import { MyCommunityFollowsQueryRefetch } from '../myFollowed/myFollowedCommunities.generated';
 import { useCreateCommunityMutation } from './useCreateCommunity.generated';
-import { GetSidebarQueryDocument } from 'graphql/getSidebar.generated';
 
+export interface CreateCommunity {
+  community: CommunityInput;
+  icon: Maybe<File | string>;
+}
 export const useCreateCommunity = () => {
   const [createMut, createMutStatus] = useCreateCommunityMutation();
-  const [uploadIconMut, uploadIconStatus] = useUploadIconMutation();
-  const mutating = createMutStatus.loading || uploadIconStatus.loading;
 
   const create = useCallback(
-    async (communityInput: CommunityInput, iconFile: Maybe<File>) => {
-      if (mutating) {
+    async ({ community, icon }: CreateCommunity) => {
+      if (createMutStatus.loading) {
         return;
       }
-      const refetchQueries: PureQueryOptions[] = [
-        { query: GetSidebarQueryDocument }
-      ];
-
-      const uploadIcon = async (communityId: Maybe<Community['id']>) => {
-        return (
-          iconFile &&
-          communityId &&
-          uploadIconMut({
-            variables: { contextId: communityId, upload: iconFile },
-            refetchQueries: refetchQueries
-          })
-        );
-      };
 
       return createMut({
         variables: {
+          icon: getMaybeUploadInput(icon),
           community: {
-            name: communityInput.name,
-            icon: iconFile ? undefined : communityInput.icon,
-            summary: communityInput.summary,
-            preferredUsername: communityInput.preferredUsername
+            name: community.name,
+            summary: community.summary,
+            preferredUsername: community.preferredUsername
           }
         },
-        refetchQueries: iconFile ? [] : refetchQueries
-      }).then(({ data }) => {
-        const createdCommunityId = data?.createCommunity?.id;
-        return iconFile && createdCommunityId
-          ? uploadIcon(createdCommunityId).then(() => createdCommunityId)
-          : createdCommunityId;
+        refetchQueries: [MyCommunityFollowsQueryRefetch({})]
       });
     },
-    [mutating]
+    [createMutStatus, createMut]
   );
   return useMemo(() => {
     return {

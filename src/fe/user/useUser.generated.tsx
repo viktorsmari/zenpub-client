@@ -3,12 +3,8 @@ import * as Types from '../../graphql/types.generated';
 import { UserPageUserDataFragment } from '../../HOC/pages/user/UserPage.generated';
 import gql from 'graphql-tag';
 import { UserPageUserDataFragmentDoc } from '../../HOC/pages/user/UserPage.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type UserDataQueryVariables = {
@@ -32,23 +28,6 @@ export const UserDataDocument = gql`
   }
 }
     ${UserPageUserDataFragmentDoc}`;
-export type UserDataComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UserDataQuery, UserDataQueryVariables>, 'query'> & ({ variables: UserDataQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const UserDataComponent = (props: UserDataComponentProps) => (
-      <ApolloReactComponents.Query<UserDataQuery, UserDataQueryVariables> query={UserDataDocument} {...props} />
-    );
-    
-export type UserDataProps<TChildProps = {}> = ApolloReactHoc.DataProps<UserDataQuery, UserDataQueryVariables> & TChildProps;
-export function withUserData<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  UserDataQuery,
-  UserDataQueryVariables,
-  UserDataProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, UserDataQuery, UserDataQueryVariables, UserDataProps<TChildProps>>(UserDataDocument, {
-      alias: 'userData',
-      ...operationOptions
-    });
-};
 
 /**
  * __useUserDataQuery__
@@ -83,3 +62,14 @@ export interface UserDataQueryOperation {
   variables: UserDataQueryVariables
   type: 'query'
 }
+export const UserDataQueryName:UserDataQueryOperation['operationName'] = 'userData'
+
+export const UserDataQueryRefetch = (
+  variables:UserDataQueryVariables, 
+  context?:any
+)=>({
+  query:UserDataDocument,
+  variables,
+  context
+})
+      

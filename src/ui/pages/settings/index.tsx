@@ -21,6 +21,12 @@ import DropzoneArea from '../../../components/elements/DropzoneModal';
 import { ContainerForm, Actions } from 'ui/modules/Modal';
 import Button from 'ui/elements/Button';
 // import { useHistory } from 'react-router';
+import {
+  Wrapper,
+  WrapperCont,
+  MainContainer,
+  HomeBox
+} from 'ui/elements/Layout';
 
 const tt = {
   placeholders: {
@@ -47,18 +53,19 @@ export interface Props {
   formik: FormikHook<EditProfile>;
   basePath: string;
   displayUsername: string;
-  isAdmin?: boolean; //FIXME remove ? after HOC
-  Preferences?: JSX.Element; //FIXME remove ? after HOC
-  Instance?: JSX.Element; //FIXME remove ? after HOC
-  Invites?: JSX.Element; //FIXME remove ? after HOC
-  Flags?: JSX.Element; //FIXME remove ? after HOC
+  isAdmin: boolean;
+  Preferences: JSX.Element;
+  Instance: JSX.Element;
+  Invites: JSX.Element;
+  Flags: JSX.Element;
+  ModerationLog: JSX.Element;
 }
 
 export interface EditProfile {
   name: string;
   summary: string;
-  icon: string;
-  image: string;
+  icon: string | File | undefined;
+  image: string | File | undefined;
   location: string;
   website: string;
 }
@@ -78,10 +85,23 @@ export const Settings: React.FC<Props> = ({
   Instance,
   Invites,
   Flags,
+  ModerationLog,
   displayUsername,
   isAdmin
 }) => {
-  // isAdmin = true; //FIXME remove after HOC
+  const onIconFileSelected = React.useCallback(
+    (file: File) => formik.setFieldValue('icon', file, true),
+    []
+  );
+  const initialIconUrl =
+    'string' === typeof formik.values.icon ? formik.values.icon : '';
+  const onImageFileSelected = React.useCallback(
+    (file: File) => formik.setFieldValue('image', file, true),
+    []
+  );
+  const initialImageUrl =
+    'string' === typeof formik.values.image ? formik.values.image : '';
+
   return (
     <MainContainer>
       <Sidebar basePath={basePath} isAdmin={isAdmin} />
@@ -94,6 +114,7 @@ export const Settings: React.FC<Props> = ({
                 <Route path={`${basePath}/instance`}>{Instance}</Route>
                 <Route path={`${basePath}/invites`}>{Invites}</Route>
                 <Route path={`${basePath}/flags`}>{Flags}</Route>
+                <Route path={`${basePath}/logs`}>{ModerationLog}</Route>
                 {/* <Route path={`${basePath}/accounts`}>acc</Route>
               <Route path={`${basePath}/notifications`}>notif</Route>
               <Route path={`${basePath}/admin`}>admin</Route> */}
@@ -103,8 +124,9 @@ export const Settings: React.FC<Props> = ({
                       <Flex>
                         <Bg>
                           <DropzoneArea
-                            initialUrl={formik.values.image}
-                            formikForm={formik}
+                            initialUrl={initialImageUrl}
+                            filePattern="image/*"
+                            onFileSelect={onImageFileSelected}
                           />
                         </Bg>
                       </Flex>
@@ -112,8 +134,9 @@ export const Settings: React.FC<Props> = ({
                         <WrapperHero>
                           <Img>
                             <DropzoneArea
-                              initialUrl={formik.values.icon}
-                              formikForm={formik}
+                              initialUrl={initialIconUrl}
+                              filePattern="image/*"
+                              onFileSelect={onIconFileSelected}
                             />
                           </Img>
                         </WrapperHero>
@@ -174,7 +197,8 @@ export const Settings: React.FC<Props> = ({
                     <Actions sx={{ height: 'inherit !important' }}>
                       <Button
                         variant="primary"
-                        disabled={formik.isSubmitting}
+                        isSubmitting={formik.isSubmitting}
+                        isDisabled={formik.isSubmitting}
                         type="submit"
                         style={{ marginLeft: '10px' }}
                         onClick={formik.submitForm}
@@ -188,10 +212,28 @@ export const Settings: React.FC<Props> = ({
             </Box>
           </Wrapper>
         </WrapperCont>
+        <RepoLink variant="text" my={3} mt={2}>
+          <a href="https://gitlab.com/moodlenet/meta/-/issues" target="_blank">
+            <Trans>Want to report a bug?</Trans>
+          </a>
+        </RepoLink>
       </HomeBox>
     </MainContainer>
   );
 };
+
+const RepoLink = styled(Text)`
+  text-align: right;
+  width: 100%;
+  a {
+    text-decoration: underline;
+    font-size: 12px;
+    color: ${props => props.theme.colors.gray};
+    &:hover {
+      color: ${props => props.theme.colors.darkgray};
+    }
+  }
+`;
 
 const Sidebar = ({ basePath, isAdmin }) => {
   return (
@@ -551,77 +593,3 @@ a {
     }
   }
   `;
-
-export const HomeBox = styled(Flex)`
-  width: 600px;
-  align-items: flex-start;
-  flex-shrink: 1;
-  flex-grow: 1;
-  flex-basis: auto;
-  flex-direction: column;
-  margin: 0px;
-  min-height: 0px;
-  min-width: 0px;
-  padding: 0px;
-  position: relative;
-  z-index: 0;
-  ${media.lessThan('1005px')`
-  max-width: 100%;
-  `};
-  // ${media.lessThan('1280px')`
-  // top: 60px;
-  // `};
-          `;
-
-export const MainContainer = styled(Flex)`
-  align-items: stretch;
-  flex-grow: 1;
-  flex-direction: row;
-  width: 100%;
-`;
-
-export const WrapperCont = styled(Flex)`
-  width: 100%;
-  margin: 0 auto;
-  height: 100%;
-  align-items: stretch;
-  border: 0 solid black;
-  box-sizing: border-box;
-  display: flex;
-  flex-basis: auto;
-  flex-direction: column;
-  flex-shrink: 0;
-  margin: 0px;
-  min-height: 0px;
-  min-width: 0px;
-  padding: 0px;
-  position: relative;
-  background: white;
-  border-radius: 4px;
-  z-index: 0;
-`;
-
-export const Wrapper = styled(Flex)`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  & ul {
-    display: block;
-
-    & li {
-      display: inline-block;
-
-      & h5 {
-        font-size: 13px;
-        font-weight: 500;
-      }
-    }
-  }
-  & h4 {
-    margin: 0;
-    font-weight: 400 !important;
-    font-size: 14px !important;
-    color: #151b26;
-    line-height: 40px;
-  }
-`;

@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { UserPage, UserPageTab } from 'HOC/pages/user/UserPage';
-import NotFound from 'pages/not-found/NotFound';
+import { NotFound } from 'ui/pages/notFound';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
 import { WithSidebarTemplate } from 'HOC/templates/WithSidebar/WithSidebar';
 
@@ -23,15 +23,22 @@ const UserPageRouter: FC<RouteComponentProps<UserPageRouter>> = ({ match }) => {
       : !maybeTabStr
       ? UserPageTab.Activities
       : null;
-  if (tab === null) {
+
+  const props = useMemo<UserPage | null>(
+    () =>
+      tab === null
+        ? null
+        : {
+            tab,
+            userId,
+            basePath: `/user/${userId}`
+          },
+    [tab, userId]
+  );
+
+  if (!props) {
     return <NotFound />;
   }
-
-  const props: UserPage = {
-    tab,
-    userId,
-    basePath: `/user/${userId}`
-  };
   return (
     <WithSidebarTemplate>
       <UserPage {...props} />

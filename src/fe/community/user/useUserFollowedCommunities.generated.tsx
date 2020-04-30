@@ -5,20 +5,16 @@ import { FullPageInfoFragment } from '../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
 import { FullPageInfoFragmentDoc } from '../../../@fragments/misc.generated';
 import { CommunityPreviewFragmentDoc } from '../../../HOC/modules/previews/community/CommunityPreview.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
 export type UserFollowedCommunitiesQueryVariables = {
   userId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
-  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+  before?: Types.Maybe<Array<Types.Scalars['Cursor']>>,
+  after?: Types.Maybe<Array<Types.Scalars['Cursor']>>
 };
 
 
@@ -27,21 +23,19 @@ export type UserFollowedCommunitiesQuery = (
   & { user: Types.Maybe<(
     { __typename: 'User' }
     & Pick<Types.User, 'id'>
-    & { followedCommunities: Types.Maybe<(
-      { __typename: 'FollowedCommunitiesPage' }
-      & Pick<Types.FollowedCommunitiesPage, 'totalCount'>
+    & { communityFollows: Types.Maybe<(
+      { __typename: 'FollowsPage' }
+      & Pick<Types.FollowsPage, 'totalCount'>
       & { pageInfo: (
         { __typename: 'PageInfo' }
         & FullPageInfoFragment
       ), edges: Array<(
-        { __typename: 'FollowedCommunity' }
-        & { follow: (
-          { __typename: 'Follow' }
-          & Pick<Types.Follow, 'id'>
-        ), community: (
+        { __typename: 'Follow' }
+        & Pick<Types.Follow, 'id'>
+        & { context: { __typename: 'Collection' } | (
           { __typename: 'Community' }
           & UserFollowedCommunityFragment
-        ) }
+        ) | { __typename: 'Thread' } | { __typename: 'User' } }
       )> }
     )> }
   )> }
@@ -58,20 +52,20 @@ export const UserFollowedCommunityFragmentDoc = gql`
 }
     ${CommunityPreviewFragmentDoc}`;
 export const UserFollowedCommunitiesDocument = gql`
-    query userFollowedCommunities($userId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
+    query userFollowedCommunities($userId: String!, $limit: Int, $before: [Cursor!], $after: [Cursor!]) {
   user(userId: $userId) @connection(key: "userFollowedCommunities", filter: ["userId"]) {
     id
-    followedCommunities(limit: $limit, before: $before, after: $after) {
+    communityFollows(limit: $limit, before: $before, after: $after) {
       totalCount
       pageInfo {
         ...FullPageInfo
       }
       edges {
-        follow {
-          id
-        }
-        community {
-          ...UserFollowedCommunity
+        id
+        context {
+          ... on Community {
+            ...UserFollowedCommunity
+          }
         }
       }
     }
@@ -79,23 +73,6 @@ export const UserFollowedCommunitiesDocument = gql`
 }
     ${FullPageInfoFragmentDoc}
 ${UserFollowedCommunityFragmentDoc}`;
-export type UserFollowedCommunitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UserFollowedCommunitiesQuery, UserFollowedCommunitiesQueryVariables>, 'query'> & ({ variables: UserFollowedCommunitiesQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const UserFollowedCommunitiesComponent = (props: UserFollowedCommunitiesComponentProps) => (
-      <ApolloReactComponents.Query<UserFollowedCommunitiesQuery, UserFollowedCommunitiesQueryVariables> query={UserFollowedCommunitiesDocument} {...props} />
-    );
-    
-export type UserFollowedCommunitiesProps<TChildProps = {}> = ApolloReactHoc.DataProps<UserFollowedCommunitiesQuery, UserFollowedCommunitiesQueryVariables> & TChildProps;
-export function withUserFollowedCommunities<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  UserFollowedCommunitiesQuery,
-  UserFollowedCommunitiesQueryVariables,
-  UserFollowedCommunitiesProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, UserFollowedCommunitiesQuery, UserFollowedCommunitiesQueryVariables, UserFollowedCommunitiesProps<TChildProps>>(UserFollowedCommunitiesDocument, {
-      alias: 'userFollowedCommunities',
-      ...operationOptions
-    });
-};
 
 /**
  * __useUserFollowedCommunitiesQuery__
@@ -133,3 +110,14 @@ export interface UserFollowedCommunitiesQueryOperation {
   variables: UserFollowedCommunitiesQueryVariables
   type: 'query'
 }
+export const UserFollowedCommunitiesQueryName:UserFollowedCommunitiesQueryOperation['operationName'] = 'userFollowedCommunities'
+
+export const UserFollowedCommunitiesQueryRefetch = (
+  variables:UserFollowedCommunitiesQueryVariables, 
+  context?:any
+)=>({
+  query:UserFollowedCommunitiesDocument,
+  variables,
+  context
+})
+      

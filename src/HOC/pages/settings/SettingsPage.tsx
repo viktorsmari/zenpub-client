@@ -1,24 +1,25 @@
-import { useProfile } from 'fe/user/settings/useSettings';
+import { useMe } from 'fe/session/useMe';
+import { useProfile } from 'fe/user/profile/useProfile';
 import { useFormik } from 'formik';
-import { useMe } from 'fe/session/me';
 import React, { FC, useMemo } from 'react';
 import {
-  Settings as SettingsPageUI,
+  EditProfile,
   Props as SettingsUIProps,
-  EditProfile
+  Settings as SettingsPageUI
 } from 'ui/pages/settings';
-
-import Preferences from 'ui/pages/settings/preferences';
-import Emails from 'ui/pages/settings/invites';
-import Instance from 'ui/pages/settings/instance';
-import Flags from 'ui/pages/settings/flags';
+import { InstanceFlagsSection } from './flags/InstanceFlagsSection';
+import { InstanceSettingsSection } from './instance/InstanceSettingsSection';
+import { InstanceInvitesSection } from './invites/InstanceInvitesSection';
+import { InstanceModerationLogSection } from './moderationLog/InstanceModerationLogSection';
+import { PreferencesSettingsSection } from './preferences/PreferencesSettingsSection';
 
 export enum SettingsPageTab {
   General,
   Preferences,
   Invites,
   Instance,
-  Flags
+  Flags,
+  ModerationLogs
 }
 export interface SettingsPage {
   tab: SettingsPageTab;
@@ -28,30 +29,37 @@ export interface SettingsPage {
 export const SettingsPage: FC<SettingsPage> = ({ basePath }) => {
   const { me } = useMe();
   const { profile, updateProfile } = useProfile();
-  const initialValues: EditProfile = {
-    icon: profile?.icon || '',
-    image: profile?.image || '',
-    location: profile?.location || '',
-    name: profile?.name || '',
-    summary: profile?.summary || '',
-    website: profile?.website || ''
-  };
+
+  const initialValues = useMemo<EditProfile>(
+    () => ({
+      icon: profile?.icon?.url || undefined,
+      image: profile?.image?.url || undefined,
+      location: profile?.location || '',
+      name: profile?.name || '',
+      website: profile?.website || '',
+      summary: profile?.summary || ''
+    }),
+    [profile]
+  );
+
   const updateProfileFormik = useFormik<EditProfile>({
     initialValues,
     enableReinitialize: true,
-    onSubmit: editVals => updateProfile(editVals)
+    onSubmit: ({ icon, image, ...profile }) =>
+      updateProfile({ profile, icon, image })
   });
 
   const settingsPageProps = useMemo<SettingsUIProps | null>(() => {
     const props: SettingsUIProps = {
       basePath,
       displayUsername: profile?.displayUsername || '',
+      isAdmin: !!me?.isInstanceAdmin,
       formik: updateProfileFormik,
-      Preferences: <Preferences />,
-      Instance: <Instance />,
-      Invites: <Emails />,
-      Flags: <Flags />,
-      isAdmin: me?.isInstanceAdmin
+      Preferences: <PreferencesSettingsSection />,
+      Instance: <InstanceSettingsSection />,
+      Invites: <InstanceInvitesSection />,
+      Flags: <InstanceFlagsSection />,
+      ModerationLog: <InstanceModerationLogSection />
     };
     return props;
   }, [profile, updateProfileFormik]);

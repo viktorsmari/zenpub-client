@@ -7,7 +7,7 @@ import {
 } from 'ui/modules/Previews/User';
 import { useFormik } from 'formik';
 import { Box } from 'rebass';
-
+import { getActivitySimpleLink } from 'fe/lib/activity/getActivitySimpleLink';
 export interface Props {
   userId: User['id'];
 }
@@ -27,12 +27,13 @@ export const UserPreviewHOC: FC<Props> = ({ userId }) => {
     const { userName, displayUsername, image, icon, summary, myFollow } = user;
 
     const props: UserPreviewProps = {
-      image: icon || image || '',
+      image: icon?.url || image?.url || '',
       name: userName || '',
       username: displayUsername,
       bio: summary || '',
       isFollowing: !!myFollow,
-      toggleFollowFormik
+      toggleFollowFormik,
+      profileUrl: getActivitySimpleLink(user)
     };
     return props;
   }, [user, toggleFollowFormik]);

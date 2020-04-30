@@ -15,11 +15,11 @@ import { Box } from 'rebass';
 import { useCollection } from 'fe/collection/useCollection';
 import { useCollectionFollowers } from 'fe/user/followers/collection/useCollectionFollowers';
 import { UserPreviewHOC } from 'HOC/modules/previews/user/UserPreview';
+import { useFormik } from 'formik';
 
 export enum CollectionPageTab {
   Activities,
-  Resources,
-  Followers
+  Resources
 }
 export interface CollectionPage {
   collectionId: Collection['id'];
@@ -32,8 +32,24 @@ export const CollectionPage: FC<CollectionPage> = props => {
   const { collectionFollowersPage } = useCollectionFollowers(
     props.collectionId
   );
-  const { activitiesPage } = useCollectionOutboxActivities(props.collectionId);
+  const loadMoreFollowers = useFormik({
+    initialValues: {},
+    onSubmit: () =>
+      collectionFollowersPage.ready ? collectionFollowersPage.next() : undefined
+  });
+
   const { resourcesPage } = useCollectionResources(props.collectionId);
+  const loadMoreResources = useFormik({
+    initialValues: {},
+    onSubmit: () => (resourcesPage.ready ? resourcesPage.next() : undefined)
+  });
+
+  const { activitiesPage } = useCollectionOutboxActivities(props.collectionId);
+  const loadMoreActivities = useFormik({
+    initialValues: {},
+    onSubmit: () => (activitiesPage.ready ? activitiesPage.next() : undefined)
+  });
+
   const collectionPageProps = useMemo<CollectionPageProps | null>(() => {
     if (!collection) {
       return null;
@@ -102,9 +118,20 @@ export const CollectionPage: FC<CollectionPage> = props => {
       UploadResourcePanel,
       basePath,
       FollowersBoxes,
-      collectionName: collection.name
+      collectionName: collection.name,
+      loadMoreFollowers,
+      loadMoreResources,
+      loadMoreActivities
     };
     return uiProps;
-  }, [props, activitiesPage, resourcesPage, collectionFollowersPage]);
+  }, [
+    props,
+    activitiesPage,
+    resourcesPage,
+    collectionFollowersPage,
+    loadMoreFollowers,
+    loadMoreResources,
+    loadMoreActivities
+  ]);
   return collectionPageProps && <CollectionPageUI {...collectionPageProps} />;
 };

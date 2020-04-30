@@ -1,5 +1,5 @@
 import { useFollowContext } from 'fe/context/follow/useFollowContext';
-import { useMe } from 'fe/session/me';
+import { useMe } from 'fe/session/useMe';
 import { Collection } from 'graphql/types.generated';
 import { useMemo } from 'react';
 import { useEditCollection } from '../collection/edit/useEditCollection';

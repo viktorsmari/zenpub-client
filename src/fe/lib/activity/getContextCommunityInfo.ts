@@ -44,7 +44,7 @@ export const getCommunityInfoStrings = (
       communityLink = getActivitySimpleLink(communityInfo);
       communityName = communityInfo.name;
       communityId = communityInfo.id;
-      communityIcon = communityInfo.icon || '';
+      communityIcon = communityInfo.icon?.url || '';
     }
   }
   return {

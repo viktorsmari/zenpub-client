@@ -37,16 +37,25 @@ export interface Props {
 export interface EditCommunityFormValues {
   name: string;
   summary: string;
-  icon: string;
-  files?: File[];
+  icon: string | File | undefined;
 }
 
 export const EditCommunityPanel: React.FC<Props> = ({ cancel, formik }) => {
+  const onIconFileSelected = React.useCallback(
+    (file: File) => formik.setFieldValue('icon', file, true),
+    []
+  );
+  const initialIconUrl =
+    'string' === typeof formik.values.icon ? formik.values.icon : '';
   return (
     <Container>
       <Hero>
         <Box sx={{ width: '120px', height: '120px' }}>
-          <DropzoneArea initialUrl={formik.values.icon} formikForm={formik} />
+          <DropzoneArea
+            initialUrl={initialIconUrl}
+            onFileSelect={onIconFileSelected}
+            filePattern="image/*"
+          />
         </Box>
         {/* <Background style={{ backgroundImage: `url(${c.icon})` }} /> */}
         <HeroInfo>
@@ -91,7 +100,8 @@ export const EditCommunityPanel: React.FC<Props> = ({ cancel, formik }) => {
       <Actions>
         <Button
           variant="primary"
-          disabled={formik.isSubmitting}
+          isSubmitting={formik.isSubmitting}
+          isDisabled={formik.isSubmitting}
           type="submit"
           style={{ marginLeft: '10px' }}
           onClick={formik.submitForm}

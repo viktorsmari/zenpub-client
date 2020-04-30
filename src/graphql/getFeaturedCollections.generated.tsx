@@ -5,12 +5,8 @@ import { BasicUserFragment } from './fragments/basicUser.generated';
 import gql from 'graphql-tag';
 import { BasicUserFragmentDoc } from './fragments/basicUser.generated';
 import { BasicCollectionFragmentDoc } from './fragments/basicCollection.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
@@ -72,23 +68,6 @@ export const GetFeaturedCollectionsDocument = gql`
 }
     ${BasicUserFragmentDoc}
 ${BasicCollectionFragmentDoc}`;
-export type GetFeaturedCollectionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetFeaturedCollectionsQuery, GetFeaturedCollectionsQueryVariables>, 'query'>;
-
-    export const GetFeaturedCollectionsComponent = (props: GetFeaturedCollectionsComponentProps) => (
-      <ApolloReactComponents.Query<GetFeaturedCollectionsQuery, GetFeaturedCollectionsQueryVariables> query={GetFeaturedCollectionsDocument} {...props} />
-    );
-    
-export type GetFeaturedCollectionsProps<TChildProps = {}> = ApolloReactHoc.DataProps<GetFeaturedCollectionsQuery, GetFeaturedCollectionsQueryVariables> & TChildProps;
-export function withGetFeaturedCollections<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  GetFeaturedCollectionsQuery,
-  GetFeaturedCollectionsQueryVariables,
-  GetFeaturedCollectionsProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, GetFeaturedCollectionsQuery, GetFeaturedCollectionsQueryVariables, GetFeaturedCollectionsProps<TChildProps>>(GetFeaturedCollectionsDocument, {
-      alias: 'getFeaturedCollections',
-      ...operationOptions
-    });
-};
 
 /**
  * __useGetFeaturedCollectionsQuery__
@@ -122,3 +101,14 @@ export interface GetFeaturedCollectionsQueryOperation {
   variables: GetFeaturedCollectionsQueryVariables
   type: 'query'
 }
+export const GetFeaturedCollectionsQueryName:GetFeaturedCollectionsQueryOperation['operationName'] = 'getFeaturedCollections'
+
+export const GetFeaturedCollectionsQueryRefetch = (
+  variables:GetFeaturedCollectionsQueryVariables, 
+  context?:any
+)=>({
+  query:GetFeaturedCollectionsDocument,
+  variables,
+  context
+})
+      

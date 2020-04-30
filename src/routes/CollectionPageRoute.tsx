@@ -1,9 +1,9 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import {
   CollectionPageTab,
   CollectionPage
 } from 'HOC/pages/collection/CollectionPage';
-import NotFound from 'pages/not-found/NotFound';
+import { NotFound } from 'ui/pages/notFound';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
 import { WithSidebarTemplate } from 'HOC/templates/WithSidebar/WithSidebar';
 
@@ -17,22 +17,28 @@ const CollectionPageRouter: FC<RouteComponentProps<CollectionPageRouter>> = ({
   const collectionId = match.params.collectionId;
   const maybeTabStr = match.params.tab;
   const tab =
-    maybeTabStr === 'followers'
-      ? CollectionPageTab.Followers
-      : maybeTabStr === 'activities'
-      ? CollectionPageTab.Activities
-      : !maybeTabStr
+    maybeTabStr === 'resources'
       ? CollectionPageTab.Resources
+      : !maybeTabStr
+      ? CollectionPageTab.Activities
       : null;
-  if (tab === null) {
+
+  const props = useMemo<CollectionPage | null>(
+    () =>
+      tab === null
+        ? null
+        : {
+            collectionId,
+            tab,
+            basePath: `/collections/${collectionId}`
+          },
+    [collectionId, tab]
+  );
+
+  if (!props) {
     return <NotFound />;
   }
 
-  const props: CollectionPage = {
-    collectionId,
-    tab,
-    basePath: `/collections/${collectionId}`
-  };
   return (
     <WithSidebarTemplate>
       <CollectionPage {...props} />

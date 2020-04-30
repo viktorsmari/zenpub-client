@@ -174,7 +174,7 @@ const MemberInfo = styled(Box)`
 
 const Wrapper = styled(Box)``;
 const FeedItem = styled(Box)`
-  min-height: 30px;
+  // min-height: 30px;
   position: relative;
   padding: 16px;
   word-wrap: break-word;

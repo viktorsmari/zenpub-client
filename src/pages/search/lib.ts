@@ -8,27 +8,25 @@ import {
 } from './SearchData.generated';
 import { Hit } from './Hits';
 import { useMemo, useCallback } from 'react';
-import { GetSidebarQueryDocument } from 'graphql/getSidebar.generated';
+// import { GetSidebarQueryDocument } from 'graphql/getSidebar.generated';
 
 type Q = SearchHostIndexAndMyFollowingsQuery;
 export const useHit = (info: Q, hit: Hit) => {
+  const moodleLMSURL = useMemo(() => getLMSURL(info), [info]);
+
   const [followHit, followHitResult] = useSearchFollowMutation();
   const [unfollowHit, unfollowResult] = useSearchUnfollowMutation();
 
   const mutating = followHitResult.loading || unfollowResult.loading;
-  const followingCollections = useMemo(() => getFollowingCollections(info), [
-    info
-  ]);
-  const followingCommunities = useMemo(() => getFollowingCommunities(info), [
-    info
-  ]);
+  const collectionFollows = useMemo(() => getCollectionFollows(info), [info]);
+  const communityFollows = useMemo(() => getCommunityFollows(info), [info]);
 
   const followContextId = hitFollowContextId(hit);
   const isFollowable = !!followContextId;
 
   const followingId = useMemo(
-    () => hitFollowingId(hit, followingCommunities, followingCollections),
-    [followingCollections, followingCommunities, hit]
+    () => hitFollowingId(hit, communityFollows, collectionFollows),
+    [collectionFollows, communityFollows, hit]
   );
   const isFollowing = !!followingId;
 
@@ -40,7 +38,7 @@ export const useHit = (info: Q, hit: Hit) => {
     return followHit({
       variables: { url: canonicalUrl },
       refetchQueries: [
-        { query: GetSidebarQueryDocument },
+        // { query: GetSidebarQueryDocument },
         { query: SearchHostIndexAndMyFollowingsDocument }
       ]
     });
@@ -53,7 +51,7 @@ export const useHit = (info: Q, hit: Hit) => {
     unfollowHit({
       variables: { contextId: followingId },
       refetchQueries: [
-        { query: GetSidebarQueryDocument },
+        // { query: GetSidebarQueryDocument },
         { query: SearchHostIndexAndMyFollowingsDocument }
       ]
     });
@@ -65,9 +63,10 @@ export const useHit = (info: Q, hit: Hit) => {
       isFollowable,
       follow,
       unfollow,
-      mutating
+      mutating,
+      moodleLMSURL
     };
-  }, [isFollowing, isFollowable, follow, unfollow, mutating]);
+  }, [isFollowing, isFollowable, follow, unfollow, mutating, moodleLMSURL]);
 };
 
 // export const isHitLocal = (hit: Hit, info: Q) => {
@@ -86,59 +85,77 @@ export const hitFollowContextId = (hit: Hit) => {
 
 export const hitFollowingId = (
   hit: Hit,
-  followingCommunities: SearchFollowedCommunityFragment[],
-  followingCollections: SearchFollowedCollectionFragment[]
+  communityFollows: SearchFollowedCommunityFragment[],
+  collectionFollows: SearchFollowedCollectionFragment[]
 ) => {
   if (hit.index_type === 'Community') {
-    const actor = followingCommunities.find(sfc => {
+    const actor = communityFollows.find(sfc => {
       return (
-        sfc.community.canonicalUrl &&
+        sfc.canonicalUrl &&
         hit.canonicalUrl &&
-        sfc.community.canonicalUrl === hit.canonicalUrl
+        sfc.canonicalUrl === hit.canonicalUrl
       );
     });
-    return actor && actor.follow.id;
+    return actor?.myFollow?.id;
   } else if (hit.index_type === 'Collection') {
-    const actor = followingCollections.find(sfc => {
+    const actor = collectionFollows.find(sfc => {
       return (
-        sfc.collection.canonicalUrl &&
+        sfc.canonicalUrl &&
         hit.canonicalUrl &&
-        sfc.collection.canonicalUrl === hit.canonicalUrl
+        sfc.canonicalUrl === hit.canonicalUrl
       );
     });
-    return actor && actor.follow.id;
+    return actor?.myFollow?.id;
   } else {
     return undefined;
   }
 };
-export const getFollowingCollections = (
+export const getCollectionFollows = (
   info: Q
 ): SearchFollowedCollectionFragment[] => {
-  const followingCollectionsEdges =
+  const collectionFollowsEdges =
     info.me &&
-    info.me.user.followedCollections &&
-    info.me.user.followedCollections.edges;
-  if (!followingCollectionsEdges) {
+    info.me.user.collectionFollows &&
+    info.me.user.collectionFollows.edges;
+  if (!collectionFollowsEdges) {
     return [];
   }
-  const followingCollections = followingCollectionsEdges.filter(
-    (node): node is SearchFollowedCollectionFragment => !!node
-  );
-  return followingCollections;
+  const collectionFollows = collectionFollowsEdges
+    .map(collectionFollow => collectionFollow.context)
+    .filter(
+      (context): context is SearchFollowedCollectionFragment =>
+        context.__typename === 'Collection'
+    );
+  return collectionFollows;
 };
 
-export const getFollowingCommunities = (
+export const getCommunityFollows = (
   info: Q
 ): SearchFollowedCommunityFragment[] => {
-  const followingCommunitiesEdges =
+  const communityFollowsEdges =
     info.me &&
-    info.me.user.followedCommunities &&
-    info.me.user.followedCommunities.edges;
-  if (!followingCommunitiesEdges) {
+    info.me.user.communityFollows &&
+    info.me.user.communityFollows.edges;
+  if (!communityFollowsEdges) {
     return [];
   }
-  const followingCommunities = followingCommunitiesEdges.filter(
-    (node): node is SearchFollowedCommunityFragment => !!node
-  );
-  return followingCommunities;
+  const communityFollows = communityFollowsEdges
+    .map(communityFollow => communityFollow.context)
+    .filter(
+      (context): context is SearchFollowedCommunityFragment =>
+        context.__typename === 'Community'
+    );
+  return communityFollows;
+};
+
+export const getLMSURL = (info: Q): any => {
+  const url =
+    info.me &&
+    info.me.user &&
+    info.me.user.extraInfo &&
+    info.me.user.extraInfo.preferred_moodle_lms_url;
+  if (!url) {
+    return null;
+  }
+  return url;
 };

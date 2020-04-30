@@ -7,6 +7,7 @@ import { LocaleContext } from '../../../context/global/localizationCtx';
 import { FormikHook } from 'ui/@types/types';
 import { MessageCircle, Star, MoreHorizontal, Flag } from 'react-feather';
 import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
+import DOMPurify from 'dompurify';
 
 import Modal from 'ui/modules/Modal';
 import { Link } from 'react-router-dom';
@@ -56,9 +57,12 @@ export const Comment: React.SFC<CommentProps> = ({
   return (
     <Wrapper>
       <Link to={url}>
-        <Text sx={{ textDecoration: 'none' }} variant="text" mb={2}>
-          {content}
-        </Text>
+        <Text
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }}
+          sx={{ textDecoration: 'none' }}
+          variant="text"
+          mb={2}
+        />
       </Link>
       {hideActions ? null : (
         <Actions mt={2}>

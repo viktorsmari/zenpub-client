@@ -1,6 +1,6 @@
 
 
-query communityThreads($communityId: String!, $limit:Int, $before:[Cursor], $after:[Cursor]) {
+query communityThreads($communityId: String!, $limit:Int, $before:[Cursor!], $after:[Cursor!]) {
   community(communityId:$communityId) @connection(key: "communityThreads", filter: ["communityId"]){
     id
     threads(limit:$limit, before:$before, after:$after){

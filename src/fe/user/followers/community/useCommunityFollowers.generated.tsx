@@ -5,20 +5,16 @@ import { FullPageInfoFragment } from '../../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
 import { FullPageInfoFragmentDoc } from '../../../../@fragments/misc.generated';
 import { UserPreviewFragmentDoc } from '../../../../HOC/modules/previews/user/UserPreview.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
 export type CommunityFollowersQueryVariables = {
   communityId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
-  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+  before?: Types.Maybe<Array<Types.Scalars['Cursor']>>,
+  after?: Types.Maybe<Array<Types.Scalars['Cursor']>>
 };
 
 
@@ -56,7 +52,7 @@ export const CommunityFollowerFragmentDoc = gql`
 }
     ${UserPreviewFragmentDoc}`;
 export const CommunityFollowersDocument = gql`
-    query communityFollowers($communityId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
+    query communityFollowers($communityId: String!, $limit: Int, $before: [Cursor!], $after: [Cursor!]) {
   community(communityId: $communityId) @connection(key: "communityFollowers", filter: ["communityId"]) {
     id
     followers(limit: $limit, before: $before, after: $after) {
@@ -75,23 +71,6 @@ export const CommunityFollowersDocument = gql`
 }
     ${FullPageInfoFragmentDoc}
 ${CommunityFollowerFragmentDoc}`;
-export type CommunityFollowersComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CommunityFollowersQuery, CommunityFollowersQueryVariables>, 'query'> & ({ variables: CommunityFollowersQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const CommunityFollowersComponent = (props: CommunityFollowersComponentProps) => (
-      <ApolloReactComponents.Query<CommunityFollowersQuery, CommunityFollowersQueryVariables> query={CommunityFollowersDocument} {...props} />
-    );
-    
-export type CommunityFollowersProps<TChildProps = {}> = ApolloReactHoc.DataProps<CommunityFollowersQuery, CommunityFollowersQueryVariables> & TChildProps;
-export function withCommunityFollowers<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  CommunityFollowersQuery,
-  CommunityFollowersQueryVariables,
-  CommunityFollowersProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, CommunityFollowersQuery, CommunityFollowersQueryVariables, CommunityFollowersProps<TChildProps>>(CommunityFollowersDocument, {
-      alias: 'communityFollowers',
-      ...operationOptions
-    });
-};
 
 /**
  * __useCommunityFollowersQuery__
@@ -129,3 +108,14 @@ export interface CommunityFollowersQueryOperation {
   variables: CommunityFollowersQueryVariables
   type: 'query'
 }
+export const CommunityFollowersQueryName:CommunityFollowersQueryOperation['operationName'] = 'communityFollowers'
+
+export const CommunityFollowersQueryRefetch = (
+  variables:CommunityFollowersQueryVariables, 
+  context?:any
+)=>({
+  query:CommunityFollowersDocument,
+  variables,
+  context
+})
+      

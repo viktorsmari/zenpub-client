@@ -8,7 +8,9 @@ fragment BasicCollection on Collection {
     name
     summary
     creator { ...BasicUser }
-    icon
+    icon{
+ id, url }
+
     isLocal
     isPublic
     createdAt
@@ -21,7 +23,9 @@ fragment BasicCollection on Collection {
         isLocal
         isPublic
         name
-        icon
+        icon{
+ id, url }
+
         myFollow { id }
         myFlag { id }
     }

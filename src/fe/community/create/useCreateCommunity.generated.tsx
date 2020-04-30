@@ -4,15 +4,12 @@ import { CommunityPageDataFragment } from '../../../HOC/pages/community/Communit
 import gql from 'graphql-tag';
 import { CommunityPageDataFragmentDoc } from '../../../HOC/pages/community/CommunityPage.generated';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type CreateCommunityMutationVariables = {
-  community: Types.CommunityInput
+  community: Types.CommunityInput,
+  icon?: Types.Maybe<Types.UploadInput>
 };
 
 
@@ -26,30 +23,13 @@ export type CreateCommunityMutation = (
 
 
 export const CreateCommunityDocument = gql`
-    mutation createCommunity($community: CommunityInput!) {
-  createCommunity(community: $community) {
+    mutation createCommunity($community: CommunityInput!, $icon: UploadInput) {
+  createCommunity(community: $community, icon: $icon) {
     ...CommunityPageData
   }
 }
     ${CommunityPageDataFragmentDoc}`;
 export type CreateCommunityMutationFn = ApolloReactCommon.MutationFunction<CreateCommunityMutation, CreateCommunityMutationVariables>;
-export type CreateCommunityComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateCommunityMutation, CreateCommunityMutationVariables>, 'mutation'>;
-
-    export const CreateCommunityComponent = (props: CreateCommunityComponentProps) => (
-      <ApolloReactComponents.Mutation<CreateCommunityMutation, CreateCommunityMutationVariables> mutation={CreateCommunityDocument} {...props} />
-    );
-    
-export type CreateCommunityProps<TChildProps = {}> = ApolloReactHoc.MutateProps<CreateCommunityMutation, CreateCommunityMutationVariables> & TChildProps;
-export function withCreateCommunity<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  CreateCommunityMutation,
-  CreateCommunityMutationVariables,
-  CreateCommunityProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, CreateCommunityMutation, CreateCommunityMutationVariables, CreateCommunityProps<TChildProps>>(CreateCommunityDocument, {
-      alias: 'createCommunity',
-      ...operationOptions
-    });
-};
 
 /**
  * __useCreateCommunityMutation__
@@ -65,6 +45,7 @@ export function withCreateCommunity<TProps, TChildProps = {}>(operationOptions?:
  * const [createCommunityMutation, { data, loading, error }] = useCreateCommunityMutation({
  *   variables: {
  *      community: // value for 'community'
+ *      icon: // value for 'icon'
  *   },
  * });
  */
@@ -82,3 +63,14 @@ export interface CreateCommunityMutationOperation {
   variables: CreateCommunityMutationVariables
   type: 'mutation'
 }
+export const CreateCommunityMutationName:CreateCommunityMutationOperation['operationName'] = 'createCommunity'
+
+export const CreateCommunityMutationRefetch = (
+  variables:CreateCommunityMutationVariables, 
+  context?:any
+)=>({
+  query:CreateCommunityDocument,
+  variables,
+  context
+})
+      

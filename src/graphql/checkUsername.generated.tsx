@@ -1,12 +1,8 @@
 import * as Types from './types.generated';
 
 import gql from 'graphql-tag';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type UsernameAvailableQueryVariables = {
   username: Types.Scalars['String']
@@ -24,23 +20,6 @@ export const UsernameAvailableDocument = gql`
   usernameAvailable(username: $username)
 }
     `;
-export type UsernameAvailableComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UsernameAvailableQuery, UsernameAvailableQueryVariables>, 'query'> & ({ variables: UsernameAvailableQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const UsernameAvailableComponent = (props: UsernameAvailableComponentProps) => (
-      <ApolloReactComponents.Query<UsernameAvailableQuery, UsernameAvailableQueryVariables> query={UsernameAvailableDocument} {...props} />
-    );
-    
-export type UsernameAvailableProps<TChildProps = {}> = ApolloReactHoc.DataProps<UsernameAvailableQuery, UsernameAvailableQueryVariables> & TChildProps;
-export function withUsernameAvailable<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  UsernameAvailableQuery,
-  UsernameAvailableQueryVariables,
-  UsernameAvailableProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, UsernameAvailableQuery, UsernameAvailableQueryVariables, UsernameAvailableProps<TChildProps>>(UsernameAvailableDocument, {
-      alias: 'usernameAvailable',
-      ...operationOptions
-    });
-};
 
 /**
  * __useUsernameAvailableQuery__
@@ -75,3 +54,14 @@ export interface UsernameAvailableQueryOperation {
   variables: UsernameAvailableQueryVariables
   type: 'query'
 }
+export const UsernameAvailableQueryName:UsernameAvailableQueryOperation['operationName'] = 'usernameAvailable'
+
+export const UsernameAvailableQueryRefetch = (
+  variables:UsernameAvailableQueryVariables, 
+  context?:any
+)=>({
+  query:UsernameAvailableDocument,
+  variables,
+  context
+})
+      

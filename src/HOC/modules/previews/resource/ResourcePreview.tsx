@@ -25,24 +25,22 @@ export const ResourcePreviewHOC: FC<Props> = ({ resourceId }) => {
       return null;
     }
 
-    const { icon, name, summary, url, canonicalUrl } = resource;
-
     const props: ResourcePreviewProps = {
-      icon: icon || '',
-      link: url || canonicalUrl || '',
+      icon: resource.icon?.url || '',
+      link: resource.payload?.url || '',
       name,
-      summary: summary || '',
+      summary: resource.summary || '',
       like: {
         iLikeIt: !!resource.myLike,
         toggleLikeFormik,
         totalLikes: resource.likers?.totalCount || 0
       },
-      isLocal: resource.isLocal, // FIXME replace with e.g isUploaded to differantiate between uploaded resource and resources shared via link
+      isLocal: !!resource.payload?.upload,
       acceptedLicenses: accepted_license_types,
       license: resource.license || null,
       isFlagged: !!resource.myFlag,
-      FlagModal: ({ done }) => <FlagModalHOC done={done} ctx={resource} />
-      //  type: resource.type FIXME add type of the resource field
+      FlagModal: ({ done }) => <FlagModalHOC done={done} ctx={resource} />,
+      type: resource.payload?.mediaType
     };
     return props;
   }, [resource, toggleLikeFormik]);

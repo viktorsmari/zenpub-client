@@ -7,6 +7,7 @@ import {
   EditCollectionPanel
 } from 'ui/modules/EditCollectionPanel';
 import * as Yup from 'yup';
+import { TestUrlOrFile } from 'HOC/lib/formik-validations';
 
 export const validationSchema: Yup.ObjectSchema<EditCollectionFormValues> = Yup.object<
   EditCollectionFormValues
@@ -16,8 +17,7 @@ export const validationSchema: Yup.ObjectSchema<EditCollectionFormValues> = Yup.
     .max(60)
     .required(),
   summary: Yup.string().max(500),
-  icon: Yup.string(), //.url()
-  files: Yup.array()
+  icon: Yup.mixed<File | string>().test(...TestUrlOrFile)
 });
 
 export interface Props {
@@ -31,7 +31,7 @@ export const EditCollectionPanelHOC: FC<Props> = ({
   const { collection, edit } = useEditCollection(collectionId);
   const initialValues = useMemo<EditCollectionFormValues>(
     () => ({
-      icon: collection?.icon || '',
+      icon: collection?.icon?.url || '',
       name: collection?.name || '',
       summary: collection?.summary || ''
     }),
@@ -41,15 +41,13 @@ export const EditCollectionPanelHOC: FC<Props> = ({
   const formik = useFormik<EditCollectionFormValues>({
     enableReinitialize: true,
     onSubmit: vals => {
-      const iconFile = vals.files?.shift();
-      return edit(
-        {
+      return edit({
+        collection: {
           name: vals.name,
-          icon: vals.icon || undefined,
           summary: vals.summary || undefined
         },
-        iconFile
-      );
+        icon: vals.icon
+      });
     },
     validationSchema,
     initialValues

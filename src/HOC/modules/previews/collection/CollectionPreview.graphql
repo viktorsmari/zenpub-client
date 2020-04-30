@@ -1,6 +1,6 @@
 fragment CollectionPreview on Collection {
     id
-    icon
+    icon{ id, url }
     isLocal
     canonicalUrl
     name

@@ -2,11 +2,7 @@ import * as Types from './types.generated';
 
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type CreateUserMutationMutationVariables = {
   user: Types.RegistrationInput
@@ -45,23 +41,6 @@ export const CreateUserMutationDocument = gql`
 }
     `;
 export type CreateUserMutationMutationFn = ApolloReactCommon.MutationFunction<CreateUserMutationMutation, CreateUserMutationMutationVariables>;
-export type CreateUserMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateUserMutationMutation, CreateUserMutationMutationVariables>, 'mutation'>;
-
-    export const CreateUserMutationComponent = (props: CreateUserMutationComponentProps) => (
-      <ApolloReactComponents.Mutation<CreateUserMutationMutation, CreateUserMutationMutationVariables> mutation={CreateUserMutationDocument} {...props} />
-    );
-    
-export type CreateUserMutationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<CreateUserMutationMutation, CreateUserMutationMutationVariables> & TChildProps;
-export function withCreateUserMutation<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  CreateUserMutationMutation,
-  CreateUserMutationMutationVariables,
-  CreateUserMutationProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, CreateUserMutationMutation, CreateUserMutationMutationVariables, CreateUserMutationProps<TChildProps>>(CreateUserMutationDocument, {
-      alias: 'createUserMutation',
-      ...operationOptions
-    });
-};
 
 /**
  * __useCreateUserMutationMutation__
@@ -94,3 +73,14 @@ export interface CreateUserMutationMutationOperation {
   variables: CreateUserMutationMutationVariables
   type: 'mutation'
 }
+export const CreateUserMutationMutationName:CreateUserMutationMutationOperation['operationName'] = 'createUserMutation'
+
+export const CreateUserMutationMutationRefetch = (
+  variables:CreateUserMutationMutationVariables, 
+  context?:any
+)=>({
+  query:CreateUserMutationDocument,
+  variables,
+  context
+})
+      

@@ -6,13 +6,13 @@ fragment UserPageActivities on Activity {
 
 fragment UserPageUserData on User {
   id
-  followedCollections{
+  collectionFollows{
     totalCount
   }
-  followedCommunities{
+  communityFollows{
     totalCount
   }
-  followedUsers{
+  userFollows{
     totalCount
   }
   outbox{

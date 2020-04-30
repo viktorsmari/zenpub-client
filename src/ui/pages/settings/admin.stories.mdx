@@ -2,20 +2,36 @@ import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
 import { PropsTable } from '@storybook/components';
 import { Settings } from '.';
 import {Box} from 'rebass'
-import {getEditProfilePropsAdmin} from 'ui/mock/context'
+import {getEditProfilePropsAdmin} from 'ui/mock/settings'
 
-import {WithoutSidebar} from 'ui/templates/withoutSidebar'
+import {Guest} from 'ui/templates/guest'
 
-<Meta title="UX|Settings - Admin User" component={Settings}/>
+<Meta title="Pages|Settings - Admin" component={Settings}/>
 
 
 # Settings
 Let's define a story for the `Settings` page - Admin user
+- **[Story](#story)**
+- **[Building blocks](#modules)**
+- **[Props](#props)**
+
+
+<div id="story">Story</div>
 
 <Preview>
   <Story name="Settings page - Admin user">
-    <WithoutSidebar>
+    <Guest>
       <Settings {...getEditProfilePropsAdmin()}/>
-    </WithoutSidebar>
+    </Guest>
   </Story>
 </Preview>
+
+<div id="modules">Building blocks</div>
+- **[Guest](#)**
+- **[ContainerForm, Actions](#)**
+- **[Button](#)**
+
+
+<div id="props">Props</div>
+
+<Props of={Settings} />

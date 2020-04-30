@@ -3,12 +3,8 @@ import * as Types from '../../../graphql/types.generated';
 import { CommunityPreviewFragment } from '../../../HOC/modules/previews/community/CommunityPreview.generated';
 import gql from 'graphql-tag';
 import { CommunityPreviewFragmentDoc } from '../../../HOC/modules/previews/community/CommunityPreview.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 export type CommunityPreviewQueryVariables = {
@@ -34,23 +30,6 @@ export const CommunityPreviewDocument = gql`
   }
 }
     ${CommunityPreviewFragmentDoc}`;
-export type CommunityPreviewComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CommunityPreviewQuery, CommunityPreviewQueryVariables>, 'query'> & ({ variables: CommunityPreviewQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const CommunityPreviewComponent = (props: CommunityPreviewComponentProps) => (
-      <ApolloReactComponents.Query<CommunityPreviewQuery, CommunityPreviewQueryVariables> query={CommunityPreviewDocument} {...props} />
-    );
-    
-export type CommunityPreviewProps<TChildProps = {}> = ApolloReactHoc.DataProps<CommunityPreviewQuery, CommunityPreviewQueryVariables> & TChildProps;
-export function withCommunityPreview<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  CommunityPreviewQuery,
-  CommunityPreviewQueryVariables,
-  CommunityPreviewProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, CommunityPreviewQuery, CommunityPreviewQueryVariables, CommunityPreviewProps<TChildProps>>(CommunityPreviewDocument, {
-      alias: 'communityPreview',
-      ...operationOptions
-    });
-};
 
 /**
  * __useCommunityPreviewQuery__
@@ -85,3 +64,14 @@ export interface CommunityPreviewQueryOperation {
   variables: CommunityPreviewQueryVariables
   type: 'query'
 }
+export const CommunityPreviewQueryName:CommunityPreviewQueryOperation['operationName'] = 'communityPreview'
+
+export const CommunityPreviewQueryRefetch = (
+  variables:CommunityPreviewQueryVariables, 
+  context?:any
+)=>({
+  query:CommunityPreviewDocument,
+  variables,
+  context
+})
+      

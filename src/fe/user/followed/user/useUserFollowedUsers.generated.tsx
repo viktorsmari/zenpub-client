@@ -5,20 +5,16 @@ import { FullPageInfoFragment } from '../../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
 import { FullPageInfoFragmentDoc } from '../../../../@fragments/misc.generated';
 import { UserPreviewFragmentDoc } from '../../../../HOC/modules/previews/user/UserPreview.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
 export type UserFollowedUsersQueryVariables = {
   userId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
-  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+  before?: Types.Maybe<Array<Types.Scalars['Cursor']>>,
+  after?: Types.Maybe<Array<Types.Scalars['Cursor']>>
 };
 
 
@@ -27,18 +23,16 @@ export type UserFollowedUsersQuery = (
   & { user: Types.Maybe<(
     { __typename: 'User' }
     & Pick<Types.User, 'id'>
-    & { followedUsers: Types.Maybe<(
-      { __typename: 'FollowedUsersPage' }
-      & Pick<Types.FollowedUsersPage, 'totalCount'>
+    & { userFollows: Types.Maybe<(
+      { __typename: 'FollowsPage' }
+      & Pick<Types.FollowsPage, 'totalCount'>
       & { pageInfo: (
         { __typename: 'PageInfo' }
         & FullPageInfoFragment
       ), edges: Array<(
-        { __typename: 'FollowedUser' }
-        & { follow: (
-          { __typename: 'Follow' }
-          & Pick<Types.Follow, 'id'>
-        ), user: (
+        { __typename: 'Follow' }
+        & Pick<Types.Follow, 'id'>
+        & { context: { __typename: 'Collection' } | { __typename: 'Community' } | { __typename: 'Thread' } | (
           { __typename: 'User' }
           & UserFollowedUserFragment
         ) }
@@ -58,20 +52,20 @@ export const UserFollowedUserFragmentDoc = gql`
 }
     ${UserPreviewFragmentDoc}`;
 export const UserFollowedUsersDocument = gql`
-    query userFollowedUsers($userId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
+    query userFollowedUsers($userId: String!, $limit: Int, $before: [Cursor!], $after: [Cursor!]) {
   user(userId: $userId) @connection(key: "userFollowedUsers", filter: ["userId"]) {
     id
-    followedUsers(limit: $limit, before: $before, after: $after) {
+    userFollows(limit: $limit, before: $before, after: $after) {
       totalCount
       pageInfo {
         ...FullPageInfo
       }
       edges {
-        follow {
-          id
-        }
-        user {
-          ...UserFollowedUser
+        id
+        context {
+          ... on User {
+            ...UserFollowedUser
+          }
         }
       }
     }
@@ -79,23 +73,6 @@ export const UserFollowedUsersDocument = gql`
 }
     ${FullPageInfoFragmentDoc}
 ${UserFollowedUserFragmentDoc}`;
-export type UserFollowedUsersComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UserFollowedUsersQuery, UserFollowedUsersQueryVariables>, 'query'> & ({ variables: UserFollowedUsersQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const UserFollowedUsersComponent = (props: UserFollowedUsersComponentProps) => (
-      <ApolloReactComponents.Query<UserFollowedUsersQuery, UserFollowedUsersQueryVariables> query={UserFollowedUsersDocument} {...props} />
-    );
-    
-export type UserFollowedUsersProps<TChildProps = {}> = ApolloReactHoc.DataProps<UserFollowedUsersQuery, UserFollowedUsersQueryVariables> & TChildProps;
-export function withUserFollowedUsers<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  UserFollowedUsersQuery,
-  UserFollowedUsersQueryVariables,
-  UserFollowedUsersProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, UserFollowedUsersQuery, UserFollowedUsersQueryVariables, UserFollowedUsersProps<TChildProps>>(UserFollowedUsersDocument, {
-      alias: 'userFollowedUsers',
-      ...operationOptions
-    });
-};
 
 /**
  * __useUserFollowedUsersQuery__
@@ -133,3 +110,14 @@ export interface UserFollowedUsersQueryOperation {
   variables: UserFollowedUsersQueryVariables
   type: 'query'
 }
+export const UserFollowedUsersQueryName:UserFollowedUsersQueryOperation['operationName'] = 'userFollowedUsers'
+
+export const UserFollowedUsersQueryRefetch = (
+  variables:UserFollowedUsersQueryVariables, 
+  context?:any
+)=>({
+  query:UserFollowedUsersDocument,
+  variables,
+  context
+})
+      

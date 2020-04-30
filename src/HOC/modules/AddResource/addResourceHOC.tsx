@@ -6,29 +6,28 @@ import {
   UploadResource
 } from 'ui/modules/AddResource/UploadResource';
 import * as Yup from 'yup';
-import { accepted_license_types } from '../../../mn-constants';
+import { accepted_license_types } from 'mn-constants';
+import { ResourceInput } from 'graphql/types.generated';
+import { TestUrlOrFile } from 'HOC/lib/formik-validations';
 
 export const validationSchema: Yup.ObjectSchema<ResourceFormValues> = Yup.object<
   ResourceFormValues
 >({
-  url: Yup.string().url(),
   name: Yup.string()
     .max(90)
     .required(),
   summary: Yup.string().max(1000),
-  icon: Yup.string().url(),
+  icon: Yup.mixed<File | string>().test(...TestUrlOrFile),
+  resource: Yup.mixed<File>().required(),
   license: Yup.string()
 });
 
 export const initialValues: ResourceFormValues = {
-  url: '',
   name: '',
   summary: '',
   icon: '',
   license: accepted_license_types[1],
-  acceptedLicenses: accepted_license_types,
-  resourceFiles: [],
-  imageFiles: []
+  resource: undefined
 };
 
 export interface AddResourceHOC {
@@ -47,25 +46,31 @@ export const AddResourceHOC: FC<AddResourceHOC> = ({
     initialValues,
     enableReinitialize: true,
     onSubmit: vals => {
-      const fileToUpload = vals.resourceFiles?.map(file => {
-        return file;
-      })[0];
-      const iconToUpload = vals.imageFiles?.map(file => {
-        return file;
-      })[0];
-      const resource = {
+      const { resource: resFile } = vals;
+      if (!resFile) {
+        return;
+      }
+
+      const resource: ResourceInput = {
         name: vals.name,
         summary: vals.summary,
-        icon: vals.icon,
-        url: vals.url,
         license: vals.license
       };
 
-      return create(collectionId, resource, fileToUpload, iconToUpload).then(
-        done
-      );
+      return create({
+        collectionId,
+        resource,
+        content: resFile,
+        icon: vals.icon
+      }).then(done);
     }
   });
 
-  return <UploadResource cancel={done} formik={formik} />;
+  return (
+    <UploadResource
+      cancel={done}
+      formik={formik}
+      acceptedLicenses={accepted_license_types}
+    />
+  );
 };

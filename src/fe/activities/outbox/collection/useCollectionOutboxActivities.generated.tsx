@@ -5,20 +5,16 @@ import { FullPageInfoFragment } from '../../../../@fragments/misc.generated';
 import gql from 'graphql-tag';
 import { FullPageInfoFragmentDoc } from '../../../../@fragments/misc.generated';
 import { ActivityPreviewFragmentDoc } from '../../../../HOC/modules/previews/activity/ActivityPreview.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
 export type CollectionOutboxActivitiesQueryVariables = {
   collectionId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  before?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>,
-  after?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+  before?: Types.Maybe<Array<Types.Scalars['Cursor']>>,
+  after?: Types.Maybe<Array<Types.Scalars['Cursor']>>
 };
 
 
@@ -52,7 +48,7 @@ export const CollectionOutboxActivityFragmentDoc = gql`
 }
     ${ActivityPreviewFragmentDoc}`;
 export const CollectionOutboxActivitiesDocument = gql`
-    query collectionOutboxActivities($collectionId: String!, $limit: Int, $before: [Cursor], $after: [Cursor]) {
+    query collectionOutboxActivities($collectionId: String!, $limit: Int, $before: [Cursor!], $after: [Cursor!]) {
   collection(collectionId: $collectionId) @connection(key: "collectionOutboxActivities", filter: ["collectionId"]) {
     id
     outbox(limit: $limit, before: $before, after: $after) {
@@ -68,23 +64,6 @@ export const CollectionOutboxActivitiesDocument = gql`
 }
     ${FullPageInfoFragmentDoc}
 ${CollectionOutboxActivityFragmentDoc}`;
-export type CollectionOutboxActivitiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CollectionOutboxActivitiesQuery, CollectionOutboxActivitiesQueryVariables>, 'query'> & ({ variables: CollectionOutboxActivitiesQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const CollectionOutboxActivitiesComponent = (props: CollectionOutboxActivitiesComponentProps) => (
-      <ApolloReactComponents.Query<CollectionOutboxActivitiesQuery, CollectionOutboxActivitiesQueryVariables> query={CollectionOutboxActivitiesDocument} {...props} />
-    );
-    
-export type CollectionOutboxActivitiesProps<TChildProps = {}> = ApolloReactHoc.DataProps<CollectionOutboxActivitiesQuery, CollectionOutboxActivitiesQueryVariables> & TChildProps;
-export function withCollectionOutboxActivities<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  CollectionOutboxActivitiesQuery,
-  CollectionOutboxActivitiesQueryVariables,
-  CollectionOutboxActivitiesProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, CollectionOutboxActivitiesQuery, CollectionOutboxActivitiesQueryVariables, CollectionOutboxActivitiesProps<TChildProps>>(CollectionOutboxActivitiesDocument, {
-      alias: 'collectionOutboxActivities',
-      ...operationOptions
-    });
-};
 
 /**
  * __useCollectionOutboxActivitiesQuery__
@@ -122,3 +101,14 @@ export interface CollectionOutboxActivitiesQueryOperation {
   variables: CollectionOutboxActivitiesQueryVariables
   type: 'query'
 }
+export const CollectionOutboxActivitiesQueryName:CollectionOutboxActivitiesQueryOperation['operationName'] = 'collectionOutboxActivities'
+
+export const CollectionOutboxActivitiesQueryRefetch = (
+  variables:CollectionOutboxActivitiesQueryVariables, 
+  context?:any
+)=>({
+  query:CollectionOutboxActivitiesDocument,
+  variables,
+  context
+})
+      

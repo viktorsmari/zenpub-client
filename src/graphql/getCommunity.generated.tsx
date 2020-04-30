@@ -5,19 +5,15 @@ import { ActivityPreviewFragment } from '../HOC/modules/previews/activity/Activi
 import gql from 'graphql-tag';
 import { ActivityPreviewFragmentDoc } from '../HOC/modules/previews/activity/ActivityPreview.generated';
 import { BasicCommentWithInReplyToFragmentDoc } from './fragments/basicComment.generated';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 
 
 export type GetCommunityQueryQueryVariables = {
   communityId: Types.Scalars['String'],
   limit?: Types.Maybe<Types.Scalars['Int']>,
-  end?: Types.Maybe<Array<Types.Maybe<Types.Scalars['Cursor']>>>
+  end?: Types.Maybe<Array<Types.Scalars['Cursor']>>
 };
 
 
@@ -25,8 +21,11 @@ export type GetCommunityQueryQuery = (
   { __typename: 'RootQueryType' }
   & { community: Types.Maybe<(
     { __typename: 'Community' }
-    & Pick<Types.Community, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon' | 'createdAt' | 'updatedAt' | 'lastActivity' | 'isLocal' | 'isPublic' | 'isDisabled'>
-    & { creator: Types.Maybe<(
+    & Pick<Types.Community, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'createdAt' | 'updatedAt' | 'lastActivity' | 'isLocal' | 'isPublic' | 'isDisabled'>
+    & { icon: Types.Maybe<(
+      { __typename: 'Content' }
+      & Pick<Types.Content, 'id' | 'url'>
+    )>, creator: Types.Maybe<(
       { __typename: 'User' }
       & Pick<Types.User, 'id'>
     )>, myFollow: Types.Maybe<(
@@ -51,13 +50,25 @@ export type GetCommunityQueryQuery = (
         & Pick<Types.Thread, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic' | 'isHidden' | 'createdAt' | 'updatedAt' | 'lastActivity'>
         & { context: Types.Maybe<(
           { __typename: 'Collection' }
-          & Pick<Types.Collection, 'id' | 'icon' | 'name'>
+          & Pick<Types.Collection, 'id' | 'name'>
+          & { icon: Types.Maybe<(
+            { __typename: 'Content' }
+            & Pick<Types.Content, 'id' | 'url'>
+          )> }
         ) | (
           { __typename: 'Community' }
-          & Pick<Types.Community, 'id' | 'icon' | 'name'>
+          & Pick<Types.Community, 'id' | 'name'>
+          & { icon: Types.Maybe<(
+            { __typename: 'Content' }
+            & Pick<Types.Content, 'id' | 'url'>
+          )> }
         ) | { __typename: 'Flag' } | (
           { __typename: 'Resource' }
-          & Pick<Types.Resource, 'id' | 'icon' | 'name'>
+          & Pick<Types.Resource, 'id' | 'name'>
+          & { icon: Types.Maybe<(
+            { __typename: 'Content' }
+            & Pick<Types.Content, 'id' | 'url'>
+          )> }
         )>, myFollow: Types.Maybe<(
           { __typename: 'Follow' }
           & Pick<Types.Follow, 'id'>
@@ -81,7 +92,11 @@ export type GetCommunityQueryQuery = (
         & Pick<Types.Follow, 'id' | 'canonicalUrl' | 'isLocal' | 'isPublic'>
         & { creator: Types.Maybe<(
           { __typename: 'User' }
-          & Pick<Types.User, 'id' | 'icon'>
+          & Pick<Types.User, 'id'>
+          & { icon: Types.Maybe<(
+            { __typename: 'Content' }
+            & Pick<Types.Content, 'id' | 'url'>
+          )> }
         )> }
       )> }
     )>, collections: Types.Maybe<(
@@ -92,8 +107,11 @@ export type GetCommunityQueryQuery = (
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
       ), edges: Array<(
         { __typename: 'Collection' }
-        & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'icon'>
-        & { myFollow: Types.Maybe<(
+        & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary'>
+        & { icon: Types.Maybe<(
+          { __typename: 'Content' }
+          & Pick<Types.Content, 'id' | 'url'>
+        )>, myFollow: Types.Maybe<(
           { __typename: 'Follow' }
           & Pick<Types.Follow, 'id'>
         )>, likers: Types.Maybe<(
@@ -116,14 +134,17 @@ export type GetCommunityQueryQuery = (
 
 
 export const GetCommunityQueryDocument = gql`
-    query getCommunityQuery($communityId: String!, $limit: Int, $end: [Cursor]) {
+    query getCommunityQuery($communityId: String!, $limit: Int, $end: [Cursor!]) {
   community(communityId: $communityId) {
     id
     canonicalUrl
     preferredUsername
     name
     summary
-    icon
+    icon {
+      id
+      url
+    }
     createdAt
     creator {
       id
@@ -163,17 +184,26 @@ export const GetCommunityQueryDocument = gql`
           __typename
           ... on Community {
             id
-            icon
+            icon {
+              id
+              url
+            }
             name
           }
           ... on Collection {
             id
-            icon
+            icon {
+              id
+              url
+            }
             name
           }
           ... on Resource {
             id
-            icon
+            icon {
+              id
+              url
+            }
             name
           }
         }
@@ -201,7 +231,10 @@ export const GetCommunityQueryDocument = gql`
         isPublic
         creator {
           id
-          icon
+          icon {
+            id
+            url
+          }
         }
       }
     }
@@ -217,7 +250,10 @@ export const GetCommunityQueryDocument = gql`
         preferredUsername
         name
         summary
-        icon
+        icon {
+          id
+          url
+        }
         myFollow {
           id
         }
@@ -239,23 +275,6 @@ export const GetCommunityQueryDocument = gql`
 }
     ${ActivityPreviewFragmentDoc}
 ${BasicCommentWithInReplyToFragmentDoc}`;
-export type GetCommunityQueryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetCommunityQueryQuery, GetCommunityQueryQueryVariables>, 'query'> & ({ variables: GetCommunityQueryQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-    export const GetCommunityQueryComponent = (props: GetCommunityQueryComponentProps) => (
-      <ApolloReactComponents.Query<GetCommunityQueryQuery, GetCommunityQueryQueryVariables> query={GetCommunityQueryDocument} {...props} />
-    );
-    
-export type GetCommunityQueryProps<TChildProps = {}> = ApolloReactHoc.DataProps<GetCommunityQueryQuery, GetCommunityQueryQueryVariables> & TChildProps;
-export function withGetCommunityQuery<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  GetCommunityQueryQuery,
-  GetCommunityQueryQueryVariables,
-  GetCommunityQueryProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, GetCommunityQueryQuery, GetCommunityQueryQueryVariables, GetCommunityQueryProps<TChildProps>>(GetCommunityQueryDocument, {
-      alias: 'getCommunityQuery',
-      ...operationOptions
-    });
-};
 
 /**
  * __useGetCommunityQueryQuery__
@@ -292,3 +311,14 @@ export interface GetCommunityQueryQueryOperation {
   variables: GetCommunityQueryQueryVariables
   type: 'query'
 }
+export const GetCommunityQueryQueryName:GetCommunityQueryQueryOperation['operationName'] = 'getCommunityQuery'
+
+export const GetCommunityQueryQueryRefetch = (
+  variables:GetCommunityQueryQueryVariables, 
+  context?:any
+)=>({
+  query:GetCommunityQueryDocument,
+  variables,
+  context
+})
+      

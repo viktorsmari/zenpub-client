@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Box, Flex, Text } from 'rebass/styled-components';
 import { HomeBox, MainContainer } from '../../sections/layoutUtils';
 // import styled from '../../themes/styled';
-import { Wrapper, WrapperCont } from '../communities.all/CommunitiesAll';
+import { Wrapper, WrapperCont } from '../wrappers/Wrappers';
 import {
   connectInfiniteHits,
   Pagination,

@@ -7,8 +7,11 @@ import { CommunityInfoFragmentDoc } from '../community/CommunityPreview.generate
 
 export type CollectionPreviewFragment = (
   { __typename: 'Collection' }
-  & Pick<Types.Collection, 'id' | 'icon' | 'isLocal' | 'canonicalUrl' | 'name' | 'summary' | 'resourceCount' | 'displayUsername'>
-  & { myFlag: Types.Maybe<(
+  & Pick<Types.Collection, 'id' | 'isLocal' | 'canonicalUrl' | 'name' | 'summary' | 'resourceCount' | 'displayUsername'>
+  & { icon: Types.Maybe<(
+    { __typename: 'Content' }
+    & Pick<Types.Content, 'id' | 'url'>
+  )>, myFlag: Types.Maybe<(
     { __typename: 'Flag' }
     & Pick<Types.Flag, 'id'>
   )>, myFollow: Types.Maybe<(
@@ -24,7 +27,10 @@ export type CollectionPreviewFragment = (
 export const CollectionPreviewFragmentDoc = gql`
     fragment CollectionPreview on Collection {
   id
-  icon
+  icon {
+    id
+    url
+  }
   isLocal
   canonicalUrl
   name
