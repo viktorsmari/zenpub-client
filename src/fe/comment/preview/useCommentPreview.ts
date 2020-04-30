@@ -21,7 +21,11 @@ export const useCommentPreview = (commentId: Comment['id']) => {
       : threadContext?.__typename === 'Community'
       ? threadContext.id
       : undefined;
-  const { reply } = useReplyComment(commentPreviewQ.data?.comment, communityId);
+  const { reply } = useReplyComment(
+    commentPreviewQ.data?.comment,
+    communityId,
+    commentPreviewQ.data?.comment?.creator?.userName
+  );
   return useMemo(() => {
     return {
       comment: commentPreviewQ.data?.comment,
