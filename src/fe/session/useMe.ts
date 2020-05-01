@@ -1,8 +1,9 @@
 import { useMemo, useCallback } from 'react';
+import { mnCtx } from 'fe/lib/graphql/ctx';
 import * as GQL from './me.generated';
 
 export const useMe = () => {
-  const meQ = GQL.useMeQuery();
+  const meQ = GQL.useMeQuery({ context: mnCtx({ noShowError: true }) });
   const [logoutMut, logoutStatus] = GQL.useMeLogoutMutation();
 
   const me = meQ.data?.me;

@@ -31,7 +31,7 @@ export const terms_markdown_text = {
 
 export const terms_markdown_urls = {
   // replace the URLs as needed, or enable/disable to use `terms_markdown_text` instead
-  enabled: true,
+  enabled: false,
   terms_users: 'https://moodle.net/terms/users.md',
   terms_cookies: 'https://moodle.net/terms/cookies.md',
   terms_indexing: 'https://moodle.net/terms/indexing.md'

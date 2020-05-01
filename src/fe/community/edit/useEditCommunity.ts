@@ -25,7 +25,10 @@ export const useEditCommunity = (communityId: Community['id']) => {
       return editMut({
         variables: {
           communityId,
-          icon: getMaybeUploadInput(icon),
+          icon: getMaybeUploadInput(
+            icon,
+            communityEditQ.data?.community?.icon?.url
+          ),
           community: {
             name: community.name,
             summary: community.summary
@@ -33,7 +36,7 @@ export const useEditCommunity = (communityId: Community['id']) => {
         }
       });
     },
-    [communityId, editMutStatus, editMut]
+    [communityId, editMutStatus, editMut, communityEditQ]
   );
 
   return useMemo(() => {

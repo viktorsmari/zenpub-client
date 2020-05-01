@@ -1,7 +1,6 @@
 import * as AbsintheSocket from '@absinthe/socket';
 import { createAbsintheSocketLink } from '@absinthe/socket-apollo-link';
 import { hasSubscription } from '@jumpn/utils-graphql';
-import { i18nMark } from '@lingui/react';
 import {
   defaultDataIdFromObject,
   InMemoryCache,
@@ -21,6 +20,7 @@ import {
   AnonSignUpMutationName
 } from 'fe/session/anon.generated';
 import { MeLogoutMutationName } from 'fe/session/me.generated';
+import { GraphQLError } from 'graphql';
 import { Socket as PhoenixSocket } from 'phoenix';
 import { logout } from 'redux/session';
 import { RootMutationType, RootQueryType } from '../graphql/types.generated';
@@ -144,48 +144,37 @@ export default async function initialise({
     };
   });
 
-  function handleError(message) {
-    //  alert(message); //TODO: nicer display of errors
-  }
+  const errorLink = onError(errorResponse => {
+    const { operation, response, graphQLErrors, networkError } = errorResponse;
+    console.error(`errorLink on operation`, {
+      operation,
+      response,
+      graphQLErrors,
+      networkError
+    });
 
-  function handleErrorGraphQL(message, locations, path) {
-    console.log(
-      `! GraphQL error: Message: ${message}, Path: ${path}, Locations: `,
-      locations
-    );
-
-    if (!message.includes('You need to log in first')) {
-      // don't display this error - we redirect to login screen instead
-      handleError(message);
-    }
-  }
-
-  const errorLink = onError(
-    ({ operation, response, graphQLErrors, networkError }) => {
-      console.log('errorLink', {
-        operation,
-        response,
-        graphQLErrors,
-        networkError
+    if (graphQLErrors) {
+      return Observable.of<FetchResult>({
+        errors: graphQLErrors
       });
-      const needs_login = !!response?.errors?.find(
-        (error: any) => error.code === 'needs_login'
-      );
-      if (needs_login) {
-        delToken();
-      }
-      if (graphQLErrors) {
-        graphQLErrors.map(({ message, locations, path }) =>
-          handleErrorGraphQL(message, locations, path)
-        );
-      }
-
-      if (networkError) {
-        console.log(`! Network error: ${networkError}`);
-        handleError(networkError);
-      }
+    } else if (networkError) {
+      const { message } = networkError;
+      return Observable.of<FetchResult>({
+        errors: [new GraphQLError(`network error:${message}`)]
+      });
+    } else if (response?.errors) {
+      return Observable.of<FetchResult>({
+        data: response.data,
+        errors: response.errors
+      });
+    } else {
+      const respStr = JSON.stringify(response, null, 2);
+      const message = `unknown error:\noperation:${operation}\nresponse:${respStr}`;
+      return Observable.of<FetchResult>({
+        errors: [new GraphQLError(message)]
+      });
     }
-  );
+  });
 
   const clientAwarenessHeadersLinkForNonApollo3Server = setContext((_, ctx) => {
     const { headers } = ctx;
@@ -214,15 +203,11 @@ export default async function initialise({
           //@ts-ignore
           !ALLOWED_ANONYMOUS_MUTATIONS.includes(operation.operationName)
         ) {
-          alert(i18nMark('You should log in for performing this operation!'));
-
           return Observable.of<FetchResult>({
             errors: [
-              {
-                message: 'You should log in for performing this operation!',
-                //@ts-ignore
-                code: 'needs_login'
-              }
+              new GraphQLError(
+                'You should log in for performing this operation!'
+              )
             ]
           });
         }
@@ -235,12 +220,12 @@ export default async function initialise({
   const httpLink = ApolloLink.from(
     [
       IS_DEV ? apolloLogger : null,
+      appLink,
       alertBlockMutationsForAnonymousLink,
       errorLink,
       authLink,
       clientAwarenessHeadersLinkForNonApollo3Server,
       setTokenLink,
-      appLink,
       createUploadLink({ uri: GRAPHQL_ENDPOINT!! })
     ].filter(Boolean)
   );

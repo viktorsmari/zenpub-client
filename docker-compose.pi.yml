@@ -5,7 +5,6 @@ services:
     #image: "commonspub/commonspub:stable" # use stable/production/master release of backend
     image: "commonspub/commonspub:latest" # uncomment to use unstable/staging/develop backend branch
     # On a Raspbery Pi, you must first build your own backend Docker image from the source
-    # see the backend docs at https://gitlab.com/moodlenet/servers/federated/blob/develop/DEPLOY.md
     ports:
       - "4000:4000"
       - "81:80"

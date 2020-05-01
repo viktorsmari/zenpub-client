@@ -7,17 +7,19 @@
     <meta name="theme-color" content="#FF7500">
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <script src="https://browser.sentry-cdn.com/5.9.0/bundle.min.js" integrity="sha384-hMcetfUA+TR8vwXLe2PQTtnfYMs/1BMpXcmNGMNVjzbdKcd5mQ50kU6EC1fPHHq7" crossorigin="anonymous">
-    </script>
+    <script src="https://browser.sentry-cdn.com/5.9.0/bundle.min.js"
+        integrity="sha384-hMcetfUA+TR8vwXLe2PQTtnfYMs/1BMpXcmNGMNVjzbdKcd5mQ50kU6EC1fPHHq7" crossorigin="anonymous">
+        </script>
     <!-- or include the full Algolia theme -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.3.1/themes/algolia-min.css" integrity="sha256-HB49n/BZjuqiCtQQf49OdZn63XuKFaxcIHWf0HNKte8=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.3.1/themes/algolia-min.css"
+        integrity="sha256-HB49n/BZjuqiCtQQf49OdZn63XuKFaxcIHWf0HNKte8=" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <title>HAHA Academy</title>
 </head>
 
 <body>
     <noscript>
-       
+
         <p><em>Please enable JavaScript or try another browser to run this app.</em></p>
     </noscript>
     <div id="root"></div>
@@ -27,9 +29,9 @@
         const [language] = locale.split('_');
 
         window.doorbellOptions = {
-          "id": "10690",
-          "appKey": "ObfmzIS8cairiG2UI0CnQEPDhYMWme7cHvbo8TJgBWTiducnxAtaKfFmN6lwOWN2",
-          "language": language,
+            "id": "10690",
+            "appKey": "ObfmzIS8cairiG2UI0CnQEPDhYMWme7cHvbo8TJgBWTiducnxAtaKfFmN6lwOWN2",
+            "language": language,
         };
 
         const dir = language === 'ar' ? 'rtl' : 'ltr';
@@ -40,9 +42,10 @@
         htmlEl.classList.add('--' + dir);
     </script>
 </body>
-    <script type="text/javascript">
-        window.addEventListener('load', function() {
-            Sentry.init({ dsn: 'https://cee9deb57dce41a9963b0cb234076db6@sentry.io/1825990' });
-        })
+<script type="text/javascript">
+    window.addEventListener('load', function () {
+        Sentry.init({ dsn: 'https://cee9deb57dce41a9963b0cb234076db6@sentry.io/1825990' });
+    })
 </script>
+
 </html>

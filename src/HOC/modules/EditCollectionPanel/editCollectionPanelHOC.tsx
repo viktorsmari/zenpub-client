@@ -47,7 +47,7 @@ export const EditCollectionPanelHOC: FC<Props> = ({
           summary: vals.summary || undefined
         },
         icon: vals.icon
-      });
+      }).then(done);
     },
     validationSchema,
     initialValues
