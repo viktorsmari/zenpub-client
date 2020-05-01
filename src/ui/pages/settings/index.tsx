@@ -390,7 +390,7 @@ const Img = styled.div`
   height: 120px;
   border-radius: 6px;
   background: ${props => props.theme.colors.light};
-  border: 3px solid white;
+  border: 3px solid ${props => props.theme.colors.light};
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;

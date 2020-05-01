@@ -109,7 +109,7 @@ const SidebarLink = styled(NavLink)`
   }
   div {
     color: ${props =>
-      props.isActive ? props.theme.colors.primary : 'inherit'};
+      props.isActive ? props.theme.colors.primary : props.theme.colors.darker};
   }
 `;
 

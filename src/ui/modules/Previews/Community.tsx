@@ -7,6 +7,7 @@ import styled from 'ui/themes/styled';
 import { SimpleLink } from 'ui/helpers/SimpleLink';
 import { Users, Folder } from 'react-feather';
 import Button from 'ui/elements/Button';
+import { darken } from 'polished';
 
 export interface Props {
   name: string;
@@ -145,9 +146,11 @@ const Wrapper = styled(Box)`
   z-index: 9;
   padding-bottom: 0;
   cursor: pointer;
-
+  background: ${props => props.theme.colors.appInverse};
   &:hover {
-    background: ${props => props.theme.colors.lighter};
+    background: ${props => darken('0.05', props.theme.colors.appInverse)};
+  }
+    
     text-decoration: none;
   }
   &&& a {

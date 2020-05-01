@@ -65,8 +65,9 @@ export const Panel = styled(Box)`
 
 export const PanelTitle = styled(Text)`
   text-transform: uppercase;
-  border-bottom: 4px solid ${props => props.theme.colors.lighter};
+  border-bottom: ${props => props.theme.colors.border};
   padding: 16px;
+  color: ${props => props.theme.colors.dark};
 `;
 
 export const Nav = styled(Box)`

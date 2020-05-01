@@ -52,7 +52,7 @@ export const theme: MoodleThemeInterface = {
     subhead: {
       fontFamily: fonts.primary,
       fontSize: 2,
-      color: '#3C3C3C',
+      color: colors.dark,
       textTransform: 'capitalize',
       letterSpacing: '0.5px',
       fontWeight: '600'
@@ -60,7 +60,7 @@ export const theme: MoodleThemeInterface = {
     suptitle: {
       fontFamily: fonts.primary,
       fontSize: 0,
-      color: 'rgba(0,0,0,.4)',
+      color: colors.dark,
       textTransform: 'uppercase',
       letterSpacing: '1px',
       fontWeight: '700'
@@ -68,21 +68,21 @@ export const theme: MoodleThemeInterface = {
     link: {
       fontFamily: fonts.primary,
       fontSize: 1,
-      color: '#3C3C3C',
+      color: colors.dark,
       letterSpacing: '.5px',
       fontWeight: '600'
     },
     text: {
       fontFamily: fonts.primary,
       fontSize: 1,
-      color: '#3C3C3C',
+      color: colors.dark,
       letterSpacing: '.5px',
       fontWeight: '500'
     },
     heading: {
       fontFamily: fonts.primary,
       fontSize: 5,
-      color: '#3C3C3C',
+      color: colors.dark,
       letterSpacing: '1px',
       fontWeight: '800'
     }
