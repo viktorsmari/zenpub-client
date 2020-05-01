@@ -194,7 +194,7 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
         name: values.name,
         summary: values.summary
       },
-      icon: getMaybeUploadInput(values.image)
+      icon: getMaybeUploadInput(values.image, props.image)
     };
     return props
       .updateResource({

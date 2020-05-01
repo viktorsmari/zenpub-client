@@ -11,10 +11,10 @@ import registerServiceWorker from './registerServiceWorker';
 import { createLocalSessionKVStorage } from './util/keyvaluestore/localSessionStorage';
 import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { integrateToastNotifications } from './integrations/Toast-Notifications';
 import { createDynamicLinkEnv } from './util/apollo/dynamicLink';
 import * as Sentry from '@sentry/browser';
 import * as K from './mn-constants';
+import { MngErrorLink } from 'fe/lib/graphql/ctx';
 K.SENTRY_KEY &&
   Sentry.init({
     dsn: K.SENTRY_KEY
@@ -64,7 +64,7 @@ async function run() {
 
   const dynamicLinkEnv = createDynamicLinkEnv();
 
-  const appLink = dynamicLinkEnv.link;
+  const appLink = dynamicLinkEnv.link.concat(MngErrorLink);
   const apolloClient = await getApolloClient({
     localKVStore: createLocalKVStore('APOLLO#'),
     appLink,
@@ -76,7 +76,6 @@ async function run() {
     store.dispatch,
     apolloClient.client
   );
-  integrateToastNotifications(dynamicLinkEnv.srv, store.dispatch);
   const ApolloApp = () => (
     <ApolloProvider client={apolloClient.client}>
       <ToastContainer
