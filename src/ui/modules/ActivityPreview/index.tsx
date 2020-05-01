@@ -126,7 +126,7 @@ export const SmallActorComp: FC<SmallActorProps> = ({ actor, event }) => {
 };
 
 const CommunityName = styled(Link)`
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.mediumdark};
   font-weight: 500;
   font-size: 13px;
 `;
@@ -134,12 +134,12 @@ const CommunityName = styled(Link)`
 const Contents = styled(Box)``;
 
 const Spacer = styled(Text)`
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.mediumdark};
   font-weight: 500;
 `;
 
 const Date = styled(Text)`
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.mediumdark};
   font-weight: 500;
   font-size: 13px;
 `;
@@ -174,19 +174,17 @@ const MemberInfo = styled(Box)`
 
 const Wrapper = styled(Box)``;
 const FeedItem = styled(Box)`
-  // min-height: 30px;
   position: relative;
   padding: 16px;
   word-wrap: break-word;
   font-size: 14px;
-
   ${clearFix()};
   transition: background 0.5s ease;
   margin-top: 0
   z-index: 10;
   position: relative;
   background: white;
-  border-bottom: 1px solid  ${props => props.theme.colors.lightgray};
+  border-bottom: 1px solid  ${props => props.theme.colors.light};
   a {
     text-decoration: none;
     &:hover {

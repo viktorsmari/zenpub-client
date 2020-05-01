@@ -90,7 +90,7 @@ const CommunityLink = styled(NavLink)`
   }
   &.active {
     > div {
-      background: ${props => props.theme.colors.orange};
+      background: ${props => props.theme.colors.primary};
     }
     div {
       color: white !important;
@@ -107,7 +107,7 @@ const SidebarLink = styled(NavLink)`
     height: 36px;
   }
   &.active {
-    color: ${props => props.theme.colors.orange};
+    color: ${props => props.theme.colors.primary};
     position: relative;
     &:before {
       position: absolute;
@@ -118,11 +118,12 @@ const SidebarLink = styled(NavLink)`
       border-radius: 100px;
       height: 8px;
       display: block;
-      background: ${props => props.theme.colors.orange};
+      background: ${props => props.theme.colors.primary};
     }
   }
   div {
-    color: ${props => (props.isActive ? props.theme.colors.orange : 'inherit')};
+    color: ${props =>
+      props.isActive ? props.theme.colors.primary : 'inherit'};
   }
 `;
 
@@ -131,7 +132,7 @@ const NavItem = styled(Flex)`
   padding: 8px;
   margin-bottom: 8px;
   &:hover {
-    background: ${props => props.theme.colors.lightgray};
+    background: ${props => props.theme.colors.light};
   }
   ${media.lessThan('1280px')`
 img {
@@ -153,7 +154,7 @@ ${ellipsis('220px')};
 `;
 
 // const Right = styled(Box)`
-// color: ${props => props.theme.colors.gray};
+// color: ${props => props.theme.colors.medium};
 // //${media.lessThan('1280px')`
 // //display: none;
 // //`};

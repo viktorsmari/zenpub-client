@@ -161,37 +161,8 @@ export const HeroCollection: FC<Props> = ({ collection: c }) => {
   );
 };
 
-// const HeaderWrapper: React.FC<{ id: string; name: string; icon: string }> = ({
-//   id,
-//   name,
-//   icon
-// }) => {
-//   const history = useHistory();
-//   return (
-//     <Header>
-//       <Left onClick={() => history.goBack()}>
-//         <ChevronLeft size="24" />
-//         <Text>
-//           <Trans>Back</Trans>
-//         </Text>
-//       </Left>
-//       <Right>
-//         <Link to={`/communities/${id}`}>
-//           <LinkImg>
-//             <Avatar size="s" src={icon} />
-//           </LinkImg>
-//           <Text variant="suptitle">{name}</Text>
-//         </Link>
-//       </Right>
-//     </Header>
-//   );
-// };
-
 export default HeroCollection;
 
-// const CommTitle = styled(Text)`
-//   color: ${props => props.theme.colors.darkgray};
-// `
 const More = styled(Box)`
   position: relative;
   cursor: pointer;
@@ -199,31 +170,17 @@ const More = styled(Box)`
   height: 40px;
   display: flex;
   align-items: center;
-  border: 1px solid ${props => props.theme.colors.lightgray};
+  border: ${props => props.theme.colors.border};
   border-radius: 4px;
   svg {
     margin: 0 auto;
-    stroke: ${props => props.theme.colors.gray};
+    stroke: ${props => props.theme.colors.mediumdark};
   }
 `;
 
 const AdminDropdownItem = styled(DropdownItem)`
-    border-top: 1px solid ${props =>
-      darken('0.1', props.theme.colors.lightgray)};
-
-    // svg {
-    //   stroke: ${props => darken('0.1', props.theme.colors.primary)};
-    // }
-    `;
-
-// const SettingsButton = styled.div`
-//   margin-right: 16px;
-
-//   .--rtl & {
-//     margin-right: 0px;
-//     margin-left: 16px;
-//   }
-// `;
+  border-top: 1px solid ${props => darken('0.1', props.theme.colors.light)};
+`;
 
 const LinkImg = styled(Box)`
   margin-right: 8px;
@@ -250,38 +207,17 @@ const Right = styled(Flex)`
     align-items: center;
   }
 `;
-// const Left = styled(Flex)`
-//   flex: auto;
-//   align-items: center;
-//   svg {
-//     margin: 0;
-//   }
-// `;
-
-// const Header = styled(Flex)`
-//   border-bottom: 1px solid ${props => props.theme.colors.lightgray};
-//   height: 50px;
-//   align-items: center;
-//   justify-content: space-between;
-//   padding: 0 8px;
-//   cursor: pointer;
-//   a {
-//     display: flex;
-//     flex: 1;
-//     text-decoration: none;
-//   }
-// `;
 
 const Title = styled(Text)`
-  color: ${props => props.theme.colors.darkgray};
+  color: ${props => props.theme.colors.mediumdark};
 `;
 
 const Description = styled(Text)`
-  color: ${props => props.theme.colors.darkgray};
+  color: ${props => props.theme.colors.mediumdark};
 `;
 
 const Username = styled(Text)`
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.mediumdark};
   font-weight: 500;
   font-size: 14px;
   text-transform: lowercase;
@@ -298,7 +234,7 @@ const HeroInfo = styled.div`
     margin: 0;
     line-height: 32px !important;
     font-size: 24px !important;
-    color: ${props => props.theme.colors.darkgray};
+    color: ${props => props.theme.colors.mediumdark};
     ${media.lessThan('medium')`
       margin-top: 8px;
     `};
@@ -308,7 +244,7 @@ const HeroInfo = styled.div`
     color: rgba(0, 0, 0, 0.8);
     font-size: 15px;
     margin-top: 8px;
-    color: ${props => props.theme.colors.darkgray};
+    color: ${props => props.theme.colors.mediumdark};
   }
   .--rtl & {
     margin-right: 16px;
@@ -319,7 +255,7 @@ const HeroCont = styled(Box)`
   margin-bottom: 16px;
   border-radius: 6px;
   box-sizing: border-box;
-  background: #fff;
+  background: ${props => props.theme.colors.appInverse};
 `;
 
 const Hero = styled(Flex)`
@@ -338,7 +274,7 @@ const Background = styled.div`
   border-radius: 4px;
   background-size: cover;
   background-repeat: no-repeat;
-  background-color: ${props => props.theme.colors.lightgray};
+  background-color: ${props => props.theme.colors.light};
   position: relative;
   margin: 0 auto;
 `;
@@ -375,5 +311,5 @@ const CountTot = styled(NavLink)`
 
 const Total = styled(Text)`
   display: inline-flex;
-  color: ${props => props.theme.colors.orange};
+  color: ${props => props.theme.colors.primary};
 `;

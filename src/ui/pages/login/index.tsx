@@ -228,7 +228,7 @@ const FormWrapper = styled.div`
 `;
 
 const Form = styled.div`
-  background: #fff;
+  background: ${props => props.theme.colors.appInverse};
   border-radius: 4px;
   height: inherit;
   border: 1px solid #dddfe2;
@@ -278,10 +278,10 @@ padding-top: 24px;
 `;
 
 const Browse = styled(Box)`
-  background: #fff;
+  background: ${props => props.theme.colors.appInverse};
   a {
     text-decoration: none;
-    color: ${props => props.theme.colors.darkgray};
+    color: ${props => props.theme.colors.mediumdark};
   }
 `;
 

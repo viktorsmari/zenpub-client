@@ -144,7 +144,7 @@ const Type = styled(Text)`
 //     min-width: 80px;
 //     border-width: 1px !important;
 //     line-height: 25px;
-//     color: ${props => props.theme.colors.lightgray} svg {
+//     color: ${props => props.theme.colors.light} svg {
 //       color: inherit !important;
 //     }
 //   }
@@ -182,7 +182,7 @@ const Infos = styled(Box)`
   }
 `;
 const Title = styled(Heading)`
-  color: ${props => props.theme.colors.darkgray};
+  color: ${props => props.theme.colors.mediumdark};
   font-size: 20px;
   text-decoration: none;
 `;

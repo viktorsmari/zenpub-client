@@ -168,7 +168,7 @@ const Actions = styled(Box)`
 
 const ActionItem = styled(Flex)`
   align-items: center;
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.medium};
   cursor: pointer;
   a {
     display: flex;
@@ -178,7 +178,7 @@ const ActionItem = styled(Flex)`
   }
   &:hover {
     svg.hover {
-      stroke: ${props => props.theme.colors.orange};
+      stroke: ${props => props.theme.colors.primary};
     }
   }
 `;

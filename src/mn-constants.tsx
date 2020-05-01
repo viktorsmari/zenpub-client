@@ -85,6 +85,36 @@ export const accepted_file_types =
 // please use standard identifiers from https://spdx.org/licenses/preview/ in order to preserve interoperability
 export const accepted_license_types = ['CC0-1.0', 'CC-BY-4.0', 'CC-BY-SA-4.0'];
 
+export const colors = {
+  // Main
+  app: 'rgb(245, 246, 247)',
+  appInverse: '#fff',
+  primary: '#f98012',
+  secondary: '#1EA7FD',
+  tertiary: '#DDDDDD',
+
+  // Status
+  positive: '#2db783',
+  negative: '#ff5a5f',
+  warning: '#ffebb3',
+
+  // Monochrome
+  lightest: '#FFFFFF',
+  lighter: '#F8F8F8',
+  light: '#F3F3F3',
+  mediumlight: '#EEEEEE',
+  medium: '#DDDDDD',
+  mediumdark: '#999999',
+  dark: '#666666',
+  darker: '#444444',
+  darkest: '#333333',
+  border: '1px solid #F3F3F3'
+};
+
+export const fonts = {
+  primary: '"Open Sans", sans-serif'
+};
+
 /* log ENV if DEV */
 IS_DEV &&
   console.log(`-environment-

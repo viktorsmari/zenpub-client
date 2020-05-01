@@ -36,7 +36,7 @@ export const Collection: React.FC<Props> = ({
     // <WrapperLink to={link.url}>
     <Bordered px={2} m={2} mb={1}>
       <Box mt={2}>
-        <Avatar src={icon} />
+        <AvatarCollection src={icon} />
       </Box>
       <Infos ml={3}>
         <Flex>
@@ -92,25 +92,18 @@ export const Collection: React.FC<Props> = ({
           )}
         </Meta>
       </Infos>
-
-      {/* <Box m={2} px={2}>
-        <Items>
-          
-        </Items>
-      </Box> */}
     </Bordered>
-    // </WrapperLink>
   );
 };
 
-// const Items = styled(Flex)`
-//   flex: 1;
-//   justify-content: start;
-// `;
+const AvatarCollection = styled(Avatar)`
+  min-width: 90px;
+  height: 90px;
+`;
 
 const ActionItem = styled(Flex)`
   align-items: center;
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.medium};
   cursor: pointer;
   a {
     display: flex;
@@ -120,7 +113,7 @@ const ActionItem = styled(Flex)`
   }
   &:hover {
     svg.hover {
-      stroke: ${props => props.theme.colors.orange};
+      stroke: ${props => props.theme.colors.primary};
     }
   }
 `;
@@ -141,29 +134,30 @@ const ActionIcon = styled(Box)`
 
 const TitleLink = styled(SimpleLink)`
   text-decoration: none;
-  color: ${props => props.theme.colors.darkgray};
-  * {
-    text-decoration: none;
-  }
-  a {
+  color: ${props => props.theme.colors.darker};
+  background: red;
+  > a {
     text-decoration: none;
   }
 `;
 
 const Meta = styled(Flex)`
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.medium};
 `;
 
 const Username = styled(Text)`
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.mediumdark};
   flex: 1;
-  font-size: 13px;
+  font-size: 14px;
   text-transform: lowercase;
 `;
 
 const Bordered = styled(Flex)`
   border-radius: 4px;
-  border: 1px solid ${props => props.theme.colors.lightgray};
+  border: 1px solid ${props => props.theme.colors.border};
+  * {
+    text-decoration: none !important;
+  }
 `;
 
 const Infos = styled(Box)`
@@ -174,7 +168,7 @@ const Infos = styled(Box)`
   }
 `;
 const Title = styled(Heading)`
-  color: ${props => props.theme.colors.darkgray};
+  color: ${props => props.theme.colors.darker};
   font-size: 20px;
   text-decoration: none;
   word-break: break-all;

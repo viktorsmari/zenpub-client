@@ -4,18 +4,25 @@ export interface MoodleThemeInterface {
   breakpoints: string[];
   fontSizes: string[];
   colors: {
+    app: string;
+    appInverse: string;
     primary: string;
-    orange: string;
-    black: string;
-    gray: string;
-    lightgray: string;
+    secondary: string;
+    tertiary: string;
+    positive: string;
+    negative: string;
+    warning: string;
+    lightest: string;
     lighter: string;
-    darkgray: string;
-    red: string;
-    green: string;
-    yellow: string;
-    darkYellow: string;
-    blue: string;
+    light: string;
+    mediumlight: string;
+    medium: string;
+    mediumdark: string;
+    dark: string;
+    darker: string;
+    darkest: string;
+
+    border: string;
   };
   text: {
     subhead: {
@@ -57,25 +64,15 @@ export interface MoodleThemeInterface {
     };
   };
   variants: {
-    inReplyTo: {
-      bg: string;
-    };
-    primary: {
-      bg: string;
-    };
-    bad: {
+    negative: {
       bg: string;
       color: string;
     };
-    good: {
+    positive: {
       bg: string;
       color: string;
     };
     warning: {
-      bg: string;
-      color: string;
-    };
-    info: {
       bg: string;
       color: string;
     };

@@ -118,13 +118,13 @@ export default Emails;
 
 const EmailText = styled(Text)`
   flex:1;
-  // color: ${props => props.theme.colors.gray};
+  // color: ${props => props.theme.colors.medium};
 `;
 
 const EmailInput = styled(Input)`
   && {
     flex: 1;
-    color: ${props => props.theme.colors.darkgray};
+    color: ${props => props.theme.colors.mediumdark};
   }
 `;
 const ListRow = styled(Row)`
@@ -140,7 +140,7 @@ const Resend = styled(Box)`
   justify-content: space-around;
   align-items: center;
   svg {
-    stroke: ${props => props.theme.colors.gray};
+    stroke: ${props => props.theme.colors.medium};
   }
 
   &:hover {    

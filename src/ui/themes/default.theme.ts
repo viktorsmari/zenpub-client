@@ -1,44 +1,48 @@
 import { MoodleThemeInterface } from './styled';
+import { colors, fonts } from 'mn-constants';
 
-const themeLight: MoodleThemeInterface = {
+// Global style variables
+export const theme: MoodleThemeInterface = {
   breakpoints: ['40em', '52em', '64em'],
   fontSizes: ['12px', '14px', '16px', '20px', '24px', '28px', '32px', '48px'],
   colors: {
-    primary: '#f98012',
-    orange: '#f98012',
-    black: '#000000e0',
-    darkgray: '#3C3C3C',
-    gray: 'rgba(0,0,0,.4)',
-    lightgray: 'rgba(0,0,0,.1)',
-    lighter: '#F5F6F7',
-    red: '#ff5a5f',
-    green: '#2db783',
-    yellow: '#ffebb3',
-    darkYellow: '#8a5500',
-    blue: '#009fd9'
+    // Main
+    app: colors.app,
+    appInverse: colors.appInverse,
+    primary: colors.primary,
+    secondary: colors.secondary,
+    tertiary: colors.tertiary,
+
+    // Status
+    positive: colors.positive,
+    negative: colors.negative,
+    warning: colors.warning,
+
+    // Monochrome
+    lightest: colors.lightest,
+    lighter: colors.lighter,
+    light: colors.light,
+    mediumlight: colors.mediumlight,
+    medium: colors.medium,
+    mediumdark: colors.mediumdark,
+    dark: colors.dark,
+    darker: colors.darker,
+    darkest: colors.darkest,
+
+    border: colors.border
   },
   variants: {
-    inReplyTo: {
-      bg: 'aliceblue'
+    negative: {
+      bg: colors.negative,
+      color: colors.light
     },
-    primary: {
-      bg: '#000'
-    },
-    bad: {
-      bg: '#ff5a5f',
-      color: '#fff'
-    },
-    good: {
-      bg: '#2db783',
-      color: '#fff'
+    positive: {
+      bg: colors.positive,
+      color: colors.light
     },
     warning: {
-      bg: '#ffebb3',
-      color: '#8a5500'
-    },
-    info: {
-      bg: '#009fd9',
-      color: '#fff'
+      bg: colors.warning,
+      color: colors.light
     },
     avatar: {
       borderRadius: '100% !important'
@@ -46,7 +50,7 @@ const themeLight: MoodleThemeInterface = {
   },
   text: {
     subhead: {
-      fontFamily: '"Open Sans", sans-serif',
+      fontFamily: fonts.primary,
       fontSize: 2,
       color: '#3C3C3C',
       textTransform: 'capitalize',
@@ -54,7 +58,7 @@ const themeLight: MoodleThemeInterface = {
       fontWeight: '600'
     },
     suptitle: {
-      fontFamily: '"Open Sans", sans-serif',
+      fontFamily: fonts.primary,
       fontSize: 0,
       color: 'rgba(0,0,0,.4)',
       textTransform: 'uppercase',
@@ -62,21 +66,21 @@ const themeLight: MoodleThemeInterface = {
       fontWeight: '700'
     },
     link: {
-      fontFamily: '"Open Sans", sans-serif',
+      fontFamily: fonts.primary,
       fontSize: 1,
       color: '#3C3C3C',
       letterSpacing: '.5px',
       fontWeight: '600'
     },
     text: {
-      fontFamily: '"Open Sans", sans-serif',
+      fontFamily: fonts.primary,
       fontSize: 1,
       color: '#3C3C3C',
       letterSpacing: '.5px',
       fontWeight: '500'
     },
     heading: {
-      fontFamily: '"Open Sans", sans-serif',
+      fontFamily: fonts.primary,
       fontSize: 5,
       color: '#3C3C3C',
       letterSpacing: '1px',
@@ -85,12 +89,10 @@ const themeLight: MoodleThemeInterface = {
   },
   buttons: {
     primary: {
-      // backgroundColor: '#f98012',
-      // color: '#fff',
       fontWeight: '600',
       height: '40px',
       px: 4,
-      backgroundColor: '#f98012',
+      backgroundColor: colors.primary,
       borderRadius: '4px',
       fontSize: '12px',
       cursor: 'pointer',
@@ -101,8 +103,8 @@ const themeLight: MoodleThemeInterface = {
       fontWeight: '600',
       height: '40px',
       px: 4,
-      backgroundColor: '#ff5a5f',
-      color: '#fff',
+      backgroundColor: colors.negative,
+      color: colors.lighter,
       borderRadius: '4px',
       fontSize: '12px',
       cursor: 'pointer',
@@ -119,12 +121,10 @@ const themeLight: MoodleThemeInterface = {
       cursor: 'pointer',
       textTransform: 'uppercase',
       letterSpacing: '1px',
-      color: 'darkgray',
-      border: '1px solid #f98012'
+      color: colors.dark,
+      border: `1px solid ${colors.primary}`
     }
   },
   space: ['0px', '4px', '8px', '16px', '32px', '64px', '128px', '256px'],
-  fontFamily: '"Open Sans", sans-serif'
+  fontFamily: fonts.primary
 };
-
-export const theme = themeLight;

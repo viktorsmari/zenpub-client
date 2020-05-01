@@ -120,51 +120,18 @@ const WrapperLink = styled(SimpleLink)`
   text-decoration: none;
 `;
 
-// const Items = styled(Flex)`
-//   flex: 1;
-//   justify-content: space-around;
-// `;
-// const Items = styled(Flex)`
-//   flex: 1;
-//   justify-content: space-around;
-// `;
-
-// const Actions = styled(Box)`
-//   position: relative;
-//   z-index: 999999999999999999999999999999999999;
-//   border-top: 1px solid #dadada;
-//   padding: 8px;
-// `;
-
-// const Button = styled(Flex)`
-//   align-items: center;
-//   color: ${props => props.theme.colors.gray};
-//   cursor: pointer;
-//   a {
-//     display: flex;
-//     align-items: center;
-//     position: relative;
-//     z-index: 9;
-//   }
-//   &:hover {
-//     svg.hover {
-//       stroke: ${props => props.theme.colors.orange};
-//     }
-//   }
-// `;
-
 const Username = styled(Text)`
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.mediumdark};
   flex: 1;
 `;
 
 const Meta = styled(Box)`
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.mediumdark};
   // justify-content: space-evenly;
 `;
 
 const Bordered = styled(Box)`
-  border: 1px solid ${props => props.theme.colors.lightgray};
+  border: ${props => props.theme.colors.border};
   border-radius: 4px;
 `;
 
@@ -207,14 +174,14 @@ const WrapperImage = styled.div`
 
 // const TitleLink = styled(SimpleLink)`
 //   text-decoration: none;
-//   color: ${props => props.theme.colors.darkgray};
+//   color: ${props => props.theme.colors.mediumdark};
 //   &:hover {
 //     text-decoration: underline;
 //   }
 // `;
 
 const Title = styled(Heading)`
-  color: ${props => props.theme.colors.darkgray};
+  color: ${props => props.theme.colors.darker};
   font-size: 20px;
   text-decoration: none;
   word-break: break-all;

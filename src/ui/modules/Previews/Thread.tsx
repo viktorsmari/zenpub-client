@@ -69,24 +69,24 @@ const Member = styled(Box)<{ src: string }>`
 `;
 
 const Meta = styled(Text)`
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.mediumdark};
   font-weight: 500;
   font-size: 13px;
 `;
 
 const Spacer = styled(Text)`
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.mediumdark};
   font-weight: 500;
 `;
 
 const Date = styled(Text)`
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.mediumdark};
   font-weight: 500;
   font-size: 13px;
 `;
 
 const Wrapper = styled(Box)`
-  border: 1px solid ${props => props.theme.colors.lightgray};
+  border: ${props => props.theme.colors.border};
   border-radius: 4px;
   background: white;
   cursor: pointer;

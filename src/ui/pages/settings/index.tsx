@@ -228,9 +228,9 @@ const RepoLink = styled(Text)`
   a {
     text-decoration: underline;
     font-size: 12px;
-    color: ${props => props.theme.colors.gray};
+    color: ${props => props.theme.colors.medium};
     &:hover {
-      color: ${props => props.theme.colors.darkgray};
+      color: ${props => props.theme.colors.mediumdark};
     }
   }
 `;
@@ -371,7 +371,7 @@ const SectionTitle = styled(Flex)`
 const CollectionContainerForm = styled(ContainerForm)`
   input {
     background: #fbfbfb;
-    color: ${props => props.theme.colors.darkgray};
+    color: ${props => props.theme.colors.mediumdark};
     border: 0;
     font-weight: 700;
   }
@@ -389,7 +389,7 @@ const Img = styled.div`
   width: 120px;
   height: 120px;
   border-radius: 6px;
-  background: ${props => props.theme.colors.lightgray};
+  background: ${props => props.theme.colors.light};
   border: 3px solid white;
   background-size: cover;
   background-position: center center;
@@ -420,13 +420,13 @@ const FlexProfile = styled(Flex)`
 const ProfileBox = styled(Box)``;
 
 const Username = styled(Text)`
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.medium};
   font-weight: 500;
   font-size: 14px;
 `;
 
 const Location = styled(Flex)`
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.medium};
   font-weight: 500;
   line-height: 26px;
   font-size: 14px;
@@ -435,7 +435,7 @@ const Location = styled(Flex)`
   span {
     margin-right: 8px;
     & svg {
-      stroke: ${props => props.theme.colors.gray};
+      stroke: ${props => props.theme.colors.medium};
       vertical-align: text-bottom;
     }
     .--rtl & {
@@ -446,7 +446,7 @@ const Location = styled(Flex)`
 `;
 
 const RelevantLink = styled(Flex)`
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.medium};
   font-weight: 500;
   line-height: 26px;
   font-size: 14px;
@@ -455,7 +455,7 @@ const RelevantLink = styled(Flex)`
   span {
     margin-right: 8px;
     & svg {
-      stroke: ${props => props.theme.colors.gray};
+      stroke: ${props => props.theme.colors.medium};
       vertical-align: text-bottom;
     }
     .--rtl & {
@@ -479,7 +479,7 @@ const Hero = styled.div`
   position: relative;
   border-radius: 6px;
   & p {
-    color: ${props => props.theme.colors.darkgray};
+    color: ${props => props.theme.colors.mediumdark};
     padding: 0 24px;
     margin-left: 120px;
     margin: 0;
@@ -510,7 +510,7 @@ const Icon = styled(Box)`
   display: flex;
   align-items: center;
   svg {
-    stroke: ${props => props.theme.colors.gray};
+    stroke: ${props => props.theme.colors.medium};
     width: 40px;
   }
 `;
@@ -541,7 +541,7 @@ export const WrapperPanel = styled(Flex)`
 `;
 
 export const Panel = styled(Box)`
-  background: #fff;
+  background: ${props => props.theme.colors.appInverse};
   border-radius: 4px;
   align-items: stretch;
   border: 0 solid black;
@@ -567,10 +567,10 @@ export const PanelTitle = styled(Text)`
 export const Nav = styled(Box)``;
 
 export const NavItem = styled(Text)`
-color: ${props => props.theme.colors.darkgray}
+color: ${props => props.theme.colors.mediumdark}
 border-bottom: 1px solid ${props => props.theme.colors.lighter};
 a {
-  color: ${props => props.theme.colors.darkgray}
+  color: ${props => props.theme.colors.mediumdark}
   text-decoration: none;
   font-weight: 700;
   &.active {

@@ -44,7 +44,7 @@ export const DropdownItem = styled(Flex)`
   }
   &:hover {
     div {
-      color: ${props => props.theme.colors.darkgray} !important;
+      color: ${props => props.theme.colors.mediumdark} !important;
     }
     background: ${props => props.theme.colors.lighter} !important;
   }

@@ -90,9 +90,7 @@ export const Resource: React.FC<Props> = ({
                 {/* <TypeItem>{mediaType}</TypeItem>  */}
                 <a href={link}>
                   {/* <ExternalLink size={17} /> */}
-                  <TextLink flex={1} ml={1}>
-                    {link}
-                  </TextLink>
+                  <TextLink flex={1}>{link}</TextLink>
                 </a>
               </ActionItem>
             </>
@@ -237,16 +235,16 @@ const Items = styled(Flex)`
 const Actions = styled(Box)`
   position: relative;
   z-index: 999999999999999999999999999999999999;
-  border-top: 1px solid #dadada;
+  border-top: ${props => props.theme.colors.border};
   padding: 8px;
 `;
 
 const ActionItem = styled(Flex)`
   align-items: center;
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.medium};
   a {
     cursor: pointer;
-    color: ${props => props.theme.colors.gray};
+    color: ${props => props.theme.colors.medium};
     display: inline-flex;
     align-items: center;
     position: relative;
@@ -257,7 +255,7 @@ const ActionItem = styled(Flex)`
     :hover {
       text-decoration: underline;
       svg {
-        stroke: ${props => props.theme.colors.orange};
+        stroke: ${props => props.theme.colors.primary};
       }
     }
   }
@@ -267,7 +265,7 @@ const ActionItem = styled(Flex)`
   }
   &:hover {
     svg.hover {
-      stroke: ${props => props.theme.colors.orange};
+      stroke: ${props => props.theme.colors.primary};
     }
   }
 `;
@@ -277,7 +275,7 @@ const MoreActionItem = styled(ActionItem)`
 
 const TypeItem = styled(Text)`
   border-radius: 5px;
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.medium};
   text-transform: uppercase;
   border-radius: 10px;
   padding: 0px 6px;
@@ -291,7 +289,7 @@ const TypeItem = styled(Text)`
 
 // const ResourceType = styled(Text)`
 //   border-radius: 5px;
-//   color: ${props => props.theme.colors.orange};
+//   color: ${props => props.theme.colors.primary};
 //   text-transform: uppercase;
 //   border-radius: 10px;
 //   border: 1px solid;
@@ -304,6 +302,7 @@ const TypeItem = styled(Text)`
 
 const TextLink = styled(Text)`
   ${ellipsis('250px')};
+  color: ${props => props.theme.colors.mediumdark};
 `;
 
 // const Img = styled(Image)`
@@ -317,13 +316,13 @@ const TextLink = styled(Text)`
 // `;
 
 const Bordered = styled(Box)`
-  border: 1px solid ${props => props.theme.colors.lightgray};
+  border: ${props => props.theme.colors.border};
   border-radius: 4px;
 `;
 
 const TitleLink = styled.a`
   text-decoration: none;
-  color: ${props => props.theme.colors.darkgray};
+  color: ${props => props.theme.colors.darker};
 
   svg {
     margin: 0px;
@@ -352,13 +351,13 @@ const TitleLink = styled.a`
 //   line-height: 20px;
 //   height: 20px;
 //   padding: 0 8px;
-//   color: ${props => props.theme.colors.darkgray};
+//   color: ${props => props.theme.colors.mediumdark};
 // `;
 
 const Wrapper = styled(Flex)`
   position: relative;
   text-decoration: none;
-  background: #fff;
+  background: ${props => props.theme.colors.appInverse};
   margin-top: 0;
   border-radius: 6px;
 `;
@@ -371,7 +370,7 @@ const Infos = styled(Box)`
   }
 `;
 const Title = styled(Heading)`
-  color: ${props => props.theme.colors.darkgray};
+  color: ${props => props.theme.colors.darker};
   font-size: 20px;
   text-decoration: none;
 `;

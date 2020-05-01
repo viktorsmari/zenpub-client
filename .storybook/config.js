@@ -41,6 +41,7 @@ const loaderFn = () => {
     require('./designer.stories.mdx'),
     require('./developer.stories.mdx'),
     require('./admin.stories.mdx'),
+    require('./palette.stories.mdx'),
     require('../src/ui/pages/login/a.stories.mdx'),
     require('../src/ui/pages/signUp/a.stories.mdx'),
     require('../src/ui/pages/termsAndConditions/a.stories.mdx'),
@@ -58,15 +59,15 @@ const loaderFn = () => {
     require('../src/ui/pages/user/b.stories.mdx'),
     require('../src/ui/pages/settings/admin.stories.mdx'),
     require('../src/ui/pages/settings/user.stories.mdx'),
-    require('../src/ui/pages/notFound/a.stories.mdx')
+    require('../src/ui/pages/notFound/a.stories.mdx'),
   ]
   // allExports.push(Intro.map(a => a))
   // allExports.push(pages.map(a => a))
 
   // const pages = require.context('../src/ui/pages', true, /\.stories\.mdx$/);
-  // const modules = require.context('../src/ui/modules', true, /\.stories\.mdx$/);
+  const modules = require.context('../src/ui/modules', true, /\.stories\.mdx$/);
   // pages.keys().forEach(fname => allExports.push(pages(fname)));
-  // modules.keys().forEach(fname => allExports.push(modules(fname)));
+  modules.keys().forEach(fname => allExports.push(modules(fname)));
   return allExports;
   // const req = require.context('../src/ui', true, /\.stories\.(tsx|mdx)$/)
   // req.keys().forEach(fname => allExports.push(req(fname)));

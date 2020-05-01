@@ -32,7 +32,7 @@ const Item = styled(Flex)`
     text-decoration: none;
   }
   &:hover {
-    color: ${props => props.theme.colors.orange};
+    color: ${props => props.theme.colors.primary};
   }
 `;
 

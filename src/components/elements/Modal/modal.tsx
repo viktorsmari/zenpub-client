@@ -111,12 +111,12 @@ export const ContainerForm = styled.div`
     height: 40px;
     background: white;
     border-radius: 2px;
-    border: 1px solid ${props => props.theme.colors.lightgray};
+    border: ${props => props.theme.colors.border};
   }
   & textarea {
     background: white;
     border-radius: 2px;
-    border: 1px solid ${props => props.theme.colors.lightgray};
+    border: ${props => props.theme.colors.border};
     line-height: 20px;
   }
 `;

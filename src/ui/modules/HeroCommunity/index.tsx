@@ -153,8 +153,7 @@ export const HeroCommunity: FC<Props> = ({ community: c }) => {
   );
 };
 const AdminDropdownItem = styled(DropdownItem)`
-    border-top: 1px solid ${props =>
-      darken('0.1', props.theme.colors.lightgray)};
+    border-top: 1px solid ${props => darken('0.1', props.theme.colors.light)};
     // svg {
     //   stroke: ${props => darken('0.1', props.theme.colors.primary)};
     // }
@@ -167,11 +166,11 @@ const More = styled(Box)`
   height: 40px;
   display: flex;
   align-items: center;
-  border: 1px solid ${props => props.theme.colors.lightgray};
+  border: ${props => props.theme.colors.border};
   border-radius: 4px;
   svg {
     margin: 0 auto;
-    stroke: ${props => props.theme.colors.gray};
+    stroke: ${props => props.theme.colors.mediumdark};
   }
 `;
 
@@ -179,7 +178,7 @@ const Info = styled(Flex)`
   align-items: center;
 `;
 const Total = styled(Text)`
-  color: ${props => props.theme.colors.orange};
+  color: ${props => props.theme.colors.primary};
 `;
 
 const Title = styled(Text)`
@@ -198,7 +197,7 @@ const Actions = styled(Flex)`
 `;
 
 const Username = styled(Text)`
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.mediumdark};
   font-weight: 500;
   text-transform: lowercase;
 `;
@@ -234,7 +233,7 @@ const MembersTot = styled(NavLink)`
 const Hero = styled(Box)`
   width: 100%;
   position: relative;
-  background: #fff;
+  background: ${props => props.theme.colors.appInverse};
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 `;
@@ -244,7 +243,7 @@ const Background = styled.div`
   height: 250px;
   background-size: cover;
   background-repeat: no-repeat;
-  background-color: ${props => props.theme.colors.gray};
+  background-color: ${props => props.theme.colors.medium};
   position: relative;
   margin: 0 auto;
   border-radius: 4px;
@@ -267,14 +266,5 @@ const HeroInfo = styled.div`
     }
   }
 `;
-
-// const SettingsButton = styled.div`
-//   margin-right: 16px;
-
-//   .--rtl & {
-//     margin-right: 0px;
-//     margin-left: 16px;
-//   }
-// `;
 
 export default HeroCommunity;

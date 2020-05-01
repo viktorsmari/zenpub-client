@@ -147,7 +147,7 @@ const Actions = styled(Box)`
 
 const ActionItem = styled(Flex)`
   align-items: center;
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.medium};
   cursor: pointer;
   .unflag {
     position: relative;
@@ -171,16 +171,16 @@ const ActionItem = styled(Flex)`
     z-index: 9;
   }
   .hover {
-    stroke: ${props => props.theme.colors.gray};
+    stroke: ${props => props.theme.colors.medium};
   }
   &:hover {
     svg {
       &.hover {
-        stroke: ${props => props.theme.colors.orange};
+        stroke: ${props => props.theme.colors.primary};
       }
     }
     .unflag:after {
-      border-left-color: ${props => props.theme.colors.orange};
+      border-left-color: ${props => props.theme.colors.primary};
     }
   }
 `;
@@ -204,6 +204,6 @@ const Wrapper = styled(Box)`
 `;
 
 const Bordered = styled(Box)`
-  border: 1px solid ${props => props.theme.colors.lightgray};
+  border: ${props => props.theme.colors.border};
   border-radius: 4px;
 `;

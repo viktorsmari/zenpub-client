@@ -296,7 +296,7 @@ const FormWrapper = styled(Box)`
     border-radius: 4px;
     border: 1px solid #dadada;
   }
-  background: #fff;
+  background: ${props => props.theme.colors.appInverse};
   border-radius: 4px;
   height: inherit;
   border: 1px solid #dddfe2;
@@ -313,7 +313,7 @@ const FormWrapper = styled(Box)`
 // `;
 
 // const Footer = styled(Box)`
-//   border-top: 1px solid ${props => props.theme.colors.lightgray};
+//   border-top: ${props => props.theme.colors.border};
 //   padding-top: 24px;
 //   & ul {
 //     list-style-type: none;
@@ -342,7 +342,8 @@ const FormWrapper = styled(Box)`
 // `;
 
 const Aware = styled(Flex)<{ green: boolean }>`
-  background: ${props => (props.green ? '#546d4f' : props.theme.colors.orange)};
+  background: ${props =>
+    props.green ? '#546d4f' : props.theme.colors.primary};
   border-radius: 4px;
   align-items: center;
   div {

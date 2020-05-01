@@ -205,20 +205,20 @@
 // };
 
 // const MenuWrapper = styled(Flex)`
-//   border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+//   border-bottom: ${props => props.theme.colors.border};
 //   padding: 12px 8px;
 //   a {
 //     font-weight: 700;
 //     text-decoration: none;
 //     margin-right: 8px;
-//     color: ${props => props.theme.colors.gray};
+//     color: ${props => props.theme.colors.medium};
 //     letterspacing: 1px;
 //     font-size: 14px;
 //     padding: 4px 8px;
 //     // white-space: nowrap;
 //     &.active {
 //       color: #ffffff;
-//       background: ${props => props.theme.colors.orange};
+//       background: ${props => props.theme.colors.primary};
 //       border-radius: 4px;
 //     }
 //   }

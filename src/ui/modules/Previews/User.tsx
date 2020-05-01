@@ -45,7 +45,7 @@ export const User: React.SFC<Props> = ({
 );
 
 const WrapperFlex = styled(Flex)`
-  border: 1px solid ${props => props.theme.colors.lightgray};
+  border: ${props => props.theme.colors.border};
   border-radius: 4px;
 `;
 
@@ -63,7 +63,7 @@ const Icon = styled(Box)`
     }
   }
   svg {
-    stroke: ${props => props.theme.colors.gray};
+    stroke: ${props => props.theme.colors.medium};
     margin: 0 auto;
   }
 `;
@@ -72,7 +72,7 @@ const Wrapper = styled(Box)`
   flex: 1;
 `;
 const Username = styled(Text)`
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.mediumdark};
   flex: 1;
 `;
 

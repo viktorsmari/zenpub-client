@@ -46,7 +46,7 @@ export const PanelInner = styled(Flex)`
 `;
 
 export const Panel = styled(Box)`
-  background: #fff;
+  background: ${props => props.theme.colors.appInverse};
   border-radius: 4px;
   align-items: stretch;
   border: 0 solid black;
@@ -74,9 +74,9 @@ export const Nav = styled(Box)`
 `;
 
 export const NavItem = styled(Text)`
-color: ${props => props.theme.colors.darkgray}
+color: ${props => props.theme.colors.mediumdark}
 a {
-  color: ${props => props.theme.colors.darkgray}
+  color: ${props => props.theme.colors.mediumdark}
   text-decoration: none;
 }
   `;

@@ -277,7 +277,7 @@ const FormInput = styled(Input)`
   height: 40px;
   background: white;
   border-radius: 2px;
-  border: 1px solid ${props => props.theme.colors.lightgray};
+  border: ${props => props.theme.colors.border};
 `;
 
 const SubmitButton = styled(Button)`

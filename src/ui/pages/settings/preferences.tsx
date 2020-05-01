@@ -12,7 +12,7 @@ import { setLang } from '../../../redux/localization';
 import { languages, locales } from '../../../mn-constants';
 
 const Header = styled(Flex)`
-  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+  border-bottom: ${props => props.theme.colors.border};
   svg {
     cursor: pointer;
   }
@@ -112,9 +112,9 @@ const TransifexLink = styled(Text)`
   a {
     font-size: 12px;
     text-decoration: underline;
-    color: ${props => props.theme.colors.gray};
+    color: ${props => props.theme.colors.medium};
     &:hover {
-      color: ${props => props.theme.colors.darkgray};
+      color: ${props => props.theme.colors.mediumdark};
     }
   }
 `;

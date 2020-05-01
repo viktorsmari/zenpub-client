@@ -189,7 +189,7 @@ const InfoContainer = styled.div`
   height: inherit;
   margin: 0px;
   &.active {
-    border: 1px dashed ${props => props.theme.colors.orange};
+    border: 1px dashed ${props => props.theme.colors.primary};
   }
   .;
 `;
@@ -210,7 +210,7 @@ const FileName = styled.p`
 // const ClearButton = styled.button`
 //   width: 100px;
 //   cursor: pointer;
-//   border: 1px solid ${props => props.theme.colors.gray};
+//   border: 1px solid ${props => props.theme.colors.medium};
 //   margin-left: 20px;
 //   padding: 10px;
 //   border-radius: 2px;

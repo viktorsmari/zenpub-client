@@ -14,7 +14,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { createDynamicLinkEnv } from './util/apollo/dynamicLink';
 import * as Sentry from '@sentry/browser';
 import * as K from './mn-constants';
+import { fonts, colors } from './mn-constants';
 import { MngErrorLink } from 'fe/lib/graphql/ctx';
+
 K.SENTRY_KEY &&
   Sentry.init({
     dsn: K.SENTRY_KEY
@@ -29,7 +31,7 @@ async function run() {
           padding: 0;
           width: 100%;
           height: 100%;
-          font-family: 'Open Sans', sans-serif !important;
+          font-family: ${fonts.primary} !important;
       }
       
       * {
@@ -37,7 +39,7 @@ async function run() {
       }
 
       body {
-      background: #F5F6F7;
+      background: ${colors.app};
       overflow-y: scroll;
       overscroll-behavior-y: none;
       .ais-SearchBox {

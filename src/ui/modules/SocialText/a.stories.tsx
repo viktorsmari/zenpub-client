@@ -7,7 +7,7 @@ import { Box } from 'rebass/styled-components';
 import styled from 'ui/themes/styled';
 
 const Wrapper = styled(Box)`
-  border: 2px solid ${props => props.theme.colors.lightgray};
+  border: 2px solid ${props => props.theme.colors.light};
   border-radius: 4px;
 `;
 

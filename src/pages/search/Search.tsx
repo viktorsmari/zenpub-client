@@ -25,14 +25,14 @@ const moodle_core_download_url = decodeURI(
 );
 
 const WrapperResult = styled(Box)`
-  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+  border-bottom: ${props => props.theme.colors.border};
 `;
 const SupText = styled(Text)`
   a {
     color: inherit;
     text-decoration: none
    :hover {
-      color: ${props => props.theme.colors.orange};
+      color: ${props => props.theme.colors.primary};
     }
   }
 `;

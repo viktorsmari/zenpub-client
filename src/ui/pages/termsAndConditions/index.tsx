@@ -178,7 +178,7 @@ const Right = styled(Box)`
 `;
 
 const Footer = styled(Box)`
-  border-top: 1px solid ${props => props.theme.colors.lightgray};
+  border-top: ${props => props.theme.colors.border};
   padding-top: 24px;
   & ul {
     list-style-type: none;
@@ -207,7 +207,8 @@ const Footer = styled(Box)`
 `;
 
 const Aware = styled(Flex)<{ green: boolean }>`
-  background: ${props => (props.green ? '#546d4f' : props.theme.colors.orange)};
+  background: ${props =>
+    props.green ? '#546d4f' : props.theme.colors.primary};
   border-radius: 4px;
   align-items: center;
   div {

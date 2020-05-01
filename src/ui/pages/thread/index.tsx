@@ -82,7 +82,7 @@ const HeaderWrapper: React.FC<{ id: string; name: string; icon: string }> = ({
 };
 
 const MainThreadContainer = styled(Box)`
-  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+  border-bottom: ${props => props.theme.colors.border};
 `;
 
 const LinkImg = styled(Box)`
@@ -101,13 +101,13 @@ const Right = styled(Flex)`
 `;
 
 const Header = styled(Flex)`
-  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+  border-bottom: ${props => props.theme.colors.border};
   height: 50px;
   align-items: center;
   justify-content: space-between;
   padding: 0 8px;
   cursor: pointer;
-  background: #fff;
+  background: ${props => props.theme.colors.appInverse};
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   a {
