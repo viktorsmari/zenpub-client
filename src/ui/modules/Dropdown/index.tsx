@@ -16,7 +16,7 @@ export const Dropdown: FC<Props> = ({ orientation, cb, children }) => (
 
 const Wrapper = styled(Box)<{ orientation: string }>`
   text-align: left;
-  background: white;
+  background: ${props => props.theme.colors.appInverse};
   min-width: 200px;
   display: block;
   border-radius: 6px;

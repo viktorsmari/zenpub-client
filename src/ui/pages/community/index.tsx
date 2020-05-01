@@ -201,7 +201,7 @@ const Menu = ({ basePath }: { basePath: string }) => (
 );
 
 const WrapButton = styled(Flex)`
-  background: white;
+  background: ${props => props.theme.colors.appInverse};
   button {
     width: 100%;
     height: 50px;

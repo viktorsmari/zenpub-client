@@ -85,6 +85,32 @@ export const accepted_file_types =
 // please use standard identifiers from https://spdx.org/licenses/preview/ in order to preserve interoperability
 export const accepted_license_types = ['CC0-1.0', 'CC-BY-4.0', 'CC-BY-SA-4.0'];
 
+export const nord = {
+  // Main
+  app: '#2E3440',
+  appInverse: '#3B4252',
+  primary: '#BF616A',
+  secondary: '#D08770',
+  tertiary: '#EBCB8B',
+
+  // Status
+  positive: '#2db783',
+  negative: '#ff5a5f',
+  warning: '#ffebb3',
+
+  // Monochrome
+  lightest: '#333333',
+  lighter: '#444444',
+  light: '#666666',
+  mediumlight: '#999999',
+  medium: '#DDDDDD',
+  mediumdark: '#EEEEEE',
+  dark: '#F3F3F3',
+  darker: '#F8F8F8',
+  darkest: '#FFFFFF',
+  border: '1px solid #2E3440'
+};
+
 export const colors = {
   // Main
   app: 'rgb(245, 246, 247)',

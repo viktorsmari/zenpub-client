@@ -110,19 +110,19 @@ export const HeroUser: FC<Props> = props => {
           </HeroAction>
         </FlexProfile>
         <HeroInfo ml={3}>
-          <Text
+          <HeroTitle
             sx={{ fontSize: '18px' }}
             mt={2}
             variant="heading"
             fontWeight={'bold'}
           >
             {props.name}
-          </Text>
+          </HeroTitle>
           <Username mt={1} fontSize={2}>
             @{props.displayUsername}
             {props.me && props.isAdmin && <AdminBadge ml={2}>Admin</AdminBadge>}
           </Username>
-          <Text
+          <Summary
             variant="text"
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(props.summary)
@@ -175,6 +175,14 @@ const HeroAction = styled(Flex)`
   align-items: center;
 `;
 
+const Summary = styled(Text)`
+  color: ${props => props.theme.colors.mediumdark};
+`;
+
+const HeroTitle = styled(Text)`
+  color: ${props => props.theme.colors.darker};
+`;
+
 const FlexProfile = styled(Flex)`
   justify-content: space-between;
   ${media.lessThan('860px')`
@@ -184,7 +192,9 @@ const FlexProfile = styled(Flex)`
 `};
 `;
 
-const ProfileBox = styled(Box)``;
+const ProfileBox = styled(Box)`
+  background: ${props => props.theme.colors.appInverse};
+`;
 
 const Username = styled(Text)`
   color: ${props => props.theme.colors.mediumdark};
@@ -238,7 +248,7 @@ const Img = styled.div`
   height: 120px;
   border-radius: 6px;
   background: ${props => props.theme.colors.light};
-  border: 3px solid white;
+  border: 3px solid ${props => props.theme.colors.appInverse};
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;

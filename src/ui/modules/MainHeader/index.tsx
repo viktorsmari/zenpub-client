@@ -133,6 +133,7 @@ const Right = styled(Box)`
 
 const HeaderName = styled(Text)`
   ${ellipsis('180px')};
+  color: ${props => props.theme.colors.darker};
 `;
 
 const NavItem = styled(Flex)`

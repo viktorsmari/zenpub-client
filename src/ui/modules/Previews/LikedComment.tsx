@@ -65,7 +65,7 @@ export const LikedComment: React.SFC<CommentProps> = ({
         communityName={communityName}
         communityLink={communityLink}
       />
-      <Text
+      <Summary
         dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }}
         sx={{ textDecoration: 'none' }}
         variant="text"
@@ -133,6 +133,10 @@ export const LikedComment: React.SFC<CommentProps> = ({
   );
 };
 
+const Summary = styled(Text)`
+  color: ${props => props.theme.colors.dark};
+`;
+
 const Items = styled(Flex)`
   flex: 1;
   justify-content: start;
@@ -175,6 +179,6 @@ const ActionIcon = styled(Box)`
 `;
 
 const Wrapper = styled(Box)`
-  background: white;
+  background: ${props => props.theme.colors.appInverse};
   border-left: 3px solid ${props => props.theme.colors.light};
 `;

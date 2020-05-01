@@ -57,7 +57,7 @@ export const Comment: React.SFC<CommentProps> = ({
   return (
     <Wrapper>
       <Link to={url}>
-        <Text
+        <Summary
           dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }}
           sx={{ textDecoration: 'none' }}
           variant="text"
@@ -162,6 +162,10 @@ export const Comment: React.SFC<CommentProps> = ({
   );
 };
 
+const Summary = styled(Text)`
+  color: ${props => props.theme.colors.dark};
+`;
+
 const Items = styled(Flex)`
   flex: 1;
   justify-content: start;
@@ -204,7 +208,7 @@ const ActionIcon = styled(Box)`
 `;
 
 const Wrapper = styled(Box)`
-  background: white;
+  background: ${props => props.theme.colors.appInverse};
   a {
     text-decoration: none
     &:hover {

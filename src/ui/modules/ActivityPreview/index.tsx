@@ -80,9 +80,13 @@ export const ActorComp: FC<ActorProps> = ({
             <Name>
               <Link to={actor.link}>{actor.name}</Link>
             </Name>
-            <Text sx={{ textTransform: 'lowercase' }} variant="text" ml={1}>
+            <TextEvent
+              sx={{ textTransform: 'lowercase' }}
+              variant="text"
+              ml={1}
+            >
               {event}
-            </Text>
+            </TextEvent>
           </Flex>
         </Flex>
         <Flex sx={{ marginTop: '2px' }} alignItems="center">
@@ -129,6 +133,10 @@ const CommunityName = styled(Link)`
   color: ${props => props.theme.colors.mediumdark};
   font-weight: 500;
   font-size: 13px;
+`;
+
+const TextEvent = styled(Text)`
+  color: ${props => props.theme.colors.dark};
 `;
 
 const Contents = styled(Box)``;
@@ -183,8 +191,8 @@ const FeedItem = styled(Box)`
   margin-top: 0
   z-index: 10;
   position: relative;
-  background: white;
-  border-bottom: 1px solid  ${props => props.theme.colors.light};
+  background: ${props => props.theme.colors.appInverse};
+  border-bottom: ${props => props.theme.colors.border};
   a {
     text-decoration: none;
     &:hover {

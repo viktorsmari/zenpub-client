@@ -209,7 +209,7 @@ const Right = styled(Flex)`
 `;
 
 const Title = styled(Text)`
-  color: ${props => props.theme.colors.mediumdark};
+  color: ${props => props.theme.colors.darker};
 `;
 
 const Description = styled(Text)`

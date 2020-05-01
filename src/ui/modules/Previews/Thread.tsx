@@ -30,7 +30,7 @@ export const Thread: React.SFC<CommentProps> = ({
         {title || 'no title'}
       </Text> */}
       <NavLink to={link}>
-        <Text variant="text">{content}</Text>
+        <Summary variant="text">{content}</Summary>
         <Flex sx={{ marginTop: '2px' }} alignItems="center">
           <Flex flex={1}>
             <Date>{DateTime.fromSQL(createdAt).toRelative()}</Date>
@@ -55,6 +55,9 @@ export const Thread: React.SFC<CommentProps> = ({
     </Wrapper>
   );
 };
+const Summary = styled(Text)`
+  color: ${props => props.theme.colors.dark};
+`;
 
 const Member = styled(Box)<{ src: string }>`
   max-width: 28px !important;
@@ -88,7 +91,7 @@ const Date = styled(Text)`
 const Wrapper = styled(Box)`
   border: ${props => props.theme.colors.border};
   border-radius: 4px;
-  background: white;
+  background: ${props => props.theme.colors.appInverse};
   cursor: pointer;
   &:hover {
     background: ${props => props.theme.colors.lighter};

@@ -66,7 +66,7 @@ export const User: React.FC<Props> = ({
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <Box mb={2} sx={{ background: 'white' }}>
+            <Box mb={2}>
               <Header name={userName} />
               {HeroUserBox}
               <Menu

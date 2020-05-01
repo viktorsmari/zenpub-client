@@ -51,11 +51,11 @@ export const Collection: React.FC<Props> = ({
             <Username>+{displayUsername}</Username>
           </Box>
         </Flex>
-        <Text variant="text" mt={1} mb={2}>
+        <Summary variant="text" mt={1} mb={2}>
           {summary && summary.length > 140
             ? summary.replace(/^([\s\S]{140}[^\s]*)[\s\S]*/, '$1...')
             : summary}
-        </Text>
+        </Summary>
         <Meta mt={2}>
           <Flex alignSelf="center" mr={3} alignItems="center">
             <Text fontSize={'10px'} variant="suptitle">
@@ -96,6 +96,9 @@ export const Collection: React.FC<Props> = ({
   );
 };
 
+const Summary = styled(Text)`
+  color: ${props => props.theme.colors.dark};
+`;
 const AvatarCollection = styled(Avatar)`
   min-width: 90px;
   height: 90px;

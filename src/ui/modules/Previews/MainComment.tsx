@@ -52,7 +52,7 @@ export const MainComment: React.SFC<CommentProps> = ({
 
   return (
     <Wrapper>
-      <Text
+      <Summary
         dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }}
         sx={{ fontSize: '24px' }}
         variant="text"
@@ -156,6 +156,10 @@ export const MainComment: React.SFC<CommentProps> = ({
   );
 };
 
+const Summary = styled(Text)`
+  color: ${props => props.theme.colors.dark};
+`;
+
 const Items = styled(Flex)`
   flex: 1;
   justify-content: start;
@@ -198,5 +202,5 @@ const ActionIcon = styled(Box)`
 `;
 
 const Wrapper = styled(Box)`
-  background: white;
+  background: ${props => props.theme.colors.appInverse};
 `;

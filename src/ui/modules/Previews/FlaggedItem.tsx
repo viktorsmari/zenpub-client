@@ -200,7 +200,7 @@ const ActionIcon = styled(Box)`
 `;
 
 const Wrapper = styled(Box)`
-  background: white;
+  background: ${props => props.theme.colors.appInverse};
 `;
 
 const Bordered = styled(Box)`

@@ -26,21 +26,7 @@ const SidebarComponent = styled(Flex)`
 
 const InternalWrapper = styled(Box)<{ isOpen: boolean }>`
   transition: 'all 250ms ease';
-flex: 1;
-// ${media.greaterThan('1281px')`
-//width: 300px !important;
-//`}
-//${media.lessThan('1280px')`
-//width: 88px;
-//`}
-//${media.lessThan('10240px')`
-//width: 68px;
-//`}
-//${media.lessThan('860px')`
-//position: relative;
-//left: ${props => (props.isOpen ? '0' : '-300px')};
-//width: ${props => (props.isOpen ? '100%' : '0')};
-//`}
+  flex: 1;
 `;
 
 const SidebarFixed = styled(Box)`
@@ -93,7 +79,7 @@ const CommunityLink = styled(NavLink)`
       background: ${props => props.theme.colors.primary};
     }
     div {
-      color: white !important;
+      color: ${props => props.theme.colors.appInverse} !important;
     }
     position: relative;
   }
@@ -142,15 +128,13 @@ img {
 `;
 
 const ItemTitle = styled(Text)`
-font-size: 15px;
-a:focus,
-      a:active {
-          color: inherit;
-      }
-${ellipsis('220px')};
-// ${media.lessThan('1280px')`
-//display: none;
-//`};
+  font-size: 15px;
+  color: ${props => props.theme.colors.darker};
+  a:focus,
+  a:active {
+    color: inherit;
+  }
+  ${ellipsis('220px')};
 `;
 
 // const Right = styled(Box)`

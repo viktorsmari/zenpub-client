@@ -105,9 +105,9 @@ export const Resource: React.FC<Props> = ({
               </TextLink>
             </a>
           </ActionItem> */}
-          <Text variant="text" mt={2}>
+          <Summary variant="text" mt={2}>
             {summary}
-          </Text>
+          </Summary>
           {/* {isUploaded ? (
             license === acceptedLicenses![0] ? (
               <Img src={LicenseIcon0} />
@@ -208,7 +208,9 @@ export const Resource: React.FC<Props> = ({
     </Bordered>
   );
 };
-
+const Summary = styled(Text)`
+  color: ${props => props.theme.colors.dark};
+`;
 // const TitleFlex = styled(Flex)`
 //   align-items: center;
 // `;

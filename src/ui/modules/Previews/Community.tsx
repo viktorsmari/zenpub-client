@@ -58,11 +58,11 @@ export const Community: React.FC<Props> = ({
           </Flex>
 
           {summary ? (
-            <Text variant="text" mt={2}>
+            <Summary variant="text" mt={2}>
               {summary.length > 90
                 ? summary.replace(/^([\s\S]{86}[^\s]*)[\s\S]*/, '$1...')
                 : summary}
-            </Text>
+            </Summary>
           ) : null}
 
           {/* <Users>
@@ -103,6 +103,9 @@ export const Community: React.FC<Props> = ({
 );
 
 // const Users = styled(Box)``
+const Summary = styled(Text)`
+  color: ${props => props.theme.colors.dark};
+`;
 
 const Actions = styled(Box)`
   button {

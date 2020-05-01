@@ -46,7 +46,7 @@ export const WrapperCont = styled(Flex)`
   flex-shrink: 0;
   margin: 0px;
   min-height: 0px;
-  background: white;
+  background: ${props => props.theme.colors.appInverse};
   min-width: 0px;
   padding: 0px;
   position: relative;
