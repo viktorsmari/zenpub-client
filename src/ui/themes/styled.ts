@@ -2,7 +2,6 @@ import * as styledComponents from 'styled-components';
 
 export interface MoodleThemeInterface {
   breakpoints: string[];
-  fontSizes: string[];
   colors: {
     app: string;
     appInverse: string;
@@ -27,7 +26,7 @@ export interface MoodleThemeInterface {
   text: {
     subhead: {
       fontFamily: string;
-      fontSize: number;
+      fontSize: string;
       color: string;
       textTransform: string;
       letterSpacing: string;
@@ -35,7 +34,7 @@ export interface MoodleThemeInterface {
     };
     suptitle: {
       fontFamily: string;
-      fontSize: number;
+      fontSize: string;
       color: string;
       textTransform: string;
       letterSpacing: string;
@@ -43,21 +42,21 @@ export interface MoodleThemeInterface {
     };
     link: {
       fontFamily: string;
-      fontSize: number;
+      fontSize: string;
       color: string;
       letterSpacing: string;
       fontWeight: string;
     };
     text: {
       fontFamily: string;
-      fontSize: number;
+      fontSize: string;
       color: string;
       letterSpacing: string;
       fontWeight: string;
     };
     heading: {
       fontFamily: string;
-      fontSize: number;
+      fontSize: string;
       color: string;
       letterSpacing: string;
       fontWeight: string;

@@ -14,7 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { createDynamicLinkEnv } from './util/apollo/dynamicLink';
 import * as Sentry from '@sentry/browser';
 import * as K from './mn-constants';
-import { fonts, colors } from './mn-constants';
+import { typography, colors } from './mn-constants';
 import { MngErrorLink } from 'fe/lib/graphql/ctx';
 
 K.SENTRY_KEY &&
@@ -31,7 +31,7 @@ async function run() {
           padding: 0;
           width: 100%;
           height: 100%;
-          font-family: ${fonts.primary} !important;
+          font-family: ${typography.type.primary} !important;
       }
       
       * {

@@ -42,6 +42,7 @@ const loaderFn = () => {
     require('./developer.stories.mdx'),
     require('./admin.stories.mdx'),
     require('./palette.stories.mdx'),
+    require('./typography.stories.mdx'),
     require('../src/ui/pages/login/a.stories.mdx'),
     require('../src/ui/pages/signUp/a.stories.mdx'),
     require('../src/ui/pages/termsAndConditions/a.stories.mdx'),

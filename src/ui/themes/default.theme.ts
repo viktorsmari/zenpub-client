@@ -1,10 +1,10 @@
 import { MoodleThemeInterface } from './styled';
-import { colors, fonts } from 'mn-constants';
+import { colors, typography } from 'mn-constants';
 
 // Global style variables
 export const theme: MoodleThemeInterface = {
   breakpoints: ['40em', '52em', '64em'],
-  fontSizes: ['12px', '14px', '16px', '20px', '24px', '28px', '32px', '48px'],
+  // fontSizes: ['12px', '14px', '16px', '20px', '24px', '28px', '32px', '48px'],
   colors: {
     // Main
     app: colors.app,
@@ -50,38 +50,38 @@ export const theme: MoodleThemeInterface = {
   },
   text: {
     subhead: {
-      fontFamily: fonts.primary,
-      fontSize: 2,
+      fontFamily: typography.type.primary,
+      fontSize: typography.size.s3,
       color: colors.dark,
       textTransform: 'capitalize',
       letterSpacing: '0.5px',
       fontWeight: '600'
     },
     suptitle: {
-      fontFamily: fonts.primary,
-      fontSize: 0,
+      fontFamily: typography.type.primary,
+      fontSize: typography.size.s1,
       color: colors.dark,
       textTransform: 'uppercase',
       letterSpacing: '1px',
       fontWeight: '700'
     },
     link: {
-      fontFamily: fonts.primary,
-      fontSize: 1,
+      fontFamily: typography.type.primary,
+      fontSize: typography.size.s2,
       color: colors.dark,
       letterSpacing: '.5px',
       fontWeight: '600'
     },
     text: {
-      fontFamily: fonts.primary,
-      fontSize: 1,
+      fontFamily: typography.type.primary,
+      fontSize: typography.size.s2,
       color: colors.dark,
       letterSpacing: '.5px',
       fontWeight: '500'
     },
     heading: {
-      fontFamily: fonts.primary,
-      fontSize: 5,
+      fontFamily: typography.type.primary,
+      fontSize: typography.size.m3,
       color: colors.dark,
       letterSpacing: '1px',
       fontWeight: '800'
@@ -94,7 +94,7 @@ export const theme: MoodleThemeInterface = {
       px: 4,
       backgroundColor: colors.primary,
       borderRadius: '4px',
-      fontSize: '12px',
+      fontSize: typography.size.s2,
       cursor: 'pointer',
       textTransform: 'uppercase',
       letterSpacing: '1px'
@@ -106,7 +106,7 @@ export const theme: MoodleThemeInterface = {
       backgroundColor: colors.negative,
       color: colors.lighter,
       borderRadius: '4px',
-      fontSize: '12px',
+      fontSize: typography.size.s2,
       cursor: 'pointer',
       textTransform: 'uppercase',
       letterSpacing: '1px'
@@ -117,7 +117,7 @@ export const theme: MoodleThemeInterface = {
       px: 4,
       backgroundColor: 'transparent',
       borderRadius: '4px',
-      fontSize: '12px',
+      fontSize: typography.size.s2,
       cursor: 'pointer',
       textTransform: 'uppercase',
       letterSpacing: '1px',
@@ -126,5 +126,5 @@ export const theme: MoodleThemeInterface = {
     }
   },
   space: ['0px', '4px', '8px', '16px', '32px', '64px', '128px', '256px'],
-  fontFamily: fonts.primary
+  fontFamily: typography.type.primary
 };

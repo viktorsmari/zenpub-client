@@ -137,8 +137,22 @@ export const colors = {
   border: '1px solid #F3F3F3'
 };
 
-export const fonts = {
-  primary: '"Open Sans", sans-serif'
+export const typography = {
+  type: {
+    primary: '"Open Sans", sans-serif'
+  },
+  size: {
+    s1: '12px',
+    s2: '14px',
+    s3: '16px',
+    m1: '20px',
+    m2: '24px',
+    m3: '28px',
+    l1: '32px',
+    l2: '40px',
+    l3: '48px',
+    code: '90px'
+  }
 };
 
 /* log ENV if DEV */
