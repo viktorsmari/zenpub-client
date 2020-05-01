@@ -205,6 +205,7 @@
     "@typescript-eslint/eslint-plugin": "2.19.2",
     "@typescript-eslint/parser": "2.19.2",
     "babel-loader": "8.0.6",
+    "chromatic": "4.0.2",
     "core-js": "2.6.10",
     "emotion-theming": "^10.0.14",
     "eslint-plugin-react-hooks": "2.4.0",
