@@ -1,9 +1,9 @@
 import { Trans } from '@lingui/react';
 import * as React from 'react';
-import { Eye, EyeOff } from 'react-feather';
+import { Eye, EyeOff, Archive } from 'react-feather';
 import { Box, Flex, Heading, Text } from 'rebass/styled-components';
 import { FormikHook } from 'ui/@types/types';
-import Avatar from 'ui/elements/Avatar';
+// import Avatar from 'ui/elements/Avatar';
 import { SimpleLink } from 'ui/helpers/SimpleLink';
 import styled from 'ui/themes/styled';
 import { typography } from 'mn-constants';
@@ -35,10 +35,8 @@ export const Collection: React.FC<Props> = ({
 }) => {
   return (
     // <WrapperLink to={link.url}>
-    <Bordered px={2} m={2} mb={1}>
-      <Box mt={2}>
-        <AvatarCollection src={icon} />
-      </Box>
+    <Bordered m={2} mb={1}>
+      <AvatarCollection src={icon} />
       <Infos ml={3}>
         <Flex>
           <Box flex={1}>
@@ -49,7 +47,7 @@ export const Collection: React.FC<Props> = ({
                   : name}
               </Title>
             </TitleLink>
-            <Username>+{displayUsername}</Username>
+            {/* <Username>+{displayUsername}</Username> */}
           </Box>
         </Flex>
         <Summary variant="text" mt={1} mb={2}>
@@ -57,12 +55,14 @@ export const Collection: React.FC<Props> = ({
             ? summary.replace(/^([\s\S]{140}[^\s]*)[\s\S]*/, '$1...')
             : summary}
         </Summary>
+        <MetaWrapper mt={2} alignItems="center">
+          <Archive size={18} />
+          <Text ml={2} variant="suptitle">
+            {totalResources || 0} <Trans>Resources</Trans>
+          </Text>
+        </MetaWrapper>
+
         <Meta mt={2}>
-          <Flex alignSelf="center" mr={3} alignItems="center">
-            <Text fontSize={'10px'} variant="suptitle">
-              {totalResources || 0} <Trans>Resources</Trans>
-            </Text>
-          </Flex>
           {hideActions ? null : (
             <ActionItem
               isFollowing={isFollowing ? true : false}
@@ -90,17 +90,33 @@ export const Collection: React.FC<Props> = ({
   );
 };
 
+const MetaWrapper = styled(Flex)`
+  color: ${props => props.theme.colors.dark};
+  svg  {
+    margin: 0;
+  }
+`;
+
 const Summary = styled(Text)`
   color: ${props => props.theme.colors.dark};
 `;
-const AvatarCollection = styled(Avatar)`
-  min-width: 90px !important;
-  height: 90px !important;
-  background: red !important;
+const AvatarCollection = styled(Box)<{ src?: string }>`
+border-radius: 4px;
+border-top-right-radius: 0;
+border-bottom-right-radius: 0;
+min-width: 48px;
+height: 48px;
+padding: 15%;
+background-color: transparent;
+background-image: url("${props => props.src}");
+background-size: cover;
+background-position: center center;
 `;
 
 const ActionItem = styled(Flex)<{ isFollowing?: boolean }>`
   align-items: center;
+  margin-top: 16px;
+  margin-bottom: 8px;
   color: ${props =>
     props.isFollowing
       ? props.theme.colors.lighter
@@ -167,16 +183,16 @@ const Meta = styled(Flex)`
   color: ${props => props.theme.colors.medium};
 `;
 
-const Username = styled(Text)`
-  color: ${props => props.theme.colors.mediumdark};
-  flex: 1;
-  font-size: 14px;
-  text-transform: lowercase;
-`;
+// const Username = styled(Text)`
+//   color: ${props => props.theme.colors.mediumdark};
+//   flex: 1;
+//   font-size: 14px;
+//   text-transform: lowercase;
+// `;
 
 const Bordered = styled(Flex)`
   border-radius: 4px;
-  border: 1px solid ${props => props.theme.colors.border};
+  border: ${props => props.theme.colors.border};
   * {
     text-decoration: none !important;
   }
@@ -194,4 +210,5 @@ const Title = styled(Heading)`
   font-size: 20px;
   text-decoration: none;
   word-break: break-all;
+  margin-top: 8px;
 `;
