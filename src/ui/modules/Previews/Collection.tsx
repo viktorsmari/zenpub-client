@@ -6,6 +6,7 @@ import { FormikHook } from 'ui/@types/types';
 import Avatar from 'ui/elements/Avatar';
 import { SimpleLink } from 'ui/helpers/SimpleLink';
 import styled from 'ui/themes/styled';
+import { typography } from 'mn-constants';
 export interface Props {
   link: {
     url: string;
@@ -63,22 +64,15 @@ export const Collection: React.FC<Props> = ({
             </Text>
           </Flex>
           {hideActions ? null : (
-            <ActionItem onClick={toggleFollowFormik.submitForm}>
+            <ActionItem
+              isFollowing={isFollowing ? true : false}
+              onClick={toggleFollowFormik.submitForm}
+            >
               <ActionIcon>
                 {isFollowing ? (
-                  <EyeOff
-                    className="hover"
-                    strokeWidth="1"
-                    color="rgba(0,0,0,.4)"
-                    size="20"
-                  />
+                  <EyeOff strokeWidth="1" size="18" />
                 ) : (
-                  <Eye
-                    className="hover"
-                    strokeWidth="1"
-                    color="rgba(0,0,0,.4)"
-                    size="20"
-                  />
+                  <Eye strokeWidth="1" size="18" />
                 )}
               </ActionIcon>
               <Text
@@ -100,13 +94,38 @@ const Summary = styled(Text)`
   color: ${props => props.theme.colors.dark};
 `;
 const AvatarCollection = styled(Avatar)`
-  min-width: 90px;
-  height: 90px;
+  min-width: 90px !important;
+  height: 90px !important;
+  background: red !important;
 `;
 
-const ActionItem = styled(Flex)`
+const ActionItem = styled(Flex)<{ isFollowing?: boolean }>`
   align-items: center;
-  color: ${props => props.theme.colors.medium};
+  color: ${props =>
+    props.isFollowing
+      ? props.theme.colors.lighter
+      : props.theme.colors.mediumdark};
+  div {
+    color: ${props =>
+      props.isFollowing
+        ? props.theme.colors.lighter
+        : props.theme.colors.mediumdark};
+  }
+  background: ${props =>
+    props.isFollowing
+      ? props.theme.colors.secondary
+      : props.theme.colors.mediumlight};
+  border-radius: 4px;
+  padding: 0 8px;
+  margin-right: 8px;
+  text-align: center;
+  font-size: ${typography.size.s1};
+  svg {
+    stroke: ${props =>
+      props.isFollowing
+        ? props.theme.colors.lighter
+        : props.theme.colors.mediumdark};
+  }
   cursor: pointer;
   a {
     display: flex;
@@ -116,7 +135,7 @@ const ActionItem = styled(Flex)`
   }
   &:hover {
     svg.hover {
-      stroke: ${props => props.theme.colors.primary};
+      stroke: ${props => props.theme.colors.mediumdark};
     }
   }
 `;

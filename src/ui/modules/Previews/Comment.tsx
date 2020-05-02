@@ -5,12 +5,14 @@ import SocialText from 'ui/modules/SocialText';
 import { i18nMark, Trans } from '@lingui/react';
 import { LocaleContext } from '../../../context/global/localizationCtx';
 import { FormikHook } from 'ui/@types/types';
-import { MessageCircle, Star, MoreHorizontal, Flag } from 'react-feather';
+import { Star, MoreHorizontal, Flag, CornerDownLeft } from 'react-feather';
 import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
 import DOMPurify from 'dompurify';
 
 import Modal from 'ui/modules/Modal';
 import { Link } from 'react-router-dom';
+import { typography } from 'mn-constants';
+import { darken } from 'polished';
 
 export interface LikeActions {
   toggleLikeFormik: FormikHook<{}>;
@@ -67,71 +69,66 @@ export const Comment: React.SFC<CommentProps> = ({
       {hideActions ? null : (
         <Actions mt={2}>
           {talkModalVisible && (
-            <SocialText
-              placeholder={i18n._(tt.placeholders.name)}
-              defaultValue={''}
-              submit={msg => {
-                showTalkModal(false);
-                reply.replyFormik.setValues({ replyMessage: msg });
-                reply.replyFormik.submitForm();
-              }}
-            />
+            <Box mb={2}>
+              <SocialText
+                placeholder={i18n._(tt.placeholders.name)}
+                defaultValue={''}
+                submit={msg => {
+                  showTalkModal(false);
+                  reply.replyFormik.setValues({ replyMessage: msg });
+                  reply.replyFormik.submitForm();
+                }}
+              />
+            </Box>
           )}
           <Box>
             <Items>
               <ActionItem onClick={() => showTalkModal(!talkModalVisible)}>
                 <ActionIcon>
-                  <MessageCircle
+                  <CornerDownLeft
                     className="hover"
                     strokeWidth="1"
                     color="rgba(0,0,0,.4)"
-                    size="20"
+                    size="18"
                   />
                 </ActionIcon>
-                <Text
+                <ActionText
                   ml={1}
-                  variant={'suptitle'}
+                  variant={'text'}
                   sx={{ textTransform: 'capitalize' }}
                 >
-                  <Trans>Comment</Trans>
-                </Text>
+                  <Trans>Reply</Trans>
+                </ActionText>
               </ActionItem>
-              <ActionItem ml={4} onClick={like.toggleLikeFormik.submitForm}>
+              <ActionItem
+                liked={like.iLikeIt ? true : false}
+                onClick={like.toggleLikeFormik.submitForm}
+              >
                 <ActionIcon>
-                  <Star
-                    className="hover"
-                    color={like.iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'}
-                    strokeWidth="1"
-                    size="20"
-                  />
+                  <Star strokeWidth="1" size="18" />
                 </ActionIcon>
-                <Text
-                  variant={'suptitle'}
+                <ActionText
+                  variant={'text'}
                   sx={{ textTransform: 'capitalize' }}
                   ml={1}
                 >
                   {like.totalLikes + ' '} <Trans>Favourite</Trans>
-                </Text>
+                </ActionText>
               </ActionItem>
               <ActionItem
-                ml={4}
                 onClick={() => onOpen(true)}
                 sx={{ position: 'relative' }}
               >
                 <ActionIcon>
-                  <MoreHorizontal
-                    className="hover"
-                    size={20}
-                    color="rgba(0,0,0,.4)"
-                  />
+                  <MoreHorizontal className="hover" size={18} />
                 </ActionIcon>
-                <Text
-                  variant={'suptitle'}
+                <ActionText
+                  variant={'text'}
                   sx={{ textTransform: 'capitalize' }}
                   ml={1}
                 >
-                  {/* <Trans>More</Trans> */}
-                </Text>
+                  <Trans>More</Trans>
+                </ActionText>
                 {isOpen && (
                   <Dropdown orientation="bottom" cb={onOpen}>
                     {FlagModal && (
@@ -174,12 +171,37 @@ const Items = styled(Flex)`
 const Actions = styled(Box)`
   position: relative;
   z-index: 999999999999999999999999999999999999;
+  margin-top: 16px;
 `;
 
-const ActionItem = styled(Flex)`
+const ActionItem = styled(Flex)<{ liked?: boolean }>`
   align-items: center;
-  color: ${props => props.theme.colors.medium};
+  color: ${props =>
+    props.liked ? props.theme.colors.lighter : props.theme.colors.mediumdark};
+  div {
+    color: ${props =>
+      props.liked ? props.theme.colors.lighter : props.theme.colors.mediumdark};
+  }
+  &:hover {
+    background: ${props =>
+      props.liked
+        ? darken('0.1', props.theme.colors.secondary)
+        : darken('0.05', props.theme.colors.mediumlight)};
+  }
   cursor: pointer;
+  background: ${props =>
+    props.liked
+      ? props.theme.colors.secondary
+      : props.theme.colors.mediumlight};
+  border-radius: 4px;
+  padding: 0 8px;
+  margin-right: 8px;
+  text-align: center;
+  font-size: ${typography.size.s1};
+  svg {
+    stroke: ${props =>
+      props.liked ? props.theme.colors.lighter : props.theme.colors.mediumdark};
+  }
   a {
     display: flex;
     align-items: center;
@@ -188,7 +210,8 @@ const ActionItem = styled(Flex)`
   }
   &:hover {
     svg.hover {
-      stroke: ${props => props.theme.colors.primary};
+      stroke: ${props => props.theme.colors.mediumdark};
+      // fill: ${props => props.theme.colors.mediumdark};
     }
   }
 `;
@@ -205,6 +228,10 @@ const ActionIcon = styled(Box)`
   svg {
     margin: 0 auto;
   }
+`;
+
+const ActionText = styled(Text)`
+  font-size: ${typography.size.s1};
 `;
 
 const Wrapper = styled(Box)`

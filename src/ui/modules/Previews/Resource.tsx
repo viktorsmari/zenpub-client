@@ -21,6 +21,7 @@ export interface LikeActions {
 }
 import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
 import Modal from 'ui/modules/Modal';
+import { typography } from 'mn-constants';
 
 // const LicenseIcon0 = require('./cc-zero.png');
 // const LicenseIcon1 = require('./by.png');
@@ -127,77 +128,52 @@ export const Resource: React.FC<Props> = ({
       </Wrapper>
       {hideActions ? null : (
         <Actions>
-          <Box>
-            <Items>
-              <ActionItem onClick={like.toggleLikeFormik.submitForm}>
-                <ActionIcon>
-                  <Star
-                    className="hover"
-                    color={like.iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'}
-                    strokeWidth="1"
-                    size="20"
-                  />
-                </ActionIcon>
-                <Text
-                  variant={'suptitle'}
-                  sx={{ textTransform: 'capitalize' }}
-                  ml={1}
-                >
-                  {like.totalLikes + ' '} <Trans>Favourite</Trans>
-                </Text>
-              </ActionItem>
-              <MoreActionItem
-                ml={4}
-                onClick={() => onOpen(true)}
-                sx={{ position: 'relative' }}
-              >
-                <ActionIcon>
-                  <MoreHorizontal
-                    className="hover"
-                    size={20}
-                    color="rgba(0,0,0,.4)"
-                  />
-                </ActionIcon>
-                <Text
-                  variant={'suptitle'}
-                  sx={{ textTransform: 'capitalize' }}
-                  ml={1}
-                >
-                  {/* <Trans>More</Trans> */}
-                </Text>
-                {/* {isEnterUrlOpen && <EnterUrl close={onEnterUrlOpen} />} */}
-                {isOpen && (
-                  <Dropdown orientation="bottom" cb={onOpen}>
-                    {/* {activity.context.type === ContextType.Resource && ( */}
-                    {/* <DropdownItem onClick={() => onEnterUrlOpen(true)}>
-                    <Upload size={20} color={'rgb(101, 119, 134)'} />
+          <ActionItem
+            liked={like.iLikeIt ? true : false}
+            onClick={like.toggleLikeFormik.submitForm}
+          >
+            <ActionIcon>
+              <Star strokeWidth="1" size="18" />
+            </ActionIcon>
+            <ActionText
+              variant={'text'}
+              sx={{ textTransform: 'capitalize' }}
+              ml={1}
+            >
+              {like.totalLikes + ' '} <Trans>Favourite</Trans>
+            </ActionText>
+          </ActionItem>
+          <ActionItem
+            onClick={() => onOpen(true)}
+            sx={{ position: 'relative' }}
+          >
+            <ActionIcon>
+              <MoreHorizontal className="hover" size={18} />
+            </ActionIcon>
+            <ActionText
+              variant={'text'}
+              sx={{ textTransform: 'capitalize' }}
+              ml={1}
+            >
+              <Trans>More</Trans>
+            </ActionText>
+            {isOpen && (
+              <Dropdown orientation="bottom" cb={onOpen}>
+                {FlagModal && (
+                  <DropdownItem onClick={() => setOpenFlagModal(true)}>
+                    <Flag size={20} color={'rgb(101, 119, 134)'} />
                     <Text sx={{ flex: 1 }} ml={2}>
-                      Add to Moodle
+                      {!isFlagged ? (
+                        <Trans>Flag this resource</Trans>
+                      ) : (
+                        <Trans>Unflag this resource</Trans>
+                      )}
                     </Text>
                   </DropdownItem>
-                  <DropdownItem>
-                    <Copy size={20} color={'rgb(101, 119, 134)'} />
-                    <Text sx={{ flex: 1 }} ml={2}>
-                      Copy link
-                    </Text>
-                  </DropdownItem> */}
-                    {FlagModal && (
-                      <DropdownItem onClick={() => setOpenFlagModal(true)}>
-                        <Flag size={20} color={'rgb(101, 119, 134)'} />
-                        <Text sx={{ flex: 1 }} ml={2}>
-                          {!isFlagged ? (
-                            <Trans>Flag this resource</Trans>
-                          ) : (
-                            <Trans>Unflag this resource</Trans>
-                          )}
-                        </Text>
-                      </DropdownItem>
-                    )}
-                  </Dropdown>
                 )}
-              </MoreActionItem>
-            </Items>
-          </Box>
+              </Dropdown>
+            )}
+          </ActionItem>
         </Actions>
       )}
       {FlagModal && isOpenFlagModal && (
@@ -211,10 +187,9 @@ export const Resource: React.FC<Props> = ({
 const Summary = styled(Text)`
   color: ${props => props.theme.colors.dark};
 `;
-// const TitleFlex = styled(Flex)`
-//   align-items: center;
-// `;
-
+const ActionText = styled(Text)`
+  font-size: ${typography.size.s1};
+`;
 const ActionIcon = styled(Box)`
   width: 30px;
   height: 30px;
@@ -229,50 +204,47 @@ const ActionIcon = styled(Box)`
   }
 `;
 
-const Items = styled(Flex)`
+const Actions = styled(Flex)`
   flex: 1;
-  justify-content: space-around;
-`;
-
-const Actions = styled(Box)`
-  position: relative;
-  z-index: 999999999999999999999999999999999999;
-  border-top: ${props => props.theme.colors.border};
+  justify-content: start;
   padding: 8px;
+  padding-top: 0;
 `;
 
-const ActionItem = styled(Flex)`
+const ActionItem = styled(Flex)<{ liked?: boolean }>`
   align-items: center;
-  color: ${props => props.theme.colors.medium};
+  color: ${props =>
+    props.liked ? props.theme.colors.lighter : props.theme.colors.mediumdark};
+  div {
+    color: ${props =>
+      props.liked ? props.theme.colors.lighter : props.theme.colors.mediumdark};
+  }
+  cursor: pointer;
+  background: ${props =>
+    props.liked
+      ? props.theme.colors.secondary
+      : props.theme.colors.mediumlight};
+  border-radius: 4px;
+  padding: 0 8px;
+  margin-right: 8px;
+  text-align: center;
+  font-size: ${typography.size.s1};
+  svg {
+    stroke: ${props =>
+      props.liked ? props.theme.colors.lighter : props.theme.colors.mediumdark};
+  }
   a {
-    cursor: pointer;
-    color: ${props => props.theme.colors.medium};
-    display: inline-flex;
+    display: flex;
     align-items: center;
     position: relative;
     z-index: 9;
-    vertical-align: bottom;
-    text-decoration: none;
-    font-size: 14px;
-    :hover {
-      text-decoration: underline;
-      svg {
-        stroke: ${props => props.theme.colors.primary};
-      }
-    }
-  }
-
-  svg {
-    margin: 0px;
   }
   &:hover {
     svg.hover {
-      stroke: ${props => props.theme.colors.primary};
+      stroke: ${props => props.theme.colors.mediumdark};
+      // fill: ${props => props.theme.colors.mediumdark};
     }
   }
-`;
-const MoreActionItem = styled(ActionItem)`
-  cursor: pointer;
 `;
 
 const TypeItem = styled(Text)`

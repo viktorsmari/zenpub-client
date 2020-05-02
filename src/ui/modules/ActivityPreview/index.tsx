@@ -7,6 +7,7 @@ import { Box, Flex, Text } from 'rebass/styled-components';
 import Avatar from 'ui/elements/Avatar';
 import styled from 'ui/themes/styled';
 import { Actor } from './types';
+import { typography } from 'mn-constants';
 
 export enum Status {
   Loading,
@@ -132,7 +133,7 @@ export const SmallActorComp: FC<SmallActorProps> = ({ actor, event }) => {
 const CommunityName = styled(Link)`
   color: ${props => props.theme.colors.mediumdark};
   font-weight: 500;
-  font-size: 13px;
+  font-size: ${typography.size.s1};
 `;
 
 const TextEvent = styled(Text)`
@@ -149,7 +150,7 @@ const Spacer = styled(Text)`
 const Date = styled(Text)`
   color: ${props => props.theme.colors.mediumdark};
   font-weight: 500;
-  font-size: 13px;
+  font-size: ${typography.size.s1};
 `;
 
 const Name = styled(Text)`

@@ -5,12 +5,11 @@ import SocialText from 'ui/modules/SocialText';
 import { i18nMark, Trans } from '@lingui/react';
 import { LocaleContext } from '../../../context/global/localizationCtx';
 import { FormikHook } from 'ui/@types/types';
-import { MessageCircle, Star } from 'react-feather';
+import { Star, CornerDownLeft } from 'react-feather';
 import DOMPurify from 'dompurify';
-
-import Modal from 'ui/modules/Modal';
 import { ActorComp } from '../ActivityPreview';
 import { Actor } from '../ActivityPreview/types';
+import { typography } from 'mn-constants';
 
 export interface LikeActions {
   toggleLikeFormik: FormikHook<{}>;
@@ -55,7 +54,7 @@ export const LikedComment: React.SFC<CommentProps> = ({
 }) => {
   const [talkModalVisible, showTalkModal] = React.useState(false);
   const { i18n } = React.useContext(LocaleContext);
-  const [isOpenFlagModal, setOpenFlagModal] = React.useState(false);
+  // const [isOpenFlagModal, setOpenFlagModal] = React.useState(false);
   return (
     <Wrapper pl={2}>
       <ActorComp
@@ -73,59 +72,54 @@ export const LikedComment: React.SFC<CommentProps> = ({
       />
       <Actions mt={2}>
         {talkModalVisible && (
-          <SocialText
-            placeholder={i18n._(tt.placeholders.name)}
-            defaultValue={''}
-            submit={msg => {
-              showTalkModal(false);
-              reply.replyFormik.setValues({ replyMessage: msg });
-              reply.replyFormik.submitForm();
-            }}
-          />
+          <Box mb={2}>
+            <SocialText
+              placeholder={i18n._(tt.placeholders.name)}
+              defaultValue={''}
+              submit={msg => {
+                showTalkModal(false);
+                reply.replyFormik.setValues({ replyMessage: msg });
+                reply.replyFormik.submitForm();
+              }}
+            />
+          </Box>
         )}
         {hideActions ? null : (
           <Box>
             <Items>
               <ActionItem onClick={() => showTalkModal(!talkModalVisible)}>
                 <ActionIcon>
-                  <MessageCircle
+                  <CornerDownLeft
                     className="hover"
                     strokeWidth="1"
                     color="rgba(0,0,0,.4)"
-                    size="20"
+                    size="18"
                   />
                 </ActionIcon>
-                <Text
+                <ActionText
                   ml={1}
-                  variant={'suptitle'}
+                  variant={'text'}
                   sx={{ textTransform: 'capitalize' }}
                 >
-                  <Trans>Comment</Trans>
-                </Text>
+                  <Trans>Reply</Trans>
+                </ActionText>
               </ActionItem>
-              <ActionItem ml={4} onClick={like.toggleLikeFormik.submitForm}>
+              <ActionItem
+                liked={like.iLikeIt ? true : false}
+                onClick={like.toggleLikeFormik.submitForm}
+              >
                 <ActionIcon>
-                  <Star
-                    className="hover"
-                    color={like.iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'}
-                    strokeWidth="1"
-                    size="20"
-                  />
+                  <Star strokeWidth="1" size="18" />
                 </ActionIcon>
-                <Text
-                  variant={'suptitle'}
+                <ActionText
+                  variant={'text'}
                   sx={{ textTransform: 'capitalize' }}
                   ml={1}
                 >
                   {like.totalLikes + ' '} <Trans>Favourite</Trans>
-                </Text>
+                </ActionText>
               </ActionItem>
             </Items>
-            {FlagModal && isOpenFlagModal && (
-              <Modal closeModal={() => setOpenFlagModal(false)}>
-                <FlagModal done={() => setOpenFlagModal(false)} />
-              </Modal>
-            )}
           </Box>
         )}
       </Actions>
@@ -147,10 +141,28 @@ const Actions = styled(Box)`
   z-index: 999999999999999999999999999999999999;
 `;
 
-const ActionItem = styled(Flex)`
+const ActionItem = styled(Flex)<{ liked?: boolean }>`
   align-items: center;
-  color: ${props => props.theme.colors.medium};
+  color: ${props =>
+    props.liked ? props.theme.colors.lighter : props.theme.colors.mediumdark};
+  div {
+    color: ${props =>
+      props.liked ? props.theme.colors.lighter : props.theme.colors.mediumdark};
+  }
   cursor: pointer;
+  background: ${props =>
+    props.liked
+      ? props.theme.colors.secondary
+      : props.theme.colors.mediumlight};
+  border-radius: 4px;
+  padding: 0 8px;
+  margin-right: 8px;
+  text-align: center;
+  font-size: ${typography.size.s1};
+  svg {
+    stroke: ${props =>
+      props.liked ? props.theme.colors.lighter : props.theme.colors.mediumdark};
+  }
   a {
     display: flex;
     align-items: center;
@@ -159,7 +171,8 @@ const ActionItem = styled(Flex)`
   }
   &:hover {
     svg.hover {
-      stroke: ${props => props.theme.colors.primary};
+      stroke: ${props => props.theme.colors.mediumdark};
+      // fill: ${props => props.theme.colors.mediumdark};
     }
   }
 `;
@@ -176,6 +189,10 @@ const ActionIcon = styled(Box)`
   svg {
     margin: 0 auto;
   }
+`;
+
+const ActionText = styled(Text)`
+  font-size: ${typography.size.s1};
 `;
 
 const Wrapper = styled(Box)`

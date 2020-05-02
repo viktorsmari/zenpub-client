@@ -24,7 +24,6 @@ const Left = styled(Flex)`
 const SupText = styled(Text)`
   color: ${props => props.theme.colors.darker};
   text-transform: capitalize;
-  font-size: 16px;
 `;
 
 const HeaderWrapper = styled(Flex)`
