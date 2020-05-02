@@ -82,7 +82,7 @@ const HeaderWrapper: React.FC<{ id: string; name: string; icon: string }> = ({
 };
 
 const MainThreadContainer = styled(Box)`
-  border-bottom: ${props => props.theme.colors.border};
+  //  border-bottom: ${props => props.theme.colors.border};
 `;
 
 const LinkImg = styled(Box)`

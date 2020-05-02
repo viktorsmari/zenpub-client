@@ -161,6 +161,9 @@ export const Comment: React.SFC<CommentProps> = ({
 
 const Summary = styled(Text)`
   color: ${props => props.theme.colors.dark};
+  img {
+    width: 100%;
+  }
 `;
 
 const Items = styled(Flex)`

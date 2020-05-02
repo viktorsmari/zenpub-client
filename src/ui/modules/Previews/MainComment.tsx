@@ -5,10 +5,12 @@ import SocialText from 'ui/modules/SocialText';
 import { i18nMark, Trans } from '@lingui/react';
 import { LocaleContext } from '../../../context/global/localizationCtx';
 import { FormikHook } from 'ui/@types/types';
-import { MessageCircle, Star, MoreHorizontal, Flag } from 'react-feather';
+import { Star, MoreHorizontal, Flag } from 'react-feather';
 import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
 import Modal from 'ui/modules/Modal';
 import DOMPurify from 'dompurify';
+import { typography } from 'mn-constants';
+import { darken } from 'polished';
 
 export interface LikeActions {
   toggleLikeFormik: FormikHook<{}>;
@@ -45,7 +47,6 @@ export const MainComment: React.SFC<CommentProps> = ({
   isFlagged,
   hideActions
 }) => {
-  const [talkModalVisible, showTalkModal] = React.useState(false);
   const { i18n } = React.useContext(LocaleContext);
   const [isOpenFlagModal, setOpenFlagModal] = React.useState(false);
   const [isOpen, onOpen] = React.useState(false);
@@ -59,73 +60,38 @@ export const MainComment: React.SFC<CommentProps> = ({
         mb={2}
       />
       <Actions mt={2}>
-        {talkModalVisible && (
-          <SocialText
-            placeholder={i18n._(tt.placeholders.name)}
-            defaultValue={''}
-            submit={msg => {
-              showTalkModal(false);
-              reply.replyFormik.setValues({ replyMessage: msg });
-              reply.replyFormik.submitForm();
-            }}
-          />
-        )}
         {hideActions ? null : (
           <Box>
             <Items>
-              <ActionItem onClick={() => showTalkModal(!talkModalVisible)}>
+              <ActionItem
+                liked={like.iLikeIt ? true : false}
+                onClick={like.toggleLikeFormik.submitForm}
+              >
                 <ActionIcon>
-                  <MessageCircle
-                    className="hover"
-                    strokeWidth="1"
-                    color="rgba(0,0,0,.4)"
-                    size="20"
-                  />
+                  <Star strokeWidth="1" size="18" />
                 </ActionIcon>
-                <Text
-                  ml={1}
-                  variant={'suptitle'}
-                  sx={{ textTransform: 'capitalize' }}
-                >
-                  <Trans>Comment</Trans>
-                </Text>
-              </ActionItem>
-              <ActionItem ml={4} onClick={like.toggleLikeFormik.submitForm}>
-                <ActionIcon>
-                  <Star
-                    className="hover"
-                    color={like.iLikeIt ? '#ED7E22' : 'rgba(0,0,0,.4)'}
-                    strokeWidth="1"
-                    size="20"
-                  />
-                </ActionIcon>
-                <Text
-                  variant={'suptitle'}
+                <ActionText
+                  variant={'text'}
                   sx={{ textTransform: 'capitalize' }}
                   ml={1}
                 >
                   {like.totalLikes + ' '} <Trans>Favourite</Trans>
-                </Text>
+                </ActionText>
               </ActionItem>
               <ActionItem
-                ml={4}
                 onClick={() => onOpen(true)}
                 sx={{ position: 'relative' }}
               >
                 <ActionIcon>
-                  <MoreHorizontal
-                    className="hover"
-                    size={20}
-                    color="rgba(0,0,0,.4)"
-                  />
+                  <MoreHorizontal className="hover" size={18} />
                 </ActionIcon>
-                <Text
-                  variant={'suptitle'}
+                <ActionText
+                  variant={'text'}
                   sx={{ textTransform: 'capitalize' }}
                   ml={1}
                 >
-                  {/* <Trans>More</Trans> */}
-                </Text>
+                  <Trans>More</Trans>
+                </ActionText>
                 {isOpen && (
                   <Dropdown orientation="bottom" cb={onOpen}>
                     {FlagModal && (
@@ -152,9 +118,23 @@ export const MainComment: React.SFC<CommentProps> = ({
           </Box>
         )}
       </Actions>
+      <Box my={3}>
+        <SocialText
+          placeholder={i18n._(tt.placeholders.name)}
+          defaultValue={''}
+          submit={msg => {
+            reply.replyFormik.setValues({ replyMessage: msg });
+            reply.replyFormik.submitForm();
+          }}
+        />
+      </Box>
     </Wrapper>
   );
 };
+
+const ActionText = styled(Text)`
+  font-size: ${typography.size.s1};
+`;
 
 const Summary = styled(Text)`
   color: ${props => props.theme.colors.dark};
@@ -170,10 +150,34 @@ const Actions = styled(Box)`
   z-index: 999999999999999999999999999999999999;
 `;
 
-const ActionItem = styled(Flex)`
+const ActionItem = styled(Flex)<{ liked?: boolean }>`
   align-items: center;
-  color: ${props => props.theme.colors.medium};
+  color: ${props =>
+    props.liked ? props.theme.colors.lighter : props.theme.colors.mediumdark};
+  div {
+    color: ${props =>
+      props.liked ? props.theme.colors.lighter : props.theme.colors.mediumdark};
+  }
+  &:hover {
+    background: ${props =>
+      props.liked
+        ? darken('0.1', props.theme.colors.secondary)
+        : darken('0.05', props.theme.colors.mediumlight)};
+  }
   cursor: pointer;
+  background: ${props =>
+    props.liked
+      ? props.theme.colors.secondary
+      : props.theme.colors.mediumlight};
+  border-radius: 4px;
+  padding: 0 8px;
+  margin-right: 8px;
+  text-align: center;
+  font-size: ${typography.size.s1};
+  svg {
+    stroke: ${props =>
+      props.liked ? props.theme.colors.lighter : props.theme.colors.mediumdark};
+  }
   a {
     display: flex;
     align-items: center;
@@ -182,11 +186,11 @@ const ActionItem = styled(Flex)`
   }
   &:hover {
     svg.hover {
-      stroke: ${props => props.theme.colors.primary};
+      stroke: ${props => props.theme.colors.mediumdark};
+      // fill: ${props => props.theme.colors.mediumdark};
     }
   }
 `;
-
 const ActionIcon = styled(Box)`
   width: 30px;
   height: 30px;
