@@ -155,9 +155,25 @@ export const Comment: React.SFC<CommentProps> = ({
           </Box>
         </Actions>
       )}
+      <Forked>
+        <b>SoapDog</b> forked this discussion: Yeah, they've wrote a lot of
+        stuff... (3)
+      </Forked>
     </Wrapper>
   );
 };
+
+const Forked = styled(Box)`
+  padding: 8px;
+  border-top: ${props => props.theme.colors.border};
+  border-bottom: ${props => props.theme.colors.border};
+  margin-top: 16px;
+  font-size: ${typography.size.s1};
+  margin-left: -16px;
+  margin-right: -16px;
+  margin-bottom: -16px;
+  color: ${props => props.theme.colors.mediumdark};
+`;
 
 const Summary = styled(Text)`
   color: ${props => props.theme.colors.dark};

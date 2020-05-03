@@ -35,7 +35,7 @@ export const Collection: React.FC<Props> = ({
 }) => {
   return (
     // <WrapperLink to={link.url}>
-    <Bordered m={2} mb={1}>
+    <Bordered mb={1}>
       <AvatarCollection src={icon} />
       <Infos ml={3}>
         <Flex>
@@ -193,6 +193,7 @@ const Meta = styled(Flex)`
 const Bordered = styled(Flex)`
   border-radius: 4px;
   border: ${props => props.theme.colors.border};
+  background: ${props => props.theme.colors.appInverse};
   * {
     text-decoration: none !important;
   }

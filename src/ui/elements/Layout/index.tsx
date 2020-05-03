@@ -46,7 +46,7 @@ export const WrapperCont = styled(Flex)`
   flex-shrink: 0;
   margin: 0px;
   min-height: 0px;
-  background: ${props => props.theme.colors.appInverse};
+  // background: ${props => props.theme.colors.appInverse};
   min-width: 0px;
   padding: 0px;
   position: relative;
@@ -81,6 +81,7 @@ export const Wrapper = styled(Flex)`
 export const MenuList = styled(Flex)`
   border-bottom: ${props => props.theme.colors.border};
   padding: 12px 8px;
+  background: ${props => props.theme.colors.appInverse};
   a {
     font-weight: 700;
     text-decoration: none;
@@ -99,9 +100,10 @@ export const MenuList = styled(Flex)`
 `;
 
 export const ObjectsList = styled(Box)`
-  > div {
-    margin: 4px;
+  &.replies > div {
     margin-bottom: 0;
+  }
+  > div {
     &:last-of-type {
       margin-bottom: 4px;
     }
