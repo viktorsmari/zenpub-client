@@ -33,12 +33,13 @@ const Dialog = styled.div`
   background-color: #ffffff;
   padding: 0;
   margin: 40px auto;
-  position: absolute;
-  top: 10px;
+  position: fixed;
+  top: 50%;
   left: 50%;
   margin-left: -350px;
   border-radius: 3px;
   outline: none;
+  transform: translateY(-50%);
 
   ${media.lessThan('medium')`
     width: auto;
