@@ -41,21 +41,22 @@ export const Thread: React.FC<Props> = ({
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <Box mb={2} sx={{ background: 'white' }}>
-              <HeaderWrapper
-                id={communityId}
-                name={communityName}
-                icon={communityIcon}
-              />
+            <Box mb={2}>
               {!isCommunityContext && <Box p={2}>{Context}</Box>}
-              <MainThreadContainer p={3}>{MainThread}</MainThreadContainer>
+              <MainThreadContainer>{MainThread}</MainThreadContainer>
             </Box>
-            <ObjectsList>{Comments}</ObjectsList>
+            <ObjectsList className="replies">{Comments}</ObjectsList>
             {loadMoreComments && <LoadMore LoadMoreFormik={loadMoreComments} />}
           </Wrapper>
         </WrapperCont>
       </HomeBox>
-      <WrapperPanel />
+      <WrapperPanel>
+        <HeaderWrapper
+          id={communityId}
+          name={communityName}
+          icon={communityIcon}
+        />
+      </WrapperPanel>
     </MainContainer>
   );
 };

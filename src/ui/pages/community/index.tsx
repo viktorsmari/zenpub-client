@@ -107,7 +107,7 @@ export const Community: React.FC<Props> = ({
                 <>
                   {HeroCommunityBox}
                   <Menu basePath={basePath} />
-                  <WrapSocialText mt={3} px={3} pb={3} mb={2}>
+                  <WrapSocialText p={3} mb={2}>
                     {newThreadFormik && (
                       <SocialText
                         placeholder="Start a new thread..."
@@ -208,6 +208,8 @@ const WrapButton = styled(Flex)`
   }
 `;
 
-const WrapSocialText = styled(Box)``;
+const WrapSocialText = styled(Box)`
+  background: ${props => props.theme.colors.appInverse};
+`;
 
 export default Community;

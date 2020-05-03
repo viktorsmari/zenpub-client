@@ -11,7 +11,7 @@ const Wrapper = styled(Box)<{ bg?: string; size?: string }>`
       : props.size === 'l'
       ? '200px'
       : props.size === 's'
-      ? '36px'
+      ? '32px'
       : '48px'};
   height: ${props =>
     props.size === 'm'
@@ -19,7 +19,7 @@ const Wrapper = styled(Box)<{ bg?: string; size?: string }>`
       : props.size === 'l'
       ? '200px'
       : props.size === 's'
-      ? '36px'
+      ? '32px'
       : '48px'};
   background-color: ${props =>
     props.bg ? 'transparent' : props.theme.colors.light};

@@ -192,8 +192,9 @@ const FeedItem = styled(Box)`
   margin-top: 0
   z-index: 10;
   position: relative;
+  border-radius: 4px;
   background: ${props => props.theme.colors.appInverse};
-  border-bottom: ${props => props.theme.colors.border};
+  margin-bottom: 8px;
   a {
     text-decoration: none;
     &:hover {
