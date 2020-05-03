@@ -108,7 +108,7 @@ export const Settings: React.FC<Props> = ({
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <Box sx={{ width: '600px' }}>
+            <Box sx={{ width: '100%', maxWidth: '600px' }}>
               <Switch>
                 <Route path={`${basePath}/preferences`}>{Preferences}</Route>
                 <Route path={`${basePath}/instance`}>{Instance}</Route>

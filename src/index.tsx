@@ -16,6 +16,7 @@ import * as Sentry from '@sentry/browser';
 import * as K from './mn-constants';
 import { typography, colors } from './mn-constants';
 import { MngErrorLink } from 'fe/lib/graphql/ctx';
+import media from 'styled-media-query';
 
 K.SENTRY_KEY &&
   Sentry.init({
@@ -60,6 +61,18 @@ async function run() {
         display: flex;
       width: 100%; }
       }
+
+      .Toastify__toast-container--top-right{
+        top:60px !important;
+        ${media.lessThan('480px')` 
+          width: 90vw !important;
+          margin: 0 auto; 
+        `}; 
+    }
+      
+      
+       
+     
   `;
   const createLocalKVStore = createLocalSessionKVStorage('local');
   const store = createStore({ createLocalKVStore });
