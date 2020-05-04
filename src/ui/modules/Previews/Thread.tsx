@@ -31,18 +31,16 @@ export const Thread: React.SFC<CommentProps> = ({
       </Text> */}
       <NavLink to={link}>
         <Summary variant="text">{content}</Summary>
-        <Flex sx={{ marginTop: '2px' }} alignItems="center">
+        <Flex mt={1} alignItems="center">
           <Flex flex={1}>
             <Date>{DateTime.fromSQL(createdAt).toRelative()}</Date>
             <Spacer mx={1}>·</Spacer>
             <Meta>
-              {totalReplies + ' '}
-              <Trans>Replies</Trans>
+              {totalReplies || 0} <Trans>Replies</Trans>
             </Meta>
             <Spacer mx={1}>·</Spacer>
             <Meta>
-              {totalLikes + ' '}
-              <Trans>Likes</Trans>
+              {totalLikes || 0} <Trans>Likes</Trans>
             </Meta>
           </Flex>
           <Flex>

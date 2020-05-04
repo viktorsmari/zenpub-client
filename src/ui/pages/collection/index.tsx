@@ -77,7 +77,9 @@ export const Collection: React.FC<Props> = ({
               <Route path={`${basePath}/followers`}>
                 <FollowersMenu basePath={`${basePath}/followers`} />
                 <ObjectsList>{FollowersBoxes}</ObjectsList>
-                <LoadMore LoadMoreFormik={loadMoreFollowers} />
+                {loadMoreFollowers && (
+                  <LoadMore LoadMoreFormik={loadMoreFollowers} />
+                )}
               </Route>
               <Route exact path={`${basePath}/resources`}>
                 <>
