@@ -76,6 +76,35 @@ export function ResourcePreviewProps(
   };
 }
 
+export function ResourcePreviewUploadedProps(
+  icon = 'https://images.pexels.com/photos/745365/pexels-photo-745365.jpeg',
+  license = 'CC0-1.0',
+  type = 'image',
+  isLocal = false,
+  name = 'Intro to Spaced Repetition',
+  summary = 'I find these resources really useful for introducing the concept of spaced repetition to the students that I teach, especially the ones revising for exams!'
+): ResourceProps {
+  return {
+    icon,
+    isLocal,
+    license,
+    acceptedLicenses: ['CC0-1.0', 'CC-BY-4.0', 'CC-BY-SA-4.0'],
+    name,
+    like: {
+      toggleLikeFormik: ToggleFormik(),
+      iLikeIt: true,
+      totalLikes: 5
+    },
+    summary,
+    link: 'https://www.pinterest.it/topics/spacedrepetition/',
+    type,
+    isFlagged: false,
+    FlagModal: ({ done }) => {
+      return <></>;
+    }
+  };
+}
+
 export function UserPreviewProps(
   image = 'https://pbs.twimg.com/profile_images/1161428802091802627/O49Ggs-7_400x400.jpg',
   bio = `I'm a cool user`,
