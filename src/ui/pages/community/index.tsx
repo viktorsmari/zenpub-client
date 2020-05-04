@@ -125,8 +125,10 @@ export const Community: React.FC<Props> = ({
                 </>
               </Route>
               <Route path={`${basePath}/members`}>
-                <FollowersMenu basePath={`${basePath}/members`} />
-                <ObjectsList>{FollowersBoxes}</ObjectsList>
+                <Container>
+                  <FollowersMenu basePath={`${basePath}/members`} />
+                  <ObjectsList>{FollowersBoxes}</ObjectsList>
+                </Container>
               </Route>
             </Switch>
           </Wrapper>
@@ -199,6 +201,10 @@ const Menu = ({ basePath }: { basePath: string }) => (
     <NavLink to={`${basePath}/discussions`}>Discussions</NavLink>
   </MenuList>
 );
+
+const Container = styled(Box)`
+  background: ${props => props.theme.colors.appInverse};
+`;
 
 const WrapButton = styled(Flex)`
   background: ${props => props.theme.colors.appInverse};

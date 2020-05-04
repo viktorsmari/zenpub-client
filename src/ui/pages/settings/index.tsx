@@ -108,7 +108,7 @@ export const Settings: React.FC<Props> = ({
       <HomeBox>
         <WrapperCont>
           <Wrapper>
-            <Box sx={{ width: '600px' }}>
+            <SettingsWrapper>
               <Switch>
                 <Route path={`${basePath}/preferences`}>{Preferences}</Route>
                 <Route path={`${basePath}/instance`}>{Instance}</Route>
@@ -141,7 +141,7 @@ export const Settings: React.FC<Props> = ({
                           </Img>
                         </WrapperHero>
                       </FlexProfile>
-                      <HeroInfo ml={3}>
+                      <HeroInfo mt={2} ml={3}>
                         <CollectionContainerForm>
                           <Input
                             placeholder={tt.placeholders.name}
@@ -209,7 +209,7 @@ export const Settings: React.FC<Props> = ({
                   </ProfileBox>
                 </Route>
               </Switch>
-            </Box>
+            </SettingsWrapper>
           </Wrapper>
         </WrapperCont>
         <RepoLink variant="text" my={3} mt={2}>
@@ -221,6 +221,10 @@ export const Settings: React.FC<Props> = ({
     </MainContainer>
   );
 };
+
+const SettingsWrapper = styled(Box)`
+  background: ${props => props.theme.colors.appInverse};
+`;
 
 const RepoLink = styled(Text)`
   text-align: right;
@@ -420,7 +424,7 @@ const FlexProfile = styled(Flex)`
 const ProfileBox = styled(Box)``;
 
 const Username = styled(Text)`
-  color: ${props => props.theme.colors.medium};
+  color: ${props => props.theme.colors.mediumdark};
   font-weight: 500;
   font-size: 14px;
 `;
