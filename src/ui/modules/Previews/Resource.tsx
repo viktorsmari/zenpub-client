@@ -89,7 +89,7 @@ export const Resource: React.FC<Props> = ({
             <>
               <ActionItem>
                 {/* <TypeItem>{mediaType}</TypeItem>  */}
-                <a href={link}>
+                <a href={link} target="_blank">
                   {/* <ExternalLink size={17} /> */}
                   <TextLink flex={1}>{link}</TextLink>
                 </a>

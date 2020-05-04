@@ -30,11 +30,8 @@ import {
 
 const tt = {
   placeholders: {
-    name: i18nMark('Choose a name for the community'),
-    summary: i18nMark(
-      'Please describe who might be interested in this community and what kind of collections it is likely to contain...'
-    ),
-    icon: i18nMark('Enter the URL of an image to represent the community'),
+    name: i18nMark('Display Name'),
+    summary: i18nMark('Please tell us a little bit about yourself...'),
     location: i18nMark('Choose a location'),
     website: i18nMark('Enter a URL to share more info about you')
   }

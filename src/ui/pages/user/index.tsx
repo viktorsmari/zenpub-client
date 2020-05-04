@@ -24,6 +24,7 @@ import { Link } from 'react-feather';
 
 export interface Props {
   ActivityBoxes: JSX.Element;
+  LikesBoxes?: JSX.Element; // FIX ME remove ? after add LikesBoxes at HOC
   HeroUserBox: JSX.Element;
   CommunityBoxes: JSX.Element;
   CollectionsBoxes: JSX.Element;
@@ -45,6 +46,7 @@ export interface Props {
 
 export const User: React.FC<Props> = ({
   HeroUserBox,
+  LikesBoxes,
   ActivityBoxes,
   CommunityBoxes,
   CollectionsBoxes,
@@ -84,7 +86,7 @@ export const User: React.FC<Props> = ({
                 )}
               </Route>
               <Route exact path={`${basePath}/likes`}>
-                <List>{ActivityBoxes}</List>
+                <List>{LikesBoxes}</List>
                 {loadMoreLikes && <LoadMore LoadMoreFormik={loadMoreLikes} />}
               </Route>
               <Route path={`${basePath}/communities`}>

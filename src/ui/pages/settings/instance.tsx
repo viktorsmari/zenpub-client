@@ -128,9 +128,9 @@ const Instance: React.FC<Props> = ({
           <ConfirmationModal
             cancel={() => formikRemoveDomain.setValues({ domain: '' })}
             formik={formikRemoveDomain}
-            modalAction={i18n._(`Delete domain from whitelist`)}
+            modalAction={i18n._(`Delete domain from allowlist`)}
             modalDescription={i18n._(
-              `Are you sure you want to delete ${formikRemoveDomain.values.domain} from whitelist?`
+              `Are you sure you want to delete ${formikRemoveDomain.values.domain} from allowlist?`
             )}
             modalTitle={i18n._(`Delete`)}
           />
