@@ -54,7 +54,7 @@ export const ProvideAlgoliaContext: React.FC = ({ children }) => {
       setSearchState(newSearchState);
     }
   }, []);
-  return searchClient ? (
+  return searchClient && mothershipCreds ? (
     <InstantSearch
       searchState={searchState}
       onSearchStateChange={handleSetSearchState}

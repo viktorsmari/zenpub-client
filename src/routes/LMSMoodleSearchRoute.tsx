@@ -24,7 +24,7 @@ const LMSMoodleSearchRouter: FC<RouteComponentProps<LMSMoodleSearchRouter>> = ({
 };
 
 export const LMSMoodleSearchRoute: RouteProps = {
-  exact: false,
+  exact: true,
   path: '/lms/moodle/search',
   component: LMSMoodleSearchRouter
 };
