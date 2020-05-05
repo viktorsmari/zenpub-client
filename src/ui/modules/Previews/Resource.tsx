@@ -38,12 +38,10 @@ export interface Props {
   acceptedLicenses?: string[];
   isLocal: boolean;
   type?: string;
-  visitMoodleLMS(): void;
   isFlagged: boolean;
   FlagModal: null | React.ComponentType<{ done(): unknown }>;
-  MoodleModal: null | React.ComponentType<{ done(): unknown }>;
+  // MoodleModal: null | React.ComponentType<{ done(): unknown }>;
   hideActions?: boolean;
-  emptyMoodlePreferences: boolean;
 }
 
 export const Resource: React.FC<Props> = ({
@@ -58,7 +56,6 @@ export const Resource: React.FC<Props> = ({
   type,
   isFlagged,
   FlagModal,
-  MoodleModal,
   hideActions
 }) => {
   const [isOpen, onOpen] = React.useState(false);
@@ -164,9 +161,9 @@ export const Resource: React.FC<Props> = ({
           <FlagModal done={() => setOpenFlagModal(false)} />
         </Modal>
       )}
-      {MoodleModal && isOpenMoodleModal && (
+      {FlagModal && isOpenMoodleModal && (
         <Modal closeModal={() => setOpenMoodleModal(false)}>
-          <MoodleModal done={() => setOpenMoodleModal(false)} />
+          <FlagModal done={() => setOpenFlagModal(false)} />
         </Modal>
       )}
     </Bordered>

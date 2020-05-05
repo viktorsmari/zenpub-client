@@ -10,6 +10,8 @@ import Select from 'react-select';
 import { ActionContext } from '../../../context/global/actionCtx';
 import { setLang } from '../../../redux/localization';
 import { languages, locales } from '../../../mn-constants';
+import { FormikHook } from 'ui/@types/types';
+import { Label, Input } from '@rebass/forms';
 
 const Header = styled(Flex)`
   border-bottom: ${props => props.theme.colors.border};
@@ -28,6 +30,15 @@ const TabHeading = styled(Heading)`
     margin-left: 0px;
   }
 `;
+
+export interface EditPreferences {
+  moodleWebsite: string;
+}
+
+export interface Props {
+  formik: FormikHook<EditPreferences>;
+  onSwitch(string): void;
+}
 
 type LanguageSelectProps = {
   fullWidth?: boolean;
@@ -88,6 +99,17 @@ const Preferences = props => (
               <Trans>Select language</Trans>
             </label>
             <LanguageSelect />
+            <Box width={1 / 2} mt={2}>
+              <Label htmlFor="moodleWebsite">Location</Label>
+              <Input
+                id="moodleWebsite"
+                disabled={props.formik.isSubmitting}
+                value={props.formik.values.moodleWebsite}
+                onChange={props.formik.handleChange}
+                name="moodleWebsite"
+                placeholder={'Type your Moodle LMS instance'}
+              />
+            </Box>
           </ContainerForm>
         </Row>
         <TransifexLink variant="text" my={3} mt={2}>
