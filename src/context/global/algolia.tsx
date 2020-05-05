@@ -60,7 +60,7 @@ export const ProvideAlgoliaContext: React.FC = ({ children }) => {
       onSearchStateChange={handleSetSearchState}
       searchClient={searchClient}
       refresh={true}
-      indexName="moodlenet_mothership"
+      indexName={mothershipCreds.indexName}
       createURL={createURL}
     >
       {children}
