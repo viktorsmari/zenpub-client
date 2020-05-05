@@ -4,7 +4,8 @@ import {
   ExternalLink,
   Paperclip,
   MoreHorizontal,
-  Flag
+  Flag,
+  Share
 } from 'react-feather';
 // import { FileText, ExternalLink, Star } from 'react-feather';
 import { Box, Flex, Heading, Text } from 'rebass/styled-components';
@@ -37,9 +38,12 @@ export interface Props {
   acceptedLicenses?: string[];
   isLocal: boolean;
   type?: string;
+  visitMoodleLMS(): void;
   isFlagged: boolean;
   FlagModal: null | React.ComponentType<{ done(): unknown }>;
+  MoodleModal: null | React.ComponentType<{ done(): unknown }>;
   hideActions?: boolean;
+  emptyMoodlePreferences: boolean;
 }
 
 export const Resource: React.FC<Props> = ({
@@ -54,10 +58,12 @@ export const Resource: React.FC<Props> = ({
   type,
   isFlagged,
   FlagModal,
+  MoodleModal,
   hideActions
 }) => {
   const [isOpen, onOpen] = React.useState(false);
   const [isOpenFlagModal, setOpenFlagModal] = React.useState(false);
+  const [isOpenMoodleModal, setOpenMoodleModal] = React.useState(false);
 
   return (
     <Bordered>
@@ -128,7 +134,7 @@ export const Resource: React.FC<Props> = ({
               <Dropdown orientation="bottom" cb={onOpen}>
                 {FlagModal && (
                   <DropdownItem onClick={() => setOpenFlagModal(true)}>
-                    <Flag size={20} color={'rgb(101, 119, 134)'} />
+                    <Flag size={18} />
                     <Text sx={{ flex: 1 }} ml={2}>
                       {!isFlagged ? (
                         <Trans>Flag this resource</Trans>
@@ -138,6 +144,16 @@ export const Resource: React.FC<Props> = ({
                     </Text>
                   </DropdownItem>
                 )}
+                <DropdownItem
+                  onClick={() => {
+                    setOpenMoodleModal(true);
+                  }}
+                >
+                  <Share size={18} />
+                  <Text sx={{ flex: 1 }} ml={2}>
+                    <Trans>Send to Moodle</Trans>
+                  </Text>
+                </DropdownItem>
               </Dropdown>
             )}
           </ActionItem>
@@ -146,6 +162,11 @@ export const Resource: React.FC<Props> = ({
       {FlagModal && isOpenFlagModal && (
         <Modal closeModal={() => setOpenFlagModal(false)}>
           <FlagModal done={() => setOpenFlagModal(false)} />
+        </Modal>
+      )}
+      {MoodleModal && isOpenMoodleModal && (
+        <Modal closeModal={() => setOpenMoodleModal(false)}>
+          <MoodleModal done={() => setOpenMoodleModal(false)} />
         </Modal>
       )}
     </Bordered>
