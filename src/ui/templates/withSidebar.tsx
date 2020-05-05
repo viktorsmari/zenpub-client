@@ -2,7 +2,8 @@ import React, { ComponentType, useState, useCallback } from 'react';
 import { Flex } from 'rebass/styled-components';
 import styled from 'ui/themes/styled';
 export interface SidebarProps {
-  SidebarBox: JSX.Element;
+  // SidebarBox: JSX.Element;
+  SidebarBox: ComponentType<{ isSidebarOpen: boolean }>;
   HeaderBox: ComponentType<{ toggleSideBar(): unknown }>;
 }
 
@@ -11,7 +12,7 @@ export const WithSidebar: React.FC<SidebarProps> = ({
   HeaderBox,
   children
 }) => {
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
   const toggleSideBar = useCallback(() => setSidebarOpen(!isSidebarOpen), [
     isSidebarOpen
   ]);
@@ -19,7 +20,8 @@ export const WithSidebar: React.FC<SidebarProps> = ({
     <Wrapper>
       <HeaderBox toggleSideBar={toggleSideBar} />
       <CenteredWrapper>
-        {SidebarBox}
+        {/* {SidebarBox} */}
+        <SidebarBox isSidebarOpen={isSidebarOpen} />
         <Flex ml={2}>{children}</Flex>
       </CenteredWrapper>
     </Wrapper>

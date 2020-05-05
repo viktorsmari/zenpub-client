@@ -19,9 +19,6 @@ export enum Status {
 
 const SidebarComponent = styled(Flex)`
   width: 240px;
-  ${media.lessThan('medium')`
-      display: none;
-  `};
 `;
 
 const InternalWrapper = styled(Box)<{ isOpen: boolean }>`
@@ -169,21 +166,22 @@ export interface CommunityPreview {
 
 interface SidebarLoaded {
   status: Status.Loaded;
-  isOpenSidebar?: boolean | null;
+  isSidebarOpen: boolean;
   communities: CommunityPreview[];
 }
 
 export interface SidebarLoading {
   status: Status.Loading;
-  isOpenSidebar?: boolean | null;
+  isSidebarOpen: boolean;
 }
 
 export type Props = SidebarLoaded | SidebarLoading;
 
 export const Sidebar: React.FC<Props> = props => {
+  console.log('isSidebarOpen ' + (props.isSidebarOpen == true));
   return (
     <>
-      {props.isOpenSidebar == true || props.isOpenSidebar == null ? (
+      {props.isSidebarOpen == true ? (
         <SidebarComponent>
           <InternalWrapper>
             <SidebarFixed>
