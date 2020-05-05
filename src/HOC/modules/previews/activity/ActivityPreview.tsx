@@ -12,7 +12,6 @@ export const ActivityPreviewHOC: FC<Props> = ({ activityId }) => {
   const activityBox = useActivityPreview(activityId);
   const props = useMemo<null | UI.Props>(() => {
     const { activity, communityInfoStrings, eventString, link } = activityBox;
-
     if (!activity) {
       return { status: UI.Status.Loading };
     } else {
