@@ -6,6 +6,7 @@ import { MyCommunityFollowsQueryRefetch } from '../myFollowed/myFollowedCommunit
 import { useCreateCommunityMutation } from './useCreateCommunity.generated';
 import { DEFAULT_PAGE_SIZE } from 'mn-constants';
 import { InstanceOutboxActivitiesQueryRefetch } from 'fe/activities/outbox/instance/useInstanceOutboxActivities.generated';
+import { AllCommunitiesQueryRefetch } from '../all/useAllCommunities.generated';
 
 export interface CreateCommunity {
   community: CommunityInput;
@@ -31,7 +32,8 @@ export const useCreateCommunity = () => {
         },
         refetchQueries: [
           MyCommunityFollowsQueryRefetch({}),
-          InstanceOutboxActivitiesQueryRefetch({ limit: DEFAULT_PAGE_SIZE })
+          InstanceOutboxActivitiesQueryRefetch({ limit: DEFAULT_PAGE_SIZE }),
+          AllCommunitiesQueryRefetch({ limit: DEFAULT_PAGE_SIZE })
         ]
       });
     },
