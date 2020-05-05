@@ -28,7 +28,7 @@ export const ResourcePreviewHOC: FC<Props> = ({ resourceId }) => {
     const props: ResourcePreviewProps = {
       icon: resource.icon?.url || '',
       link: resource.payload?.url || '',
-      name,
+      name: resource.name || '',
       summary: resource.summary || '',
       like: {
         iLikeIt: !!resource.myLike,

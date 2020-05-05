@@ -58,7 +58,7 @@ export const Resource: React.FC<Props> = ({
 }) => {
   const [isOpen, onOpen] = React.useState(false);
   const [isOpenFlagModal, setOpenFlagModal] = React.useState(false);
-
+  console.log('ddddd %O', license, isLocal);
   return (
     <Bordered>
       <Wrapper p={2}>
@@ -67,7 +67,7 @@ export const Resource: React.FC<Props> = ({
           <TitleLink href={link} target="_blank">
             {/* <Badge mt={1}>Video</Badge> */}
             <Title flex="1">
-              {!isLocal ? (
+              {isLocal ? (
                 <Paperclip strokeWidth="1" size={18} />
               ) : (
                 <ExternalLink strokeWidth="1" size={18} />
@@ -75,7 +75,7 @@ export const Resource: React.FC<Props> = ({
               {name}
             </Title>
           </TitleLink>
-          {!isLocal ? (
+          {isLocal ? (
             <>
               <TypeItem mt={1}>{license}</TypeItem>
             </>
