@@ -159,7 +159,10 @@ export const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
                     onChange={formik.handleChange}
                   />
                   I have read and agreed the{' '}
-                  <NavLink to="/terms"> Terms and Conditions </NavLink>
+                  <NavLink to="/termsAndConditions">
+                    {' '}
+                    Terms and Conditions{' '}
+                  </NavLink>
                 </Label>
               </Box>
               <Box mt={3}>
