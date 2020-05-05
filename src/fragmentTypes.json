@@ -22,6 +22,9 @@
           { "name": "Collection" },
           { "name": "Comment" },
           { "name": "Community" },
+          { "name": "Flag" },
+          { "name": "Follow" },
+          { "name": "Like" },
           { "name": "Resource" },
           { "name": "User" }
         ]
@@ -31,6 +34,7 @@
         "name": "ThreadContext",
         "possibleTypes": [
           { "name": "Collection" },
+          { "name": "Comment" },
           { "name": "Community" },
           { "name": "Flag" },
           { "name": "Resource" }
@@ -42,6 +46,11 @@
         "possibleTypes": [
           { "name": "Collection" },
           { "name": "Community" },
+          { "name": "Feature" },
+          { "name": "Flag" },
+          { "name": "Follow" },
+          { "name": "Like" },
+          { "name": "Resource" },
           { "name": "Thread" },
           { "name": "User" }
         ]
@@ -72,9 +81,8 @@
         "name": "LikeContext",
         "possibleTypes": [
           { "name": "Collection" },
-          { "name": "Comment" },
           { "name": "Community" },
-          { "name": "Resource" },
+          { "name": "Thread" },
           { "name": "User" }
         ]
       }

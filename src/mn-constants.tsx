@@ -67,11 +67,14 @@ export const locales = Object.keys(languages) as LocaleKey[];
 
 const mothershipAppId = process.env.REACT_APP_MOTHERSHIP_API_ID;
 const mothershipApiKey = process.env.REACT_APP_MOTHERSHIP_API_KEY;
+const mothershipEnv = process.env.REACT_APP_MOTHERSHIP_ENV;
+
 export const mothershipCreds =
   mothershipAppId && mothershipApiKey
     ? {
         appId: mothershipAppId,
-        apiKey: mothershipApiKey
+        apiKey: mothershipApiKey,
+        indexName: mothershipEnv
       }
     : null;
 export const searchDisabled = !mothershipCreds;

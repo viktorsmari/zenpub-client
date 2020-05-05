@@ -7,6 +7,8 @@ import { useCreateCollectionMutation } from './useCreateCollection.generated';
 import { DEFAULT_PAGE_SIZE } from 'mn-constants';
 import { CommunityOutboxActivitiesQueryRefetch } from 'fe/activities/outbox/community/useCommunityOutboxActivities.generated';
 import { InstanceOutboxActivitiesQueryRefetch } from 'fe/activities/outbox/instance/useInstanceOutboxActivities.generated';
+import { AllCollectionsQueryRefetch } from '../all/useAllCollections.generated';
+import { MyCollectionFollowsQueryRefetch } from '../myFollowed/myFollowedCollections.generated';
 
 export interface CreateCollection {
   collection: CollectionInput;
@@ -40,7 +42,9 @@ export const useCreateCollection = (communityId: Community['id']) => {
             communityId,
             limit: DEFAULT_PAGE_SIZE
           }),
-          InstanceOutboxActivitiesQueryRefetch({ limit: DEFAULT_PAGE_SIZE })
+          InstanceOutboxActivitiesQueryRefetch({ limit: DEFAULT_PAGE_SIZE }),
+          AllCollectionsQueryRefetch({ limit: DEFAULT_PAGE_SIZE }),
+          MyCollectionFollowsQueryRefetch({ limit: DEFAULT_PAGE_SIZE })
         ]
       });
     },

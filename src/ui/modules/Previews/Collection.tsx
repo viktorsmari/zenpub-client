@@ -4,11 +4,11 @@ import { Eye, EyeOff, Archive } from 'react-feather';
 import { Box, Flex, Heading, Text } from 'rebass/styled-components';
 import { FormikHook } from 'ui/@types/types';
 // import Avatar from 'ui/elements/Avatar';
-import { SimpleLink } from 'ui/helpers/SimpleLink';
+// import { SimpleLink } from 'ui/helpers/SimpleLink';
 import styled from 'ui/themes/styled';
 import { typography } from 'mn-constants';
-import { NavLink } from 'react-router-dom';
 import { darken } from 'polished';
+import { NavLink } from 'react-router-dom';
 
 export interface Props {
   link: {
@@ -36,76 +36,69 @@ export const Collection: React.FC<Props> = ({
   toggleFollowFormik,
   hideActions
 }) => {
+  // const { push } = useHistory();
   return (
-    <WrapperLink to={link.url}>
-      <Bordered mb={1}>
-        <AvatarCollection src={icon} />
-        <Infos ml={3}>
-          <Flex>
-            <Box flex={1}>
-              <TitleLink link={link}>
-                <Title>
-                  {name.length > 80
-                    ? name.replace(/^(.{76}[^\s]*).*/, '$1...')
-                    : name}
-                </Title>
-              </TitleLink>
-              {/* <Username>+{displayUsername}</Username> */}
-            </Box>
-          </Flex>
-          <Summary variant="text" mt={1} mb={2}>
-            {summary && summary.length > 140
-              ? summary.replace(/^([\s\S]{140}[^\s]*)[\s\S]*/, '$1...')
-              : summary}
-          </Summary>
-          <MetaWrapper mt={2} alignItems="center">
-            <Archive size={18} />
-            <Text ml={2} variant="suptitle">
-              {totalResources || 0} <Trans>Resources</Trans>
-            </Text>
-          </MetaWrapper>
+    <Bordered mb={1}>
+      <WrapperLink to={link.url} />
+      <AvatarCollection src={icon} />
+      <Infos ml={3}>
+        <Flex>
+          <Box flex={1}>
+            <Title>
+              {name.length > 80
+                ? name.replace(/^(.{76}[^\s]*).*/, '$1...')
+                : name}
+            </Title>
+            {/* <C>+{displayUsername}</Username> */}
+          </Box>
+        </Flex>
+        <Summary variant="text" mt={1} mb={2}>
+          {summary && summary.length > 140
+            ? summary.replace(/^([\s\S]{140}[^\s]*)[\s\S]*/, '$1...')
+            : summary}
+        </Summary>
+        <MetaWrapper mt={2} alignItems="center">
+          <Archive size={18} />
+          <Text ml={2} variant="suptitle">
+            {totalResources || 0} <Trans>Resources</Trans>
+          </Text>
+        </MetaWrapper>
 
-          <Meta mt={2}>
-            {hideActions ? null : (
-              <ActionItem
-                isFollowing={isFollowing ? true : false}
-                onClick={toggleFollowFormik.submitForm}
+        <Meta mt={2}>
+          {hideActions ? null : (
+            <ActionItem
+              isFollowing={isFollowing ? true : false}
+              onClick={toggleFollowFormik.submitForm}
+            >
+              <ActionIcon>
+                {isFollowing ? (
+                  <EyeOff strokeWidth="1" size="18" />
+                ) : (
+                  <Eye strokeWidth="1" size="18" />
+                )}
+              </ActionIcon>
+              <Text
+                ml={1}
+                variant={'suptitle'}
+                sx={{ textTransform: 'capitalize' }}
               >
-                <ActionIcon>
-                  {isFollowing ? (
-                    <EyeOff strokeWidth="1" size="18" />
-                  ) : (
-                    <Eye strokeWidth="1" size="18" />
-                  )}
-                </ActionIcon>
-                <Text
-                  ml={1}
-                  variant={'suptitle'}
-                  sx={{ textTransform: 'capitalize' }}
-                >
-                  {isFollowing ? (
-                    <Trans>Unfollow </Trans>
-                  ) : (
-                    <Trans>follow</Trans>
-                  )}
-                </Text>
-              </ActionItem>
-            )}
-          </Meta>
-        </Infos>
-      </Bordered>
-    </WrapperLink>
+                {isFollowing ? <Trans>Unfollow </Trans> : <Trans>follow</Trans>}
+              </Text>
+            </ActionItem>
+          )}
+        </Meta>
+      </Infos>
+    </Bordered>
   );
 };
 
 const WrapperLink = styled(NavLink)`
-  text-decoration: none;
-  * {
-    text-decoration: none;
-  }
-  &:hover {
-    text-decoration: none !important;
-  }
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
 `;
 
 const MetaWrapper = styled(Flex)`
@@ -119,24 +112,23 @@ const Summary = styled(Text)`
   color: ${props => props.theme.colors.dark};
 `;
 const AvatarCollection = styled(Box)<{ src?: string }>`
-border-radius: 4px;
-border-top-right-radius: 0;
-border-bottom-right-radius: 0;
-min-width: 48px;
-height: 48px;
-padding: 15%;
-background-color: transparent;
-background-image: url("${props => props.src}");
-background-size: cover;
-background-position: center center;
+  border-radius: 4px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  min-width: 48px;
+  height: 48px;
+  padding: 15%;
+  background-color: transparent;
+  background-image: url("${props => props.src}");
+  background-size: cover;
+  background-position: center center;
 `;
 
 const ActionItem = styled(Flex)<{ isFollowing?: boolean }>`
   align-items: center;
   margin-top: 16px;
   margin-bottom: 8px;
-  position: relative;
-  z-index: 99;
+
   color: ${props =>
     props.isFollowing
       ? props.theme.colors.lighter
@@ -170,6 +162,13 @@ const ActionItem = styled(Flex)<{ isFollowing?: boolean }>`
     z-index: 9;
   }
   &:hover {
+    background: ${props =>
+      darken(
+        '0.1',
+        props.isFollowing
+          ? props.theme.colors.secondary
+          : props.theme.colors.mediumlight
+      )};
     svg.hover {
       stroke: ${props => props.theme.colors.mediumdark};
     }
@@ -190,17 +189,21 @@ const ActionIcon = styled(Box)`
   }
 `;
 
-const TitleLink = styled(SimpleLink)`
-  text-decoration: none;
-  color: ${props => props.theme.colors.darker};
-  background: red;
-  > a {
-    text-decoration: none;
-  }
-`;
+// const TitleLink = styled(SimpleLink)`
+//   text-decoration: none;
+//   color: ${props => props.theme.colors.darker};
+//   background: red;
+//   > a {
+//     text-decoration: none;
+//   }
+// `;
 
 const Meta = styled(Flex)`
   color: ${props => props.theme.colors.medium};
+  position: absolute;
+  z-index: 2;
+  bottom: 0;
+  left: 0;
 `;
 
 // const Username = styled(Text)`
@@ -214,6 +217,8 @@ const Bordered = styled(Flex)`
   border-radius: 4px;
   border: ${props => props.theme.colors.border};
   background: ${props => props.theme.colors.appInverse};
+  text-decoration: none;
+  position: relative;
   &:hover {
     background: ${props => darken('0.05', props.theme.colors.appInverse)};
   }
