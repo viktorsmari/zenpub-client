@@ -76,6 +76,7 @@ export const ThreadPage: FC<ThreadPage> = ({ threadId }) => {
                   <CommentPreviewHOC
                     commentId={comment.id}
                     mainComment={false}
+                    hideActions={true}
                   />
                 ),
                 createdAt: comment.createdAt

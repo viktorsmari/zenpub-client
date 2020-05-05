@@ -291,6 +291,7 @@ const TextLink = styled(Text)`
 
 const Bordered = styled(Box)`
   border: ${props => props.theme.colors.border};
+  background: ${props => props.theme.colors.appInverse};
   border-radius: 4px;
 `;
 

@@ -1,16 +1,16 @@
 import React from 'react';
 import styled from 'ui/themes/styled';
 import { Box, Text, Flex } from 'rebass/styled-components';
-import SocialText from 'ui/modules/SocialText';
-import { i18nMark, Trans } from '@lingui/react';
-import { LocaleContext } from '../../../context/global/localizationCtx';
+// import SocialText from 'ui/modules/SocialText';
+import { Trans } from '@lingui/react';
+// import { LocaleContext } from '../../../context/global/localizationCtx';
 import { FormikHook } from 'ui/@types/types';
 import { Star, MoreHorizontal, Flag, CornerDownLeft } from 'react-feather';
 import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
 import DOMPurify from 'dompurify';
 
 import Modal from 'ui/modules/Modal';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { typography } from 'mn-constants';
 import { darken } from 'polished';
 
@@ -32,15 +32,15 @@ export interface CommentProps {
   hideActions?: boolean;
 }
 
-const tt = {
-  placeholders: {
-    name: i18nMark('Post a reply'),
-    summary: i18nMark(
-      'Please describe what the collection is for and what kind of resources it is likely to contain...'
-    ),
-    image: i18nMark('Enter the URL of an image to represent the collection')
-  }
-};
+// const tt = {
+//   placeholders: {
+//     name: i18nMark('Post a reply'),
+//     summary: i18nMark(
+//       'Please describe what the collection is for and what kind of resources it is likely to contain...'
+//     ),
+//     image: i18nMark('Enter the URL of an image to represent the collection')
+//   }
+// };
 
 export const Comment: React.SFC<CommentProps> = ({
   content,
@@ -51,24 +51,23 @@ export const Comment: React.SFC<CommentProps> = ({
   isFlagged,
   hideActions
 }) => {
-  const [talkModalVisible, showTalkModal] = React.useState(false);
-  const { i18n } = React.useContext(LocaleContext);
+  // const [talkModalVisible, showTalkModal] = React.useState(false);
+  // const { i18n } = React.useContext(LocaleContext);
   const [isOpenFlagModal, setOpenFlagModal] = React.useState(false);
   const [isOpen, onOpen] = React.useState(false);
 
   return (
     <Wrapper>
-      <Link to={url}>
-        <Summary
-          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }}
-          sx={{ textDecoration: 'none' }}
-          variant="text"
-          mb={2}
-        />
-      </Link>
-      {hideActions ? null : (
-        <Actions mt={2}>
-          {talkModalVisible && (
+      {/* <Link to={url}> */}
+      <Summary
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }}
+        sx={{ textDecoration: 'none' }}
+        variant="text"
+        mb={2}
+      />
+      {/* </Link> */}
+      <Actions mt={2}>
+        {/* {talkModalVisible && (
             <Box mb={2}>
               <SocialText
                 placeholder={i18n._(tt.placeholders.name)}
@@ -80,100 +79,103 @@ export const Comment: React.SFC<CommentProps> = ({
                 }}
               />
             </Box>
-          )}
-          <Box>
-            <Items>
-              <ActionItem onClick={() => showTalkModal(!talkModalVisible)}>
-                <ActionIcon>
-                  <CornerDownLeft
-                    className="hover"
-                    strokeWidth="1"
-                    color="rgba(0,0,0,.4)"
-                    size="18"
-                  />
-                </ActionIcon>
-                <ActionText
-                  ml={1}
-                  variant={'text'}
-                  sx={{ textTransform: 'capitalize' }}
-                >
-                  <Trans>Reply</Trans>
-                </ActionText>
+          )} */}
+        <Box>
+          <Items>
+            {hideActions ? null : (
+              <ActionItem>
+                <NavLink to={url}>
+                  <ActionIcon>
+                    <CornerDownLeft
+                      className="hover"
+                      strokeWidth="1"
+                      color="rgba(0,0,0,.4)"
+                      size="18"
+                    />
+                  </ActionIcon>
+                  <ActionText
+                    ml={1}
+                    variant={'text'}
+                    sx={{ textTransform: 'capitalize' }}
+                  >
+                    <Trans>Reply</Trans>
+                  </ActionText>
+                </NavLink>
               </ActionItem>
-              <ActionItem
-                liked={like.iLikeIt ? true : false}
-                onClick={like.toggleLikeFormik.submitForm}
-              >
-                <ActionIcon>
-                  <Star strokeWidth="1" size="18" />
-                </ActionIcon>
-                <ActionText
-                  variant={'text'}
-                  sx={{ textTransform: 'capitalize' }}
-                  ml={1}
-                >
-                  {like.totalLikes + ' '} <Trans>Favourite</Trans>
-                </ActionText>
-              </ActionItem>
-              <ActionItem
-                onClick={() => onOpen(true)}
-                sx={{ position: 'relative' }}
-              >
-                <ActionIcon>
-                  <MoreHorizontal className="hover" size={18} />
-                </ActionIcon>
-                <ActionText
-                  variant={'text'}
-                  sx={{ textTransform: 'capitalize' }}
-                  ml={1}
-                >
-                  <Trans>More</Trans>
-                </ActionText>
-                {isOpen && (
-                  <Dropdown orientation="bottom" cb={onOpen}>
-                    {FlagModal && (
-                      <DropdownItem onClick={() => setOpenFlagModal(true)}>
-                        <Flag size={20} color={'rgb(101, 119, 134)'} />
-                        <Text sx={{ flex: 1 }} ml={2}>
-                          {!isFlagged ? (
-                            <Trans>Flag this comment</Trans>
-                          ) : (
-                            <Trans>Unflag this comment</Trans>
-                          )}
-                        </Text>
-                      </DropdownItem>
-                    )}
-                  </Dropdown>
-                )}
-              </ActionItem>
-            </Items>
-            {FlagModal && isOpenFlagModal && (
-              <Modal closeModal={() => setOpenFlagModal(false)}>
-                <FlagModal done={() => setOpenFlagModal(false)} />
-              </Modal>
             )}
-          </Box>
-        </Actions>
-      )}
-      <Forked>
+            <ActionItem
+              liked={like.iLikeIt ? true : false}
+              onClick={like.toggleLikeFormik.submitForm}
+            >
+              <ActionIcon>
+                <Star strokeWidth="1" size="18" />
+              </ActionIcon>
+              <ActionText
+                variant={'text'}
+                sx={{ textTransform: 'capitalize' }}
+                ml={1}
+              >
+                {like.totalLikes + ' '} <Trans>Favourite</Trans>
+              </ActionText>
+            </ActionItem>
+            <ActionItem
+              onClick={() => onOpen(true)}
+              sx={{ position: 'relative' }}
+            >
+              <ActionIcon>
+                <MoreHorizontal className="hover" size={18} />
+              </ActionIcon>
+              <ActionText
+                variant={'text'}
+                sx={{ textTransform: 'capitalize' }}
+                ml={1}
+              >
+                <Trans>More</Trans>
+              </ActionText>
+              {isOpen && (
+                <Dropdown orientation="bottom" cb={onOpen}>
+                  {FlagModal && (
+                    <DropdownItem onClick={() => setOpenFlagModal(true)}>
+                      <Flag size={20} color={'rgb(101, 119, 134)'} />
+                      <Text sx={{ flex: 1 }} ml={2}>
+                        {!isFlagged ? (
+                          <Trans>Flag this comment</Trans>
+                        ) : (
+                          <Trans>Unflag this comment</Trans>
+                        )}
+                      </Text>
+                    </DropdownItem>
+                  )}
+                </Dropdown>
+              )}
+            </ActionItem>
+          </Items>
+          {FlagModal && isOpenFlagModal && (
+            <Modal closeModal={() => setOpenFlagModal(false)}>
+              <FlagModal done={() => setOpenFlagModal(false)} />
+            </Modal>
+          )}
+        </Box>
+      </Actions>
+      {/* <Forked>
         <b>SoapDog</b> forked this discussion: Yeah, they've wrote a lot of
         stuff... (3)
-      </Forked>
+      </Forked> */}
     </Wrapper>
   );
 };
 
-const Forked = styled(Box)`
-  padding: 8px;
-  border-top: ${props => props.theme.colors.border};
-  border-bottom: ${props => props.theme.colors.border};
-  margin-top: 16px;
-  font-size: ${typography.size.s1};
-  margin-left: -16px;
-  margin-right: -16px;
-  margin-bottom: -16px;
-  color: ${props => props.theme.colors.mediumdark};
-`;
+// const Forked = styled(Box)`
+//   padding: 8px;
+//   border-top: ${props => props.theme.colors.border};
+//   border-bottom: ${props => props.theme.colors.border};
+//   margin-top: 16px;
+//   font-size: ${typography.size.s1};
+//   margin-left: -16px;
+//   margin-right: -16px;
+//   margin-bottom: -16px;
+//   color: ${props => props.theme.colors.mediumdark};
+// `;
 
 const Summary = styled(Text)`
   color: ${props => props.theme.colors.dark};
@@ -255,6 +257,8 @@ const ActionText = styled(Text)`
 
 const Wrapper = styled(Box)`
   background: ${props => props.theme.colors.appInverse};
+  border-bottom: ${props => props.theme.colors.border};
+  padding-bottom: 16px;
   a {
     text-decoration: none
     &:hover {

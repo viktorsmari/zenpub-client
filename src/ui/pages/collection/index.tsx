@@ -85,7 +85,7 @@ export const Collection: React.FC<Props> = ({
                 <>
                   {HeroCollectionBox}
                   <Menu basePath={basePath} />
-                  <WrapButton mt={3} px={3} pb={3} mb={2}>
+                  <WrapButton p={3}>
                     <Button
                       mr={2}
                       onClick={() => setOpenShareLink(true)}
@@ -194,6 +194,7 @@ const Menu = ({ basePath }: { basePath: string }) => (
 );
 
 const WrapButton = styled(Flex)`
+  background: ${props => props.theme.colors.appInverse};
   button {
     width: 100%;
     height: 50px;

@@ -7,6 +7,9 @@ import { FormikHook } from 'ui/@types/types';
 import { SimpleLink } from 'ui/helpers/SimpleLink';
 import styled from 'ui/themes/styled';
 import { typography } from 'mn-constants';
+import { NavLink } from 'react-router-dom';
+import { darken } from 'polished';
+
 export interface Props {
   link: {
     url: string;
@@ -34,61 +37,76 @@ export const Collection: React.FC<Props> = ({
   hideActions
 }) => {
   return (
-    // <WrapperLink to={link.url}>
-    <Bordered mb={1}>
-      <AvatarCollection src={icon} />
-      <Infos ml={3}>
-        <Flex>
-          <Box flex={1}>
-            <TitleLink link={link}>
-              <Title>
-                {name.length > 80
-                  ? name.replace(/^(.{76}[^\s]*).*/, '$1...')
-                  : name}
-              </Title>
-            </TitleLink>
-            {/* <Username>+{displayUsername}</Username> */}
-          </Box>
-        </Flex>
-        <Summary variant="text" mt={1} mb={2}>
-          {summary && summary.length > 140
-            ? summary.replace(/^([\s\S]{140}[^\s]*)[\s\S]*/, '$1...')
-            : summary}
-        </Summary>
-        <MetaWrapper mt={2} alignItems="center">
-          <Archive size={18} />
-          <Text ml={2} variant="suptitle">
-            {totalResources || 0} <Trans>Resources</Trans>
-          </Text>
-        </MetaWrapper>
+    <WrapperLink to={link.url}>
+      <Bordered mb={1}>
+        <AvatarCollection src={icon} />
+        <Infos ml={3}>
+          <Flex>
+            <Box flex={1}>
+              <TitleLink link={link}>
+                <Title>
+                  {name.length > 80
+                    ? name.replace(/^(.{76}[^\s]*).*/, '$1...')
+                    : name}
+                </Title>
+              </TitleLink>
+              {/* <Username>+{displayUsername}</Username> */}
+            </Box>
+          </Flex>
+          <Summary variant="text" mt={1} mb={2}>
+            {summary && summary.length > 140
+              ? summary.replace(/^([\s\S]{140}[^\s]*)[\s\S]*/, '$1...')
+              : summary}
+          </Summary>
+          <MetaWrapper mt={2} alignItems="center">
+            <Archive size={18} />
+            <Text ml={2} variant="suptitle">
+              {totalResources || 0} <Trans>Resources</Trans>
+            </Text>
+          </MetaWrapper>
 
-        <Meta mt={2}>
-          {hideActions ? null : (
-            <ActionItem
-              isFollowing={isFollowing ? true : false}
-              onClick={toggleFollowFormik.submitForm}
-            >
-              <ActionIcon>
-                {isFollowing ? (
-                  <EyeOff strokeWidth="1" size="18" />
-                ) : (
-                  <Eye strokeWidth="1" size="18" />
-                )}
-              </ActionIcon>
-              <Text
-                ml={1}
-                variant={'suptitle'}
-                sx={{ textTransform: 'capitalize' }}
+          <Meta mt={2}>
+            {hideActions ? null : (
+              <ActionItem
+                isFollowing={isFollowing ? true : false}
+                onClick={toggleFollowFormik.submitForm}
               >
-                {isFollowing ? <Trans>Unfollow </Trans> : <Trans>follow</Trans>}
-              </Text>
-            </ActionItem>
-          )}
-        </Meta>
-      </Infos>
-    </Bordered>
+                <ActionIcon>
+                  {isFollowing ? (
+                    <EyeOff strokeWidth="1" size="18" />
+                  ) : (
+                    <Eye strokeWidth="1" size="18" />
+                  )}
+                </ActionIcon>
+                <Text
+                  ml={1}
+                  variant={'suptitle'}
+                  sx={{ textTransform: 'capitalize' }}
+                >
+                  {isFollowing ? (
+                    <Trans>Unfollow </Trans>
+                  ) : (
+                    <Trans>follow</Trans>
+                  )}
+                </Text>
+              </ActionItem>
+            )}
+          </Meta>
+        </Infos>
+      </Bordered>
+    </WrapperLink>
   );
 };
+
+const WrapperLink = styled(NavLink)`
+  text-decoration: none;
+  * {
+    text-decoration: none;
+  }
+  &:hover {
+    text-decoration: none !important;
+  }
+`;
 
 const MetaWrapper = styled(Flex)`
   color: ${props => props.theme.colors.dark};
@@ -117,6 +135,8 @@ const ActionItem = styled(Flex)<{ isFollowing?: boolean }>`
   align-items: center;
   margin-top: 16px;
   margin-bottom: 8px;
+  position: relative;
+  z-index: 99;
   color: ${props =>
     props.isFollowing
       ? props.theme.colors.lighter
@@ -194,8 +214,14 @@ const Bordered = styled(Flex)`
   border-radius: 4px;
   border: ${props => props.theme.colors.border};
   background: ${props => props.theme.colors.appInverse};
+  &:hover {
+    background: ${props => darken('0.05', props.theme.colors.appInverse)};
+  }
   * {
     text-decoration: none !important;
+    &:hover {
+      text-decoration: none !important;
+    }
   }
 `;
 

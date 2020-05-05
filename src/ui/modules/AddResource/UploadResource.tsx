@@ -72,7 +72,7 @@ export const UploadResource: React.FC<Props> = ({
   const initialIconUrl =
     'string' === typeof formik.values.icon ? formik.values.icon : '';
   return (
-    <div>
+    <Wrapper>
       <Row>
         <label>
           <Trans>Resource</Trans>
@@ -214,11 +214,15 @@ export const UploadResource: React.FC<Props> = ({
           <Trans>Cancel</Trans>
         </Button>
       </Actions>
-    </div>
+    </Wrapper>
   );
 };
 
 export default UploadResource;
+
+const Wrapper = styled(Box)`
+  background: ${props => props.theme.colors.appInverse};
+`;
 
 const LabelWrapper = styled.div`
   width: 200px;
