@@ -24,6 +24,7 @@ export interface Props {
   };
   displayUsername: string;
   hideActons?: boolean;
+  isCreator?: boolean;
   // followers: string[]
 }
 
@@ -31,6 +32,7 @@ export const Community: React.FC<Props> = ({
   name,
   icon,
   summary,
+  isCreator,
   followersCount,
   joined,
   toggleJoinFormik,
@@ -88,6 +90,7 @@ export const Community: React.FC<Props> = ({
             <Actions my={3}>
               <Button
                 variant="outline"
+                isDisabled={isCreator ? true : false}
                 isSubmitting={toggleJoinFormik.isSubmitting}
                 onClick={toggleJoinFormik.submitForm}
               >
