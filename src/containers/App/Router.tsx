@@ -16,6 +16,7 @@ import { SignupPageRoute } from 'routes/SignupPageRoute';
 import { ThreadPageRoute } from 'routes/ThreadPageRoute';
 import { UserPageRoute } from 'routes/UserPageRoute';
 import { NotFound } from 'ui/pages/notFound';
+import { LMSMoodleSearchRoute } from 'routes/LMSMoodleSearchRoute';
 export const Router: React.FC = () => {
   return (
     <Switch>
@@ -34,6 +35,7 @@ export const Router: React.FC = () => {
       <Route {...SignupPageRoute} />
       <Route {...ConfirmEmailRoute} />
       <Route {...HomePageRoute} />
+      <Route {...LMSMoodleSearchRoute} />
       <Route component={NotFound} />
     </Switch>
   );
