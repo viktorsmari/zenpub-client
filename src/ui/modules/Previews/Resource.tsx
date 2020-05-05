@@ -56,23 +56,18 @@ export const Resource: React.FC<Props> = ({
   FlagModal,
   hideActions
 }) => {
-  const mediaType = type !== undefined ? type : 'image'; // FIXME remove after type field is added
-  const isUploaded = license !== null ? true : false; // FIXME remove after isUploaded field is added
-  const avatarIcon = icon || mediaType == 'image' ? link : ''; // FIXME remove after type field is added
   const [isOpen, onOpen] = React.useState(false);
-  // const [isEnterUrlOpen, onEnterUrlOpen] = React.useState(false);
   const [isOpenFlagModal, setOpenFlagModal] = React.useState(false);
 
   return (
-    // <WrapperLink to={'/collections/' + id}>
     <Bordered>
       <Wrapper p={2}>
-        <Avatar size="m" src={icon || avatarIcon} />
+        <Avatar size="m" src={icon} />
         <Infos flex={1} ml={3}>
           <TitleLink href={link} target="_blank">
             {/* <Badge mt={1}>Video</Badge> */}
             <Title flex="1">
-              {isUploaded ? (
+              {!isLocal ? (
                 <Paperclip strokeWidth="1" size={18} />
               ) : (
                 <ExternalLink strokeWidth="1" size={18} />
@@ -80,50 +75,22 @@ export const Resource: React.FC<Props> = ({
               {name}
             </Title>
           </TitleLink>
-          {isUploaded ? (
+          {!isLocal ? (
             <>
-              {/* <TypeItem mt={2}>{mediaType}</TypeItem> */}
               <TypeItem mt={1}>{license}</TypeItem>
             </>
           ) : (
             <>
               <ActionItem>
-                {/* <TypeItem>{mediaType}</TypeItem>  */}
-                <a href={link}>
-                  {/* <ExternalLink size={17} /> */}
+                <a href={link} target="_blank">
                   <TextLink flex={1}>{link}</TextLink>
                 </a>
               </ActionItem>
             </>
           )}
-          {/* <TypeItem>{mediaType}</TypeItem>
-          {isUploaded ? <TypeItem>{license}</TypeItem>: null } */}
-          {/* <ActionItem mt={1}>
-            <a href={link}>
-              {isLocal ? <Link size={17} /> : <ExternalLink size={17} />}
-              <TextLink flex={1} ml={1}>
-                {link}
-              </TextLink>
-            </a>
-          </ActionItem> */}
           <Summary variant="text" mt={2}>
             {summary}
           </Summary>
-          {/* {isUploaded ? (
-            license === acceptedLicenses![0] ? (
-              <Img src={LicenseIcon0} />
-            ) : license === acceptedLicenses![1] ? (
-              <Img src={LicenseIcon1} />
-            ) : (
-              <Img src={LicenseIcon2} />
-            )
-          ) : null} */}
-          {/* <Hashtags mt={1}>
-            <Text variant="text" mr={2}>
-              #tutorial
-            </Text>
-            <Text variant="text">#exp</Text>
-          </Hashtags> */}
         </Infos>
       </Wrapper>
       {hideActions ? null : (

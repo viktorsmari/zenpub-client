@@ -86,7 +86,10 @@ export const HeroCommunity: FC<Props> = ({ community: c }) => {
                 mr={2}
                 variant={c.following ? 'danger' : 'primary'}
                 isSubmitting={c.toggleJoinFormik.isSubmitting}
-                isDisabled={c.toggleJoinFormik.isSubmitting}
+                isDisabled={
+                  c.toggleJoinFormik.isSubmitting ||
+                  (c.totalMembers == 1 && c.following)
+                }
                 onClick={c.toggleJoinFormik.submitForm}
               >
                 {c.following ? <Trans>Leave</Trans> : <Trans>Join</Trans>}

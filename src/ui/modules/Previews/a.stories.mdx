@@ -14,6 +14,7 @@ import {Box} from 'rebass'
 import { useFormik } from 'formik';
 import {UserPreviewProps,
 ResourcePreviewProps, 
+ResourcePreviewUploadedProps,
 CommunityPreviewProps, 
 CollectionPreviewProps,
 CommentPreviewProps,
@@ -74,7 +75,7 @@ Let's define a story for the `Uploaded Resource preview` module
         }}
         p={2}
       >
-    <Resource {...ResourcePreviewProps('license', 'pdf' ) } />
+    <Resource {...ResourcePreviewUploadedProps() } />
     </Box>
   </Story>
 </Preview>

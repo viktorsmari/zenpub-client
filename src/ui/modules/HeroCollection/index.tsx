@@ -83,63 +83,65 @@ export const HeroCollection: FC<Props> = ({ collection: c }) => {
             fontSize={2}
             mt={2}
           />
-          <CountWrapper>
-            <CountTot to={`${c.basePath}/followers`}>
-              <Text variant="suptitle">
-                <Total mr={2}>{c.followerCount}</Total>
-                <Trans>Followers</Trans>
-              </Text>
-            </CountTot>
-          </CountWrapper>
-          <ActionsHero mt={3} alignItems={'center'}>
-            <More mr={2} onClick={() => setOpenDropdown(true)}>
-              <MoreVertical size={20} />
-              {isOpenDropdown && (
-                <Dropdown orientation={'top'} cb={setOpenDropdown}>
-                  {c.canModify && (
-                    <DropdownItem onClick={() => setOpenSettings(true)}>
-                      <Settings size={20} color={'rgb(101, 119, 134)'} />
+          <Info mt={2}>
+            <CountWrapper>
+              <CountTot to={`${c.basePath}/followers`}>
+                <Text variant="suptitle">
+                  <Total mr={2}>{c.followerCount}</Total>
+                  <Trans>Followers</Trans>
+                </Text>
+              </CountTot>
+            </CountWrapper>
+            <ActionsHero mt={3} alignItems={'center'}>
+              <Button
+                variant={c.following ? 'danger' : 'primary'}
+                disabled={c.toggleJoinFormik.isSubmitting}
+                onClick={c.toggleJoinFormik.submitForm}
+                isSubmitting={c.toggleJoinFormik.isSubmitting}
+              >
+                {c.following ? 'Unfollow' : 'Follow'}
+              </Button>
+              <More ml={2} onClick={() => setOpenDropdown(true)}>
+                <MoreVertical size={20} />
+                {isOpenDropdown && (
+                  <Dropdown orientation={'bottom'} cb={setOpenDropdown}>
+                    {c.canModify && (
+                      <DropdownItem onClick={() => setOpenSettings(true)}>
+                        <Settings size={20} color={'rgb(101, 119, 134)'} />
+                        <Text sx={{ flex: 1 }} ml={2}>
+                          <Trans>Edit the collection</Trans>
+                        </Text>
+                      </DropdownItem>
+                    )}
+                    <DropdownItem onClick={() => setOpenFlag(true)}>
+                      <FlagIcon size={20} color={'rgb(101, 119, 134)'} />
                       <Text sx={{ flex: 1 }} ml={2}>
-                        <Trans>Edit the collection</Trans>
+                        {!c.isFlagged ? (
+                          <Trans>Flag this collection</Trans>
+                        ) : (
+                          <Trans>Unflag this collection</Trans>
+                        )}
                       </Text>
                     </DropdownItem>
-                  )}
-                  <DropdownItem onClick={() => setOpenFlag(true)}>
-                    <FlagIcon size={20} color={'rgb(101, 119, 134)'} />
-                    <Text sx={{ flex: 1 }} ml={2}>
-                      {!c.isFlagged ? (
-                        <Trans>Flag this collection</Trans>
-                      ) : (
-                        <Trans>Unflag this collection</Trans>
-                      )}
-                    </Text>
-                  </DropdownItem>
-                  {c.isAdmin ? (
-                    <AdminDropdownItem onClick={() => setOpenFeatured(true)}>
-                      <Star size={20} color={'rgb(211, 103, 5)'} />
-                      <Text sx={{ flex: 1 }} ml={2}>
-                        {
-                          /* c.isFeatured ? (
+                    {c.isAdmin ? (
+                      <AdminDropdownItem onClick={() => setOpenFeatured(true)}>
+                        <Star size={20} color={'rgb(211, 103, 5)'} />
+                        <Text sx={{ flex: 1 }} ml={2}>
+                          {
+                            /* c.isFeatured ? (
                           <Trans>Remove from featured list</Trans>
                         ) :  */ <Trans>
-                            Add to featured list
-                          </Trans>
-                        }
-                      </Text>
-                    </AdminDropdownItem>
-                  ) : null}
-                </Dropdown>
-              )}
-            </More>
-            <Button
-              variant={c.following ? 'danger' : 'primary'}
-              disabled={c.toggleJoinFormik.isSubmitting}
-              onClick={c.toggleJoinFormik.submitForm}
-              isSubmitting={c.toggleJoinFormik.isSubmitting}
-            >
-              {c.following ? 'Unfollow' : 'Follow'}
-            </Button>
-          </ActionsHero>
+                              Add to featured list
+                            </Trans>
+                          }
+                        </Text>
+                      </AdminDropdownItem>
+                    ) : null}
+                  </Dropdown>
+                )}
+              </More>
+            </ActionsHero>
+          </Info>
         </HeroInfo>
       </Hero>
       {isOpenSettings && (
@@ -162,6 +164,9 @@ export const HeroCollection: FC<Props> = ({ collection: c }) => {
 };
 
 export default HeroCollection;
+const Info = styled(Flex)`
+  align-items: center;
+`;
 
 const More = styled(Box)`
   position: relative;
