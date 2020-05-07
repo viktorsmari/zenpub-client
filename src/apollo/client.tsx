@@ -154,8 +154,15 @@ export default async function initialise({
     });
 
     if (graphQLErrors) {
+      const unexpectedError = graphQLErrors.find(
+        err =>
+          /Failed to fetch/gi.test(err.message) ||
+          /JSON.parse/gi.test(err.message)
+      );
       return Observable.of<FetchResult>({
-        errors: graphQLErrors
+        errors: unexpectedError
+          ? [new GraphQLError(`Unexpected error`)]
+          : graphQLErrors
       });
     } else if (networkError) {
       const { message } = networkError;
