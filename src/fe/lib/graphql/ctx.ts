@@ -52,6 +52,7 @@ export const MngErrorLink = new ApolloLink((operation, forward) => {
   return forward(operation).map(
     notifyGqlResponse({
       noShowSuccess,
+      ctx: operation.operationName,
       ...operation.getContext()[MN_CTX_FLD]
     })
   );
