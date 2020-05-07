@@ -1,6 +1,7 @@
 import * as AbsintheSocket from '@absinthe/socket';
 import { createAbsintheSocketLink } from '@absinthe/socket-apollo-link';
 import { hasSubscription } from '@jumpn/utils-graphql';
+import HttpStatus from 'http-status-codes';
 import {
   defaultDataIdFromObject,
   InMemoryCache,
@@ -153,7 +154,16 @@ export default async function initialise({
       networkError
     });
 
-    if (graphQLErrors) {
+    if (networkError) {
+      const message =
+        'statusCode' in networkError
+          ? HttpStatus.getStatusText(networkError.statusCode)
+          : networkError.message;
+
+      return Observable.of<FetchResult>({
+        errors: [new GraphQLError(`network error:${message}`)]
+      });
+    } else if (graphQLErrors) {
       const unexpectedError = graphQLErrors.find(
         err =>
           /Failed to fetch/gi.test(err.message) ||
@@ -163,11 +173,6 @@ export default async function initialise({
         errors: unexpectedError
           ? [new GraphQLError(`Unexpected error`)]
           : graphQLErrors
-      });
-    } else if (networkError) {
-      const { message } = networkError;
-      return Observable.of<FetchResult>({
-        errors: [new GraphQLError(`network error:${message}`)]
       });
     } else if (response?.errors) {
       return Observable.of<FetchResult>({
