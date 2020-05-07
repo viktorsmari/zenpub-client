@@ -35,6 +35,7 @@ export const CreateNewPassword: React.FC<Props> = ({ formik }) => {
             <Input
               placeholder={tt.placeholders.password}
               name="password"
+              type="password"
               value={formik.values.password}
               onChange={formik.handleChange}
             />
@@ -47,6 +48,7 @@ export const CreateNewPassword: React.FC<Props> = ({ formik }) => {
             <Input
               placeholder={tt.placeholders.passwordConfirm}
               name="passwordConfirm"
+              type="password"
               value={formik.values.passwordConfirm}
               onChange={formik.handleChange}
             />

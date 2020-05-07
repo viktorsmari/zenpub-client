@@ -20,6 +20,7 @@ export enum Status {
 export interface CommunityLoaded {
   status: Status.Loaded;
   isAdmin?: boolean;
+  isCreator?: boolean;
   // isFeatured: boolean;
   basePath: string;
   icon: string;
@@ -86,10 +87,7 @@ export const HeroCommunity: FC<Props> = ({ community: c }) => {
                 mr={2}
                 variant={c.following ? 'danger' : 'primary'}
                 isSubmitting={c.toggleJoinFormik.isSubmitting}
-                isDisabled={
-                  c.toggleJoinFormik.isSubmitting ||
-                  (c.totalMembers == 1 && c.following)
-                }
+                isDisabled={c.toggleJoinFormik.isSubmitting || c.isCreator}
                 onClick={c.toggleJoinFormik.submitForm}
               >
                 {c.following ? <Trans>Leave</Trans> : <Trans>Join</Trans>}

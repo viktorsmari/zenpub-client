@@ -32,6 +32,7 @@ export interface Props {
   loadMoreActivities: FormikHook;
   loadMoreResources: FormikHook;
   loadMoreFollowers: FormikHook;
+  isCommunityMember?: boolean; // FIX ME remove ? after added at HOC
 }
 
 export const Collection: React.FC<Props> = ({
@@ -46,11 +47,13 @@ export const Collection: React.FC<Props> = ({
   collectionName,
   loadMoreActivities,
   loadMoreResources,
-  loadMoreFollowers
+  loadMoreFollowers,
+  isCommunityMember
 }) => {
   const [isOpenEditCollection, setOpenEditCollection] = React.useState(false);
   const [isShareLinkOpen, setOpenShareLink] = React.useState(false);
   const [isUploadOpen, setUploadOpen] = React.useState(false);
+  isCommunityMember = true; // FIX ME remove after added at HOC
   return (
     <MainContainer>
       {isOpenEditCollection && (
@@ -79,21 +82,24 @@ export const Collection: React.FC<Props> = ({
                 <>
                   {HeroCollectionBox}
                   <Menu basePath={basePath} />
-                  <WrapButton p={3}>
-                    <Button
-                      mr={2}
-                      onClick={() => setOpenShareLink(true)}
-                      variant="outline"
-                    >
-                      <Trans>Share link</Trans>
-                    </Button>
-                    <Button
-                      onClick={() => setUploadOpen(true)}
-                      variant="outline"
-                    >
-                      <Trans>Add new resource</Trans>
-                    </Button>
-                  </WrapButton>
+                  {isCommunityMember ? (
+                    <WrapButton p={3}>
+                      <Button
+                        mr={2}
+                        onClick={() => setOpenShareLink(true)}
+                        variant="outline"
+                      >
+                        <Trans>Share link</Trans>
+                      </Button>
+                      <Button
+                        onClick={() => setUploadOpen(true)}
+                        variant="outline"
+                      >
+                        <Trans>Add new resource</Trans>
+                      </Button>
+                    </WrapButton>
+                  ) : null}
+
                   {isUploadOpen && (
                     <UploadResourcePanel done={() => setUploadOpen(false)} />
                   )}
