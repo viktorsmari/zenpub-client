@@ -21,6 +21,8 @@ import Avatar from 'ui/elements/Avatar';
 import { Hit } from './Hits';
 import { useHit } from './lib';
 import { SearchHostIndexAndMyFollowingsQuery } from './SearchData.generated';
+import { useSendToMoodle } from 'fe/lib/moodleLMS/useSendToMoodle';
+import Modal from 'ui/modules/Modal';
 
 const PlaceholderImg = require('../../components/elements/Icons/resourcePlaceholder.png');
 
@@ -54,24 +56,22 @@ const PlaceholderImg = require('../../components/elements/Icons/resourcePlacehol
 
 interface Props {
   hit: Hit;
-  moodle_core_download_url: string;
   myInfo: SearchHostIndexAndMyFollowingsQuery;
 }
 
-const Resource: React.FC<Props> = ({
-  hit,
-  moodle_core_download_url,
-  myInfo
-}) => {
+const Resource: React.FC<Props> = ({ hit, myInfo }) => {
   const props = {
     icon: hit.icon || hit.image,
     title: hit.name,
     summary: hit.summary,
     url: hit.url || hit.canonicalUrl || '',
-    type: hit.index_type,
-    moodleLMSURL: moodle_core_download_url
+    type: hit.index_type
   };
   const hitCtl = useHit(myInfo, hit);
+  const { MoodlePanel } = useSendToMoodle(
+    hit.index_type === 'Resource' && hit.url ? hit.url : null
+  );
+  const [isOpenMoodleModal, setOpenMoodleModal] = React.useState(false);
   return (
     <Wrapper p={3}>
       <WrapperLink target="blank" href={props.url}>
@@ -109,21 +109,15 @@ const Resource: React.FC<Props> = ({
           )}
         </Button>
       )}
-      {(!props.moodleLMSURL && !hitCtl.moodleLMSURL) ||
-      props.type != 'Resource' ? null : (
-        <form
-          method="post"
-          action={
-            (props.moodleLMSURL || hitCtl.moodleLMSURL) +
-            '/admin/tool/moodlenet/import.php'
-          }
-          target="_blank"
-        >
-          <input type="hidden" name="resourceurl" value={hit.url} />
-          <Button variant="outline">
-            <Trans>To Moodle</Trans>
-          </Button>
-        </form>
+      {hit.index_type === 'Resource' && MoodlePanel && (
+        <Button variant="outline" onClick={() => setOpenMoodleModal(true)}>
+          <Trans>To Moodle</Trans>
+        </Button>
+      )}
+      {MoodlePanel && isOpenMoodleModal && (
+        <Modal closeModal={() => setOpenMoodleModal(false)}>
+          <MoodlePanel done={() => setOpenMoodleModal(false)} />
+        </Modal>
       )}
     </Wrapper>
   );

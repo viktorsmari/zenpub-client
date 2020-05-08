@@ -7,13 +7,26 @@ import {
   useMyProfileQuery,
   useUpdateMyProfileMutation
 } from './useProfile.generated';
+import { MoodleLMSParams } from 'fe/lib/moodleLMS/moodleLMSintegration';
+import {
+  withEncodedExtraInfo,
+  WithExtraInfo
+} from 'fe/lib/extraInfo/extraInfo';
+
+type UserProfileExtraInfo = {
+  LMS?: MoodleLMSParams;
+};
+
+export type UpdateProfileInputWithEI = WithExtraInfo<
+  UpdateProfileInput,
+  UserProfileExtraInfo
+>;
 
 export interface UpdateProfile {
-  profile: UpdateProfileInput;
-  icon: Maybe<File | string>;
-  image: Maybe<File | string>;
+  profile: UpdateProfileInputWithEI;
+  icon?: Maybe<File | string>;
+  image?: Maybe<File | string>;
 }
-
 export const useProfile = () => {
   const profileQ = useMyProfileQuery();
   const [updateProfileMutation] = useUpdateMyProfileMutation();
@@ -22,7 +35,7 @@ export const useProfile = () => {
     ({ icon, image, profile }: UpdateProfile) =>
       updateProfileMutation({
         variables: {
-          profile,
+          profile: withEncodedExtraInfo(profile, profileQ.data?.me?.user),
           icon: getMaybeUploadInput(icon, profileQ.data?.me?.user.icon?.url),
           image: getMaybeUploadInput(image, profileQ.data?.me?.user.image?.url)
         },
@@ -31,8 +44,14 @@ export const useProfile = () => {
     [updateProfileMutation, profileQ]
   );
   return useMemo(() => {
-    const profile = profileQ.data?.me?.user;
+    const user = profileQ.data?.me?.user;
+    const profile = user as Maybe<
+      WithExtraInfo<typeof user, UserProfileExtraInfo>
+    >;
+    const loading = profileQ.loading;
+
     return {
+      loading,
       profile,
       updateProfile
     };

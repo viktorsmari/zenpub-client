@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { ContainerForm, Row } from 'ui/modules/Modal';
+import Button from 'ui/elements/Button';
+import { ContainerForm, Row, Actions } from 'ui/modules/Modal';
 import { Trans } from '@lingui/macro';
 import { Box, Flex, Heading, Text } from 'rebass/styled-components';
 import { ArrowLeft, ArrowRight } from 'react-feather';
@@ -37,7 +38,6 @@ export interface EditPreferences {
 
 export interface Props {
   formik: FormikHook<EditPreferences>;
-  onSwitch(string): void;
 }
 
 type LanguageSelectProps = {
@@ -70,24 +70,15 @@ export const LanguageSelect: React.FC<LanguageSelectProps> = props => {
     />
   );
 };
-
-const Preferences = props => (
+const Preferences: React.FC<Props> = props => (
   <LocaleContext.Consumer>
     {value => (
       <Box>
         <Header p={3} alignItems="center">
           {value.locale != 'ar_SA' ? (
-            <ArrowLeft
-              size={32}
-              color="#f98012"
-              onClick={() => props.onSwitch('sidebar')}
-            />
+            <ArrowLeft size={32} color="#f98012" />
           ) : (
-            <ArrowRight
-              size={32}
-              color="#f98012"
-              onClick={() => props.onSwitch('sidebar')}
-            />
+            <ArrowRight size={32} color="#f98012" />
           )}
           <TabHeading>
             <Trans>Preferences</Trans>
@@ -110,6 +101,18 @@ const Preferences = props => (
                 placeholder={'Type your Moodle LMS instance'}
               />
             </Box>
+            <Actions sx={{ height: 'inherit !important' }}>
+              <Button
+                variant="primary"
+                isSubmitting={props.formik.isSubmitting}
+                isDisabled={props.formik.isSubmitting}
+                type="submit"
+                style={{ marginLeft: '10px' }}
+                onClick={props.formik.submitForm}
+              >
+                <Trans>Save</Trans>
+              </Button>
+            </Actions>
           </ContainerForm>
         </Row>
         <TransifexLink variant="text" my={3} mt={2}>

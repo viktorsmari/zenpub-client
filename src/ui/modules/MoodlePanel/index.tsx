@@ -32,14 +32,14 @@ const tt = {
 
 export interface Props {
   cancel(): any;
-  sendToMoodleFormik: FormikHook<BasicCreateFlagFormValues>;
+  sendToMoodleFormik: FormikHook<BasicMoodleLMSConfigFormValues>;
 }
 
-export interface BasicCreateFlagFormValues {
+export interface BasicMoodleLMSConfigFormValues {
   site: string;
 }
 
-export const MoodleModal: React.FC<Props> = ({
+export const MoodlePanel: React.FC<Props> = ({
   cancel,
   sendToMoodleFormik
 }) => {
@@ -89,7 +89,7 @@ export const MoodleModal: React.FC<Props> = ({
   );
 };
 
-export default MoodleModal;
+export default MoodlePanel;
 
 const SubmitButton = styled(Button)`
   margin-left: 8px;

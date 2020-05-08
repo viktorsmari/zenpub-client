@@ -1,23 +1,35 @@
-import {
-  getParamsFromMoodleLMS,
-  saveLMSParams
-} from 'fe/lib/moodleLMS/moodleLMSintegration';
+import { getUrlParamsFromEntryPointForMoodleLMS } from 'fe/lib/moodleLMS/moodleLMSintegration';
 import { LMSMoodleSearch } from 'HOC/pages/lmsMoodleSearch/lmsMoodleSearch';
 import { WithSidebarTemplate } from 'HOC/templates/WithSidebar/WithSidebar';
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState, useRef } from 'react';
 import { RouteComponentProps, RouteProps } from 'react-router-dom';
 import { RedirectAnonymousToLogin } from './wrappers/RedirectBySession';
+import { useProfile } from 'fe/user/profile/useProfile';
 
 interface LMSMoodleSearchRouter {}
 const LMSMoodleSearchRouter: FC<RouteComponentProps<LMSMoodleSearchRouter>> = ({
   match
 }) => {
-  const params = getParamsFromMoodleLMS();
-  saveLMSParams(params);
+  const { loading, profile, updateProfile } = useProfile();
+  const { current: params } = useRef(getUrlParamsFromEntryPointForMoodleLMS());
+  const [props, setProps] = useState<LMSMoodleSearch>();
+  useEffect(() => {
+    if (loading) {
+      return;
+    } else if (!profile) {
+      setProps({ needsLogin: true });
+    } else if (!params) {
+      setProps({ badParams: true });
+    } else {
+      updateProfile({ profile: { extraInfo: { LMS: params } } }).then(() =>
+        setProps({ params })
+      );
+    }
+  }, [profile, updateProfile, params, loading]);
   return (
     <RedirectAnonymousToLogin>
       <WithSidebarTemplate>
-        <LMSMoodleSearch params={params} />
+        {props && <LMSMoodleSearch {...props} />}
       </WithSidebarTemplate>
     </RedirectAnonymousToLogin>
   );

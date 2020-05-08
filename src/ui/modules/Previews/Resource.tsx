@@ -40,8 +40,9 @@ export interface Props {
   type?: string;
   isFlagged: boolean;
   FlagModal: null | React.ComponentType<{ done(): unknown }>;
-  // MoodleModal: null | React.ComponentType<{ done(): unknown }>;
+  MoodlePanel: null | React.ComponentType<{ done(): unknown }>;
   hideActions?: boolean;
+  // sendToMoodle:null|(()=>unknown)
 }
 
 export const Resource: React.FC<Props> = ({
@@ -56,6 +57,8 @@ export const Resource: React.FC<Props> = ({
   type,
   isFlagged,
   FlagModal,
+  MoodlePanel,
+  // sendToMoodle,
   hideActions
 }) => {
   const [isOpen, onOpen] = React.useState(false);
@@ -143,7 +146,7 @@ export const Resource: React.FC<Props> = ({
                 )}
                 <DropdownItem
                   onClick={() => {
-                    setOpenMoodleModal(true);
+                    /* sendToMoodle?sendToMoodle(): */ setOpenMoodleModal(true);
                   }}
                 >
                   <Share size={18} />
@@ -161,9 +164,9 @@ export const Resource: React.FC<Props> = ({
           <FlagModal done={() => setOpenFlagModal(false)} />
         </Modal>
       )}
-      {FlagModal && isOpenMoodleModal && (
+      {MoodlePanel && isOpenMoodleModal && (
         <Modal closeModal={() => setOpenMoodleModal(false)}>
-          <FlagModal done={() => setOpenFlagModal(false)} />
+          <MoodlePanel done={() => setOpenMoodleModal(false)} />
         </Modal>
       )}
     </Bordered>
