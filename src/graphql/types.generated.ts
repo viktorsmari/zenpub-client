@@ -1391,12 +1391,12 @@ export type User = {
   myLike?: Maybe<Like>,
   /** Subscriptions users have to the collection */
   followers?: Maybe<FollowsPage>,
-  /** Free text */
-  location?: Maybe<Scalars['String']>,
   /** A valid URL */
   website?: Maybe<Scalars['String']>,
   /** Possibly biographical information */
   summary?: Maybe<Scalars['String']>,
+  /** Free text */
+  location?: Maybe<Scalars['String']>,
   /** Subscriptions users have to the collection */
   follows?: Maybe<FollowsPage>,
   /** The users a user is following, most recently followed first */
@@ -2400,9 +2400,9 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   myLike?: Resolver<Maybe<ResolversTypes['Like']>, ParentType, ContextType>,
   followers?: Resolver<Maybe<ResolversTypes['FollowsPage']>, ParentType, ContextType, UserFollowersArgs>,
-  location?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   website?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   summary?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  location?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   follows?: Resolver<Maybe<ResolversTypes['FollowsPage']>, ParentType, ContextType, UserFollowsArgs>,
   userFollows?: Resolver<Maybe<ResolversTypes['FollowsPage']>, ParentType, ContextType, UserUserFollowsArgs>,
   isPublic?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,

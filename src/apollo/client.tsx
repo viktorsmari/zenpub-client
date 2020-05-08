@@ -167,7 +167,8 @@ export default async function initialise({
       const unexpectedError = graphQLErrors.find(
         err =>
           /Failed to fetch/gi.test(err.message) ||
-          /JSON.parse/gi.test(err.message)
+          /JSON.parse/gi.test(err.message) ||
+          /ServerParseError/gi.test(err.message)
       );
       return Observable.of<FetchResult>({
         errors: unexpectedError
