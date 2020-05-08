@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { ContainerForm, Row } from 'ui/modules/Modal';
 import { Trans } from '@lingui/macro';
-import { Box, Flex, Heading, Text } from 'rebass/styled-components';
-import { ArrowLeft, ArrowRight } from 'react-feather';
-import media from 'styled-media-query';
+import { Box, Text } from 'rebass/styled-components';
+// import { ArrowLeft, ArrowRight } from 'react-feather';
+// import media from 'styled-media-query';
 import styled from '../../themes/styled';
 import { LocaleContext } from '../../../context/global/localizationCtx';
 import Select from 'react-select';
@@ -11,23 +11,23 @@ import { ActionContext } from '../../../context/global/actionCtx';
 import { setLang } from '../../../redux/localization';
 import { languages, locales } from '../../../mn-constants';
 
-const Header = styled(Flex)`
-  border-bottom: ${props => props.theme.colors.border};
-  svg {
-    cursor: pointer;
-  }
-  ${media.greaterThan('1005px')`
-display: none;
-`};
-`;
+// const Header = styled(Flex)`
+//   border-bottom: ${props => props.theme.colors.border};
+//   svg {
+//     cursor: pointer;
+//   }
+//   ${media.greaterThan('1005px')`
+// display: none;
+// `};
+// `;
 
-const TabHeading = styled(Heading)`
-  margin-left: 8px;
-  .--rtl & {
-    margin-right: 8px;
-    margin-left: 0px;
-  }
-`;
+// const TabHeading = styled(Heading)`
+//   margin-left: 8px;
+//   .--rtl & {
+//     margin-right: 8px;
+//     margin-left: 0px;
+//   }
+// `;
 
 type LanguageSelectProps = {
   fullWidth?: boolean;
@@ -64,24 +64,6 @@ const Preferences = props => (
   <LocaleContext.Consumer>
     {value => (
       <Box>
-        <Header p={3} alignItems="center">
-          {value.locale != 'ar_SA' ? (
-            <ArrowLeft
-              size={32}
-              color="#f98012"
-              onClick={() => props.onSwitch('sidebar')}
-            />
-          ) : (
-            <ArrowRight
-              size={32}
-              color="#f98012"
-              onClick={() => props.onSwitch('sidebar')}
-            />
-          )}
-          <TabHeading>
-            <Trans>Preferences</Trans>
-          </TabHeading>
-        </Header>
         <Row>
           <ContainerForm>
             <label>
