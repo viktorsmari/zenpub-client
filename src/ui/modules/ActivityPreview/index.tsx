@@ -40,17 +40,19 @@ export const ActivityPreview: FC<Props> = activity => {
   return (
     <FeedItem mb={2}>
       {activity.event.toLowerCase().includes('like') ||
-      activity.event.toLowerCase().includes('flag') ? (
-        <SmallActorComp actor={activity.actor} event={activity.event} />
-      ) : (
-        <ActorComp
-          actor={activity.actor}
-          createdAt={activity.createdAt}
-          event={activity.event}
-          communityLink={activity.communityLink}
-          communityName={activity.communityName}
-        />
-      )}
+      activity.event.toLowerCase().includes('flag')
+        ? activity.actor && (
+            <SmallActorComp actor={activity.actor} event={activity.event} />
+          )
+        : activity.actor && (
+            <ActorComp
+              actor={activity.actor}
+              createdAt={activity.createdAt}
+              event={activity.event}
+              communityLink={activity.communityLink}
+              communityName={activity.communityName}
+            />
+          )}
 
       <Contents mt={2}>
         <Wrapper>{activity.preview}</Wrapper>
@@ -60,7 +62,7 @@ export const ActivityPreview: FC<Props> = activity => {
 };
 
 export interface ActorProps {
-  actor: Actor;
+  actor?: Actor;
   createdAt: string;
   event: string;
   communityName: string;
@@ -75,28 +77,32 @@ export const ActorComp: FC<ActorProps> = ({
 }) => {
   return (
     <Member>
-      <Avatar initials={actor.name} src={actor.icon} variant="avatar" />
-      <MemberInfo ml={2}>
-        <Flex mt={1} alignItems="center">
-          <Flex flex={1}>
-            <Name>
-              <Link to={actor.link}>{actor.name}</Link>
-            </Name>
-            <TextEvent
-              sx={{ textTransform: 'lowercase' }}
-              variant="text"
-              ml={1}
-            >
-              {event}
-            </TextEvent>
-          </Flex>
-        </Flex>
-        <Flex sx={{ marginTop: '2px' }} alignItems="center">
-          <Date>{DateTime.fromSQL(createdAt).toRelative()}</Date>
-          <Spacer mx={1}>·</Spacer>
-          <CommunityName to={communityLink}>{communityName}</CommunityName>
-        </Flex>
-      </MemberInfo>
+      {actor && (
+        <>
+          <Avatar initials={actor.name} src={actor.icon} variant="avatar" />
+          <MemberInfo ml={2}>
+            <Flex mt={1} alignItems="center">
+              <Flex flex={1}>
+                <Name>
+                  <Link to={actor.link}>{actor.name}</Link>
+                </Name>
+                <TextEvent
+                  sx={{ textTransform: 'lowercase' }}
+                  variant="text"
+                  ml={1}
+                >
+                  {event}
+                </TextEvent>
+              </Flex>
+            </Flex>
+            <Flex sx={{ marginTop: '2px' }} alignItems="center">
+              <Date>{DateTime.fromSQL(createdAt).toRelative()}</Date>
+              <Spacer mx={1}>·</Spacer>
+              <CommunityName to={communityLink}>{communityName}</CommunityName>
+            </Flex>
+          </MemberInfo>
+        </>
+      )}
     </Member>
   );
 };

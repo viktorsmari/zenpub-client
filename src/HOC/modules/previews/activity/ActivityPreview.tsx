@@ -15,7 +15,7 @@ export const ActivityPreviewHOC: FC<Props> = ({ activityId }) => {
     if (!activity) {
       return { status: UI.Status.Loading };
     } else {
-      if (!(activity.user && activity.context)) {
+      if (!activity.context) {
         console.error('ActivityPreviewHOC: user or context :null', activity);
         return null;
       }
@@ -23,7 +23,7 @@ export const ActivityPreviewHOC: FC<Props> = ({ activityId }) => {
       const props: UI.Props = {
         status: UI.Status.Loaded,
         createdAt: activity.createdAt,
-        actor: getActivityActor(activity.user),
+        actor: activity.user && getActivityActor(activity.user),
         event: eventString,
         link,
         ...communityInfoStrings,
