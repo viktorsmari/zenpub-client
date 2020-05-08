@@ -14,6 +14,7 @@ import {Sidebar} from 'ui/modules/Sidebar'
 import {getSidebarProps} from 'ui/mock/sidebar'
 import {getMainHeaderProps} from 'ui/mock/mainHeader'
 const Head = () => <MainHeader {...getMainHeaderProps() } />
+const Side = () => <Sidebar {...getSidebarProps()}/>
 
 <Meta title="Pages|AllCommunities" component={AllCommunities}/>
 
@@ -28,7 +29,7 @@ The `AllCommunities` page displays all of the communities on the current MoodleN
   <Story name="AllCommunities page">
     <WithSidebar 
       HeaderBox={Head}
-      SidebarBox={<Sidebar {...getSidebarProps()}/>}>
+      SidebarBox={Side}>
         <AllCommunities 
         Header={(<Header name="All Communities" />)}
         CommunitiesBoxes={[

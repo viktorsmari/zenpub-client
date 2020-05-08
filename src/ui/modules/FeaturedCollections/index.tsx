@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/macro';
 import React, { useRef, SFC, ComponentType } from 'react';
-import Slider, { Settings } from 'react-slick';
+import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 import styled from 'ui/themes/styled';
@@ -127,7 +127,7 @@ export const FeaturedCollections: SFC<FeaturedCollectionsData> = props => {
       <Box px={2}>
         <Slider
           ref={c => (sliderRef.current = c || undefined)}
-          {...sliderSettings}
+          {...sliderSettings(props.featuredCollections.length)}
         >
           {props.featuredCollections.map(collection => (
             <div key={collection.id}>
@@ -155,26 +155,26 @@ export const FeaturedCollections: SFC<FeaturedCollectionsData> = props => {
 
 export default FeaturedCollections;
 
-const sliderSettings: Settings = {
+const sliderSettings = slidesToShow => ({
   dots: false,
   arrows: false,
   infinite: true,
   autoplay: false,
   speed: 500,
-  slidesToShow: 3,
+  slidesToShow: slidesToShow > 3 ? 3 : slidesToShow,
   slidesToScroll: 1,
   responsive: [
     {
       breakpoint: 1024,
       settings: {
-        slidesToShow: 3,
+        slidesToShow: slidesToShow > 3 ? 3 : slidesToShow,
         slidesToScroll: 1
       }
     },
     {
       breakpoint: 600,
       settings: {
-        slidesToShow: 2,
+        slidesToShow: slidesToShow > 2 ? 2 : slidesToShow,
         slidesToScroll: 1
       }
     },
@@ -186,4 +186,4 @@ const sliderSettings: Settings = {
       }
     }
   ]
-};
+});

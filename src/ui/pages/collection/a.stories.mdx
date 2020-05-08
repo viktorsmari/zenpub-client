@@ -16,6 +16,7 @@ import {Comment} from 'ui/modules/Previews/Comment'
 import {LikedComment} from 'ui/modules/Previews/LikedComment'
 import {MainHeader} from 'ui/modules/MainHeader'
 const Head = () => <MainHeader {...getMainHeaderProps() } />
+const Side = () => <Sidebar {...getSidebarProps()}/>
 
 <Meta title="Pages|Collection" component={Collection}/>
 
@@ -29,7 +30,7 @@ The `Collection` page displays a single MoodleNet collection. It is made up of t
   <Story name="Collection page">
     <WithSidebar 
       HeaderBox={Head}
-      SidebarBox={<Sidebar {...getSidebarProps()}/>}>
+      SidebarBox={Side}>
       <Collection 
         collectionName="Spaced repetition"
         loadMoreActivities={getLoadMoreProps()}

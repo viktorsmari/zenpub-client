@@ -11,6 +11,7 @@ import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
 import { FormikHook } from 'ui/@types/types';
 import { NavLink } from 'react-router-dom';
 import DOMPurify from 'dompurify';
+// import { typography } from 'mn-constants';
 
 export enum Status {
   Loading,
@@ -77,11 +78,14 @@ export const HeroCommunity: FC<Props> = ({ community: c }) => {
             />
           )}
           <Info mt={3}>
-            <MembersTot to={`${c.basePath}/members`}>
-              <Text variant="suptitle">
-                <Total mr={2}>{c.totalMembers}</Total> <Trans>Members</Trans>
-              </Text>
-            </MembersTot>
+            <InfoCommunity>
+              {/* <Badge mr={2}>Featured</Badge> */}
+              <MembersTot to={`${c.basePath}/members`}>
+                <Text variant="suptitle">
+                  <Total mr={2}>{c.totalMembers}</Total> <Trans>Members</Trans>
+                </Text>
+              </MembersTot>
+            </InfoCommunity>
             <Actions>
               <Button
                 mr={2}
@@ -153,6 +157,19 @@ export const HeroCommunity: FC<Props> = ({ community: c }) => {
     </>
   );
 };
+
+const InfoCommunity = styled(Flex)`
+  align-items: center;
+`;
+
+// const Badge = styled(Box)`
+//   border: 1px solid ${props => props.theme.colors.secondary};
+//   padding: 4px;
+//   border-radius: 4px;
+//   color:  ${props => props.theme.colors.secondary};
+//   font-size: ${typography.size.s1}
+// `
+
 const AdminDropdownItem = styled(DropdownItem)`
     border-top: 1px solid ${props => darken('0.1', props.theme.colors.light)};
     // svg {
@@ -177,6 +194,7 @@ const More = styled(Box)`
 
 const Info = styled(Flex)`
   align-items: center;
+  justify-content: space-between;
 `;
 const Total = styled(Text)`
   color: ${props => props.theme.colors.primary};
