@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { ContainerForm, Row } from 'ui/modules/Modal';
+import Button from 'ui/elements/Button';
+import { ContainerForm, Row, Actions } from 'ui/modules/Modal';
 import { Trans } from '@lingui/macro';
 import { Box, Text } from 'rebass/styled-components';
 // import { ArrowLeft, ArrowRight } from 'react-feather';
@@ -10,6 +11,8 @@ import Select from 'react-select';
 import { ActionContext } from '../../../context/global/actionCtx';
 import { setLang } from '../../../redux/localization';
 import { languages, locales } from '../../../mn-constants';
+import { FormikHook } from 'ui/@types/types';
+import { Label, Input } from '@rebass/forms';
 
 // const Header = styled(Flex)`
 //   border-bottom: ${props => props.theme.colors.border};
@@ -28,6 +31,14 @@ import { languages, locales } from '../../../mn-constants';
 //     margin-left: 0px;
 //   }
 // `;
+
+export interface EditPreferences {
+  moodleWebsite: string;
+}
+
+export interface Props {
+  formik: FormikHook<EditPreferences>;
+}
 
 type LanguageSelectProps = {
   fullWidth?: boolean;
@@ -59,8 +70,7 @@ export const LanguageSelect: React.FC<LanguageSelectProps> = props => {
     />
   );
 };
-
-const Preferences = props => (
+const Preferences: React.FC<Props> = props => (
   <LocaleContext.Consumer>
     {value => (
       <Box>
@@ -70,6 +80,29 @@ const Preferences = props => (
               <Trans>Select language</Trans>
             </label>
             <LanguageSelect />
+            <Box width={1 / 2} mt={2}>
+              <Label htmlFor="moodleWebsite">Location</Label>
+              <Input
+                id="moodleWebsite"
+                disabled={props.formik.isSubmitting}
+                value={props.formik.values.moodleWebsite}
+                onChange={props.formik.handleChange}
+                name="moodleWebsite"
+                placeholder={'Type your Moodle LMS instance'}
+              />
+            </Box>
+            <Actions sx={{ height: 'inherit !important' }}>
+              <Button
+                variant="primary"
+                isSubmitting={props.formik.isSubmitting}
+                isDisabled={props.formik.isSubmitting}
+                type="submit"
+                style={{ marginLeft: '10px' }}
+                onClick={props.formik.submitForm}
+              >
+                <Trans>Save</Trans>
+              </Button>
+            </Actions>
           </ContainerForm>
         </Row>
         <TransifexLink variant="text" my={3} mt={2}>

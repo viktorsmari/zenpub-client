@@ -1,17 +1,17 @@
-import {
-  createLocalSessionKVStorage,
-  LOCAL
-} from 'util/keyvaluestore/localSessionStorage';
 export interface MoodleLMSParams {
   site: string;
   course?: string;
   section?: string;
 }
-export const getParamsFromMoodleLMS = (): MoodleLMSParams => {
+
+export const getUrlParamsFromEntryPointForMoodleLMS = (): MoodleLMSParams | null => {
   const q = new URLSearchParams(location.search);
-  const site = q.get('site') || '';
-  const course = q.get('course') || '';
-  const section = q.get('section') || '';
+  const site = q.get('site');
+  if (!site) {
+    return null;
+  }
+  const course = q.get('course') || void 0;
+  const section = q.get('section') || void 0;
   return {
     site,
     course,
@@ -19,19 +19,29 @@ export const getParamsFromMoodleLMS = (): MoodleLMSParams => {
   };
 };
 
-const PARAMS = 'PARAMS';
-const storage = createLocalSessionKVStorage(LOCAL)('MOODLE_LMS');
-export const saveLMSParams = (params: MoodleLMSParams) =>
-  storage.set(PARAMS, params);
-export const getLMSParams = (params: MoodleLMSParams) => storage.get(PARAMS);
+export const sendToMoodle = (
+  resourceurl: string,
+  { site, course, section }: MoodleLMSParams
+) => {
+  const form = document.createElement('form');
+  form.target = '_blank';
+  form.method = 'POST';
+  form.action = `${site}/admin/tool/moodlenet/import.php`;
+  form.style.display = 'none';
+  const params = {
+    resourceurl,
+    course,
+    section
+  };
+  Object.entries(params).forEach(([name, val]) => {
+    const hiddenField = document.createElement('input');
+    hiddenField.type = 'hidden';
+    hiddenField.name = name;
+    hiddenField.value = val || '';
+    form.appendChild(hiddenField);
+  });
 
-export const getUserPreferred_moodle_lms_url = (extraInfo: any) =>
-  'string' === typeof extraInfo?.preferred_moodle_lms_url
-    ? extraInfo?.preferred_moodle_lms_url
-    : '';
-
-export const addToMoodleRequest = {
-  method: 'POST',
-  getUrl: (moodleSite: string) =>
-    `${moodleSite}/admin/tool/moodlenet/import.php`
+  document.body.appendChild(form);
+  form.submit();
+  document.body.removeChild(form);
 };

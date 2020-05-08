@@ -72,6 +72,10 @@ export function ResourcePreviewProps(
     isFlagged: false,
     FlagModal: ({ done }) => {
       return <></>;
+    },
+    // sendToMoodle:null,
+    MoodlePanel: ({ done }) => {
+      return <></>;
     }
   };
 }
@@ -100,6 +104,10 @@ export function ResourcePreviewUploadedProps(
     type,
     isFlagged: false,
     FlagModal: ({ done }) => {
+      return <></>;
+    },
+    // sendToMoodle:null,
+    MoodlePanel: ({ done }) => {
       return <></>;
     }
   };

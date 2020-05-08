@@ -19,10 +19,6 @@ import {
   useSearchHostIndexAndMyFollowingsQuery
 } from './SearchData.generated';
 import { Hit } from './Hits';
-const urlParams = new URLSearchParams(window.location.search);
-const moodle_core_download_url = decodeURI(
-  urlParams.get('moodle_core_download_url') || ''
-);
 
 const WrapperResult = styled(Box)`
   border-bottom: ${props => props.theme.colors.border};
@@ -66,11 +62,7 @@ const Result: React.FC<Result> = ({ hit, myInfo }) => {
       ) : (
         <span />
       )}
-      <Preview
-        hit={hit}
-        myInfo={myInfo}
-        moodle_core_download_url={moodle_core_download_url}
-      />
+      <Preview hit={hit} myInfo={myInfo} />
     </WrapperResult>
   );
 };
