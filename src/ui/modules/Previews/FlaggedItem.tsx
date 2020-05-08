@@ -35,11 +35,9 @@ export const FlaggedItem: React.SFC<FlaggedProps> = ({
 
   return (
     <Wrapper>
-      {FlaggedItemContextElement}
-      <Reason variant="text" mb={2} mt={4}>
-        {reason}
-      </Reason>
-      <Actions mt={2}>
+      <Reason>{FlaggedItemContextElement}</Reason>
+      <Text variant="text">{reason}</Text>
+      <Actions>
         <Box>
           <Items>
             {type === 'User' ? (
@@ -69,7 +67,7 @@ export const FlaggedItem: React.SFC<FlaggedProps> = ({
                 </Text>
               </ActionItem>
             )}
-            <ActionItem ml={4} onClick={() => setOpenIgnore(true)}>
+            <ActionItem ml={2} onClick={() => setOpenIgnore(true)}>
               <ActionIcon className="unflag">
                 <Flag className="hover" strokeWidth="1" size="16" />
               </ActionIcon>
@@ -129,6 +127,8 @@ export const FlaggedItem: React.SFC<FlaggedProps> = ({
 
 const Reason = styled(Box)`
   color: ${props => props.theme.colors.dark};
+  background: ${props => props.theme.colors.appInverse};
+  border-left: 3px solid ${props => props.theme.colors.light};
 `;
 
 const Items = styled(Flex)`

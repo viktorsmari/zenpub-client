@@ -2,6 +2,8 @@ import { Props as CollectionProps } from 'ui/modules/Previews/Collection';
 import { CommentProps } from 'ui/modules/Previews/Comment';
 import { Props as CommunityProps } from 'ui/modules/Previews/Community';
 import { CommentProps as LikedCommentProps } from 'ui/modules/Previews/LikedComment';
+
+import { FlaggedProps } from 'ui/modules/Previews/FlaggedItem';
 import { CommentProps as MainCommentProps } from 'ui/modules/Previews/MainComment';
 import { Props as ResourceProps } from 'ui/modules/Previews/Resource';
 import { CommentProps as ThreadProps } from 'ui/modules/Previews/Thread';
@@ -186,14 +188,17 @@ export function ThreadPreviewProps(
   };
 }
 
-// export function FlaggedItemPreviewProps(
-//   context,
-//   type,
-//   reason = 'Abusive speech'
-// ): FlaggedProps {
-//   return {
-//     type,
-//     reason,
-//     FlaggedItemContextElement: context
-//   };
-// }
+export function FlaggedItemPreviewProps(
+  flag,
+  type = '',
+  reason = 'Abusive speech'
+): FlaggedProps {
+  return {
+    FlaggedItemContextElement: flag,
+    blockUserFormik: ToggleFormik(),
+    deleteContentFormik: ToggleFormik(),
+    ignoreFlagFormik: ToggleFormik(),
+    type,
+    reason
+  };
+}
