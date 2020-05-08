@@ -1,11 +1,11 @@
-import React, { FC } from 'react';
-import {
-  MoodlePanel,
-  BasicMoodleLMSConfigFormValues
-} from 'ui/modules/MoodlePanel';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import { useProfile } from 'fe/user/profile/useProfile';
+import { useFormik } from 'formik';
+import React, { FC, useCallback } from 'react';
+import {
+  BasicMoodleLMSConfigFormValues,
+  MoodlePanel
+} from 'ui/modules/MoodlePanel';
+import * as Yup from 'yup';
 
 export interface MoodleLMSConfigPanel {
   done(_?: BasicMoodleLMSConfigFormValues): unknown;
@@ -22,12 +22,14 @@ export const MoodleLMSConfigPanel: FC<MoodleLMSConfigPanel> = ({ done }) => {
     enableReinitialize: true,
     validationSchema,
     onSubmit: async LMS => {
-      (await sendToMoodleFormik.dirty) &&
-        updateProfile({ profile: { extraInfo: { LMS } } });
+      if (sendToMoodleFormik.dirty) {
+        await updateProfile({ profile: { extraInfo: { LMS } } });
+      }
       done(LMS);
     }
   });
+  const cancel = useCallback(() => done(), [done]);
   return loading ? null : (
-    <MoodlePanel cancel={done} sendToMoodleFormik={sendToMoodleFormik} />
+    <MoodlePanel cancel={cancel} sendToMoodleFormik={sendToMoodleFormik} />
   );
 };
