@@ -22,11 +22,11 @@ export enum HomePageTab {
 
 export interface Props {
   // tab: HomePageTab;
-  nextCommunitiesFormik?: FormikHook;
-  nextCollectionsFormik?: FormikHook;
+  // nextCommunitiesFormik?: FormikHook;
+  // nextCollectionsFormik?: FormikHook;
   nextInboxFormik?: FormikHook;
-  FollowedCommunitiesElements: JSX.Element;
-  FollowedCollectionsElements: JSX.Element;
+  // FollowedCommunitiesElements: JSX.Element;
+  // FollowedCollectionsElements: JSX.Element;
   InboxElements: JSX.Element;
   basePath: string;
 }
@@ -82,14 +82,14 @@ const Menu = ({ basePath }: { basePath: string }) => {
       <NavLink exact to={`${basePath}`}>
         <Trans>My Timeline</Trans>
       </NavLink>
-      {/* <>
-        <NavLink to={`${basePath}/mycommunities`}>
+      <>
+        {/* <NavLink to={`${basePath}/mycommunities`}>
           <Trans>Joined communities</Trans>
         </NavLink>
         <NavLink to={`${basePath}/mycollections`}>
           <Trans>Followed collections</Trans>
-        </NavLink>
-      </> */}
+        </NavLink> */}
+      </>
     </MenuList>
   );
 };

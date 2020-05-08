@@ -39,7 +39,8 @@ export const ActivityPreview: FC<Props> = activity => {
   // console.log(activity.event);
   return (
     <FeedItem mb={2}>
-      {activity.event.toLowerCase().includes('like') ? (
+      {activity.event.toLowerCase().includes('like') ||
+      activity.event.toLowerCase().includes('flag') ? (
         <SmallActorComp actor={activity.actor} event={activity.event} />
       ) : (
         <ActorComp

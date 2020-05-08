@@ -20,9 +20,11 @@ CollectionPreviewProps,
 CommentPreviewProps,
 MainCommentPreviewProps,
 LikedCommentPreviewProps,
-// FlaggedItemPreviewProps,
+FlaggedItemPreviewProps,
 ThreadPreviewProps
  } from 'ui/mock/previews'
+import { activityPreviewProps } from 'ui/mock/activityPreview';
+import { ActivityPreview } from 'ui/modules/ActivityPreview';
 
 <Meta title="Modules|Main Previews"/>
 
@@ -185,6 +187,26 @@ Let's define a story for the `Liked Comment preview` module
         p={2}
       >
     <LikedComment {...LikedCommentPreviewProps()} />
+    </Box>
+  </Story>
+</Preview> 
+
+# Flagged Item
+Let's define a story for the `Liked Comment preview` module
+
+<Preview>
+  <Story name="Flagged item preview module">
+     <Box
+        sx={{
+          borderRadius: '6px',
+          width: '600px',
+          margin: '0 auto'
+        }}
+        p={2}
+      >
+    <FlaggedItem {...FlaggedItemPreviewProps(
+       <ActivityPreview {...activityPreviewProps('Created a comment', <Comment hideActions={true} {...CommentPreviewProps() }/>)} />
+    )} />
     </Box>
   </Story>
 </Preview> 
