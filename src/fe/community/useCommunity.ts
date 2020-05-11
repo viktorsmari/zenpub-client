@@ -15,7 +15,8 @@ export const useCommunity = (communityId: Community['id']) => {
   const { toggleFollow: toggleJoin } = useFollowContext(community);
   const { edit } = useEditCommunity(communityId);
   const canModify =
-    !!me && !!community?.creator && me.user.id === community.creator.id;
+    !!me?.isInstanceAdmin ||
+    (!!me && !!community?.creator && me.user.id === community.creator.id);
 
   return useMemo(() => {
     return {
