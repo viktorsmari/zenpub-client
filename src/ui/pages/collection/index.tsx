@@ -29,9 +29,9 @@ export interface Props {
   UploadResourcePanel: React.ComponentType<{ done(): any }>;
   basePath: string;
   collectionName: string;
-  loadMoreActivities: FormikHook;
-  loadMoreResources: FormikHook;
-  loadMoreFollowers: FormikHook;
+  loadMoreActivities?: FormikHook;
+  loadMoreResources?: FormikHook;
+  loadMoreFollowers?: FormikHook;
   isCommunityMember?: boolean; // FIX ME remove ? after added at HOC
 }
 
