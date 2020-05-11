@@ -93,14 +93,14 @@ async function run() {
   );
   const ApolloApp = () => (
     <ApolloProvider client={apolloClient.client}>
-      <ToastContainer
-        hideProgressBar
-        transition={Slide}
-        autoClose={3000}
-        newestOnTop
-      />
       <ProvideContexts store={store} dynamicLinkSrv={dynamicLinkEnv.srv}>
         <Global />
+        <ToastContainer
+          hideProgressBar
+          transition={Slide}
+          autoClose={3000}
+          newestOnTop
+        />
         <App />
       </ProvideContexts>
     </ApolloProvider>

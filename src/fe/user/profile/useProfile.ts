@@ -1,17 +1,18 @@
-import { mnCtx } from 'fe/lib/graphql/ctx';
-import { getMaybeUploadInput } from 'fe/mutation/upload/getUploadInput';
-import Maybe from 'graphql/tsutils/Maybe';
-import { UpdateProfileInput } from 'graphql/types.generated';
-import { useCallback, useMemo } from 'react';
-import {
-  useMyProfileQuery,
-  useUpdateMyProfileMutation
-} from './useProfile.generated';
-import { MoodleLMSParams } from 'fe/lib/moodleLMS/moodleLMSintegration';
 import {
   withEncodedExtraInfo,
   WithExtraInfo
 } from 'fe/lib/extraInfo/extraInfo';
+import { mnCtx } from 'fe/lib/graphql/ctx';
+import { MoodleLMSParams } from 'fe/lib/moodleLMS/moodleLMSintegration';
+import { getMaybeUploadInput } from 'fe/mutation/upload/getUploadInput';
+import Maybe from 'graphql/tsutils/Maybe';
+import { UpdateProfileInput } from 'graphql/types.generated';
+import { useCallOrNotifyMustLogin } from 'HOC/lib/notifyMustLogin';
+import { useMemo } from 'react';
+import {
+  useMyProfileQuery,
+  useUpdateMyProfileMutation
+} from './useProfile.generated';
 
 type UserProfileExtraInfo = {
   LMS?: MoodleLMSParams;
@@ -28,10 +29,10 @@ export interface UpdateProfile {
   image?: Maybe<File | string>;
 }
 export const useProfile = () => {
-  const profileQ = useMyProfileQuery();
+  const profileQ = useMyProfileQuery({ context: mnCtx({ noShowError: true }) });
   const [updateProfileMutation] = useUpdateMyProfileMutation();
 
-  const updateProfile = useCallback(
+  const updateProfile = useCallOrNotifyMustLogin(
     ({ icon, image, profile }: UpdateProfile) =>
       updateProfileMutation({
         variables: {

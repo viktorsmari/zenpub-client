@@ -8,6 +8,7 @@ import { useMemo } from 'react';
 import { CollectionResourcesQueryRefetch } from '../collection/useCollectionResources.generated';
 import * as GQL from './useAddResource.generated';
 import { DEFAULT_PAGE_SIZE } from 'mn-constants';
+import { useCallOrNotifyMustLogin } from 'HOC/lib/notifyMustLogin';
 
 export interface AddResource {
   collectionId: Collection['id'];
@@ -20,13 +21,8 @@ export const useAddResource = () => {
     createResource,
     createResourceStatus
   ] = GQL.useAddResourceCreateResourceMutation();
-  return useMemo(() => {
-    const create = async ({
-      collectionId,
-      content,
-      icon,
-      resource
-    }: AddResource) => {
+  const create = useCallOrNotifyMustLogin(
+    async ({ collectionId, content, icon, resource }: AddResource) => {
       if (createResourceStatus.loading) {
         return;
       }
@@ -45,9 +41,12 @@ export const useAddResource = () => {
           })
         ]
       });
-    };
+    },
+    [createResourceStatus, createResource]
+  );
+  return useMemo(() => {
     return {
       create
     };
-  }, [createResourceStatus, createResource]);
+  }, [create]);
 };
