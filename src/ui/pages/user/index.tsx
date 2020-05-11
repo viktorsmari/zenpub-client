@@ -24,7 +24,7 @@ import { Link } from 'react-feather';
 
 export interface Props {
   ActivityBoxes: JSX.Element;
-  LikesBoxes?: JSX.Element; // FIX ME remove ? after add LikesBoxes at HOC
+  LikesBoxes: JSX.Element; // FIX ME remove ? after add LikesBoxes at HOC
   HeroUserBox: JSX.Element;
   CommunityBoxes: JSX.Element;
   CollectionsBoxes: JSX.Element;
