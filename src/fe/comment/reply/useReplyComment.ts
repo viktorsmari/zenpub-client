@@ -1,17 +1,18 @@
+import { MyInboxActivitiesQueryRefetch } from 'fe/activities/inbox/my/useMyInboxActivities.generated';
 import { CommunityOutboxActivitiesQueryRefetch } from 'fe/activities/outbox/community/useCommunityOutboxActivities.generated';
 import { InstanceOutboxActivitiesQueryRefetch } from 'fe/activities/outbox/instance/useInstanceOutboxActivities.generated';
+import { mnCtx } from 'fe/lib/graphql/ctx';
 import Maybe from 'graphql/tsutils/Maybe';
 import { Comment, Community, Thread } from 'graphql/types.generated';
+import { useCallOrNotifyMustLogin } from 'HOC/lib/notifyMustLogin';
 import { DEFAULT_PAGE_SIZE } from 'mn-constants';
-import { useCallback, useMemo } from 'react';
-import * as GQL from './useReplyComment.generated';
+import { useMemo } from 'react';
 import {
+  ThreadCommentsDocument,
   ThreadCommentsQuery,
-  ThreadCommentsQueryVariables,
-  ThreadCommentsDocument
+  ThreadCommentsQueryVariables
 } from '../thread/useThreadComments.generated';
-import { mnCtx } from 'fe/lib/graphql/ctx';
-import { MyInboxActivitiesQueryRefetch } from 'fe/activities/inbox/my/useMyInboxActivities.generated';
+import * as GQL from './useReplyComment.generated';
 export const useReplyComment = (
   comment: Maybe<{
     id: Comment['id'];
@@ -24,7 +25,7 @@ export const useReplyComment = (
 
   const mutating = status.loading;
 
-  const reply = useCallback(
+  const reply = useCallOrNotifyMustLogin(
     async (content: string) => {
       if (mutating || !comment || !comment.thread) {
         return;

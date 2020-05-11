@@ -7,7 +7,8 @@ import { CollectionFollowersQueryRefetch } from 'fe/user/followers/collection/us
 import { CommunityFollowersQueryRefetch } from 'fe/user/followers/community/useCommunityFollowers.generated';
 import Maybe from 'graphql/tsutils/Maybe';
 import { Collection, Community, User } from 'graphql/types.generated';
-import { useCallback, useMemo } from 'react';
+import { useCallOrNotifyMustLogin } from 'HOC/lib/notifyMustLogin';
+import { useMemo } from 'react';
 
 type Context = Collection | Community | User; //| Thread;
 
@@ -19,7 +20,7 @@ export const useFollowContext = (ctx: UseFollowContext) => {
   const [followMut, followMutStatus] = GQL.useFollowMutation();
   const [unfollowMut, unfollowMutStatus] = GQL.useUnfollowMutation();
   const mutating = followMutStatus.loading || unfollowMutStatus.loading;
-  const toggleFollow = useCallback(async () => {
+  const toggleFollow = useCallOrNotifyMustLogin(async () => {
     const { id, followerCount, myFollow, __typename, name } = ctx || {};
     if (!id || mutating) {
       return;

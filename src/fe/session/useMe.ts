@@ -1,7 +1,7 @@
-import { useMemo, useCallback } from 'react';
 import { mnCtx } from 'fe/lib/graphql/ctx';
-import * as GQL from './me.generated';
+import { useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
+import * as GQL from './me.generated';
 
 export const useMe = () => {
   const meQ = GQL.useMeQuery({ context: mnCtx({ noShowError: true }) });
@@ -10,7 +10,7 @@ export const useMe = () => {
   const me = meQ.data?.me;
   const loading = meQ.loading;
   const isAdmin = !!me?.isInstanceAdmin;
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
     if (logoutStatus.loading || !me?.user) {
       return;
     }
