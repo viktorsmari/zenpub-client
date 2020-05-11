@@ -229,9 +229,9 @@ const RepoLink = styled(Text)`
   a {
     text-decoration: underline;
     font-size: 12px;
-    color: ${props => props.theme.colors.medium};
+    color: ${props => props.theme.colors.dark};
     &:hover {
-      color: ${props => props.theme.colors.mediumdark};
+      color: ${props => props.theme.colors.darkest};
     }
   }
 `;
