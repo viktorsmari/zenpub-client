@@ -27,7 +27,7 @@ export const initialValues: ResourceFormValues = {
   summary: '',
   icon: '',
   license: accepted_license_types[1],
-  resource: undefined
+  resource: null
 };
 
 export interface AddResourceHOC {
@@ -65,9 +65,12 @@ export const AddResourceHOC: FC<AddResourceHOC> = ({
       }).then(done);
     }
   });
-
+  const hideIconField =
+    !formik.values.resource ||
+    formik.values.resource.type.indexOf('image') !== -1;
   return (
     <UploadResource
+      hideIconField={hideIconField}
       cancel={done}
       formik={formik}
       acceptedLicenses={accepted_license_types}

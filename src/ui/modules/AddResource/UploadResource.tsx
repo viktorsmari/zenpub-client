@@ -40,20 +40,22 @@ export interface Props {
   cancel: () => any;
   formik: FormikHook<ResourceFormValues>;
   acceptedLicenses: string[];
+  hideIconField: boolean;
 }
 
 export interface ResourceFormValues {
   license: string;
   name: string;
   summary: string;
-  resource?: File;
-  icon?: File | string;
+  resource: File | null;
+  icon: File | string | null;
 }
 
 export const UploadResource: React.FC<Props> = ({
   cancel,
   formik,
-  acceptedLicenses
+  acceptedLicenses,
+  hideIconField
 }) => {
   const [license0, license1, license2] = acceptedLicenses;
   const { i18n } = React.useContext(LocaleContext);
@@ -143,20 +145,23 @@ export const UploadResource: React.FC<Props> = ({
           </>
         </ContainerForm>
       </Row>
-      <Row>
-        <label>
-          <Trans>Image</Trans>
-        </label>
-        <ContainerForm>
-          <Box sx={{ width: '120px', height: '120px' }}>
-            <DropzoneArea
-              initialUrl={initialIconUrl}
-              onFileSelect={onIconFileSelect}
-              filePattern={'image/*'}
-            />
-          </Box>
-        </ContainerForm>
-      </Row>
+      {hideIconField ? null : (
+        <Row>
+          <label>
+            <Trans>Image</Trans>
+          </label>
+          <ContainerForm>
+            <Box sx={{ width: '120px', height: '120px' }}>
+              <DropzoneArea
+                initialUrl={initialIconUrl}
+                onFileSelect={onIconFileSelect}
+                filePattern={'image/*'}
+              />
+            </Box>
+          </ContainerForm>
+        </Row>
+      )}
+
       <Row>
         <LabelWrapper>
           <label>
