@@ -143,20 +143,24 @@ export const UploadResource: React.FC<Props> = ({
           </>
         </ContainerForm>
       </Row>
-      <Row>
-        <label>
-          <Trans>Image</Trans>
-        </label>
-        <ContainerForm>
-          <Box sx={{ width: '120px', height: '120px' }}>
-            <DropzoneArea
-              initialUrl={initialIconUrl}
-              onFileSelect={onIconFileSelect}
-              filePattern={'image/*'}
-            />
-          </Box>
-        </ContainerForm>
-      </Row>
+      {formik.values.resource &&
+      formik.values.resource.type.indexOf('image') == -1 ? (
+        <Row>
+          <label>
+            <Trans>Image</Trans>
+          </label>
+          <ContainerForm>
+            <Box sx={{ width: '120px', height: '120px' }}>
+              <DropzoneArea
+                initialUrl={initialIconUrl}
+                onFileSelect={onIconFileSelect}
+                filePattern={'image/*'}
+              />
+            </Box>
+          </ContainerForm>
+        </Row>
+      ) : null}
+
       <Row>
         <LabelWrapper>
           <label>

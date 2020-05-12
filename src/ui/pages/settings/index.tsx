@@ -209,11 +209,11 @@ export const Settings: React.FC<Props> = ({
             </SettingsWrapper>
           </Wrapper>
         </WrapperCont>
-        <RepoLink variant="text" my={3} mt={2}>
+        {/* <RepoLink variant="text" my={3} mt={2}>
           <a href="https://gitlab.com/moodlenet/meta/-/issues" target="_blank">
             <Trans>Want to report a bug?</Trans>
           </a>
-        </RepoLink>
+        </RepoLink> */}
       </HomeBox>
     </MainContainer>
   );
@@ -223,18 +223,18 @@ const SettingsWrapper = styled(Box)`
   background: ${props => props.theme.colors.appInverse};
 `;
 
-const RepoLink = styled(Text)`
-  text-align: right;
-  width: 100%;
-  a {
-    text-decoration: underline;
-    font-size: 12px;
-    color: ${props => props.theme.colors.dark};
-    &:hover {
-      color: ${props => props.theme.colors.darkest};
-    }
-  }
-`;
+// const RepoLink = styled(Text)`
+//   text-align: right;
+//   width: 100%;
+//   a {
+//     text-decoration: underline;
+//     font-size: 12px;
+//     color: ${props => props.theme.colors.dark};
+//     &:hover {
+//       color: ${props => props.theme.colors.darkest};
+//     }
+//   }
+// `;
 
 const Sidebar = ({ basePath, isAdmin }) => {
   return (
