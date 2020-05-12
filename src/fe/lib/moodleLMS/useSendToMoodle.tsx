@@ -1,44 +1,53 @@
 import { useProfile } from 'fe/user/profile/useProfile';
-import { MoodleLMSConfigPanel } from 'HOC/modules/MoodleLMSConfigPanel/MoodleLMSConfigPanel';
-import React, { useMemo } from 'react';
-import { MoodleLMSParams, sendToMoodle } from './moodleLMSintegration';
+import { LMSPrefsPanel } from './LMSPrefsPanel';
+import React, { useMemo, useCallback } from 'react';
+import { LMSPrefs, sendToMoodle } from './LMSintegration';
+import {
+  SESSION,
+  createLocalSessionKVStorage
+} from 'util/keyvaluestore/localSessionStorage';
+const storage = createLocalSessionKVStorage(SESSION)('LMS_');
+const LMS_KEY = 'LMS';
 
 type MaybeResourceUrl = string | null | undefined;
-export const useSendToMoodle = (resourceUrl: MaybeResourceUrl) => {
-  const { profile } = useProfile();
-  const LMSParams = profile?.extraInfo?.LMS;
-  const sendToMoodleCB = useMemo(() => {
-    if (!LMSParams || !resourceUrl) {
-      return null;
-    }
-    return ((_resourceUrl: string, params: MoodleLMSParams) => () =>
-      sendToMoodle(_resourceUrl, params))(resourceUrl, LMSParams);
-  }, [resourceUrl, LMSParams]);
+export const useLMS = (resourceUrl: MaybeResourceUrl) => {
+  const { profile, updateProfile } = useProfile();
 
-  const sendToMoodleModalCB = useMemo(() => {
-    if (!resourceUrl) {
-      return null;
-    }
-    return ((_resourceUrl: string) => (params: MoodleLMSParams) =>
-      sendToMoodle(_resourceUrl, params))(resourceUrl);
-  }, [resourceUrl, LMSParams]);
+  const LMSPrefs = profile?.extraInfo?.LMS;
+
+  const updateLMSPrefs = useCallback(
+    async (LMS: LMSPrefs) => {
+      storage.set(LMS_KEY, LMS);
+      if (profile) {
+        await updateProfile({ profile: { extraInfo: { LMS } } });
+      }
+    },
+    [updateProfile]
+  );
+
+  const updateLMSPrefsAndSend = useCallback(
+    async (LMS: LMSPrefs) => {
+      if (!resourceUrl) {
+        return false;
+      }
+      updateLMSPrefs(LMS).finally(() => sendToMoodle(resourceUrl, LMS));
+      return true;
+    },
+    [resourceUrl, LMSPrefs]
+  );
 
   return useMemo(
     () => ({
-      sendToMoodle: sendToMoodleCB,
-      MoodlePanel:
-        sendToMoodleModalCB &&
-        (({ done }) => (
-          <MoodleLMSConfigPanel
-            done={params => {
-              if (params && sendToMoodleModalCB) {
-                sendToMoodleModalCB(params);
-              }
-              done();
-            }}
-          />
-        ))
+      updateLMSPrefs,
+      updateLMSPrefsAndSend,
+      LMSPrefsPanel: ({ done }) => (
+        <LMSPrefsPanel
+          done={done}
+          lmsParams={profile?.extraInfo?.LMS || storage.get(LMS_KEY)}
+          updateLMSPrefsAndSend={updateLMSPrefsAndSend}
+        />
+      )
     }),
-    [sendToMoodleCB, sendToMoodleModalCB]
+    [updateLMSPrefsAndSend, updateLMSPrefs]
   );
 };

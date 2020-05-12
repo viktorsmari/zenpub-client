@@ -1,10 +1,10 @@
-export interface MoodleLMSParams {
+export interface LMSPrefs {
   site: string;
   course?: string;
   section?: string;
 }
 
-export const getUrlParamsFromEntryPointForMoodleLMS = (): MoodleLMSParams | null => {
+export const getUrlParamsFromEntryPointForMoodleLMS = (): LMSPrefs | null => {
   const q = new URLSearchParams(location.search);
   const site = q.get('site');
   if (!site) {
@@ -21,7 +21,7 @@ export const getUrlParamsFromEntryPointForMoodleLMS = (): MoodleLMSParams | null
 
 export const sendToMoodle = (
   resourceurl: string,
-  { site, course, section }: MoodleLMSParams
+  { site, course, section }: LMSPrefs
 ) => {
   const form = document.createElement('form');
   form.target = '_blank';
