@@ -12,9 +12,10 @@ import {
 
 export interface Props {
   resourceId: Resource['id'];
+  flagged?: boolean;
 }
 
-export const ResourcePreviewHOC: FC<Props> = ({ resourceId }) => {
+export const ResourcePreviewHOC: FC<Props> = ({ resourceId, flagged }) => {
   const { resource, toggleLike } = useResourcePreview(resourceId);
 
   const toggleLikeFormik = useFormik({
@@ -28,6 +29,7 @@ export const ResourcePreviewHOC: FC<Props> = ({ resourceId }) => {
     if (!resource) {
       return null;
     }
+    const hideActions = flagged ? true : false;
 
     const props: ResourcePreviewProps = {
       icon: resource.icon?.url || '',
@@ -46,7 +48,8 @@ export const ResourcePreviewHOC: FC<Props> = ({ resourceId }) => {
       FlagModal: ({ done }) => <FlagModalHOC done={done} ctx={resource} />,
       // sendToMoodle,
       MoodlePanel,
-      type: resource.payload?.mediaType
+      type: resource.payload?.mediaType,
+      hideActions: hideActions
     };
     return props;
   }, [resource, toggleLikeFormik, /* sendToMoodle, */ MoodlePanel]);

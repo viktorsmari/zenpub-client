@@ -55,7 +55,6 @@ export const Comment: React.SFC<CommentProps> = ({
   // const { i18n } = React.useContext(LocaleContext);
   const [isOpenFlagModal, setOpenFlagModal] = React.useState(false);
   const [isOpen, onOpen] = React.useState(false);
-
   return (
     <Wrapper>
       {/* <Link to={url}> */}
@@ -66,8 +65,9 @@ export const Comment: React.SFC<CommentProps> = ({
         mb={2}
       />
       {/* </Link> */}
-      <Actions mt={2}>
-        {/* {talkModalVisible && (
+      {hideActions ? null : (
+        <Actions mt={2}>
+          {/* {talkModalVisible && (
             <Box mb={2}>
               <SocialText
                 placeholder={i18n._(tt.placeholders.name)}
@@ -80,9 +80,9 @@ export const Comment: React.SFC<CommentProps> = ({
               />
             </Box>
           )} */}
-        <Box>
-          <Items>
-            {hideActions ? null : (
+
+          <Box>
+            <Items>
               <ActionItem>
                 <NavLink to={url}>
                   <ActionIcon>
@@ -102,61 +102,61 @@ export const Comment: React.SFC<CommentProps> = ({
                   </ActionText>
                 </NavLink>
               </ActionItem>
+              <ActionItem
+                liked={like.iLikeIt ? true : false}
+                onClick={like.toggleLikeFormik.submitForm}
+              >
+                <ActionIcon>
+                  <Star strokeWidth="1" size="18" />
+                </ActionIcon>
+                <ActionText
+                  variant={'text'}
+                  sx={{ textTransform: 'capitalize' }}
+                  ml={1}
+                >
+                  {like.totalLikes + ' '} <Trans>Favourite</Trans>
+                </ActionText>
+              </ActionItem>
+              <ActionItem
+                onClick={() => onOpen(true)}
+                sx={{ position: 'relative' }}
+              >
+                <ActionIcon>
+                  <MoreHorizontal className="hover" size={18} />
+                </ActionIcon>
+                <ActionText
+                  variant={'text'}
+                  sx={{ textTransform: 'capitalize' }}
+                  ml={1}
+                >
+                  <Trans>More</Trans>
+                </ActionText>
+                {isOpen && (
+                  <Dropdown orientation="bottom" cb={onOpen}>
+                    {FlagModal && (
+                      <DropdownItem onClick={() => setOpenFlagModal(true)}>
+                        <Flag size={20} color={'rgb(101, 119, 134)'} />
+                        <Text sx={{ flex: 1 }} ml={2}>
+                          {!isFlagged ? (
+                            <Trans>Flag this comment</Trans>
+                          ) : (
+                            <Trans>Unflag this comment</Trans>
+                          )}
+                        </Text>
+                      </DropdownItem>
+                    )}
+                  </Dropdown>
+                )}
+              </ActionItem>
+            </Items>
+            {FlagModal && isOpenFlagModal && (
+              <Modal closeModal={() => setOpenFlagModal(false)}>
+                <FlagModal done={() => setOpenFlagModal(false)} />
+              </Modal>
             )}
-            <ActionItem
-              liked={like.iLikeIt ? true : false}
-              onClick={like.toggleLikeFormik.submitForm}
-            >
-              <ActionIcon>
-                <Star strokeWidth="1" size="18" />
-              </ActionIcon>
-              <ActionText
-                variant={'text'}
-                sx={{ textTransform: 'capitalize' }}
-                ml={1}
-              >
-                {like.totalLikes + ' '} <Trans>Favourite</Trans>
-              </ActionText>
-            </ActionItem>
-            <ActionItem
-              onClick={() => onOpen(true)}
-              sx={{ position: 'relative' }}
-            >
-              <ActionIcon>
-                <MoreHorizontal className="hover" size={18} />
-              </ActionIcon>
-              <ActionText
-                variant={'text'}
-                sx={{ textTransform: 'capitalize' }}
-                ml={1}
-              >
-                <Trans>More</Trans>
-              </ActionText>
-              {isOpen && (
-                <Dropdown orientation="bottom" cb={onOpen}>
-                  {FlagModal && (
-                    <DropdownItem onClick={() => setOpenFlagModal(true)}>
-                      <Flag size={20} color={'rgb(101, 119, 134)'} />
-                      <Text sx={{ flex: 1 }} ml={2}>
-                        {!isFlagged ? (
-                          <Trans>Flag this comment</Trans>
-                        ) : (
-                          <Trans>Unflag this comment</Trans>
-                        )}
-                      </Text>
-                    </DropdownItem>
-                  )}
-                </Dropdown>
-              )}
-            </ActionItem>
-          </Items>
-          {FlagModal && isOpenFlagModal && (
-            <Modal closeModal={() => setOpenFlagModal(false)}>
-              <FlagModal done={() => setOpenFlagModal(false)} />
-            </Modal>
-          )}
-        </Box>
-      </Actions>
+          </Box>
+        </Actions>
+      )}
       {/* <Forked>
         <b>SoapDog</b> forked this discussion: Yeah, they've wrote a lot of
         stuff... (3)
@@ -190,6 +190,8 @@ const Items = styled(Flex)`
 `;
 
 const Actions = styled(Box)`
+  border-top: ${props => props.theme.colors.border};
+  margin-top: 16px;
   position: relative;
   z-index: 999999999999999999999999999999999999;
   margin-top: 16px;
@@ -257,8 +259,6 @@ const ActionText = styled(Text)`
 
 const Wrapper = styled(Box)`
   background: ${props => props.theme.colors.appInverse};
-  border-bottom: ${props => props.theme.colors.border};
-  padding-bottom: 16px;
   a {
     text-decoration: none
     &:hover {
