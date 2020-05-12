@@ -46,8 +46,8 @@ export interface ResourceFormValues {
   license: string;
   name: string;
   summary: string;
-  resource?: File;
-  icon?: File | string;
+  resource: File | null;
+  icon: File | string | null;
 }
 
 export const UploadResource: React.FC<Props> = ({

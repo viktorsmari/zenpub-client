@@ -27,7 +27,7 @@ export const initialValues: ResourceFormValues = {
   summary: '',
   icon: '',
   license: accepted_license_types[1],
-  resource: undefined
+  resource: null
 };
 
 export interface AddResourceHOC {
