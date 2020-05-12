@@ -19,6 +19,8 @@ import {
   useSearchHostIndexAndMyFollowingsQuery
 } from './SearchData.generated';
 import { Hit } from './Hits';
+import Maybe from 'graphql/tsutils/Maybe';
+import { mnCtx } from 'fe/lib/graphql/ctx';
 
 const WrapperResult = styled(Box)`
   border-bottom: ${props => props.theme.colors.border};
@@ -43,7 +45,7 @@ const PagFlex = styled(Flex)`
 
 interface Result {
   hit: Hit;
-  myInfo: SearchHostIndexAndMyFollowingsQuery;
+  myInfo: Maybe<SearchHostIndexAndMyFollowingsQuery>;
 }
 const Result: React.FC<Result> = ({ hit, myInfo }) => {
   return (
@@ -68,9 +70,11 @@ const Result: React.FC<Result> = ({ hit, myInfo }) => {
 };
 
 const InfiniteHits = ({ hits }: { hits: Hit[] }) => {
-  const { data } = useSearchHostIndexAndMyFollowingsQuery();
+  const { data } = useSearchHostIndexAndMyFollowingsQuery({
+    context: mnCtx({ noShowError: true })
+  });
   // return the DOM output
-  return data ? (
+  return (
     <>
       {hits.map(hit => (
         <Result key={hit.objectID} hit={hit} myInfo={data} />
@@ -79,8 +83,6 @@ const InfiniteHits = ({ hits }: { hits: Hit[] }) => {
         <Pagination showNext />
       </PagFlex>
     </>
-  ) : (
-    <div />
   );
 };
 

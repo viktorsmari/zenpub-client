@@ -23,40 +23,13 @@ import { useHit } from './lib';
 import { SearchHostIndexAndMyFollowingsQuery } from './SearchData.generated';
 import { useSendToMoodle } from 'fe/lib/moodleLMS/useSendToMoodle';
 import Modal from 'ui/modules/Modal';
+import Maybe from 'graphql/tsutils/Maybe';
 
 const PlaceholderImg = require('../../components/elements/Icons/resourcePlaceholder.png');
 
-// interface Props {
-//   icon: string;
-//   image?: string;
-//   title: string;
-//   summary: string;
-//   url: string;
-//   type: string;
-//   moodleLMSURL?: any;
-// }
-// icon={hit.icon || hit.image}
-// title={hit.name}
-// summary={hit.summary}
-// url={hit.url || hit.canonicalUrl || ''}
-// type={hit.index_type}
-// moodleLMSURL={
-//   moodle_core_download_url
-//     ? moodle_core_download_url +
-//       `&sourceurl=` +
-//       encodeURIComponent(hit.url) +
-//       `&moodleneturl=` +
-//       encodeURIComponent(hit.canonicalUrl||'') +
-//       `&name=` +
-//       encodeURIComponent(hit.name) +
-//       `&description=` +
-//       encodeURIComponent(hit.summary)
-//     : null
-// }
-
 interface Props {
   hit: Hit;
-  myInfo: SearchHostIndexAndMyFollowingsQuery;
+  myInfo: Maybe<SearchHostIndexAndMyFollowingsQuery>;
 }
 
 const Resource: React.FC<Props> = ({ hit, myInfo }) => {

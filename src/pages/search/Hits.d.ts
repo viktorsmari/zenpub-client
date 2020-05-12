@@ -7,7 +7,7 @@ export interface Community {
   followers: Followers;
   icon: string;
   id: string;
-  image: string;
+  image?: string;
   name: string;
   preferredUsername: string;
   summary: string;
@@ -50,10 +50,6 @@ export interface HighlightResult {
   url: Url;
 }
 
-export interface Likes {
-  totalCount: number;
-}
-
 export interface Followers3 {
   totalCount: number;
 }
@@ -63,7 +59,7 @@ export interface Community2 {
   followers: Followers3;
   icon: string;
   id: string;
-  image: string;
+  image?: string;
   name: string;
   preferredUsername: string;
   summary: string;
@@ -71,18 +67,6 @@ export interface Community2 {
 
 export interface Followers4 {
   totalCount: number;
-}
-
-export interface Collection {
-  canonicalUrl: string;
-  community: Community2;
-  createdAt: string;
-  followers: Followers4;
-  icon: string;
-  id: string;
-  name: string;
-  preferredUsername: string;
-  summary: string;
 }
 
 export interface Hit {
@@ -104,4 +88,63 @@ export interface Hit {
   url: string;
   collection?: Collection;
   image: string;
+}
+
+export interface Followers {
+  totalCount: number;
+}
+
+export interface Community {
+  canonicalUrl: string;
+  createdAt: Date;
+  followers: Followers;
+  icon: string;
+  image?: string;
+  index_instance: string;
+  index_mothership_object_id: string;
+  index_type: string;
+  name: string;
+  objectID: string;
+  preferredUsername: string;
+  summary: string;
+}
+
+export interface Followers2 {
+  totalCount: number;
+}
+
+export interface Collection {
+  canonicalUrl: string;
+  community: Community;
+  createdAt: Date;
+  followers: Followers2;
+  icon?: any;
+  index_instance: string;
+  index_mothership_object_id: string;
+  index_type: string;
+  name: string;
+  objectID: string;
+  preferredUsername: string;
+  summary: string;
+}
+
+export interface Likes {
+  totalCount?: any;
+}
+
+export interface RootObject {
+  canonicalUrl: string;
+  collection: Collection;
+  createdAt: Date;
+  icon: string;
+  index_instance: string;
+  index_mothership_object_id: string;
+  index_type: string;
+  licence?: any;
+  likes: Likes;
+  name: string;
+  summary: string;
+  updatedAt: Date;
+  url: string;
+  objectID: string;
 }
