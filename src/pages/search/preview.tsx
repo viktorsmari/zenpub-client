@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 
-import styled from '../../themes/styled';
+import styled from 'ui/themes/styled';
 import { Heading, Box, Flex, Text, Button } from 'rebass/styled-components';
 // import { NavLink } from 'react-router-dom';
 import { Trans } from '@lingui/macro';
@@ -24,7 +24,7 @@ import { SearchHostIndexAndMyFollowingsQuery } from './SearchData.generated';
 import { useSendToMoodle } from 'fe/lib/moodleLMS/useSendToMoodle';
 import Modal from 'ui/modules/Modal';
 
-const PlaceholderImg = require('../../components/elements/Icons/resourcePlaceholder.png');
+// const PlaceholderImg = require('../../components/elements/Icons/resourcePlaceholder.png');
 
 // interface Props {
 //   icon: string;
@@ -75,7 +75,7 @@ const Resource: React.FC<Props> = ({ hit, myInfo }) => {
   return (
     <Wrapper p={3}>
       <WrapperLink target="blank" href={props.url}>
-        <Avatar size="m" src={props.icon || PlaceholderImg} />
+        <Avatar size="m" src={props.icon} />
         <Infos ml={3}>
           <Title>
             {props.title.length > 80

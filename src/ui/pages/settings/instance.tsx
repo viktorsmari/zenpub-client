@@ -7,7 +7,7 @@ import { FormikHook } from 'ui/@types/types';
 import Button from 'ui/elements/Button';
 import ConfirmationModal from 'ui/modules/ConfirmationModal';
 import Modal, { Actions, ContainerForm, Row } from 'ui/modules/Modal';
-// import DropzoneArea from '../../../components/elements/DropzoneModal';
+// import DropzoneArea from 'ui/modules/DropzoneModal';
 import styled from 'ui/themes/styled';
 import { LocaleContext } from 'context/global/localizationCtx';
 import { LoadMore } from 'ui/modules/Loadmore';

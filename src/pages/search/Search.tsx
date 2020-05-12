@@ -1,8 +1,11 @@
 import * as React from 'react';
 import { Box, Flex, Text } from 'rebass/styled-components';
-import { HomeBox, MainContainer } from '../../sections/layoutUtils';
-// import styled from '../../themes/styled';
-import { Wrapper, WrapperCont } from '../wrappers/Wrappers';
+import {
+  Wrapper,
+  WrapperCont,
+  HomeBox,
+  MainContainer
+} from 'ui/elements/Layout/';
 import {
   connectInfiniteHits,
   Pagination,
@@ -12,7 +15,7 @@ import {
 import Preview from './preview';
 import { Trans } from '@lingui/macro';
 // import { LocaleContext } from '../../containers/App/App';
-import styled from '../../themes/styled';
+import styled from 'ui/themes/styled';
 import { Nav, Panel, PanelTitle, WrapperPanel } from 'ui/elements/Panel';
 import {
   SearchHostIndexAndMyFollowingsQuery,

@@ -4,7 +4,7 @@ import { FileText, Image } from 'react-feather';
 import { Box, Flex } from 'rebass/styled-components';
 // import { UploadCloud } from 'react-feather';
 // import { Trans } from '@lingui/macro';
-import styled from '../../../themes/styled';
+import styled from 'ui/themes/styled';
 
 // const ThumbsContainer = styled.aside`
 //   display: flex;

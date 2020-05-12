@@ -3,13 +3,13 @@ import { i18nMark } from '@lingui/react';
 import { Input, Textarea } from '@rebass/forms';
 import { FormikHook } from 'ui/@types/types';
 import * as React from 'react';
+import { Flex, Text, Box } from 'rebass/styled-components';
 import DropzoneArea from 'ui/modules/DropzoneModal';
 import Alert from 'ui/elements/Alert';
 import Button from 'ui/elements/Button';
 import { clearFix } from 'polished';
 import media from 'styled-media-query';
 import styled from 'ui/themes/styled';
-import { Flex, Text, Box } from 'rebass/styled-components';
 
 import {
   Actions,
@@ -21,26 +21,26 @@ import {
 
 const tt = {
   placeholders: {
-    name: i18nMark('Choose a name for the community'),
+    name: i18nMark('Edit the name of the collection'),
     summary: i18nMark(
-      'Please describe who might be interested in this community and what kind of collections it is likely to contain...'
+      'Please describe what the collection is for and what kind of resources it is likely to contain...'
     ),
-    icon: i18nMark('Enter the URL of an image to represent the community')
+    icon: i18nMark('Enter the URL of an icon to represent the collection')
   }
 };
 
 export interface Props {
-  cancel: () => any;
-  formik: FormikHook<EditCommunityFormValues>;
+  formik: FormikHook<ShareResource>;
+  cancel(): any;
 }
 
-export interface EditCommunityFormValues {
+export interface ShareResource {
   name: string;
   summary: string;
   icon: string | File | undefined;
 }
 
-export const EditCommunityPanel: React.FC<Props> = ({ cancel, formik }) => {
+export const Fetched: React.FC<Props> = ({ cancel, formik }) => {
   const onIconFileSelected = React.useCallback(
     (file: File) => formik.setFieldValue('icon', file, true),
     []
@@ -48,7 +48,7 @@ export const EditCommunityPanel: React.FC<Props> = ({ cancel, formik }) => {
   const initialIconUrl =
     'string' === typeof formik.values.icon ? formik.values.icon : '';
   return (
-    <Container>
+    <ContainerFetched>
       <Hero>
         <Box sx={{ width: '120px', height: '120px' }}>
           <DropzoneArea
@@ -106,15 +106,21 @@ export const EditCommunityPanel: React.FC<Props> = ({ cancel, formik }) => {
           style={{ marginLeft: '10px' }}
           onClick={formik.submitForm}
         >
-          <Trans>Save</Trans>
+          <Trans>Share</Trans>
         </Button>
         <Button variant="outline" onClick={cancel}>
           <Trans>Cancel</Trans>
         </Button>
       </Actions>
-    </Container>
+    </ContainerFetched>
   );
 };
+
+const ContainerFetched = styled(Container)`
+  padding: 8px;
+  background: ${props => props.theme.colors.appInverse};
+  border-radius: 4px;
+`;
 
 const CollectionContainerForm = styled(ContainerForm)`
   input {
@@ -170,11 +176,21 @@ const HeroInfo = styled.div`
 const Hero = styled(Flex)`
   width: 100%;
   position: relative;
-  padding: 16px;
   ${media.lessThan('medium')`
   text-align: center;
   display: block;
 `};
 `;
 
-export default EditCommunityPanel;
+// const Background = styled.div`
+//   height: 120px;
+//   width: 120px;
+//   border-radius: 4px;
+//   background-size: cover;
+//   background-repeat: no-repeat;
+//   background-color: ${props => props.theme.colors.light};
+//   position: relative;
+//   margin: 0 auto;
+// `;
+
+export default Fetched;

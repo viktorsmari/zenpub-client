@@ -24,7 +24,7 @@ export interface Props {
   ResourcesBox: JSX.Element;
   HeroCollectionBox: JSX.Element;
   FollowersBoxes: JSX.Element;
-  ShareLinkModalPanel: React.ComponentType<{ done(): any }>;
+  ShareLinkBox: React.ComponentType<{ done(): any }>;
   EditCollectionPanel: React.ComponentType<{ done(): any }>;
   UploadResourcePanel: React.ComponentType<{ done(): any }>;
   basePath: string;
@@ -37,7 +37,7 @@ export interface Props {
 
 export const Collection: React.FC<Props> = ({
   HeroCollectionBox,
-  ShareLinkModalPanel,
+  ShareLinkBox,
   EditCollectionPanel,
   UploadResourcePanel,
   ActivitiesBox,
@@ -59,11 +59,6 @@ export const Collection: React.FC<Props> = ({
       {isOpenEditCollection && (
         <Modal closeModal={() => setOpenShareLink(false)}>
           <EditCollectionPanel done={() => setOpenEditCollection(false)} />
-        </Modal>
-      )}
-      {isShareLinkOpen && (
-        <Modal closeModal={() => setOpenShareLink(false)}>
-          <ShareLinkModalPanel done={() => setOpenShareLink(false)} />
         </Modal>
       )}
       <HomeBox>
@@ -99,7 +94,10 @@ export const Collection: React.FC<Props> = ({
                       </Button>
                     </WrapButton>
                   ) : null}
-
+                  {isShareLinkOpen && (
+                    // <h1>jhhhh</h1>
+                    <ShareLinkBox done={() => setOpenShareLink(false)} />
+                  )}
                   {isUploadOpen && (
                     <UploadResourcePanel done={() => setUploadOpen(false)} />
                   )}
