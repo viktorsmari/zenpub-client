@@ -3,7 +3,7 @@ import {
   WithExtraInfo
 } from 'fe/lib/extraInfo/extraInfo';
 import { mnCtx } from 'fe/lib/graphql/ctx';
-import { MoodleLMSParams } from 'fe/lib/moodleLMS/moodleLMSintegration';
+import { LMSPrefs } from 'fe/lib/moodleLMS/LMSintegration';
 import { getMaybeUploadInput } from 'fe/mutation/upload/getUploadInput';
 import Maybe from 'graphql/tsutils/Maybe';
 import { UpdateProfileInput } from 'graphql/types.generated';
@@ -15,7 +15,7 @@ import {
 } from './useProfile.generated';
 
 type UserProfileExtraInfo = {
-  LMS?: MoodleLMSParams;
+  LMS?: LMSPrefs;
 };
 
 export type UpdateProfileInputWithEI = WithExtraInfo<

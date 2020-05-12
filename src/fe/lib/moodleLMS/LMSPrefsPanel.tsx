@@ -1,4 +1,3 @@
-import { useProfile } from 'fe/user/profile/useProfile';
 import { useFormik } from 'formik';
 import React, { FC, useCallback } from 'react';
 import {
@@ -6,30 +5,36 @@ import {
   MoodlePanel
 } from 'ui/modules/MoodlePanel';
 import * as Yup from 'yup';
+import { LMSPrefs } from './LMSintegration';
+import Maybe from 'graphql/tsutils/Maybe';
 
-export interface MoodleLMSConfigPanel {
-  done(_?: BasicMoodleLMSConfigFormValues): unknown;
+export interface LMSPrefsPanel {
+  done(): unknown;
+  updateLMSPrefsAndSend(_: LMSPrefs): unknown;
+  lmsParams: Maybe<LMSPrefs>;
   resourceurl?: string;
 }
 const validationSchema = Yup.object<BasicMoodleLMSConfigFormValues>({
   site: Yup.string().url()
 });
-export const MoodleLMSConfigPanel: FC<MoodleLMSConfigPanel> = ({ done }) => {
-  const { loading, profile, updateProfile } = useProfile();
-
+export const LMSPrefsPanel: FC<LMSPrefsPanel> = ({
+  done,
+  lmsParams,
+  updateLMSPrefsAndSend
+}) => {
   const sendToMoodleFormik = useFormik<BasicMoodleLMSConfigFormValues>({
-    initialValues: profile?.extraInfo?.LMS || { site: '' },
+    initialValues: lmsParams || { site: '' },
     enableReinitialize: true,
     validationSchema,
-    onSubmit: async LMS => {
+    onSubmit: async LMSPrefs => {
       if (sendToMoodleFormik.dirty) {
-        await updateProfile({ profile: { extraInfo: { LMS } } });
+        updateLMSPrefsAndSend(LMSPrefs);
       }
-      done(LMS);
+      done();
     }
   });
   const cancel = useCallback(() => done(), [done]);
-  return loading ? null : (
+  return (
     <MoodlePanel cancel={cancel} sendToMoodleFormik={sendToMoodleFormik} />
   );
 };

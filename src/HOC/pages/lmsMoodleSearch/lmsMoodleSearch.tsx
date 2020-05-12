@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import { MoodleLMSParams } from 'fe/lib/moodleLMS/moodleLMSintegration';
+import { LMSPrefs } from 'fe/lib/moodleLMS/LMSintegration';
 
 export type LMSMoodleSearch =
   | {
-      params: MoodleLMSParams;
+      params: LMSPrefs;
       needsLogin?: false;
       badParams?: false;
     }
