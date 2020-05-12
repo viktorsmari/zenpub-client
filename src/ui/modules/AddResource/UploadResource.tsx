@@ -40,6 +40,7 @@ export interface Props {
   cancel: () => any;
   formik: FormikHook<ResourceFormValues>;
   acceptedLicenses: string[];
+  hideIconField: boolean;
 }
 
 export interface ResourceFormValues {
@@ -53,7 +54,8 @@ export interface ResourceFormValues {
 export const UploadResource: React.FC<Props> = ({
   cancel,
   formik,
-  acceptedLicenses
+  acceptedLicenses,
+  hideIconField
 }) => {
   const [license0, license1, license2] = acceptedLicenses;
   const { i18n } = React.useContext(LocaleContext);
@@ -143,8 +145,7 @@ export const UploadResource: React.FC<Props> = ({
           </>
         </ContainerForm>
       </Row>
-      {formik.values.resource &&
-      formik.values.resource.type.indexOf('image') == -1 ? (
+      {hideIconField ? null : (
         <Row>
           <label>
             <Trans>Image</Trans>
@@ -159,7 +160,7 @@ export const UploadResource: React.FC<Props> = ({
             </Box>
           </ContainerForm>
         </Row>
-      ) : null}
+      )}
 
       <Row>
         <LabelWrapper>
