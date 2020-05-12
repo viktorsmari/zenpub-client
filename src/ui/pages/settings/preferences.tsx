@@ -81,7 +81,7 @@ const Preferences: React.FC<Props> = props => (
             </label>
             <LanguageSelect />
             <Box width={1 / 2} mt={2}>
-              <Label htmlFor="moodleWebsite">Location</Label>
+              <Label htmlFor="moodleWebsite">Moodle LMS site location</Label>
               <Input
                 id="moodleWebsite"
                 disabled={props.formik.isSubmitting}
