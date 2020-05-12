@@ -20,8 +20,8 @@ export enum Status {
 
 export interface CommunityLoaded {
   status: Status.Loaded;
-  isAdmin?: boolean;
-  isCreator?: boolean;
+  isAdmin: boolean;
+  isCreator: boolean;
   // isFeatured: boolean;
   basePath: string;
   icon: string;
