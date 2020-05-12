@@ -1,4 +1,4 @@
-import { useSendToMoodle } from 'fe/lib/moodleLMS/useSendToMoodle';
+import { useLMS } from 'fe/lib/moodleLMS/useSendToMoodle';
 import { useResourcePreview } from 'fe/resource/preview/useResourcePreview';
 import { useFormik } from 'formik';
 import { Resource } from 'graphql/types.generated';
@@ -22,9 +22,7 @@ export const ResourcePreviewHOC: FC<Props> = ({ resourceId, flagged }) => {
     initialValues: {},
     onSubmit: toggleLike
   });
-  const { MoodlePanel /* ,sendToMoodle */ } = useSendToMoodle(
-    resource?.payload?.url
-  );
+  const { LMSPrefsPanel } = useLMS(resource?.payload?.url);
   const resourcePreviewProps = useMemo<ResourcePreviewProps | null>(() => {
     if (!resource) {
       return null;
@@ -47,12 +45,12 @@ export const ResourcePreviewHOC: FC<Props> = ({ resourceId, flagged }) => {
       isFlagged: !!resource.myFlag,
       FlagModal: ({ done }) => <FlagModalHOC done={done} ctx={resource} />,
       // sendToMoodle,
-      MoodlePanel,
+      MoodlePanel: LMSPrefsPanel,
       type: resource.payload?.mediaType,
       hideActions: hideActions
     };
     return props;
-  }, [resource, toggleLikeFormik, /* sendToMoodle, */ MoodlePanel]);
+  }, [resource, toggleLikeFormik, /* sendToMoodle, */ LMSPrefsPanel]);
 
   return (
     resourcePreviewProps && <ResourcePreviewUI {...resourcePreviewProps} />

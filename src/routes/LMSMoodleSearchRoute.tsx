@@ -1,4 +1,4 @@
-import { getUrlParamsFromEntryPointForMoodleLMS } from 'fe/lib/moodleLMS/moodleLMSintegration';
+import { getUrlParamsFromEntryPointForMoodleLMS } from 'fe/lib/moodleLMS/LMSintegration';
 import { LMSMoodleSearch } from 'HOC/pages/lmsMoodleSearch/lmsMoodleSearch';
 import { WithSidebarTemplate } from 'HOC/templates/WithSidebar/WithSidebar';
 import React, { FC, useEffect, useState, useRef } from 'react';

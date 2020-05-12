@@ -21,7 +21,7 @@ import Avatar from 'ui/elements/Avatar';
 import { Hit } from './Hits';
 import { useHit } from './lib';
 import { SearchHostIndexAndMyFollowingsQuery } from './SearchData.generated';
-import { useSendToMoodle } from 'fe/lib/moodleLMS/useSendToMoodle';
+import { useLMS } from 'fe/lib/moodleLMS/useSendToMoodle';
 import Modal from 'ui/modules/Modal';
 import Maybe from 'graphql/tsutils/Maybe';
 
@@ -41,7 +41,7 @@ const Resource: React.FC<Props> = ({ hit, myInfo }) => {
     type: hit.index_type
   };
   const hitCtl = useHit(myInfo, hit);
-  const { MoodlePanel } = useSendToMoodle(
+  const { LMSPrefsPanel } = useLMS(
     hit.index_type === 'Resource' && hit.url ? hit.url : null
   );
   const [isOpenMoodleModal, setOpenMoodleModal] = React.useState(false);
@@ -82,14 +82,14 @@ const Resource: React.FC<Props> = ({ hit, myInfo }) => {
           )}
         </Button>
       )}
-      {hit.index_type === 'Resource' && MoodlePanel && (
+      {hit.index_type === 'Resource' && (
         <Button variant="outline" onClick={() => setOpenMoodleModal(true)}>
           <Trans>To Moodle</Trans>
         </Button>
       )}
-      {MoodlePanel && isOpenMoodleModal && (
+      {isOpenMoodleModal && (
         <Modal closeModal={() => setOpenMoodleModal(false)}>
-          <MoodlePanel done={() => setOpenMoodleModal(false)} />
+          <LMSPrefsPanel done={() => setOpenMoodleModal(false)} />
         </Modal>
       )}
     </Wrapper>
