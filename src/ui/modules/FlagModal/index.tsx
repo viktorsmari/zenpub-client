@@ -25,7 +25,6 @@ import {
 
 const tt = {
   placeholders: {
-    name: i18nMark('Flag'),
     flag: i18nMark('Please describe the reason for flagging the item')
   }
 };
@@ -53,7 +52,7 @@ export const FlagModal: React.FC<Props> = ({
     <Container>
       <Header>
         <Heading m={2}>
-          <Trans>Flag</Trans>
+          <Trans>Report as inappropriate</Trans>
         </Heading>
       </Header>
       <Row big>
