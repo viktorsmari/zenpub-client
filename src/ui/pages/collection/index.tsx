@@ -5,13 +5,6 @@ import { Trans } from '@lingui/react';
 import styled from 'ui/themes/styled';
 import { FormikHook } from 'ui/@types/types';
 import Modal from 'ui/modules/Modal';
-import {
-  Nav,
-  NavItem,
-  Panel,
-  PanelTitle,
-  WrapperPanel
-} from 'ui/elements/Panel';
 import Button from 'ui/elements/Button';
 import { Header } from 'ui/modules/Header';
 import { LoadMore } from 'ui/modules/Loadmore';
@@ -24,6 +17,7 @@ import {
   MenuList,
   ObjectsList
 } from 'ui/elements/Layout';
+import { SidePanel } from 'ui/modules/SidePanel';
 
 export interface Props {
   ActivitiesBox: JSX.Element;
@@ -35,9 +29,10 @@ export interface Props {
   UploadResourcePanel: React.ComponentType<{ done(): any }>;
   basePath: string;
   collectionName: string;
-  loadMoreActivities: FormikHook;
-  loadMoreResources: FormikHook;
-  loadMoreFollowers: FormikHook;
+  loadMoreActivities?: FormikHook;
+  loadMoreResources?: FormikHook;
+  loadMoreFollowers?: FormikHook;
+  isCommunityMember?: boolean; // FIX ME remove ? after added at HOC
 }
 
 export const Collection: React.FC<Props> = ({
@@ -52,11 +47,13 @@ export const Collection: React.FC<Props> = ({
   collectionName,
   loadMoreActivities,
   loadMoreResources,
-  loadMoreFollowers
+  loadMoreFollowers,
+  isCommunityMember
 }) => {
   const [isOpenEditCollection, setOpenEditCollection] = React.useState(false);
   const [isShareLinkOpen, setOpenShareLink] = React.useState(false);
   const [isUploadOpen, setUploadOpen] = React.useState(false);
+  isCommunityMember = true; // FIX ME remove after added at HOC
   return (
     <MainContainer>
       {isOpenEditCollection && (
@@ -77,27 +74,32 @@ export const Collection: React.FC<Props> = ({
               <Route path={`${basePath}/followers`}>
                 <FollowersMenu basePath={`${basePath}/followers`} />
                 <ObjectsList>{FollowersBoxes}</ObjectsList>
-                <LoadMore LoadMoreFormik={loadMoreFollowers} />
+                {loadMoreFollowers && (
+                  <LoadMore LoadMoreFormik={loadMoreFollowers} />
+                )}
               </Route>
               <Route exact path={`${basePath}/resources`}>
                 <>
                   {HeroCollectionBox}
                   <Menu basePath={basePath} />
-                  <WrapButton mt={3} px={3} pb={3} mb={2}>
-                    <Button
-                      mr={2}
-                      onClick={() => setOpenShareLink(true)}
-                      variant="outline"
-                    >
-                      <Trans>Share link</Trans>
-                    </Button>
-                    <Button
-                      onClick={() => setUploadOpen(true)}
-                      variant="outline"
-                    >
-                      <Trans>Add new resource</Trans>
-                    </Button>
-                  </WrapButton>
+                  {isCommunityMember ? (
+                    <WrapButton p={3}>
+                      <Button
+                        mr={2}
+                        onClick={() => setOpenShareLink(true)}
+                        variant="outline"
+                      >
+                        <Trans>Share link</Trans>
+                      </Button>
+                      <Button
+                        onClick={() => setUploadOpen(true)}
+                        variant="outline"
+                      >
+                        <Trans>Add new resource</Trans>
+                      </Button>
+                    </WrapButton>
+                  ) : null}
+
                   {isUploadOpen && (
                     <UploadResourcePanel done={() => setUploadOpen(false)} />
                   )}
@@ -121,52 +123,7 @@ export const Collection: React.FC<Props> = ({
           </Wrapper>
         </WrapperCont>
       </HomeBox>
-      <WrapperPanel>
-        <Panel>
-          <PanelTitle fontSize={0} fontWeight={'bold'}>
-            Popular hashtags
-          </PanelTitle>
-          <Nav>
-            <NavItem mb={3} fontSize={1}>
-              #pedagogy
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              #transition
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              #english
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              #template
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              #assessment
-            </NavItem>
-          </Nav>
-        </Panel>
-        <Panel>
-          <PanelTitle fontSize={0} fontWeight={'bold'}>
-            Popular categories
-          </PanelTitle>
-          <Nav>
-            <NavItem mb={3} fontSize={1}>
-              Humanities
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              Behavioural science
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              English
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              Romana
-            </NavItem>
-            <NavItem mb={3} fontSize={1}>
-              Postgraduate
-            </NavItem>
-          </Nav>
-        </Panel>
-      </WrapperPanel>
+      <SidePanel />
     </MainContainer>
   );
 };
@@ -192,6 +149,7 @@ const Menu = ({ basePath }: { basePath: string }) => (
 );
 
 const WrapButton = styled(Flex)`
+  background: ${props => props.theme.colors.appInverse};
   button {
     width: 100%;
     height: 50px;

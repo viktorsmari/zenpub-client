@@ -63,7 +63,7 @@ const ActionItem = styled.div`
   display: inline-block;
   font-size: 14px;
   font-weight: 600;
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.medium};
   text-transform: uppercase;
   & svg {
     vertical-align: sub;
@@ -114,7 +114,7 @@ const Infos = styled.div`
   position: relative;
 `;
 const Title = styled(Heading)`
-  color: ${props => props.theme.colors.darkgray};
+  color: ${props => props.theme.colors.mediumdark};
   font-size: 20px;
 `;
 

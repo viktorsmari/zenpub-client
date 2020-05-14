@@ -1,6 +1,6 @@
 import { useAddResource } from 'fe/resource/add/useAddResource';
 import { useFormik } from 'formik';
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import {
   ResourceFormValues,
   UploadResource
@@ -27,7 +27,7 @@ export const initialValues: ResourceFormValues = {
   summary: '',
   icon: '',
   license: accepted_license_types[1],
-  resource: undefined
+  resource: null
 };
 
 export interface AddResourceHOC {
@@ -65,9 +65,17 @@ export const AddResourceHOC: FC<AddResourceHOC> = ({
       }).then(done);
     }
   });
+  const hideIconField =
+    !formik.values.resource ||
+    formik.values.resource.type.indexOf('image') !== -1;
+
+  useEffect(() => {
+    hideIconField && formik.setValues({ ...formik.values, icon: null });
+  }, [hideIconField]);
 
   return (
     <UploadResource
+      hideIconField={hideIconField}
       cancel={done}
       formik={formik}
       acceptedLicenses={accepted_license_types}

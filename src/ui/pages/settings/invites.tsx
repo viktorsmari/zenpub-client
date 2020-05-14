@@ -9,7 +9,7 @@ import ConfirmationModal from 'ui/modules/ConfirmationModal';
 // import { FormikHook } from 'ui/@types/types';
 import Modal, { Actions, ContainerForm, Row } from 'ui/modules/Modal';
 import styled from 'ui/themes/styled';
-import { RotateCw } from 'react-feather';
+// import { RotateCw } from 'react-feather';
 import { LocaleContext } from 'context/global/localizationCtx';
 
 const tt = {
@@ -78,19 +78,22 @@ const Emails: React.FC<Props> = ({
         {emailsList.map((email, i) => (
           <ListRow key={`${i}-${email}`}>
             <EmailText>{email}</EmailText>
-            <Resend
+            {/* <Resend
               onClick={() => {
                 formikSendInvite.setValues({ email });
                 formikSendInvite.submitForm();
               }}
             >
               <RotateCw size={16} />
-            </Resend>
+            </Resend> */}
             <Button
-              variant="danger"
-              onClick={() => formikRemoveEmail.setValues({ email })}
+              variant="outline"
+              onClick={() => {
+                formikSendInvite.setValues({ email });
+                formikSendInvite.submitForm();
+              }}
             >
-              <Trans>Delete</Trans>
+              <Trans>Send again</Trans>
             </Button>
           </ListRow>
         ))}
@@ -118,39 +121,39 @@ export default Emails;
 
 const EmailText = styled(Text)`
   flex:1;
-  // color: ${props => props.theme.colors.gray};
+  // color: ${props => props.theme.colors.medium};
 `;
 
 const EmailInput = styled(Input)`
   && {
     flex: 1;
-    color: ${props => props.theme.colors.darkgray};
+    color: ${props => props.theme.colors.mediumdark};
   }
 `;
 const ListRow = styled(Row)`
   align-items: center;
 `;
 
-const Resend = styled(Box)`
-  cursor: pointer;
-  width: 30px;
-  height: 30px;
-  border-radius: 30px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  svg {
-    stroke: ${props => props.theme.colors.gray};
-  }
+// const Resend = styled(Box)`
+//   cursor: pointer;
+//   width: 30px;
+//   height: 30px;
+//   border-radius: 30px;
+//   display: flex;
+//   justify-content: space-around;
+//   align-items: center;
+//   svg {
+//     stroke: ${props => props.theme.colors.medium};
+//   }
 
-  &:hover {    
-    // background: ${props => props.theme.colors.lighter};   
-    svg {
-      stroke: ${props => props.theme.colors.primary};
-    }   
-  }  
-}
-`;
+//   &:hover {
+//     // background: ${props => props.theme.colors.lighter};
+//     svg {
+//       stroke: ${props => props.theme.colors.primary};
+//     }
+//   }
+// }
+// `;
 
 const EmailContainerForm = styled(ContainerForm)`
   display: flex;

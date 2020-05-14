@@ -175,7 +175,7 @@ const SearchInput = styled(Input)`
   height: 40px;
   background: white;
   border-radius: 2px;
-  border: 1px solid ${props => props.theme.colors.lightgray};
+  border: ${props => props.theme.colors.border};
 `;
 
 const Span = styled.button`
@@ -190,7 +190,7 @@ const Span = styled.button`
   height: 37px;
   cursor: pointer;
   &:hover {
-    background: ${props => props.theme.colors.orange};
+    background: ${props => props.theme.colors.primary};
   }
   .--rtl & {
     left: 2px;

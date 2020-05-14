@@ -13,7 +13,8 @@ export const useCollection = (collectionId: Collection['id']) => {
   const { toggleFollow: toggleJoin } = useFollowContext(collection);
   const { edit } = useEditCollection(collectionId);
   const canModify =
-    !!me && !!collection?.creator && me.user.id === collection.creator.id;
+    !!me?.isInstanceAdmin ||
+    (!!me && !!collection?.creator && me.user.id === collection.creator.id);
 
   return useMemo(() => {
     return {
