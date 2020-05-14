@@ -22,7 +22,7 @@ export const Avatar = styled(Box)`
   min-width: 48px !important;
   height: 48px;
   border-radius: 48px;
-  background: ${props => props.theme.colors.orange};
+  background: ${props => props.theme.colors.primary};
   background-repeat: no-repeat;
   background-size: cover;
   margin-right: 8px;
@@ -72,23 +72,20 @@ export const TalkModal: React.FC<Props> = ({
     },
     []
   );
-  const submit = React.useCallback(
-    () => {
-      if (error) {
-        return;
+  const submit = React.useCallback(() => {
+    if (error) {
+      return;
+    }
+    reply({
+      variables: {
+        inReplyToId: comment.id,
+        //FIXME https://gitlab.com/moodlenet/meta/issues/185
+        threadId: comment.thread!.id,
+        comment: { content: text }
       }
-      reply({
-        variables: {
-          inReplyToId: comment.id,
-          //FIXME https://gitlab.com/moodlenet/meta/issues/185
-          threadId: comment.thread!.id,
-          comment: { content: text }
-        }
-      });
-      toggleModal(false);
-    },
-    [error, text]
-  );
+    });
+    toggleModal(false);
+  }, [error, text]);
   return (
     <Modal isOpen={modalIsOpen} toggleModal={() => toggleModal(false)}>
       <CommentCmp comment={comment} noLink noAction />

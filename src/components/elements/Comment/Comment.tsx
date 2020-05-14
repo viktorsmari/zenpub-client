@@ -118,7 +118,7 @@ const NavigateToThread = styled(Link)`
 `;
 
 const Date = styled(Text)`
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.medium};
   font-weight: 500;
 `;
 
@@ -134,7 +134,7 @@ const Actions = styled(Flex)`
 const ActionItem = styled(Flex)`
   margin-right: 32px;
   align-items: center;
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.medium};
   cursor: pointer;
   a {
     display: flex;
@@ -144,11 +144,11 @@ const ActionItem = styled(Flex)`
     div:first-of-type {
       background: #fffbf8;
       svg {
-        color: ${props => props.theme.colors.orange};
+        color: ${props => props.theme.colors.primary};
       }
     }
     div:last-of-type {
-      color: ${props => props.theme.colors.orange};
+      color: ${props => props.theme.colors.primary};
     }
   }
 `;
@@ -168,24 +168,24 @@ const ActionIcon = styled(Box)`
 `;
 
 const Username = styled(Text)`
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.medium};
   margin: 0 8px;
   font-weight: 500;
 `;
 
 const Spacer = styled(Text)`
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.medium};
   margin-right: 8px;
   font-weight: 500;
 `;
 
 // const SubText = styled(Text)`
 // font-size: 14px;
-// color:  ${props => props.theme.colors.gray};
+// color:  ${props => props.theme.colors.medium};
 // > a {
 //   text-decoration: none;
 //   font-weight: 600
-//   color: ${props => props.theme.colors.black} !important;
+//   color: ${props => props.theme.colors.darkest} !important;
 //   z-index: 9;
 //   position: relative;
 
@@ -197,7 +197,7 @@ const Spacer = styled(Text)`
 
 const Name = styled(Text)`
   font-weight: 600;
-  color: ${props => props.theme.colors.darkgray};
+  color: ${props => props.theme.colors.mediumdark};
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -208,7 +208,7 @@ const Name = styled(Text)`
     display: flex;
     text-decoration: none;
     align-items: center;
-    color: ${props => props.theme.colors.darkgray} !important;
+    color: ${props => props.theme.colors.mediumdark} !important;
     z-index: 9;
     position: relative;
 
@@ -231,7 +231,7 @@ const Comment = styled.div`
   margin-top: 6px;
   word-break: break-all;
   & a {
-    color: ${props => props.theme.colors.darkgray} !important;
+    color: ${props => props.theme.colors.mediumdark} !important;
     font-weight: 400 !important;
     font-size: 14px;
     text-decoration: none;
@@ -292,7 +292,7 @@ const FeedItem = styled.div`
   z-index: 10;
   position: relative;
   position: relative;
-  border-bottom: 1px solid  ${props => props.theme.colors.lightgray};
+  border-bottom: 1px solid  ${props => props.theme.colors.light};
   a {
     text-decoration: none;
     color: inherit;

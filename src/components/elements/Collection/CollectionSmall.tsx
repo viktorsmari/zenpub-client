@@ -56,7 +56,7 @@ const Img = styled.div`
 `;
 const Infos = styled.div``;
 const Title = styled(Text)`
-  color: ${props => props.theme.colors.darkgray};
+  color: ${props => props.theme.colors.mediumdark};
   ${ellipsis('200px')};
   display: block;
   text-align: center;

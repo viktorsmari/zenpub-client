@@ -1,6 +1,7 @@
-import * as GQL from './instanceRegistrationAllowLists.generated';
-import { useMemo, useCallback } from 'react';
 import { usePage } from 'fe/lib/helpers/usePage';
+import { useCallOrNotifyMustLogin } from 'HOC/lib/notifyMustLogin';
+import { useMemo } from 'react';
+import * as GQL from './instanceRegistrationAllowLists.generated';
 // import { DEFAULT_PAGE_SIZE } from 'mn-constants';
 
 export const useInstanceRegistrationAllowLists = () => {
@@ -36,7 +37,7 @@ export const useInstanceRegistrationAllowLists = () => {
     listEmailDomainsQ.data?.registerEmailDomainAccesses
   );
 
-  const addEmailDomain = useCallback(
+  const addEmailDomain = useCallOrNotifyMustLogin(
     (domain: string) => {
       return addEmailDomainMut({
         variables: { domain },
@@ -47,7 +48,7 @@ export const useInstanceRegistrationAllowLists = () => {
     },
     [addEmailDomainMut]
   );
-  const removeEmailDomain = useCallback(
+  const removeEmailDomain = useCallOrNotifyMustLogin(
     (id: string) => {
       return removeEmailDomainMut({
         variables: { id },
@@ -59,14 +60,14 @@ export const useInstanceRegistrationAllowLists = () => {
     [removeEmailDomainMut]
   );
 
-  const sendInviteEmail = useCallback(
+  const sendInviteEmail = useCallOrNotifyMustLogin(
     (email: string) => {
       return sendInviteEmailMut({ variables: { email } });
     },
     [sendInviteEmailMut]
   );
 
-  const addEmail = useCallback(
+  const addEmail = useCallOrNotifyMustLogin(
     (email: string) => {
       return addEmailMut({
         variables: { email },
@@ -75,7 +76,7 @@ export const useInstanceRegistrationAllowLists = () => {
     },
     [addEmailMut]
   );
-  const removeEmail = useCallback(
+  const removeEmail = useCallOrNotifyMustLogin(
     (id: string) => {
       return removeEmailMut({
         variables: { id },

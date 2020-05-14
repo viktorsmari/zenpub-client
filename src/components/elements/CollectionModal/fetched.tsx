@@ -79,14 +79,14 @@ const tt = {
 const Preview = styled.div`
   padding: 8px;
   padding-bottom: 1px;
-  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+  border-bottom: ${props => props.theme.colors.border};
 `;
 
 const SearchInput = styled(Input)`
   height: 40px;
   background: white;
   border-radius: 2px;
-  border: 1px solid ${props => props.theme.colors.lightgray};
+  border: ${props => props.theme.colors.border};
 `;
 
 const SubmitButton = styled(Button)`

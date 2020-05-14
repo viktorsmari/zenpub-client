@@ -75,9 +75,9 @@ export const Nav = styled(Box)`
 `;
 
 export const NavItem = styled(Text)`
-color: ${props => props.theme.colors.darkgray}
+color: ${props => props.theme.colors.mediumdark}
 a {
-  color: ${props => props.theme.colors.darkgray}
+  color: ${props => props.theme.colors.mediumdark}
   text-decoration: none;
 }
   `;

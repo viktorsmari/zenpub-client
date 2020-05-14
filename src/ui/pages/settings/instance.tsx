@@ -128,9 +128,9 @@ const Instance: React.FC<Props> = ({
           <ConfirmationModal
             cancel={() => formikRemoveDomain.setValues({ domain: '' })}
             formik={formikRemoveDomain}
-            modalAction={i18n._(`Delete domain from whitelist`)}
+            modalAction={i18n._(`Delete domain from allowlist`)}
             modalDescription={i18n._(
-              `Are you sure you want to delete ${formikRemoveDomain.values.domain} from whitelist?`
+              `Are you sure you want to delete ${formikRemoveDomain.values.domain} from allowlist?`
             )}
             modalTitle={i18n._(`Delete`)}
           />
@@ -155,7 +155,7 @@ const Instance: React.FC<Props> = ({
 
 const DomainText = styled(Text)`
   flex:1;
-  // color: ${props => props.theme.colors.gray};
+  // color: ${props => props.theme.colors.medium};
 `;
 
 const DomainContainerForm = styled(ContainerForm)`
@@ -171,7 +171,7 @@ const DomainWrapper = styled.div`
 const DomainInput = styled(Input)`
   && {
     flex: 1;
-    color: ${props => props.theme.colors.darkgray};
+    color: ${props => props.theme.colors.mediumdark};
   }
 `;
 
@@ -188,7 +188,7 @@ const Delete = styled(Box)`
   justify-content: space-around;
   align-items: center;
   svg{
-    stroke: ${props => props.theme.colors.gray};
+    stroke: ${props => props.theme.colors.medium};
   }
   &:hover {
     // background: ${props => props.theme.colors.lighter};

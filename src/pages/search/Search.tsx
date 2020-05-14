@@ -19,20 +19,18 @@ import {
   useSearchHostIndexAndMyFollowingsQuery
 } from './SearchData.generated';
 import { Hit } from './Hits';
-const urlParams = new URLSearchParams(window.location.search);
-const moodle_core_download_url = decodeURI(
-  urlParams.get('moodle_core_download_url') || ''
-);
+import Maybe from 'graphql/tsutils/Maybe';
+import { mnCtx } from 'fe/lib/graphql/ctx';
 
 const WrapperResult = styled(Box)`
-  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+  border-bottom: ${props => props.theme.colors.border};
 `;
 const SupText = styled(Text)`
   a {
     color: inherit;
     text-decoration: none
    :hover {
-      color: ${props => props.theme.colors.orange};
+      color: ${props => props.theme.colors.primary};
     }
   }
 `;
@@ -47,7 +45,7 @@ const PagFlex = styled(Flex)`
 
 interface Result {
   hit: Hit;
-  myInfo: SearchHostIndexAndMyFollowingsQuery;
+  myInfo: Maybe<SearchHostIndexAndMyFollowingsQuery>;
 }
 const Result: React.FC<Result> = ({ hit, myInfo }) => {
   return (
@@ -66,19 +64,17 @@ const Result: React.FC<Result> = ({ hit, myInfo }) => {
       ) : (
         <span />
       )}
-      <Preview
-        hit={hit}
-        myInfo={myInfo}
-        moodle_core_download_url={moodle_core_download_url}
-      />
+      <Preview hit={hit} myInfo={myInfo} />
     </WrapperResult>
   );
 };
 
 const InfiniteHits = ({ hits }: { hits: Hit[] }) => {
-  const { data } = useSearchHostIndexAndMyFollowingsQuery();
+  const { data } = useSearchHostIndexAndMyFollowingsQuery({
+    context: mnCtx({ noShowError: true })
+  });
   // return the DOM output
-  return data ? (
+  return (
     <>
       {hits.map(hit => (
         <Result key={hit.objectID} hit={hit} myInfo={data} />
@@ -87,8 +83,6 @@ const InfiniteHits = ({ hits }: { hits: Hit[] }) => {
         <Pagination showNext />
       </PagFlex>
     </>
-  ) : (
-    <div />
   );
 };
 

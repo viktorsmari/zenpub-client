@@ -184,7 +184,8 @@ padding-top: 24px;
 `;
 
 const Aware = styled(Flex)<{ green: boolean }>`
-  background: ${props => (props.green ? '#546d4f' : props.theme.colors.orange)};
+  background: ${props =>
+    props.green ? '#546d4f' : props.theme.colors.primary};
   border-radius: 4px;
   align-items: center;
   div {
