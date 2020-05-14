@@ -14,7 +14,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { createDynamicLinkEnv } from './util/apollo/dynamicLink';
 import * as Sentry from '@sentry/browser';
 import * as K from './mn-constants';
+import { typography, colors } from './mn-constants';
 import { MngErrorLink } from 'fe/lib/graphql/ctx';
+import media from 'styled-media-query';
+
 K.SENTRY_KEY &&
   Sentry.init({
     dsn: K.SENTRY_KEY
@@ -29,7 +32,7 @@ async function run() {
           padding: 0;
           width: 100%;
           height: 100%;
-          font-family: 'Open Sans', sans-serif !important;
+          font-family: ${typography.type.primary} !important;
       }
       
       * {
@@ -37,7 +40,7 @@ async function run() {
       }
 
       body {
-      background: #F5F6F7;
+      background: ${colors.app};
       overflow-y: scroll;
       overscroll-behavior-y: none;
       .ais-SearchBox {
@@ -58,6 +61,18 @@ async function run() {
         display: flex;
       width: 100%; }
       }
+
+      .Toastify__toast-container--top-right{
+        top:60px !important;
+        ${media.lessThan('480px')` 
+          width: 90vw !important;
+          margin: 0 auto; 
+        `}; 
+    }
+      
+      
+       
+     
   `;
   const createLocalKVStore = createLocalSessionKVStorage('local');
   const store = createStore({ createLocalKVStore });
@@ -78,14 +93,14 @@ async function run() {
   );
   const ApolloApp = () => (
     <ApolloProvider client={apolloClient.client}>
-      <ToastContainer
-        hideProgressBar
-        transition={Slide}
-        autoClose={3000}
-        newestOnTop
-      />
       <ProvideContexts store={store} dynamicLinkSrv={dynamicLinkEnv.srv}>
         <Global />
+        <ToastContainer
+          hideProgressBar
+          transition={Slide}
+          autoClose={3000}
+          newestOnTop
+        />
         <App />
       </ProvideContexts>
     </ApolloProvider>

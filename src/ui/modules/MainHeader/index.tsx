@@ -122,17 +122,18 @@ const Center = styled(Box)`
   input {
     width: 100%;
     margin: 0 auto;
-    border: 1px solid ${props => props.theme.colors.lightgray};
+    border: ${props => props.theme.colors.border};
     border-radius: 4px;
   }
 `;
 
 const Right = styled(Box)`
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.medium};
 `;
 
 const HeaderName = styled(Text)`
   ${ellipsis('180px')};
+  color: ${props => props.theme.colors.darker};
 `;
 
 const NavItem = styled(Flex)`
@@ -152,7 +153,7 @@ img {
 
 const Header = styled(Box)`
   cursor: pointer;
-  flex: 0 0 300px;
+  flex: 0 0 200px;
   order: 2;
   justify-content: flex-end;
   img {
@@ -177,7 +178,7 @@ const Icon = styled(Box)`
     }
   }
   svg {
-    stroke: ${props => props.theme.colors.darkgray};
+    stroke: ${props => props.theme.colors.mediumdark};
     margin: 0 auto;
   }
 `;
@@ -190,10 +191,10 @@ const Left = styled(Flex)`
 `;
 
 const HeaderWrapper = styled(Box)`
-  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+  border-bottom: ${props => props.theme.colors.border};
   height: 50px;
   cursor: pointer;
-  background: #fff;
+  background: ${props => props.theme.colors.appInverse};
   position: fixed;
   top: 0;
   left: 0;

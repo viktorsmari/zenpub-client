@@ -7,7 +7,7 @@ export const SuperTabList = styled(TabList)`
   list-style: none;
   padding: 0;
   margin: 0;
-  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+  border-bottom: ${props => props.theme.colors.border};
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: 32px;
@@ -25,13 +25,13 @@ export const SuperTab = styled(Tab)`
   position: relative;
   height: 40px;
   padding: 0 16px;
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.medium};
   background: transparent;
   cursor: pointer;
   text-align: center;
   & h5 {
     display: inline-block;
-    color: ${props => props.theme.colors.gray};
+    color: ${props => props.theme.colors.medium};
     font-size: 12px !important;
     font-weight: 700 !important;
     line-height: 40px;
@@ -54,7 +54,7 @@ export const StickyTabList = styled(SuperTabList)`
   list-style: none;
   padding: 0;
   margin: 0;
-  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+  border-bottom: ${props => props.theme.colors.border};
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: 32px;

@@ -13,7 +13,7 @@ import { useLikeMutationMutation } from '../../../graphql/like.generated';
 import { useDeleteMutationMutation } from '../../../graphql/delete.generated';
 
 const Wrapper = styled(Box)`
-  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+  border-bottom: ${props => props.theme.colors.border};
   a {
     text-decoration: none;
     color: inherit !important;
@@ -27,17 +27,17 @@ const Avatar = styled(Image)`
   width: 48px !important;
   height: 48px !important;
   border-radius: 100px;
-  background: ${props => props.theme.colors.black};
+  background: ${props => props.theme.colors.darkest};
 `;
 
 const Username = styled(Text)`
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.medium};
   margin: 0 8px;
   font-weight: 500;
 `;
 
 const Spacer = styled(Text)`
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.medium};
   margin-right: 8px;
   font-weight: 500;
   .--rtl & {
@@ -47,7 +47,7 @@ const Spacer = styled(Text)`
 `;
 
 const Date = styled(Text)`
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.medium};
   font-weight: 500;
 `;
 
@@ -64,7 +64,7 @@ const Actions = styled(Flex)`
 const ActionItem = styled(Flex)`
   margin-right: 32px;
   align-items: center;
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.medium};
   cursor: pointer;
   a {
     display: flex;
@@ -74,11 +74,11 @@ const ActionItem = styled(Flex)`
     div:first-of-type {
       background: #fffbf8;
       svg {
-        color: ${props => props.theme.colors.orange};
+        color: ${props => props.theme.colors.primary};
       }
     }
     div:last-of-type {
-      color: ${props => props.theme.colors.orange};
+      color: ${props => props.theme.colors.primary};
     }
   }
 `;

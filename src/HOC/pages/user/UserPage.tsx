@@ -15,6 +15,7 @@ import { Props, User as UserPageUI } from 'ui/pages/user';
 import { UserFollowedCollectionFragment } from 'fe/collection/user/useUserFollowedCollections.generated';
 import { UserFollowedCommunityFragment } from 'fe/community/user/useUserFollowedCommunities.generated';
 import { UserFollowedUserFragment } from 'fe/user/followed/user/useUserFollowedUsers.generated';
+import { useUserLikes } from 'fe/likes/user/useUserLikes';
 export interface UserPage {
   userId: User['id'];
   tab: UserPageTab;
@@ -29,10 +30,17 @@ export enum UserPageTab {
 }
 export const UserPage: FC<UserPage> = ({ userId, basePath }) => {
   const user = useUser(userId);
+
+  const { likesPage } = useUserLikes(userId);
+
   const { activitiesPage } = useUserOutboxActivities(userId);
+
   const { followedCollectionsPage } = useUserFollowedCollections(userId);
+
   const { followedCommunitiesPage } = useUserFollowedCommunities(userId);
+
   const { followedUsersPage } = useUserFollowedUsers(userId);
+
   const userPageProps = useMemo<Props>(() => {
     const {
       totalActivities,
@@ -40,6 +48,13 @@ export const UserPage: FC<UserPage> = ({ userId, basePath }) => {
       totalCommunities,
       totalUsers
     } = user;
+    const LikesBoxes = (
+      <>
+        {likesPage.edges.map(like => (
+          <></> //FIXME: LikePreview/HOC ?
+        ))}
+      </>
+    );
     const ActivityBoxes = (
       <>
         {activitiesPage.edges.map(activity => (
@@ -104,6 +119,7 @@ export const UserPage: FC<UserPage> = ({ userId, basePath }) => {
     const props: Props = {
       basePath,
       ActivityBoxes,
+      LikesBoxes,
       HeroUserBox,
       CollectionsBoxes,
       CommunityBoxes,
@@ -122,7 +138,8 @@ export const UserPage: FC<UserPage> = ({ userId, basePath }) => {
     user,
     followedCollectionsPage,
     followedCommunitiesPage,
-    followedUsersPage
+    followedUsersPage,
+    likesPage
   ]);
   return <UserPageUI {...userPageProps} />;
 };

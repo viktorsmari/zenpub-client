@@ -7,17 +7,25 @@ export const getEventString = (activity: Maybe<ActivityPreviewFragment>) => {
   if (!activity?.context) {
     return '';
   }
-  const verb =
-    activity.context.__typename === 'Flag'
-      ? 'Flagged'
-      : activity.context.__typename === 'Like'
-      ? 'Liked'
-      : activity.context.__typename === 'Follow'
-      ? 'Followed'
-      : activity.verb === ActivityVerb.Created
-      ? `Created`
-      : `Updated`; //activity.verb === ActivityVerb.Updated
-
   const mainContext = getActivityMainContext(activity.context);
-  return mainContext ? `${verb} ${mainContext.__typename}` : '';
+  if (!mainContext) {
+    return '';
+  }
+  const { __typename } = mainContext;
+  const event =
+    activity.context.__typename === 'Flag'
+      ? `Flagged ${__typename}`
+      : activity.context.__typename === 'Like'
+      ? `Liked ${__typename}`
+      : activity.context.__typename === 'Follow'
+      ? `Followed ${__typename}`
+      : activity.context.__typename === 'Comment'
+      ? activity.context.inReplyTo
+        ? `Replied to a thread`
+        : `Started a thread`
+      : activity.verb === ActivityVerb.Created
+      ? `Created ${__typename}`
+      : `Updated ${__typename}`; //activity.verb === ActivityVerb.Updated
+
+  return event;
 };

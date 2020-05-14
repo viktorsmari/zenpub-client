@@ -32,7 +32,7 @@ const Item = styled(Flex)`
     text-decoration: none;
   }
   &:hover {
-    color: ${props => props.theme.colors.orange};
+    color: ${props => props.theme.colors.primary};
   }
 `;
 
@@ -86,13 +86,6 @@ export const DropdownSidebar: React.FC<Props> = ({
             <Trans>Code of Conduct</Trans>
           </a>
         </Item>
-
-        <Item variant="link">
-          <a href={related_urls.feedback} target="blank">
-            <Trans>Feedback &amp; Suggestions</Trans>
-          </a>
-        </Item>
-
         <Text
           style={{
             fontWeight: 600,
@@ -102,7 +95,7 @@ export const DropdownSidebar: React.FC<Props> = ({
             color: '#3c3c3c'
           }}
         >
-          v0.10 beta
+          v1.0 beta
         </Text>
       </List>
       <List>

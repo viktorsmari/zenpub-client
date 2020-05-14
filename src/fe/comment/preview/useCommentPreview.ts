@@ -12,7 +12,20 @@ export const useCommentPreview = (commentId: Comment['id']) => {
     commentPreviewQ.data?.comment?.likerCount,
     'Comment'
   );
-  const { reply } = useReplyComment(commentPreviewQ.data?.comment);
+  const threadContext = commentPreviewQ.data?.comment?.thread?.context;
+  const communityId =
+    threadContext?.__typename === 'Resource'
+      ? threadContext.collection?.community?.id
+      : threadContext?.__typename === 'Collection'
+      ? threadContext.community?.id
+      : threadContext?.__typename === 'Community'
+      ? threadContext.id
+      : undefined;
+  const { reply } = useReplyComment(
+    commentPreviewQ.data?.comment,
+    communityId,
+    commentPreviewQ.data?.comment?.creator?.userName
+  );
   return useMemo(() => {
     return {
       comment: commentPreviewQ.data?.comment,

@@ -128,7 +128,7 @@ const Info = styled.div`
 const Url = styled.div`
   margin-bottom: 8px;
   font-size: 14px;
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.colors.medium};
   font-weight: 400;
   ${ellipsis('270px')};
   margin-top: 8px;
@@ -186,7 +186,7 @@ const Title = styled(Heading)`
   line-height: 22px !important;
   margin-top: 8px;
   flex: 1;
-  color: ${props => props.theme.colors.darkgray};
+  color: ${props => props.theme.colors.mediumdark};
   ${media.lessThan('medium')`
   text-align: center;
   padding: 0 8px;
@@ -196,7 +196,7 @@ const Title = styled(Heading)`
 const Summary = styled(Text)`
   margin: 0 !important;
   margin-top: 4px;
-  color: ${props => props.theme.colors.darkgray}
+  color: ${props => props.theme.colors.mediumdark}
   font-size: 13px;
   line-height: 18px;
 `;
@@ -209,7 +209,7 @@ const Actions = styled.div`
     min-width: 80px;
     border-width: 1px !important;
     line-height: 25px;
-    color: ${props => props.theme.colors.lightgray} svg {
+    color: ${props => props.theme.colors.light} svg {
       color: inherit !important;
     }
   }
