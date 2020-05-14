@@ -15,13 +15,13 @@ export const Title = styled.div`
   font-size: 15px;
   font-weight: 700;
   padding: 8px;
-  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
+  border-bottom: ${props => props.theme.colors.border};
   margin: 0;
   margin-bottom: 8px;
-  color: ${props => props.theme.colors.darkgray};
+  color: ${props => props.theme.colors.mediumdark};
   & h5 {
     margin: 0;
-    color: ${props => props.theme.colors.darkgray};
+    color: ${props => props.theme.colors.mediumdark};
     display: inline-block;
     padding: 0;
     font-size: 12px;
@@ -38,13 +38,13 @@ export const RightContext = styled.div`
     display: inline-block;
     height: 30px;
     & svg {
-      color: ${props => props.theme.colors.darkgray} !important;
+      color: ${props => props.theme.colors.mediumdark} !important;
       vertical-align: middle;
       height: 30px;
     }
     &:hover {
       & svg {
-        color: ${props => props.theme.colors.darkgray} !important;
+        color: ${props => props.theme.colors.mediumdark} !important;
       }
     }
   }

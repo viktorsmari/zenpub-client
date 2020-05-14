@@ -15,8 +15,8 @@ max-width: 100%;
   max-width: 600px;
   background: white;
   align-items: center;
-  border-bottom: 1px solid ${props => props.theme.colors.lightgray};
-  border-right: 1px solid ${props => props.theme.colors.lightgray};
+  border-bottom: ${props => props.theme.colors.border};
+  border-right: ${props => props.theme.colors.border};
   top: 0px;
   z-index: 99999999999999999999999999999999999999;
   left: 0;
@@ -28,9 +28,9 @@ max-width: 100%;
 
 const MenuBox = styled(Box)`
 cursor: pointer;
-color: ${props => props.theme.colors.gray}
+color: ${props => props.theme.colors.medium}
 &:hover {
-    color: ${props => props.theme.colors.darkgray}
+    color: ${props => props.theme.colors.mediumdark}
 }
 ${media.greaterThan('860px')`
 display: none;

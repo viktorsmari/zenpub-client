@@ -1,21 +1,21 @@
 import ShareLinkModal from 'components/elements/CollectionModal';
 import { useCollectionOutboxActivities } from 'fe/activities/outbox/collection/useCollectionOutboxActivities';
+import { useCollection } from 'fe/collection/useCollection';
+import { useFormikPage } from 'fe/lib/helpers/usePage';
 import { useCollectionResources } from 'fe/resource/collection/useCollectionResources';
+import { useCollectionFollowers } from 'fe/user/followers/collection/useCollectionFollowers';
 import { Collection } from 'graphql/types.generated';
-import { ActivityPreviewHOC } from 'HOC/modules/previews/activity/ActivityPreview';
 import { AddResourceHOC } from 'HOC/modules/AddResource/addResourceHOC';
 import { EditCollectionPanelHOC } from 'HOC/modules/EditCollectionPanel/editCollectionPanelHOC';
 import { HeroCollection } from 'HOC/modules/HeroCollection/HeroCollection';
+import { ActivityPreviewHOC } from 'HOC/modules/previews/activity/ActivityPreview';
 import { ResourcePreviewHOC } from 'HOC/modules/previews/resource/ResourcePreview';
+import { UserPreviewHOC } from 'HOC/modules/previews/user/UserPreview';
 import React, { FC, useMemo } from 'react';
+import { Box } from 'rebass';
 import CollectionPageUI, {
   Props as CollectionPageProps
 } from 'ui/pages/collection';
-import { Box } from 'rebass';
-import { useCollection } from 'fe/collection/useCollection';
-import { useCollectionFollowers } from 'fe/user/followers/collection/useCollectionFollowers';
-import { UserPreviewHOC } from 'HOC/modules/previews/user/UserPreview';
-import { useFormik } from 'formik';
 
 export enum CollectionPageTab {
   Activities,
@@ -32,23 +32,13 @@ export const CollectionPage: FC<CollectionPage> = props => {
   const { collectionFollowersPage } = useCollectionFollowers(
     props.collectionId
   );
-  const loadMoreFollowers = useFormik({
-    initialValues: {},
-    onSubmit: () =>
-      collectionFollowersPage.ready ? collectionFollowersPage.next() : undefined
-  });
+  const [loadMoreFollowers] = useFormikPage(collectionFollowersPage);
 
   const { resourcesPage } = useCollectionResources(props.collectionId);
-  const loadMoreResources = useFormik({
-    initialValues: {},
-    onSubmit: () => (resourcesPage.ready ? resourcesPage.next() : undefined)
-  });
+  const [loadMoreResources] = useFormikPage(resourcesPage);
 
   const { activitiesPage } = useCollectionOutboxActivities(props.collectionId);
-  const loadMoreActivities = useFormik({
-    initialValues: {},
-    onSubmit: () => (activitiesPage.ready ? activitiesPage.next() : undefined)
-  });
+  const [loadMoreActivities] = useFormikPage(activitiesPage);
 
   const collectionPageProps = useMemo<CollectionPageProps | null>(() => {
     if (!collection) {

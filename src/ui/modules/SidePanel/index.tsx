@@ -6,6 +6,9 @@ import {
   PanelTitle,
   WrapperPanel
 } from 'ui/elements/Panel';
+import { Trans } from '@lingui/react';
+import { Text } from 'rebass/styled-components';
+import styled from 'ui/themes/styled';
 
 export type Props = {};
 
@@ -33,6 +36,11 @@ export const SidePanel: React.FC<Props> = props => {
             <NavItem mb={3} fontSize={1}>
               #assessment
             </NavItem>
+            <NavItem fontSize={1}>
+              <ComingSoon variant="text">
+                ✨<Trans>This feature is coming soon!</Trans>✨
+              </ComingSoon>
+            </NavItem>
           </Nav>
         </Panel>
         <Panel>
@@ -55,9 +63,19 @@ export const SidePanel: React.FC<Props> = props => {
             <NavItem mb={3} fontSize={1}>
               Postgraduate
             </NavItem>
+            <ComingSoon variant="text">
+              ✨<Trans>This feature is coming soon!</Trans>✨
+            </ComingSoon>
           </Nav>
         </Panel>
       </WrapperPanel>
     </>
   );
 };
+
+const ComingSoon = styled(Text)`
+  background: aliceblue;
+  text-align: center;
+  padding: 4px;
+  border-radius: 4px;
+`;

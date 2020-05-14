@@ -38,7 +38,7 @@ const SocialTextTrigger = styled(Box)`
 const SocialTextArea = styled(Textarea)`
   height: 60px;
   border-radius: 4px;
-  border: 0px solid ${props => props.theme.colors.lightgray} !important;
+  border: 0px solid ${props => props.theme.colors.light} !important;
   resize: none;
   flex: 1;
   font-size: 16px !important;
@@ -85,13 +85,10 @@ export const SocialText: React.FC<Props> = props => {
     },
     [ref.current]
   );
-  useEffect(
-    () => {
-      const current = ref.current;
-      props.reference && (props.reference.current = current);
-    },
-    [ref.current]
-  );
+  useEffect(() => {
+    const current = ref.current;
+    props.reference && (props.reference.current = current);
+  }, [ref.current]);
   return (
     <Wrapper>
       <SocialTextDiv>
