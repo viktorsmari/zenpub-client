@@ -64,7 +64,11 @@ export const ShareLink = (props: Props) => {
             name="fetchUrl"
             value={props.FetchLinkFormik.values.fetchUrl}
           />
-          <Span disabled={props.FetchLinkFormik.isSubmitting} type="submit">
+          <Span
+            disabled={props.FetchLinkFormik.isSubmitting}
+            type="submit"
+            onClick={props.FetchLinkFormik.submitForm}
+          >
             <Search width={18} height={18} strokeWidth={2} />
           </Span>
         </ContainerForm>
