@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Box, Text } from 'rebass/styled-components';
 import { Trans } from '@lingui/react';
 import { Row } from 'ui/modules/Modal';
-// import DropzoneArea from '../../../components/elements/DropzoneModal';
+// import DropzoneArea from 'ui/modules/DropzoneModal';
 import { FormikHook } from 'ui/@types/types';
 import { LoadMore } from 'ui/modules/Loadmore';
 
