@@ -18,10 +18,10 @@ import { Heading, Box, Flex, Text, Button } from 'rebass/styled-components';
 // import { NavLink } from 'react-router-dom';
 import { Trans } from '@lingui/macro';
 import Avatar from 'ui/elements/Avatar';
-import { Hit } from './Hits';
+import { Hit } from '../../fe/search/Hits';
 import { useHit } from './lib';
 import { SearchHostIndexAndMyFollowingsQuery } from './SearchData.generated';
-import { useLMS } from 'fe/lib/moodleLMS/useSendToMoodle';
+import { useLMSHit } from 'fe/lib/moodleLMS/useSendToMoodle';
 import Modal from 'ui/modules/Modal';
 import Maybe from 'graphql/tsutils/Maybe';
 
@@ -34,15 +34,15 @@ interface Props {
 
 const Resource: React.FC<Props> = ({ hit, myInfo }) => {
   const props = {
-    icon: hit.icon || hit.image,
+    icon: hit.icon,
     title: hit.name,
     summary: hit.summary,
-    url: hit.url || hit.canonicalUrl || '',
+    url: hit.canonicalUrl || '',
     type: hit.index_type
   };
   const hitCtl = useHit(myInfo, hit);
-  const { LMSPrefsPanel } = useLMS(
-    hit.index_type === 'Resource' && hit.url ? hit.url : null
+  const { LMSPrefsPanel } = useLMSHit(
+    hit.index_type === 'Resource' ? hit : null
   );
   const [isOpenMoodleModal, setOpenMoodleModal] = React.useState(false);
   return (
