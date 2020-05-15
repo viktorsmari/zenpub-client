@@ -29,7 +29,11 @@ export const FlagPreviewHOC: FC<FlagPreviewHOC> = ({ flagId }) => {
       const { communityLink, communityName } = getCommunityInfoStrings(comment);
       const link = getActivitySimpleLink(comment);
       const CommentPreview = (
-        <CommentPreviewHOC commentId={comment.id} mainComment={false} />
+        <CommentPreviewHOC
+          commentId={comment.id}
+          mainComment={false}
+          hideActions={true}
+        />
       );
       const actor = flag.creator && getActivityActor(flag.creator);
 
@@ -46,7 +50,11 @@ export const FlagPreviewHOC: FC<FlagPreviewHOC> = ({ flagId }) => {
         />
       );
     } else {
-      return flag ? <PreviewComponent context={flag.context} /> : <></>;
+      return flag ? (
+        <PreviewComponent context={flag.context} flagged={true} />
+      ) : (
+        <></>
+      );
     }
   }, [flag]);
 

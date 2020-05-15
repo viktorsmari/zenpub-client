@@ -23,7 +23,7 @@ export interface Props {
     external: boolean;
   };
   displayUsername: string;
-  hideActons?: boolean;
+  hideActions?: boolean;
   isCreator?: boolean;
   // followers: string[]
 }
@@ -39,7 +39,7 @@ export const Community: React.FC<Props> = ({
   collectionsCount,
   link,
   displayUsername,
-  hideActons
+  hideActions
   // followers
 }) => (
   <Bordered>
@@ -86,7 +86,7 @@ export const Community: React.FC<Props> = ({
               {collectionsCount || 0} <Trans>Collections</Trans>
             </Text>
           </MetaWrapper>
-          {hideActons ? null : (
+          {hideActions ? null : (
             <Actions my={3}>
               <Button
                 variant="outline"
@@ -147,7 +147,7 @@ const Wrapper = styled(Box)`
   max-height: 560px;
   overflow: hidden;
   z-index: 9;
-  padding-bottom: 0;
+  // padding-bottom: 0;
   cursor: pointer;
   background: ${props => props.theme.colors.appInverse};
   &:hover {

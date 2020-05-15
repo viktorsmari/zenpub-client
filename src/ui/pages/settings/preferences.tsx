@@ -81,7 +81,7 @@ const Preferences: React.FC<Props> = props => (
             </label>
             <LanguageSelect />
             <Box width={1 / 2} mt={2}>
-              <Label htmlFor="moodleWebsite">Location</Label>
+              <Label htmlFor="moodleWebsite">Moodle LMS site location</Label>
               <Input
                 id="moodleWebsite"
                 disabled={props.formik.isSubmitting}
@@ -127,9 +127,9 @@ const TransifexLink = styled(Text)`
   a {
     font-size: 12px;
     text-decoration: underline;
-    color: ${props => props.theme.colors.medium};
+    color: ${props => props.theme.colors.dark};
     &:hover {
-      color: ${props => props.theme.colors.mediumdark};
+      color: ${props => props.theme.colors.darkest};
     }
   }
 `;

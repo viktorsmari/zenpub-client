@@ -14,9 +14,9 @@ export const useCommunity = (communityId: Community['id']) => {
   const community = communityQ.data?.community;
   const { toggleFollow: toggleJoin } = useFollowContext(community);
   const { edit } = useEditCommunity(communityId);
-  const canModify =
-    !!me?.isInstanceAdmin ||
-    (!!me && !!community?.creator && me.user.id === community.creator.id);
+  const isCreator =
+    !!me && !!community?.creator && me.user.id === community.creator.id;
+  const canModify = !!me?.isInstanceAdmin || isCreator;
 
   return useMemo(() => {
     return {
@@ -24,7 +24,8 @@ export const useCommunity = (communityId: Community['id']) => {
       createThread,
       toggleJoin,
       edit,
-      canModify
+      canModify,
+      isCreator
     };
-  }, [community, toggleJoin, edit, canModify, createThread]);
+  }, [community, toggleJoin, edit, canModify, createThread, isCreator]);
 };

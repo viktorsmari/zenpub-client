@@ -21,7 +21,9 @@ import {
   SearchHostIndexAndMyFollowingsQuery,
   useSearchHostIndexAndMyFollowingsQuery
 } from './SearchData.generated';
-import { Hit } from './Hits';
+import { Hit } from '../../fe/search/Hits';
+import Maybe from 'graphql/tsutils/Maybe';
+import { mnCtx } from 'fe/lib/graphql/ctx';
 
 const WrapperResult = styled(Box)`
   border-bottom: ${props => props.theme.colors.border};
@@ -46,19 +48,19 @@ const PagFlex = styled(Flex)`
 
 interface Result {
   hit: Hit;
-  myInfo: SearchHostIndexAndMyFollowingsQuery;
+  myInfo: Maybe<SearchHostIndexAndMyFollowingsQuery>;
 }
 const Result: React.FC<Result> = ({ hit, myInfo }) => {
   return (
     <WrapperResult p={3}>
-      {hit.collection ? (
+      {hit.index_type === 'Resource' && hit.collection?.community ? (
         <SupText mb={3} variant="suptitle">
           <a href={hit.collection.community.canonicalUrl}>
             {hit.collection.community.name}
           </a>{' '}
           > <a href={hit.collection.canonicalUrl}>{hit.collection.name}</a>
         </SupText>
-      ) : hit.community ? (
+      ) : hit.index_type === 'Collection' && hit.community ? (
         <SupText mb={3} variant="suptitle">
           <a href={hit.community.canonicalUrl}>{hit.community.name}</a>
         </SupText>
@@ -71,9 +73,11 @@ const Result: React.FC<Result> = ({ hit, myInfo }) => {
 };
 
 const InfiniteHits = ({ hits }: { hits: Hit[] }) => {
-  const { data } = useSearchHostIndexAndMyFollowingsQuery();
+  const { data } = useSearchHostIndexAndMyFollowingsQuery({
+    context: mnCtx({ noShowError: true })
+  });
   // return the DOM output
-  return data ? (
+  return (
     <>
       {hits.map(hit => (
         <Result key={hit.objectID} hit={hit} myInfo={data} />
@@ -82,8 +86,6 @@ const InfiniteHits = ({ hits }: { hits: Hit[] }) => {
         <Pagination showNext />
       </PagFlex>
     </>
-  ) : (
-    <div />
   );
 };
 

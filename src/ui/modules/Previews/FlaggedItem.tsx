@@ -36,7 +36,9 @@ export const FlaggedItem: React.SFC<FlaggedProps> = ({
   return (
     <Wrapper>
       <Reason>{FlaggedItemContextElement}</Reason>
-      <Text variant="text">{reason}</Text>
+      <Text variant="text" pt={2}>
+        {reason}
+      </Text>
       <Actions>
         <Box>
           <Items>
