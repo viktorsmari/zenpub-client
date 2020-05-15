@@ -37,7 +37,7 @@ interface Props {
   isSubmitting: boolean;
   name: string;
   summary: string;
-  image: string;
+  icon: string;
   onUrl(string): string;
   url: string;
   isFetched(boolean): boolean;
@@ -46,7 +46,7 @@ interface Props {
 interface FormValues {
   name: string;
   summary: string;
-  image: string;
+  icon: string;
   url: string;
   // file: File;
 }
@@ -58,7 +58,7 @@ interface MyFormProps {
   toggleModal: any;
   name: string;
   summary: string;
-  image: string;
+  icon: string;
   url: string;
   onUrl(string): string;
   isFetched(boolean): boolean;
@@ -71,7 +71,7 @@ const tt = {
       'Please type or copy/paste a summary about the resource...'
     ),
     submit: i18nMark('Add'),
-    image: i18nMark('Enter the URL of an image to represent the resource'),
+    icon: i18nMark('Enter the URL of an image to represent the resource'),
     noFilesSelected: i18nMark('No files selected')
   }
 };
@@ -103,7 +103,7 @@ const Fetched = (props: Props & FormikProps<FormValues>) => {
     <>
       <Preview>
         <ResourceCard
-          icon={props.values.image}
+          icon={props.values.icon}
           title={props.values.name}
           summary={props.values.summary}
           url={props.values.url}
@@ -183,18 +183,18 @@ const Fetched = (props: Props & FormikProps<FormValues>) => {
           </label>
           <ContainerForm>
             <Field
-              name="image"
+              name="icon"
               render={({ field }) => (
                 <Input
-                  placeholder={i18n._(tt.placeholders.image)}
+                  placeholder={i18n._(tt.placeholders.icon)}
                   name={field.name}
                   value={field.value}
                   onChange={field.onChange}
                 />
               )}
             />
-            {props.errors.image && props.touched.image && (
-              <Alert>{props.errors.image}</Alert>
+            {props.errors.icon && props.touched.icon && (
+              <Alert>{props.errors.icon}</Alert>
             )}
           </ContainerForm>
         </Row>
@@ -228,7 +228,7 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
     url: props.url || '',
     name: props.name || '',
     summary: props.summary || '',
-    image: props.image || ''
+    icon: props.icon || ''
   }),
   validationSchema: Yup.object().shape({
     url: Yup.string(), //.url(),
@@ -236,16 +236,17 @@ const ModalWithFormik = withFormik<MyFormProps, FormValues>({
       .max(90)
       .required(),
     summary: Yup.string().max(1000),
-    image: Yup.string().url()
+    icon: Yup.string().url()
   }),
   handleSubmit: (values, { props, setSubmitting }) => {
+    console.log('props.icon ' + props.icon);
     const variables: CreateResourceMutationMutationVariables = {
       collectionId: props.collectionId,
       resource: {
         name: values.name,
         summary: values.summary
       },
-      icon: props.image ? { url: props.image } : undefined,
+      icon: values.icon ? { url: values.icon } : null,
       content: { url: props.url }
     };
     return props
