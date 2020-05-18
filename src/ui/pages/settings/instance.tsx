@@ -22,7 +22,7 @@ export interface Props {
   formikAddDomain: FormikHook<WithDomain>;
   formikRemoveDomain: FormikHook<WithDomain>;
   domainsList: string[];
-  loadMoreDomains?: FormikHook; // FIX ME after add LoadMoreFormik
+  loadMoreDomains: FormikHook | null;
 }
 
 export interface WithDomain {
@@ -126,7 +126,7 @@ const Instance: React.FC<Props> = ({
       {formikRemoveDomain.values.domain && (
         <Modal closeModal={() => formikRemoveDomain.setValues({ domain: '' })}>
           <ConfirmationModal
-            cancel={() => formikRemoveDomain.setValues({ domain: '' })}
+            done={() => formikRemoveDomain.setValues({ domain: '' })}
             formik={formikRemoveDomain}
             modalAction={i18n._(`Delete domain from allowlist`)}
             modalDescription={i18n._(

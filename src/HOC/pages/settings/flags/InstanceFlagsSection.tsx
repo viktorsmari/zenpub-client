@@ -5,11 +5,13 @@ import Flags, { Props } from 'ui/pages/settings/flags';
 import { ActivityPreview, Status } from 'ui/modules/ActivityPreview';
 import { getActivitySimpleLink } from 'fe/lib/activity/getActivitySimpleLink';
 import { getActivityActor } from 'fe/lib/activity/getActivityActor';
+import { useFormikPage } from 'fe/lib/helpers/usePage';
 
 export interface InstanceFlagsSection {}
 
 export const InstanceFlagsSection: FC<InstanceFlagsSection> = () => {
   const { flagsPage } = useAllFlags();
+  const [loadMoreFlags] = useFormikPage(flagsPage);
   const FlagsBox = useMemo<Props['FlagsBox']>(() => {
     return (
       <>
@@ -36,7 +38,8 @@ export const InstanceFlagsSection: FC<InstanceFlagsSection> = () => {
   }, [flagsPage.edges]);
   const props = useMemo<Props>(() => {
     return {
-      FlagsBox
+      FlagsBox,
+      loadMoreFlags
     };
   }, [FlagsBox]);
   return <Flags {...props} />;
