@@ -67,10 +67,8 @@ export const useFormikPage = <EdgeType>(page: MngPage<EdgeType>) => {
   });
   return useMemo(
     () => [
-      page.ready && page.pageInfo.hasNextPage ? nextPageFormik : undefined,
-      page.ready && page.pageInfo.hasPreviousPage
-        ? previousPageFormik
-        : undefined
+      page.ready && page.pageInfo.hasNextPage ? nextPageFormik : null,
+      page.ready && page.pageInfo.hasPreviousPage ? previousPageFormik : null
     ],
     [nextPageFormik, previousPageFormik, page]
   );

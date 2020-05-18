@@ -32,9 +32,9 @@ export interface Props {
   basePath: string;
   newThreadFormik: null | FormikHook<{ text: string }>;
   CreateCollectionPanel: React.ComponentType<{ done(): any }>;
-  loadMoreActivities: FormikHook | undefined;
-  loadMoreCollections: FormikHook | undefined;
-  loadMoreThreads: FormikHook | undefined;
+  loadMoreActivities: FormikHook | null;
+  loadMoreCollections: FormikHook | null;
+  loadMoreThreads: FormikHook | null;
 }
 
 export const Community: React.FC<Props> = ({

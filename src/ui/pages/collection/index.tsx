@@ -29,10 +29,10 @@ export interface Props {
   UploadResourcePanel: React.ComponentType<{ done(): any }>;
   basePath: string;
   collectionName: string;
-  loadMoreActivities?: FormikHook;
-  loadMoreResources?: FormikHook;
-  loadMoreFollowers?: FormikHook;
-  isCommunityMember?: boolean; // FIX ME remove ? after added at HOC
+  loadMoreActivities: FormikHook | null;
+  loadMoreResources: FormikHook | null;
+  loadMoreFollowers: FormikHook | null;
+  isCommunityMember: boolean; // FIX ME remove ? after added at HOC
 }
 
 export const Collection: React.FC<Props> = ({

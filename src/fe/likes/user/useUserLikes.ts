@@ -8,6 +8,7 @@ export const useUserLikes = (userId: User['id']) => {
   const userLikesQ = useUserLikesQuery({
     variables: { userId, limit: DEFAULT_PAGE_SIZE }
   });
+
   const likesPage = usePage(userLikesQ.data?.user?.likes);
   return useMemo(() => {
     return {
