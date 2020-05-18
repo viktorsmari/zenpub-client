@@ -24,7 +24,6 @@ const Flags: React.FC<Props> = ({ FlagsBox, loadMoreFlags }) => {
             {loadMoreFlags ? (
               <LoadMore LoadMoreFormik={loadMoreFlags} />
             ) : null}{' '}
-            {/* FIX ME after add LoadMoreFormik */}
           </Box>
         ) : (
           <Text pt={3}>

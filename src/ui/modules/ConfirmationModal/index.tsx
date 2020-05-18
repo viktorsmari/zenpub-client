@@ -45,7 +45,9 @@ export const ConfirmationModal: React.FC<Props> = ({
           isDisabled={formik.isSubmitting}
           type="submit"
           style={{ marginLeft: '10px' }}
-          onClick={formik.submitForm}
+          onClick={() => {
+            formik.submitForm().then(() => done(true));
+          }}
         >
           {modalAction}
         </SubmitButton>
