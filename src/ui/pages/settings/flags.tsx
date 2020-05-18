@@ -8,7 +8,7 @@ import { LoadMore } from 'ui/modules/Loadmore';
 
 export interface Props {
   FlagsBox: JSX.Element;
-  loadMoreFlags?: FormikHook; // FIX ME after add LoadMoreFormik
+  loadMoreFlags: FormikHook | null;
 }
 
 const Flags: React.FC<Props> = ({ FlagsBox, loadMoreFlags }) => {
