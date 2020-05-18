@@ -9,12 +9,9 @@ query getCommunityQuery($communityId: String!, $limit: Int, $end: [Cursor!]) {
     community(communityId: $communityId) {
         id
         canonicalUrl
-        preferredUsername
         name
         summary
-        icon{
- id, url }
-
+        icon{ id, url }
         createdAt
         creator { id }
         updatedAt
@@ -56,16 +53,9 @@ query getCommunityQuery($communityId: String!, $limit: Int, $end: [Cursor!]) {
                 lastActivity
                 context {
                     __typename
-                    ... on Community { id icon{
- id, url }
- name}
-                    ... on Collection { id icon{
- id, url }
- name}
-                    ... on Resource { id icon{
- id, url }
- name}
-            
+                    ... on Community { id icon{ id, url } name}
+                    ... on Collection { id icon{ id, url } name}
+                    ... on Resource { id icon{ id, url } name}
                 }
                 myFollow { id }
                 comments {
@@ -86,9 +76,7 @@ query getCommunityQuery($communityId: String!, $limit: Int, $end: [Cursor!]) {
                 isPublic
                 creator {
                     id
-                    icon{
- id, url }
-
+                    icon{ id, url }
                 }
             }
         }
@@ -98,12 +86,9 @@ query getCommunityQuery($communityId: String!, $limit: Int, $end: [Cursor!]) {
             edges {
                 id
                 canonicalUrl
-                preferredUsername
                 name
                 summary
-                icon{
- id, url }
-
+                icon{ id, url }
                 myFollow { id }
                 likers     { totalCount}
                 followers { totalCount }

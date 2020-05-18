@@ -21,7 +21,7 @@ export type GetCommunityQueryQuery = (
   { __typename: 'RootQueryType' }
   & { community: Types.Maybe<(
     { __typename: 'Community' }
-    & Pick<Types.Community, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary' | 'createdAt' | 'updatedAt' | 'lastActivity' | 'isLocal' | 'isPublic' | 'isDisabled'>
+    & Pick<Types.Community, 'id' | 'canonicalUrl' | 'name' | 'summary' | 'createdAt' | 'updatedAt' | 'lastActivity' | 'isLocal' | 'isPublic' | 'isDisabled'>
     & { icon: Types.Maybe<(
       { __typename: 'Content' }
       & Pick<Types.Content, 'id' | 'url'>
@@ -107,7 +107,7 @@ export type GetCommunityQueryQuery = (
         & Pick<Types.PageInfo, 'startCursor' | 'endCursor'>
       ), edges: Array<(
         { __typename: 'Collection' }
-        & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'preferredUsername' | 'name' | 'summary'>
+        & Pick<Types.Collection, 'id' | 'canonicalUrl' | 'name' | 'summary'>
         & { icon: Types.Maybe<(
           { __typename: 'Content' }
           & Pick<Types.Content, 'id' | 'url'>
@@ -138,7 +138,6 @@ export const GetCommunityQueryDocument = gql`
   community(communityId: $communityId) {
     id
     canonicalUrl
-    preferredUsername
     name
     summary
     icon {
@@ -247,7 +246,6 @@ export const GetCommunityQueryDocument = gql`
       edges {
         id
         canonicalUrl
-        preferredUsername
         name
         summary
         icon {
