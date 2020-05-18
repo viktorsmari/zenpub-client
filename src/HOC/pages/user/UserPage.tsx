@@ -61,7 +61,9 @@ export const UserPage: FC<UserPage> = ({ userId, basePath }) => {
         {likesPage.edges.map(like => {
           const { context } = like;
           if (context.__typename == 'Comment') {
-            return <LikedCommentPreviewHOC commentId={context.id} />;
+            return (
+              <LikedCommentPreviewHOC key={like.id} commentId={context.id} />
+            );
           } else {
             return <PreviewComponent context={context} />;
           }
