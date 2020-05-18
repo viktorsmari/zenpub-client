@@ -26,5 +26,5 @@ export const useCollection = (collectionId: Collection['id']) => {
       edit,
       canModify
     };
-  }, [collection, toggleJoin, edit, canModify]);
+  }, [collection, isCreator, toggleJoin, edit, canModify, isCommunityMember]);
 };

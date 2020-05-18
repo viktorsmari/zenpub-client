@@ -32,7 +32,7 @@ export interface Props {
   loadMoreActivities: FormikHook | null;
   loadMoreResources: FormikHook | null;
   loadMoreFollowers: FormikHook | null;
-  isCommunityMember: boolean; // FIX ME remove ? after added at HOC
+  isCommunityMember: boolean;
 }
 
 export const Collection: React.FC<Props> = ({
@@ -53,7 +53,7 @@ export const Collection: React.FC<Props> = ({
   const [isOpenEditCollection, setOpenEditCollection] = React.useState(false);
   const [isShareLinkOpen, setOpenShareLink] = React.useState(false);
   const [isUploadOpen, setUploadOpen] = React.useState(false);
-  isCommunityMember = true; // FIX ME remove after added at HOC
+
   return (
     <MainContainer>
       {isOpenEditCollection && (
