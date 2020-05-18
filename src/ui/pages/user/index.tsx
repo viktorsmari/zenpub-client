@@ -36,12 +36,11 @@ export interface Props {
   totalUsers: string;
   userLink: string;
   userName: string;
-  loadMoreFormik?: FormikHook; // FIX ME remove ? after add LoadMoreFormik
-  loadMoreActivities?: FormikHook; // FIX ME remove ? after add LoadMoreFormik
-  loadMoreLikes?: FormikHook; // FIX ME remove ? after add LoadMoreFormik
-  loadMoreCommunities?: FormikHook; // FIX ME remove ? after add LoadMoreFormik
-  loadMoreCollections?: FormikHook; // FIX ME remove ? after add LoadMoreFormik
-  loadMoreFollowing?: FormikHook; // FIX ME remove ? after add LoadMoreFormik
+  loadMoreActivities: FormikHook | null;
+  loadMoreLikes: FormikHook | null;
+  loadMoreCommunities: FormikHook | null;
+  loadMoreCollections: FormikHook | null;
+  loadMoreFollowing: FormikHook | null;
 }
 
 export const User: React.FC<Props> = ({

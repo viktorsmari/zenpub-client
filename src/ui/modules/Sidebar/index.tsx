@@ -178,7 +178,7 @@ export interface SidebarLoading {
 export type Props = SidebarLoaded | SidebarLoading;
 
 export const Sidebar: React.FC<Props> = props => {
-  console.log('isSidebarOpen ' + (props.isSidebarOpen == true));
+  // console.log('isSidebarOpen ' + (props.isSidebarOpen == true));
   return (
     <>
       {props.isSidebarOpen == true ? (

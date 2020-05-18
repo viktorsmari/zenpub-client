@@ -74,11 +74,6 @@ export const ShareLinkHOC: FC<ShareLinkHOC> = ({
       });
     }
   });
-  console.log({
-    FetchLinkFormik,
-    ShareLinkFormik,
-    webMetaData
-  });
 
   return (
     <ShareLink

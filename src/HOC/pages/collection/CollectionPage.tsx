@@ -29,7 +29,7 @@ export interface CollectionPage {
 
 export const CollectionPage: FC<CollectionPage> = props => {
   const { collectionId, basePath /*,tab */ } = props;
-  const { collection } = useCollection(props.collectionId);
+  const { collection, isCommunityMember } = useCollection(props.collectionId);
   const { collectionFollowersPage } = useCollectionFollowers(
     props.collectionId
   );
@@ -101,7 +101,8 @@ export const CollectionPage: FC<CollectionPage> = props => {
       collectionName: collection.name,
       loadMoreFollowers,
       loadMoreResources,
-      loadMoreActivities
+      loadMoreActivities,
+      isCommunityMember
     };
     return uiProps;
   }, [
