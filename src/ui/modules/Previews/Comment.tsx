@@ -25,7 +25,7 @@ export interface ReplyActions {
 export interface CommentProps {
   FlagModal: null | React.ComponentType<{ done(): unknown }>;
   like: LikeActions;
-  reply: ReplyActions;
+  reply: ReplyActions | null;
   content: string;
   url: string;
   isFlagged: boolean;
