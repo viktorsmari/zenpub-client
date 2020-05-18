@@ -1,22 +1,20 @@
+import * as Sentry from '@sentry/browser';
+import { MngErrorLink } from 'fe/lib/graphql/ctx';
 import * as React from 'react';
 import { ApolloProvider } from 'react-apollo';
 import ReactDOM from 'react-dom';
+import { Slide, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { createGlobalStyle } from 'styled-components';
+import media from 'styled-media-query';
 import getApolloClient from './apollo/client';
 import App from './containers/App/App';
 import { ProvideContexts } from './context/global';
-import { integrateSessionApolloRedux } from './integrations/Session-Apollo-Redux';
+import * as K from './mn-constants';
+import { colors, typography } from './mn-constants';
 import createStore from './redux/store';
 import registerServiceWorker from './registerServiceWorker';
 import { createLocalSessionKVStorage } from './util/keyvaluestore/localSessionStorage';
-import { ToastContainer, Slide } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { createDynamicLinkEnv } from './util/apollo/dynamicLink';
-import * as Sentry from '@sentry/browser';
-import * as K from './mn-constants';
-import { typography, colors } from './mn-constants';
-import { MngErrorLink } from 'fe/lib/graphql/ctx';
-import media from 'styled-media-query';
 
 K.SENTRY_KEY &&
   Sentry.init({
@@ -84,23 +82,15 @@ async function run() {
   const createLocalKVStore = createLocalSessionKVStorage('local');
   const store = createStore({ createLocalKVStore });
 
-  const dynamicLinkEnv = createDynamicLinkEnv();
-
-  const appLink = dynamicLinkEnv.link.concat(MngErrorLink);
   const apolloClient = await getApolloClient({
     localKVStore: createLocalKVStore('APOLLO#'),
-    appLink,
+    appLinks: [MngErrorLink],
     dispatch: store.dispatch
   });
 
-  integrateSessionApolloRedux(
-    dynamicLinkEnv.srv,
-    store.dispatch,
-    apolloClient.client
-  );
   const ApolloApp = () => (
     <ApolloProvider client={apolloClient.client}>
-      <ProvideContexts store={store} dynamicLinkSrv={dynamicLinkEnv.srv}>
+      <ProvideContexts store={store}>
         <Global />
         <ToastContainer
           hideProgressBar

@@ -1,7 +1,6 @@
 import * as AbsintheSocket from '@absinthe/socket';
 import { createAbsintheSocketLink } from '@absinthe/socket-apollo-link';
 import { hasSubscription } from '@jumpn/utils-graphql';
-import HttpStatus from 'http-status-codes';
 import {
   defaultDataIdFromObject,
   InMemoryCache,
@@ -22,8 +21,8 @@ import {
 } from 'fe/session/anon.generated';
 import { MeLogoutMutationName } from 'fe/session/me.generated';
 import { GraphQLError } from 'graphql';
+import HttpStatus from 'http-status-codes';
 import { Socket as PhoenixSocket } from 'phoenix';
-import { logout } from 'redux/session';
 import { RootMutationType, RootQueryType } from '../graphql/types.generated';
 import {
   GRAPHQL_ENDPOINT,
@@ -42,7 +41,7 @@ export type OperationName = QueryName | MutationName;
 // const { meQuery } = require('../../../graphql/me.graphql');
 interface Cfg {
   localKVStore: KVStore;
-  appLink: ApolloLink;
+  appLinks: ApolloLink[];
   dispatch(payload: any);
 }
 
@@ -50,7 +49,7 @@ const AUTH_TOKEN_KEY = 'AUTH_TOKEN';
 
 export default async function initialise({
   localKVStore,
-  appLink,
+  appLinks,
   dispatch
 }: Cfg) {
   let authToken = localKVStore.get(AUTH_TOKEN_KEY);
@@ -104,7 +103,6 @@ export default async function initialise({
   const delToken = () => {
     authToken = undefined;
     localKVStore.del(AUTH_TOKEN_KEY);
-    dispatch(logout.create());
   };
 
   const setTokenLink = new ApolloLink((operation, nextLink) => {
@@ -233,7 +231,7 @@ export default async function initialise({
   const httpLink = ApolloLink.from(
     [
       IS_DEV ? apolloLogger : null,
-      appLink,
+      ...appLinks,
       alertBlockMutationsForAnonymousLink,
       errorLink,
       authLink,
