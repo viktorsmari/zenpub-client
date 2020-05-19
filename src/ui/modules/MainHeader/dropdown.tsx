@@ -5,7 +5,6 @@ import { Trans } from '@lingui/macro';
 import { useHistory } from 'react-router';
 import { Text, Flex } from 'rebass/styled-components';
 import { Dropdown } from '../Dropdown';
-import { related_urls } from 'mn-constants';
 
 const List = styled.div<{ lined?: boolean }>`
   padding: 8px;
