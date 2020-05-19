@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NavLink, Route, Switch } from 'react-router-dom';
 import { Flex, Text, Box } from 'rebass/styled-components';
-import { Header } from 'ui/modules/Header';
+// import { Header } from 'ui/modules/Header';
 import { FormikHook } from 'ui/@types/types';
 import { LoadMore } from 'ui/modules/Loadmore';
 import {
@@ -68,7 +68,7 @@ export const User: React.FC<Props> = ({
         <WrapperCont>
           <Wrapper>
             <Box mb={2}>
-              <Header name={userName} />
+              {/* <Header name={userName} /> */}
               {HeroUserBox}
               <Menu
                 basePath={basePath}

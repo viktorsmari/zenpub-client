@@ -3,7 +3,7 @@ import { Box, Flex, Text } from 'rebass/styled-components';
 import media from 'styled-media-query';
 
 export const WrapperPanel = styled(Flex)`
-  width: 300px;
+  width: 240px;
   align-items: stretch;
   border: 0 solid black;
   box-sizing: border-box;

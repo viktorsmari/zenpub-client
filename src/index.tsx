@@ -39,8 +39,6 @@ async function run() {
 
       body {
       background: ${colors.app};
-      overflow-y: scroll;
-      overscroll-behavior-y: none;
       .ais-SearchBox {
         height: 42px;
         border-radius: 4px;

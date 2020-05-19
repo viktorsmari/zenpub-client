@@ -125,7 +125,8 @@ img {
 `;
 
 const ItemTitle = styled(Text)`
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: 600;
   color: ${props => props.theme.colors.darker};
   a:focus,
   a:active {
