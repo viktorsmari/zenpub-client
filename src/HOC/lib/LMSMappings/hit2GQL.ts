@@ -126,6 +126,7 @@ export const communityHit2lms = (
     myFlag: null,
     myFollow: null,
     collectionCount: 0,
-    preferredUsername
+    preferredUsername,
+    creator: null // FIXME: get it from BE
   };
 };
