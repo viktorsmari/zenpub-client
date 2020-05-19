@@ -1,11 +1,10 @@
 import { useAllFlags } from 'fe/flags/all/useAllFlags';
-import { FlagPreviewHOC } from 'HOC/modules/previews/flag/FlagPreview';
-import React, { FC, useMemo } from 'react';
-import Flags, { Props } from 'ui/pages/settings/flags';
-import { ActivityPreview, Status } from 'ui/modules/ActivityPreview';
-import { getActivitySimpleLink } from 'fe/lib/activity/getActivitySimpleLink';
 import { getActivityActor } from 'fe/lib/activity/getActivityActor';
 import { useFormikPage } from 'fe/lib/helpers/usePage';
+import { FlagPreviewHOC } from 'HOC/modules/previews/flag/FlagPreview';
+import React, { FC, useMemo } from 'react';
+import { ActivityPreview, Status } from 'ui/modules/ActivityPreview';
+import Flags, { Props } from 'ui/pages/settings/flags';
 
 export interface InstanceFlagsSection {}
 
@@ -18,7 +17,6 @@ export const InstanceFlagsSection: FC<InstanceFlagsSection> = () => {
         {flagsPage.edges.map(flag => {
           const context = <FlagPreviewHOC flagId={flag.id} />;
           const actor = flag.creator && getActivityActor(flag.creator);
-          const link = getActivitySimpleLink(flag.context);
 
           return (
             <ActivityPreview
@@ -27,7 +25,6 @@ export const InstanceFlagsSection: FC<InstanceFlagsSection> = () => {
               communityName=""
               createdAt={flag.createdAt}
               event="flagged"
-              link={link}
               preview={context}
               status={Status.Loaded}
             />
@@ -41,6 +38,6 @@ export const InstanceFlagsSection: FC<InstanceFlagsSection> = () => {
       FlagsBox,
       loadMoreFlags
     };
-  }, [FlagsBox]);
+  }, [FlagsBox, loadMoreFlags]);
   return <Flags {...props} />;
 };

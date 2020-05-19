@@ -119,8 +119,8 @@ export default async function initialise({
         operationName === AnonConfirmEmailMutationName
       ) {
         setToken(
-          resp?.data?.createSession?.token ||
-            resp?.data?.confirmEmail?.token ||
+          resp.data?.createSession?.token ||
+            resp.data?.confirmEmail?.token ||
             resp.data?.resetPassword?.token
         );
       }
@@ -145,23 +145,19 @@ export default async function initialise({
 
   const errorLink = onError(errorResponse => {
     const { operation, response, graphQLErrors, networkError } = errorResponse;
-    console.error(`errorLink on operation`, {
-      operation,
-      response,
-      graphQLErrors,
-      networkError
-    });
+    console.error(`errorLink on operation`, errorResponse);
 
     if (networkError) {
+      // NETWORK ERROR
       const message =
         'statusCode' in networkError
           ? HttpStatus.getStatusText(networkError.statusCode)
           : networkError.message;
-
       return Observable.of<FetchResult>({
         errors: [new GraphQLError(`network error:${message}`)]
       });
     } else if (graphQLErrors) {
+      // GRAPHQL ERROR
       const unexpectedError = graphQLErrors.find(
         err =>
           /Failed to fetch/gi.test(err.message) ||
@@ -174,11 +170,13 @@ export default async function initialise({
           : graphQLErrors
       });
     } else if (response?.errors) {
+      // RESPONSE ERROR
       return Observable.of<FetchResult>({
         data: response.data,
         errors: response.errors
       });
     } else {
+      // UNKNOWN ERROR
       const respStr = JSON.stringify(response, null, 2);
       const message = `unknown error:\noperation:${operation}\nresponse:${respStr}`;
       return Observable.of<FetchResult>({

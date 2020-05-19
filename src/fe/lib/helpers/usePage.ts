@@ -76,7 +76,7 @@ export const useFormikPage = <EdgeType>(page: MngPage<EdgeType>) => {
 
 export const usePage = <EdgeType>(
   page: Maybe<Page<EdgeType>>,
-  fetch: Fetch<EdgeType, NextPageCursor> = () => Promise.resolve()
+  fetch: Fetch<EdgeType, NextPageCursor> // = () => Promise.resolve()
 ): MngPage<EdgeType> =>
   useMemo<MngPage<EdgeType>>(() => mngPage(page, fetch), [page, fetch]);
 
