@@ -40,17 +40,21 @@ async function run() {
       body {
       background: ${colors.app};
       .ais-SearchBox {
-        height: 42px;
         border-radius: 4px;
-        border: 1px solid #dadada
+        border: ${colors.border}
+        height: 34px;
+        width: 380px;
+        margin-top: 8px;
+        background: ${colors.app}
         input {
-          height: 40px;
           border: none;
-          background: #fff;
           margin: 0 !important; 
           border-radius: 4px;
           text-indent: 30px;
           padding: 0;
+          height: 32px;
+          background: ${colors.app};
+          font-size: 13px;
         }
       }
       .ais-InstantSearch__root { 
