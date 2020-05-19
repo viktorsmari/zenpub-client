@@ -19,7 +19,8 @@ import CollectionPageUI, {
 
 export enum CollectionPageTab {
   Activities,
-  Resources
+  Resources,
+  Followers
 }
 export interface CollectionPage {
   collectionId: Collection['id'];
