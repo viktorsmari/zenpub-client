@@ -86,7 +86,7 @@ export const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
               </Box>
               <Box mt={3}>
                 <label>
-                  <Trans>Display Name</Trans>
+                  <Trans>Full name</Trans>
                 </label>
                 <Input
                   placeholder={tt.placeholders.name}

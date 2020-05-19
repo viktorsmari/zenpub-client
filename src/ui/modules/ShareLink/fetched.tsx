@@ -21,11 +21,9 @@ import {
 
 const tt = {
   placeholders: {
-    name: i18nMark('Edit the name of the collection'),
-    summary: i18nMark(
-      'Please describe what the collection is for and what kind of resources it is likely to contain...'
-    ),
-    icon: i18nMark('Enter the URL of an icon to represent the collection')
+    name: i18nMark('Type the name of the resource'),
+    summary: i18nMark('Please describe what the resource is about...'),
+    icon: i18nMark('Enter the URL of an icon to represent the resource')
   }
 };
 
