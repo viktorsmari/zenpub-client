@@ -44,14 +44,15 @@ export const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
     <Container>
       {!formik.isSubmitting && formik.submitCount && registeredUsername ? (
         <Box mt={3}>
-          <p>
-            <Trans>Welcome</Trans> {registeredUsername}
-          </p>
-          <p>
+          <LogoContainer />
+          <Text variant="suptitle">
+            <Trans>Welcome</Trans> <b>{registeredUsername}</b>
+          </Text>
+          <Text mt={2} variant="text">
             <Trans>
               Please confirm your email clicking on the link we sent you at
             </Trans>
-          </p>
+          </Text>
 
           <Alert variant="bad">{formik.errors.email}</Alert>
         </Box>

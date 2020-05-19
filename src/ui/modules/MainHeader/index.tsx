@@ -9,7 +9,7 @@ import Avatar from 'ui/elements/Avatar';
 // import Avatar from 'ui/elements/Avatar';
 import { DropdownSidebar } from './dropdown';
 import media from 'styled-media-query';
-import { ellipsis } from 'polished';
+import { ellipsis, darken } from 'polished';
 import { Link } from 'react-router-dom';
 import { Trans } from '@lingui/react';
 // const MnetLogo = require('static/img/logo-icon.png');
@@ -115,11 +115,13 @@ const Container = styled(Box)`
 const Search = styled(Box)`
   input {
     width: 100%;
-    border: ${props => props.theme.colors.border};
+    font-size: 13px;
     border-radius: 4px;
-    margin-top: 9px;
     max-width: 500px;
     height: 32px;
+    margin: 0;
+    border: 0;
+    background: ${props => props.theme.colors.app};
   }
 `;
 
@@ -168,6 +170,9 @@ const Signin = styled(NavItem)`
   color: ${props => props.theme.colors.lighter};
   border-radius: 4px;
   margin-top: 10px;
+  &:hover {
+    background: ${props => darken('0.1', props.theme.colors.primary)};
+  }
   a {
     text-decoration: none;
     font-size: 13px;
