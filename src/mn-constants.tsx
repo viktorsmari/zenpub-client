@@ -44,9 +44,6 @@ export const terms_markdown_urls = {
 export const related_urls = {
   // replace the URLs as needed
   project_homepage: 'https://moodle.net',
-  terms_users: 'https://moodle.net/terms/users/index.html',
-  terms_cookies: 'https://moodle.net/terms/cookies/index.html',
-  terms_indexing: 'https://moodle.net/terms/indexing/index.html',
   code: 'https://gitlab.com/moodlenet',
   feedback: 'https://changemap.co/moodle/moodlenet/'
 };

@@ -82,7 +82,7 @@ export const DropdownSidebar: React.FC<Props> = ({
       </List>
       <List lined>
         <Item variant="link">
-          <a href={related_urls.terms_users} target="blank">
+          <a href="/terms">
             <Trans>Code of Conduct</Trans>
           </a>
         </Item>
