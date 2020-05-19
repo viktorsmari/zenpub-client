@@ -22,18 +22,22 @@ export const getEventStringByContext = (
   const { __typename } = mainContext;
   const event =
     context.__typename === 'Flag'
-      ? `Flagged ${__typename}`
+      ? `Flagged a ${__typename}`
       : context.__typename === 'Like'
-      ? `Liked ${__typename}`
+      ? `Liked a ${__typename}`
       : context.__typename === 'Follow'
-      ? `Followed ${__typename}`
+      ? `Followed a ${__typename}`
+      : context.__typename === 'Resource'
+      ? `Added a ${__typename}`
       : context.__typename === 'Comment'
       ? context.inReplyTo
-        ? `Replied to a thread`
-        : `Started a thread`
+        ? `Replied to a discussion`
+        : `Started a discussion`
       : verb === ActivityVerb.Created
-      ? `Created ${__typename}`
-      : `Updated ${__typename}`; //verb === ActivityVerb.Updated
+      ? `Created a ${__typename}`
+      : verb === ActivityVerb.Updated
+      ? `Updated a ${__typename}`
+      : `Acted on a ${__typename}`;
 
   return event;
 };

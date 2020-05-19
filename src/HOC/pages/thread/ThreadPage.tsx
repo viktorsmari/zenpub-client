@@ -41,7 +41,7 @@ export const ThreadPage: FC<ThreadPage> = ({ threadId }) => {
     > = {
       communityLink: `/communities/${communityId}`,
       communityName,
-      event: 'Created Comment',
+      event: 'started a discussion',
       status: ActivityPreviewStatus.Loaded
     };
 
@@ -68,6 +68,7 @@ export const ThreadPage: FC<ThreadPage> = ({ threadId }) => {
               key={comment.id}
               {...{
                 ...activityProps,
+                event: 'replied',
                 actor: comment.creator
                   ? getActivityActor(comment.creator)
                   : { icon: '', link: '', name: '' },
