@@ -13,6 +13,7 @@ fragment CommunityPreview on Community {
 fragment CommunityInfo on Community {
     id
     name
+    creator{ id }
     icon{ id, url }
     isLocal
     myFollow { id }
