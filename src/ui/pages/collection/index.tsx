@@ -11,7 +11,7 @@ import { LoadMore } from 'ui/modules/Loadmore';
 import {
   Wrapper,
   WrapperCont,
-  List,
+  // List,
   MainContainer,
   HomeBox,
   MenuList,
@@ -73,7 +73,7 @@ export const Collection: React.FC<Props> = ({
                   <LoadMore LoadMoreFormik={loadMoreFollowers} />
                 )}
               </Route>
-              <Route exact path={`${basePath}/resources`}>
+              <Route exact path={`${basePath}/`}>
                 <>
                   {HeroCollectionBox}
                   <Menu basePath={basePath} />
@@ -107,7 +107,7 @@ export const Collection: React.FC<Props> = ({
                   )}
                 </>
               </Route>
-              <Route exact path={`${basePath}/`}>
+              {/* <Route exact path={`${basePath}/`}>
                 <>
                   {HeroCollectionBox}
                   <Menu basePath={basePath} />
@@ -116,7 +116,7 @@ export const Collection: React.FC<Props> = ({
                     <LoadMore LoadMoreFormik={loadMoreActivities} />
                   )}
                 </>
-              </Route>
+              </Route> */}
             </Switch>
           </Wrapper>
         </WrapperCont>
@@ -137,10 +137,10 @@ const FollowersMenu = ({ basePath }: { basePath: string }) => (
 
 const Menu = ({ basePath }: { basePath: string }) => (
   <MenuList p={3} pt={3}>
-    <NavLink exact to={`${basePath}`}>
+    {/* <NavLink exact to={`${basePath}`}>
       Recent activity
-    </NavLink>
-    <NavLink exact to={`${basePath}/resources`}>
+    </NavLink> */}
+    <NavLink exact to={`${basePath}/`}>
       <Trans>Resources</Trans>
     </NavLink>
   </MenuList>
