@@ -158,10 +158,9 @@ export const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
                     value={formik.values.terms}
                     onChange={formik.handleChange}
                   />
-                  I have read and agreed the{' '}
-                  <NavLink to="/termsAndConditions">
-                    {' '}
-                    Terms and Conditions{' '}
+                  <Text mr={1}>I have read and agreed the</Text>
+                  <NavLink to="/terms" target="_blank">
+                    Terms and Conditions
                   </NavLink>
                 </Label>
               </Box>

@@ -76,7 +76,7 @@ export const MainComment: React.SFC<CommentProps> = ({
                     sx={{ textTransform: 'capitalize' }}
                     ml={1}
                   >
-                    {like.totalLikes + ' '} <Trans>Favourite</Trans>
+                    {like.totalLikes + ' '}
                   </ActionText>
                 </ActionItem>
                 <ActionItem
