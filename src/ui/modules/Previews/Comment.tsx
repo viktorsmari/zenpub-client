@@ -190,7 +190,7 @@ const Items = styled(Flex)`
 `;
 
 const Actions = styled(Box)`
-  border-top: ${props => props.theme.colors.border};
+  // border-top: ${props => props.theme.colors.border};
   margin-top: 16px;
   position: relative;
   z-index: 999999999999999999999999999999999999;
