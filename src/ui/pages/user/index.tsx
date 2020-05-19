@@ -4,6 +4,8 @@ import { Flex, Text, Box } from 'rebass/styled-components';
 // import { Header } from 'ui/modules/Header';
 import { FormikHook } from 'ui/@types/types';
 import { LoadMore } from 'ui/modules/Loadmore';
+import styled from 'ui/themes/styled';
+import { ellipsis } from 'polished';
 import {
   Wrapper,
   WrapperCont,
@@ -121,9 +123,11 @@ export const User: React.FC<Props> = ({
               <NavItem fontSize={1}>
                 <Flex>
                   <Link size={20} />{' '}
-                  <Text ml={2} flex={1}>
-                    {userLink}
-                  </Text>
+                  <a href={userLink} target="_blank">
+                    <TextLink ml={2} flex={1}>
+                      {userLink}
+                    </TextLink>
+                  </a>
                 </Flex>
               </NavItem>
             </Nav>
@@ -163,3 +167,11 @@ const Menu = ({
     </NavLink> */}
   </MenuList>
 );
+
+const TextLink = styled(Text)`
+  ${ellipsis('250px')};
+  color: ${props => props.theme.colors.dark};
+  &:hover {
+    text-decoration: underline;
+  }
+`;
