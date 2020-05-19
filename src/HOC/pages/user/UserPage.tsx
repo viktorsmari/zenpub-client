@@ -34,7 +34,7 @@ export interface UserPage {
 }
 export enum UserPageTab {
   Activities,
-  Likes,
+  Starred,
   Communities,
   Collections,
   Following

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { NavLink, Route, Switch } from 'react-router-dom';
-import { Flex } from 'rebass/styled-components';
+import { Flex, Box } from 'rebass/styled-components';
 import { Trans } from '@lingui/react';
 import styled from 'ui/themes/styled';
 import { FormikHook } from 'ui/@types/types';
@@ -67,11 +67,13 @@ export const Collection: React.FC<Props> = ({
             <Header name={collectionName} />
             <Switch>
               <Route path={`${basePath}/followers`}>
-                <FollowersMenu basePath={`${basePath}/followers`} />
-                <ObjectsList>{FollowersBoxes}</ObjectsList>
-                {loadMoreFollowers && (
-                  <LoadMore LoadMoreFormik={loadMoreFollowers} />
-                )}
+                <White>
+                  <FollowersMenu basePath={`${basePath}/followers`} />
+                  <ObjectsList>{FollowersBoxes}</ObjectsList>
+                  {loadMoreFollowers && (
+                    <LoadMore LoadMoreFormik={loadMoreFollowers} />
+                  )}
+                </White>
               </Route>
               <Route exact path={`${basePath}/`}>
                 <>
@@ -126,6 +128,10 @@ export const Collection: React.FC<Props> = ({
   );
 };
 export default Collection;
+
+const White = styled(Box)`
+  background: ${props => props.theme.colors.appInverse};
+`;
 
 const FollowersMenu = ({ basePath }: { basePath: string }) => (
   <MenuList m={2} p={2} pt={0}>

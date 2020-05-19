@@ -84,7 +84,7 @@ export const User: React.FC<Props> = ({
                   <LoadMore LoadMoreFormik={loadMoreActivities} />
                 )}
               </Route>
-              <Route exact path={`${basePath}/likes`}>
+              <Route exact path={`${basePath}/starred`}>
                 <List>{LikesBoxes}</List>
                 {loadMoreLikes && <LoadMore LoadMoreFormik={loadMoreLikes} />}
               </Route>
@@ -149,8 +149,8 @@ const Menu = ({
     <NavLink exact to={`${basePath}`}>
       Recent activity
     </NavLink>
-    <NavLink exact to={`${basePath}/likes`}>
-      Likes
+    <NavLink exact to={`${basePath}/starred`}>
+      Starred
     </NavLink>
     <NavLink exact to={`${basePath}/communities`}>
       {totalCommunities} communities

@@ -24,7 +24,7 @@ export const getEventStringByContext = (
     context.__typename === 'Flag'
       ? `Flagged a ${__typename}`
       : context.__typename === 'Like'
-      ? `Liked a ${__typename}`
+      ? `Starred a ${__typename}`
       : context.__typename === 'Follow'
       ? `Followed a ${__typename}`
       : context.__typename === 'Resource'
