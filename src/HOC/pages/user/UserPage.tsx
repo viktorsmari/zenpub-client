@@ -3,11 +3,15 @@ import { useUserFollowedCollections } from 'fe/collection/user/useUserFollowedCo
 import { UserFollowedCollectionFragment } from 'fe/collection/user/useUserFollowedCollections.generated';
 import { useUserFollowedCommunities } from 'fe/community/user/useUserFollowedCommunities';
 import { UserFollowedCommunityFragment } from 'fe/community/user/useUserFollowedCommunities.generated';
+import { getActivityActor } from 'fe/lib/activity/getActivityActor';
+import { getEventStringByContext } from 'fe/lib/activity/getActivityEventString';
+import { getCommunityInfoStrings } from 'fe/lib/activity/getContextCommunityInfo';
+import { useFormikPage } from 'fe/lib/helpers/usePage';
 import { useUserLikes } from 'fe/likes/user/useUserLikes';
 import { useUserFollowedUsers } from 'fe/user/followed/user/useUserFollowedUsers';
 import { UserFollowedUserFragment } from 'fe/user/followed/user/useUserFollowedUsers.generated';
 import { useUser } from 'fe/user/useUser';
-import { User } from 'graphql/types.generated';
+import { ActivityVerb, User } from 'graphql/types.generated';
 import { HeroUser } from 'HOC/modules/HeroUser/HeroUser';
 import { ActivityPreviewHOC } from 'HOC/modules/previews/activity/ActivityPreview';
 import { PreviewComponent } from 'HOC/modules/previews/activity/PreviewComponent';
@@ -17,8 +21,12 @@ import { CommunityPreviewHOC } from 'HOC/modules/previews/community/CommunityPre
 import { UserPreviewHOC } from 'HOC/modules/previews/user/UserPreview';
 import React, { FC, useMemo } from 'react';
 import { Box } from 'rebass';
+import {
+  ActivityPreview,
+  Status,
+  Props as ActivityPreviewProps
+} from 'ui/modules/ActivityPreview';
 import { Props, User as UserPageUI } from 'ui/pages/user';
-import { useFormikPage } from 'fe/lib/helpers/usePage';
 export interface UserPage {
   userId: User['id'];
   tab: UserPageTab;
@@ -59,14 +67,35 @@ export const UserPage: FC<UserPage> = ({ userId, basePath }) => {
     const LikesBoxes = (
       <>
         {likesPage.edges.map(like => {
-          const { context } = like;
-          if (context.__typename == 'Comment') {
-            return (
-              <LikedCommentPreviewHOC key={like.id} commentId={context.id} />
+          const { communityLink, communityName } = getCommunityInfoStrings(
+            like.context
+          );
+          const actor = user.user ? getActivityActor(user.user) : null;
+          const activityContext = like;
+          const event = getEventStringByContext(
+            activityContext,
+            ActivityVerb.Created
+          );
+          const preview =
+            like.context.__typename == 'Comment' ? (
+              <LikedCommentPreviewHOC
+                key={like.id}
+                commentId={like.context.id}
+              />
+            ) : (
+              <PreviewComponent context={activityContext} />
             );
-          } else {
-            return <PreviewComponent context={context} />;
-          }
+          const activityProps: ActivityPreviewProps = {
+            actor,
+            communityLink,
+            communityName,
+            createdAt: like.createdAt,
+            event,
+            status: Status.Loaded,
+            preview
+          };
+          console.log(activityProps, likesPage);
+          return <ActivityPreview {...activityProps} />;
         })}
       </>
     );
