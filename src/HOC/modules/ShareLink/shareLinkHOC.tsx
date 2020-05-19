@@ -60,12 +60,13 @@ export const ShareLinkHOC: FC<ShareLinkHOC> = ({
     validationSchema,
     enableReinitialize: true,
     onSubmit: ({ icon, name, summary }) => {
-      if (!(webMetaData && webMetaData?.url)) {
+      const url = webMetaData?.url || FetchLinkFormik.values.fetchUrl;
+      if (!url) {
         return;
       }
       return createResource({
         collectionId: collectionId,
-        content: webMetaData.url,
+        content: url,
         icon,
         resource: {
           name: name,

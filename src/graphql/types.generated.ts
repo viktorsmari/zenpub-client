@@ -1228,8 +1228,6 @@ export type User = {
   updatedAt: Scalars['String'],
   /** An avatar url */
   icon?: Maybe<Content>,
-  /** Free text */
-  location?: Maybe<Scalars['String']>,
   /** The collections a user is following, most recently followed first */
   collectionFollows?: Maybe<FollowsPage>,
   /** A name field */
@@ -1271,6 +1269,8 @@ export type User = {
   displayUsername: Scalars['String'],
   /** Comments the user has made, most recently created first */
   comments?: Maybe<CommentsPage>,
+  /** Free text */
+  location?: Maybe<Scalars['String']>,
   /** The likes a user has created */
   likes?: Maybe<LikesPage>,
   /** Subscriptions users have to the collection */
@@ -2195,7 +2195,6 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
   updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   icon?: Resolver<Maybe<ResolversTypes['Content']>, ParentType, ContextType>,
-  location?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   collectionFollows?: Resolver<Maybe<ResolversTypes['FollowsPage']>, ParentType, ContextType, UserCollectionFollowsArgs>,
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   follows?: Resolver<Maybe<ResolversTypes['FollowsPage']>, ParentType, ContextType, UserFollowsArgs>,
@@ -2215,6 +2214,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   displayUsername?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   comments?: Resolver<Maybe<ResolversTypes['CommentsPage']>, ParentType, ContextType, UserCommentsArgs>,
+  location?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   likes?: Resolver<Maybe<ResolversTypes['LikesPage']>, ParentType, ContextType, UserLikesArgs>,
   followers?: Resolver<Maybe<ResolversTypes['FollowsPage']>, ParentType, ContextType, UserFollowersArgs>,
 };

@@ -50,7 +50,8 @@ export const SignUpPage: React.FC<Props> = ({ formik, registeredUsername }) => {
           </Text>
           <Text mt={2} variant="text">
             <Trans>
-              Please confirm your email clicking on the link we sent you at
+              Please confirm your email address by clicking on the link we
+              emailed you (check your spam folder if necessary).
             </Trans>
           </Text>
 

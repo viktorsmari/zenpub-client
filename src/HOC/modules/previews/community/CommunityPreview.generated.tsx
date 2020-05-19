@@ -18,7 +18,10 @@ export type CommunityPreviewFragment = (
 export type CommunityInfoFragment = (
   { __typename: 'Community' }
   & Pick<Types.Community, 'id' | 'name' | 'isLocal' | 'canonicalUrl' | 'displayUsername' | 'preferredUsername'>
-  & { icon: Types.Maybe<(
+  & { creator: Types.Maybe<(
+    { __typename: 'User' }
+    & Pick<Types.User, 'id'>
+  )>, icon: Types.Maybe<(
     { __typename: 'Content' }
     & Pick<Types.Content, 'id' | 'url'>
   )>, myFollow: Types.Maybe<(
@@ -31,6 +34,9 @@ export const CommunityInfoFragmentDoc = gql`
     fragment CommunityInfo on Community {
   id
   name
+  creator {
+    id
+  }
   icon {
     id
     url
