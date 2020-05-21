@@ -62,7 +62,7 @@ export const CollectionPage: FC<CollectionPage> = props => {
     const ResourcesBox = (
       <>
         {resourcesPage.edges.map(resource => (
-          <Box mx={2} my={1}>
+          <Box mx={3} my={2} mb={3}>
             <ResourcePreviewHOC resourceId={resource.id} key={resource.id} />
           </Box>
         ))}

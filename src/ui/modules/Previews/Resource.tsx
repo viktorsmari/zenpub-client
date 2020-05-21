@@ -298,6 +298,7 @@ const Bordered = styled(Box)`
   border: ${props => props.theme.colors.border};
   background: ${props => props.theme.colors.appInverse};
   border-radius: 4px;
+  box-shadow: 0px 2px 4px 0px #0000001f;
 `;
 
 const TitleLink = styled.a`
