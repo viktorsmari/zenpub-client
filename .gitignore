@@ -42,7 +42,6 @@ yarn.lock
 !.env.secrets.example
 src/fragmentTypes.json
 
-
 # sentry
 sentry.tsx
 

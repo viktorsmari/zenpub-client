@@ -9,7 +9,7 @@ import { Dropdown, DropdownItem } from 'ui/modules/Dropdown';
 import { FormikHook } from 'ui/@types/types';
 import Modal from 'ui/modules/Modal';
 import { NavLink } from 'react-router-dom';
-import DOMPurify from 'dompurify';
+import { MD_Comment } from 'ui/elements/Layout/comment';
 
 export enum Status {
   Loading,
@@ -122,13 +122,10 @@ export const HeroUser: FC<Props> = props => {
             @{props.displayUsername}
             {props.me && props.isAdmin && <AdminBadge ml={2}>Admin</AdminBadge>}
           </Username>
-          <Summary
-            variant="text"
-            dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize(props.summary)
-            }}
-            mt={2}
-          />
+
+          <Box mt={2}>
+            <MD_Comment content={props.summary} />
+          </Box>
           {props.location ? (
             <Location mt={2}>
               <span>
@@ -175,10 +172,6 @@ const HeroAction = styled(Flex)`
   align-items: center;
 `;
 
-const Summary = styled(Text)`
-  color: ${props => props.theme.colors.mediumdark};
-`;
-
 const HeroTitle = styled(Text)`
   color: ${props => props.theme.colors.darker};
 `;
@@ -194,6 +187,7 @@ const FlexProfile = styled(Flex)`
 
 const ProfileBox = styled(Box)`
   background: ${props => props.theme.colors.appInverse};
+  padding-bottom: 16px;
 `;
 
 const Username = styled(Text)`
@@ -261,17 +255,6 @@ const Hero = styled.div`
   width: 100%;
   position: relative;
   border-radius: 6px;
-  & p {
-    color: ${props => props.theme.colors.mediumdark};
-    padding: 0 24px;
-    margin-left: 120px;
-    margin: 0;
-    margin-left: 136px;
-    margin-top: -40px;
-    line-height: 26px;
-    font-size: 16px;
-    padding-bottom: 16px;
-  }
 `;
 
 const HeroInfo = styled(Box)`
