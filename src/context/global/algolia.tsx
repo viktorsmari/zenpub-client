@@ -12,7 +12,7 @@ const searchStateToUrl = searchState => `/search/${createURL(searchState)}`;
 const urlToSearchState = (search: string) => qs.parse(search.slice(1));
 const DEBOUNCE_TIME = 500;
 const searchClient =
-  mothershipCreds &&
+  mothershipCreds && mothershipCreds.appId && mothershipCreds.apiKey &&
   algoliasearch(mothershipCreds.appId, mothershipCreds.apiKey);
 
 export const ProvideAlgoliaContext: React.FC = ({ children }) => {
