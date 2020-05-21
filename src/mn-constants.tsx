@@ -81,8 +81,11 @@ export const mothershipCreds =
         appId: mothershipAppId,
         apiKey: mothershipApiKey
       }
-    : null;
-export const searchDisabled = !mothershipCreds;
+    : {
+      indexName: '',
+    };
+export const searchDisabled = !mothershipAppId || !mothershipApiKey;
+
 
 export const max_file_size = '10MB';
 
