@@ -5,7 +5,7 @@ echo "Check out our MoodleNet branch"
 git checkout flavour/moodlenet
 
 echo "Pull changes from upstream"
-git pull https://gitlab.com/moodlenet/frontend.git develop 
+git pull -Xtheirs https://gitlab.com/moodlenet/frontend.git develop 
 
 echo "Copy upstream changes to our MoodleNet branch"
 git push
