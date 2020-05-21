@@ -1032,10 +1032,8 @@ export type RootQueryTypeActivityArgs = {
 };
 
 
-export type RootQueryTypeCommunitiesArgs = {
-  after?: Maybe<Array<Scalars['Cursor']>>,
-  before?: Maybe<Array<Scalars['Cursor']>>,
-  limit?: Maybe<Scalars['Int']>
+export type RootQueryTypeCollectionArgs = {
+  collectionId: Scalars['String']
 };
 
 
@@ -1329,7 +1327,7 @@ export type UserLikersArgs = {
 
 
 /** User profile information */
-export type UserCommentsArgs = {
+export type UserCommunityFollowsArgs = {
   after?: Maybe<Array<Scalars['Cursor']>>,
   before?: Maybe<Array<Scalars['Cursor']>>,
   limit?: Maybe<Scalars['Int']>

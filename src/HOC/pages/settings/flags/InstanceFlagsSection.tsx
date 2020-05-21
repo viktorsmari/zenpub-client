@@ -5,9 +5,6 @@ import { FlagPreviewHOC } from 'HOC/modules/previews/flag/FlagPreview';
 import React, { FC, useMemo } from 'react';
 import { ActivityPreview, Status } from 'ui/modules/ActivityPreview';
 import Flags, { Props } from 'ui/pages/settings/flags';
-import { ActivityPreview, Status } from 'ui/modules/ActivityPreview';
-import { getActivitySimpleLink } from 'fe/lib/activity/getActivitySimpleLink';
-import { getActivityActor } from 'fe/lib/activity/getActivityActor';
 
 export interface InstanceFlagsSection {}
 
