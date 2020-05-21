@@ -187,6 +187,7 @@ const FlexProfile = styled(Flex)`
 
 const ProfileBox = styled(Box)`
   background: ${props => props.theme.colors.appInverse};
+  padding-bottom: 16px;
 `;
 
 const Username = styled(Text)`
