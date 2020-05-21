@@ -52,8 +52,8 @@ const TermsAndConditionsPage: React.FC<Props> = ({}) => {
               </Box>
               <Text variant="suptitle">
                 {' '}
-                Please read the following. By using this instance of MoodleNet
-                you are consenting to these agreements.
+                Please read the following. By using this instance you are
+                consenting to these agreements.
               </Text>
             </Aware>
             <Panel className="extra">

@@ -17,13 +17,11 @@ export const INSTANCE_TAGLINE = 'Share. Curate. Discuss.';
 export const INSTANCE_PROMPT =
   "You don't need to sign up to preview what people are sharing and discussing publicly.";
 export const prompt_signin = 'Sign in';
-export const my_timeline = 'My MoodleNet';
+export const my_timeline = 'My Timeline';
 export const instance_bg_img =
-  'https://gitlab.com/moodlenet/frontend/-/raw/develop/src/static/img/login.jpg';
-export const logo_large_url =
-  'https://moodle.net/images/logos/moodlenet-logo.png';
-export const logo_small_url =
-  'https://gitlab.com/moodlenet/frontend/-/raw/develop/src/static/img/logo.jpg';
+  'http://nycicarus.org/images/mad-solidarity-fists.png';
+export const logo_large_url = 'https://commonspub.org/logo-small.png';
+export const logo_small_url = 'https://commonspub.org/logo-small.png';
 
 export const terms_markdown_text = {
   // replace the text as needed
@@ -35,7 +33,7 @@ export const terms_markdown_text = {
 
 export const terms_markdown_urls = {
   // replace the URLs as needed, or enable/disable to use `terms_markdown_text` instead
-  enabled: true,
+  enabled: false,
   terms_users: 'https://moodle.net/terms/users.md',
   terms_cookies: 'https://moodle.net/terms/cookies.md',
   terms_indexing: 'https://moodle.net/terms/indexing.md'
@@ -53,9 +51,9 @@ export const terms_privacy = {
 
 export const related_urls = {
   // replace the URLs as needed
-  project_homepage: 'https://moodle.net',
-  code: 'https://gitlab.com/moodlenet',
-  feedback: 'https://changemap.co/moodle/moodlenet/'
+  project_homepage: 'https://commonspub.org',
+  code: 'https://gitlab.com/CommonsPub',
+  feedback: 'https://zo.team'
 };
 
 export const IS_DEV = NODE_ENV === 'development';
