@@ -63,6 +63,7 @@ const loaderFn = () => {
     require('../src/ui/pages/notFound/a.stories.mdx'),
     // Modules
     require('../src/ui/modules/ActivityPreview/a.stories.mdx'),
+    require('../src/ui/modules/ShareLink/a.stories.mdx'),
     // require('../src/ui/modules/addResource/a.stories.mdx'),
     require('../src/ui/modules/ConfirmationModal/a.stories.mdx'),
     require('../src/ui/modules/CreateCollectionPanel/a.stories.mdx'),

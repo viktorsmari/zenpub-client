@@ -17,11 +17,13 @@ export const INSTANCE_TAGLINE = 'Share. Curate. Discuss.';
 export const INSTANCE_PROMPT =
   "You don't need to sign up to preview what people are sharing and discussing publicly.";
 export const prompt_signin = 'Sign in';
-export const my_timeline = 'My Timeline';
+export const my_timeline = 'My MoodleNet';
 export const instance_bg_img =
-  'http://nycicarus.org/images/mad-solidarity-fists.png';
-export const logo_large_url = 'http://commonspub.org/logo-small.png';
-export const logo_small_url = 'http://commonspub.org/logo-small.png';
+  'https://gitlab.com/moodlenet/frontend/-/raw/develop/src/static/img/login.jpg';
+export const logo_large_url =
+  'https://moodle.net/images/logos/moodlenet-logo.png';
+export const logo_small_url =
+  'https://gitlab.com/moodlenet/frontend/-/raw/develop/src/static/img/logo.jpg';
 
 export const terms_markdown_text = {
   // replace the text as needed
@@ -39,12 +41,19 @@ export const terms_markdown_urls = {
   terms_indexing: 'https://moodle.net/terms/indexing.md'
 };
 
+export const terms_privacy = {
+  // replace the URLs as needed, or enable/disable to use `text_markdown` instead
+  enabled: true,
+  // replace the URL with that of your instance's privacy policy (in markdown format)
+  url_markdown: 'https://moodle.net/terms/privacy.md',
+  // replace the text as needed (in markdown format as well)
+  text_markdown:
+    'This site uses cookies and follows GDPR rules. Contact the instance operators if you want your data exported or deleted.'
+};
+
 export const related_urls = {
   // replace the URLs as needed
   project_homepage: 'https://moodle.net',
-  terms_users: 'https://moodle.net/terms/users/index.html',
-  terms_cookies: 'https://moodle.net/terms/cookies/index.html',
-  terms_indexing: 'https://moodle.net/terms/indexing/index.html',
   code: 'https://gitlab.com/moodlenet',
   feedback: 'https://changemap.co/moodle/moodlenet/'
 };

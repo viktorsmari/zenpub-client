@@ -80,16 +80,20 @@ export const Wrapper = styled(Flex)`
 
 export const MenuList = styled(Flex)`
   border-bottom: ${props => props.theme.colors.border};
+  border-top: ${props => props.theme.colors.border};
+  height: 60px;
+  // margin-top: 16px;
   padding: 12px 8px;
   background: ${props => props.theme.colors.appInverse};
   a {
-    font-weight: 700;
+    font-weight: 600;
     text-decoration: none;
     margin-right: 8px;
     color: ${props => props.theme.colors.darker};
     letterspacing: 1px;
-    font-size: 14px;
-    padding: 4px 8px;
+    font-size: 13px;
+    padding: 0px 8px;
+    line-height: 34px;
     white-space: nowrap;
     &.active {
       color: ${props => props.theme.colors.lighter};
@@ -100,6 +104,7 @@ export const MenuList = styled(Flex)`
 `;
 
 export const ObjectsList = styled(Box)`
+  background: ${props => props.theme.colors.appInverse};
   &.replies > div {
     margin-bottom: 0;
   }
