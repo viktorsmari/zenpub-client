@@ -1,7 +1,6 @@
 import * as AbsintheSocket from '@absinthe/socket';
 import { createAbsintheSocketLink } from '@absinthe/socket-apollo-link';
 import { hasSubscription } from '@jumpn/utils-graphql';
-import HttpStatus from 'http-status-codes';
 import {
   defaultDataIdFromObject,
   InMemoryCache,
