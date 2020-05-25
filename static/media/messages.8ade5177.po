@@ -47,8 +47,8 @@ msgstr ""
 msgid "Add new resource"
 msgstr ""
 
-#: src/ui/modules/HeroCollection/index.tsx:81
-#: src/ui/modules/HeroCommunity/index.tsx:71
+#: src/ui/modules/HeroCollection/index.tsx:84
+#: src/ui/modules/HeroCommunity/index.tsx:70
 msgid "Add to featured list"
 msgstr ""
 
@@ -191,11 +191,11 @@ msgstr ""
 msgid "Edit Profile"
 msgstr ""
 
-#: src/ui/modules/HeroCollection/index.tsx:66
+#: src/ui/modules/HeroCollection/index.tsx:69
 msgid "Edit the collection"
 msgstr ""
 
-#: src/ui/modules/HeroCommunity/index.tsx:56
+#: src/ui/modules/HeroCommunity/index.tsx:55
 msgid "Edit the community"
 msgstr ""
 
@@ -282,16 +282,16 @@ msgstr ""
 msgid "Flag"
 msgstr ""
 
-#: src/ui/modules/HeroCollection/index.tsx:72
+#: src/ui/modules/HeroCollection/index.tsx:75
 msgid "Flag this collection"
 msgstr ""
 
-#: src/ui/modules/Previews/Comment.tsx:65
+#: src/ui/modules/Previews/Comment.tsx:67
 #: src/ui/modules/Previews/MainComment.tsx:49
 msgid "Flag this comment"
 msgstr ""
 
-#: src/ui/modules/HeroCommunity/index.tsx:62
+#: src/ui/modules/HeroCommunity/index.tsx:61
 msgid "Flag this community"
 msgstr ""
 
@@ -308,7 +308,7 @@ msgstr ""
 msgid "Follow"
 msgstr ""
 
-#: src/ui/modules/HeroCollection/index.tsx:52
+#: src/ui/modules/HeroCollection/index.tsx:55
 msgid "Followers"
 msgstr ""
 
@@ -330,13 +330,13 @@ msgid "Instance description"
 msgstr ""
 
 #: src/pages/search/preview.tsx:52
-#: src/ui/modules/HeroCommunity/index.tsx:48
+#: src/ui/modules/HeroCommunity/index.tsx:47
 #: src/ui/modules/Previews/Community.tsx:55
 msgid "Join"
 msgstr ""
 
 #: src/pages/search/preview.tsx:55
-#: src/ui/modules/HeroCommunity/index.tsx:48
+#: src/ui/modules/HeroCommunity/index.tsx:47
 #: src/ui/modules/Previews/Community.tsx:55
 msgid "Leave"
 msgstr ""
@@ -349,7 +349,7 @@ msgstr ""
 msgid "Logs will be available soon"
 msgstr ""
 
-#: src/ui/modules/HeroCommunity/index.tsx:42
+#: src/ui/modules/HeroCommunity/index.tsx:41
 msgid "Members"
 msgstr ""
 
@@ -357,7 +357,7 @@ msgstr ""
 msgid "Moderation Log"
 msgstr ""
 
-#: src/ui/modules/Previews/Comment.tsx:59
+#: src/ui/modules/Previews/Comment.tsx:61
 #: src/ui/modules/Previews/MainComment.tsx:43
 #: src/ui/modules/Previews/Resource.tsx:57
 msgid "More"
@@ -462,7 +462,7 @@ msgstr ""
 msgid "Replies"
 msgstr ""
 
-#: src/ui/modules/Previews/Comment.tsx:42
+#: src/ui/modules/Previews/Comment.tsx:44
 #: src/ui/modules/Previews/LikedComment.tsx:40
 msgid "Reply"
 msgstr ""
@@ -560,7 +560,7 @@ msgstr ""
 msgid "Signup"
 msgstr ""
 
-#: src/ui/modules/Previews/Comment.tsx:51
+#: src/ui/modules/Previews/Comment.tsx:53
 #: src/ui/modules/Previews/LikedComment.tsx:48
 #: src/ui/modules/Previews/MainComment.tsx:35
 #: src/ui/modules/Previews/Resource.tsx:49
@@ -606,16 +606,16 @@ msgstr ""
 msgid "Unflag"
 msgstr ""
 
-#: src/ui/modules/HeroCollection/index.tsx:72
+#: src/ui/modules/HeroCollection/index.tsx:75
 msgid "Unflag this collection"
 msgstr ""
 
-#: src/ui/modules/Previews/Comment.tsx:65
+#: src/ui/modules/Previews/Comment.tsx:67
 #: src/ui/modules/Previews/MainComment.tsx:49
 msgid "Unflag this comment"
 msgstr ""
 
-#: src/ui/modules/HeroCommunity/index.tsx:62
+#: src/ui/modules/HeroCommunity/index.tsx:61
 msgid "Unflag this community"
 msgstr ""
 

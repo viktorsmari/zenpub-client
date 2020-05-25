@@ -1,11 +1,11 @@
 {
-  "main.css": "/static/css/main.521c0944.rtl.css",
-  "main.js": "/static/js/main.c5c920ba.js",
-  "main.css.map": "/static/css/main.521c0944.css.map",
-  "static/media/slick-theme.css": "/static/media/slick.f97e3bbf.svg",
-  "static/media/collectionPlaceholder.png": "/static/media/collectionPlaceholder.43589a77.png",
-  "static/media/messages.po": "/static/media/messages.378cad62.po",
-  "static/media/by.png": "/static/media/by.04d377d9.png",
-  "static/media/by-sa.png": "/static/media/by-sa.331e6b36.png",
-  "index.html": "/index.html"
+  "main.css": "/zenpub-client/static/css/main.cc58ecce.rtl.css",
+  "main.js": "/zenpub-client/static/js/main.acf8d875.js",
+  "main.css.map": "/zenpub-client/static/css/main.cc58ecce.css.map",
+  "static/media/slick-theme.css": "/zenpub-client/static/media/slick.f97e3bbf.svg",
+  "static/media/collectionPlaceholder.png": "/zenpub-client/static/media/collectionPlaceholder.43589a77.png",
+  "static/media/messages.po": "/zenpub-client/static/media/messages.8ade5177.po",
+  "static/media/by.png": "/zenpub-client/static/media/by.04d377d9.png",
+  "static/media/by-sa.png": "/zenpub-client/static/media/by-sa.331e6b36.png",
+  "index.html": "/zenpub-client/index.html"
 }
